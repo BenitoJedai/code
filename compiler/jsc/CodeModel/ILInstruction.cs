@@ -1834,8 +1834,12 @@ namespace jsc
 				}
 				catch
 				{
+					if (!this.OwnerMethod.DeclaringType.IsGenericType && !this.OwnerMethod.IsGenericMethod)
+						return null;
+
 					try
 					{
+						
 						return OwnerMethod.Module.ResolveType(OpParamAsInt32, this.OwnerMethod.DeclaringType.GetGenericArguments(), this.OwnerMethod.GetGenericArguments());
 					}
 					catch

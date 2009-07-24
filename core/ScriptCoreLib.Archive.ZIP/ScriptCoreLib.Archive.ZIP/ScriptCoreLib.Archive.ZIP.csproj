@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ZIPFilePersistance.Storage.cs" />
+    <Compile Include="ZIPFilePersistance.Property.cs" />
     <Compile Include="Crc32Calculator.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
