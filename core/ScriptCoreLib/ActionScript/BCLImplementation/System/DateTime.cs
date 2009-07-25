@@ -5,10 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
-	[Script(
-		Implements = typeof(global::System.DateTime)
-		)
-	]
+	[Script(Implements = typeof(global::System.DateTime))]
 	internal class __DateTime
 	{
 		internal Date InternalValue;
@@ -65,5 +62,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		public int Month { get { return Convert.ToInt32(this.InternalValue.getMonth()) + 1; } }
 		public int Year { get { return Convert.ToInt32(this.InternalValue.getFullYear()); } }
 
+		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
+		{
+			return new __TimeSpan { TotalMilliseconds = d1.InternalValue.getTime() - d2.InternalValue.getTime() };
+		}
 	}
 }

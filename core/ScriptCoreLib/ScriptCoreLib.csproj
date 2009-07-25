@@ -193,6 +193,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Converter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\ArgumentException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Boolean.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Debugger.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Diagnostics\Trace.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\IEquatable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\BinaryWriter.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IO\Path.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IO\StringReader.cs" />

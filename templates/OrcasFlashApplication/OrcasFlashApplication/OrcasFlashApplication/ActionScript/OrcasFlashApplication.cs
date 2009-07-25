@@ -7,7 +7,6 @@ using System;
 using System.IO;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.ui;
-//using OrcasFlashApplication.Shared;
 
 namespace OrcasFlashApplication.ActionScript
 {

@@ -28,5 +28,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		{
 			return (TimeSpan)(object)e;
 		}
+
+		public override string ToString()
+		{
+			return TotalMilliseconds + "ms";
+		}
     }
 }

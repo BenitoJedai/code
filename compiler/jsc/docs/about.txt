@@ -311,3 +311,5 @@ version history:
 	jsc: code loop like while (x); should now be detected
 	java: unnamed arguments shall now default to a name
 	java: added OpCodes.initobj to support new struct
+25.07.2009
+	as: ldc for static uint field now is also emitted as uint

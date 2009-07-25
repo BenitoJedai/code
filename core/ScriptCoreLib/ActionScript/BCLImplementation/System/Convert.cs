@@ -8,6 +8,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Convert))]
 	internal class __Convert
 	{
+		public static long ToInt64(double e)
+		{
+			return (long)Math.round(e);
+		}
+
 		public static string ToString(char value)
 		{
 			return __String.FromCharCode(value);

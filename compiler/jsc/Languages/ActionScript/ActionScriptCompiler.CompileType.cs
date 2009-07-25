@@ -19,6 +19,10 @@ namespace jsc.Languages.ActionScript
             if (IsNativeType(z))
                 return false;
 
+			if (z.Name.Contains("<PrivateImplementationDetails>") || (z.DeclaringType != null && z.DeclaringType.Name.Contains("<PrivateImplementationDetails>")))
+				return false;
+
+
 			CompileType_WriteAdditionalMembers = delegate { };
 
             WriteIdent();
