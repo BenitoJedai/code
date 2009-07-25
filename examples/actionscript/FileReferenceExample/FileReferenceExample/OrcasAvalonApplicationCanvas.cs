@@ -122,8 +122,8 @@ namespace FileReferenceExample.Shared
 				{
 					cc++;
 
-					if (cc % 2 == 0)
-					{
+					//if (cc % 2 == 0)
+					//{
 						t.Text = "saving...";
 
 						var r = new FileDialog();
@@ -133,31 +133,31 @@ namespace FileReferenceExample.Shared
 							{"default.txt", "hello world"}
 						};
 
-						r.Save((MemoryStream)z, "demo2.zip");
-					}
-					else
-					{
-						t.Text = "loading...";
+						r.Save((MemoryStream)z, "archive1.zip");
+					//}
+					//else
+					//{
+					//    t.Text = "loading...";
 
-						var r = new FileDialog();
+					//    var r = new FileDialog();
 
-						r.Open(
-							m =>
-							{
-								m.Position = 0;
+					//    r.Open(
+					//        m =>
+					//        {
+					//            m.Position = 0;
 								
-								ZIPFile z = m;
-								var w = new StringBuilder();
+					//            ZIPFile z = m;
+					//            var w = new StringBuilder();
 
-								foreach (var zf in z.Entries)
-								{
-									w.AppendLine(zf.FileName);
-								}
+					//            foreach (var zf in z.Entries)
+					//            {
+					//                w.AppendLine(zf.FileName);
+					//            }
 
-								t.Text = w.ToString();
-							}
-						);
-					}
+					//            t.Text = w.ToString();
+					//        }
+					//    );
+					//}
 
 				};
 

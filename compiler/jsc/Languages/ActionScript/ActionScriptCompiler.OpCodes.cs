@@ -941,7 +941,7 @@ namespace jsc.Languages.ActionScript
 					   if (EmitEnumAsStringSafe(e))
 						   return;
 
-					   Emit(e.p, e.FirstOnStack);
+					   Emit(e.p, e.FirstOnStack, e.i.TargetField.FieldType);
 				   }
 				   catch (Exception exc)
 				   {

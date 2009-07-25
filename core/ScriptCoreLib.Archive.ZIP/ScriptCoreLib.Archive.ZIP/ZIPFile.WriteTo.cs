@@ -52,6 +52,7 @@ namespace ScriptCoreLib.Archive.ZIP
 		}
 
 
+
 		public void WriteTo(BinaryWriter w)
 		{
 			// http://www.pkware.com/documents/casestudies/APPNOTE.TXT
@@ -60,8 +61,10 @@ namespace ScriptCoreLib.Archive.ZIP
 			var Items = this.Entries;
 
 			#region Local file header:
-			foreach (var v in Items)
+			foreach (object _v in Items)
 			{
+				var v = (Entry)_v;
+
 				// if we box unit, it will actually represent Long 
 				// this is for tostring functionality
 
