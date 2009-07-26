@@ -56,6 +56,8 @@
     <Compile Include="API\memcache\Expiration.cs" />
     <Compile Include="API\memcache\MemcacheService.cs" />
     <Compile Include="API\memcache\MemcacheServiceFactory.cs" />
+    <Compile Include="Extensions\memcache\MemcacheCollection.cs" />
+    <Compile Include="Extensions\memcache\MemcacheEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,7 +10,10 @@ namespace ScriptCoreLibJava.AppEngine.API.memcache
 	[Script(IsNative = true)]
 	public static class MemcacheServiceFactory
 	{
-		// Gets a handle to the cache service.
+		/// <summary>
+		/// Gets a handle to the cache service.
+		/// </summary>
+		/// <returns></returns>
 		public static MemcacheService getMemcacheService()
 		{
 			return default(MemcacheService);
