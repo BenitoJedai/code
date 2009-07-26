@@ -15,7 +15,7 @@ namespace jsc.Languages.ActionScript
         Dictionary<Type, string> NativeTypes =
             new Dictionary<Type, string>
                 {
-                    {typeof(byte), "int"},
+                    {typeof(byte), "uint"},
                     {typeof(sbyte), "int"},
                     {typeof(short), "int"},
 

@@ -630,12 +630,54 @@ namespace jsc.Languages.ActionScript
 				Func<string, CodeInstructionHandler> f = t => e => ConvertTypeAndEmit(e, t);
 
 				CIW[OpCodes.Conv_U] = f("uint"); // char == int
-				CIW[OpCodes.Conv_U1] = f("uint"); // char == int
-				CIW[OpCodes.Conv_U2] = f("uint"); // char == int
+				CIW[OpCodes.Conv_U1] =
+					e =>
+					{
+						Write("uint(");
+						Write("(");
+
+						EmitFirstOnStack(e);
+
+						Write(") & 0xff");
+						Write(")");
+					};
+
+				CIW[OpCodes.Conv_U2] =
+					e =>
+					{
+						Write("uint(");
+						Write("(");
+
+						EmitFirstOnStack(e);
+
+						Write(") & 0xffff");
+						Write(")");
+					};
 				CIW[OpCodes.Conv_U4] = f("uint"); // char == int
 
-				CIW[OpCodes.Conv_I1] = f("int");
-				CIW[OpCodes.Conv_I2] = f("int");
+				CIW[OpCodes.Conv_I1] =
+					e =>
+					{
+						Write("int(");
+						Write("(");
+
+						EmitFirstOnStack(e);
+
+						Write(") & 0xff");
+						Write(")");
+					};
+
+				CIW[OpCodes.Conv_I2] =
+					e =>
+					{
+						Write("int(");
+						Write("(");
+
+						EmitFirstOnStack(e);
+
+						Write(") & 0xffff");
+						Write(")");
+					};
 				CIW[OpCodes.Conv_I4] = f("int");
 
 				CIW[OpCodes.Conv_R4] = f("Number");
@@ -758,7 +800,25 @@ namespace jsc.Languages.ActionScript
 									if (i > 0)
 										Write(", ");
 
+									Write("uint(");
 									Write(Values[i].ToString());
+									Write(")");
+								}
+								Write("]");
+							}
+							else if (Type == typeof(byte))
+							{
+								var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsByteArray();
+
+								Write("[");
+								for (int i = 0; i < Values.Length; i++)
+								{
+									if (i > 0)
+										Write(", ");
+
+									Write("uint(");
+									Write("0x" + ((byte)Values[i]).ToString("x2"));
+									Write(")");
 								}
 								Write("]");
 							}
