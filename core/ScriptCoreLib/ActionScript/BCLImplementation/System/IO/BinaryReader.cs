@@ -47,7 +47,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			var k = new ByteArray();
 			var s = InternalStream.ToByteArray();
 
-			s.readBytes(k, s.position, (uint)length);
+			s.readBytes(k, 0, (uint)length);
 
 			return k.ToArray();
 		}
