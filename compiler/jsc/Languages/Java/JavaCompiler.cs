@@ -572,7 +572,7 @@ namespace jsc.Languages.Java
 				WriteKeywordSpace(Keywords._abstract);
 
 			if (z.IsSealed)
-				Write("final ");
+				WriteKeywordSpace(Keywords._final);
 			else
 			{
 				// Shall we seal all nonused objects?
@@ -614,13 +614,13 @@ namespace jsc.Languages.Java
 
 			#region implements
 			Type[] timp = z.GetInterfaces();
-
+			int i = 0;
 			if (timp.Length > 0)
 			{
 				WriteSpace();
 				WriteKeywordSpace(z.IsInterface ? Keywords._extends : Keywords._implements);
 
-				int i = 0;
+				
 
 				DebugBreak(za);
 
@@ -632,6 +632,21 @@ namespace jsc.Languages.Java
 					WriteDecoratedTypeNameOrImplementationTypeName(timpv);
 				}
 			}
+
+			if (z.IsSerializable)
+			{
+				if (i++ > 0)
+					Write(", ");
+				else
+				{
+					Write(" ");
+					WriteKeywordSpace(z.IsInterface ? Keywords._extends : Keywords._implements);
+				}
+
+				// http://java.sun.com/j2se/1.4.2/docs/api/java/io/Serializable.html
+				Write("java.io.Serializable");
+			}
+
 			#endregion
 
 			WriteLine();

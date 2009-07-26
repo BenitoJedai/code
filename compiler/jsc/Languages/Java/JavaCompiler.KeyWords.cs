@@ -22,6 +22,7 @@ namespace jsc.Languages.Java
     {
         public enum Keywords
         {
+			_package,
 			_final,
 			_false,
 			_for,

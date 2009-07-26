@@ -315,3 +315,4 @@ version history:
 	as: ldc for static uint field now is also emitted as uint
 26.07.2009
 	as: conv.u1 now actually does a & 0xFF
+	java: SerializableAttribute now translates to java.io.Serializable
