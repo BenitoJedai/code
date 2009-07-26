@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\SimpleWorkflowExample\SimpleWorkflowExample\bin\Release</StartWorkingDirectory>
-    <StartArguments>SimpleWorkflowExample.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\code.google\zproxygames\Bulldog\Bulldog\bin\Release</StartWorkingDirectory>
+    <StartArguments>Bulldog.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

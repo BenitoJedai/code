@@ -41,10 +41,11 @@ namespace jsc.Languages.Java
 
             if (z.Namespace != null)
             {
-                WriteIdent();
-                Write("package " + NamespaceFixup(z.Namespace, z) + ";");
-                WriteLine();
-                WriteLine();
+                this.WriteIdent();
+				this.WriteKeywordSpace(Keywords._package);
+				this.Write(NamespaceFixup(z.Namespace, z) + ";");
+				this.WriteLine();
+				this.WriteLine();
             }
 
             this.WriteImportTypes(z);
