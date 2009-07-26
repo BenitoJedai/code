@@ -50,8 +50,10 @@ namespace jsc.Languages.ActionScript
             }
             else
             {
+				var ResolvedTarget = this.ResolveImplementation(x) ?? x;
+
 				if (x.IsArray || x.ToScriptAttributeOrDefault().IsArray ||
-					(x.ToScriptAttributeOrDefault().ImplementationType != null && x.ToScriptAttributeOrDefault().ImplementationType.ToScriptAttributeOrDefault().IsArray))
+					(ResolvedTarget.ToScriptAttributeOrDefault().ImplementationType != null && ResolvedTarget.ToScriptAttributeOrDefault().ImplementationType.ToScriptAttributeOrDefault().IsArray))
 				{
 					// http://help.adobe.com/en_US/AS3LCR/Flash_10.0/compilerWarnings.html#1113
 					// Array(x) behaves the same as new Array(x). To cast a value to type
@@ -68,7 +70,7 @@ namespace jsc.Languages.ActionScript
 				}
 				else
 				{
-					this.WriteBoxedComment("cast type: " + x.FullName);
+					//this.WriteBoxedComment("cast type: " + x.FullName);
 
 
 					Write("(");
@@ -83,7 +85,7 @@ namespace jsc.Languages.ActionScript
 
         public override void ConvertTypeAndEmit(CodeEmitArgs e, string x)
         {
-			this.WriteBoxedComment("cast string");
+			//this.WriteBoxedComment("cast string");
 
 			if (x == "Array")
 			{

@@ -33,6 +33,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 			// http://livedocs.adobe.com/flex/2/langref/flash/utils/ByteArray.html#readBytes()
 			var o = new ByteArray();
 
+			
 			Buffer.readBytes(o, (uint)offset, (uint)count);
 
 			o.position = 0;
@@ -93,11 +94,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 
 		public void WriteTo(Stream s)
 		{
-			var b = new byte[s.Length];
+			var b = new byte[this.Length];
 
-			s.Read(b, 0, b.Length);
+			this.Position = 0;
+			this.Read(b, 0, b.Length);
 			
-			this.Write(b, 0, b.Length);
+			s.Write(b, 0, b.Length);
 		}
 	}
 }

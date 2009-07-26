@@ -119,6 +119,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Array.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ActionScript\BCLImplementation\System\Byte.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Char.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\Comparer.cs" />

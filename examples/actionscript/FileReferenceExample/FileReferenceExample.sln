@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReferenceExample", "FileReferenceExample\FileReferenceExample.csproj", "{3CCF561D-6017-4FBE-9039-098FD2E5F0EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReferenceExampleConsole", "FileReferenceExampleConsole\FileReferenceExampleConsole.csproj", "{E4C8D0A6-3EFF-466E-8129-96FE04DC5F59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{3CCF561D-6017-4FBE-9039-098FD2E5F0EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CCF561D-6017-4FBE-9039-098FD2E5F0EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CCF561D-6017-4FBE-9039-098FD2E5F0EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C8D0A6-3EFF-466E-8129-96FE04DC5F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C8D0A6-3EFF-466E-8129-96FE04DC5F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C8D0A6-3EFF-466E-8129-96FE04DC5F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C8D0A6-3EFF-466E-8129-96FE04DC5F59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
