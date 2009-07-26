@@ -61,9 +61,8 @@ namespace ScriptCoreLib.Archive.ZIP
 			var Items = this.Entries;
 
 			#region Local file header:
-			foreach (object _v in Items)
+			foreach (Entry v in Items)
 			{
-				var v = (Entry)_v;
 
 				// if we box unit, it will actually represent Long 
 				// this is for tostring functionality
@@ -106,6 +105,7 @@ namespace ScriptCoreLib.Archive.ZIP
 
 				//        extra field (variable size)
 
+				//v.Data.Position = 0;
 				v.Data.WriteTo(w.BaseStream);
 
 			}

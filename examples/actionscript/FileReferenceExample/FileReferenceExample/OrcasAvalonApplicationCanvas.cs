@@ -66,6 +66,7 @@ namespace FileReferenceExample.Shared
 
 			var t = new TextBox
 			{
+				AcceptsReturn = true,
 				FontSize = 32,
 				Text = "powered by jsc",
 				BorderThickness = new Thickness(0),
@@ -75,6 +76,17 @@ namespace FileReferenceExample.Shared
 				Width = 300,
 				Height = 60
 			}.MoveTo(32, 32).AttachTo(this);
+
+//script : error JSC1000: ActionScript : unable to emit newarr at 'FileReferenceExample.Shared.OrcasAvalonApplicationCanvas..ctor'#01bf: Byte
+//   at jsc.Languages.ActionScript.ActionScriptCompiler.<CreateInstructionHandlers>b__21(CodeEmitArgs e) in C:\work\jsc.svn\compiler\jsc\Languages\ActionScript\ActionScriptCompiler.OpCodes.cs:line 780
+//   at jsc.Script.CompilerBase.EmitInstruction(Prestatement p, ILInstruction i, Type TypeExpectedOrDefault) in C:\work\jsc.svn\compiler\jsc\Languages\CompilerBase.cs:line 1339
+
+			var crc = new Crc32Helper();
+			crc.ComputeCrc32(new byte[] { 1, 2, 0xfe, 0xff });
+
+			// Crc32Value = 1027690409
+
+			t.Text = "" + crc.Crc32Value + " vs 1027690409";
 
 			help_idle.Opacity = 0;
 			help.Opacity = 1;
@@ -124,16 +136,42 @@ namespace FileReferenceExample.Shared
 
 					//if (cc % 2 == 0)
 					//{
-						t.Text = "saving...";
+					t.Text = "saving...";
 
-						var r = new FileDialog();
+					var r = new FileDialog();
 
-						var z = new ZIPFile
+					var z = new ZIPFile
 						{
 							{"default.txt", "hello world"}
 						};
 
-						r.Save((MemoryStream)z, "archive1.zip");
+					var m = z.ToBytes();
+
+					/*
+ 50 4b 03 04 0a 00 00 00 00 00 80 5c fa 3a 16 ff
+ ff ff 0b 00 00 00 0b 00 00 00 0b 00 00 00 64 65
+ 66 61 75 6c 74 2e 74 78 74 50 4b 01 02 14 00 0a
+ 00 00 00 00 00 80 5c fa 3a 95 2e 51 ff 29 00 00
+ 00 29 00 00 00 0b 00 00 00 00 00 00 00 00 00 00
+ 00 00 00 00 00 00 00 64 65 66 61 75 6c 74 2e 74
+ 78 74 50 4b 05 06 00 00 00 00 01 00 01 00 39 00
+ 00 00 29 00 00 00 00 00					 
+					 */
+					r.Save(new MemoryStream(m), "archive1.zip");
+
+					var w = new StringBuilder();
+					t.FontSize = 10;
+
+					var xxi = 0;
+					foreach (var xx in m)
+					{
+						xxi++;
+						w.Append(" " + xx.ToString("x2"));
+						if ((xxi % 16) == 0)
+							w.AppendLine();
+					}
+
+					t.Text = w.ToString();
 					//}
 					//else
 					//{
@@ -145,7 +183,7 @@ namespace FileReferenceExample.Shared
 					//        m =>
 					//        {
 					//            m.Position = 0;
-								
+
 					//            ZIPFile z = m;
 					//            var w = new StringBuilder();
 
