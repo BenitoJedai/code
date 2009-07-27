@@ -77,6 +77,23 @@ namespace ScriptCoreLib.Archive.ZIP
 			}
 		}
 
+		public TaskControlAction this[Property Task, string SubTask, PropertyFilterFunc Filter]
+		{
+			set
+			{
+				this[Task.Name, Path.Combine(SubTask, "Filter")] =
+					c =>
+					{
+						if (Filter(Task))
+							return;
+
+						c.Fault = true;
+					};
+
+				this[Task.Name, SubTask] = value;
+			}
+		}
+
 		public TaskControlAction this[string TaskName, string SubTask]
 		{
 			set

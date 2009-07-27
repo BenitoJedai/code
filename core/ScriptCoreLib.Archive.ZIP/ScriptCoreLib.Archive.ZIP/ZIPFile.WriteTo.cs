@@ -63,7 +63,9 @@ namespace ScriptCoreLib.Archive.ZIP
 			#region Local file header:
 			foreach (Entry v in Items)
 			{
-
+				var data = v.Data;
+				if (data == null)
+					data = new MemoryStream();
 				// if we box unit, it will actually represent Long 
 				// this is for tostring functionality
 
@@ -86,12 +88,12 @@ namespace ScriptCoreLib.Archive.ZIP
 				w.WriteUInt32(ToMsDosDateTime(DateTime.Now));
 
 				//        crc-32                          4 bytes
-				w.WriteUInt32((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
+				w.WriteUInt32((uint)Crc32Helper.GetCrc32(data.ToArray()));
 
 				//        compressed size                 4 bytes
-				w.WriteUInt32((uint)v.Data.Length);
+				w.WriteUInt32((uint)data.Length);
 				//        uncompressed size               4 bytes
-				w.WriteUInt32((uint)v.Data.Length);
+				w.WriteUInt32((uint)data.Length);
 
 
 				//        file name length                2 bytes
@@ -106,7 +108,7 @@ namespace ScriptCoreLib.Archive.ZIP
 				//        extra field (variable size)
 
 				//v.Data.Position = 0;
-				v.Data.WriteTo(w.BaseStream);
+				data.WriteTo(w.BaseStream);
 
 			}
 			#endregion
@@ -117,11 +119,13 @@ namespace ScriptCoreLib.Archive.ZIP
 			#region Central directory structure
 			foreach (var v in Items)
 			{
-				//var h = v.Header;
 				var offset = (uint)offsets.Dequeue();
 
 				var file_name = Encoding.ASCII.GetBytes(v.FileName);
 
+				var data = v.Data;
+				if (data == null)
+					data = new MemoryStream();
 
 				//       central file header signature   4 bytes  (0x02014b50)
 				w.Write((int)0x02014b50);
@@ -137,11 +141,11 @@ namespace ScriptCoreLib.Archive.ZIP
 				//       last mod file date              2 bytes
 				w.WriteUInt32(ToMsDosDateTime(DateTime.Now));
 				//       crc-32                          4 bytes
-				w.WriteUInt32((uint)Crc32Helper.GetCrc32(v.Data.ToArray()));
+				w.WriteUInt32((uint)Crc32Helper.GetCrc32(data.ToArray()));
 				//       compressed size                 4 bytes
-				w.WriteUInt32((uint)v.Data.Length);
+				w.WriteUInt32((uint)data.Length);
 				//       uncompressed size               4 bytes
-				w.WriteUInt32((uint)v.Data.Length);
+				w.WriteUInt32((uint)data.Length);
 				//       file name length                2 bytes
 				w.WriteUInt16((ushort)file_name.Length);
 				//       extra field length              2 bytes
