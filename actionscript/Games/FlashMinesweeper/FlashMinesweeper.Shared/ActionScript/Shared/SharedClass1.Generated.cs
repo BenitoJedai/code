@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using ScriptCoreLib.Shared.Nonoba;
 using ScriptCoreLib;
+
 namespace FlashMinesweeper.ActionScript.Shared
 {
     #region SharedClass1
@@ -83,69 +84,14 @@ namespace FlashMinesweeper.ActionScript.Shared
             event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
         }
         #endregion
-        #region IPairedEventsWithoutUser
-        [Script]
-        [CompilerGenerated]
-        public partial interface IPairedEventsWithoutUser
-        {
-            event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
-            event Action<RemoteEvents.MouseMoveArguments> MouseMove;
-            event Action<RemoteEvents.MouseOutArguments> MouseOut;
-            event Action<RemoteEvents.SendMapArguments> SendMap;
-            event Action<RemoteEvents.SendMapLaterArguments> SendMapLater;
-            event Action<RemoteEvents.SetFlagArguments> SetFlag;
-            event Action<RemoteEvents.RevealArguments> Reveal;
-        }
-        #endregion
-        #region IPairedEventsWithUser
-        [Script]
-        [CompilerGenerated]
-        public partial interface IPairedEventsWithUser
-        {
-            event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
-            event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
-            event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
-            event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
-            event Action<RemoteEvents.UserSendMapLaterArguments> UserSendMapLater;
-            event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
-            event Action<RemoteEvents.UserRevealArguments> UserReveal;
-        }
-        #endregion
-        #region IPairedMessagesWithUser
-        [Script]
-        [CompilerGenerated]
-        public partial interface IPairedMessagesWithUser
-        {
-            void UserPlayerAdvertise(int user, string name);
-            void UserMouseMove(int user, int x, int y, int color);
-            void UserMouseOut(int user, int color);
-            void UserSendMap(int user, int[] buttons);
-            void UserSendMapLater(int user);
-            void UserSetFlag(int user, int button, int value);
-            void UserReveal(int user, int button);
-        }
-        #endregion
-        #region IPairedMessagesWithoutUser
-        [Script]
-        [CompilerGenerated]
-        public partial interface IPairedMessagesWithoutUser
-        {
-            void PlayerAdvertise(string name);
-            void MouseMove(int x, int y, int color);
-            void MouseOut(int color);
-            void SendMap(int[] buttons);
-            void SendMapLater();
-            void SetFlag(int button, int value);
-            void Reveal(int button);
-        }
-        #endregion
 
         #region RemoteMessages
         [Script]
         [CompilerGenerated]
-        public sealed partial class RemoteMessages : IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
+        public sealed partial class RemoteMessages : IMessages
         {
             public Action<SendArguments> Send;
+            public Func<IEnumerable<IMessages>> VirtualTargets;
             #region SendArguments
             [Script]
             [CompilerGenerated]
@@ -157,103 +103,344 @@ namespace FlashMinesweeper.ActionScript.Shared
             #endregion
             public void ServerPlayerHello(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerHello, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerHello(user, name);
+                    }
+                }
             }
             public void ServerPlayerJoined(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerJoined, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerJoined(user, name);
+                    }
+                }
             }
             public void ServerPlayerLeft(int user, string name)
             {
-                Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPlayerLeft, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPlayerLeft(user, name);
+                    }
+                }
             }
             public void PlayerAdvertise(string name)
             {
-                Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.PlayerAdvertise, args = new object[] { name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.PlayerAdvertise(name);
+                    }
+                }
             }
             public void UserPlayerAdvertise(int user, string name)
             {
-                Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserPlayerAdvertise, args = new object[] { user, name } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserPlayerAdvertise(user, name);
+                    }
+                }
             }
             public void MouseMove(int x, int y, int color)
             {
-                Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y, color } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.MouseMove, args = new object[] { x, y, color } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.MouseMove(x, y, color);
+                    }
+                }
             }
             public void UserMouseMove(int user, int x, int y, int color)
             {
-                Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y, color } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserMouseMove, args = new object[] { user, x, y, color } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMouseMove(user, x, y, color);
+                    }
+                }
             }
             public void MouseOut(int color)
             {
-                Send(new SendArguments { i = Messages.MouseOut, args = new object[] { color } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.MouseOut, args = new object[] { color } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.MouseOut(color);
+                    }
+                }
             }
             public void UserMouseOut(int user, int color)
             {
-                Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserMouseOut, args = new object[] { user, color } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserMouseOut(user, color);
+                    }
+                }
             }
             public void ServerSendMap()
             {
-                Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerSendMap, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerSendMap();
+                    }
+                }
             }
             public void SendMap(int[] buttons)
             {
-                var args = new object[buttons.Length];
-                Array.Copy(buttons, args, buttons.Length);
-                Send(new SendArguments { i = Messages.SendMap, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[buttons.Length + 0];
+                    Array.Copy(buttons, 0, args, 0, buttons.Length);
+                    Send(new SendArguments { i = Messages.SendMap, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.SendMap(buttons);
+                    }
+                }
             }
             public void UserSendMap(int user, int[] buttons)
             {
-                var args = new object[buttons.Length];
-                Array.Copy(buttons, args, buttons.Length);
-                Send(new SendArguments { i = Messages.UserSendMap, args = args });
+                if (this.Send != null)
+                {
+                    var args = new object[buttons.Length + 1];
+                    args[0] = user;
+                    Array.Copy(buttons, 0, args, 1, buttons.Length);
+                    Send(new SendArguments { i = Messages.UserSendMap, args = args });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserSendMap(user, buttons);
+                    }
+                }
             }
             public void SendMapLater()
             {
-                Send(new SendArguments { i = Messages.SendMapLater, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.SendMapLater, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.SendMapLater();
+                    }
+                }
             }
             public void UserSendMapLater(int user)
             {
-                Send(new SendArguments { i = Messages.UserSendMapLater, args = new object[] { user } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserSendMapLater, args = new object[] { user } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserSendMapLater(user);
+                    }
+                }
             }
             public void SetFlag(int button, int value)
             {
-                Send(new SendArguments { i = Messages.SetFlag, args = new object[] { button, value } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.SetFlag, args = new object[] { button, value } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.SetFlag(button, value);
+                    }
+                }
             }
             public void UserSetFlag(int user, int button, int value)
             {
-                Send(new SendArguments { i = Messages.UserSetFlag, args = new object[] { user, button, value } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserSetFlag, args = new object[] { user, button, value } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserSetFlag(user, button, value);
+                    }
+                }
             }
             public void Reveal(int button)
             {
-                Send(new SendArguments { i = Messages.Reveal, args = new object[] { button } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.Reveal, args = new object[] { button } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.Reveal(button);
+                    }
+                }
             }
             public void UserReveal(int user, int button)
             {
-                Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UserReveal, args = new object[] { user, button } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UserReveal(user, button);
+                    }
+                }
             }
             public void AddScore(int score)
             {
-                Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.AddScore, args = new object[] { score } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.AddScore(score);
+                    }
+                }
             }
             public void AwardAchievementFirstMinefieldComplete()
             {
-                Send(new SendArguments { i = Messages.AwardAchievementFirstMinefieldComplete, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.AwardAchievementFirstMinefieldComplete, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.AwardAchievementFirstMinefieldComplete();
+                    }
+                }
             }
             public void SendPassword(string password)
             {
-                Send(new SendArguments { i = Messages.SendPassword, args = new object[] { password } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.SendPassword, args = new object[] { password } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.SendPassword(password);
+                    }
+                }
             }
             public void ServerPasswordStatus(int status)
             {
-                Send(new SendArguments { i = Messages.ServerPasswordStatus, args = new object[] { status } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.ServerPasswordStatus, args = new object[] { status } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.ServerPasswordStatus(status);
+                    }
+                }
             }
             public void LockGame()
             {
-                Send(new SendArguments { i = Messages.LockGame, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.LockGame, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.LockGame();
+                    }
+                }
             }
             public void UnlockGame()
             {
-                Send(new SendArguments { i = Messages.UnlockGame, args = new object[] {  } });
+                if (this.Send != null)
+                {
+                    Send(new SendArguments { i = Messages.UnlockGame, args = new object[] {  } });
+                }
+                if (this.VirtualTargets != null)
+                {
+                    foreach (var Target__ in this.VirtualTargets())
+                    {
+                        Target__.UnlockGame();
+                    }
+                }
             }
         }
         #endregion
@@ -261,12 +448,14 @@ namespace FlashMinesweeper.ActionScript.Shared
         #region RemoteEvents
         [Script]
         [CompilerGenerated]
-        public sealed partial class RemoteEvents : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser
+        public sealed partial class RemoteEvents : IEvents
         {
             private readonly Dictionary<Messages, Action<IDispatchHelper>> DispatchTable;
             private readonly Dictionary<Messages, Converter<object, Delegate>> DispatchTableDelegates;
-            [AccessedThroughProperty("Router")]
-            private WithUserArgumentsRouter _Router;
+            [AccessedThroughProperty("BroadcastRouter")]
+            private WithUserArgumentsRouter_Broadcast _BroadcastRouter;
+            [AccessedThroughProperty("SinglecastRouter")]
+            private WithUserArgumentsRouter_Singlecast _SinglecastRouter;
             #region DispatchHelper
             [Script]
             [CompilerGenerated]
@@ -278,7 +467,7 @@ namespace FlashMinesweeper.ActionScript.Shared
                 public Converter<uint, int[]> GetInt32Array { get; set; }
                 public Converter<uint, double[]> GetDoubleArray { get; set; }
                 public Converter<uint, string[]> GetStringArray { get; set; }
-                public Converter<uint, object[]> GetArray { get; set; }
+                public Converter<uint, byte[]> GetMemoryStream { get; set; }
             }
             #endregion
             public bool Dispatch(Messages e, IDispatchHelper h)
@@ -297,12 +486,37 @@ namespace FlashMinesweeper.ActionScript.Shared
                 public int user;
             }
             #endregion
-            #region WithUserArgumentsRouter
+            #region WithUserArgumentsRouter_Broadcast
             [Script]
             [CompilerGenerated]
-            public sealed partial class WithUserArgumentsRouter : WithUserArguments
+            public sealed partial class WithUserArgumentsRouter_Broadcast : WithUserArguments
             {
                 public IMessages Target;
+
+                #region Automatic Event Routing
+                public void CombineDelegates(IEvents value)
+                {
+                    value.PlayerAdvertise += this.UserPlayerAdvertise;
+                    value.MouseMove += this.UserMouseMove;
+                    value.MouseOut += this.UserMouseOut;
+                    value.SendMap += this.UserSendMap;
+                    value.SendMapLater += this.UserSendMapLater;
+                    value.SetFlag += this.UserSetFlag;
+                    value.Reveal += this.UserReveal;
+                }
+
+                public void RemoveDelegates(IEvents value)
+                {
+                    value.PlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.MouseMove -= this.UserMouseMove;
+                    value.MouseOut -= this.UserMouseOut;
+                    value.SendMap -= this.UserSendMap;
+                    value.SendMapLater -= this.UserSendMapLater;
+                    value.SetFlag -= this.UserSetFlag;
+                    value.Reveal -= this.UserReveal;
+                }
+                #endregion
+
                 #region Routing
                 public void UserPlayerAdvertise(PlayerAdvertiseArguments e)
                 {
@@ -331,6 +545,149 @@ namespace FlashMinesweeper.ActionScript.Shared
                 public void UserReveal(RevealArguments e)
                 {
                     Target.UserReveal(this.user, e.button);
+                }
+                #endregion
+            }
+            #endregion
+            #region WithUserArgumentsRouter_SinglecastView
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter_SinglecastView : WithUserArguments
+            {
+                public IMessages Target;
+                #region Routing
+                public void UserPlayerAdvertise(string name)
+                {
+                    this.Target.UserPlayerAdvertise(this.user, name);
+                }
+                public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+                {
+                    this.Target.UserPlayerAdvertise(this.user, e.name);
+                }
+                public void UserMouseMove(int x, int y, int color)
+                {
+                    this.Target.UserMouseMove(this.user, x, y, color);
+                }
+                public void UserMouseMove(UserMouseMoveArguments e)
+                {
+                    this.Target.UserMouseMove(this.user, e.x, e.y, e.color);
+                }
+                public void UserMouseOut(int color)
+                {
+                    this.Target.UserMouseOut(this.user, color);
+                }
+                public void UserMouseOut(UserMouseOutArguments e)
+                {
+                    this.Target.UserMouseOut(this.user, e.color);
+                }
+                public void UserSendMap(int[] buttons)
+                {
+                    this.Target.UserSendMap(this.user, buttons);
+                }
+                public void UserSendMap(UserSendMapArguments e)
+                {
+                    this.Target.UserSendMap(this.user, e.buttons);
+                }
+                public void UserSendMapLater()
+                {
+                    this.Target.UserSendMapLater(this.user);
+                }
+                public void UserSendMapLater(UserSendMapLaterArguments e)
+                {
+                    this.Target.UserSendMapLater(this.user);
+                }
+                public void UserSetFlag(int button, int value)
+                {
+                    this.Target.UserSetFlag(this.user, button, value);
+                }
+                public void UserSetFlag(UserSetFlagArguments e)
+                {
+                    this.Target.UserSetFlag(this.user, e.button, e.value);
+                }
+                public void UserReveal(int button)
+                {
+                    this.Target.UserReveal(this.user, button);
+                }
+                public void UserReveal(UserRevealArguments e)
+                {
+                    this.Target.UserReveal(this.user, e.button);
+                }
+                #endregion
+            }
+            #endregion
+            #region WithUserArgumentsRouter_Singlecast
+            [Script]
+            [CompilerGenerated]
+            public sealed partial class WithUserArgumentsRouter_Singlecast : WithUserArguments
+            {
+                public System.Converter<int, IMessages> Target;
+
+                #region Automatic Event Routing
+                public void CombineDelegates(IEvents value)
+                {
+                    value.UserPlayerAdvertise += this.UserPlayerAdvertise;
+                    value.UserMouseMove += this.UserMouseMove;
+                    value.UserMouseOut += this.UserMouseOut;
+                    value.UserSendMap += this.UserSendMap;
+                    value.UserSendMapLater += this.UserSendMapLater;
+                    value.UserSetFlag += this.UserSetFlag;
+                    value.UserReveal += this.UserReveal;
+                }
+
+                public void RemoveDelegates(IEvents value)
+                {
+                    value.UserPlayerAdvertise -= this.UserPlayerAdvertise;
+                    value.UserMouseMove -= this.UserMouseMove;
+                    value.UserMouseOut -= this.UserMouseOut;
+                    value.UserSendMap -= this.UserSendMap;
+                    value.UserSendMapLater -= this.UserSendMapLater;
+                    value.UserSetFlag -= this.UserSetFlag;
+                    value.UserReveal -= this.UserReveal;
+                }
+                #endregion
+
+                #region Routing
+                public void UserPlayerAdvertise(UserPlayerAdvertiseArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserPlayerAdvertise(this.user, e.name);
+                }
+                public void UserMouseMove(UserMouseMoveArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMouseMove(this.user, e.x, e.y, e.color);
+                }
+                public void UserMouseOut(UserMouseOutArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserMouseOut(this.user, e.color);
+                }
+                public void UserSendMap(UserSendMapArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSendMap(this.user, e.buttons);
+                }
+                public void UserSendMapLater(UserSendMapLaterArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSendMapLater(this.user);
+                }
+                public void UserSetFlag(UserSetFlagArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserSetFlag(this.user, e.button, e.value);
+                }
+                public void UserReveal(UserRevealArguments e)
+                {
+                    var _target = this.Target(e.user);
+                    if (_target == null) return;
+                    _target.UserReveal(this.user, e.button);
                 }
                 #endregion
             }
@@ -733,37 +1090,47 @@ namespace FlashMinesweeper.ActionScript.Shared
                         }
                 ;
             }
-            public WithUserArgumentsRouter Router
+            public WithUserArgumentsRouter_Broadcast BroadcastRouter
             {
                 [DebuggerNonUserCode]
                 get
                 {
-                    return this._Router;
+                    return this._BroadcastRouter;
                 }
                 [DebuggerNonUserCode]
                 [MethodImpl(MethodImplOptions.Synchronized)]
                 set
                 {
-                    if(_Router != null)
+                    if(_BroadcastRouter != null)
                     {
-                        this.PlayerAdvertise -= _Router.UserPlayerAdvertise;
-                        this.MouseMove -= _Router.UserMouseMove;
-                        this.MouseOut -= _Router.UserMouseOut;
-                        this.SendMap -= _Router.UserSendMap;
-                        this.SendMapLater -= _Router.UserSendMapLater;
-                        this.SetFlag -= _Router.UserSetFlag;
-                        this.Reveal -= _Router.UserReveal;
+                        _BroadcastRouter.RemoveDelegates(this);
                     }
-                    _Router = value;
-                    if(_Router != null)
+                    _BroadcastRouter = value;
+                    if(_BroadcastRouter != null)
                     {
-                        this.PlayerAdvertise += _Router.UserPlayerAdvertise;
-                        this.MouseMove += _Router.UserMouseMove;
-                        this.MouseOut += _Router.UserMouseOut;
-                        this.SendMap += _Router.UserSendMap;
-                        this.SendMapLater += _Router.UserSendMapLater;
-                        this.SetFlag += _Router.UserSetFlag;
-                        this.Reveal += _Router.UserReveal;
+                        _BroadcastRouter.CombineDelegates(this);
+                    }
+                }
+            }
+            public WithUserArgumentsRouter_Singlecast SinglecastRouter
+            {
+                [DebuggerNonUserCode]
+                get
+                {
+                    return this._SinglecastRouter;
+                }
+                [DebuggerNonUserCode]
+                [MethodImpl(MethodImplOptions.Synchronized)]
+                set
+                {
+                    if(_SinglecastRouter != null)
+                    {
+                        _SinglecastRouter.RemoveDelegates(this);
+                    }
+                    _SinglecastRouter = value;
+                    if(_SinglecastRouter != null)
+                    {
+                        _SinglecastRouter.CombineDelegates(this);
                     }
                 }
             }
@@ -772,230 +1139,207 @@ namespace FlashMinesweeper.ActionScript.Shared
         #region Bridge
         [Script]
         [CompilerGenerated]
-        public partial class Bridge : IEvents, IPairedEventsWithoutUser, IPairedEventsWithUser, IMessages, IPairedMessagesWithoutUser, IPairedMessagesWithUser
+        public partial class Bridge : IEvents, IMessages
         {
+            public Action<Action> VirtualLatency;
+            public Bridge()
+            {
+                this.VirtualLatency = VirtualLatencyDefaultImplemenetation;
+            }
+            public void VirtualLatencyDefaultImplemenetation(Action e)
+            {
+                e();
+            }
             public event Action<RemoteEvents.ServerPlayerHelloArguments> ServerPlayerHello;
             void IMessages.ServerPlayerHello(int user, string name)
             {
                 if(ServerPlayerHello == null) return;
-                ServerPlayerHello(new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name });
+                var v = new RemoteEvents.ServerPlayerHelloArguments { user = user, name = name };
+                this.VirtualLatency(() => this.ServerPlayerHello(v));
             }
 
             public event Action<RemoteEvents.ServerPlayerJoinedArguments> ServerPlayerJoined;
             void IMessages.ServerPlayerJoined(int user, string name)
             {
                 if(ServerPlayerJoined == null) return;
-                ServerPlayerJoined(new RemoteEvents.ServerPlayerJoinedArguments { user = user, name = name });
+                var v = new RemoteEvents.ServerPlayerJoinedArguments { user = user, name = name };
+                this.VirtualLatency(() => this.ServerPlayerJoined(v));
             }
 
             public event Action<RemoteEvents.ServerPlayerLeftArguments> ServerPlayerLeft;
             void IMessages.ServerPlayerLeft(int user, string name)
             {
                 if(ServerPlayerLeft == null) return;
-                ServerPlayerLeft(new RemoteEvents.ServerPlayerLeftArguments { user = user, name = name });
+                var v = new RemoteEvents.ServerPlayerLeftArguments { user = user, name = name };
+                this.VirtualLatency(() => this.ServerPlayerLeft(v));
             }
 
             public event Action<RemoteEvents.PlayerAdvertiseArguments> PlayerAdvertise;
             void IMessages.PlayerAdvertise(string name)
             {
                 if(PlayerAdvertise == null) return;
-                PlayerAdvertise(new RemoteEvents.PlayerAdvertiseArguments { name = name });
-            }
-            void IPairedMessagesWithoutUser.PlayerAdvertise(string name)
-            {
-                ((IMessages)this).PlayerAdvertise(name);
+                var v = new RemoteEvents.PlayerAdvertiseArguments { name = name };
+                this.VirtualLatency(() => this.PlayerAdvertise(v));
             }
 
             public event Action<RemoteEvents.UserPlayerAdvertiseArguments> UserPlayerAdvertise;
             void IMessages.UserPlayerAdvertise(int user, string name)
             {
                 if(UserPlayerAdvertise == null) return;
-                UserPlayerAdvertise(new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name });
-            }
-            void IPairedMessagesWithUser.UserPlayerAdvertise(int user, string name)
-            {
-                ((IMessages)this).UserPlayerAdvertise(user, name);
+                var v = new RemoteEvents.UserPlayerAdvertiseArguments { user = user, name = name };
+                this.VirtualLatency(() => this.UserPlayerAdvertise(v));
             }
 
             public event Action<RemoteEvents.MouseMoveArguments> MouseMove;
             void IMessages.MouseMove(int x, int y, int color)
             {
                 if(MouseMove == null) return;
-                MouseMove(new RemoteEvents.MouseMoveArguments { x = x, y = y, color = color });
-            }
-            void IPairedMessagesWithoutUser.MouseMove(int x, int y, int color)
-            {
-                ((IMessages)this).MouseMove(x, y, color);
+                var v = new RemoteEvents.MouseMoveArguments { x = x, y = y, color = color };
+                this.VirtualLatency(() => this.MouseMove(v));
             }
 
             public event Action<RemoteEvents.UserMouseMoveArguments> UserMouseMove;
             void IMessages.UserMouseMove(int user, int x, int y, int color)
             {
                 if(UserMouseMove == null) return;
-                UserMouseMove(new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y, color = color });
-            }
-            void IPairedMessagesWithUser.UserMouseMove(int user, int x, int y, int color)
-            {
-                ((IMessages)this).UserMouseMove(user, x, y, color);
+                var v = new RemoteEvents.UserMouseMoveArguments { user = user, x = x, y = y, color = color };
+                this.VirtualLatency(() => this.UserMouseMove(v));
             }
 
             public event Action<RemoteEvents.MouseOutArguments> MouseOut;
             void IMessages.MouseOut(int color)
             {
                 if(MouseOut == null) return;
-                MouseOut(new RemoteEvents.MouseOutArguments { color = color });
-            }
-            void IPairedMessagesWithoutUser.MouseOut(int color)
-            {
-                ((IMessages)this).MouseOut(color);
+                var v = new RemoteEvents.MouseOutArguments { color = color };
+                this.VirtualLatency(() => this.MouseOut(v));
             }
 
             public event Action<RemoteEvents.UserMouseOutArguments> UserMouseOut;
             void IMessages.UserMouseOut(int user, int color)
             {
                 if(UserMouseOut == null) return;
-                UserMouseOut(new RemoteEvents.UserMouseOutArguments { user = user, color = color });
-            }
-            void IPairedMessagesWithUser.UserMouseOut(int user, int color)
-            {
-                ((IMessages)this).UserMouseOut(user, color);
+                var v = new RemoteEvents.UserMouseOutArguments { user = user, color = color };
+                this.VirtualLatency(() => this.UserMouseOut(v));
             }
 
             public event Action<RemoteEvents.ServerSendMapArguments> ServerSendMap;
             void IMessages.ServerSendMap()
             {
                 if(ServerSendMap == null) return;
-                ServerSendMap(new RemoteEvents.ServerSendMapArguments {  });
+                var v = new RemoteEvents.ServerSendMapArguments {  };
+                this.VirtualLatency(() => this.ServerSendMap(v));
             }
 
             public event Action<RemoteEvents.SendMapArguments> SendMap;
             void IMessages.SendMap(int[] buttons)
             {
                 if(SendMap == null) return;
-                SendMap(new RemoteEvents.SendMapArguments { buttons = buttons });
-            }
-            void IPairedMessagesWithoutUser.SendMap(int[] buttons)
-            {
-                ((IMessages)this).SendMap(buttons);
+                var v = new RemoteEvents.SendMapArguments { buttons = buttons };
+                this.VirtualLatency(() => this.SendMap(v));
             }
 
             public event Action<RemoteEvents.UserSendMapArguments> UserSendMap;
             void IMessages.UserSendMap(int user, int[] buttons)
             {
                 if(UserSendMap == null) return;
-                UserSendMap(new RemoteEvents.UserSendMapArguments { user = user, buttons = buttons });
-            }
-            void IPairedMessagesWithUser.UserSendMap(int user, int[] buttons)
-            {
-                ((IMessages)this).UserSendMap(user, buttons);
+                var v = new RemoteEvents.UserSendMapArguments { user = user, buttons = buttons };
+                this.VirtualLatency(() => this.UserSendMap(v));
             }
 
             public event Action<RemoteEvents.SendMapLaterArguments> SendMapLater;
             void IMessages.SendMapLater()
             {
                 if(SendMapLater == null) return;
-                SendMapLater(new RemoteEvents.SendMapLaterArguments {  });
-            }
-            void IPairedMessagesWithoutUser.SendMapLater()
-            {
-                ((IMessages)this).SendMapLater();
+                var v = new RemoteEvents.SendMapLaterArguments {  };
+                this.VirtualLatency(() => this.SendMapLater(v));
             }
 
             public event Action<RemoteEvents.UserSendMapLaterArguments> UserSendMapLater;
             void IMessages.UserSendMapLater(int user)
             {
                 if(UserSendMapLater == null) return;
-                UserSendMapLater(new RemoteEvents.UserSendMapLaterArguments { user = user });
-            }
-            void IPairedMessagesWithUser.UserSendMapLater(int user)
-            {
-                ((IMessages)this).UserSendMapLater(user);
+                var v = new RemoteEvents.UserSendMapLaterArguments { user = user };
+                this.VirtualLatency(() => this.UserSendMapLater(v));
             }
 
             public event Action<RemoteEvents.SetFlagArguments> SetFlag;
             void IMessages.SetFlag(int button, int value)
             {
                 if(SetFlag == null) return;
-                SetFlag(new RemoteEvents.SetFlagArguments { button = button, value = value });
-            }
-            void IPairedMessagesWithoutUser.SetFlag(int button, int value)
-            {
-                ((IMessages)this).SetFlag(button, value);
+                var v = new RemoteEvents.SetFlagArguments { button = button, value = value };
+                this.VirtualLatency(() => this.SetFlag(v));
             }
 
             public event Action<RemoteEvents.UserSetFlagArguments> UserSetFlag;
             void IMessages.UserSetFlag(int user, int button, int value)
             {
                 if(UserSetFlag == null) return;
-                UserSetFlag(new RemoteEvents.UserSetFlagArguments { user = user, button = button, value = value });
-            }
-            void IPairedMessagesWithUser.UserSetFlag(int user, int button, int value)
-            {
-                ((IMessages)this).UserSetFlag(user, button, value);
+                var v = new RemoteEvents.UserSetFlagArguments { user = user, button = button, value = value };
+                this.VirtualLatency(() => this.UserSetFlag(v));
             }
 
             public event Action<RemoteEvents.RevealArguments> Reveal;
             void IMessages.Reveal(int button)
             {
                 if(Reveal == null) return;
-                Reveal(new RemoteEvents.RevealArguments { button = button });
-            }
-            void IPairedMessagesWithoutUser.Reveal(int button)
-            {
-                ((IMessages)this).Reveal(button);
+                var v = new RemoteEvents.RevealArguments { button = button };
+                this.VirtualLatency(() => this.Reveal(v));
             }
 
             public event Action<RemoteEvents.UserRevealArguments> UserReveal;
             void IMessages.UserReveal(int user, int button)
             {
                 if(UserReveal == null) return;
-                UserReveal(new RemoteEvents.UserRevealArguments { user = user, button = button });
-            }
-            void IPairedMessagesWithUser.UserReveal(int user, int button)
-            {
-                ((IMessages)this).UserReveal(user, button);
+                var v = new RemoteEvents.UserRevealArguments { user = user, button = button };
+                this.VirtualLatency(() => this.UserReveal(v));
             }
 
             public event Action<RemoteEvents.AddScoreArguments> AddScore;
             void IMessages.AddScore(int score)
             {
                 if(AddScore == null) return;
-                AddScore(new RemoteEvents.AddScoreArguments { score = score });
+                var v = new RemoteEvents.AddScoreArguments { score = score };
+                this.VirtualLatency(() => this.AddScore(v));
             }
 
             public event Action<RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments> AwardAchievementFirstMinefieldComplete;
             void IMessages.AwardAchievementFirstMinefieldComplete()
             {
                 if(AwardAchievementFirstMinefieldComplete == null) return;
-                AwardAchievementFirstMinefieldComplete(new RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments {  });
+                var v = new RemoteEvents.AwardAchievementFirstMinefieldCompleteArguments {  };
+                this.VirtualLatency(() => this.AwardAchievementFirstMinefieldComplete(v));
             }
 
             public event Action<RemoteEvents.SendPasswordArguments> SendPassword;
             void IMessages.SendPassword(string password)
             {
                 if(SendPassword == null) return;
-                SendPassword(new RemoteEvents.SendPasswordArguments { password = password });
+                var v = new RemoteEvents.SendPasswordArguments { password = password };
+                this.VirtualLatency(() => this.SendPassword(v));
             }
 
             public event Action<RemoteEvents.ServerPasswordStatusArguments> ServerPasswordStatus;
             void IMessages.ServerPasswordStatus(int status)
             {
                 if(ServerPasswordStatus == null) return;
-                ServerPasswordStatus(new RemoteEvents.ServerPasswordStatusArguments { status = status });
+                var v = new RemoteEvents.ServerPasswordStatusArguments { status = status };
+                this.VirtualLatency(() => this.ServerPasswordStatus(v));
             }
 
             public event Action<RemoteEvents.LockGameArguments> LockGame;
             void IMessages.LockGame()
             {
                 if(LockGame == null) return;
-                LockGame(new RemoteEvents.LockGameArguments {  });
+                var v = new RemoteEvents.LockGameArguments {  };
+                this.VirtualLatency(() => this.LockGame(v));
             }
 
             public event Action<RemoteEvents.UnlockGameArguments> UnlockGame;
             void IMessages.UnlockGame()
             {
                 if(UnlockGame == null) return;
-                UnlockGame(new RemoteEvents.UnlockGameArguments {  });
+                var v = new RemoteEvents.UnlockGameArguments {  };
+                this.VirtualLatency(() => this.UnlockGame(v));
             }
 
         }
@@ -1003,4 +1347,4 @@ namespace FlashMinesweeper.ActionScript.Shared
     }
     #endregion
 }
-// 16.07.2008 11:32:20
+// 27.07.2009 9:06:47

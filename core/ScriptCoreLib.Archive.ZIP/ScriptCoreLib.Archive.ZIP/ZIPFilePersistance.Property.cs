@@ -8,18 +8,19 @@ using System.IO;
 
 namespace ScriptCoreLib.Archive.ZIP
 {
-	partial class ZIPFilePersistance 
+	partial class ZIPFilePersistance
 	{
 
-	
+
 
 
 		public delegate Property SubPropertyConstructor(string name);
 		public delegate void PropertyAction(Property p);
+		public delegate bool PropertyFilterFunc(Property p);
 
 		public class Property
 		{
-			
+
 			public Property this[string name]
 			{
 				get
@@ -27,6 +28,7 @@ namespace ScriptCoreLib.Archive.ZIP
 					return this.InternalHandlers.GetSubProperty(name);
 				}
 			}
+
 
 			public class Handlers
 			{
@@ -106,8 +108,18 @@ namespace ScriptCoreLib.Archive.ZIP
 
 		public Property GetProperty(string name, string category)
 		{
-			var TextHandler = category.CombinePath(name + ".txt");
-			var BytesHandler = category.CombinePath(name + ".bin");
+
+			string TextExtension = ".txt";
+			string BinaryExtensions = ".bin";
+
+			if (Path.HasExtension(name))
+			{
+				TextExtension = Path.GetExtension(name);
+				BinaryExtensions = Path.GetExtension(name);
+			}
+
+			var TextHandler = category.CombinePath(name + TextExtension);
+			var BytesHandler = category.CombinePath(name + BinaryExtensions);
 
 			var h = new Property.Handlers
 			{

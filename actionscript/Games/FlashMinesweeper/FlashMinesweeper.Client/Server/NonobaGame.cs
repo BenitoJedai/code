@@ -83,14 +83,20 @@ namespace FlashMinesweeper.Server
 
         public override void UserJoined(NonobaGameUser<MyPlayer> user)
         {
-            var FromPlayer =
-                  new SharedClass1.RemoteEvents
-                  {
-                      Router = new SharedClass1.RemoteEvents.WithUserArgumentsRouter
-                      {
-                          user = user.UserId,
-                      }
-                  };
+
+
+			var FromPlayer =
+				  new SharedClass1.RemoteEvents
+				  {
+					  BroadcastRouter = new SharedClass1.RemoteEvents.WithUserArgumentsRouter_Broadcast
+					  {
+						  user = user.UserId,
+					  },
+					  SinglecastRouter = new SharedClass1.RemoteEvents.WithUserArgumentsRouter_Singlecast
+					  {
+						  user = user.UserId,
+					  }
+				  };
 
             user.Virtual = new MyPlayer
             {
@@ -113,7 +119,7 @@ namespace FlashMinesweeper.Server
                 AwardAchievement = user.AwardAchievement,
             };
 
-            FromPlayer.Router.Target = user.Virtual.ToOthers;
+            FromPlayer.BroadcastRouter.Target = user.Virtual.ToOthers;
 
             Virtual.Users.Add(user.Virtual);
 
