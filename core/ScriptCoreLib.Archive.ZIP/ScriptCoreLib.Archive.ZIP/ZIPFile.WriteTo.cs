@@ -46,9 +46,15 @@ namespace ScriptCoreLib.Archive.ZIP
 			this.Add(new Entry { FileName = FileName, Data = Data });
 		}
 
+		public delegate void EntryAction(Entry e);
+
+		public event EntryAction EntryAdded;
+
 		private void Add(Entry entry)
 		{
-			this.Items.Add(entry);
+			this.InternalItems.Add(entry);
+			if (EntryAdded != null)
+				EntryAdded(entry);
 		}
 
 

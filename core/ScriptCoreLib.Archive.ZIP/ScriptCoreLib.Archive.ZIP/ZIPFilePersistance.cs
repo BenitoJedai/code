@@ -280,12 +280,17 @@ namespace ScriptCoreLib.Archive.ZIP
 
 		public bool PersistanceDisabled;
 
+		public bool PersistanceRequested;
+
 		public bool PersistanceRequired
 		{
 			get
 			{
 				if (PersistanceDisabled)
 					return false;
+
+				if (PersistanceRequested)
+					return true;
 
 				if (this.Stopwatch.ElapsedMilliseconds > Timeout)
 					if (CountTaskEnqeued > 0)
