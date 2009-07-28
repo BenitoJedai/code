@@ -30,9 +30,13 @@ namespace ScriptCoreLib
 		PHP,
 		C,
 		Batch,
+		
 		VisualBasic,
 		ActionScript,
 		CSharp2,
+
+		// talk about meta programming :) shall jsc support haxe?
+		Haxe
 	}
 
 
