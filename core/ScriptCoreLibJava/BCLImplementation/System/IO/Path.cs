@@ -9,6 +9,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.Path))]
 	internal static class __Path
 	{
+		public static bool HasExtension(string path)
+		{
+			var x = path.LastIndexOf(".");
+
+			if (x < 0)
+				return false;
+
+			var z = path.LastIndexOf(@"\");
+
+
+			if (z > -1)
+				if (z > x)
+					return false;
+
+			var y = path.LastIndexOf("/");
+
+			if (y > -1)
+				if (y > x)
+					return false;
+
+			return true;
+		}
+
 		public static string GetFullPath(string e)
 		{
 			// http://www.devx.com/tips/Tip/13804
