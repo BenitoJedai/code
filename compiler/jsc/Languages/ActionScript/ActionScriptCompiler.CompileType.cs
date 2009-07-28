@@ -7,6 +7,7 @@ using System.Xml;
 using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
+using System.IO;
 
 namespace jsc.Languages.ActionScript
 {
@@ -21,6 +22,8 @@ namespace jsc.Languages.ActionScript
 
 			if (z.Name.Contains("<PrivateImplementationDetails>") || (z.DeclaringType != null && z.DeclaringType.Name.Contains("<PrivateImplementationDetails>")))
 				return false;
+			
+			WriteCommentLine(Path.GetFileName(z.Assembly.Location));
 
 
 			CompileType_WriteAdditionalMembers = delegate { };
