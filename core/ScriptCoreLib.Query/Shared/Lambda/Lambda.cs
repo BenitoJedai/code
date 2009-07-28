@@ -322,6 +322,9 @@ namespace ScriptCoreLib.Shared.Lambda
 		/// <returns></returns>
 		public static Action WhereCounter(this Action handler, Func<int, bool> filter)
 		{
+			if (handler == null)
+				return delegate { };
+
 			var i = 0;
 
 			return delegate
