@@ -20,7 +20,8 @@ namespace ScriptCoreLib.ActionScript
 		{
 			// note that this does not support namespace renaming
 
-			this.factoryClass = e.FullName;
+			// jsc will separate nested type with _ instead of + as does c# compiler
+			this.factoryClass = e.FullName.Replace("+", "_");
 		}
 
 		public string factoryClass;
