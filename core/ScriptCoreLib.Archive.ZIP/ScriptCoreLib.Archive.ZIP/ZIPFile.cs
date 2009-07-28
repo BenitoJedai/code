@@ -79,15 +79,20 @@ namespace ScriptCoreLib.Archive.ZIP
 			}
 
 			public ZIPFileEntryHeader Header;
+
+			public override string ToString()
+			{
+				return this.FileName;
+			}
 		}
 
-		readonly ArrayList Items = new ArrayList();
+		readonly ArrayList InternalItems = new ArrayList();
 
 		public Entry[] Entries
 		{
 			get
 			{
-				return (Entry[])Items.ToArray(typeof(Entry));
+				return (Entry[])InternalItems.ToArray(typeof(Entry));
 			}
 		}
 
@@ -108,7 +113,7 @@ namespace ScriptCoreLib.Archive.ZIP
 				if (h == null)
 					break;
 
-				n.Items.Add(new Entry { Header = h });
+				n.Add(new Entry { Header = h });
 			}
 			#endregion
 

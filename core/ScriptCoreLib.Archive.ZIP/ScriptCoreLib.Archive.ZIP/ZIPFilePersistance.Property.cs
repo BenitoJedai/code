@@ -95,10 +95,6 @@ namespace ScriptCoreLib.Archive.ZIP
 				}
 			}
 
-			public override string ToString()
-			{
-				return this.Text;
-			}
 		}
 
 		public Property GetProperty(string name)
@@ -114,8 +110,8 @@ namespace ScriptCoreLib.Archive.ZIP
 
 			if (Path.HasExtension(name))
 			{
-				TextExtension = Path.GetExtension(name);
-				BinaryExtensions = Path.GetExtension(name);
+				TextExtension = "";
+				BinaryExtensions = "";
 			}
 
 			var TextHandler = category.CombinePath(name + TextExtension);
