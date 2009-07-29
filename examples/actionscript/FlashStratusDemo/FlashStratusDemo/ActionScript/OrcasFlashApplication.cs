@@ -22,6 +22,9 @@ namespace FlashStratusDemo.ActionScript
 	{
 
 		// http://www.adobe.com/devnet/flashplayer/articles/rtmfp_stratus_app_03.html
+		
+		// see this video:
+		// http://tv.adobe.com/#vi+f15384v1056
 
 		/// <summary>
 		/// Default constructor
