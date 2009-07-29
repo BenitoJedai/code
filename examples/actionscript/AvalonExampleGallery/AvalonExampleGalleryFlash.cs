@@ -80,9 +80,9 @@ namespace AvalonExampleGallery.ActionScript
 				Handlers
 			);
 
-			pages::FlashMouseMaze.ActionScript.KnownEmbeddedAssets.RegisterTo(
-				Handlers
-			);
+			//pages::FlashMouseMaze.ActionScript.KnownEmbeddedAssets.RegisterTo(
+			//    Handlers
+			//);
 
 			pages::FlashAvalonQueryExample.ActionScript.KnownEmbeddedAssets.RegisterTo(
 				Handlers
