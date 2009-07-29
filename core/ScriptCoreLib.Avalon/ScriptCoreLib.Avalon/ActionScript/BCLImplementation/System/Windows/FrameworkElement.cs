@@ -85,7 +85,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			
 			InternalCursorValue = value;
 
-			if (InternalCursorValue == Cursors.Hand)
+			if (value == Cursors.Hand)
 			{
 				var Sprite = this.InternalGetDisplayObjectDirect() as global::ScriptCoreLib.ActionScript.flash.display.Sprite;
 
@@ -97,6 +97,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 			
 			}
+			
+			// are we showing and hiding once too often?
+			if (InternalCursorValue == Cursors.None)
+				global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
+			else
+				global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
 
 		}
 
