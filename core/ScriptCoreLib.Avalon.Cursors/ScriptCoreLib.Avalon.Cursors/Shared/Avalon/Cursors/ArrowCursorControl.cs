@@ -78,6 +78,7 @@ namespace ScriptCoreLib.Shared.Avalon.Cursors
 				var a = Enumerable.ToArray(
 					from k in new[]
 					{
+						new { c = Colors.White, i = (Image)null }, 
 						new { c = Colors.Red, i = this.Red }, 
 						new { c = Colors.Green, i = this.Green }, 
 						new { c = Colors.Blue, i = this.Blue }, 
@@ -90,11 +91,13 @@ namespace ScriptCoreLib.Shared.Avalon.Cursors
 					select new { z, k.i }
 				);
 
-				a[0].i.Opacity = DefaultColorOpacity;
+				if (a[0].i != null)
+					a[0].i.Opacity = DefaultColorOpacity;
 
 				for (int i = 1; i < a.Length; i++)
 				{
-					a[i].i.Opacity = 0;
+					if (a[i].i != null)
+						a[i].i.Opacity = 0;
 				}
 			}
 		}
