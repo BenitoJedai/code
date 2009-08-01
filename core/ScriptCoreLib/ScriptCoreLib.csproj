@@ -270,6 +270,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IBindingList.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Converter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\MemoryStream.cs" />

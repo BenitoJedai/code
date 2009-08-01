@@ -71,6 +71,18 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			h(v);
 		}
 
+		public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
+		{
+			var s = e.ToManifestResourceStream();
+
+			s.Stream.Position = 0;
+
+			var b = new byte[s.Stream.Length];
+			s.Stream.Read(b, 0, b.Length);
+
+			h(new MemoryStream(b));
+		}
+
 		internal static ImageSource ToSource(this EmbeddedResourcesExtensions.ManifestResourceEntry fileStream)
 		{
 			var ext = fileStream.File.ToLower();
