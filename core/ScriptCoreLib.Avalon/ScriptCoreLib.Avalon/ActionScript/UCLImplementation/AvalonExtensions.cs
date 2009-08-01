@@ -114,6 +114,11 @@ namespace ScriptCoreLib.ActionScript.UCLImplementation
 			h(KnownEmbeddedResources.Default[e].ToStringAsset());
 		}
 
+		public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
+		{
+			h(KnownEmbeddedResources.Default[e].ToByteArrayAsset().ToMemoryStream());
+		}
+
 		public static ImageSource ToSource(this string e)
 		{
 			// the c# version must do some internal work to figure

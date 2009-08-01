@@ -208,6 +208,15 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 						value = value.Concat(previous.ToGradient(item, c));
 					}
 				);
+
+				var a = value.ToList();
+
+				while (a.Count < count)
+				{
+					a.Add(source[source.Length-1]);
+				}
+
+				value = a.AsEnumerable();
 			}
 
 			return value;
@@ -243,6 +252,18 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static SolidColorBrush ToSolidColorBrush(this int argb)
 		{
 			return ToSolidColorBrush((uint)argb);
+		}
+
+		public static Color ToColor(this uint argb)
+		{
+			var color = new Color();
+
+			color.A = (byte)((argb & 0xff000000) >> 0x18);
+			color.R = (byte)((argb & 0xff0000) >> 0x10);
+			color.G = (byte)((argb & 0xff00) >> 8);
+			color.B = (byte)(argb & 0xff);
+
+			return color;
 		}
 
 		public static SolidColorBrush ToSolidColorBrush(this uint argb)
