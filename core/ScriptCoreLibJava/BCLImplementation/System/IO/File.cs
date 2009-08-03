@@ -23,6 +23,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			return Encoding.ASCII.GetString(ReadAllBytes(path));
 		}
 
+
+		public static void WriteAllText(string path, string value)
+		{
+			WriteAllBytes(path, Encoding.ASCII.GetBytes(value));
+		}
+
 		public static void WriteAllBytes(string path, byte[] value)
 		{
 
