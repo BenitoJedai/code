@@ -80,6 +80,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Keyboard.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\Dispatcher.cs" />

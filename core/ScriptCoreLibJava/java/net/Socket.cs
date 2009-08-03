@@ -4,9 +4,7 @@ using java.io;
 
 namespace java.net
 {
-    /// <summary>
-    /// http://java.sun.com/j2se/1.4.2/docs/api/java/net/Socket.html
-    /// </summary>
+	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/Socket.html
     [Script(IsNative = true)]
     public class Socket
     {

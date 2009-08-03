@@ -80,6 +80,8 @@
     <Compile Include="BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="BCLImplementation\System\IO\FileSystemInfo.cs" />
     <Compile Include="BCLImplementation\System\IO\Path.cs" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs" />
