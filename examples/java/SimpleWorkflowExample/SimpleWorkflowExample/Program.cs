@@ -23,13 +23,12 @@ namespace SimpleWorkflowExample
 
 			ContinueViaFastLane(new byte[] { /* WorkIdentity */ 5,  /* Data */ 5, 6, 7, 8 }, 0, Archive);
 
-			ContinueAt(15);
+			while (true)
+			{
+				ContinueAt(3);
 
-			ContinueViaFastLane(new byte[0], /* WorkIdentity */ 5, Archive);
-
-			ContinueAt(15);
-
-			ContinueViaFastLane(new byte[0], /* WorkIdentity */ 5, Archive);
+				ContinueViaFastLane(new byte[0], /* WorkIdentity */ 5, Archive);
+			}
 
 
 		}
@@ -87,6 +86,8 @@ namespace SimpleWorkflowExample
 				}
 				else
 				{
+					Console.WriteLine("Counter: " + f.Counter);
+
 					#region info
 					f.TaskEnqeued +=
 						n =>
@@ -117,7 +118,10 @@ namespace SimpleWorkflowExample
 					var result1_1 = result1["output"];
 					var result2 = f.GetProperty("result2");
 
-
+					f["prep0"] = delegate
+					{
+						Thread.Sleep(1200);
+					};
 
 					f["prep1"] = delegate
 					{
@@ -150,8 +154,8 @@ namespace SimpleWorkflowExample
 					{
 						Console.WriteLine("prep3 at " + f.Stopwatch.ElapsedMilliseconds + "ms");
 
-						Console.WriteLine(result1);
-						Console.WriteLine(result2);
+						Console.WriteLine(result1.Text);
+						Console.WriteLine(result2.Text);
 
 						c.Fault = WillFault;
 						WillFault = false;

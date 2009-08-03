@@ -47,7 +47,6 @@ namespace ScriptCoreLib.Archive.ZIP
 			this.InternalCounter = this.GetProperty("Counter", InternalProperties);
 			this.InternalElapsedAtFault = this.GetProperty("ElapsedAtFault", InternalProperties);
 
-			this.Counter = 0;
 			this.ElapsedAtFault = 0;
 
 			Stopwatch.Start();
@@ -341,6 +340,10 @@ namespace ScriptCoreLib.Archive.ZIP
 					}
 					Counter++;
 					InternalArchive.Delete();
+				}
+				else
+				{
+					Counter = 0;
 				}
 			}
 		}
