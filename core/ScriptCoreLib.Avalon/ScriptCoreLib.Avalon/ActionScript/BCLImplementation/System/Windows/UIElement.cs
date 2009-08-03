@@ -222,6 +222,17 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 					InternalMouseLeftButtonUp_In =
 						e =>
 						{
+							__Keyboard.Modifiers = ModifierKeys.None;
+
+							if (e.shiftKey)
+								__Keyboard.Modifiers |= ModifierKeys.Shift;
+
+							if (e.ctrlKey)
+								__Keyboard.Modifiers |= ModifierKeys.Control;
+
+							if (e.altKey)
+								__Keyboard.Modifiers |= ModifierKeys.Alt;
+
 							if (InternalMouseLeftButtonUp_Out != null)
 								InternalMouseLeftButtonUp_Out(this, (__MouseButtonEventArgs)e);
 						};

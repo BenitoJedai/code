@@ -28,7 +28,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		public abstract void Write(byte[] buffer, int offset, int count);
 
-		public abstract void WriteByte(byte value);
+		public virtual void WriteByte(byte value)
+		{
+			this.Write(new[] { value }, 0, 1);
+		}
 
 	}
 }
