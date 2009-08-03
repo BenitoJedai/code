@@ -19,20 +19,25 @@ namespace ScriptCoreLib.Archive.ZIP
 
 		public class Entry
 		{
+			public static string GetSanitizedPath(string path)
+			{
+				return path.Replace(@"\", "/");
+			}
+
 			string InternalFileName;
 			public string FileName
 			{
 				set
 				{
-					InternalFileName = value;
+					InternalFileName = GetSanitizedPath(value);
 					Header = null;
 				}
 				get
 				{
 					if (Header == null)
-						return InternalFileName;
+						return GetSanitizedPath(InternalFileName);
 
-					return Header.file_name;
+					return GetSanitizedPath(Header.file_name);
 				}
 			}
 
@@ -49,7 +54,7 @@ namespace ScriptCoreLib.Archive.ZIP
 				{
 					if (Header == null)
 						return InternalData;
-					
+
 					return Header.file_data;
 				}
 			}
@@ -141,7 +146,7 @@ namespace ScriptCoreLib.Archive.ZIP
 
 			foreach (var k in this.Entries)
 			{
-				if (k.FileName == FileName)
+				if (k.FileName == Entry.GetSanitizedPath(FileName))
 				{
 					r = true;
 					break;
@@ -164,7 +169,7 @@ namespace ScriptCoreLib.Archive.ZIP
 
 				foreach (var k in this.Entries)
 				{
-					if (k.FileName == FileName)
+					if (k.FileName == Entry.GetSanitizedPath(FileName))
 					{
 						r = k;
 						break;
