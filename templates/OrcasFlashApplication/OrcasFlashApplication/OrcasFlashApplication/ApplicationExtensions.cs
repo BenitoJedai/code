@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace OrcasFlashApplication.ActionScript
+namespace OrcasFlashApplication
 {
     /// <summary>
     /// This class defines the extension methods for this project
@@ -12,5 +12,10 @@ namespace OrcasFlashApplication.ActionScript
     [Script]
     internal static class Extensions
     {
+		static Random InternalRandom = new Random();
+		public static int Random(this int e)
+		{
+			return InternalRandom.Next(e);
+		}
     }
 }

@@ -50,15 +50,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionScript\OrcasFlashApplication.cs" />
-    <Compile Include="ActionScript\Extensions.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="ApplicationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IAssemblyReferenceToken.cs" />
+    <Compile Include="Properties\IAssemblyReferenceToken.cs" />
+    <Compile Include="TheCloudEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasFlashApplication\Preview.png">
-    </EmbeddedResource>
+    <EmbeddedResource Include="web\assets\OrcasFlashApplication\EmbeddedResource.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
