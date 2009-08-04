@@ -39,4 +39,4 @@ using ScriptCoreLib;
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.ActionScript, typeof(OrcasFlashApplication.ActionScript.OrcasFlashApplication))]
+    ScriptTypeFilter(ScriptType.ActionScript, typeof(OrcasFlashApplication.Application))]

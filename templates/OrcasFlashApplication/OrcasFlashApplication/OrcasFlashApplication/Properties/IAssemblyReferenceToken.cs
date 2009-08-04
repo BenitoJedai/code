@@ -9,8 +9,10 @@ using ScriptCoreLib.Shared;
 namespace OrcasFlashApplication
 {
     /// <summary>
-    /// Without this class some assemblies are not referenced as they only contain
-    /// type mappings but no real type usage.
+    /// Without this class some assemblies are not referenced. At this time we actually
+	/// have to make sure that those libraries are ready to be loaded as jsc will look 
+	/// for the implementing types.
+	/// In the future releases of jsc this might not be neccesary
     /// </summary>
     public interface IAssemblyReferenceToken :
         ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
