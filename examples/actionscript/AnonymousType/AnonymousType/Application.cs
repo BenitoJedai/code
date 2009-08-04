@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.filters;
+using AnonymousType.Core;
 
 namespace AnonymousType
 {
@@ -16,29 +17,33 @@ namespace AnonymousType
 	{
 		public Application()
 		{
-			
-			new TextField
+			GetPromotion().AttachTo(this);
+			PromotionProvider.GetPromotion().AttachTo(this);
+		}
+
+		public static TextField GetPromotion()
+		{
+			var promotion = new { text = "powered by jsc", size = 60 };
+
+			return new TextField
 			{
 				width = 600,
 				height = 400,
 				x = 20,
-				y = 20,
+				y = 220,
 				defaultTextFormat = new TextFormat
 				{
-					size = 60,
-					color = 0xff,
+					size = promotion.size,
+					color = 0xff0000,
 					font = "Verdana"
 				},
-				text = "powered by jsc",
+				text = promotion.text,
 
 				filters = new BitmapFilter[] { new DropShadowFilter() },
-			}.AttachTo(this);
+			};
 
 
-			//KnownEmbeddedResources.Default["assets/AnonymousType/Preview.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 200);
 		}
-
-
 	}
 
 }

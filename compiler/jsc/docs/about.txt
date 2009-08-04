@@ -316,3 +316,5 @@ version history:
 26.07.2009
 	as: conv.u1 now actually does a & 0xFF
 	java: SerializableAttribute now translates to java.io.Serializable
+04.08.2009
+	as: anonymous types should not be overriding nonexistant virtual methods from object

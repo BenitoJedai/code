@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonymousType", "AnonymousType\AnonymousType.csproj", "{5138F769-9727-4682-BE54-3F4A1BA61EA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonymousType.Core", "AnonymousType.Core\AnonymousType.Core.csproj", "{3AFF048B-2653-4DAE-B674-90029449077C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{5138F769-9727-4682-BE54-3F4A1BA61EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5138F769-9727-4682-BE54-3F4A1BA61EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5138F769-9727-4682-BE54-3F4A1BA61EA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AFF048B-2653-4DAE-B674-90029449077C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AFF048B-2653-4DAE-B674-90029449077C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AFF048B-2653-4DAE-B674-90029449077C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AFF048B-2653-4DAE-B674-90029449077C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
