@@ -93,7 +93,7 @@ namespace jsc.Languages.ActionScript
                 }
 
                 WriteIdent();
-                WriteCommentLine("override a virtual member");
+				WriteCommentLine("override a virtual member for " + InterfaceMethodImplementationSignature.DeclaringType.Name);
 
                 WriteMethodSignature(InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
 
