@@ -1889,11 +1889,14 @@ namespace jsc
 			get
 			{
 				return IsAnyOpCodeOf(
+					OpCodes.Ldarg_0,
 					OpCodes.Ldarg_1,
 					OpCodes.Ldarg_2,
 					OpCodes.Ldarg_3,
-					OpCodes.Ldarga, OpCodes.Ldarga_S, OpCodes.Ldarg, OpCodes.Ldarg_S,
-					OpCodes.Starg_S
+					OpCodes.Ldarga, OpCodes.Ldarga_S, OpCodes.Ldarg, OpCodes.Ldarg_S
+
+					// why is this here? 
+					//OpCodes.Starg_S
 				);
 			}
 		}
@@ -2539,12 +2542,12 @@ namespace jsc
 		{
 			get
 			{
-				return IsLoadLocal ||
+				return
+					IsLoadLocal ||
+					IsLoadParameter ||
 					IsOpCodeOf(
 
 					OpCodes.Ldfld,
-					OpCodes.Ldarg,
-					OpCodes.Ldarg_S,
 					OpCodes.Ldelem,
 					OpCodes.Ldelem_I,
 					OpCodes.Ldelem_I1,
