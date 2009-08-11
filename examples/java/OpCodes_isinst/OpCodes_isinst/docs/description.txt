@@ -1,0 +1,1 @@
+﻿OpCodes_isinst. Crosscompiled from C# to Java.

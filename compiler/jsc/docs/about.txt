@@ -318,3 +318,5 @@ version history:
 	java: SerializableAttribute now translates to java.io.Serializable
 04.08.2009
 	as: anonymous types should not be overriding nonexistant virtual methods from object
+11.08.2009
+	java: keyword as now supports ldarg0 opcode

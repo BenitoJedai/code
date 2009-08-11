@@ -536,7 +536,7 @@ namespace jsc.Languages.Java
 						return;
 					}
 
-				throw new NotSupportedException("a custom TryCast is not yet implemented");
+				throw new NotSupportedException("a custom TryCast is not yet implemented for " + e.i.StackBeforeStrict[0].SingleStackInstruction.OpCode.ToString());
 			};
 			#endregion
 
