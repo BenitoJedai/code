@@ -17,6 +17,9 @@ namespace MatrixStuffExample
 	{
 		// port of http://www.bit-101.com/blog/?p=2339
 
+		// how can we port this to wpf?
+		// http://msdn.microsoft.com/en-us/library/ms753347.aspx
+
 		public Application()
 		{
 			var cloud = new TheCloudEffect().AttachTo(this);
