@@ -11,7 +11,7 @@ namespace MatrixStuffExample
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint(WithResources = true, Width = 600, Height = 600)]
+	[Script, ScriptApplicationEntryPoint(WithResources = true, Width = 600, Height = 600, Background = true, BackgroundColor = 0, AlignToCenter = true)]
 	[SWF(width = 600, height = 600)]
 	public class Application : Sprite
 	{
@@ -61,7 +61,10 @@ namespace MatrixStuffExample
 			this.enterFrame +=
 				e =>
 				{
-					sprite.transform.matrix3D.pointAt(new Vector3D(mouseX, mouseY, 0));
+					sprite.transform.matrix3D.pointAt(new Vector3D(mouseX, mouseY, 0),
+						// fixed: an now we are not showing up in reverse
+						new Vector3D(0, 0, -0.9999), new Vector3D(0,  -0.9999, 0)
+					);
 				};
 
 			KnownEmbeddedResources.Default["assets/MatrixStuffExample/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(600 - 96, 600 - 96);

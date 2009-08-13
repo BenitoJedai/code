@@ -30,6 +30,11 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// </summary>
         public Matrix matrix { get; set; }
 
+		/// <summary>
+		/// Provides access to the Matrix3D object of a three-dimensional display object.
+		/// </summary>
+		public Matrix3D matrix3D { get; set; }
+
         /// <summary>
         /// [read-only] A Rectangle object that defines the bounding rectangle of the display object on the Stage.
         /// </summary>
