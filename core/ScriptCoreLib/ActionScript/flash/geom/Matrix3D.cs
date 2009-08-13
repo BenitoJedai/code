@@ -11,5 +11,25 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 	{
 		// do we support vector.<> ?  
 
+		/// <summary>
+		/// Rotates the display object so that it faces a specified position.
+		/// </summary>
+		public void pointAt(Vector3D pos, Vector3D at, Vector3D up)
+		{
+		}
+
+		/// <summary>
+		/// Rotates the display object so that it faces a specified position.
+		/// </summary>
+		public void pointAt(Vector3D pos, Vector3D at)
+		{
+		}
+
+		/// <summary>
+		/// Rotates the display object so that it faces a specified position.
+		/// </summary>
+		public void pointAt(Vector3D pos)
+		{
+		}
 	}
 }
