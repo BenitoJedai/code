@@ -215,6 +215,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Text\Encoding.cs" />
+    <Compile Include="ActionScript\Vector.cs" />
     <Compile Include="ActionScript\Extensions\DynamicContainer.cs" />
     <Compile Include="ActionScript\Extensions\ExternalExtensions.cs" />
     <Compile Include="ActionScript\Extensions\flash\display\DisplayObject.cs" />

@@ -7,7 +7,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
 
-namespace MatrixStuffExample
+namespace AirforceExample
 {
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
@@ -51,14 +51,14 @@ namespace MatrixStuffExample
 			#endregion
 
 			#region jsc_diagram
-			var jsc_diagram = KnownEmbeddedResources.Default["assets/MatrixStuffExample/jsc_diagram.png"].ToBitmapAsset();
+			var jsc_diagram = KnownEmbeddedResources.Default["assets/AirforceExample/Preview.png"].ToBitmapAsset();
 
 			jsc_diagram.x = -jsc_diagram.width / 2;
 			jsc_diagram.y = -jsc_diagram.height / 2;
 
 			var sprite = new Sprite
 			{
-				x = 300,
+				x = 500,
 				y = 300,
 				z = 100
 			}.AttachTo(this);
@@ -68,29 +68,34 @@ namespace MatrixStuffExample
 
 			#endregion
 
-	
+
 			this.enterFrame +=
 				e =>
 				{
 					sprite.transform.matrix3D.pointAt(new Vector3D(mouseX, mouseY, 0),
 						// fixed: an now we are not showing up in reverse
-						new Vector3D(0, 0, -0.9999), new Vector3D(0,  -0.9999, 0)
+						new Vector3D(0, 0, -0.9999), new Vector3D(0, -0.9999, 0)
 					);
 
-				
+					//sprite.transform.matrix3D.appendTranslation(-300, -300, 0);
+					//sprite.transform.matrix3D.appendRotation(45, Vector3D.Y_AXIS);
+					//sprite.transform.matrix3D.appendTranslation(300, 300, 0);
+
 				};
+
+
 
 			#region jsc_preview2
 
-			var jsc_preview2 = KnownEmbeddedResources.Default["assets/MatrixStuffExample/Preview.png"].ToBitmapAsset();
+			var jsc_preview2 = KnownEmbeddedResources.Default["assets/AirforceExample/left.png"].ToBitmapAsset();
 
 			jsc_preview2.x = -jsc_preview2.width / 2;
 			jsc_preview2.y = -jsc_preview2.height / 2;
 
 			var sprite2 = new Sprite
 			{
-				x = 6 + 60,
-				y = 600 - 45 - 6,
+				x = 200,
+				y = 300,
 				z = 0.001
 			}.AttachTo(this);
 
@@ -110,13 +115,65 @@ namespace MatrixStuffExample
 
 					sprite2.transform.matrix3D.appendTranslation(-x, -y, 0);
 					sprite2.transform.matrix3D.appendRotation(1, Vector3D.Y_AXIS);
+					sprite2.transform.matrix3D.appendRotation(2, Vector3D.X_AXIS);
 					sprite2.transform.matrix3D.appendTranslation(x, y, 0);
 
 				};
 
 			t.start();
 
-			KnownEmbeddedResources.Default["assets/MatrixStuffExample/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(600 - 96, 600 - 96);
+
+
+			#region jsc_preview3
+
+			var jsc_preview3 = KnownEmbeddedResources.Default["assets/AirforceExample/right.png"].ToBitmapAsset();
+
+			jsc_preview3.x = -jsc_preview3.width / 2;
+			jsc_preview3.y = -jsc_preview3.height / 2;
+
+			var sprite3 = new Sprite
+			{
+				x = 200,
+				y = 300,
+				z = 0.001
+			}.AttachTo(this);
+
+			jsc_preview3.filters = new BitmapFilter[] { new GlowFilter(0xffffff, 1, 12, 12) };
+			jsc_preview3.AttachTo(sprite3);
+			#endregion
+
+
+			{
+				var x = sprite3.x;
+				var y = sprite3.y;
+
+				sprite3.transform.matrix3D.appendTranslation(-x, -y, 0);
+				sprite3.transform.matrix3D.appendRotation(45, Vector3D.Y_AXIS);
+				sprite3.transform.matrix3D.appendTranslation(x, y, 0);
+
+			};
+
+			var t3 = new Timer(1000 / 60);
+
+
+			t3.timer +=
+				delegate
+				{
+					var x = sprite3.x;
+					var y = sprite3.y;
+
+					sprite3.transform.matrix3D.appendTranslation(-x, -y, 0);
+					sprite3.transform.matrix3D.appendRotation(1, Vector3D.Y_AXIS);
+					sprite3.transform.matrix3D.appendRotation(2, Vector3D.X_AXIS);
+					sprite3.transform.matrix3D.appendTranslation(x, y, 0);
+
+				};
+
+			t3.start();
+
+
+
+			KnownEmbeddedResources.Default["assets/AirforceExample/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(600 - 96, 600 - 96);
 
 
 		}
