@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection.Emit;
+using System.Threading;
+using System.Net.Sockets;
+using System.Net;
 
 namespace ScriptCoreLib.CompilerServices
 {
@@ -26,17 +29,88 @@ namespace ScriptCoreLib.CompilerServices
 		// to enable java support via [Optimization("script")]
 		public static string GetVersionInformation()
 		{
-			return "powered by ScriptCoreLib.Net";
+			return "powered by ScriptCoreLib.Net (server for .net)";
 		}
 
-		public static void StartRouter(Type t)
+		class RemoteEndpointIdentity
 		{
+			public int Index;
+			public Action<byte> Write;
+		}
+		
+		public static Action StartRouter(Type t)
+		{
+			// .net only touter
+			// java router - should use only BCL classes and Obfuscate(feature = "script")
+			// Nonoba router
+			// ActionScript peer router/host
+
 			Console.ForegroundColor = ConsoleColor.Yellow;
 			Console.WriteLine("will start router: " + t.FullName);
 			Console.ForegroundColor = ConsoleColor.Gray;
+
+			var Clients = new List<RemoteEndpointIdentity>();
+
+			var thread = DefaultPort.ToListener(
+				s =>
+				{
+					Console.WriteLine("router: client connected");
+
+					// we need a lock here
+					// java needs to support ThreadMonitor.Enter
+					var Identity = new RemoteEndpointIdentity { Write = s.WriteByte, Index = Clients.Count + 1 };
+
+					foreach (var r in Clients)
+					{
+						Identity.Write((byte)'X');
+					}
+
+					Clients.Add(Identity);
+					
+					Identity.Write((byte)'H');
+
+					while (true)
+					{
+						Thread.Sleep(1000);
+
+						Identity.Write((byte)'.');
+					}
+				}
+			);
+			
+
+			return delegate
+			{
+				// we ought to kill the active connections too
+				thread.Abort();
+			};
 		}
 
-	
+		public const int DefaultPort = 33333;
+
+		public static void ConnectToRouter()
+		{
+			var c = new TcpClient();
+
+			c.Connect(IPAddress.Loopback, DefaultPort);
+
+			var s = c.GetStream();
+
+			0.AtDelay(
+				delegate
+				{
+					while (true)
+					{
+						var instruction = s.ReadByte();
+
+						Console.ForegroundColor = ConsoleColor.Cyan;
+						Console.Write((char)instruction);
+						Console.ForegroundColor = ConsoleColor.Gray;
+					}
+				}
+			);
+		}
+
 		public static void EmitVersionInformation(ILGenerator il)
 		{
 			// kind of funny as this assembly will have parts where the IL will be compiled to target languages like actionscript

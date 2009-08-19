@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompilerServices\ILGeneratorExtensions.cs" />
+    <Compile Include="CompilerServices\MyExtensions.cs" />
     <Compile Include="CompilerServices\PrimitiveServerBuilder.cs" />
     <Compile Include="JavaScript\Net\ClientTransport.cs" />
     <Compile Include="JavaScript\Net\IXMLHttpRequest.cs" />
