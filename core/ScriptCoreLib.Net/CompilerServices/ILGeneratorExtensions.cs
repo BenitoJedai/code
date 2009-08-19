@@ -18,7 +18,20 @@ namespace ScriptCoreLib.CompilerServices
 		{
 			il.EmitTypeOf(t);
 			il.EmitCall(OpCodes.Call, h.Method, null);
+		}
 
+		public static void EmitCall(this ILGenerator il, Action h)
+		{
+			il.EmitCall(OpCodes.Call, h.Method, null);
+		}
+
+
+		public static void EmitPopCallTo<_Type, T>(this Func<_Type, T> h, ILGenerator il, _Type t)
+			where _Type : Type
+		{
+			il.EmitTypeOf(t);
+			il.EmitCall(OpCodes.Call, h.Method, null);
+			il.Emit(OpCodes.Pop);
 		}
 	}
 }
