@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Threading;
 using System.Net.Sockets;
 using System.Net;
+using System.IO;
 
 namespace ScriptCoreLib.CompilerServices
 {
@@ -24,7 +25,7 @@ namespace ScriptCoreLib.CompilerServices
 		// this assembly shall support flash network providers like nonoba and kongregate
 
 		// the functionality from jsc.server could also be included within this assembly
-		
+
 		// some functionality shall be refactored to ScriptCoreLib.Net.Server assembly
 		// to enable java support via [Optimization("script")]
 		public static string GetVersionInformation()
@@ -32,13 +33,45 @@ namespace ScriptCoreLib.CompilerServices
 			return "powered by ScriptCoreLib.Net (server for .net)";
 		}
 
-		class RemoteEndpointIdentity
+		public class RemoteEndpointIdentity
 		{
 			public int Index;
-			public Action<byte> Write;
+
+			public Action<byte> WriteByte;
+
+			public Func<int> ReadByte;
+
+			public RemoteEndpointIdentity Others;
+
 		}
-		
+
+
 		public static Action StartRouter(Type t)
+		{
+			return StartRouter(t,
+				k =>
+				{
+					//// watch out, new player
+					//k.Others.WriteByte((byte)'!');
+
+					//// accepted to the playground
+					//k.WriteByte((byte)'@');
+
+					// route single to multiple
+					while (true)
+					{
+						var r = k.ReadByte();
+
+						if (r < 0)
+							break;
+
+						k.Others.WriteByte((byte)r);
+					}
+				}
+			);
+		}
+
+		public static Action StartRouter(Type t, Action<RemoteEndpointIdentity> Handler)
 		{
 			// .net only touter
 			// java router - should use only BCL classes and Obfuscate(feature = "script")
@@ -56,39 +89,41 @@ namespace ScriptCoreLib.CompilerServices
 				{
 					Console.WriteLine("router: client connected");
 
-					// we need a lock here
+					// we need a lock here and everywhere
 					// java needs to support ThreadMonitor.Enter
-					var Identity = new RemoteEndpointIdentity { Write = s.WriteByte, Index = Clients.Count + 1 };
-
-					foreach (var r in Clients)
+					var Identity = new RemoteEndpointIdentity 
 					{
-						Identity.Write((byte)'X');
-					}
+						Index = Clients.Count + 1,
+						WriteByte = s.WriteByte, 
+						ReadByte = s.ReadByte
+					};
+					
+					Identity.Others = new RemoteEndpointIdentity();
+					Identity.Others.WriteByte =
+						k =>
+						{
+							foreach (var r in Clients)
+								if (r != Identity)
+									r.WriteByte(k);
+						};
 
 					Clients.Add(Identity);
-					
-					Identity.Write((byte)'H');
 
-					while (true)
-					{
-						Thread.Sleep(1000);
-
-						Identity.Write((byte)'.');
-					}
+					Handler(Identity);
 				}
 			);
 			
 
 			return delegate
 			{
-				// we ought to kill the active connections too
+				// we ought to kill the active connections and clients too
 				thread.Abort();
 			};
 		}
 
 		public const int DefaultPort = 33333;
 
-		public static void ConnectToRouter()
+		public static void ConnectToRouter(Action<Stream> Writer, Action<Stream> Reader)
 		{
 			var c = new TcpClient();
 
@@ -96,19 +131,13 @@ namespace ScriptCoreLib.CompilerServices
 
 			var s = c.GetStream();
 
-			0.AtDelay(
-				delegate
-				{
-					while (true)
-					{
-						var instruction = s.ReadByte();
+			Writer(s);
 
-						Console.ForegroundColor = ConsoleColor.Cyan;
-						Console.Write((char)instruction);
-						Console.ForegroundColor = ConsoleColor.Gray;
-					}
-				}
+			0.AtDelay(
+				() => Reader(s)
 			);
+
+
 		}
 
 		public static void EmitVersionInformation(ILGenerator il)

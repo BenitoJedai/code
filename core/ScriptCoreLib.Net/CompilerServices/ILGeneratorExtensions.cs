@@ -14,6 +14,11 @@ namespace ScriptCoreLib.CompilerServices
 			il.EmitCall(OpCodes.Call, new Func<RuntimeTypeHandle, Type>(Type.GetTypeFromHandle).Method, null);
 		}
 
+		public static void EmitCall(this ILGenerator il, Delegate h)
+		{
+			il.EmitCall(OpCodes.Call, h.Method, null);
+		}
+
 		public static void EmitCall(this ILGenerator il, Action<Type> h, Type t)
 		{
 			il.EmitTypeOf(t);

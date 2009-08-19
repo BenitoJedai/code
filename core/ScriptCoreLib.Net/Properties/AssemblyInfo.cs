@@ -10,9 +10,9 @@ using ScriptCoreLib;
 [assembly: AssemblyTitle("ScriptCoreLib.Net")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("neutronic")]
+[assembly: AssemblyCompany("zproxy.wordpress.com ")]
 [assembly: AssemblyProduct("ScriptCoreLib.Net")]
-[assembly: AssemblyCopyright("Copyright © neutronic 2007")]
+[assembly: AssemblyCopyright("Copyright © zproxy.wordpress.com 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
