@@ -11,6 +11,9 @@ namespace ScriptCoreLib.CompilerServices
 {
 	internal static class MyExtensions
 	{
+		
+
+
 		public static void AtInterval(this int e, Action h)
 		{
 			e.AtDelay(
@@ -84,8 +87,8 @@ namespace ScriptCoreLib.CompilerServices
 			{
 				IsBackground = true,
 			};
-			
-			
+
+
 			thread.Start();
 
 			return thread;
