@@ -42,8 +42,11 @@ set ForkFile=%CompilandFullName%.fork.bat
 echo %* > %ForkFile%
 echo forking %ForkFile%...
 start %ForkFile%
-call :sleep 1
+call :sleep 2
 del  %ForkFile%
+if '%ForkFile%' == '' (
+    echo fork file was not deleted
+)
 echo forking %ForkFile%... done
 endlocal
 goto :eof
