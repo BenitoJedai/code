@@ -18,6 +18,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			InternalSocket = new java.net.Socket();
 		}
 
+		public __TcpClient(Socket s)
+		{
+			InternalSocket = ((__Socket)(object)s).InternalSocket;
+		}
+
+		public void Connect(IPAddress hostname, int port)
+		{
+			try
+			{
+				InternalSocket.connect(new java.net.InetSocketAddress(((__IPAddress)(object)hostname).InternalAddress, port));
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+		}
 
 		public void Connect(string hostname, int port)
 		{

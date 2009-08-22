@@ -18,6 +18,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             global::java.lang.JavaSystem.@out.print(p);
         }
 
+		public static void Write(char c)
+		{
+			Write( new string(new char[] { c }));
+		}
+
+
         public static void WriteLine()
         {
             WriteLine("");
