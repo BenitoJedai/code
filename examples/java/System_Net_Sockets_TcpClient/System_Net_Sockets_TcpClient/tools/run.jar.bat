@@ -22,8 +22,28 @@ call setup.settings.cmd
 echo + run [%ProjectName% @ %TargetPath%]
 
 pushd bin
-%TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
+
+call :fork @%TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
+
 
 popd
 popd
 endlocal
+goto :eof
+:sleep
+
+:: http://www.makeuseof.com/tag/10-windows-command-line-tips-tricks-you-should-definitely-check-out/
+ping -n %1 127.0.0.1 > NUL 2>&1
+
+goto :eof
+:fork
+setlocal
+set ForkFile=%CompilandFullName%.fork.bat
+echo %* > %ForkFile%
+echo forking %ForkFile%...
+start %ForkFile%
+call :sleep 1
+del  %ForkFile%
+echo forking %ForkFile%... done
+endlocal
+goto :eof

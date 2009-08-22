@@ -80,8 +80,11 @@
     <Compile Include="BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="BCLImplementation\System\IO\FileSystemInfo.cs" />
     <Compile Include="BCLImplementation\System\IO\Path.cs" />
+    <Compile Include="BCLImplementation\System\Net\IPAddress.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\Socket.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
+    <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs" />
@@ -265,6 +268,7 @@
     <Compile Include="java\net\ServerSocket.cs" />
     <Compile Include="java\nio\ByteBuffer.cs" />
     <Compile Include="java\nio\Buffer.cs" />
+    <Compile Include="java\nio\channels\ServerSocketChannel.cs" />
     <Compile Include="java\nio\CharBuffer.cs" />
     <Compile Include="java\nio\ByteOrder.cs" />
     <Compile Include="java\nio\IntBuffer.cs" />
