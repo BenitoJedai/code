@@ -22,6 +22,7 @@ call setup.settings.cmd
 echo + run [%ProjectName% @ %TargetPath%]
 
 pushd bin
+echo %TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
 %TargetPath% -cp "%PATH%;%PackageName%" %CompilandFullName% %*
 
 popd
