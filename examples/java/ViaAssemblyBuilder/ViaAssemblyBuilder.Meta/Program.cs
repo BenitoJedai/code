@@ -35,9 +35,15 @@ namespace ViaAssemblyBuilder.Meta
 			var obj_assembly = Path.Combine(obj.FullName, assembly.Name);
 
 			assembly.CopyTo(obj_assembly, true);
-			var ViaAssemblyBuilder_ExtensionPoint = new FileInfo(typeof(ViaAssemblyBuilder.ExtensionPoint.Definition).Assembly.Location);
 
+			var ViaAssemblyBuilder_ExtensionPoint = new FileInfo(typeof(ViaAssemblyBuilder.ExtensionPoint.Definition).Assembly.Location);
 			ViaAssemblyBuilder_ExtensionPoint.CopyTo(Path.Combine(obj.FullName, ViaAssemblyBuilder_ExtensionPoint.Name), true);
+
+			var ScriptCoreLibA = new FileInfo(typeof(ScriptCoreLib.ScriptAttribute).Assembly.Location);
+			ScriptCoreLibA.CopyTo(Path.Combine(obj.FullName, ScriptCoreLibA.Name), true);
+
+			var ScriptCoreLibJava = new FileInfo(typeof(ScriptCoreLibJava.IAssemblyReferenceToken).Assembly.Location);
+			ScriptCoreLibJava.CopyTo(Path.Combine(obj.FullName, ScriptCoreLibJava.Name), true);
 
 			new MetaBuilder
 			{
@@ -87,7 +93,17 @@ namespace ViaAssemblyBuilder.Meta
 				if (IsScript)
 				{
 					// yay attributes
+					var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
 
+					a.SetCustomAttribute(
+						new CustomAttributeBuilder(
+							ScriptAttribute.GetConstructors().Single(),
+							new object[0],
+							new [] { ScriptAttribute.GetField("ScriptLibraries") },
+							new [] { new Type [] { assembly_type, typeof(ScriptCoreLibJava.IAssemblyReferenceToken)} }
+						)
+					);
+					
 				}
 
 				var t = m.DefineType(assembly_type.FullName + suffix);
