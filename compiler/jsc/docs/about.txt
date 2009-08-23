@@ -322,3 +322,5 @@ version history:
 	java: keyword as now supports ldarg0 opcode
 23.08.2009
 	java: keyword as now supports all expressions
+	jsc: fields IsScriptLibrary and ScriptLibraries not considered obselete 
+	jsc: when Script attribute is present on an assembly ScriptLibraries is ignored

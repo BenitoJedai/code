@@ -230,13 +230,16 @@ namespace ScriptCoreLib
 		/// in its target language. Every defined type in this shall be converted
 		/// to its target language
 		/// </summary>
-		[Obsolete("You should mark your assembly via [assembly: Obfuscation(Feature = \"script\")] instead")]
+		//[Obsolete("You should mark your assembly via [assembly: Obfuscation(Feature = \"script\")] instead")]
 		public bool IsScriptLibrary;
 
 		/// <summary>
 		/// Assemblies referenced with these types shall be treated as script libraries
 		/// </summary>
-		[Obsolete("You should mark your assembly via [assembly: Obfuscation(Feature = \"script\")] instead")]
+
+		// this might be worth considered as an extra feature
+		//[Obsolete("You should mark your assembly via [assembly: Obfuscation(Feature = \"script\")] instead")]
+
 		public Type[] ScriptLibraries;
 
 		/// <summary>
@@ -388,9 +391,14 @@ namespace ScriptCoreLib
 				if (x == null)
 				{
 					if (IsScriptLibraryViaObfuscationAttribute(m))
-							x = new ScriptAttribute();
+						x = new ScriptAttribute();
 				}
 
+
+				// Whatif a corelib was marked as a IsScriptLib
+				// this will confuse jsc currently...
+
+				//if (x == null)
 
 				if (t != null)
 					if (Enumerable.Any(
@@ -398,7 +406,13 @@ namespace ScriptCoreLib
 						let ScriptLibraries = p.Context.ToScriptAttributeOrDefault().ScriptLibraries
 						where ScriptLibraries != null
 						from l in ScriptLibraries
+						
+						// A library which takes matters in its own hand
+						// should keep doing that...
+
+						where l.Assembly.GetCustomAttributes(typeof(ScriptAttribute), false).Length == 0
 						where l.Assembly == t.Assembly
+
 						select new { p, l }
 						))
 						x = new ScriptAttribute();
