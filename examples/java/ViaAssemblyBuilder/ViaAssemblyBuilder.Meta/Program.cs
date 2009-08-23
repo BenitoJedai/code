@@ -73,7 +73,26 @@ namespace ViaAssemblyBuilder.Meta
 				// jsc + javac
 				var build = Path.Combine(obj.FullName, "build.bat");
 
-				File.WriteAllText(build, @"c:\util\jsc\bin\jsc.exe " + MetaScript.FullName + " -java");
+
+				File.WriteAllText(build, @"
+@echo off
+echo jsc
+call c:\util\jsc\bin\jsc.exe " + MetaScript.FullName + @" -java
+pushd web
+echo - javac
+""C:\Program Files\Java\jdk1.6.0_14\bin\javac.exe"" -classpath java -d release java\" + type.Replace(".", @"\") + @"MetaScript.java
+echo - jar
+""C:\Program Files\Java\jdk1.6.0_14\bin\jar.exe"" cvM -C release . > bin\" + Path.GetFileNameWithoutExtension(assembly.Location) + @".jar
+popd
+				");
+				// 4
+				var run_jar = Path.Combine(obj.FullName, "run.jar.bat");
+				File.WriteAllText(run_jar, @"
+@echo off
+pushd web\bin
+""C:\Program Files\Java\jdk1.6.0_14\bin\java.exe"" -cp ""%PATH%;" + Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"" " + type + @"MetaScript
+popd
+				");
 			}
 
 			FileInfo Build(string type, bool IsScript)
@@ -146,7 +165,8 @@ namespace ViaAssemblyBuilder.Meta
 
 				BindExtensionPoint(main_il, assembly_type_ExtensionPoint);
 
-				main_il.Emit(OpCodes.Ldarg_0);
+				//main_il.Emit(OpCodes.Ldarg_0);
+				main_il.Emit(OpCodes.Ldnull);
 				main_il.EmitCall(OpCodes.Call, assembly_type_Main, null);
 
 				main_il.Emit(OpCodes.Ret);

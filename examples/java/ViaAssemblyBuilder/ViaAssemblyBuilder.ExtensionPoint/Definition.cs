@@ -9,8 +9,8 @@ namespace ViaAssemblyBuilder.ExtensionPoint
 	{
 		public static void Invoke()
 		{
-			
 			Console.WriteLine("At ViaAssemblyBuilder.ExtensionPoint");
+			Console.WriteLine("This component was injected and could shared between applications...");
 			Console.WriteLine("We do not reference any java specific API but we must keep in mind they still must exist.");
 			Console.WriteLine("We do not know about the application or the meta compiler but the meta compiler knows us but not the application.");
 

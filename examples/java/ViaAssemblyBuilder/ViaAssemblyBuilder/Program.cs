@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace ViaAssemblyBuilder
 {
@@ -16,6 +17,14 @@ namespace ViaAssemblyBuilder
 
 			if (ExtensionPoint != null)
 				ExtensionPoint();
+
+			Console.WriteLine("Bye!");
+
+			for (int i = 0; i < 5; i++)
+			{
+				Console.WriteLine("tick, tack...");
+				Thread.Sleep(200);
+			}
 		}
 	}
 }
