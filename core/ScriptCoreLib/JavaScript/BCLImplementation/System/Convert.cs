@@ -7,6 +7,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.Convert))]
     internal class __Convert
     {
+		public static long ToInt64(double value)
+		{
+			// there is no int64 in javascript?
+			return (long)global::System.Math.Floor((double)value);
+		}
+
 		public static int ToInt32(int value)
 		{
 			return (int)global::System.Math.Floor((double)value);
