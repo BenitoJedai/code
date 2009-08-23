@@ -320,3 +320,5 @@ version history:
 	as: anonymous types should not be overriding nonexistant virtual methods from object
 11.08.2009
 	java: keyword as now supports ldarg0 opcode
+23.08.2009
+	java: keyword as now supports all expressions

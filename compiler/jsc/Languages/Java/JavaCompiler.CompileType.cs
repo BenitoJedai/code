@@ -20,6 +20,7 @@ namespace jsc.Languages.Java
 
     partial class JavaCompiler
     {
+		public Action CompileType_WriteAdditionalMembers;
 
         public override bool CompileType(Type z)
         {
@@ -64,6 +65,7 @@ namespace jsc.Languages.Java
                 WriteBlockComment(u["summary"].InnerText);
             #endregion
 
+			CompileType_WriteAdditionalMembers = delegate { };
 
             WriteTypeSignature(z, za);
 
@@ -89,6 +91,8 @@ namespace jsc.Languages.Java
 				{
 					DelegateImplementationProvider.WriteExtensionMethodSupport(this, z);
 				}
+
+				CompileType_WriteAdditionalMembers();
             }
 
             //Thread.Sleep(100);

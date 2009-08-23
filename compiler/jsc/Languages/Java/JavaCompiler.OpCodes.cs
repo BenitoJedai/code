@@ -488,14 +488,14 @@ namespace jsc.Languages.Java
 			#region Isinst
 			CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
 			{
-				if (e.i.StackBeforeStrict.Length == 1)
-					if (e.i.StackBeforeStrict[0].SingleStackInstruction.IsLoadInstruction)
+				Action<Action> EmitTryCast =
+					expression =>
 					{
 						// expression is type ? (type)expression : (type)null
 						Write("(");
 
 						Write("(");
-						EmitFirstOnStack(e);
+						expression();
 
 						WriteSpace();
 						WriteKeywordSpace(Keywords._instanceof);
@@ -518,8 +518,7 @@ namespace jsc.Languages.Java
 							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 						);
 						Write(")");
-						EmitFirstOnStack(e);
-
+						expression();
 						WriteSpace();
 						Write(":");
 						WriteSpace();
@@ -533,10 +532,53 @@ namespace jsc.Languages.Java
 						WriteKeywordNull();
 
 						Write(")");
+					};
+
+
+				if (e.i.StackBeforeStrict.Length == 1)
+					if (e.i.StackBeforeStrict[0].SingleStackInstruction.IsLoadInstruction)
+					{
+						EmitTryCast(() => EmitFirstOnStack(e));
 						return;
 					}
 
-				throw new NotSupportedException("a custom TryCast is not yet implemented for " + e.i.StackBeforeStrict[0].SingleStackInstruction.OpCode.ToString());
+				var IsInstMethodName = "_" + e.Method.Name + "_Isinst_" + e.i.Offset.ToString("x4");
+
+				this.CompileType_WriteAdditionalMembers +=
+					delegate
+					{
+						this.WriteIdent();
+						this.WriteKeywordSpace(Keywords._private);
+						this.WriteKeywordSpace(Keywords._static);
+
+						this.WriteDecoratedTypeNameOrImplementationTypeName(
+							e.i.TargetType, false, false
+							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
+						);
+						this.WriteSpace();
+						this.Write(IsInstMethodName);
+
+						this.Write("(");
+						this.Write("Object _" + e.i.Offset.ToString("x4"));
+						this.Write(")");
+						this.WriteLine();
+
+						using (this.CreateScope())
+						{
+							this.WriteIdent();
+							this.WriteKeywordSpace(Keywords._return);
+							EmitTryCast(() => this.Write("_" + e.i.Offset.ToString("x4")));
+							this.WriteLine(";");
+						}
+
+					};
+
+				this.Write(IsInstMethodName);
+				this.Write("(");
+				this.EmitFirstOnStack(e);
+				this.Write(")");
+
+				//throw new NotSupportedException("a custom TryCast is not yet implemented for " + e.i.StackBeforeStrict[0].SingleStackInstruction.OpCode.ToString());
 			};
 			#endregion
 
@@ -1577,9 +1619,9 @@ namespace jsc.Languages.Java
 				   {
 					   // 7FFFFFFF is the max for int!
 
-					   var TypeExpectedOrDefault = 
-						   ((e.TypeExpectedOrDefault != null && e.TypeExpectedOrDefault.IsEnum) 
-						   ? Enum.GetUnderlyingType( e.TypeExpectedOrDefault) : null) 
+					   var TypeExpectedOrDefault =
+						   ((e.TypeExpectedOrDefault != null && e.TypeExpectedOrDefault.IsEnum)
+						   ? Enum.GetUnderlyingType(e.TypeExpectedOrDefault) : null)
 						   ?? e.TypeExpectedOrDefault;
 
 					   if (TypeExpectedOrDefault == typeof(short))
