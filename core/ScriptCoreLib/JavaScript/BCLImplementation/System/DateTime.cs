@@ -195,5 +195,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return this.Hour + ":" + this.Minute + ":" + this.Second + "." + this.Millisecond;
         }
 
+		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
+		{
+			return new __TimeSpan {
+				TotalMilliseconds = d1.Value.getTime() - d2.Value.getTime()
+			};
+		}
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Drawing", "ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.csproj", "{053C4547-E32B-458E-B295-1E3640BE96E9}"
 EndProject
 Global

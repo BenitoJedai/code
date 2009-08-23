@@ -16,7 +16,7 @@ namespace AvalonExampleGallery.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint(Width = TargetCanvas.DefaultWidth, Height = TargetCanvas.DefaultHeight)]
+	[Script, ScriptApplicationEntryPoint(Width = TargetCanvas.DefaultWidth, Height = TargetCanvas.DefaultHeight, WithResources = true)]
 	[SWF(width = TargetCanvas.DefaultWidth, height = TargetCanvas.DefaultHeight)]
 	public class AvalonExampleGalleryFlash : Sprite
 	{
@@ -29,14 +29,14 @@ namespace AvalonExampleGallery.ActionScript
 		static AvalonExampleGalleryFlash()
 		{
 			// add resources to be found by ImageSource
-		
+
 			// local private assets
 			KnownEmbeddedAssets.RegisterTo(
 				KnownEmbeddedResources.Default.Handlers
 			);
 
-			
-			
+
+
 		}
 
 
@@ -119,5 +119,5 @@ namespace AvalonExampleGallery.ActionScript
 			);
 		}
 	}
-	
+
 }

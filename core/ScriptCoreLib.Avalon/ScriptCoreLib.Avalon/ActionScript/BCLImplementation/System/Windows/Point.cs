@@ -14,9 +14,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 	
 
-		public static Vector operator -(__Point point1, __Point point2)
+		public static global::System.Windows.Vector operator -(__Point point1, __Point point2)
 		{
-			return new Vector { X = point1.X - point2.X, Y = point1.Y - point2.Y };
+			return new global::System.Windows.Vector { X = point1.X - point2.X, Y = point1.Y - point2.Y };
 		}
 
 		//public static Point operator -(__Point _point1, Vector _point2)
