@@ -9,6 +9,7 @@ namespace ViaAssemblyBuilder.Meta
 	using System.IO;
 	using System.Reflection;
 	using System.Reflection.Emit;
+	using ScriptCoreLib;
 
 	class Program
 	{
@@ -65,17 +66,20 @@ namespace ViaAssemblyBuilder.Meta
 			public void Build(string type)
 			{
 				// 1
-				Build(type, false);
+				var Meta = Build(type, false);
 				// 2
-				Build(type, true);
+				var MetaScript = Build(type, true);
 				// 3
 				// jsc + javac
+				var build = Path.Combine(obj.FullName, "build.bat");
+
+				File.WriteAllText(build, @"c:\util\jsc\bin\jsc.exe " + MetaScript.FullName + " -java");
 			}
 
-			void Build(string type, bool IsScript)
+			FileInfo Build(string type, bool IsScript)
 			{
 				var suffix = "Meta";
-				
+
 				if (IsScript)
 					suffix += "Script";
 
@@ -95,15 +99,34 @@ namespace ViaAssemblyBuilder.Meta
 					// yay attributes
 					var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
 
+					var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
+
+					//var ScriptTypeFilterAttribute = typeof(ScriptCoreLib.ScriptTypeFilterAttribute);
+
 					a.SetCustomAttribute(
 						new CustomAttributeBuilder(
 							ScriptAttribute.GetConstructors().Single(),
 							new object[0],
-							new [] { ScriptAttribute.GetField("ScriptLibraries") },
-							new [] { new Type [] { assembly_type, typeof(ScriptCoreLibJava.IAssemblyReferenceToken)} }
+							new[] { 
+								ScriptAttribute.GetField("ScriptLibraries"),
+								ScriptAttribute.GetField("IsScriptLibrary")},
+							new object [] { 
+								new Type[] { 
+									assembly_type, 
+									typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+									typeof(ViaAssemblyBuilder.ExtensionPoint.Definition)
+								},
+								true
+							}
 						)
 					);
-					
+
+					a.SetCustomAttribute(
+						new CustomAttributeBuilder(
+							ScriptTypeFilterAttribute, new object[] { ScriptType.Java }
+						)
+					);
+
 				}
 
 				var t = m.DefineType(assembly_type.FullName + suffix);
@@ -132,10 +155,13 @@ namespace ViaAssemblyBuilder.Meta
 
 				a.SetEntryPoint(main);
 
+				var Product = new FileInfo( Path.Combine(obj.FullName, name.Name + ".exe"));
+
 				a.Save(
-					name.Name + ".exe"
+					Product.Name
 				);
 
+				return Product;
 			}
 
 			private void BindExtensionPoint(ILGenerator main_il, FieldInfo assembly_type_ExtensionPoint)
@@ -143,9 +169,9 @@ namespace ViaAssemblyBuilder.Meta
 				// we must copy the assembly we are referencing!
 				var ViaAssemblyBuilder_ExtensionPoint = new FileInfo(typeof(ViaAssemblyBuilder.ExtensionPoint.Definition).Assembly.Location);
 
-				
+
 				Action Definition_Invoke = ViaAssemblyBuilder.ExtensionPoint.Definition.Invoke;
-				
+
 				main_il.Emit(OpCodes.Ldnull);
 				main_il.Emit(OpCodes.Ldftn, Definition_Invoke.Method);
 				main_il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
