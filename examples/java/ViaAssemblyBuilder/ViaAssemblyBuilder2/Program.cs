@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ViaAssemblyBuilder
+namespace ViaAssemblyBuilder2
 {
 	public class Program
 	{
-		public static Action ExtensionPoint;
-
 		public static Thread StartWork(object context, int delay, string name)
 		{
 			var t = new Thread(
@@ -47,10 +45,7 @@ namespace ViaAssemblyBuilder
 			// 
 			// turn off optimize code
 			Console.WriteLine("This console application can run at .net and java virtual machine!");
-			Console.WriteLine("We are also introducing extension points!");
 
-			if (ExtensionPoint != null)
-				ExtensionPoint();
 
 			Console.WriteLine("running at: " + Environment.CurrentDirectory);
 
