@@ -1,0 +1,2 @@
+﻿2009.08.24
+	- added support for java console application

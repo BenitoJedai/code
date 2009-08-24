@@ -17,12 +17,12 @@ namespace ViaAssemblyBuilder.Meta
 		{
 			Console.WriteLine("This is a meta compiler component where we will provide extension to the application.");
 
-			args.AsParametersFor((Action<FileInfo, string>)Extend);
+			args.AsParametersFor((Action<FileInfo, string, DirectoryInfo>)Extend);
 		}
 
-		public static void Extend(FileInfo assembly, string type)
+		public static void Extend(FileInfo assembly, string type, DirectoryInfo javapath)
 		{
-			Console.WriteLine(new { assembly, type });
+			Console.WriteLine(new { javapath, type });
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 			// in obj folder we build our binaries
@@ -50,6 +50,7 @@ namespace ViaAssemblyBuilder.Meta
 			{
 				obj = obj,
 				bin = bin,
+				javapath = javapath,
 				assembly = Assembly.LoadFile(obj_assembly)
 			}.Build(type);
 
@@ -59,6 +60,7 @@ namespace ViaAssemblyBuilder.Meta
 		{
 			public DirectoryInfo obj;
 			public DirectoryInfo bin;
+			public DirectoryInfo javapath;
 
 			public Assembly assembly;
 
@@ -89,9 +91,9 @@ namespace ViaAssemblyBuilder.Meta
 @echo off
 pushd web
 echo - javac
-""C:\Program Files\Java\jdk1.6.0_14\bin\javac.exe"" -classpath java -d release java\" + type.Replace(".", @"\") + @"MetaScript.java
+""" + javapath.FullName + @"\javac.exe"" -classpath java -d release java\" + type.Replace(".", @"\") + @"MetaScript.java
 echo - jar
-""C:\Program Files\Java\jdk1.6.0_14\bin\jar.exe"" cvM -C release . > bin\" + Path.GetFileNameWithoutExtension(assembly.Location) + @".jar
+""" + javapath.FullName + @"\jar.exe"" cvM -C release . > bin\" + Path.GetFileNameWithoutExtension(assembly.Location) + @".jar
 popd
 				");
 				// 4
@@ -99,7 +101,7 @@ popd
 				File.WriteAllText(run_jar, @"
 @echo off
 pushd web\bin
-""C:\Program Files\Java\jdk1.6.0_14\bin\java.exe"" -cp ""%PATH%;" + Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"" " + type + @"MetaScript
+""" + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"" " + type + @"MetaScript
 popd
 				");
 			}

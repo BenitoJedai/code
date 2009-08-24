@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ViaAssemblyBuilder
+namespace OrcasSimpleJavaConsoleApplication
 {
-	public class Program
+	class Program
 	{
-		public static Action ExtensionPoint;
 
 		public static Thread StartWork(object context, int delay, string name)
 		{
@@ -44,13 +43,16 @@ namespace ViaAssemblyBuilder
 
 		public static void Main(string[] args)
 		{
-			// 
-			// turn off optimize code
-			Console.WriteLine("This console application can run at .net and java virtual machine!");
-			Console.WriteLine("We are also introducing extension points!");
+			// Notes:
+			// 1. All referenced assemblies shall
+			//    define [assembly:Obfuscation(feature = "script")]
+			// 2. Turn off "optimize code" option in release build
+			// 3. All used .net APIs must be defined by ScriptCoreLibJava
+			// 4. Generics are not supported.
+			// 5. Check post build event
+			// 6. Build in releas build configuration for java version
 
-			if (ExtensionPoint != null)
-				ExtensionPoint();
+			Console.WriteLine("This console application can run at .net and java virtual machine!");
 
 			Console.WriteLine("running at: " + Environment.CurrentDirectory);
 

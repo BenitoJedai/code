@@ -12,6 +12,8 @@ namespace jsc.meta
 		static void ExtendToFlashAvalon(FileInfo assembly, string type, DirectoryInfo flexpath)
 		{
 			Console.WriteLine("will create a flash windows presenetation foundation application for you");
+
+			
 		}
 	}
 }

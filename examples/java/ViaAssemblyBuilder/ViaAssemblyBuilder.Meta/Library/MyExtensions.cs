@@ -26,6 +26,7 @@ namespace ViaAssemblyBuilder.Meta.Library
 						let n = k.Substring(prefix.Length)
 						select
 							p.ParameterType == typeof(FileInfo) ? (object)new FileInfo(n) :
+							p.ParameterType == typeof(DirectoryInfo) ? (object)new DirectoryInfo(n) :
 							(object)n
 						)
 				)
