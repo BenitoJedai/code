@@ -90,15 +90,8 @@ namespace jsc.Languages.Java
 				WriteSpace();
 
 
+				WriteDecoratedMethodParameter(p);
 
-				if (string.IsNullOrEmpty(p.Name))
-				{
-					Write(GetSpecialChar() + "arg" + p.Position);
-				}
-				else
-				{
-					Write(p.Name);
-				}
 			}
 		}
 

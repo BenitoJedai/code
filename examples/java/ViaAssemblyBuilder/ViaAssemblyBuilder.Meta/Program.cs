@@ -174,8 +174,8 @@ popd
 
 				BindExtensionPoint(main_il, assembly_type_ExtensionPoint);
 
-				//main_il.Emit(OpCodes.Ldarg_0);
-				main_il.Emit(OpCodes.Ldnull);
+				main_il.Emit(OpCodes.Ldarg_0);
+				//main_il.Emit(OpCodes.Ldnull);
 				main_il.EmitCall(OpCodes.Call, assembly_type_Main, null);
 
 				main_il.Emit(OpCodes.Ret);
