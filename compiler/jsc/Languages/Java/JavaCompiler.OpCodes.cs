@@ -1278,9 +1278,26 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Call] =
 				delegate(CodeEmitArgs e)
 				{
+					// http://www.brics.dk/~mis/dOvs/jvmspec/ref--44.html;
+
+					Action<object> Monitor_Enter = System.Threading.Monitor.Enter;
+					Action<object> Monitor_Exit = System.Threading.Monitor.Exit;
+
 					MethodBase m = e.i.ReferencedMethod;
 
-					MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
+					if (m == Monitor_Enter.Method)
+					{
+						//this.WriteBoxedComment(".monitorenter");
+						throw new SkipThisPrestatementException();
+
+					}
+
+					//if (m == Monitor_Exit.Method)
+					//{
+					//    this.WriteBoxedComment(".monitorexit");
+					//    throw new NotSupportedException();
+
+					//}
 
 					if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
 					{
@@ -1290,6 +1307,7 @@ namespace jsc.Languages.Java
 						}
 					}
 
+					MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
 					if (mi != null)
 					{

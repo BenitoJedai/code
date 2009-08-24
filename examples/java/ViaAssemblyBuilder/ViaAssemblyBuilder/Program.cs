@@ -18,8 +18,16 @@ namespace ViaAssemblyBuilder
 			if (ExtensionPoint != null)
 				ExtensionPoint();
 
-			Console.WriteLine("Bye!");
+			Console.WriteLine("Initiating time sequence!");
 
+			lock (new object())
+			{
+
+
+
+				Console.WriteLine("Threadsafe inside lock block");
+			}
+			
 			for (int i = 0; i < 5; i++)
 			{
 				Console.WriteLine("tick, tack...");
