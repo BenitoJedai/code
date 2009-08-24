@@ -449,6 +449,21 @@ namespace jsc.Languages.ActionScript
 				   }
 				   else
 				   {
+					   var TypeExpectedOrDefault =
+						((e.TypeExpectedOrDefault != null && e.TypeExpectedOrDefault.IsEnum)
+						? Enum.GetUnderlyingType(e.TypeExpectedOrDefault) : null)
+						?? e.TypeExpectedOrDefault;
+
+					   if (TypeExpectedOrDefault == typeof(bool))
+					   {
+						   if (n == 0)
+							   WriteKeyword(Keywords._false);
+						   else
+							   WriteKeyword(Keywords._true);
+
+						   return;
+					   }
+
 					   if (e.TypeExpectedOrDefault == typeof(uint))
 						   MyWriter.Write((uint)n.Value);
 					   else

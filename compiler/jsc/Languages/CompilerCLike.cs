@@ -461,7 +461,7 @@ namespace jsc.Script
 			return false;
 		}
 
-		public override void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic)
+		public override void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic, Type TypeExpectedOrDefault)
 		{
 			if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
 			{
@@ -471,13 +471,13 @@ namespace jsc.Script
 				Write("(");
 
 
-				EmitLogic(p, logic.lhs);
+				EmitLogic(p, logic.lhs, TypeExpectedOrDefault);
 
 				WriteSpace();
 				Write("&&");
 				WriteSpace();
 
-				EmitLogic(p, logic.rhs);
+				EmitLogic(p, logic.rhs, TypeExpectedOrDefault);
 
 				Write(")");
 
@@ -490,13 +490,13 @@ namespace jsc.Script
 					Write("!");
 
 				Write("(");
-				EmitLogic(p, logic.lhs);
+				EmitLogic(p, logic.lhs, TypeExpectedOrDefault);
 
 				WriteSpace();
 				Write("||");
 				WriteSpace();
 
-				EmitLogic(p, logic.rhs);
+				EmitLogic(p, logic.rhs, TypeExpectedOrDefault);
 
 				Write(")");
 
@@ -508,7 +508,7 @@ namespace jsc.Script
 				if (logic.IsNegative)
 					Write("!");
 
-				Emit(p, logic.value);
+				Emit(p, logic.value, TypeExpectedOrDefault);
 
 
 				return;
@@ -548,7 +548,7 @@ namespace jsc.Script
 				EmitInstruction(
 				  block.PrestatementCommands[block.PrestatementCommands.Count - 1],
 				  block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction
-				  );
+				  , TypeExpectedOrDefault);
 
 
 
@@ -565,7 +565,7 @@ namespace jsc.Script
 				EmitInstruction(
 					block.PrestatementCommands[block.PrestatementCommands.Count - 1],
 					block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction
-					);
+					, TypeExpectedOrDefault);
 
 
 				Write(")");

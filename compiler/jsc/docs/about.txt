@@ -327,3 +327,5 @@ version history:
 	java: added support for lock blocks which translate to synchronized
 24.08.2009
 	java: unnamed parameters now will get a name
+	java: fixed ternary operator for boolean logic
+	as: fixed ternary operator for boolean logic

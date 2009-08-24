@@ -161,6 +161,8 @@ namespace jsc.Languages.Java
 				GetImportTypesFromMethod(t, imp, v);
 			}
 
+			imp.RemoveAll(w => w == null);
+
 			while (imp.Count > 0)
 			{
 				Type p = imp[0];
@@ -168,9 +170,6 @@ namespace jsc.Languages.Java
 				imp.RemoveAll(
 					delegate(Type w)
 					{
-						if (w == null)
-							return true;
-
 						if (w.IsArray && p.IsArray)
 						{
 							return w.GetElementType().GUID == p.GetElementType().GUID;

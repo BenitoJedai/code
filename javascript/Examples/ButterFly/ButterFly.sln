@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButterFly", "ButterFly.csproj", "{405F0458-6DA0-486A-B580-E437B1D01C2F}"
 EndProject
 Global

@@ -285,7 +285,7 @@ namespace jsc.Script
 				}
 				else
 				{
-					EmitLogic(p, s.InlineLogic(p.Owner.MemoryBy(s)));
+					EmitLogic(p, s.InlineLogic(p.Owner.MemoryBy(s)), TypeExpectedOrDefault);
 
 
 				}
@@ -594,7 +594,7 @@ namespace jsc.Script
 
 		public abstract void EmitLoopBlock(ILBlock.Prestatement p, ILLoopConstruct loop);
 
-		public abstract void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic);
+		public abstract void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic, Type TypeExpectedOrDefault);
 
 
 		#endregion

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express Codename Orcas
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFilmstrip", "SimpleFilmstrip\SimpleFilmstrip.csproj", "{E9C2D518-C461-4084-97EE-384B4D8346AE}"
 EndProject
 Global
