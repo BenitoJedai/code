@@ -15,6 +15,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 		public java.io.OutputStream InternalOutputStream;
 		public java.io.InputStream InternalInputStream;
 
+		public override void Close()
+		{
+			Flush();
+
+			try
+			{
+				this.InternalOutputStream.close();
+				this.InternalInputStream.close();
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+		}
+
+		public override void Flush()
+		{
+			try
+			{
+				this.InternalOutputStream.flush();
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+		}
+
 		public override long Length
 		{
 			get { throw new NotImplementedException(); }

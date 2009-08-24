@@ -12,6 +12,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		public abstract long Position { get; set; }
 
+		public abstract void Flush();
+
+		public virtual void Close()
+		{
+			this.Flush();
+		}
 
 		public abstract int Read(byte[] buffer, int offset, int count);
 

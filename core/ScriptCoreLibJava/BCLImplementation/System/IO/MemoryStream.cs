@@ -24,6 +24,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		}
 
+		public override void Flush()
+		{
+			// ?
+		}
+
 		public __MemoryStream(byte[] buffer)
 		{
 			if (buffer != null)

@@ -24,8 +24,6 @@ namespace jsc.meta
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 			// in obj folder we build our binaries
 			var obj = assembly.Directory.CreateSubdirectory("obj");
-			// in bin we copy what we consider as the product
-			var bin = assembly.Directory.CreateSubdirectory("bin");
 
 			Environment.CurrentDirectory = obj.FullName;
 
@@ -41,7 +39,8 @@ namespace jsc.meta
 			new ExtendToJavaConsoleBuilder
 			{
 				obj = obj,
-				bin = bin,
+				// in bin we copy what we consider as the product
+				bin = assembly.Directory,
 				javapath = javapath,
 				assembly = Assembly.LoadFile(obj_assembly)
 			}.Build(type);
@@ -50,8 +49,8 @@ namespace jsc.meta
 
 		class ExtendToJavaConsoleBuilder
 		{
-			public DirectoryInfo obj;
 			public DirectoryInfo bin;
+			public DirectoryInfo obj;
 			public DirectoryInfo javapath;
 
 			public Assembly assembly;
@@ -164,7 +163,7 @@ namespace jsc.meta
 
 
 				// 4
-				var run_jar = Path.Combine(bin.FullName, Path.GetFileNameWithoutExtension(assembly.Location) + ".bat");
+				var run_jar = Path.Combine(bin.FullName, Path.GetFileNameWithoutExtension(assembly.Location) + ".jar.bat");
 				Console.WriteLine("- created bat entrypoint:");
 				Console.WriteLine(run_jar);
 
