@@ -151,9 +151,12 @@
     <Compile Include="javax.common\runtime\VariantValue.cs" />
     <Compile Include="javax\servlet\ServletOutputStream.cs" />
     <Compile Include="java\awt\event\ComponentEvent.cs" />
+    <Compile Include="java\awt\event\MouseWheelEvent.cs" />
     <Compile Include="java\awt\event\InputEvent.cs" />
     <Compile Include="java\awt\event\MouseEvent.cs" />
     <Compile Include="java\awt\event\MouseListener.cs" />
+    <Compile Include="java\awt\Graphics2D.cs" />
+    <Compile Include="java\io\Serializable.cs" />
     <Compile Include="java\io\StringReader.cs" />
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
