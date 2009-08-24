@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Reflection;
 using java.lang.reflect;
+using java.lang;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
@@ -26,6 +27,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 			}
 			catch (csharp.ThrowableException e)
 			{
+				((Throwable)(object)e).printStackTrace();
+
 				throw new csharp.RuntimeException(e.Message);
 			}
 
