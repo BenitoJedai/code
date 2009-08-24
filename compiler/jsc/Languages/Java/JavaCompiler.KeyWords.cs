@@ -62,6 +62,10 @@ namespace jsc.Languages.Java
 			_readonly,
 			_return,
 			_true,
+			_try,
+			_finally,
+			_catch,
+			_synchronized
 
 
         }

@@ -326,6 +326,16 @@ namespace jsc.Languages.Java
 
 					if (i.ReferencedMethod != null)
 					{
+						Action<object> Monitor_Enter = System.Threading.Monitor.Enter;
+						Action<object> Monitor_Exit = System.Threading.Monitor.Exit;
+
+
+						if (i.ReferencedMethod == Monitor_Enter.Method)
+							continue;
+						if (i.ReferencedMethod == Monitor_Exit.Method)
+							continue;
+
+
 						if (i.ReferencedMethod.DeclaringType == typeof(object))
 							imp.Add(MySession.ResolveImplementation(typeof(object)));
 

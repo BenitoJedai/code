@@ -170,6 +170,7 @@
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.cs" />
     <Compile Include="Languages\JavaScript\MethodBodyOptimizer.cs" />
     <Compile Include="Languages\Java\CompilerJob.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.EmitTryBlock.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteMethodParameterList.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteMethodSignature.cs" />
     <Compile Include="Languages\Java\JavaCompiler.OpCodes.Box.cs" />

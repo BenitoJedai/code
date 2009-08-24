@@ -73,11 +73,22 @@ namespace ViaAssemblyBuilder.Meta
 				// jsc + javac
 				var build = Path.Combine(obj.FullName, "build.bat");
 
+				jsc.Program.TypedMain(
+					new jsc.CompileSessionInfo
+					{
+						Options = new jsc.CommandLineOptions
+						{
+							TargetAssembly = MetaScript,
+							IsJava = true
+						}
+					}
+				);
+
 
 				File.WriteAllText(build, @"
 @echo off
-echo jsc
-call c:\util\jsc\bin\jsc.exe " + MetaScript.FullName + @" -java
+::echo jsc
+::call c:\util\jsc\bin\jsc.exe " + MetaScript.FullName + @" -java
 pushd web
 echo - javac
 ""C:\Program Files\Java\jdk1.6.0_14\bin\javac.exe"" -classpath java -d release java\" + type.Replace(".", @"\") + @"MetaScript.java
@@ -129,7 +140,7 @@ popd
 							new[] { 
 								ScriptAttribute.GetField("ScriptLibraries"),
 								ScriptAttribute.GetField("IsScriptLibrary")},
-							new object [] { 
+							new object[] { 
 								new Type[] { 
 									assembly_type, 
 									typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
@@ -175,7 +186,7 @@ popd
 
 				a.SetEntryPoint(main);
 
-				var Product = new FileInfo( Path.Combine(obj.FullName, name.Name + ".exe"));
+				var Product = new FileInfo(Path.Combine(obj.FullName, name.Name + ".exe"));
 
 				a.Save(
 					Product.Name
