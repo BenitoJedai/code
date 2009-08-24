@@ -611,7 +611,15 @@ namespace jsc.Languages.Java
 
 		public override void WriteDecoratedMethodParameter(ParameterInfo p)
 		{
-			Write(p.Name);
+			if (string.IsNullOrEmpty(p.Name))
+			{
+				Write(GetSpecialChar() + "arg" + p.Position);
+			}
+			else
+			{
+				Write(p.Name);
+			}
+
 		}
 
 		string ToJavaTypeName(string e)
