@@ -10,7 +10,7 @@ namespace robocode
 {
 	// http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html
 	[Script(IsNative = true)]
-	public class Robot
+	public class Robot : IInteractiveRobot, IPaintRobot, IBasicEvents2, IInteractiveEvents, IPaintEvents
 	{
 		/// <summary>
 		/// Constructs a new robot.
@@ -295,7 +295,7 @@ namespace robocode
 		/// <summary>
 		/// This method is called when your robot is hit by a bullet.
 		/// </summary>
-		public void onHitByBullet(HitByBulletEvent @event)
+		public virtual void onHitByBullet(HitByBulletEvent @event)
 		{
 		}
 
@@ -410,7 +410,7 @@ namespace robocode
 		/// This method is called when your robot sees another robot, i.e. when the
 		/// robot's radar scan "hits" another robot.
 		/// </summary>
-		public void onScannedRobot(ScannedRobotEvent @event)
+		public virtual void onScannedRobot(ScannedRobotEvent @event)
 		{
 		}
 
@@ -440,7 +440,7 @@ namespace robocode
 		/// <summary>
 		/// The main method in every robot.
 		/// </summary>
-		public void run()
+		public virtual void run()
 		{
 		}
 
