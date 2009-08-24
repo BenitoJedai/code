@@ -14,6 +14,8 @@ namespace jsc.Languages.ActionScript
     {
         public enum Keywords
         {
+			_false,
+			_true,
 			_import,
 			_package,
 			_arguments,
@@ -35,7 +37,6 @@ namespace jsc.Languages.ActionScript
             _set,
             _static,
             _function,
-			_true,
 
 
 

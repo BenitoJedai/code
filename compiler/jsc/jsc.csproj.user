@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\ViaAssemblyBuilder\ViaAssemblyBuilder\bin\Debug\obj</StartWorkingDirectory>
-    <StartArguments>ViaAssemblyBuilderMetaScript.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\ConditionalBranch\ConditionalBranch\bin\Release</StartWorkingDirectory>
+    <StartArguments>ConditionalBranch.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

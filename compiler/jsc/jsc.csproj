@@ -155,6 +155,7 @@
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
     <Compile Include="Languages\JavaScript\AnonymousTypeWriter.cs" />
+    <Compile Include="Languages\JavaScript\IL2ScriptGenerator.OpCodes.cs" />
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.OpCodes.Newobj.cs" />
     <Compile Include="Languages\JavaScript\IL2Script.WriteMethodCustomBody.cs" />
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.OpCodes.Isinst.cs" />

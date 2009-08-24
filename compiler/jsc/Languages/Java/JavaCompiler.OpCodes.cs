@@ -1647,6 +1647,16 @@ namespace jsc.Languages.Java
 						   Write("(short)");
 					   }
 
+					   if (TypeExpectedOrDefault == typeof(bool))
+					   {
+						   if (n == 0)
+							   WriteKeyword(Keywords._false);
+						   else
+							   WriteKeyword(Keywords._true);
+
+						   return;
+					   }
+
 					   MyWriter.Write(n.Value);
 				   }
 			   };
