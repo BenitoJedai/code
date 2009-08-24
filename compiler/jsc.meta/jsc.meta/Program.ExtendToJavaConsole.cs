@@ -17,7 +17,7 @@ namespace jsc.meta
 
 
 
-		static void ExtendToJavaConsole(FileInfo assembly, string type, DirectoryInfo javapath)
+		public static void ExtendToJavaConsole(FileInfo assembly, string type, DirectoryInfo javapath)
 		{
 			Console.WriteLine("will create a java console application for you");
 

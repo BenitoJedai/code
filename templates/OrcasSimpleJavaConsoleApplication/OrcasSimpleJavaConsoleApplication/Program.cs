@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using OrcasSimpleJavaConsoleApplication.Library;
 
 namespace OrcasSimpleJavaConsoleApplication
 {
@@ -25,7 +26,9 @@ namespace OrcasSimpleJavaConsoleApplication
 						for (int i = 0; i < 10; i++)
 						{
 							Console.Write(".");
-							Thread.Sleep(100);
+							
+							100.Sleep();
+
 						}
 
 						Console.WriteLine(" done.");
