@@ -87,8 +87,6 @@ namespace ViaAssemblyBuilder.Meta
 
 				File.WriteAllText(build, @"
 @echo off
-::echo jsc
-::call c:\util\jsc\bin\jsc.exe " + MetaScript.FullName + @" -java
 pushd web
 echo - javac
 ""C:\Program Files\Java\jdk1.6.0_14\bin\javac.exe"" -classpath java -d release java\" + type.Replace(".", @"\") + @"MetaScript.java
