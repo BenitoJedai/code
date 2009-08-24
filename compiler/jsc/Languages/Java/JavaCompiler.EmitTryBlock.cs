@@ -113,6 +113,7 @@ namespace jsc.Languages.Java
 								this.Write(")");
 								this.WriteLine();
 								EmitTryBlockContent();
+
 								return true;
 							}
 						}
@@ -205,9 +206,11 @@ namespace jsc.Languages.Java
 						this.WriteLine();
 
 						EmitScope(b);
-						// additional space
-						WriteLine();
+					
 					}
+
+					// additional space
+					WriteLine();
 				}
 
 
