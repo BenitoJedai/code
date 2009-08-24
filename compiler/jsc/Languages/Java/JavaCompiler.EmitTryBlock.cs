@@ -85,39 +85,42 @@ namespace jsc.Languages.Java
 			if (p.Block.IsTryBlock)
 			{
 				#region are we supposed to emit synchronized block? lets find out
-				var ParentFlowBranchInstruction = p.Block.Flow.Parents.Single().Branch;
-
-				#region we can tolerate a Nop instruction
-				if (ParentFlowBranchInstruction.OpCode == OpCodes.Nop)
+				if (p.Block.Flow != null)
 				{
-					if (ParentFlowBranchInstruction.BranchSources.Count > 0)
-						throw new NotSupportedException();
+					var ParentFlowBranchInstruction = p.Block.Flow.Parents.Single().Branch;
 
-					ParentFlowBranchInstruction = ParentFlowBranchInstruction.Prev;
-				}
-				#endregion
-
-				if (ParentFlowBranchInstruction != null)
-					if (ParentFlowBranchInstruction.OpCode == OpCodes.Call)
+					#region we can tolerate a Nop instruction
+					if (ParentFlowBranchInstruction.OpCode == OpCodes.Nop)
 					{
-						if (ParentFlowBranchInstruction.ReferencedMethod == Monitor_Enter.Method)
+						if (ParentFlowBranchInstruction.BranchSources.Count > 0)
+							throw new NotSupportedException();
+
+						ParentFlowBranchInstruction = ParentFlowBranchInstruction.Prev;
+					}
+					#endregion
+
+					if (ParentFlowBranchInstruction != null)
+						if (ParentFlowBranchInstruction.OpCode == OpCodes.Call)
 						{
-							var Monitor_Exit_Call_Instruction = CheckFinallyBlockForMonitorExit(p.Block.Next);
-
-							if (Monitor_Exit_Call_Instruction != null)
+							if (ParentFlowBranchInstruction.ReferencedMethod == Monitor_Enter.Method)
 							{
-								this.WriteIdent();
-								this.WriteKeywordSpace(Keywords._synchronized);
-								this.Write("(");
-								this.Emit(p.Prev, Monitor_Exit_Call_Instruction.StackBeforeStrict[0]);
-								this.Write(")");
-								this.WriteLine();
-								EmitTryBlockContent();
+								var Monitor_Exit_Call_Instruction = CheckFinallyBlockForMonitorExit(p.Block.Next);
 
-								return true;
+								if (Monitor_Exit_Call_Instruction != null)
+								{
+									this.WriteIdent();
+									this.WriteKeywordSpace(Keywords._synchronized);
+									this.Write("(");
+									this.Emit(p.Prev, Monitor_Exit_Call_Instruction.StackBeforeStrict[0]);
+									this.Write(")");
+									this.WriteLine();
+									EmitTryBlockContent();
+
+									return true;
+								}
 							}
 						}
-					}
+				}
 				#endregion
 
 
