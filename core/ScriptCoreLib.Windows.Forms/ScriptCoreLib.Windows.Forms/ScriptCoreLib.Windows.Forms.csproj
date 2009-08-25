@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20706</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B8D28279-57CD-4163-86F9-1DFDF540B58B}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Application.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Button.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\CheckBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ComboBox.cs">
@@ -65,6 +66,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListBox.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MessageBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\GroupBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListControl.cs" />
