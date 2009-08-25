@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kenny3.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Kenny1.cs" />
@@ -76,11 +77,18 @@
   <ItemGroup>
     <None Include="tools\build.bat" />
     <None Include="tools\compile.java.bat" />
+    <None Include="tools\run.robocode.bat" />
     <None Include="tools\find.java.bat" />
     <None Include="tools\create.jar.bat" />
     <None Include="tools\run.both.bat" />
     <None Include="tools\run.jar.bat" />
     <None Include="web\release\META-INF\MANIFEST.MF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="web\release\Robocode1\Kenny3.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="web\release\Robocode1\Kenny1.properties">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

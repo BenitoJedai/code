@@ -302,14 +302,14 @@ namespace robocode
 		/// <summary>
 		/// This method is called when your robot collides with another robot.
 		/// </summary>
-		public void onHitRobot(HitRobotEvent @event)
+		public virtual void onHitRobot(HitRobotEvent @event)
 		{
 		}
 
 		/// <summary>
 		/// This method is called when your robot collides with a wall.
 		/// </summary>
-		public void onHitWall(HitWallEvent @event)
+		public virtual void onHitWall(HitWallEvent @event)
 		{
 		}
 
