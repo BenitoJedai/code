@@ -69,6 +69,7 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Charger.java" />
     <Content Include="docs\description.txt" />
     <None Include="web\bin\placeholder">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
