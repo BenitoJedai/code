@@ -5,9 +5,20 @@ using System.Text;
 using robocode;
 using java.awt;
 using ScriptCoreLib;
+using System.ComponentModel;
 
 namespace Robocode1
 {
+	[global::System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+	sealed class RobocodeAttribute : Attribute
+	{
+	}
+
+	/// <summary>
+	/// Kenny3 is a robot.
+	/// </summary>
+	[Robocode]
+	[Description("a robot")]
 	[Script]
 	public class Kenny3 : Robot
 	{
@@ -20,7 +31,7 @@ namespace Robocode1
 
 		public override void run()
 		{
-
+			
 			this.setColors(
 				new Color(0xFF0000),
 				new Color(0xFFFF00),
