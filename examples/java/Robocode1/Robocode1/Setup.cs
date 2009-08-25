@@ -38,7 +38,11 @@ namespace Robocode1
 			}
 
 
+
 			e["release/META-INF/MANIFEST.MF"] =
+				"Manifest-Version: 1.0" + Environment.NewLine +
+				"robots: Robocode1.Kenny3" + Environment.NewLine +
+				"robots: Robocode1.Kenny1" + Environment.NewLine +
 				"Main-Class: " + settings.CompilandFullName + Environment.NewLine +
 				"Created-By: jsc.sf.net";
 		}
