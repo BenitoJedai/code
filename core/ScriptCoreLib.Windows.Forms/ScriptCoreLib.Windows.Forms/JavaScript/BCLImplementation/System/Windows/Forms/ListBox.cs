@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget.multiple = true;
 
             Items = new __ObjectCollection { Owner = this };
+
+			this.InternalSetDefaultFont();
         }
 
         public override IHTMLElement HTMLTargetRef

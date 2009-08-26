@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Drawing;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -37,7 +38,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget = new IHTMLDiv();
             //HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
             HTMLTarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-            HTMLTarget.style.border = "1px solid black";
+			HTMLTarget.style.borderLeft = "1px solid #E0E0E0";
+			HTMLTarget.style.borderTop = "1px solid #E0E0E0";
+			HTMLTarget.style.borderBottom = "1px solid black";
+			HTMLTarget.style.borderRight = "1px solid black";
 
 
             //HTMLTarget.style.SetLocation(64, 64, 100, 100);
@@ -45,6 +49,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             var innerborder = 2;
 
+			var icon = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/App.ico");
+			
+			icon.style.SetLocation(7, 7, 16, 16);
 
             caption.style.backgroundColor = Shared.Drawing.Color.Blue;
             caption.style.color = Shared.Drawing.Color.White;
@@ -53,8 +60,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             caption.style.top = innerborder + "px";
             caption.style.right = innerborder + "px";
             caption.style.height = "20px";
-            caption.style.padding = "2px";
-
+			caption.style.paddingTop = "6px";
+			caption.style.paddingLeft = "26px";
+			caption.style.font = new Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point, 0).ToCssString();
 
             caption_foreground = (IHTMLDiv)caption.cloneNode(false);
             caption_foreground.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.FromRGB(255, 0, 255);
@@ -71,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             ).apply(caption_foreground);
 
 
-            container.style.backgroundColor = Shared.Drawing.Color.Gray;
+			//container.style.backgroundColor = "#A0A0A0";
             container.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 
 
@@ -81,8 +89,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             container.style.bottom = innerborder +"px";
             container.style.overflow = IStyle.OverflowEnum.hidden;
 
-            HTMLTarget.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.Red;
-            HTMLTarget.appendChild(caption, caption_foreground, container);
+			HTMLTarget.style.backgroundColor = "#B0B0B0";
+			HTMLTarget.appendChild(caption, icon, caption_foreground, container);
 
             drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(caption_foreground);
 
