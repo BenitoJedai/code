@@ -31,5 +31,27 @@ namespace WindowsFormsApplication1
 		{
 			new Form2().Show();
 		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			var context = new[]
+			{
+				panel1,
+				panel2,
+				panel3,
+				panel4,
+				panel5,
+				panel6,
+			};
+
+			var _BackColor = context[0].BackColor;
+
+			for (int i = 0; i < context.Length - 1; i++)
+			{
+				context[i].BackColor = context[i + 1].BackColor;
+			}
+
+			context[context.Length - 1].BackColor = _BackColor;
+		}
 	}
 }

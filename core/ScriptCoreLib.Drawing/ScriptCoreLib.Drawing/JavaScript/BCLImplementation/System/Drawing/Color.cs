@@ -45,7 +45,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Drawing
         static public Color Blue { get { return new __Color { Value = 0x0000ff }; } }
         static public Color Black { get { return new __Color { Value = 0x000000 }; } }
         static public Color White { get { return new __Color { Value = 0xffffff }; } }
-        static public Color Transparent { get { return new __Color { Value = Shared.Drawing.Color.Transparent }; } }
+		static public Color Transparent { get { return new __Color { Value = Shared.Drawing.Color.Transparent }; } }
+		static public Color Navy { get { return new __Color { Value = 0x000080 }; } }
 
 
         #region

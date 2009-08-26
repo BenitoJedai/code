@@ -19,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             HTMLTarget = new IHTMLButton();
             HTMLTarget.style.padding = "0";
+
+			this.InternalSetDefaultFont();
         }
 
         

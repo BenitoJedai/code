@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             legend = new IHTMLElement(IHTMLElement.HTMLElementEnum.legend);
 
             fieldset.appendChild(legend);
+
+			this.InternalSetDefaultFont();
         }
 
         public override string Text

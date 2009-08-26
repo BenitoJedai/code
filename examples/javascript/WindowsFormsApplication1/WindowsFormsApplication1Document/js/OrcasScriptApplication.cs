@@ -13,6 +13,7 @@ namespace WindowsFormsApplication1Document.js
 	[Script, ScriptApplicationEntryPoint]
 	public class WindowsFormsApplication1Document
 	{
+		// based on http://zproxy.wordpress.com/2007/11/04/windowsforms-vectors-in-dhtml/#comments
 
 		public WindowsFormsApplication1Document()
 		{

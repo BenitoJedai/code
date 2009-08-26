@@ -43,4 +43,5 @@ using ScriptCoreLib;
 [assembly:
     Script,
     ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript")
+	
 ]

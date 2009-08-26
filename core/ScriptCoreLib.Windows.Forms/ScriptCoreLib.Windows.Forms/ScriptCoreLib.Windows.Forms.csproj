@@ -85,6 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLib.Windows.Forms\App.ico" />
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
   </ItemGroup>

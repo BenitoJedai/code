@@ -38,6 +38,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             label = new IHTMLLabel("", check);
 
             HTMLTarget.appendChild(check, label);
+
+			this.InternalSetDefaultFont();
         }
 
         #region CheckAlign

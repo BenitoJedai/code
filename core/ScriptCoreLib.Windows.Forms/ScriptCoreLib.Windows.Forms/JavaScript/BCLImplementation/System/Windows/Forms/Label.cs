@@ -27,7 +27,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget = new IHTMLLabel();
 
             this.Size = new global::System.Drawing.Size(100, 20);
-            
+			this.InternalSetDefaultFont();
         }
 
         public override string Text

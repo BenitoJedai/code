@@ -22,6 +22,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             HTMLTarget = new IHTMLSelect();
 
             Items = new __ObjectCollection { Owner = this };
+
+			this.InternalSetDefaultFont();
         }
 
         public override IHTMLElement HTMLTargetRef

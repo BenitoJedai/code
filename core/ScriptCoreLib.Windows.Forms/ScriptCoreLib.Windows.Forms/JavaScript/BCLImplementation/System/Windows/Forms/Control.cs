@@ -40,6 +40,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control // : ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel.__Component
     {
+		public void InternalSetDefaultFont()
+		{
+			this.Font = new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+		}
+
         public virtual DOM.HTML.IHTMLElement HTMLTargetRef
         {
             get
@@ -144,6 +149,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __Control()
         {
             this.Controls = new Control.ControlCollection(this);
+
+			
         }
 
 
@@ -1029,7 +1036,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         internal Size SizeFromClientSize(int width, int height)
         {
-            return new Size(width, height);
+            return new Size(width + 32, height + 32);
         }
 
 
