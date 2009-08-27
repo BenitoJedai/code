@@ -26,23 +26,19 @@ namespace jsc.meta
 			var obj = assembly.Directory.CreateSubdirectory("obj");
 
 			Environment.CurrentDirectory = obj.FullName;
+			
+			obj.DefinesTypes(
+				typeof(ScriptCoreLib.ScriptAttribute),
+				typeof(ScriptCoreLibJava.IAssemblyReferenceToken)
+			);
 
-			var obj_assembly = Path.Combine(obj.FullName, assembly.Name);
-
-			assembly.CopyTo(obj_assembly, true);
-
-			var ScriptCoreLibA = new FileInfo(typeof(ScriptCoreLib.ScriptAttribute).Assembly.Location);
-			ScriptCoreLibA.CopyTo(Path.Combine(obj.FullName, ScriptCoreLibA.Name), true);
-
-			var ScriptCoreLibJava = new FileInfo(typeof(ScriptCoreLibJava.IAssemblyReferenceToken).Assembly.Location);
-			ScriptCoreLibJava.CopyTo(Path.Combine(obj.FullName, ScriptCoreLibJava.Name), true);
 			new ExtendToJavaConsoleBuilder
 			{
 				obj = obj,
 				// in bin we copy what we consider as the product
 				bin = assembly.Directory,
 				javapath = javapath,
-				assembly = Assembly.LoadFile(obj_assembly)
+				assembly = assembly.LoadAssemblyAt(obj)
 			}.Build(type);
 		}
 
@@ -73,8 +69,8 @@ namespace jsc.meta
 				// 2
 				var MetaScript = InternalBuild(k => assembly_metaentrypoint = k);
 				// 3
+				#region jsc
 				// jsc + javac
-				var build = Path.Combine(obj.FullName, "build.bat");
 
 				Console.WriteLine("- jsc");
 				jsc.Program.TypedMain(
@@ -87,6 +83,7 @@ namespace jsc.meta
 						}
 					}
 				);
+				#endregion
 
 				var obj_web = Path.Combine(obj.FullName, "web");
 
@@ -161,13 +158,14 @@ namespace jsc.meta
 				#endregion
 
 
-
+				#region run_jar
 				// 4
 				var run_jar = Path.Combine(bin.FullName, Path.GetFileNameWithoutExtension(assembly.Location) + ".jar.bat");
 				Console.WriteLine("- created bat entrypoint:");
 				Console.WriteLine(run_jar);
 
 				File.WriteAllText(run_jar, @"@call """ + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + bin_jar.FullName + @""" " + assembly_metaentrypoint.DeclaringType.FullName);
+				#endregion
 
 
 			}
@@ -175,14 +173,13 @@ namespace jsc.meta
 
 			FileInfo InternalBuild(Action<MethodInfo> AnnounceEntrypoint)
 			{
-				var suffix = "MetaScript";
 
 
 
 				// Main
 				var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.Public | BindingFlags.Static);
 
-				var name = new AssemblyName(assembly.GetName().Name + suffix);
+				var name = new AssemblyName(assembly.GetName().Name + MetaScript);
 				var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave);
 				var m = a.DefineDynamicModule(name.Name, name.Name + ".mod");
 
@@ -194,22 +191,12 @@ namespace jsc.meta
 
 				//var ScriptTypeFilterAttribute = typeof(ScriptCoreLib.ScriptTypeFilterAttribute);
 
-				a.SetCustomAttribute(
-					new CustomAttributeBuilder(
-						ScriptAttribute.GetConstructors().Single(),
-						new object[0],
-						new[] { 
-								ScriptAttribute.GetField("ScriptLibraries"),
-								ScriptAttribute.GetField("IsScriptLibrary")},
-						new object[] { 
-								new Type[] { 
-									assembly_type, 
-									typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
-								},
-								true
-							}
-					)
+				a.DefineScriptLibraries(
+					assembly_type, 
+					typeof(ScriptCoreLibJava.IAssemblyReferenceToken)
 				);
+
+				
 
 				a.SetCustomAttribute(
 					new CustomAttributeBuilder(
@@ -218,7 +205,7 @@ namespace jsc.meta
 				);
 
 
-				var t = m.DefineType(assembly_type.FullName + suffix);
+				var t = m.DefineType(assembly_type.FullName + MetaScript);
 
 				var main = t.DefineMethod("Main", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(string[]) });
 				var main_il = main.GetILGenerator();

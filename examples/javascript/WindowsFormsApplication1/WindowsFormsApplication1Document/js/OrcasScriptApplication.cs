@@ -17,13 +17,14 @@ namespace WindowsFormsApplication1Document.js
 
 		public WindowsFormsApplication1Document()
 		{
-			new Form1().ShowAt(200, 100);
+			Program.Main();
+			//new Form1().ShowAt(200, 100);
 		}
 
 
 		static WindowsFormsApplication1Document()
 		{
-			typeof(WindowsFormsApplication1Document).SpawnTo(i => new WindowsFormsApplication1Document());
+			typeof(WindowsFormsApplication1Document).Spawn(); // .SpawnTo(i => new WindowsFormsApplication1Document());
 		}
 
 	}

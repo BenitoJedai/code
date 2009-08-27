@@ -10,6 +10,10 @@ namespace jsc.meta
 {
 	public partial class Program
 	{
+		// read: http://www.albahari.com/nutshell/ch17.aspx
+
+		const string MetaScript = "MetaScript";
+
 		static void ShowLogo()
 		{
 			//Microsoft (R) Visual C# 2005 Compiler version 8.00.50727.42
@@ -29,7 +33,9 @@ namespace jsc.meta
 
 			args.AsParametersFor(
 				(Action<FileInfo, string, DirectoryInfo>)ExtendToJavaConsole,
-				(Action<FileInfo, string, DirectoryInfo>)ExtendToFlashAvalon
+				(Action<FileInfo, string, DirectoryInfo>)ExtendToFlashAvalon,
+				(Action<FileInfo, string>)ExtendToWindowsFormsEverywhere
+
 			);
 		}
 
