@@ -62,9 +62,15 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ControlEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkArea.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.Link.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursor.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Cursors.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Form.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\IButtonControl.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabel.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabelLinkClickedEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\LinkLabelLinkClickedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\ListBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MessageBox.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\MouseEventArgs.cs" />
