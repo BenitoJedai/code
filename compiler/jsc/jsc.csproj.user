@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\WindowsFormsApplication1\WindowsFormsApplication1\bin\Release\obj</StartWorkingDirectory>
-    <StartArguments>WindowsFormsApplication1MetaScript.exe -js</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\templates\OrcasAvalonTemplate\OrcasAvalonTemplate\bin\Release</StartWorkingDirectory>
+    <StartArguments>OrcasAvalonTemplate.exe -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
