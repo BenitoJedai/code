@@ -10,7 +10,7 @@ using EntryPointSettings = OrcasNativeJavaConsoleApplication.source.java.Setting
 
 [assembly:
     Script,
-    ScriptTypeFilter(ScriptType.Java, "*.source.java")
+    ScriptTypeFilter(ScriptType.Java, typeof(OrcasNativeJavaConsoleApplication.source.java.Program))
 ]
 
 [assembly:

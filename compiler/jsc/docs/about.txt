@@ -331,3 +331,4 @@ version history:
 	as: fixed ternary operator for boolean logic
 27.08.2009
 	js: fixed non script assembly sorting order to not to precede BCLImplementation assemblies
+	java: opcode ldc now casts to java.lang.byte when expected to

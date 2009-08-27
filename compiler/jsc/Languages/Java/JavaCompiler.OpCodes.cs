@@ -1642,6 +1642,11 @@ namespace jsc.Languages.Java
 						   ? Enum.GetUnderlyingType(e.TypeExpectedOrDefault) : null)
 						   ?? e.TypeExpectedOrDefault;
 
+					   if (TypeExpectedOrDefault == typeof(sbyte))
+					   {
+						   Write("(byte)");
+					   }
+
 					   if (TypeExpectedOrDefault == typeof(short))
 					   {
 						   Write("(short)");
