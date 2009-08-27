@@ -7,17 +7,17 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Net
 {
-    /*
-    static class Extensions
-    {
-        public TRoot Deserialize(IXMLHttpRequest r)
-        {
-            if (r == null)
-                return null;
+	class ThisAssemblyShouldBeMerged
+	{
 
-            return Deserialize(r.responseXML);
-        }
-    }*/
+	}
+
+	[Script(Implements = typeof(ThisAssemblyShouldBeMerged))]
+	class __ThisAssemblyShouldBeMerged
+	{
+		
+	}
+
     /// <summary>
     /// http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
     /// </summary>
