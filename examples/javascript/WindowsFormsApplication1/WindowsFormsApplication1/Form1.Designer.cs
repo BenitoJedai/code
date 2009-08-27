@@ -45,6 +45,8 @@
 			this.linkLabel3 = new System.Windows.Forms.LinkLabel();
 			this.linkLabel4 = new System.Windows.Forms.LinkLabel();
 			this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.linkLabel6 = new System.Windows.Forms.LinkLabel();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -100,7 +102,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-			this.panel1.Location = new System.Drawing.Point(0, 162);
+			this.panel1.Location = new System.Drawing.Point(6, 234);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(85, 4);
 			this.panel1.TabIndex = 3;
@@ -108,7 +110,7 @@
 			// panel2
 			// 
 			this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-			this.panel2.Location = new System.Drawing.Point(91, 162);
+			this.panel2.Location = new System.Drawing.Point(97, 234);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(85, 4);
 			this.panel2.TabIndex = 4;
@@ -116,7 +118,7 @@
 			// panel3
 			// 
 			this.panel3.BackColor = System.Drawing.Color.Blue;
-			this.panel3.Location = new System.Drawing.Point(182, 162);
+			this.panel3.Location = new System.Drawing.Point(188, 234);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(85, 4);
 			this.panel3.TabIndex = 5;
@@ -124,7 +126,7 @@
 			// panel4
 			// 
 			this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-			this.panel4.Location = new System.Drawing.Point(273, 162);
+			this.panel4.Location = new System.Drawing.Point(279, 234);
 			this.panel4.Name = "panel4";
 			this.panel4.Size = new System.Drawing.Size(85, 4);
 			this.panel4.TabIndex = 6;
@@ -132,7 +134,7 @@
 			// panel5
 			// 
 			this.panel5.BackColor = System.Drawing.Color.Navy;
-			this.panel5.Location = new System.Drawing.Point(364, 162);
+			this.panel5.Location = new System.Drawing.Point(370, 234);
 			this.panel5.Name = "panel5";
 			this.panel5.Size = new System.Drawing.Size(85, 4);
 			this.panel5.TabIndex = 7;
@@ -140,7 +142,7 @@
 			// panel6
 			// 
 			this.panel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-			this.panel6.Location = new System.Drawing.Point(455, 162);
+			this.panel6.Location = new System.Drawing.Point(461, 234);
 			this.panel6.Name = "panel6";
 			this.panel6.Size = new System.Drawing.Size(85, 4);
 			this.panel6.TabIndex = 8;
@@ -154,12 +156,12 @@
 			// 
 			this.linkLabel2.AutoSize = true;
 			this.linkLabel2.LinkArea = new System.Windows.Forms.LinkArea(0, 76);
-			this.linkLabel2.Location = new System.Drawing.Point(34, 118);
+			this.linkLabel2.Location = new System.Drawing.Point(35, 135);
 			this.linkLabel2.Name = "linkLabel2";
-			this.linkLabel2.Size = new System.Drawing.Size(103, 17);
+			this.linkLabel2.Size = new System.Drawing.Size(113, 17);
 			this.linkLabel2.TabIndex = 10;
 			this.linkLabel2.TabStop = true;
-			this.linkLabel2.Text = "Vista look and feel?";
+			this.linkLabel2.Text = "● Vista look and feel?";
 			this.linkLabel2.UseCompatibleTextRendering = true;
 			this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
@@ -167,7 +169,7 @@
 			// 
 			this.linkLabel3.AutoSize = true;
 			this.linkLabel3.LinkArea = new System.Windows.Forms.LinkArea(0, 59);
-			this.linkLabel3.Location = new System.Drawing.Point(24, 140);
+			this.linkLabel3.Location = new System.Drawing.Point(30, 212);
 			this.linkLabel3.Name = "linkLabel3";
 			this.linkLabel3.Size = new System.Drawing.Size(108, 17);
 			this.linkLabel3.TabIndex = 10;
@@ -195,22 +197,50 @@
 			this.linkLabel5.LinkArea = new System.Windows.Forms.LinkArea(0, 59);
 			this.linkLabel5.Location = new System.Drawing.Point(34, 101);
 			this.linkLabel5.Name = "linkLabel5";
-			this.linkLabel5.Size = new System.Drawing.Size(130, 17);
+			this.linkLabel5.Size = new System.Drawing.Size(140, 17);
 			this.linkLabel5.TabIndex = 11;
 			this.linkLabel5.TabStop = true;
-			this.linkLabel5.Text = "Support for flash or java?";
+			this.linkLabel5.Text = "● Support for flash or java?";
 			this.linkLabel5.UseCompatibleTextRendering = true;
 			this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+			// 
+			// linkLabel1
+			// 
+			this.linkLabel1.AutoSize = true;
+			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 76);
+			this.linkLabel1.Location = new System.Drawing.Point(34, 118);
+			this.linkLabel1.Name = "linkLabel1";
+			this.linkLabel1.Size = new System.Drawing.Size(96, 17);
+			this.linkLabel1.TabIndex = 10;
+			this.linkLabel1.TabStop = true;
+			this.linkLabel1.Text = "● Rich text editor?";
+			this.linkLabel1.UseCompatibleTextRendering = true;
+			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+			// 
+			// linkLabel6
+			// 
+			this.linkLabel6.AutoSize = true;
+			this.linkLabel6.LinkArea = new System.Windows.Forms.LinkArea(0, 76);
+			this.linkLabel6.Location = new System.Drawing.Point(35, 152);
+			this.linkLabel6.Name = "linkLabel6";
+			this.linkLabel6.Size = new System.Drawing.Size(176, 17);
+			this.linkLabel6.TabIndex = 10;
+			this.linkLabel6.TabStop = true;
+			this.linkLabel6.Text = "● Windows Forms with ASP.NET?";
+			this.linkLabel6.UseCompatibleTextRendering = true;
+			this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(545, 172);
+			this.ClientSize = new System.Drawing.Size(545, 250);
 			this.Controls.Add(this.linkLabel5);
 			this.Controls.Add(this.linkLabel4);
 			this.Controls.Add(this.linkLabel3);
+			this.Controls.Add(this.linkLabel6);
+			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.linkLabel2);
 			this.Controls.Add(this.panel6);
 			this.Controls.Add(this.panel5);
@@ -248,6 +278,8 @@
 		private System.Windows.Forms.LinkLabel linkLabel3;
 		private System.Windows.Forms.LinkLabel linkLabel4;
 		private System.Windows.Forms.LinkLabel linkLabel5;
+		private System.Windows.Forms.LinkLabel linkLabel1;
+		private System.Windows.Forms.LinkLabel linkLabel6;
 	}
 }
 
