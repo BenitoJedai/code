@@ -40,5 +40,5 @@ using ScriptCoreLib;
 
 [assembly: 
     Script,
-    ScriptTypeFilter(ScriptType.JavaScript, "*.js")
+    ScriptTypeFilter(ScriptType.JavaScript, typeof(OrcasScriptApplication.js.OrcasScriptApplication))
 ]
