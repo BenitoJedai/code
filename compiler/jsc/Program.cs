@@ -423,10 +423,12 @@ namespace jsc
 
 		corelib_protection:
 
-			StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
+			File.WriteAllText(SourceVersion.FullName, CompilerBase.ConstantCompilerBuildDate);
 
-			SVW.WriteLine(CompilerBase.ConstantCompilerBuildDate);
-			SVW.Close();
+			//StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
+
+			//SVW.WriteLine(CompilerBase.ConstantCompilerBuildDate);
+			//SVW.Close();
 
 
 			EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, _assambly_loaded);
