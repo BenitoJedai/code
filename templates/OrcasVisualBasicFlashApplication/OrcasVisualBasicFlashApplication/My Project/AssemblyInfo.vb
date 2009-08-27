@@ -35,4 +35,4 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyFileVersion("1.0.0.0")> 
 
 <Assembly: Script()> 
-<Assembly: ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript")> 
+<Assembly: ScriptTypeFilter(ScriptType.ActionScript, GetType(OrcasVisualBasicFlashApplication.Application))> 

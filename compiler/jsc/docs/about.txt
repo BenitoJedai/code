@@ -329,3 +329,5 @@ version history:
 	java: unnamed parameters now will get a name
 	java: fixed ternary operator for boolean logic
 	as: fixed ternary operator for boolean logic
+27.08.2009
+	js: fixed non script assembly sorting order to not to precede BCLImplementation assemblies

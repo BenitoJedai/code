@@ -84,6 +84,9 @@ namespace jsc.Languages.Java
 
 			if (p.Block.IsTryBlock)
 			{
+				// .net 4 changes the way it works!
+				// see: http://msdn.microsoft.com/en-us/library/dd289498%28VS.100%29.aspx
+
 				#region are we supposed to emit synchronized block? lets find out
 				if (p.Block.Flow != null)
 				{

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcasSimpleWindowsFormsApplication", "OrcasSimpleWindowsFormsApplication\OrcasSimpleWindowsFormsApplication.csproj", "{F1F1F2E3-AB93-4DFE-A796-0C3E9D8DE667}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1F1F2E3-AB93-4DFE-A796-0C3E9D8DE667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F1F2E3-AB93-4DFE-A796-0C3E9D8DE667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F1F2E3-AB93-4DFE-A796-0C3E9D8DE667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F1F2E3-AB93-4DFE-A796-0C3E9D8DE667}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
