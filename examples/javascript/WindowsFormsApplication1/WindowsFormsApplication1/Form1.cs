@@ -25,6 +25,9 @@ namespace WindowsFormsApplication1
 		{
 			MessageBox.Show("hi");
 
+			// http://www.codeproject.com/KB/edit/InputBox.aspx
+			// InputBox
+
 		}
 
 		private void button3_Click(object sender, EventArgs e)
@@ -52,6 +55,24 @@ namespace WindowsFormsApplication1
 			}
 
 			context[context.Length - 1].BackColor = _BackColor;
+		}
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			MessageBox.Show(
+@"Contact jsc developers and ask for it!
+
+Development blog:
+http://zproxy.wordpress.com");
+		}
+
+		private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			MessageBox.Show(
+@"We could provide more controls just for you! Ask for more features!
+
+Development blog:
+http://zproxy.wordpress.com");
 		}
 	}
 }

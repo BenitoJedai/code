@@ -41,6 +41,10 @@
 			this.panel5 = new System.Windows.Forms.Panel();
 			this.panel6 = new System.Windows.Forms.Panel();
 			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+			this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+			this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+			this.linkLabel5 = new System.Windows.Forms.LinkLabel();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -63,11 +67,11 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(400, 41);
+			this.button1.Location = new System.Drawing.Point(306, 12);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 1;
-			this.button1.Text = "Action A";
+			this.button1.Text = "Message 1";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
@@ -77,7 +81,7 @@
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
 			this.button2.TabIndex = 1;
-			this.button2.Text = "Action B";
+			this.button2.Text = "Message 2";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
@@ -85,7 +89,7 @@
 			// 
 			this.button3.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
 			this.button3.ForeColor = System.Drawing.Color.Red;
-			this.button3.Location = new System.Drawing.Point(256, 87);
+			this.button3.Location = new System.Drawing.Point(306, 56);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(219, 58);
 			this.button3.TabIndex = 2;
@@ -146,12 +150,68 @@
 			this.timer1.Enabled = true;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
+			// linkLabel2
+			// 
+			this.linkLabel2.AutoSize = true;
+			this.linkLabel2.LinkArea = new System.Windows.Forms.LinkArea(0, 76);
+			this.linkLabel2.Location = new System.Drawing.Point(34, 118);
+			this.linkLabel2.Name = "linkLabel2";
+			this.linkLabel2.Size = new System.Drawing.Size(103, 17);
+			this.linkLabel2.TabIndex = 10;
+			this.linkLabel2.TabStop = true;
+			this.linkLabel2.Text = "Vista look and feel?";
+			this.linkLabel2.UseCompatibleTextRendering = true;
+			this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+			// 
+			// linkLabel3
+			// 
+			this.linkLabel3.AutoSize = true;
+			this.linkLabel3.LinkArea = new System.Windows.Forms.LinkArea(0, 59);
+			this.linkLabel3.Location = new System.Drawing.Point(24, 140);
+			this.linkLabel3.Name = "linkLabel3";
+			this.linkLabel3.Size = new System.Drawing.Size(108, 17);
+			this.linkLabel3.TabIndex = 10;
+			this.linkLabel3.TabStop = true;
+			this.linkLabel3.Text = "Order a feature now!";
+			this.linkLabel3.UseCompatibleTextRendering = true;
+			this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+			// 
+			// linkLabel4
+			// 
+			this.linkLabel4.AutoSize = true;
+			this.linkLabel4.LinkArea = new System.Windows.Forms.LinkArea(0, 59);
+			this.linkLabel4.Location = new System.Drawing.Point(24, 84);
+			this.linkLabel4.Name = "linkLabel4";
+			this.linkLabel4.Size = new System.Drawing.Size(224, 17);
+			this.linkLabel4.TabIndex = 11;
+			this.linkLabel4.TabStop = true;
+			this.linkLabel4.Text = "What about WPF interop and WebBrowser?";
+			this.linkLabel4.UseCompatibleTextRendering = true;
+			this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+			// 
+			// linkLabel5
+			// 
+			this.linkLabel5.AutoSize = true;
+			this.linkLabel5.LinkArea = new System.Windows.Forms.LinkArea(0, 59);
+			this.linkLabel5.Location = new System.Drawing.Point(34, 101);
+			this.linkLabel5.Name = "linkLabel5";
+			this.linkLabel5.Size = new System.Drawing.Size(130, 17);
+			this.linkLabel5.TabIndex = 11;
+			this.linkLabel5.TabStop = true;
+			this.linkLabel5.Text = "Support for flash or java?";
+			this.linkLabel5.UseCompatibleTextRendering = true;
+			this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(545, 172);
+			this.Controls.Add(this.linkLabel5);
+			this.Controls.Add(this.linkLabel4);
+			this.Controls.Add(this.linkLabel3);
+			this.Controls.Add(this.linkLabel2);
 			this.Controls.Add(this.panel6);
 			this.Controls.Add(this.panel5);
 			this.Controls.Add(this.panel4);
@@ -184,6 +244,10 @@
 		private System.Windows.Forms.Panel panel5;
 		private System.Windows.Forms.Panel panel6;
 		private System.Windows.Forms.Timer timer1;
+		private System.Windows.Forms.LinkLabel linkLabel2;
+		private System.Windows.Forms.LinkLabel linkLabel3;
+		private System.Windows.Forms.LinkLabel linkLabel4;
+		private System.Windows.Forms.LinkLabel linkLabel5;
 	}
 }
 

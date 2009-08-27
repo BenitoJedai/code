@@ -52,5 +52,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return (__Label)(object)e;
         }
         #endregion
+
+		public bool TabStop { get; set; }
+
     }
 }
