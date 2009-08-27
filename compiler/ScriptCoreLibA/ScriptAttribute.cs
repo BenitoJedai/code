@@ -222,6 +222,10 @@ namespace ScriptCoreLib
 		/// </summary>
 		public bool InternalConstructor;
 
+		/// <summary>
+		/// This field will mark the primary scriptcorelib for the target language.
+		/// In this assembly additional types may be written to support the runtime.
+		/// </summary>
 		public bool IsCoreLib;
 
 		/// <summary>

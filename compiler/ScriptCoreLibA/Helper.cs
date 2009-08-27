@@ -163,7 +163,33 @@ namespace ScriptCoreLib
 			var r = LoadDependencies(a, a, includethis, null).Distinct(
 				new LoadDependenciesValue.EqualityComparer()
 			).ToArray().ToDictionary(i => i.Assembly, i => i.Dependencies.Distinct().ToArray());
-			var k = r.Keys.ToArray();
+			var k = r.Keys.OrderByDescending(
+				kk =>
+				{
+					// fixme: we should apply namespace filters here
+					var any = kk.GetTypes().Any(
+						kkk =>
+						{
+							var sa = ScriptAttribute.OfProvider(kkk);
+
+							if (sa == null)
+								return false;
+
+							if (sa.Implements == null)
+								return false;
+
+							return true;
+						}
+					);
+
+					return any;
+				}
+			).ToArray();
+
+			// this is almost in the correct order
+			// we need to consider that some assemlies are out of band
+			// which mean they are only after the BCLImplementation 
+			// assemblies
 
 			return k;
 

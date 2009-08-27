@@ -127,7 +127,9 @@ namespace jsc.Languages.JavaScript
         {
             WriteEntryPointHTMLTemplate(w, s,
 				ass.GetName().Name,
-                () => SharedHelper.DefineScript(w, SharedHelper.LocalModulesOf(ass)),
+                () => 
+					SharedHelper.DefineScript(w, 
+						SharedHelper.LoadReferencedAssemblies(ass, true).Select(k => new FileInfo(k.Location).Name).ToArray()),
                 () => w.WriteLine("<script type='" + mime + "' class='" + alias + "'>" + (string.IsNullOrEmpty(data) ? "" : "\n" + data + "\n") + "</script>")
             );
 
