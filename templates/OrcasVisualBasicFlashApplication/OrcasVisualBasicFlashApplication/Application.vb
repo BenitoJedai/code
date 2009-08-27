@@ -7,9 +7,9 @@ Imports ScriptCoreLib.ActionScript.flash.geom
 
 
 <Script(), _
- SWF(width:=OrcasVisualBasicFlashApplication.DefaultWidth, height:=OrcasVisualBasicFlashApplication.DefaultHeight), _
- ScriptApplicationEntryPoint(width:=OrcasVisualBasicFlashApplication.DefaultWidth, height:=OrcasVisualBasicFlashApplication.DefaultHeight)> _
-Public Class OrcasVisualBasicFlashApplication
+ SWF(width:=Application.DefaultWidth, height:=Application.DefaultHeight), _
+ ScriptApplicationEntryPoint(width:=Application.DefaultWidth, height:=Application.DefaultHeight)> _
+Public Class Application
     Inherits Sprite
 
     Public Const DefaultWidth As Integer = 400
@@ -103,8 +103,8 @@ Public Class OrcasVisualBasicFlashApplication
 
         s.AttachTo(Me)
 
-        
-        
+
+
 
     End Sub
 

@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EE76246F-BAD9-47CA-9765-2E278E983D3A}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>OrcasVisualBasicFlashApplication.ActionScript</RootNamespace>
+    <RootNamespace>OrcasVisualBasicFlashApplication</RootNamespace>
     <AssemblyName>OrcasVisualBasicFlashApplication</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
@@ -78,7 +78,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrcasVisualBasicFlashApplication.vb" />
+    <Compile Include="Application.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -130,8 +130,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName)
-popd</PostBuildEvent>
+    <PostBuildEvent>
+      pushd ..\..\tools\
+      call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+      popd
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -85,7 +85,8 @@ namespace jsc.meta
 			FileInfo InternalBuild(Action<MethodInfo> AnnounceEntrypoint)
 			{
 				// Main
-				var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.Public | BindingFlags.Static);
+				// C# project template in .net 4 has internal Main... who knew...
+				var assembly_type_Main = assembly_type.GetMethod("Main",  BindingFlags.NonPublic |  BindingFlags.Public | BindingFlags.Static);
 
 				var name = new AssemblyName(assembly.GetName().Name + MetaScript);
 				var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave);
@@ -112,6 +113,7 @@ namespace jsc.meta
 
 				if (assembly_type_Main.GetParameters().Length > 0)
 					main_il.Emit(OpCodes.Ldarg_0);
+
 				//main_il.Emit(OpCodes.Ldnull);
 				main_il.EmitCall(OpCodes.Call, assembly_type_Main, null);
 

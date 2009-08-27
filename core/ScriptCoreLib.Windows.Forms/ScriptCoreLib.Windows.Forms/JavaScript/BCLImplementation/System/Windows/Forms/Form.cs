@@ -89,7 +89,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             container.style.bottom = innerborder +"px";
             container.style.overflow = IStyle.OverflowEnum.hidden;
 
-			HTMLTarget.style.backgroundColor = "#B0B0B0";
+			//HTMLTarget.style.backgroundColor = "#B0B0B0";
+			this.BackColor = SystemColors.ButtonFace;
+
+
 			HTMLTarget.appendChild(caption, icon, caption_foreground, container);
 
             drag = new ScriptCoreLib.JavaScript.Controls.DragHelper(caption_foreground);

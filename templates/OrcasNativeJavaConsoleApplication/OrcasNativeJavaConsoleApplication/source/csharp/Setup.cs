@@ -15,16 +15,7 @@ using EntryPointSettings = OrcasNativeJavaConsoleApplication.source.java.Setting
 
 namespace AppletTemplate.source.csharp
 {
-    /*
-    class SettingsInfo
-    {
-        public string ProjectName { get; set; }
-        public string CompilandNamespace0 { get; set; }
-        public string CompilandNamespace1 { get; set; }
-        public string CompilandType { get; set; }
-        public string CompilandFullName { get; set; }
-        public string PackageName { get; set; }
-    }*/
+   
 
     class Setup
     {
