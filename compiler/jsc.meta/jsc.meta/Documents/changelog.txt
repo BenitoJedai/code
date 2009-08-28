@@ -1,2 +1,4 @@
 ﻿2009.08.24
 	- added support for java console application
+2009.08.28
+	- added jsc logo as branding for windows forms everywhere javascript solution

@@ -8,153 +8,171 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
-    [Script]
-    public static class Extensions
-    {
-        /// <summary>
-        /// shows element and sets opacity to 1
-        /// </summary>
-        public static T Show<T>(this T e)
-            where T : IHTMLElement
-        {
-            e.style.display = IStyle.DisplayEnum.empty;
-            e.style.Opacity = 1;
+	[Script]
+	public static class Extensions
+	{
+		/// <summary>
+		/// shows element and sets opacity to 1
+		/// </summary>
+		public static T Show<T>(this T e)
+			where T : IHTMLElement
+		{
+			e.style.display = IStyle.DisplayEnum.empty;
+			e.style.Opacity = 1;
 
-            return e;
-        }
-
- 
-
-        public static T Show<T>(this T e, bool bVisible)
-            where T : IHTMLElement
-        {
-            if (bVisible)
-                return e.Show();
-            else
-                return e.Hide();
-        }
-
-        public static T Hide<T>(this T e)
-            where T : IHTMLElement
-        {
-            e.style.display = IStyle.DisplayEnum.none;
-
-            return e;
-        }
+			return e;
+		}
 
 
-        public static bool ToggleVisible<T>(this T e)
-            where T : IHTMLElement
-        {
-            IStyle.DisplayEnum v = IStyle.DisplayEnum.empty;
 
-            if (e.style.display == v)
-            {
-                e.Hide();
+		public static T Show<T>(this T e, bool bVisible)
+			where T : IHTMLElement
+		{
+			if (bVisible)
+				return e.Show();
+			else
+				return e.Hide();
+		}
 
-                return false;
-            }
-            else
-            {
-                e.Show();
+		public static T Hide<T>(this T e)
+			where T : IHTMLElement
+		{
+			e.style.display = IStyle.DisplayEnum.none;
 
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// detaches the node from dom
-        /// </summary>
-        public static T Dispose<T>(this T e)
-            where T : INode
-        {
-            if (e == null)
-                throw new NullReferenceException();
-
-            INode n = e.parentNode;
-
-            if (n != null)
-                n.removeChild(e);
-
-            return e;
-        }
-
-        
-
-        /// <summary>
-        /// attaches this element to the current document body
-        /// </summary>
-        public static T AttachToDocument<T>(this T e)
-            where T : INode
-        {
-            return e.AttachTo(Native.Document.body);
-        }
-
-        public static T AttachTo<T>(this T e, INode c)
-            where T : INode
-        {
-            c.appendChild(e);
-
-            return e;
-        }
-
-        public static T Deserialize<T>(this IXMLDocument e, object[] k)
-                    where T : class, new()
-        {
-            if (k == null)
-                throw new Exception("Deserialize: k is null");
-
-            return new IXMLSerializer<T>(k).Deserialize(e);
-        }
-
-        public static void Spawn(this Type alias)
-        {
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
-        }
+			return e;
+		}
 
 
-        public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
-        {
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
-        }
+		public static bool ToggleVisible<T>(this T e)
+			where T : IHTMLElement
+		{
+			IStyle.DisplayEnum v = IStyle.DisplayEnum.empty;
 
-        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
-             where T : class, new()
-        {
-            SpawnTo<T>(alias, KnownTypes, (t, i) => h(t));
-        }
+			if (e.style.display == v)
+			{
+				e.Hide();
 
-        public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T, IHTMLElement> h)
-            where T : class, new()
-        {
-            if (KnownTypes == null)
-                throw new Exception("GetKnownTypes is null");
+				return false;
+			}
+			else
+			{
+				e.Show();
 
-            ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
-                i =>
-                {
-                    if (i.nodeName == "SCRIPT")
-                    {
-                        var tag = (IHTMLScript)i;
-                        var text = i.text;
+				return true;
+			}
+		}
 
-                        if (tag.type == "text/xml")
-                        {
-                            var doc = IXMLDocument.Parse(text);
+		/// <summary>
+		/// detaches the node from dom
+		/// </summary>
+		public static T Dispose<T>(this T e)
+			where T : INode
+		{
+			if (e == null)
+				throw new NullReferenceException();
 
-                            h(doc.Deserialize<T>(KnownTypes), i);
-                        }
-                        else if (tag.type == "text/json")
-                        {
-                            // reflection info will be lost here?
+			INode n = e.parentNode;
 
-                            h((T)(object)Expando.FromJSON(text), i);
-                        }
-                    }
-                }
-            );
-        }
+			if (n != null)
+				n.removeChild(e);
+
+			return e;
+		}
 
 
-    }
+
+		/// <summary>
+		/// attaches this element to the current document body
+		/// </summary>
+		public static T AttachToDocument<T>(this T e)
+			where T : INode
+		{
+			return e.AttachTo(Native.Document.body);
+		}
+
+		public static T AttachTo<T>(this T e, INode c)
+			where T : INode
+		{
+			c.appendChild(e);
+
+			return e;
+		}
+
+		public static T Deserialize<T>(this IXMLDocument e, object[] k)
+					where T : class, new()
+		{
+			if (k == null)
+				throw new Exception("Deserialize: k is null");
+
+			return new IXMLSerializer<T>(k).Deserialize(e);
+		}
+
+		public static void Spawn(this Type alias)
+		{
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
+		}
+
+		public static void SpawnEntrypointWithBrandning(this Type alias)
+		{
+			if (Native.Window == null)
+				return;
+
+			Native.Window.onload +=
+				delegate
+				{
+					var i = new IHTMLImage("assets/ScriptCoreLib/jsc.png");
+
+					i.style.position = IStyle.PositionEnum.absolute;
+					i.style.right = "1em";
+					i.style.bottom = "1em";
+					i.AttachToDocument();
+				};
+
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => Activator.CreateInstance(alias));
+		}
+
+		public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
+		{
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
+		}
+
+		public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T> h)
+			 where T : class, new()
+		{
+			SpawnTo<T>(alias, KnownTypes, (t, i) => h(t));
+		}
+
+		public static void SpawnTo<T>(this Type alias, object[] KnownTypes, Action<T, IHTMLElement> h)
+			where T : class, new()
+		{
+			if (KnownTypes == null)
+				throw new Exception("GetKnownTypes is null");
+
+			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name,
+				i =>
+				{
+					if (i.nodeName == "SCRIPT")
+					{
+						var tag = (IHTMLScript)i;
+						var text = i.text;
+
+						if (tag.type == "text/xml")
+						{
+							var doc = IXMLDocument.Parse(text);
+
+							h(doc.Deserialize<T>(KnownTypes), i);
+						}
+						else if (tag.type == "text/json")
+						{
+							// reflection info will be lost here?
+
+							h((T)(object)Expando.FromJSON(text), i);
+						}
+					}
+				}
+			);
+		}
+
+
+	}
 }

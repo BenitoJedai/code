@@ -163,7 +163,7 @@ namespace jsc.meta
 
 				cctor_il.Emit(OpCodes.Ldtoken, t);
 				cctor_il.EmitCall(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle"), null);
-				cctor_il.EmitCall(OpCodes.Call, ((Action<Type>)ScriptCoreLib.JavaScript.Extensions.Extensions.Spawn).Method, null);
+				cctor_il.EmitCall(OpCodes.Call, ((Action<Type>)ScriptCoreLib.JavaScript.Extensions.Extensions.SpawnEntrypointWithBrandning).Method, null);
 
 				cctor_il.Emit(OpCodes.Ret);
 
