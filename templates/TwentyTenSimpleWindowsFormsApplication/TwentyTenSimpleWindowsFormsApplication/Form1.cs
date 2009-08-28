@@ -20,5 +20,23 @@ namespace TwentyTenSimpleWindowsFormsApplication
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            GoForward(text1: "You clicked '" + button2.Text + "'");
+        }
+
+        void GoForward(string text1, string text2 = "powered by jsc", string blog = "http://zproxy.wordpress.com")
+        {
+            var w = new StringBuilder();
+
+            w.AppendLine(text1);
+            w.AppendLine();
+            w.AppendLine(text2);
+            w.AppendLine(blog);
+
+            MessageBox.Show(w.ToString());
+        }
     }
 }
