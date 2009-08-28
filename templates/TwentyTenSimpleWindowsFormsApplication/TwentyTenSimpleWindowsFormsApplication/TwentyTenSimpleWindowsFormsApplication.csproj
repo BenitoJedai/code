@@ -103,7 +103,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-echo C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath)
 C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
