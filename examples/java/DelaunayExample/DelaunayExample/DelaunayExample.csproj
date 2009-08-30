@@ -54,7 +54,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Java\DelaunayAp.cs" />
+    <Compile Include="Java\DelaunayTriangulation.cs" />
     <Compile Include="Java\Pnt.cs" />
+    <Compile Include="Java\Simplex.cs" />
+    <Compile Include="Java\Triangulation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setup.cs" />
     <Compile Include="Java\DemoApplet.Program.cs" />
@@ -64,20 +68,6 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="web\java\DelaunayExample\Java\DelaunayAp.java">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\java\DelaunayExample\Java\DelaunayTriangulation.java">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\java\DelaunayExample\Java\Pnt.java">
-    </Content>
-    <Content Include="web\java\DelaunayExample\Java\Simplex.java">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\java\DelaunayExample\Java\Triangulation.java">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
@@ -86,6 +76,9 @@
     <None Include="tools\create.jar.bat" />
     <None Include="tools\run.jar.bat" />
     <None Include="tools\test.applet.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="web\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

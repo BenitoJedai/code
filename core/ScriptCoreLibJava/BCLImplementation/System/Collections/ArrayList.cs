@@ -47,7 +47,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
 		public virtual object[] ToArray()
 		{
-			return InternalList.toArray();
+			return (object[])InternalList.toArray();
 		}
 
 		public virtual Array ToArray(Type type)

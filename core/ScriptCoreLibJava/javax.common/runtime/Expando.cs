@@ -34,7 +34,7 @@ namespace javax.common.runtime
         {
             get
             {
-                return BaseList.keySet().toArray();
+				return (object[])BaseList.keySet().toArray();
             }
         }
 

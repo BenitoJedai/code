@@ -6,6 +6,17 @@ using ScriptCoreLib;
 
 namespace DelaunayExample.Java
 {
+	/**
+ * Points in Euclidean space, implemented as double[].
+ * 
+ * Includes simple geometric operations.
+ * Uses matrices; a matrix is represented as an array of Pnts.
+ * Uses simplices; a simplex is represented as an array of Pnts.
+ * 
+ * @author Paul Chew
+ * 
+ * Created July 2005.  Derived from an earlier, messier version.
+ */
 	[Script]
 	public class Pnt
 	{

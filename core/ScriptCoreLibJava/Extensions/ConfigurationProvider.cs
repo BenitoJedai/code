@@ -51,19 +51,42 @@ namespace ScriptCoreLibJava.Extensions
 
 			var servlets = new Dictionary<string, string>();
 
+			// bring on all the sattelite servlets
 			#region seek for servlets with assigned pattern
-			foreach (var a in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(e, true))
+			foreach (var a in ScriptCoreLib.SharedHelper.LoadReferencedAssemblies(e, false))
 			{
-				foreach (var t in a.GetTypes())
-				{
-					var p = t.GetCustomAttributes(typeof(UrlPatternAttribute), false);
+				ExtractServlets(w, servlets, a);
+			}
+			#endregion
 
-					if (p.Length != 1)
-						continue;
-					
-					var pattern = p[0] as UrlPatternAttribute;
+			// overwrite with our servlets as the last step...
+			ExtractServlets(w, servlets, e);
 
-					servlets[pattern.PatternString] = @"<servlet>
+			foreach (var k in servlets.Values)
+			{
+				w.AppendLine(k);
+			}
+
+
+			w.AppendLine("</web-app>");
+
+			return w.ToString();
+		}
+
+		private static void ExtractServlets(StringBuilder w, Dictionary<string, string> servlets, Assembly a)
+		{
+			w.AppendLine("/* " + a.GetName().Name + " */");
+
+			foreach (var t in a.GetTypes())
+			{
+				var p = t.GetCustomAttributes(typeof(UrlPatternAttribute), false);
+
+				if (p.Length != 1)
+					continue;
+
+				var pattern = p[0] as UrlPatternAttribute;
+
+				servlets[pattern.PatternString] = @"<servlet>
     <servlet-name>{ServletName}</servlet-name>
     <servlet-class>{ServletNamespace}.{ServletName}</servlet-class>
   </servlet>
@@ -76,21 +99,8 @@ namespace ScriptCoreLibJava.Extensions
 .Replace("{ServletName}", t.Name)
 .Replace("{ServletNamespace}", t.Namespace)
 .Replace("{Pattern}", pattern.PatternString)
-					;
-				}
+				;
 			}
-			#endregion
-
-
-			foreach (var k in servlets.Values)
-			{
-				w.AppendLine(k);
-			}
-
-
-			w.AppendLine("</web-app>");
-
-			return w.ToString();
 		}
 	}
 }

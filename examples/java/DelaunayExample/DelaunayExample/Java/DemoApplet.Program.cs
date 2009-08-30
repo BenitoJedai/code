@@ -14,7 +14,7 @@ namespace DelaunayExample.Java
 			Console.WriteLine("Hello World");
 
 
-			DelaunayAp.Main(args);
+			DelaunayAp.main(args);
 
 
 			Console.ReadLine();
