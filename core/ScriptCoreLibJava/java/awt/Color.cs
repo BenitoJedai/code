@@ -12,6 +12,9 @@ namespace java.awt
 	[Script(IsNative = true)]
 	public class Color
 	{
+		public readonly static Color gray;
+		public readonly static Color magenta;
+		public readonly static Color green;
 		/// <summary>
 		/// Creates a color in the specified <code>ColorSpace</code>
 		/// with the color components specified in the <code>float</code>

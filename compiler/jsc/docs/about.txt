@@ -334,3 +334,4 @@ version history:
 	java: opcode ldc now casts to java.lang.byte when expected to
 30.08.2009
 	java: opcode Stelem now respects bool
+	java: object methods are renamed alike java.lang.Object methods

@@ -10,13 +10,6 @@ using java.awt.image;
 
 namespace DelaunayExample.Java
 {
-	[Script(IsNative = true)]
-	public class DelaunayAp : Applet //, ImageObserver
-	{
-		public static void Main(string[] args)
-		{
-		}
-	}
 
 
 	[Script]

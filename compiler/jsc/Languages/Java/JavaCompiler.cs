@@ -263,6 +263,10 @@ namespace jsc.Languages.Java
 
 			if (z.Name == "ToString" && !z.IsStatic)
 				Write("toString");
+			else if (z.Name == "Equals" && !z.IsStatic)
+				Write("equals");
+			else if (z.Name == "GetHashCode" && !z.IsStatic)
+				Write("hashCode");
 			else
 			{
 				if (z.Name == "Main" && z.IsStatic)

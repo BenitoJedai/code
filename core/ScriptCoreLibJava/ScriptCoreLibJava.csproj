@@ -150,17 +150,277 @@
     <Compile Include="javax.common\runtime\Expando.cs" />
     <Compile Include="javax.common\runtime\Timer.cs" />
     <Compile Include="javax.common\runtime\VariantValue.cs" />
+    <Compile Include="javax\accessibility\Accessible.cs" />
+    <Compile Include="javax\accessibility\AccessibleBundle.cs" />
+    <Compile Include="javax\accessibility\AccessibleContext.cs" />
+    <Compile Include="javax\accessibility\AccessibleState.cs" />
+    <Compile Include="javax\accessibility\AccessibleStateSet.cs" />
     <Compile Include="javax\servlet\ServletOutputStream.cs" />
-    <Compile Include="java\awt\event\ComponentEvent.cs" />
-    <Compile Include="java\awt\event\MouseWheelEvent.cs" />
-    <Compile Include="java\awt\event\InputEvent.cs" />
-    <Compile Include="java\awt\event\MouseEvent.cs" />
-    <Compile Include="java\awt\event\MouseListener.cs" />
-    <Compile Include="java\awt\Graphics2D.cs" />
+    <Compile Include="javax\swing\AbstractButton.cs" />
+    <Compile Include="javax\swing\Action.cs" />
+    <Compile Include="javax\swing\ActionMap.cs" />
+    <Compile Include="javax\swing\border\Border.cs" />
+    <Compile Include="javax\swing\ButtonGroup.cs" />
+    <Compile Include="javax\swing\ButtonModel.cs" />
+    <Compile Include="javax\swing\event\AncestorEvent.cs" />
+    <Compile Include="javax\swing\event\AncestorListener.cs" />
+    <Compile Include="javax\swing\event\ChangeEvent.cs" />
+    <Compile Include="javax\swing\event\ChangeListener.cs" />
+    <Compile Include="javax\swing\event\MenuDragMouseEvent.cs" />
+    <Compile Include="javax\swing\event\MenuDragMouseListener.cs" />
+    <Compile Include="javax\swing\event\MenuEvent.cs" />
+    <Compile Include="javax\swing\event\MenuKeyEvent.cs" />
+    <Compile Include="javax\swing\event\MenuKeyListener.cs" />
+    <Compile Include="javax\swing\event\MenuListener.cs" />
+    <Compile Include="javax\swing\event\PopupMenuEvent.cs" />
+    <Compile Include="javax\swing\event\PopupMenuListener.cs" />
+    <Compile Include="javax\swing\Icon.cs" />
+    <Compile Include="javax\swing\InputMap.cs" />
+    <Compile Include="javax\swing\InputVerifier.cs" />
+    <Compile Include="javax\swing\JApplet.cs" />
+    <Compile Include="javax\swing\JButton.cs" />
+    <Compile Include="javax\swing\JComponent.cs" />
+    <Compile Include="javax\swing\JFrame.cs" />
+    <Compile Include="javax\swing\JLabel.cs" />
+    <Compile Include="javax\swing\JLayeredPane.cs" />
+    <Compile Include="javax\swing\JMenu.cs" />
+    <Compile Include="javax\swing\JMenuBar.cs" />
+    <Compile Include="javax\swing\JMenuItem.cs" />
+    <Compile Include="javax\swing\JPanel.cs" />
+    <Compile Include="javax\swing\JPopupMenu.cs" />
+    <Compile Include="javax\swing\JRadioButton.cs" />
+    <Compile Include="javax\swing\JRootPane.cs" />
+    <Compile Include="javax\swing\JToggleButton.cs" />
+    <Compile Include="javax\swing\JToolTip.cs" />
+    <Compile Include="javax\swing\KeyStroke.cs" />
+    <Compile Include="javax\swing\MenuElement.cs" />
+    <Compile Include="javax\swing\MenuSelectionManager.cs" />
+    <Compile Include="javax\swing\plaf\ButtonUI.cs" />
+    <Compile Include="javax\swing\plaf\ComponentUI.cs" />
+    <Compile Include="javax\swing\plaf\LabelUI.cs" />
+    <Compile Include="javax\swing\plaf\MenuBarUI.cs" />
+    <Compile Include="javax\swing\plaf\MenuItemUI.cs" />
+    <Compile Include="javax\swing\plaf\PanelUI.cs" />
+    <Compile Include="javax\swing\plaf\PopupMenuUI.cs" />
+    <Compile Include="javax\swing\plaf\RootPaneUI.cs" />
+    <Compile Include="javax\swing\plaf\ToolTipUI.cs" />
+    <Compile Include="javax\swing\Popup.cs" />
+    <Compile Include="javax\swing\SingleSelectionModel.cs" />
+    <Compile Include="javax\swing\SwingUtilities.cs" />
+    <Compile Include="javax\swing\TransferHandler.cs" />
+    <Compile Include="java\awt\AWTEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\AWTKeyStroke.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\BorderLayout.cs" />
+    <Compile Include="java\awt\BufferCapabilities.cs" />
+    <Compile Include="java\awt\Button.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Checkbox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Choice.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Color.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\color\ColorSpace.cs" />
+    <Compile Include="java\awt\Component.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\ComponentOrientation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Composite.cs" />
+    <Compile Include="java\awt\CompositeContext.cs" />
+    <Compile Include="java\awt\Container.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Cursor.cs" />
+    <Compile Include="java\awt\datatransfer\Clipboard.cs" />
+    <Compile Include="java\awt\datatransfer\ClipboardOwner.cs" />
+    <Compile Include="java\awt\datatransfer\DataFlavor.cs" />
+    <Compile Include="java\awt\datatransfer\FlavorMap.cs" />
+    <Compile Include="java\awt\datatransfer\Transferable.cs" />
+    <Compile Include="java\awt\Dimension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\DisplayMode.cs" />
+    <Compile Include="java\awt\dnd\DropTarget.cs" />
+    <Compile Include="java\awt\dnd\DropTargetContext.cs" />
+    <Compile Include="java\awt\dnd\DropTargetDragEvent.cs" />
+    <Compile Include="java\awt\dnd\DropTargetDropEvent.cs" />
+    <Compile Include="java\awt\dnd\DropTargetEvent.cs" />
+    <Compile Include="java\awt\dnd\DropTargetListener.cs" />
+    <Compile Include="java\awt\Event.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\ActionEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\ActionListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\ComponentEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\ComponentListener.cs" />
+    <Compile Include="java\awt\event\ContainerEvent.cs" />
+    <Compile Include="java\awt\event\ContainerListener.cs" />
+    <Compile Include="java\awt\event\FocusEvent.cs" />
+    <Compile Include="java\awt\event\FocusListener.cs" />
+    <Compile Include="java\awt\event\HierarchyBoundsListener.cs" />
+    <Compile Include="java\awt\event\HierarchyEvent.cs" />
+    <Compile Include="java\awt\event\HierarchyListener.cs" />
+    <Compile Include="java\awt\event\InputEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\InputMethodEvent.cs" />
+    <Compile Include="java\awt\event\InputMethodListener.cs" />
+    <Compile Include="java\awt\event\ItemEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\ItemListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\KeyEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\KeyListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\MouseEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\MouseListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\MouseMotionListener.cs" />
+    <Compile Include="java\awt\event\MouseWheelEvent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\event\MouseWheelListener.cs" />
+    <Compile Include="java\awt\event\WindowEvent.cs" />
+    <Compile Include="java\awt\event\WindowFocusListener.cs" />
+    <Compile Include="java\awt\event\WindowListener.cs" />
+    <Compile Include="java\awt\event\WindowStateListener.cs" />
+    <Compile Include="java\awt\FocusTraversalPolicy.cs" />
+    <Compile Include="java\awt\Font.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\FontMetrics.cs" />
+    <Compile Include="java\awt\font\FontRenderContext.cs" />
+    <Compile Include="java\awt\font\GlyphJustificationInfo.cs" />
+    <Compile Include="java\awt\font\GlyphMetrics.cs" />
+    <Compile Include="java\awt\font\GlyphVector.cs" />
+    <Compile Include="java\awt\font\LineMetrics.cs" />
+    <Compile Include="java\awt\font\TextHitInfo.cs" />
+    <Compile Include="java\awt\Frame.cs" />
+    <Compile Include="java\awt\geom\AffineTransform.cs" />
+    <Compile Include="java\awt\geom\Dimension2D.cs" />
+    <Compile Include="java\awt\geom\Line2D.cs" />
+    <Compile Include="java\awt\geom\PathIterator.cs" />
+    <Compile Include="java\awt\geom\Point2D.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\geom\Rectangle2D.cs" />
+    <Compile Include="java\awt\geom\RectangularShape.cs" />
+    <Compile Include="java\awt\Graphics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Graphics2D.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\GraphicsConfigTemplate.cs" />
+    <Compile Include="java\awt\GraphicsConfiguration.cs" />
+    <Compile Include="java\awt\GraphicsDevice.cs" />
+    <Compile Include="java\awt\Image.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\ImageCapabilities.cs" />
+    <Compile Include="java\awt\image\BufferedImage.cs" />
+    <Compile Include="java\awt\image\BufferedImageOp.cs" />
+    <Compile Include="java\awt\image\BufferStrategy.cs" />
+    <Compile Include="java\awt\image\ColorModel.cs" />
+    <Compile Include="java\awt\image\DataBuffer.cs" />
+    <Compile Include="java\awt\image\ImageObserver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\image\ImageProducer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\image\IndexColorModel.cs" />
+    <Compile Include="java\awt\image\MemoryImageSource.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\image\Raster.cs" />
+    <Compile Include="java\awt\image\renderable\RenderableImage.cs" />
+    <Compile Include="java\awt\image\renderable\RenderContext.cs" />
+    <Compile Include="java\awt\image\RenderedImage.cs" />
+    <Compile Include="java\awt\image\SampleModel.cs" />
+    <Compile Include="java\awt\image\TileObserver.cs" />
+    <Compile Include="java\awt\image\WritableRaster.cs" />
+    <Compile Include="java\awt\image\WritableRenderedImage.cs" />
+    <Compile Include="java\awt\im\InputContext.cs" />
+    <Compile Include="java\awt\im\InputMethodRequests.cs" />
+    <Compile Include="java\awt\Insets.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\ItemSelectable.cs" />
+    <Compile Include="java\awt\Label.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\LayoutManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Menu.cs" />
+    <Compile Include="java\awt\MenuBar.cs" />
+    <Compile Include="java\awt\MenuComponent.cs" />
+    <Compile Include="java\awt\MenuContainer.cs" />
+    <Compile Include="java\awt\MenuItem.cs" />
+    <Compile Include="java\awt\MenuShortcut.cs" />
+    <Compile Include="java\awt\Paint.cs" />
+    <Compile Include="java\awt\PaintContext.cs" />
+    <Compile Include="java\awt\Panel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Point.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Polygon.cs" />
+    <Compile Include="java\awt\PopupMenu.cs" />
+    <Compile Include="java\awt\Rectangle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\RenderingHints.cs" />
+    <Compile Include="java\awt\Shape.cs" />
+    <Compile Include="java\awt\Stroke.cs" />
+    <Compile Include="java\awt\TextField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Toolkit.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="java\awt\Transparency.cs" />
+    <Compile Include="java\awt\VolatileImage.cs" />
+    <Compile Include="java\awt\Window.cs" />
+    <Compile Include="java\beans\PropertyChangeEvent.cs" />
+    <Compile Include="java\beans\PropertyChangeListener.cs" />
+    <Compile Include="java\beans\VetoableChangeListener.cs" />
+    <Compile Include="java\io\DataOutput.cs" />
+    <Compile Include="java\io\ObjectInput.cs" />
+    <Compile Include="java\io\ObjectOutput.cs" />
     <Compile Include="java\io\Serializable.cs" />
     <Compile Include="java\io\StringReader.cs" />
+    <Compile Include="java\lang\Character.cs" />
+    <Compile Include="java\lang\Number.cs" />
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
+    <Compile Include="java\math\BigInteger.cs" />
     <Compile Include="java\net\URLConnection.cs" />
     <Compile Include="java\net\HttpURLConnection.cs" />
     <Compile Include="javax\servlet\http\HttpServletResponse.cs" />
@@ -172,33 +432,6 @@
     <Compile Include="java\applet\Applet.cs" />
     <Compile Include="java\applet\AppletStub.cs" />
     <Compile Include="java\applet\AppletContext.cs" />
-    <Compile Include="java\awt\Container.cs" />
-    <Compile Include="java\awt\Component.cs" />
-    <Compile Include="java\awt\Button.cs" />
-    <Compile Include="java\awt\Choice.cs" />
-    <Compile Include="java\awt\AWTEvent.cs" />
-    <Compile Include="java\awt\Color.cs" />
-    <Compile Include="java\awt\Checkbox.cs" />
-    <Compile Include="java\awt\Dimension.cs" />
-    <Compile Include="java\awt\Event.cs" />
-    <Compile Include="java\awt\Image.cs" />
-    <Compile Include="java\awt\image\ImageProducer.cs" />
-    <Compile Include="java\awt\image\ImageObserver.cs" />
-    <Compile Include="java\awt\image\MemoryImageSource.cs" />
-    <Compile Include="java\awt\Rectangle.cs" />
-    <Compile Include="java\awt\Font.cs" />
-    <Compile Include="java\awt\TextField.cs" />
-    <Compile Include="java\awt\Label.cs" />
-    <Compile Include="java\awt\LayoutManager.cs" />
-    <Compile Include="java\awt\event\ActionEvent.cs" />
-    <Compile Include="java\awt\event\ActionListener.cs" />
-    <Compile Include="java\awt\event\ItemEvent.cs" />
-    <Compile Include="java\awt\event\ItemListener.cs" />
-    <Compile Include="java\awt\event\KeyEvent.cs" />
-    <Compile Include="java\awt\event\KeyListener.cs" />
-    <Compile Include="java\awt\Graphics.cs" />
-    <Compile Include="java\awt\Panel.cs" />
-    <Compile Include="java\awt\Toolkit.cs" />
     <Compile Include="java\io\BufferedReader.cs" />
     <Compile Include="java\io\ByteArrayInputStream.cs" />
     <Compile Include="java\io\ByteArrayOutputStream.cs" />
@@ -286,6 +519,8 @@
     <Compile Include="java\security\PermissionCollection.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
+    <Compile Include="java\text\AttributedCharacterIterator.cs" />
+    <Compile Include="java\text\CharacterIterator.cs" />
     <Compile Include="java\text\DecimalFormatSymbols.cs" />
     <Compile Include="java\text\DecimalFormat.cs" />
     <Compile Include="java\text\FieldPosition.cs" />
@@ -294,15 +529,23 @@
     <Compile Include="java\text\Format.cs" />
     <Compile Include="java\text\DateFormat.cs" />
     <Compile Include="java\text\SimpleDateFormat.cs" />
+    <Compile Include="java\util\AbstractList.cs" />
     <Compile Include="java\util\AbstractMap.cs" />
+    <Compile Include="java\util\AbstractSequentialList.cs" />
     <Compile Include="java\util\ArrayList.cs" />
     <Compile Include="java\util\Arrays.cs" />
     <Compile Include="java\util\Comparator.cs" />
     <Compile Include="java\util\Calendar.cs" />
     <Compile Include="java\util\Collection.cs" />
     <Compile Include="java\util\Collections.cs" />
+    <Compile Include="java\util\AbstractSet.cs" />
+    <Compile Include="java\util\AbstractCollection.cs" />
     <Compile Include="java\util\EventObject.cs" />
     <Compile Include="java\util\EventListener.cs" />
+    <Compile Include="java\util\HashSet.cs" />
+    <Compile Include="java\util\Iterator.cs" />
+    <Compile Include="java\util\LinkedList.cs" />
+    <Compile Include="java\util\ListIterator.cs" />
     <Compile Include="java\util\Random.cs" />
     <Compile Include="java\util\regex\Matcher.cs" />
     <Compile Include="java\util\regex\Pattern.cs" />
