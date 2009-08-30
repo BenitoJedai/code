@@ -72,7 +72,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 
 			// should we worry about return type overloads too?
-			MethodToken.setAccessible(true);
+			// this wont work in applet viewer!
+			// MethodToken.setAccessible(true);
 
 			return new __IntPtr { MethodToken = MethodToken };
 		}

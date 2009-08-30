@@ -15,6 +15,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 			InternalBuffer = new java.lang.StringBuffer();
 		}
 
+		public __StringBuilder(string v) : this()
+		{
+			Append(v);
+		}
 
 		public __StringBuilder AppendLine(string e)
 		{

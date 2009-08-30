@@ -332,3 +332,5 @@ version history:
 27.08.2009
 	js: fixed non script assembly sorting order to not to precede BCLImplementation assemblies
 	java: opcode ldc now casts to java.lang.byte when expected to
+30.08.2009
+	java: opcode Stelem now respects bool
