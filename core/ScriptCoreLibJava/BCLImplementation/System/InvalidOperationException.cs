@@ -13,7 +13,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System
       ImplementationType = typeof(java.lang.RuntimeException))]
 	internal class __InvalidOperationException : __Exception
     {
-     
+		public __InvalidOperationException()
+		{
+
+
+		}
+
+		public __InvalidOperationException(string m)
+		{
+
+		}
     }
 
 }

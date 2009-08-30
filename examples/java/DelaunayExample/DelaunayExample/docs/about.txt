@@ -18,10 +18,10 @@ I. Creating basic code translation template.
 
 1. Create folders 'docs', 'tools' and 'web'
 2. Create folders 'source/java' and 'source/chsarp'
-3. Create source/java/DemoApplet.cs
+3. Create source/java/DelaunayExample.cs
 4. Add references to 'ScriptCoreLibA.dll' and 'ScriptCoreLibJava.dll'
 5. Replace 'System.*' namespace by 'ScribtCoreLib' and 'java.lang'
-6. Add [Script] attribute to the DemoApplet class
+6. Add [Script] attribute to the DelaunayExample class
 7. Update Properties/AssemblyInfo.cs
 
 using ScriptCoreLib;
@@ -48,7 +48,7 @@ II. Creating java compiled application.
 
 1. Update Properties/AssemblyInfo.cs
 
-using PrimaryAppletSettings = AppletTemplate.source.java.DemoApplet.Settings;
+using PrimaryAppletSettings = AppletTemplate.source.java.DelaunayExample.Settings;
 
 
 [assembly:
@@ -83,9 +83,9 @@ using javax.common.runtime;
 8. Verify that main was called and output was printed.
 
 Example:
-+ compile java [DemoApplet:ExampleCompany/DemoAppletProject\DemoApplet]
++ compile java [DelaunayExample:ExampleCompany/DemoAppletProject\DelaunayExample]
 + creating jar [DemoAppletPackage.jar]
-+ run [DemoApplet]
++ run [DelaunayExample]
 Hello World
 
 III. Upgrading class to be the applet
@@ -107,4 +107,4 @@ III. Upgrading class to be the applet
             g.drawString("hello world", 8, 8);
         }
 3. Update 'DefineEntryPoint' to generate PrimaryApplet html.
-4. Verify file 'DemoApplet.htm'
+4. Verify file 'DelaunayExample.htm'

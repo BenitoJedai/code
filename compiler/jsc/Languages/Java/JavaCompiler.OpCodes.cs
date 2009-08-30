@@ -299,6 +299,17 @@ namespace jsc.Languages.Java
 						{
 							Write("(short)");
 						}
+
+						if (TargetFieldElement == typeof(bool))
+						{
+							if (s[2].SingleStackInstruction.TargetInteger == 0)
+								WriteKeyword(Keywords._false);
+							else
+								WriteKeyword(Keywords._true);
+
+							return;
+						}
+
 					}
 
 					Emit(e.p, s[2]);
@@ -343,7 +354,7 @@ namespace jsc.Languages.Java
 					{
 						WriteReturn(e.p, e.i);
 					}
-					else Break("invalid br opcode");
+					else Break("invalid br opcode at " + e.i.Location);
 				};
 
 

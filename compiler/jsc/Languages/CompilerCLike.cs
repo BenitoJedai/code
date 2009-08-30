@@ -586,7 +586,7 @@ namespace jsc.Script
 
 			if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
 			{
-				Emit(p, iif.Branch.StackBeforeStrict[0]);
+				Emit(p, iif.Branch.StackBeforeStrict[0], typeof(bool));
 			}
 			else
 			{
@@ -630,7 +630,7 @@ namespace jsc.Script
 
 
 							Write("!");
-							Emit(p, expression);
+							Emit(p, expression, typeof(bool));
 
 						skipx:
 							;
@@ -654,7 +654,7 @@ namespace jsc.Script
 							else
 							{
 								Write("!");
-								Emit(p, expression);
+								Emit(p, expression, typeof(bool));
 							}
 						}
 					}
@@ -678,7 +678,7 @@ namespace jsc.Script
 						{
 							Write("!");
 							Write("(");
-							Emit(p, expression);
+							Emit(p, expression, typeof(bool));
 
 							Write(")");
 						}
