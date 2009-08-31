@@ -48,6 +48,7 @@ namespace DelaunayExample.Java
 			delaunayButton.setActionCommand("delaunay");
 			JButton clearButton = new JButton("Clear");
 			clearButton.setActionCommand("clear");
+			
 			ButtonGroup group = new ButtonGroup();
 			group.add(voronoiButton);
 			group.add(delaunayButton);
@@ -356,7 +357,7 @@ namespace DelaunayExample.Java
 		 */
 		public void drawAllCircles()
 		{
-		// Loop through all triangles of the DT
+			// Loop through all triangles of the DT
 			for (Iterator it = dt.iterator(); it.hasNext(); )
 			{
 				Simplex triangle = (Simplex)it.next();
