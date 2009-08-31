@@ -68,6 +68,7 @@
   <ItemGroup>
     <Content Include="docs\about.txt" />
     <Content Include="docs\description.txt" />
+    <EmbeddedResource Include="web\assets\DelaunayExample\Preview.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
@@ -76,9 +77,6 @@
     <None Include="tools\create.jar.bat" />
     <None Include="tools\run.jar.bat" />
     <None Include="tools\test.applet.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="web\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
