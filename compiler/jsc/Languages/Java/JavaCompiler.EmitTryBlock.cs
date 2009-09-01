@@ -25,6 +25,9 @@ namespace jsc.Languages.Java
 		public override bool EmitTryBlock(ILBlock.Prestatement p)
 		{
 			// http://stackoverflow.com/questions/416183/in-java-critical-sections-what-should-i-synchronize-on
+			
+			// this shall be updated for .net 4:
+			// http://www.danielmoth.com/Blog/2009/08/net-4-monitorenter-replaced-by.html
 
 			Action<object> Monitor_Enter = System.Threading.Monitor.Enter;
 			Action<object> Monitor_Exit = System.Threading.Monitor.Exit;
