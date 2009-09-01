@@ -139,6 +139,10 @@ namespace ScriptCoreLib.JavaScript.Controls
                 delegate(IEvent ev)
                 {
                     //mousehover.Stop();
+					
+					// can we behave as opera widget? :)
+					//ev.PreventDefault();
+					//ev.StopPropagation();
 
                     DragStartCursorPosition = ev.CursorPosition;
 

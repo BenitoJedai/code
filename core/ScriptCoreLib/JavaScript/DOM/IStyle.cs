@@ -156,6 +156,12 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
+		// http://kennedia.svnrepository.com/Basecamp.wdgt/trac.cgi/browser/AppleClasses/AppleButton.js?rev=5#L133
+		/// <summary>
+		/// Example values: "dashboard-region(control rectangle)" "none"
+		/// </summary>
+		public string appleDashboardRegion;
+
         public string lineHeight;
 
 		// http://www.w3schools.com/CSS/pr_pos_clip.asp

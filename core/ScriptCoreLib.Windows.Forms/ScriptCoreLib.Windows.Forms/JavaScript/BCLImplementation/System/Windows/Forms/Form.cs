@@ -66,22 +66,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             caption_foreground = (IHTMLDiv)caption.cloneNode(false);
             caption_foreground.style.backgroundColor = ScriptCoreLib.Shared.Drawing.Color.FromRGB(255, 0, 255);
-            caption_foreground.style.Opacity = 0;
+            caption_foreground.style.Opacity = 0.7;
+			caption_foreground.className = "caption";
 
             // http://dojotoolkit.org/pipermail/dojo-checkins/2005-December/002867.html
 
 
-            new IFunction( @"
+            new IFunction(@"
                 try { this.style.MozUserSelect = 'none'; } catch (e) { }
                 try { this.style.KhtmlUserSelect = 'none'; } catch (e) { }
                 try { this.unselectable = 'on'; } catch (e) { }
                 "
-            ).apply(caption_foreground);
+			).apply(caption_foreground);
 
+
+			// http://developer.apple.com/mac/library/documentation/AppleApplications/Reference/Dashboard_Ref/Dashboard_Ref.pdf
+			// for some reason we cannot exclude caption
+			// from apple dashboard
+			
+			//caption_foreground.style.appleDashboardRegion = "none";
 
 			//container.style.backgroundColor = "#A0A0A0";
             container.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 
+			//container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
             container.style.left = innerborder + "px";
             container.style.top = (20 + innerborder) + "px";
