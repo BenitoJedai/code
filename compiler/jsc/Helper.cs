@@ -6,8 +6,9 @@ using System.Threading;
 
 namespace jsc
 {
-    public delegate T Func<T>();
-    public delegate T Func<Arg0, T>(Arg0 arg0);
+	// do we need them anymore?
+	//public delegate T Func<T>();
+	//public delegate T Func<Arg0, T>(Arg0 arg0);
 
     public delegate void Func();
 

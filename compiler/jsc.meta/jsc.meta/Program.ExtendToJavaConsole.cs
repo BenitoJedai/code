@@ -108,7 +108,7 @@ namespace jsc.meta
 
 
 				#region jar
-				Console.WriteLine("- jar");
+				Console.WriteLine("- jar: " + bin_jar.FullName);
 				var proccess_jar =
 					new Process
 					{
