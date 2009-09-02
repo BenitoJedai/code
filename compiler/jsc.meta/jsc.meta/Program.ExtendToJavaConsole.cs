@@ -181,7 +181,7 @@ namespace jsc.meta
 
 				var name = new AssemblyName(assembly.GetName().Name + MetaScript);
 				var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave);
-				var m = a.DefineDynamicModule(name.Name, name.Name + ".mod");
+				var m = a.DefineDynamicModule(name.Name, name.Name + ".exe");
 
 
 				// yay attributes
@@ -211,8 +211,9 @@ namespace jsc.meta
 				var main_il = main.GetILGenerator();
 
 
+				if (assembly_type_Main.GetParameters().Length > 0)
+					main_il.Emit(OpCodes.Ldarg_0);
 
-				main_il.Emit(OpCodes.Ldarg_0);
 				//main_il.Emit(OpCodes.Ldnull);
 				main_il.EmitCall(OpCodes.Call, assembly_type_Main, null);
 
