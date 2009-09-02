@@ -2,3 +2,5 @@
 	- added support for java console application
 2009.08.28
 	- added jsc logo as branding for windows forms everywhere javascript solution
+2009.09.02
+	- fixed assumption so that the entrypoint method may be parameteless.
