@@ -207,6 +207,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public __FieldInfo[] GetFields()
 		{
+			
 			var f = this.TypeDescription.getDeclaredFields();
 			var a = new __FieldInfo[f.Length];
 
@@ -217,6 +218,37 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 
 			return a;
+		}
+
+		public __FieldInfo GetField(string n)
+		{
+			var f = default(__FieldInfo);
+
+			foreach (var k in GetFields())
+			{
+				if (k.Name == n)
+				{
+					f = k;
+					break;
+				}
+			}
+
+			return f;
+		}
+
+
+		public bool IsAssignableFrom(Type t)
+		{
+			return ((__Type)t).TypeDescription.isAssignableFrom(this.TypeDescription);
+		}
+
+		public bool IsClass
+		{
+			get
+			{
+
+				return IsAssignableFrom(typeof(object));
+			}
 		}
 	}
 }
