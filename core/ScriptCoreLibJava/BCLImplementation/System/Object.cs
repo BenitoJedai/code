@@ -7,8 +7,15 @@ using System;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
 
-	[Script(Implements = typeof(global::System.Object),
-		ImplementationType = typeof(object))]
+	[Script(
+
+		Implements = typeof(global::System.Object),
+		ImplementationType = typeof(global::java.lang.Object)
+
+		//Implements = typeof(global::System.Object),
+		//ImplementationType = typeof(object)
+		
+		)]
 	internal class __Object
 	{
 		[Script(ExternalTarget = "toString")]
