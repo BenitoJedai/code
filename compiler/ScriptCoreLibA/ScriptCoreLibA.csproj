@@ -78,6 +78,7 @@
     <Compile Include="ScriptAttribute.cs" />
     <Compile Include="ScriptImportsTypeAttribute.cs" />
     <Compile Include="ScriptLanguageProvider.cs" />
+    <Compile Include="Shared\PlatformInvocationServices.cs" />
     <Compile Include="Shared\ScriptResourcesAttribute.cs" />
     <Compile Include="Shared\TypeOfByNameOverrideAttribute.cs" />
     <Compile Include="Tools\JSONSerializer.cs" />

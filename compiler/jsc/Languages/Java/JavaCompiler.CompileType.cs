@@ -9,11 +9,14 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Xml;
 using System.Threading;
+using System.Linq;
 
 using jsc.CodeModel;
 
 using ScriptCoreLib;
 using jsc.Script;
+using System.Runtime.InteropServices;
+using ScriptCoreLib.Shared;
 
 namespace jsc.Languages.Java
 {
@@ -128,6 +131,69 @@ namespace jsc.Languages.Java
 					return true;
 
 				} 
+			}
+
+			if ((m.Attributes & MethodAttributes.PinvokeImpl) == MethodAttributes.PinvokeImpl)
+			{
+				var DllImport = m.GetCustomAttributes<DllImportAttribute>().Single();
+				var ReturnType = ((MethodInfo)m).ReturnType;
+				// cool.
+				// do we have Platform Invocation Services?
+
+				if (ReturnType == typeof(int))
+				{
+					Func<string, string, object[], int> _InvokeInt32 = PlatformInvocationServices.InvokeInt32;
+
+					var _Resolved_InvokeInt32 = this.ResolveImplementationMethod(_InvokeInt32.Method.DeclaringType, _InvokeInt32.Method);
+
+					if (_Resolved_InvokeInt32 == null)
+						throw new NotSupportedException("PlatformInvocationServices.InvokeInt32 implementation was not found.");
+
+					this.WriteIdent();
+
+					this.WriteKeywordSpace(Keywords._return);
+					this.WriteDecoratedTypeName(_Resolved_InvokeInt32.DeclaringType);
+					this.Write(".");
+					this.WriteDecoratedMethodName(_Resolved_InvokeInt32, false);
+					this.Write("(");
+
+					this.WriteQuotedLiteral(DllImport.Value);
+					this.Write(", ");
+					this.WriteQuotedLiteral(DllImport.EntryPoint);
+					this.Write(", ");
+
+					this.WriteKeywordSpace(Keywords._new);
+					this.WriteDecoratedTypeName(typeof(object));
+					this.WriteSpace();
+					this.Write("[]");
+					this.WriteSpace();
+					this.Write("{");
+
+					var p = m.GetParameters();
+					for (int i = 0; i < p.Length; i++)
+					{
+						if (i > 0)
+							this.Write(", ");
+
+						this.WriteDecoratedMethodParameter(p[i], typeof(object));
+					}
+
+					this.Write("}");
+					this.Write(")");
+					this.Write(";");
+
+					this.WriteLine();
+
+					//WriteCommentLine("PinvokeImpl: " + DllImport.Value);
+
+					//Debugger.Launch();
+					//Debugger.Break();
+
+					return true;
+
+				}
+
+				throw new NotSupportedException("PlatformInvocationServices for " + ReturnType.FullName + " not implemented");
 			}
 
 			return false;

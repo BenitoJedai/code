@@ -4,3 +4,5 @@
 	- added jsc logo as branding for windows forms everywhere javascript solution
 2009.09.02
 	- fixed assumption so that the entrypoint method may be parameteless.
+2009.09.03
+	- jar files will be genererated to web\bin as planned
