@@ -1,5 +1,6 @@
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ using jsc.CodeModel;
 using ScriptCoreLib;
 using jsc.Script;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Shared;
+using System.Runtime.InteropServices;
 
 namespace jsc.Languages.Java
 {
@@ -152,6 +155,11 @@ namespace jsc.Languages.Java
 			if (cctor != null)
 				GetImportTypesFromMethod(t, imp, cctor);
 
+
+
+			var _PlatformInvocationServices = this.ResolveImplementation(typeof(PlatformInvocationServices));
+
+
 			foreach (MethodInfo mi in this.GetAllMethods(t))
 			{
 				imp.Add(mi.ReturnParameter.ParameterType);
@@ -159,6 +167,16 @@ namespace jsc.Languages.Java
 				MethodBase v = mi;
 
 				GetImportTypesFromMethod(t, imp, v);
+
+
+				if (_PlatformInvocationServices != null)
+					if ((v.Attributes & MethodAttributes.PinvokeImpl) == MethodAttributes.PinvokeImpl)
+					{
+
+						imp.Add(_PlatformInvocationServices);
+
+						_PlatformInvocationServices = null;
+					}
 			}
 
 			imp.RemoveAll(w => w == null);

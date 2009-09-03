@@ -4,16 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using OrcasSimpleJavaConsoleApplication.Library;
+using System.Runtime.InteropServices;
 
 namespace OrcasSimpleJavaConsoleApplication
 {
 	public partial class Program
 	{
+		// http://publications.gbdirect.co.uk/c_book/chapter9/input_and_output.html
+		// http://stackoverflow.com/questions/955962/how-to-buffer-stdout-in-memory-and-write-it-from-a-dedicated-thread
 
+		[DllImport("msvcrt.dll")]
+		public static extern int printf(string e);
 		
 
 		public static void Main(string[] args)
 		{
+
+
+
+			
+
 			// Notes:
 			// 1. All referenced assemblies shall
 			//    define [assembly:Obfuscation(feature = "script")]
@@ -39,6 +49,10 @@ namespace OrcasSimpleJavaConsoleApplication
 			t1.Join();
 			t2.Join();
 			t3.Join();
+
+			// the VM's for some reason buffer our printf...
+			printf("hello world!\n");
+			printf("howdy!\n");
 		}
 	}
 }

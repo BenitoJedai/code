@@ -14,6 +14,8 @@ namespace jsc.meta
 	{
 		static void ExtendToWindowsFormsEverywhere(FileInfo assembly, string type)
 		{
+			// todo: compare to http://tirania.org/blog/archive/2009/Jul-28.html
+
 			// think windows forms but on javascript, followed by flash and java
 
 			Console.WriteLine("will create a javascript application for you");

@@ -35,7 +35,7 @@ using ScriptCoreLib.Shared;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: ScriptTypeFilter(ScriptType.Java, "*")]
+[assembly: ScriptTypeFilter(ScriptType.Java)]
 [assembly: 
     Script(IsCoreLib = true),
     ScriptResources("bin")]

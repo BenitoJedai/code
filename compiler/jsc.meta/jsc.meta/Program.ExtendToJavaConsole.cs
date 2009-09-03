@@ -19,6 +19,10 @@ namespace jsc.meta
 
 		public static void ExtendToJavaConsole(FileInfo assembly, string type, DirectoryInfo javapath)
 		{
+			// could todo: JNI could be used to implement externs
+			// http://tirania.org/blog/archive/2009/Aug-11.html
+			// http://blogs.msdn.com/junfeng/archive/2007/07/09/reverse-p-invoke-marshaling-performance.aspx
+
 			Console.WriteLine("will create a java console application for you");
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
@@ -29,7 +33,13 @@ namespace jsc.meta
 			
 			obj.DefinesTypes(
 				typeof(ScriptCoreLib.ScriptAttribute),
-				typeof(ScriptCoreLibJava.IAssemblyReferenceToken)
+				typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+
+				// do we need it?
+				// we should omit this if there are no extern calls in the assembly
+				// this would mean we need to have a look at all the 
+				// [Script] types for such methods
+				typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
 			);
 
 			new ExtendToJavaConsoleBuilder
@@ -104,7 +114,9 @@ namespace jsc.meta
 				proccess_javac.WaitForExit();
 				#endregion
 
-				var bin_jar = new FileInfo(Path.Combine(bin.FullName, Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"));
+				var obj_web_bin = Path.Combine(obj_web, "bin");
+
+				var bin_jar = new FileInfo(Path.Combine(obj_web_bin, Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"));
 
 
 				#region jar
@@ -164,7 +176,17 @@ namespace jsc.meta
 				Console.WriteLine("- created bat entrypoint:");
 				Console.WriteLine(run_jar);
 
-				File.WriteAllText(run_jar, @"@call """ + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + bin_jar.FullName + @""" " + assembly_metaentrypoint.DeclaringType.FullName);
+
+				File.WriteAllText(run_jar, 
+					@"
+@echo off
+:: Let's open our working directory. This folder shall contain our jar and dll files.
+pushd " + bin_jar.Directory.FullName + @"
+call """ + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + bin_jar.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @"
+popd
+"
+
+				);
 				#endregion
 
 
@@ -193,7 +215,8 @@ namespace jsc.meta
 
 				a.DefineScriptLibraries(
 					assembly_type, 
-					typeof(ScriptCoreLibJava.IAssemblyReferenceToken)
+					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+					typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
 				);
 
 				
