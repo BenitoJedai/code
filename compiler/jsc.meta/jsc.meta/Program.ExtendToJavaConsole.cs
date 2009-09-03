@@ -23,6 +23,8 @@ namespace jsc.meta
 			// http://tirania.org/blog/archive/2009/Aug-11.html
 			// http://blogs.msdn.com/junfeng/archive/2007/07/09/reverse-p-invoke-marshaling-performance.aspx
 
+			// http://www.xs4all.nl/~vkessels/articles/jnijarapplet.html
+
 			Console.WriteLine("will create a java console application for you");
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
@@ -120,7 +122,9 @@ namespace jsc.meta
 
 
 				#region jar
-				Console.WriteLine("- jar: " + bin_jar.FullName);
+				Console.WriteLine("- jar:");
+				Console.WriteLine(bin_jar.FullName);
+
 				var proccess_jar =
 					new Process
 					{

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.PInvoke.cs" />
     <Compile Include="Program.StartWork.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Program.cs" />
