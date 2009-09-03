@@ -10,19 +10,14 @@ namespace OrcasSimpleJavaConsoleApplication
 {
 	public partial class Program
 	{
-		// http://publications.gbdirect.co.uk/c_book/chapter9/input_and_output.html
-		// http://stackoverflow.com/questions/955962/how-to-buffer-stdout-in-memory-and-write-it-from-a-dedicated-thread
 
-		[DllImport("msvcrt.dll")]
-		public static extern int printf(string e);
-		
 
 		public static void Main(string[] args)
 		{
 
 
 
-			
+
 
 			// Notes:
 			// 1. All referenced assemblies shall
@@ -31,11 +26,16 @@ namespace OrcasSimpleJavaConsoleApplication
 			// 3. All used .net APIs must be defined by ScriptCoreLibJava
 			// 4. Generics are not supported.
 			// 5. Check post build event
-			// 6. Build in releas build configuration for java version
+			// 6. Build in release build configuration for java version
+
+			Console.WriteLine("OrcasSimpleJavaConsoleApplication. Crosscompiled from C# to Java.");
+			Console.WriteLine("---------------------------------");
 
 			Console.WriteLine("This console application can run at .net and java virtual machine!");
+			Console.WriteLine();
 
 			Console.WriteLine("running at: " + Environment.CurrentDirectory);
+			Console.WriteLine();
 
 			var context = new object();
 
@@ -49,10 +49,10 @@ namespace OrcasSimpleJavaConsoleApplication
 			t1.Join();
 			t2.Join();
 			t3.Join();
+			InvokeNativeMethods();
 
-			// the VM's for some reason buffer our printf...
-			printf("hello world!\n");
-			printf("howdy!\n");
 		}
+
+		
 	}
 }
