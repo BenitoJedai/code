@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.BitConverter))]
-	public class BitConverter
+	internal class __BitConverter
 	{
 		public static long DoubleToInt64Bits(double e)
 		{
