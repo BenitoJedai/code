@@ -37,11 +37,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			InternalTextField.y = InternalOffsetY;
 
-			// http://www.typetester.org/
-			InternalTextField.defaultTextFormat.font = "Verdana";
+		
 
 			InternalTextFieldContainer = new Sprite();
 			InternalTextFieldContainer.addChild(InternalTextField);
+
+			// http://www.typetester.org/
+			//InternalTextField.defaultTextFormat.font = "Verdana";
+			LocalInternalSetFonFamily(new FontFamily("Verdana"));
 		}
 
 		// this is needed for small fonts...
@@ -282,6 +285,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		}
 
 		public override void InternalSetFontFamily(FontFamily value_)
+		{
+			// fixme: jsc should fully support base and this calls
+			LocalInternalSetFonFamily(value_);
+		}
+
+		private void LocalInternalSetFonFamily(FontFamily value_)
 		{
 			var value = (__FontFamily)(object)value_;
 

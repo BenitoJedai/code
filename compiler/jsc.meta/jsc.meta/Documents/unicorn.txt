@@ -1,0 +1,18 @@
+﻿The concep of unicorn in the context of jsc solution would mean, that all
+you need to install is a single exe file. All the knowlodge is hidden inside.
+
+Here are the packages which could possibly included in a unicorn assembly.
+
+Package size is in mb.
+
+jsc: 3
+javacard2: 10
+robocode: 10
+ant: 40
+appengine: 50
+java4: 62
+alchemy: 107
+xamp: 168
+java6: 193
+flex3: 202
+cygwin: 230

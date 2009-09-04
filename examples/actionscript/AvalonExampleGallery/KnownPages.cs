@@ -62,6 +62,10 @@ namespace AvalonExampleGallery.Shared
 						pages::InteractiveOrdering.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::InteractiveOrdering.Shared.InteractiveOrderingCanvas) },
 
+					{ 
+						pages::ColoredTank.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::ColoredTank.Shared.OrcasAvalonApplicationCanvas) },
+
 				};
 			}
 		}
