@@ -22,11 +22,11 @@ namespace jsc.meta
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 			// in obj folder we build our binaries
-			var obj = assembly.Directory.CreateSubdirectory("obj");
+			var staging = assembly.Directory.CreateSubdirectory("staging");
 
-			Environment.CurrentDirectory = obj.FullName;
+			Environment.CurrentDirectory = staging.FullName;
 
-			obj.DefinesTypes(
+			staging.DefinesTypes(
 				typeof(ScriptCoreLib.ScriptAttribute),
 				typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
 				typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
@@ -37,14 +37,14 @@ namespace jsc.meta
 
 			new ExtendToWindowsFormsEverywhereBuilder
 			{
-				obj = obj,
-				assembly = assembly.LoadAssemblyAt(obj)
+				staging = staging,
+				assembly = assembly.LoadAssemblyAt(staging)
 			}.Build(type);
 		}
 
 		class ExtendToWindowsFormsEverywhereBuilder
 		{
-			public DirectoryInfo obj;
+			public DirectoryInfo staging;
 
 			public Assembly assembly;
 
@@ -193,7 +193,7 @@ namespace jsc.meta
 				a.SetEntryPoint(main);
 				AnnounceEntrypoint(main);
 
-				var Product = new FileInfo(Path.Combine(obj.FullName, name.Name + ".exe"));
+				var Product = new FileInfo(Path.Combine(staging.FullName, name.Name + ".exe"));
 
 				a.Save(
 					Product.Name

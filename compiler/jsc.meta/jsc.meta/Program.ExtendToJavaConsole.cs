@@ -29,11 +29,11 @@ namespace jsc.meta
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 			// in obj folder we build our binaries
-			var obj = assembly.Directory.CreateSubdirectory("obj");
+			var staging = assembly.Directory.CreateSubdirectory("staging");
 
-			Environment.CurrentDirectory = obj.FullName;
+			Environment.CurrentDirectory = staging.FullName;
 			
-			obj.DefinesTypes(
+			staging.DefinesTypes(
 				typeof(ScriptCoreLib.ScriptAttribute),
 				typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
 
@@ -46,11 +46,11 @@ namespace jsc.meta
 
 			new ExtendToJavaConsoleBuilder
 			{
-				obj = obj,
+				staging = staging,
 				// in bin we copy what we consider as the product
 				bin = assembly.Directory,
 				javapath = javapath,
-				assembly = assembly.LoadAssemblyAt(obj)
+				assembly = assembly.LoadAssemblyAt(staging)
 			}.Build(type);
 		}
 
@@ -58,7 +58,7 @@ namespace jsc.meta
 		class ExtendToJavaConsoleBuilder
 		{
 			public DirectoryInfo bin;
-			public DirectoryInfo obj;
+			public DirectoryInfo staging;
 			public DirectoryInfo javapath;
 
 			public Assembly assembly;
@@ -97,7 +97,7 @@ namespace jsc.meta
 				);
 				#endregion
 
-				var obj_web = Path.Combine(obj.FullName, "web");
+				var obj_web = Path.Combine(staging.FullName, "web");
 
 				#region javac
 				Console.WriteLine("- javac");
@@ -251,7 +251,7 @@ popd
 				a.SetEntryPoint(main);
 				AnnounceEntrypoint(main);
 
-				var Product = new FileInfo(Path.Combine(obj.FullName, name.Name + ".exe"));
+				var Product = new FileInfo(Path.Combine(staging.FullName, name.Name + ".exe"));
 
 				a.Save(
 					Product.Name
