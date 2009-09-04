@@ -32,7 +32,7 @@ call :buildsln examples\actionscript TextSuggestions2
 
 call :buildsln examples\javascript BrowserAvalonExample
 call :buildsln examples\javascript System_Windows_Input_MouseEventArgs
-
+call :buildsln examples\javascript ColoredTank
 
 popd
 endlocal

@@ -6,9 +6,15 @@ using System.Threading;
 using ArgumentsViaReflection.Library;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace ArgumentsViaReflection
 {
+	public class Program2
+	{
+		public string Option1 = "hello";
+	}
+
 	public class Program
 	{
 		public string Option1 = "hello";
@@ -31,7 +37,7 @@ namespace ArgumentsViaReflection
 			var p = new Program();
 
 			if (args.Length == 0)
-				args = new[] { "Tag1.Name:hello", "Option2:hey", "Integer1:56", "File1:a", @"Dir2:b\y" };
+				args = new[] { "", "Tag1.Name:hello", "Option2:hey", "Integer1:56", "File1:a", @"Dir2:b\y" };
 
 			args.AsParametersTo(p);
 

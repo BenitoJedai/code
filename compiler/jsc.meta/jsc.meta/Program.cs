@@ -12,6 +12,8 @@ namespace jsc.meta
 	{
 		// read: http://www.albahari.com/nutshell/ch17.aspx
 
+
+
 		const string MetaScript = "MetaScript";
 
 		static void ShowLogo()
