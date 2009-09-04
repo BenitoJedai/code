@@ -155,7 +155,16 @@
     <Compile Include="javax\accessibility\AccessibleContext.cs" />
     <Compile Include="javax\accessibility\AccessibleState.cs" />
     <Compile Include="javax\accessibility\AccessibleStateSet.cs" />
+    <Compile Include="javax\servlet\http\Cookie.cs" />
+    <Compile Include="javax\servlet\http\HttpSession.cs" />
+    <Compile Include="javax\servlet\http\HttpSessionContext.cs" />
+    <Compile Include="javax\servlet\RequestDispatcher.cs" />
+    <Compile Include="javax\servlet\Servlet.cs" />
+    <Compile Include="javax\servlet\ServletConfig.cs" />
+    <Compile Include="javax\servlet\ServletContext.cs" />
+    <Compile Include="javax\servlet\ServletInputStream.cs" />
     <Compile Include="javax\servlet\ServletOutputStream.cs" />
+    <Compile Include="javax\servlet\ServletRequest.cs" />
     <Compile Include="javax\swing\AbstractButton.cs" />
     <Compile Include="javax\swing\Action.cs" />
     <Compile Include="javax\swing\ActionMap.cs" />
@@ -517,6 +526,7 @@
     <Compile Include="java\security\MessageDigestSpi.cs" />
     <Compile Include="java\security\MessageDigest.cs" />
     <Compile Include="java\security\PermissionCollection.cs" />
+    <Compile Include="java\security\Principal.cs" />
     <Compile Include="java\security\SecureClassLoader.cs" />
     <Compile Include="java\security\ProtectionDomain.cs" />
     <Compile Include="java\text\AttributedCharacterIterator.cs" />

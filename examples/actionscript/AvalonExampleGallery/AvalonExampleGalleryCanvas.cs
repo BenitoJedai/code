@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using ScriptCoreLib.Shared.Avalon.TiledImageButton;
-using System.Windows.Input;
+using ScriptCoreLib;
 using ScriptCoreLib.Shared.Avalon.Carousel;
-using ScriptCoreLib.Shared.Avalon.TextButton;
 using ScriptCoreLib.Shared.Avalon.Controls;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Avalon.TextButton;
+using ScriptCoreLib.Shared.Avalon.TiledImageButton;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace AvalonExampleGallery.Shared
 {
