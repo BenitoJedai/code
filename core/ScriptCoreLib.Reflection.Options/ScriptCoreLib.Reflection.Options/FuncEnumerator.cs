@@ -4,26 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace ArgumentsViaReflection.Library
+namespace ScriptCoreLib.Reflection.Options
 {
-	public class FuncEnumerator : IEnumerator
+	internal class FuncEnumerator : IEnumerator
 	{
 		/// <summary>
 		/// Null marks end of sequence
 		/// </summary>
-		/// <returns></returns>
-		public delegate object GetNextTargetDelegate();
-
-		readonly GetNextTargetDelegate GetNextTarget;
+		readonly ObjectFunc GetNextTarget;
 
 		object InternalCurrent;
 
-		public FuncEnumerator(GetNextTargetDelegate e)
+		public FuncEnumerator(ObjectFunc e)
 		{
 			this.GetNextTarget = e;
 		}
 
-	
+
 		#region IEnumerator Members
 
 		public object Current
@@ -45,4 +42,5 @@ namespace ArgumentsViaReflection.Library
 
 		#endregion
 	}
+
 }

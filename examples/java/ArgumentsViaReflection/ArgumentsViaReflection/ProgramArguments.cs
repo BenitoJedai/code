@@ -18,6 +18,8 @@ namespace ArgumentsViaReflection
 		public class Tag
 		{
 			public string Name = "Tag";
+			public FileInfo File1 = new FileInfo("file1");
+
 		}
 
 		public Tag Tag1 = new Tag { Name = "Tag1" };

@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StartupObject>jsc.meta.Loader.LoaderStrategy</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +65,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Reflection.Options, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
@@ -94,6 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.ExtendToPureAlchemy.cs" />
     <Compile Include="Program.ExtendToWindowsFormsEverywhere.cs" />
     <Compile Include="Program.ExtendToFlashAvalon.cs" />

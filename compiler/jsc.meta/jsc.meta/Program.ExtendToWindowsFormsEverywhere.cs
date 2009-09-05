@@ -12,34 +12,42 @@ namespace jsc.meta
 {
 	partial class Program
 	{
-		static void ExtendToWindowsFormsEverywhere(FileInfo assembly, string type)
+		public class ExtendToWindowsFormsEverywhere
 		{
-			// todo: compare to http://tirania.org/blog/archive/2009/Jul-28.html
-
-			// think windows forms but on javascript, followed by flash and java
-
-			Console.WriteLine("will create a javascript application for you");
-
-			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
-			// in obj folder we build our binaries
-			var staging = assembly.Directory.CreateSubdirectory("staging");
-
-			Environment.CurrentDirectory = staging.FullName;
-
-			staging.DefinesTypes(
-				typeof(ScriptCoreLib.ScriptAttribute),
-				typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken)
-			);
+			public FileInfo assembly;
+			public string type;
 
 
-			new ExtendToWindowsFormsEverywhereBuilder
+			public void Invoke()
 			{
-				staging = staging,
-				assembly = assembly.LoadAssemblyAt(staging)
-			}.Build(type);
+
+				// todo: compare to http://tirania.org/blog/archive/2009/Jul-28.html
+
+				// think windows forms but on javascript, followed by flash and java
+
+				Console.WriteLine("will create a javascript application for you");
+
+				// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
+				// in obj folder we build our binaries
+				var staging = this.assembly.Directory.CreateSubdirectory("staging");
+
+				Environment.CurrentDirectory = staging.FullName;
+
+				staging.DefinesTypes(
+					typeof(ScriptCoreLib.ScriptAttribute),
+					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken)
+				);
+
+
+				new ExtendToWindowsFormsEverywhereBuilder
+				{
+					staging = staging,
+					assembly = this.assembly.LoadAssemblyAt(staging)
+				}.Build(this.type);
+			}
 		}
 
 		class ExtendToWindowsFormsEverywhereBuilder
@@ -88,7 +96,7 @@ namespace jsc.meta
 			{
 				// Main
 				// C# project template in .net 4 has internal Main... who knew...
-				var assembly_type_Main = assembly_type.GetMethod("Main",  BindingFlags.NonPublic |  BindingFlags.Public | BindingFlags.Static);
+				var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
 
 				var name = new AssemblyName(assembly.GetName().Name + MetaScript);
 				var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave);

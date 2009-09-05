@@ -121,27 +121,6 @@ namespace jsc.meta.Library
 			return typeof(T3).GetConstructor(new[] { typeof(T1), typeof(T2) });
 		}
 
-		public static void AsParametersFor(this string[] args, params Delegate[] x)
-		{
-			var e = x.Single(k => k.Method.Name == args.First());
-
-			e.Method.Invoke(e.Target,
-				Enumerable.ToArray(
-					from p in e.Method.GetParameters()
-					let prefix = "/" + p.Name + ":"
-					select Enumerable.FirstOrDefault(
-						from k in args
-						where k.StartsWith(prefix)
-						let n = k.Substring(prefix.Length)
-						select
-							p.ParameterType == typeof(FileInfo) ? (object)new FileInfo(n) :
-							p.ParameterType == typeof(DirectoryInfo) ? (object)new DirectoryInfo(n) :
-							(object)n
-						)
-				)
-			);
-
-		}
-
+	
 	}
 }

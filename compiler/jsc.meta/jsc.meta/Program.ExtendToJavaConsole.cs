@@ -12,45 +12,50 @@ namespace jsc.meta
 	partial class Program
 	{
 
-
-
-		public static void ExtendToJavaConsole(FileInfo assembly, string type, DirectoryInfo javapath)
+		public class ExtendToJavaConsole
 		{
-			// could todo: JNI could be used to implement externs
-			// http://tirania.org/blog/archive/2009/Aug-11.html
-			// http://blogs.msdn.com/junfeng/archive/2007/07/09/reverse-p-invoke-marshaling-performance.aspx
+			public FileInfo assembly;
+			public string type;
+			public DirectoryInfo javapath;
 
-			// http://www.xs4all.nl/~vkessels/articles/jnijarapplet.html
-
-			Console.WriteLine("will create a java console application for you");
-
-			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
-			// in obj folder we build our binaries
-			var staging = assembly.Directory.CreateSubdirectory("staging");
-
-			Environment.CurrentDirectory = staging.FullName;
-			
-			staging.DefinesTypes(
-				typeof(ScriptCoreLib.ScriptAttribute),
-				typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
-
-				// do we need it?
-				// we should omit this if there are no extern calls in the assembly
-				// this would mean we need to have a look at all the 
-				// [Script] types for such methods
-				typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
-			);
-
-			new ExtendToJavaConsoleBuilder
+			public void Invoke()
 			{
-				staging = staging,
-				// in bin we copy what we consider as the product
-				bin = assembly.Directory,
-				javapath = javapath,
-				assembly = assembly.LoadAssemblyAt(staging)
-			}.Build(type);
-		}
+				// could todo: JNI could be used to implement externs
+				// http://tirania.org/blog/archive/2009/Aug-11.html
+				// http://blogs.msdn.com/junfeng/archive/2007/07/09/reverse-p-invoke-marshaling-performance.aspx
 
+				// http://www.xs4all.nl/~vkessels/articles/jnijarapplet.html
+
+				Console.WriteLine("will create a java console application for you");
+
+				// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
+				// in obj folder we build our binaries
+				var staging = assembly.Directory.CreateSubdirectory("staging");
+
+				Environment.CurrentDirectory = staging.FullName;
+
+				staging.DefinesTypes(
+					typeof(ScriptCoreLib.ScriptAttribute),
+					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+
+					// do we need it?
+					// we should omit this if there are no extern calls in the assembly
+					// this would mean we need to have a look at all the 
+					// [Script] types for such methods
+					typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
+				);
+
+				new ExtendToJavaConsoleBuilder
+				{
+					staging = staging,
+					// in bin we copy what we consider as the product
+					bin = assembly.Directory,
+					javapath = javapath,
+					assembly = assembly.LoadAssemblyAt(staging)
+				}.Build(type);
+			}
+
+		}
 
 		class ExtendToJavaConsoleBuilder
 		{

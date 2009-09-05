@@ -57,6 +57,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\lib\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

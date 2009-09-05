@@ -1,21 +1,11 @@
 
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Xml;
-using System.Threading;
-
-using jsc.CodeModel;
-using ScriptCoreLib.CSharp.Extensions;
-
-using ScriptCoreLib;
 using jsc.Script;
+using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.Java
 {
@@ -271,9 +261,24 @@ namespace jsc.Languages.Java
 					Write("]");
 					WriteAssignment();
 
-					if (s[0].SingleStackInstruction.ReferencedType != null)
+					var CurrentArray = s[0].SingleStackInstruction;
+					var TargetFieldElement = default(Type);
+
+					if (CurrentArray.OpCode == OpCodes.Ldelem_Ref)
 					{
-						var TargetFieldElement = s[0].SingleStackInstruction.ReferencedType.GetElementType();
+						if (CurrentArray.StackBeforeStrict[0].SingleStackInstruction.ReferencedType != null)
+							TargetFieldElement = CurrentArray.StackBeforeStrict[0].SingleStackInstruction.ReferencedType.GetElementType().GetElementType();
+
+					}
+					else
+					{
+						if (CurrentArray.ReferencedType != null)
+							TargetFieldElement = CurrentArray.ReferencedType.GetElementType();
+
+					}
+
+					if (TargetFieldElement != null)
+					{
 
 						if (TargetFieldElement == typeof(byte))
 						{
@@ -1662,6 +1667,12 @@ namespace jsc.Languages.Java
 					   {
 						   Write("(short)");
 					   }
+
+					   if (TypeExpectedOrDefault == typeof(char))
+					   {
+						   Write("(char)");
+					   }
+
 
 					   if (TypeExpectedOrDefault == typeof(bool))
 					   {

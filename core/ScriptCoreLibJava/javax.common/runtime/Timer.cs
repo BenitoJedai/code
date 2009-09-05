@@ -14,6 +14,7 @@ namespace javax.common.runtime
 
 
     [Script]
+	[System.Obsolete]
     public class Timer
     {
 

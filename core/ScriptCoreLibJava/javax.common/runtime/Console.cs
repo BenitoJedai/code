@@ -12,7 +12,8 @@ using java.text;
 namespace javax.common.runtime
 {
     [Script]
-    public sealed class Console
+	[System.Obsolete]
+	public sealed class Console
     {
         
 

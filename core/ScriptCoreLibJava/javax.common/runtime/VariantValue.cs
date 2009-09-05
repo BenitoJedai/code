@@ -8,7 +8,8 @@ namespace javax.common.runtime.types
     /// allows to convert seamlessly between long and a hex string
     /// </summary>
     [Script]
-    public sealed class VariantValue
+	[System.Obsolete]
+	public sealed class VariantValue
     {
         public static VariantValue OfHexValue(string hex)
         {

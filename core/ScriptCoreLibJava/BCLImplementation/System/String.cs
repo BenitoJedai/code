@@ -36,6 +36,23 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return (string)(object)w;
 		}
 
+
+		public __String(char c, int count)
+		{
+		}
+
+		public static string InternalConstructor(char c, int count)
+		{
+			var w = new StringBuilder();
+
+			for (int i = 0; i < count; i++)
+			{
+				w.Append(c);
+			}
+
+			return w.ToString();
+		}
+
 		[Script(ExternalTarget = "charAt")]
 		public char get_Chars(int i)
 		{

@@ -11,8 +11,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Delegate))]
 	internal abstract class __Delegate
 	{
-		public object Target;
-		public MethodInfo Method;
+		// jsc will currently look for a field with specific type...
+		public object Target { get; set; }
+		public MethodInfo Method { get; set; }
 
 		public __Delegate(object e, global::System.IntPtr p)
 		{
