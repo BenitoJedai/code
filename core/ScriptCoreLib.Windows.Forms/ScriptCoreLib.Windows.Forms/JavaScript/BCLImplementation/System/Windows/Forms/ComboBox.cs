@@ -14,14 +14,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ComboBox))]
     internal class __ComboBox : __ListControl
     {
+		public event EventHandler SelectedIndexChanged;
 
         public IHTMLSelect HTMLTarget { get; set; }
 
         public __ComboBox()
         {
-            HTMLTarget = new IHTMLSelect();
+            this.HTMLTarget = new IHTMLSelect();
+			this.HTMLTarget.onchange +=
+				e =>
+				{
 
-            Items = new __ObjectCollection { Owner = this };
+					if (SelectedIndexChanged != null)
+						SelectedIndexChanged(this, new EventArgs());
+				};
+
+			this.Items = new __ObjectCollection { Owner = this };
 
 			this.InternalSetDefaultFont();
         }
@@ -90,5 +98,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return (__ComboBox)(object)e;
         }
         #endregion
+
+		public ComboBoxStyle DropDownStyle { get; set; }
     }
 }

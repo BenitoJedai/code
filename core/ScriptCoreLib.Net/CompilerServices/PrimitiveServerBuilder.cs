@@ -28,100 +28,9 @@ namespace ScriptCoreLib.CompilerServices
 
 		// some functionality shall be refactored to ScriptCoreLib.Net.Server assembly
 		// to enable java support via [Optimization("script")]
-		public static string GetVersionInformation()
-		{
-			return "powered by ScriptCoreLib.Net (server for .net)";
-		}
+		
 
-		public class RemoteEndpointIdentity
-		{
-			public int Index;
-
-			public Action<byte> WriteByte;
-
-			public Func<int> ReadByte;
-
-			public RemoteEndpointIdentity Others;
-
-		}
-
-
-		public static Action StartRouter(Type t)
-		{
-			return StartRouter(t,
-				k =>
-				{
-					//// watch out, new player
-					//k.Others.WriteByte((byte)'!');
-
-					//// accepted to the playground
-					//k.WriteByte((byte)'@');
-
-					// route single to multiple
-					while (true)
-					{
-						var r = k.ReadByte();
-
-						if (r < 0)
-							break;
-
-						k.Others.WriteByte((byte)r);
-					}
-				}
-			);
-		}
-
-		public static Action StartRouter(Type t, Action<RemoteEndpointIdentity> Handler)
-		{
-			// .net only touter
-			// java router - should use only BCL classes and Obfuscate(feature = "script")
-			// Nonoba router
-			// ActionScript peer router/host
-
-			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine("will start router: " + t.FullName);
-			Console.ForegroundColor = ConsoleColor.Gray;
-
-			var Clients = new List<RemoteEndpointIdentity>();
-
-			var thread = DefaultPort.ToListener(
-				s =>
-				{
-					Console.WriteLine("router: client connected");
-
-					// we need a lock here and everywhere
-					// java needs to support ThreadMonitor.Enter
-					var Identity = new RemoteEndpointIdentity 
-					{
-						Index = Clients.Count + 1,
-						WriteByte = s.WriteByte, 
-						ReadByte = s.ReadByte
-					};
-					
-					Identity.Others = new RemoteEndpointIdentity();
-					Identity.Others.WriteByte =
-						k =>
-						{
-							foreach (var r in Clients)
-								if (r != Identity)
-									r.WriteByte(k);
-						};
-
-					Clients.Add(Identity);
-
-					Handler(Identity);
-				}
-			);
-			
-
-			return delegate
-			{
-				// we ought to kill the active connections and clients too
-				thread.Abort();
-			};
-		}
-
-		public const int DefaultPort = 33333;
+		public const int DefaultPort = 2000;
 
 		public static void ConnectToRouter(Action<Stream> Writer, Action<Stream> Reader)
 		{
@@ -140,19 +49,7 @@ namespace ScriptCoreLib.CompilerServices
 
 		}
 
-		public static void EmitVersionInformation(ILGenerator il)
-		{
-			// kind of funny as this assembly will have parts where the IL will be compiled to target languages like actionscript
-			// and also this assemlby contains code to build some of the IL which might end up being retranslated to that language
 
-			Func<string> _GetVersionInformation = GetVersionInformation;
-
-			var _a = il.DeclareLocal(typeof(string));
-
-			il.EmitCall(OpCodes.Call, _GetVersionInformation.Method, null);
-			il.Emit(OpCodes.Stloc, _a);
-			il.EmitWriteLine(_a);
-		}
 
 	
 	}

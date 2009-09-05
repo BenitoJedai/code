@@ -22,7 +22,7 @@ namespace ScriptCoreLib.Reflection.Options
 		}
 
 
-		internal static void AsParametersTo(this string[] args, object e)
+		public static void AsParametersTo(this string[] args, object e)
 		{
 			foreach (var k in args)
 			{
