@@ -8,3 +8,5 @@
 	- jar files will be genererated to web\bin as planned
 2009.09.05
 	- java bat file now accepts arguments
+	- arguments are now parsed via lib\ScriptCoreLib.Reflection.Options.dll
+	- added custom assembly load logic

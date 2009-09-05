@@ -25,7 +25,7 @@ namespace java.lang
 		/// Returns the <code>Class</code> object associated with the class or
 		/// interface with the given string name.
 		/// </summary>
-		public Class forName(string @className)
+		public static Class forName(string @className)
 		{
 			return default(Class);
 		}

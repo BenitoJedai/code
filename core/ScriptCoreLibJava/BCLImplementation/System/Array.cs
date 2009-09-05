@@ -106,5 +106,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			java.lang.reflect.Array.set(this, index, value);
 
 		}
+
+
+		[Script(DefineAsStatic = true)]
+		public object GetValue(int index)
+		{
+			return java.lang.reflect.Array.get(this, index);
+		}
 	}
 }

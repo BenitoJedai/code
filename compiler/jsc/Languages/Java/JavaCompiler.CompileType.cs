@@ -1,21 +1,11 @@
 
 using System;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.Diagnostics;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Xml;
-using System.Threading;
 using System.Linq;
-
-using jsc.CodeModel;
-
-using ScriptCoreLib;
-using jsc.Script;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Xml;
+using ScriptCoreLib;
 using ScriptCoreLib.Shared;
 
 namespace jsc.Languages.Java

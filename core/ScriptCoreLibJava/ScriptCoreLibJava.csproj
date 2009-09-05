@@ -622,6 +622,7 @@
     <Folder Include="javax\microedition\midlet\" />
     <Folder Include="javax\obex\" />
     <Folder Include="org\xml\sax\ext\" />
+    <Folder Include="web\assets\ScriptCoreLibJava\" />
     <Folder Include="web\bin\" />
     <Folder Include="web\java\" />
     <Folder Include="web\release\" />

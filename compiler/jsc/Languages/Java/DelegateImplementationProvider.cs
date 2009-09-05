@@ -50,8 +50,8 @@ namespace jsc.Languages.Java
 
 			Type MulticastDelegate = w.MySession.ResolveImplementation(z.BaseType);
 			Type Delegate = w.MySession.ResolveImplementation(z.BaseType.BaseType);
-			FieldInfo Target = Delegate.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Single(k => k.FieldType == typeof(object));
-			FieldInfo Method = Delegate.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Single(k => k.FieldType == typeof(MethodInfo));
+			MethodInfo Target = Delegate.GetMethod("get_Target");
+			MethodInfo Method = Delegate.GetMethod("get_Method");
 
 			Action dummy = () => { };
 			Func<object, object[], object> MethodInfo_Invoke = dummy.Method.Invoke;
@@ -162,7 +162,8 @@ namespace jsc.Languages.Java
 
 				w.WriteSafeLiteral(__current);
 				w.Write(".");
-				w.WriteSafeLiteral(Method.Name);
+				w.WriteDecoratedMethodName(Method, false);
+				w.Write("()");
 				w.Write(".");
 				w.WriteDecoratedMethodName(MethodInfo_Invoke.Method, false);
 				w.Write("(");
@@ -180,7 +181,8 @@ namespace jsc.Languages.Java
 
 				w.WriteSafeLiteral(__current);
 				w.Write(".");
-				w.WriteSafeLiteral(Target.Name);
+				w.WriteDecoratedMethodName(Target, false);
+				w.Write("()");
 
 				#endregion
 
@@ -203,7 +205,8 @@ namespace jsc.Languages.Java
 
 				w.WriteSafeLiteral(__current);
 				w.Write(".");
-				w.WriteSafeLiteral(Target.Name);
+				w.WriteDecoratedMethodName(Target, false);
+				w.Write("()");
 
 
 				for (int i = 0; i < p.Length; i++)

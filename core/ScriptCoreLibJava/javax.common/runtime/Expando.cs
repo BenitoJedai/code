@@ -5,7 +5,8 @@ using java.util;
 namespace javax.common.runtime
 {
     [Script]
-    public sealed class Expando
+	[System.Obsolete]
+	public sealed class Expando
     {
         HashMap BaseList = new HashMap();
 

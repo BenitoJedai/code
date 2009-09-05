@@ -162,10 +162,12 @@ namespace ScriptCoreLib.Shared.Maze
 			this.Height = Height;
 
 			clip = new RectInt32 { Width = Width, Height = Height };
+			
 
 			int x, y, n, d;
 			int[] dx = { 0, 0, -1, 1 };
-			int[] dy = { -1, 1, Convert.ToInt32(0), Convert.ToInt32(0) };
+			//int[] dy = { -1, 1, Convert.ToInt32(0), Convert.ToInt32(0) };
+			int[] dy = { -1, 1, 0, 0 };
 			int[] todo = new int[Width * Height];
 			int todonum = 0;
 

@@ -12,7 +12,8 @@ using java.text;
 namespace javax.common.runtime
 {
     [Script]
-    public static class Helper
+	[System.Obsolete]
+	public static class Helper
     {
         #region BuildDate
         public static Date BuildDate

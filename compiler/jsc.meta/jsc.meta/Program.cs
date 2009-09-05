@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using jsc.meta.Library;
 using System.IO;
 using System.Reflection;
+using ScriptCoreLib.Reflection.Options;
 
 namespace jsc.meta
 {
@@ -29,17 +29,19 @@ namespace jsc.meta
 			Console.WriteLine();
 		}
 
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
 			ShowLogo();
 
-			args.AsParametersFor(
-				(Action<FileInfo, string, DirectoryInfo>)ExtendToJavaConsole,
-				(Action<FileInfo, string, DirectoryInfo>)ExtendToFlashAvalon,
-				(Action<FileInfo, string>)ExtendToWindowsFormsEverywhere
 
+
+			args.AsParametersTo(
+				new ExtendToWindowsFormsEverywhere().Invoke,
+				new ExtendToJavaConsole().Invoke
 			);
 		}
+
+
 
 	}
 }

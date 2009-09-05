@@ -7,7 +7,8 @@ using java.lang;
 namespace javax.common.runtime.types
 {
     [Script]
-    public class WrappedBigDecimal
+	[System.Obsolete]
+	public class WrappedBigDecimal
     {
         public readonly BigDecimal Value;
 
