@@ -16,7 +16,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 			try
 			{
-				o = t.TypeDescription.newInstance();
+				o = t.InternalTypeDescription.newInstance();
 			}
 			catch (csharp.ThrowableException e)
 			{

@@ -44,7 +44,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 		}
 
-		public java.lang.Class TypeDescription
+		public java.lang.Class InternalTypeDescription
 		{
 			get
 			{
@@ -60,7 +60,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			get
 			{
-				return this.TypeDescription.getName();
+				return this.InternalTypeDescription.getName();
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			get
 			{
-				var t = this.TypeDescription;
+				var t = this.InternalTypeDescription;
 				var p = t.getPackage();
 				var n = t.getName();
 
@@ -91,7 +91,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			// http://www.onjava.com/pub/a/onjava/2007/03/15/reflections-on-java-reflection.html?page=3
 
-			var a = this.TypeDescription.getDeclaredMethods();
+			var a = this.InternalTypeDescription.getDeclaredMethods();
 			var n = new MethodInfo[a.Length];
 
 			for (int i = 0; i < a.Length; i++)
@@ -198,7 +198,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		public bool Equals(__Type e)
 		{
 			// .net 4.0 seems to also add == operator. jsc should choose equals until then?
-			if (this.TypeDescription.isAssignableFrom(e.TypeDescription))
+			if (this.InternalTypeDescription.isAssignableFrom(e.InternalTypeDescription))
 				return this.FullName == e.FullName;
 
 			return false;
@@ -207,8 +207,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public __FieldInfo[] GetFields()
 		{
-			
-			var f = this.TypeDescription.getDeclaredFields();
+
+			var f = this.InternalTypeDescription.getDeclaredFields();
 			var a = new __FieldInfo[f.Length];
 
 			for (int i = 0; i < f.Length; i++)
@@ -239,7 +239,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public bool IsAssignableFrom(Type t)
 		{
-			return ((__Type)t).TypeDescription.isAssignableFrom(this.TypeDescription);
+			return ((__Type)t).InternalTypeDescription.isAssignableFrom(this.InternalTypeDescription);
 		}
 
 		public bool IsClass
@@ -249,6 +249,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 				return IsAssignableFrom(typeof(object));
 			}
+		}
+
+		public bool IsArray
+		{
+			get
+			{
+				return this.InternalTypeDescription.isArray();
+			}
+		}
+
+		public Type GetElementType()
+		{
+			return (__Type)this.InternalTypeDescription.getComponentType();
 		}
 	}
 }

@@ -63,7 +63,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			java.lang.JavaSystem.arraycopy(sourceArray, 0, destinationArray, 0, length);
 		}
 
-		public static void Copy(Array sourceArray, int sourceIndex, Array destinationArray, int destinationIndex, int length)
+		public static void Copy(__Array sourceArray, int sourceIndex, __Array destinationArray, int destinationIndex, int length)
 		{
 			java.lang.JavaSystem.arraycopy(sourceArray, sourceIndex, destinationArray, destinationIndex, length);
 		}
@@ -75,7 +75,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 			try
 			{
-				o = (Array)java.lang.reflect.Array.newInstance(t.TypeDescription, length);
+				o = (Array)java.lang.reflect.Array.newInstance(t.InternalTypeDescription, length);
 			}
 			catch (csharp.ThrowableException e)
 			{
@@ -83,6 +83,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 
 			return o;
+		}
+
+		[Script(DefineAsStatic = true)]
+		public void CopyTo(__Array dest, int soffset)
+		{
+			Copy(this, soffset, dest, 0, ((Array)(object)this).Length - soffset);
+		}
+
+		public int Length
+		{
+			[Script(DefineAsStatic = true)]
+			get
+			{
+				return java.lang.reflect.Array.getLength(this);
+			}
+		}
+
+		[Script(DefineAsStatic = true)]
+		public void SetValue(object value, int index)
+		{
+			java.lang.reflect.Array.set(this, index, value);
+
 		}
 	}
 }
