@@ -44,9 +44,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set { this.HTMLTarget.readOnly = value; }
         }
 
+		public void AppendText(string text)
+		{
+			this.Text += text;
+		}
+
         public void Clear()
         {
-            Text = "";
+            this.Text = "";
         }
 
         public override string Text

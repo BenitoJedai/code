@@ -6,16 +6,34 @@ using System.Windows.Forms;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    [Script(Implements = typeof(global::System.Windows.Forms.TextBox))]
-    internal class __TextBox : __TextBoxBase
-    {
-        private HorizontalAlignment _TextAlign;
+	[Script(Implements = typeof(global::System.Windows.Forms.TextBox))]
+	internal class __TextBox : __TextBoxBase
+	{
+		private HorizontalAlignment _TextAlign;
 
-        public HorizontalAlignment TextAlign
-        {
-            get { return _TextAlign; }
-            set { _TextAlign = value; }
-        }
-	
-    }
+		public HorizontalAlignment TextAlign
+		{
+			get { return _TextAlign; }
+			set { _TextAlign = value; }
+		}
+
+		ScrollBars InternalScrollBars;
+
+		public ScrollBars ScrollBars
+		{
+			get
+			{
+				return InternalScrollBars;
+			}
+			set
+			{
+				InternalScrollBars = value;
+
+				if (value != ScrollBars.None)
+					this.HTMLTarget.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
+				else
+					this.HTMLTarget.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+			}
+		}
+	}
 }

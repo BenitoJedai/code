@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using ScriptCoreLib;
+using ScriptCoreLib.Archive.ZIP;
 
 namespace jsc.meta
 {
@@ -16,6 +17,7 @@ namespace jsc.meta
 		{
 			public FileInfo assembly;
 			public string type;
+
 
 
 			public void Invoke()
@@ -87,6 +89,29 @@ namespace jsc.meta
 						}
 					}
 				);
+				#endregion
+
+				#region web to .js.zip
+				var staging_web = new DirectoryInfo(Path.Combine(this.staging.FullName, "web"));
+
+				if (staging_web.Exists)
+				{
+					var zip = new ZIPFile();
+					var zip_file = new FileInfo(Path.Combine(staging.FullName, assembly.GetName().Name + ".js.zip"));
+
+					foreach (var file in staging_web.GetFiles("*", SearchOption.AllDirectories))
+					{
+						zip.Add(file.FullName.Substring(staging.FullName.Length + 1), File.ReadAllBytes(file.FullName));
+					}
+
+					var zzm = new MemoryStream();
+					using (var w = new BinaryWriter(zzm))
+					{
+						zip.WriteTo(w);
+					}
+
+					File.WriteAllBytes(zip_file.FullName, zzm.ToArray());
+				}
 				#endregion
 
 			}
