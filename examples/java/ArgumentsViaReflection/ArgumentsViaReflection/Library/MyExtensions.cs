@@ -24,8 +24,32 @@ namespace ArgumentsViaReflection.Library
 			}
 		}
 
+		public static void AsParametersTo(this string[] args, ParameterDispatcher e)
+		{
+			if (args.Length > 0)
+			{
+				var OperationName = args[0];
+
+				if (args.Length > 1)
+				{
+					var x = new string[args.Length - 1];
+					Array.Copy(args, 1, x, 0, args.Length - 1);
+					args = x;
+				}
+
+				args.AsParametersTo(e.Arguments);
+
+				e.Invoke(OperationName);
+			}
+		}
+
 		public static void AsParameterTo(this string arg, object e)
 		{
+			if (!arg.StartsWith("/"))
+				return;
+
+			arg = arg.Substring(1);
+
 			Trace("AsParameterTo: " + arg);
 
 			var t = e.GetType();
@@ -52,7 +76,7 @@ namespace ArgumentsViaReflection.Library
 			{
 
 				var k = arg.Substring(0, i);
-				var v = arg.Substring(i + 1);
+				var v = "/" + arg.Substring(i + 1);
 
 				Trace("AsParameterTo: namespace " + k);
 
@@ -61,7 +85,32 @@ namespace ArgumentsViaReflection.Library
 
 				if (f != null)
 				{
-					if (f.FieldType.IsClass)
+					if (f.FieldType.IsArray)
+					{
+						var et = f.FieldType.GetElementType();
+
+						var x = Activator.CreateInstance(et);
+
+						var a = (Array)f.GetValue(e);
+
+
+						if (a == null)
+						{
+							a = Array.CreateInstance(et, 1);
+						}
+						else
+						{
+							var n = Array.CreateInstance(et, a.Length + 1);
+							a.CopyTo(n, 0);
+							a = n;
+						}
+						a.SetValue(x, a.Length - 1);
+						f.SetValue(e, a);
+
+						v.AsParameterTo(x);
+
+					}
+					else if (f.FieldType.IsClass)
 					{
 						var x = f.GetValue(e);
 
@@ -97,6 +146,12 @@ namespace ArgumentsViaReflection.Library
 			if (f.FieldType.Equals(typeof(int)))
 			{
 				f.SetValue(e, int.Parse(value));
+				return;
+			}
+
+			if (f.FieldType.Equals(typeof(bool)))
+			{
+				f.SetValue(e, bool.Parse(value));
 				return;
 			}
 

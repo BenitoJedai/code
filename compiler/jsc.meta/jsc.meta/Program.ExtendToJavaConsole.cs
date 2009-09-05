@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using jsc.meta.Library;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
-using ScriptCoreLib;
-using System.Diagnostics;
 using System.Threading;
+using jsc.meta.Library;
+using ScriptCoreLib;
 
 namespace jsc.meta
 {
@@ -186,7 +183,7 @@ namespace jsc.meta
 @echo off
 :: Let's open our working directory. This folder shall contain our jar and dll files.
 pushd " + bin_jar.Directory.FullName + @"
-call """ + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + bin_jar.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @"
+call """ + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + bin_jar.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
 popd
 "
 
