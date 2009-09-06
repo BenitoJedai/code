@@ -9,6 +9,10 @@ using System.Reflection.Emit;
 using ScriptCoreLib;
 using ScriptCoreLib.Archive.ZIP;
 
+
+#pragma warning disable 1720
+// http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=482159
+
 namespace jsc.meta
 {
 	partial class Program

@@ -9,17 +9,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(
 	   HasNoPrototype = true,
 
-	  Implements = typeof(global::System.NotImplementedException),
+	  Implements = typeof(global::System.NotSupportedException),
 	  ImplementationType = typeof(java.lang.RuntimeException))]
-	internal class __NotImplementedException : __Exception
+	internal class __NotSupportedException : __Exception
 	{
-		public __NotImplementedException()
+		public __NotSupportedException()
 		{
 
 
 		}
 
-		public __NotImplementedException(string m)
+		public __NotSupportedException(string m)
 		{
 
 		}
