@@ -10,3 +10,5 @@
 	- java bat file now accepts arguments
 	- arguments are now parsed via lib\ScriptCoreLib.Reflection.Options.dll
 	- added custom assembly load logic
+2009.09.06
+	- java staging directory can now be given as a parameter

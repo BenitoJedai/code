@@ -18,6 +18,7 @@ namespace jsc.meta
 			public FileInfo assembly;
 			public string type;
 			public DirectoryInfo javapath;
+			public DirectoryInfo staging;
 
 			public void Invoke()
 			{
@@ -31,7 +32,11 @@ namespace jsc.meta
 
 				// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 				// in obj folder we build our binaries
-				var staging = this.assembly.Directory.CreateSubdirectory("staging");
+
+				if (staging == null)
+					staging = this.assembly.Directory.CreateSubdirectory("staging");
+				else if (!staging.Exists)
+					staging.Create();
 
 				Environment.CurrentDirectory = staging.FullName;
 
@@ -41,17 +46,17 @@ namespace jsc.meta
 					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
 
 					// do we need it?
-						// we should omit this if there are no extern calls in the assembly
-						// this would mean we need to have a look at all the 
-						// [Script] types for such methods
+					// we should omit this if there are no extern calls in the assembly
+					// this would mean we need to have a look at all the 
+					// [Script] types for such methods
 					typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
 				);
 
 				var assembly = this.assembly.LoadAssemblyAtWithReferences(staging);
 
-				
 
-			
+
+
 				new ExtendToJavaConsoleBuilder
 				{
 					staging = staging,
