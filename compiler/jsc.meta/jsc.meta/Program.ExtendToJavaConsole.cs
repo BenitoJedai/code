@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Threading;
 using jsc.meta.Library;
 using ScriptCoreLib;
+using System.Collections.Generic;
 
 namespace jsc.meta
 {
@@ -30,28 +31,34 @@ namespace jsc.meta
 
 				// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 				// in obj folder we build our binaries
-				var staging = assembly.Directory.CreateSubdirectory("staging");
+				var staging = this.assembly.Directory.CreateSubdirectory("staging");
 
 				Environment.CurrentDirectory = staging.FullName;
+
 
 				staging.DefinesTypes(
 					typeof(ScriptCoreLib.ScriptAttribute),
 					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
 
 					// do we need it?
-					// we should omit this if there are no extern calls in the assembly
-					// this would mean we need to have a look at all the 
-					// [Script] types for such methods
+						// we should omit this if there are no extern calls in the assembly
+						// this would mean we need to have a look at all the 
+						// [Script] types for such methods
 					typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
 				);
 
+				var assembly = this.assembly.LoadAssemblyAtWithReferences(staging);
+
+				
+
+			
 				new ExtendToJavaConsoleBuilder
 				{
 					staging = staging,
 					// in bin we copy what we consider as the product
-					bin = assembly.Directory,
+					bin = this.assembly.Directory,
 					javapath = javapath,
-					assembly = assembly.LoadAssemblyAt(staging)
+					assembly = assembly
 				}.Build(type);
 			}
 
@@ -182,14 +189,16 @@ namespace jsc.meta
 				Console.WriteLine("- created bat entrypoint:");
 				Console.WriteLine(run_jar);
 
+				var library_path = bin_jar.Directory.FullName.Substring(new FileInfo(run_jar).Directory.FullName.Length + 1);
 
-				File.WriteAllText(run_jar, 
+				File.WriteAllText(run_jar,
 					@"
 @echo off
-:: Let's open our working directory. This folder shall contain our jar and dll files.
-pushd " + bin_jar.Directory.FullName + @"
-call """ + javapath.FullName + @"\java.exe"" -cp ""%PATH%;" + bin_jar.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
-popd
+setlocal
+
+call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + library_path + @"\" + bin_jar.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
+
+endlocal
 "
 
 				);
@@ -220,12 +229,12 @@ popd
 				//var ScriptTypeFilterAttribute = typeof(ScriptCoreLib.ScriptTypeFilterAttribute);
 
 				a.DefineScriptLibraries(
-					assembly_type, 
+					assembly_type,
 					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
 					typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
 				);
 
-				
+
 
 				a.SetCustomAttribute(
 					new CustomAttributeBuilder(

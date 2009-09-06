@@ -30,7 +30,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		readonly byte[] _buffer = new byte[16];
 
-		// we will implement only CLSCompliant Write versions as jsc cannot do the disambiguation on its own at this time...
+		public virtual void Write(byte value)
+		{
+			InternalStream.WriteByte(value);
+		}
+
+		public virtual void Write(char value)
+		{
+			this._buffer[0] = (byte)(value & 0xff);
+			this._buffer[1] = (byte)(value >> 8);
+			this.InternalStream.Write(this._buffer, 0, 2);
+		}
+
+		// we will implement only CLSCompliant? Write versions as jsc cannot do the disambiguation on its own at this time...
 
 		public virtual void Write(short value)
 		{
