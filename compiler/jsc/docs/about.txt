@@ -340,3 +340,5 @@ version history:
 05.09.2009
 	java: java delegates now invoke via get_Target and get_Method
 	java: storing booleans in bool[][] is now possible
+06.09.2009
+	java: type import now looks for opcodes.castclass

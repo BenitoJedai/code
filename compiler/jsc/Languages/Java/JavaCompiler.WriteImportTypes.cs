@@ -1,24 +1,12 @@
 
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Xml;
-using System.Threading;
-using System.Linq;
-
-using jsc.CodeModel;
-
 using ScriptCoreLib;
-using jsc.Script;
 using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Shared;
-using System.Runtime.InteropServices;
 
 namespace jsc.Languages.Java
 {
@@ -311,6 +299,13 @@ namespace jsc.Languages.Java
 
 				foreach (ILInstruction i in b.Instructrions)
 				{
+					if (i == OpCodes.Castclass)
+					{
+						//imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
+						imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
+						continue;
+					}
+
 					if (i == OpCodes.Ldtoken)
 					{
 						imp.Add(MySession.ResolveImplementation(typeof(RuntimeTypeHandle)));
