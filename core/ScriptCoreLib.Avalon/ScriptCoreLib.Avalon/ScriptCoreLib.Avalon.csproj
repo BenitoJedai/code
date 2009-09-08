@@ -131,6 +131,8 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Matrix.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\MatrixTransform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyboardEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventArgs.cs" />

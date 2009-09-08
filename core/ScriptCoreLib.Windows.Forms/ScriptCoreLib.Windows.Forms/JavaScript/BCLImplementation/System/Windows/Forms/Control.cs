@@ -1020,7 +1020,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
             set
             {
-                this.SetClientSizeCore(value.Width, value.Height);
+                this.SetClientSizeCore(value);
             }
         }
 
@@ -1031,20 +1031,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual Size SizeFromClientSize(Size clientSize)
         {
-            return this.SizeFromClientSize(clientSize.Width, clientSize.Height);
-        }
-
-
-        internal Size SizeFromClientSize(int width, int height)
-        {
-            return new Size(width + 32, height + 32);
+			return new Size(clientSize.Width, clientSize.Height);
         }
 
 
 
-        protected virtual void SetClientSizeCore(int x, int y)
+
+
+
+        protected virtual void SetClientSizeCore(Size s)
         {
-            this.Size = this.SizeFromClientSize(x, y);
+            this.Size = this.SizeFromClientSize(s);
             this.clientWidth = x;
             this.clientHeight = y;
             this.OnClientSizeChanged(null /* bug */);
