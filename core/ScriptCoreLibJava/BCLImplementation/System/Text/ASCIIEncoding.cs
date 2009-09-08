@@ -12,12 +12,35 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 	{
 		public override string GetString(byte[] bytes)
 		{
-			return (string)(object)new java.lang.String(__File.InternalByteArrayToSByteArray(bytes), "ASCII");
+			var r = default(string);
+
+			try
+			{
+				r = (string)(object)new java.lang.String(__File.InternalByteArrayToSByteArray(bytes), "ASCII");
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+			return r;
+
 		}
 
 		public override byte[] GetBytes(string s)
 		{
-			return (byte[])(object)((java.lang.String)(object)s).getBytes("ASCII");
+			var r = default(byte[]);
+
+			try
+			{
+
+				r = (byte[])(object)((java.lang.String)(object)s).getBytes("ASCII");
+
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+			return r;
 		}
 	}
 }
