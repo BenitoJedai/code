@@ -391,6 +391,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
 		private static void ApplyMatrixTransform(IHTMLElement e, Matrix m)
 		{
+			// see: https://developer.mozilla.org/en/CSS/-moz-transform
 			// see: http://www.w3.org/TR/SVG11/coords.html#TransformMatrixDefined
 
 			// filter:progid:DXImageTransform.Microsoft.Matrix(M11='1.0', sizingmethod='auto expand');
@@ -401,11 +402,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			// http://mozillalinks.org/wp/2008/09/firefox-31-gets-cool-web-page-transformations-support/
 
 			// http://www.zachstronaut.com/lab/isocube.html
+			// http://paulbakaus.com/tag/internet-explorer/
 
 			var code = @"
 					e.style.filter = ""progid:DXImageTransform.Microsoft.Matrix(M11='" + m.M11 + @"',M12='" + m.M12 + @"',M21='" + m.M21 + @"',M22='" + m.M22 + @"', sizingmethod='auto expand')"";
-			        e.style.MozTransform = ""matrix(" + m.M11 + @", " + m.M12 + @", " + m.M21 + @", " + m.M22 + @", 0, 0)"";
-					e.style.WebkitTransform = ""matrix(" + m.M11 + @", " + m.M12 + @", " + m.M21 + @", " + m.M22 + @", 0, 0)"";
+			        e.style.MozTransform = ""matrix(" + m.M11 + @", " + m.M21 + @", " + m.M12 + @", " + m.M22 + @", 0, 0)"";
+					e.style.WebkitTransform = ""matrix(" + m.M11 + @", " + m.M21 + @", " + m.M12 + @", " + m.M22 + @", 0, 0)"";
 				";
 
 			

@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows;
 
 namespace FormsAvalonAnimation
 {
@@ -14,10 +15,10 @@ namespace FormsAvalonAnimation
 	{
 		public AnimationCanvas()
 		{
-			var rotor = new Canvas();
 
-			// in IE we wont have input where we expect it...
-		
+			// browser will rotate by center
+			// wpf will rotate by left top
+
 
 			{
 				var r = new Rectangle
@@ -42,41 +43,49 @@ namespace FormsAvalonAnimation
 					r.Fill = Brushes.Yellow;
 				};
 
-				rotor.Children.Add(r);
-				
+				this.Children.Add(r);
+				Canvas.SetLeft(r, 400);
+				Canvas.SetTop(r, 116);
+
 			}
 
+			AddRotor(0);
+			AddRotor(120);
+			AddRotor(240);
+		}
+
+		private void AddRotor(double angle)
+		{
+			var r = new Rectangle
 			{
-				var r = new Rectangle
-				{
-					Width = 100,
-					Height = 24,
-					Fill = Brushes.GreenYellow,
-					Opacity = 0.2,
-					Cursor = Cursors.Hand,
-				};
+				Width = 80,
+				Height = 12,
+				Fill = Brushes.GreenYellow,
+				Opacity = 0.2,
+				Cursor = Cursors.Hand,
+			};
 
-				r.MouseEnter += delegate
-				{
-					r.Opacity = 0.9;
-					r.Fill = Brushes.Blue;
-				};
+			r.MouseEnter += delegate
+			{
+				r.Opacity = 0.9;
+				r.Fill = Brushes.Blue;
+			};
 
-				r.MouseLeave += delegate
-				{
-					r.Opacity = 0.2;
-					r.Fill = Brushes.GreenYellow;
-				};
+			r.MouseLeave += delegate
+			{
+				r.Opacity = 0.2;
+				r.Fill = Brushes.GreenYellow;
+			};
 
-				rotor.Children.Add(r);
-			}
-			this.Children.Add(rotor);
-			Canvas.SetLeft(rotor, 400);
-			Canvas.SetTop(rotor, 116);
 
-			var angle = -33.0;
+			this.Children.Add(r);
+			Canvas.SetLeft(r, 400);
+			Canvas.SetTop(r, 116);
 
-			ApplyRotation(rotor, angle);
+
+
+
+			ApplyRotation(r, angle);
 
 			var t = new DispatcherTimer();
 
@@ -85,7 +94,7 @@ namespace FormsAvalonAnimation
 				{
 					angle++;
 
-					ApplyRotation(rotor, angle);
+					ApplyRotation(r, angle);
 				};
 
 			t.Interval = TimeSpan.FromMilliseconds(1000 / 30);
@@ -93,22 +102,41 @@ namespace FormsAvalonAnimation
 			t.Start();
 		}
 
-		private static void ApplyRotation(Canvas rotor, double angle)
+		private static void ApplyRotation(UIElement rotor, double angle)
 		{
 			var deg2rad = Math.PI * 2 / 360;
 			var rad = angle * deg2rad;
 			var costheta = Math.Cos(rad);
 			var sintheta = Math.Sin(rad);
-			rotor.RenderTransform = new MatrixTransform
-			{
-				Matrix = new Matrix
+
+			var g = new TransformGroup();
+			// http://social.msdn.microsoft.com/Forums/en-US/vswpfdesigner/thread/578a058e-75ac-4550-b4be-18cf9569cf5e
+
+			g.Children.Add(
+				new TranslateTransform
 				{
-					M11 = costheta,
-					M12 = -sintheta,
-					M21 = sintheta,
-					M22 = costheta
+					X = -40,
+					Y = -6
+				});
+
+			g.Children.Add(
+				 new MatrixTransform
+				{
+				
+					Matrix = new Matrix
+					{
+						M11 = costheta,
+						M12 = -sintheta,
+						M21 = sintheta,
+						M22 = costheta,
+						OffsetX = 20,
+						OffsetY = 20,
+					}
 				}
-			};
+			);
+
+			rotor.RenderTransform = g;
+
 		}
 
 
