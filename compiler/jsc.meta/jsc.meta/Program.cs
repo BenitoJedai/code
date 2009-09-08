@@ -31,6 +31,7 @@ namespace jsc.meta
 
 		public static void Main(string[] args)
 		{
+			var CurrentDirectory = Environment.CurrentDirectory;
 			ShowLogo();
 
 
@@ -39,6 +40,8 @@ namespace jsc.meta
 				new ExtendToWindowsFormsEverywhere().Invoke,
 				new ExtendToJavaConsole().Invoke
 			);
+
+			Environment.CurrentDirectory = CurrentDirectory;
 		}
 
 

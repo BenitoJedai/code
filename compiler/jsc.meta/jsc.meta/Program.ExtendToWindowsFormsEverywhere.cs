@@ -21,7 +21,8 @@ namespace jsc.meta
 		{
 			public FileInfo assembly;
 			public string type;
-
+			public DirectoryInfo staging;
+			public FileInfo zip;
 
 
 			public void Invoke()
@@ -34,23 +35,28 @@ namespace jsc.meta
 				Console.WriteLine("will create a javascript application for you");
 
 				// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
-				// in obj folder we build our binaries
-				var staging = this.assembly.Directory.CreateSubdirectory("staging");
+
+				if (this.staging == null)
+					this.staging = this.assembly.Directory.CreateSubdirectory("staging");
+				else if (!staging.Exists)
+					this.staging.Create();
 
 				Environment.CurrentDirectory = staging.FullName;
 
 				staging.DefinesTypes(
 					typeof(ScriptCoreLib.ScriptAttribute),
 					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
-					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken)
+					typeof(ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken)
 				);
 
 
 				new ExtendToWindowsFormsEverywhereBuilder
 				{
-					staging = staging,
+					context = this,
 					assembly = this.assembly.LoadAssemblyAt(staging)
 				}.Build(this.type);
 			}
@@ -58,7 +64,7 @@ namespace jsc.meta
 
 		class ExtendToWindowsFormsEverywhereBuilder
 		{
-			public DirectoryInfo staging;
+			public ExtendToWindowsFormsEverywhere context;
 
 			public Assembly assembly;
 
@@ -96,26 +102,26 @@ namespace jsc.meta
 				#endregion
 
 				#region web to .js.zip
-				var staging_web = new DirectoryInfo(Path.Combine(this.staging.FullName, "web"));
+				var staging_web = new DirectoryInfo(Path.Combine(this.context.staging.FullName, "web"));
 
 				if (staging_web.Exists)
-				{
-					var zip = new ZIPFile();
-					var zip_file = new FileInfo(Path.Combine(staging.FullName, assembly.GetName().Name + ".js.zip"));
-
-					foreach (var file in staging_web.GetFiles("*", SearchOption.AllDirectories))
+					if (this.context.zip != null)
 					{
-						zip.Add(file.FullName.Substring(staging.FullName.Length + 1), File.ReadAllBytes(file.FullName));
-					}
+						var zip = new ZIPFile();
 
-					var zzm = new MemoryStream();
-					using (var w = new BinaryWriter(zzm))
-					{
-						zip.WriteTo(w);
-					}
+						foreach (var file in staging_web.GetFiles("*", SearchOption.AllDirectories))
+						{
+							zip.Add(file.FullName.Substring(this.context.staging.FullName.Length + 1), File.ReadAllBytes(file.FullName));
+						}
 
-					File.WriteAllBytes(zip_file.FullName, zzm.ToArray());
-				}
+						var zzm = new MemoryStream();
+						using (var w = new BinaryWriter(zzm))
+						{
+							zip.WriteTo(w);
+						}
+
+						File.WriteAllBytes(this.context.zip.FullName, zzm.ToArray());
+					}
 				#endregion
 
 			}
@@ -138,9 +144,11 @@ namespace jsc.meta
 				a.DefineScriptLibraries(
 					assembly_type,
 					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
-					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken)
+					typeof(ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken)
 				);
 
 
@@ -230,7 +238,7 @@ namespace jsc.meta
 				a.SetEntryPoint(main);
 				AnnounceEntrypoint(main);
 
-				var Product = new FileInfo(Path.Combine(staging.FullName, name.Name + ".exe"));
+				var Product = new FileInfo(Path.Combine(this.context.staging.FullName, name.Name + ".exe"));
 
 				a.Save(
 					Product.Name

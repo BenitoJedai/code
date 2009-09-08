@@ -33,10 +33,10 @@ namespace jsc.meta
 				// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 				// in obj folder we build our binaries
 
-				if (staging == null)
-					staging = this.assembly.Directory.CreateSubdirectory("staging");
+				if (this.staging == null)
+					this.staging = this.assembly.Directory.CreateSubdirectory("staging");
 				else if (!staging.Exists)
-					staging.Create();
+					this.staging.Create();
 
 				Environment.CurrentDirectory = staging.FullName;
 

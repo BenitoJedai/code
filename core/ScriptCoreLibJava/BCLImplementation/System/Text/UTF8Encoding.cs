@@ -7,17 +7,17 @@ using ScriptCoreLibJava.BCLImplementation.System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Text
 {
-	[Script(Implements = typeof(global::System.Text.ASCIIEncoding))]
-	internal class __ASCIIEncoding : __Encoding
+	[Script(Implements = typeof(global::System.Text.UTF8Encoding))]
+	internal class __UTF8Encoding : __Encoding
 	{
 		public override string GetString(byte[] bytes)
 		{
-			return (string)(object)new java.lang.String(__File.InternalByteArrayToSByteArray(bytes), "ASCII");
+			return (string)(object)new java.lang.String(__File.InternalByteArrayToSByteArray(bytes), "UTF-8");
 		}
 
 		public override byte[] GetBytes(string s)
 		{
-			return (byte[])(object)((java.lang.String)(object)s).getBytes("ASCII");
+			return (byte[])(object)((java.lang.String)(object)s).getBytes("UTF-8");
 		}
 	}
 }

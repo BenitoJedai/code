@@ -13,6 +13,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Form))]
     internal class __Form : __ContainerControl
     {
+		// alternative service providers:
+		// see: http://dhtmlx.com/docs/products/dhtmlxWindows/index.shtml
+
         object __FormTypeHint;
 
         public IHTMLDiv HTMLTarget { get; set; }

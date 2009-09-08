@@ -91,6 +91,7 @@
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSAParameters.cs" />
+    <Compile Include="BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="BCLImplementation\System\ValueType.cs" />
     <Compile Include="BCLImplementation\System\UInt32.cs" />

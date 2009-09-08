@@ -1,20 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
 using ScriptCoreLib;
 
-
-[assembly:InternalsVisibleTo("FormsExample")]
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptCoreLib.Windows.Forms")]
+[assembly: AssemblyTitle("ScriptCoreLib.Avalon.Integration")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("ScriptCoreLib.Windows.Forms")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2007")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ScriptCoreLib.Avalon.Integration")]
+[assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -24,7 +21,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("91a9e2f5-2152-4ebf-8b11-d814dfb83a78")]
+[assembly: Guid("ba1ec342-2ee5-4f0c-8bf4-34c11d54f4ec")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -40,8 +37,6 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly:
-    Script,
-    ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-	
-	InternalsVisibleTo("ScriptCoreLib.Avalon.Integration")
+	Script,
+	ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.Integration.__ElementHost))
 ]
