@@ -69,7 +69,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalSprite.style.height = "400px";
 
 			InternalSprite.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-
+			InternalSprite.name = "__Panel";
 
 			InternalSprite.style.left = "0px";
 			InternalSprite.style.top = "0px";
