@@ -155,19 +155,9 @@ namespace javax.common.runtime
             return e;
         }
 
-        public static string ToString(char b)
-        {
-            char[] x = { (char)b };
+  
 
-            return String.valueOf(x);
-        }
-
-        public static string ToString(int b)
-        {
-            sbyte[] x = { (sbyte)b };
-
-            return (string)(object)new java.lang.String(x);
-        }
+  
 
         public static string ToString(sbyte[] bytes, string charset)
         {
