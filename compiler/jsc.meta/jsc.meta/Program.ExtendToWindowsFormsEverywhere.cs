@@ -46,6 +46,7 @@ namespace jsc.meta
 				staging.DefinesTypes(
 					typeof(ScriptCoreLib.ScriptAttribute),
 					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Net.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
@@ -144,6 +145,7 @@ namespace jsc.meta
 				a.DefineScriptLibraries(
 					assembly_type,
 					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Net.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
 					typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),

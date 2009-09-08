@@ -13,7 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms.Integr
 			this.InternalElement = new IHTMLDiv { name = "__ElementHost" };
 			this.InternalElement.style.padding = "0";
 			this.InternalElement.style.SetSize(32, 32);
-			this.InternalElement.style.backgroundColor = "red";
+			//this.InternalElement.style.backgroundColor = "red";
 
 			//this.InternalSetDefaultFont();
         }

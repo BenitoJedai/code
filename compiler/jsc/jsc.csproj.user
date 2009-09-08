@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\TestAutoCast\TestAutoCast\bin\Debug</StartWorkingDirectory>
-    <StartArguments>TestAutoCast.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\FormsAvalonAnimation\FormsAvalonAnimation\bin\Release\staging</StartWorkingDirectory>
+    <StartArguments>ScriptCoreLib.Avalon.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

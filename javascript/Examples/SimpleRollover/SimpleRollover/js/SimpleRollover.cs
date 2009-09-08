@@ -350,7 +350,7 @@ namespace SimpleRollover.js
             //}.Where(p => false);
 
 
-            ActionParams<string> Spawn =
+            ParamsAction<string> Spawn =
                 i =>
                     ((IHTMLImage)i[0]).InvokeOnComplete(cold =>
                     ((IHTMLImage)i[1]).InvokeOnComplete(hot =>

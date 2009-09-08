@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Animation;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
@@ -366,6 +367,49 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 		public static implicit operator UIElement(__UIElement e)
 		{
 			return (UIElement)(object)e;
+		}
+
+		Transform InternalTransform;
+
+		public Transform RenderTransform
+		{
+			get
+			{
+				return InternalTransform;
+			}
+			set
+			{
+				InternalTransform = value;
+
+				var e = this.InternalGetDisplayObjectDirect();
+
+				var m = value as MatrixTransform;
+
+				ApplyMatrixTransform(e, m.Matrix);
+			}
+		}
+
+		private static void ApplyMatrixTransform(IHTMLElement e, Matrix m)
+		{
+			// see: http://www.w3.org/TR/SVG11/coords.html#TransformMatrixDefined
+
+			// filter:progid:DXImageTransform.Microsoft.Matrix(M11='1.0', sizingmethod='auto expand');
+			//    -moz-transform: matrix(1, 0, 0.6, 1, 15em, 0);
+			// -webkit-transform: matrix(1, 0, 0.6, 1,  250, 0);
+
+			// style.MozTransform = “rotate(45deg)”;
+			// http://mozillalinks.org/wp/2008/09/firefox-31-gets-cool-web-page-transformations-support/
+
+			// http://www.zachstronaut.com/lab/isocube.html
+
+			var code = @"
+					e.style.filter = ""progid:DXImageTransform.Microsoft.Matrix(M11='" + m.M11 + @"',M12='" + m.M12 + @"',M21='" + m.M21 + @"',M22='" + m.M22 + @"', sizingmethod='auto expand')"";
+			        e.style.MozTransform = ""matrix(" + m.M11 + @", " + m.M12 + @", " + m.M21 + @", " + m.M22 + @", 0, 0)"";
+					e.style.WebkitTransform = ""matrix(" + m.M11 + @", " + m.M12 + @", " + m.M21 + @", " + m.M22 + @", 0, 0)"";
+				";
+
+			
+			new IFunction("e", code).apply(null, e);
 		}
 	}
 }
