@@ -41,7 +41,13 @@ namespace java.lang
 		{
 		}
 
-	
 
+		/// <summary>
+		/// Gets the system property indicated by the specified key.
+		/// </summary>
+		static public string getProperty(string @key)
+		{
+			return default(string);
+		}
 	}
 }
