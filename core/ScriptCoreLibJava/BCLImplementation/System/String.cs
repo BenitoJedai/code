@@ -66,10 +66,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		}
 
 		[Script(DefineAsStatic = true)]
+		public string PadLeft(int totalWidth)
+		{
+			return PadLeft(totalWidth, ' ');
+		}
+
+		[Script(DefineAsStatic = true)]
 		public string PadLeft(int totalWidth, char paddingChar)
 		{
 			string u = (string)(object)this;
-			string p = Convert.ToString(paddingChar);
+			string p = __Convert.ToString(paddingChar);
 
 			while (u.Length < totalWidth)
 				u = p + u;

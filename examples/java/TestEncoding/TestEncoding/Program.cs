@@ -12,6 +12,15 @@ namespace TestEncoding
 	{
 		public static void Main(string[] args)
 		{
+			var _a = "╔═╗";
+			var _b = "║ ║";
+			var _c = "╚═╝";
+
+			var ShowMessage = MyExtensions.ToShowMessage(_a, _b, _c);
+
+			ShowMessage("hello world");
+			ShowMessage("this is a message box");
+
 			{
 				var a = "hello öäüõ - ░▒ €§žšŠŽÜÕÄÖ";
 				var b = Encoding.UTF8.GetBytes(a);
