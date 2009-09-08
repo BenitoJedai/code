@@ -13,23 +13,30 @@ namespace TestEncoding
 		public static void Main(string[] args)
 		{
 			{
-				var a = "hello öäüõ - ﺕ";
+				var a = "hello öäüõ - ░▒ €§žšŠŽÜÕÄÖ";
 				var b = Encoding.UTF8.GetBytes(a);
 
+				Console.WriteLine(a);
 				foreach (var i in b)
 				{
 					Console.Write(i.ToString("x2") + " ");
 				}
+				Console.WriteLine();
+				Console.WriteLine(Encoding.UTF8.GetString(b));
+
 			}
 
 			{
 				var a = "hello öäüõ - ﺕ";
 				var b = Encoding.ASCII.GetBytes(a);
 
+				Console.WriteLine(a);
 				foreach (var i in b)
 				{
 					Console.Write(i.ToString("x2") + " ");
 				}
+				Console.WriteLine();
+				Console.WriteLine(Encoding.ASCII.GetString(b));
 			}
 		}
 	}

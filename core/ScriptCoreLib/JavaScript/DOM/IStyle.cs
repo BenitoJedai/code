@@ -156,6 +156,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public partial class IStyle
     {
+		// todo:
+		// http://samples.msdn.microsoft.com/workshop/samples/author/dhtml/filters/matrix.htm
+		// http://msdn.microsoft.com/en-us/library/ms533014%28VS.85%29.aspx
+
+
 		// http://kennedia.svnrepository.com/Basecamp.wdgt/trac.cgi/browser/AppleClasses/AppleButton.js?rev=5#L133
 		/// <summary>
 		/// Example values: "dashboard-region(control rectangle)" "none"
