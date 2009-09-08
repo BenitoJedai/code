@@ -10,10 +10,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     public partial class IStyle
     {
-		// todo:
-		// http://samples.msdn.microsoft.com/workshop/samples/author/dhtml/filters/matrix.htm
-		// http://msdn.microsoft.com/en-us/library/ms533014%28VS.85%29.aspx
-
+	
         const string px = "px";
 
 
