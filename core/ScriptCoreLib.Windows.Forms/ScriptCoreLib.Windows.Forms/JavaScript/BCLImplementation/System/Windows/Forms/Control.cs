@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
     using DOMHandler = Shared.EventHandler<DOM.IEvent>;
+	using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
 
 
 
@@ -38,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     }
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    internal class __Control // : ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel.__Component
+    internal class __Control  : __Component
     {
 		public void InternalSetDefaultFont()
 		{

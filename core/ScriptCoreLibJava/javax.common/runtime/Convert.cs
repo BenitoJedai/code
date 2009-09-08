@@ -7,6 +7,7 @@ using ScriptCoreLib;
 namespace javax.common.runtime
 {
     [Script]
+	[System.Obsolete]
     public sealed class Convert
     {
         public static string BytesToHuman(long bytes)
@@ -165,14 +166,14 @@ namespace javax.common.runtime
         {
             sbyte[] x = { (sbyte)b };
 
-            return new java.lang.String(x);
+            return (string)(object)new java.lang.String(x);
         }
 
         public static string ToString(sbyte[] bytes, string charset)
         {
             try
             {
-                return new java.lang.String(bytes, charset);
+				return (string)(object)new java.lang.String(bytes, charset);
             }
             catch
             {
@@ -203,12 +204,12 @@ namespace javax.common.runtime
 
         public static string ToString(params sbyte[] e)
         {
-            return new java.lang.String(e);
+			return (string)(object)new java.lang.String(e);
         }
 
         public static string ToString(sbyte[] e, int offset, int len)
         {
-            return new java.lang.String(e, offset, len);
+			return (string)(object)new java.lang.String(e, offset, len);
         }
 
 
@@ -218,7 +219,7 @@ namespace javax.common.runtime
 
             try
             {
-                u = new java.lang.String(e, offset, len, enc);
+				u = (string)(object)new java.lang.String(e, offset, len, enc);
             }
             catch
             {
@@ -438,7 +439,7 @@ namespace javax.common.runtime
 
             try
             {
-                u = new String(p, charset);
+				u = (string)(object)new String(p, charset);
 
             }
             catch

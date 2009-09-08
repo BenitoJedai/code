@@ -46,4 +46,7 @@ using ScriptCoreLib;
 	// ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp"),
 	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.ActionScript", VirtualNamespaceName = ""),
 	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
-]    // some namespace mangling, why bother?
+    // some namespace mangling, why bother?
+
+	InternalsVisibleTo("ScriptCoreLib.Avalon.Integration")
+]

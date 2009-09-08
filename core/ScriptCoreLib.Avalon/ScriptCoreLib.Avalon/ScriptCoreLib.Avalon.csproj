@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Control.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Image.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Keyboard.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="CSharp\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="CSharp\Avalon\Extensions\DesktopWindowManager.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Image.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Panel.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
