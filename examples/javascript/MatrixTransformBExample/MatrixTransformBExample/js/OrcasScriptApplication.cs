@@ -84,6 +84,12 @@ namespace MatrixTransformBExample.js
 			ro.style.Opacity = 0.4;
 			ro.AttachToDocument();
 
+			var info = new IHTMLSpan { innerText = "MatrixTransform" };
+
+
+			info.style.SetLocation(x, y + h, w, h);
+			
+			info.AttachToDocument();
 
 			var at = new IHTMLDiv();
 
@@ -155,6 +161,7 @@ namespace MatrixTransformBExample.js
 
 				};
 
+			#region bind InteractiveSetRotation
 			at.onclick +=
 				e =>
 				{
@@ -162,7 +169,14 @@ namespace MatrixTransformBExample.js
 
 				};
 
+			at.onmouseover +=
+				delegate
+				{
+					info.innerText = "Click to set rotation";
+				};
+
 			InteractiveSetRotation(0, 0);
+			#endregion
 
 			#region bind InteractiveSetOrigin
 			m.ButtonClear.Click +=
@@ -177,6 +191,12 @@ namespace MatrixTransformBExample.js
 					// 0 0 is top left
 
 					InteractiveSetOrigin(-e.OffsetX, -e.OffsetY);
+				};
+
+			r.onmouseover +=
+				delegate
+				{
+					info.innerText = "Click to set origin";
 				};
 
 
