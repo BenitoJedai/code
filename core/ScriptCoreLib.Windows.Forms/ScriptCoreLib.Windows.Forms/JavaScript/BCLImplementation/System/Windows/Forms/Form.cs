@@ -99,7 +99,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 			//container.style.appleDashboardRegion = "dashboard-region(control rectangle)";
 
 			container.style.left = innerborder + "px";
-			container.style.top = (20 + innerborder) + "px";
+			container.style.top = (26 + innerborder + innerborder) + "px";
 			container.style.right = innerborder + "px";
 			container.style.bottom = innerborder + "px";
 			container.style.overflow = IStyle.OverflowEnum.hidden;
@@ -152,7 +152,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 		protected override Size SizeFromClientSize(Size clientSize)
 		{
-			return new Size(clientSize.Width + 8, clientSize.Height + 30);
+			return new Size(clientSize.Width + innerborder * 2, clientSize.Height + innerborder * 3 + 26);
 		}
 
 		public override IHTMLElement HTMLTargetRef
