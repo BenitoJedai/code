@@ -12,15 +12,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         IHTMLElement fieldset;
         IHTMLElement legend;
 
+		IHTMLDiv InternalContainer;
+
         public __GroupBox()
         {
             fieldset = new IHTMLElement(IHTMLElement.HTMLElementEnum.fieldset);
+			fieldset.style.padding = "0";
+			fieldset.style.margin = "0";
+
             legend = new IHTMLElement(IHTMLElement.HTMLElementEnum.legend);
+			legend.style.marginLeft = "0.5em";
 
             fieldset.appendChild(legend);
 
+			this.InternalContainer = new IHTMLDiv();
+			fieldset.appendChild(this.InternalContainer);
+
 			this.InternalSetDefaultFont();
         }
+
+	
 
         public override string Text
         {
@@ -43,5 +54,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return fieldset;
             }
         }
+
+		public override IHTMLElement HTMLTargetContainerRef
+		{
+			get
+			{
+				return this.InternalContainer;
+			}
+		}
+
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			
+		}
+
     }
 }
