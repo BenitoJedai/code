@@ -34,13 +34,13 @@
 			this.TranslateX = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.textBox5 = new System.Windows.Forms.TextBox();
+			this.M22 = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.textBox6 = new System.Windows.Forms.TextBox();
+			this.M12 = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.M21 = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.textBox4 = new System.Windows.Forms.TextBox();
+			this.M11 = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.ButtonClear = new System.Windows.Forms.Button();
@@ -97,62 +97,62 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.textBox5);
+			this.groupBox2.Controls.Add(this.M22);
 			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Controls.Add(this.textBox6);
+			this.groupBox2.Controls.Add(this.M12);
 			this.groupBox2.Controls.Add(this.label6);
-			this.groupBox2.Controls.Add(this.textBox3);
+			this.groupBox2.Controls.Add(this.M21);
 			this.groupBox2.Controls.Add(this.label3);
-			this.groupBox2.Controls.Add(this.textBox4);
+			this.groupBox2.Controls.Add(this.M11);
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Location = new System.Drawing.Point(18, 121);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(263, 76);
+			this.groupBox2.Size = new System.Drawing.Size(406, 73);
 			this.groupBox2.TabIndex = 1;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Matrix";
 			// 
-			// textBox5
+			// M22
 			// 
-			this.textBox5.Location = new System.Drawing.Point(173, 43);
-			this.textBox5.Name = "textBox5";
-			this.textBox5.Size = new System.Drawing.Size(84, 20);
-			this.textBox5.TabIndex = 7;
-			this.textBox5.Text = "0";
+			this.M22.Location = new System.Drawing.Point(235, 43);
+			this.M22.Name = "M22";
+			this.M22.Size = new System.Drawing.Size(146, 20);
+			this.M22.TabIndex = 7;
+			this.M22.Text = "0";
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(136, 46);
+			this.label5.Location = new System.Drawing.Point(198, 46);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(31, 13);
 			this.label5.TabIndex = 6;
 			this.label5.Text = "M22:";
 			// 
-			// textBox6
+			// M12
 			// 
-			this.textBox6.Location = new System.Drawing.Point(173, 17);
-			this.textBox6.Name = "textBox6";
-			this.textBox6.Size = new System.Drawing.Size(84, 20);
-			this.textBox6.TabIndex = 5;
-			this.textBox6.Text = "0";
+			this.M12.Location = new System.Drawing.Point(235, 17);
+			this.M12.Name = "M12";
+			this.M12.Size = new System.Drawing.Size(146, 20);
+			this.M12.TabIndex = 5;
+			this.M12.Text = "0";
 			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(136, 20);
+			this.label6.Location = new System.Drawing.Point(198, 20);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(31, 13);
 			this.label6.TabIndex = 4;
 			this.label6.Text = "M12:";
 			// 
-			// textBox3
+			// M21
 			// 
-			this.textBox3.Location = new System.Drawing.Point(44, 43);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(84, 20);
-			this.textBox3.TabIndex = 3;
-			this.textBox3.Text = "0";
+			this.M21.Location = new System.Drawing.Point(44, 43);
+			this.M21.Name = "M21";
+			this.M21.Size = new System.Drawing.Size(146, 20);
+			this.M21.TabIndex = 3;
+			this.M21.Text = "0";
 			// 
 			// label3
 			// 
@@ -163,13 +163,13 @@
 			this.label3.TabIndex = 2;
 			this.label3.Text = "M21:";
 			// 
-			// textBox4
+			// M11
 			// 
-			this.textBox4.Location = new System.Drawing.Point(44, 17);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(84, 20);
-			this.textBox4.TabIndex = 1;
-			this.textBox4.Text = "0";
+			this.M11.Location = new System.Drawing.Point(44, 17);
+			this.M11.Name = "M11";
+			this.M11.Size = new System.Drawing.Size(146, 20);
+			this.M11.TabIndex = 1;
+			this.M11.Text = "0";
 			// 
 			// label4
 			// 
@@ -182,7 +182,7 @@
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(300, 15);
+			this.button1.Location = new System.Drawing.Point(360, 15);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 2;
@@ -191,7 +191,7 @@
 			// 
 			// ButtonClear
 			// 
-			this.ButtonClear.Location = new System.Drawing.Point(300, 44);
+			this.ButtonClear.Location = new System.Drawing.Point(360, 44);
 			this.ButtonClear.Name = "ButtonClear";
 			this.ButtonClear.Size = new System.Drawing.Size(75, 23);
 			this.ButtonClear.TabIndex = 3;
@@ -207,7 +207,7 @@
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Name = "MatrixModifiers";
-			this.Size = new System.Drawing.Size(388, 222);
+			this.Size = new System.Drawing.Size(452, 210);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
@@ -222,17 +222,17 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.TextBox textBox5;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.TextBox textBox6;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button button1;
 		public System.Windows.Forms.TextBox TranslateY;
 		public System.Windows.Forms.TextBox TranslateX;
 		public System.Windows.Forms.Button ButtonClear;
+		public System.Windows.Forms.TextBox M22;
+		public System.Windows.Forms.TextBox M12;
+		public System.Windows.Forms.TextBox M21;
+		public System.Windows.Forms.TextBox M11;
 	}
 }
