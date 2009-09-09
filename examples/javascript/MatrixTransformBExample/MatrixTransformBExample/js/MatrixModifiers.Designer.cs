@@ -44,6 +44,9 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.ButtonClear = new System.Windows.Forms.Button();
+			this.Visual1 = new System.Windows.Forms.CheckBox();
+			this.Visual2 = new System.Windows.Forms.CheckBox();
+			this.Debug1 = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -198,21 +201,61 @@
 			this.ButtonClear.Text = "Clear";
 			this.ButtonClear.UseVisualStyleBackColor = true;
 			// 
+			// Visual1
+			// 
+			this.Visual1.AutoSize = true;
+			this.Visual1.Checked = true;
+			this.Visual1.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.Visual1.Location = new System.Drawing.Point(28, 201);
+			this.Visual1.Name = "Visual1";
+			this.Visual1.Size = new System.Drawing.Size(60, 17);
+			this.Visual1.TabIndex = 4;
+			this.Visual1.Text = "Visual1";
+			this.Visual1.UseVisualStyleBackColor = true;
+			// 
+			// Visual2
+			// 
+			this.Visual2.AutoSize = true;
+			this.Visual2.Checked = true;
+			this.Visual2.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.Visual2.Location = new System.Drawing.Point(28, 224);
+			this.Visual2.Name = "Visual2";
+			this.Visual2.Size = new System.Drawing.Size(60, 17);
+			this.Visual2.TabIndex = 4;
+			this.Visual2.Text = "Visual2";
+			this.Visual2.UseVisualStyleBackColor = true;
+			// 
+			// Debug1
+			// 
+			this.Debug1.AutoSize = true;
+			this.Debug1.Checked = true;
+			this.Debug1.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.Debug1.Location = new System.Drawing.Point(28, 246);
+			this.Debug1.Name = "Debug1";
+			this.Debug1.Size = new System.Drawing.Size(89, 17);
+			this.Debug1.TabIndex = 5;
+			this.Debug1.Text = "Backgrounds";
+			this.Debug1.UseVisualStyleBackColor = true;
+			// 
 			// MatrixModifiers
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.Debug1);
+			this.Controls.Add(this.Visual2);
+			this.Controls.Add(this.Visual1);
 			this.Controls.Add(this.ButtonClear);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Name = "MatrixModifiers";
-			this.Size = new System.Drawing.Size(452, 210);
+			this.Size = new System.Drawing.Size(452, 336);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -234,5 +277,8 @@
 		public System.Windows.Forms.TextBox M12;
 		public System.Windows.Forms.TextBox M21;
 		public System.Windows.Forms.TextBox M11;
+		public System.Windows.Forms.CheckBox Visual1;
+		public System.Windows.Forms.CheckBox Visual2;
+		public System.Windows.Forms.CheckBox Debug1;
 	}
 }

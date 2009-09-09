@@ -141,7 +141,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _CheckedChanged.Event -= value;
                 if (!_CheckedChanged)
                 {
-                    this.check.onchange -= _CheckedChanged.EventInternal;
+					this.check.onchange -= _CheckedChanged.EventInternal;
                     _CheckedChanged.EventInternal = null;
                 }
 
