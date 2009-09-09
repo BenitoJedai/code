@@ -66,6 +66,7 @@ namespace MatrixTransformCExample.js
 
 			public void ApplyMatrix(double OriginX, double OriginY, double M11, double M12, double M21, double M22, double Dx, double Dy)
 			{
+				// if this information came via WPF we should do Dx -= OriginX
 				var mm = new[]
 					{
 						M11, M21,
