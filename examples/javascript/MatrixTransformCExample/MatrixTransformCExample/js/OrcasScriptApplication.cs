@@ -100,15 +100,15 @@ namespace MatrixTransformCExample.js
 				var zx = 0;
 				var zy = 0;
 
+
 				if (OriginX == -this.Content.clientWidth / 2)
 					if (OriginY == -this.Content.clientHeight / 2)
 					{
 						this.Rotor.style.paddingLeft = this.Content.clientWidth + "px";
 						this.Rotor.style.paddingTop = this.Content.clientHeight + "px";
 
-						//zx -= this.Rotor.clientWidth;
-						zy -= this.Rotor.clientHeight / 2;
-						zx -= this.Rotor.clientWidth / 2;
+						zy -= this.Content.clientHeight;
+						zx -= this.Content.clientWidth;
 					}
 
 				if (OriginX == this.Content.clientWidth / 2)
@@ -224,7 +224,7 @@ namespace MatrixTransformCExample.js
 			{
 				var r = new XRectangle();
 
-				r.Element.style.SetLocation(400, 350);
+				r.Element.style.SetLocation(400, 550);
 				r.Content.style.SetSize(400, 100);
 
 				r.Element.style.Opacity = 0.3;
@@ -233,7 +233,7 @@ namespace MatrixTransformCExample.js
 			{
 				var r = new XRectangle { Text = "right bottom" };
 
-				r.Element.style.SetLocation(400, 350);
+				r.Element.style.SetLocation(400, 550);
 				r.Content.style.SetSize(400, 100);
 
 
@@ -253,7 +253,7 @@ namespace MatrixTransformCExample.js
 			{
 				var r = new XRectangle { Text = "right bottom offset right" };
 				r.Content.style.backgroundColor = "blue";
-				r.Element.style.SetLocation(400, 350);
+				r.Element.style.SetLocation(400, 550);
 				r.Content.style.SetSize(400, 100);
 
 
