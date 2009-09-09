@@ -13,131 +13,129 @@ namespace FormsAvalonAnimation
 {
 	public class AnimationCanvas : Canvas
 	{
+		class XRectangle
+		{
+			public Rectangle Element;
+
+			public XRectangle()
+			{
+				Element = new Rectangle
+				{
+					Fill = Brushes.Red,
+					Width = 200,
+					Height = 50
+				};
+			}
+			public void ApplyMatrix(double OriginX, double OriginY, double Rotation, double Dx, double Dy)
+			{
+				var costheta = Math.Cos(Rotation);
+				var sintheta = Math.Sin(Rotation);
+
+				var M11 = costheta;
+				var M12 = sintheta;
+				var M21 = -sintheta;
+				var M22 = costheta;
+
+				ApplyMatrix(OriginX, OriginY, M11, M12, M21, M22, Dx, Dy);
+			}
+
+			public void ApplyMatrix(double OriginX, double OriginY, double M11, double M12, double M21, double M22, double Dx, double Dy)
+			{
+				var g = new TransformGroup();
+				// http://social.msdn.microsoft.com/Forums/en-US/vswpfdesigner/thread/578a058e-75ac-4550-b4be-18cf9569cf5e
+
+				g.Children.Add(
+					new TranslateTransform
+					{
+						X = OriginX,
+						Y = OriginY
+					});
+
+				g.Children.Add(
+					 new MatrixTransform
+					 {
+
+						 Matrix = new Matrix
+						 {
+							 M11 = M11,
+							 M12 = M12,
+							 M21 = M21,
+							 M22 = M22,
+							 OffsetX = Dx - OriginX,
+							 OffsetY = Dy - OriginY,
+						 }
+					 }
+				);
+
+
+
+				this.Element.RenderTransform = g;
+			}
+		}
+
 		public AnimationCanvas()
 		{
-
-			// browser will rotate by center
-			// wpf will rotate by left top
-
-
 			{
-				var r = new Rectangle
+				var r = new XRectangle
 				{
-					Width = 24,
-					Height = 100,
-					Fill = Brushes.Yellow,
-					Opacity = 0.2,
-					Cursor = Cursors.Hand,
 
 				};
 
-				r.MouseEnter += delegate
-				{
-					r.Opacity = 0.9;
-					r.Fill = Brushes.Red;
-				};
+				r.Element.Opacity = 0.3;
+				Canvas.SetLeft(r.Element, 300);
+				Canvas.SetTop(r.Element, 50);
+				this.Children.Add(r.Element);
 
-				r.MouseLeave += delegate
-				{
-					r.Opacity = 0.2;
-					r.Fill = Brushes.Yellow;
-				};
-
-				this.Children.Add(r);
-				Canvas.SetLeft(r, 400);
-				Canvas.SetTop(r, 116);
 
 			}
 
-			AddRotor(0);
-			AddRotor(120);
-			AddRotor(240);
-		}
-
-		private void AddRotor(double angle)
-		{
-			var r = new Rectangle
 			{
-				Width = 80,
-				Height = 12,
-				Fill = Brushes.GreenYellow,
-				Opacity = 0.2,
-				Cursor = Cursors.Hand,
-			};
-
-			r.MouseEnter += delegate
-			{
-				r.Opacity = 0.9;
-				r.Fill = Brushes.Blue;
-			};
-
-			r.MouseLeave += delegate
-			{
-				r.Opacity = 0.2;
-				r.Fill = Brushes.GreenYellow;
-			};
-
-
-			this.Children.Add(r);
-			Canvas.SetLeft(r, 400);
-			Canvas.SetTop(r, 116);
-
-
-
-
-			ApplyRotation(r, angle);
-
-			var t = new DispatcherTimer();
-
-			t.Tick +=
-				delegate
+				var r = new XRectangle
 				{
-					angle++;
 
-					ApplyRotation(r, angle);
 				};
 
-			t.Interval = TimeSpan.FromMilliseconds(1000 / 30);
+				Canvas.SetLeft(r.Element, 300);
+				Canvas.SetTop(r.Element, 50);
+				this.Children.Add(r.Element);
 
-			t.Start();
+				r.ApplyMatrix(-100, -25, 22.DegreesToRadians(), 0, 0);
+			}
+
+
+
+
+			{
+				var r = new XRectangle
+				{
+
+				};
+
+				r.Element.Opacity = 0.3;
+				Canvas.SetLeft(r.Element, 300);
+				Canvas.SetTop(r.Element, 150);
+				this.Children.Add(r.Element);
+
+
+			}
+
+			{
+				var r = new XRectangle
+				{
+
+				};
+
+				Canvas.SetLeft(r.Element, 300);
+				Canvas.SetTop(r.Element, 150);
+				this.Children.Add(r.Element);
+
+				r.ApplyMatrix(0, 0, 22.DegreesToRadians(), 0, 0);
+			}
 		}
 
-		private static void ApplyRotation(UIElement rotor, double angle)
-		{
-			var deg2rad = Math.PI * 2 / 360;
-			var rad = angle * deg2rad;
-			var costheta = Math.Cos(rad);
-			var sintheta = Math.Sin(rad);
 
-			var g = new TransformGroup();
-			// http://social.msdn.microsoft.com/Forums/en-US/vswpfdesigner/thread/578a058e-75ac-4550-b4be-18cf9569cf5e
 
-			g.Children.Add(
-				new TranslateTransform
-				{
-					//X = -40,
-					//Y = -6
-				});
 
-			g.Children.Add(
-				 new MatrixTransform
-				{
-				
-					Matrix = new Matrix
-					{
-						M11 = costheta,
-						M12 = -sintheta,
-						M21 = sintheta,
-						M22 = costheta,
-						OffsetX = -40,
-						OffsetY = -6,
-					}
-				}
-			);
-
-			rotor.RenderTransform = g;
-
-		}
 
 
 
