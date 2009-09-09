@@ -25,10 +25,11 @@ namespace MatrixTransformBExample.js
 
 			var ro_matrix = new IHTMLDiv();
 
-			ro_matrix.style.backgroundColor = "#00008f";
+			ro_matrix.style.backgroundColor = "#8080ff";
 			ro_matrix.style.SetLocation(x, y);
 			ro_matrix.AttachToDocument();
-
+			//ro_matrix.style.paddingLeft = w + "px";
+			//ro_matrix.style.paddingTop = h + "px";
 			var ro_matric_content = new IHTMLDiv();
 
 			ro_matric_content.style.backgroundColor = "#0000ff";
@@ -38,37 +39,18 @@ namespace MatrixTransformBExample.js
 
 			var r_matrix = new IHTMLDiv();
 
-			r_matrix.style.backgroundColor = "#008f00";
+			r_matrix.style.backgroundColor = "#80ff80";
 			r_matrix.style.SetLocation(x, y);
 			r_matrix.AttachToDocument();
 
-			r_matrix.style.paddingLeft = "22px";
-			r_matrix.style.paddingTop = "22px";
+			//r_matrix.style.paddingLeft = w + "px";
+			//r_matrix.style.paddingTop = h + "px";
 			var r_matric_content = new IHTMLDiv();
 
 			r_matric_content.style.backgroundColor = "#00ff00";
 			r_matric_content.style.SetSize(w, h);
 			r_matric_content.AttachTo(r_matrix);
 
-			#region black rotation
-			var jzo = new IHTMLDiv();
-
-			jzo.style.background = "black";
-			jzo.style.SetLocation(x - w / 2 - 4, y - h / 2 - 1, 8, 2);
-
-			jzo.AttachToDocument();
-
-			var jzoh = new IHTMLDiv();
-
-			jzoh.style.background = "black";
-			jzoh.style.SetLocation(x - w / 2 - 1, y - h / 2 - 4, 2, 8);
-
-			jzoh.AttachToDocument();
-
-
-			jzo.BlinkAt(400);
-			jzoh.BlinkAt(400);
-			#endregion
 
 			#region blue rotation
 			var jo = new IHTMLDiv();
@@ -115,12 +97,12 @@ namespace MatrixTransformBExample.js
 			ro.style.Opacity = 0.3;
 			ro.AttachToDocument();
 
-		
+
 
 			var info = new IHTMLSpan { innerText = "MatrixTransform" };
 
 
-			info.style.SetLocation(x, y  + h, w, h);
+			info.style.SetLocation(x, y + h, w, h);
 
 			info.AttachToDocument();
 
@@ -130,6 +112,17 @@ namespace MatrixTransformBExample.js
 			at.style.SetLocation(x - w / 2, y - h / 2, w * 2, h * 2);
 			at.style.Opacity = 0.5;
 			at.AttachToDocument();
+
+
+
+			var r = new IHTMLDiv();
+
+			r.style.background = "black";
+			r.style.SetLocation(x, y, w, h);
+			r.style.Opacity = 0.3;
+
+			r.AttachToDocument();
+			r.style.cursor = IStyle.CursorEnum.pointer;
 
 			#region blue origin
 			var o = new IHTMLDiv();
@@ -147,17 +140,28 @@ namespace MatrixTransformBExample.js
 			oh.AttachToDocument();
 			#endregion
 
-		
 
 
-			var r = new IHTMLDiv();
+			#region black rotation
+			var jzo = new IHTMLDiv();
 
-			r.style.background = "black";
-			r.style.SetLocation(x, y, w, h);
-			r.style.Opacity = 0.2;
-			r.AttachToDocument();
+			jzo.style.background = "black";
+			jzo.style.SetLocation(x - w / 2 - 4, y - h / 2 - 1, 8, 2);
 
-	
+			jzo.AttachToDocument();
+
+			var jzoh = new IHTMLDiv();
+
+			jzoh.style.background = "black";
+			jzoh.style.SetLocation(x - w / 2 - 1, y - h / 2 - 4, 2, 8);
+
+			jzoh.AttachToDocument();
+
+
+			jzo.BlinkAt(400);
+			jzoh.BlinkAt(400);
+			#endregion
+
 
 			var m = new MatrixModifiers();
 
@@ -170,11 +174,100 @@ namespace MatrixTransformBExample.js
 
 			Action<int, int> InteractiveSetRotation = null;
 
+			Action<int, int> SetPadding =
+				(ox, oy) =>
+				{
+					// -0 ... -w
+
+					ox += w / 2;
+					oy += h / 2;
+
+					info.innerText = "padding x: " + ox + " y:" + oy;
+
+					if (ox > 0)
+					{
+						ro_matrix.style.paddingLeft = ox * 2 + "px";
+						ro_matrix.style.paddingRight = 0 + "px";
+					}
+					else
+					{
+						ro_matrix.style.paddingLeft = 0 + "px";
+						ro_matrix.style.paddingRight = ox * -2 + "px";
+					}
+
+					if (oy > 0)
+					{
+						ro_matrix.style.paddingTop = oy * 2 + "px";
+						ro_matrix.style.paddingBottom = 0 + "px";
+					}
+					else
+					{
+						ro_matrix.style.paddingTop = 0 + "px";
+						ro_matrix.style.paddingBottom = oy * -2 + "px";
+					}
+
+
+
+					if (ox > 0)
+					{
+						r_matrix.style.paddingLeft = ox * 2 + "px";
+						r_matrix.style.paddingRight = 0 + "px";
+					}
+					else
+					{
+						r_matrix.style.paddingLeft = 0 + "px";
+						r_matrix.style.paddingRight = ox * -2 + "px";
+					}
+
+					if (oy > 0)
+					{
+						r_matrix.style.paddingTop = oy * 2 + "px";
+						r_matrix.style.paddingBottom = 0 + "px";
+					}
+					else
+					{
+						r_matrix.style.paddingTop = 0 + "px";
+						r_matrix.style.paddingBottom = oy * -2 + "px";
+					}
+				};
+
+			m.Visual1.CheckedChanged +=
+				delegate
+				{
+					r_matrix.Show(m.Visual1.Checked);
+				};
+
+			m.Visual2.CheckedChanged +=
+				delegate
+				{
+					ro_matrix.Show(m.Visual2.Checked);
+				};
+
+			m.Debug1.CheckedChanged +=
+				delegate
+				{
+					if (m.Debug1.Checked)
+					{
+						ro_matrix.style.backgroundColor = "#8080ff";
+						r_matrix.style.backgroundColor = "#80ff80";
+
+						return;
+					}
+
+					ro_matrix.style.backgroundColor = "";
+					r_matrix.style.backgroundColor = "";
+				};
+
 			Action<int, int> InteractiveSetOrigin =
 				(ox, oy) =>
 				{
+					var dx = InteractiveSetOrigin_x - ox;
+					var dy = InteractiveSetOrigin_y - oy;
+
 					InteractiveSetOrigin_x = ox;
 					InteractiveSetOrigin_y = oy;
+
+					SetPadding(ox, oy);
 
 					m.TranslateX.Text = "" + ox;
 					m.TranslateY.Text = "" + oy;
@@ -184,7 +277,7 @@ namespace MatrixTransformBExample.js
 					o.style.SetLocation(x - ox - 4, y - oy - 1, 8, 2);
 					oh.style.SetLocation(x - ox - 1, y - oy - 4, 2, 8);
 
-					InteractiveSetRotation(InteractiveSetRotation_x, InteractiveSetRotation_y);
+					InteractiveSetRotation(InteractiveSetRotation_x + dx, InteractiveSetRotation_y + dy);
 				};
 
 			InteractiveSetRotation =
@@ -196,8 +289,8 @@ namespace MatrixTransformBExample.js
 					var ax = x - w / 2 + ox;
 					var ay = y - h / 2 + oy;
 
-					var bx = x - InteractiveSetOrigin_x ;
-					var by = y - InteractiveSetOrigin_y ;
+					var bx = x - InteractiveSetOrigin_x;
+					var by = y - InteractiveSetOrigin_y;
 
 					var dx = ax - bx;
 					var dy = ay - by;
@@ -208,7 +301,7 @@ namespace MatrixTransformBExample.js
 					var costheta = Math.Cos(rotation);
 					var sintheta = Math.Sin(rotation);
 
-					var	M11 = costheta;
+					var M11 = costheta;
 					var M12 = -sintheta;
 					var M21 = sintheta;
 					var M22 = costheta;
@@ -218,7 +311,7 @@ namespace MatrixTransformBExample.js
 					m.M21.Text = "" + M21;
 					m.M22.Text = "" + M22;
 
-					info.innerText = "rotation: " + rotation_degrees + "°";
+					info.innerText = "rotation: " + rotation_degrees + "° x: " + InteractiveSetOrigin_x + " y:" + InteractiveSetOrigin_y;
 					//Native.Document.title = new { ax, bx, dx, rotation_degrees }.ToString();
 
 					joh.style.SetLocation(ax - 1, y - h / 2 + oy - 4, 2, 8);
@@ -254,17 +347,20 @@ namespace MatrixTransformBExample.js
 					var ro_matrix_adj_x = (ro_matrix.clientWidth - ro_matrix.offsetWidth) / 2;
 					var ro_matrix_adj_y = (ro_matrix.clientHeight - ro_matrix.offsetHeight) / 2;
 
-					
+
 
 					r_matrix.style.SetLocation(x + r_matrix_adj_x, y + r_matrix_adj_y/*, w, h*/);
 					ro_matrix.style.SetLocation(x + InteractiveSetOrigin_x + ro_matrix_adj_x, y + InteractiveSetOrigin_y + ro_matrix_adj_y/*, w, h*/);
 
 				};
 
+		
+
 			#region bind InteractiveSetRotation
 			at.onclick +=
 				e =>
 				{
+
 					InteractiveSetRotation(e.OffsetX, e.OffsetY);
 
 				};
@@ -296,6 +392,11 @@ namespace MatrixTransformBExample.js
 			r.onmouseover +=
 				delegate
 				{
+					if (m.Debug1.Checked)
+					{
+						info.innerText = "Click to set padding";
+						return;
+					}
 					info.innerText = "Click to set origin";
 				};
 

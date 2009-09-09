@@ -115,8 +115,8 @@ namespace FormsAvalonAnimation
 			g.Children.Add(
 				new TranslateTransform
 				{
-					X = -40,
-					Y = -6
+					//X = -40,
+					//Y = -6
 				});
 
 			g.Children.Add(
@@ -129,8 +129,8 @@ namespace FormsAvalonAnimation
 						M12 = -sintheta,
 						M21 = sintheta,
 						M22 = costheta,
-						OffsetX = 20,
-						OffsetY = 20,
+						OffsetX = -40,
+						OffsetY = -6,
 					}
 				}
 			);
