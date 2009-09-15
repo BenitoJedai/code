@@ -67,6 +67,7 @@ namespace ScriptCoreLib.CompilerServices
 			Action<byte> BinaryWriter_WriteByte = new BinaryWriter(new MemoryStream()).Write;
 			Action<int> BinaryWriter_WriteInt32 = new BinaryWriter(new MemoryStream()).Write;
 			Action<char> BinaryWriter_WriteChar = new BinaryWriter(new MemoryStream()).Write;
+			Action<string> BinaryWriter_WriteString = new BinaryWriter(new MemoryStream()).Write;
 
 			var name = "Serialize_" + z.MetadataToken.ToString("x8");
 
@@ -76,7 +77,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			foreach (var f in z.GetFields())
 			{
-				if (f.FieldType.IsClass)
+				if (f.FieldType.IsClass && !(f.FieldType == typeof(string)))
 				{
 					Enqueue(f.FieldType);
 				}
@@ -106,7 +107,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			foreach (var f in z.GetFields())
 			{
-				if (f.FieldType.IsClass)
+				if (f.FieldType.IsClass && !(f.FieldType == typeof(string)))
 				{
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldarg_1);
@@ -132,6 +133,10 @@ namespace ScriptCoreLib.CompilerServices
 					{
 						il.EmitCall(BinaryWriter_WriteByte);
 					}
+					else if (f.FieldType == typeof(string))
+					{
+						il.EmitCall(BinaryWriter_WriteString);
+					}
 					else throw new NotSupportedException(f.FieldType.FullName);
 				}
 
@@ -149,6 +154,7 @@ namespace ScriptCoreLib.CompilerServices
 			Func<byte> BinaryReader_ReadByte = new BinaryReader(new MemoryStream()).ReadByte;
 			Func<char> BinaryReader_ReadChar = new BinaryReader(new MemoryStream()).ReadChar;
 			Func<int> BinaryReader_ReadInt32 = new BinaryReader(new MemoryStream()).ReadInt32;
+			Func<string> BinaryReader_ReadString = new BinaryReader(new MemoryStream()).ReadString;
 
 			var name = "Deserialize_" + z.MetadataToken.ToString("x8");
 
@@ -160,7 +166,7 @@ namespace ScriptCoreLib.CompilerServices
 
 			foreach (var f in z.GetFields())
 			{
-				if (f.FieldType.IsClass)
+				if (f.FieldType.IsClass && !(f.FieldType == typeof(string)))
 				{
 					Enqueue(f.FieldType);
 				}
@@ -185,7 +191,7 @@ namespace ScriptCoreLib.CompilerServices
 			{
 				il.Emit(OpCodes.Dup);
 
-				if (f.FieldType.IsClass)
+				if (f.FieldType.IsClass && !(f.FieldType == typeof(string)))
 				{
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldarg_1);
@@ -207,6 +213,11 @@ namespace ScriptCoreLib.CompilerServices
 					{
 						il.Emit(OpCodes.Ldarg_1);
 						il.EmitCall(BinaryReader_ReadByte);
+					}
+					else if (f.FieldType == typeof(string))
+					{
+						il.Emit(OpCodes.Ldarg_1);
+						il.EmitCall(BinaryReader_ReadString);
 					}
 					else throw new NotSupportedException(f.FieldType.FullName);
 				}
