@@ -75,6 +75,27 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		{
 			this.BaseStream.Write(buffer, 0, buffer.Length);
 		}
+
+		public virtual void Write(string value)
+		{
+			var bytes = Encoding.UTF8.GetBytes(value); ;
+
+			this.Write7BitEncodedInt(bytes.Length);
+			this.Write(bytes);
+		}
+
+	
+
+		protected void Write7BitEncodedInt(int value)
+		{
+			uint num = (uint)value;
+			while (num >= 0x80)
+			{
+				this.Write((byte)(num | 0x80));
+				num = num >> 7;
+			}
+			this.Write((byte)num);
+		}
 	}
 
 }

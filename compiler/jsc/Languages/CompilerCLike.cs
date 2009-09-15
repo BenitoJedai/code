@@ -103,7 +103,7 @@ namespace jsc.Script
 				}
 				else
 				{
-					Emit(block.LastPrestatement, block.LastPrestatement.Instruction.StackBeforeStrict[0]);
+					Emit(block.LastPrestatement, block.LastPrestatement.Instruction.StackBeforeStrict[0], typeof(bool));
 				}
 
 				Write(")");

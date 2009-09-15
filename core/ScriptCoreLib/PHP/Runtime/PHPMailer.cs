@@ -6,6 +6,7 @@ using ScriptCoreLib.Shared.Serialized;
 namespace ScriptCoreLib.PHP.Runtime
 {
     [Script]
+	[System.Obsolete("Removed external source code, this functionality is no longer available via this type.", true)]
     public class PHPMailer
     {
         [Script(InternalConstructor = true)]

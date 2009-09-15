@@ -60,6 +60,9 @@ namespace ScriptCoreLib.PHP
 			[Script(IsNative = true)]
 			public static int rand() { return default(int); }
 
+			[Script(IsNative = true)]
+			public static int rand(int min, int max) { return default(int); }
+
 			#endregion
 
 

@@ -345,3 +345,5 @@ version history:
 15.09.2009
 	as: NoDecoration flag can be set at assembly level
 	as: fixed new char[] when initialized from data
+	php: added opcode Stobj
+	java: fixed while expression for opcodes Beq and Ceq when expected type is bool and stack[1] is Ldc_I4_0

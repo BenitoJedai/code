@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using TestEncoding.Library;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace TestEncoding
 {
@@ -46,6 +47,31 @@ namespace TestEncoding
 				}
 				Console.WriteLine();
 				Console.WriteLine(Encoding.ASCII.GetString(b));
+			}
+
+			{
+				var ms = new MemoryStream();
+
+				var mw = new BinaryWriter(ms);
+
+				mw.Write((int)2);
+				mw.Write("hello öäüõ - ░▒ €§žšŠŽÜÕÄÖ");
+				mw.Write("hello öäüõ - ﺕ");
+
+				File.WriteAllBytes("a.bin", ms.ToArray());
+			}
+
+			{
+				var bytes = File.ReadAllBytes("a.bin");
+
+				var r = new BinaryReader(new MemoryStream(bytes));
+
+				var count = r.ReadInt32();
+
+				for (int i = 0; i < count; i++)
+				{
+					Console.WriteLine("data: " + r.ReadString());
+				}
 			}
 		}
 	}

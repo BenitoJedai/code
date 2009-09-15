@@ -68,6 +68,9 @@ namespace ScriptApplication.source.php
 
 			c(pages::InteractiveOrdering.Shared.KnownAssets.Path.Assets,
 				"InteractiveOrdering");
+
+			c(pages::ColoredTank.Shared.KnownAssets.Path.Assets,
+				"ColoredTank");
 		}
 	}
 }

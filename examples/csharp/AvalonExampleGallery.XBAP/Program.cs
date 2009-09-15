@@ -12,6 +12,7 @@ namespace AvalonExampleGallery.XBAP
 {
 	public class Program
 	{
+		// http://social.msdn.microsoft.com/Forums/en-US/csharplanguage/thread/6c24bb92-e488-4a91-b4e7-dc3269904697
 	
 
 		[STAThread]

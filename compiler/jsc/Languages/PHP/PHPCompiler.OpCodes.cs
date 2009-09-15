@@ -475,9 +475,15 @@ namespace jsc.Script.PHP
 							{
 								if (e.i.TargetType == typeof(int))
 									Write("0");
+								if (e.i.TargetType == typeof(bool))
+									WriteKeywordFalse();
 								else if (e.i.TargetType == typeof(sbyte))
 									Write("0");
 								else if (e.i.TargetType == typeof(byte))
+									Write("0");
+								else if (e.i.TargetType == typeof(int))
+									Write("0");
+								else if (e.i.TargetType == typeof(short))
 									Write("0");
 								else
 									BreakToDebugger("default for " + e.i.TargetType.FullName + " is unknown");
@@ -658,7 +664,9 @@ namespace jsc.Script.PHP
 				OpCodes.Ldelem_I1,
 				OpCodes.Ldelem_I2,
 				OpCodes.Ldelem_I4,
+				OpCodes.Ldelem_I8,
 				OpCodes.Ldelem_R8,
+				OpCodes.Ldelema,
 				OpCodes.Ldelem
 				] =
 				delegate(CodeEmitArgs e)
@@ -671,11 +679,13 @@ namespace jsc.Script.PHP
 					Write("]");
 				};
 
-			CIW[OpCodes.Stelem,
-				OpCodes.Stelem_Ref,
+			CIW[OpCodes.Stelem_Ref,
 				OpCodes.Stelem_I1,
 				OpCodes.Stelem_I2,
-				OpCodes.Stelem_I4
+				OpCodes.Stelem_I4,
+				OpCodes.Stelem_I8,
+				OpCodes.Stelem_R8,
+				OpCodes.Stelem
 				] =
 				delegate(CodeEmitArgs e)
 				{
@@ -689,6 +699,27 @@ namespace jsc.Script.PHP
 					Write("=");
 					WriteSpace();
 					Emit(e.p, s[2]);
+				};
+
+			CIW[OpCodes.Stobj] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					Emit(e.p, s[0]);
+
+					WriteAssignment();
+
+					Emit(e.p, s[1]);
+				};
+
+			CIW[OpCodes.Ldobj] =
+				e =>
+				{
+					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+
+					Emit(e.p, s[0]);
+
 				};
 			#endregion
 

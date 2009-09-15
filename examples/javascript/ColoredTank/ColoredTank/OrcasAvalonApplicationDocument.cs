@@ -8,7 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ColoredTank.JavaScript
 {
-	using TargetCanvas = global::ColoredTank.Shared.OrcasAvalonApplicationCanvas;
+	using TargetCanvas = global::ColoredTank.Shared.ColoredTankCanvas;
 
 	[Script, ScriptApplicationEntryPoint]
 	public class OrcasAvalonApplicationDocument
