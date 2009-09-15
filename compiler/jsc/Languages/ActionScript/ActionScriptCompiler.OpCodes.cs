@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
 using System.Reflection;
-using ScriptCoreLib;
-using ScriptCoreLib.Shared;
 using System.Reflection.Emit;
 using jsc.Script;
-using System.Runtime.InteropServices;
+using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.ActionScript
@@ -817,6 +812,24 @@ namespace jsc.Languages.ActionScript
 
 									Write("uint(");
 									Write(Values[i].ToString());
+									Write(")");
+								}
+								Write("]");
+							}
+							else if (Type == typeof(char))
+							{
+								var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsCharArray();
+
+								Write("[");
+								for (int i = 0; i < Values.Length; i++)
+								{
+									if (i > 0)
+										Write(", ");
+
+									// char is translated to int by jsc
+									// interesting :)
+									Write("int(");
+									Write("0x" + ((byte)Values[i]).ToString("x4"));
 									Write(")");
 								}
 								Write("]");

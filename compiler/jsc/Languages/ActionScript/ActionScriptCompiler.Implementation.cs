@@ -368,9 +368,10 @@ namespace jsc.Languages.ActionScript
 
 
 				// todo: should use base62 encoding here
+				var AssemblyScriptAttribute = z.DeclaringType.Assembly.ToScriptAttributeOrDefault();
 
 				var s = z.DeclaringType.ToScriptAttribute();
-				if ((s != null && s.IsNative) || z.ToScriptAttributeOrDefault().NoDecoration)
+				if ((s != null && s.IsNative) || z.ToScriptAttributeOrDefault().NoDecoration || AssemblyScriptAttribute.NoDecoration)
 					WriteSafeLiteral(z.Name);
 				else
 					WriteSafeLiteral(z.Name + "_" + z.MetadataToken);

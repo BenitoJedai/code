@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript
 {
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/String.html
-    [Script(IsNative=true)]
+	[Script(IsNative = true)]
     public sealed class String
     {
 

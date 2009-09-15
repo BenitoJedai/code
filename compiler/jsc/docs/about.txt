@@ -342,3 +342,6 @@ version history:
 	java: storing booleans in bool[][] is now possible
 06.09.2009
 	java: type import now looks for opcodes.castclass
+15.09.2009
+	as: NoDecoration flag can be set at assembly level
+	as: fixed new char[] when initialized from data

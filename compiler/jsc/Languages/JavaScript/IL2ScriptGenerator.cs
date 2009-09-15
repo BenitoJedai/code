@@ -1,26 +1,21 @@
 
 using System;
-
-using System.IO;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Reflection;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
-
-using ScriptCoreLib;
-
-using jsc.Script;
 using jsc.Languages.JavaScript;
+using jsc.Script;
+using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
 
 
 namespace jsc
 {
 	using ilbp = ILBlock.Prestatement;
-	using ili = ILInstruction;
 	using ilfsi = ILFlow.StackItem;
+	using ili = ILInstruction;
 
 	public delegate void OpCodeHandler(IdentWriter w, ilbp p, ili i, ilfsi[] s);
 

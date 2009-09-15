@@ -280,7 +280,9 @@ namespace ScriptCoreLib
 
 
 		/// <summary>
-		/// set this field to true, to prevent decoration
+		/// In some target languages method overload requires some name decoration in order to work. 
+		/// In ActionScript you can apply this flag to a type or assembly to prevent the name decoration.
+		/// As such using overloaded methods will result in compile error in a later step.
 		/// </summary>
 		public bool NoDecoration;
 

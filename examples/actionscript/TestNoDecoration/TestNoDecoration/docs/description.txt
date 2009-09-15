@@ -1,0 +1,1 @@
+﻿TestNoDecoration. Crosscompiled from C# to ActionScript.
