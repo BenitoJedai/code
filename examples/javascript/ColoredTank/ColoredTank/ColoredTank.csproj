@@ -71,7 +71,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="OrcasAvalonApplicationCanvas.cs" />
+    <Compile Include="ColoredTankCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />

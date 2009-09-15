@@ -78,9 +78,12 @@ namespace jsc.Script.PHP
 
 			WriteLine();
 
+			WriteLine("// calling static constructors for current assembly...");
+
 			foreach (Type z in MySession.Types)
 			{
-				WriteTypeStaticConstructor(z, false);
+				if (z.Assembly == ja)
+					WriteTypeStaticConstructor(z, false);
 			}
 
 			WriteLine("?>");

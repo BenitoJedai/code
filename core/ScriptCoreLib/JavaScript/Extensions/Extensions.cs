@@ -63,7 +63,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		}
 
 		/// <summary>
-		/// detaches the node from dom
+		/// detaches the node from dom; should be renamed to Orphanize
 		/// </summary>
 		public static T Dispose<T>(this T e)
 			where T : INode

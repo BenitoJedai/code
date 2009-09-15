@@ -86,5 +86,36 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		{
 			return this.InternalStream.Read(buffer, index, count);
 		}
+
+		public virtual string ReadString()
+		{
+			var length = this.Read7BitEncodedInt();
+			var bytes = this.ReadBytes(length);
+
+			return Encoding.UTF8.GetString(bytes);
+		}
+
+		protected internal int Read7BitEncodedInt()
+		{
+			byte num3;
+			int num = 0;
+			int num2 = 0;
+			bool loop = true;
+			while (loop)
+			{
+				if (num2 == 0x23)
+				{
+					throw new InvalidOperationException();
+				}
+				num3 = this.ReadByte();
+				num |= (num3 & 0x7f) << num2;
+				num2 += 7;
+
+				loop = ((num3 & 0x80) != 0);
+			}
+
+			return num;
+		}
+
 	}
 }

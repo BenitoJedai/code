@@ -64,7 +64,7 @@ namespace AvalonExampleGallery.Shared
 
 					{ 
 						pages::ColoredTank.Shared.KnownAssets.Path.Assets, 
-						typeof(pages::ColoredTank.Shared.OrcasAvalonApplicationCanvas) },
+						typeof(pages::ColoredTank.Shared.ColoredTankCanvas) },
 
 				};
 			}

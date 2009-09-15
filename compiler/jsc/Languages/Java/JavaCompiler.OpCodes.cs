@@ -1520,7 +1520,7 @@ namespace jsc.Languages.Java
 					   //WriteBoxedComment("inline");
 
 					   Emit(e.i.InlineAssigmentValue,
-						   e.i.InlineAssigmentValue.Instruction.StackBeforeStrict[0]);
+						   e.i.InlineAssigmentValue.Instruction.StackBeforeStrict[0], e.TypeExpectedOrDefault);
 
 
 					   return;
@@ -1752,9 +1752,29 @@ namespace jsc.Languages.Java
 					{
 						Write("!");
 						Emit(e.p, e.i.StackBeforeStrict[0]);
+
+						return;
 					}
-					else
-						WriteInlineOperator(e.p, e.i, "==");
+					if (e.TypeExpectedOrDefault == typeof(bool))
+						if (e.i.StackBeforeStrict[1].SingleStackInstruction.OpCode == OpCodes.Ldc_I4_0)
+							if (
+								// this optimization will work only for boolean comparisions
+								new [] { 
+									OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S,
+									OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S
+								}.Contains(
+									e.i.StackBeforeStrict[0].SingleStackInstruction.OpCode
+								)
+							)
+
+						{
+							Write("!");
+							Emit(e.p, e.i.StackBeforeStrict[0]);
+
+							return;
+						}
+
+					WriteInlineOperator(e.p, e.i, "==");
 				};
 			#endregion
 

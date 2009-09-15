@@ -12,12 +12,15 @@ using System.Windows.Shapes;
 namespace ColoredTank.Shared
 {
 	[Script]
-	public class OrcasAvalonApplicationCanvas : Canvas
+	public class ColoredTankCanvas : Canvas
 	{
+		// class name is used to identify this component
+		// the suffix Canvas is removed
+
 		public const int DefaultWidth = 120 * 4;
 		public const int DefaultHeight = 90 * 4;
 
-		public OrcasAvalonApplicationCanvas()
+		public ColoredTankCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;

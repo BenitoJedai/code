@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace ColoredTank.ActionScript
 {
-	using TargetCanvas = global::ColoredTank.Shared.OrcasAvalonApplicationCanvas;
+	using TargetCanvas = global::ColoredTank.Shared.ColoredTankCanvas;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.

@@ -16,7 +16,7 @@ namespace ColoredTank
 		[STAThread]
 		static public void Main(string[] args)
 		{
-			new OrcasAvalonApplicationCanvas().ToWindow().ShowDialog();
+			new ColoredTankCanvas().ToWindow().ShowDialog();
 		}
 
 

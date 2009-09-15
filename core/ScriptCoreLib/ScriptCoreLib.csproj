@@ -539,7 +539,6 @@
     <Compile Include="JavaScript\Controls\Effects\OpacityTween.cs" />
     <Compile Include="JavaScript\Controls\InlineButton.cs" />
     <Compile Include="JavaScript\Controls\SpawnControlBase.cs" />
-    <Compile Include="JavaScript\CSharp\CodeWriter.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLLegend.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLFieldset.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLStyle.cs" />
@@ -655,22 +654,6 @@
     <Compile Include="Shared\Drawing\Color.cs" />
     <Compile Include="Shared\Serialized\DualNotation.cs" />
     <Compile Include="Shared\Shared.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="web\inc\class.phpmailer.php">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="web\inc\class.smtp.php">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="web\inc\class.JSON.php">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="web\inc\language\phpmailer.lang-en.php">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="web\external\ActiveXConsole.dll" />

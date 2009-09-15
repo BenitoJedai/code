@@ -12,5 +12,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		{
 			return Native.API.rand() % maxValue;
 		}
+
+		public virtual double NextDouble()
+		{
+			return Native.API.rand(0, int.MaxValue) / int.MaxValue;
+		}
 	}
 }
