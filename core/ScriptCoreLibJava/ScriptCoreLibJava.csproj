@@ -76,6 +76,7 @@
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
+    <Compile Include="BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="BCLImplementation\System\IO\DirectoryInfo.cs" />
