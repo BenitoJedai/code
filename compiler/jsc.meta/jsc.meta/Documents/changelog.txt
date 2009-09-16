@@ -12,3 +12,6 @@
 	- added custom assembly load logic
 2009.09.06
 	- java staging directory can now be given as a parameter
+2009.09.16
+	- javac will now reference all jar files in web/bin
+	
