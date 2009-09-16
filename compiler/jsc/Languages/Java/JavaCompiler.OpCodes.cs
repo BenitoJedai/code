@@ -955,6 +955,21 @@ namespace jsc.Languages.Java
 										   }
 
 									   }
+									   else if (Type == typeof(sbyte))
+									   {
+										   var Values = e.i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsSByteArray();
+
+
+										   for (int i = 0; i < Values.Length; i++)
+										   {
+											   if (i > 0)
+												   Write(", ");
+
+											   Write("(byte)");
+											   Write(Values[i].ToString());
+										   }
+
+									   }
 									   else
 										   throw new NotImplementedException();
 								   }
