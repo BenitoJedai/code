@@ -4,6 +4,8 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
+using System.Linq;
+
 using jsc.meta.Library;
 using ScriptCoreLib;
 using System.Collections.Generic;
@@ -112,13 +114,24 @@ namespace jsc.meta
 				#endregion
 
 				var obj_web = Path.Combine(staging.FullName, "web");
+				var obj_web_bin = Path.Combine(obj_web, "bin");
+				var bin_jar = new FileInfo(Path.Combine(obj_web_bin, Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"));
 
 				#region javac
 				Console.WriteLine("- javac");
+				var TargetSourceFiles = "java";
+
+				foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
+								  where k != bin_jar.FullName
+								  select k)
+				{
+					TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
+				}
+
 				var proccess_javac = Process.Start(
 					new ProcessStartInfo(
 						Path.Combine(javapath.FullName, "javac.exe"),
-						@"-classpath java -d release java\" + assembly_metaentrypoint.DeclaringType.FullName.Replace(".", @"\") + @".java"
+						@"-classpath " + TargetSourceFiles + @" -d release java\" + assembly_metaentrypoint.DeclaringType.FullName.Replace(".", @"\") + @".java"
 						)
 					{
 						UseShellExecute = false,
@@ -130,9 +143,7 @@ namespace jsc.meta
 				proccess_javac.WaitForExit();
 				#endregion
 
-				var obj_web_bin = Path.Combine(obj_web, "bin");
 
-				var bin_jar = new FileInfo(Path.Combine(obj_web_bin, Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"));
 
 
 				#region jar
@@ -196,12 +207,21 @@ namespace jsc.meta
 
 				var library_path = bin_jar.Directory.FullName.Substring(new FileInfo(run_jar).Directory.FullName.Length + 1);
 
+				var ClassPath = library_path + @"\" + bin_jar.Name;
+
+				foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
+								  where k != bin_jar.FullName
+								  select k)
+				{
+					ClassPath += ";" + Path.Combine(library_path, Path.GetFileName(r));
+				}
+
 				File.WriteAllText(run_jar,
 					@"
 @echo off
 setlocal
 
-call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + library_path + @"\" + bin_jar.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
+call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + ClassPath + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
 
 endlocal
 "
