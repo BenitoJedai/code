@@ -17,6 +17,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			this.InternalPath = path;
 		}
 
+		public override string Name
+		{
+			get { return Path.GetFileName(InternalPath); }
+		}
+
 		public override string FullName
 		{
 			get
