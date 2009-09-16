@@ -32,6 +32,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			return true;
 		}
 
+		public static string GetFileName(string e)
+		{
+			// http://www.devx.com/tips/Tip/13804
+
+			var f = new java.io.File(e);
+			var c = default(string);
+
+			try
+			{
+				c = f.getName();
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+
+			return c;
+		}
+
 		public static string GetFullPath(string e)
 		{
 			// http://www.devx.com/tips/Tip/13804

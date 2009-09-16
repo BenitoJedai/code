@@ -18,5 +18,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 				return "";
 			}
 		}
+
+		public abstract string Name { get; }
 	}
 }

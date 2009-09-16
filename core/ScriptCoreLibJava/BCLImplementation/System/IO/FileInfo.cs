@@ -21,6 +21,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			get { return __File.Exists(FullName); }
 		}
 
+
+		public override string Name
+		{
+			get { return Path.GetFileName(InternalPath); }
+		}
+
 		public override string FullName
 		{
 			get
