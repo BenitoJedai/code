@@ -18,8 +18,12 @@ namespace ScriptCoreLib
 		C,
 		Batch,
 
+		// Visual Basic 6 seems to fade into irrelavancy... this language target will probably target vb.net 
+		// this is currently prioritized as nice to have
 		VisualBasic,
+
 		ActionScript,
+
 		CSharp2,
 
 		// talk about meta programming :) shall jsc support haxe?

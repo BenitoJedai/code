@@ -406,22 +406,23 @@ namespace ScriptCoreLib
 
 				//if (x == null)
 
-				if (t != null)
-					if (Enumerable.Any(
-						from p in OfProviderContext
-						let ScriptLibraries = p.Context.ToScriptAttributeOrDefault().ScriptLibraries
-						where ScriptLibraries != null
-						from l in ScriptLibraries
-						
-						// A library which takes matters in its own hand
-						// should keep doing that...
+				if (x == null)
+					if (t != null)
+						if (Enumerable.Any(
+							from p in OfProviderContext
+							let ScriptLibraries = p.Context.ToScriptAttributeOrDefault().ScriptLibraries
+							where ScriptLibraries != null
+							from l in ScriptLibraries
 
-						where l.Assembly.GetCustomAttributes(typeof(ScriptAttribute), false).Length == 0
-						where l.Assembly == t.Assembly
+							// A library which takes matters in its own hand
+							// should keep doing that...
 
-						select new { p, l }
-						))
-						x = new ScriptAttribute();
+							where l.Assembly.GetCustomAttributes(typeof(ScriptAttribute), false).Length == 0
+							where l.Assembly == t.Assembly
+
+							select new { p, l }
+							))
+							x = new ScriptAttribute();
 
 
 				return x;

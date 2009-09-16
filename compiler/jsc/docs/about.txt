@@ -347,3 +347,5 @@ version history:
 	as: fixed new char[] when initialized from data
 	php: added opcode Stobj
 	java: fixed while expression for opcodes Beq and Ceq when expected type is bool and stack[1] is Ldc_I4_0
+16.09.2009
+	java: added newarr support for sbyte
