@@ -29,5 +29,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		{
 			get { return __File.Exists(FullName); }
 		}
+
+		public DirectoryInfo CreateSubdirectory(string path)
+		{
+			var f = new DirectoryInfo(Path.Combine(this.FullName, path));
+
+			f.Create();
+
+			return f;
+		}
+
+		public void Create()
+		{
+			Directory.CreateDirectory(this.FullName);
+		}
 	}
 }
