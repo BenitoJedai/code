@@ -23,7 +23,12 @@ namespace ScriptCoreLib
 		CSharp2,
 
 		// talk about meta programming :) shall jsc support haxe?
-		Haxe
+		Haxe,
+
+		// Lua would be cool, only if we had our own interpreter too
+		// there seems to be a lua2il compiler: http://www.lua.inf.puc-rio.br/luanet/lua2il/
+		// a newer version: http://www.lua.inf.puc-rio.br/luaclr
+		Lua
 	}
 
 }
