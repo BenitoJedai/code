@@ -175,10 +175,12 @@ namespace ScriptCoreLib
 							if (sa == null)
 								return false;
 
+							// if the implements type is in the same assembly
+							// we skip this rule!
 							if (sa.Implements == null)
 								return false;
 
-							return true;
+							return kkk.Assembly != sa.Implements.Assembly;
 						}
 					);
 

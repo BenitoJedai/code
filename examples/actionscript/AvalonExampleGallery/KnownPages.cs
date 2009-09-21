@@ -66,6 +66,11 @@ namespace AvalonExampleGallery.Shared
 						pages::ColoredTank.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::ColoredTank.Shared.ColoredTankCanvas) },
 
+						
+					{ 
+						pages::InteractiveSketchupWarehouse.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::InteractiveSketchupWarehouse.Shared.InteractiveSketchupWarehouseCanvas) },
+
 				};
 			}
 		}

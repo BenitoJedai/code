@@ -78,6 +78,11 @@
       <HintPath>..\InteractiveOrdering\InteractiveOrdering\bin\Debug\InteractiveOrdering.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
+    <Reference Include="InteractiveSketchupWarehouse, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\InteractiveSketchupWarehouse\InteractiveSketchupWarehouse\bin\Release\InteractiveSketchupWarehouse.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="NavigationButtons.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NavigationButtons\NavigationButtons\bin\Debug\NavigationButtons.Assets.dll</HintPath>
