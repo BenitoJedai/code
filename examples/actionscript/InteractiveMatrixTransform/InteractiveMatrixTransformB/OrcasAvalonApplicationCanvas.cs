@@ -17,6 +17,7 @@ namespace InteractiveMatrixTransformB.Shared
 	[Script]
 	public class OrcasAvalonApplicationCanvas : Canvas
 	{
+		// http://everything2.com/title/Sorting+vertices+for+a+3D+mesh
 
 		public Action<object, int> AtMouseDown;
 		public Action<object, int, int, int> AtMouseMove;
@@ -204,6 +205,8 @@ namespace InteractiveMatrixTransformB.Shared
 				sand_b = CreateTransformer(null, 100, 100, 100, 100),
 				sand_c = CreateTransformer(null, 100, 100, 100, 100),
 
+				sand_wall = CreateTransformer(null, 100, 100, 100, 100),
+
 				floor = CreateTransformer(null, 100, 100, 100, 100),
 
 				a = CreateTransformer(null, 100, 100, 100, 100),
@@ -220,6 +223,10 @@ namespace InteractiveMatrixTransformB.Shared
 			vertex.sand_b.SetSource("assets/InteractiveMatrixTransformB/sandv.png".ToSource());
 			vertex.sand_b.HideVisuals();
 			vertex.sand_b.SetOpacity(1);
+
+			vertex.sand_wall.SetSource("assets/InteractiveMatrixTransformB/sandv.png".ToSource());
+			vertex.sand_wall.HideVisuals();
+			vertex.sand_wall.SetOpacity(1);
 
 			vertex.sand_c.SetSource("assets/InteractiveMatrixTransformB/sandv.png".ToSource());
 			vertex.sand_c.HideVisuals();
@@ -489,6 +496,35 @@ namespace InteractiveMatrixTransformB.Shared
 
 						vertex.sand_c.SetBounds(vvx);
 						SortHints.Add(new { y = vvx.Average(k => k.Y), e = (FrameworkElement)vertex.sand_c.g2 });
+					}
+					#endregion
+
+					#region sand_wall
+					{
+						var vv = new[] { 
+							point(-5, -15, -2),
+							point(5, -15, -2),
+							point(-5, -15, -12),
+							point(5, -15, -12),
+						};
+
+
+						var vvx = vv.Select(
+							k =>
+							{
+								var s = new Vector(k.x, k.y).Length;
+								var r = new Point { X = k.x, Y = k.y }.GetRotation();
+
+								return new Point
+								{
+									X = DefaultWidth / 2 + Math.Cos(r + rotation) * size * s,
+									Y = DefaultHeight / 2 + (Math.Sin(r + rotation) * size * s * yawn - size * k.z * yawn2)
+								};
+							}
+						).ToArray();
+
+						vertex.sand_wall.SetBounds(vvx);
+						SortHints.Add(new { y = vvx.Average(k => k.Y), e = (FrameworkElement)vertex.sand_wall.g2 });
 					}
 					#endregion
 					//var SortVertex = SortHints.OrderBy(k => k.y).ToArray();

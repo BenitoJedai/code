@@ -1,0 +1,7 @@
+﻿The jsc compiler supports embedded resources.
+If you create a new project the new project name will not however be applied to the resource folder.
+This is why you will manually need to rename the parent folder of this file to match the project name.
+
+All embedded resources at folder /web/assets/<projectname>/ can be embedded in your flash application.
+
+See other examples in the jsc sdk.
