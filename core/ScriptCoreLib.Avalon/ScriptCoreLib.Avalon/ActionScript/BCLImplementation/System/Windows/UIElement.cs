@@ -21,22 +21,35 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 	[Script(Implements = typeof(global::System.Windows.UIElement))]
 	internal class __UIElement : __Visual, __IAnimatable, __IInputElement
 	{
+		public double InternalLeft;
+
 		public void InternalSetLeft(double e)
 		{
+			InternalLeft = e;
+
 			var k = this.InternalGetDisplayObject();
 			k.x = e;
 
 			if (this.InternalClipMask != null)
 				this.InternalClipMask.MoveTo(k);
+
+			if (InternalRenderTransform != null)
+				this.RenderTransform = InternalRenderTransform;
 		}
+
+		public double InternalTop;
 
 		public void InternalSetTop(double e)
 		{
+			InternalTop = e;
 			var k = this.InternalGetDisplayObject();
 			k.y = e;
 
 			if (this.InternalClipMask != null)
 				this.InternalClipMask.MoveTo(k);
+
+			if (InternalRenderTransform != null)
+				this.RenderTransform = InternalRenderTransform;
 		}
 
 		#region __IInputElement Members
@@ -89,6 +102,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 		}
 
+		internal Transform InternalRenderTransform;
+
 		public Transform RenderTransform
 		{
 			get
@@ -97,6 +112,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			}
 			set
 			{
+				InternalRenderTransform = value;
 				var AsScaleTransform = value as ScaleTransform;
 
 				if (AsScaleTransform != null)
@@ -107,6 +123,45 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 					o.scaleX = AsScaleTransform.ScaleX;
 					o.scaleY = AsScaleTransform.ScaleY;
 
+					return;
+				}
+
+
+				var AsTranslateTransform = value as TranslateTransform;
+				if (AsTranslateTransform != null)
+				{
+					var p = (__TranslateTransform)(object)AsTranslateTransform;
+
+					var o = InternalGetDisplayObject();
+
+					o.transform.matrix = new ScriptCoreLib.ActionScript.flash.geom.Matrix(
+						1,
+						0,
+						0,
+						1,
+						p.X + InternalLeft,
+						p.Y + InternalTop
+					);
+					return;
+				}
+
+				var AsMatrixTransform = value as MatrixTransform;
+				if (AsMatrixTransform != null)
+				{
+					var p = (__MatrixTransform)(object)AsMatrixTransform;
+
+					var o = InternalGetDisplayObject();
+
+					o.transform.matrix = new ScriptCoreLib.ActionScript.flash.geom.Matrix(
+						p.m11,
+						p.m12,
+						p.m21,
+						p.m22,
+						p.offsetX + InternalLeft,
+						p.offsetY + InternalTop
+
+					);
+					return;
 				}
 			}
 		}
@@ -373,7 +428,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
 						value(this, null);
 
-					
+
 					};
 			}
 			remove

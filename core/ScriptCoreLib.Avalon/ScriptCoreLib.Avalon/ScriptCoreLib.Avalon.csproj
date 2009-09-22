@@ -84,6 +84,8 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Keyboard.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\MatrixTransform.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\TranslateTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\Dispatcher.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Vector.cs" />

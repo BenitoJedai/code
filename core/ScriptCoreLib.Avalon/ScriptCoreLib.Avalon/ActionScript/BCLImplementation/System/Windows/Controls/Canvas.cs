@@ -14,13 +14,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		public static double GetLeft(UIElement element)
 		{
 			__UIElement _element = element;
-			return _element.InternalGetDisplayObject().x;
+			return _element.InternalLeft;
+
+			//return _element.InternalGetDisplayObject().x;
 		}
 
 		public static double GetTop(UIElement element)
 		{
 			__UIElement _element = element;
-			return _element.InternalGetDisplayObject().y;
+			return _element.InternalTop;
+			//return _element.InternalGetDisplayObject().y;
 		}
 
 		public static void SetLeft(UIElement element, double length)
