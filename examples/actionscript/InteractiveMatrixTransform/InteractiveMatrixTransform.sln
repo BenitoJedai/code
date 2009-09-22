@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformC", "InteractiveMatrixTransformC\InteractiveMatrixTransformC.csproj", "{6FE84FE5-63C9-45AF-9967-86A6DBB193D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformD", "InteractiveMatrixTransformD\InteractiveMatrixTransformD.csproj", "{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{6FE84FE5-63C9-45AF-9967-86A6DBB193D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FE84FE5-63C9-45AF-9967-86A6DBB193D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FE84FE5-63C9-45AF-9967-86A6DBB193D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

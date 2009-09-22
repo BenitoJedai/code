@@ -5,9 +5,11 @@ using System.Text;
 using System.Windows;
 using System.Windows.Shapes;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib;
 
-namespace InteractiveMatrixTransform
+namespace InteractiveMatrixTransform.Shared
 {
+	[Script]
 	static class Extensions
 	{
 		public static double DegreesToRadians(this int Degrees)

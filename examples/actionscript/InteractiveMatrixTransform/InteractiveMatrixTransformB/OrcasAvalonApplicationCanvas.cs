@@ -125,7 +125,7 @@ namespace InteractiveMatrixTransformB.Shared
 
 					yawn2 = Math.Sin(angle);
 
-					Console.Title = new { angle = angle.RadiansToDegrees() % 360, yawn, yawn2 }.ToString();
+					//Console.Title = new { angle = angle.RadiansToDegrees() % 360, yawn, yawn2 }.ToString();
 
 				};
 
@@ -700,10 +700,11 @@ namespace InteractiveMatrixTransformB.Shared
 							new { x = Canvas.GetLeft(Y), y = Canvas.GetTop(Y) }
 						};
 
-
+						var _x = args.Average(k => k.x);
+						var _y = args.Average(k => k.y);
 						Orange.MoveTo(
-							args.Average(k => k.x),
-							args.Average(k => k.y) - 8
+							_x,
+							_y - 8
 						);
 					}
 				};
@@ -760,15 +761,21 @@ namespace InteractiveMatrixTransformB.Shared
 						Y = new { x = p.Black.x - p.Y.x, y = p.Black.y - p.Y.y },
 					};
 
+					Func<double, double, double> GetLength =
+						(x, y) =>
+						{
+							return new Vector(x, y).Length;
+						};
+
 					var a = new
 					{
-						o = new { z = new Vector(q.o.x, q.o.y).Length, a = new Point(q.o.x, q.o.y).GetRotation() },
-						n = new { z = new Vector(q.n.x, q.n.y).Length, a = new Point(q.n.x, q.n.y).GetRotation() },
+						o = new { z = GetLength(q.o.x, q.o.y), a = new Point(q.o.x, q.o.y).GetRotation() },
+						n = new { z = GetLength(q.n.x, q.n.y), a = new Point(q.n.x, q.n.y).GetRotation() },
 
-						R = new { z = -new Vector(q.R.x, q.R.y).Length, a = new Point(q.R.x, q.R.y).GetRotation() },
-						G = new { z = -new Vector(q.G.x, q.G.y).Length, a = new Point(q.G.x, q.G.y).GetRotation() },
-						M = new { z = -new Vector(q.M.x, q.M.y).Length, a = new Point(q.M.x, q.M.y).GetRotation() },
-						Y = new { z = -new Vector(q.Y.x, q.Y.y).Length, a = new Point(q.Y.x, q.Y.y).GetRotation() },
+						R = new { z = -GetLength(q.R.x, q.R.y), a = new Point(q.R.x, q.R.y).GetRotation() },
+						G = new { z = -GetLength(q.G.x, q.G.y), a = new Point(q.G.x, q.G.y).GetRotation() },
+						M = new { z = -GetLength(q.M.x, q.M.y), a = new Point(q.M.x, q.M.y).GetRotation() },
+						Y = new { z = -GetLength(q.Y.x, q.Y.y), a = new Point(q.Y.x, q.Y.y).GetRotation() },
 					};
 
 					var n = new { z = a.n.z / a.o.z, a = a.n.a - a.o.a };
@@ -939,13 +946,14 @@ namespace InteractiveMatrixTransformB.Shared
 							e[i].MoveTo(args[i]);
 						}
 
-
-
+						var _x = args.Average(k => k.X);
+						var _y = args.Average(k => k.Y);
 						Orange.MoveTo(
-							args.Average(k => k.X),
-							args.Average(k => k.Y) - 8
+							_x,
+							_y - 8
 						);
 
+					
 						RotationInfo = null;
 
 						Update();

@@ -6,9 +6,9 @@ using System;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
 
-namespace OrcasAvalonTemplate.ActionScript
+namespace InteractiveMatrixTransformD.ActionScript
 {
-	using TargetCanvas = global::OrcasAvalonTemplate.Shared.OrcasAvalonApplicationCanvas;
+	using TargetCanvas = global::InteractiveMatrixTransformD.Shared.OrcasAvalonApplicationCanvas;
 
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.

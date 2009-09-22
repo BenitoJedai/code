@@ -25,7 +25,7 @@ namespace MatrixTransformExample.js
 				{
 
 				}
-			, 0, 150);
+			, 0, 1000 / 30);
 
 			new IHTMLDiv
 			{
@@ -160,6 +160,12 @@ Example: left = (a.clientWidth - a.offsetWidth) / 2"
 
 			c.appendChild("hello world");
 			c.appendChild(new IHTMLButton("click me"));
+
+			var xx = new IHTMLButton("xx");
+
+			xx.style.SetLocation(32, 32);
+
+			c.appendChild(xx);
 			c.appendChild("hello world");
 
 			new IHTMLDiv

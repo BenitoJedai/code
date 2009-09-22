@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A8E4A437-E132-4432-9490-5F721B5160A4}</ProjectGuid>
+    <ProjectGuid>{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrcasAvalonTemplate.Shared</RootNamespace>
-    <AssemblyName>OrcasAvalonTemplate</AssemblyName>
+    <RootNamespace>InteractiveMatrixTransformD</RootNamespace>
+    <AssemblyName>InteractiveMatrixTransformD</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -75,10 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\about.txt" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\help_idle.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\help.png" />
-    <EmbeddedResource Include="web\assets\OrcasAvalonApplication\jsc.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\sand.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\about.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\help_idle.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\help.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\jsc.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
