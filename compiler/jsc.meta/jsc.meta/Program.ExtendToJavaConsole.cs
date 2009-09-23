@@ -113,6 +113,12 @@ namespace jsc.meta
 				);
 				#endregion
 
+				if (javapath == null)
+				{
+					Console.WriteLine("java path not specified");
+					return;
+				}
+
 				var obj_web = Path.Combine(staging.FullName, "web");
 				var obj_web_bin = Path.Combine(obj_web, "bin");
 				var bin_jar = new FileInfo(Path.Combine(obj_web_bin, Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"));
@@ -253,13 +259,34 @@ endlocal
 
 				//var ScriptTypeFilterAttribute = typeof(ScriptCoreLib.ScriptTypeFilterAttribute);
 
-				a.DefineScriptLibraries(
-					assembly_type,
-					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
-					typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
+
+				// Visual Basic is generating a My namespace
+				// at this time we should exclude it from the console application
+
+
+				var AssemblyScriptAttribute = new ScriptAttribute
+				{
+					IsScriptLibrary = true,
+					ScriptLibraries = new [] {
+						assembly_type,
+						typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
+					},
+					NonScriptTypes = assembly.GetTypes().Where(
+						k => 
+							k.Namespace.EndsWith(".My") ||
+							k.Namespace.EndsWith(".My.Resources")
+					).ToArray()
+				};
+
+				a.DefineScriptAttribute(
+					new 
+					{
+						AssemblyScriptAttribute.IsScriptLibrary,
+						AssemblyScriptAttribute.ScriptLibraries,
+						AssemblyScriptAttribute.NonScriptTypes
+					}
 				);
-
-
 
 				a.SetCustomAttribute(
 					new CustomAttributeBuilder(

@@ -70,7 +70,7 @@ namespace jsc.meta.Library
 			// yay attributes
 			var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
 
-			var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
+			//var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
 
 
 			a.SetCustomAttribute(
@@ -78,15 +78,37 @@ namespace jsc.meta.Library
 					ScriptAttribute.GetConstructors().Single(),
 					new object[0],
 					new[] { 
-										ScriptAttribute.GetField("ScriptLibraries"),
-										ScriptAttribute.GetField("IsScriptLibrary")},
+									ScriptAttribute.GetField("ScriptLibraries"),
+									ScriptAttribute.GetField("IsScriptLibrary")},
 					new object[] { 
-										z,
-										true
-									}
+							z,
+							true
+						}
 				)
 			);
 		}
+
+		public static void DefineScriptAttribute<T>(this AssemblyBuilder a, T z)
+		{
+			// yay attributes
+			var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
+
+			var p = typeof(T).GetProperties();
+
+
+
+			a.SetCustomAttribute(
+				new CustomAttributeBuilder(
+					ScriptAttribute.GetConstructors().Single(),
+					new object[0],
+					
+					p.Select(k => ScriptAttribute.GetField(k.Name)).ToArray(),
+					p.Select(k => k.GetValue(z, null)).ToArray()
+					
+				)
+			);
+		}
+
 
 		public static Assembly LoadAssemblyAt(this AssemblyName assembly, DirectoryInfo source, DirectoryInfo target)
 		{

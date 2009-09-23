@@ -9,6 +9,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Convert))]
 	internal class __Convert
 	{
+		public static string ToString(int value)
+		{
+			return "" + value;
+		}
+
 		public static string ToString(char value)
 		{
 			return new string(new[] { value });
@@ -144,5 +149,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 			return m.ToArray();
 		}
+
+
 	}
 }
