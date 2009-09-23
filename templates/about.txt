@@ -1,0 +1,23 @@
+2009.09.23
+Memo
+
+The path svn/jsc/templates was initially for different project templates. 
+Over time there has been various versions of Visual Studio.
+ - Visual Studio 2005 beta (whidbey)
+ - Visual Studio 2005
+ - Visual Studio 2008 beta (orcas)
+ - Visual Studio 2008
+ - Visual Studio 2010 beta (twentyten)
+ 
+There are multiple languages jsc solution seeks to support.
+Source languages:
+ - C#
+ - Visual Basic
+Target  languages:
+ - ActionScript3
+ - PHP
+ - Java
+ - JavaScript
+ 
+ What is the change about?
+ The path svn/jsc/templates shall contain a folder for each release of the IDE.
