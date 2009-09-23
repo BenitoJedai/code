@@ -142,6 +142,7 @@ namespace jsc.meta
 				// yay attributes
 				var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
 
+
 				a.DefineScriptLibraries(
 					assembly_type,
 					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),

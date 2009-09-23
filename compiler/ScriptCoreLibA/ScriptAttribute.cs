@@ -12,12 +12,6 @@ namespace ScriptCoreLib
 {
 
 
-	public interface IEntryPoint
-	{
-		void Define(string filename, string content);
-
-		string this[string filename] { set; }
-	}
 
 
 
@@ -39,6 +33,9 @@ namespace ScriptCoreLib
 	[global::System.AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
 	public sealed class ScriptDelegateDataHintAttribute : Attribute
 	{
+		// this class shall be omitted from the future versions of jsc
+		// jsc needs to infer this information by itself
+
 		public enum FieldType
 		{
 			List,
@@ -79,25 +76,6 @@ namespace ScriptCoreLib
 		}
 	}
 
-	/// <summary>
-	/// renames a native namespace
-	/// </summary>
-	[global::System.AttributeUsage(AttributeTargets.Assembly, Inherited = false, AllowMultiple = true)]
-	public sealed class ScriptNamespaceRenameAttribute : Attribute
-	{
-		public string NativeNamespaceName;
-		public string VirtualNamespaceName;
-
-		/// <summary>
-		/// Only native classes shall be considered while renaming
-		/// </summary>
-		public bool FilterToIsNative;
-
-		public ScriptNamespaceRenameAttribute()
-		{
-
-		}
-	}
 
 
 
@@ -105,6 +83,7 @@ namespace ScriptCoreLib
 	/// <summary>
 	/// allows the compiler to detect wether it is out of date. If this value is higher than the one from the compiler the compile proccess fill halt with an error.
 	/// </summary>
+	[Obsolete]
 	[global::System.AttributeUsage(AttributeTargets.Assembly, Inherited = false, AllowMultiple = false)]
 	public sealed class ScriptVersionAttribute : Attribute
 	{
@@ -247,6 +226,11 @@ namespace ScriptCoreLib
 		public Type[] ScriptLibraries;
 
 		/// <summary>
+		/// This assembly level field can be used to define types which should not be considered as a script type.
+		/// </summary>
+		public Type[] NonScriptTypes;
+
+		/// <summary>
 		/// supports the ldlen opcode
 		/// </summary>
 		public bool IsArray;
@@ -321,6 +305,7 @@ namespace ScriptCoreLib
 		/// <summary>
 		/// allows per assambly level html
 		/// </summary>
+		[Obsolete]
 		public string InlineHTML;
 
 		/// <summary>
@@ -382,6 +367,22 @@ namespace ScriptCoreLib
 
 			try
 			{
+				if (m is Type)
+				{
+					// a context assembly can define any type to not be translated
+					// we might want to cache this
+					if (Enumerable.Any(
+							from p in OfProviderContext
+							let ps = p.Context.ToScriptAttributeOrDefault()
+							where ps.NonScriptTypes != null
+							from pt in ps.NonScriptTypes
+							where pt == m
+							select p
+							)
+						)
+						return null;
+				}
+
 				ScriptAttribute[] s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
 
 				var x = s.Length == 0 ? null : s[0];

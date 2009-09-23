@@ -158,7 +158,12 @@ namespace jsc.Languages
 				if (ScriptAttribute.OfProvider(x) == null || ScriptAttribute.IsScriptLibraryViaObfuscationAttribute(x))
 				{
 					// it better be a script library
-					a.AddRange(x.GetTypes());
+					var ScriptLibraryTypes = x.GetTypes();
+
+					// lets filter out NonScriptTypes
+					ScriptLibraryTypes = ScriptLibraryTypes.Where(k => k.ToScriptAttribute() != null).ToArray();
+
+					a.AddRange(ScriptLibraryTypes);
 				}
 				else
 					a.AddRange(ScriptAttribute.FindTypes(x, scriptType));

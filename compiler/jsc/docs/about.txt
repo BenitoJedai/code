@@ -351,3 +351,5 @@ version history:
 	java: added newarr support for sbyte
 21.09.2009
 	js: fixed referenced assembly ordering
+23.09.2009
+	jsc: added ScriptAttribute.NonScriptTypes field 

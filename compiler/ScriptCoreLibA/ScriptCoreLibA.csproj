@@ -61,8 +61,10 @@
     <Compile Include="CSharp\Extensions\CodeWriterExtensions.cs" />
     <Compile Include="CSharp\Extensions\ScriptAttributeExtensions.cs" />
     <Compile Include="CSharp\Extensions\StringToSByteArray.cs" />
+    <Compile Include="IEntryPoint.cs" />
     <Compile Include="Library\CodeWriter.cs" />
     <Compile Include="Library\ProtectiveFileStream.cs" />
+    <Compile Include="ScriptNamespaceRenameAttribute.cs" />
     <Compile Include="ScriptType.cs" />
     <Compile Include="ScriptTypeFilterAttribute.cs" />
     <Compile Include="Shared\EmbedGetFileNamesAttribute.cs" />

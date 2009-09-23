@@ -751,6 +751,8 @@ namespace jsc.Languages.Java
 				OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "byte");
 
 			CIW[OpCodes.Conv_I4,
+				// we should check for overflow!
+				OpCodes.Conv_Ovf_I4,
 				OpCodes.Conv_U,
 				OpCodes.Conv_Ovf_I,
 				OpCodes.Conv_U4] = e => ConvertTypeAndEmit(e, "int");
@@ -1716,7 +1718,9 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
 			CIW[OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
 
-			CIW[OpCodes.Add] =
+			CIW[OpCodes.Add,
+				// visual basic seems to use ovf variants in for each loop
+				OpCodes.Add_Ovf] =
 				delegate(CodeEmitArgs e)
 				{
 					if (e.i.IsInlinePrefixOperator(OpCodes.Add))
