@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.JSON", "ScriptCoreLib.JSON\ScriptCoreLib.JSON.csproj", "{C6E83365-8205-4565-9FA5-736D05BF86EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.JSON.UnitTest", "ScriptCoreLib.JSON.UnitTest\ScriptCoreLib.JSON.UnitTest.csproj", "{77F1243B-82F7-4DAD-9BD7-CED37AA4184C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0841B5DC-4DA2-4536-962D-F9A366C3A3D8}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		ScriptCoreLib.JSON.vsmdi = ScriptCoreLib.JSON.vsmdi
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ScriptCoreLib.JSON.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6E83365-8205-4565-9FA5-736D05BF86EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6E83365-8205-4565-9FA5-736D05BF86EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6E83365-8205-4565-9FA5-736D05BF86EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6E83365-8205-4565-9FA5-736D05BF86EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77F1243B-82F7-4DAD-9BD7-CED37AA4184C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77F1243B-82F7-4DAD-9BD7-CED37AA4184C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77F1243B-82F7-4DAD-9BD7-CED37AA4184C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77F1243B-82F7-4DAD-9BD7-CED37AA4184C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
