@@ -15,6 +15,52 @@ using System.Windows.Input;
 namespace InteractiveMatrixTransformB.Shared
 {
 	[Script]
+	public class Vector
+	{
+		public double X;
+		public double Y;
+
+		public Vector()
+			: this(0, 0)
+		{
+
+		}
+
+		public Vector(double X, double Y)
+		{
+			this.X = X;
+			this.Y = Y;
+		}
+
+		public double Length
+		{
+			get
+			{
+				return Math.Sqrt(X * X + Y * Y);
+			}
+		}
+	}
+
+	[Script]
+	public class Point
+	{
+		public double X;
+		public double Y;
+
+		public Point()
+			: this(0, 0)
+		{
+
+		}
+
+		public Point(double X, double Y)
+		{
+			this.X = X;
+			this.Y = Y;
+		}
+	}
+
+	[Script]
 	public class OrcasAvalonApplicationCanvas : Canvas
 	{
 		// http://everything2.com/title/Sorting+vertices+for+a+3D+mesh
@@ -943,7 +989,7 @@ namespace InteractiveMatrixTransformB.Shared
 
 						for (int i = 0; i < args.Length; i++)
 						{
-							e[i].MoveTo(args[i]);
+							e[i].MoveTo(args[i].X, args[i].Y);
 						}
 
 						var _x = args.Average(k => k.X);

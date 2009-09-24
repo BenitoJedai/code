@@ -7,7 +7,7 @@
     <ProjectGuid>{A8E4A437-E132-4432-9490-5F721B5160A4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrcasAvalonTemplate.Shared</RootNamespace>
+    <RootNamespace>OrcasAvalonTemplate</RootNamespace>
     <AssemblyName>OrcasAvalonTemplate</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

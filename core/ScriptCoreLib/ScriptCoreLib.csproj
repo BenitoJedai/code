@@ -556,6 +556,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLBreak.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLTableBody.cs" />
     <Compile Include="JavaScript\DOM\IDOMImplementation.cs" />
+    <Compile Include="JavaScript\DOM\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\DOM\XML\IXMLSerializer.cs" />
     <Compile Include="JavaScript\Extensions\Extensions.cs" />
     <Compile Include="JavaScript\Query\InternalSequenceImplementation.cs" />

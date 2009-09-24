@@ -16,3 +16,5 @@
 	- javac will now reference all jar files in web/bin
 2009.09.23
 	- visual basic generated .My namespaces are excluded for now
+2009.09.24
+	- Commands shall be defined in their namespace

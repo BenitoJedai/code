@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 
 using ScriptCoreLib.JavaScript.DOM.XML;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace  ScriptCoreLib.JavaScript.Net
 {

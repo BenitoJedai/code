@@ -89,7 +89,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 							p.removeChild(this.InternalTextField);
 						}
 
-
+						// lets apply current font - probably is the default font...
+						this.FontFamily = this.InternalFontFamily;
+						
 						return;
 					}
 
@@ -355,8 +357,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			public string fontFamily;
 		}
 
+		FontFamily InternalFontFamily;
+
+
 		public override void InternalSetFontFamily(FontFamily value_)
 		{
+			if (value_ == null)
+				return;
+
+			InternalFontFamily = value_;
+
 			var value = ((__FontFamily)(object)value_).InternalFamilyName;
 			var s = (IStyle_fontFamily)(object)this.InternalGetDisplayObjectDirect().style;
 

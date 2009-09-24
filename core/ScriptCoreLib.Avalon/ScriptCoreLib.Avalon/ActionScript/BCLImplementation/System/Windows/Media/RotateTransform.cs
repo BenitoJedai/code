@@ -9,9 +9,6 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Media
 	[Script(Implements = typeof(global::System.Windows.Media.RotateTransform))]
 	internal class __RotateTransform : __Transform
 	{
-		public __RotateTransform(double angle)
-		{
-			
-		}
+	
 	}
 }

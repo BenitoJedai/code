@@ -117,11 +117,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ReferenceTextComponent.cs" />
     <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.ExtendToPureAlchemy.cs" />
     <Compile Include="Program.ExtendToWindowsFormsEverywhere.cs" />
     <Compile Include="Program.ExtendToFlashAvalon.cs" />
-    <Compile Include="Program.ExtendToJavaConsole.cs" />
+    <Compile Include="Commands\ExtendToJavaConsole.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Reflection;
 using ScriptCoreLib.Reflection.Options;
+using jsc.meta.Commands;
 
 namespace jsc.meta
 {
@@ -38,7 +39,8 @@ namespace jsc.meta
 
 			args.AsParametersTo(
 				new ExtendToWindowsFormsEverywhere().Invoke,
-				new ExtendToJavaConsole().Invoke
+				new ExtendToJavaConsole().Invoke,
+				new ReferenceTextComponent().Invoke
 			);
 
 			Environment.CurrentDirectory = CurrentDirectory;

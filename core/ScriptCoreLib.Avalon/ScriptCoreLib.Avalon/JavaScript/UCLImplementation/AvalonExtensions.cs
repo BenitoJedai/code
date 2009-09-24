@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media;
-using ScriptCoreLib.JavaScript.Net;
 using System.Windows;
 using ScriptCoreLib.JavaScript.BCLImplementation.System;
 using ScriptCoreLib.Shared.Avalon;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.UCLImplementation
 {
