@@ -5,8 +5,47 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-  
 
+	[Script]
+	public static class IStyleExtensions
+	{
+		// 2009.09.23:
+		// yay. just when C# 4 is almost out of beta we
+		// actually get to use C# 3 features arond here! :)
+
+		/// <summary>
+		/// Sets the MatrixTransform on this element. IE is not supported at this time
+		/// due to bad its bad implementation.
+		/// </summary>
+		/// <param name="s"></param>
+
+		/// <param name="Matrix">M11, M12, M21, M22, Dx, Dy</param>
+		public static void SetMatrixTransform(this IStyle s, params double[] Matrix)
+		{
+			// see: https://developer.mozilla.org/en/CSS/-moz-transform
+			// see: http://www.w3.org/TR/SVG11/coords.html#TransformMatrixDefined
+
+			// filter:progid:DXImageTransform.Microsoft.Matrix(M11='1.0', sizingmethod='auto expand');
+			//    -moz-transform: matrix(1, 0, 0.6, 1, 15em, 0);
+			// -webkit-transform: matrix(1, 0, 0.6, 1,  250, 0);
+
+			// style.MozTransform = “rotate(45deg)”;
+			// http://mozillalinks.org/wp/2008/09/firefox-31-gets-cool-web-page-transformations-support/
+
+			// http://www.zachstronaut.com/lab/isocube.html
+			// http://paulbakaus.com/tag/internet-explorer/
+
+			var code = @"
+q.MozTransformOrigin = ""0 0"";
+q.MozTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m[3] + "","" + m[4] + ""px,"" + m[5] + ""px)"";
+
+q.WebkitTransformOrigin = ""0 0"";
+q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m[3] + "","" + m[4] + "","" + m[5] + "")"";
+				";
+
+			new IFunction("q", "m", code).apply(null, s, Matrix);
+		}
+	}
 
     public partial class IStyle
     {

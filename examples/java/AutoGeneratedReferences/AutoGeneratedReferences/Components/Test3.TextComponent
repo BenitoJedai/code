@@ -1,0 +1,10 @@
+﻿hi!
+
+add a file,
+the do a debug build
+
+this will cause a reload as a new reference was added
+to the newly generated assembly
+
+after you delete a textcomponent, the prebuild event will remove
+the generated assembly too

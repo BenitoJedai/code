@@ -369,49 +369,76 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			return (UIElement)(object)e;
 		}
 
-		Transform InternalTransform;
+		internal Transform InternalRenderTransform;
 
 		public Transform RenderTransform
 		{
 			get
 			{
-				return InternalTransform;
+				throw new NotImplementedException();
 			}
 			set
 			{
-				InternalTransform = value;
+				InternalRenderTransform = value;
+				var AsScaleTransform = value as ScaleTransform;
 
-				var e = this.InternalGetDisplayObjectDirect();
+				if (AsScaleTransform != null)
+				{
 
-				var m = value as MatrixTransform;
+					var o = InternalGetDisplayObject();
 
-				ApplyMatrixTransform(e, m.Matrix);
+					o.style.SetMatrixTransform(
+						AsScaleTransform.ScaleX,
+						0,
+						0,
+						AsScaleTransform.ScaleY,
+						0,
+						0
+					);
+
+					return;
+				}
+
+
+				var AsTranslateTransform = value as TranslateTransform;
+				if (AsTranslateTransform != null)
+				{
+					var p = (__TranslateTransform)(object)AsTranslateTransform;
+
+					var o = InternalGetDisplayObject();
+
+					o.style.SetMatrixTransform(
+						1,
+						0,
+						0,
+						1,
+						p.X,
+						p.Y
+					);
+					return;
+				}
+
+				var AsMatrixTransform = value as MatrixTransform;
+				if (AsMatrixTransform != null)
+				{
+					var p = (__MatrixTransform)(object)AsMatrixTransform;
+
+					var o = InternalGetDisplayObject();
+
+					o.style.SetMatrixTransform(
+						p.m11,
+						p.m12,
+						p.m21,
+						p.m22,
+						p.offsetX,
+						p.offsetY
+
+					);
+					return;
+				}
 			}
 		}
 
-		private static void ApplyMatrixTransform(IHTMLElement e, Matrix m)
-		{
-			// see: https://developer.mozilla.org/en/CSS/-moz-transform
-			// see: http://www.w3.org/TR/SVG11/coords.html#TransformMatrixDefined
 
-			// filter:progid:DXImageTransform.Microsoft.Matrix(M11='1.0', sizingmethod='auto expand');
-			//    -moz-transform: matrix(1, 0, 0.6, 1, 15em, 0);
-			// -webkit-transform: matrix(1, 0, 0.6, 1,  250, 0);
-
-			// style.MozTransform = “rotate(45deg)”;
-			// http://mozillalinks.org/wp/2008/09/firefox-31-gets-cool-web-page-transformations-support/
-
-			// http://www.zachstronaut.com/lab/isocube.html
-			// http://paulbakaus.com/tag/internet-explorer/
-
-			var code = @"
-					e.style.filter = ""progid:DXImageTransform.Microsoft.Matrix(M11='" + m.M11 + @"',M12='" + m.M12 + @"',M21='" + m.M21 + @"',M22='" + m.M22 + @"', sizingmethod='auto expand')"";
-			        e.style.MozTransform = ""matrix(" + m.M11 + @", " + m.M21 + @", " + m.M12 + @", " + m.M22 + @", 0, 0)"";
-					e.style.WebkitTransform = ""matrix(" + m.M11 + @", " + m.M21 + @", " + m.M12 + @", " + m.M22 + @", 0, 0)"";
-				";
-
-			
-			new IFunction("e", code).apply(null, e);
-		}
 	}
 }

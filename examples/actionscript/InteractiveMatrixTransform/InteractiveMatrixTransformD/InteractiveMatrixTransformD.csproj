@@ -65,6 +65,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AffineTransform.cs" />
+    <Compile Include="Movable.cs" />
     <Compile Include="OrcasAvalonApplicationFlash.cs" />
     <Compile Include="OrcasAvalonApplicationDocument.cs" />
     <Compile Include="KnownAssets.cs" />
@@ -75,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\17g.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\17.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\sand.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\about.txt" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\help_idle.png" />

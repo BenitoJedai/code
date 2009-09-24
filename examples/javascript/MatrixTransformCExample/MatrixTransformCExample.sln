@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTransformCExample", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTransformC1Example", "MatrixTransformC1Example\MatrixTransformC1Example.csproj", "{54E75EFA-7AA6-4505-BE57-27A47D6133A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTransformC2Example", "MatrixTransformC2Example\MatrixTransformC2Example.csproj", "{995C6C10-EFD0-426B-A947-AE7A2A8C1B48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{54E75EFA-7AA6-4505-BE57-27A47D6133A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54E75EFA-7AA6-4505-BE57-27A47D6133A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54E75EFA-7AA6-4505-BE57-27A47D6133A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{995C6C10-EFD0-426B-A947-AE7A2A8C1B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{995C6C10-EFD0-426B-A947-AE7A2A8C1B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{995C6C10-EFD0-426B-A947-AE7A2A8C1B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{995C6C10-EFD0-426B-A947-AE7A2A8C1B48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

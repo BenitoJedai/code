@@ -55,7 +55,6 @@
     <Compile Include="CompilerServices\PrimitiveServerBuilder.cs" />
     <Compile Include="CompilerServices\SerializationBuilder.cs" />
     <Compile Include="JavaScript\Net\ClientTransport.cs" />
-    <Compile Include="JavaScript\Net\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\Net\IXMLSerializer.cs" />
     <Compile Include="JavaScript\Net\UrlMonitor.cs" />
     <Compile Include="JavaScript\Net\WebServiceProxy.cs" />
