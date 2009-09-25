@@ -30,8 +30,17 @@ namespace jsc.meta.Loader
 			Program.Main(args);
 		}
 
+
 		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
+			// already loaded?
+			var a = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(
+				k => k.GetName().FullName == new AssemblyName(args.Name).FullName
+			);
+
+			if (a != null)
+				return a;
+
 			var bin = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
 			var lib = new DirectoryInfo(Path.Combine(bin.FullName, @"..\lib"));
 

@@ -1,0 +1,4 @@
+﻿You could add multiple files in this folder.
+
+The contents of the files will be added as fields to a generated
+type named after this folder.

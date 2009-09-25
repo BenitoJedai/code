@@ -18,3 +18,5 @@
 	- visual basic generated .My namespaces are excluded for now
 2009.09.24
 	- Commands shall be defined in their namespace
+2009.09.25
+	- Resolving to assemblies which are already loaded will not fail anymore

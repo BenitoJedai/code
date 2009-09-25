@@ -67,8 +67,16 @@
     <Reference Include="Components.Test3.TextComponent">
       <HintPath>bin\TextComponent.staging\Components.Test3.TextComponent.dll</HintPath>
     </Reference>
+    <Reference Include="Components.Others.TextComponent">
+      <HintPath>bin\TextComponent.staging\Components.Others.TextComponent.dll</HintPath>
+    </Reference>
+    <Reference Include="Components.Extensible.TextComponent">
+      <HintPath>bin\TextComponent.staging\Components.Extensible.TextComponent.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\ExtensibleAlpha.cs" />
+    <Compile Include="Components\ExtensibleAlphaExtensions.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,8 +88,9 @@
     <None Include="Components\Test3.TextComponent" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Components\Others.TextComponent\TextFile2.txt" />
-    <Content Include="Components\Others.TextComponent\TextFile1.txt" />
+    <Content Include="Components\Extensible.TextComponent\Name.txt" />
+    <Content Include="Components\Others.TextComponent\Description.txt" />
+    <Content Include="Components\Others.TextComponent\Instructions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -22,6 +22,8 @@ namespace jsc.meta.Commands
 
 		public void Invoke()
 		{
+			System.Diagnostics.Debugger.Launch();
+
 			// could todo: JNI could be used to implement externs
 			// http://tirania.org/blog/archive/2009/Aug-11.html
 			// http://blogs.msdn.com/junfeng/archive/2007/07/09/reverse-p-invoke-marshaling-performance.aspx
@@ -248,7 +250,13 @@ endlocal
 			var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.Public | BindingFlags.Static);
 
 			var name = new AssemblyName(assembly.GetName().Name + MetaScript);
-			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave);
+
+			var Product = new FileInfo(Path.Combine(staging.FullName, name.Name + ".exe"));
+			if (Product.Exists)
+				Product.Delete();
+
+
+			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
 			var m = a.DefineDynamicModule(name.Name, name.Name + ".exe");
 
 
@@ -314,7 +322,6 @@ endlocal
 			a.SetEntryPoint(main);
 			AnnounceEntrypoint(main);
 
-			var Product = new FileInfo(Path.Combine(staging.FullName, name.Name + ".exe"));
 
 			a.Save(
 				Product.Name
