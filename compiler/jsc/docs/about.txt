@@ -352,4 +352,6 @@ version history:
 21.09.2009
 	js: fixed referenced assembly ordering
 23.09.2009
-	jsc: added ScriptAttribute.NonScriptTypes field 
+	jsc: added ScriptAttribute.NonScriptTypes field
+25.09.2009
+	js: fixed ScriptAttribute.OfProvider for context based decisions
