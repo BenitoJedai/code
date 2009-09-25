@@ -1,4 +1,0 @@
-﻿Taking this a step further.
-
-All components within this folder are considered as inputs.
-

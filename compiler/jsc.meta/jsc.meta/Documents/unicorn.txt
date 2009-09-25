@@ -1,4 +1,4 @@
-﻿The concep of unicorn in the context of jsc solution would mean, that all
+﻿The concept of unicorn in the context of jsc solution would mean, that all
 you need to install is a single exe file. All the knowlodge is hidden inside.
 
 Here are the packages which could possibly included in a unicorn assembly.

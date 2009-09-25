@@ -15,7 +15,6 @@ namespace jsc.meta
 
 
 
-		const string MetaScript = "MetaScript";
 
 		static void ShowLogo()
 		{
@@ -32,7 +31,9 @@ namespace jsc.meta
 
 		public static void Main(string[] args)
 		{
+
 			var CurrentDirectory = Environment.CurrentDirectory;
+
 			ShowLogo();
 
 
