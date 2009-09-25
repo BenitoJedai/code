@@ -286,6 +286,13 @@ namespace jsc
 
 		static void ConvertAssamblySpawned(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
 		{
+			using (new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+				ConvertAssamblySpawnedWithinContext(target_assambly, type, sinfo);
+
+		}
+
+		static void ConvertAssamblySpawnedWithinContext(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
+		{
 			//Environment .CurrentDirectory = new FileInfo(target_assambly).Directory.FullName;
 
 			string ta = target_assambly;
@@ -398,12 +405,11 @@ namespace jsc
 
 			if (type == ScriptType.PHP)
 			{
-				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
+				
 					new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(_assambly_loaded, sinfo);
 			}
 			else if (type == ScriptType.JavaScript)
 			{
-				using (new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
 					IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
 
 				_assambly_loaded.WriteEntryPoints(TargetDirectory);

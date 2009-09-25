@@ -24,6 +24,7 @@ namespace jsc.meta.Commands
 
 		public void Invoke()
 		{
+			Debugger.Launch();
 
 			// todo: compare to http://tirania.org/blog/archive/2009/Jul-28.html
 
