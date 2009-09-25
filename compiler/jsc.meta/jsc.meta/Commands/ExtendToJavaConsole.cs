@@ -22,7 +22,6 @@ namespace jsc.meta.Commands
 
 		public void Invoke()
 		{
-			System.Diagnostics.Debugger.Launch();
 
 			// could todo: JNI could be used to implement externs
 			// http://tirania.org/blog/archive/2009/Aug-11.html

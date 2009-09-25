@@ -8,6 +8,7 @@ using System.IO;
 using ScriptCoreLib.Archive.ZIP;
 using System.Reflection.Emit;
 using ScriptCoreLib;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands
 {
@@ -50,11 +51,13 @@ namespace jsc.meta.Commands
 				typeof(ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken)
 			);
 
+			var assembly = this.assembly.LoadAssemblyAtWithReferences(staging);
+
 
 			new ExtendToWindowsFormsEverywhereBuilder
 			{
 				context = this,
-				assembly = this.assembly.LoadAssemblyAt(staging)
+				assembly = assembly
 			}.Build(this.type);
 		}
 	}
@@ -71,6 +74,7 @@ namespace jsc.meta.Commands
 
 		public void Build(string type)
 		{
+
 			if (type == null)
 				assembly_type = assembly.EntryPoint.DeclaringType;
 
@@ -101,6 +105,8 @@ namespace jsc.meta.Commands
 			#endregion
 
 			#region web to .js.zip
+			// zip files could be appended to exe files
+
 			var staging_web = new DirectoryInfo(Path.Combine(this.context.staging.FullName, "web"));
 
 			if (staging_web.Exists)
@@ -133,7 +139,10 @@ namespace jsc.meta.Commands
 			var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
 
 			var name = new AssemblyName(assembly.GetName().Name + MetaScript);
-			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave);
+			var Product = new FileInfo(Path.Combine(this.context.staging.FullName, name.Name + ".exe"));
+			if (Product.Exists)
+				Product.Delete();
+			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, this.context.staging.FullName);
 			var m = a.DefineDynamicModule(name.Name, name.Name + ".exe");
 
 
@@ -239,7 +248,6 @@ namespace jsc.meta.Commands
 			a.SetEntryPoint(main);
 			AnnounceEntrypoint(main);
 
-			var Product = new FileInfo(Path.Combine(this.context.staging.FullName, name.Name + ".exe"));
 
 			a.Save(
 				Product.Name

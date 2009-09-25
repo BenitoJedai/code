@@ -1,0 +1,10 @@
+﻿
+ [OK] [Cancel] 
+ 
+ label1                  
+ +---------------------
+ |textbox1 x
+ | x x
+ 
+ [More details] [Help] 
+ 

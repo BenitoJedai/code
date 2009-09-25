@@ -2,3 +2,5 @@
 
 The contents of the files will be added as fields to a generated
 type named after this folder.
+
+We could also implement named multicast delegates!
