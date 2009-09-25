@@ -10,14 +10,26 @@ using System.Reflection.Emit;
 using jsc.meta.Library;
 using System.Runtime.CompilerServices;
 
-
-namespace jsc.meta.Commands
+namespace jsc.meta.Commands.Reference
 {
-	public class ReferenceTextualUserControl
+	public class ReferenceTextComponent
 	{
-		// Notice that the generated dll must be dragged to the Visual Studio Toolbox
+		/*
+		 
+http://msdn.microsoft.com/en-us/library/0c6xyb66(VS.71).aspx
+		  
+None - The file is not included in the project output group and is not compiled in the build process. An example is a text file that contains documentation, such as a Readme file.
+Compile - The file is compiled into the build output. This setting is used for code files.
+Content - The file is not compiled, but is included in the Content output group. For example, this setting is the default value for an .htm or other kind of Web file.
+Embedded Resource - This file is embedded in the main project build output as a DLL or executable. It is typically used for resource files.
+		 
+		 */
 
-		const string TextualUserControl = "TextualUserControl";
+		const string TextComponent = "TextComponent";
+
+		// this is an example of how jsc.meta
+		// could be used as a code generator
+		// before any jsc kicks in
 
 		public FileInfo ProjectFileName;
 
@@ -66,7 +78,7 @@ namespace jsc.meta.Commands
 
 			// bin is assumed to being ignored by svn
 			// we need to stage it
-			var Staging = this.ProjectFileName.Directory.CreateSubdirectory("bin/" + TextualUserControl + ".staging");
+			var Staging = this.ProjectFileName.Directory.CreateSubdirectory("bin/" + TextComponent + ".staging");
 
 			Action<FileInfo, AssemblyName> AddReference =
 				(AssemblyFile, Name) =>
@@ -107,6 +119,25 @@ namespace jsc.meta.Commands
 					}
 				};
 
+			#region take 1 - single file to single assembly
+			foreach (var h in
+			  from ItemGroup in csproj.Root.Elements(nsItemGroup)
+			  from None in ItemGroup.Elements(nsNone)
+			  let Include = None.Attribute("Include").Value
+			  where Include.EndsWith("." + TextComponent)
+			  let TargetName = DefaultNamespace + "." + Include.Replace("/", ".").Replace("\\", ".")
+			  let Target = new FileInfo(Path.Combine(Staging.FullName, TargetName.Substring(DefaultNamespace.Length + 1) + ".dll"))
+			  let File = new FileInfo(Path.Combine(ProjectFileName.Directory.FullName, Include))
+			  select new { ItemGroup, None, Include, File, TargetName, Target }
+			  )
+			{
+				GenerateAssembly(SourceAssemblyName, h.Target, h.TargetName, Staging, new[] { h.File },
+					Name => AddReference(h.Target, Name)
+				);
+
+
+			}
+			#endregion
 
 			#region take 2 - multiple files to single assembly
 
@@ -115,7 +146,7 @@ namespace jsc.meta.Commands
 			  from None in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent))
 			  let Include = None.Attribute("Include").Value
 			  let Directory = Path.GetDirectoryName(Include)
-			  where Directory.EndsWith("." + TextualUserControl)
+			  where Directory.EndsWith("." + TextComponent)
 
 			  let TargetName = DefaultNamespace + "." + Directory.Replace("/", ".").Replace("\\", ".")
 			  let Target = new FileInfo(Path.Combine(Staging.FullName, TargetName.Substring(DefaultNamespace.Length + 1) + ".dll"))
@@ -143,6 +174,16 @@ namespace jsc.meta.Commands
 				let HintPathFile = new FileInfo(Path.Combine(ProjectFileName.Directory.FullName, HintPath.Value))
 				where HintPathFile.Directory.FullName == Staging.FullName
 
+				where !Enumerable.Any(
+					from _ItemGroup in csproj.Root.Elements(nsItemGroup)
+					from _None in _ItemGroup.Elements(nsNone)
+					let _Include = _None.Attribute("Include").Value
+					where _Include.EndsWith("." + TextComponent)
+					let _TargetName = DefaultNamespace + "." + _Include.Replace("/", ".").Replace("\\", ".")
+					let _Target = new FileInfo(Path.Combine(Staging.FullName, _TargetName.Substring(DefaultNamespace.Length + 1) + ".dll"))
+					where _Target.FullName == HintPathFile.FullName
+					select _None
+				)
 
 				where !Enumerable.Any(
 					from k in TextComponentFolders
@@ -221,44 +262,37 @@ namespace jsc.meta.Commands
 			var m = a.DefineDynamicModule(name.Name, Target.Name);
 
 			var t = m.DefineType(
-				TargetName.Substring(0, TargetName.Length - (TextualUserControl.Length + 1)),
-				//TypeAttributes.NotPublic,
-				// Toolbox fails to load otherwise...
-				TypeAttributes.Public,
-				typeof(System.Windows.Forms.UserControl)
+				TargetName.Substring(0, TargetName.Length - (TextComponent.Length + 1)),
+				TypeAttributes.NotPublic
 			);
 
-			//var Fields = Enumerable.ToArray(
-			//    from s in Sources
-			//    let FieldName = Sources.Length == 1 ?
-			//       "Text" : Path.GetFileNameWithoutExtension(s.Name)
-			//    let Field = t.DefineField(FieldName, typeof(string), FieldAttributes.Public | FieldAttributes.InitOnly)
-			//    select new { s, FieldName, Field }
-			// );
-
-
-			var t_components = t.DefineField("components", typeof(System.ComponentModel.IContainer), FieldAttributes.Private);
+			var Fields = Enumerable.ToArray(
+				from s in Sources
+				let FieldName = Sources.Length == 1 ?
+				   "Text" : Path.GetFileNameWithoutExtension(s.Name)
+				let Field = t.DefineField(FieldName, typeof(string), FieldAttributes.Public | FieldAttributes.InitOnly)
+				select new { s, FieldName, Field }
+			 );
 
 
 
 			var t_ctor = t.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
-			var t_InitializeComponent = t.DefineInitializeComponentMethod(Sources);
-
 
 			{
 				var il = t_ctor.GetILGenerator();
 
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Call, typeof(System.Windows.Forms.UserControl).GetConstructor(new Type[0]));
-
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Call, t_InitializeComponent);
+				foreach (var k in Fields)
+				{
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldstr, File.ReadAllText(k.s.FullName));
+					il.Emit(OpCodes.Stfld, k.Field);
+				}
 
 				il.Emit(OpCodes.Ret);
 			}
 
-	
-			//t.DefineToStringMethod(from k in Fields select k.Field);
+
+			t.DefineToStringMethod(from k in Fields select k.Field);
 
 			t.CreateType();
 
@@ -271,6 +305,5 @@ namespace jsc.meta.Commands
 
 			Dirty(name);
 		}
-
 	}
 }

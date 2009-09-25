@@ -234,10 +234,9 @@
 			// 
 			// label3
 			// 
-			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(268, 186);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(35, 13);
+			this.label3.Size = new System.Drawing.Size(257, 22);
 			this.label3.TabIndex = 12;
 			this.label3.Text = "label3";
 			// 
@@ -245,7 +244,7 @@
 			// 
 			this.button4.Location = new System.Drawing.Point(257, 146);
 			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(75, 23);
+			this.button4.Size = new System.Drawing.Size(107, 23);
 			this.button4.TabIndex = 13;
 			this.button4.Text = "Form 3";
 			this.button4.UseVisualStyleBackColor = true;

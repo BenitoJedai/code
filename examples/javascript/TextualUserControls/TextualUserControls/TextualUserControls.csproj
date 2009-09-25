@@ -118,9 +118,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Control1.TextualUserControl\Assets\skatter-tech-browsers-600x164.jpg" />
+    <Content Include="Control1.TextualUserControl\HTMLPage1.htm" />
+    <Content Include="Control1.TextualUserControl\label2.txt" />
     <Content Include="Control1.TextualUserControl\textbox1.txt" />
     <Content Include="Control1.TextualUserControl\label1.txt" />
     <Content Include="Control1.TextualUserControl\Layout.txt" />
+    <None Include="Control1.TextualUserControl\XMLFile1.xaml">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="TypedInformation.TextComponent\Text.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

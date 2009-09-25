@@ -1,10 +1,10 @@
 ﻿
  [OK] [Cancel] 
- 
  label1                  
  +---------------------
- |textbox1 x
- | x x
+ |textbox1
+ |xxxx
  
- [More details] [Help] 
+ label2
+ [More details] [Help me] 
  

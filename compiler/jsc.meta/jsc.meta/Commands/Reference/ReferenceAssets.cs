@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace jsc.meta.Commands
+namespace jsc.meta.Commands.Reference
 {
 	public class ReferenceAssets
 	{
@@ -17,5 +17,8 @@ namespace jsc.meta.Commands
 		// point to a flash game and say we'd like to reuse
 		// all the assets? :)
 		// with consent ofcourse!
+
+		// html file could be used
+		// for comments and meta stuff
 	}
 }

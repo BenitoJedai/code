@@ -10,7 +10,7 @@ using jsc.meta.Library;
 using ScriptCoreLib;
 using System.Collections.Generic;
 
-namespace jsc.meta.Commands
+namespace jsc.meta.Commands.Extend
 {
 
 	public class ExtendToJavaConsole

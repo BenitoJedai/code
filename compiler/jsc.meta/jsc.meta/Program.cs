@@ -6,6 +6,8 @@ using System.IO;
 using System.Reflection;
 using ScriptCoreLib.Reflection.Options;
 using jsc.meta.Commands;
+using jsc.meta.Commands.Extend;
+using jsc.meta.Commands.Reference;
 
 namespace jsc.meta
 {
