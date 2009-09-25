@@ -119,16 +119,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ExtendToWindowsFormsEverywhere.cs" />
-    <Compile Include="Commands\ReferenceAssets.cs" />
-    <Compile Include="Commands\ReferenceTextComponent.cs" />
-    <Compile Include="Commands\ReferenceTextualUserControl.cs" />
+    <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
+    <Compile Include="Commands\Reference\ReferenceAssets.cs" />
+    <Compile Include="Commands\Reference\ReferenceAvalonDocument.cs" />
+    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
+    <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
+    <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Library\TextualUserControlProvider.cs" />
     <Compile Include="Library\ToStringProvider.cs" />
     <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.ExtendToPureAlchemy.cs" />
     <Compile Include="Program.ExtendToFlashAvalon.cs" />
-    <Compile Include="Commands\ExtendToJavaConsole.cs" />
+    <Compile Include="Commands\Extend\ExtendToJavaConsole.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
