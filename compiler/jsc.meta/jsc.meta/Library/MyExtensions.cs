@@ -11,6 +11,12 @@ namespace jsc.meta.Library
 {
 	public static class MyExtensions
 	{
+		public static void EmitSetProperty(this ILGenerator il, PropertyInfo p, string value)
+		{
+			il.Emit(OpCodes.Ldstr, value);
+			il.Emit(OpCodes.Call, p.GetSetMethod());
+		}
+
 		public static void SetCustomAttribute(this TypeBuilder a, ConstructorInfo ctor, params object[] p)
 		{
 			a.SetCustomAttribute(

@@ -107,6 +107,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -120,6 +122,8 @@
     <Compile Include="Commands\ExtendToWindowsFormsEverywhere.cs" />
     <Compile Include="Commands\ReferenceAssets.cs" />
     <Compile Include="Commands\ReferenceTextComponent.cs" />
+    <Compile Include="Commands\ReferenceTextualUserControl.cs" />
+    <Compile Include="Library\TextualUserControlProvider.cs" />
     <Compile Include="Library\ToStringProvider.cs" />
     <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.ExtendToPureAlchemy.cs" />

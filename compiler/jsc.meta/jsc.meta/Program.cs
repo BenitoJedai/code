@@ -41,7 +41,8 @@ namespace jsc.meta
 			args.AsParametersTo(
 				new ExtendToWindowsFormsEverywhere().Invoke,
 				new ExtendToJavaConsole().Invoke,
-				new ReferenceTextComponent().Invoke
+				new ReferenceTextComponent().Invoke,
+				new ReferenceTextualUserControl().Invoke
 			);
 
 			Environment.CurrentDirectory = CurrentDirectory;
