@@ -37,6 +37,8 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 
         static internal bool IsTypeOf(this object e, Type t)
         {
+			// wouldn't Type.Equals work in javascript?
+
             var x = e.GetType();
             var a = x.TypeHandle.Value;
             var b = t.TypeHandle.Value;

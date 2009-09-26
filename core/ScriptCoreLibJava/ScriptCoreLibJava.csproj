@@ -72,6 +72,7 @@
     <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
