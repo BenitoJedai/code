@@ -125,6 +125,9 @@
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
+    <Compile Include="Library\TextualUserControlProvider.DefineLabel.cs" />
+    <Compile Include="Library\TextualUserControlProvider.DefineTextbox.cs" />
+    <Compile Include="Library\TextualUserControlProvider.DefineButton.cs" />
     <Compile Include="Library\TextualUserControlProvider.cs" />
     <Compile Include="Library\ToStringProvider.cs" />
     <Compile Include="Loader\LoaderStrategy.cs" />

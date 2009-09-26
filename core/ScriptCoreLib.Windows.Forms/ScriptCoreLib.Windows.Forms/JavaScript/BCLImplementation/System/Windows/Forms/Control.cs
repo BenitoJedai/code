@@ -125,7 +125,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
             }
 
-
+			public virtual void SetChildIndex(Control child, int newIndex)
+			{
+				// we should apply the index
+			}
         }
 
         public void PerformLayout()

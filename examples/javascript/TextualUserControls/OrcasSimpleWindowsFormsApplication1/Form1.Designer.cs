@@ -1,6 +1,6 @@
-﻿namespace TextualUserControls
+﻿namespace OrcasSimpleWindowsFormsApplication1
 {
-	partial class Form3
+	partial class Form1
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,33 +28,23 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.control11 = new TextualUserControls.Control1();
 			this.SuspendLayout();
 			// 
-			// control11
-			// 
-			this.control11.BackColor = System.Drawing.Color.White;
-			this.control11.Location = new System.Drawing.Point(12, 12);
-			this.control11.Name = "control11";
-			this.control11.Size = new System.Drawing.Size(321, 259);
-			this.control11.TabIndex = 0;
-			this.control11.OK += new System.Action(this.control11_OK);
-			// 
-			// Form3
+			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(424, 283);
-			this.Controls.Add(this.control11);
-			this.Name = "Form3";
-			this.Text = "Form3";
+			this.BackColor = System.Drawing.Color.White;
+			this.ClientSize = new System.Drawing.Size(550, 369);
+			this.Name = "Form1";
+			this.Text = "OrcasSimpleWindowsFormsApplication1. Your C# will be converted javascript.";
+			this.OK += new System.Action(this.Form1_OK);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private Control1 control11;
-
 	}
 }
+

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace jsc.meta.Library
 {
-	public static class TextualUserControlProvider
+	public static partial class TextualUserControlProvider
 	{
 		public static void EmitSuspendLayout(this ILGenerator il, Action h)
 		{
@@ -28,7 +28,7 @@ namespace jsc.meta.Library
 
 		public static MethodBuilder DefineInitializeComponentMethod(this TypeBuilder t, IEnumerable<FileInfo> Sources)
 		{
-			var m = t.DefineMethod("InitializeComponent", MethodAttributes.Private);
+			var m = t.DefineMethod("InitializeComponent" + t.Name, MethodAttributes.Private);
 
 			var il = m.GetILGenerator();
 
@@ -43,15 +43,59 @@ namespace jsc.meta.Library
 					if (LayoutFile != null)
 					{
 						var Layout = File.ReadAllText(LayoutFile.FullName);
-						var LayoutCharWidth = 10;
+						var LayoutCharWidth = 8;
 						var LayoutCharHeight = 24;
+
+						foreach (var TextBox in
+							from k in Layout.ToCharArray().Select((c, i) => new { c, i })
+							where char.IsLetter(k.c)
+							where k.i > 0
+							where Layout[k.i - 1] == '|'
+							let Position = Layout.ToCharArray().Take(k.i).Reverse()
+
+							let ButtonLeft = Position.TakeWhile(c => "\r\n".IndexOf(c) < 0).Count()
+							let ButtonTop = Position.Count(c => c == '\n')
+
+							let Width = Layout.ToCharArray().Skip(k.i).TakeWhile(c => c != '|').Count() + 1
+							let Height = Enumerable.Range(1, 8).TakeWhile(
+								offset =>
+								{
+									var CurrentLine = Layout.ToCharArray().Select((c, i) => new { c, i }).Skip(k.i + Width);
+									for (int i = 0; i < offset; i++)
+									{
+										CurrentLine = CurrentLine.SkipWhile(c => c.c != '\n').Skip(1);
+									}
+
+									var Start = CurrentLine.Skip(ButtonLeft - 1).First();
+									var End = CurrentLine.Skip(ButtonLeft + Width - 1).First();
+
+									return Start.c == '|' && End.c == '|';
+								}
+							).Count() + 1
+							let Name = new string(Layout.ToCharArray().Skip(k.i).TakeWhile(c => char.IsLetter(c) || char.IsDigit(c)).ToArray())
+							let Source = Sources.SingleOrDefault(kk => kk.Name == Name + ".txt")
+							let Text = Source == null ? Name : File.ReadAllText(Source.FullName)
+
+
+							select new { Name, ButtonLeft, ButtonTop, Text, Width, Height }
+							)
+						{
+							DefineTextbox(t, il,
+								TextBox.Name.ToCamelCase(),
+								(TextBox.ButtonLeft - 1) * LayoutCharWidth,
+								TextBox.ButtonTop * LayoutCharHeight,
+								TextBox.Width * LayoutCharWidth,
+								TextBox.Height * LayoutCharHeight,
+								TextBox.Text
+							);
+						}
 
 						foreach (var Label in
 							from k in Layout.ToCharArray().Select((c, i) => new { c, i })
 							where char.IsLetter(k.c)
 							where k.i == 0 || char.IsWhiteSpace(Layout[k.i - 1])
 							let Name = new string(Layout.ToCharArray().Skip(k.i).TakeWhile(c => char.IsLetter(c) || char.IsDigit(c)).ToArray())
-							let Position = Layout.ToCharArray().Take(k.i ).Reverse()
+							let Position = Layout.ToCharArray().Take(k.i).Reverse()
 
 							// in this line if [ comes before ] then we should skip this label candidate
 
@@ -71,11 +115,11 @@ namespace jsc.meta.Library
 						{
 
 							DefineLabel(t, il,
-								Label.Name, 
+								Label.Name.ToCamelCase(),
 								Label.ButtonLeft * LayoutCharWidth,
 								Label.ButtonTop * LayoutCharHeight + 4,
 								Label.Text.Length * LayoutCharWidth,
-								LayoutCharHeight,
+								LayoutCharHeight - 4,
 								Label.Text
 							);
 
@@ -85,19 +129,20 @@ namespace jsc.meta.Library
 						foreach (var Button in
 							from k in Layout.ToCharArray().Select((c, i) => new { c, i })
 							where k.c == '['
-							let ButtonName = new string(Layout.ToCharArray().Skip(k.i + 1).TakeWhile(c => c != ']').ToArray())
-							let Position = Layout.ToCharArray().Take(k.i ).Reverse()
-							let ButtonLeft = Position.TakeWhile(c => "\r\n".IndexOf(c) < 0).Count()
-							let ButtonTop = Position.Count(c => c == '\n')
-							select new { Name = ButtonName, ButtonLeft, ButtonTop }
+							let Name = new string(Layout.ToCharArray().Skip(k.i + 1).TakeWhile(c => c != ']').ToArray())
+							let Position = Layout.ToCharArray().Take(k.i).Reverse()
+							let Left = Position.TakeWhile(c => "\r\n".IndexOf(c) < 0).Count()
+							let Top = Position.Count(c => c == '\n')
+							select new { Name, Left, Top }
 						)
 						{
 
-							DefineButton(t, il, 
-								Button.Name.Trim(), Button.ButtonLeft * LayoutCharWidth,
-								Button.ButtonTop * LayoutCharHeight, 
-								(Button.Name.Length + 2) * LayoutCharWidth, 
-								LayoutCharHeight
+							DefineButton(t, il,
+								Button.Name.Trim().ToCamelCase(), Button.Left * LayoutCharWidth,
+								Button.Top * LayoutCharHeight,
+								(Button.Name.Length + 2) * LayoutCharWidth,
+								LayoutCharHeight,
+								Button.Name.Trim()
 							);
 
 						}
@@ -122,113 +167,9 @@ namespace jsc.meta.Library
 			return m;
 		}
 
-		private static void DefineLabel(TypeBuilder t, ILGenerator il, string ButtonName, int ButtonLeft, int ButtonTop, int ButtonWidth, int ButtonHeight, string Text)
-		{
-			var button1 = t.DefineField(ButtonName, typeof(System.Windows.Forms.Label), FieldAttributes.Private);
 
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Newobj, typeof(System.Windows.Forms.Label).GetConstructors().Single());
-			il.Emit(OpCodes.Stfld, button1);
+	
 
-			#region this.button1.Location = new System.Drawing.Point(45, 50);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-
-			il.Emit(OpCodes.Ldc_I4, ButtonLeft);
-			il.Emit(OpCodes.Ldc_I4, ButtonTop);
-			il.Emit(OpCodes.Newobj, typeof(System.Drawing.Point).GetConstructor(new[] { typeof(int), typeof(int) }));
-
-			il.Emit(OpCodes.Call, typeof(Control).GetProperty("Location").GetSetMethod());
-			#endregion
-
-			#region this.button1.Name = "button1";
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-			il.EmitSetProperty(typeof(Control).GetProperty("Name"), ButtonName);
-			#endregion
-
-			#region this.button1.Size = new System.Drawing.Size(75, 23);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-
-			il.Emit(OpCodes.Ldc_I4, ButtonWidth);
-			il.Emit(OpCodes.Ldc_I4, ButtonHeight);
-			il.Emit(OpCodes.Newobj, typeof(System.Drawing.Size).GetConstructor(new[] { typeof(int), typeof(int) }));
-
-			il.Emit(OpCodes.Call, typeof(Control).GetProperty("Size").GetSetMethod());
-			#endregion
-
-			#region this.button1.Text = "button1";
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-			il.EmitSetProperty(typeof(System.Windows.Forms.Label).GetProperty("Text"), Text);
-			#endregion
-
-
-			#region this.Controls.Add(this.button1);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Call, typeof(Control).GetProperty("Controls").GetGetMethod());
-
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-
-			il.Emit(OpCodes.Call, typeof(Control.ControlCollection).GetMethod("Add"));
-			#endregion
-		}
-
-		private static void DefineButton(TypeBuilder t, ILGenerator il, string ButtonName, int ButtonLeft, int ButtonTop, int ButtonWidth, int ButtonHeight)
-		{
-			var button1 = t.DefineField(ButtonName, typeof(Button), FieldAttributes.Private);
-
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Newobj, typeof(Button).GetConstructors().Single());
-			il.Emit(OpCodes.Stfld, button1);
-
-			#region this.button1.Location = new System.Drawing.Point(45, 50);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-
-			il.Emit(OpCodes.Ldc_I4, ButtonLeft);
-			il.Emit(OpCodes.Ldc_I4, ButtonTop);
-			il.Emit(OpCodes.Newobj, typeof(System.Drawing.Point).GetConstructor(new[] { typeof(int), typeof(int) }));
-
-			il.Emit(OpCodes.Call, typeof(Control).GetProperty("Location").GetSetMethod());
-			#endregion
-
-			#region this.button1.Name = "button1";
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-			il.EmitSetProperty(typeof(Control).GetProperty("Name"), ButtonName);
-			#endregion
-
-			#region this.button1.Size = new System.Drawing.Size(75, 23);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-
-			il.Emit(OpCodes.Ldc_I4, ButtonWidth);
-			il.Emit(OpCodes.Ldc_I4, ButtonHeight);
-			il.Emit(OpCodes.Newobj, typeof(System.Drawing.Size).GetConstructor(new[] { typeof(int), typeof(int) }));
-
-			il.Emit(OpCodes.Call, typeof(Control).GetProperty("Size").GetSetMethod());
-			#endregion
-
-			#region this.button1.Text = "button1";
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-			il.EmitSetProperty(typeof(Control).GetProperty("Text"), ButtonName);
-			#endregion
-
-
-			#region this.Controls.Add(this.button1);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Call, typeof(Control).GetProperty("Controls").GetGetMethod());
-
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldfld, button1);
-
-			il.Emit(OpCodes.Call, typeof(Control.ControlCollection).GetMethod("Add"));
-			#endregion
-		}
 
 	}
 }

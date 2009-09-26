@@ -1,6 +1,6 @@
 ﻿namespace TextualUserControls
 {
-	partial class Form3
+	partial class Form4
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,33 +28,35 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.control11 = new TextualUserControls.Control1();
+			this.userControl11 = new TextualUserControls.UserControl1();
 			this.SuspendLayout();
 			// 
-			// control11
+			// userControl11
 			// 
-			this.control11.BackColor = System.Drawing.Color.White;
-			this.control11.Location = new System.Drawing.Point(12, 12);
-			this.control11.Name = "control11";
-			this.control11.Size = new System.Drawing.Size(321, 259);
-			this.control11.TabIndex = 0;
-			this.control11.OK += new System.Action(this.control11_OK);
+			this.userControl11.Location = new System.Drawing.Point(50, 47);
+			this.userControl11.Name = "userControl11";
+			this.userControl11.Size = new System.Drawing.Size(386, 273);
+			this.userControl11.TabIndex = 0;
+			this.userControl11.Textbox1 = "Do you like it?\r\nYes?\r\n\r\npowered by jsc";
+			this.userControl11.Textbox2 = "textbox2";
+			this.userControl11.OK += new System.Action(this.userControl11_OK);
 			// 
-			// Form3
+			// Form4
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(424, 283);
-			this.Controls.Add(this.control11);
-			this.Name = "Form3";
-			this.Text = "Form3";
+			this.ClientSize = new System.Drawing.Size(519, 381);
+			this.Controls.Add(this.userControl11);
+			this.Name = "Form4";
+			this.Text = "Form4";
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private Control1 control11;
+		private UserControl1 userControl11;
+
 
 	}
 }

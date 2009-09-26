@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextualUserControls", "TextualUserControls\TextualUserControls.csproj", "{9795B89A-CFCF-445E-A9F6-66B99797D31A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextualUserControls.Control7", "TextualUserControls.Control7\TextualUserControls.Control7.csproj", "{E5CBC16C-F1AB-4130-996E-17039E62BF36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcasSimpleWindowsFormsApplication1", "OrcasSimpleWindowsFormsApplication1\OrcasSimpleWindowsFormsApplication1.csproj", "{921974FA-73C1-4835-BFF3-633BBB42C311}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,10 @@ Global
 		{9795B89A-CFCF-445E-A9F6-66B99797D31A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9795B89A-CFCF-445E-A9F6-66B99797D31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9795B89A-CFCF-445E-A9F6-66B99797D31A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5CBC16C-F1AB-4130-996E-17039E62BF36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5CBC16C-F1AB-4130-996E-17039E62BF36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5CBC16C-F1AB-4130-996E-17039E62BF36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5CBC16C-F1AB-4130-996E-17039E62BF36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{921974FA-73C1-4835-BFF3-633BBB42C311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{921974FA-73C1-4835-BFF3-633BBB42C311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{921974FA-73C1-4835-BFF3-633BBB42C311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{921974FA-73C1-4835-BFF3-633BBB42C311}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

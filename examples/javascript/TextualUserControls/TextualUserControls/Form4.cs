@@ -9,16 +9,20 @@ using System.Windows.Forms;
 
 namespace TextualUserControls
 {
-	public partial class Form3 : Form
+	public partial class Form4 : Form
 	{
-		public Form3()
+		public event Action OK;
+		public Form4()
 		{
 			InitializeComponent();
 		}
 
-		private void control11_OK()
+		private void userControl11_OK()
 		{
-			MessageBox.Show("you clicked ok! \n\n" + control11.Textbox1);
+
+
+			if (OK != null)
+				OK();
 		}
 	}
 }

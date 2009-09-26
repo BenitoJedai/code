@@ -7,18 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace TextualUserControls
+namespace OrcasSimpleWindowsFormsApplication1
 {
-	public partial class Form3 : Form
+	public partial class Form1 : TextualUserControls.Form4
 	{
-		public Form3()
+		public Form1()
 		{
 			InitializeComponent();
 		}
 
-		private void control11_OK()
+	
+
+		private void Form1_OK()
 		{
-			MessageBox.Show("you clicked ok! \n\n" + control11.Textbox1);
+			MessageBox.Show("OK :)");
+
 		}
+
 	}
 }
