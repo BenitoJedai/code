@@ -11,6 +11,108 @@ namespace jsc.meta.Library
 {
 	public static class MyExtensions
 	{
+
+		public static string ToCamelCase(this string e)
+		{
+			var w = new StringBuilder();
+
+			for (int i = 0; i < e.Length; i++)
+			{
+				if (i == 0)
+					w.Append(e.Substring(i, 1).ToUpper());
+				else if (char.IsLetter(e[i]) || char.IsDigit(e[i]))
+				{
+					if (char.IsLetter(e[i - 1]) || char.IsDigit(e[i - 1]))
+						w.Append(e[i]);
+					else
+						w.Append(e.Substring(i, 1).ToUpper());
+				}
+			}
+
+			return w.ToString();
+		}
+
+		public static EventBuilder DefineWorkingEvent(this TypeBuilder t, string EventName, Type EventType, Action<MethodInfo> RaiseEvent)
+		{
+			var f = t.DefineField("event_" + EventName, EventType, FieldAttributes.Private);
+
+			var e = t.DefineEvent(EventName, EventAttributes.None, EventType);
+
+			var _add = t.DefineMethod("add_" + EventName, MethodAttributes.Public, CallingConventions.HasThis, typeof(void), new[] { typeof(Action) });
+			e.SetAddOnMethod(_add);
+			{
+				var il = _add.GetILGenerator();
+
+				il.Emit(OpCodes.Ldarg_0);
+
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldfld, f);
+				il.Emit(OpCodes.Ldarg_1);
+				il.Emit(OpCodes.Call, typeof(Delegate).GetMethod("Combine", new[] { typeof(Delegate), typeof(Delegate) }));
+
+				il.Emit(OpCodes.Stfld, f);
+
+				il.Emit(OpCodes.Ret);
+			}
+
+			var _remove = t.DefineMethod("remove_" + EventName, MethodAttributes.Public, CallingConventions.HasThis, typeof(void), new[] { typeof(Action) });
+			e.SetRemoveOnMethod(_remove);
+
+
+			{
+				var il = _remove.GetILGenerator();
+
+				il.Emit(OpCodes.Ldarg_0);
+
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldfld, f);
+				il.Emit(OpCodes.Ldarg_1);
+				il.Emit(OpCodes.Call, typeof(Delegate).GetMethod("Remove", new[] { typeof(Delegate), typeof(Delegate) }));
+
+				il.Emit(OpCodes.Stfld, f);
+
+				il.Emit(OpCodes.Ret);
+			}
+
+			var _raise = t.DefineMethod("raise_" + EventName, MethodAttributes.Private, CallingConventions.HasThis, typeof(void), new[] { typeof(object), typeof(EventArgs) });
+			{
+				var il = _raise.GetILGenerator();
+
+				#region if (event_ == null) return;
+				var notnull = il.DefineLabel();
+
+				// jsc needs a temporal variable it seems...
+				var isnull = il.DeclareLocal(typeof(bool));
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldfld, f);
+				il.Emit(OpCodes.Ldnull);
+				il.Emit(OpCodes.Ceq);
+				il.Emit(OpCodes.Stloc_S, (byte)isnull.LocalIndex);
+
+				il.Emit(OpCodes.Ldloc_S, (byte)isnull.LocalIndex);
+				il.Emit(OpCodes.Brfalse, notnull);
+
+				il.Emit(OpCodes.Ret);
+
+				il.MarkLabel(notnull);
+				#endregion
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldfld, f);
+				il.Emit(OpCodes.Call, typeof(Action).GetMethod("Invoke"));
+				il.Emit(OpCodes.Ret);
+			}
+
+			e.SetRaiseMethod(_raise);
+
+			RaiseEvent(_raise);
+
+			return e;
+		}
+
 		public static void EmitSetProperty(this ILGenerator il, PropertyInfo p, string value)
 		{
 			il.Emit(OpCodes.Ldstr, value);

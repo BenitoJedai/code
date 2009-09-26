@@ -9,6 +9,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 	[Script(Implements = typeof(global::System.Windows.Forms.TextBox))]
 	internal class __TextBox : __TextBoxBase
 	{
+		// should we listen for enter key?
+		public bool AcceptsReturn { get; set; }
+
 		private HorizontalAlignment _TextAlign;
 
 		public HorizontalAlignment TextAlign
