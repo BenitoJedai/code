@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using ScriptCoreLib;
+using System;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -69,7 +70,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.Shared
 {
-	[Script]
+	[Script, Obsolete]
 	public class AssemblyInfo : IAssemblyInfo
 	{
 		public static AssemblyInfo Current = new AssemblyInfo();

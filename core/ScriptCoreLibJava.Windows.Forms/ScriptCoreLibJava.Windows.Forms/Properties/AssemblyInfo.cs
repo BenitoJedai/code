@@ -6,12 +6,12 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptCoreLibJava")]
+[assembly: AssemblyTitle("ScriptCoreLibJava.Windows.Forms")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("neutronic")]
-[assembly: AssemblyProduct("ScriptCoreLibJava")]
-[assembly: AssemblyCopyright("Copyright © neutronic 2006")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ScriptCoreLibJava.Windows.Forms")]
+[assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +21,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8a018a81-c976-4a13-bc99-834f97decab8")]
+[assembly: Guid("cfe0effd-d7f0-43b2-a688-eb68ccc4a1e6")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,13 +30,13 @@ using ScriptCoreLib;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Revision and Build Numbers 
+// You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.2006.0222.0")]
-[assembly: AssemblyFileVersion("1.2006.0222.0")]
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: ScriptTypeFilter(ScriptType.Java, "*")]
-[assembly: Script(IsCoreLib = true)]
-
-[assembly: InternalsVisibleTo("ScriptCoreLibJava.Threading")]
-[assembly: InternalsVisibleTo("ScriptCoreLibJava.Windows.Forms")]
+[assembly:
+	Script,
+	ScriptTypeFilter(ScriptType.Java)
+]
