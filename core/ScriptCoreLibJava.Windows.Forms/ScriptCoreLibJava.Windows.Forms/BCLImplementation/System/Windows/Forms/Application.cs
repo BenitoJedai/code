@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
@@ -22,11 +23,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public static void Run(Form mainForm)
 		{
-			Console.WriteLine("? mainForm.FormClosed");
+			var r = new EventWaitHandle(false, EventResetMode.ManualReset);
+
 			mainForm.FormClosed +=
 				delegate
 				{
-					Console.WriteLine("mainForm.Dispose");
+					r.Set();
 				};
 
 			mainForm.Show();
@@ -34,9 +36,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			// in javascript we cannot block here!
 			// in java we actually should to prevent early termination
 
-		
-
-			//mainForm.Dispose();
+			r.WaitOne();
 		}
 
 

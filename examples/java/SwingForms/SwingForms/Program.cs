@@ -16,36 +16,31 @@ namespace SwingForms
 
 		public static void Main(string[] args)
 		{
+			var f = new Form
 			{
-				var f = new Form
+				Text = "hi!"
+			};
+
+			f.FormClosing +=
+				delegate
 				{
-					Text = "hi!"
+					Console.WriteLine("FormClosing");
 				};
 
-				f.FormClosing +=
-					delegate
-					{
-						Console.WriteLine("FormClosing");
-					};
+			f.FormClosed +=
+				delegate
+				{
+					Console.WriteLine("FormClosed");
+				};
 
-				f.FormClosed +=
-					delegate
-					{
-						Console.WriteLine("FormClosed");
-					};
+			var b1 = new Button { Text = "hello world 3434534534" };
 
-				var b1 = new Button { Text = "hello world 3434534534" };
+			f.Controls.Add(b1);
 
-				f.Controls.Add(b1);
+			Application.Run(f);
 
-				Application.Run(f);
 
-				//f.Show();
-
-				Console.ReadLine();
-
-				f.Dispose();
-			}
+			Console.WriteLine("done!");
 
 
 
