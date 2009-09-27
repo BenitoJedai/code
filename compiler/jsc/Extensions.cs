@@ -15,6 +15,23 @@ namespace jsc //.Extensions
 {
 	static class Extensions
 	{
+		/// <summary>
+		/// In .net 2.0 the event add and remove methods are marked by the compiler to be synchronized.
+		/// </summary>
+		/// <param name="m"></param>
+		/// <returns></returns>
+		public static bool IsSynchronized(this MethodBase m)
+		{
+			int flags = (int)m.GetMethodImplementationFlags();
+
+			// http://blogs.msdn.com/ricom/archive/2004/05/05/126542.aspx
+			// http://msdn2.microsoft.com/en-us/library/system.reflection.methodimplattributes.aspx
+			if ((flags & (int)MethodImplAttributes.Synchronized) == (int)MethodImplAttributes.Synchronized)
+				return true;
+
+			return false;
+		}
+
 		public static bool IsInstanceConstructor(this MethodBase e)
 		{
 			return e.IsConstructor && !e.IsStatic;

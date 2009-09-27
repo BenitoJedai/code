@@ -69,7 +69,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 			// If the program does not explicitly hide or dispose the window while 
 			// processing this event, the window close operation will be cancelled.
-			this.Dispose();
+			
+			
+			//this.Dispose();
 		}
 		[Script]
 		public delegate void __WindowListenerDelegate(WindowEvent e);
@@ -135,7 +137,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			this.InternalElement.setVisible(e);
 		}
 
-		public override void Dispose(bool e)
+		protected override void Dispose(bool e)
 		{
 			this.InternalElement.dispose();
 		}

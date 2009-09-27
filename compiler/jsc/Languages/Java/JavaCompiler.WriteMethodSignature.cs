@@ -18,9 +18,16 @@ using jsc.Script;
 namespace jsc.Languages.Java
 {
 
-    partial class JavaCompiler
-    {
+	partial class JavaCompiler
+	{
 		public override void WriteMethodSignature(MethodBase m, bool dStatic)
+		{
+			InternalWriteMethodSignature(m, dStatic, null, false);
+
+		}
+
+		private void InternalWriteMethodSignature(
+			MethodBase m, bool dStatic, string MethodNameOverride, bool MethodIsPublicOverride)
 		{
 			DebugBreak(ScriptAttribute.Of(m));
 
@@ -29,17 +36,13 @@ namespace jsc.Languages.Java
 			if (m.IsAbstract && !m.DeclaringType.IsInterface)
 				WriteKeywordSpace(Keywords._abstract);
 
-			int flags = (int)m.GetMethodImplementationFlags();
-
-			// http://blogs.msdn.com/ricom/archive/2004/05/05/126542.aspx
-			// http://msdn2.microsoft.com/en-us/library/system.reflection.methodimplattributes.aspx
-			if ((flags & (int)MethodImplAttributes.Synchronized) == (int)MethodImplAttributes.Synchronized)
-				Write("synchronized ");
+			if (m.IsSynchronized() && !m.DeclaringType.IsInterface)
+				this.WriteKeywordSpace(Keywords._synchronized);
 
 			// it seems delegates cannot call to private or protected
 			// static methods
 			// so we make them public...
-			if (m.IsPublic || m.IsStatic)
+			if (m.IsPublic || m.IsStatic || MethodIsPublicOverride)
 				WriteKeywordPublic();
 			else
 			{
@@ -79,7 +82,12 @@ namespace jsc.Languages.Java
 			if (m.IsInstanceConstructor())
 				Write(GetDecoratedTypeName(m.DeclaringType, false, true, true, true));
 			else
-				WriteDecoratedMethodName(m, false);
+			{
+				if (MethodNameOverride == null)
+					WriteDecoratedMethodName(m, false);
+				else
+					Write(MethodNameOverride);
+			}
 
 			Write("(");
 			WriteMethodParameterList(m);
@@ -92,9 +100,8 @@ namespace jsc.Languages.Java
 				WriteLine(";");
 			else
 				WriteLine();
-
 		}
 
 
-    }
+	}
 }

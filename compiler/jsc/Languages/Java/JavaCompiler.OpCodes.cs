@@ -115,6 +115,58 @@ namespace jsc.Languages.Java
 						throw new Exception("OpCodes.Ldftn cannot find IntPtr factory method.");
 
 					var _Method = ResolveImplementationMethod(e.i.TargetMethod.DeclaringType, e.i.TargetMethod) ?? e.i.TargetMethod;
+					string _MethodPublicWrapper = null;
+
+					if (_Method.IsPrivate)
+					{
+						_MethodPublicWrapper = "_" + e.Method.Name + "_Ldftn_" + e.i.Offset.ToString("x4");
+
+						this.CompileType_WriteAdditionalMembers +=
+							delegate
+							{
+								// now we need a public wrapper to get the job done!
+
+								this.InternalWriteMethodSignature(_Method, false, _MethodPublicWrapper, true);
+
+								using (this.CreateScope())
+								{
+									this.WriteIdent();
+
+									if (((MethodInfo)_Method).ReturnType != typeof(void))
+									{
+										this.WriteKeywordSpace(Keywords._return);
+									}
+
+									if (_Method.IsStatic)
+									{
+										this.WriteDecoratedTypeName(_Method.DeclaringType);
+									}
+									else
+									{
+										this.WriteKeyword(Keywords._this);
+									}
+
+									this.Write(".");
+									this.WriteDecoratedMethodName(_Method, false);
+									this.Write("(");
+
+									var _MethodParameters = _Method.GetParameters();
+
+									for (int i = 0; i < _MethodParameters.Length; i++)
+									{
+										if (i > 0)
+											this.Write(", ");
+
+										this.WriteDecoratedMethodParameter(_MethodParameters[i]);
+									}
+
+									this.Write(")");
+
+
+									this.WriteLine(";");
+								}
+							};
+					}
 
 					WriteDecoratedTypeNameOrImplementationTypeName(_IntPtr, false, false);
 					Write(".");
@@ -129,7 +181,16 @@ namespace jsc.Languages.Java
 					Write(", ");
 
 					WriteQuote();
-					WriteDecoratedMethodName(_Method, false);
+
+					if (_MethodPublicWrapper == null)
+					{
+						WriteDecoratedMethodName(_Method, false);
+					}
+					else
+					{
+						Write(_MethodPublicWrapper);
+					}
+
 					WriteQuote();
 
 					Write(", ");
@@ -140,23 +201,25 @@ namespace jsc.Languages.Java
 					Write("]");
 					Write("{");
 
-					var _MethodParameters = _Method.GetParameters();
-					for (int i = 0; i < _MethodParameters.Length; i++)
 					{
-						if (i > 0)
-							Write(", ");
+						var _MethodParameters = _Method.GetParameters();
+						for (int i = 0; i < _MethodParameters.Length; i++)
+						{
+							if (i > 0)
+								Write(", ");
 
-						var pt = _MethodParameters[i].ParameterType;
+							var pt = _MethodParameters[i].ParameterType;
 
-						// step 1 - java does not really have usigned value types
-						if (pt == typeof(ushort)) pt = typeof(short);
-						if (pt == typeof(byte)) pt = typeof(sbyte);
-						if (pt == typeof(uint)) pt = typeof(int);
+							// step 1 - java does not really have usigned value types
+							if (pt == typeof(ushort)) pt = typeof(short);
+							if (pt == typeof(byte)) pt = typeof(sbyte);
+							if (pt == typeof(uint)) pt = typeof(int);
 
-						// step 2 - we want to reference primitive types if available
-						WriteDecoratedTypeNameOrImplementationTypeName(pt, true, true);
-						Write(".");
-						WriteKeyword(Keywords._class);
+							// step 2 - we want to reference primitive types if available
+							WriteDecoratedTypeNameOrImplementationTypeName(pt, true, true);
+							Write(".");
+							WriteKeyword(Keywords._class);
+						}
 					}
 
 					Write("}");
@@ -1778,20 +1841,19 @@ namespace jsc.Languages.Java
 						if (e.i.StackBeforeStrict[1].SingleStackInstruction.OpCode == OpCodes.Ldc_I4_0)
 							if (
 								// this optimization will work only for boolean comparisions
-								new [] { 
+								new[] { 
 									OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S,
 									OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S
 								}.Contains(
 									e.i.StackBeforeStrict[0].SingleStackInstruction.OpCode
 								)
 							)
+							{
+								Write("!");
+								Emit(e.p, e.i.StackBeforeStrict[0]);
 
-						{
-							Write("!");
-							Emit(e.p, e.i.StackBeforeStrict[0]);
-
-							return;
-						}
+								return;
+							}
 
 					WriteInlineOperator(e.p, e.i, "==");
 				};

@@ -12,7 +12,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.ComponentModel
 	{
 		public event EventHandler Disposed;
 
-		public virtual void Dispose(bool e)
+		protected virtual void Dispose(bool e)
 		{
 		}
 

@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\SwingForms\SwingForms\bin\Release\staging</StartWorkingDirectory>
-    <StartArguments>SwingFormsMetaScript.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\TestBaseVirtualCall\TestBaseVirtualCall\bin\Debug</StartWorkingDirectory>
+    <StartArguments>TestBaseVirtualCall.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
