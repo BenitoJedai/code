@@ -39,7 +39,7 @@ namespace jsc.meta.Commands.Extend
 			else if (!staging.Exists)
 				this.staging.Create();
 
-			Environment.CurrentDirectory = staging.FullName;
+			//Environment.CurrentDirectory = staging.FullName;
 
 
 			staging.DefinesTypes(
@@ -325,6 +325,14 @@ endlocal
 			a.Save(
 				Product.Name
 			);
+
+
+			Product.Refresh();
+			if (Product.Exists)
+				Console.WriteLine("Product: " + Product.FullName);
+			else
+				throw new FileNotFoundException(Product.FullName);
+
 
 			return Product;
 		}
