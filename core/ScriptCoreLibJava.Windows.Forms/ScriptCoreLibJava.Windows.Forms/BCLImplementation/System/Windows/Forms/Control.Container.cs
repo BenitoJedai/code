@@ -45,6 +45,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 					return;
 				}
 
+				var __Owner_JDialog = __Owner as javax.swing.JDialog;
+				if (__Owner_JDialog != null)
+				{
+					__Owner_JDialog.getContentPane().add(__e);
+					return;
+				}
+
+
 				throw new NotSupportedException();
 			}
 

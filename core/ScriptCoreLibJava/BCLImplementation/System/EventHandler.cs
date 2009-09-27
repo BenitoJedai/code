@@ -6,9 +6,6 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-
-	[Script(Implements = typeof(global::System.EventArgs))]
-	internal class __EventArgs
-	{
-	}
+	[Script(Implements = typeof(global::System.EventHandler))]
+	internal delegate void __EventHandler(object sender, EventArgs e);
 }
