@@ -524,7 +524,8 @@ namespace jsc
                 where sa.Implements != null
                 select new { z, sa })
             {
-                if (i.sa.Implements.GUID.Equals(eg.GUID))
+				if (i.sa.Implements.Equals(eg))
+					//if (i.sa.Implements.GUID.Equals(eg.GUID))
                     return i.z;
 
             }

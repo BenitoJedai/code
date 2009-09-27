@@ -1,5 +1,6 @@
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text;
@@ -519,6 +520,13 @@ namespace jsc.Languages.Java
 
 			#region implements
 			Type[] timp = z.GetInterfaces();
+
+			// there are interfaces we wont be using
+			// those are internal non script types
+
+			timp = timp.Where(k => k.ToScriptAttribute() == null && ResolveImplementation(k) == null).ToArray();
+
+
 			int i = 0;
 			if (timp.Length > 0)
 			{

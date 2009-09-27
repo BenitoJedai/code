@@ -355,3 +355,5 @@ version history:
 	jsc: added ScriptAttribute.NonScriptTypes field
 25.09.2009
 	js: fixed ScriptAttribute.OfProvider for context based decisions
+27.09.2009
+	java: no longer tries to import internal non script types without script implementation

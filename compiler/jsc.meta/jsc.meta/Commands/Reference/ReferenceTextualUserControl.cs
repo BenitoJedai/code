@@ -18,6 +18,7 @@ namespace jsc.meta.Commands.Reference
 		// Notice that the generated dll must be dragged to the Visual Studio Toolbox
 
 		const string TextualUserControl = "TextualUserControl";
+		const string TextualForm = "TextualForm";
 
 		public FileInfo ProjectFileName;
 

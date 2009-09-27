@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
 	[Script(Implements = typeof(global::System.Windows.Forms.ContainerControl))]
-	internal class __ContainerControl : __ScrollableControl
+	internal class __ContainerControl : __ScrollableControl, __IContainerControl
 	{
 		//protected void Dispose(bool disposing)
 		//{

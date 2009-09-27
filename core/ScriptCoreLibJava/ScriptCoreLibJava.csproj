@@ -74,13 +74,18 @@
     <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\IContainer.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\IComponent.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Char.cs" />
     <Compile Include="BCLImplementation\System\EventArgs.cs" />
+    <Compile Include="BCLImplementation\System\EventHandler.cs" />
     <Compile Include="BCLImplementation\System\IO\Directory.cs" />
+    <Compile Include="BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="BCLImplementation\System\IO\DirectoryInfo.cs" />
@@ -198,6 +203,7 @@
     <Compile Include="javax\swing\JApplet.cs" />
     <Compile Include="javax\swing\JButton.cs" />
     <Compile Include="javax\swing\JComponent.cs" />
+    <Compile Include="javax\swing\JDialog.cs" />
     <Compile Include="javax\swing\JFrame.cs" />
     <Compile Include="javax\swing\JLabel.cs" />
     <Compile Include="javax\swing\JLayeredPane.cs" />
@@ -264,6 +270,7 @@
     <Compile Include="java\awt\datatransfer\DataFlavor.cs" />
     <Compile Include="java\awt\datatransfer\FlavorMap.cs" />
     <Compile Include="java\awt\datatransfer\Transferable.cs" />
+    <Compile Include="java\awt\Dialog.cs" />
     <Compile Include="java\awt\Dimension.cs">
       <SubType>Code</SubType>
     </Compile>

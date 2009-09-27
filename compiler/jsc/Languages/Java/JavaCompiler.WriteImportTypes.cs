@@ -237,16 +237,22 @@ namespace jsc.Languages.Java
 
 					if (p_impl == null)
 					{
+						// is it a hidden type?
+						if (p.IsNotPublic)
+							continue;
+
+						if (p.DeclaringType != null && p.DeclaringType.IsNotPublic)
+							continue;
+
+
 						if (ScriptAttribute.IsCompilerGenerated(p))
 						{
 							// pass thru..
 
 							continue;
 						}
-						else
-						{
-							Break("class import: no implementation for " + p.FullName + " at " + t.FullName);
-						}
+
+						Break("class import: no implementation for " + p.FullName + " at " + t.FullName);
 					}
 
 					p = p_impl;

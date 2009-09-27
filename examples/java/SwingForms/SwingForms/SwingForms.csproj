@@ -64,8 +64,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\MyExtensions.cs" />
+    <Compile Include="MyMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MyMessageBox.Designer.cs">
+      <DependentUpon>MyMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyMessageBox.resx">
+      <DependentUpon>MyMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

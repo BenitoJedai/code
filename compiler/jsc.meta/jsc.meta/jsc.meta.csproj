@@ -140,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\changelog.txt" />
+    <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
   </ItemGroup>
   <ItemGroup>

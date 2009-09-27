@@ -1,6 +1,7 @@
 // This source code was generated for ScriptCoreLib
+// http://services.zproxybuzz.info/java/java.awt.Component
+
 using ScriptCoreLib;
-using java.awt;
 using java.awt.dnd;
 using java.awt.@event;
 using java.awt.im;
@@ -15,7 +16,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Component.html
 	[Script(IsNative = true)]
-	public class Component
+	public abstract class Component
 	{
 		/// <summary>
 		/// Constructs a new component.
@@ -186,7 +187,7 @@ namespace java.awt
 		/// Potentially coalesce an event being posted with an existing
 		/// event.
 		/// </summary>
-		public AWTEvent coalesceEvents(AWTEvent @existingEvent, AWTEvent @newEvent)
+		protected AWTEvent coalesceEvents(AWTEvent @existingEvent, AWTEvent @newEvent)
 		{
 			return default(AWTEvent);
 		}
@@ -701,15 +702,7 @@ namespace java.awt
 			return default(Container);
 		}
 
-		/// <summary>
-		/// <B>Deprecated.</B> <I>As of JDK version 1.1,
-		/// programs should not directly manipulate peers;
-		/// replaced by <code>boolean isDisplayable()</code>.</I>
-		/// </summary>
-		//public java.awt.peer.ComponentPeer getPeer()
-		//{
-		//    return default(java.awt.peer.ComponentPeer);
-		//}
+	
 
 		/// <summary>
 		/// Gets the preferred size of this component.
@@ -1179,7 +1172,7 @@ namespace java.awt
 		/// <summary>
 		/// Returns a string representing the state of this component.
 		/// </summary>
-		public string paramString()
+		protected string paramString()
 		{
 			return default(string);
 		}
@@ -1551,9 +1544,9 @@ namespace java.awt
 		/// <summary>
 		/// Associate a <code>DropTarget</code> with this component.
 		/// </summary>
-		//public void setDropTarget(DropTarget @dt)
-		//{
-		//}
+		public void setDropTarget(DropTarget @dt)
+		{
+		}
 
 		/// <summary>
 		/// Enables or disables this component, depending on the value of the
@@ -1731,4 +1724,3 @@ namespace java.awt
 
 	}
 }
-
