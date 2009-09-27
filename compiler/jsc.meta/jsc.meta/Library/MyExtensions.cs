@@ -11,7 +11,7 @@ namespace jsc.meta.Library
 {
 	public static class MyExtensions
 	{
-
+		
 		public static string ToCamelCase(this string e)
 		{
 			var w = new StringBuilder();

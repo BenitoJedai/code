@@ -72,12 +72,14 @@
     <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Char.cs" />
+    <Compile Include="BCLImplementation\System\EventArgs.cs" />
     <Compile Include="BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs" />
@@ -95,6 +97,8 @@
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSAParameters.cs" />
     <Compile Include="BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="BCLImplementation\System\Threading\EventWaitHandle.cs" />
+    <Compile Include="BCLImplementation\System\Threading\WaitHandle.cs" />
     <Compile Include="BCLImplementation\System\TimeSpan.cs" />
     <Compile Include="BCLImplementation\System\ValueType.cs" />
     <Compile Include="BCLImplementation\System\UInt32.cs" />
