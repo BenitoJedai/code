@@ -6,151 +6,166 @@ using ScriptCoreLib;
 namespace jsc.Languages.Java
 {
 
-    partial class JavaCompiler
-    {
+	partial class JavaCompiler
+	{
 
-        public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
-        {
-            DebugBreak(ScriptAttribute.Of(i.OwnerMethod));
+		public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
+		{
+			DebugBreak(ScriptAttribute.Of(i.OwnerMethod));
 
-            ScriptAttribute ma = ScriptAttribute.Of(m);
+			ScriptAttribute ma = ScriptAttribute.Of(m);
 
-            bool IsExternalDefined = ma != null && ma.ExternalTarget != null;
-            bool IsDefineAsInstance = ma != null && ma.DefineAsInstance;
-            bool IsBaseCall = false;
-            bool IsDefineAsStatic = ma != null && ma.DefineAsStatic;
+			bool IsExternalDefined = ma != null && ma.ExternalTarget != null;
+			bool IsDefineAsInstance = ma != null && ma.DefineAsInstance;
+			bool IsBaseConstructorCall = false;
+			bool IsDefineAsStatic = ma != null && ma.DefineAsStatic;
+			bool IsBaseMethodCall = false;
 
 			if (m.IsInstanceConstructor())
-            {
-                // fixme: update the BCL resolving issue
-                // the super ctor call gets lost otherwise
+			{
+				// fixme: update the BCL resolving issue
+				// the super ctor call gets lost otherwise
 
 				if (m.DeclaringType == i.OwnerMethod.DeclaringType)
 				{
 					// ctor as this.ctor();
-					IsBaseCall = true;
+					IsBaseConstructorCall = true;
 				}
 				else if (i.IsBaseConstructorCall(m, k => ResolveImplementationMethod(k.DeclaringType, k), ResolveImplementation))
-                {
+				{
 
-                    IsBaseCall = true;
-                }
-                else
-                    Break("If it was a native constructor, it should be remapped via InternalConstructor attribute.Cannot call constructor : " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ".");
-            }
-
-
-
-            ILFlow.StackItem[] s = i.StackBeforeStrict;
-
-            int offset = 1;
-
-            #region static call defined as instance call
-
-
-            if (m.IsStatic && IsExternalDefined & IsDefineAsInstance)
-            {
-                // what?? string?
-
-                Emit(p, s[0]);
-                Write(".");
-                WriteExternalMethod(ma.ExternalTarget, m);
-                WriteParameterInfoFromStack(m, p, s, 1);
-
-                return;
-            }
-            #endregion
+					IsBaseConstructorCall = true;
+				}
+				else
+					Break("If it was a native constructor, it should be remapped via InternalConstructor attribute.Cannot call constructor : " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ".");
+			}
+			else
+			{
+				if (i.OpCode == OpCodes.Call)
+					if (i.TargetMethod.DeclaringType.Equals(i.OwnerMethod.DeclaringType.BaseType))
+					{
+						IsBaseMethodCall = true;
+					}
+			}
 
 
+			ILFlow.StackItem[] s = i.StackBeforeStrict;
 
-            if ((m.IsStatic || IsDefineAsStatic) || IsBaseCall)
-            {
-                #region static
-                //TODO: ???
-                if (IsBaseCall)
-                {
-                    //WriteTypeBaseType();
-                    //Write(".");
+			int offset = 1;
 
-                }
-                else
-                {
-                    //ScriptAttribute ta = ScriptAttribute.Of(m.DeclaringType);
+			#region static call defined as instance call
 
-                    if (IsExternalDefined)
-                    {
+
+			if (m.IsStatic && IsExternalDefined & IsDefineAsInstance)
+			{
+				// what?? string?
+
+				Emit(p, s[0]);
+				Write(".");
+				WriteExternalMethod(ma.ExternalTarget, m);
+				WriteParameterInfoFromStack(m, p, s, 1);
+
+				return;
+			}
+			#endregion
+
+
+
+			if ((m.IsStatic || IsDefineAsStatic) || IsBaseConstructorCall)
+			{
+				#region static
+				//TODO: ???
+				if (IsBaseConstructorCall)
+				{
+					//WriteTypeBaseType();
+					//Write(".");
+
+				}
+				else
+				{
+					//ScriptAttribute ta = ScriptAttribute.Of(m.DeclaringType);
+
+					if (IsExternalDefined)
+					{
 						//WriteBoxedComment("impl");
 
 
 
 						this.Write(GetDecoratedTypeName(ScriptAttribute.Of(m.DeclaringType).ImplementationType, true, false, true, true));
-                        
+
 						Write(".");
 
-                    }
-                    else
-                    {
+					}
+					else
+					{
 						//WriteBoxedComment("ext");
 
-                        WriteTypeOrExternalTargetTypeName(m.DeclaringType, false);
-                        Write(".");
-                    }
-                }
-                #endregion
+						WriteTypeOrExternalTargetTypeName(m.DeclaringType, false);
+						Write(".");
+					}
+				}
+				#endregion
 
-                offset = !m.IsStatic && (IsDefineAsStatic || IsBaseCall) ? 1 : 0;
-            }
-            else
-            {
+				offset = !m.IsStatic && (IsDefineAsStatic || IsBaseConstructorCall) ? 1 : 0;
+			}
+			else
+			{
 
-                // WriteBoxedComment("variable.call");
+				// WriteBoxedComment("variable.call");
 
-                // base. ?
+				// base. ?
 
-                if (i.OpCode == OpCodes.Call &&
-                    s[0].SingleStackInstruction == OpCodes.Ldarg_0 &&
-                    i.OwnerMethod.DeclaringType.BaseType == m.DeclaringType)
-                {
-                    if (i.IsBaseConstructorCall())
-                        WriteKeyword(Keywords._super);
-                    else
-                        WriteKeyword(Keywords._this);
-                    
-                }
-                else
-                {
-                    Emit(p, s[0]);
-                }
+				if (IsBaseMethodCall)
+				{
+					WriteKeyword(Keywords._super);
+				}
+				else
+				{
+					if (i.OpCode == OpCodes.Call &&
+						s[0].SingleStackInstruction == OpCodes.Ldarg_0 &&
+						i.OwnerMethod.DeclaringType.BaseType == m.DeclaringType)
+					{
+						if (i.IsBaseConstructorCall())
+							WriteKeyword(Keywords._super);
+						else
+							WriteKeyword(Keywords._this);
 
-                Write(".");
-            }
+					}
+					else
+					{
+						Emit(p, s[0]);
+					}
+				}
 
-
-
-            if (IsExternalDefined)
-            {
-                WriteExternalMethod(ma.ExternalTarget, m);
-            }
-            else
-            {
-                if (IsBaseCall)
-                {
-                    if (i.IsBaseConstructorCall())
-                        WriteKeyword(Keywords._super);
-                    else
-                        WriteKeyword(Keywords._this);
-                    
-                }
-                else
-                {
-                    WriteDecoratedMethodName(m, false);
-                }
-            }
-
-            WriteParameterInfoFromStack(m, p, s, offset);
-
-        }
+				Write(".");
+			}
 
 
-    }
+
+			if (IsExternalDefined)
+			{
+				WriteExternalMethod(ma.ExternalTarget, m);
+			}
+			else
+			{
+				if (IsBaseConstructorCall)
+				{
+					if (i.IsBaseConstructorCall())
+						WriteKeyword(Keywords._super);
+					else
+						WriteKeyword(Keywords._this);
+
+				}
+				else
+				{
+					WriteDecoratedMethodName(m, false);
+				}
+			}
+
+			WriteParameterInfoFromStack(m, p, s, offset);
+
+		}
+
+
+	}
 }

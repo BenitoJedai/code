@@ -357,3 +357,6 @@ version history:
 	js: fixed ScriptAttribute.OfProvider for context based decisions
 27.09.2009
 	java: no longer tries to import internal non script types without script implementation
+	java: no longer mark interface methods being synchronized
+	java: fixed: virtual base method is now callable
+	java: creating a delegate to a private method now generates a public wrapper

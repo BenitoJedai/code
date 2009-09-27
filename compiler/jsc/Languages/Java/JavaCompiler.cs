@@ -524,7 +524,9 @@ namespace jsc.Languages.Java
 			// there are interfaces we wont be using
 			// those are internal non script types
 
-			timp = timp.Where(k => k.ToScriptAttribute() == null && ResolveImplementation(k) == null).ToArray();
+			timp = timp.Where(
+				k => !(k.ToScriptAttribute() == null && ResolveImplementation(k) == null)
+			).ToArray();
 
 
 			int i = 0;
