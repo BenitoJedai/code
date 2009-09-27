@@ -75,12 +75,10 @@
     <Compile Include="BCLImplementation\System\Windows\Forms\IDropTarget.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IWin32Window.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Layout\ArrangedElementCollection.cs" />
+    <Compile Include="BCLImplementation\System\Windows\Forms\MessageBox.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windows\Forms\IAssemblyReferenceToken.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BCLImplementation\Windows\Forms\Layout\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

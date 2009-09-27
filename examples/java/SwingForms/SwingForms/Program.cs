@@ -43,7 +43,7 @@ namespace SwingForms
 			{
 				b1.Text = "hi";
 
-				new MyMessageBox().ShowDialog();
+				new MyMessageBox().Show();
 				//var f2 = new Form { Text = "Message1" };
 
 				//f2.ShowDialog();

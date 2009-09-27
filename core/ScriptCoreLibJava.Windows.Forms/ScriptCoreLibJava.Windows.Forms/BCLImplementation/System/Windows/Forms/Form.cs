@@ -17,9 +17,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		// see: http://www.dreamincode.net/forums/showtopic66100.htm
 		// see: http://dev.eclipse.org/newslists/news.eclipse.tools.ve/msg00053.html
 		// see: http://inversionconsulting.blogspot.com/2008/03/java-jdialog-and-jprogressbar-example.html
+		// see: http://www.experts-exchange.com/Programming/Languages/Java/Q_21108794.html
 
-		//public JFrame InternalElement;
-		public JDialog InternalElement;
+		public JFrame InternalElement;
+		//public JDialog InternalElement;
 
 		public event FormClosedEventHandler FormClosed;
 		public event FormClosingEventHandler FormClosing;
@@ -31,8 +32,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public __Form()
 		{
-			//this.InternalElement = new JFrame();
-			this.InternalElement = new JDialog();
+			this.InternalElement = new JFrame();
+			//this.InternalElement = new JDialog();
 			this.InternalElement.setSize(300, 300);
 			
 			this.InternalElement.getContentPane().setLayout(null);
@@ -69,9 +70,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 			// If the program does not explicitly hide or dispose the window while 
 			// processing this event, the window close operation will be cancelled.
-			
-			
-			//this.Dispose();
+
+
+			this.Dispose();
 		}
 		[Script]
 		public delegate void __WindowListenerDelegate(WindowEvent e);
@@ -144,10 +145,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public DialogResult ShowDialog()
 		{
-			this.InternalElement.setModal(true);
-			this.InternalElement.show(true);
+			throw new NotImplementedException();
 
-			return DialogResult.OK;
+			//this.InternalElement.setModal(true);
+			//this.InternalElement.show(true);
+
+			//return DialogResult.OK;
 		}
 	}
 }
