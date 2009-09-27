@@ -29,6 +29,8 @@ namespace SwingForms
 		private void button3_Click(object sender, EventArgs e)
 		{
 			this.Text = "message 3";
+
+			MessageBox.Show("OK");
 		}
 	}
 }

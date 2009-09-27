@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Windows.Forms;
+using javax.swing;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
@@ -12,6 +13,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 	{
 		public static DialogResult Show(string text)
 		{
+			JOptionPane.showMessageDialog(null, text);
 
 			return DialogResult.OK;
 		}
