@@ -108,7 +108,7 @@ namespace jsc.meta.Commands.Extend
 			var MetaScript = InternalBuild(k => assembly_metaentrypoint = k);
 			// 3
 
-			MetaScript.ToJava(javapath, assembly_metaentrypoint);
+			MetaScript.ToJava(javapath, assembly_metaentrypoint, null);
 
 
 			
