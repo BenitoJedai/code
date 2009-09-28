@@ -10,7 +10,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 	[Script(Implements = typeof(global::System.Windows.Forms.Button))]
 	internal class __Button : __ButtonBase
 	{
-		readonly java.awt.Button InternalElement;
+		//readonly java.awt.Button InternalElement;
+		readonly javax.swing.JButton InternalElement = new javax.swing.JButton();
 
 		public override java.awt.Component InternalGetElement()
 		{
@@ -19,7 +20,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public __Button()
 		{
-			this.InternalElement = new java.awt.Button();
 			this.InternalElement.setBounds(0, 0, 100, 24);
 
 			this.InternalElement.addActionListener(

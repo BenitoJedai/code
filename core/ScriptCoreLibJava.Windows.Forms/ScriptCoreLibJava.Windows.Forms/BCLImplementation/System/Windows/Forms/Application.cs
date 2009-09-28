@@ -14,6 +14,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		public static void EnableVisualStyles()
 		{
 			// i guess we should make UI pretty from now on?
+			// see: http://java.sun.com/docs/books/tutorial/uiswing/lookandfeel/plaf.html
+			// see: http://stackoverflow.com/questions/119696/vista-skin-lf
+
+			try
+			{
+				javax.swing.UIManager.setLookAndFeel(
+					javax.swing.UIManager.getSystemLookAndFeelClassName()
+				);
+			}
+			catch
+			{
+				// yummy...
+			}
 		}
 
 		public static void SetCompatibleTextRenderingDefault(bool defaultValue)

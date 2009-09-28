@@ -38,7 +38,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-			Debugger.Launch();
+			//Debugger.Launch();
 
 			// todo: compare to http://tirania.org/blog/archive/2009/Jul-28.html
 
@@ -119,7 +119,7 @@ namespace jsc.meta.Commands.Extend
 
 			if (this.context.javapath != null)
 			{
-				Debugger.Launch();
+				//Debugger.Launch();
 
 				var Fusion = new FileInfo( 
 					Path.Combine(

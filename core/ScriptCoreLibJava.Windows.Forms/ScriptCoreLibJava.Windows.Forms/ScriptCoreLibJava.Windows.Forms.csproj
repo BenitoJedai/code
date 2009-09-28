@@ -74,9 +74,12 @@
     <Compile Include="BCLImplementation\System\Windows\Forms\IContainerControl.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IDropTarget.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\IWin32Window.cs" />
+    <Compile Include="BCLImplementation\System\Windows\Forms\Label.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Layout\ArrangedElementCollection.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\MessageBox.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
+    <Compile Include="BCLImplementation\System\Windows\Forms\TextBox.cs" />
+    <Compile Include="BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windows\Forms\IAssemblyReferenceToken.cs" />
   </ItemGroup>
