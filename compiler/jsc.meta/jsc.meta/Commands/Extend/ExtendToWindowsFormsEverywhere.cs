@@ -94,10 +94,10 @@ namespace jsc.meta.Commands.Extend
 			if (assembly_type == null)
 				throw new InvalidOperationException("entrypoint type is missing");
 
-			var assembly_metaentrypoint = default(MethodInfo);
+			var JavaEntrypoint = default(MethodInfo);
 
 			// 2
-			var MetaScript = InternalBuild(k => assembly_metaentrypoint = k);
+			var MetaScript = InternalBuild(k => JavaEntrypoint = k);
 			// 3
 		
 
@@ -108,7 +108,7 @@ namespace jsc.meta.Commands.Extend
 
 			if (this.context.javapath != null)
 			{
-				MetaScript.ToJava(context.javapath, assembly_metaentrypoint);
+				MetaScript.ToJava(context.javapath, JavaEntrypoint);
 			}
 
 			//#region web to .js.zip
