@@ -15,6 +15,28 @@ namespace jsc //.Extensions
 {
 	static class Extensions
 	{
+		public static IEnumerable<ScriptType> ToScriptTypes(this CommandLineOptions options)
+		{
+			if (options.IsJavaScript)
+				yield return ScriptType.JavaScript;
+
+			if (options.IsPHP)
+				yield return ScriptType.PHP;
+
+			if (options.IsJava)
+				yield return ScriptType.Java;
+
+			if (options.IsActionScript)
+				yield return ScriptType.ActionScript;
+
+			if (options.IsCSharp2)
+				yield return ScriptType.CSharp2;
+
+			if (options.IsC)
+				yield return ScriptType.C;
+
+		}
+
 		/// <summary>
 		/// In .net 2.0 the event add and remove methods are marked by the compiler to be synchronized.
 		/// </summary>

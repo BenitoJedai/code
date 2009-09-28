@@ -11,7 +11,7 @@ namespace jsc.meta.Library
 {
 	public static class MyExtensions
 	{
-		
+
 		public static string ToCamelCase(this string e)
 		{
 			var w = new StringBuilder();
@@ -286,6 +286,37 @@ namespace jsc.meta.Library
 						}
 						DefineReferencedAssembliesCache.Add(reference.Name);
 						var staging_reference = reference.LoadAssemblyAt(assembly.Directory, target);
+						if (staging_reference != null)
+						{
+							DefineReferencedAssemblies(staging_reference);
+						}
+					}
+				};
+			#endregion
+
+			DefineReferencedAssemblies(a);
+
+			return a;
+		}
+
+		public static Assembly LoadReferencesAt(this Assembly a, DirectoryInfo target, DirectoryInfo source)
+		{
+
+			#region DefineReferencedAssemblies
+			Action<Assembly> DefineReferencedAssemblies = null;
+			var DefineReferencedAssembliesCache = new List<string>();
+
+			DefineReferencedAssemblies =
+				k =>
+				{
+					foreach (var reference in k.GetReferencedAssemblies())
+					{
+						if (DefineReferencedAssembliesCache.Contains(reference.Name))
+						{
+							continue;
+						}
+						DefineReferencedAssembliesCache.Add(reference.Name);
+						var staging_reference = reference.LoadAssemblyAt(source, target);
 						if (staging_reference != null)
 						{
 							DefineReferencedAssemblies(staging_reference);

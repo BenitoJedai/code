@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using ScriptCoreLib;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SwingForms")]
-[assembly: AssemblyDescription("SwingForms. Crosscompiled from C# to Java.")]
+[assembly: AssemblyTitle("SimpleForms1")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SwingForms")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("SimpleForms1")]
+[assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +20,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c47fe550-3f1d-48f8-bbf5-1be86f5ecea9")]
+[assembly: Guid("2c5d9a63-518d-4616-83bf-5fbd929027e5")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,15 +34,3 @@ using ScriptCoreLib;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-[assembly:
-	Script(
-		IsScriptLibrary = true
-		//,
-		//ScriptLibraries = new[]{
-		//    typeof(ScriptCoreLibJava.Drawing.IAssemblyReferenceToken),
-		//typeof(ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken)
-	//}
-	),
-	ScriptTypeFilter(ScriptType.Java)
-]

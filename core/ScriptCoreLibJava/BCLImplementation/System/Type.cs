@@ -263,5 +263,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			return (__Type)this.InternalTypeDescription.getComponentType();
 		}
+
+		public Assembly Assembly
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

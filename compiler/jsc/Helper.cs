@@ -7,12 +7,6 @@ using System.Threading;
 namespace jsc
 {
 	// do we need them anymore?
-	//public delegate T Func<T>();
-	//public delegate T Func<Arg0, T>(Arg0 arg0);
-
-    public delegate void Func();
-
-    //public delegate void __handler();
 
     public struct Variant<T>
     {
@@ -25,15 +19,7 @@ namespace jsc
 
     public sealed class Helper
     {
-        public static void WriteFile(string file, string text)
-        {
-            StreamWriter sw = new StreamWriter(new FileStream(file, FileMode.Create));
-
-            sw.Write(text);
-            sw.Flush();
-
-            sw.Close();
-        }
+ 
 
         public class WorkPool
         {

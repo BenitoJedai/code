@@ -9,6 +9,7 @@ using System.Linq;
 using jsc.meta.Library;
 using ScriptCoreLib;
 using System.Collections.Generic;
+using jsc.meta.Tools;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -22,7 +23,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-			//Debugger.Launch();
+			Debugger.Launch();
 
 			// could todo: JNI could be used to implement externs
 			// http://tirania.org/blog/archive/2009/Aug-11.html
@@ -42,6 +43,8 @@ namespace jsc.meta.Commands.Extend
 
 			//Environment.CurrentDirectory = staging.FullName;
 
+			var assembly = this.assembly.LoadAssemblyAt(staging);
+
 
 			staging.DefinesTypes(
 				typeof(ScriptCoreLib.ScriptAttribute),
@@ -51,10 +54,15 @@ namespace jsc.meta.Commands.Extend
 				// we should omit this if there are no extern calls in the assembly
 				// this would mean we need to have a look at all the 
 				// [Script] types for such methods
-				typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
+				typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken),
+				typeof(ScriptCoreLibJava.Drawing.IAssemblyReferenceToken),
+				typeof(ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken)
 			);
 
-			var assembly = this.assembly.LoadAssemblyAtWithReferences(staging);
+
+
+			// load the rest of the references
+			assembly.LoadReferencesAt(staging, this.assembly.Directory);
 
 
 
@@ -99,143 +107,11 @@ namespace jsc.meta.Commands.Extend
 			// 2
 			var MetaScript = InternalBuild(k => assembly_metaentrypoint = k);
 			// 3
-			#region jsc
-			// jsc + javac
 
-			Console.WriteLine("- jsc");
-			jsc.Program.TypedMain(
-				new jsc.CompileSessionInfo
-				{
-					Options = new jsc.CommandLineOptions
-					{
-						TargetAssembly = MetaScript,
-						IsJava = true
-					}
-				}
-			);
-			#endregion
-
-			if (javapath == null)
-			{
-				Console.WriteLine("java path not specified");
-				return;
-			}
-
-			var obj_web = Path.Combine(staging.FullName, "web");
-			var obj_web_bin = Path.Combine(obj_web, "bin");
-			var bin_jar = new FileInfo(Path.Combine(obj_web_bin, Path.GetFileNameWithoutExtension(assembly.Location) + @".jar"));
-
-			#region javac
-			Console.WriteLine("- javac");
-			var TargetSourceFiles = "java";
-
-			foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
-							  where k != bin_jar.FullName
-							  select k)
-			{
-				TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
-			}
-
-			var proccess_javac = Process.Start(
-				new ProcessStartInfo(
-					Path.Combine(javapath.FullName, "javac.exe"),
-					@"-classpath " + TargetSourceFiles + @" -d release java\" + assembly_metaentrypoint.DeclaringType.FullName.Replace(".", @"\") + @".java"
-					)
-				{
-					UseShellExecute = false,
-
-					WorkingDirectory = obj_web
-				}
-			);
-
-			proccess_javac.WaitForExit();
-			#endregion
+			MetaScript.ToJava(javapath, assembly_metaentrypoint);
 
 
-
-
-			#region jar
-			Console.WriteLine("- jar:");
-			Console.WriteLine(bin_jar.FullName);
-
-			var proccess_jar =
-				new Process
-				{
-					StartInfo = new ProcessStartInfo(
-						Path.Combine(javapath.FullName, "jar.exe"),
-						@"cvM -C release ."
-					)
-					{
-						UseShellExecute = false,
-
-						WorkingDirectory = obj_web,
-
-						RedirectStandardOutput = true,
-					}
-				};
-
-			if (bin_jar.Exists)
-				bin_jar.Delete();
-
-			using (var bin_jar_stream = bin_jar.OpenWrite())
-			{
-				proccess_jar.Start();
-
-				var proccess_jar_output = new Thread(
-					delegate()
-					{
-						while (true)
-						{
-							var data = new byte[4096];
-							var datac = proccess_jar.StandardOutput.BaseStream.Read(data, 0, data.Length);
-
-							if (datac <= 0)
-								break;
-
-							bin_jar_stream.Write(data, 0, datac);
-						}
-					}
-				)
-				{
-					IsBackground = true
-				};
-
-				proccess_jar_output.Start();
-				proccess_jar.WaitForExit();
-				proccess_jar_output.Join();
-			}
-			#endregion
-
-
-			#region run_jar
-			// 4
-			var run_jar = Path.Combine(bin.FullName, Path.GetFileNameWithoutExtension(assembly.Location) + ".jar.bat");
-			Console.WriteLine("- created bat entrypoint:");
-			Console.WriteLine(run_jar);
-
-			var library_path = bin_jar.Directory.FullName.Substring(new FileInfo(run_jar).Directory.FullName.Length + 1);
-
-			var ClassPath = library_path + @"\" + bin_jar.Name;
-
-			foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
-							  where k != bin_jar.FullName
-							  select k)
-			{
-				ClassPath += ";" + Path.Combine(library_path, Path.GetFileName(r));
-			}
-
-			File.WriteAllText(run_jar,
-				@"
-@echo off
-setlocal
-
-call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + ClassPath + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
-
-endlocal
-"
-
-			);
-			#endregion
+			
 
 
 		}
@@ -278,7 +154,9 @@ endlocal
 				ScriptLibraries = new[] {
 						assembly_type,
 						typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
-						typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken)
+						typeof(ScriptCoreLibJava.jni.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.Drawing.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken)
 					},
 				NonScriptTypes = assembly.GetTypes().Where(
 					k =>
