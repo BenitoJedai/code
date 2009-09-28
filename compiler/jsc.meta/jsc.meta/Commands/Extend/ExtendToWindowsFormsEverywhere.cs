@@ -22,8 +22,19 @@ namespace jsc.meta.Commands.Extend
 		public DirectoryInfo staging;
 		public FileInfo zip;
 		public DirectoryInfo javapath;
+
+		/// <summary>
+		/// Setting this field to false disables javascript generation.
+		/// </summary>
 		public bool javascript = true;
 
+		/// <summary>
+		/// When set to true the jar file is appended to the exe file
+		/// thus creating a dual launchable. This option can be used
+		/// if there is only one jar file. With multiple jar files
+		/// this approach needs a special classloader.
+		/// </summary>
+		public bool javafusion = false;
 
 		public void Invoke()
 		{
