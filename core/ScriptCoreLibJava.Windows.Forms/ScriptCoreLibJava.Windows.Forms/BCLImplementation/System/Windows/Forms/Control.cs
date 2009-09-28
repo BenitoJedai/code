@@ -104,6 +104,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		}
 
+		public void PerformLayout()
+		{
+		}
+
 		public string Name { get; set; }
 
 		public Size ClientSize
@@ -121,5 +125,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		public int TabIndex { get; set; }
 
 		public bool UseVisualStyleBackColor { get; set; }
+
+		public virtual bool AutoSize { get; set; }
 	}
 }
