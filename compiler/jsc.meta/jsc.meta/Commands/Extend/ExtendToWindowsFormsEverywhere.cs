@@ -38,7 +38,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-			//Debugger.Launch();
+			Debugger.Launch();
 
 			// todo: compare to http://tirania.org/blog/archive/2009/Jul-28.html
 
@@ -119,10 +119,21 @@ namespace jsc.meta.Commands.Extend
 
 			if (this.context.javapath != null)
 			{
-				MetaScript.ToJava(context.javapath, JavaEntrypoint);
+				Debugger.Launch();
+
+				var Fusion = new FileInfo( 
+					Path.Combine(
+						MetaScript.Directory.FullName,
+						Path.GetFileNameWithoutExtension(MetaScript.Name) + "Fusion" + Path.GetExtension(MetaScript.FullName)
+					)
+				);
+
+				MetaScript.ToJava(context.javapath, JavaEntrypoint, 
+					this.context.javafusion ? Fusion : null
+				);
 			}
 
-			//#region web to .js.zip
+			#region web to .js.zip
 			//// zip files could be appended to exe files
 
 			//var staging_web = new DirectoryInfo(Path.Combine(this.context.staging.FullName, "web"));
@@ -145,7 +156,7 @@ namespace jsc.meta.Commands.Extend
 
 			//        File.WriteAllBytes(this.context.zip.FullName, zzm.ToArray());
 			//    }
-			//#endregion
+			#endregion
 
 		}
 

@@ -28,9 +28,8 @@ namespace jsc.meta.Tools
 			);
 		}
 
-		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint)
+		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly)
 		{
-			Debugger.Launch();
 
 			// we should run jsc in another appdomain actually
 			// just to be sure our nice tool gets unloaded :)
@@ -169,6 +168,26 @@ endlocal
 "
 
 			);
+
+			if (FusionAssembly != null)
+			{
+
+				File.WriteAllBytes(FusionAssembly.FullName,
+					File.ReadAllBytes(TargetAssembly.FullName).Concat(
+						File.ReadAllBytes(bin_jar.FullName)
+					).ToArray()
+				);
+
+				var FusionAssemblyStart = Path.ChangeExtension(FusionAssembly.FullName, "bat");
+
+				Console.WriteLine("- created fusion bat entrypoint:");
+				Console.WriteLine(FusionAssemblyStart);
+
+				File.WriteAllText(FusionAssemblyStart,
+					@"@call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + FusionAssembly.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*"
+				);
+			}
+
 			#endregion
 		}
 	}
