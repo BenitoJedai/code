@@ -22,6 +22,7 @@ namespace jsc
 	using Script;
 	using ScriptCoreLib.CSharp.Extensions;
 	using jsc.Languages;
+	using jsc.Loader;
 
 
 	public class Program
@@ -164,38 +165,37 @@ namespace jsc
 				{
 					#region detection
 
-					string[] m = SharedHelper.ModulesOf(
-							 Assembly.LoadFile(
-								 options.TargetAssembly.FullName
-								 )
-							 );
+					var References = LoaderStrategy.LoadReferencedAssemblies(
+						Assembly.LoadFile(options.TargetAssembly.FullName),
+						options.ToScriptTypes().ToArray()
+					).Reverse().Distinct().ToArray();
 
-					foreach (string v in m)
+					// we need to load modules excluding unwanted assemblies
+					string[] m = References.Select(k => Path.GetFullPath(k.Location)).ToArray();
+
+					foreach (string CurrentReference in m)
 					{
-						Console.WriteLine(v);
+						Console.WriteLine(CurrentReference);
 
 						//ConvertAssamblySpawned(v, ScriptType.C, sinfo);
 
 						if (options.IsJavaScript)
-							ConvertAssamblySpawned(v, ScriptType.JavaScript, sinfo);
+							ConvertAssamblySpawned(CurrentReference, ScriptType.JavaScript, sinfo);
 
 						if (options.IsPHP)
-							ConvertAssamblySpawned(v, ScriptType.PHP, sinfo);
+							ConvertAssamblySpawned(CurrentReference, ScriptType.PHP, sinfo);
 
 						if (options.IsJava)
-							Languages.CompilerJob.Compile(v, sinfo);
+							Languages.CompilerJob.Compile(CurrentReference, sinfo);
 
 						if (options.IsActionScript)
-							Languages.CompilerJob.Compile(v, sinfo);
+							Languages.CompilerJob.Compile(CurrentReference, sinfo);
 
 						if (options.IsCSharp2)
-							Languages.CompilerJob.Compile(v, sinfo);
+							Languages.CompilerJob.Compile(CurrentReference, sinfo);
 
 						if (options.IsC)
-							Languages.CompilerJob.Compile(v, sinfo);
-
-
-
+							Languages.CompilerJob.Compile(CurrentReference, sinfo);
 					}
 
 					#endregion
@@ -405,12 +405,12 @@ namespace jsc
 
 			if (type == ScriptType.PHP)
 			{
-				
-					new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(_assambly_loaded, sinfo);
+
+				new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(_assambly_loaded, sinfo);
 			}
 			else if (type == ScriptType.JavaScript)
 			{
-					IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
+				IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
 
 				_assambly_loaded.WriteEntryPoints(TargetDirectory);
 			}

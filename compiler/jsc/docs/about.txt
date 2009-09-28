@@ -360,3 +360,5 @@ version history:
 	java: no longer mark interface methods being synchronized
 	java: fixed: virtual base method is now callable
 	java: creating a delegate to a private method now generates a public wrapper
+28.09.2009
+	jsc: added LoaderStrategy.LoadReferencedAssemblies to exclude nonrelevant assemblies

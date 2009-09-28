@@ -104,7 +104,7 @@ namespace jsc
             public CommandLineOptionAttribute Attribute;
             public object Target;
 
-            public Func this[Type e]
+            public Action this[Type e]
             {
                 set
                 {

@@ -45,9 +45,7 @@ namespace jsc
 
 		public void ToFile(string filepath)
 		{
-			jsc.Helper.WriteFile(filepath, ToString());
-
-
+			File.WriteAllText(filepath, ToString());
 		}
 
 

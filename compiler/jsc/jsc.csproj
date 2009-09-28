@@ -197,6 +197,7 @@
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\PropertyDetector.cs" />
     <Compile Include="Languages\StringToSByteArrayProvider.cs" />
+    <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecursionGuard.cs" />

@@ -2100,7 +2100,7 @@ namespace jsc
 		{
 			get
 			{
-
+				// fixme: we should filter opcodes here to aviod exceptions
 
 				if (this.OpParam.Length != 4)
 					return null;

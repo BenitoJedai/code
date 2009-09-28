@@ -325,6 +325,22 @@ namespace ScriptCoreLib
 
 			public readonly Assembly Context;
 
+			Type[] InternalNonScriptTypes;
+
+			public Type[] NonScriptTypes
+			{
+				get
+				{
+					if (InternalNonScriptTypes == null)
+					{
+
+						InternalNonScriptTypes = this.Context.ToScriptAttributeOrDefault().NonScriptTypes ?? new Type[0];
+					}
+
+					return InternalNonScriptTypes;
+				}
+			}
+
 			public ScriptLibraryContext(Assembly value)
 			{
 				this.Context = value;
@@ -360,6 +376,8 @@ namespace ScriptCoreLib
 			return false;
 		}
 
+		static Dictionary<ICustomAttributeProvider, ScriptAttribute> CachedOfProvider = new Dictionary<ICustomAttributeProvider, ScriptAttribute>();
+
 		public static ScriptAttribute OfProvider(ICustomAttributeProvider m)
 		{
 			if (m == null)
@@ -371,15 +389,7 @@ namespace ScriptCoreLib
 				{
 					// a context assembly can define any type to not be translated
 					// we might want to cache this
-					if (Enumerable.Any(
-							from p in OfProviderContext
-							let ps = p.Context.ToScriptAttributeOrDefault()
-							where ps.NonScriptTypes != null
-							from pt in ps.NonScriptTypes
-							where pt == m
-							select p
-							)
-						)
+					if (OfProviderContext.Any(k => k.NonScriptTypes.Contains(m)))
 						return null;
 				}
 
