@@ -72,8 +72,11 @@
     <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />
     <Compile Include="BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
+    <Compile Include="BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\Container.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\IContainer.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\IComponent.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
