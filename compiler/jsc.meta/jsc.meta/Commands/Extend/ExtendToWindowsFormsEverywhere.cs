@@ -37,7 +37,6 @@ namespace jsc.meta.Commands.Extend
 
 			// think windows forms but on javascript, followed by flash and java
 
-			//Console.WriteLine("will create a javascript application for you");
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 
@@ -46,7 +45,6 @@ namespace jsc.meta.Commands.Extend
 			else if (!staging.Exists)
 				this.staging.Create();
 
-			Environment.CurrentDirectory = staging.FullName;
 
 			staging.DefinesTypes(
 				typeof(ScriptCoreLib.ScriptAttribute),
@@ -72,7 +70,7 @@ namespace jsc.meta.Commands.Extend
 			{
 				context = this,
 				assembly = assembly
-			}.Build(this.type);
+			}.Build();
 		}
 	}
 
@@ -86,14 +84,14 @@ namespace jsc.meta.Commands.Extend
 
 		public Type assembly_type;
 
-		public void Build(string type)
+		public void Build()
 		{
 
-			if (type == null)
+			if (context.type == null)
 				assembly_type = assembly.EntryPoint.DeclaringType;
 
 			if (assembly_type == null)
-				assembly_type = assembly.GetType(type);
+				assembly_type = assembly.GetType(context.type);
 
 			if (assembly_type == null)
 				throw new InvalidOperationException("entrypoint type is missing");

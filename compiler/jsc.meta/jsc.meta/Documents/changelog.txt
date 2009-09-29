@@ -23,3 +23,5 @@
 2009.09.28
 	- javapath parameter added to ExtendWindowsFormsEverywhere 
 	- ExtendWindowsFormsEverywhere now supports javascript and java
+2009.09.29
+	- preparing to add ExtendToAvalonEverywhere command
