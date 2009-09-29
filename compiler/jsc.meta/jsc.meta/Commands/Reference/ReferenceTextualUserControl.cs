@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using jsc.meta.Library;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 
 namespace jsc.meta.Commands.Reference
@@ -24,6 +25,8 @@ namespace jsc.meta.Commands.Reference
 
 		public void Invoke()
 		{
+			//Debugger.Launch();
+
 			var csproj = XDocument.Load(ProjectFileName.FullName);
 			var csproj_dirty = false;
 

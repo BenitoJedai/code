@@ -26,6 +26,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		}
 
 		public override bool Multiline { get; set; }
+		public bool AcceptsReturn { get; set; }
 
 		public override string Text
 		{

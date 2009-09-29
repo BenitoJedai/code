@@ -6,11 +6,11 @@ using System.Diagnostics;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OrcasSimpleWindowsFormsApplication")]
+[assembly: AssemblyTitle("OrcasMetaWindowsForms")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OrcasSimpleWindowsFormsApplication")]
+[assembly: AssemblyProduct("OrcasMetaWindowsForms")]
 [assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -51,6 +51,8 @@ namespace jsc.meta.Library
 				il.Emit(OpCodes.Ldarg_1);
 				il.Emit(OpCodes.Call, typeof(Delegate).GetMethod("Combine", new[] { typeof(Delegate), typeof(Delegate) }));
 
+				il.Emit(OpCodes.Castclass, EventType);
+
 				il.Emit(OpCodes.Stfld, f);
 
 				il.Emit(OpCodes.Ret);
@@ -71,6 +73,7 @@ namespace jsc.meta.Library
 				il.Emit(OpCodes.Ldarg_1);
 				il.Emit(OpCodes.Call, typeof(Delegate).GetMethod("Remove", new[] { typeof(Delegate), typeof(Delegate) }));
 
+				il.Emit(OpCodes.Castclass, EventType);
 				il.Emit(OpCodes.Stfld, f);
 
 				il.Emit(OpCodes.Ret);
