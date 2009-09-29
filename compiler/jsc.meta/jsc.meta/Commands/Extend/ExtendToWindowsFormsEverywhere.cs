@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 using jsc.meta.Library;
-using ScriptCoreLib;
-using ScriptCoreLib.Archive.ZIP;
 using jsc.meta.Tools;
+using ScriptCoreLib;
 
 namespace jsc.meta.Commands.Extend
 {
 	public class ExtendToWindowsFormsEverywhere
 	{
-
-
 		public FileInfo assembly;
 		public string type;
 		public DirectoryInfo staging;

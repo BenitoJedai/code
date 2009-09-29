@@ -128,7 +128,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Name = "Form1";
-			this.Text = "OrcasMetaWindowsForms. Your C# will be converted javascript.";
+			this.Text = "OrcasMetaWindowsForms. Your C# will be converted javascript and java.";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
