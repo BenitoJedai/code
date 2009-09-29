@@ -6,27 +6,29 @@ using System.ComponentModel;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
 {
     [Script(Implements = typeof(global::System.ComponentModel.Container))]
-    internal class __Container : IContainer
+	internal class __Container : __IContainer, IDisposable
     {
+		__ComponentCollection InternalComponents = new __ComponentCollection();
+
         #region IContainer Members
 
         public void Add(IComponent component, string name)
         {
-            throw new Exception("The method or operation is not implemented.");
+			throw new NotImplementedException();
         }
 
         public void Add(IComponent component)
         {
+			//this.InternalComponents.InternalElements.Add(component);
         }
 
-        public ComponentCollection Components
-        {
-            get { throw new Exception("The method or operation is not implemented."); }
-        }
+		public virtual ComponentCollection Components { get { return (ComponentCollection)(object)InternalComponents; } }
+
 
         public void Remove(IComponent component)
         {
-            throw new Exception("The method or operation is not implemented.");
+			throw new NotImplementedException();
+            
         }
 
         #endregion
@@ -35,7 +37,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel
 
         public void Dispose()
         {
-            throw new Exception("The method or operation is not implemented.");
+			throw new NotImplementedException();
+           
         }
 
         #endregion

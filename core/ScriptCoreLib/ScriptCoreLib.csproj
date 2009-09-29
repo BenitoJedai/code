@@ -268,8 +268,11 @@
     <Compile Include="JavaScript\BCLImplementation\System\Char.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\AsyncCompletedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IBindingList.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IComponent.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\ComponentModel\IContainer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Converter.cs" />
@@ -497,6 +500,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Debug.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Environment.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\TextWriter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\DownloadStringCompletedEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\DownloadStringCompletedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Net\WebClient.cs" />

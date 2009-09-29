@@ -43,9 +43,10 @@ namespace jsc.meta.Library
 					if (LayoutFile != null)
 					{
 						var Layout = File.ReadAllText(LayoutFile.FullName);
-						var LayoutCharWidth = 8;
+						var LayoutCharWidth = 12;
 						var LayoutCharHeight = 24;
 
+						#region TextBox
 						foreach (var TextBox in
 							from k in Layout.ToCharArray().Select((c, i) => new { c, i })
 							where char.IsLetter(k.c)
@@ -66,8 +67,13 @@ namespace jsc.meta.Library
 										CurrentLine = CurrentLine.SkipWhile(c => c.c != '\n').Skip(1);
 									}
 
-									var Start = CurrentLine.Skip(ButtonLeft - 1).First();
-									var End = CurrentLine.Skip(ButtonLeft + Width - 1).First();
+									var Start = CurrentLine.Skip(ButtonLeft - 1).FirstOrDefault();
+									if (Start == null)
+										return false;
+
+									var End = CurrentLine.Skip(ButtonLeft + Width - 1).FirstOrDefault();
+									if (End == null)
+										return false;
 
 									return Start.c == '|' && End.c == '|';
 								}
@@ -89,14 +95,16 @@ namespace jsc.meta.Library
 								TextBox.Text
 							);
 						}
+						#endregion
 
+						#region Label
 						foreach (var Label in
 							from k in Layout.ToCharArray().Select((c, i) => new { c, i })
 							where char.IsLetter(k.c)
 							where k.i == 0 || char.IsWhiteSpace(Layout[k.i - 1])
 							let Name = new string(Layout.ToCharArray().Skip(k.i).TakeWhile(c => char.IsLetter(c) || char.IsDigit(c)).ToArray())
 							let Position = Layout.ToCharArray().Take(k.i).Reverse()
-
+							let Padding = Layout.ToCharArray().Skip(k.i).SkipWhile(c => char.IsLetter(c) || char.IsDigit(c)).TakeWhile(c => c == '-').Count()
 							// in this line if [ comes before ] then we should skip this label candidate
 
 							let Newline = Position.TakeWhile(c => c != '\n')
@@ -110,7 +118,7 @@ namespace jsc.meta.Library
 							let ButtonTop = Position.Count(c => c == '\n')
 							let Source = Sources.SingleOrDefault(kk => kk.Name == Name + ".txt")
 							let Text = Source == null ? Name : File.ReadAllText(Source.FullName)
-							select new { Name, ButtonLeft, ButtonTop, Text }
+							select new { Name, ButtonLeft, ButtonTop, Text, Padding }
 							)
 						{
 
@@ -118,12 +126,13 @@ namespace jsc.meta.Library
 								Label.Name.ToCamelCase(),
 								Label.ButtonLeft * LayoutCharWidth,
 								Label.ButtonTop * LayoutCharHeight + 4,
-								Label.Text.Length * LayoutCharWidth,
+								(Label.Text.Length + Label.Padding) * LayoutCharWidth,
 								LayoutCharHeight - 4,
 								Label.Text
 							);
 
 						}
+						#endregion
 
 						#region Buttons
 						foreach (var Button in
@@ -149,6 +158,50 @@ namespace jsc.meta.Library
 						#endregion
 
 
+
+
+						{
+							var Width = (Layout.ToCharArray().Select((c, i) => new { c, i }).Aggregate(
+
+								new { Current = 0, Max = 0 },
+
+								(s, k) =>
+								{
+									var Current = s.Current;
+									var Max = s.Max;
+
+									if (k.c == '\n')
+									{
+										if (Max < Current)
+											Max = Current;
+
+										Current = 0;
+									}
+									else
+									{
+										Current++;
+									}
+
+									return new { Current, Max };
+								}
+
+							).Max + 1) * LayoutCharWidth;
+
+
+
+							var Height = (Layout.ToCharArray().Select((c, i) => new { c, i }).Count(k => k.c == '\n') + 1) * LayoutCharHeight;
+
+							#region this.button1.Size = new System.Drawing.Size(75, 23);
+							il.Emit(OpCodes.Ldarg_0);
+
+							il.Emit(OpCodes.Ldc_I4, Width);
+							il.Emit(OpCodes.Ldc_I4, Height);
+							il.Emit(OpCodes.Newobj, typeof(System.Drawing.Size).GetConstructor(new[] { typeof(int), typeof(int) }));
+
+							il.Emit(OpCodes.Call, typeof(Control).GetProperty("Size").GetSetMethod());
+							#endregion
+						}
+
 					}
 
 					#region this.Name = "UserControl1";
@@ -168,7 +221,7 @@ namespace jsc.meta.Library
 		}
 
 
-	
+
 
 
 	}

@@ -263,7 +263,8 @@ Embedded Resource - This file is embedded in the main project build output as a 
 
 			var t = m.DefineType(
 				TargetName.Substring(0, TargetName.Length - (TextComponent.Length + 1)),
-				TypeAttributes.NotPublic
+				TypeAttributes.Public,
+				typeof(global::System.ComponentModel.Component)
 			);
 
 			var Fields = Enumerable.ToArray(
@@ -280,6 +281,10 @@ Embedded Resource - This file is embedded in the main project build output as a 
 
 			{
 				var il = t_ctor.GetILGenerator();
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Call, typeof(System.ComponentModel.Component).GetConstructor(new Type[0]));
+
 
 				foreach (var k in Fields)
 				{
