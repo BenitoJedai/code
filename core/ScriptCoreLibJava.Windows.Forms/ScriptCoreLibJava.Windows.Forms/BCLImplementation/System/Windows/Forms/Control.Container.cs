@@ -52,6 +52,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 					return;
 				}
 
+				var __Owner_JPanel = __Owner as javax.swing.JPanel;
+				if (__Owner_JPanel != null)
+				{
+					__Owner_JPanel.add(__e);
+					return;
+				}
 
 				throw new NotSupportedException();
 			}

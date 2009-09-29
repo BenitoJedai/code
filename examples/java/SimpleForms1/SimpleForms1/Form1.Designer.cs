@@ -33,13 +33,14 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.userControl11 = new SimpleForms1.UserControl1();
 			this.SuspendLayout();
 			// 
 			// button3
 			// 
 			this.button3.Location = new System.Drawing.Point(93, 12);
 			this.button3.Name = "button3";
-			this.button3.Size = new System.Drawing.Size(334, 62);
+			this.button3.Size = new System.Drawing.Size(113, 62);
 			this.button3.TabIndex = 5;
 			this.button3.Text = "button3";
 			this.button3.UseVisualStyleBackColor = true;
@@ -79,14 +80,22 @@
 			this.textBox1.Location = new System.Drawing.Point(16, 124);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(411, 59);
+			this.textBox1.Size = new System.Drawing.Size(190, 59);
 			this.textBox1.TabIndex = 7;
+			// 
+			// userControl11
+			// 
+			this.userControl11.Location = new System.Drawing.Point(212, 12);
+			this.userControl11.Name = "userControl11";
+			this.userControl11.Size = new System.Drawing.Size(346, 125);
+			this.userControl11.TabIndex = 8;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(475, 195);
+			this.ClientSize = new System.Drawing.Size(592, 195);
+			this.Controls.Add(this.userControl11);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.button3);
@@ -106,6 +115,7 @@
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBox1;
+		private UserControl1 userControl11;
 	}
 }
 
