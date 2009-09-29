@@ -28,12 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.button3 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.button1 = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.userControl11 = new SimpleForms1.UserControl1();
+			this.component21 = new SimpleForms1.Component2(this.components);
 			this.SuspendLayout();
 			// 
 			// button3
@@ -90,6 +92,10 @@
 			this.userControl11.Size = new System.Drawing.Size(346, 125);
 			this.userControl11.TabIndex = 8;
 			// 
+			// component21
+			// 
+			this.component21.SomeText = "This is some text in a componet";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -116,6 +122,7 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBox1;
 		private UserControl1 userControl11;
+		private Component2 component21;
 	}
 }
 
