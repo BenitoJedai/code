@@ -34,7 +34,6 @@ namespace jsc.meta
 		public static void Main(string[] args)
 		{
 
-			var CurrentDirectory = Environment.CurrentDirectory;
 
 			ShowLogo();
 
@@ -51,7 +50,6 @@ namespace jsc.meta
 				
 			);
 
-			Environment.CurrentDirectory = CurrentDirectory;
 		}
 
 
