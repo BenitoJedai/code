@@ -215,6 +215,35 @@ namespace jsc.meta.Library
 			);
 		}
 
+		public static void DefineAttribute<T>(this TypeBuilder a, object z)
+		{
+			// yay attributes
+			var Attribute = typeof(T);
+			var Properties = z.GetType().GetProperties();
+
+			var data = Enumerable.ToArray(
+				from k in Properties
+				let Field = Attribute.GetField(k.Name)
+				let Property = Attribute.GetProperty(k.Name)
+				let Value = k.GetValue(z, null)
+				select new { Field, Property, Value }
+			);
+
+
+			a.SetCustomAttribute(
+				new CustomAttributeBuilder(
+					Attribute.GetConstructor(new Type[0]),
+					new object[0],
+
+					Enumerable.ToArray(from k in data where k.Property != null select k.Property),
+					Enumerable.ToArray(from k in data where k.Property != null select k.Value),
+
+					Enumerable.ToArray(from k in data where k.Field != null select k.Field),
+					Enumerable.ToArray(from k in data where k.Field != null select k.Value)
+				)
+			);
+		}
+
 		public static void DefineAttribute<T>(this AssemblyBuilder a, object z)
 		{
 			// yay attributes
@@ -232,7 +261,7 @@ namespace jsc.meta.Library
 
 			a.SetCustomAttribute(
 				new CustomAttributeBuilder(
-					Attribute.GetConstructors().Single(),
+					Attribute.GetConstructor(new Type[0]),
 					new object[0],
 
 					Enumerable.ToArray(from k in data where k.Property != null select k.Property),

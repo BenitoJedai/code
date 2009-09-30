@@ -364,3 +364,4 @@ version history:
 	jsc: added LoaderStrategy.LoadReferencedAssemblies to exclude nonrelevant assemblies
 30.09.2009
 	js: the output folder web will now be created at target assembly
+	as3: fixed nameless parameter usage

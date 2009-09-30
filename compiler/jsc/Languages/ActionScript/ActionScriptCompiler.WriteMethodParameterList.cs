@@ -71,7 +71,7 @@ namespace jsc.Languages.ActionScript
 				var ParamIndex = mpi;
 
 				// Nameless params is used by delegates and these parameters are not used
-				WriteMethodParameter(ParamIndex, p);
+				WriteDecoratedMethodParameter(p);
 
 				var ParameterType = p.ParameterType;
 
@@ -145,9 +145,9 @@ namespace jsc.Languages.ActionScript
 							{
 								WriteIdent();
 								Write("if (");
-								WriteMethodParameter(ParamIndex, p);
+								WriteDecoratedMethodParameter(p);
 								Write(" == null) ");
-								WriteMethodParameter(ParamIndex, p);
+								WriteDecoratedMethodParameter(p);
 								WriteAssignment();
 								EmitInstruction(null, DefaultValue);
 								WriteLine(";");
@@ -160,18 +160,7 @@ namespace jsc.Languages.ActionScript
 			}
 		}
 
-		/// <summary>
-		/// Some parameters can be nameless which are used by delegates and these parameters are not used
-		/// </summary>
-		/// <param name="mpi"></param>
-		/// <param name="p"></param>
-		private void WriteMethodParameter(int mpi, ParameterInfo p)
-		{
-			if (string.IsNullOrEmpty(p.Name))
-				Write("_" + mpi);
-			else
-				WriteDecoratedMethodParameter(p);
-		}
+	
 
 	}
 }

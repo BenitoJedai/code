@@ -62,11 +62,7 @@ namespace jsc.Languages.ActionScript
 
         }
 
-        public override string GetDecoratedMethodParameter(ParameterInfo p)
-        {
-            return GetSafeLiteral(p.Name);
-        }
-
+   
 
 
 

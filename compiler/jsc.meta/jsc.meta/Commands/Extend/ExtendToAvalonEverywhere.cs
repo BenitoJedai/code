@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using jsc.meta.Library;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Windows.Controls;
+using jsc.Languages.IL;
+using jsc.meta.Library;
+using jsc.meta.Tools;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using jsc.meta.Tools;
-using jsc.Languages.IL;
 using System.Diagnostics;
 
 namespace jsc.meta.Commands.Extend
@@ -23,7 +21,7 @@ namespace jsc.meta.Commands.Extend
 		//public string type;
 		public DirectoryInfo staging;
 		public FileInfo zip;
-		public DirectoryInfo flexpath;
+		public FileInfo mxmlc;
 
 		/// <summary>
 		/// Setting this field to false disables javascript generation.
@@ -33,11 +31,11 @@ namespace jsc.meta.Commands.Extend
 		/// <summary>
 		/// The swf file shall be converted to an exe file.
 		/// </summary>
-		public bool flashprojector = false;
+		public FileInfo flashplayer;
 
 		public void Invoke()
 		{
-			//Debugger.Launch();
+			Debugger.Launch();
 
 			if (this.staging == null)
 				this.staging = this.assembly.Directory.CreateSubdirectory("staging");
@@ -192,7 +190,7 @@ namespace jsc.meta.Commands.Extend
 					DefineScriptApplicationEntryPointAttribute();
 
 					#region SpawnToHandler
-					var SpawnToHandler = t.DefineMethod("SpawnToHandler", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(IHTMLElement) });
+					var SpawnToHandler = t.DefineMethod("InitializeComponent", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(IHTMLElement) });
 
 					{
 						var il = SpawnToHandler.GetILGenerator();
@@ -269,6 +267,87 @@ namespace jsc.meta.Commands.Extend
 				}
 				#endregion
 
+				var ActionScriptEntryPoint = default(Type);
+
+				#region ActionScript entrypoint
+				{
+					var t = m.DefineType(assembly.EntryPoint.DeclaringType.Namespace + ".ActionScript." + assembly.GetName().Name + "Sprite", TypeAttributes.Public, typeof(global::ScriptCoreLib.ActionScript.flash.display.Sprite));
+
+					ActionScriptEntryPoint = t;
+
+					var DefineScriptAttribute = default(Func<ScriptAttribute>).DefineAttributeAt(t);
+	
+					DefineScriptAttribute();
+
+					t.DefineAttribute<ScriptApplicationEntryPointAttribute>(
+						// we should detect the default size of the canvas
+						new { Width = 600, Height = 400, WithResources = true }
+					);
+
+					t.DefineAttribute<global::ScriptCoreLib.ActionScript.SWFAttribute>(
+						// we should detect the default size of the canvas
+						new { width = 600, height = 400 }
+					);
+
+					#region SpawnToHandler
+					var InitializeComponent = t.DefineMethod("InitializeComponent", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(global::ScriptCoreLib.ActionScript.flash.display.Sprite) });
+
+					{
+						var il = InitializeComponent.GetILGenerator();
+
+						// create canvas and add it before arg1
+
+
+
+						Action<global::ScriptCoreLib.ActionScript.flash.display.Sprite> TemplateSpawnToHandler =
+							(Container) =>
+							{
+								var Canvas = new Canvas();
+
+
+								global::ScriptCoreLib.ActionScript.Extensions.AvalonExtensions.AttachToContainer(Canvas, Container);
+							};
+
+
+						TemplateSpawnToHandler.EmitTo(il,
+							ctor =>
+							{
+								if (ctor.DeclaringType == typeof(Canvas))
+									return c.k.TargetConstructor;
+
+								return ctor;
+							}
+						);
+
+
+					}
+					#endregion
+
+
+
+					var t_ctor = t.DefineConstructor(MethodAttributes.Public, CallingConventions.HasThis, new Type[0]);
+
+					{
+						var il = t_ctor.GetILGenerator();
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Call, typeof(global::ScriptCoreLib.ActionScript.flash.display.Sprite).GetConstructor(new Type[0]));
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Call, InitializeComponent);
+						il.Emit(OpCodes.Ret);
+					}
+
+
+					var tt = t.CreateType();
+
+
+
+
+					DefineScriptTypeFilterAttribute(ScriptType.ActionScript, tt.Namespace);
+
+				}
+				#endregion
+
 
 
 				a.Save(
@@ -277,7 +356,9 @@ namespace jsc.meta.Commands.Extend
 
 				Product.Refresh();
 
-				Product.ToJavaScript();
+				//Product.ToJavaScript();
+
+				Product.ToActionScript(this.context.mxmlc, this.context.flashplayer, ActionScriptEntryPoint, null);
 			}
 
 
