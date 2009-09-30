@@ -25,3 +25,5 @@
 	- ExtendWindowsFormsEverywhere now supports javascript and java
 2009.09.29
 	- preparing to add ExtendToAvalonEverywhere command
+2009.09.30
+	- ExtendToAvalonEverywhere now builds javascript version

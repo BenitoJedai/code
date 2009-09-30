@@ -22,7 +22,8 @@ namespace jsc.meta.Tools
 					Options = new jsc.CommandLineOptions
 					{
 						TargetAssembly = TargetAssembly,
-						IsJavaScript = true
+						IsJavaScript = true,
+						IsNoLogo = true
 					}
 				}
 			);
@@ -40,7 +41,8 @@ namespace jsc.meta.Tools
 					Options = new jsc.CommandLineOptions
 					{
 						TargetAssembly = TargetAssembly,
-						IsJava = true
+						IsJava = true,
+						IsNoLogo = true
 					}
 				}
 			);

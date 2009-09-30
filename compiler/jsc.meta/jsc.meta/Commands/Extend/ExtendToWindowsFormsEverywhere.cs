@@ -193,11 +193,11 @@ namespace jsc.meta.Commands.Extend
 			// why did we need a redirect?
 			// it is for .net entrypoint as it cannot be in another library
 			// the redirect wont be translated
-			#region .net entrypoint
+			#region CLR entrypoint
 			{
-				var t_redirect = m.DefineType(assembly_type.FullName + MetaScript);
+				var t = m.DefineType(assembly_type.Namespace + ".CLR." + assembly_type.Assembly.GetName().Name + "Document");
 
-				var main = t_redirect.DefineMethod("Main", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(string[]) });
+				var main = t.DefineMethod("Main", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(string[]) });
 				var main_il = main.GetILGenerator();
 
 
@@ -209,7 +209,10 @@ namespace jsc.meta.Commands.Extend
 
 				main_il.Emit(OpCodes.Ret);
 
-				t_redirect.CreateType();
+				default(Func<STAThreadAttribute>).DefineAttributeAt(main)();
+
+				t.CreateType();
+
 
 				a.SetEntryPoint(main);
 			}

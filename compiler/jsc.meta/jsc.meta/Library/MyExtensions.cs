@@ -122,6 +122,15 @@ namespace jsc.meta.Library
 			il.Emit(OpCodes.Call, p.GetSetMethod());
 		}
 
+		public static void SetCustomAttribute(this MethodBuilder a, ConstructorInfo ctor, params object[] p)
+		{
+			a.SetCustomAttribute(
+				new CustomAttributeBuilder(
+					ctor, p
+				)
+			);
+		}
+
 		public static void SetCustomAttribute(this TypeBuilder a, ConstructorInfo ctor, params object[] p)
 		{
 			a.SetCustomAttribute(
@@ -139,6 +148,13 @@ namespace jsc.meta.Library
 					ctor, p
 				)
 			);
+		}
+
+		public static Action DefineAttributeAt<T1>(this Func<T1> signature, MethodBuilder a)
+		{
+			var ctor = signature.ToConstructorInfo();
+
+			return () => a.SetCustomAttribute(ctor);
 		}
 
 		public static Action DefineAttributeAt<T1>(this Func<T1> signature, TypeBuilder a)
@@ -365,6 +381,6 @@ namespace jsc.meta.Library
 			return typeof(T3).GetConstructor(new[] { typeof(T1), typeof(T2) });
 		}
 
-
+		
 	}
 }

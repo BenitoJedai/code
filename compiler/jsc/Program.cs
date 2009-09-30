@@ -1,28 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Resources;
-using System.Runtime;
-using System.Runtime.InteropServices;
-using System.Security.Policy;
-using System.Threading;
 using System.Xml;
+using jsc.Languages;
+using jsc.Languages.JavaScript;
+using jsc.Loader;
 using ScriptCoreLib;
-
+using ScriptCoreLib.CSharp.Extensions;
+using jsc.Script;
 namespace jsc
 {
-	using jsc.Languages.JavaScript;
-	using Script;
-	using ScriptCoreLib.CSharp.Extensions;
-	using jsc.Languages;
-	using jsc.Loader;
+
 
 
 	public class Program
@@ -318,12 +308,13 @@ namespace jsc
 			string TargetFileName = AssamblyFileName + "." + ScriptFileExtension;
 
 
-			DirectoryInfo TargetDirectory = new DirectoryInfo("web");
+			Assembly _assambly_loaded = Assembly.LoadFile(target_assambly);
+
+			DirectoryInfo TargetDirectory = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
 
 			if (!TargetDirectory.Exists)
 				TargetDirectory.Create();
 
-			Assembly _assambly_loaded = Assembly.LoadFile(target_assambly);
 
 
 

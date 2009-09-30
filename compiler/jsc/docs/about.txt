@@ -362,3 +362,5 @@ version history:
 	java: creating a delegate to a private method now generates a public wrapper
 28.09.2009
 	jsc: added LoaderStrategy.LoadReferencedAssemblies to exclude nonrelevant assemblies
+30.09.2009
+	js: the output folder web will now be created at target assembly
