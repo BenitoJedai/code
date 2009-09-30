@@ -37,9 +37,3 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly:
-	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(OrcasMetaAvalonApplication.Shared.OrcasAvalonApplicationCanvas)),
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(OrcasMetaAvalonApplication.ActionScript.OrcasAvalonApplicationFlash)),
-	ScriptTypeFilter(ScriptType.JavaScript, typeof(OrcasMetaAvalonApplication.Shared.OrcasAvalonApplicationCanvas)),
-]

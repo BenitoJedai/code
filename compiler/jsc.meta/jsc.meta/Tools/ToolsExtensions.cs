@@ -192,5 +192,57 @@ endlocal
 
 			#endregion
 		}
+
+		public static void ToActionScript(this FileInfo TargetAssembly, FileInfo mxmlc, FileInfo flashplayer, Type sprite, FileInfo FusionAssembly)
+		{
+			jsc.Program.TypedMain(
+				new jsc.CompileSessionInfo
+				{
+					Options = new jsc.CommandLineOptions
+					{
+						TargetAssembly = TargetAssembly,
+						IsActionScript = true,
+						IsNoLogo = true
+					}
+				}
+			);
+
+			var obj_web = Path.Combine(TargetAssembly.Directory.FullName, "web");
+
+
+			#region javac
+
+			//// each jar file which has made it to the bin folder
+			//// needs to get referenced in our java build
+			//foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
+			//                  where k != bin_jar.FullName
+			//                  select k)
+			//{
+			//    TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
+			//}
+
+			var proccess_mxmlc = Process.Start(
+				new ProcessStartInfo(
+					mxmlc.FullName,
+					"-sp=. -strict -output=\"" +
+						sprite.Name + ".swf" + "\" " 
+						+
+						sprite.FullName.Replace(".", @"\") + @".as"
+					)
+				{
+					UseShellExecute = false,
+
+					WorkingDirectory = obj_web
+				}
+			);
+
+			proccess_mxmlc.WaitForExit();
+			#endregion
+
+
+
+			// call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+
+		}
 	}
 }
