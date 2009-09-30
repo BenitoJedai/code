@@ -368,10 +368,11 @@ namespace jsc.meta.Commands.Extend
 
 				Product.Refresh();
 
-				//Product.ToJavaScript();
+				if (this.context.javascript)
+					Product.ToJavaScript();
 
-				
-				Product.ToActionScript(this.context.mxmlc, this.context.flashplayer, ActionScriptEntryPoint, null);
+				if (this.context.mxmlc != null)
+					Product.ToActionScript(this.context.mxmlc, this.context.flashplayer, ActionScriptEntryPoint, null);
 			}
 
 

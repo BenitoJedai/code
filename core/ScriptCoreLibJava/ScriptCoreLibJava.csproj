@@ -199,12 +199,14 @@
     <Compile Include="javax\swing\BoundedRangeModel.cs" />
     <Compile Include="javax\swing\ButtonGroup.cs" />
     <Compile Include="javax\swing\ButtonModel.cs" />
+    <Compile Include="javax\swing\CellEditor.cs" />
     <Compile Include="javax\swing\ComponentInputMap.cs" />
     <Compile Include="javax\swing\DesktopManager.cs" />
     <Compile Include="javax\swing\event\AncestorEvent.cs" />
     <Compile Include="javax\swing\event\AncestorListener.cs" />
     <Compile Include="javax\swing\event\CaretEvent.cs" />
     <Compile Include="javax\swing\event\CaretListener.cs" />
+    <Compile Include="javax\swing\event\CellEditorListener.cs" />
     <Compile Include="javax\swing\event\ChangeEvent.cs" />
     <Compile Include="javax\swing\event\ChangeListener.cs" />
     <Compile Include="javax\swing\event\DocumentEvent.cs" />
@@ -213,6 +215,8 @@
     <Compile Include="javax\swing\event\HyperlinkListener.cs" />
     <Compile Include="javax\swing\event\InternalFrameEvent.cs" />
     <Compile Include="javax\swing\event\InternalFrameListener.cs" />
+    <Compile Include="javax\swing\event\ListSelectionEvent.cs" />
+    <Compile Include="javax\swing\event\ListSelectionListener.cs" />
     <Compile Include="javax\swing\event\MenuDragMouseEvent.cs" />
     <Compile Include="javax\swing\event\MenuDragMouseListener.cs" />
     <Compile Include="javax\swing\event\MenuEvent.cs" />
@@ -221,6 +225,10 @@
     <Compile Include="javax\swing\event\MenuListener.cs" />
     <Compile Include="javax\swing\event\PopupMenuEvent.cs" />
     <Compile Include="javax\swing\event\PopupMenuListener.cs" />
+    <Compile Include="javax\swing\event\TableColumnModelEvent.cs" />
+    <Compile Include="javax\swing\event\TableColumnModelListener.cs" />
+    <Compile Include="javax\swing\event\TableModelEvent.cs" />
+    <Compile Include="javax\swing\event\TableModelListener.cs" />
     <Compile Include="javax\swing\event\UndoableEditEvent.cs" />
     <Compile Include="javax\swing\event\UndoableEditListener.cs" />
     <Compile Include="javax\swing\Icon.cs" />
@@ -244,11 +252,16 @@
     <Compile Include="javax\swing\JPopupMenu.cs" />
     <Compile Include="javax\swing\JRadioButton.cs" />
     <Compile Include="javax\swing\JRootPane.cs" />
+    <Compile Include="javax\swing\JScrollBar.cs" />
+    <Compile Include="javax\swing\JScrollPane.cs" />
+    <Compile Include="javax\swing\JTable.cs" />
     <Compile Include="javax\swing\JTextArea.cs" />
     <Compile Include="javax\swing\JTextField.cs" />
     <Compile Include="javax\swing\JToggleButton.cs" />
     <Compile Include="javax\swing\JToolTip.cs" />
+    <Compile Include="javax\swing\JViewport.cs" />
     <Compile Include="javax\swing\KeyStroke.cs" />
+    <Compile Include="javax\swing\ListSelectionModel.cs" />
     <Compile Include="javax\swing\LookAndFeel.cs" />
     <Compile Include="javax\swing\MenuElement.cs" />
     <Compile Include="javax\swing\MenuSelectionManager.cs" />
@@ -263,11 +276,22 @@
     <Compile Include="javax\swing\plaf\PanelUI.cs" />
     <Compile Include="javax\swing\plaf\PopupMenuUI.cs" />
     <Compile Include="javax\swing\plaf\RootPaneUI.cs" />
+    <Compile Include="javax\swing\plaf\ScrollBarUI.cs" />
+    <Compile Include="javax\swing\plaf\ScrollPaneUI.cs" />
+    <Compile Include="javax\swing\plaf\TableHeaderUI.cs" />
+    <Compile Include="javax\swing\plaf\TableUI.cs" />
     <Compile Include="javax\swing\plaf\TextUI.cs" />
     <Compile Include="javax\swing\plaf\ToolTipUI.cs" />
+    <Compile Include="javax\swing\plaf\ViewportUI.cs" />
     <Compile Include="javax\swing\Popup.cs" />
     <Compile Include="javax\swing\SingleSelectionModel.cs" />
     <Compile Include="javax\swing\SwingUtilities.cs" />
+    <Compile Include="javax\swing\table\JTableHeader.cs" />
+    <Compile Include="javax\swing\table\TableCellEditor.cs" />
+    <Compile Include="javax\swing\table\TableCellRenderer.cs" />
+    <Compile Include="javax\swing\table\TableColumn.cs" />
+    <Compile Include="javax\swing\table\TableColumnModel.cs" />
+    <Compile Include="javax\swing\table\TableModel.cs" />
     <Compile Include="javax\swing\text\AttributeSet.cs" />
     <Compile Include="javax\swing\text\Caret.cs" />
     <Compile Include="javax\swing\text\Document.cs" />
@@ -285,6 +309,7 @@
     <Compile Include="javax\swing\UIDefaults.cs" />
     <Compile Include="javax\swing\UIManager.cs" />
     <Compile Include="javax\swing\undo\UndoableEdit.cs" />
+    <Compile Include="java\awt\Adjustable.cs" />
     <Compile Include="java\awt\AWTEvent.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -343,6 +368,8 @@
     <Compile Include="java\awt\event\ActionListener.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="java\awt\event\AdjustmentEvent.cs" />
+    <Compile Include="java\awt\event\AdjustmentListener.cs" />
     <Compile Include="java\awt\event\ComponentEvent.cs">
       <SubType>Code</SubType>
     </Compile>
