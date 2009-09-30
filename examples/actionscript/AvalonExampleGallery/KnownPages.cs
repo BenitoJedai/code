@@ -8,7 +8,6 @@ using ScriptCoreLib;
 
 namespace AvalonExampleGallery.Shared
 {
-	[Script]
 	public static class KnownPages
 	{
 		// http://msdn.microsoft.com/en-us/library/ms173212.aspx

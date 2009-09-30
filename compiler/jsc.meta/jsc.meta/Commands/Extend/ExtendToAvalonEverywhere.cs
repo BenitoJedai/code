@@ -33,6 +33,8 @@ namespace jsc.meta.Commands.Extend
 		/// </summary>
 		public FileInfo flashplayer;
 
+		public bool operawidget;
+
 		public void Invoke()
 		{
 			//Debugger.Launch();
@@ -366,6 +368,7 @@ namespace jsc.meta.Commands.Extend
 
 				//Product.ToJavaScript();
 
+				
 				Product.ToActionScript(this.context.mxmlc, this.context.flashplayer, ActionScriptEntryPoint, null);
 			}
 

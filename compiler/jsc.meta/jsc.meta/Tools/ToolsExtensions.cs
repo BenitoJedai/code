@@ -34,7 +34,7 @@ namespace jsc.meta.Tools
 
 			// we should run jsc in another appdomain actually
 			// just to be sure our nice tool gets unloaded :)
-		
+
 			jsc.Program.TypedMain(
 				new jsc.CompileSessionInfo
 				{
@@ -221,13 +221,14 @@ endlocal
 			//    TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
 			//}
 
+			var obj_web_swf = Path.Combine(obj_web, sprite.Name + ".swf");
+
 			var proccess_mxmlc = Process.Start(
 				new ProcessStartInfo(
 					mxmlc.FullName,
 					"-sp=. -strict -output=\"" +
-						sprite.Name + ".swf" + "\" " 
-						+
-						sprite.FullName.Replace(".", @"\") + @".as"
+						obj_web_swf + "\" "
+						+ sprite.FullName.Replace(".", @"\") + @".as"
 					)
 				{
 					UseShellExecute = false,
@@ -237,6 +238,15 @@ endlocal
 			);
 
 			proccess_mxmlc.WaitForExit();
+
+			var m = new MemoryStream();
+			var w = new BinaryWriter(m);
+			w.Write(File.ReadAllBytes(flashplayer.FullName));
+			w.Write(File.ReadAllBytes(obj_web_swf));
+			w.Write((uint)0xFA123456);
+			w.Write((uint)new FileInfo(obj_web_swf).Length);
+
+			File.WriteAllBytes(obj_web_swf + ".exe", m.ToArray());
 			#endregion
 
 

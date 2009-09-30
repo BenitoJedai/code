@@ -16,13 +16,11 @@ using ScriptCoreLib.Shared.Lambda;
 namespace AvalonExampleGallery.Shared
 {
 
-	[Script]
 	public class AvalonExampleGalleryCanvas : Canvas
 	{
 		public const int DefaultWidth = 800;
 		public const int DefaultHeight = 640;
 
-		[Script]
 		public class OptionPosition
 		{
 			public int X;

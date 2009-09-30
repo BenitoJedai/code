@@ -163,12 +163,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AvalonExampleGalleryFlash.cs" />
-    <Compile Include="AvalonExampleGalleryDocument.cs" />
     <Compile Include="KnownPages.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="AvalonExampleGalleryCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
