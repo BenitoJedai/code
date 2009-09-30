@@ -1,19 +1,16 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
-using ScriptCoreLib.ActionScript.Extensions;
+﻿using System;
 using System.Collections.Generic;
-using System;
-using System.IO;
-using ScriptCoreLib.ActionScript;
-using ScriptCoreLib.ActionScript.flash.ui;
-using FlintExplodeImage.Shared;
-using ScriptCoreLib.ActionScript.flash.events;
-using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.emitters;
-using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.renderers;
 using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.actions;
-using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.zones;
+using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.emitters;
 using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.particles;
+using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.renderers;
+using FlintExplodeImage.ActionScript.Flint.org.flintparticles.threeD.zones;
+using ScriptCoreLib;
+using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.events;
+using ScriptCoreLib.ActionScript.flash.text;
 
 namespace FlintExplodeImage.ActionScript
 {
@@ -22,7 +19,7 @@ namespace FlintExplodeImage.ActionScript
 	/// <summary>
 	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
 	/// </summary>
-	[Script, ScriptApplicationEntryPoint]
+	[Script, ScriptApplicationEntryPoint(WithResources = true)]
 	[SWF]
 	public class FlintExplodeImage : Sprite
 	{
@@ -37,7 +34,7 @@ namespace FlintExplodeImage.ActionScript
 			txt.textColor = 0xFFFFFF;
 			addChild(txt);
 
-			bitmap = KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/184098.jpg"].ToBitmapAsset();
+			bitmap = KnownEmbeddedResources.Default["assets/FlintExplodeImage/184098.jpg"].ToBitmapAsset();
 
 			renderer = new DisplayObjectRenderer();
 			renderer.camera.dolly(-400);
@@ -59,7 +56,7 @@ namespace FlintExplodeImage.ActionScript
 
 			stage.click += explode;
 
-			KnownEmbeddedResources.Default[KnownAssets.Path.Assets + "/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 100);
+			KnownEmbeddedResources.Default["assets/FlintExplodeImage/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(100, 100);
 		}
 
 		public void explode(MouseEvent ev)
@@ -71,37 +68,10 @@ namespace FlintExplodeImage.ActionScript
 
 
 
-		static FlintExplodeImage()
-		{
-			// add resources to be found by ImageSource
-			KnownEmbeddedAssets.RegisterTo(
-				KnownEmbeddedResources.Default.Handlers
-			);
-		}
+	
 
 	}
 
-	[Script]
-	public class KnownEmbeddedAssets
-	{
-		[EmbedByFileName]
-		public static Class ByFileName(string e)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static void RegisterTo(List<Converter<string, Class>> Handlers)
-		{
-			// assets from current assembly
-			Handlers.Add(e => ByFileName(e));
-
-			//AvalonUgh.Assets.ActionScript.KnownEmbeddedAssets.RegisterTo(Handlers);
-
-			//// assets from referenced assemblies
-			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.Cursors.EmbeddedAssets.Default[e]);
-			//Handlers.Add(e => global::ScriptCoreLib.ActionScript.Avalon.TiledImageButton.Assets.Default[e]);
-
-		}
-	}
+	
 
 }
