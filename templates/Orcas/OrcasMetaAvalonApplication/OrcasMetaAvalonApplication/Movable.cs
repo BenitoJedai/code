@@ -10,7 +10,6 @@ using System.Windows.Input;
 
 namespace OrcasMetaAvalonApplication.Shared
 {
-	[Script]
 	public class Movable
 	{
 		public Canvas Container { get; set; }

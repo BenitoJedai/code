@@ -81,9 +81,6 @@
     <EmbeddedResource Include="web\assets\OrcasMetaAvalonApplication\help.png" />
     <EmbeddedResource Include="web\assets\OrcasMetaAvalonApplication\jsc.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="tools\build.bat" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

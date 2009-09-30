@@ -7,7 +7,6 @@ using System.Windows.Media;
 
 namespace OrcasMetaAvalonApplication.Shared
 {
-	[Script]
 	public class AffineTransform
 	{
 		// http://en.wikipedia.org/wiki/Affine_transformation

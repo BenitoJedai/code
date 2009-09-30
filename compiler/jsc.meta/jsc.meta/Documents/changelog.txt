@@ -26,4 +26,4 @@
 2009.09.29
 	- preparing to add ExtendToAvalonEverywhere command
 2009.09.30
-	- ExtendToAvalonEverywhere now builds javascript version
+	- ExtendToAvalonEverywhere now builds javascript version and actionscript version

@@ -11,6 +11,18 @@ namespace jsc.meta.Library
 {
 	public static class MyExtensions
 	{
+		public static int GetLiteralInt32(this Type t, string name, int Default)
+		{
+			var f = t.GetField(name);
+
+
+			if (f != null)
+				if (f.IsLiteral)
+					if (f.FieldType == typeof(int))
+						return (int)f.GetRawConstantValue();
+
+			return Default;
+		}
 
 		public static string ToCamelCase(this string e)
 		{
@@ -410,6 +422,6 @@ namespace jsc.meta.Library
 			return typeof(T3).GetConstructor(new[] { typeof(T1), typeof(T2) });
 		}
 
-		
+
 	}
 }
