@@ -36,11 +36,3 @@ using ScriptCoreLib;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-[assembly:
-	Script,
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
-]
