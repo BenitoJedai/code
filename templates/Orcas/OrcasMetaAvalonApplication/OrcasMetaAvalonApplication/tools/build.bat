@@ -12,7 +12,7 @@ if '%ERRORLEVEL%' == '-1' (
     goto :eof
 )
 :: Namespace name, type name
-@call :mxmlc %1/ActionScript AvalonExampleGalleryFlash
+@call :mxmlc %1/ActionScript OrcasAvalonApplicationFlash
 
 goto :eof
 
@@ -20,8 +20,7 @@ goto :eof
 pushd ..\bin\%ConfigurationName%
 
 ::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
-::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
-::call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
+call c:\util\jsc\bin\jsc.exe %TargetFileName%  -as -js
 
 
 popd
