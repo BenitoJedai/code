@@ -29,6 +29,10 @@ namespace jsc.meta.Commands.Extend
 		/// </summary>
 		public bool javafusion = false;
 
+		public bool operawidget;
+
+		public bool jnlp;
+
 		public void Invoke()
 		{
 			//Debugger.Launch();

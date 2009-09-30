@@ -35,6 +35,8 @@ namespace jsc.meta.Commands.Extend
 
 		public bool operawidget;
 
+		public bool silverlight;
+
 		public void Invoke()
 		{
 			//Debugger.Launch();
