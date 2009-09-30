@@ -12,7 +12,6 @@ using System.Windows.Input;
 
 namespace OrcasMetaAvalonApplication.Shared
 {
-	[Script]
 	public class OrcasAvalonApplicationCanvas : Canvas
 	{
 		// http://code.google.com/p/kml-library/source/browse/#svn/trunk/KMLib/Abstract

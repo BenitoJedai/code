@@ -35,7 +35,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-			Debugger.Launch();
+			//Debugger.Launch();
 
 			if (this.staging == null)
 				this.staging = this.assembly.Directory.CreateSubdirectory("staging");
@@ -276,17 +276,25 @@ namespace jsc.meta.Commands.Extend
 					ActionScriptEntryPoint = t;
 
 					var DefineScriptAttribute = default(Func<ScriptAttribute>).DefineAttributeAt(t);
-	
+
 					DefineScriptAttribute();
+
+					//DefaultWidth.IsLiteral	true	bool
+					//DefaultWidth.GetRawConstantValue()	480	object {int}
+
+
+					var DefaultWidth = c.DeclaringType.GetLiteralInt32("DefaultWidth", 600);
+					var DefaultHeight = c.DeclaringType.GetLiteralInt32("DefaultHeight", 400);
+
 
 					t.DefineAttribute<ScriptApplicationEntryPointAttribute>(
 						// we should detect the default size of the canvas
-						new { Width = 600, Height = 400, WithResources = true }
+						new { Width = DefaultWidth, Height = DefaultHeight, WithResources = true }
 					);
 
 					t.DefineAttribute<global::ScriptCoreLib.ActionScript.SWFAttribute>(
 						// we should detect the default size of the canvas
-						new { width = 600, height = 400 }
+						new { width = DefaultWidth, height = DefaultHeight }
 					);
 
 					#region SpawnToHandler

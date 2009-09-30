@@ -196,9 +196,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
+C:\util\jsc\bin\jsc.meta.exe ExtendToAvalonEverywhere /assembly:$(TargetPath) /mxmlc:"C:\util\flex33\bin\mxmlc.exe" /flashplayer:"C:\util\flex33\runtimes\player\10\win\FlashPlayer10.exe"
+</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
