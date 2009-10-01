@@ -28,3 +28,5 @@
 2009.09.30
 	- ExtendToAvalonEverywhere now builds javascript version and actionscript version
 	- ExtendToAvalonEverywhere also prepares a projector exe file
+2009.10.01
+	- ExtendWindowsFormsEverywhere creates opera widget

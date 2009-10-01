@@ -6,6 +6,7 @@ using jsc.meta.Library;
 using jsc.meta.Tools;
 using ScriptCoreLib;
 using System.Linq;
+using ScriptCoreLib.Archive.ZIP;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -14,7 +15,6 @@ namespace jsc.meta.Commands.Extend
 		public FileInfo assembly;
 		public string type;
 		public DirectoryInfo staging;
-		public FileInfo zip;
 		public DirectoryInfo javapath;
 
 		/// <summary>
@@ -102,9 +102,12 @@ namespace jsc.meta.Commands.Extend
 				throw new InvalidOperationException("entrypoint type is missing");
 
 			var JavaEntrypoint = default(MethodInfo);
+			var JavaScriptEntrypoint = default(Type);
 
 			// 2
-			var MetaScript = InternalBuild(k => JavaEntrypoint = k);
+			var MetaScript = InternalBuild(k => JavaEntrypoint = k,
+				
+				k => JavaScriptEntrypoint = k);
 			// 3
 
 
@@ -130,34 +133,103 @@ namespace jsc.meta.Commands.Extend
 			}
 
 			#region web to .js.zip
-			//// zip files could be appended to exe files
+			// zip files could be appended to exe files
 
-			//var staging_web = new DirectoryInfo(Path.Combine(this.context.staging.FullName, "web"));
+			var staging_web = new DirectoryInfo(Path.Combine(this.context.staging.FullName, "web"));
 
-			//if (staging_web.Exists)
-			//    if (this.context.zip != null)
-			//    {
-			//        var zip = new ZIPFile();
+			if (staging_web.Exists)
+				if (this.context.operawidget)
+				{
+					var zip = new ZIPFile();
 
-			//        foreach (var file in staging_web.GetFiles("*", SearchOption.AllDirectories))
-			//        {
-			//            zip.Add(file.FullName.Substring(this.context.staging.FullName.Length + 1), File.ReadAllBytes(file.FullName));
-			//        }
+					foreach (var file in staging_web.CreateSubdirectory("assets").GetFiles("*", SearchOption.AllDirectories))
+					{
+						zip.Add(file.FullName.Substring(staging_web.FullName.Length + 1), File.ReadAllBytes(file.FullName));
+					}
 
-			//        var zzm = new MemoryStream();
-			//        using (var w = new BinaryWriter(zzm))
-			//        {
-			//            zip.WriteTo(w);
-			//        }
+					foreach (var file in staging_web.GetFiles("*.js", SearchOption.TopDirectoryOnly))
+					{
+						zip.Add(file.FullName.Substring(staging_web.FullName.Length + 1), File.ReadAllBytes(file.FullName));
+					}
 
-			//        File.WriteAllBytes(this.context.zip.FullName, zzm.ToArray());
-			//    }
+					var index_html = staging_web.GetFiles().FirstOrDefault(
+						k => k.Name == JavaScriptEntrypoint.Name + ".htm"
+					);
+
+					zip.Add("index.html",
+						@"
+<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
+<html>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+<title>OrcasSimpleWindowsFormsApplication</title>
+<!-- created at 1.09.2009 15:45:38 -->
+<script type='text/javascript' src='ScriptCoreLib.dll.js'></script>
+<script type='text/javascript' src='ScriptCoreLib.Drawing.dll.js'></script>
+<script type='text/javascript' src='ScriptCoreLib.Query.dll.js'></script>
+<script type='text/javascript' src='ScriptCoreLib.Avalon.dll.js'></script>
+<script type='text/javascript' src='ScriptCoreLib.Windows.Forms.dll.js'></script>
+<script type='text/javascript' src='ScriptCoreLib.Avalon.Integration.dll.js'></script>
+<script type='text/javascript' src='ScriptCoreLib.Net.dll.js'></script>
+<script type='text/javascript' src='MyContext.MyLocation.TextComponent.dll.js'></script>
+<script type='text/javascript' src='MyContext.MyInformation.TextComponent.dll.js'></script>
+<script type='text/javascript' src='MyContext.MyPanel.TextualUserControl.dll.js'></script>
+<script type='text/javascript' src='OrcasMetaWindowsForms.exe.js'></script>
+<script type='text/javascript' src='OrcasMetaWindowsFormsMetaScript.exe.js'></script>
+<script></script>
+</head>
+<body style='margin: 0; overflow: hidden; -apple-dashboard-region: dashboard-region(control rectangle); '><noscript>ScriptApplication cannot run without JavaScript!</noscript>
+
+<script type='text/xml' class='OrcasMetaWindowsFormsDocument'></script>
+<script>
+	window.resizeTo( screen.width, screen.height );
+	window.moveTo( 0, 0 );
+</script>
+
+</body>
+</html>
+
+");
+
+					zip.Add("config.xml",
+						@"<?xml version='1.0' encoding='UTF-8'?>
+<widget network='public'>
+  <widgetname>OrcasMetaWindowsFormsDocument</widgetname>
+  <description>Powered by jsc</description>
+  <width>400</width>
+  <height>300</height>
+  <author>
+    <name>Arvo Sulakakto</name>
+    <email>dadeval@gmail.com</email>
+    <link>http://zproxy.wordpress.com</link>
+    <organization></organization>
+  </author>
+  <id>
+    <host>jsc.sourceforge.net</host>
+    <name>zproxy</name>
+    <revised>2009-09</revised>
+  </id>
+  <icon>assets/ScriptCoreLib.Windows.Forms/App.ico</icon>
+</widget>
+"
+					);
+
+					var zzm = new MemoryStream();
+					using (var w = new BinaryWriter(zzm))
+					{
+						zip.WriteTo(w);
+					}
+
+					File.WriteAllBytes(this.context.assembly.FullName + ".wgt", zzm.ToArray());
+
+					//File.WriteAllBytes(this.context.zip.FullName, zzm.ToArray());
+				}
 			#endregion
 
 		}
 
 
-		FileInfo InternalBuild(Action<MethodInfo> AnnounceJavaEntrypoint)
+		FileInfo InternalBuild(Action<MethodInfo> AnnounceJavaEntrypoint, Action<Type> AnnounceJavaScriptEntrypoint)
 		{
 			// Main
 			// C# project template in .net 4 has internal Main... who knew...
@@ -328,7 +400,7 @@ namespace jsc.meta.Commands.Extend
 				var tt = t.CreateType();
 
 
-
+				AnnounceJavaScriptEntrypoint(tt);
 
 				DefineScriptTypeFilterAttribute(ScriptType.JavaScript, tt.Namespace);
 
