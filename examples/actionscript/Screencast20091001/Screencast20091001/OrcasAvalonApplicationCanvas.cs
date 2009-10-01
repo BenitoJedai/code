@@ -12,6 +12,14 @@ using System.Windows.Input;
 
 namespace Screencast20091001.Shared
 {
+	public class Screencast20091001Control1 : UserControl
+	{
+		public Screencast20091001Control1()
+		{
+			this.Content = new OrcasAvalonApplicationCanvas();
+		}
+	}
+
 	public class OrcasAvalonApplicationCanvas : Canvas
 	{
 		// http://code.google.com/p/kml-library/source/browse/#svn/trunk/KMLib/Abstract

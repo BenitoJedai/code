@@ -365,3 +365,5 @@ version history:
 30.09.2009
 	js: the output folder web will now be created at target assembly
 	as3: fixed nameless parameter usage
+01.10.2009
+	jsc: fixed resource lookup for WPF to work in designer mode

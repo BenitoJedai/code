@@ -205,8 +205,10 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Threading\DispatcherTimer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\UIElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Vector.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Window.cs" />
     <Compile Include="JavaScript\Extensions\AvalonExtensions.cs" />
     <Compile Include="JavaScript\UCLImplementation\AvalonExtensions.cs" />
+    <Compile Include="JavaScript\UCLImplementation\__CSharp_Avalon_Extensions.cs" />
     <Compile Include="Shared\Avalon\Controls\DragBehavior.cs" />
     <Compile Include="Shared\Avalon\Controls\TiledBackgroundImage.cs" />
     <Compile Include="Shared\Avalon\Extensions\AnimatedDouble.cs" />

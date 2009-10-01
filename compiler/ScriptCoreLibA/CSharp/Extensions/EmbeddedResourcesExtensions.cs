@@ -31,7 +31,9 @@ namespace ScriptCoreLib.CSharp.Extensions
 
 		public static readonly Dictionary<string, ManifestResourceEntry> ToManifestResourceStream_Cache = new Dictionary<string, ManifestResourceEntry>();
 
-		public static ManifestResourceEntry ToManifestResourceStream(this string e)
+	
+
+		public static ManifestResourceEntry ToManifestResourceStream(this string e, Assembly context)
 		{
 			var request = e.Replace("/", ".");
 
@@ -81,7 +83,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 			//    MessageBox.Show(name.Name + " " + name.Version.ToString());
 			//}
 
-			var Candidates = from assembly in SharedHelper.LoadReferencedAssemblies(Assembly.GetEntryAssembly(), true)
+			var Candidates = from assembly in SharedHelper.LoadReferencedAssemblies(context, true)
 							 let name = new AssemblyName(assembly.FullName)
 							 let assembly_resources = GetScriptResourcesAttributes(assembly)
 							 let folders = assembly_resources.Concat(GetDefaultPaths(name)).OrderByDescending(k => k.Value.Length).ToArray()

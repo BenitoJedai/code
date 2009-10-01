@@ -10,6 +10,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Navigation;
 using System.Net;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
@@ -59,7 +60,9 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static void ToStringAsset(this string e, Action<string> h)
 		{
-			var s = e.ToManifestResourceStream();
+			var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
+
+			var s = e.ToManifestResourceStream(context);
 
 			s.Stream.Position = 0;
 
@@ -73,7 +76,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
 		{
-			var s = e.ToManifestResourceStream();
+			var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
+			var s = e.ToManifestResourceStream(context);
 
 			s.Stream.Position = 0;
 
@@ -114,9 +118,10 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 		public static ImageSource ToSource(this string e)
 		{
+			var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
 			// EmbeddedResource?
 
-			return e.ToManifestResourceStream().ToSource();
+			return e.ToManifestResourceStream(context).ToSource();
 		}
 
 		public static BitmapSource ToSource(this Stream e)
