@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 using jsc.meta.Library;
 using jsc.meta.Tools;
 using ScriptCoreLib;
+using System.Linq;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -105,7 +106,7 @@ namespace jsc.meta.Commands.Extend
 			// 2
 			var MetaScript = InternalBuild(k => JavaEntrypoint = k);
 			// 3
-		
+
 
 			if (this.context.javascript)
 			{
@@ -116,14 +117,14 @@ namespace jsc.meta.Commands.Extend
 			{
 				//Debugger.Launch();
 
-				var Fusion = new FileInfo( 
+				var Fusion = new FileInfo(
 					Path.Combine(
 						MetaScript.Directory.FullName,
 						Path.GetFileNameWithoutExtension(MetaScript.Name) + "Fusion" + Path.GetExtension(MetaScript.FullName)
 					)
 				);
 
-				MetaScript.ToJava(context.javapath, JavaEntrypoint, 
+				MetaScript.ToJava(context.javapath, JavaEntrypoint,
 					this.context.javafusion ? Fusion : null
 				);
 			}
@@ -174,22 +175,45 @@ namespace jsc.meta.Commands.Extend
 			var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
 
 
-			a.DefineScriptLibraries(
-				assembly_type,
-				typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Net.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken),
-				typeof(ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken),
+			var AssemblyScriptAttribute = new ScriptAttribute
+			{
+				IsScriptLibrary = true,
+				ScriptLibraries = new[] {
+					assembly_type,
+					typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Net.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Drawing.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken),
+					typeof(ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken),
 
-				// in case we are converting windows forms to
-				// java swing...
-				typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
-				typeof(ScriptCoreLibJava.Drawing.IAssemblyReferenceToken),
-				typeof(ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken)
+					// in case we are converting windows forms to
+					// java swing...
+					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+					typeof(ScriptCoreLibJava.Drawing.IAssemblyReferenceToken),
+					typeof(ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken)							//typeof(ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken)
+					},
+				NonScriptTypes = assembly.GetTypes().Where(
+					k =>
+						k.Namespace != null && (
+							k.Namespace.EndsWith(".My") ||
+							k.Namespace.EndsWith(".My.Resources")
+						)
+	
+				).ToArray()
+			};
+
+			a.DefineScriptAttribute(
+				new
+				{
+					AssemblyScriptAttribute.IsScriptLibrary,
+					AssemblyScriptAttribute.ScriptLibraries,
+					AssemblyScriptAttribute.NonScriptTypes
+				}
 			);
+
+		
 
 			var DefineScriptTypeFilterAttribute = default(Func<ScriptType, string, ScriptTypeFilterAttribute>).DefineAttributeAt(a);
 
