@@ -1,1 +1,1 @@
-﻿OrcasAvalonApplication. Avalon canvas exposed additionally as javascript and flash.
+﻿OrcasMetaAvalonApplication. Avalon canvas exposed additionally as javascript and flash.
