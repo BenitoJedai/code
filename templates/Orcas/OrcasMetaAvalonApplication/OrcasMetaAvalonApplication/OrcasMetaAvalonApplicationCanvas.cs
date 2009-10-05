@@ -10,16 +10,16 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Input;
 
-namespace OrcasMetaAvalonApplication.Shared
+namespace OrcasMetaAvalonApplication
 {
-	public class OrcasAvalonApplicationCanvas : Canvas
+	public class OrcasMetaAvalonApplicationCanvas : Canvas
 	{
 		// http://code.google.com/p/kml-library/source/browse/#svn/trunk/KMLib/Abstract
 
 		public const int DefaultWidth = 480;
 		public const int DefaultHeight = 320;
 
-		public OrcasAvalonApplicationCanvas()
+		public OrcasMetaAvalonApplicationCanvas()
 		{
 			Width = DefaultWidth;
 			Height = DefaultHeight;

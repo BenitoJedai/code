@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformD", "InteractiveMatrixTransformD\InteractiveMatrixTransformD.csproj", "{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformE", "InteractiveMatrixTransformE\InteractiveMatrixTransformE.csproj", "{4160FBEE-6324-4D82-A75A-031D51107B96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformF", "InteractiveMatrixTransformF\InteractiveMatrixTransformF.csproj", "{46BD4B8C-F223-4E2E-826F-1EE51892E597}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformG", "InteractiveMatrixTransformG\InteractiveMatrixTransformG.csproj", "{C2F647DA-669C-4F64-AB78-EBF5D07E4193}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +37,18 @@ Global
 		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0C881A0-0D62-46FE-A8C5-6BB02A81E340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4160FBEE-6324-4D82-A75A-031D51107B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4160FBEE-6324-4D82-A75A-031D51107B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4160FBEE-6324-4D82-A75A-031D51107B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4160FBEE-6324-4D82-A75A-031D51107B96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46BD4B8C-F223-4E2E-826F-1EE51892E597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46BD4B8C-F223-4E2E-826F-1EE51892E597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46BD4B8C-F223-4E2E-826F-1EE51892E597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46BD4B8C-F223-4E2E-826F-1EE51892E597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2F647DA-669C-4F64-AB78-EBF5D07E4193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2F647DA-669C-4F64-AB78-EBF5D07E4193}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2F647DA-669C-4F64-AB78-EBF5D07E4193}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2F647DA-669C-4F64-AB78-EBF5D07E4193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
