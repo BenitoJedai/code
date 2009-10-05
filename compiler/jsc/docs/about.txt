@@ -367,3 +367,6 @@ version history:
 	as3: fixed nameless parameter usage
 01.10.2009
 	jsc: fixed resource lookup for WPF to work in designer mode
+05.10.2009
+	java: fixed ldftn generated method decoration
+	java: fixed error where static method was calling base instance method

@@ -42,10 +42,11 @@ namespace jsc.Languages.Java
 			else
 			{
 				if (i.OpCode == OpCodes.Call)
-					if (i.TargetMethod.DeclaringType.Equals(i.OwnerMethod.DeclaringType.BaseType))
-					{
-						IsBaseMethodCall = true;
-					}
+					if (!i.OwnerMethod.IsStatic)
+						if (i.TargetMethod.DeclaringType.Equals(i.OwnerMethod.DeclaringType.BaseType))
+						{
+							IsBaseMethodCall = true;
+						}
 			}
 
 
