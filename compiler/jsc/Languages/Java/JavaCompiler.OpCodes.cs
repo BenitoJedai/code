@@ -188,7 +188,7 @@ namespace jsc.Languages.Java
 					}
 					else
 					{
-						Write(_MethodPublicWrapper);
+						WriteSafeLiteral(_MethodPublicWrapper);
 					}
 
 					WriteQuote();

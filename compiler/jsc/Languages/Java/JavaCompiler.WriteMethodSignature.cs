@@ -86,7 +86,7 @@ namespace jsc.Languages.Java
 				if (MethodNameOverride == null)
 					WriteDecoratedMethodName(m, false);
 				else
-					Write(MethodNameOverride);
+					WriteSafeLiteral(MethodNameOverride);
 			}
 
 			Write("(");
