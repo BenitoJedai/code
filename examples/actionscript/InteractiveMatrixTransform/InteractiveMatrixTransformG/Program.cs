@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ScriptCoreLib.CSharp.Avalon.Extensions;
 
-namespace OrcasMetaAvalonApplication
+namespace InteractiveMatrixTransformG
 {
 	public class Program
 	{

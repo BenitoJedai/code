@@ -107,14 +107,14 @@ namespace InteractiveMatrixTransformB.Shared
 
 			var help = new Image
 			{
-				Source = (KnownAssets.Path.Assets + "/help.png").ToSource()
+				Source = ("assets/InteractiveMatrixTransformB/help.png").ToSource()
 			}.AttachTo(this);
 
 			help.Opacity = 0;
 
 			var img = new Image
 			{
-				Source = (KnownAssets.Path.Assets + "/jsc.png").ToSource()
+				Source = ("assets/InteractiveMatrixTransformB/jsc.png").ToSource()
 			}.MoveTo(DefaultWidth - 128, DefaultHeight - 128).AttachTo(this);
 
 

@@ -69,7 +69,7 @@
     <Compile Include="Movable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OrcasAvalonApplicationCanvas.cs" />
+    <Compile Include="OrcasMetaAvalonApplicationCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />

@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CFF993B9-171C-4CBE-99E6-AEC91BC9F639}</ProjectGuid>
+    <ProjectGuid>{4160FBEE-6324-4D82-A75A-031D51107B96}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InteractiveMatrixTransformB</RootNamespace>
-    <AssemblyName>InteractiveMatrixTransformB</AssemblyName>
+    <RootNamespace>InteractiveMatrixTransformE</RootNamespace>
+    <AssemblyName>InteractiveMatrixTransformE</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -65,23 +65,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="AffineEngine\AffineExtensions.cs" />
+    <Compile Include="AffineEngine\AffineMesh.cs" />
+    <Compile Include="AffineEngine\AffinePoint.cs" />
+    <Compile Include="AffineEngine\AffineRotation.cs" />
+    <Compile Include="AffineEngine\AffineTransform.cs" />
+    <Compile Include="Movable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IAssemblyReferenceToken.cs" />
-    <Compile Include="OrcasAvalonApplicationCanvas.cs" />
+    <Compile Include="OrcasMetaAvalonApplicationCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\sandv.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\sand.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\17dark.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\17gdark.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\17g.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\17.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\about.txt" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\help.png" />
-    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformB\jsc.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\17g.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\17.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\sand.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\about.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\help_idle.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\help.png" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformE\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -93,7 +95,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-C:\util\jsc\bin\jsc.meta.exe ExtendToAvalonEverywhere /javascript:true /assembly:$(TargetPath) /mxmlc:"C:\util\flex33\bin\mxmlc.exe" /flashplayer:"C:\util\flex33\runtimes\player\10\win\FlashPlayer10.exe"
+C:\util\jsc\bin\jsc.meta.exe ExtendToAvalonEverywhere /assembly:$(TargetPath) /mxmlc:"C:\util\flex33\bin\mxmlc.exe" /flashplayer:"C:\util\flex33\runtimes\player\10\win\FlashPlayer10.exe"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

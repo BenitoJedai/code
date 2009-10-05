@@ -91,7 +91,7 @@ namespace jsc
 
 				if (p.Instruction.IsLoadInstruction)
 				{
-					CompilerBase.BreakToDebugger("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location);
+					CompilerBase.BreakToDebugger("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location + " " + p.Instruction.ToString());
 
 					//w.WriteCommentLine("skipped: " + p.Instruction.ToString());
 				}

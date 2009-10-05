@@ -298,7 +298,7 @@ namespace jsc.meta.Commands.Extend
 
 					t.DefineAttribute<global::ScriptCoreLib.ActionScript.SWFAttribute>(
 						// we should detect the default size of the canvas
-						new { width = DefaultWidth, height = DefaultHeight }
+						new { width = DefaultWidth, height = DefaultHeight, frameRate = 60 }
 					);
 
 					#region SpawnToHandler

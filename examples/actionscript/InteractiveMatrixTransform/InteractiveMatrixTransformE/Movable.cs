@@ -8,7 +8,7 @@ using System.Windows.Media;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Input;
 
-namespace OrcasMetaAvalonApplication
+namespace InteractiveMatrixTransformE
 {
 	public class Movable
 	{

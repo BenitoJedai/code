@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.Windows.Media;
 
-namespace OrcasMetaAvalonApplication
+namespace InteractiveMatrixTransformG
 {
 	public class AffineTransform
 	{
