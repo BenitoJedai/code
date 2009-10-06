@@ -137,10 +137,12 @@ namespace InteractiveMatrixTransformE.AffineEngine
 				this.Meshes.SelectMany(k => (IEnumerable<AffineVertex>)k.Vertecies));
 		}
 
+		const int SortBuffer = 10000;
+
 		public AffineVertex[] GetSortedCombinedVertices()
 		{
 			// da buffer
-			var a = new AffineVertex[2000];
+			var a = new AffineVertex[SortBuffer];
 
 			GetSortedCombinedVertices(this, a);
 
@@ -151,7 +153,7 @@ namespace InteractiveMatrixTransformE.AffineEngine
 		{
 			foreach (var v in m.Vertecies)
 			{
-				var i = Convert.ToInt32(v.B.Z + v.C.Z) + 1000;
+				var i = Convert.ToInt32(v.B.Z + v.C.Z) + SortBuffer / 2;
 
 				while (a[i] != null)
 					i++;

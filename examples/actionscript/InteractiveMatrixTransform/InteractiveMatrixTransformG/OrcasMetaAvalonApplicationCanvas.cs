@@ -98,24 +98,30 @@ namespace InteractiveMatrixTransformG
 			var _18 = "assets/InteractiveMatrixTransformG/18.png".ToSource();
 			var _18g = "assets/InteractiveMatrixTransformG/18g.png".ToSource();
 
+			for (int cubex = -2; cubex < 2; cubex++)
+			{
 
-			AddCube(a, _18, _18g, new AffinePoint(-1, -1, 0));
-			AddCube(a, _18, _18g, new AffinePoint(-1, 1, 0));
 
-			AddCube(a, _18, _18g, new AffinePoint(1, -1, 0));
-			AddCube(a, _18, _18g, new AffinePoint(1, 1, 0));
+				AddCube(a, _18, _18g, new AffinePoint(-1 + cubex * 4, -1, 0));
+				AddCube(a, _18, _18g, new AffinePoint(-1 + cubex * 4, 1, 0));
 
-			AddCube(a, _17, _17g, new AffinePoint(-1, -1, 1));
-			AddCube(a, _17, _17g, new AffinePoint(-1, 1, 1));
+				AddCube(a, _18, _18g, new AffinePoint(1 + cubex * 4, -1, 0));
+				AddCube(a, _18, _18g, new AffinePoint(1 + cubex * 4, 1, 0));
 
-			AddCube(a, _17, _17g, new AffinePoint(1, -1, 1));
-			AddCube(a, _17, _17g, new AffinePoint(1, 1, 1));
+				AddCube(a, _17, _17g, new AffinePoint(-1 + cubex * 4, -1, 1));
+				AddCube(a, _17, _17g, new AffinePoint(-1 + cubex * 4, 1, 1));
+
+				AddCube(a, _17, _17g, new AffinePoint(1 + cubex * 4, -1, 1));
+				AddCube(a, _17, _17g, new AffinePoint(1 + cubex * 4, 1, 1));
+
+
+			}
 
 
 			var top = AddCube(a, _18, _18g, new AffinePoint(0, 0, 2));
 			var topdef = top;
 
-			var sandcount = 3;
+			var sandcount = 8;
 
 			for (int ix = -sandcount; ix <= sandcount; ix++)
 				for (int iy = -sandcount; iy <= sandcount; iy++)
@@ -208,7 +214,11 @@ namespace InteractiveMatrixTransformG
 
 				};
 
-			(1000 / 60).AtIntervalWithCounter(
+
+			Action<int> nextframe = null;
+
+
+			nextframe =
 				c =>
 				{
 					var sw = new Stopwatch();
@@ -239,18 +249,28 @@ namespace InteractiveMatrixTransformG
 
 					t.Text = new
 					{
+						ShowCounter,
 						XY = Rotation.XY.RadiansToDegrees() % 360,
 						YZ = Rotation.YZ.RadiansToDegrees() % 360,
 						XZ = Rotation.XZ.RadiansToDegrees() % 360,
 						Renderer = sw.ElapsedMilliseconds + "ms"
 					}.ToString();
+
+					1.AtDelay(() => nextframe(c + 1));
 				}
-			);
+			;
+
+			1.AtDelay(() => nextframe(0));
 		}
 
 
+		int ShowCounter;
+
 		private void Show(AffineMesh _a)
 		{
+			ShowCounter++;
+			double Zoom = 0.2;
+
 			// js: 130
 			// as: 70
 			// c#: 30
@@ -264,13 +284,17 @@ namespace InteractiveMatrixTransformG
 			// as: 26
 
 			// n.Vertecies = v.OrderBy(k => k.Center.Z).ToList();
-			//foreach (var k in _a.GetCombinedVertices().OrderBy(k => k.Center.Z))
-			foreach (var k in _a.GetSortedCombinedVertices())
+			foreach (var k in _a.GetCombinedVertices().OrderBy(k => k.Center.Z))
+			//foreach (var k in _a.GetSortedCombinedVertices())
 			{
 				if (k != null)
 				{
-					k.Element.Orphanize();
-					k.Element.AttachTo(AffineContent);
+					if (ShowCounter % 100 == 1)
+					{
+						k.Element.Orphanize();
+						k.Element.AttachTo(AffineContent);
+					}
+
 					k.Element.RenderTransform = new AffineTransform
 					{
 						Left = 0,
@@ -278,14 +302,14 @@ namespace InteractiveMatrixTransformG
 						Width = k.ElementWidth,
 						Height = k.ElementHeight,
 
-						X1 = k.B.X + DefaultWidth / 2,
-						Y1 = k.B.Y + DefaultHeight / 2,
+						X1 = k.B.X * Zoom + DefaultWidth / 2,
+						Y1 = k.B.Y * Zoom + DefaultHeight / 2,
 
-						X2 = k.C.X + DefaultWidth / 2,
-						Y2 = k.C.Y + DefaultHeight / 2,
+						X2 = k.C.X * Zoom + DefaultWidth / 2,
+						Y2 = k.C.Y * Zoom + DefaultHeight / 2,
 
-						X3 = k.A.X + DefaultWidth / 2,
-						Y3 = k.A.Y + DefaultHeight / 2,
+						X3 = k.A.X * Zoom + DefaultWidth / 2,
+						Y3 = k.A.Y * Zoom + DefaultHeight / 2,
 
 
 					};
@@ -297,7 +321,7 @@ namespace InteractiveMatrixTransformG
 
 		}
 
-		private AffineMesh AddCube(AffineMesh context,ImageSource Source, ImageSource Source2,  AffinePoint TopLocation)
+		private AffineMesh AddCube(AffineMesh context, ImageSource Source, ImageSource Source2, AffinePoint TopLocation)
 		{
 			var a = new AffineMesh();
 
