@@ -18,6 +18,7 @@ namespace InteractiveMatrixTransformG
 	public class OrcasMetaAvalonApplicationCanvas : Canvas
 	{
 		// http://code.google.com/p/kml-library/source/browse/#svn/trunk/KMLib/Abstract
+		// http://www.cs.technion.ac.il/~cs234325/Applets/applets/transformation/GermanApplet.html
 
 		public const int DefaultWidth = 800;
 		public const int DefaultHeight = 500;
@@ -77,8 +78,20 @@ namespace InteractiveMatrixTransformG
 
 			}.AttachTo(this);
 
+			//var sandcount = 9;
+			//var cubecount = 2;
 
+			10000.AtDelay(
+				delegate
+				{
+					CreateContent(15, 2, false);
+					CreateContent(0, 0, true);
+				}
+			);
+		}
 
+		private void CreateContent(int sandcount, int cubecount, bool rotor)
+		{
 			var t = new TextBox
 			{
 				FontSize = 10,
@@ -90,6 +103,9 @@ namespace InteractiveMatrixTransformG
 				Width = DefaultWidth
 			}.MoveTo(8, 8).AttachTo(InfoContent);
 
+			if (rotor)
+				t.MoveTo(8, 32);
+
 			var a = new AffineMesh();
 
 
@@ -98,7 +114,10 @@ namespace InteractiveMatrixTransformG
 			var _18 = "assets/InteractiveMatrixTransformG/18.png".ToSource();
 			var _18g = "assets/InteractiveMatrixTransformG/18g.png".ToSource();
 
-			for (int cubex = -2; cubex < 2; cubex++)
+
+
+
+			for (int cubex = -cubecount; cubex < cubecount; cubex++)
 			{
 
 
@@ -118,23 +137,26 @@ namespace InteractiveMatrixTransformG
 			}
 
 
-			var top = AddCube(a, _18, _18g, new AffinePoint(0, 0, 2));
+			var top = default(AffineMesh);
+
+			if (rotor)
+				top = AddCube(a, _18, _18g, new AffinePoint(0, 0, 2));
+
 			var topdef = top;
 
-			var sandcount = 8;
-
-			for (int ix = -sandcount; ix <= sandcount; ix++)
-				for (int iy = -sandcount; iy <= sandcount; iy++)
-				{
-					AddCubeFace(a,
-						"assets/InteractiveMatrixTransformG/sandv.png".ToSource(),
-						"assets/InteractiveMatrixTransformG/sandv.png".ToSource(),
-						new AffinePoint(-100 + ix * 200, -100, -100 + iy * 200),
-						new AffinePoint(100 + ix * 200, -100, -100 + iy * 200),
-						new AffinePoint(-100 + ix * 200, -100, 100 + iy * 200),
-						new AffinePoint(100 + ix * 200, -100, 100 + iy * 200)
-					);
-				}
+			if (!rotor)
+				for (int ix = -sandcount; ix <= sandcount; ix++)
+					for (int iy = -sandcount; iy <= sandcount; iy++)
+					{
+						AddCubeFace(a,
+							"assets/InteractiveMatrixTransformG/sandv.png".ToSource(),
+							"assets/InteractiveMatrixTransformG/sandv.png".ToSource(),
+							new AffinePoint(-100 + ix * 200, -100, -100 + iy * 200),
+							new AffinePoint(100 + ix * 200, -100, -100 + iy * 200),
+							new AffinePoint(-100 + ix * 200, -100, 100 + iy * 200),
+							new AffinePoint(100 + ix * 200, -100, 100 + iy * 200)
+						);
+					}
 
 
 
@@ -217,46 +239,69 @@ namespace InteractiveMatrixTransformG
 
 			Action<int> nextframe = null;
 
+			var sw2 = new Stopwatch();
+			sw2.Start();
 
 			nextframe =
 				c =>
 				{
+
+					sw2.Stop();
+
 					var sw = new Stopwatch();
 
 					sw.Start();
 
-					a.Meshes.Remove(top);
+					if (top != null)
+					{
+						a.Meshes.Remove(top);
 
-					top = topdef.ToTranslation(
-						new AffinePoint(0, -200 * 3, 0)
-					).ToRotation(
-						new AffineRotation { XZ = 0.05 * c }
-					).ToTranslation(
-						new AffinePoint(0, 200 * 3, 0)
-					);
+						top = topdef.ToTranslation(
+							new AffinePoint(0, -200 * 3, 0)
+						).ToRotation(
+							new AffineRotation { XZ = 0.01 * c }
+						).ToTranslation(
+							new AffinePoint(0, 200 * 3, 0)
+						);
 
-					a.Meshes.Add(top);
+						a.Meshes.Add(top);
+					}
 
 
 
 					// rotate floor
-					_a = a.ToZoom(0.5).ToRotation(Rotation);
 
-
-					Show(_a);
+					if (rotor)
+					{
+						_a = a.ToZoom(0.5).ToRotation(Rotation);
+						Show(_a);
+					}
+					else
+						if (c == 1)
+						{
+							_a = a.ToZoom(0.5).ToRotation(Rotation);
+							Show(_a);
+						}
 
 					sw.Stop();
 
 					t.Text = new
 					{
+						rotor,
 						ShowCounter,
 						XY = Rotation.XY.RadiansToDegrees() % 360,
 						YZ = Rotation.YZ.RadiansToDegrees() % 360,
 						XZ = Rotation.XZ.RadiansToDegrees() % 360,
-						Renderer = sw.ElapsedMilliseconds + "ms"
+						Renderer = sw.ElapsedMilliseconds + "ms",
+						Other = sw2.ElapsedMilliseconds + "ms"
 					}.ToString();
 
+					sw2 = new Stopwatch();
+					//sw2.Reset();
+					sw2.Start();
 					1.AtDelay(() => nextframe(c + 1));
+
+					//this.UpdateLayout();
 				}
 			;
 
@@ -289,11 +334,10 @@ namespace InteractiveMatrixTransformG
 			{
 				if (k != null)
 				{
-					if (ShowCounter % 100 == 1)
-					{
-						k.Element.Orphanize();
-						k.Element.AttachTo(AffineContent);
-					}
+
+					k.Element.Orphanize();
+					k.Element.AttachTo(AffineContent);
+
 
 					k.Element.RenderTransform = new AffineTransform
 					{
