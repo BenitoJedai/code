@@ -41,10 +41,15 @@ namespace WavePlayer
 		}
 
 
-		[Script(NoDecoration = true)]
-		public static int Main()
+		public static void Main()
 		{
+			Console.WriteLine("other projects: ");
+			Console.WriteLine("# http://naudio.codeplex.com/sourcecontrol/changeset/view/28884?projectName=naudio#");
+
 			// you really should not use headphones with PC speakers
+
+			TestMemoryStream();
+
 
 			Console.ForegroundColor = ConsoleColor.Yellow;
 
@@ -55,20 +60,36 @@ namespace WavePlayer
 			Console.WriteLine("got music?");
 
 
-			for (int i = 40; i < 140; i += 30)
+
+			WaveExampleType.ExampleSquareWave.PlaySound(68);
+			WaveExampleType.ExampleSquareWave.PlaySound(38);
+			WaveExampleType.ExampleSquareWave.PlaySound(168);
+
+			//return 0;
+		}
+
+		private static void TestMemoryStream()
+		{
+			var m = new MemoryStream();
+
+			m.WriteByte(5);
+			m.WriteByte(0xfe);
+
+			var arr = m.ToArray();
+
+			Console.Write("memory: ");
+			Console.Write((int)m.Length);
+			Console.WriteLine();
+
+			for (int i = 0; i < m.Length; i++)
 			{
-				Console.Write("Frequency: ");
-				Console.Write(i);
+				Console.Write((int)arr[i]);
 				Console.WriteLine();
-
-				WaveExampleType.ExampleSquareWave.PlaySound(80 + i);
 			}
-
-			return 0;
 		}
 
 
 	}
 
-	
+
 }

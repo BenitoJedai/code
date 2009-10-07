@@ -70,21 +70,23 @@ namespace jsc.Languages.C
 
 			if (z == typeof(IntPtr)) return "void*";
 			if (z == typeof(object)) return "void*";
+			if (z == typeof(void)) return "void";
 
 			// see: http://www.space.unibe.ch/comp_doc/c_manual/C/CONCEPT/data_types.html
 			// see: http://msdn.microsoft.com/en-us/library/s3f49ktz%28VS.71%29.aspx
 
 			if (z == typeof(bool)) return "int";
-			if (z == typeof(byte)) return "int";
+
+			if (z == typeof(byte)) return "unsigned char";
+
 			if (z == typeof(int)) return "int";
-			if (z == typeof(int)) return "int";
+			if (z == typeof(uint)) return "unsigned int";
+
 			if (z == typeof(short)) return "short";
 			if (z == typeof(ushort)) return "unsigned short";
-
-			if (z == typeof(uint)) return "unsigned int";
-			if (z == typeof(void)) return "void";
-			if (z == typeof(string)) return "char*";
 			if (z == typeof(char)) return "unsigned char";
+
+			if (z == typeof(string)) return "char*";
 			if (z == typeof(long)) return "long long";
 			if (z == typeof(double)) return "double";
 

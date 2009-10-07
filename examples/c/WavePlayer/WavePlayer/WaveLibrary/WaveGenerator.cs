@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using ScriptCoreLib;
+using WavePlayer.Library;
 
 namespace WavePlayer.WaveLibrary
 {
@@ -222,14 +223,14 @@ namespace WavePlayer.WaveLibrary
 			//Console.WriteLine("WaveGenerator.MemoryStream Write the header");
 
 			// Write the header
-			writer.Write(header.sGroupID.ToCharArray());
+			header.sGroupID.WriteTo(writer);
 			writer.Write(header.dwFileLength);
-			writer.Write(header.sRiffType.ToCharArray());
+			header.sRiffType.WriteTo(writer);
 
 			//Console.WriteLine("WaveGenerator.MemoryStream Write the format chunk");
 
 			// Write the format chunk
-			writer.Write(format.sChunkID.ToCharArray());
+			format.sChunkID.WriteTo(writer);
 			writer.Write(format.dwChunkSize);
 			writer.Write(format.wFormatTag);
 			writer.Write(format.wChannels);
@@ -241,7 +242,7 @@ namespace WavePlayer.WaveLibrary
 			//Console.WriteLine("WaveGenerator.MemoryStream Write the data chunk");
 
 			// Write the data chunk
-			writer.Write(data.sChunkID.ToCharArray());
+			data.sChunkID.WriteTo(writer);
 			writer.Write(data.dwChunkSize);
 
 			//Console.WriteLine("WaveGenerator.MemoryStream dataPoint");
