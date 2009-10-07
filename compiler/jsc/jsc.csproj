@@ -136,6 +136,7 @@
     <Compile Include="Languages\C\CCompiler.OpCodes.cs" />
     <Compile Include="Languages\C\CCompiler.MethodCallParameterTypeCast.cs" />
     <Compile Include="Languages\C\CCompiler.WriteTypeCastAndEmit.cs" />
+    <Compile Include="Languages\C\CCompiler.GetDecoratedTypeName.cs" />
     <Compile Include="Languages\EventDetector.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />

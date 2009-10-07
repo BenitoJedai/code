@@ -119,6 +119,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MyContext\JScript1.js" />
     <Content Include="MyContext\MyInformation.TextComponent\Author.txt" />
     <Content Include="MyContext\MyInformation.TextComponent\Blog.txt" />
     <Content Include="MyContext\MyPanel.TextualUserControl\LabelComment.txt" />
