@@ -38,6 +38,6 @@ using ScriptCoreLib;
 
 
 [assembly:
-	Script(ScriptLibraries = new[] { typeof(ScriptCoreLibNative.IAssemblyReferenceToken) }),
-	ScriptTypeFilter(ScriptType.C, typeof(WavePlayer.NativeClass1)),
+	Script(IsScriptLibrary = true, ScriptLibraries = new[] { typeof(ScriptCoreLibNative.IAssemblyReferenceToken) }),
+	ScriptTypeFilter(ScriptType.C),
 ]

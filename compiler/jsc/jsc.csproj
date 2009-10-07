@@ -142,6 +142,8 @@
     <Compile Include="Languages\C\CCompiler.WriteMethodCallVerified.cs" />
     <Compile Include="Languages\C\CCompiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\C\CCompiler.WriteDecoratedMethodName.cs" />
+    <Compile Include="Languages\C\CCompiler.WriteTypeDefPrototype.cs" />
+    <Compile Include="Languages\C\CCompiler.WriteTypeDef.cs" />
     <Compile Include="Languages\EventDetector.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />

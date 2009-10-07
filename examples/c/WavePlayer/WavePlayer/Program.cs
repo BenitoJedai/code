@@ -29,7 +29,7 @@ namespace WavePlayer
 
 
 	[Script]
-	public unsafe class NativeClass1
+	public unsafe class Program
 	{
 	
 		public static void logo(string text)
