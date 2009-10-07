@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.IO;
 
-namespace WavePlayer.BCLImplementation.System.IO
+namespace ScriptCoreLibNative.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.BinaryWriter))]
 	internal class __BinaryWriter
@@ -28,7 +28,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 			this._buffer = new byte[0x10];
 		}
 
-	
+
 
 		public void Write(uint value)
 		{
@@ -52,7 +52,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 		{
 			this._buffer[0] = (byte)((value >> 8 * 0) & 0xff);
 			this._buffer[1] = (byte)((value >> 8 * 1) & 0xff);
-	
+
 			OutStream.Write(this._buffer, 0, 2);
 		}
 
@@ -61,4 +61,5 @@ namespace WavePlayer.BCLImplementation.System.IO
 			return offset;
 		}
 	}
+
 }

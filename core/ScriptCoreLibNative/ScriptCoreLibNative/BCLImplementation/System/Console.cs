@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLibNative.SystemHeaders;
 
-namespace WavePlayer.BCLImplementation.System
+namespace ScriptCoreLibNative.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.Console))]
 	internal class __Console

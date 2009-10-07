@@ -23,12 +23,12 @@ namespace WavePlayer.WaveLibrary
 	[Script]
 	public static class WaveExampleTypeExtensions
 	{
-		public static void PlaySound(this WaveExampleType type, int frequency)
+		public static SoundPlayer ToSoundPlayer(this WaveExampleType type, int frequency)
 		{
-			type.PlaySound(frequency, 1);
+			return type.ToSoundPlayer(frequency, 1);
 		}
 
-		public static void PlaySound(this WaveExampleType type, int frequency, double volume)
+		public static SoundPlayer ToSoundPlayer(this WaveExampleType type, int frequency, double volume)
 		{
 			WaveGenerator wave = new WaveGenerator(
 				type,
@@ -38,7 +38,7 @@ namespace WavePlayer.WaveLibrary
 			
 			var p = new SoundPlayer(wave);
 
-			p.PlaySync();
+			return p;
 		}
 	}
 }

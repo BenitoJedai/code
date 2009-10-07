@@ -28,7 +28,7 @@ namespace jsc.Languages.C
 			{
 				MethodInfo mi = m as MethodInfo;
 
-				if (mi.ReturnType.IsDelegate() && mi.ReturnType.ToScriptAttributeOrDefault().IsNative)
+				if (mi.ReturnType.IsDelegate() && (ResolveImplementation(mi.ReturnType) ?? mi.ReturnType).ToScriptAttributeOrDefault().IsNative)
 					Write(GetDecoratedTypeName(typeof(object), false));
 				else
 					Write(GetDecoratedTypeName(mi.ReturnType, true, true));

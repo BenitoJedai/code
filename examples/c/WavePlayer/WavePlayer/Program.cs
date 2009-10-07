@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Threading;
 using System.IO;
 using WavePlayer.WaveLibrary;
 using System.Media;
+using WavePlayer.Library;
 
 namespace WavePlayer
 {
@@ -31,9 +31,7 @@ namespace WavePlayer
 	[Script]
 	public unsafe class NativeClass1
 	{
-		[Script(IsNative = true)]
-		public delegate void StaticAction<T>(T t);
-
+	
 		public static void logo(string text)
 		{
 			Console.WriteLine("logo here");
@@ -53,7 +51,7 @@ namespace WavePlayer
 
 			Console.ForegroundColor = ConsoleColor.Yellow;
 
-			StaticAction<string> f = logo;
+			Action<string> f = logo;
 
 			f("hi");
 
@@ -61,9 +59,19 @@ namespace WavePlayer
 
 
 
-			WaveExampleType.ExampleSquareWave.PlaySound(68);
-			WaveExampleType.ExampleSawtoothWave.PlaySound(115);
-			WaveExampleType.ExampleSquareWave.PlaySound(168);
+			var a = WaveExampleType.ExampleSquareWave.ToSoundPlayer(68);
+			var b = WaveExampleType.ExampleSawtoothWave.ToSoundPlayer(115);
+			var c = WaveExampleType.ExampleSquareWave.ToSoundPlayer(168);
+
+			a.PlaySync();
+			a.Stream.WriteTo("a.wav");
+
+		
+			//b.PlaySync();
+			//c.PlaySync();
+
+			//b.Stream.WriteTo("b.wav");
+			//c.Stream.WriteTo("c.wav");
 
 			//return 0;
 		}

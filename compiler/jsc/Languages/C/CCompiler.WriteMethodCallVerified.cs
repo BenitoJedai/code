@@ -32,7 +32,7 @@ namespace jsc.Languages.C
 			{
 				if (m.DeclaringType.IsDelegate())
 					if (m.Name == "Invoke")
-						if (s.IsNative)
+						if ((ResolveImplementation(m.DeclaringType) ?? m.DeclaringType).ToScriptAttributeOrDefault().IsNative)
 						{
 							// A native delegate is a static function pointer
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace WavePlayer.BCLImplementation.System
+namespace ScriptCoreLibNative.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.Random))]
 	internal class __Random

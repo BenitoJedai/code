@@ -41,6 +41,7 @@ namespace jsc.meta
 
 			args.AsParametersTo(
 				new ExtendToWindowsFormsEverywhere().Invoke,
+				new ExtendToNativeConsole().Invoke,
 				new ExtendToJavaConsole().Invoke,
 				new ExtendToAvalonEverywhere().Invoke,
 

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6C3760D2-22BF-4641-A65E-6EB09DAE685C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{1E792B23-CBAB-4D3E-AB26-4A83DA675D5E}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WavePlayer</RootNamespace>
-    <AssemblyName>WavePlayer</AssemblyName>
+    <RootNamespace>ScriptCoreLibNative</RootNamespace>
+    <AssemblyName>ScriptCoreLibNative</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,25 +21,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLibNative, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibNative.dll</HintPath>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -55,22 +49,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\MyExtensions.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="BCLImplementation\System\Action.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
+    <Compile Include="BCLImplementation\System\Console.cs" />
+    <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\Func.cs" />
+    <Compile Include="BCLImplementation\System\IntPtr.cs" />
+    <Compile Include="BCLImplementation\System\IO\BinaryWriter.cs" />
+    <Compile Include="BCLImplementation\System\IO\File.cs" />
+    <Compile Include="BCLImplementation\System\IO\FileStream.cs" />
+    <Compile Include="BCLImplementation\System\IO\MemoryStream.cs" />
+    <Compile Include="BCLImplementation\System\IO\Stream.cs" />
+    <Compile Include="BCLImplementation\System\Math.cs" />
+    <Compile Include="BCLImplementation\System\Media\SoundPlayer.cs" />
+    <Compile Include="BCLImplementation\System\Random.cs" />
+    <Compile Include="BCLImplementation\System\String.cs" />
+    <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WaveLibrary\WaveDataChunk.cs" />
-    <Compile Include="WaveLibrary\WaveExampleType.cs" />
-    <Compile Include="WaveLibrary\WaveFormatChunk.cs" />
-    <Compile Include="WaveLibrary\WaveGenerator.cs" />
-    <Compile Include="WaveLibrary\WaveHeader.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\dev.log" />
-    <None Include="tools\build.bat" />
-    <None Include="tools\compile.native.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="docs\description.txt" />
+    <Compile Include="SystemHeaders\assert_h.cs" />
+    <Compile Include="SystemHeaders\crtdbg_h.cs" />
+    <Compile Include="SystemHeaders\math_h.cs" />
+    <Compile Include="SystemHeaders\stdio_h.cs" />
+    <Compile Include="SystemHeaders\stdlib_h.cs" />
+    <Compile Include="SystemHeaders\string_h.cs" />
+    <Compile Include="SystemHeaders\windows_h.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -81,8 +84,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
-popd</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

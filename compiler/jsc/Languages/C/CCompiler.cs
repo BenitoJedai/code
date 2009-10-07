@@ -132,7 +132,7 @@ namespace jsc.Languages.C
 									WriteIdent();
 
 									if (field.FieldType.IsDelegate())
-										if (field.FieldType.ToScriptAttributeOrDefault().IsNative)
+										if ((ResolveImplementation(field.FieldType) ?? field.FieldType).ToScriptAttributeOrDefault().IsNative)
 										{
 											WriteDecoratedTypeName(typeof(object));
 
@@ -441,7 +441,7 @@ namespace jsc.Languages.C
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
 			WriteIdent();
-			if (v.LocalType.IsDelegate() && v.LocalType.ToScriptAttributeOrDefault().IsNative)
+			if (v.LocalType.IsDelegate() && (ResolveImplementation(v.LocalType) ?? v.LocalType).ToScriptAttributeOrDefault().IsNative)
 				Write(GetDecoratedTypeName(typeof(object), false));
 			else
 				Write(GetDecoratedTypeName(v.LocalType, false, true));

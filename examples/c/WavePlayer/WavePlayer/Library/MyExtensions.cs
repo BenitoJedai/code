@@ -20,6 +20,13 @@ namespace WavePlayer.Library
 			return a;
 		}
 
+		public static void WriteTo(this Stream e, string path)
+		{
+			var w = File.OpenWrite(path);
+			w.Write(e.ToArray(), 0, (int)e.Length);
+			w.Close();
+		}
+
 		public static void WriteTo(this string e, BinaryWriter w)
 		{
 			var a = new byte[e.Length];

@@ -26,9 +26,8 @@ namespace jsc.Languages.C
 			{
 				// native function pointers 
 
-				if (z.DeclaringType != null)
-					if (z.DeclaringType.ToScriptAttributeOrDefault().IsNative)
-						return false;
+				if ((ResolveImplementation(z) ?? z).ToScriptAttributeOrDefault().IsNative)
+					return false;
 			}
 
 			Console.WriteLine(z.FullName);
@@ -79,7 +78,7 @@ namespace jsc.Languages.C
 
 				WriteIdent();
 
-				if (sfield.FieldType.IsDelegate() && sfield.FieldType.ToScriptAttributeOrDefault().IsNative)
+				if (sfield.FieldType.IsDelegate() && (ResolveImplementation(sfield.FieldType) ?? sfield.FieldType).ToScriptAttributeOrDefault().IsNative)
 				{
 					Write(GetDecoratedTypeName(typeof(object), false, true));
 				}

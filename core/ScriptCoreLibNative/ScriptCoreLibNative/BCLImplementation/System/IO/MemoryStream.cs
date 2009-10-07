@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.IO;
+using ScriptCoreLibNative.SystemHeaders;
 
-namespace WavePlayer.BCLImplementation.System.IO
+namespace ScriptCoreLibNative.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.MemoryStream))]
 	internal class __MemoryStream : __Stream
 	{
-		public __MemoryStream() 
+		public __MemoryStream()
 		{
 
-		
+
 			// we are doing manual virtual calls.. feel the pain yet?
 			this.__Stream_get_Length = k => ((__MemoryStream)k).__Length;
 			this.__Stream_Write = (k, buffer, offset, count) => ((__MemoryStream)k).__Write(buffer, offset, count);
 			this.__Stream_Seek = (k, offset, o) => ((__MemoryStream)k).__Seek(offset, o);
 			this.__Stream_Read = (k, offset, o, c) => ((__MemoryStream)k).__Read(offset, o, c);
 
-			
+
 			this.InternalLength = 0;
 			this.InternalBufferCapacity = 0x7FFF;
 			this.InternalBuffer = new byte[this.InternalBufferCapacity];
@@ -62,7 +63,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 			if (c < InternalBufferCapacity)
 				return;
 
-			
+
 
 			InternalBufferCapacity = c;
 			InternalBuffer = (byte[])stdlib_h.realloc(InternalBuffer, c);
@@ -70,7 +71,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 
 		public void __Write(byte[] buffer, int offset, int count)
 		{
-		
+
 
 			EnsureCapacity(InternalPosition + count);
 
@@ -102,4 +103,5 @@ namespace WavePlayer.BCLImplementation.System.IO
 			return count;
 		}
 	}
+
 }

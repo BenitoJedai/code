@@ -22,7 +22,14 @@ namespace jsc.Languages.C
 	{
 		public string GetDecoratedTypeNameOrPointerName(Type z)
 		{
+			if (z == typeof(void)) 
+				return "void";
+
+
 			if (z == typeof(object))
+				return "void*";
+
+			if (z.IsGenericParameter)
 				return "void*";
 
 			if (z != typeof(string) && !z.IsArray && !z.IsPrimitive && z.IsClass)
@@ -35,8 +42,11 @@ namespace jsc.Languages.C
 
 		public string GetDecoratedTypeName(Type z, bool bExternalAllowed, bool bPointer)
 		{
+			if (z == typeof(void))
+				return "void";
+
 			if (z.IsDelegate())
-				if (z.ToScriptAttributeOrDefault().IsNative)
+				if ((ResolveImplementation(z) ?? z).ToScriptAttributeOrDefault().IsNative)
 				{
 					var _Invoke = z.GetMethod("Invoke");
 					var _Parameters = _Invoke.GetParameters();
@@ -70,7 +80,6 @@ namespace jsc.Languages.C
 
 			if (z == typeof(IntPtr)) return "void*";
 			if (z == typeof(object)) return "void*";
-			if (z == typeof(void)) return "void";
 
 			// see: http://www.space.unibe.ch/comp_doc/c_manual/C/CONCEPT/data_types.html
 			// see: http://msdn.microsoft.com/en-us/library/s3f49ktz%28VS.71%29.aspx
