@@ -199,7 +199,7 @@ namespace WavePlayer.WaveLibrary
 			}
 		}
 
-		public static implicit operator Stream(WaveGenerator w)
+		public static implicit operator MemoryStream(WaveGenerator w)
 		{
 			var header = w.header;
 			var format = w.format;
