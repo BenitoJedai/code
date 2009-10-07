@@ -18,7 +18,7 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.C
 {
-	partial class CCompiler 
+	partial class CCompiler
 	{
 		public void Compile(Assembly a)
 		{
@@ -34,6 +34,21 @@ namespace jsc.Languages.C
 				//        WriteLine("#include \"" + Path.GetFileName(h.Location) + ".h\"");
 				//}
 
+
+				foreach (var ReferencedLibrary in Enumerable.Distinct(
+					from u in this.MySession.Types
+					from m in u.GetMembers()
+					let k = m.ToScriptAttribute()
+					where k != null
+					where k.LibraryImport != null
+					where k.LibraryImport.EndsWith(".lib")
+					select k.LibraryImport.Substring(0,k.LibraryImport.Length - ".lib".Length)
+				))
+				{
+					Write("#pragma comment( lib, \"" + ReferencedLibrary + "\" )");
+
+				}
+
 				WriteLine();
 
 				#region write include headers
@@ -46,6 +61,9 @@ namespace jsc.Languages.C
 
 					if (s == null)
 						continue;
+
+
+
 
 					if (s.IsNative)
 						if (s.Header != null)

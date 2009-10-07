@@ -47,9 +47,9 @@ namespace WavePlayer
 			{
 				Console.Write("Frequency: ");
 				Console.Write(i);
-
-				WaveExampleType.ExampleSquareWave.ToSoundPlayer(80 + i).PlaySync();
 				Console.WriteLine();
+
+				WaveExampleType.ExampleSquareWave.PlaySound(80 + i);
 			}
 
 			return 0;

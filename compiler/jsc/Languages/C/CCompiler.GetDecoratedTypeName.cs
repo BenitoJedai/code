@@ -37,6 +37,7 @@ namespace jsc.Languages.C
 			// see: http://msdn.microsoft.com/en-us/library/s3f49ktz%28VS.71%29.aspx
 
 			if (z == typeof(bool)) return "int";
+			if (z == typeof(byte)) return "int";
 			if (z == typeof(int)) return "int";
 			if (z == typeof(int)) return "int";
 			if (z == typeof(short)) return "short";

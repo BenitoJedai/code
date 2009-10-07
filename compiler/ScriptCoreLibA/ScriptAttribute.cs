@@ -144,7 +144,8 @@ namespace ScriptCoreLib
 		public bool IsSystemHeader;
 
 		/// <summary>
-		/// defines a lib which will be called upon static constructor
+		/// Defines a lib which will be called upon static constructor in java.
+		/// In C this should point for example to winmm.lib.
 		/// </summary>
 		public string LibraryImport;
 

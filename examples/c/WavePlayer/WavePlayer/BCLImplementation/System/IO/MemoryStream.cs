@@ -19,5 +19,10 @@ namespace WavePlayer.BCLImplementation.System.IO
 		{
 
 		}
+
+		public byte[] ToArray()
+		{
+			return new byte[0];
+		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Media;
+using System.IO;
 
 namespace WavePlayer.WaveLibrary
 {
@@ -22,12 +23,12 @@ namespace WavePlayer.WaveLibrary
 	[Script]
 	public static class WaveExampleTypeExtensions
 	{
-		public static SoundPlayer ToSoundPlayer(this WaveExampleType type, int frequency)
+		public static void PlaySound(this WaveExampleType type, int frequency)
 		{
-			return type.ToSoundPlayer(frequency, 1);
+			type.PlaySound(frequency, 1);
 		}
 
-		public static SoundPlayer ToSoundPlayer(this WaveExampleType type, int frequency, double volume)
+		public static void PlaySound(this WaveExampleType type, int frequency, double volume)
 		{
 			WaveGenerator wave = new WaveGenerator(
 				type,
@@ -35,7 +36,9 @@ namespace WavePlayer.WaveLibrary
 				volume
 			);
 
-			return new SoundPlayer(wave);
+			
+			//var r = windows_h.PlaySound(pszSound, new IntPtr(0), fdwSound);
+			new SoundPlayer(wave).PlaySync();
 		}
 	}
 }
