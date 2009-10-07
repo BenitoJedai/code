@@ -370,3 +370,5 @@ version history:
 05.10.2009
 	java: fixed ldftn generated method decoration
 	java: fixed error where static method was calling base instance method
+07.10.2009
+	c: added initial ushort and short support
