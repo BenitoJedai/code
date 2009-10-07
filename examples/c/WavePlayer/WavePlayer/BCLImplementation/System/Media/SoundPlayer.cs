@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.IO;
+using WavePlayer.Library;
 
 namespace WavePlayer.BCLImplementation.System.Media
 {
@@ -25,13 +26,9 @@ namespace WavePlayer.BCLImplementation.System.Media
 				return;
 			}
 
-			var length = (int)InternalStream.Length;
+		
 
-			Console.Write("wave length: ");
-			Console.Write(length);
-			Console.WriteLine();
-
-			var pszSound = new byte[0];
+			var pszSound = InternalStream.ToArray();
 			var fdwSound = windows_h.SoundFlags.SND_MEMORY | windows_h.SoundFlags.SND_NODEFAULT;
 
 			var r = windows_h.PlaySound(pszSound, 0, fdwSound);

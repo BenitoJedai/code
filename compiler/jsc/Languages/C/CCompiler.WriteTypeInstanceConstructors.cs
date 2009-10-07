@@ -40,19 +40,19 @@ namespace jsc.Languages.C
 
 							foreach (var f in z.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
 							{
-								if (f.FieldType.IsClass)
-								{
-									this.WriteIdent();
 
 
-									WriteSelf();
-									Write("->");
-									WriteSafeLiteral(f.Name);
-									WriteAssignment();
-									WriteKeywordNull();
+								this.WriteIdent();
 
-									this.WriteLine(";");
-								}
+
+								WriteSelf();
+								Write("->");
+								WriteSafeLiteral(f.Name);
+								WriteAssignment();
+
+								Write("0");
+
+								this.WriteLine(";");
 							}
 						}
 					);

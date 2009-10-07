@@ -15,6 +15,8 @@ namespace jsc //.Extensions
 {
 	static class Extensions
 	{
+	
+
 		public static IEnumerable<ScriptType> ToScriptTypes(this CommandLineOptions options)
 		{
 			if (options.IsJavaScript)

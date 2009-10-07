@@ -62,27 +62,19 @@ namespace jsc.Languages.C
 					   ConvertTypeAndEmit(e, "unsigned int");
 			   };
 
-			CIW[OpCodes.Conv_U2] =
-			   delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned char"); };
-			CIW[OpCodes.Conv_U4] =
-			   delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned int"); };
+			CIW[OpCodes.Conv_U1] = e => ConvertTypeAndEmit(e, "unsigned char");
+			CIW[OpCodes.Conv_U2] = e => ConvertTypeAndEmit(e, "unsigned short");
+			CIW[OpCodes.Conv_U4] = e => ConvertTypeAndEmit(e, "unsigned int");
+			CIW[OpCodes.Conv_U8] = e => ConvertTypeAndEmit(e, "long long");
 
-			CIW[OpCodes.Conv_I2] =
-				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "short int"); };
+			CIW[OpCodes.Conv_I2] = e => ConvertTypeAndEmit(e, "signed short");
+			CIW[OpCodes.Conv_I4,
+				OpCodes.Conv_Ovf_I] = e => ConvertTypeAndEmit(e, "signed int");
+			CIW[OpCodes.Conv_I8] = e => ConvertTypeAndEmit(e, "signed long");
 
+			CIW[OpCodes.Conv_R8] = e => ConvertTypeAndEmit(e, "double");
 
-			CIW[OpCodes.Conv_I4] =
-				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "signed int"); };
-
-			CIW[OpCodes.Conv_I8] =
-				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "signed long"); };
-			CIW[OpCodes.Conv_U8] =
-				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned long"); };
-			CIW[OpCodes.Conv_R8] =
-					delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "double"); };
-
-			CIW[OpCodes.Conv_R_Un] =
-				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "float"); };
+			CIW[OpCodes.Conv_R_Un] = e => ConvertTypeAndEmit(e, "float");
 
 
 			CIW[OpCodes.Initobj] =
@@ -369,7 +361,8 @@ namespace jsc.Languages.C
 				OpCodes.Rem_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "%"); };
 			CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
 			CIW[OpCodes.Shl] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<<"); };
-			CIW[OpCodes.Shr] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
+			CIW[OpCodes.Shr, 
+				OpCodes.Shr_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">>"); };
 			CIW[OpCodes.Clt] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
 			CIW[OpCodes.Cgt] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
 			CIW[OpCodes.Blt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
