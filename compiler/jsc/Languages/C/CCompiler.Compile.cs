@@ -34,7 +34,7 @@ namespace jsc.Languages.C
 				//        WriteLine("#include \"" + Path.GetFileName(h.Location) + ".h\"");
 				//}
 
-
+				// see: http://msdn.microsoft.com/en-us/library/7f0aews7(VS.80).aspx
 				foreach (var ReferencedLibrary in Enumerable.Distinct(
 					from u in this.MySession.Types
 					from m in u.GetMembers()
@@ -42,7 +42,7 @@ namespace jsc.Languages.C
 					where k != null
 					where k.LibraryImport != null
 					where k.LibraryImport.EndsWith(".lib")
-					select k.LibraryImport.Substring(0,k.LibraryImport.Length - ".lib".Length)
+					select k.LibraryImport.Substring(0, k.LibraryImport.Length - ".lib".Length)
 				))
 				{
 					Write("#pragma comment( lib, \"" + ReferencedLibrary + "\" )");
@@ -86,30 +86,10 @@ namespace jsc.Languages.C
 				WriteLine("#include \"" + HeaderFileName + "\"");
 			}
 
-			foreach (Type u in this.MySession.Types)
-			{
-				//if (u.Assembly != a)
-				//    continue;
 
+			// we should actually avoid multiple typedefs'
+			// http://stackoverflow.com/questions/888386/resolve-circular-typedef-dependency
 
-				ScriptAttribute s = ScriptAttribute.Of(u);
-
-				// native types are just a placehodlers, so we skip em
-				if (s == null || s.IsNative)
-					continue;
-
-				if (u.IsSealed && u.IsAbstract)
-				{
-					// skip
-				}
-				else
-				{
-					// we should actually avoid multiple typedefs'
-					// http://stackoverflow.com/questions/888386/resolve-circular-typedef-dependency
-
-					// WriteTypeDefPrototype(u);
-				}
-			}
 
 			foreach (Type u in this.MySession.Types)
 			{

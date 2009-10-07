@@ -31,6 +31,15 @@ namespace WavePlayer
 	[Script]
 	public unsafe class NativeClass1
 	{
+		[Script(IsNative = true)]
+		public delegate void StaticAction<T>(T t);
+
+		public static void logo(string text)
+		{
+			Console.WriteLine("logo here");
+			Console.WriteLine(text);
+		}
+
 
 		[Script(NoDecoration = true)]
 		public static int main()
@@ -39,6 +48,9 @@ namespace WavePlayer
 
 			Console.ForegroundColor = ConsoleColor.Yellow;
 
+			StaticAction<string> f = logo;
+
+			f("hi");
 
 			Console.WriteLine("got music?");
 

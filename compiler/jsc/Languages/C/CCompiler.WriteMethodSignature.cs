@@ -28,8 +28,10 @@ namespace jsc.Languages.C
 			{
 				MethodInfo mi = m as MethodInfo;
 
-				//WriteDecoratedTypeName(mi.ReturnType);
-				Write(GetDecoratedTypeName(mi.ReturnType, true, true));
+				if (mi.ReturnType.IsDelegate() && mi.ReturnType.ToScriptAttributeOrDefault().IsNative)
+					Write(GetDecoratedTypeName(typeof(object), false));
+				else
+					Write(GetDecoratedTypeName(mi.ReturnType, true, true));
 				//Write(GetDecoratedTypeNameWithinNestedName( mi.ReturnType));
 
 			}

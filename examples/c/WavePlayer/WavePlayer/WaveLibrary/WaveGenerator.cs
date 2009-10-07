@@ -201,6 +201,9 @@ namespace WavePlayer.WaveLibrary
 
 		public static implicit operator MemoryStream(WaveGenerator w)
 		{
+			Console.WriteLine("WaveGenerator.MemoryStream start");
+
+
 			var header = w.header;
 			var format = w.format;
 			var data = w.data;
@@ -213,10 +216,21 @@ namespace WavePlayer.WaveLibrary
 			var stream = new MemoryStream();
 			BinaryWriter writer = new BinaryWriter(stream);//fileStream);
 
+
+			if (writer.BaseStream == null)
+			{
+				Console.WriteLine("WaveGenerator.MemoryStream writer.BaseStream == null");
+
+			}
+
+			Console.WriteLine("WaveGenerator.MemoryStream Write the header");
+
 			// Write the header
 			writer.Write(header.sGroupID.ToCharArray());
 			writer.Write(header.dwFileLength);
 			writer.Write(header.sRiffType.ToCharArray());
+
+			Console.WriteLine("WaveGenerator.MemoryStream Write the format chunk");
 
 			// Write the format chunk
 			writer.Write(format.sChunkID.ToCharArray());
@@ -228,23 +242,38 @@ namespace WavePlayer.WaveLibrary
 			writer.Write(format.wBlockAlign);
 			writer.Write(format.wBitsPerSample);
 
+			Console.WriteLine("WaveGenerator.MemoryStream Write the data chunk");
+
 			// Write the data chunk
 			writer.Write(data.sChunkID.ToCharArray());
 			writer.Write(data.dwChunkSize);
 
+			Console.WriteLine("WaveGenerator.MemoryStream dataPoint");
+
 			// foreach (short dataPoint in data.shortArray)
 			for (int i = 0; i < data.shortArrayLength; i++)
 			{
+
+		
+
 				var dataPoint = data.shortArray[i];
 				writer.Write(dataPoint);
 			}
 
+			Console.WriteLine("WaveGenerator.MemoryStream seek");
+
 			writer.Seek(4, SeekOrigin.Begin);
+			Console.WriteLine("WaveGenerator.MemoryStream BaseStream.Length");
 			uint filesize = (uint)writer.BaseStream.Length;
+			Console.WriteLine("WaveGenerator.MemoryStream filesize");
 			writer.Write(filesize - 8);
+
+			Console.WriteLine("WaveGenerator.MemoryStream Set the position to the beginning of the stream.");
 
 			// Set the position to the beginning of the stream.
 			stream.Seek(0, SeekOrigin.Begin);
+
+			Console.WriteLine("WaveGenerator.MemoryStream end");
 
 			return stream;
 		}

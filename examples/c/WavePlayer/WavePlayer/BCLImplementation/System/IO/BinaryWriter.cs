@@ -10,17 +10,19 @@ namespace WavePlayer.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.BinaryWriter))]
 	internal class __BinaryWriter
 	{
+		Stream InternalStream;
+
 		public Stream BaseStream
 		{
 			get
 			{
-				return null;
+				return InternalStream;
 			}
 		}
 
 		public __BinaryWriter(Stream s)
 		{
-
+			InternalStream = s;
 		}
 
 		public void Write(char[] e)

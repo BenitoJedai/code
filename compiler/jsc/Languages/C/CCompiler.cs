@@ -149,15 +149,19 @@ namespace jsc.Languages.C
 
 									WriteIdent();
 
-									if (field.FieldType != typeof(string) && !field.FieldType.IsArray && !field.FieldType.IsPrimitive && field.FieldType.IsClass)
-									{
-										Write("struct tag_" + GetDecoratedTypeName(field.FieldType, false));
-										Write("*");
-									}
-									else
-									{
-										Write(GetDecoratedTypeName(field.FieldType, false, true));
-									}
+									if (field.FieldType.IsDelegate())
+										if (field.FieldType.ToScriptAttributeOrDefault().IsNative)
+										{
+											WriteDecoratedTypeName(typeof(object));
+
+											WriteSpace();
+											Write(field.Name);
+											WriteLine(";");
+											continue;
+										}
+
+
+									Write(GetDecoratedTypeNameOrPointerName(field.FieldType));
 
 									WriteSpace();
 									Write(field.Name);
@@ -383,27 +387,6 @@ namespace jsc.Languages.C
 		}
 
 
-		public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
-		{
-			ScriptAttribute s = ScriptAttribute.Of(m.DeclaringType);
-
-			if (s == null)
-			{
-				WriteDecoratedMethodName(ResolveImplementationMethod(m.DeclaringType, m), false);
-			}
-			else
-			{
-				WriteDecoratedMethodName(m, false);
-			}
-
-			int offset = 1;
-
-			if (m.IsStatic)
-				offset = 0;
-
-			WriteParameterInfoFromStack(m, p, i.StackBeforeStrict, offset);
-		}
-
 
 
 		public override bool AlwaysDefineAsStatic
@@ -527,7 +510,10 @@ namespace jsc.Languages.C
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
 			WriteIdent();
-			Write(GetDecoratedTypeName(v.LocalType, false, true));
+			if (v.LocalType.IsDelegate() && v.LocalType.ToScriptAttributeOrDefault().IsNative)
+				Write(GetDecoratedTypeName(typeof(object), false));
+			else
+				Write(GetDecoratedTypeName(v.LocalType, false, true));
 			WriteSpace();
 			WriteVariableName(u.DeclaringType, u, v);
 

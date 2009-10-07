@@ -18,7 +18,7 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.C
 {
-	partial class CCompiler 
+	partial class CCompiler
 	{
 		private void CreateInstructionHandlers()
 		{
@@ -216,12 +216,14 @@ namespace jsc.Languages.C
 
 					if (Target.IsDelegate())
 					{
-						if (Target.DeclaringType != null)
-							if (Target.DeclaringType.ToScriptAttributeOrDefault().IsNative)
-							{
-								Emit(e.p, e.i.StackBeforeStrict[1]);
-								return;
-							}
+						// this is a breaking change..
+						// a native delegate can be defined as nested or not as nested type
+
+						if (Target.ToScriptAttributeOrDefault().IsNative)
+						{
+							Emit(e.p, e.i.StackBeforeStrict[1]);
+							return;
+						}
 					}
 
 					WriteTypeConstruction(e);

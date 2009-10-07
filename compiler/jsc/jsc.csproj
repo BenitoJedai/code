@@ -139,6 +139,7 @@
     <Compile Include="Languages\C\CCompiler.GetDecoratedTypeName.cs" />
     <Compile Include="Languages\C\CCompiler.WriteMethodSignature.cs" />
     <Compile Include="Languages\C\CCompiler.WriteMethodParameterList.cs" />
+    <Compile Include="Languages\C\CCompiler.WriteMethodCallVerified.cs" />
     <Compile Include="Languages\EventDetector.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeFields.cs" />
     <Compile Include="Languages\CSharp2\Csharp2Compiler.EmitTryBlock.cs" />

@@ -36,9 +36,12 @@ namespace WavePlayer.WaveLibrary
 				volume
 			);
 
+			Console.WriteLine("WaveExampleTypeExtensions.PlaySound");
 			
 			//var r = windows_h.PlaySound(pszSound, new IntPtr(0), fdwSound);
-			new SoundPlayer(wave).PlaySync();
+			var p = new SoundPlayer(wave);
+			
+			p.PlaySync();
 		}
 	}
 }
