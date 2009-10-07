@@ -42,7 +42,7 @@ namespace WavePlayer
 
 
 		[Script(NoDecoration = true)]
-		public static int main()
+		public static int Main()
 		{
 			// you really should not use headphones with PC speakers
 
@@ -70,11 +70,5 @@ namespace WavePlayer
 
 	}
 
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			NativeClass1.main();
-		}
-	}
+	
 }

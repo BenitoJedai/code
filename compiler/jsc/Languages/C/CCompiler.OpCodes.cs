@@ -247,7 +247,7 @@ namespace jsc.Languages.C
 
 					Emit(e.p, e.FirstOnStack);
 					Write("->");
-					Write(e.i.TargetField.Name);
+					WriteSafeLiteral(e.i.TargetField.Name);
 
 				};
 
@@ -258,7 +258,7 @@ namespace jsc.Languages.C
 
 					Emit(e.p, s[0]);
 					Write("->");
-					Write(e.i.TargetField.Name);
+					WriteSafeLiteral(e.i.TargetField.Name);
 					WriteAssignment();
 
 
@@ -301,7 +301,7 @@ namespace jsc.Languages.C
 
 					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
 					Write("_");
-					Write(e.i.TargetField.Name);
+					WriteSafeLiteral(e.i.TargetField.Name);
 				};
 
 			CIW[OpCodes.Stsfld] =
@@ -311,7 +311,7 @@ namespace jsc.Languages.C
 
 					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
 					Write("_");
-					Write(e.i.TargetField.Name);
+					WriteSafeLiteral(e.i.TargetField.Name);
 
 					WriteAssignment();
 

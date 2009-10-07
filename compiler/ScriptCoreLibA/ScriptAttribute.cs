@@ -151,8 +151,13 @@ namespace ScriptCoreLib
 
 
 		/// <summary>
-		/// native class implementation is provided by runtime.
-		/// body of a native method will never be emitted
+		/// Native class implementation is provided by runtime. The end compiler
+		/// will need to be able to find their definition. 
+		/// 
+		/// Body of a native method will never be emitted.
+		/// 
+		/// While targeting C a delegate can be marked as IsNative. This delegate
+		/// will then be treated as typeless static function pointer.
 		/// </summary>
 		public bool IsNative;
 

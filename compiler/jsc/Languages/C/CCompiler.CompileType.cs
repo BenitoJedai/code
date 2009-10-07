@@ -18,7 +18,7 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.C
 {
-	partial class CCompiler 
+	partial class CCompiler
 	{
 		public override bool CompileType(Type z)
 		{
@@ -52,36 +52,6 @@ namespace jsc.Languages.C
 			}
 
 
-			if (!IsHeaderOnlyMode)
-			{
-				#region static variables
-				FieldInfo[] sfields = GetAllFields(z);
-
-				foreach (FieldInfo sfield in sfields)
-				{
-					if (!sfield.IsStatic)
-						continue;
-
-					// constants will be inlined
-					if (sfield.IsLiteral)
-						continue;
-
-					WriteIdent();
-
-					Write(GetDecoratedTypeName(sfield.FieldType, false, true));
-
-					WriteSpace();
-
-					WriteDecoratedTypeName(z);
-					Write("_");
-					Write(sfield.Name);
-
-					WriteLine(";");
-				}
-
-				WriteLine();
-				#endregion
-			}
 
 			WriteTypeStaticMethods(z, za);
 
@@ -90,6 +60,42 @@ namespace jsc.Languages.C
 			WriteTypeInstanceMethods(z, za);
 
 			return true;
+		}
+
+		private void WriteStaticFields(Type z)
+		{
+			// see: http://ee.hawaii.edu/~tep/EE160/Book/chap14/subsection2.1.1.6.html
+
+			FieldInfo[] sfields = z.GetFields(BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Public);
+
+			foreach (FieldInfo sfield in sfields)
+			{
+				if (!sfield.IsStatic)
+					continue;
+
+				// constants will be inlined
+				if (sfield.IsLiteral)
+					continue;
+
+				WriteIdent();
+
+				if (sfield.FieldType.IsDelegate() && sfield.FieldType.ToScriptAttributeOrDefault().IsNative)
+				{
+					Write(GetDecoratedTypeName(typeof(object), false, true));
+				}
+				else
+					Write(GetDecoratedTypeNameOrPointerName(sfield.FieldType));
+
+				WriteSpace();
+
+				WriteDecoratedTypeName(z);
+				Write("_");
+				WriteSafeLiteral(sfield.Name);
+
+				WriteLine(";");
+			}
+
+			WriteLine();
 		}
 	}
 

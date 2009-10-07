@@ -376,3 +376,4 @@ version history:
 	c: added OpCodes.Conv_I2
 	c: added OpCodes.Neg
 	c: added OpCodes.Ldelem_I2
+	c: ctor now clears fields

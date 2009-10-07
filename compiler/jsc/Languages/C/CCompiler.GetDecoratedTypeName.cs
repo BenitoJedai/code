@@ -22,12 +22,15 @@ namespace jsc.Languages.C
 	{
 		public string GetDecoratedTypeNameOrPointerName(Type z)
 		{
+			if (z == typeof(object))
+				return "void*";
+
 			if (z != typeof(string) && !z.IsArray && !z.IsPrimitive && z.IsClass)
 			{
 				return ("struct tag_" + GetDecoratedTypeName(z, false) + "*");
 			}
 
-				return GetDecoratedTypeName(z, false, true);
+			return GetDecoratedTypeName(z, false, true);
 		}
 
 		public string GetDecoratedTypeName(Type z, bool bExternalAllowed, bool bPointer)

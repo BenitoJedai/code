@@ -48,24 +48,6 @@ namespace jsc.Languages.C
 		}
 
 
-		private void WriteTypeInstanceConstructors(Type z)
-		{
-			ConstructorInfo[] zci = GetAllInstanceConstructors(z);
-
-			foreach (ConstructorInfo zc in zci)
-			{
-				WriteLine();
-
-				WriteMethodHint(zc);
-				WriteMethodSignature(zc, false);
-
-				if (WillEmitMethodBody())
-					WriteMethodBody(zc);
-
-			}
-
-			WriteLine();
-		}
 
 		private void WriteTypeDefPrototype(Type e)
 		{
@@ -155,7 +137,7 @@ namespace jsc.Languages.C
 											WriteDecoratedTypeName(typeof(object));
 
 											WriteSpace();
-											Write(field.Name);
+											WriteSafeLiteral(field.Name);
 											WriteLine(";");
 											continue;
 										}
@@ -164,7 +146,7 @@ namespace jsc.Languages.C
 									Write(GetDecoratedTypeNameOrPointerName(field.FieldType));
 
 									WriteSpace();
-									Write(field.Name);
+									WriteSafeLiteral(field.Name);
 									WriteLine(";");
 								}
 							}
@@ -444,57 +426,6 @@ namespace jsc.Languages.C
 
 
 			return true;
-		}
-
-		public override void WriteDecoratedMethodName(MethodBase z, bool q)
-		{
-
-			if (q)
-				Write("\"");
-
-			ScriptAttribute s = ScriptAttribute.Of(z);
-
-			bool x = true;
-
-			if (s != null)
-			{
-				if (s.NoDecoration)
-					x = false;
-			}
-
-			s = ScriptAttribute.Of(z.DeclaringType);
-
-			if (s != null)
-			{
-				if (s.IsNative)
-					x = false;
-			}
-
-			if (x)
-			{
-				Write(GetDecoratedTypeName(z.DeclaringType, true, false));
-				Write("_");
-			}
-
-			Write(z.Name.Replace(".", "_"));
-
-			if (z.Name == "op_Implicit")
-			{
-				Write("_");
-				WriteDecoratedTypeName(((MethodInfo)z).ReturnType);
-			}
-
-			if (x && (!z.IsStatic || z.GetParameters().Length > 0))
-			{
-				if (IsOverloadedMethod(z))
-				{
-					Write("_");
-					Write(TokenToString(z.MetadataToken));
-				}
-			}
-
-			if (q)
-				Write("\"");
 		}
 
 
