@@ -43,9 +43,13 @@ namespace WavePlayer
 			Console.WriteLine("got music?");
 
 
-			for (int i = 0; i < 100; i += 20)
+			for (int i = 40; i < 140; i += 30)
 			{
+				Console.Write("Frequency: ");
+				Console.Write(i);
+
 				WaveExampleType.ExampleSquareWave.ToSoundPlayer(80 + i).PlaySync();
+				Console.WriteLine();
 			}
 
 			return 0;

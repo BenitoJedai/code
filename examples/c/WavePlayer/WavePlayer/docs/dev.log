@@ -1,0 +1,9 @@
+﻿Log 2009.10.07
+
+We are going to play a wave sound in C.
+The app is written in C#.
+
+We already had to add ushort and short to jsc now lets see what else needs to be added.
+
+System.Media.SoundPlayer.PlaySync
+System.IO.Stream

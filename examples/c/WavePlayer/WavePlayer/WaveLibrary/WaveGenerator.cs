@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ScriptCoreLib;
 
 namespace WavePlayer.WaveLibrary
 {
 	/// <summary>
 	/// Wraps a WAV file struture and auto-generates some canned waveforms.
 	/// </summary>
+	[Script]
 	public class WaveGenerator
 	{
 		// Header, Format, Data chunks
@@ -35,9 +37,10 @@ namespace WavePlayer.WaveLibrary
 
 			// Initialize the 16-bit array
 			data.shortArray = new short[numSamples];
+			data.shortArrayLength = numSamples;
 
 			// Calculate data chunk size in bytes and store it in the data chunk
-			data.dwChunkSize = (uint)(data.shortArray.Length * (format.wBitsPerSample / 8));
+			data.dwChunkSize = (uint)(numSamples * (format.wBitsPerSample / 8));
 
 			// Max amplitude for 16-bit audio
 			int amplitude = (int)(MAX_AMPLITUDE_16BIT * volume);
@@ -97,10 +100,13 @@ namespace WavePlayer.WaveLibrary
 			short ampStep = 0;
 			short tempSample = 0;
 			// Determine the number of samples per wavelength
-			samplesPerWavelength = Convert.ToInt32(format.dwSamplesPerSec / (frequency / format.wChannels));
+
+			var samplesPerWavelength_long = format.dwSamplesPerSec / (frequency / format.wChannels);
+
+			samplesPerWavelength = (int)samplesPerWavelength_long;
 
 			// Determine the amplitude step for consecutive samples
-			ampStep = Convert.ToInt16((amplitude * 2) / samplesPerWavelength);
+			ampStep = (short)((amplitude * 2) / samplesPerWavelength);
 
 			// Temporary sample value, added to as we go through the loop
 			tempSample = (short)-amplitude;
@@ -132,10 +138,12 @@ namespace WavePlayer.WaveLibrary
 			short tempSample = 0;
 
 			// Determine the number of samples per wavelength
-			samplesPerWavelength = Convert.ToInt32(format.dwSamplesPerSec / (frequency / format.wChannels));
+			var samplesPerWavelength_long = format.dwSamplesPerSec / (frequency / format.wChannels);
+
+			samplesPerWavelength = (int)samplesPerWavelength_long;
 
 			// Determine the amplitude step for consecutive samples                  
-			ampStep = Convert.ToInt16((amplitude * 2) / samplesPerWavelength);
+			ampStep = (short)((amplitude * 2) / samplesPerWavelength);
 
 			// Temporary sample value, added to as we go through the loop
 			tempSample = (short)-amplitude;
@@ -161,7 +169,7 @@ namespace WavePlayer.WaveLibrary
 				// Fill with a simple sine wave at max amplitude
 				for (int channel = 0; channel < format.wChannels; channel++)
 				{
-					data.shortArray[i + channel] = Convert.ToInt16(amplitude * Math.Sin(t * i));
+					data.shortArray[i + channel] = (short)(amplitude * Math.Sin(t * i));
 				}
 			}
 		}
@@ -172,7 +180,7 @@ namespace WavePlayer.WaveLibrary
 			{
 				for (int channel = 0; channel < format.wChannels; channel++)
 				{
-					data.shortArray[i] = Convert.ToInt16(amplitude * Math.Sign(Math.Sin(t * i)));
+					data.shortArray[i] = (short)(amplitude * Math.Sign(Math.Sin(t * i)));
 				}
 			}
 		}
@@ -186,29 +194,23 @@ namespace WavePlayer.WaveLibrary
 			// No need for a nested loop since it's all random anyway
 			for (int i = 0; i < numSamples; i++)
 			{
-				randomValue = Convert.ToInt16(rnd.Next(-amplitude, amplitude));
+				randomValue = (short)(rnd.Next(-amplitude, amplitude));
 				data.shortArray[i] = randomValue;
 			}
 		}
 
-		public Stream GetStream()
+		public static implicit operator Stream(WaveGenerator w)
 		{
-			BuildStream();
-			return this.stream;
-		}
+			var header = w.header;
+			var format = w.format;
+			var data = w.data;
 
-		/// <summary>
-		/// Saves the current wave data to the specified file.
-		/// </summary>
-		/// <param name="filePath"></param>
-		public void BuildStream()//string filePath)
-		{
 			// Create a file (it always overwrites)
 			//FileStream fileStream = new FileStream(filePath, FileMode.Create);
 			//StreamWriter w = new StreamWriter(stream);
 
 			// Use BinaryWriter to write the bytes to the file
-			stream = new MemoryStream();
+			var stream = new MemoryStream();
 			BinaryWriter writer = new BinaryWriter(stream);//fileStream);
 
 			// Write the header
@@ -229,8 +231,11 @@ namespace WavePlayer.WaveLibrary
 			// Write the data chunk
 			writer.Write(data.sChunkID.ToCharArray());
 			writer.Write(data.dwChunkSize);
-			foreach (short dataPoint in data.shortArray)
+
+			// foreach (short dataPoint in data.shortArray)
+			for (int i = 0; i < data.shortArrayLength; i++)
 			{
+				var dataPoint = data.shortArray[i];
 				writer.Write(dataPoint);
 			}
 
@@ -240,6 +245,8 @@ namespace WavePlayer.WaveLibrary
 
 			// Set the position to the beginning of the stream.
 			stream.Seek(0, SeekOrigin.Begin);
+
+			return stream;
 		}
 	}
 

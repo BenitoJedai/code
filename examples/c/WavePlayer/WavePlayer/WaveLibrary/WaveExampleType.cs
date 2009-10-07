@@ -35,7 +35,7 @@ namespace WavePlayer.WaveLibrary
 				volume
 			);
 
-			return new SoundPlayer(wave.GetStream());
+			return new SoundPlayer(wave);
 		}
 	}
 }

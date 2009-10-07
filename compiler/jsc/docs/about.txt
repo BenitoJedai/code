@@ -372,3 +372,7 @@ version history:
 	java: fixed error where static method was calling base instance method
 07.10.2009
 	c: added initial ushort and short support
+	c: added OpCodes.Conv_R_Un
+	c: added OpCodes.Conv_I2
+	c: added OpCodes.Neg
+	c: added OpCodes.Ldelem_I2
