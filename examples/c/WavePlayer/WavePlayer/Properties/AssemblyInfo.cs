@@ -37,6 +37,7 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 
+
 [assembly:
 	Script(IsScriptLibrary = true, ScriptLibraries = new[] { typeof(ScriptCoreLibNative.IAssemblyReferenceToken) }),
 	ScriptTypeFilter(ScriptType.C),

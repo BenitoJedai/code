@@ -7,7 +7,6 @@ using System.IO;
 
 namespace WavePlayer.Library
 {
-	[Script]
 	public static class MyExtensions
 	{
 		public static byte[] ToArray(this Stream s)

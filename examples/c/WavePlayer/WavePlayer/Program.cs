@@ -10,14 +10,12 @@ using WavePlayer.Library;
 
 namespace WavePlayer
 {
-	[Script]
 	public class ColoredText
 	{
 		public ConsoleColor Color;
 		public string Text;
 	}
 
-	[Script]
 	public static class ColoredTextExtensions
 	{
 		public static void ToConsole(this ColoredText e)
@@ -28,10 +26,9 @@ namespace WavePlayer
 	}
 
 
-	[Script]
-	public unsafe class Program
+	public class Program
 	{
-	
+
 		public static void logo(string text)
 		{
 			Console.WriteLine("logo here");
@@ -66,7 +63,7 @@ namespace WavePlayer
 			a.PlaySync();
 			a.Stream.WriteTo("a.wav");
 
-		
+
 			//b.PlaySync();
 			//c.PlaySync();
 

@@ -367,12 +367,12 @@ namespace jsc.Languages.C
 
 		protected override void WriteTypeCast(Type type)
 		{
-			ScriptAttribute u = ScriptAttribute.Of(type);
+			//ScriptAttribute u = ScriptAttribute.Of(type);
 
 			Type p = type;
 
-			if (u != null && u.Implements != null)
-				p = u.Implements;
+			//if (u != null && u.Implements != null)
+			//    p = u.Implements;
 
 			WriteBoxedComment("typecast");
 

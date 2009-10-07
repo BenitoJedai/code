@@ -26,15 +26,19 @@ namespace jsc.Languages.C
 			if (e.IsAbstract && e.IsSealed)
 				return;
 
+			if (e.IsEnum)
+				return;
+
 			ScriptAttribute a = ScriptAttribute.Of(e);
 
 			//if (a.Implements != null)
 			//    return;
 
-			WriteLine();
 
 			if (IsHeaderOnlyMode)
 			{
+
+
 				string _typename = GetDecoratedTypeName(e, false, false);
 				string _pname = GetPointerName(e);
 
@@ -42,6 +46,8 @@ namespace jsc.Languages.C
 
 				if (a == null || !a.HasNoPrototype)
 				{
+					WriteLine();
+
 					#region typedef
 					WriteIdent();
 					WriteCommentLine(e.FullName);

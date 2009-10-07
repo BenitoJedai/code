@@ -41,7 +41,8 @@ namespace jsc.Languages.C
 							Emit(p, i.StackBeforeStrict[0], m.DeclaringType);
 							Write(")");
 							Write("(");
-							WriteParameters(p, m, i.StackBeforeStrict.Skip(1).ToArray(), 0, m.GetParameters().Skip(1).ToArray(), false, ",");
+							//WriteParameters(p, m, i.StackBeforeStrict.Skip(1).ToArray(), 0, m.GetParameters().Skip(1).ToArray(), false, ",");
+							WriteParameters(p, m, i.StackBeforeStrict.Skip(1).ToArray(), 0, m.GetParameters().ToArray(), false, ",");
 							Write(")");
 							return;
 						}
