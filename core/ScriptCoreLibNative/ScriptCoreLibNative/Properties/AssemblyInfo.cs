@@ -6,11 +6,11 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WavePlayer")]
+[assembly: AssemblyTitle("ScriptCoreLibNative")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WavePlayer")]
+[assembly: AssemblyProduct("ScriptCoreLibNative")]
 [assembly: AssemblyCopyright("Copyright ©  2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using ScriptCoreLib;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8dcb60e9-8237-4a56-9728-c013fefe66c5")]
+[assembly: Guid("231dd5ec-9811-4104-b27a-ad2685f116b9")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -36,8 +36,5 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-
-[assembly:
-	Script(ScriptLibraries = new[] { typeof(ScriptCoreLibNative.IAssemblyReferenceToken) }),
-	ScriptTypeFilter(ScriptType.C, typeof(WavePlayer.NativeClass1)),
-]
+[assembly: ScriptTypeFilter(ScriptType.C)]
+[assembly: Script(IsCoreLib = true)]

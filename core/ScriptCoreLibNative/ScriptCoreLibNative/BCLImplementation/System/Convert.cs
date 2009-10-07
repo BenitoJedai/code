@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace WavePlayer.BCLImplementation.System
+namespace ScriptCoreLibNative.BCLImplementation.System
 {
 	[Script(Implements = typeof(global::System.Convert))]
-	internal  class __Convert
+	internal class __Convert
 	{
 		public static int ToInt32(long value)
 		{
@@ -24,4 +24,5 @@ namespace WavePlayer.BCLImplementation.System
 			return (short)value;
 		}
 	}
+
 }

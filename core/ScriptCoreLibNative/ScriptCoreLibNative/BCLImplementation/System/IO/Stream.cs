@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using System.IO;
 
-namespace WavePlayer.BCLImplementation.System.IO
+namespace ScriptCoreLibNative.BCLImplementation.System.IO
 {
 	[Script(Implements = typeof(global::System.IO.Stream))]
 	internal abstract class __Stream
@@ -16,8 +16,16 @@ namespace WavePlayer.BCLImplementation.System.IO
 
 		}
 
+		public Action<object> __Stream_Close;
+		public virtual void Close()
+		{
+			if (__Stream_Close == null)
+				return;
 
-		public InternalFunc<object, long> __Stream_get_Length;
+			__Stream_Close(this);
+		}
+
+		public Func<object, long> __Stream_get_Length;
 		public long Length
 		{
 			get
@@ -31,7 +39,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 			}
 		}
 
-		public InternalFunc<object, long, SeekOrigin, long> __Stream_Seek;
+		public Func<object, long, SeekOrigin, long> __Stream_Seek;
 		public long Seek(long offset, SeekOrigin origin)
 		{
 			// no such thing as abstract in c...
@@ -40,7 +48,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 			return __Stream_Seek(this, offset, origin);
 		}
 
-		public InternalAction<object, byte[], int, int> __Stream_Write;
+		public Action<object, byte[], int, int> __Stream_Write;
 		public void Write(byte[] buffer, int offset, int count)
 		{
 			if (__Stream_Write == null)
@@ -57,10 +65,12 @@ namespace WavePlayer.BCLImplementation.System.IO
 			Write(new[] { e }, 0, 1);
 		}
 
-		public InternalFunc<object, byte[], int, int, int> __Stream_Read;
+		public Func<object, byte[], int, int, int> __Stream_Read;
 		public int Read(byte[] buffer, int offset, int count)
 		{
+
 			return __Stream_Read(this, buffer, offset, count);
 		}
 	}
+
 }

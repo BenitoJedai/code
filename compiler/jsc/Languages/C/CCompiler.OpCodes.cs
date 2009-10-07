@@ -211,7 +211,7 @@ namespace jsc.Languages.C
 						// this is a breaking change..
 						// a native delegate can be defined as nested or not as nested type
 
-						if (Target.ToScriptAttributeOrDefault().IsNative)
+						if ((ResolveImplementation(Target) ?? Target).ToScriptAttributeOrDefault().IsNative)
 						{
 							Emit(e.p, e.i.StackBeforeStrict[1]);
 							return;
