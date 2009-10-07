@@ -62,7 +62,7 @@ namespace WavePlayer
 
 
 			WaveExampleType.ExampleSquareWave.PlaySound(68);
-			WaveExampleType.ExampleSquareWave.PlaySound(38);
+			WaveExampleType.ExampleSawtoothWave.PlaySound(115);
 			WaveExampleType.ExampleSquareWave.PlaySound(168);
 
 			//return 0;
