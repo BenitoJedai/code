@@ -9,7 +9,6 @@ namespace WavePlayer.WaveLibrary
 	/// <summary>
 	/// Wraps the Data chunk of a wave file.
 	/// </summary>
-	[Script]
 	public class WaveDataChunk
 	{
 		public string sChunkID;     // "data"

@@ -9,7 +9,6 @@ namespace WavePlayer.WaveLibrary
 	/// <summary>
 	/// Wraps the header portion of a WAVE file.
 	/// </summary>
-	[Script]
 	public class WaveHeader
 	{
 		public string sGroupID; // RIFF

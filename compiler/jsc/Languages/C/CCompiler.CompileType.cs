@@ -30,6 +30,9 @@ namespace jsc.Languages.C
 					return false;
 			}
 
+			if (z.IsEnum)
+				return false;
+
 			Console.WriteLine(z.FullName);
 
 

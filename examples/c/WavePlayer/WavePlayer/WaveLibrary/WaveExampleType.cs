@@ -20,7 +20,6 @@ namespace WavePlayer.WaveLibrary
 		ExampleWhiteNoise = 4
 	}
 
-	[Script]
 	public static class WaveExampleTypeExtensions
 	{
 		public static SoundPlayer ToSoundPlayer(this WaveExampleType type, int frequency)

@@ -11,7 +11,6 @@ namespace WavePlayer.WaveLibrary
 	/// <summary>
 	/// Wraps a WAV file struture and auto-generates some canned waveforms.
 	/// </summary>
-	[Script]
 	public class WaveGenerator
 	{
 		// Header, Format, Data chunks

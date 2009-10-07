@@ -10,7 +10,6 @@ namespace WavePlayer.WaveLibrary
 	/// <summary>
 	/// Wraps the Format chunk of a wave file.
 	/// </summary>
-	[Script]
 	public class WaveFormatChunk
 	{
 		public string sChunkID;         // Four bytes: "fmt "
