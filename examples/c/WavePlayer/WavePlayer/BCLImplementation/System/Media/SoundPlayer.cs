@@ -19,6 +19,18 @@ namespace WavePlayer.BCLImplementation.System.Media
 
 		public void PlaySync()
 		{
+			if (InternalStream == null)
+			{
+				Console.WriteLine("__SoundPlayer.PlaySync: InternalStream == null");
+				return;
+			}
+
+			var length = (int)InternalStream.Length;
+
+			Console.Write("wave length: ");
+			Console.Write(length);
+			Console.WriteLine();
+
 			var pszSound = new byte[0];
 			var fdwSound = windows_h.SoundFlags.SND_MEMORY | windows_h.SoundFlags.SND_NODEFAULT;
 

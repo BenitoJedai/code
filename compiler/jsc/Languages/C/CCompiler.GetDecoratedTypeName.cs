@@ -20,8 +20,43 @@ namespace jsc.Languages.C
 {
 	partial class CCompiler
 	{
+		public string GetDecoratedTypeNameOrPointerName(Type z)
+		{
+			if (z != typeof(string) && !z.IsArray && !z.IsPrimitive && z.IsClass)
+			{
+				return ("struct tag_" + GetDecoratedTypeName(z, false) + "*");
+			}
+
+				return GetDecoratedTypeName(z, false, true);
+		}
+
 		public string GetDecoratedTypeName(Type z, bool bExternalAllowed, bool bPointer)
 		{
+			if (z.IsDelegate())
+				if (z.ToScriptAttributeOrDefault().IsNative)
+				{
+					var _Invoke = z.GetMethod("Invoke");
+					var _Parameters = _Invoke.GetParameters();
+
+					var w = new StringBuilder();
+
+					w.Append(GetDecoratedTypeNameOrPointerName(_Invoke.ReturnType));
+					w.Append("(*)");
+					w.Append("(");
+
+					for (int i = 0; i < _Parameters.Length; i++)
+					{
+						if (i > 0)
+							w.Append(", ");
+
+						w.Append(GetDecoratedTypeNameOrPointerName(_Parameters[i].ParameterType));
+					}
+
+					w.Append(")");
+
+					return w.ToString();
+				}
+
 			if (z.IsEnum)
 				return GetDecoratedTypeName(Enum.GetUnderlyingType(z), bExternalAllowed);
 
