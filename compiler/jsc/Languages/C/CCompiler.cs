@@ -39,15 +39,15 @@ namespace jsc.Languages.C
 		}
 
 
-	
-	
+
+
 
 		public override ScriptType GetScriptType()
 		{
 			return ScriptType.C;
 		}
 
-	
+
 		private void WriteTypeInstanceConstructors(Type z)
 		{
 			ConstructorInfo[] zci = GetAllInstanceConstructors(z);
@@ -71,6 +71,8 @@ namespace jsc.Languages.C
 		{
 			if (IsHeaderOnlyMode)
 			{
+				if (e.IsAbstract && e.IsSealed)
+					return;
 
 				ScriptAttribute a = ScriptAttribute.Of(e);
 
@@ -90,91 +92,95 @@ namespace jsc.Languages.C
 
 		private void WriteTypeDef(Type e)
 		{
-			if (!e.IsAbstract)
+			// we need to reference abstracts also by type pointer name
+			if (e.IsAbstract && e.IsSealed)
+				return;
+
+			ScriptAttribute a = ScriptAttribute.Of(e);
+
+			//if (a.Implements != null)
+			//    return;
+
+			WriteLine();
+
+			if (IsHeaderOnlyMode)
 			{
-				ScriptAttribute a = ScriptAttribute.Of(e);
+				string _typename = GetDecoratedTypeName(e, false, false);
+				string _pname = GetPointerName(e);
 
-				//if (a.Implements != null)
-				//    return;
+				#region instance struct
 
-				WriteLine();
-
-				if (IsHeaderOnlyMode)
+				if (a == null || !a.HasNoPrototype)
 				{
-					string _typename = GetDecoratedTypeName(e, false, false);
-					string _pname = GetPointerName(e);
+					#region typedef
+					WriteIdent();
+					WriteLine("typedef struct tag_" + GetDecoratedTypeName(e, false));
 
-					#region instance struct
-
-					if (a == null || !a.HasNoPrototype)
+					using (CreateScope(false))
 					{
-						#region typedef
-						WriteIdent();
-						WriteLine("typedef struct tag_" + GetDecoratedTypeName(e, false));
+						Stack<Type> u = new Stack<Type>();
 
-						using (CreateScope(false))
+						Type p = e;
+
+						while (p != typeof(object))
 						{
-							Stack<Type> u = new Stack<Type>();
+							u.Push(p);
+							p = p.BaseType;
+						}
 
-							Type p = e;
+						while (u.Count > 0)
+						{
+							p = u.Pop();
 
-							while (p != typeof(object))
+							FieldInfo[] fields = GetAllFields(p);
+
+							if (fields.Length == 0)
 							{
-								u.Push(p);
-								p = p.BaseType;
+								WriteIdent();
+								WriteLine("void* __dummy;");
+
 							}
-
-							while (u.Count > 0)
+							else
 							{
-								p = u.Pop();
-
-								FieldInfo[] fields = GetAllFields(p);
-
-								if (fields.Length == 0)
+								foreach (FieldInfo field in fields)
 								{
+									if (field.IsStatic)
+										continue;
+
 									WriteIdent();
-									WriteLine("void* __dummy;");
 
-								}
-								else
-								{
-									foreach (FieldInfo field in fields)
+									if (field.FieldType != typeof(string) && !field.FieldType.IsArray && !field.FieldType.IsPrimitive && field.FieldType.IsClass)
 									{
-										if (field.IsStatic)
-											continue;
-
-										WriteIdent();
-
-										if (field.FieldType != typeof(string) && !field.FieldType.IsArray && !field.FieldType.IsPrimitive && field.FieldType.IsClass)
-										{
-											Write("struct tag_" + GetDecoratedTypeName(field.FieldType, false));
-											Write("*");
-										}
-										else
-										{
-											Write(GetDecoratedTypeName(field.FieldType, false, true));
-										}
-
-										WriteSpace();
-										Write(field.Name);
-										WriteLine(";");
+										Write("struct tag_" + GetDecoratedTypeName(field.FieldType, false));
+										Write("*");
 									}
+									else
+									{
+										Write(GetDecoratedTypeName(field.FieldType, false, true));
+									}
+
+									WriteSpace();
+									Write(field.Name);
+									WriteLine(";");
 								}
 							}
 						}
-						WriteLine(" " + _typename + ", *" + _pname + ";");
-						#endregion
 					}
-
-
-
-					WriteLine("#define __new_" + _typename + "(count) \\");
-					WriteLine("    (" + _pname + ") malloc(sizeof(" + _typename + ") * count)");
-
-					WriteLine();
-
+					WriteLine(" " + _typename + ", *" + _pname + ";");
 					#endregion
 				}
+
+
+
+				if (!e.IsAbstract)
+				{
+					WriteLine("#define __new_" + _typename + "(count) \\");
+					WriteLine("    (" + _pname + ") malloc(sizeof(" + _typename + ") * count)");
+				}
+
+				WriteLine();
+
+				#endregion
 			}
 		}
 
@@ -376,40 +382,6 @@ namespace jsc.Languages.C
 			return !this.IsHeaderOnlyMode;
 		}
 
-		public override void WriteMethodSignature(MethodBase m, bool dStatic)
-		{
-			WriteIdent();
-
-			if (m is MethodInfo)
-			{
-				MethodInfo mi = m as MethodInfo;
-
-				//WriteDecoratedTypeName(mi.ReturnType);
-				Write(GetDecoratedTypeName(mi.ReturnType, true, true));
-				//Write(GetDecoratedTypeNameWithinNestedName( mi.ReturnType));
-
-			}
-			else
-			{
-				Write(GetDecoratedTypeName(m.DeclaringType, true, true));
-			}
-
-			WriteSpace();
-
-			WriteDecoratedMethodName(m, false);
-
-			Write("(");
-			WriteMethodParameterList(m);
-			Write(")");
-
-			if (!WillEmitMethodBody())
-			{
-				Write(";");
-			}
-
-
-			WriteLine();
-		}
 
 		public override void WriteMethodCallVerified(ILBlock.Prestatement p, ILInstruction i, MethodBase m)
 		{
@@ -444,97 +416,10 @@ namespace jsc.Languages.C
 
 		public bool HideParameterNameInHeaderFiles = true;
 
-		public override void WriteMethodParameterList(MethodBase m)
-		{
-			ParameterInfo[] mp = m.GetParameters();
-
-			ScriptAttribute ma = ScriptAttribute.Of(m);
-
-			bool bStatic = (!m.IsStatic && AlwaysDefineAsStatic) || (ma != null && ma.DefineAsStatic);
-
-			if (bStatic)
-			{
-				if (m.IsStatic)
-				{
-					Break("method is already static, but is marked to be declared out of band : " + m.DeclaringType.FullName + "." + m.Name);
-				}
-
-				DebugBreak(ma);
-
-
-				ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
-
-				if (sa.Implements == null)
-				{
-					Write(GetDecoratedTypeName(m.DeclaringType, true, true));
-
-				}
-				else
-				{
-					Write(GetDecoratedTypeName(sa.Implements, true, true));
-				}
-
-				if (this.IsHeaderOnlyMode)
-				{
-					if (!HideParameterNameInHeaderFiles)
-					{
-						WriteSpace();
-						Write("/* ");
-						WriteSelf();
-						Write(" */");
-					}
-				}
-				else
-				{
-					WriteSpace();
-					WriteSelf();
-				}
-			}
-			else
-			{
-				if (mp.Length == 0)
-					Write("void");
-			}
-
-			for (int mpi = 0; mpi < mp.Length; mpi++)
-			{
-				if (mpi > 0 || bStatic)
-				{
-					Write(",");
-					WriteSpace();
-				}
-
-				ParameterInfo p = mp[mpi];
-
-				ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
-
-				if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
-					Write(GetDecoratedTypeName(p.ParameterType, true, true));
-				else
-					Write(GetDecoratedTypeName(za.Implements, true, true));
-
-				if (this.IsHeaderOnlyMode)
-				{
-					if (!HideParameterNameInHeaderFiles)
-					{
-						WriteSpace();
-						Write("/* ");
-						Write(p.Name);
-						Write(" */");
-					}
-				}
-				else
-				{
-					WriteSpace();
-					Write(p.Name);
-				}
-
-			}
-		}
 
 		public override void WriteSelf()
 		{
-			Write("that");
+			Write("__that");
 		}
 
 		public override void EmitPrestatement(ILBlock.Prestatement p)

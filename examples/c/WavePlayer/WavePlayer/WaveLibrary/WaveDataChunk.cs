@@ -15,6 +15,7 @@ namespace WavePlayer.WaveLibrary
 		public string sChunkID;     // "data"
 		public uint dwChunkSize;    // Length of header in bytes
 		public short[] shortArray;  // 8-bit audio
+		public uint shortArrayLength;
 
 		/// <summary>
 		/// Initializes a new data chunk with default values.

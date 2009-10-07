@@ -34,18 +34,19 @@ namespace jsc.Languages.C
 			if (z == typeof(object)) return "void*";
 
 			// see: http://www.space.unibe.ch/comp_doc/c_manual/C/CONCEPT/data_types.html
+			// see: http://msdn.microsoft.com/en-us/library/s3f49ktz%28VS.71%29.aspx
 
 			if (z == typeof(bool)) return "int";
 			if (z == typeof(int)) return "int";
 			if (z == typeof(int)) return "int";
-			if (z == typeof(short)) return "short int";
-			if (z == typeof(ushort)) return "unsigned short int";
+			if (z == typeof(short)) return "short";
+			if (z == typeof(ushort)) return "unsigned short";
 
 			if (z == typeof(uint)) return "unsigned int";
 			if (z == typeof(void)) return "void";
 			if (z == typeof(string)) return "char*";
 			if (z == typeof(char)) return "unsigned char";
-			if (z == typeof(long)) return "signed long";
+			if (z == typeof(long)) return "long long";
 			if (z == typeof(double)) return "double";
 
 			ScriptAttribute t = ScriptAttribute.Of(z);
@@ -71,7 +72,11 @@ namespace jsc.Languages.C
 				if (bPointer)
 					return GetPointerName(z);
 
+				// we could use full type names
 				return u;
+
+				// or we could show metadata tokens
+				//return "___" + z.MetadataToken.ToString("x8");
 			}
 
 			if (z.IsGenericParameter)
@@ -84,7 +89,7 @@ namespace jsc.Languages.C
 			//if (z.BaseType == typeof(global::System.MulticastDelegate))
 			//    return "void*";
 
-			Script.CompilerBase.BreakToDebugger("type not supported: " + z.FullName);
+			Script.CompilerBase.BreakToDebugger("type not supported: " + z.FullName + " ; consider adding [ScriptAttribute]");
 
 			return "unknown";
 		}

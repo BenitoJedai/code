@@ -22,6 +22,14 @@ namespace jsc.Languages.C
 	{
 		private void CreateInstructionHandlers()
 		{
+			CIW[OpCodes.Neg] =
+				delegate(CodeEmitArgs e)
+				{
+					Write("(-(");
+					EmitFirstOnStack(e);
+					Write("))");
+				};
+
 			#region Ldftn
 			CIW[OpCodes.Ldftn] =
 				delegate(CodeEmitArgs e)
@@ -59,6 +67,10 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Conv_U4] =
 			   delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned int"); };
 
+			CIW[OpCodes.Conv_I2] =
+				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "short int"); };
+
+
 			CIW[OpCodes.Conv_I4] =
 				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "signed int"); };
 
@@ -68,6 +80,9 @@ namespace jsc.Languages.C
 				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "unsigned long"); };
 			CIW[OpCodes.Conv_R8] =
 					delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "double"); };
+
+			CIW[OpCodes.Conv_R_Un] =
+				delegate(CodeEmitArgs e) { ConvertTypeAndEmit(e, "float"); };
 
 
 			CIW[OpCodes.Initobj] =
@@ -102,6 +117,7 @@ namespace jsc.Languages.C
 				OpCodes.Ldelem_U2,
 				OpCodes.Ldelem_U4,
 				OpCodes.Ldelem_I1,
+				OpCodes.Ldelem_I2,
 				OpCodes.Ldelem_I4,
 				OpCodes.Ldelem
 				] =
@@ -156,7 +172,10 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Ldlen] =
 				delegate(CodeEmitArgs e)
 				{
-					CompilerBase.BreakToDebugger("c runtime cannot tell the length of an array");
+					// future revisions could implement virtual arrays
+
+					CompilerBase.BreakToDebugger(
+						"C runtime cannot tell the length of an array; " + e.i.Location + " ;");
 				};
 
 
