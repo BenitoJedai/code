@@ -103,6 +103,11 @@ namespace jsc.Languages.C
 					continue;
 
 				WriteTypeDef(u);
+
+				if (!IsHeaderOnlyMode)
+				{
+					WriteStaticFields(u);
+				}
 			}
 
 

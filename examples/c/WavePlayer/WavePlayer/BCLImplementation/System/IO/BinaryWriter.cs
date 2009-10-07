@@ -45,7 +45,7 @@ namespace WavePlayer.BCLImplementation.System.IO
 
 		}
 
-		public  long Seek(int offset, SeekOrigin origin)
+		public long Seek(int offset, SeekOrigin origin)
 		{
 			return 0;
 		}
