@@ -30,3 +30,5 @@
 	- ExtendToAvalonEverywhere also prepares a projector exe file
 2009.10.01
 	- ExtendWindowsFormsEverywhere creates opera widget
+2009.10.08
+	- Added RewriteToAssembly command
