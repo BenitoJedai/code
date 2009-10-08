@@ -19,6 +19,8 @@ namespace FlashZIndex.ActionScript
     [SWF(backgroundColor = BackgroundColor)]
     public class FlashZIndex : Sprite
     {
+		// upgrade to wpf: http://blogs.msdn.com/wpfsdk/archive/2006/06/13/Controlling-zOrder-using-the-ZIndex-Property.aspx
+
         public const uint BackgroundColor = 0xffffff;// (uint)0xffffff.Random();
         public const uint ForegroundColor = 0x202020;//(uint)(0xffffff ^ BackgroundColor);
 

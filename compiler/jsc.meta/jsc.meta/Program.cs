@@ -15,7 +15,8 @@ namespace jsc.meta
 	{
 		// read: http://www.albahari.com/nutshell/ch17.aspx
 
-
+		// should we use MEF for different Commands instead?
+		
 
 
 		static void ShowLogo()

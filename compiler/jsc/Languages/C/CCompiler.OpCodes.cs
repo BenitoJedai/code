@@ -210,6 +210,7 @@ namespace jsc.Languages.C
 					{
 						// this is a breaking change..
 						// a native delegate can be defined as nested or not as nested type
+						// currently we only support static singlecast native delegates
 
 						if ((ResolveImplementation(Target) ?? Target).ToScriptAttributeOrDefault().IsNative)
 						{
