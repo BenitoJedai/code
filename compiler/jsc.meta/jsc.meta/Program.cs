@@ -8,6 +8,7 @@ using ScriptCoreLib.Reflection.Options;
 using jsc.meta.Commands;
 using jsc.meta.Commands.Extend;
 using jsc.meta.Commands.Reference;
+using jsc.meta.Commands.Rewrite;
 
 namespace jsc.meta
 {
@@ -48,8 +49,9 @@ namespace jsc.meta
 
 
 				new ReferenceTextComponent().Invoke,
-				new ReferenceTextualUserControl().Invoke
+				new ReferenceTextualUserControl().Invoke,
 				
+				new RewriteToAssembly().Invoke
 			);
 
 		}
