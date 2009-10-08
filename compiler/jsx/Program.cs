@@ -157,8 +157,8 @@ namespace jsx
                 typeof(jsx.Tests.ILTest),
                 Assembly.GetExecutingAssembly(),
 
-                Assembly.LoadFile(@"X:\c#\jsc\svn\templates\OrcasVisualBasicScriptApplication\bin\Release\OrcasVisualBasicScriptApplication.dll"),
-                Assembly.LoadFile(@"X:\util\reflector\reflector.exe"),
+                //Assembly.LoadFile(@"X:\c#\jsc\svn\templates\OrcasVisualBasicScriptApplication\bin\Release\OrcasVisualBasicScriptApplication.dll"),
+                Assembly.LoadFile(@"C:\util\reflector\reflector.exe"),
                 GetEnumerators(typeof(jsx.Tests.Sequence.YieldSupport)),
                 GetEnumerators(typeof(System.Linq.Enumerable))
 
