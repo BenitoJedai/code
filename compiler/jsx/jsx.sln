@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express Codename Orcas
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 10
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsx", "jsx.csproj", "{4D7EED61-DBFD-48E8-9671-8E734C1F2817}"
 EndProject
 Global
