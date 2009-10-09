@@ -1,7 +1,7 @@
 @echo off
 set ConfigurationName=%2
 
-pushd ..\bin\%ConfigurationName%\web\
+pushd ..\bin\%ConfigurationName%\staging\web\
 echo + compile native [%1] %ConfigurationName%
 setlocal
 

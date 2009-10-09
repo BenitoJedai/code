@@ -36,11 +36,12 @@ namespace jsc.Languages.C
 		{
 			// some methods are treaded as special
 			// for example Main will be translated to main
-			if (z.Name == "Main" && z.IsStatic)
-			{
-				Write("main");
-				return;
-			}
+			if (z.DeclaringType.Assembly == this.MySession.Options.TargetAssemblyReference)
+				if (z.Name == "Main" && z.IsStatic)
+				{
+					Write("main");
+					return;
+				}
 
 			ScriptAttribute s = ScriptAttribute.Of(z);
 
@@ -52,7 +53,7 @@ namespace jsc.Languages.C
 					WithDecoration = false;
 			}
 
-	
+
 
 			s = ScriptAttribute.Of(z.DeclaringType);
 
