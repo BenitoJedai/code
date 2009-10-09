@@ -64,8 +64,8 @@ namespace WavePlayer
 			a.Stream.WriteTo("a.wav");
 
 
-			//b.PlaySync();
-			//c.PlaySync();
+			b.PlaySync();
+			c.PlaySync();
 
 			//b.Stream.WriteTo("b.wav");
 			//c.Stream.WriteTo("c.wav");

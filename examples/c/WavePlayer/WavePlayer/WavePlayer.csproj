@@ -81,8 +81,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>pushd ..\..\tools\
-call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
+    <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
+C:\util\jsc\bin\jsc.meta.exe ExtendToNativeConsole /assembly:"$(TargetPath)" /c1:"c:\Program Files\Microsoft Visual Studio 9.0\VC"
+pushd ..\..\tools\
+call compile.native  $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
   </PropertyGroup>
 </Project>
