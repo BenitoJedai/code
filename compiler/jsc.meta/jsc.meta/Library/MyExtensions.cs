@@ -390,6 +390,12 @@ namespace jsc.meta.Library
 			return a;
 		}
 
+		/// <summary>
+		/// All referenced types including their defining assemblies will be copied
+		/// to the target possibily the staging area
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="z"></param>
 		public static void DefinesTypes(this DirectoryInfo target, params Type[] z)
 		{
 			foreach (var item in z)

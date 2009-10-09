@@ -377,3 +377,5 @@ version history:
 	c: added OpCodes.Neg
 	c: added OpCodes.Ldelem_I2
 	c: ctor now clears fields
+09.10.2009
+	c: Main will be treated special only if inside target assembly

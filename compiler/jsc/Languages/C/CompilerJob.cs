@@ -41,6 +41,7 @@ namespace jsc.Languages
 			IdentWriter xw = new IdentWriter();
 
 			xw.Session = new AssamblyTypeInfo();
+			xw.Session.Options = sinfo.Options;
 
 			sinfo.Logging.LogMessage("loading types");
 

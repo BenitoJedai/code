@@ -23,6 +23,8 @@ namespace jsc.meta.Commands.Rewrite
 		/// 
 		/// Some target languages wont implement specific features
 		/// for which we will need to simplify IL anyhow.
+		/// 
+		/// We could also be inlining methods and delete them.
 		/// </summary>
 		public bool simplify;
 
@@ -32,6 +34,13 @@ namespace jsc.meta.Commands.Rewrite
 		/// like reflector.
 		/// </summary>
 		public bool obfuscate;
+
+
+		class NamespaceRenameInstructions
+		{
+			// we could provide namespace renaming to provide 
+			// brand support
+		}
 
 		public void Invoke()
 		{
