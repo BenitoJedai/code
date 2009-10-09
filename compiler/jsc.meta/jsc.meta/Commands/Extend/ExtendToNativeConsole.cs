@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using jsc.meta.Tools;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -22,6 +23,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
+
 			if (this.staging == null)
 				this.staging = this.assembly.Directory.CreateSubdirectory("staging");
 			else if (!staging.Exists)
@@ -164,7 +166,9 @@ namespace jsc.meta.Commands.Extend
 
 
 
-					var main = t.DefineMethod("Main", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new[] { typeof(int), typeof(string[]) });
+					var main = t.DefineMethod("Main", MethodAttributes.Static, CallingConventions.Standard, typeof(void), new Type[] { 
+						//typeof(int), typeof(string[]) 
+					});
 					var main_il = main.GetILGenerator();
 
 					

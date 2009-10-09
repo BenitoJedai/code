@@ -1,4 +1,6 @@
 @echo off
+
+
 set ConfigurationName=%2
 
 pushd ..\bin\%ConfigurationName%\staging\web\

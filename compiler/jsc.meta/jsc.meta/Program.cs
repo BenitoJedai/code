@@ -9,6 +9,7 @@ using jsc.meta.Commands;
 using jsc.meta.Commands.Extend;
 using jsc.meta.Commands.Reference;
 using jsc.meta.Commands.Rewrite;
+using System.Diagnostics;
 
 namespace jsc.meta
 {
@@ -35,6 +36,7 @@ namespace jsc.meta
 
 		public static void Main(string[] args)
 		{
+			//Debugger.Launch();
 
 
 			ShowLogo();
