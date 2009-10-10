@@ -49,7 +49,7 @@ namespace jsc.Languages.C
 
 
 
-	
+
 
 		public string GetPointerName(Type e)
 		{
@@ -313,6 +313,9 @@ namespace jsc.Languages.C
 
 		public override void WriteDecoratedMethodParameter(ParameterInfo p)
 		{
+			if (string.IsNullOrEmpty(p.Name))
+				Write("__" + p.Position);
+
 			Write(p.Name);
 		}
 

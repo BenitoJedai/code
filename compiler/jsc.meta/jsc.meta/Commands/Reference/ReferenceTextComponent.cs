@@ -9,9 +9,20 @@ using System.Reflection;
 using System.Reflection.Emit;
 using jsc.meta.Library;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Reference
 {
+	/// <summary>
+	/// So how do we go about using this command?
+	/// 
+	/// Use these steps to use this command:
+	/// 1. Add project folder "MyContent.TextComponent"
+	/// 2. Add a few named .txt files with content in it
+	/// 3. Add a prebuild event - C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)" /IsComponent:false
+	/// 4. Rebuild and also allow to reload your project
+	/// 5. Check for a new referenced assembly
+	/// </summary>
 	public class ReferenceTextComponent
 	{
 		/*
@@ -31,10 +42,28 @@ Embedded Resource - This file is embedded in the main project build output as a 
 		// could be used as a code generator
 		// before any jsc kicks in
 
+		/// <summary>
+		/// This is this csproj file. We should also support VB project file
+		/// as they should really not be that different.
+		/// </summary>
 		public FileInfo ProjectFileName;
+
+		/// <summary>
+		/// The generated type will inherit from global::System.ComponentModel.Component
+		/// </summary>
+		public bool IsComponent = true;
+
+		/// <summary>
+		/// We would need StringBuilder which may or may not be available
+		/// on the target platform
+		/// </summary>
+		public bool ImplementToString = true;
 
 		public void Invoke()
 		{
+			Debugger.Launch();
+
+
 			var csproj = XDocument.Load(ProjectFileName.FullName);
 			var csproj_dirty = false;
 
@@ -264,7 +293,9 @@ Embedded Resource - This file is embedded in the main project build output as a 
 			var t = m.DefineType(
 				TargetName.Substring(0, TargetName.Length - (TextComponent.Length + 1)),
 				TypeAttributes.Public,
-				typeof(global::System.ComponentModel.Component)
+				IsComponent ?
+					typeof(global::System.ComponentModel.Component)
+					: typeof(object)
 			);
 
 			var Fields = Enumerable.ToArray(
@@ -282,9 +313,11 @@ Embedded Resource - This file is embedded in the main project build output as a 
 			{
 				var il = t_ctor.GetILGenerator();
 
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Call, typeof(System.ComponentModel.Component).GetConstructor(new Type[0]));
-
+				if (IsComponent)
+				{
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, typeof(System.ComponentModel.Component).GetConstructor(new Type[0]));
+				}
 
 				foreach (var k in Fields)
 				{
@@ -296,8 +329,11 @@ Embedded Resource - This file is embedded in the main project build output as a 
 				il.Emit(OpCodes.Ret);
 			}
 
+			if (ImplementToString)
+				t.DefineToStringMethod(from k in Fields select k.Field);
 
-			t.DefineToStringMethod(from k in Fields select k.Field);
+			t.DefineWriteToMethod(from k in Fields select k.Field);
+		
 
 			t.CreateType();
 

@@ -149,6 +149,7 @@
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
+    <Compile Include="Library\WriteToProvider.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineLabel.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineTextbox.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineButton.cs" />
