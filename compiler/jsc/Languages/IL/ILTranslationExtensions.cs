@@ -7,17 +7,58 @@ using System.Reflection;
 
 namespace jsc.Languages.IL
 {
+
 	/// <summary>
 	/// Here we are years later, actually rewriting IL for a later phase!
 	/// </summary>
 	public static class ILTranslationExtensions
 	{
-		public static void EmitTo(this Delegate source, ILGenerator il, Func<ConstructorInfo, ConstructorInfo> Newobj)
+		public static void EmitTo(this Delegate source, ILGenerator il, Func<ConstructorInfo, ConstructorInfo> Newobj_redirect)
 		{
-			source.Method.EmitTo(il, Newobj);
+			source.Method.EmitTo(il,
+				new EmitToArguments
+				{
+					Newobj_redirect = Newobj_redirect
+				}
+			);
 		}
 
-		public static void EmitTo(this MethodBase m, ILGenerator il, Func<ConstructorInfo, ConstructorInfo> Newobj)
+		public static void EmitTo(this Delegate source, ILGenerator il, EmitToArguments a)
+		{
+			source.Method.EmitTo(il, a);
+		}
+
+		public class EmitToArguments
+		{
+			public Action<ILInstruction, ILGenerator> Ldarg_0 =
+				(i, il) => il.Emit(OpCodes.Ldarg_0);
+
+			public Action<ILInstruction, ILGenerator> Ldarg_1 =
+				(i, il) => il.Emit(OpCodes.Ldarg_1);
+
+			public Action<ILInstruction, ILGenerator> Ldarg_2 =
+				(i, il) => il.Emit(OpCodes.Ldarg_2);
+
+			public Action<ILInstruction, ILGenerator> Ldarg_3 =
+				(i, il) => il.Emit(OpCodes.Ldarg_3);
+
+			public Action<ILInstruction, ILGenerator> Ldarg_S =
+				(i, il) => il.Emit(OpCodes.Ldarg_S);
+
+			public Action<ILInstruction, ILGenerator> Ret =
+				(i, il) => il.Emit(OpCodes.Ret);
+
+			public Action<ILInstruction, ILGenerator> Stfld =
+				(i, il) => il.Emit(OpCodes.Stfld);
+
+			public Func<ConstructorInfo, ConstructorInfo> Newobj_redirect =
+				ctor => ctor;
+
+			public Func<Type, Type> DefineLocal_redirect =
+				t => t;
+		}
+
+		public static void EmitTo(this MethodBase m, ILGenerator il, EmitToArguments a)
 		{
 			//+		[0]	{[0x0000] nop        +0 -0}	jsc.ILInstruction
 			//+		[1]	{[0x0001] newobj     +1 -0}	jsc.ILInstruction
@@ -38,7 +79,7 @@ namespace jsc.Languages.IL
 
 			var locals = Enumerable.ToArray(
 				from local in body.LocalVariables
-				let declared = il.DeclareLocal(local.LocalType)
+				let declared = il.DeclareLocal(a.DefineLocal_redirect(local.LocalType))
 				select new { local, declared }
 			).ToDictionary(
 				k => k.local.LocalIndex,
@@ -50,16 +91,26 @@ namespace jsc.Languages.IL
 			new Dictionary<OpCode, Action<ILInstruction>>
 			{
 				{OpCodes.Nop, i => il.Emit(OpCodes.Nop)},
-				{OpCodes.Newobj, i => il.Emit(OpCodes.Newobj, Newobj(i.TargetConstructor))},
+				{OpCodes.Newobj, i => il.Emit(OpCodes.Newobj, a.Newobj_redirect(i.TargetConstructor))},
 				{OpCodes.Stloc_0, i => il.Emit(OpCodes.Stloc_S, (byte)locals[0])},
 				{OpCodes.Stloc_1, i => il.Emit(OpCodes.Stloc_S, (byte)locals[1])},
 				{OpCodes.Ldloc_0, i => il.Emit(OpCodes.Ldloc_S, (byte)locals[0])},
 				{OpCodes.Ldloc_1, i => il.Emit(OpCodes.Ldloc_S, (byte)locals[1])},
-				{OpCodes.Ldarg_0, i => il.Emit(OpCodes.Ldarg_0)},
+				
+				{OpCodes.Ldarg_0, i => a.Ldarg_0(i, il)},
+				{OpCodes.Ldarg_1, i => a.Ldarg_1(i, il)},
+				{OpCodes.Ldarg_2, i => a.Ldarg_2(i, il)},
+				{OpCodes.Ldarg_3, i => a.Ldarg_3(i, il)},
+				{OpCodes.Ldarg_S, i => a.Ldarg_S(i, il)},
+
 				{OpCodes.Callvirt, i => il.Emit(OpCodes.Callvirt, i.TargetMethod)},
 				{OpCodes.Call, i => il.Emit(OpCodes.Call, i.TargetMethod)},
+				
+				{OpCodes.Stfld,i => a.Stfld(i, il)},
+				{OpCodes.Ldfld, i => il.Emit(OpCodes.Ldfld, i.TargetField)},
+
 				{OpCodes.Pop, i => il.Emit(OpCodes.Pop)},
-				{OpCodes.Ret, i => il.Emit(OpCodes.Ret)},
+				{OpCodes.Ret, i => a.Ret(i, il)},
 			}.Translate(new ILBlock(m));
 		}
 

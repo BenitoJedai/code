@@ -23,10 +23,36 @@ namespace WavePlayer
 			Console.ForegroundColor = e.Color;
 			Console.WriteLine(e.Text);
 		}
+
+		public class PropertyToConsoleTag
+		{
+			public ColoredText Name;
+			public ColoredText Value;
+
+		}
+
+		public static void ToConsole(this PropertyToConsoleTag e)
+		{
+			e.Name.ToConsole();
+
+			Console.Write("    ");
+
+			e.Value.ToConsole();
+		}
+		public static PropertyToConsoleTag PropertyToConsole(this string name, string value)
+		{
+			return new PropertyToConsoleTag
+			{
+				Name = new ColoredText { Color = ConsoleColor.Green, Text = name },
+				Value = new ColoredText { Color = ConsoleColor.Yellow, Text = value }
+			};
+
+		}
+
 	}
 
 
-	public class Program
+	public static class Program
 	{
 
 		public static void logo(string text)
@@ -35,12 +61,25 @@ namespace WavePlayer
 			Console.WriteLine(text);
 		}
 
+		public static void ShowProperties(MyContent.WriteToArguments a)
+		{
+			a.Name.PropertyToConsole(a.Value).ToConsole();
+		}
+
 
 		public static void Main()
 		{
 			Console.WriteLine("other projects: ");
 			Console.WriteLine("# http://naudio.codeplex.com/sourcecontrol/changeset/view/28884?projectName=naudio#");
 
+			Console.WriteLine();
+
+			var MyContent = new MyContent();
+
+
+			MyContent.WriteTo((sender, args) => ShowProperties((MyContent.WriteToArguments)args));
+
+			Console.WriteLine();
 			// you really should not use headphones with PC speakers
 
 			TestMemoryStream();

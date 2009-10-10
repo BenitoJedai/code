@@ -53,6 +53,8 @@
     <Compile Include="BCLImplementation\System\Collections\Generic\List.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
     <Compile Include="BCLImplementation\System\Convert.cs" />
+    <Compile Include="BCLImplementation\System\EventArgs.cs" />
+    <Compile Include="BCLImplementation\System\EventHandler.cs" />
     <Compile Include="BCLImplementation\System\Func.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\IO\BinaryWriter.cs" />

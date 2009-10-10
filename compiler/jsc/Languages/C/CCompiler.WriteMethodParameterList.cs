@@ -84,10 +84,19 @@ namespace jsc.Languages.C
 
 				ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
 
-				if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
-					Write(GetDecoratedTypeName(p.ParameterType, true, true));
+				if (p.ParameterType.IsDelegate())
+				{
+					// C compiler anly seems to allow
+					// anonymous method casts within function body
+					Write(GetDecoratedTypeNameOrPointerName(typeof(object)));
+				}
 				else
-					Write(GetDecoratedTypeName(za.Implements, true, true));
+				{
+					if (za.Implements == null || m.DeclaringType.GUID != p.ParameterType.GUID)
+						Write(GetDecoratedTypeName(p.ParameterType, true, true));
+					else
+						Write(GetDecoratedTypeName(za.Implements, true, true));
+				}
 
 				if (this.IsHeaderOnlyMode)
 				{
@@ -95,14 +104,14 @@ namespace jsc.Languages.C
 					{
 						WriteSpace();
 						Write("/* ");
-						Write(p.Name);
+						WriteDecoratedMethodParameter(p);
 						Write(" */");
 					}
 				}
 				else
 				{
 					WriteSpace();
-					Write(p.Name);
+					WriteDecoratedMethodParameter(p);
 				}
 
 			}
