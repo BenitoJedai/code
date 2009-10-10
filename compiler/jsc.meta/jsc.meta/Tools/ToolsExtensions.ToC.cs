@@ -11,9 +11,7 @@ namespace jsc.meta.Tools
 {
 	static partial class ToolsExtensions
 	{
-	
-		
-		public static void ToC(this FileInfo TargetAssembly, FileInfo c1)
+		public static void ToC(this FileInfo SourceAssembly, string TargetName, DirectoryInfo MicrosoftVisualStudio, DirectoryInfo MicrosoftWindowsSDK)
 		{
 			// fixme: currently jsc build only one set of c and h files
 			// for the target assembly
@@ -24,58 +22,45 @@ namespace jsc.meta.Tools
 				{
 					Options = new jsc.CommandLineOptions
 					{
-						TargetAssembly = TargetAssembly,
+						TargetAssembly = SourceAssembly,
 						IsC = true,
 						IsNoLogo = true
 					}
 				}
 			);
+			// something to look out for:
+			//---------------------------
+			//cl.exe - Unable To Locate Component
+			//---------------------------
+			//This application has failed to start because mspdb80.dll was not found. Re-installing the application may fix this problem. 
+			//---------------------------
+			//OK   
+			//---------------------------
 
-			//var obj_web = Path.Combine(TargetAssembly.Directory.FullName, "web");
+			// see: http://social.msdn.microsoft.com/Forums/en-US/Vsexpressinstall/thread/2a3c57c5-de79-43e6-9769-35043f732d68
 
+			var obj_web = Path.Combine(SourceAssembly.Directory.FullName, "web");
 
-			//#region javac
+			var psi = new ProcessStartInfo(
+				MicrosoftVisualStudio + @"\vc\bin\cl.exe",
+				"/TC /Zm200 /nologo /EHsc *.c /Fe" + TargetName)
+			{
+				UseShellExecute = false,
 
-			////// each jar file which has made it to the bin folder
-			////// needs to get referenced in our java build
-			////foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
-			////                  where k != bin_jar.FullName
-			////                  select k)
-			////{
-			////    TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
-			////}
+				WorkingDirectory = obj_web
+			};
 
-			//var obj_web_swf = Path.Combine(obj_web, sprite.Name + ".swf");
+			psi.EnvironmentVariables["PATH"] += Path.Combine(MicrosoftVisualStudio.FullName, @"Common7\Tools") + ";";
+			psi.EnvironmentVariables["PATH"] += Path.Combine(MicrosoftVisualStudio.FullName, @"Common7\IDE") + ";";
+			psi.EnvironmentVariables["LIB"] += Path.Combine(MicrosoftVisualStudio.FullName, @"VC\lib") + ";";
+			psi.EnvironmentVariables["LIB"] += Path.Combine(MicrosoftWindowsSDK.FullName, @"lib") + ";";
+			psi.EnvironmentVariables["INCLUDE"] += Path.Combine(MicrosoftVisualStudio.FullName, @"VC\include") + ";";
+			psi.EnvironmentVariables["INCLUDE"] += Path.Combine(MicrosoftWindowsSDK.FullName, @"include") + ";";
 
-			//var proccess_mxmlc = Process.Start(
-			//    new ProcessStartInfo(
-			//        mxmlc.FullName,
-			//        "-sp=. -strict -output=\"" +
-			//            obj_web_swf + "\" "
-			//            + sprite.FullName.Replace(".", @"\") + @".as"
-			//        )
-			//    {
-			//        UseShellExecute = false,
+			var proccess_cl = Process.Start(psi);
 
-			//        WorkingDirectory = obj_web
-			//    }
-			//);
+			proccess_cl.WaitForExit();
 
-			//proccess_mxmlc.WaitForExit();
-
-			//var m = new MemoryStream();
-			//var w = new BinaryWriter(m);
-			//w.Write(File.ReadAllBytes(flashplayer.FullName));
-			//w.Write(File.ReadAllBytes(obj_web_swf));
-			//w.Write((uint)0xFA123456);
-			//w.Write((uint)new FileInfo(obj_web_swf).Length);
-
-			//File.WriteAllBytes(obj_web_swf + ".exe", m.ToArray());
-			//#endregion
-
-
-
-			// call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 
 		}
 	}

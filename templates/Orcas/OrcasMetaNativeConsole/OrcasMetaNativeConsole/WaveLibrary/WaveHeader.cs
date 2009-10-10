@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WavePlayer.WaveLibrary
+namespace OrcasMetaNativeConsole.WaveLibrary
 {
 	/// <summary>
 	/// Wraps the header portion of a WAVE file.

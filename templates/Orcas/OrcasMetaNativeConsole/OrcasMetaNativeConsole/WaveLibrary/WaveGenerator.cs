@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using WavePlayer.Library;
+using OrcasMetaNativeConsole.Library;
 
-namespace WavePlayer.WaveLibrary
+namespace OrcasMetaNativeConsole.WaveLibrary
 {
 	/// <summary>
 	/// Wraps a WAV file struture and auto-generates some canned waveforms.
@@ -216,7 +216,7 @@ namespace WavePlayer.WaveLibrary
 			BinaryWriter writer = new BinaryWriter(stream);//fileStream);
 
 
-		
+
 
 			//Console.WriteLine("WaveGenerator.MemoryStream Write the header");
 
@@ -249,7 +249,7 @@ namespace WavePlayer.WaveLibrary
 			for (int i = 0; i < data.shortArrayLength; i++)
 			{
 
-		
+
 
 				var dataPoint = data.shortArray[i];
 				writer.Write(dataPoint);
