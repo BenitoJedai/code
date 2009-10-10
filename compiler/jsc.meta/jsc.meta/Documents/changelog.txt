@@ -32,3 +32,5 @@
 	- ExtendWindowsFormsEverywhere creates opera widget
 2009.10.08
 	- Added RewriteToAssembly command
+2009.10.10
+	- Added ReferenceWaveComponent command
