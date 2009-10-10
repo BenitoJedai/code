@@ -16,10 +16,11 @@ namespace jsc.meta.Commands.Extend
 {
 	public class ExtendToNativeConsole
 	{
-		public FileInfo c1;
 		public FileInfo assembly;
 		public DirectoryInfo staging;
 
+		public DirectoryInfo MicrosoftVisualStudio = new DirectoryInfo(@"c:\Program Files\Microsoft Visual Studio 9.0\");
+		public DirectoryInfo MicrosoftWindowsSDK = new DirectoryInfo(@"C:\Program Files\Microsoft SDKs\Windows\v6.0A");
 
 		public void Invoke()
 		{
@@ -171,7 +172,7 @@ namespace jsc.meta.Commands.Extend
 					});
 					var main_il = main.GetILGenerator();
 
-					
+
 					// string[] is not actually supported due to the fact
 					// we we wont be passing on the count in the array
 					// we should be storing it by some other means
@@ -202,7 +203,7 @@ namespace jsc.meta.Commands.Extend
 				Product.Refresh();
 
 
-				Product.ToC(this.context.c1);
+				Product.ToC(this.context.assembly.Name,  this.context.MicrosoftVisualStudio, this.context.MicrosoftWindowsSDK);
 			}
 		}
 	}

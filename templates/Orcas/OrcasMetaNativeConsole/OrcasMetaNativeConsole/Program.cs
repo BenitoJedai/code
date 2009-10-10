@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.IO;
-using WavePlayer.WaveLibrary;
+using OrcasMetaNativeConsole.WaveLibrary;
 using System.Media;
-using WavePlayer.Library;
+using OrcasMetaNativeConsole.Library;
 
-namespace WavePlayer
+namespace OrcasMetaNativeConsole
 {
 	public class ColoredText
 	{
@@ -60,7 +60,7 @@ namespace WavePlayer
 			Console.WriteLine(text);
 		}
 
-	
+
 
 		public static void ShowProperties(MyContent.WriteToArguments a)
 		{

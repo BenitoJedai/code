@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace WavePlayer.Library
+namespace OrcasMetaNativeConsole.Library
 {
 	public static class MyExtensions
 	{

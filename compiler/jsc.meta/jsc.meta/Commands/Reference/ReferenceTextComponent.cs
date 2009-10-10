@@ -61,7 +61,7 @@ Embedded Resource - This file is embedded in the main project build output as a 
 
 		public void Invoke()
 		{
-			Debugger.Launch();
+			//Debugger.Launch();
 
 
 			var csproj = XDocument.Load(ProjectFileName.FullName);

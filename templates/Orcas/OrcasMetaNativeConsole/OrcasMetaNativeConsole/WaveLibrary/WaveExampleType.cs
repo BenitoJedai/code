@@ -5,7 +5,7 @@ using System.Text;
 using System.Media;
 using System.IO;
 
-namespace WavePlayer.WaveLibrary
+namespace OrcasMetaNativeConsole.WaveLibrary
 {
 	/// <summary>
 	/// Possible example waves to generate
@@ -33,7 +33,7 @@ namespace WavePlayer.WaveLibrary
 				frequency,
 				volume
 			);
-			
+
 			var p = new SoundPlayer(wave);
 
 			return p;
