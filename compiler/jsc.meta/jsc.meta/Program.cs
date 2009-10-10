@@ -50,6 +50,7 @@ namespace jsc.meta
 				new ExtendToAvalonEverywhere().Invoke,
 
 
+				new ReferenceWaveComponent().Invoke,
 				new ReferenceTextComponent().Invoke,
 				new ReferenceTextualUserControl().Invoke,
 				
