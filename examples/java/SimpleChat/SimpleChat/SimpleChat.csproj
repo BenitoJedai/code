@@ -66,6 +66,9 @@
     <Reference Include="MyContext.MyInformation.TextComponent">
       <HintPath>bin\TextComponent.staging\MyContext.MyInformation.TextComponent.dll</HintPath>
     </Reference>
+    <Reference Include="MyContext.Popular.TextComponent">
+      <HintPath>bin\TextComponent.staging\MyContext.Popular.TextComponent.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatForm.cs">
@@ -75,6 +78,10 @@
       <DependentUpon>ChatForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\MyExtensions.cs" />
+    <Compile Include="MessageFrom.cs" />
+    <Compile Include="MyContext\LocalPopular.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MyContext\LocalInformation.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -101,10 +108,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="WebServer.cs" />
+    <Compile Include="WebServerComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WebServerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MyContext\MyInformation.TextComponent\Author.txt" />
     <Content Include="MyContext\MyInformation.TextComponent\Blog.txt" />
+    <Content Include="MyContext\Popular.TextComponent\Nicknames.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

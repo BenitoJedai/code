@@ -16,6 +16,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		}
 
+		protected override void Dispose(bool e)
+		{
+			this.Enabled = false;
+		}
+
 		bool InternalEnabled;
 		public bool Enabled
 		{
