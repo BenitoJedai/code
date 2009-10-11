@@ -63,6 +63,12 @@
     <Content Include="docs\description.txt" />
     <Content Include="MyContent.TextComponent\Author.txt" />
     <Content Include="MyContent.TextComponent\Description.txt" />
+    <Content Include="MySounds.WaveComponent\Error1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="MySounds.WaveComponent\Radio1.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

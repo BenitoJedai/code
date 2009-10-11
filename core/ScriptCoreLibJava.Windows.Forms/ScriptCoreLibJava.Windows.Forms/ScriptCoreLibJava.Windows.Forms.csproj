@@ -80,6 +80,7 @@
     <Compile Include="BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\TextBox.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
+    <Compile Include="BCLImplementation\System\Windows\Forms\Timer.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\UserControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Windows\Forms\IAssemblyReferenceToken.cs" />

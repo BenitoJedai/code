@@ -8,9 +8,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     using ScriptCoreLib.JavaScript.DOM.HTML;
     using ScriptCoreLib.JavaScript.Runtime;
+	using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
     
     [Script(Implements = typeof(global::System.Windows.Forms.Timer))]
-    internal class __Timer
+    internal class __Timer : __Component
     {
         Timer Target;
 

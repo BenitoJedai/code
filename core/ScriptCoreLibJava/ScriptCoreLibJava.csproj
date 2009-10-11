@@ -305,6 +305,7 @@
     <Compile Include="javax\swing\text\Segment.cs" />
     <Compile Include="javax\swing\text\View.cs" />
     <Compile Include="javax\swing\text\ViewFactory.cs" />
+    <Compile Include="javax\swing\Timer.cs" />
     <Compile Include="javax\swing\TransferHandler.cs" />
     <Compile Include="javax\swing\UIDefaults.cs" />
     <Compile Include="javax\swing\UIManager.cs" />
