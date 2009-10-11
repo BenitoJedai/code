@@ -70,6 +70,13 @@ namespace OrcasMetaNativeConsole
 
 		public static void Main()
 		{
+			var Error1 = File.ReadAllBytes("MySounds.WaveComponent/Error1.wav");
+			var Error1Player = new SoundPlayer(new MemoryStream(Error1));
+
+			Error1Player.PlaySync();
+			Error1Player.PlaySync();
+			Error1Player.PlaySync();
+
 			Console.WriteLine("other projects: ");
 			Console.WriteLine("# http://naudio.codeplex.com/sourcecontrol/changeset/view/28884?projectName=naudio#");
 
