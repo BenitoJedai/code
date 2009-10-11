@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.button1 = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
@@ -38,6 +39,9 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
+			this.localInformation1 = new SimpleChat.MyContext.LocalInformation();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -124,11 +128,26 @@
 			this.label5.TabIndex = 7;
 			this.label5.Text = "Message:";
 			// 
+			// label6
+			// 
+			this.label6.Location = new System.Drawing.Point(13, 334);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(508, 13);
+			this.label6.TabIndex = 9;
+			this.label6.Text = "Chat Form";
+			// 
+			// timer1
+			// 
+			this.timer1.Enabled = true;
+			this.timer1.Interval = 3000;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
 			// ChatForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(533, 356);
+			this.Controls.Add(this.label6);
 			this.Controls.Add(this.textBox4);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label4);
@@ -158,5 +177,8 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Timer timer1;
+		private SimpleChat.MyContext.LocalInformation localInformation1;
 	}
 }

@@ -20,5 +20,23 @@ namespace SimpleChat
 		{
 
 		}
+
+
+		int Counter;
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			Counter++;
+
+
+			this.localInformation1.WriteTo(
+				(_sender, _e) =>
+				{
+					var a = (MyContext.LocalInformation.WriteToArguments)_e;
+
+					if ((Counter % a.Count) == a.Position)
+						this.label6.Text = a.Name + ": " + a.Value;
+				}
+			);
+		}
 	}
 }
