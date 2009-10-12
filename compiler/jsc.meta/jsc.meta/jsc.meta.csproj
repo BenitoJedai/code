@@ -150,6 +150,7 @@
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
+    <Compile Include="Library\VirtualDictionary.cs" />
     <Compile Include="Library\WriteToProvider.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineLabel.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineTextbox.cs" />
