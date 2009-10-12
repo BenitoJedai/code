@@ -97,9 +97,16 @@ namespace jsc.meta.Commands.Rewrite
 			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
 			var m = a.DefineDynamicModule(type.FullName, Product.Name);
 
-			var tc = new VirtualDictionary<Type, Type>();
+			var TypeCache = new VirtualDictionary<Type, Type>();
+			var TypeFieldsCache = new VirtualDictionary<Type, List<FieldBuilder>>();
 
-			tc.Resolve +=
+			TypeFieldsCache.Resolve +=
+				source =>
+				{
+					TypeFieldsCache[source] = new List<FieldBuilder>();
+				};
+
+			TypeCache.Resolve +=
 				source =>
 				{
 					// should we actually copy the field type?
@@ -107,16 +114,16 @@ namespace jsc.meta.Commands.Rewrite
 
 					if (source.Assembly == type.Assembly)
 					{
-						Copy(source, m, tc);
+						Copy(source, m, TypeCache, TypeFieldsCache);
 					}
 					else
 					{
-						tc[source] = source;
+						TypeCache[source] = source;
 					}
 
 				};
 
-			var kt = tc[type];
+			var kt = TypeCache[type];
 
 			a.Save(
 				Product.Name
@@ -126,7 +133,8 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-		public void Copy(Type source, ModuleBuilder m, VirtualDictionary<Type, Type> tc)
+		public void Copy(Type source, ModuleBuilder m, VirtualDictionary<Type, Type> tc,
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache)
 		{
 			var t = default(TypeBuilder);
 
@@ -144,9 +152,9 @@ namespace jsc.meta.Commands.Rewrite
 
 			foreach (var f in source.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
+				var ff = t.DefineField(f.Name, tc[f.FieldType], f.Attributes);
 
-
-				t.DefineField(f.Name, tc[f.FieldType], f.Attributes);
+				TypeFieldCache[source].Add(ff);
 			}
 
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
@@ -156,7 +164,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					if (msource.DeclaringType == source)
 					{
-						Copy(msource, t, tc, ConstructorCache);
+						Copy(msource, t, tc, ConstructorCache, TypeFieldCache);
 					}
 					else
 					{
@@ -172,7 +180,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					if (msource.DeclaringType == source)
 					{
-						Copy(msource, t, tc, MethodCache);
+						Copy(msource, t, tc, MethodCache, TypeFieldCache);
 					}
 					else
 					{
@@ -209,24 +217,30 @@ namespace jsc.meta.Commands.Rewrite
 			t.CreateType();
 		}
 
-		public void Copy(MethodInfo source, TypeBuilder t, VirtualDictionary<Type, Type> tc, VirtualDictionary<MethodInfo, MethodInfo> mc)
+		public void Copy(MethodInfo source, TypeBuilder t, VirtualDictionary<Type, Type> tc, VirtualDictionary<MethodInfo, MethodInfo> mc,
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache)
 		{
 			var km = t.DefineMethod(source.Name, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
 
 			mc[source] = km;
 
-			var il = km.GetILGenerator();
 
-			source.EmitTo(il,
+			MethodBase mb = source;
+
+			mb.EmitTo(km.GetILGenerator(),
 				new ILTranslationExtensions.EmitToArguments
 				{
 					// we need to redirect any typerefs and methodrefs!
+
+					Ldfld = (i, il) => il.Emit(OpCodes.Ldfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name)),
+					Stfld = (i, il) => il.Emit(OpCodes.Stfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name))
 				}
 			);
 
 		}
 
-		public void Copy(ConstructorInfo source, TypeBuilder t, VirtualDictionary<Type, Type> tc, VirtualDictionary<ConstructorInfo, ConstructorInfo> mc)
+		public void Copy(ConstructorInfo source, TypeBuilder t, VirtualDictionary<Type, Type> tc, VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache)
 		{
 			var km = t.DefineConstructor(
 				source.Attributes, 
@@ -236,12 +250,15 @@ namespace jsc.meta.Commands.Rewrite
 
 			mc[source] = km;
 
-			var il = km.GetILGenerator();
+			MethodBase mb = source;
 
-			source.EmitTo(il,
+			mb.EmitTo(km.GetILGenerator(),
 				new ILTranslationExtensions.EmitToArguments
 				{
 					// we need to redirect any typerefs and methodrefs!
+
+					Ldfld = (i, il) => il.Emit(OpCodes.Ldfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name)),
+					Stfld = (i, il) => il.Emit(OpCodes.Stfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name))
 				}
 			);
 
