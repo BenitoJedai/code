@@ -11,7 +11,7 @@ namespace jsc.Languages.IL
 	/// <summary>
 	/// Here we are years later, actually rewriting IL for a later phase!
 	/// </summary>
-	public static class ILTranslationExtensions
+	public static partial class ILTranslationExtensions
 	{
 		public static void EmitTo(this Delegate source, ILGenerator il, Func<ConstructorInfo, ConstructorInfo> Newobj_redirect)
 		{
@@ -28,35 +28,6 @@ namespace jsc.Languages.IL
 			source.Method.EmitTo(il, a);
 		}
 
-		public class EmitToArguments
-		{
-			public Action<ILInstruction, ILGenerator> Ldarg_0 =
-				(i, il) => il.Emit(OpCodes.Ldarg_0);
-
-			public Action<ILInstruction, ILGenerator> Ldarg_1 =
-				(i, il) => il.Emit(OpCodes.Ldarg_1);
-
-			public Action<ILInstruction, ILGenerator> Ldarg_2 =
-				(i, il) => il.Emit(OpCodes.Ldarg_2);
-
-			public Action<ILInstruction, ILGenerator> Ldarg_3 =
-				(i, il) => il.Emit(OpCodes.Ldarg_3);
-
-			public Action<ILInstruction, ILGenerator> Ldarg_S =
-				(i, il) => il.Emit(OpCodes.Ldarg_S);
-
-			public Action<ILInstruction, ILGenerator> Ret =
-				(i, il) => il.Emit(OpCodes.Ret);
-
-			public Action<ILInstruction, ILGenerator> Stfld =
-				(i, il) => il.Emit(OpCodes.Stfld);
-
-			public Func<ConstructorInfo, ConstructorInfo> Newobj_redirect =
-				ctor => ctor;
-
-			public Func<Type, Type> DefineLocal_redirect =
-				t => t;
-		}
 
 		public static void EmitTo(this MethodBase m, ILGenerator il, EmitToArguments a)
 		{
@@ -118,8 +89,8 @@ namespace jsc.Languages.IL
 					}
 				},
 				
-				{OpCodes.Stfld,i => a.Stfld(i, il)},
-				{OpCodes.Ldfld, i => il.Emit(OpCodes.Ldfld, i.TargetField)},
+				{OpCodes.Stfld, i => a.Stfld(i, il)},
+				{OpCodes.Ldfld, i => a.Ldfld(i, il)},
 
 				{OpCodes.Ldnull, i => il.Emit(OpCodes.Ldnull)},
 				{OpCodes.Pop, i => il.Emit(OpCodes.Pop)},

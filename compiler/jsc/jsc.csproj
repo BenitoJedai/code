@@ -163,6 +163,7 @@
     <Compile Include="Languages\CSharp2\CompilerJob.cs" />
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
+    <Compile Include="Languages\IL\ILTranslationExtensions.EmitToArguments.cs" />
     <Compile Include="Languages\IL\ILTranslationExtensions.cs" />
     <Compile Include="Languages\JavaScript\AnonymousTypeWriter.cs" />
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.OpCodes.cs" />
