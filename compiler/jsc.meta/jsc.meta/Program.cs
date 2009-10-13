@@ -10,6 +10,7 @@ using jsc.meta.Commands.Extend;
 using jsc.meta.Commands.Reference;
 using jsc.meta.Commands.Rewrite;
 using System.Diagnostics;
+using jsc.meta.Commands.Analytics;
 
 namespace jsc.meta
 {
@@ -54,7 +55,9 @@ namespace jsc.meta
 				new ReferenceTextComponent().Invoke,
 				new ReferenceTextualUserControl().Invoke,
 				
-				new RewriteToAssembly().Invoke
+				new RewriteToAssembly().Invoke,
+
+				new AnalyticsForStatCounter().Invoke
 			);
 
 		}

@@ -74,20 +74,9 @@ namespace jsc.Languages.IL
 				{OpCodes.Ldarg_3, i => a.Ldarg_3(i, il)},
 				{OpCodes.Ldarg_S, i => a.Ldarg_S(i, il)},
 
-				{OpCodes.Callvirt, i => il.Emit(OpCodes.Callvirt, i.TargetMethod)},
-				{OpCodes.Call, 
-					i => 
-					{
-						var TargetMethod = i.TargetMethod;
-						if (TargetMethod != null)
-						{
-							il.Emit(OpCodes.Call, i.TargetMethod);
-							return;
-						}
-
-						il.Emit(OpCodes.Call, i.TargetConstructor);
-					}
-				},
+				{OpCodes.Callvirt, i => a.Callvirt(i, il)},
+				{OpCodes.Call, i => a.Call(i, il)},
+				
 				
 				{OpCodes.Stfld, i => a.Stfld(i, il)},
 				{OpCodes.Ldfld, i => a.Ldfld(i, il)},
