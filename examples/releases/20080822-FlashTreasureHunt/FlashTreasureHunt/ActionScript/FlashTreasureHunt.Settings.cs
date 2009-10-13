@@ -21,10 +21,10 @@ namespace FlashTreasureHunt.ActionScript
 		// 120x90
 		// 160x120
 
-		const int DefaultWidth = 160;
+		const int DefaultWidth = 60;
 		const int DefaultHeight = DefaultWidth * 2 / 3;
 
-		const int DefaultScale = 4;
+		const int DefaultScale = 2;
 
 		const int MazeSize = 5;
 		//const int MazeSize = 14;

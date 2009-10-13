@@ -15,7 +15,7 @@ namespace FlashTreasureHunt
 	public interface IAssemblyReferenceToken :
 		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
 		ScriptCoreLib.Shared.IAssemblyReferenceToken,
-		ScriptCoreLib.Shared.Maze.IAssemblyReferenceToken,
+		//ScriptCoreLib.Shared.Maze.IAssemblyReferenceToken,
 		ScriptCoreLib.Shared.RayCaster.IAssemblyReferenceToken
 	{
 	}
