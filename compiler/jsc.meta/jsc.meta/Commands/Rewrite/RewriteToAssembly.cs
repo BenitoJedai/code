@@ -12,6 +12,11 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public class RewriteToAssembly
 	{
+		/// <summary>
+		/// Types within these assemblies will be merged to the new primary assembly
+		/// </summary>
+		public FileInfo[] merge = new FileInfo[0];
+
 		public FileInfo assembly;
 
 		public DirectoryInfo staging;
