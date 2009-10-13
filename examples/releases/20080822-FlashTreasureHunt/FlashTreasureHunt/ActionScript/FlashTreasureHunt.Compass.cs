@@ -17,6 +17,9 @@ namespace FlashTreasureHunt.ActionScript
 	{
 		public void InitializeCompass()
 		{
+			// co compass
+			return;
+
 			var compass = Assets.Default.compasscolor;
 			var container = new Sprite();
 

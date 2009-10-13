@@ -58,7 +58,7 @@ namespace FlashTreasureHunt.ActionScript
 
 		public FlashTreasureHunt()
 		{
-			this.music = Assets.Default.music.play(0, 9999);
+			//this.music = Assets.Default.music.play(0, 9999);
 
 			Assets.Default.gutentag.play();
 
@@ -78,11 +78,11 @@ namespace FlashTreasureHunt.ActionScript
 			this.HudContainer = new Sprite().AttachTo(this);
 			this.HudContainer.alpha = 0;
 
-			getpsyched = Assets.Default.getpsyched.AttachTo(this);
+			//getpsyched = Assets.Default.getpsyched.AttachTo(this);
 
-			getpsyched.scaleX = 2;
-			getpsyched.scaleY = 2;
-			getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
+			//getpsyched.scaleX = 2;
+			//getpsyched.scaleY = 2;
+			//getpsyched.MoveTo((DefaultControlWidth - getpsyched.width) / 2, (DefaultControlHeight - getpsyched.height) / 2);
 
 
 			ResetEgoPosition();

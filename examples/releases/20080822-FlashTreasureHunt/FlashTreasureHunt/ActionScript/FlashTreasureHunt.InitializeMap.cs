@@ -392,17 +392,17 @@ namespace FlashTreasureHunt.ActionScript
 							EgoView.RenderScene();
 						};
 
-					getpsyched.FadeOutAndOrphanize(1000 / 15, 0.1);
+					//getpsyched.FadeOutAndOrphanize(1000 / 15, 0.1);
 
 					this.EgoView.Image.FadeIn(
 						delegate
 						{
-							1500.AtDelayDo(
-								delegate
-								{
-									this.HudContainer.FadeIn();
-								}
-							);
+							//1500.AtDelayDo(
+							//    delegate
+							//    {
+							//        this.HudContainer.FadeIn();
+							//    }
+							//);
 						}
 					);
 				}
