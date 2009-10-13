@@ -14,6 +14,15 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static void Apply<T>(this T e, Action<T> handler)
+			where T : class
+		{
+			if (e == default(T))
+				return;
+
+			handler(e);
+		}
+
 		public static int GetLiteralInt32(this Type t, string name, int Default)
 		{
 			var f = t.GetField(name);

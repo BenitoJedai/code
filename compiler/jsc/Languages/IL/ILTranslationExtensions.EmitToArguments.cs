@@ -39,6 +39,25 @@ namespace jsc.Languages.IL
 			public Action<ILInstruction, ILGenerator> Ldfld =
 				(i, il) => il.Emit(OpCodes.Ldfld, i.TargetField);
 
+			public Action<ILInstruction, ILGenerator> Call =
+				(i, il) =>
+				{
+					var TargetMethod = i.TargetMethod;
+					if (TargetMethod != null)
+					{
+						il.Emit(OpCodes.Call, i.TargetMethod);
+						return;
+					}
+
+					il.Emit(OpCodes.Call, i.TargetConstructor);
+				};
+
+			public Action<ILInstruction, ILGenerator> Callvirt =
+				(i, il) =>
+				{
+					il.Emit(OpCodes.Callvirt, i.TargetMethod);
+				};
+
 			public Func<ConstructorInfo, ConstructorInfo> Newobj_redirect =
 				ctor => ctor;
 

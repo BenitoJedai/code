@@ -140,6 +140,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\Extend\ExtendToAvalonEverywhere.cs" />
     <Compile Include="Commands\Extend\ExtendToNativeConsole.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
@@ -151,6 +152,8 @@
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
     <Compile Include="Library\VirtualDictionary.cs" />
+    <Compile Include="Library\Web\BasicWebCrawler.cs" />
+    <Compile Include="Library\Web\SmartStreamReader.cs" />
     <Compile Include="Library\WriteToProvider.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineLabel.cs" />
     <Compile Include="Library\TextualUserControlProvider.DefineTextbox.cs" />

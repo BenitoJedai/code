@@ -64,6 +64,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
+C:\util\jsc\bin\jsc.meta.exe AnalyticsForStatCounter /assembly:MultitierExample.exe /staging:analytics.staging
 C:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:MultitierExample.exe /type:MultitierExample.Client.ClientProvider /rename.rule:"MultitierExample.Client-&gt;Clienttier"
 C:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:MultitierExample.exe /type:MultitierExample.Server.ServerProvider /rename.rule:"MultitierExample.Server-&gt;Servertier"</PostBuildEvent>
   </PropertyGroup>
