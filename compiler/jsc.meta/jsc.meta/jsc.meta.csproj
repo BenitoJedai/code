@@ -150,8 +150,8 @@
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
-    <Compile Include="Library\VirtualDictionary.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\SmartStreamReader.cs" />
     <Compile Include="Library\WriteToProvider.cs" />

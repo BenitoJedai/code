@@ -15,7 +15,23 @@ namespace jsc //.Extensions
 {
 	static class Extensions
 	{
-	
+		internal static void ForEach<T>(this IEnumerable<T> source, Action<T, int> f)
+		{
+			int c = 0;
+			foreach (var k in source)
+			{
+				f(k, c);
+				c++;
+			}
+		}
+
+		internal static void ForEach<T>(this IEnumerable<T> source, Action<T> f)
+		{
+			foreach (var k in source)
+			{
+				f(k);
+			}
+		}
 
 		public static IEnumerable<ScriptType> ToScriptTypes(this CommandLineOptions options)
 		{

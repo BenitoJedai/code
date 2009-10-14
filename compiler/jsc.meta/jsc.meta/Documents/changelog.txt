@@ -36,3 +36,5 @@
 	- Added ReferenceWaveComponent command
 2009.10.13
 	- Added AnalyticsForStatCounter command
+2009.10.14
+	- Fixed AnalyticsForStatCounter

@@ -7,10 +7,11 @@ using jsc.meta.Library;
 using System.Reflection;
 using System.Reflection.Emit;
 using jsc.Languages.IL;
+using jsc.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
-	public class RewriteToAssembly
+	public partial class RewriteToAssembly
 	{
 		/// <summary>
 		/// Types within these assemblies will be merged to the new primary assembly
@@ -18,6 +19,7 @@ namespace jsc.meta.Commands.Rewrite
 		public FileInfo[] merge = new FileInfo[0];
 
 		public FileInfo assembly;
+
 
 		public DirectoryInfo staging;
 
@@ -53,7 +55,7 @@ namespace jsc.meta.Commands.Rewrite
 		public bool obfuscate;
 
 		internal Delegate codeinjecton;
-		internal object[] codeinjectonparams;
+		internal Func<Assembly, object[]> codeinjectonparams;
 
 		public class NamespaceRenameInstructions
 		{
@@ -93,6 +95,10 @@ namespace jsc.meta.Commands.Rewrite
 
 			var assembly = this.assembly.LoadAssemblyAt(staging);
 			_assembly = assembly;
+
+			// load the rest of the references
+			assembly.LoadReferencesAt(staging, this.assembly.Directory);
+
 
 			var type = this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type);
 
@@ -164,9 +170,9 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 		public void CopyType(
-			Type source, 
-			AssemblyBuilder a, 
-			ModuleBuilder m, 
+			Type source,
+			AssemblyBuilder a,
+			ModuleBuilder m,
 			VirtualDictionary<Type, Type> TypeCache,
 			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
@@ -261,84 +267,11 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					// we need to redirect any typerefs and methodrefs!
 
-					Ldfld = (i, il) => il.Emit(OpCodes.Ldfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name)),
-					Stfld = (i, il) => il.Emit(OpCodes.Stfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name))
+					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
+
 				}
 			);
 
-		}
-
-		private void WriteEntryPointCodeInjection(
-			AssemblyBuilder a, 
-			ModuleBuilder m,
-			ILGenerator kmil,
-			TypeBuilder t,
-			VirtualDictionary<Type, Type> tc,
-			VirtualDictionary<MethodInfo, MethodInfo> mc,
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache)
-		{
-
-			// we need to actually track the method being called (IL)
-			// and the variables to make them literal constants
-
-			CopyType(this.codeinjecton.Method.DeclaringType, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t);
-
-			//Copy(a, this.codeinjecton.Method, t, tc, mc, TypeFieldCache);
-
-
-			Action<Action> notification =
-				_this_codeinjection =>
-				{
-					Console.WriteLine("this assembly was modified");
-
-					_this_codeinjection();
-				};
-
-			var e = new ILTranslationExtensions.EmitToArguments
-			{
-				Ret = delegate { },
-
-				// it is not actually an instance method
-				// so we cannot load this to call _this_codeinjection
-				// it is a static method
-				Ldarg_0 = delegate { },
-
-			};
-
-			var e_Callvirt = e.Callvirt;
-
-			e.Callvirt =
-				(i, il) =>
-				{
-					if (i.StackBeforeStrict[0].SingleStackInstruction.OpCode == OpCodes.Ldarg_0)
-					{
-						// we are calling a method on this
-						// we assume it is _this_codeinjection
-
-						if (this.codeinjecton.Method.GetParameters().Length != this.codeinjectonparams.Length)
-							throw new InvalidDataException("codeinjectonparams");
-
-						foreach (var p in this.codeinjectonparams)
-						{
-							if (p is string)
-							{
-								il.Emit(OpCodes.Ldstr, (string)p);
-							}
-							else throw new NotSupportedException();
-						}
-
-						il.Emit(OpCodes.Call, mc[this.codeinjecton.Method]);
-
-						return;
-					}
-
-					// rewire this.Invoke to codeinjection.Method
-					e_Callvirt(i, il);
-				};
-
-			notification.EmitTo(kmil, e);
 		}
 
 
@@ -363,8 +296,8 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					// we need to redirect any typerefs and methodrefs!
 
-					Ldfld = (i, il) => il.Emit(OpCodes.Ldfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name)),
-					Stfld = (i, il) => il.Emit(OpCodes.Stfld, TypeFieldCache[i.TargetField.DeclaringType].Single(k => k.Name == i.TargetField.Name))
+					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
+
 				}
 			);
 

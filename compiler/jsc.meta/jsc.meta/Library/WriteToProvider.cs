@@ -66,62 +66,61 @@ namespace jsc.meta.Library
 							_handler(_this, a);
 						};
 
-					Initialize.EmitTo(il,
-						new ILTranslationExtensions.EmitToArguments
+					var ea = new ILTranslationExtensions.EmitToArguments
+					{
+						Newobj_redirect =
+							ctor => ctor.DeclaringType == typeof(WriteToArgumentsMarker)
+								? WriteToArguments_ctor
+								: ctor,
+
+						DefineLocal_redirect =
+							_t => _t == typeof(WriteToArgumentsMarker)
+								? WriteToArguments
+								: _t,
+					};
+
+
+					// _this - sender
+					// Ldarg_0
+					ea[OpCodes.Ldarg_2] = e => e.il.Emit(OpCodes.Ldc_I4, k.i);
+					ea[OpCodes.Ldarg_3] = e => e.il.Emit(OpCodes.Ldc_I4, f.Count());
+					ea[OpCodes.Ldarg_S] =
+						e =>
 						{
-							Newobj_redirect =
-								ctor => ctor.DeclaringType == typeof(WriteToArgumentsMarker)
-									? WriteToArguments_ctor
-									: ctor,
+							if (e.i.OpParamAsInt8 == 4)
+							{
+								e.il.Emit(OpCodes.Ldstr, k.q.Name);
+								return;
+							}
 
-							DefineLocal_redirect =
-								_t => _t == typeof(WriteToArgumentsMarker)
-									? WriteToArguments
-									: _t,
+							if (e.i.OpParamAsInt8 == 5)
+							{
+								e.il.Emit(OpCodes.Ldarg_0);
+								e.il.Emit(OpCodes.Ldfld, k.q);
+								return;
+							}
 
+							throw new NotSupportedException();
+						};
 
-							// _this - sender
-							// Ldarg_0
+					ea[OpCodes.Stfld] =
+						e =>
+						{
+							if (e.i.TargetField.DeclaringType == typeof(WriteToArgumentsMarker))
+							{
+								e.il.Emit(OpCodes.Stfld,
+									WriteToArguments_Fields.Single(_k => _k.Name == e.i.TargetField.Name)
+								);
+								return;
+							}
 
-							Ldarg_2 = (i, _il) => _il.Emit(OpCodes.Ldc_I4, k.i),
-							Ldarg_3 = (i, _il) => _il.Emit(OpCodes.Ldc_I4,f.Count()),
-							Ldarg_S =
-								(i, _il) =>
-								{
-									if (i.OpParamAsInt8 == 4)
-									{
-										_il.Emit(OpCodes.Ldstr, k.q.Name);
-										return;
-									}
+							e.il.Emit(OpCodes.Stfld, e.i.TargetField);
 
-									if (i.OpParamAsInt8 == 5)
-									{
-										_il.Emit(OpCodes.Ldarg_0);
-										_il.Emit(OpCodes.Ldfld, k.q);
-										return;
-									}
+						};
 
-									throw new NotSupportedException();
-								},
+					ea[OpCodes.Ret] = delegate {};
 
-							Stfld =
-								(i, _il) =>
-								{
-									if (i.TargetField.DeclaringType == typeof(WriteToArgumentsMarker))
-									{
-										_il.Emit(OpCodes.Stfld,
-											WriteToArguments_Fields.Single(_k => _k.Name == i.TargetField.Name)
-										);
-										return;
-									}
-
-									_il.Emit(OpCodes.Stfld, i.TargetField);
-
-								},
-
-							Ret = delegate { }
-						}
-					);
+					Initialize.EmitTo(il, ea);
 				}
 
 				il.Emit(OpCodes.Ret);

@@ -17,6 +17,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		public string PathAndQuery { get; set; }
 
 		public string Host { get; set; }
+		public int Port { get; set; }
 
 		public string Query { get; set; }
 		public string AbsolutePath { get; set; }
@@ -38,6 +39,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			var path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
 
 			this.Host = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
+
+			// sure... 80 thats what the port is
+			// need to implement this!
+			this.Port = 80;
 
 			this.PathAndQuery = uriString.Substring(path_i);
 

@@ -9,6 +9,7 @@ namespace MultitierExample
 	{
 		static void Main(string[] args)
 		{
+			Console.WriteLine();
 			Console.WriteLine("this is a .net entrypoint");
 		}
 	}
