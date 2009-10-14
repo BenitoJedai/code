@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace jsc.meta.Library
+namespace jsc.Library
 {
-	public class VirtualDictionary<TKey, TValue> 
+	public class VirtualDictionary<TKey, TValue>
 	{
 		public readonly Dictionary<TKey, TValue> BaseDictionary = new Dictionary<TKey, TValue>();
 		public event Action<TKey> Resolve;

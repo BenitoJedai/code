@@ -129,7 +129,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath) /javascript:false /javafusion:true  /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
+C:\util\jsc\bin\jsc.meta.exe AnalyticsForStatCounter /assembly:$(TargetPath) /staging:analytics.staging
+C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetDir)analytics.staging/$(TargetName).Program.exe /javascript:false /javafusion:true  /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)"
 C:\util\jsc\bin\jsc.meta.exe ReferenceTextualUserControl /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
   </PropertyGroup>

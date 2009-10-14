@@ -1,0 +1,6 @@
+﻿Types defined at Library are utility types and not directly
+tied to the current project.
+
+They could be refactored to another library.
+
+They could be cloud synchronized between projects in the future.

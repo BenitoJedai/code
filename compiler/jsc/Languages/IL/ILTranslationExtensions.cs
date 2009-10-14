@@ -29,6 +29,11 @@ namespace jsc.Languages.IL
 		}
 
 
+		public static void EmitTo(this MethodBase m, ILGenerator il)
+		{
+			EmitTo(m, il, new EmitToArguments());
+		}
+
 		public static void EmitTo(this MethodBase m, ILGenerator il, EmitToArguments a)
 		{
 			//+		[0]	{[0x0000] nop        +0 -0}	jsc.ILInstruction
@@ -57,48 +62,31 @@ namespace jsc.Languages.IL
 				k => k.declared.LocalIndex
 			);
 
-
-
-			new Dictionary<OpCode, Action<ILInstruction>>
+			var x = new EmitToArguments(a.Configuration)
 			{
-				{OpCodes.Nop, i => il.Emit(OpCodes.Nop)},
-				{OpCodes.Newobj, i => il.Emit(OpCodes.Newobj, a.Newobj_redirect(i.TargetConstructor))},
-				{OpCodes.Stloc_0, i => il.Emit(OpCodes.Stloc_S, (byte)locals[0])},
-				{OpCodes.Stloc_1, i => il.Emit(OpCodes.Stloc_S, (byte)locals[1])},
-				{OpCodes.Ldloc_0, i => il.Emit(OpCodes.Ldloc_S, (byte)locals[0])},
-				{OpCodes.Ldloc_1, i => il.Emit(OpCodes.Ldloc_S, (byte)locals[1])},
-				
-				{OpCodes.Ldarg_0, i => a.Ldarg_0(i, il)},
-				{OpCodes.Ldarg_1, i => a.Ldarg_1(i, il)},
-				{OpCodes.Ldarg_2, i => a.Ldarg_2(i, il)},
-				{OpCodes.Ldarg_3, i => a.Ldarg_3(i, il)},
-				{OpCodes.Ldarg_S, i => a.Ldarg_S(i, il)},
+				TranslateLocalIndex = LocalIndex => locals[LocalIndex]
+			};
 
-				{OpCodes.Callvirt, i => a.Callvirt(i, il)},
-				{OpCodes.Call, i => a.Call(i, il)},
-				
-				
-				{OpCodes.Stfld, i => a.Stfld(i, il)},
-				{OpCodes.Ldfld, i => a.Ldfld(i, il)},
+			var xb = new ILBlock(m);
 
-				{OpCodes.Ldnull, i => il.Emit(OpCodes.Ldnull)},
-				{OpCodes.Pop, i => il.Emit(OpCodes.Pop)},
-				{OpCodes.Ret, i => a.Ret(i, il)},
+			var missing = xb.Instructrions.Where(k => !x.Configuration.ContainsKey(k.OpCode)).Select(k => k.OpCode.ToString()).ToArray();
 
-				{OpCodes.Ldstr, i => il.Emit(OpCodes.Ldstr, i.TargetLiteral)},
-				{OpCodes.Br, i => il.Emit(OpCodes.Br, i.OpParamAsInt32)},
-				{OpCodes.Br_S, i => il.Emit(OpCodes.Br_S, i.OpParamAsInt8)},
-
-			}.Translate(new ILBlock(m));
-		}
-
-		static void Translate(this  Dictionary<OpCode, Action<ILInstruction>> handler, ILBlock s)
-		{
-			foreach (var i in s.Instructrions)
+			if (missing.Any())
 			{
-				handler[i.OpCode](i);
+				throw new NotSupportedException(
+					"Some OpCodes are not supported yet: " + string.Join(", ", missing)
+				);
 			}
+
+			foreach (var i in xb.Instructrions)
+			{
+				x.Configuration[i.OpCode](new EmitToArguments.ILRewriteContext { i = i, il = il });
+			}
+
+	
 		}
+
+
 
 	}
 }

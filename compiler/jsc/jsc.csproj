@@ -163,6 +163,8 @@
     <Compile Include="Languages\CSharp2\CompilerJob.cs" />
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
+    <Compile Include="Languages\IL\ILTranslationContext.cs" />
+    <Compile Include="Languages\IL\ILTranslationExtensions.EmitInstance.cs" />
     <Compile Include="Languages\IL\ILTranslationExtensions.EmitToArguments.cs" />
     <Compile Include="Languages\IL\ILTranslationExtensions.cs" />
     <Compile Include="Languages\JavaScript\AnonymousTypeWriter.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\PropertyDetector.cs" />
     <Compile Include="Languages\StringToSByteArrayProvider.cs" />
+    <Compile Include="Library\VirtualDictionary.cs" />
     <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -240,6 +243,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="docs\todo.txt" />
+    <Content Include="Library\comment.txt" />
     <Content Include="Resx\App.ico" />
   </ItemGroup>
   <ItemGroup>
