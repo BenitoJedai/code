@@ -31,14 +31,14 @@ namespace jsc.meta.Commands.Rewrite
 
 			// we should copy all relevant types too...
 			// we have some dependency issues! need to fix them!
-			foreach (var k in from p in this.codeinjecton.Method.GetParameters()
-							  let ParameterType = p.ParameterType
-							  where ParameterType.Assembly == this.codeinjecton.Method.DeclaringType.Assembly
-							  select ParameterType
-							  )
-			{
-				CopyType(k, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t);
-			}
+			//foreach (var k in from p in this.codeinjecton.Method.GetParameters()
+			//                  let ParameterType = p.ParameterType
+			//                  where ParameterType.Assembly == this.codeinjecton.Method.DeclaringType.Assembly
+			//                  select ParameterType
+			//                  )
+			//{
+			//    CopyType(k, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t);
+			//}
 
 
 			CopyType(this.codeinjecton.Method.DeclaringType, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t);
@@ -56,7 +56,11 @@ namespace jsc.meta.Commands.Rewrite
 					_this_codeinjection();
 				};
 
-			var ea = new ILTranslationExtensions.EmitToArguments();
+			var ea = new ILTranslationExtensions.EmitToArguments
+			{
+				TranslateTargetMethod = TargetMethod => mc[TargetMethod],
+				TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
+			};
 
 			// it is not actually an instance method
 			// so we cannot load this to call _this_codeinjection
@@ -83,6 +87,10 @@ namespace jsc.meta.Commands.Rewrite
 							if (p is string)
 							{
 								e.il.Emit(OpCodes.Ldstr, (string)p);
+							}
+							else if (p == null)
+							{
+								e.il.Emit(OpCodes.Ldnull);
 							}
 							else if (p is object)
 							{

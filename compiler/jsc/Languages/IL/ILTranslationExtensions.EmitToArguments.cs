@@ -19,10 +19,8 @@ namespace jsc.Languages.IL
 			public readonly Dictionary<OpCode, Action<ILRewriteContext>> Configuration = new Dictionary<OpCode, Action<ILRewriteContext>>();
 
 
-			public Func<ConstructorInfo, ConstructorInfo> Newobj_redirect =
-				ctor => ctor;
 
-			public Func<Type, Type> DefineLocal_redirect =
+			public Func<Type, Type> TranslateTargetType =
 				t => t;
 
 			/// <summary>
@@ -33,6 +31,8 @@ namespace jsc.Languages.IL
 			public Func<int, int> TranslateLocalIndex = LocalIndex => LocalIndex;
 
 			public Func<FieldInfo, FieldInfo> TranslateTargetField = TargetField => TargetField;
+			public Func<MethodInfo, MethodInfo> TranslateTargetMethod = TargetMethod => TargetMethod;
+			public Func<ConstructorInfo, ConstructorInfo> TranslateTargetConstructor = TargetConstructor => TargetConstructor;
 
 			public EmitToArguments(IEnumerable<KeyValuePair<OpCode, Action<ILRewriteContext>>> source)
 			{
@@ -126,11 +126,11 @@ namespace jsc.Languages.IL
 						var TargetMethod = e.i.TargetMethod;
 						if (TargetMethod != null)
 						{
-							e.il.Emit(OpCodes.Call, e.i.TargetMethod);
+							e.il.Emit(OpCodes.Call, TranslateTargetMethod(e.i.TargetMethod));
 							return;
 						}
 
-						e.il.Emit(OpCodes.Call, e.i.TargetConstructor);
+						e.il.Emit(OpCodes.Call, TranslateTargetConstructor(e.i.TargetConstructor));
 					};
 
 				this[OpCodes.Callvirt] =
@@ -139,11 +139,11 @@ namespace jsc.Languages.IL
 						var TargetMethod = e.i.TargetMethod;
 						if (TargetMethod != null)
 						{
-							e.il.Emit(OpCodes.Callvirt, e.i.TargetMethod);
+							e.il.Emit(OpCodes.Callvirt, TranslateTargetMethod(e.i.TargetMethod));
 							return;
 						}
 
-						e.il.Emit(OpCodes.Callvirt, e.i.TargetConstructor);
+						e.il.Emit(OpCodes.Callvirt, TranslateTargetConstructor(e.i.TargetConstructor));
 					};
 
 				this[i => i.TargetType] = new[] {

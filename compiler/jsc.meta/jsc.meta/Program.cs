@@ -57,7 +57,8 @@ namespace jsc.meta
 				
 				new RewriteToAssembly().Invoke,
 
-				new AnalyticsForStatCounter().Invoke
+				new AnalyticsForStatCounter().Invoke,
+				new AnalyticsForFlagCounter().Invoke
 			);
 
 		}

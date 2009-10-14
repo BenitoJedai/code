@@ -140,6 +140,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\Extend\ExtendToAvalonEverywhere.cs" />
     <Compile Include="Commands\Extend\ExtendToNativeConsole.cs" />
@@ -150,8 +151,12 @@
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyType.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
+    <Compile Include="Library\Analytics\AnalyticsForStatCounterArguments.cs" />
+    <Compile Include="Library\Analytics\AnalyticsForStatCounterImplementation.cs" />
+    <Compile Include="Library\Analytics\TrivialWebRequest.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\SmartStreamReader.cs" />
     <Compile Include="Library\WriteToProvider.cs" />
