@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="tools\build.bat" />
-    <None Include="tools\find.java.bat" />
     <None Include="tools\run.bat" />
     <None Include="tools\update.bat" />
     <None Include="web\java\log4j.properties" />

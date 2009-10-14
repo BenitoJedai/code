@@ -32,6 +32,9 @@ namespace jsc.meta.Commands.Analytics
 		public void Invoke()
 		{
 			// see: http://www.statcounter.com/terms.html
+			// until we can merge we might want to just
+			// create an analytic wrapper instead of rewrite
+			// which is not fully there yet
 
 			var AnalyticsGetImage = new Uri(
 					"http://c.statcounter.com/" + counter.sc_project + @"/0/" + counter.security + "/0/"
