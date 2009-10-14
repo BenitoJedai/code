@@ -68,12 +68,12 @@ namespace jsc.meta.Library
 
 					var ea = new ILTranslationExtensions.EmitToArguments
 					{
-						Newobj_redirect =
+						TranslateTargetConstructor =
 							ctor => ctor.DeclaringType == typeof(WriteToArgumentsMarker)
 								? WriteToArguments_ctor
 								: ctor,
 
-						DefineLocal_redirect =
+						TranslateTargetType =
 							_t => _t == typeof(WriteToArgumentsMarker)
 								? WriteToArguments
 								: _t,

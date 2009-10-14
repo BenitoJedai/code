@@ -153,16 +153,27 @@ namespace jsc.meta.Commands.Rewrite
 			TypeFieldsCache.Resolve +=
 				source =>
 				{
+					var k = TypeCache[source];
+
+					if (TypeFieldsCache.BaseDictionary.ContainsKey(source))
+						return;
+
 					TypeFieldsCache[source] = new List<FieldBuilder>();
 				};
 
 			TypeCache.Resolve +=
 				source =>
 				{
+					if (source.IsArray)
+					{
+						TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
+						return;
+					}
+
 					// should we actually copy the field type?
 					// simple rule - same assembly equals must copy
 
-					if (source.Assembly == type.Assembly || this.merge.Contains( source.Assembly.GetName().Name ))
+					if (source.Assembly == type.Assembly || this.merge.Contains(source.Assembly.GetName().Name))
 					{
 						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null);
 					}
@@ -195,10 +206,19 @@ namespace jsc.meta.Commands.Rewrite
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache)
 		{
+			// sanity check!
+
+			if (mc.BaseDictionary.ContainsKey(source))
+				return;
+
 			var km = t.DefineMethod(source.Name, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
+
+			km.SetImplementationFlags(source.GetMethodImplementationFlags());
 
 			mc[source] = km;
 
+			if (source.GetMethodBody() == null)
+				return;
 
 			MethodBase mb = source;
 
@@ -219,8 +239,7 @@ namespace jsc.meta.Commands.Rewrite
 				new ILTranslationExtensions.EmitToArguments
 				{
 					// we need to redirect any typerefs and methodrefs!
-					DefineLocal_redirect = TargetType => tc[TargetType],
-					Newobj_redirect = TargetConstructor => ConstructorCache[TargetConstructor],
+					TranslateTargetType = TargetType => tc[TargetType],
 					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
 					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
 					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
@@ -242,7 +261,12 @@ namespace jsc.meta.Commands.Rewrite
 				source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray()
 			);
 
+			km.SetImplementationFlags(source.GetMethodImplementationFlags());
+
 			mc[source] = km;
+
+			if (source.GetMethodBody() == null)
+				return;
 
 			MethodBase mb = source;
 

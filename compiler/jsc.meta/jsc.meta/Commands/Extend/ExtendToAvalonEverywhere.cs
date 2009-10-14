@@ -216,12 +216,16 @@ namespace jsc.meta.Commands.Extend
 
 
 						TemplateSpawnToHandler.EmitTo(il,
-							ctor =>
+							new ILTranslationExtensions.EmitToArguments
 							{
-								if (ctor.DeclaringType == typeof(Canvas))
-									return c.k.TargetConstructor;
+								TranslateTargetConstructor =
+									ctor =>
+									{
+										if (ctor.DeclaringType == typeof(Canvas))
+											return c.k.TargetConstructor;
 
-								return ctor;
+										return ctor;
+									}
 							}
 						);
 
@@ -322,12 +326,16 @@ namespace jsc.meta.Commands.Extend
 
 
 						TemplateSpawnToHandler.EmitTo(il,
-							ctor =>
+							new ILTranslationExtensions.EmitToArguments
 							{
-								if (ctor.DeclaringType == typeof(Canvas))
-									return c.k.TargetConstructor;
+								TranslateTargetConstructor =
+									ctor =>
+									{
+										if (ctor.DeclaringType == typeof(Canvas))
+											return c.k.TargetConstructor;
 
-								return ctor;
+										return ctor;
+									}
 							}
 						);
 
