@@ -195,93 +195,9 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
-		public void CopyMethod(
-			AssemblyBuilder a,
-			ModuleBuilder m,
-			MethodInfo source,
-			TypeBuilder t,
-			VirtualDictionary<Type, Type> tc,
-			VirtualDictionary<MethodInfo, MethodInfo> mc,
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache)
-		{
-			// sanity check!
+	
 
-			if (mc.BaseDictionary.ContainsKey(source))
-				return;
-
-			var km = t.DefineMethod(source.Name, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
-
-			km.SetImplementationFlags(source.GetMethodImplementationFlags());
-
-			mc[source] = km;
-
-			if (source.GetMethodBody() == null)
-				return;
-
-			MethodBase mb = source;
-
-			var kmil = km.GetILGenerator();
-
-			if (source == this._assembly.EntryPoint)
-			{
-				// we found the entrypoint
-				if (this.codeinjecton != null)
-				{
-					WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, TypeFieldCache, ConstructorCache, MethodCache);
-				}
-
-				a.SetEntryPoint(km);
-			}
-
-			mb.EmitTo(kmil,
-				new ILTranslationExtensions.EmitToArguments
-				{
-					// we need to redirect any typerefs and methodrefs!
-					TranslateTargetType = TargetType => tc[TargetType],
-					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
-					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
-					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
-				}
-			);
-
-		}
-
-
-
-
-		public void CopyConstructor(
-			ConstructorInfo source, TypeBuilder t, VirtualDictionary<Type, Type> tc, VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache)
-		{
-			var km = t.DefineConstructor(
-				source.Attributes,
-				source.CallingConvention,
-				source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray()
-			);
-
-			km.SetImplementationFlags(source.GetMethodImplementationFlags());
-
-			mc[source] = km;
-
-			if (source.GetMethodBody() == null)
-				return;
-
-			MethodBase mb = source;
-
-			mb.EmitTo(km.GetILGenerator(),
-				new ILTranslationExtensions.EmitToArguments
-				{
-					// we need to redirect any typerefs and methodrefs!
-
-					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
-
-				}
-			);
-
-		}
-
+	
 		public string FullNameFixup(string n)
 		{
 			if (this.rename != null)

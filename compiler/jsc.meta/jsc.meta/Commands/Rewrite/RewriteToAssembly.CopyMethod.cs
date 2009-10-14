@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using jsc.meta.Library;
+using System.Reflection;
+using System.Reflection.Emit;
+using jsc.Languages.IL;
+using jsc.Library;
+
+namespace jsc.meta.Commands.Rewrite
+{
+	public partial class RewriteToAssembly
+	{
+		public void CopyMethod(
+			AssemblyBuilder a,
+			ModuleBuilder m,
+			MethodInfo source,
+			TypeBuilder t,
+			VirtualDictionary<Type, Type> tc,
+			VirtualDictionary<MethodInfo, MethodInfo> mc,
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
+			VirtualDictionary<MethodInfo, MethodInfo> MethodCache)
+		{
+			// sanity check!
+
+			if (mc.BaseDictionary.ContainsKey(source))
+				return;
+
+			var km = t.DefineMethod(source.Name, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
+
+			km.SetImplementationFlags(source.GetMethodImplementationFlags());
+
+			mc[source] = km;
+
+			if (source.GetMethodBody() == null)
+				return;
+
+			MethodBase mb = source;
+
+			var kmil = km.GetILGenerator();
+
+			if (source == this._assembly.EntryPoint)
+			{
+				// we found the entrypoint
+				if (this.codeinjecton != null)
+				{
+					WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, TypeFieldCache, ConstructorCache, MethodCache);
+				}
+
+				a.SetEntryPoint(km);
+			}
+
+			mb.EmitTo(kmil,
+				new ILTranslationExtensions.EmitToArguments
+				{
+					// we need to redirect any typerefs and methodrefs!
+					TranslateTargetType = TargetType => tc[TargetType],
+					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
+					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
+					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
+				}
+			);
+
+		}
+
+
+
+	}
+}
