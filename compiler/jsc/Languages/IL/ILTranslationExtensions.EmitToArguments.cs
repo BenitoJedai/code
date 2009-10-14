@@ -112,7 +112,7 @@ namespace jsc.Languages.IL
 				this[OpCodes.Ldloc] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsInt32));
 				#endregion
 
-				this[OpCodes.Newobj] = e => e.il.Emit(OpCodes.Newobj, this.Newobj_redirect(e.i.TargetConstructor));
+				this[OpCodes.Newobj] = e => e.il.Emit(OpCodes.Newobj, this.TranslateTargetConstructor(e.i.TargetConstructor));
 				this[OpCodes.Stelem_Ref] = e => e.il.Emit(OpCodes.Stelem_Ref);
 
 
@@ -146,24 +146,69 @@ namespace jsc.Languages.IL
 						e.il.Emit(OpCodes.Callvirt, TranslateTargetConstructor(e.i.TargetConstructor));
 					};
 
-				this[i => i.TargetType] = new[] {
+				this[OpCodes.Ldftn] =
+					e =>
+					{
+						var TargetMethod = e.i.TargetMethod;
+						if (TargetMethod != null)
+						{
+							e.il.Emit(OpCodes.Callvirt, TranslateTargetMethod(e.i.TargetMethod));
+							return;
+						}
+
+						e.il.Emit(OpCodes.Callvirt, TranslateTargetConstructor(e.i.TargetConstructor));
+					};
+
+
+				this[OpCodes.Ldtoken] =
+					e =>
+					{
+						var TargetField = e.i.TargetField;
+
+						if (TargetField != null)
+						{
+							e.il.Emit(OpCodes.Ldtoken, this.TranslateTargetField(TargetField));
+							return;
+						}
+
+						e.il.Emit(OpCodes.Ldtoken, this.TranslateTargetType(e.i.TargetType));
+
+					};
+
+
+				this[i => this.TranslateTargetType(i.TargetType)] = new[] {
 					OpCodes.Box,
-					OpCodes.Newarr
+					OpCodes.Newarr,
+					OpCodes.Castclass,
+					OpCodes.Unbox_Any,
+					OpCodes.Isinst
+					
 				};
 
-				this[i => TranslateTargetField(i.TargetField)] = new[] {
+				this[i => this.TranslateTargetField(i.TargetField)] = new[] {
 					OpCodes.Stfld,
-					OpCodes.Ldfld
+					OpCodes.Ldfld,
+					OpCodes.Stsfld,
+					OpCodes.Ldsfld,
+					
 				};
 
 				this[i => i.OpParamAsInt32] = new[] {
 					OpCodes.Br,
-					OpCodes.Ldc_I4
+					OpCodes.Brtrue,
+					OpCodes.Ldc_I4,
+				
+			
 				};
 
 				this[i => i.OpParamAsInt8] = new[] {
 					OpCodes.Br_S,
-					OpCodes.Ldc_I4_S
+					OpCodes.Ldc_I4_S,
+					OpCodes.Brtrue_S,
+					OpCodes.Ldarga_S,
+					OpCodes.Ldarg_S,
+					OpCodes.Starg_S,
+					OpCodes.Leave_S
 				};
 
 
@@ -173,6 +218,7 @@ namespace jsc.Languages.IL
 				// the user can however override them
 				// C# does not have Func<IL, void> now does it...
 				new[] {
+					OpCodes.Ldc_I4_M1,
 					OpCodes.Ldc_I4_0,
 					OpCodes.Ldc_I4_1,
 					OpCodes.Ldc_I4_2,
@@ -188,14 +234,52 @@ namespace jsc.Languages.IL
 					OpCodes.Ldarg_2,
 					OpCodes.Ldarg_3,
 
+				
+
+					OpCodes.Ldelem_Ref,
+					OpCodes.Ldelem_U1,
+					OpCodes.Ldelem_U2,
+					OpCodes.Ldelem_U4,
+					OpCodes.Ldelem_I1,
+					OpCodes.Ldelem_I2,
+					OpCodes.Ldelem_I4,
+					OpCodes.Ldelem_I8,
+					OpCodes.Ldelem_R8,
+					OpCodes.Ldelema,
+					OpCodes.Ldelem,
+
 					OpCodes.Ldnull,
 					OpCodes.Pop,	
 					OpCodes.Ret,
+					OpCodes.Dup,
+
 					OpCodes.Conv_I4,
+					OpCodes.Conv_U1,
+					OpCodes.Conv_U2,
+					OpCodes.Conv_U4,
+					OpCodes.Conv_I8,
+					OpCodes.Conv_I2,
 
 					OpCodes.Ldlen,
+					OpCodes.Throw,
+					OpCodes.Nop,
+					OpCodes.Cgt,
+					OpCodes.Clt,
+					OpCodes.Ceq,
 
-					OpCodes.Nop
+					OpCodes.Not,
+					OpCodes.Sub,
+					OpCodes.Shl,
+					OpCodes.Shr,
+					OpCodes.Shr_Un,
+					OpCodes.Xor,
+					OpCodes.Or,
+					OpCodes.And,
+					OpCodes.Add,
+					OpCodes.Div,
+
+					OpCodes.Endfinally,
+					
 				}.ForEach(
 					OpCode => this[OpCode] = e => e.il.Emit(OpCode)
 				);

@@ -67,8 +67,13 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var kp = t.DefineProperty(k.Name, k.Attributes, null, null);
 
-				kp.SetSetMethod((MethodBuilder)MethodCache[k.GetSetMethod()]);
-				kp.SetGetMethod((MethodBuilder)MethodCache[k.GetGetMethod()]);
+				var _SetMethod = k.GetSetMethod();
+				if (_SetMethod != null)
+					kp.SetSetMethod((MethodBuilder)MethodCache[_SetMethod]);
+
+				var _GetMethod = k.GetGetMethod();
+				if (_GetMethod != null)
+					kp.SetGetMethod((MethodBuilder)MethodCache[_GetMethod]);
 
 			}
 
