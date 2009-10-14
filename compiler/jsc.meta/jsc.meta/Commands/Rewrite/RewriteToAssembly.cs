@@ -16,7 +16,7 @@ namespace jsc.meta.Commands.Rewrite
 		/// <summary>
 		/// Types within these assemblies will be merged to the new primary assembly
 		/// </summary>
-		public FileInfo[] merge = new FileInfo[0];
+		public string[] merge = new string[0];
 
 		public FileInfo assembly;
 
@@ -62,6 +62,11 @@ namespace jsc.meta.Commands.Rewrite
 			// we could provide namespace renaming to provide 
 			// brand support
 			public string rule;
+
+			public static implicit operator NamespaceRenameInstructions(string e)
+			{
+				return new NamespaceRenameInstructions { rule = e };
+			}
 
 			public string From
 			{
@@ -122,17 +127,26 @@ namespace jsc.meta.Commands.Rewrite
 			ConstructorCache.Resolve +=
 				msource =>
 				{
+					if (msource.DeclaringType.Assembly == type.Assembly || this.merge.Contains(msource.DeclaringType.Assembly.GetName().Name))
+					{
+						CopyConstructor(msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, ConstructorCache, TypeFieldsCache);
+						return;
+					}
 
-					CopyConstructor(msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, ConstructorCache, TypeFieldsCache);
-
+					ConstructorCache[msource] = msource;
 				};
 
 
 			MethodCache.Resolve +=
 				msource =>
 				{
+					if (msource.DeclaringType.Assembly == type.Assembly || this.merge.Contains(msource.DeclaringType.Assembly.GetName().Name))
+					{
+						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache);
+						return;
+					}
 
-					CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache);
+					MethodCache[msource] = msource;
 
 				};
 
@@ -148,7 +162,7 @@ namespace jsc.meta.Commands.Rewrite
 					// should we actually copy the field type?
 					// simple rule - same assembly equals must copy
 
-					if (source.Assembly == type.Assembly)
+					if (source.Assembly == type.Assembly || this.merge.Contains( source.Assembly.GetName().Name ))
 					{
 						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null);
 					}
@@ -169,67 +183,6 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-		public void CopyType(
-			Type source,
-			AssemblyBuilder a,
-			ModuleBuilder m,
-			VirtualDictionary<Type, Type> TypeCache,
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
-			TypeBuilder OverrideDeclaringType)
-		{
-			var t = default(TypeBuilder);
-
-			// we might define as a nested type instead!
-			if (source.IsNested)
-			{
-				t = (OverrideDeclaringType ?? ((TypeBuilder)TypeCache[source.DeclaringType])).DefineNestedType(source.Name, source.Attributes, source.BaseType, source.GetInterfaces());
-			}
-			else
-			{
-				t = m.DefineType(FullNameFixup(source.FullName), source.Attributes, source.BaseType, source.GetInterfaces());
-			}
-
-			TypeCache[source] = t;
-
-			foreach (var f in source.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
-			{
-				var ff = t.DefineField(f.Name, TypeCache[f.FieldType], f.Attributes);
-
-				TypeFieldCache[source].Add(ff);
-			}
-
-
-
-
-			foreach (var k in source.GetConstructors(
-				BindingFlags.DeclaredOnly |
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
-			{
-				var km = ConstructorCache[k];
-			}
-
-			foreach (var k in source.GetMethods(
-				BindingFlags.DeclaredOnly |
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
-			{
-				var km = MethodCache[k];
-			}
-
-			foreach (var k in source.GetProperties(
-				BindingFlags.DeclaredOnly |
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
-			{
-				var kp = t.DefineProperty(k.Name, k.Attributes, null, null);
-
-				kp.SetSetMethod((MethodBuilder)MethodCache[k.GetSetMethod()]);
-				kp.SetGetMethod((MethodBuilder)MethodCache[k.GetGetMethod()]);
-
-			}
-
-			t.CreateType();
-		}
 
 		public void CopyMethod(
 			AssemblyBuilder a,
@@ -266,9 +219,11 @@ namespace jsc.meta.Commands.Rewrite
 				new ILTranslationExtensions.EmitToArguments
 				{
 					// we need to redirect any typerefs and methodrefs!
-
+					DefineLocal_redirect = TargetType => tc[TargetType],
+					Newobj_redirect = TargetConstructor => ConstructorCache[TargetConstructor],
 					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
-
+					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
+					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
 				}
 			);
 
