@@ -11,7 +11,7 @@ using jsc.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
-		public partial class RewriteToAssembly
+	public partial class RewriteToAssembly
 	{
 		public void CopyType(
 			Type source,
@@ -28,19 +28,52 @@ namespace jsc.meta.Commands.Rewrite
 			// we might define as a nested type instead!
 			if (source.IsNested)
 			{
-				t = (OverrideDeclaringType ?? ((TypeBuilder)TypeCache[source.DeclaringType])).DefineNestedType(source.Name, source.Attributes, source.BaseType, source.GetInterfaces());
+				var _DeclaringType = (OverrideDeclaringType ?? ((TypeBuilder)TypeCache[source.DeclaringType]));
+
+				var __ = new { source.StructLayoutAttribute.Pack, source.StructLayoutAttribute.Size };
+
+				if (source.StructLayoutAttribute.Size > 0)
+				{
+					t = _DeclaringType.DefineNestedType(
+						source.Name,
+						source.Attributes,
+						TypeCache[source.BaseType],
+						source.StructLayoutAttribute.Size 
+					);
+				}
+				else
+				{
+					t = _DeclaringType.DefineNestedType(
+
+						source.Name,
+						source.Attributes,
+						TypeCache[source.BaseType],
+						source.GetInterfaces().Select(k => TypeCache[k]).ToArray()
+					);
+				}
 			}
 			else
 			{
-				t = m.DefineType(FullNameFixup(source.FullName), source.Attributes, source.BaseType, source.GetInterfaces());
+				t = m.DefineType(
+					FullNameFixup(source.FullName), 
+					source.Attributes,
+					TypeCache[source.BaseType], 
+					source.GetInterfaces().Select(k => TypeCache[k]).ToArray()
+				);
+
 			}
 
 			TypeCache[source] = t;
 
 			foreach (var f in source.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
+				
 				var ff = t.DefineField(f.Name, TypeCache[f.FieldType], f.Attributes);
 
+
+				//ff.setd
+				//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
+				
 				TypeFieldCache[source].Add(ff);
 			}
 
@@ -54,6 +87,7 @@ namespace jsc.meta.Commands.Rewrite
 				var km = ConstructorCache[k];
 			}
 
+			
 			foreach (var k in source.GetMethods(
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
@@ -77,11 +111,30 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
+
+			foreach (var k in source.GetEvents(
+				BindingFlags.DeclaredOnly |
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+			{
+				var kp = t.DefineEvent(k.Name, k.Attributes, k.EventHandlerType);
+
+				var _AddMethod = k.GetAddMethod();
+				if (_AddMethod != null)
+					kp.SetAddOnMethod((MethodBuilder)MethodCache[_AddMethod]);
+
+				var _GetRemoveMethod = k.GetRemoveMethod();
+				if (_GetRemoveMethod != null)
+					kp.SetRemoveOnMethod((MethodBuilder)MethodCache[_GetRemoveMethod]);
+
+			
+			}
+
+			
 			t.CreateType();
 		}
 
-	
 
-		
+
+
 	}
 }
