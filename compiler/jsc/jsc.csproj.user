@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\c\WavePlayer\WavePlayer\bin\Release</StartWorkingDirectory>
-    <StartArguments>WavePlayer.exe -c</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\SimpleChat\SimpleChat\bin\Release\merged.staging\staging</StartWorkingDirectory>
+    <StartArguments>chat1MetaScript.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

@@ -155,10 +155,12 @@ namespace jsc.meta.Commands.Rewrite
 			this.PrimaryType = this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type);
 
 
-			var name = new AssemblyName(FullNameFixup(PrimaryType.FullName));
-
 			var Product = new FileInfo(Path.Combine(staging.FullName,
-				(string.IsNullOrEmpty(this.product) ? name.Name : this.product) + this.assembly.Extension));
+			(string.IsNullOrEmpty(this.product) ? this.assembly.Name + "Rewrite" : this.product) + this.assembly.Extension));
+
+			var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
+
+
 			if (Product.Exists)
 				Product.Delete();
 

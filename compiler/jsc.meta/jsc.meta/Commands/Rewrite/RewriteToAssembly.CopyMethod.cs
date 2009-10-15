@@ -74,6 +74,7 @@ namespace jsc.meta.Commands.Rewrite
 			);
 
 		
+			// we need to emit the try/catch blocks too!
 
 		}
 
