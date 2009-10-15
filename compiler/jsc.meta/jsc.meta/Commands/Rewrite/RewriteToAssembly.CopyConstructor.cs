@@ -13,9 +13,14 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-		public void CopyConstructor(
-				ConstructorInfo source, TypeBuilder t, VirtualDictionary<Type, Type> tc, VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
-				VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache)
+		static void CopyConstructor(
+				ConstructorInfo source, TypeBuilder t,
+				VirtualDictionary<Type, Type> tc,
+				VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
+				VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
+				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+				VirtualDictionary<string, string> NameObfuscation)
 		{
 			var km = source.IsStatic ?
 				t.DefineTypeInitializer() :
@@ -39,9 +44,11 @@ namespace jsc.meta.Commands.Rewrite
 				new ILTranslationExtensions.EmitToArguments
 				{
 					// we need to redirect any typerefs and methodrefs!
+					TranslateTargetType = TargetType => tc[TargetType],
+					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == NameObfuscation[TargetField.Name]) ?? TargetField,
 
-					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
-
+					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
+					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
 				}
 			);
 

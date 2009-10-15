@@ -13,7 +13,7 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc //.Extensions
 {
-	static class Extensions
+	public static class Extensions
 	{
 		internal static void ForEach<T>(this IEnumerable<T> source, Action<T, int> f)
 		{

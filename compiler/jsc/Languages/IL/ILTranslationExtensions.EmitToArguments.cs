@@ -152,13 +152,18 @@ namespace jsc.Languages.IL
 						var TargetMethod = e.i.TargetMethod;
 						if (TargetMethod != null)
 						{
-							e.il.Emit(OpCodes.Callvirt, TranslateTargetMethod(e.i.TargetMethod));
+							e.il.Emit(OpCodes.Ldftn, TranslateTargetMethod(e.i.TargetMethod));
 							return;
 						}
 
-						e.il.Emit(OpCodes.Callvirt, TranslateTargetConstructor(e.i.TargetConstructor));
+						e.il.Emit(OpCodes.Ldftn, TranslateTargetConstructor(e.i.TargetConstructor));
 					};
 
+				this[OpCodes.Ldc_R4] =
+					e =>
+					{
+						e.il.Emit(OpCodes.Ldc_R4, (float)e.i.TargetFloat);
+					};
 
 				this[OpCodes.Ldtoken] =
 					e =>
@@ -205,6 +210,7 @@ namespace jsc.Languages.IL
 					OpCodes.Br_S,
 					OpCodes.Ldc_I4_S,
 					OpCodes.Brtrue_S,
+					OpCodes.Brfalse_S,
 					OpCodes.Ldarga_S,
 					OpCodes.Ldarg_S,
 					OpCodes.Starg_S,
@@ -247,6 +253,14 @@ namespace jsc.Languages.IL
 					OpCodes.Ldelem_R8,
 					OpCodes.Ldelema,
 					OpCodes.Ldelem,
+					
+					OpCodes.Stelem_Ref,
+					OpCodes.Stelem_I1,
+					OpCodes.Stelem_I2,
+					OpCodes.Stelem_I4,
+					OpCodes.Stelem_I8,
+					OpCodes.Stelem_R8,
+					OpCodes.Stelem,
 
 					OpCodes.Ldnull,
 					OpCodes.Pop,	
@@ -259,6 +273,7 @@ namespace jsc.Languages.IL
 					OpCodes.Conv_U4,
 					OpCodes.Conv_I8,
 					OpCodes.Conv_I2,
+					OpCodes.Conv_R8,
 
 					OpCodes.Ldlen,
 					OpCodes.Throw,
@@ -267,6 +282,7 @@ namespace jsc.Languages.IL
 					OpCodes.Clt,
 					OpCodes.Ceq,
 
+					OpCodes.Rem,
 					OpCodes.Not,
 					OpCodes.Sub,
 					OpCodes.Shl,
@@ -277,6 +293,7 @@ namespace jsc.Languages.IL
 					OpCodes.And,
 					OpCodes.Add,
 					OpCodes.Div,
+					OpCodes.Mul,
 
 					OpCodes.Endfinally,
 					

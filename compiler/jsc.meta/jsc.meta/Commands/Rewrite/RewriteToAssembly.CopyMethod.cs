@@ -22,14 +22,22 @@ namespace jsc.meta.Commands.Rewrite
 			VirtualDictionary<MethodInfo, MethodInfo> mc,
 			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache)
+			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+			VirtualDictionary<string, string> NameObfuscation)
 		{
 			// sanity check!
 
 			if (mc.BaseDictionary.ContainsKey(source))
 				return;
 
-			var km = t.DefineMethod(source.Name, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
+			// Unknown runtime implemented delegate method
+
+			var MethodName =
+				//(source == this._assembly.EntryPoint) ||
+				(source.GetMethodBody() == null || (source.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
+				source.Name : NameObfuscation[source.Name];
+
+			var km = t.DefineMethod(MethodName, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
 
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
 
@@ -42,6 +50,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var kmil = km.GetILGenerator();
 
+	
 			if (source == this._assembly.EntryPoint)
 			{
 				// we found the entrypoint
@@ -58,11 +67,13 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					// we need to redirect any typerefs and methodrefs!
 					TranslateTargetType = TargetType => tc[TargetType],
-					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].Single(k => k.Name == TargetField.Name),
+					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == NameObfuscation[TargetField.Name]) ?? TargetField,
 					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
 					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
 				}
 			);
+
+		
 
 		}
 

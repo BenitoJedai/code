@@ -7,6 +7,7 @@ using jsc.meta.Tools;
 using ScriptCoreLib;
 using System.Linq;
 using ScriptCoreLib.Archive.ZIP;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -233,7 +234,8 @@ namespace jsc.meta.Commands.Extend
 		{
 			// Main
 			// C# project template in .net 4 has internal Main... who knew...
-			var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+			//var assembly_type_Main = assembly_type.GetMethod("Main", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
+			var assembly_type_Main = assembly_type.Assembly.EntryPoint;
 
 			var name = new AssemblyName(assembly.GetName().Name + MetaScript);
 			var Product = new FileInfo(Path.Combine(this.context.staging.FullName, name.Name + ".exe"));
