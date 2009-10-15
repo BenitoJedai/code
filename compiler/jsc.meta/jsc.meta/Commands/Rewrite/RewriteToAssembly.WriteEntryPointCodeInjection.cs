@@ -41,7 +41,7 @@ namespace jsc.meta.Commands.Rewrite
 			//}
 
 
-			CopyType(this.codeinjecton.Method.DeclaringType, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t);
+			CopyType(this.codeinjecton.Method.DeclaringType, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t, NameObfuscation);
 
 
 

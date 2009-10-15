@@ -257,62 +257,7 @@ namespace jsc.Languages.Java
 			WriteDecoratedTypeName(e);
 		}
 
-		public override void WriteDecoratedMethodName(MethodBase z, bool q)
-		{
-			if (q)
-				Write("\"");
-
-			if (z.Name == "ToString" && !z.IsStatic)
-				Write("toString");
-			else if (z.Name == "Equals" && !z.IsStatic)
-				Write("equals");
-			else if (z.Name == "GetHashCode" && !z.IsStatic)
-				Write("hashCode");
-			else
-			{
-				if (z.Name == "Main" && z.IsStatic)
-				{
-					// java wants main to be lowercased
-					Write("main");
-				}
-				else if (z.Name == "op_Implicit")
-				{
-
-
-					Type rt = ((MethodInfo)z).ReturnType;
-
-					if (rt == z.DeclaringType)
-					{
-						// name clash?
-
-						Write("Of");
-
-						//Write("From");
-						//WriteTypeNameAsMemberName(z.GetParameters()[0].ParameterType);
-					}
-					else
-					{
-						Write("To");
-
-						if (rt.IsPrimitive)
-							Write("_");
-
-						WriteTypeNameAsMemberName(rt);
-
-					}
-
-				}
-				else
-				{
-					WriteSafeLiteral(z.Name);
-				}
-
-			}
-
-			if (q)
-				Write("\"");
-		}
-
+	
 		private void WriteMethodSignatureThrows(MethodBase m)
 		{
 			DebugBreak(ScriptAttribute.Of(m));

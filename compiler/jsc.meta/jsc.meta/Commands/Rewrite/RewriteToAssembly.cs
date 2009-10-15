@@ -8,15 +8,28 @@ using System.Reflection;
 using System.Reflection.Emit;
 using jsc.Languages.IL;
 using jsc.Library;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
+		public string product;
+
 		/// <summary>
 		/// Types within these assemblies will be merged to the new primary assembly
 		/// </summary>
-		public string[] merge = new string[0];
+		public MergeInstruction[] merge = new MergeInstruction[0];
+
+		public class MergeInstruction
+		{
+			public string name;
+
+			public static implicit operator MergeInstruction(string e)
+			{
+				return new MergeInstruction { name = e };
+			}
+		}
 
 		public FileInfo assembly;
 
@@ -52,7 +65,7 @@ namespace jsc.meta.Commands.Rewrite
 		/// methods would do. We could also make the IL harder for disassamblers
 		/// like reflector.
 		/// </summary>
-		public bool obfuscate;
+		public bool obfuscate = false;
 
 		internal Delegate codeinjecton;
 		internal Func<Assembly, object[]> codeinjectonparams;
@@ -89,9 +102,43 @@ namespace jsc.meta.Commands.Rewrite
 
 		internal Assembly _assembly;
 
+		VirtualDictionary<string, string> NameObfuscation = new VirtualDictionary<string, string>();
+
+		public Type PrimaryType;
+
 		public void Invoke()
 		{
+			//Debugger.Launch();
 
+			var NameObfuscationRandom = new Random();
+
+			NameObfuscation.Resolve +=
+				n =>
+				{
+					if (!this.obfuscate)
+					{
+						NameObfuscation[n] = n;
+
+						return;
+					}
+
+					// see: http://www.cumps.be/obfuscation-making-reverse-engineering-harder/
+					// see: http://www.codesqueeze.com/careless-obfuscation-can-lose-you-business/
+
+					// should we add salt?
+					var salt_length = NameObfuscationRandom.Next(7);
+
+					var ObfuscatedName = new StringBuilder();
+
+					ObfuscatedName.Append((char)(0xFEFC - NameObfuscation.BaseDictionary.Count));
+
+					for (int i = 0; i < salt_length; i++)
+					{
+						ObfuscatedName.Append((char)(0xFEFC - NameObfuscationRandom.Next(0x1000)));
+					}
+
+					NameObfuscation[n] = ObfuscatedName.ToString();
+				};
 
 			if (this.staging == null)
 				this.staging = this.assembly.Directory.CreateSubdirectory("staging");
@@ -105,18 +152,19 @@ namespace jsc.meta.Commands.Rewrite
 			assembly.LoadReferencesAt(staging, this.assembly.Directory);
 
 
-			var type = this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type);
+			this.PrimaryType = this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type);
 
 
-			var name = new AssemblyName(FullNameFixup(type.FullName));
+			var name = new AssemblyName(FullNameFixup(PrimaryType.FullName));
 
-			var Product = new FileInfo(Path.Combine(staging.FullName, name.Name + this.assembly.Extension));
+			var Product = new FileInfo(Path.Combine(staging.FullName,
+				(string.IsNullOrEmpty(this.product) ? name.Name : this.product) + this.assembly.Extension));
 			if (Product.Exists)
 				Product.Delete();
 
 
 			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
-			var m = a.DefineDynamicModule(type.FullName, Product.Name);
+			var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name), Product.Name);
 
 			var TypeCache = new VirtualDictionary<Type, Type>();
 			var TypeFieldsCache = new VirtualDictionary<Type, List<FieldBuilder>>();
@@ -124,12 +172,22 @@ namespace jsc.meta.Commands.Rewrite
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
 
+
+
 			ConstructorCache.Resolve +=
 				msource =>
 				{
-					if (msource.DeclaringType.Assembly == type.Assembly || this.merge.Contains(msource.DeclaringType.Assembly.GetName().Name))
+					if (msource.DeclaringType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
-						CopyConstructor(msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, ConstructorCache, TypeFieldsCache);
+						var DeclaringType = (TypeBuilder)TypeCache[msource.DeclaringType];
+
+						if (ConstructorCache.BaseDictionary.ContainsKey(msource))
+							return;
+
+						CopyConstructor(msource,
+							DeclaringType,
+							TypeCache, ConstructorCache, TypeFieldsCache,
+							ConstructorCache, MethodCache, NameObfuscation);
 						return;
 					}
 
@@ -140,9 +198,9 @@ namespace jsc.meta.Commands.Rewrite
 			MethodCache.Resolve +=
 				msource =>
 				{
-					if (msource.DeclaringType.Assembly == type.Assembly || this.merge.Contains(msource.DeclaringType.Assembly.GetName().Name))
+					if (msource.DeclaringType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
-						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache);
+						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation);
 						return;
 					}
 
@@ -173,9 +231,11 @@ namespace jsc.meta.Commands.Rewrite
 					// should we actually copy the field type?
 					// simple rule - same assembly equals must copy
 
-					if (source.Assembly == type.Assembly || this.merge.Contains(source.Assembly.GetName().Name))
+					var ContextType = source;
+
+					if (ShouldCopyType(PrimaryType, ContextType))
 					{
-						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null);
+						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null, NameObfuscation);
 					}
 					else
 					{
@@ -184,7 +244,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				};
 
-			var kt = TypeCache[type];
+			var kt = TypeCache[PrimaryType];
 
 			a.Save(
 				Product.Name
@@ -194,12 +254,27 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
+		private bool ShouldCopyType(Type PrimaryType, Type ContextType)
+		{
+			return ContextType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name);
+		}
 
-	
 
-	
+
+
+
 		public string FullNameFixup(string n)
 		{
+			if (this.obfuscate)
+				return NameObfuscation[n];
+
+			return InternalFullNameFixup(n);
+		}
+
+		public string InternalFullNameFixup(string n)
+		{
+
+
 			if (this.rename != null)
 				foreach (var k in this.rename)
 				{

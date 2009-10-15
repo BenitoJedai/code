@@ -45,7 +45,7 @@ namespace jsc.meta.Commands.Analytics
 					"jsc.meta->" +  Path.GetFileNameWithoutExtension( assembly.Name)
 				},
 
-				merge = new [] {
+				merge = new RewriteToAssembly.MergeInstruction[] {
 					"jsc.meta"
 				},
 
