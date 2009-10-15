@@ -133,7 +133,7 @@
 C:\util\jsc\bin\jsc.meta.exe RewriteToAssembly  /assembly:$(TargetPath) /staging:merged.staging /product:chat1 /obfuscate:false /merge.name:"MyContext.MyInformation.TextComponent" /merge.name:"MyContext.Popular.TextComponent"
 
 ::C:\util\jsc\bin\jsc.meta.exe AnalyticsForStatCounter /assembly:$(TargetPath) /staging:analytics.staging
-::C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetDir)obfuscated.staging/chat1.exe /javascript:false /javafusion:true  /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
+C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetDir)merged.staging/chat1.exe /javascript:false /javafusion:true  /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)"
 C:\util\jsc\bin\jsc.meta.exe ReferenceTextualUserControl /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
   </PropertyGroup>

@@ -379,3 +379,5 @@ version history:
 	c: ctor now clears fields
 09.10.2009
 	c: Main will be treated special only if inside target assembly
+15.10.2009
+	il: rewrite logic now supports some obfuscation
