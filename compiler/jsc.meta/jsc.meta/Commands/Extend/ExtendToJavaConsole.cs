@@ -23,7 +23,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-			//Debugger.Launch();
+			// Debugger.Launch();
 
 			// could todo: JNI could be used to implement externs
 			// http://tirania.org/blog/archive/2009/Aug-11.html
@@ -31,7 +31,7 @@ namespace jsc.meta.Commands.Extend
 
 			// http://www.xs4all.nl/~vkessels/articles/jnijarapplet.html
 
-			Console.WriteLine("will create a java console application for you");
+			//Console.WriteLine("will create a java console application for you");
 
 			// http://social.msdn.microsoft.com/Forums/en-US/vbide/thread/0e946e63-a481-45b1-990d-af727914ff15
 			// in obj folder we build our binaries

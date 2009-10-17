@@ -9,7 +9,7 @@ using jsc.meta.Library.Web;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Diagnostics;
-using jsc.meta.Library.Analytics;
+using jsc.Library.Analytics;
 
 namespace jsc.meta.Commands.Analytics
 {
@@ -57,11 +57,11 @@ namespace jsc.meta.Commands.Analytics
 				staging = staging,
 
 				rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
-					"jsc.meta->" +  Path.GetFileNameWithoutExtension( assembly.Name)
+					"jsc->" +  Path.GetFileNameWithoutExtension( assembly.Name)
 				},
 
 				merge = new RewriteToAssembly.MergeInstruction[] {
-					"jsc.meta"
+					"jsc"
 				},
 
 

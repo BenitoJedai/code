@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeModel\ILLoopConstruct.cs" />
     <Compile Include="CodeModel\TypeInfo.cs" />
     <Compile Include="CodeModel\VariableInfo.cs" />
     <Compile Include="CommandLineOption.cs" />
@@ -211,6 +212,9 @@
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\PropertyDetector.cs" />
     <Compile Include="Languages\StringToSByteArrayProvider.cs" />
+    <Compile Include="Library\Analytics\AnalyticsForStatCounterArguments.cs" />
+    <Compile Include="Library\Analytics\AnalyticsForStatCounterImplementation.cs" />
+    <Compile Include="Library\Analytics\TrivialWebRequest.cs" />
     <Compile Include="Library\VirtualDictionary.cs" />
     <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Program.cs" />
@@ -244,6 +248,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="docs\todo.txt" />
+    <Content Include="Languages\IL\comment.txt" />
     <Content Include="Library\comment.txt" />
     <Content Include="Resx\App.ico" />
   </ItemGroup>

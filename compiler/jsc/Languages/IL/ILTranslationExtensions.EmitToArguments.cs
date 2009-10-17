@@ -16,6 +16,9 @@ namespace jsc.Languages.IL
 
 		public class EmitToArguments
 		{
+			public Action<ILRewriteContext> BeforeInstruction;
+			public Action<ILRewriteContext> AfterInstruction;
+
 			public readonly Dictionary<OpCode, Action<ILRewriteContext>> Configuration = new Dictionary<OpCode, Action<ILRewriteContext>>();
 
 
@@ -29,18 +32,12 @@ namespace jsc.Languages.IL
 			/// us to enable method composition.
 			/// </summary>
 			public Func<int, int> TranslateLocalIndex = LocalIndex => LocalIndex;
-
+			public Func<ILInstruction, int, int> TranslateBranchOffset = (i, o) => o;
 			public Func<FieldInfo, FieldInfo> TranslateTargetField = TargetField => TargetField;
 			public Func<MethodInfo, MethodInfo> TranslateTargetMethod = TargetMethod => TargetMethod;
 			public Func<ConstructorInfo, ConstructorInfo> TranslateTargetConstructor = TargetConstructor => TargetConstructor;
 
-			public EmitToArguments(IEnumerable<KeyValuePair<OpCode, Action<ILRewriteContext>>> source)
-			{
-				foreach (var k in source)
-				{
-					Configuration[k.Key] = k.Value;
-				}
-			}
+
 
 			public EmitToArguments()
 			{
@@ -199,24 +196,36 @@ namespace jsc.Languages.IL
 				};
 
 				this[i => i.OpParamAsInt32] = new[] {
+					OpCodes.Ldc_I4,
+				};
+
+				this[i => TranslateBranchOffset(i, i.OpParamAsInt32)] = new[] {
 					OpCodes.Br,
 					OpCodes.Brtrue,
-					OpCodes.Ldc_I4,
-				
-			
 				};
 
 				this[i => i.OpParamAsInt8] = new[] {
-					OpCodes.Br_S,
 					OpCodes.Ldc_I4_S,
-					OpCodes.Brtrue_S,
-					OpCodes.Brfalse_S,
 					OpCodes.Ldarga_S,
 					OpCodes.Ldarg_S,
-					OpCodes.Starg_S,
-					OpCodes.Leave_S
+					OpCodes.Starg_S
 				};
 
+				// http://msdn.microsoft.com/en-us/library/74b4xzyw(VS.71).aspx
+				// If we translate the branch offset from byte to int
+				// we got some problems!
+				// For now we wont implement this but it will bite us later!
+				this[i => 
+					(byte)
+						checked(
+							(sbyte)TranslateBranchOffset(i, 
+								unchecked(
+									(sbyte)i.OpParamAsInt8)))
+					] = new[] {
+					OpCodes.Br_S,
+					OpCodes.Brtrue_S,
+					OpCodes.Brfalse_S,
+				};
 
 
 
@@ -295,7 +304,7 @@ namespace jsc.Languages.IL
 					OpCodes.Div,
 					OpCodes.Mul,
 
-					OpCodes.Endfinally,
+					//OpCodes.Endfinally,
 					
 				}.ForEach(
 					OpCode => this[OpCode] = e => e.il.Emit(OpCode)

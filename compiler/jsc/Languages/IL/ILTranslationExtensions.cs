@@ -26,7 +26,7 @@ namespace jsc.Languages.IL
 			EmitTo(m, il, new EmitToArguments());
 		}
 
-		public static void EmitTo(this MethodBase m, ILGenerator il, EmitToArguments a)
+		public static void EmitTo(this MethodBase m, ILGenerator il, EmitToArguments x)
 		{
 
 			var body = m.GetMethodBody();
@@ -36,17 +36,14 @@ namespace jsc.Languages.IL
 
 			var locals = Enumerable.ToArray(
 				from local in body.LocalVariables
-				let declared = il.DeclareLocal(a.TranslateTargetType(local.LocalType))
+				let declared = il.DeclareLocal(x.TranslateTargetType(local.LocalType))
 				select new { local, declared }
 			).ToDictionary(
 				k => k.local.LocalIndex,
 				k => k.declared.LocalIndex
 			);
 
-			var x = new EmitToArguments(a.Configuration)
-			{
-				TranslateLocalIndex = LocalIndex => locals[LocalIndex]
-			};
+			x.TranslateLocalIndex = LocalIndex => locals[LocalIndex];
 
 			var xb = new ILBlock(m);
 
@@ -61,7 +58,14 @@ namespace jsc.Languages.IL
 
 			foreach (var i in xb.Instructrions)
 			{
+				if (x.BeforeInstruction != null)
+					x.BeforeInstruction(new EmitToArguments.ILRewriteContext { i = i, il = il });
+
 				x.Configuration[i.OpCode](new EmitToArguments.ILRewriteContext { i = i, il = il });
+
+				if (x.AfterInstruction != null)
+					x.AfterInstruction(new EmitToArguments.ILRewriteContext { i = i, il = il });
+
 			}
 
 	

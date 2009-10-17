@@ -33,7 +33,9 @@ namespace jsc.Languages.Java
 				Write("hashCode");
 			else
 			{
-				if (z.DeclaringType.Assembly.EntryPoint == z)
+				// an assembly can have multiple entrypoints
+				// one for .net and one for translated java
+				if (z.DeclaringType.Assembly.EntryPoint == z || z.Name == "Main")
 				{
 					// java wants main to be lowercased
 					Write("main");

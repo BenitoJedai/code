@@ -1498,7 +1498,11 @@ namespace jsc
 
 				// whats this if doing? :)
 				// fixme: here is the bug!
-				if (Last.StackAfter == null || i.StackAfter.Count > Last.StackAfter.Count)
+				// why is StackAfter null?
+				if (Last.StackAfter == null ||
+					i.StackAfter == null || 
+					
+					i.StackAfter.Count > Last.StackAfter.Count)
 					goto skip;
 				else
 				{

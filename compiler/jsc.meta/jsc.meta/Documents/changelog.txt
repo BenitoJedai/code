@@ -38,3 +38,5 @@
 	- Added AnalyticsForStatCounter command
 2009.10.14
 	- Fixed AnalyticsForStatCounter
+2009.10.17
+	- Fixed RewriteToAssembly Leave to Leave.s branch targeting fixup lookup

@@ -408,7 +408,7 @@ namespace jsc.Languages.Java
 			#endregion
 
 			CIW[OpCodes.Leave,
-				OpCodes.Leave_S] = delegate { BreakToDebugger("return from within try block not yet supported"); };
+				OpCodes.Leave_S] = e => { BreakToDebugger("return from within try block not yet supported: " + e.i.Location); };
 
 
 			CIW[

@@ -27,10 +27,10 @@ namespace jsc.meta.Commands.Rewrite
 		{
 			var BaseType = TypeCache[source.BaseType];
 			var _DeclaringType = (OverrideDeclaringType ?? (
-				
+
 				source.DeclaringType == null ? null :
 					(TypeBuilder)TypeCache[source.DeclaringType]
-			
+
 				)
 			);
 
@@ -83,7 +83,9 @@ namespace jsc.meta.Commands.Rewrite
 
 			TypeCache[source] = t;
 
-			foreach (var f in source.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+			foreach (var f in source.GetFields(
+				BindingFlags.DeclaredOnly | 
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
 				// if the datastruct is actually pointing to
 				// a initialized data in .sdata

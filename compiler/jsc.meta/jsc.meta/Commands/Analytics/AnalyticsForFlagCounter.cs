@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using jsc.meta.Library.Analytics;
 using System.Reflection;
 using jsc.meta.Commands.Rewrite;
 using System.IO;
+using jsc.Library.Analytics;
 
 namespace jsc.meta.Commands.Analytics
 {

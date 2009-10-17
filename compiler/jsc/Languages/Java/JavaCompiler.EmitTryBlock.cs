@@ -41,7 +41,7 @@ namespace jsc.Languages.Java
 					ILBlock.PrestatementBlock b = p.Block.Prestatements;
 
 					bool _pop = false;
-					bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+					bool _leave = b.Last.IsAnyOpCodeOf(OpCodes.Leave_S, OpCodes.Leave) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
 					EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
 				};
@@ -58,7 +58,7 @@ namespace jsc.Languages.Java
 						bool _leave =
 							b.Last == OpCodes.Endfinally
 						||
-							(b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+							(b.Last.IsAnyOpCodeOf(OpCodes.Leave_S, OpCodes.Leave) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
 						b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 
@@ -150,7 +150,7 @@ namespace jsc.Languages.Java
 				bool _leave =
 					b.Last == OpCodes.Endfinally
 				||
-					(b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+					(b.Last.IsAnyOpCodeOf(OpCodes.Leave_S, OpCodes.Leave) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
 				b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 

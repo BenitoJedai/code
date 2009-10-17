@@ -272,7 +272,9 @@ namespace jsc.meta.Library
 		{
 			// yay attributes
 			var Attribute = typeof(T);
-			var Properties = z.GetType().GetProperties();
+
+			// Not a writable property
+			var Properties = z.GetType().GetProperties().Where(k => k.CanWrite);
 
 			var data = Enumerable.ToArray(
 				from k in Properties

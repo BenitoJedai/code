@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace jsc.meta.Library.Analytics
+namespace jsc.Library.Analytics
 {
 	public static class AnalyticsForStatCounterImplementation
 	{
