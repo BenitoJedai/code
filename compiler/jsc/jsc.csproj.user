@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\SimpleChat\SimpleChat\bin\Release\merged.staging\staging</StartWorkingDirectory>
-    <StartArguments>chat1MetaScript.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\TestTryCatchFinally\TestTryCatchFinally\bin\Release\o1.staging</StartWorkingDirectory>
+    <StartArguments>o1.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

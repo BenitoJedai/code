@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 
-namespace jsc.meta.Library.Analytics
+namespace jsc.Library.Analytics
 {
 	public class TrivialWebRequest
 	{

@@ -168,6 +168,14 @@ namespace jsc.meta.Commands.Rewrite
 			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
 			var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name), Product.Name);
 
+
+
+
+			foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
+			{
+				a.DefineAttribute<ObfuscationAttribute>(ka);
+			}
+
 			var TypeCache = new VirtualDictionary<Type, Type>();
 			var TypeFieldsCache = new VirtualDictionary<Type, List<FieldBuilder>>();
 

@@ -381,3 +381,5 @@ version history:
 	c: Main will be treated special only if inside target assembly
 15.10.2009
 	il: rewrite logic now supports some obfuscation
+17.10.2009
+	java: fixed try catch emit for OpCodes.Leave
