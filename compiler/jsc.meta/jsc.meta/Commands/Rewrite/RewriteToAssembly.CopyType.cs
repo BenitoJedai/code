@@ -14,7 +14,7 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-		void CopyType(
+		internal static void CopyType(
 		   Type source,
 		   AssemblyBuilder a,
 		   ModuleBuilder m,
@@ -23,7 +23,9 @@ namespace jsc.meta.Commands.Rewrite
 		   VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 		   VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 		   TypeBuilder OverrideDeclaringType,
-		   VirtualDictionary<string, string> NameObfuscation)
+		   VirtualDictionary<string, string> NameObfuscation,
+		   Func<Type, bool> ShouldCopyType,
+			Func<string, string> FullNameFixup)
 		{
 			var BaseType = TypeCache[source.BaseType];
 			var _DeclaringType = (OverrideDeclaringType ?? (
@@ -40,7 +42,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var t = default(TypeBuilder);
 
-			var _Interfaces = source.GetInterfaces().Where(k => k.IsPublic || ShouldCopyType(this.PrimaryType, k)).Select(k => TypeCache[k]).ToArray();
+			var _Interfaces = source.GetInterfaces().Where(k => k.IsPublic || ShouldCopyType(k)).Select(k => TypeCache[k]).ToArray();
 
 			// we might define as a nested type instead!
 			if (source.IsNested)
@@ -83,9 +85,16 @@ namespace jsc.meta.Commands.Rewrite
 
 			TypeCache[source] = t;
 
+			CopyTypeMembers(source, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
+
+			t.CreateType();
+		}
+
+		internal static void CopyTypeMembers(Type source, VirtualDictionary<Type, Type> TypeCache, VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, VirtualDictionary<MethodInfo, MethodInfo> MethodCache, VirtualDictionary<string, string> NameObfuscation, TypeBuilder t)
+		{
 			foreach (var f in source.GetFields(
-				BindingFlags.DeclaredOnly | 
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+						BindingFlags.DeclaredOnly |
+						BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
 				// if the datastruct is actually pointing to
 				// a initialized data in .sdata
@@ -170,7 +179,7 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 
-			t.CreateType();
+			
 		}
 
 

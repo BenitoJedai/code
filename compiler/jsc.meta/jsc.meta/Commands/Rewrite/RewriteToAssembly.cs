@@ -210,7 +210,11 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					if (msource.DeclaringType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
-						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation);
+						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
+							_assembly,
+							this.codeinjecton,
+							this.codeinjectonparams
+						);
 						return;
 					}
 
@@ -243,9 +247,9 @@ namespace jsc.meta.Commands.Rewrite
 
 					var ContextType = source;
 
-					if (ShouldCopyType(PrimaryType, ContextType))
+					if (ShouldCopyType(ContextType))
 					{
-						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null, NameObfuscation);
+						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null, NameObfuscation, ShouldCopyType, FullNameFixup);
 					}
 					else
 					{
@@ -264,9 +268,9 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-		private bool ShouldCopyType(Type PrimaryType, Type ContextType)
+		private bool ShouldCopyType( Type ContextType)
 		{
-			return ContextType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name);
+			return ContextType.Assembly == this.PrimaryType.Assembly || this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name);
 		}
 
 

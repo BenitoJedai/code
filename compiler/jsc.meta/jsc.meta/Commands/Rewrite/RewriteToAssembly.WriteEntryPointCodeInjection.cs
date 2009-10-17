@@ -13,7 +13,7 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-		private void WriteEntryPointCodeInjection(
+		private static void WriteEntryPointCodeInjection(
 	AssemblyBuilder a,
 	ModuleBuilder m,
 	ILGenerator kmil,
@@ -22,9 +22,15 @@ namespace jsc.meta.Commands.Rewrite
 	VirtualDictionary<MethodInfo, MethodInfo> mc,
 	VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 	VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-	VirtualDictionary<MethodInfo, MethodInfo> MethodCache)
+	VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+
+
+			Assembly PrimarySourceAssembly,
+			Delegate codeinjecton,
+			Func<Assembly,object[]> codeinjectonparams_
+			)
 		{
-			var codeinjectonparams = this.codeinjectonparams(this._assembly);
+			var codeinjectonparams = codeinjectonparams_(PrimarySourceAssembly);
 
 			// we need to actually track the method being called (IL)
 			// and the variables to make them literal constants
@@ -41,7 +47,8 @@ namespace jsc.meta.Commands.Rewrite
 			//}
 
 
-			CopyType(this.codeinjecton.Method.DeclaringType, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t, NameObfuscation);
+			//CopyType(codeinjecton.Method.DeclaringType, a, m, tc, TypeFieldCache, ConstructorCache, MethodCache, t, NameObfuscation,
+			//    ShouldC);
 
 
 
@@ -79,7 +86,7 @@ namespace jsc.meta.Commands.Rewrite
 						// we are calling a method on this
 						// we assume it is _this_codeinjection
 
-						if (this.codeinjecton.Method.GetParameters().Length != codeinjectonparams.Length)
+						if (codeinjecton.Method.GetParameters().Length != codeinjectonparams.Length)
 							throw new InvalidDataException("codeinjectonparams");
 
 						foreach (var p in codeinjectonparams)
@@ -109,7 +116,7 @@ namespace jsc.meta.Commands.Rewrite
 							else throw new NotSupportedException();
 						}
 
-						e.il.Emit(OpCodes.Call, mc[this.codeinjecton.Method]);
+						e.il.Emit(OpCodes.Call, mc[codeinjecton.Method]);
 
 						return;
 					}
