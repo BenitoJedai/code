@@ -7,6 +7,8 @@ using ScriptCoreLib;
 namespace ScriptCoreLibNative.BCLImplementation.System
 {
 	// A native delegate is a static function pointer
+	[Script(IsNative = true, Implements = typeof(global::System.Action))]
+	internal delegate void __Action();
 
 	[Script(IsNative = true, Implements = typeof(global::System.Action<>))]
 	internal delegate void __Action<T1>(T1 t1);
