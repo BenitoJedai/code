@@ -13,12 +13,22 @@ namespace WavePlayer2
 		public static void Main()
 		{
 			Console.WriteLine("hear the sounds!");
-			MySounds1.Default.dispenser.PlaySync();
-			MySounds1.Default.dispenser.PlaySync();
-			MySounds1.Default.dispenser.PlaySync();
-			MySounds1.Default.doorclose.PlaySync();
-			MySounds1.Default.doorclose.PlaySync();
-			MySounds1.Default.doorclose.PlaySync();
+
+			Action dispenser = delegate
+			{
+				Console.WriteLine("dispenser");
+				MySounds1.Default.dispenser.PlaySync();
+			};
+
+			Action doorclose = delegate
+			{
+				Console.WriteLine("doorclose");
+				MySounds1.Default.doorclose.PlaySync();
+			};
+
+
+			dispenser();
+			doorclose();
 
 
 		}
