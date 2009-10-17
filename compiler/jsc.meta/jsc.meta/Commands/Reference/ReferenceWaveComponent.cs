@@ -294,6 +294,14 @@ namespace jsc.meta.Commands.Reference
 				foreach (var k in Fields)
 				{
 					var data_bytes = File.ReadAllBytes(k.s.FullName);
+					//    .Take(
+					//    // 256
+					//    64
+					//    // 0x500 //  9795ms
+					//    // 0x1000 // 2170ms
+					//    // 0x2000 // 9806
+					//    // 0x10000 // hang
+					//).ToArray();
 
 					il.Emit(OpCodes.Ldc_I4, data_bytes.Length);
 					il.Emit(OpCodes.Newarr, typeof(byte));

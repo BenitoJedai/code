@@ -39,6 +39,8 @@ namespace jsc.meta.Tools
 
 			// see: http://social.msdn.microsoft.com/Forums/en-US/Vsexpressinstall/thread/2a3c57c5-de79-43e6-9769-35043f732d68
 
+			var sw = new Stopwatch();
+			sw.Start();
 			var obj_web = Path.Combine(SourceAssembly.Directory.FullName, "web");
 
 			var psi = new ProcessStartInfo(
@@ -61,7 +63,8 @@ namespace jsc.meta.Tools
 
 			proccess_cl.WaitForExit();
 
-
+			sw.Stop();
+			Console.WriteLine("cl exited at " + sw.ElapsedMilliseconds + "ms");
 		}
 	}
 }

@@ -171,12 +171,7 @@ namespace jsc.Languages.C
 				};
 
 
-			CIW[OpCodes.Callvirt] =
-				delegate(CodeEmitArgs e)
-				{
-					WriteMethodCall(e.p, e.i, e.i.TargetMethod);
-				};
-
+		
 			#region Ldarg
 			CIW[OpCodes.Ldarg_0,
 				OpCodes.Ldarg_1,
@@ -227,6 +222,15 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Newarr] =
 				delegate(CodeEmitArgs e)
 				{
+					if (e.i.NextInstruction == OpCodes.Dup &&
+						e.i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+						e.i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
+					{
+						// see: http://stackoverflow.com/questions/883659/hardcode-byte-array-in-c
+
+						throw new SkipThisPrestatementException();
+					}
+
 					WriteTypeConstruction(e);
 
 
@@ -542,6 +546,8 @@ namespace jsc.Languages.C
 				OpCodes.Stloc] =
 				delegate(CodeEmitArgs e)
 				{
+					
+					
 					WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.TargetVariable);
 
 					if (e.FirstOnStack.StackInstructions.Length == 1)
@@ -602,6 +608,26 @@ namespace jsc.Languages.C
 					//}
 					//#endregion
 
+					var _ArrayInitializer_dup = e.i.StackBeforeStrict[0].SingleStackInstruction;
+					if (_ArrayInitializer_dup.OpCode == OpCodes.Dup)
+					{
+						var _Ldtoken = _ArrayInitializer_dup.NextInstruction;
+						if (_Ldtoken.OpCode == OpCodes.Ldtoken)
+						{
+							var _Call = _Ldtoken.NextInstruction;
+							if (_Call.OpCode == OpCodes.Call)
+							{
+								//WriteDecoratedFieldVerified(_Ldtoken.TargetField);
+
+								WriteDecoratedTypeName(_Ldtoken.TargetField.DeclaringType);
+								Write("_");
+								WriteSafeLiteral(_Ldtoken.TargetField.Name);
+
+
+								return;
+							}
+						}
+					}
 
 					WriteTypeCastAndEmit(e, e.i.TargetVariable.LocalType);
 
@@ -609,10 +635,25 @@ namespace jsc.Languages.C
 			#endregion
 
 			#region call
+			CIW[OpCodes.Callvirt] =
+				delegate(CodeEmitArgs e)
+				{
+					WriteMethodCall(e.p, e.i, e.i.TargetMethod);
+				};
+
+
 			CIW[OpCodes.Call] =
 				delegate(CodeEmitArgs e)
 				{
 					MethodBase m = e.i.ReferencedMethod;
+
+					if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+					{
+						if (m.Name == "InitializeArray")
+						{
+							throw new SkipThisPrestatementException();
+						}
+					}
 
 					MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 

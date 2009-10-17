@@ -56,6 +56,8 @@ namespace jsc.Languages.C
 
 					using (CreateScope(false))
 					{
+						var FieldCount = 0;
+
 						Stack<Type> u = new Stack<Type>();
 
 						Type p = e;
@@ -74,9 +76,7 @@ namespace jsc.Languages.C
 
 							if (fields.Length == 0)
 							{
-								WriteIdent();
-								WriteLine("void* __dummy;");
-
+		
 							}
 							else
 							{
@@ -84,6 +84,8 @@ namespace jsc.Languages.C
 								{
 									if (field.IsStatic)
 										continue;
+
+									FieldCount++;
 
 									WriteIdent();
 
@@ -106,6 +108,12 @@ namespace jsc.Languages.C
 									WriteLine(";");
 								}
 							}
+						}
+
+						if (FieldCount == 0)
+						{
+							WriteIdent();
+							WriteLine("void* __empty;");
 						}
 					}
 					WriteLine(" " + _typename + ", *" + _pname + ";");

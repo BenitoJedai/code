@@ -383,3 +383,4 @@ version history:
 	il: rewrite logic now supports some obfuscation
 17.10.2009
 	java: fixed try catch emit for OpCodes.Leave
+	c: InitializeArray for byte now actually works
