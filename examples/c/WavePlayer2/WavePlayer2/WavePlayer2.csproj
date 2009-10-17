@@ -58,6 +58,7 @@
     <Content Include="docs\description.txt" />
     <Content Include="MySounds1.WaveComponent\dispenser.wav" />
     <Content Include="MySounds1.WaveComponent\doorclose.wav" />
+    <Content Include="MySounds1.WaveComponent\jscisawesome.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
