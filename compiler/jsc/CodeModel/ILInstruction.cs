@@ -1181,7 +1181,7 @@ namespace jsc
 				if (OpParam.Length == 4)
 					return OpParam[0] + (OpParam[1] << 8) + (OpParam[2] << 16) + (OpParam[3] << 24);
 				else
-					throw new Exception();
+					throw new NotSupportedException(new { OpParam.Length }.ToString());
 			}
 		}
 
@@ -1719,7 +1719,7 @@ namespace jsc
 
 					try
 					{
-						
+
 						return OwnerMethod.Module.ResolveType(OpParamAsInt32, this.OwnerMethod.DeclaringType.GetGenericArguments(), this.OwnerMethod.GetGenericArguments());
 					}
 					catch

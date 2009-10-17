@@ -13,7 +13,7 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-		public void CopyMethod(
+		internal static void CopyMethod(
 			AssemblyBuilder a,
 			ModuleBuilder m,
 			MethodInfo source,
@@ -23,7 +23,12 @@ namespace jsc.meta.Commands.Rewrite
 			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
-			VirtualDictionary<string, string> NameObfuscation)
+			VirtualDictionary<string, string> NameObfuscation,
+
+			Assembly PrimarySourceAssembly,
+			Delegate codeinjecton,
+			Func<Assembly, object[]> codeinjectonparams
+			)
 		{
 			// sanity check!
 
@@ -56,19 +61,23 @@ namespace jsc.meta.Commands.Rewrite
 
 			var kmil = km.GetILGenerator();
 
-
-			if (source == this._assembly.EntryPoint)
-			{
-				// we found the entrypoint
-				if (this.codeinjecton != null)
+			if (PrimarySourceAssembly != null)
+				if (source == PrimarySourceAssembly.EntryPoint)
 				{
-					WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, TypeFieldCache, ConstructorCache, MethodCache);
+					// we found the entrypoint
+					if (codeinjecton != null)
+					{
+						WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, TypeFieldCache, ConstructorCache, MethodCache,
+							PrimarySourceAssembly,
+							codeinjecton,
+							codeinjectonparams
+							);
 
-					// we have changed the IL offsets!
+						// we have changed the IL offsets!
+					}
+
+					a.SetEntryPoint(km);
 				}
-
-				a.SetEntryPoint(km);
-			}
 
 			var x = new ILTranslationExtensions.EmitToArguments
 			{
@@ -137,7 +146,7 @@ namespace jsc.meta.Commands.Rewrite
 				AfterInstruction =
 					e =>
 					{
-					
+
 
 					},
 

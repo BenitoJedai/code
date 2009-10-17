@@ -6,6 +6,7 @@ using System.Reflection;
 using System.IO;
 using System.Reflection.Emit;
 using ScriptCoreLib;
+using System.Media;
 
 namespace jsc.meta.Library
 {
@@ -14,6 +15,145 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+
+
+		public static MethodBuilder DefineByteArrayToSoundPlayerConversion(this TypeBuilder t)
+		{
+
+			Func<byte[], int, SoundPlayer> msource =
+				(data, length) =>
+				{
+					var m = new MemoryStream();
+
+					m.Write(data, 0, length);
+					m.Position = 0;
+
+					return new SoundPlayer(m);
+				};
+
+			var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
+			var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
+			var FieldCache = new jsc.Library.VirtualDictionary<Type, List<FieldBuilder>>();
+			var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
+			var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
+
+			TypeCache.Resolve +=
+				source =>
+				{
+					TypeCache[source] = source;
+				};
+
+			ConstructorCache.Resolve +=
+				source =>
+				{
+					ConstructorCache[source] = source;
+				};
+
+			NameObfuscation.Resolve +=
+				source =>
+				{
+					NameObfuscation[source] = source;
+				};
+
+			MethodCache.Resolve +=
+				source =>
+				{
+					MethodCache[source] = source;
+				};
+
+			jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyMethod(
+				null,
+				null,
+				msource.Method,
+				t,
+				TypeCache,
+				MethodCache,
+				FieldCache,
+				ConstructorCache,
+				MethodCache,
+				NameObfuscation,
+				null,
+				null, null
+			);
+
+			return (MethodBuilder)MethodCache[msource.Method];	
+		}
+
+		class DefineDefaultPropertyMarker
+		{
+			static DefineDefaultPropertyMarker __DefaultInstance;
+
+			public static DefineDefaultPropertyMarker Default
+			{
+				get
+				{
+					if (__DefaultInstance == null)
+						__DefaultInstance = new DefineDefaultPropertyMarker();
+
+					return __DefaultInstance;
+				}
+			}
+		}
+
+		public static void DefineDefaultProperty(this TypeBuilder t, ConstructorBuilder ctor)
+		{
+
+
+			var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
+			var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
+			var FieldCache = new jsc.Library.VirtualDictionary<Type, List<FieldBuilder>>();
+			var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
+			var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
+
+			ConstructorCache[typeof(DefineDefaultPropertyMarker).GetConstructor(new Type[0])] = ctor;
+			TypeCache[typeof(DefineDefaultPropertyMarker)] = t;
+			FieldCache[typeof(DefineDefaultPropertyMarker)] = new List<FieldBuilder>();
+
+			TypeCache.Resolve +=
+				source =>
+				{
+					TypeCache[source] = source;
+				};
+
+			NameObfuscation.Resolve +=
+				source =>
+				{
+					NameObfuscation[source] = source;
+				};
+
+			MethodCache.Resolve +=
+				source =>
+				{
+					jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyMethod(
+						null,
+						null,
+						source,
+						t,
+						TypeCache,
+						MethodCache,
+						FieldCache,
+						ConstructorCache,
+						MethodCache,
+						NameObfuscation,
+						null,
+						null,
+						null
+					);
+				};
+
+			jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyTypeMembers(typeof(DefineDefaultPropertyMarker),
+				TypeCache,
+				FieldCache,
+				ConstructorCache,
+				MethodCache,
+				NameObfuscation,
+				t
+			);
+
+
+
+		}
+
 		public static void Apply<T>(this T e, Action<T> handler)
 			where T : class
 		{
@@ -249,8 +389,9 @@ namespace jsc.meta.Library
 				from k in Properties
 				let Field = Attribute.GetField(k.Name)
 				let Property = Attribute.GetProperty(k.Name)
+				let PropertyCanWrite = Property != null && Property.CanWrite
 				let Value = k.GetValue(z, null)
-				select new { Field, Property, Value }
+				select new { Field, Property, Value, PropertyCanWrite }
 			);
 
 
@@ -274,14 +415,15 @@ namespace jsc.meta.Library
 			var Attribute = typeof(T);
 
 			// Not a writable property
-			var Properties = z.GetType().GetProperties().Where(k => k.CanWrite);
+			var Properties = z.GetType().GetProperties();
 
 			var data = Enumerable.ToArray(
 				from k in Properties
 				let Field = Attribute.GetField(k.Name)
 				let Property = Attribute.GetProperty(k.Name)
+				let PropertyCanWrite = Property != null && Property.CanWrite
 				let Value = k.GetValue(z, null)
-				select new { Field, Property, Value }
+				select new { Field, Property, Value, PropertyCanWrite }
 			);
 
 
@@ -290,8 +432,8 @@ namespace jsc.meta.Library
 					Attribute.GetConstructor(new Type[0]),
 					new object[0],
 
-					Enumerable.ToArray(from k in data where k.Property != null select k.Property),
-					Enumerable.ToArray(from k in data where k.Property != null select k.Value),
+					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Property),
+					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Value),
 
 					Enumerable.ToArray(from k in data where k.Field != null select k.Field),
 					Enumerable.ToArray(from k in data where k.Field != null select k.Value)
