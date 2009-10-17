@@ -20,6 +20,14 @@ namespace WavePlayer2
 				MySounds1.Default.dispenser.PlaySync();
 			};
 
+			Action jscisawesome = delegate
+			{
+				Console.WriteLine("jscisawesome");
+				MySounds1.Default.jscisawesome.PlaySync();
+			};
+
+
+
 			Action doorclose = delegate
 			{
 				Console.WriteLine("doorclose");
@@ -28,6 +36,7 @@ namespace WavePlayer2
 
 
 			dispenser();
+			jscisawesome();
 			doorclose();
 
 
