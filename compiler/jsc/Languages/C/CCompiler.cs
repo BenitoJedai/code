@@ -268,14 +268,14 @@ namespace jsc.Languages.C
 			Write("__that");
 		}
 
-		public override void EmitPrestatement(ILBlock.Prestatement p)
-		{
-			WriteIdent();
-			//WriteBoxedComment(p.Instruction.Flow.ToString());
+		//public override void EmitPrestatement(ILBlock.Prestatement p)
+		//{
+		//    WriteIdent();
+		//    //WriteBoxedComment(p.Instruction.Flow.ToString());
 
-			EmitInstruction(p, p.Instruction);
-			WriteLine(";");
-		}
+		//    EmitInstruction(p, p.Instruction);
+		//    WriteLine(";");
+		//}
 
 
 
@@ -322,8 +322,11 @@ namespace jsc.Languages.C
 
 
 
+	
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
+			
+
 			WriteIdent();
 			if (v.LocalType.IsDelegate() && (ResolveImplementation(v.LocalType) ?? v.LocalType).ToScriptAttributeOrDefault().IsNative)
 				Write(GetDecoratedTypeName(typeof(object), false));
@@ -332,6 +335,7 @@ namespace jsc.Languages.C
 			WriteSpace();
 			WriteVariableName(u.DeclaringType, u, v);
 
+		
 			WriteLine(";");
 		}
 

@@ -933,6 +933,11 @@ namespace jsc.Script
 		}
 
 
+		public virtual void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u, ILBlock xb)
+		{
+			this.WriteLocalVariableDefinition(v, u);
+		}
+
 		public virtual void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
 			WriteComment("undefined variable: " + v.LocalIndex);
@@ -1095,7 +1100,7 @@ namespace jsc.Script
 
 				i++;
 
-				WriteLocalVariableDefinition(v, xb.OwnerMethod);
+				WriteLocalVariableDefinition(v, xb.OwnerMethod, xb);
 			}
 
 			if (i > 0)

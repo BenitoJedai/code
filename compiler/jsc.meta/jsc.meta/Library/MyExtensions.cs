@@ -26,7 +26,7 @@ namespace jsc.meta.Library
 					var m = new MemoryStream();
 
 					m.Write(data, 0, length);
-					m.Position = 0;
+					m.Seek(0, SeekOrigin.Begin);
 
 					return new SoundPlayer(m);
 				};

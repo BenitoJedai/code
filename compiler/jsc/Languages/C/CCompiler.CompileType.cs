@@ -81,18 +81,60 @@ namespace jsc.Languages.C
 
 				WriteIdent();
 
-				if (sfield.FieldType.IsDelegate() && (ResolveImplementation(sfield.FieldType) ?? sfield.FieldType).ToScriptAttributeOrDefault().IsNative)
+				if (sfield.FieldType.StructLayoutAttribute != null &&
+					sfield.FieldType.StructLayoutAttribute.Size > 0)
 				{
-					Write(GetDecoratedTypeName(typeof(object), false, true));
+					Write(GetDecoratedTypeName(typeof(byte), false, true));
 				}
 				else
-					Write(GetDecoratedTypeNameOrPointerName(sfield.FieldType));
+				{
+					if (sfield.FieldType.IsDelegate() && (ResolveImplementation(sfield.FieldType) ?? sfield.FieldType).ToScriptAttributeOrDefault().IsNative)
+					{
+						Write(GetDecoratedTypeName(typeof(object), false, true));
+					}
+					else
+						Write(GetDecoratedTypeNameOrPointerName(sfield.FieldType));
+				}
 
 				WriteSpace();
 
 				WriteDecoratedTypeName(z);
 				Write("_");
 				WriteSafeLiteral(sfield.Name);
+
+				if (sfield.FieldType.StructLayoutAttribute != null &&
+					sfield.FieldType.StructLayoutAttribute.Size > 0)
+				{
+					Write("[]");
+					WriteSpace();
+					WriteAssignment();
+					WriteSpace();
+
+					// see: http://stackoverflow.com/questions/883659/hardcode-byte-array-in-c
+
+
+
+					var Values = sfield.GetValue(null).StructAsByteArray();
+
+
+					Write("{");
+					for (int i = 0; i < Values.Length; i++)
+					{
+						if (i > 0)
+							Write(", ");
+
+						Write("0x" + ((byte)Values[i]).ToString("x2"));
+
+						if (i % 32 == 31)
+						{
+							WriteLine();
+						}
+
+					}
+					Write("}");
+
+
+				}
 
 				WriteLine(";");
 			}
