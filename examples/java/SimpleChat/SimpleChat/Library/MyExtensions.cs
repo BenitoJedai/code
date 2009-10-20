@@ -6,11 +6,16 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SimpleChat.Library
 {
 	static class MyExtensions
 	{
+		public static void AppendTextLine(this TextBox t, string e)
+		{
+			t.AppendText(e + Environment.NewLine);
+		}
 		public static void TryStart(this TcpListener l, Action h)
 		{
 			try
@@ -61,7 +66,7 @@ namespace SimpleChat.Library
 			{
 				IsBackground = true,
 			};
-			
+
 			t.Start();
 			return t;
 		}
@@ -92,7 +97,7 @@ namespace SimpleChat.Library
 			var r = true;
 			foreach (var i in e)
 			{
-				if (!n.Contains(new string(new [] {i})))
+				if (!n.Contains(new string(new[] { i })))
 				{
 					r = false;
 					break;

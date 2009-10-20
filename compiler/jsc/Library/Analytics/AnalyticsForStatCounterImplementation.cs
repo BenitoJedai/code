@@ -15,8 +15,8 @@ namespace jsc.Library.Analytics
 			// to local assembly too
 
 			Console.WriteLine("analytics: ");
-			Console.WriteLine("  sc_project: " + a.sc_project);
-			Console.WriteLine("  security: " + a.security);
+			//Console.WriteLine("  sc_project: " + a.sc_project);
+			//Console.WriteLine("  security: " + a.security);
 			Console.WriteLine("  assembly: " + a.assembly);
 
 			// we are going to assume we have access to BCL

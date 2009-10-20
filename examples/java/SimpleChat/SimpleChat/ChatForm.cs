@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SimpleChat.Library;
+using System.Collections;
 
 namespace SimpleChat
 {
@@ -72,6 +73,8 @@ namespace SimpleChat
 
 			if (textBox2_Counter == 5)
 				webServerComponent1.Configuration = this.textBox2.Text.ToMessageFromArray().ToWebServers();
+
+			PrimaryThreadQueue.Invoke();
 		}
 
 		private void webServerComponent1_Start(WebServerProvider e)
@@ -89,6 +92,30 @@ namespace SimpleChat
 			this.timer1.Enabled = false;
 			this.timer2.Enabled = false;
 			this.webServerComponent1.Configuration = new WebServer[0];
+		}
+
+		public readonly SynchronizedActionQueue PrimaryThreadQueue = new SynchronizedActionQueue();
+
+		private void webServerComponent1_IncomingData(WebServerProvider sender, WebServerProvider.IncomingDataArguments a)
+		{
+			// we are probably on a wrong thread here
+
+			a.SetLogText(History.ToString());
+
+			PrimaryThreadQueue.Enqueue(
+				delegate
+				{
+					this.AppendTextLine(a.QueryAndPath);
+				}
+			);
+		}
+
+		public readonly StringBuilder History = new StringBuilder();
+
+		public void AppendTextLine(string e)
+		{
+			this.History.AppendLine(e);
+			this.textBox1.AppendTextLine(e);
 		}
 
 	}

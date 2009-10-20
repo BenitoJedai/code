@@ -92,6 +92,7 @@
     <Compile Include="BCLImplementation\System\EventHandler.cs" />
     <Compile Include="BCLImplementation\System\Globalization\CultureInfo.cs" />
     <Compile Include="BCLImplementation\System\IFormatProvider.cs" />
+    <Compile Include="BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="BCLImplementation\System\NotSupportedException.cs" />

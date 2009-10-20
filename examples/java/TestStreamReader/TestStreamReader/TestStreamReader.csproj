@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{807F5587-9457-42B7-A054-CF04E7AA474E}</ProjectGuid>
+    <ProjectGuid>{593DF257-4C41-4120-85DB-45028A4107FF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultitierExample</RootNamespace>
-    <AssemblyName>MultitierExample</AssemblyName>
+    <RootNamespace>TestStreamReader</RootNamespace>
+    <AssemblyName>TestStreamReader</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -45,15 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client\ClientProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server\ServerProvider.cs" />
-    <Compile Include="Shared\SharedLogic.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Binder\Client\" />
-    <Folder Include="Binder\Server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -65,8 +58,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-C:\util\jsc\bin\jsc.meta.exe AnalyticsForStatCounter /assembly:MultitierExample.exe /staging:analytics.staging
-C:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:MultitierExample.exe  /staging:client.staging /type:MultitierExample.Client.ClientProvider /rename.rule:"MultitierExample-&gt;Clienttier" /product:client
-C:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:MultitierExample.exe  /staging:server.staging  /type:MultitierExample.Server.ServerProvider /rename.rule:"MultitierExample-&gt;Servertier" /product:server</PostBuildEvent>
+C:\util\jsc\bin\jsc.meta.exe ExtendToJavaConsole /assembly:$(TargetPath) /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>

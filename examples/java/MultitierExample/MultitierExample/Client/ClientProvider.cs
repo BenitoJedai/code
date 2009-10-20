@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MultitierExample.Shared;
 
 namespace MultitierExample.Client
 {
@@ -25,6 +26,9 @@ namespace MultitierExample.Client
 
 			//a.FieldInt4 = b;
 		}
+
+		SharedLogic logic1;
+
 	}
 
 	public class LocalType1

@@ -10,6 +10,7 @@ using jsc.Loader;
 using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
 using jsc.Script;
+using System.Threading;
 namespace jsc
 {
 
@@ -47,6 +48,7 @@ namespace jsc
 
 		public static void TypedMain(CompileSessionInfo sinfo)
 		{
+			CheckForUpdates();
 
 			Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
 			CommandLineOptions options = sinfo.Options;
@@ -207,6 +209,37 @@ namespace jsc
 			{
 				Console.WriteLine(" *** FATAL ERROR: " + excc.Message);
 			}
+		}
+
+		private static void CheckForUpdates()
+		{
+			new Thread(
+				delegate()
+				{
+					try
+					{
+						Console.WriteLine("checking for updates...");
+
+						Library.Analytics.AnalyticsForStatCounterImplementation.Invoke(
+							new jsc.Library.Analytics.AnalyticsForStatCounterArguments
+							{
+								assembly = "jsc",
+								// do not reuse these parameters in your applications!
+								// public stats: http://my.statcounter.com/project/standard/stats.php?project_id=5203272&guest=1
+								// http://my.statcounter.com/project/standard2/csv/download_log_file.php?project_id=5203272
+
+
+								sc_project = "5203272",
+								security = "94d6fb4a",
+
+							}
+						);
+					}
+					catch
+					{
+					}
+				}
+			) { IsBackground = true }.Start();
 		}
 
 		private static void DoShowReferences(CommandLineOptions options)

@@ -33,8 +33,8 @@ namespace WavePlayer2
 				Console.WriteLine("doorclose");
 				MySounds1.Default.doorclose.PlaySync();
 			};
-
-
+			
+		
 			dispenser();
 			jscisawesome();
 			doorclose();
