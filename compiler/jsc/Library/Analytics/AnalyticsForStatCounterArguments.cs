@@ -17,6 +17,9 @@ namespace jsc.Library.Analytics
 				"http://c.statcounter.com/" + this.sc_project + @"/0/" + this.security + "/0/"
 			);
 		}
+
+
 	}
 
+	
 }

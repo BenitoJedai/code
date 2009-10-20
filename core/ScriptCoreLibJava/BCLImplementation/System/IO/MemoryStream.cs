@@ -14,7 +14,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		// InputStream
 		// http://www.koders.com/java/fidF990D954151F15A618183172871A1403F719D971.aspx
-		byte[] InternalBuffer;
+		byte[] InternalBuffer = new byte[0];
 		long InternalPosition;
 		long InternalLength;
 
@@ -123,6 +123,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 		public virtual byte[] ToArray()
 		{
+			
 			var x = new byte[InternalLength];
 
 			Array.Copy(InternalBuffer, x, (int)InternalLength);

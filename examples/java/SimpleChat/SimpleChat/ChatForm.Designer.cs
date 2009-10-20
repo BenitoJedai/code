@@ -165,6 +165,7 @@
 			// webServerComponent1
 			// 
 			this.webServerComponent1.Start += new SimpleChat.WebServerProviderAction(this.webServerComponent1_Start);
+			this.webServerComponent1.IncomingData += new SimpleChat.WebServerProvider.IncomingDataDelegate(this.webServerComponent1_IncomingData);
 			this.webServerComponent1.Shutdown += new SimpleChat.WebServerProviderAction(this.webServerComponent1_Shutdown);
 			// 
 			// ChatForm

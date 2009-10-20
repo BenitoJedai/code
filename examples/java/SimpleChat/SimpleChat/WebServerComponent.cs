@@ -13,6 +13,13 @@ namespace SimpleChat
 		public event WebServerProviderAction Shutdown;
 		public event WebServerProviderAction Start;
 
+		public event WebServerProvider.IncomingDataDelegate IncomingData;
+
+		public void RaiseIncomingData(WebServerProvider sender, WebServerProvider.IncomingDataArguments args)
+		{
+			if (IncomingData != null)
+				IncomingData(sender, args);
+		}
 
 		public WebServer[] Configuration
 		{
@@ -34,6 +41,7 @@ namespace SimpleChat
 					if (m == null)
 					{
 						i.Shutdown();
+						i.IncomingData -= this.RaiseIncomingData;
 
 						if (this.Shutdown != null)
 							this.Shutdown(i);
@@ -62,6 +70,8 @@ namespace SimpleChat
 							Locals = i.Locals,
 							Port = i.Port
 						};
+
+						m.IncomingData += this.RaiseIncomingData;
 						m.Start();
 						if (this.Start != null)
 							this.Start(m);

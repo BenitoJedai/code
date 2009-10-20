@@ -10,5 +10,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 	internal class __TextBoxBase : __Control
 	{
 		public virtual bool Multiline { get; set; }
+
+		public void AppendText(string text)
+		{
+			this.Text += text;
+		}
 	}
 }
