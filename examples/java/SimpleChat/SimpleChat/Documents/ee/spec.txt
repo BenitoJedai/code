@@ -1,0 +1,118 @@
+﻿Vorgurakendused 2 prax 1
+Ülesandeks on ehitada chatirakendus, mis leiab teisi kasutajaid ise tehtud P2P mehhanismi abil. Fookus ongi teiste kasutajate leidmisel, mitte niivõrd mugava chati tegemisel.
+Sisukord [peida]
+1 Üldkirjeldus ja nõuded
+2 Soovitusi ja ideid
+3 Firewall
+4 Punktiarvestusest
+5 Detailid: mis info peab rakendusel olema ja kuidas tegutseb
+6 Detailid: millist protokolli ja eeldusi rakendus kasutab
+[redigeeri]
+Üldkirjeldus ja nõuded
+
+Rakendus peab eeskätt suutma leida üles teise kasutaja (nime järgi, näiteks "jaan") masina ja võtma ühendust selles masinas oleva chatirakendusega. Selleks on vaja nime järgi teada saada ip ja port. Kui ühendus on saadud, peab töötama chat: mingeid kellasid ja vilesid chati jaoks (näod, värvid vms vms) ei ole praksi jaoks vaja teha.
+Nimede seost ip ja pordiga hoitakse iga rakenduse masinas eraldi failis, mingit keskset serverit ei ole. Rakendused jagavad neid faile omavahel ja täiendavad oma faili teistelt saadud infoga.
+Esimese kasutamise korral tuleb oma nimi registreerida ja rakendus peab kontrollima, et see nimi ei oleks kellegi poolt juba kasutusel.
+Rakendus peab ühenduma teiste rakendustega hariliku http protokolli kaudu, allpool on toodud detailid.
+Programmeerimiskeele ja muu tehnoloogia valik on vaba.
+
+[redigeeri]
+Soovitusi ja ideid
+
+Chatiprogramm peab päris kindlasti sisaldama või kasutama http serverit, muidu ei ole temaga võimalik väljast ühendust võtta. NB! See ei tähenda mingit nö suurt veebiserverit a la apache, vaid pigem ise kirjutatud väikest minimaalset serverit, mis pealegi ei pea veebilehti serveerima ja cgi-sid käivitama, vaid ainult teatud käskudele/parameetritele reageerima.
+Võite realiseerida serveri ise (soovitav, sest tõenäoliselt lihtsam), kasutades võrgust leitavaid näiteid mikro-http-serveri jaoks (tüüpiliselt paar lehekülge koodi) või haakida rakendus mõne olemasoleva serveriga (tõenäoliselt keerulisem).
+C jaoks on sobiv mikroserver näiteks tiny, java jaoks Suni näide (source ja seletused) või siis see näiteserver. Pythoni serverinäite saad siit. Http kohta võib lugeda näiteks siit.
+Kasutajaliides võib olla tehtud aknaga nagu chat enamasti on, aga see ei ole kohustuslik: võib teha ka puhtalt käsurea rakenduse, mille kutsud välja oma ja otsitava nimega (või uue nime tegemise käsuga) ja mis küsib siis käsurealt järjest sinu teksti ja trükib teise tekste välja. Selline rakendus peab siis ikkagi suutma järjest lugeda sinu kirjutatut ja järjest trükkima saadud tekste, st interaktiivsus on kindlasti vajalik.
+Rakendus on mõistlik teha nii, et annad käivitamisel ette pordi, millel ta räägib ja oma nime: selliselt saad ühte masinasse kergesti käima panna erinevaid chatte ja siis ühe masin piires debugida. Arusaadavalt peaks siis andmefail olema ka iga chati jaoks erinev: kas fail sisaldab pordi nime või antakse tema nimi samuti ette. Muidugi oleks kena teha nii, et kui neid parameetreid käivitamisel ette ei anna, siis kasutab ta vaikeväärtusi.
+Häid selgeid näiteid ja õpetusi socketite ja serveri tegemise kohta leiad veel siit:
+ruby
+python
+pythoni üks serversocketi-teek
+[redigeeri]
+Firewall
+
+Firewallist läbi murdmise ja kinniste portidega ühendamise probleemiga ei pea selles praksis tegelema. Samas tähendab see, et ei ole kuigi lihtne teise masinaga tegelikult ühendust saada (ühes masinas debugimise võimaldamine ongi seepärast kriitiline).
+Kes chati käima saab, võib mõelda välja ja realiseerida probleemi lahendamiseks sobiva vaheserveri: selle eest saab ekstrapunkte. Loe näiteks http tunnel artiklit wikipediast ja seda artiklit firewallist läbipääsemisest.
+NB! Seda ei ole väga lihtne teha ja sinu chatiklient (ja ka selle inimese chatiklient, kellega suhtled) peab ka oskama seda vaheserverit kasutada. Ära hakka seda ehitama, kui nö lihtne chat veel ei tööta!
+Ekstra-lisapunktide saamise variant: realiseeri ja pane kõigile kasutatavaks firewalliprobleemi lahendamiseks sobiv vaheserver. Kirjuta kasutamise juhend ja näited, mida teised saaks soovi korral oma chatiproge jaoks tarvitada (st panna nad sinu vaheserverit kasutama, nii et seda saaks ka arvutiklassist kasutada). Esimesed kaks gruppi, kes sellega hakkama saavad, saavad lisaks pooled praksipunktid!
+[redigeeri]
+Punktiarvestusest
+
+Kui kõik eelnimetatu töötab vastu mõne teise grupi chatiprogrammi ja koodi suudetakse seletada, saab täispunktid.
+Kui teiste chatiprogrammidega eriti ei suuda suhelda, aga iseenda koopiatega siiski, saab miinuspunkte.
+Oma lisa-asjade ehitamise ja töötamise demo korral (mitme kasutaja chat vms) saab täispunktidele lisaks lisapunkte.
+[redigeeri]
+Detailid: mis info peab rakendusel olema ja kuidas tegutseb
+
+mul omal on fail nimi/ip_pluss_port paaridega järgmise json süntaksiga (palun realiseerida täpselt nii, st eraldi klambri-read alguses ja lõpus ja ei mingeid tühikuid väljapool isikunime ja eeldusega, et nimes pole jutumärke: siis saab seda faili kergesti parsida ja muuta ka ilma spetsiaalselt json-parserit kasutamata).
+    
+  [
+  ["Tanel Tammet","22.33.44.55:6666"],
+  ["Peeter Laud","22.33.44.11:6666"]
+  ]
+
+pean saama registreerida oma nime (ühekordne): minu masin saadab minu nime ja ip igalepoole ja need saadavad edasi ja need saadavad jälle edasi ja kui keegi leiab et on, siis saadab mulle teate, et juba hõivatud
+login sisse, annan oma nime
+minu rakendus saadab kõigile/osale teada ip-dele minu nime ja pika id ip ja nemad updatevad oma tabeli
+pean leidma kasutaja, kellega tahan suhelda, ip ja pordi. Tulemus oleks (vähemalt) tema ip teadasaamine.
+kirjutan nime.
+omal on mul fail nimi/ip paaridega. Kui sealt leian, ok.
+kui ei, küsin teiste masinatest nende faile, kasutades minu failis olevaid ip-sid. Nemad lihtsalt saadavad oma faili.
+kui ma leian tabelist nime, korras, katkestan
+kui ma lõpuks ei leia, siis kaks varianti:
+otsin ise uuelt ringilt ip-delt, mis sain (see peab töötama)
+saadan kõigile oma faili ip-dele info, et nemad otsiks mulle (kui see realiseerida ja katsetada, saab veidi lisapunkte)
+pean saama leitud id ja pordiga chatiprogrammile oma teksti saata ja tema teksti kuvada
+[redigeeri]
+Detailid: millist protokolli ja eeldusi rakendus kasutab
+
+
+Algul vaikimisi port on 6666, kuid see peab olema suhteliselt kergelt muudetav (ümberkompileerimine on ok, aga soovitav on käivitada chat koos käsurealt antava pordiga).
+Ip esitatakse alati koos pordiga.
+Time to live (TTL) on number, mida päringu edasisaatmise juures tuleks vähendada ja null TTL-ga päringut ignoreerida, kui tegu info edasisaatmisega. Enamuse päringute juurs võib seda ignoreerida, ta on protokollis juhuks, kui soovida realiseerida lisaks edasisaatmist.
+Nime olemasolu küsimine on asünkroonne: esitad päringu ja kunagi hiljem saadetakse sulle vastus tagasi.
+    http://11.22.33.44:PORT/chat/findname?name=NIMI&myip=22.22.33.44:6666&ttl=TIMETOLIVE
+Vastust ignoreeritakse! Päringu saaja peaks nime leidmise korral (mitte muidu!) omakorda saatma vastuspäringu (seda siis arvestatakse):
+
+Vastuse saatmine nime küsimisele:
+    http://11.22.33.44:PORT/chat/sendname?name=NIMI&ip=22.22.33.44:6666&ttl=TIMETOLIVE
+Sisu ignoreeritakse! Saadud päring tähistab lihtsalt, et nimi on leitud selle ip-ga.
+Minu nime/ip teatamine on sama kui eelmine päring, näiteks
+    http://11.22.33.44:PORT/chat/sendname?name=NIMI&ip=22.22.33.44:6666&ttl=TIMETOLIVE
+ 
+Nimed/ip_pluss_port faili küsimine on sünkroonne, st vastus tuleb otse päringuvastusena:
+    http://11.22.33.44:PORT/chat/asknames?ttl=TIMETOLIVE
+Vastuseks antakse fail ise, json formaadis:
+    
+  [
+  ["Tanel Tammet","22.33.44.55:6666"],
+  ["Peeter Laud","22.33.44.11:6666"]
+  ]
+Chatisõnumi saatmine
+   http://11.22.33.44:PORT/chat/sendmessage?myname=tanel&myip=22.33.44.55:6666&message=asasas&ttl=TIMETOLIVE
+artikkelaruteluredigeeriajalugu
+Logi sisse
+navigeerimine
+Esileht
+Uudised
+Arvutiteadus
+Tarkvara
+Riistvara
+Juhendid
+Õpikud
+Kursused
+kasulikku
+Tutvustus
+Jooksvad sündmused
+Viimased muudatused
+Juhuslik artikkel
+Juhend
+Annetused
+otsi
+  
+tööriistakast
+Viidad siia
+Seotud muudatused
+Erileheküljed
+
+Viimati muudetud 10:21, 8 okt 2009.	 Seda lehekülge on külastatud 793 korda.	 Kogu tekst on kasutatav litsentsi GNU Vaba Dokumentatsiooni Litsentsi (GFDL) tingimustel.	 Lambda tiitelandmed Hoiatused

@@ -12,22 +12,13 @@ namespace SimpleChat
 	{
 		public WebServerComponent Context;
 
-		public delegate void StringAction(string e);
 
-		public class IncomingDataArguments
-		{
-			public string QueryAndPath;
-
-			public string Text;
-
-			public StringAction SetLogText;
-		}
 
 		public delegate void IncomingDataDelegate(WebServerProvider sender, IncomingDataArguments a);
 
 		public event IncomingDataDelegate IncomingData;
 
-		public void RaiseIncomingData(WebServerProvider sender, WebServerProvider.IncomingDataArguments args)
+		public void RaiseIncomingData(WebServerProvider sender, IncomingDataArguments args)
 		{
 			// jsc needs to take care of this on its own!
 			// as we cannot call local event from an anonymous delegate it seems
@@ -69,7 +60,8 @@ namespace SimpleChat
 						new IncomingDataArguments
 						{
 							// we should ask for a specific r
-							QueryAndPath = path,
+							Server = this,
+							PathAndQuery = path,
 							SetLogText = k => LogText = k
 						}
 					);

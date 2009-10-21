@@ -39,6 +39,10 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ScriptCoreLib.Reflection.Options, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -77,15 +81,28 @@
     <Compile Include="ChatForm.Designer.cs">
       <DependentUpon>ChatForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Commands\chat\asknames.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\chat\findname.cs" />
+    <Compile Include="Commands\chat\sendmessage.cs" />
+    <Compile Include="Commands\chat\sendname.cs" />
+    <Compile Include="IncomingDataArguments.cs" />
     <Compile Include="Library\HeaderReader.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\SynchronizedActionQueue.cs" />
-    <Compile Include="MessageFrom.cs" />
+    <Compile Include="Library\TrivialWebRequest.cs" />
+    <Compile Include="MessageEndpoint.cs" />
     <Compile Include="MyContext\LocalPopular.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MyContext\LocalInformation.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OutgoingMessages.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OutgoingMessages.Designer.cs">
+      <DependentUpon>OutgoingMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,6 +127,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="StringAction.cs" />
     <Compile Include="WebServer.cs" />
     <Compile Include="WebServerComponent.cs">
       <SubType>Component</SubType>
@@ -117,6 +135,10 @@
     <Compile Include="WebServerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Configuration\servers.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ee\spec.txt" />
     <Content Include="MyContext\MyInformation.TextComponent\Author.txt" />
     <Content Include="MyContext\MyInformation.TextComponent\Blog.txt" />
     <Content Include="MyContext\Popular.TextComponent\Nicknames.txt" />
