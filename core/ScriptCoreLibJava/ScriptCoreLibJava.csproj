@@ -195,6 +195,17 @@
     <Compile Include="javax\servlet\ServletInputStream.cs" />
     <Compile Include="javax\servlet\ServletOutputStream.cs" />
     <Compile Include="javax\servlet\ServletRequest.cs" />
+    <Compile Include="javax\sound\sampled\AudioFileFormat.cs" />
+    <Compile Include="javax\sound\sampled\AudioFormat.cs" />
+    <Compile Include="javax\sound\sampled\AudioInputStream.cs" />
+    <Compile Include="javax\sound\sampled\AudioSystem.cs" />
+    <Compile Include="javax\sound\sampled\Control.cs" />
+    <Compile Include="javax\sound\sampled\DataLine.cs" />
+    <Compile Include="javax\sound\sampled\Line.cs" />
+    <Compile Include="javax\sound\sampled\LineEvent.cs" />
+    <Compile Include="javax\sound\sampled\LineListener.cs" />
+    <Compile Include="javax\sound\sampled\Mixer.cs" />
+    <Compile Include="javax\sound\sampled\TargetDataLine.cs" />
     <Compile Include="javax\swing\AbstractButton.cs" />
     <Compile Include="javax\swing\Action.cs" />
     <Compile Include="javax\swing\ActionMap.cs" />
