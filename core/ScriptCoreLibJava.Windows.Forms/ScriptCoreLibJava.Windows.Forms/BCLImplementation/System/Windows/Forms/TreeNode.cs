@@ -50,7 +50,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			set
 			{
 				InternalText = value;
-				this.InternalElement.setUserObject(value);
+				this.InternalElement.setUserObject(new TreeNodeUserObject { Context = this });
+			}
+		}
+
+		public object Tag { get; set; }
+
+		[Script]
+		public sealed class TreeNodeUserObject
+		{
+			public __TreeNode Context;
+
+			public override string ToString()
+			{
+				return this.Context.Text;
 			}
 		}
 

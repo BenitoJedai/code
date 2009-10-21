@@ -87,8 +87,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 			public void valueChanged(TreeSelectionEvent e)
 			{
-				this.InternalTreeView.RaiseAfterSelect(InternalTreeView,
-					new global::System.Windows.Forms.TreeViewEventArgs(null)
+				var u = ((javax.swing.tree.DefaultMutableTreeNode) e.getNewLeadSelectionPath().getLastPathComponent()).getUserObject();
+				var o = (__TreeNode.TreeNodeUserObject)u;
+				var n = (global::System.Windows.Forms.TreeNode)(object)o.Context;
+
+
+				this.InternalTreeView.RaiseAfterSelect(
+					InternalTreeView,
+					new global::System.Windows.Forms.TreeViewEventArgs(n)
 				);
 			}
 
@@ -99,7 +105,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			get
 			{
-				throw new NotImplementedException();
+				var u = ((javax.swing.tree.DefaultMutableTreeNode)this.InternalContent.getSelectionPath().getLastPathComponent()).getUserObject();
+				var o = (__TreeNode.TreeNodeUserObject)u;
+				var n = (global::System.Windows.Forms.TreeNode)(object)o.Context;
+
+				return n;
+
 			}
 			set
 			{

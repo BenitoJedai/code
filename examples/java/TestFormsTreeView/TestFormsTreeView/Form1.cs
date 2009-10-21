@@ -51,9 +51,7 @@ namespace TestFormsTreeView
 
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			this.Text = "treeView1_AfterSelect";
-
-			//this.Text = "node: " + e.Node.Text;
+			this.Text = "treeView1_AfterSelect: " + e.Node.Text;
 		}
 
 		TreeNode n1;
