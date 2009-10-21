@@ -319,6 +319,8 @@
     <Compile Include="javax\swing\text\ViewFactory.cs" />
     <Compile Include="javax\swing\Timer.cs" />
     <Compile Include="javax\swing\TransferHandler.cs" />
+    <Compile Include="javax\swing\tree\DefaultTreeModel.cs" />
+    <Compile Include="javax\swing\tree\MutableTreeNode.cs" />
     <Compile Include="javax\swing\tree\RowMapper.cs" />
     <Compile Include="javax\swing\tree\TreeCellEditor.cs" />
     <Compile Include="javax\swing\tree\TreeCellRenderer.cs" />
