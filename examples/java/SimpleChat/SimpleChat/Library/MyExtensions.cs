@@ -12,6 +12,14 @@ namespace SimpleChat.Library
 {
 	static class MyExtensions
 	{
+		public static string Chop(this string e, string prefix)
+		{
+			if (e.StartsWith(prefix))
+				return e.Substring(prefix.Length);
+
+			return e;
+		}
+
 		public static void TryInvokeInBackground(this Action e)
 		{
 			new Thread(

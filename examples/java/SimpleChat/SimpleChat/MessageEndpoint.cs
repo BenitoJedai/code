@@ -5,16 +5,31 @@ using System.Text;
 using System.Collections;
 using SimpleChat.Library;
 using System.Net;
+using ScriptCoreLib.JSON;
 
 namespace SimpleChat
 {
-	public delegate void MessageEndpointAction (MessageEndpoint e);
+	public delegate void MessageEndpointAction(MessageEndpoint e);
 
 	public class MessageEndpoint
 	{
 		public string Name;
 
 		public int Port;
+
+		public string Nickname
+		{
+			get
+			{
+				var a = Name.IndexOf("@");
+
+				if (a < 0)
+					return Name;
+
+
+				return Name.Substring(0, a);
+			}
+		}
 
 		public string Host
 		{
@@ -23,7 +38,7 @@ namespace SimpleChat
 				var a = Name.IndexOf("@");
 
 				if (a < 0)
-					return "";
+					return "0.0.0.0";
 
 				var host = Name.Substring(a + 1);
 
@@ -119,5 +134,37 @@ namespace SimpleChat
 
 			return (WebServer[])a.ToArray(typeof(WebServer));
 		}
+
+		public static string ToJSON(this MessageEndpoint[] e)
+		{
+			return ScriptCoreLib.JSON.JSONDocument.ToString(
+				delegate
+				{
+					var i = -1;
+
+					
+
+
+					return delegate
+					{
+						i++;
+
+						if (i < e.Length)
+						{
+							// we are in the business
+							var k = e[i];
+
+							return new[] { k.Nickname, k.Host + ":" + k.Port };
+						}
+
+						return null;
+
+					};
+
+				}	
+				
+			);
+		}
+
 	}
 }

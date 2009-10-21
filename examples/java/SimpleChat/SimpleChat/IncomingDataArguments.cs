@@ -9,6 +9,9 @@ namespace SimpleChat
 
 	public class IncomingDataArguments
 	{
+		public string ContentType = "text/html; charset=utf-8";
+		public string Content;
+
 		public string PathAndQuery;
 
 		public string Text;

@@ -12,6 +12,8 @@ namespace SimpleChat
 {
 	public partial class OutgoingMessages : Component
 	{
+		public string PathPrefix { get; set; }
+
 		public OutgoingMessages()
 		{
 			InitializeComponent();
@@ -93,11 +95,13 @@ namespace SimpleChat
 					}
 
 
+					var TargetUri = "http://" + Host + ":" + Target.Port + this.PathPrefix + "/" + CommandToString(Command);
+
 					new TrivialWebRequest
 					{
 						Port = Target.Port,
 						Referer = "http://example.com",
-						Target = new Uri("http://" + Host + ":" + Target.Port + "/" + CommandToString(Command))
+						Target = new Uri(TargetUri)
 					}.Invoke();
 				};
 
