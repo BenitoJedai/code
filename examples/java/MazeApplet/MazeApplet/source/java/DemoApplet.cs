@@ -29,17 +29,17 @@ namespace MazeApplet.source.java
 
 			base.resize(Settings.DefaultWidth, Settings.DefaultHeight);
 
-			try
-			{
-				System.Console.WriteLine("MazeGenerator");
+			//try
+			//{
+				//System.Console.WriteLine("MazeGenerator");
 				Maze = new MazeGenerator(20, 20, this);
 
-			}
-			catch (csharp.ThrowableException ex)
-			{
-				Error = ex.Message;
+			//}
+			//catch (csharp.ThrowableException ex)
+			//{
+			//    Error = ex.Message;
 
-			}
+			//}
 		}
 
 		string Error = "";
@@ -66,7 +66,8 @@ namespace MazeApplet.source.java
 			}
 
 			g.setColor(new Color(0xffff00));
-			g.drawString(Error, 16, 64);
+			if (!string.IsNullOrEmpty(Error))
+				g.drawString(Error, 16, 64);
 
 			if (this.Maze != null)
 			{
@@ -151,7 +152,7 @@ namespace MazeApplet.source.java
 
 		public void Button1_Clicked()
 		{
-		
+
 
 			EvaluateJavaScript(this, "alert('script was evaluated!');");
 
@@ -161,7 +162,7 @@ namespace MazeApplet.source.java
 
 		public void Invoke(string e)
 		{
-			System.Console.WriteLine(e);
+			//System.Console.WriteLine(e);
 
 			this.showStatus(e);
 		}
