@@ -1,0 +1,1 @@
+﻿WavePlayer2Guitar1. Crosscompiled from C# to C.
