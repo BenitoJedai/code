@@ -28,6 +28,18 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node6");
+			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node2");
+			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node4");
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node5");
+			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode5});
+			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode6});
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
@@ -36,6 +48,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
 			this.localMyPanel1 = new TestFormsTreeView.MyContext.LocalMyPanel();
+			this.treeView1 = new System.Windows.Forms.TreeView();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -114,11 +127,36 @@
 			this.localMyPanel1.MoreDetails += new System.Action(this.localMyPanel1_MoreDetails);
 			this.localMyPanel1.OK += new System.Action(this.localMyPanel1_OK);
 			// 
+			// treeView1
+			// 
+			this.treeView1.Location = new System.Drawing.Point(12, 253);
+			this.treeView1.Name = "treeView1";
+			treeNode1.Name = "Node6";
+			treeNode1.Text = "Node6";
+			treeNode2.Name = "Node0";
+			treeNode2.Text = "Node0";
+			treeNode3.Name = "Node2";
+			treeNode3.Text = "Node2";
+			treeNode4.Name = "Node4";
+			treeNode4.Text = "Node4";
+			treeNode5.Name = "Node5";
+			treeNode5.Text = "Node5";
+			treeNode6.Name = "Node3";
+			treeNode6.Text = "Node3";
+			treeNode7.Name = "Node1";
+			treeNode7.Text = "Node1";
+			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode2,
+            treeNode7});
+			this.treeView1.Size = new System.Drawing.Size(231, 151);
+			this.treeView1.TabIndex = 8;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(702, 265);
+			this.ClientSize = new System.Drawing.Size(702, 416);
+			this.Controls.Add(this.treeView1);
 			this.Controls.Add(this.localMyPanel1);
 			this.Controls.Add(this.button3);
 			this.Controls.Add(this.label4);
@@ -144,6 +182,7 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button button3;
 		private TestFormsTreeView.MyContext.LocalMyPanel localMyPanel1;
+		private System.Windows.Forms.TreeView treeView1;
 	}
 }
 

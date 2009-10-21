@@ -232,6 +232,13 @@
     <Compile Include="javax\swing\event\TableColumnModelListener.cs" />
     <Compile Include="javax\swing\event\TableModelEvent.cs" />
     <Compile Include="javax\swing\event\TableModelListener.cs" />
+    <Compile Include="javax\swing\event\TreeExpansionEvent.cs" />
+    <Compile Include="javax\swing\event\TreeExpansionListener.cs" />
+    <Compile Include="javax\swing\event\TreeModelEvent.cs" />
+    <Compile Include="javax\swing\event\TreeModelListener.cs" />
+    <Compile Include="javax\swing\event\TreeSelectionEvent.cs" />
+    <Compile Include="javax\swing\event\TreeSelectionListener.cs" />
+    <Compile Include="javax\swing\event\TreeWillExpandListener.cs" />
     <Compile Include="javax\swing\event\UndoableEditEvent.cs" />
     <Compile Include="javax\swing\event\UndoableEditListener.cs" />
     <Compile Include="javax\swing\Icon.cs" />
@@ -262,6 +269,7 @@
     <Compile Include="javax\swing\JTextField.cs" />
     <Compile Include="javax\swing\JToggleButton.cs" />
     <Compile Include="javax\swing\JToolTip.cs" />
+    <Compile Include="javax\swing\JTree.cs" />
     <Compile Include="javax\swing\JViewport.cs" />
     <Compile Include="javax\swing\KeyStroke.cs" />
     <Compile Include="javax\swing\ListSelectionModel.cs" />
@@ -285,6 +293,7 @@
     <Compile Include="javax\swing\plaf\TableUI.cs" />
     <Compile Include="javax\swing\plaf\TextUI.cs" />
     <Compile Include="javax\swing\plaf\ToolTipUI.cs" />
+    <Compile Include="javax\swing\plaf\TreeUI.cs" />
     <Compile Include="javax\swing\plaf\ViewportUI.cs" />
     <Compile Include="javax\swing\Popup.cs" />
     <Compile Include="javax\swing\SingleSelectionModel.cs" />
@@ -310,6 +319,13 @@
     <Compile Include="javax\swing\text\ViewFactory.cs" />
     <Compile Include="javax\swing\Timer.cs" />
     <Compile Include="javax\swing\TransferHandler.cs" />
+    <Compile Include="javax\swing\tree\RowMapper.cs" />
+    <Compile Include="javax\swing\tree\TreeCellEditor.cs" />
+    <Compile Include="javax\swing\tree\TreeCellRenderer.cs" />
+    <Compile Include="javax\swing\tree\TreeModel.cs" />
+    <Compile Include="javax\swing\tree\TreeNode.cs" />
+    <Compile Include="javax\swing\tree\TreePath.cs" />
+    <Compile Include="javax\swing\tree\TreeSelectionModel.cs" />
     <Compile Include="javax\swing\UIDefaults.cs" />
     <Compile Include="javax\swing\UIManager.cs" />
     <Compile Include="javax\swing\undo\UndoableEdit.cs" />
