@@ -13,16 +13,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 
 		//javax.swing.JTextField InternalElement = new javax.swing.JTextField();
-		javax.swing.JTextArea InternalElement = new javax.swing.JTextArea();
+		public readonly javax.swing.JScrollPane InternalContainer;
+		public readonly javax.swing.JTextArea InternalContent;
 
 		public __TextBox()
 		{
 			//this.InternalElement.
-		}
 
+			this.InternalContent = new javax.swing.JTextArea();
+			this.InternalContainer = new javax.swing.JScrollPane(this.InternalContent);
+		}
+		
 		public override java.awt.Component InternalGetElement()
 		{
-			return InternalElement;
+			return InternalContainer;
 		}
 
 		public override bool Multiline { get; set; }
@@ -32,11 +36,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			get
 			{
-				return InternalElement.getText();
+				return InternalContent.getText();
 			}
 			set
 			{
-				InternalElement.setText(value);
+				InternalContent.setText(value);
 			}
 		}
 	}

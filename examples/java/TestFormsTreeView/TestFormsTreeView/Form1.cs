@@ -49,5 +49,49 @@ namespace TestFormsTreeView
 
 		}
 
+		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			this.Text = "treeView1_AfterSelect";
+
+			//this.Text = "node: " + e.Node.Text;
+		}
+
+		TreeNode n1;
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			//this.Text = this.treeView1.SelectedNode.Text;
+
+			n1 = this.treeView1.Nodes.Add(
+				"hi"
+			);
+
+			button5.Enabled = true;
+			button6.Enabled = false;
+			button7.Enabled = true;
+		}
+		TreeNode n2;
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			n2 = n1.Nodes.Add(
+				"hi2"
+			);
+
+			button6.Enabled = true;
+
+		}
+
+		private void button6_Click(object sender, EventArgs e)
+		{
+			n2.Remove();
+			button6.Enabled = false;
+		}
+
+		private void button7_Click(object sender, EventArgs e)
+		{
+			n1.Nodes.Clear();
+		}
+
 	}
 }
