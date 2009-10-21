@@ -46,6 +46,10 @@ namespace SimpleChat
 
 			// somebody connected to us
 			// this is a new thread
+			var a = new IncomingDataArguments
+			{
+				Server = this
+			};
 
 			var hr = new HeaderReader();
 
@@ -56,15 +60,10 @@ namespace SimpleChat
 				{
 					Console.WriteLine(path);
 
-					RaiseIncomingData(this,
-						new IncomingDataArguments
-						{
-							// we should ask for a specific r
-							Server = this,
-							PathAndQuery = path,
-							SetLogText = k => LogText = k
-						}
-					);
+					a.PathAndQuery = path;
+					a.SetLogText = k => LogText = k;
+
+					RaiseIncomingData(this, a);
 				};
 
 			hr.Header +=
@@ -81,25 +80,31 @@ namespace SimpleChat
 			// default response
 
 			ww.AppendLine("HTTP/1.0 200 OK");
-			ww.AppendLine("Content-Type: text/html; charset=utf-8");
+			ww.AppendLine("Content-Type: " + a);
 			ww.AppendLine();
 
-
-			foreach (var k in this.Locals)
+			if (a.Content == null)
 			{
-				ww.AppendLine("<div>at this location you can talk to <b>" + k.Name + "</b></div>");
+				foreach (var k in this.Locals)
+				{
+					ww.AppendLine("<div>at this location you can talk to <b>" + k.Name + "</b></div>");
+				}
+
+				// show remote users?
+
+				ww.AppendLine("<hr />");
+
+				ww.AppendLine("<pre>");
+
+				// escape html entities?
+				ww.AppendLine(LogText);
+
+				ww.AppendLine("</pre>");
 			}
-
-			// show remote users?
-
-			ww.AppendLine("<hr />");
-
-			ww.AppendLine("<pre>");
-
-			// escape html entities?
-			ww.AppendLine(LogText);
-
-			ww.AppendLine("</pre>");
+			else
+			{
+				ww.Append(a.Content);
+			}
 
 			w.Write(Encoding.ASCII.GetBytes(ww.ToString()));
 

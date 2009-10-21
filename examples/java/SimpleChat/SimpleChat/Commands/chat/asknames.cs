@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimpleChat.Commands
+namespace SimpleChat.Commands.chat
 {
-	class asknames
+	public class asknames : CommandBase
 	{
+		public string ttl = "0";
 	}
 }

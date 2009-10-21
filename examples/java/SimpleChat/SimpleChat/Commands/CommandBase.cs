@@ -8,17 +8,25 @@ namespace SimpleChat.Commands
 {
 	public class CommandBase
 	{
+		public delegate void CommandBaseAction(CommandBase e);
+
 		public SynchronizedActionQueue PrimaryThreadQueue;
 
 		public void Invoke()
 		{
-			this.PrimaryThreadQueue.Enqueue(
-				delegate
-				{
-					RaiseDisplay();
-				}
-			);
+			if (BeforeInvoke != null)
+				BeforeInvoke(this);
+
+			if (this.PrimaryThreadQueue != null)
+				this.PrimaryThreadQueue.Enqueue(
+					delegate
+					{
+						RaiseDisplay();
+					}
+				);
 		}
+
+		public CommandBaseAction BeforeInvoke;
 
 		public virtual void RaiseDisplay()
 		{

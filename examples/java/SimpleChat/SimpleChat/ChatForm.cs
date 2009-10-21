@@ -72,6 +72,8 @@ namespace SimpleChat
 		string textBox2_Cache = "";
 		int textBox2_Counter;
 
+		MessageEndpoint[] CurrentLocals = new MessageEndpoint[0];
+
 		private void timer2_Tick(object sender, EventArgs e)
 		{
 			PrimaryThreadQueue.Invoke();
@@ -90,7 +92,9 @@ namespace SimpleChat
 			if (textBox2_Counter < 5)
 				return;
 
-			webServerComponent1.Configuration = this.textBox2.Text.ToMessageFromArray().ToWebServers();
+			CurrentLocals = this.textBox2.Text.ToMessageFromArray();
+
+			webServerComponent1.Configuration = CurrentLocals.ToWebServers();
 
 			// lets enable outgoing messages only if we have chosen a name
 
@@ -127,7 +131,22 @@ namespace SimpleChat
 			//this.History.AppendLine(a.PathAndQuery);
 			//Console.WriteLine(a.PathAndQuery);
 
+			a.PathAndQuery = a.PathAndQuery.Chop(outgoingMessages1.PathPrefix);
+
 			a.GetArguments().AsParametersTo(
+				new asknames
+				{
+					BeforeInvoke =
+						e =>
+						{
+							a.ContentType = "text/plain";
+
+
+
+							a.Content = this.CurrentLocals.ToJSON();
+						}
+				}.Invoke,
+
 				new sendmessage
 				{
 					PrimaryThreadQueue = PrimaryThreadQueue,
@@ -210,6 +229,11 @@ namespace SimpleChat
 				//this.textBox2.Text = PopularNickname + ":80; ";
 				this.textBox3.Text = PopularNickname + "@localhost:80";
 			}
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			new ChatForm().Show();
 		}
 
 	}
