@@ -16,7 +16,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Component.html
 	[Script(IsNative = true)]
-	public abstract class Component
+	public abstract class Component : ImageObserver
 	{
 		/// <summary>
 		/// Constructs a new component.
@@ -988,7 +988,7 @@ namespace java.awt
 		/// <B>Deprecated.</B> <I>As of JDK version 1.1,
 		/// replaced by processKeyEvent(KeyEvent).</I>
 		/// </summary>
-		public bool keyDown(Event @evt, int @key)
+		public virtual bool keyDown(Event @evt, int @key)
 		{
 			return default(bool);
 		}
@@ -997,7 +997,7 @@ namespace java.awt
 		/// <B>Deprecated.</B> <I>As of JDK version 1.1,
 		/// replaced by processKeyEvent(KeyEvent).</I>
 		/// </summary>
-		public bool keyUp(Event @evt, int @key)
+		public virtual bool keyUp(Event @evt, int @key)
 		{
 			return default(bool);
 		}
