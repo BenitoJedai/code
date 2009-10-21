@@ -28,18 +28,18 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Node6");
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Node2");
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node4");
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Node5");
-			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode5});
-			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode6});
+			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Node6");
+			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
+            treeNode8});
+			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Node2");
+			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Node4");
+			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Node5");
+			System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Node3", new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode12});
+			System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
+            treeNode10,
+            treeNode13});
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
@@ -47,8 +47,12 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
-			this.localMyPanel1 = new TestFormsTreeView.MyContext.LocalMyPanel();
 			this.treeView1 = new System.Windows.Forms.TreeView();
+			this.button4 = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
+			this.localMyPanel1 = new TestFormsTreeView.MyContext.LocalMyPanel();
+			this.button7 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -117,6 +121,63 @@
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
+			// treeView1
+			// 
+			this.treeView1.Location = new System.Drawing.Point(12, 253);
+			this.treeView1.Name = "treeView1";
+			treeNode8.Name = "Node6";
+			treeNode8.Text = "Node6";
+			treeNode9.Name = "Node0";
+			treeNode9.Text = "Node0";
+			treeNode10.Name = "Node2";
+			treeNode10.Text = "Node2";
+			treeNode11.Name = "Node4";
+			treeNode11.Text = "Node4";
+			treeNode12.Name = "Node5";
+			treeNode12.Text = "Node5";
+			treeNode13.Name = "Node3";
+			treeNode13.Text = "Node3";
+			treeNode14.Name = "Node1";
+			treeNode14.Text = "Node1";
+			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode9,
+            treeNode14});
+			this.treeView1.Size = new System.Drawing.Size(231, 151);
+			this.treeView1.TabIndex = 8;
+			this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+			// 
+			// button4
+			// 
+			this.button4.Location = new System.Drawing.Point(288, 309);
+			this.button4.Name = "button4";
+			this.button4.Size = new System.Drawing.Size(75, 23);
+			this.button4.TabIndex = 9;
+			this.button4.Text = "Add Root";
+			this.button4.UseVisualStyleBackColor = true;
+			this.button4.Click += new System.EventHandler(this.button4_Click);
+			// 
+			// button5
+			// 
+			this.button5.Enabled = false;
+			this.button5.Location = new System.Drawing.Point(369, 320);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(75, 23);
+			this.button5.TabIndex = 10;
+			this.button5.Text = "Add Child";
+			this.button5.UseVisualStyleBackColor = true;
+			this.button5.Click += new System.EventHandler(this.button5_Click);
+			// 
+			// button6
+			// 
+			this.button6.Enabled = false;
+			this.button6.Location = new System.Drawing.Point(450, 329);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(75, 23);
+			this.button6.TabIndex = 10;
+			this.button6.Text = "remove";
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.button6_Click);
+			// 
 			// localMyPanel1
 			// 
 			this.localMyPanel1.Comment = "I like this!";
@@ -127,35 +188,26 @@
 			this.localMyPanel1.MoreDetails += new System.Action(this.localMyPanel1_MoreDetails);
 			this.localMyPanel1.OK += new System.Action(this.localMyPanel1_OK);
 			// 
-			// treeView1
+			// button7
 			// 
-			this.treeView1.Location = new System.Drawing.Point(12, 253);
-			this.treeView1.Name = "treeView1";
-			treeNode1.Name = "Node6";
-			treeNode1.Text = "Node6";
-			treeNode2.Name = "Node0";
-			treeNode2.Text = "Node0";
-			treeNode3.Name = "Node2";
-			treeNode3.Text = "Node2";
-			treeNode4.Name = "Node4";
-			treeNode4.Text = "Node4";
-			treeNode5.Name = "Node5";
-			treeNode5.Text = "Node5";
-			treeNode6.Name = "Node3";
-			treeNode6.Text = "Node3";
-			treeNode7.Name = "Node1";
-			treeNode7.Text = "Node1";
-			this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode7});
-			this.treeView1.Size = new System.Drawing.Size(231, 151);
-			this.treeView1.TabIndex = 8;
+			this.button7.Enabled = false;
+			this.button7.Location = new System.Drawing.Point(369, 289);
+			this.button7.Name = "button7";
+			this.button7.Size = new System.Drawing.Size(75, 23);
+			this.button7.TabIndex = 11;
+			this.button7.Text = "clear";
+			this.button7.UseVisualStyleBackColor = true;
+			this.button7.Click += new System.EventHandler(this.button7_Click);
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(702, 416);
+			this.Controls.Add(this.button7);
+			this.Controls.Add(this.button6);
+			this.Controls.Add(this.button5);
+			this.Controls.Add(this.button4);
 			this.Controls.Add(this.treeView1);
 			this.Controls.Add(this.localMyPanel1);
 			this.Controls.Add(this.button3);
@@ -183,6 +235,10 @@
 		private System.Windows.Forms.Button button3;
 		private TestFormsTreeView.MyContext.LocalMyPanel localMyPanel1;
 		private System.Windows.Forms.TreeView treeView1;
+		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.Button button7;
 	}
 }
 

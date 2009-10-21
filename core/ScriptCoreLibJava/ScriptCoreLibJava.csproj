@@ -320,6 +320,7 @@
     <Compile Include="javax\swing\Timer.cs" />
     <Compile Include="javax\swing\TransferHandler.cs" />
     <Compile Include="javax\swing\tree\DefaultMutableTreeNode.cs" />
+    <Compile Include="javax\swing\tree\DefaultTreeCellRenderer.cs" />
     <Compile Include="javax\swing\tree\DefaultTreeModel.cs" />
     <Compile Include="javax\swing\tree\MutableTreeNode.cs" />
     <Compile Include="javax\swing\tree\RowMapper.cs" />

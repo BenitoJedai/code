@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
-using System.Windows.Forms;
-using javax.swing.tree;
+using javax.swing.@event;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
 	[Script(Implements = typeof(global::System.Windows.Forms.TreeView))]
 	internal class __TreeView : __Control
 	{
-		public readonly javax.swing.JTree InternalElement;
-		public readonly DefaultTreeModel InternalModel;
-		public readonly DefaultMutableTreeNode InternalRoot;
+		public readonly javax.swing.JScrollPane InternalContainer;
+		public readonly javax.swing.JTree InternalContent;
+		public readonly javax.swing.tree.DefaultTreeModel InternalModel;
+		public readonly javax.swing.tree.DefaultMutableTreeNode InternalRoot;
+
+		public event global::System.Windows.Forms.TreeViewEventHandler AfterSelect;
+
+		public void RaiseAfterSelect(object sender, global::System.Windows.Forms.TreeViewEventArgs e)
+		{
+			if (AfterSelect != null)
+				AfterSelect(sender, e);
+		}
 
 		public __TreeView()
 		{
@@ -23,24 +31,36 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			// http://www.chka.de/swing/tree/DefaultTreeModel.html
 
 
-			this.InternalRoot = new DefaultMutableTreeNode("root");
-			this.InternalModel = new DefaultTreeModel(InternalRoot);
+			this.InternalRoot = new javax.swing.tree.DefaultMutableTreeNode("root");
+			this.InternalModel = new javax.swing.tree.DefaultTreeModel(InternalRoot);
 
+			
 			//  a JTree with a sample model
-			this.InternalElement = new javax.swing.JTree(InternalModel);
+			this.InternalContent = new javax.swing.JTree(InternalModel);
+			//this.InternalElement.setAutoscrolls(true);
+
+			this.InternalContainer = new javax.swing.JScrollPane(this.InternalContent);
+
+			// http://www.apl.jhu.edu/~hall/java/Swing-Tutorial/Swing-Tutorial-JTree.html
+			var renderer2 = new javax.swing.tree.DefaultTreeCellRenderer();
+			renderer2.setOpenIcon(null);
+			renderer2.setClosedIcon(null);
+			renderer2.setLeafIcon(null);
+			this.InternalContent.setCellRenderer(renderer2);
 
 			//UIManager.put("Tree.expandedIcon", new WindowsTreeUI.ExpandedIcon());
 			//UIManager.put("Tree.collapsedIcon", new WindowsTreeUI.CollapsedIcon());
 
 
 			this.Nodes =
-				(TreeNodeCollection)(object)new __TreeNodeCollection
+				(global::System.Windows.Forms.TreeNodeCollection)(object)new __TreeNodeCollection
 				{
 					InternalTreeView = this,
+					InternalRoot = this.InternalRoot
 				};
 
-			this.InternalElement.setRootVisible(false);
-			//this.InternalElement.setShowsRootHandles(false);
+			this.InternalContent.setRootVisible(false);
+			this.InternalContent.setShowsRootHandles(true);
 
 			//this.Nodes.Clear();
 
@@ -49,14 +69,50 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			// http://www.apl.jhu.edu/~hall/java/Swing-Tutorial/Swing-Tutorial-JTree.html
 
 
-			//this.InternalElement.add
+			this.InternalContent.addTreeSelectionListener(
+				new __TreeSelectionListener
+				{
+					InternalTreeView = this
+				}
+			);
+
+		}
+
+		[Script]
+		public class __TreeSelectionListener : TreeSelectionListener
+		{
+			public __TreeView InternalTreeView;
+
+			#region TreeSelectionListener Members
+
+			public void valueChanged(TreeSelectionEvent e)
+			{
+				this.InternalTreeView.RaiseAfterSelect(InternalTreeView,
+					new global::System.Windows.Forms.TreeViewEventArgs(null)
+				);
+			}
+
+			#endregion
+		}
+
+		public global::System.Windows.Forms.TreeNode SelectedNode
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+				
+			}
 		}
 
 		public override java.awt.Component InternalGetElement()
 		{
-			return InternalElement;
+			return InternalContainer;
 		}
 
-		public TreeNodeCollection Nodes { get; set; }
+		public global::System.Windows.Forms.TreeNodeCollection Nodes { get; set; }
 	}
 }

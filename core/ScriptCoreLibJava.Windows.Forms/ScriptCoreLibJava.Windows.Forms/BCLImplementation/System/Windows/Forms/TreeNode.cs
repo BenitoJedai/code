@@ -12,24 +12,30 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 	{
 		public javax.swing.tree.DefaultMutableTreeNode InternalElement = new javax.swing.tree.DefaultMutableTreeNode();
 
+		public global::System.Windows.Forms.TreeNodeCollection Nodes { get; set; }
+
+		public __TreeNodeCollection InternalNodes;
+
 		public __TreeNode(string text)
 		{
 			// http://forums.sun.com/thread.jspa?threadID=153780
 
 			this.Text = text;
+
+			this.InternalNodes = new __TreeNodeCollection
+			{
+				//InternalTreeView = this,
+				InternalRoot = this.InternalElement
+			};
+
+			this.Nodes = (global::System.Windows.Forms.TreeNodeCollection)(object)this.InternalNodes;
 		}
 
 
 		public __TreeNode(string text, global::System.Windows.Forms.TreeNode[] children)
+			: this(text)
 		{
-			this.Text = text;
-
-			foreach (var c in children)
-			{
-				var cc = (__TreeNode)(object)c;
-
-				this.InternalElement.add(cc.InternalElement);
-			}
+			this.Nodes.AddRange(children);
 		}
 
 		public string Name { get; set; }
@@ -46,6 +52,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 				InternalText = value;
 				this.InternalElement.setUserObject(value);
 			}
+		}
+
+		public void Remove()
+		{
+			var p = this.InternalElement.getParent();
+
+			this.InternalElement.removeFromParent();
+
+			if (p != null)
+				if (this.InternalNodes.InternalTreeView != null)
+					this.InternalNodes.InternalTreeView.InternalModel.reload(p);
 		}
 	}
 }
