@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BA62D89B-B55B-4996-9A03-55537E82B8B0}</ProjectGuid>
+    <ProjectGuid>{AAF6DADA-A263-427A-BB14-A41A2E7272C7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrcasMetaWindowsForms</RootNamespace>
-    <AssemblyName>OrcasMetaWindowsForms</AssemblyName>
+    <RootNamespace>TestFormsTreeView</RootNamespace>
+    <AssemblyName>TestFormsTreeView</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -135,7 +135,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath)
+::C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath)
 C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath) /javascript:false /javafusion:true  /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)"
 C:\util\jsc\bin\jsc.meta.exe ReferenceTextualUserControl /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>

@@ -1,0 +1,8 @@
+﻿   Author---------------------
+   Blog-----------------------
+ LabelComment
+ |Comment                      |
+ |                             |
+LabelLocation-------------------
+[OK]              [More details]
+LabelDisclaimer-----------------
