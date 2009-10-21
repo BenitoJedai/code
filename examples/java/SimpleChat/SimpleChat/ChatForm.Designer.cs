@@ -46,6 +46,8 @@
 			this.localInformation1 = new SimpleChat.MyContext.LocalInformation();
 			this.localPopular1 = new SimpleChat.MyContext.LocalPopular();
 			this.webServerComponent1 = new SimpleChat.WebServerComponent();
+			this.outgoingMessages1 = new SimpleChat.OutgoingMessages(this.components);
+			this.button3 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -58,12 +60,14 @@
 			// 
 			// button1
 			// 
+			this.button1.Enabled = false;
 			this.button1.Location = new System.Drawing.Point(433, 294);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(88, 34);
 			this.button1.TabIndex = 1;
 			this.button1.Text = "Send";
 			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// label1
 			// 
@@ -117,11 +121,13 @@
 			// 
 			// textBox4
 			// 
+			this.textBox4.Enabled = false;
 			this.textBox4.Location = new System.Drawing.Point(99, 296);
 			this.textBox4.Multiline = true;
 			this.textBox4.Name = "textBox4";
 			this.textBox4.Size = new System.Drawing.Size(328, 32);
 			this.textBox4.TabIndex = 8;
+			this.textBox4.Text = "howdy!";
 			// 
 			// label5
 			// 
@@ -152,27 +158,43 @@
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(88, 32);
 			this.button2.TabIndex = 10;
-			this.button2.Text = "Feeling Lucky";
+			this.button2.Text = "Foo";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
 			// timer2
 			// 
 			this.timer2.Enabled = true;
-			this.timer2.Interval = 200;
 			this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
 			// 
 			// webServerComponent1
 			// 
+			this.webServerComponent1.Configuration = new SimpleChat.WebServerProvider[0];
 			this.webServerComponent1.Start += new SimpleChat.WebServerProviderAction(this.webServerComponent1_Start);
 			this.webServerComponent1.IncomingData += new SimpleChat.WebServerProvider.IncomingDataDelegate(this.webServerComponent1_IncomingData);
 			this.webServerComponent1.Shutdown += new SimpleChat.WebServerProviderAction(this.webServerComponent1_Shutdown);
+			// 
+			// outgoingMessages1
+			// 
+			this.outgoingMessages1.LocalConfigurationFile = "Configuration/servers.txt";
+			this.outgoingMessages1.NotFound += new SimpleChat.MessageEndpointAction(this.outgoingMessages1_NotFound);
+			// 
+			// button3
+			// 
+			this.button3.Location = new System.Drawing.Point(433, 75);
+			this.button3.Name = "button3";
+			this.button3.Size = new System.Drawing.Size(88, 32);
+			this.button3.TabIndex = 11;
+			this.button3.Text = "Bar";
+			this.button3.UseVisualStyleBackColor = true;
+			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
 			// ChatForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(533, 356);
+			this.Controls.Add(this.button3);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.textBox4);
@@ -212,5 +234,7 @@
 		private SimpleChat.MyContext.LocalPopular localPopular1;
 		private System.Windows.Forms.Timer timer2;
 		private WebServerComponent webServerComponent1;
+		private OutgoingMessages outgoingMessages1;
+		private System.Windows.Forms.Button button3;
 	}
 }

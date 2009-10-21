@@ -5,12 +5,6 @@ using System.Text;
 
 namespace SimpleChat
 {
-	public class WebServer
-	{
-		public int Port;
+	public delegate void StringAction(string e);
 
-		public MessageEndpoint[] Locals;
-
-		
-	}
 }

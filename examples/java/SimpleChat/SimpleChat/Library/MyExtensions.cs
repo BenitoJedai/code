@@ -12,10 +12,31 @@ namespace SimpleChat.Library
 {
 	static class MyExtensions
 	{
+		public static void TryInvokeInBackground(this Action e)
+		{
+			new Thread(
+				delegate()
+				{
+					try
+					{
+						e();
+					}
+					catch
+					{
+					}
+				}
+			)
+			{
+				IsBackground = true
+			}.Start();
+
+		}
+
 		public static void AppendTextLine(this TextBox t, string e)
 		{
 			t.AppendText(e + Environment.NewLine);
 		}
+
 		public static void TryStart(this TcpListener l, Action h)
 		{
 			try
@@ -25,8 +46,9 @@ namespace SimpleChat.Library
 			}
 			catch
 			{
+				// lets be informational
+				Console.WriteLine("Oops!");
 			}
-
 		}
 
 		public delegate void StreamAction(Stream s);
@@ -87,7 +109,7 @@ namespace SimpleChat.Library
 		{
 			var a = e.Split('\n');
 
-			return a[Convert.ToInt32(InternalRandomLine.NextDouble() * a.Length)].Trim();
+			return a[Convert.ToInt32(InternalRandomLine.NextDouble() * (a.Length - 1))].Trim();
 
 		}
 

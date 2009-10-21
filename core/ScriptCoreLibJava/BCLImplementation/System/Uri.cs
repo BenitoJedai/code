@@ -38,11 +38,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 			var path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
 
-			this.Host = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
+			var HostAndPort = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
 
-			// sure... 80 thats what the port is
-			// need to implement this!
-			this.Port = 80;
+			// ipv6 support?
+			var PortStart = HostAndPort.LastIndexOf(":");
+
+			if (PortStart < 0)
+			{
+				this.Host = HostAndPort;
+
+				// sure... 80 thats what the port is
+				// need to implement this!
+				// default port depends on the protocol actually
+				this.Port = 80;
+			}
+			else
+			{
+				this.Host = HostAndPort.Substring(0, PortStart);
+
+				var PortString = HostAndPort.Substring(PortStart + 1);
+
+				this.Port = int.Parse(PortString);
+			}
 
 			this.PathAndQuery = uriString.Substring(path_i);
 

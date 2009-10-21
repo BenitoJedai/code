@@ -15,7 +15,7 @@ namespace SimpleChat
 
 		public event WebServerProvider.IncomingDataDelegate IncomingData;
 
-		public void RaiseIncomingData(WebServerProvider sender, WebServerProvider.IncomingDataArguments args)
+		public void RaiseIncomingData(WebServerProvider sender, IncomingDataArguments args)
 		{
 			if (IncomingData != null)
 				IncomingData(sender, args);
@@ -23,6 +23,10 @@ namespace SimpleChat
 
 		public WebServer[] Configuration
 		{
+			get
+			{
+				return InternalList;
+			}
 			set
 			{
 				var e = value;

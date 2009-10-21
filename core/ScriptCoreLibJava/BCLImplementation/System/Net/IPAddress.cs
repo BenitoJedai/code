@@ -37,5 +37,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
 			return (IPAddress)(object)Loopback;
 		}
+
+		public override string ToString()
+		{
+			return this.InternalAddress.ToString();
+		}
 	}
 }
