@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.Collections;
-using System.Windows.Forms;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
@@ -20,14 +19,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			// http://java.sun.com/docs/books/tutorial/uiswing/components/tree.html#sel
 			// http://www.coderanch.com/t/345711/Swing-AWT-SWT-JFace/java/JTree-Compare-Nodes
 
-			var m = (javax.swing.tree.DefaultTreeModel)this.InternalTreeView.InternalElement.getModel();
-
-			m.setRoot(null);
+	
 		}
 
-		public virtual void AddRange(TreeNode[] nodes)
+		public virtual void AddRange(global::System.Windows.Forms.TreeNode[] nodes)
 		{
+			foreach (var c in nodes)
+			{
+				var cc = (__TreeNode)(object)c;
 
+				this.InternalTreeView.InternalRoot.add(cc.InternalElement);
+			}
+
+			// http://www.jguru.com/faq/view.jsp?EID=33924
+			this.InternalTreeView.InternalModel.reload();
 		}
 
 		#region __IEnumerable Members

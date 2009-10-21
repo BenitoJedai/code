@@ -10,7 +10,7 @@ namespace javax.swing.tree
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/tree/DefaultTreeModel.html
 	[Script(IsNative = true)]
-	public class DefaultTreeModel
+	public class DefaultTreeModel : TreeModel
 	{
 		/// <summary>
 		/// Creates a tree in which any node can have children.
