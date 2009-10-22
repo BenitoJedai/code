@@ -9,6 +9,8 @@ namespace MultitierExample.Server
 	public class ServerProvider
 	{
 		// write HTTP server here
+		// will run under .net 
+		// will run under jvm
 
 		SharedLogic logic1;
 	}
