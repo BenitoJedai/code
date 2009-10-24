@@ -239,5 +239,27 @@ namespace SimpleChat
 			new ChatForm().Show();
 		}
 
+		TweenLibrary tween1 = new TweenLibrary();
+		Random R = new Random();
+
+		public int randint()
+		{
+
+			return Convert.ToInt32(10 + (this.R.NextDouble() * 290));
+
+			//return this.R.Next(10, 300);
+		}
+
+ 
+
+ 
+
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			this.tween1.startTweenEvent(sender, this.randint(), this.randint(), "easeinquad", 40);
+
+		}
+
 	}
 }

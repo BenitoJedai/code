@@ -53,7 +53,7 @@
 			// 
 			// treeView1
 			// 
-			this.treeView1.Location = new System.Drawing.Point(3, 50);
+			this.treeView1.Location = new System.Drawing.Point(3, 22);
 			this.treeView1.Name = "treeView1";
 			treeNode1.Name = "Node0";
 			treeNode1.Text = "Node0";
@@ -81,7 +81,7 @@
             treeNode1,
             treeNode2,
             treeNode11});
-			this.treeView1.Size = new System.Drawing.Size(251, 176);
+			this.treeView1.Size = new System.Drawing.Size(251, 204);
 			this.treeView1.TabIndex = 0;
 			// 
 			// label1
@@ -98,8 +98,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.treeView1);
+			this.Controls.Add(this.label1);
 			this.Name = "RemoteUsers";
 			this.Size = new System.Drawing.Size(257, 229);
 			this.SizeChanged += new System.EventHandler(this.RemoteUsers_SizeChanged);

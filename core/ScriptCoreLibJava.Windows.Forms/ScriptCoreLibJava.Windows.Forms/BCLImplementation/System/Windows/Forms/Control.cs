@@ -82,15 +82,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			return (__Control)(object)e;
 		}
 
+		Point InternalLocation = new Point();
 
 		public Point Location
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return InternalLocation;
+
 			}
 			set
 			{
+				InternalLocation = value;
+
 				this.InternalGetElement().setLocation(value.X, value.Y);
 			}
 		}
