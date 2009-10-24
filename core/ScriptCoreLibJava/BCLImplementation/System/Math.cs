@@ -10,6 +10,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	{
 		// thanks Doug J Reichard! :)
 
+		public static int Sign(int a)
+		{
+			if (a < 0)
+				return -1;
+
+			if (a > 0)
+				return 1;
+
+			return 0;
+		}
+
+		public static double Sign(double a)
+		{
+			if (a < 0)
+				return -1;
+
+			if (a > 0)
+				return 1;
+
+			return 0;
+		}
+
 		public static double Floor(double a)
 		{
 			return global::java.lang.Math.floor(a);

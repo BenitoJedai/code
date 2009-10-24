@@ -114,6 +114,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 				if (this.SizeChanged != null)
 					this.SizeChanged(this, new EventArgs());
+
 			}
 		}
 
