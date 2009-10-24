@@ -161,7 +161,12 @@ namespace jsc.Languages.IL
 					{
 						e.il.Emit(OpCodes.Ldc_R4, (float)e.i.TargetFloat);
 					};
-
+				this[OpCodes.Ldc_R8] =
+				e =>
+				{
+					e.il.Emit(OpCodes.Ldc_R8, (double)e.i.TargetDouble);
+				};
+			
 				this[OpCodes.Ldtoken] =
 					e =>
 					{
@@ -227,6 +232,7 @@ namespace jsc.Languages.IL
 					OpCodes.Br_S,
 					OpCodes.Brtrue_S,
 					OpCodes.Brfalse_S,
+					OpCodes.Bne_Un_S
 				};
 
 
@@ -284,6 +290,7 @@ namespace jsc.Languages.IL
 					OpCodes.Conv_U4,
 					OpCodes.Conv_I8,
 					OpCodes.Conv_I2,
+					OpCodes.Conv_R4,
 					OpCodes.Conv_R8,
 
 					OpCodes.Ldlen,

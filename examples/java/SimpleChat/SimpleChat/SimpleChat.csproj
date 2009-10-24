@@ -95,6 +95,7 @@
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\SynchronizedActionQueue.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
+    <Compile Include="Library\TweenLibrary.cs" />
     <Compile Include="MessageEndpoint.cs" />
     <Compile Include="MyContext\LocalPopular.cs">
       <SubType>Component</SubType>

@@ -16,6 +16,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		}
 
+		public object Tag { get; set; }
+
 		protected override void Dispose(bool e)
 		{
 			this.Enabled = false;
@@ -34,6 +36,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 				InternalUpdate();
 			}
+		}
+
+		public void Start()
+		{
+			this.Enabled = true;
+		}
+
+		public void Stop()
+		{
+			this.Enabled = false;
 		}
 
 		int InternalInterval;

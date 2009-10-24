@@ -50,6 +50,7 @@
 			this.localPopular1 = new SimpleChat.MyContext.LocalPopular();
 			this.webServerComponent1 = new SimpleChat.WebServerComponent();
 			this.outgoingMessages1 = new SimpleChat.OutgoingMessages(this.components);
+			this.button5 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -191,7 +192,10 @@
 			// 
 			// remoteUsers1
 			// 
+			this.remoteUsers1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
 			this.remoteUsers1.Location = new System.Drawing.Point(527, 75);
+			this.remoteUsers1.Message = "Currently online chat buddies:";
+			this.remoteUsers1.MessageHeight = 40;
 			this.remoteUsers1.Name = "remoteUsers1";
 			this.remoteUsers1.Size = new System.Drawing.Size(217, 213);
 			this.remoteUsers1.TabIndex = 13;
@@ -209,11 +213,22 @@
 			this.outgoingMessages1.PathPrefix = "/chat";
 			this.outgoingMessages1.NotFound += new SimpleChat.MessageEndpointAction(this.outgoingMessages1_NotFound);
 			// 
+			// button5
+			// 
+			this.button5.Location = new System.Drawing.Point(543, 294);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(75, 23);
+			this.button5.TabIndex = 14;
+			this.button5.Text = "button5";
+			this.button5.UseVisualStyleBackColor = true;
+			this.button5.Click += new System.EventHandler(this.button5_Click);
+			// 
 			// ChatForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(756, 356);
+			this.Controls.Add(this.button5);
 			this.Controls.Add(this.remoteUsers1);
 			this.Controls.Add(this.button4);
 			this.Controls.Add(this.button3);
@@ -260,5 +275,6 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.Button button4;
 		private RemoteUsers remoteUsers1;
+		private System.Windows.Forms.Button button5;
 	}
 }
