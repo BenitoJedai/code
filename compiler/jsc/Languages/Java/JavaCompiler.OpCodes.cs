@@ -670,6 +670,7 @@ namespace jsc.Languages.Java
 				OpCodes.Ldflda] =
 				e =>
 				{
+
 					//WriteBoxedComment("ldfld as " + e.TypeExpectedOrDefault);
 
 					WriteCall_DebugTrace_Assign_Load(e);
@@ -1374,6 +1375,12 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Call] =
 				delegate(CodeEmitArgs e)
 				{
+					var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
+					var ResolvedByte = this.ResolveImplementation(typeof(byte));
+					var ResolvedInt32 = this.ResolveImplementation(typeof(int));
+					var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
+					var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
+
 					// http://www.brics.dk/~mis/dOvs/jvmspec/ref--44.html;
 
 					Action<object> Monitor_Enter = System.Threading.Monitor.Enter;
@@ -1403,11 +1410,39 @@ namespace jsc.Languages.Java
 						}
 					}
 
+					Action<Action> Wrapper = h => h();
+
+					var ReturnType = m is MethodInfo ? ((MethodInfo)m).ReturnType : typeof(void);
+
+					if (ReturnType != null)
+					{
+						#region byte
+						if (ReturnType == typeof(byte) && (ResolvedTypeExpectedOrDefault != ResolvedByte))
+						{
+							Wrapper =
+								WriteMethodCall =>
+								{
+									Write("(short)");
+									Write("(");
+
+									WriteMethodCall();
+
+									// this operator is either 16bit or 32bit, depends on VM
+									Write(" & 0xff");
+									Write(")");
+								};
+
+						}
+						#endregion
+
+					}
+
+
 					MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
 					if (mi != null)
 					{
-						WriteMethodCall(e.p, e.i, mi);
+						Wrapper(() => WriteMethodCall(e.p, e.i, mi));
 
 						return;
 					}
@@ -1426,7 +1461,7 @@ namespace jsc.Languages.Java
 						}
 					}
 
-					WriteMethodCall(e.p, e.i, m);
+					Wrapper(() => WriteMethodCall(e.p, e.i, m));
 				};
 			#endregion
 
@@ -1436,6 +1471,8 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Ret] =
 				e =>
 				{
+					
+
 					WriteReturn(e.p, e.i);
 				};
 			#endregion
@@ -1568,6 +1605,8 @@ namespace jsc.Languages.Java
 						Write("(short)");
 					}
 
+					// what if we are storing a call to byte as an int?
+					
 					Emit(e.p, e.FirstOnStack, e.i.TargetVariable.LocalType);
 				};
 			#endregion

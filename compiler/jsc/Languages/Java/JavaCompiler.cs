@@ -126,8 +126,8 @@ namespace jsc.Languages.Java
 
 
 
-	
-		
+
+
 
 
 
@@ -156,7 +156,7 @@ namespace jsc.Languages.Java
 
 		protected override bool IsTypeCastRequired(Type ParameterType, ILFlow.StackItem s)
 		{
-	
+
 
 			// resolve to .net type if any
 			ParameterType = ParameterType.ToScriptAttributeOrDefault().Implements ?? ParameterType;
@@ -245,13 +245,13 @@ namespace jsc.Languages.Java
 			WriteDecoratedTypeName(e);
 		}
 
-	
+
 		private void WriteMethodSignatureThrows(MethodBase m)
 		{
 			DebugBreak(ScriptAttribute.Of(m));
 
 			List<Type> list = GetMethodExceptions(m);
-			
+
 			if (list.Count > 0)
 			{
 				WriteSpace();
@@ -382,7 +382,7 @@ namespace jsc.Languages.Java
 			Write("public ");
 		}
 
-	
+
 		private void WriteKeywordThrows()
 		{
 			Write("throws ");
@@ -468,7 +468,7 @@ namespace jsc.Languages.Java
 				WriteSpace();
 				WriteKeywordSpace(z.IsInterface ? Keywords._extends : Keywords._implements);
 
-				
+
 
 				DebugBreak(za);
 
@@ -533,7 +533,7 @@ namespace jsc.Languages.Java
 				Write(GetDecoratedTypeName(iType, true));
 		}
 
-	
+
 
 		public void WriteDecoratedMethodParameter(ParameterInfo p, Type ExpectedType)
 		{
@@ -779,42 +779,7 @@ namespace jsc.Languages.Java
 			}
 		}
 
-		public override void WriteReturnParameter(ILBlock.Prestatement _p, ILInstruction _i)
-		{
-			if (_i.OwnerMethod is MethodInfo)
-			{
-				if ((_i.OwnerMethod as MethodInfo).ReturnType == typeof(bool))
-				{
-					if (_i.InlineAssigmentValue != null)
-					{
-						if (_i.InlineAssigmentValue.Instruction.IsStoreLocal)
-						{
-
-							WriteReturnParameter(_p, _i.InlineAssigmentValue.Instruction.StackBeforeStrict[0].SingleStackInstruction);
-
-							return;
-						}
-					}
-
-					if (_i == OpCodes.Ldc_I4_0)
-					{
-						WriteKeywordFalse();
-
-						return;
-					}
-
-					if (_i == OpCodes.Ldc_I4_1)
-					{
-						WriteKeywordTrue();
-
-						return;
-					}
-				}
-			}
-
-			base.WriteReturnParameter(_p, _i);
-		}
-
+	
 		public override bool SupportsInlineExceptionVariable
 		{
 			get
