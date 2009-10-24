@@ -127,19 +127,7 @@ namespace jsc.Languages.Java
 
 
 	
-		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
-		{
-			WriteIdent();
-
-			WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true);
-			WriteSpace();
-
-			//WriteVariableType(v.LocalType, true);
-
-			WriteVariableName(u.DeclaringType, u, v);
-
-			WriteLine(";");
-		}
+		
 
 
 

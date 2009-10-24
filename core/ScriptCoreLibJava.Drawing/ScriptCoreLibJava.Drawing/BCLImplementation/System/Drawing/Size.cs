@@ -9,6 +9,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Drawing
 	[Script(Implements = typeof(global::System.Drawing.Size))]
 	internal class __Size
 	{
+		public __Size() : this(0, 0)
+		{
+
+		}
+
 		public __Size(int width, int height)
 		{
 			this.Width = width;

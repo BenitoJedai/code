@@ -133,6 +133,9 @@ namespace SimpleChat
 
 			a.PathAndQuery = a.PathAndQuery.Chop(outgoingMessages1.PathPrefix);
 
+			// we need to caputre this
+			var CurrentLocals = this.CurrentLocals;
+
 			a.GetArguments().AsParametersTo(
 				new asknames
 				{
@@ -143,7 +146,7 @@ namespace SimpleChat
 
 
 
-							a.Content = this.CurrentLocals.ToJSON();
+							a.Content = CurrentLocals.ToJSON();
 						}
 				}.Invoke,
 

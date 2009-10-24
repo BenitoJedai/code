@@ -197,6 +197,7 @@ namespace jsc.Languages.IL
 
 				this[i => i.OpParamAsInt32] = new[] {
 					OpCodes.Ldc_I4,
+					OpCodes.Ldloca
 				};
 
 				this[i => TranslateBranchOffset(i, i.OpParamAsInt32)] = new[] {
@@ -208,7 +209,8 @@ namespace jsc.Languages.IL
 					OpCodes.Ldc_I4_S,
 					OpCodes.Ldarga_S,
 					OpCodes.Ldarg_S,
-					OpCodes.Starg_S
+					OpCodes.Starg_S,
+					OpCodes.Ldloca_S
 				};
 
 				// http://msdn.microsoft.com/en-us/library/74b4xzyw(VS.71).aspx
