@@ -261,5 +261,25 @@ namespace SimpleChat
 
 		}
 
+		private void button6_Click(object sender, EventArgs e)
+		{
+			TargetMessageHeight = 32;
+			MessageHider.Start();
+		}
+
+		public int TargetMessageHeight = 0;
+
+		private void MessageEffectTimer_Tick(object sender, EventArgs e)
+		{
+			this.remoteUsers1.MessageHeight += 2*Math.Sign(TargetMessageHeight - this.remoteUsers1.MessageHeight);
+ 
+		}
+
+		private void MessageHider_Tick(object sender, EventArgs e)
+		{
+			TargetMessageHeight = 0;
+			MessageHider.Stop();
+		}
+
 	}
 }

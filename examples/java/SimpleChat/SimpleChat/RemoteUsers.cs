@@ -46,6 +46,8 @@ namespace SimpleChat
 
 			this.treeView1.Location = p;
 			this.treeView1.Size = s;
+
+			
 		}
 
 		public string Message

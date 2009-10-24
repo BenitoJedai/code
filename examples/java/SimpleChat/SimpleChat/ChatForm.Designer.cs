@@ -45,12 +45,15 @@
 			this.timer2 = new System.Windows.Forms.Timer(this.components);
 			this.button3 = new System.Windows.Forms.Button();
 			this.button4 = new System.Windows.Forms.Button();
+			this.button5 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
+			this.MessageEffectTimer = new System.Windows.Forms.Timer(this.components);
+			this.MessageHider = new System.Windows.Forms.Timer(this.components);
 			this.remoteUsers1 = new SimpleChat.RemoteUsers();
 			this.localInformation1 = new SimpleChat.MyContext.LocalInformation();
 			this.localPopular1 = new SimpleChat.MyContext.LocalPopular();
 			this.webServerComponent1 = new SimpleChat.WebServerComponent();
 			this.outgoingMessages1 = new SimpleChat.OutgoingMessages(this.components);
-			this.button5 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// textBox1
@@ -190,12 +193,43 @@
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.button4_Click);
 			// 
+			// button5
+			// 
+			this.button5.Location = new System.Drawing.Point(667, 294);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(77, 34);
+			this.button5.TabIndex = 14;
+			this.button5.Text = "Tween";
+			this.button5.UseVisualStyleBackColor = true;
+			this.button5.Click += new System.EventHandler(this.button5_Click);
+			// 
+			// button6
+			// 
+			this.button6.Location = new System.Drawing.Point(583, 296);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(75, 32);
+			this.button6.TabIndex = 15;
+			this.button6.Text = "Message";
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.button6_Click);
+			// 
+			// MessageEffectTimer
+			// 
+			this.MessageEffectTimer.Enabled = true;
+			this.MessageEffectTimer.Interval = 50;
+			this.MessageEffectTimer.Tick += new System.EventHandler(this.MessageEffectTimer_Tick);
+			// 
+			// MessageHider
+			// 
+			this.MessageHider.Interval = 5000;
+			this.MessageHider.Tick += new System.EventHandler(this.MessageHider_Tick);
+			// 
 			// remoteUsers1
 			// 
 			this.remoteUsers1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
 			this.remoteUsers1.Location = new System.Drawing.Point(527, 75);
 			this.remoteUsers1.Message = "Currently online chat buddies:";
-			this.remoteUsers1.MessageHeight = 40;
+			this.remoteUsers1.MessageHeight = 32;
 			this.remoteUsers1.Name = "remoteUsers1";
 			this.remoteUsers1.Size = new System.Drawing.Size(217, 213);
 			this.remoteUsers1.TabIndex = 13;
@@ -213,21 +247,12 @@
 			this.outgoingMessages1.PathPrefix = "/chat";
 			this.outgoingMessages1.NotFound += new SimpleChat.MessageEndpointAction(this.outgoingMessages1_NotFound);
 			// 
-			// button5
-			// 
-			this.button5.Location = new System.Drawing.Point(543, 294);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(75, 23);
-			this.button5.TabIndex = 14;
-			this.button5.Text = "button5";
-			this.button5.UseVisualStyleBackColor = true;
-			this.button5.Click += new System.EventHandler(this.button5_Click);
-			// 
 			// ChatForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(756, 356);
+			this.Controls.Add(this.button6);
 			this.Controls.Add(this.button5);
 			this.Controls.Add(this.remoteUsers1);
 			this.Controls.Add(this.button4);
@@ -276,5 +301,8 @@
 		private System.Windows.Forms.Button button4;
 		private RemoteUsers remoteUsers1;
 		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.Timer MessageEffectTimer;
+		private System.Windows.Forms.Timer MessageHider;
 	}
 }
