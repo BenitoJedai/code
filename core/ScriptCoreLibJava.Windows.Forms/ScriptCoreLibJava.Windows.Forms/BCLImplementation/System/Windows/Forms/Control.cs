@@ -151,14 +151,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public virtual bool AutoSize { get; set; }
 
+		Color InternalForeColor;
+
 		public virtual Color ForeColor
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return InternalForeColor;
 			}
 			set
 			{
+				InternalForeColor = value;
+
 				int R = value.R;
 				int G = value.G;
 				int B = value.B;
@@ -169,6 +173,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			}
 		}
 
+
+		Color InternalBackColor;
+
+		public virtual Color BackColor
+		{
+			get
+			{
+				return InternalBackColor;
+			}
+			set
+			{
+				InternalBackColor = value;
+
+				int R = value.R;
+				int G = value.G;
+				int B = value.B;
+
+				var c = new java.awt.Color(R, G, B);
+
+				this.InternalGetElement().setBackground(c);
+			}
+		}
 		
 	}
 }
