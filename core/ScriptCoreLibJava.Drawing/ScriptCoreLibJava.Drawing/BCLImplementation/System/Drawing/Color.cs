@@ -9,5 +9,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Drawing
 	[Script(Implements = typeof(global::System.Drawing.Color))]
 	internal class __Color
 	{
+		public __Color()
+		{
+
+		}
 	}
 }

@@ -245,7 +245,8 @@ namespace jsc.Script
 
 			WriteVisualStudioMessage(MessageType.error, 1000, e);
 
-			Console.ReadLine();
+
+			//Console.ReadLine();
 
 			if (Debugger.IsAttached)
 			{

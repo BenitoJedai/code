@@ -21,12 +21,23 @@ namespace jsc.Languages.Java
 			bool IsDefineAsStatic = ma != null && ma.DefineAsStatic;
 			bool IsBaseMethodCall = false;
 
+			// NonPrimitiveValueTypeConstructor
+			ScriptAttribute za = ScriptAttribute.Of(m.DeclaringType, true);
+
+			var z_Implements = za != null ? za.Implements : null;
+			var z_NonPrimitiveValueType = z_Implements != null && z_Implements.IsValueType && !z_Implements.IsPrimitive;
+
+
 			if (m.IsInstanceConstructor())
 			{
 				// fixme: update the BCL resolving issue
 				// the super ctor call gets lost otherwise
 
-				if (m.DeclaringType == i.OwnerMethod.DeclaringType)
+				if (z_NonPrimitiveValueType)
+				{
+					// yay we need to call a method instead a ctor
+				}
+				else if (m.DeclaringType == i.OwnerMethod.DeclaringType)
 				{
 					// ctor as this.ctor();
 					IsBaseConstructorCall = true;
@@ -159,7 +170,10 @@ namespace jsc.Languages.Java
 				}
 				else
 				{
-					WriteDecoratedMethodName(m, false);
+					if ((m.IsInstanceConstructor()) && z_NonPrimitiveValueType)
+						Write("NonPrimitiveValueTypeConstructor");
+					else
+						WriteDecoratedMethodName(m, false);
 				}
 			}
 

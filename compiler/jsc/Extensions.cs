@@ -310,6 +310,14 @@ namespace jsc //.Extensions
 			return za != null && za.Implements != null && za.Implements.ToScriptAttributeOrDefault().IsNative;
 		}
 
+		public static ConstructorInfo[] GetInstanceConstructors(this Type z)
+		{
+			if (z == null)
+				return null;
+
+			return z.GetConstructors(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+		}
+
 		public static MethodInfo[] GetInstanceMethods(this Type z)
 		{
 			if (z == null)

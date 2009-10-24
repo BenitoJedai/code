@@ -95,15 +95,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			}
 		}
 
+		Size InternalSize;
 		public Size Size
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return InternalSize;
 			}
 			set
 			{
+				InternalSize = value;
+
 				this.InternalGetElement().setSize(value.Width, value.Height);
+
+				if (this.SizeChanged != null)
+					this.SizeChanged(this, new EventArgs());
 			}
 		}
 
@@ -132,8 +138,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			set
 			{
 				this.Size = new Size(value.Width + 12, value.Height + 32);
+
+	
 			}
 		}
+
+		public event EventHandler SizeChanged;
 
 		public int TabIndex { get; set; }
 

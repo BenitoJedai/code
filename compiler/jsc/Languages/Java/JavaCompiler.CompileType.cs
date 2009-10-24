@@ -49,6 +49,8 @@ namespace jsc.Languages.Java
 
             ScriptAttribute za = ScriptAttribute.Of(z, true);
 
+			var z_Implements = za.Implements;
+			var z_NonPrimitiveValueType = z_Implements != null && z_Implements.IsValueType && !z_Implements.IsPrimitive;
 
 
             #region type summary
@@ -86,6 +88,26 @@ namespace jsc.Languages.Java
 				}
 
 				CompileType_WriteAdditionalMembers();
+
+
+				if (z_NonPrimitiveValueType)
+				{
+					// define ctor as methods
+					WriteIdent();
+					WriteCommentLine("NonPrimitiveValueType");
+
+					foreach (var NonPrimitiveValueTypeConstructor in z.GetInstanceConstructors())
+					{
+						InternalWriteMethodSignature(
+							NonPrimitiveValueTypeConstructor, 
+							false,
+							"NonPrimitiveValueTypeConstructor",
+							false
+						);
+
+						WriteMethodBody(NonPrimitiveValueTypeConstructor);
+					}
+				}
             }
 
             //Thread.Sleep(100);

@@ -27,7 +27,11 @@ namespace jsc.Languages.Java
 		}
 
 		private void InternalWriteMethodSignature(
-			MethodBase m, bool dStatic, string MethodNameOverride, bool MethodIsPublicOverride)
+			MethodBase m,
+			bool dStatic,
+			string MethodNameOverride,
+			bool MethodIsPublicOverride
+		)
 		{
 			DebugBreak(ScriptAttribute.Of(m));
 
@@ -79,14 +83,24 @@ namespace jsc.Languages.Java
 				WriteSpace();
 			}
 
-			if (m.IsInstanceConstructor())
-				Write(GetDecoratedTypeName(m.DeclaringType, false, true, true, true));
+			if (MethodNameOverride == null)
+			{
+				if (m.IsInstanceConstructor())
+					Write(GetDecoratedTypeName(m.DeclaringType, false, true, true, true));
+				else
+					WriteDecoratedMethodName(m, false);
+			}
 			else
 			{
-				if (MethodNameOverride == null)
-					WriteDecoratedMethodName(m, false);
-				else
-					WriteSafeLiteral(MethodNameOverride);
+				if (m.IsInstanceConstructor())
+				{
+					// We are renaming a constructor. Doing that we also make it a method.
+					// A method in turn needs to define the returning type. Lets make it void.
+					WriteDecoratedTypeName(typeof(void));
+					WriteSpace();
+				}
+
+				WriteSafeLiteral(MethodNameOverride);
 			}
 
 			Write("(");

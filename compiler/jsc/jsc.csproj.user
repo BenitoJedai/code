@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\c\WavePlayer2\WavePlayer2\bin\Release\staging</StartWorkingDirectory>
-    <StartArguments>WavePlayer2MetaScript.exe -c</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\TestValueType\TestValueType\bin\Debug</StartWorkingDirectory>
+    <StartArguments>TestValueType.exe -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
