@@ -1038,7 +1038,8 @@ namespace jsc.Script
 			{
 				MethodCallParameterTypeCast(
 					p.DeclaringMethod.DeclaringType,
-					((MethodInfo)p.DeclaringMethod).ReturnType
+					((MethodInfo)p.DeclaringMethod).ReturnType,
+					s
 				);
 			}
 

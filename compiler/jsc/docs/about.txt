@@ -386,3 +386,4 @@ version history:
 	c: InitializeArray for byte now actually works
 24.10.2009
 	java: added some support for valuetype usage like already in as
+	java: fixed conversion from byte to int if calling a method

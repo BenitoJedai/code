@@ -10,7 +10,7 @@ using System.Drawing;
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
 	[Script(Implements = typeof(global::System.Windows.Forms.Control))]
-	internal partial class __Control : __Component,  __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
+	internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
 	{
 		public event EventHandler Click;
 
@@ -139,7 +139,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			{
 				this.Size = new Size(value.Width + 12, value.Height + 32);
 
-	
+
 			}
 		}
 
@@ -150,5 +150,25 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		public bool UseVisualStyleBackColor { get; set; }
 
 		public virtual bool AutoSize { get; set; }
+
+		public virtual Color ForeColor
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				int R = value.R;
+				int G = value.G;
+				int B = value.B;
+
+				var c = new java.awt.Color(R, G, B);
+
+				this.InternalGetElement().setForeground(c);
+			}
+		}
+
+		
 	}
 }
