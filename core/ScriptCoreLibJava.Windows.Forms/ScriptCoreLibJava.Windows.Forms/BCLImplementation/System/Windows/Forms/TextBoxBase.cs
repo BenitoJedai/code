@@ -16,6 +16,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			this.Text += text;
 		}
 
+		public void Clear()
+		{
+			this.Text = "";
+		}
+
 		public virtual void InternalSetReadOnly(bool value)
 		{
 		}

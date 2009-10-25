@@ -125,5 +125,12 @@ namespace SimpleChat2
 				Stop();
 		}
 
+		private void button3_Click(object sender, EventArgs e)
+		{
+			this.AppendTextLine("We haven't found such user yet");
+
+			textBox6.Clear();
+		}
+
 	}
 }
