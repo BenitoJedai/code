@@ -98,38 +98,7 @@ namespace SimpleChat2
 								return;
 							}
 
-							var CurrentConfigurationSnapshot = CurrentConfiguration;
-							var CurrentConfigurationAdd = true;
-
-							foreach (var k in CurrentConfigurationSnapshot)
-							{
-								if (k.Name == sendname.name)
-								{
-									k.Target = sendname.ip;
-									CurrentConfigurationAdd = false;
-								}
-							}
-
-							if (CurrentConfigurationAdd)
-							{
-								CurrentConfigurationSnapshot = CurrentConfigurationSnapshot.Concat(
-									new MyData
-									{
-										Name = sendname.name,
-										Target = sendname.ip
-									}
-								);
-
-							}
-
-							this.mySync1.Queue.Enqueue(
-								delegate
-								{
-									AppendTextLine("Updating configuration for " + sendname.name);
-
-									CurrentConfiguration = CurrentConfigurationSnapshot;
-								}
-							);
+							UpdateConfiguration(sendname);
 						};
 
 					#region asknames
@@ -214,7 +183,43 @@ namespace SimpleChat2
 				};
 		}
 
-		private void SendCommandSendName(findname findname)
+		public void UpdateConfiguration(sendname sendname)
+		{
+			var CurrentConfigurationSnapshot = CurrentConfiguration;
+			var CurrentConfigurationAdd = true;
+
+			foreach (var k in CurrentConfigurationSnapshot)
+			{
+				if (k.Name == sendname.name)
+				{
+					k.Target = sendname.ip;
+					CurrentConfigurationAdd = false;
+				}
+			}
+
+			if (CurrentConfigurationAdd)
+			{
+				CurrentConfigurationSnapshot = CurrentConfigurationSnapshot.Concat(
+					new MyData
+					{
+						Name = sendname.name,
+						Target = sendname.ip
+					}
+				);
+
+			}
+
+			this.mySync1.Queue.Enqueue(
+				delegate
+				{
+					AppendTextLine("Updating configuration for " + sendname.name);
+
+					CurrentConfiguration = CurrentConfigurationSnapshot;
+				}
+			);
+		}
+
+		public void SendCommandSendName(findname findname)
 		{
 			var ip_host = findname.myip.GetLocalAddressByConnecting();
 
@@ -237,7 +242,7 @@ namespace SimpleChat2
 		}
 
 
-		private void SendCommandSendName(MyData t, string name)
+		public void SendCommandSendName(MyData t, string name)
 		{
 			Action Try =
 				delegate

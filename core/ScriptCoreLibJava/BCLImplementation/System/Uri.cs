@@ -38,6 +38,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 			var path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
 
+			if (path_i < 0)
+			{
+				uriString += "/";
+				path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
+			}
+
 			var HostAndPort = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
 
 			// ipv6 support?

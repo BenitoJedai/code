@@ -16,10 +16,10 @@ namespace SimpleChat2
 		public static string GetLocalAddressByConnecting(this string Target)
 		{
 			var r = "";
+			var u = new Uri("http://" + Target);
 
 			try
 			{
-				var u = new Uri("http://" + Target);
 				var c = new TcpClient();
 
 				c.Connect(u.Host, u.Port);
@@ -30,7 +30,7 @@ namespace SimpleChat2
 			}
 			catch
 			{
-
+				Console.WriteLine("GetLocalAddressByConnecting failed for " + u.Host + ":" + u.Port);
 			}
 
 			return r;
