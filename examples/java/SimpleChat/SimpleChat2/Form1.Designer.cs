@@ -30,10 +30,10 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.PortTextbox = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBox2 = new System.Windows.Forms.TextBox();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.NicknameTextbox = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
@@ -48,6 +48,8 @@
 			this.button4 = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.RegisteringTimer = new System.Windows.Forms.Timer(this.components);
+			this.button5 = new System.Windows.Forms.Button();
+			this.button6 = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -58,14 +60,14 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Port configuration:";
 			// 
-			// textBox1
+			// PortTextbox
 			// 
-			this.textBox1.Location = new System.Drawing.Point(16, 39);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(145, 42);
-			this.textBox1.TabIndex = 1;
-			this.textBox1.Text = "6666; 6667";
+			this.PortTextbox.Location = new System.Drawing.Point(16, 39);
+			this.PortTextbox.Multiline = true;
+			this.PortTextbox.Name = "PortTextbox";
+			this.PortTextbox.Size = new System.Drawing.Size(145, 42);
+			this.PortTextbox.TabIndex = 1;
+			this.PortTextbox.Text = "6666; 6667";
 			// 
 			// label2
 			// 
@@ -84,14 +86,14 @@
 			this.textBox2.TabIndex = 2;
 			this.textBox2.Text = "[\r\n[\"Tanel Tammet\",\"22.33.44.55:6666\"],\r\n[\"Peeter Laud\",\"22.33.44.11:6666\"]\r\n]";
 			// 
-			// textBox3
+			// NicknameTextbox
 			// 
-			this.textBox3.Location = new System.Drawing.Point(17, 128);
-			this.textBox3.Multiline = true;
-			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(144, 26);
-			this.textBox3.TabIndex = 4;
-			this.textBox3.Text = "Kenny";
+			this.NicknameTextbox.Location = new System.Drawing.Point(17, 128);
+			this.NicknameTextbox.Multiline = true;
+			this.NicknameTextbox.Name = "NicknameTextbox";
+			this.NicknameTextbox.Size = new System.Drawing.Size(144, 26);
+			this.NicknameTextbox.TabIndex = 4;
+			this.NicknameTextbox.Text = "Kenny";
 			// 
 			// label3
 			// 
@@ -208,11 +210,33 @@
 			// 
 			this.RegisteringTimer.Interval = 5000;
 			// 
+			// button5
+			// 
+			this.button5.Location = new System.Drawing.Point(175, 27);
+			this.button5.Name = "button5";
+			this.button5.Size = new System.Drawing.Size(75, 23);
+			this.button5.TabIndex = 15;
+			this.button5.Text = "Config 1";
+			this.button5.UseVisualStyleBackColor = true;
+			this.button5.Click += new System.EventHandler(this.button5_Click);
+			// 
+			// button6
+			// 
+			this.button6.Location = new System.Drawing.Point(175, 56);
+			this.button6.Name = "button6";
+			this.button6.Size = new System.Drawing.Size(75, 23);
+			this.button6.TabIndex = 16;
+			this.button6.Text = "Config 2";
+			this.button6.UseVisualStyleBackColor = true;
+			this.button6.Click += new System.EventHandler(this.button6_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(532, 478);
+			this.Controls.Add(this.button6);
+			this.Controls.Add(this.button5);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.button4);
 			this.Controls.Add(this.button3);
@@ -223,10 +247,10 @@
 			this.Controls.Add(this.textBox4);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
-			this.Controls.Add(this.textBox3);
+			this.Controls.Add(this.NicknameTextbox);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.textBox2);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.PortTextbox);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Name = "Form1";
@@ -240,10 +264,10 @@
 		#endregion
 
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox PortTextbox;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox textBox2;
-		private System.Windows.Forms.TextBox textBox3;
+		public System.Windows.Forms.TextBox NicknameTextbox;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
@@ -258,5 +282,7 @@
 		private System.Windows.Forms.Button button4;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Timer RegisteringTimer;
+		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button6;
 	}
 }

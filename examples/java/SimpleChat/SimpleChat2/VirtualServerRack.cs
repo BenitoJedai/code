@@ -50,8 +50,13 @@ namespace SimpleChat2
 
 						hr.Read(s);
 
-						this.CommandRequest(s, hr_Method_path);
+						if (!string.IsNullOrEmpty(hr_Method_path))
+						{
+							Console.WriteLine(">> " + hr_Method_path);
 
+							this.CommandRequest(s, hr_Method_path);
+
+						}
 						s.Close();
 					}
 				);

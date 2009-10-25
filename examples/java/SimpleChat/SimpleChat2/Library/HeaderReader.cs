@@ -20,6 +20,9 @@ namespace SimpleChat.Library
 
 			var h = r.ReadLine();
 
+			if (string.IsNullOrEmpty(h))
+				return;
+
 			var Method_i = h.IndexOf(" ");
 			var Method_key = h.Substring(0, Method_i);
 			var Method_value = h.Substring(Method_i + 1, h.IndexOf(" ", Method_i + 1) - (Method_i + 1));

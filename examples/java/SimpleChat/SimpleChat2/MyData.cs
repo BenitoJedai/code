@@ -4,14 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using ScriptCoreLib.JSON;
+using System.Net.Sockets;
+using System.Net;
 
 namespace SimpleChat2
 {
+	public static class MyDataExtensions
+	{
+		public static MyData[] Concat(this MyData[] source, MyData e)
+		{
+			var a = new MyData[source.Length + 1];
+
+			Array.Copy(source, a, source.Length);
+
+			a[source.Length] = e;
+
+			return a;
+		}
+	}
 
 	public class MyData
 	{
 		public string Name;
 		public string Target;
+
+		
 
 		public static MyData[] Parse(string source)
 		{

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SimpleChat.Commands.chat;
@@ -28,6 +27,7 @@ namespace SimpleChat2
 			DisableConfiguration();
 
 			var ContinueRegistration = true;
+			var ContinueRegistrationYetFail = false;
 
 
 
@@ -37,10 +37,11 @@ namespace SimpleChat2
 			// start web server
 			var vsr = new VirtualServerRack
 			{
-				Ports = textBox1.Text.ToInt32Array(),
+				Ports = PortTextbox.Text.ToInt32Array(),
 
 
 			};
+
 
 			vsr.CommandRequest +=
 				(s, path) =>
@@ -56,26 +57,94 @@ namespace SimpleChat2
 							// let the discovery service know
 							// that somebody wants that name
 
+					
+							// if we do we should let the poor sap know about it!
+
+							if (findname.name == this.NicknameTextbox.Text)
+							{
+								this.AppendTextLine("Thats my name! I claimed it first!");
+
+								SendCommandSendName(findname);
+							}
+							else
+							{
+								foreach (var k in CurrentConfiguration)
+								{
+									if (k.Name == findname.name)
+									{
+										if (k.Target == findname.myip)
+										{
+											this.AppendTextLine("Records confirm " + findname.name);
+										}
+										else
+										{
+											this.AppendTextLine("We seem to know about " + findname.name);
+										}
+									}
+								}
+							}
 						};
 
-					
 					sendname.BeforeInvoke =
 						delegate
 						{
-							// we are being told a name was found
+
+							if (this.NicknameTextbox.Text == sendname.name && this.RegisteringTimer.Enabled)
+							{
+								ContinueRegistrationYetFail = true;
+
+								AppendTextLine("Name already taken!");
+
+								return;
+							}
+
+							var CurrentConfigurationSnapshot = CurrentConfiguration;
+							var CurrentConfigurationAdd = true;
+
+							foreach (var k in CurrentConfigurationSnapshot)
+							{
+								if (k.Name == sendname.name)
+								{
+									k.Target = sendname.ip;
+									CurrentConfigurationAdd = false;
+								}
+							}
+
+							if (CurrentConfigurationAdd)
+							{
+								CurrentConfigurationSnapshot = CurrentConfigurationSnapshot.Concat(
+									new MyData
+									{
+										Name = sendname.name,
+										Target = sendname.ip
+									}
+								);
+
+							}
+
+							this.mySync1.Queue.Enqueue(
+								delegate
+								{
+									AppendTextLine("Updating configuration for " + sendname.name);
+
+									CurrentConfiguration = CurrentConfigurationSnapshot;
+								}
+							);
 						};
 
+					#region asknames
 					// http://localhost:6666/chat/asknames
 					asknames.BeforeInvoke =
 						delegate
 						{
 							s.WriteWebContent(
-								MyData.ToString(
-									MyData.Parse(this.textBox2.Text)
-								), "text/plain"
+								GetCurrentConfigurationString(), "text/plain"
 							);
 						};
+					#endregion
 
+
+					#region sendmessage
 					// http://localhost:6666/chat/sendmessage?message=hi
 					sendmessage.BeforeInvoke =
 						delegate
@@ -85,6 +154,7 @@ namespace SimpleChat2
 
 							s.WriteWebContent("Thank you!");
 						};
+					#endregion
 
 					path.Chop("/chat").GetArguments().AsParametersTo(
 						sendname.Invoke,
@@ -111,7 +181,14 @@ namespace SimpleChat2
 			label6.Show();
 			RegisteringTimer.Start();
 
-			
+			// we have alloted ourselves some time
+			// we should now go ahead and see if anyone has this name
+
+			foreach (var k in CurrentConfiguration)
+			{
+				SendCommandFindName(k, NicknameTextbox.Text);
+			}
+
 			RegisteringTimer.Tick +=
 				delegate
 				{
@@ -120,30 +197,157 @@ namespace SimpleChat2
 
 					ContinueRegistration = false;
 
-					label6.Hide();
+					if (ContinueRegistrationYetFail)
+					{
+						AppendTextLine("Go ahead and try another name and port :)");
+						RegistrationFail();
+						return;
+					}
 
 					AppendTextLine("Your name has been registered!");
+					RegistrationReady();
 
-					RegisteringTimer.Stop();
-
-					textBox5.Enabled = true;
-					textBox6.Enabled = true;
-					button3.Enabled = true;
+					foreach (var k in CurrentConfiguration)
+					{
+						SendCommandSendName(k, NicknameTextbox.Text);
+					}
 				};
 		}
 
-		private void Say(sendmessage sendmessage)
+		private void SendCommandSendName(findname findname)
+		{
+			var ip_host = findname.myip.GetLocalAddressByConnecting();
+
+			if (ip_host == "")
+			{
+				this.AppendTextLine(findname.myip + " seems to be offline!");
+			}
+
+			var ip = ip_host + ":" + PortTextbox.Text.ToInt32Array()[0];
+
+			// hey, thats me!
+			this.outgoingMessages1.SendCommand(
+				findname.myip,
+				new sendname
+				{
+					ip = ip,
+					name = findname.name,
+				}
+			);
+		}
+
+
+		private void SendCommandSendName(MyData t, string name)
+		{
+			Action Try =
+				delegate
+				{
+					AppendTextLine("sending name " + t.Target);
+
+					var ip_host = t.Target.GetLocalAddressByConnecting();
+
+					if (ip_host == "")
+					{
+						this.AppendTextLine(t.Target + " seems to be offline!");
+						return;
+					}
+
+					var ip = ip_host + ":" + PortTextbox.Text.ToInt32Array()[0];
+
+					this.outgoingMessages1.SendCommand(t.Target,
+						new sendname
+						{
+							ip = ip,
+							name = name,
+						}
+					);
+				};
+
+			Try.TryInvokeInBackground();
+		}
+
+		private void SendCommandFindName(MyData t, string name)
+		{
+			Action Try =
+				delegate
+				{
+					AppendTextLine("asking from " + t.Target);
+
+					var ip_host = t.Target.GetLocalAddressByConnecting();
+
+					if (ip_host == "")
+					{
+						this.AppendTextLine(t.Target + " seems to be offline!");
+						return;
+					}
+
+					var ip = ip_host + ":" + PortTextbox.Text.ToInt32Array()[0];
+
+					this.outgoingMessages1.SendCommand(t.Target,
+						new findname
+						{
+							myip = ip,
+							name = name,
+						}
+					);
+				};
+
+			Try.TryInvokeInBackground();
+		}
+
+		public MyData[] CurrentConfiguration
+		{
+			get
+			{
+				return MyData.Parse(this.textBox2.Text);
+			}
+			set
+			{
+				this.textBox2.Text = MyData.ToString(value);
+			}
+		}
+
+		public string GetCurrentConfigurationString()
+		{
+			return MyData.ToString(
+				MyData.Parse(this.textBox2.Text)
+			);
+		}
+
+		public void RegistrationReady()
+		{
+			RegisteringTimer.Stop();
+			label6.Hide();
+			textBox5.Enabled = true;
+			textBox6.Enabled = true;
+			button3.Enabled = true;
+		}
+
+		public void RegistrationFail()
+		{
+			RegisteringTimer.Stop();
+			label6.Hide();
+
+			if (Stop != null)
+				Stop();
+
+			EnableConfiguration();
+		}
+
+		public void Say(sendmessage sendmessage)
 		{
 			AppendTextLine(
 				 sendmessage.myname + ": " + sendmessage.message
 			 );
+
+
 		}
 
 		public void DisableConfiguration()
 		{
-			textBox1.Enabled = false;
+			PortTextbox.Enabled = false;
 			textBox2.Enabled = false;
-			textBox3.Enabled = false;
+			NicknameTextbox.Enabled = false;
 
 			button1.Enabled = false;
 			button2.Enabled = true;
@@ -151,9 +355,9 @@ namespace SimpleChat2
 
 		private void EnableConfiguration()
 		{
-			textBox1.Enabled = true;
+			PortTextbox.Enabled = true;
 			textBox2.Enabled = true;
-			textBox3.Enabled = true;
+			NicknameTextbox.Enabled = true;
 
 			button1.Enabled = true;
 			button2.Enabled = false;
@@ -206,8 +410,17 @@ namespace SimpleChat2
 				this.AppendTextLine("We haven't found such user yet");
 				return;
 			}
-			
-			
+
+			var ip_host = t.Target.GetLocalAddressByConnecting();
+
+			if (ip_host == "")
+			{
+				this.AppendTextLine(t.Target + " seems to be offline!");
+				return;
+			}
+
+			var ip = ip_host + ":" + PortTextbox.Text.ToInt32Array()[0];
+
 
 			this.outgoingMessages1.SendCommand(
 				t.Target,
@@ -215,9 +428,9 @@ namespace SimpleChat2
 				{
 					// we should show our primary name
 					// first name is the primary for now
-					myname = this.textBox3.Text,
+					myname = this.NicknameTextbox.Text,
 					// how do we know what IP are we on?
-					ip = "0.0.0.0",
+					ip = ip,
 					// the message is clear to us atleast
 					message = this.textBox6.Text,
 				}
@@ -227,11 +440,11 @@ namespace SimpleChat2
 			{
 				// we should show our primary name
 				// first name is the primary for now
-				myname = this.textBox3.Text,
+				myname = this.NicknameTextbox.Text,
 				// how do we know what IP are we on?
-				ip = "0.0.0.0",
+				ip = ip,
 				// the message is clear to us atleast
-				message =  this.textBox6.Text + " to " + t.Target, 
+				message = this.textBox6.Text + " to " + t.Target + " from " + ip,
 			});
 
 			textBox6.Clear();
@@ -240,6 +453,30 @@ namespace SimpleChat2
 		private void button4_Click(object sender, EventArgs e)
 		{
 			new Form1().Show();
+		}
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			PortTextbox.Text = "7001";
+			NicknameTextbox.Text = "Smith";
+			CurrentConfiguration = new[] {
+				new MyData
+				{
+					Name = "Kenny", Target = "127.0.0.1:7002"
+				}
+			};
+		}
+
+		private void button6_Click(object sender, EventArgs e)
+		{
+			PortTextbox.Text = "7002";
+			NicknameTextbox.Text = "Kenny";
+			CurrentConfiguration = new[] {
+				new MyData
+				{
+					Name = "Smith", Target = "127.0.0.1:7001"
+				}
+			};
 		}
 
 	}

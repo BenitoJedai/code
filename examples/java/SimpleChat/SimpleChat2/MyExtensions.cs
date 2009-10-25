@@ -13,6 +13,28 @@ namespace SimpleChat2
 {
 	static class MyExtensions
 	{
+		public static string GetLocalAddressByConnecting(this string Target)
+		{
+			var r = "";
+
+			try
+			{
+				var u = new Uri("http://" + Target);
+				var c = new TcpClient();
+
+				c.Connect(u.Host, u.Port);
+
+				r = ((IPEndPoint)c.Client.LocalEndPoint).Address.ToString();
+
+				c.Close();
+			}
+			catch
+			{
+
+			}
+
+			return r;
+		}
 
 		public static void TryInvokeInBackground(this Action e)
 		{
@@ -146,7 +168,7 @@ namespace SimpleChat2
 			catch
 			{
 				// lets be informational
-				Console.WriteLine("Oops!");
+				Console.WriteLine("Oops! TryStart failed");
 			}
 		}
 
