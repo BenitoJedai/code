@@ -49,6 +49,9 @@ namespace SimpleChat2
 					// http://www.blooberry.com/indexdot/html/topics/urlencoding.htm
 					// http://stackoverflow.com/questions/575440/url-encoding-using-c
 
+					if (value == null)
+						value = "";
+
 					value = value.Replace(" ", "%20");
 
 					w.Append(f.Name + "=" + value);
@@ -70,6 +73,9 @@ namespace SimpleChat2
 
 
 					var TargetUri = "http://" + EndPoint + this.PathPrefix + "/" + CommandToString(Command);
+
+					Console.WriteLine("<< " + TargetUri);
+
 					var Target = new Uri(TargetUri);
 
 					new TrivialWebRequest
