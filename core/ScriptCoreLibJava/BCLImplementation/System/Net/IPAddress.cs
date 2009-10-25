@@ -40,7 +40,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
 		public override string ToString()
 		{
-			return this.InternalAddress.ToString();
+			// http://www.devx.com/tips/Tip/24147
+			return this.InternalAddress.getHostAddress();
 		}
 	}
 }

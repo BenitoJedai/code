@@ -96,7 +96,10 @@
     <Compile Include="BCLImplementation\System\IO\Directory.cs" />
     <Compile Include="BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="BCLImplementation\System\Net\Dns.cs" />
+    <Compile Include="BCLImplementation\System\Net\EndPoint.cs" />
+    <Compile Include="BCLImplementation\System\Net\IPEndPoint.cs" />
     <Compile Include="BCLImplementation\System\Net\IPHostEntry.cs" />
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs" />
     <Compile Include="BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs" />
     <Compile Include="BCLImplementation\System\IO\DirectoryInfo.cs" />
@@ -561,6 +564,7 @@
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />
     <Compile Include="java\math\BigInteger.cs" />
+    <Compile Include="java\net\NetworkInterface.cs" />
     <Compile Include="java\net\URLConnection.cs" />
     <Compile Include="java\net\HttpURLConnection.cs" />
     <Compile Include="javax\servlet\http\HttpServletResponse.cs" />
