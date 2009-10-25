@@ -15,5 +15,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			this.Text += text;
 		}
+
+		public virtual void InternalSetReadOnly(bool value)
+		{
+		}
+
+		public virtual bool InternalGetReadOnly()
+		{
+			return default(bool);
+		}
+
+		public bool ReadOnly
+		{
+			get
+			{
+				return InternalGetReadOnly();
+			}
+			set
+			{
+				InternalSetReadOnly(value);
+			}
+		}
 	}
 }

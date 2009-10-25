@@ -31,16 +31,26 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			this.Controls = new Control.ControlCollection(this);
 		}
 
+		public virtual bool InternalGetEnabled()
+		{
+			return this.InternalGetElement().isEnabled();
+		}
+
+		public virtual void InternalSetEnabled(bool value)
+		{
+			this.InternalGetElement().setEnabled(value);
+		}
+
 		public bool Enabled
 		{
 			get
 			{
-				return this.InternalGetElement().isEnabled();
+				return InternalGetEnabled();
 			}
 
 			set
 			{
-				this.InternalGetElement().setEnabled(value);
+				InternalSetEnabled(value);
 			}
 		}
 

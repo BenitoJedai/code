@@ -21,9 +21,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			//this.InternalElement.
 
 			this.InternalContent = new javax.swing.JTextArea();
+
+			
 			this.InternalContainer = new javax.swing.JScrollPane(this.InternalContent);
 		}
-		
+
+		public override bool InternalGetEnabled()
+		{
+			return this.InternalContent.isEnabled();
+			
+		}
+		public override void InternalSetEnabled(bool value)
+		{
+			this.InternalContent.setEnabled(value);
+		}
+
 		public override java.awt.Component InternalGetElement()
 		{
 			return InternalContainer;
@@ -42,6 +54,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			{
 				InternalContent.setText(value);
 			}
+		}
+
+		public override bool InternalGetReadOnly()
+		{
+			return !this.InternalContent.isEditable();
+		}
+
+		public override void InternalSetReadOnly(bool value)
+		{
+			this.InternalContent.setEditable(!value);
 		}
 	}
 }
