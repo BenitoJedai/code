@@ -11,6 +11,8 @@ using ScriptCoreLib.Reflection.Options;
 using ScriptCoreLib.JSON;
 using System.IO;
 using System.Collections;
+using System.Net;
+using System.Net.NetworkInformation;
 
 namespace SimpleChat2
 {
@@ -24,6 +26,12 @@ namespace SimpleChat2
 		private void button1_Click(object sender, EventArgs e)
 		{
 			DisableConfiguration();
+
+			var ContinueRegistration = true;
+
+
+
+			//AppendTextLine("Registering " + textBox3.Text + " as " + );
 
 
 			// start web server
@@ -41,6 +49,21 @@ namespace SimpleChat2
 					var findname = new findname();
 					var asknames = new asknames();
 					var sendmessage = new sendmessage();
+
+					findname.BeforeInvoke =
+						delegate
+						{
+							// let the discovery service know
+							// that somebody wants that name
+
+						};
+
+					
+					sendname.BeforeInvoke =
+						delegate
+						{
+							// we are being told a name was found
+						};
 
 					// http://localhost:6666/chat/asknames
 					asknames.BeforeInvoke =
@@ -85,13 +108,35 @@ namespace SimpleChat2
 
 			// claim the name
 
+			label6.Show();
+			RegisteringTimer.Start();
+
+			
+			RegisteringTimer.Tick +=
+				delegate
+				{
+					if (!ContinueRegistration)
+						return;
+
+					ContinueRegistration = false;
+
+					label6.Hide();
+
+					AppendTextLine("Your name has been registered!");
+
+					RegisteringTimer.Stop();
+
+					textBox5.Enabled = true;
+					textBox6.Enabled = true;
+					button3.Enabled = true;
+				};
 		}
 
 		private void Say(sendmessage sendmessage)
 		{
 			AppendTextLine(
-									 sendmessage.myname + ": " + sendmessage.message
-								 );
+				 sendmessage.myname + ": " + sendmessage.message
+			 );
 		}
 
 		public void DisableConfiguration()

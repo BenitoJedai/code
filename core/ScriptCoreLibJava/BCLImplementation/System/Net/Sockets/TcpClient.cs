@@ -11,16 +11,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.TcpClient))]
 	internal class __TcpClient : IDisposable
 	{
-		readonly java.net.Socket InternalSocket;
+		java.net.Socket InternalSocket
+		{
+			get
+			{
+				return ((__Socket)(object)Client).InternalSocket;
+			}
+		}
+
+		public Socket Client { get; set; }
 
 		public __TcpClient()
 		{
-			InternalSocket = new java.net.Socket();
+			Client = (Socket)(object)new __Socket { InternalSocket = new java.net.Socket() };
+
+			//InternalSocket = new java.net.Socket();
 		}
 
 		public __TcpClient(Socket s)
 		{
-			InternalSocket = ((__Socket)(object)s).InternalSocket;
+			Client = s;
+
+			//InternalSocket = ((__Socket)(object)s).InternalSocket;
 		}
 
 		public void Connect(IPAddress hostname, int port)
