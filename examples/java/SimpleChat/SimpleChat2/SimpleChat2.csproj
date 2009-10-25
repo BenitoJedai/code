@@ -39,6 +39,10 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ScriptCoreLib.JSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\lib\ScriptCoreLib.JSON.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Reflection.Options, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
@@ -83,12 +87,19 @@
     <Compile Include="Library\HeaderReader.cs" />
     <Compile Include="Library\SynchronizedActionQueue.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
+    <Compile Include="MyData.cs" />
     <Compile Include="MyExtensions.cs" />
     <Compile Include="MySync.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MySync.Designer.cs">
       <DependentUpon>MySync.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutgoingMessages.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OutgoingMessages.Designer.cs">
+      <DependentUpon>OutgoingMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -174,6 +174,9 @@ namespace ScriptCoreLib.JSON
 			Action SkipWhiteSpaces =
 				delegate
 				{
+					if (i == source.Length)
+						return;
+
 					while (char.IsWhiteSpace(source, i))
 					{
 						i++;

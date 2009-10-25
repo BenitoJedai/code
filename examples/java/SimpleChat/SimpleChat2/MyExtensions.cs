@@ -13,6 +13,43 @@ namespace SimpleChat2
 {
 	static class MyExtensions
 	{
+
+		public static void TryInvokeInBackground(this Action e)
+		{
+			new Thread(
+				delegate()
+				{
+					try
+					{
+						e();
+					}
+					catch
+					{
+						Console.WriteLine("Oops! TryInvokeInBackground failed");
+					}
+				}
+			)
+			{
+				IsBackground = true
+			}.Start();
+
+		}
+
+		public static void WriteWebContent(this Stream s, string content, string type)
+		{
+			var w = new BinaryWriter(s);
+			var ww = new StringBuilder();
+
+			// default response
+
+			ww.AppendLine("HTTP/1.0 200 OK");
+			ww.AppendLine("Content-Type: " + type);
+			ww.AppendLine();
+			ww.Append(content);
+
+			w.Write(Encoding.UTF8.GetBytes(ww.ToString()));
+		}
+
 		public static void WriteWebContent(this Stream s, string content)
 		{
 			var w = new BinaryWriter(s);

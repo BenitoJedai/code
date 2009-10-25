@@ -8,7 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using SimpleChat.Commands.chat;
 using ScriptCoreLib.Reflection.Options;
+using ScriptCoreLib.JSON;
 using System.IO;
+using System.Collections;
 
 namespace SimpleChat2
 {
@@ -40,15 +42,22 @@ namespace SimpleChat2
 					var asknames = new asknames();
 					var sendmessage = new sendmessage();
 
-
+					// http://localhost:6666/chat/asknames
+					asknames.BeforeInvoke =
+						delegate
+						{
+							s.WriteWebContent(
+								MyData.ToString(
+									MyData.Parse(this.textBox2.Text)
+								), "text/plain"
+							);
+						};
 
 					// http://localhost:6666/chat/sendmessage?message=hi
 					sendmessage.BeforeInvoke =
 						delegate
 						{
-							AppendTextLine(
-								sendmessage.myname + ": " + sendmessage.message
-							);
+							Say(sendmessage);
 
 
 							s.WriteWebContent("Thank you!");
@@ -76,6 +85,13 @@ namespace SimpleChat2
 
 			// claim the name
 
+		}
+
+		private void Say(sendmessage sendmessage)
+		{
+			AppendTextLine(
+									 sendmessage.myname + ": " + sendmessage.message
+								 );
 		}
 
 		public void DisableConfiguration()
@@ -125,11 +141,60 @@ namespace SimpleChat2
 				Stop();
 		}
 
+
 		private void button3_Click(object sender, EventArgs e)
 		{
-			this.AppendTextLine("We haven't found such user yet");
+			var s = MyData.Parse(textBox2.Text);
+			var t = default(MyData);
+
+			foreach (var k in s)
+			{
+				if (k.Name == textBox5.Text.Trim())
+				{
+
+					t = k;
+				}
+			}
+
+			if (t == null)
+			{
+				this.AppendTextLine("We haven't found such user yet");
+				return;
+			}
+			
+			
+
+			this.outgoingMessages1.SendCommand(
+				t.Target,
+				new sendmessage
+				{
+					// we should show our primary name
+					// first name is the primary for now
+					myname = this.textBox3.Text,
+					// how do we know what IP are we on?
+					ip = "0.0.0.0",
+					// the message is clear to us atleast
+					message = this.textBox6.Text,
+				}
+			);
+
+			Say(new sendmessage
+			{
+				// we should show our primary name
+				// first name is the primary for now
+				myname = this.textBox3.Text,
+				// how do we know what IP are we on?
+				ip = "0.0.0.0",
+				// the message is clear to us atleast
+				message =  this.textBox6.Text + " to " + t.Target, 
+			});
 
 			textBox6.Clear();
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			new Form1().Show();
 		}
 
 	}
