@@ -72,6 +72,9 @@ namespace SimpleChat
 		string textBox2_Cache = "";
 		int textBox2_Counter;
 
+		string textBox3_Cache = "";
+		int textBox3_Counter;
+
 		MessageEndpoint[] CurrentLocals = new MessageEndpoint[0];
 
 		private void timer2_Tick(object sender, EventArgs e)
@@ -101,6 +104,25 @@ namespace SimpleChat
 			this.textBox4.Enabled = this.webServerComponent1.Configuration.Length > 0;
 			this.button1.Enabled = this.webServerComponent1.Configuration.Length > 0;
 
+
+
+
+			if (textBox3_Cache == this.textBox3.Text)
+			{
+				textBox3_Counter++;
+			}
+			else
+			{
+				textBox3_Cache = this.textBox3.Text;
+				textBox3_Counter = 0;
+				return;
+			}
+
+			if (textBox3_Counter < 5)
+				return;
+
+
+			remoteUsers1.TryToReach(this.textBox3.Text.ToMessageFromArray());
 		}
 
 		private void webServerComponent1_Start(WebServerProvider e)
@@ -137,6 +159,24 @@ namespace SimpleChat
 			var CurrentLocals = this.CurrentLocals;
 
 			a.GetArguments().AsParametersTo(
+				new sendname
+				{
+					BeforeInvoke =
+						e =>
+						{
+							// somebody sent sendname
+						}
+				}.Invoke,
+
+				new findname
+				{
+					BeforeInvoke =
+						e =>
+						{
+							// somebody sent findname
+						}
+				}.Invoke,
+
 				new asknames
 				{
 					BeforeInvoke =
@@ -281,5 +321,6 @@ namespace SimpleChat
 			MessageHider.Stop();
 		}
 
+	
 	}
 }

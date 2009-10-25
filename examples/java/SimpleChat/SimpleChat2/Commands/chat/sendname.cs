@@ -5,10 +5,13 @@ using System.Text;
 
 namespace SimpleChat.Commands.chat
 {
-	public class findname : CommandBase
+	public class sendname : CommandBase
 	{
+
 		public string name;
-		public string myip;
+		public string ip;
 		public string ttl;
+
+	
 	}
 }

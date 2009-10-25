@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat", "SimpleChat\SimpleChat.csproj", "{1F85925D-89AB-46C0-9FC3-6FD4BA95BF20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat2", "SimpleChat2\SimpleChat2.csproj", "{ECBD36A4-7189-47BB-8D72-C6F6515752DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{1F85925D-89AB-46C0-9FC3-6FD4BA95BF20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F85925D-89AB-46C0-9FC3-6FD4BA95BF20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F85925D-89AB-46C0-9FC3-6FD4BA95BF20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECBD36A4-7189-47BB-8D72-C6F6515752DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECBD36A4-7189-47BB-8D72-C6F6515752DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECBD36A4-7189-47BB-8D72-C6F6515752DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECBD36A4-7189-47BB-8D72-C6F6515752DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SimpleChat.Commands
+namespace SimpleChat.Commands.chat
 {
-	class sendname
+	public class sendname : CommandBase
 	{
+		public string name;
+		public string ip;
+		public string ttl;
 	}
 }
