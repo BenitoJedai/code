@@ -13,6 +13,11 @@ namespace jsc.meta.Tools
 	{
 		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly)
 		{
+			ToJava(TargetAssembly, javapath, assembly_metaentrypoint, FusionAssembly, null);
+		}
+
+		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly, string jarname)
+		{
 
 			// we should run jsc in another appdomain actually
 			// just to be sure our nice tool gets unloaded :)
@@ -38,7 +43,9 @@ namespace jsc.meta.Tools
 
 			var obj_web = Path.Combine(TargetAssembly.Directory.FullName, "web");
 			var obj_web_bin = Path.Combine(obj_web, "bin");
-			var bin_jar = new FileInfo(Path.Combine(obj_web_bin, Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar"));
+			var bin_jar = new FileInfo(Path.Combine(obj_web_bin, 
+				jarname ??(Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
+			));
 
 			#region javac
 			Console.WriteLine("- javac");
