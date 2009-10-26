@@ -20,6 +20,7 @@ namespace jsc.meta.Commands.Extend
 		public string type;
 		public DirectoryInfo javapath;
 		public DirectoryInfo staging;
+		public string jarname;
 
 		public void Invoke()
 		{
@@ -69,6 +70,7 @@ namespace jsc.meta.Commands.Extend
 
 			new ExtendToJavaConsoleBuilder
 			{
+				context = this,
 				staging = staging,
 				// in bin we copy what we consider as the product
 				bin = this.assembly.Directory,
@@ -83,6 +85,7 @@ namespace jsc.meta.Commands.Extend
 	{
 		const string MetaScript = "MetaScript";
 
+		public ExtendToJavaConsole context;
 		public DirectoryInfo bin;
 		public DirectoryInfo staging;
 		public DirectoryInfo javapath;
@@ -108,7 +111,7 @@ namespace jsc.meta.Commands.Extend
 			var MetaScript = InternalBuild(k => assembly_metaentrypoint = k);
 			// 3
 
-			MetaScript.ToJava(javapath, assembly_metaentrypoint, null);
+			MetaScript.ToJava(javapath, assembly_metaentrypoint, null, this.context.jarname);
 
 
 			
