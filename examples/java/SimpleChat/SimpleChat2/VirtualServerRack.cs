@@ -30,7 +30,7 @@ namespace SimpleChat2
 
 			foreach (var Port in Ports)
 			{
-				var t = Port.ToListener(
+				var t = Port.ToThreadedTcpListener(
 					s =>
 					{
 						var hr = new HeaderReader();
@@ -64,7 +64,9 @@ namespace SimpleChat2
 				Stop +=
 					delegate
 					{
-						t.Abort();
+						t.IsDisposed = true;
+						t.Listener.Server.Close();
+						t.Thread.Join();
 					};
 			}
 
