@@ -27,6 +27,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			this.Start(0x7fffffff);
 		}
 
+		public Socket Server
+		{
+			get;
+			set;
+		}
+
 		public void Start(int backlog)
 		{
 			// already started...
@@ -45,6 +51,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
 				throw new InvalidOperationException();
 			}
+
+			this.Server = (Socket)(object) new __Socket { InternalServerSocket = this.InternalSocket };
 		}
 
 		public void Stop()

@@ -43,7 +43,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch (csharp.ThrowableException t)
 			{
-				((java.lang.Throwable)(object)t).printStackTrace();
+				//((java.lang.Throwable)(object)t).printStackTrace();
 
 				throw new InvalidOperationException();
 			}
@@ -57,7 +57,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 			}
 			catch (csharp.ThrowableException t)
 			{
-				((java.lang.Throwable)(object)t).printStackTrace();
+				//((java.lang.Throwable)(object)t).printStackTrace();
 
 				throw new InvalidOperationException();
 			}
