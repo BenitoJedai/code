@@ -387,3 +387,5 @@ version history:
 24.10.2009
 	java: added some support for valuetype usage like already in as
 	java: fixed conversion from byte to int if calling a method
+27.10.2009
+	java: added hint where the BCLImplementation lookup actually fails
