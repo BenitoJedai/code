@@ -9,7 +9,7 @@ namespace SimpleChat.Commands.chat
 	public class sendmessage : CommandBase
 	{
 		public string myname = "guest";
-		public string ip = "0.0.0.0:0";
+		public string myip = "0.0.0.0:0";
 		public string message;
 		public string ttl = "0";
 

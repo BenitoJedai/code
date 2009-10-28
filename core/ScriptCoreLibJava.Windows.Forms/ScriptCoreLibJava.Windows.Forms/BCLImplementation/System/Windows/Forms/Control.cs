@@ -56,10 +56,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
 		public virtual string Text { get; set; }
 
-		public virtual void InternalSetVisible(bool e)
-		{
-			this.InternalGetElement().setVisible(e);
-		}
+	
 
 		public void Show()
 		{
@@ -76,11 +73,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return this.InternalGetElement().isVisible();
 			}
+
 			set
 			{
-				InternalSetVisible(value);
+				this.InternalGetElement().setVisible(value);
 			}
 		}
 

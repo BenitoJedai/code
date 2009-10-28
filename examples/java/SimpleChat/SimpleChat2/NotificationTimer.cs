@@ -41,6 +41,7 @@ namespace SimpleChat2
 				if (Target == null)
 					return;
 
+				Console.WriteLine(value);
 				Target.Text = value;
 
 				if (TimerEnabled)

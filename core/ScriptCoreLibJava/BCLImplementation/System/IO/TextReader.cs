@@ -14,6 +14,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			throw new NotImplementedException();
 		}
 
+		public virtual string ReadToEnd()
+		{
+			throw new NotImplementedException();
+		}
+
 		#region IDisposable Members
 
 		public void Dispose()
