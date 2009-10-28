@@ -57,7 +57,7 @@ namespace SimpleChat2
 							// let the discovery service know
 							// that somebody wants that name
 
-					
+
 							// if we do we should let the poor sap know about it!
 
 							if (findname.name == this.NicknameTextbox.Text)
@@ -68,10 +68,13 @@ namespace SimpleChat2
 							}
 							else
 							{
+								var IsUnknown = true;
+
 								foreach (var k in CurrentConfiguration)
 								{
 									if (k.Name == findname.name)
 									{
+										IsUnknown = true;
 										if (k.Target == findname.myip)
 										{
 											this.AppendTextLine("Records confirm " + findname.name);
@@ -81,6 +84,11 @@ namespace SimpleChat2
 											this.AppendTextLine("We seem to know about " + findname.name);
 										}
 									}
+								}
+
+								if (IsUnknown)
+								{
+									// ask others!
 								}
 							}
 						};
@@ -326,6 +334,21 @@ namespace SimpleChat2
 			textBox5.Enabled = true;
 			textBox6.Enabled = true;
 			button3.Enabled = true;
+
+			var discoveryService1 = this.discoveryService1;
+
+			discoveryService1.Timer.Start();
+			notificationTimer1.TimerEnabled = true;
+			notificationTimer1.Text = "Ready!";
+
+			Action StopOnce =
+				delegate
+				{
+					discoveryService1.Timer.Stop();
+					notificationTimer1.TimerEnabled = false;
+				};
+
+			this.Stop += StopOnce.AsOnce();
 		}
 
 		public void RegistrationFail()
@@ -356,6 +379,8 @@ namespace SimpleChat2
 
 			button1.Enabled = false;
 			button2.Enabled = true;
+
+
 		}
 
 		private void EnableConfiguration()
@@ -482,6 +507,34 @@ namespace SimpleChat2
 					Name = "Smith", Target = "127.0.0.1:7001"
 				}
 			};
+		}
+
+		private void discoveryService1_TimeToCheckForUnknownRecipients(DiscoveryService.DiscoveryArguments e)
+		{
+			e.Name = textBox5.Text;
+			e.Configuration = this.CurrentConfiguration;
+		}
+
+		private void discoveryService1_MoreInformation(DiscoveryService.DiscoveryArguments e)
+		{
+			var c = this.CurrentConfiguration;
+			foreach (var k in e.Configuration)
+			{
+				// for some reason we do not want to talk to ourself
+				if (k.Name != this.NicknameTextbox.Text)
+					c = c.ConcatDistinct(k);
+			}
+			this.CurrentConfiguration = c;
+		}
+
+		private void discoveryService1_Searching()
+		{
+			this.notificationTimer1.Text = "Searching...";
+		}
+
+		private void discoveryService1_ReadyToSearchAgain()
+		{
+			this.notificationTimer1.Text = "Ready to search again...";
 		}
 
 	}

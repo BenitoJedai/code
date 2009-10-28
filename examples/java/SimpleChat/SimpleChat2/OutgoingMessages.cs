@@ -89,6 +89,39 @@ namespace SimpleChat2
 			TrySend.TryInvokeInBackground();
 		}
 
-	
+		public delegate void SendCommandDelegate(string Document);
+
+		public void SendCommand(string EndPoint, object Command, SendCommandDelegate Done)
+		{
+			// host:port
+
+
+
+			Action TrySend =
+				delegate
+				{
+
+
+					var TargetUri = "http://" + EndPoint + this.PathPrefix + "/" + CommandToString(Command);
+
+					Console.WriteLine("<< " + TargetUri);
+
+					var Target = new Uri(TargetUri);
+
+					var r = new TrivialWebRequest
+					{
+						Port = Target.Port,
+						Referer = "http://example.com",
+						Target = Target,
+						ContentExpected = true
+					};
+					
+					r.Invoke();
+
+					Done(r.Content);
+				};
+
+			TrySend.TryInvokeInBackground();
+		}	
 	}
 }

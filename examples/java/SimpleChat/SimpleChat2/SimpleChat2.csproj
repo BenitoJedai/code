@@ -78,6 +78,12 @@
     <Compile Include="Commands\chat\sendmessage.cs" />
     <Compile Include="Commands\chat\sendname.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="DiscoveryService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DiscoveryService.Designer.cs">
+      <DependentUpon>DiscoveryService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +101,12 @@
     <Compile Include="MySync.Designer.cs">
       <DependentUpon>MySync.cs</DependentUpon>
     </Compile>
+    <Compile Include="NotificationTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotificationTimer.Designer.cs">
+      <DependentUpon>NotificationTimer.cs</DependentUpon>
+    </Compile>
     <Compile Include="OutgoingMessages.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -103,11 +115,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DiscoveryService.resx">
+      <DependentUpon>DiscoveryService.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MySync.resx">
       <DependentUpon>MySync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotificationTimer.resx">
+      <DependentUpon>NotificationTimer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

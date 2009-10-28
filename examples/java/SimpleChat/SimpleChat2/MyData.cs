@@ -21,6 +21,27 @@ namespace SimpleChat2
 
 			return a;
 		}
+
+		public static bool Contains(this MyData[] source, string Name)
+		{
+			var r = false;
+			foreach (var item in source)
+			{
+				if (item.Name == Name)
+				{
+					r = true;
+					break;
+				}
+			}
+			return r;
+		}
+		public static MyData[] ConcatDistinct(this MyData[] source, MyData e)
+		{
+			if (source.Contains(e.Name))
+				return source;
+
+			return source.Concat(e);
+		}
 	}
 
 	public class MyData

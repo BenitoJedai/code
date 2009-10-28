@@ -38,18 +38,21 @@
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
 			this.textBox4 = new System.Windows.Forms.TextBox();
-			this.mySync1 = new SimpleChat2.MySync(this.components);
 			this.textBox5 = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.textBox6 = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.button3 = new System.Windows.Forms.Button();
-			this.outgoingMessages1 = new SimpleChat2.OutgoingMessages(this.components);
 			this.button4 = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.RegisteringTimer = new System.Windows.Forms.Timer(this.components);
 			this.button5 = new System.Windows.Forms.Button();
 			this.button6 = new System.Windows.Forms.Button();
+			this.label7 = new System.Windows.Forms.Label();
+			this.mySync1 = new SimpleChat2.MySync(this.components);
+			this.outgoingMessages1 = new SimpleChat2.OutgoingMessages(this.components);
+			this.discoveryService1 = new SimpleChat2.DiscoveryService(this.components);
+			this.notificationTimer1 = new SimpleChat2.NotificationTimer(this.components);
 			this.SuspendLayout();
 			// 
 			// label1
@@ -181,10 +184,6 @@
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
 			// 
-			// outgoingMessages1
-			// 
-			this.outgoingMessages1.PathPrefix = "/chat";
-			// 
 			// button4
 			// 
 			this.button4.Location = new System.Drawing.Point(123, 188);
@@ -230,11 +229,42 @@
 			this.button6.UseVisualStyleBackColor = true;
 			this.button6.Click += new System.EventHandler(this.button6_Click);
 			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.ForeColor = System.Drawing.Color.Blue;
+			this.label7.Location = new System.Drawing.Point(23, 383);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(148, 13);
+			this.label7.TabIndex = 17;
+			this.label7.Text = "Connect before you can chat!";
+			// 
+			// outgoingMessages1
+			// 
+			this.outgoingMessages1.PathPrefix = "/chat";
+			// 
+			// discoveryService1
+			// 
+			this.discoveryService1.Outgoing = this.outgoingMessages1;
+			this.discoveryService1.Sync = this.mySync1;
+			this.discoveryService1.MoreInformation += new SimpleChat2.DiscoveryService.DiscoveryDelegate(this.discoveryService1_MoreInformation);
+			this.discoveryService1.ReadyToSearchAgain += new System.Action(this.discoveryService1_ReadyToSearchAgain);
+			this.discoveryService1.Searching += new System.Action(this.discoveryService1_Searching);
+			this.discoveryService1.TimeToCheckForUnknownRecipients += new SimpleChat2.DiscoveryService.DiscoveryDelegate(this.discoveryService1_TimeToCheckForUnknownRecipients);
+			// 
+			// notificationTimer1
+			// 
+			this.notificationTimer1.Interval = 5000;
+			this.notificationTimer1.Target = this.label7;
+			this.notificationTimer1.Text = "Connect before you can chat!";
+			this.notificationTimer1.TimerEnabled = false;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(532, 478);
+			this.Controls.Add(this.label7);
 			this.Controls.Add(this.button6);
 			this.Controls.Add(this.button5);
 			this.Controls.Add(this.label6);
@@ -254,7 +284,7 @@
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
 			this.Name = "Form1";
-			this.Text = "Form1";
+			this.Text = "SimpleChat";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -284,5 +314,8 @@
 		public System.Windows.Forms.Timer RegisteringTimer;
 		private System.Windows.Forms.Button button5;
 		private System.Windows.Forms.Button button6;
+		private DiscoveryService discoveryService1;
+		private System.Windows.Forms.Label label7;
+		private NotificationTimer notificationTimer1;
 	}
 }

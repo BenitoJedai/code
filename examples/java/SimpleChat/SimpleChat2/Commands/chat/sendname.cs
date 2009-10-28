@@ -10,7 +10,7 @@ namespace SimpleChat.Commands.chat
 
 		public string name;
 		public string ip;
-		public string ttl;
+		public string ttl = "0";
 
 	
 	}

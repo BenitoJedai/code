@@ -13,6 +13,21 @@ namespace SimpleChat2
 {
 	static class MyExtensions
 	{
+		public static Action AsOnce(this Action e)
+		{
+			var b = false;
+
+			return delegate
+			{
+				if (b)
+					return;
+
+				b = true;
+
+				e();
+			};
+		}
+
 		public static string GetLocalAddressByConnecting(this string Target)
 		{
 			var r = "";
@@ -167,7 +182,7 @@ namespace SimpleChat2
 			}
 			catch
 			{
-				
+
 				// lets be informational
 				Console.WriteLine("Oops! TryStart failed");
 			}
