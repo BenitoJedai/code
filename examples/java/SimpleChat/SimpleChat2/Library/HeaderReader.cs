@@ -14,9 +14,12 @@ namespace SimpleChat.Library
 		public event KeyValuePairDelegate Method;
 		public event KeyValuePairDelegate Header;
 
+		public StreamReader Reader;
+
 		public void Read(Stream s)
 		{
 			var r = new StreamReader(s);
+			this.Reader = r;
 
 			var h = r.ReadLine();
 
