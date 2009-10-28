@@ -74,7 +74,7 @@ namespace SimpleChat2
 								{
 									if (k.Name == findname.name)
 									{
-										IsUnknown = true;
+										IsUnknown = false;
 										if (k.Target == findname.myip)
 										{
 											this.AppendTextLine("Records confirm " + findname.name);
@@ -88,6 +88,9 @@ namespace SimpleChat2
 
 								if (IsUnknown)
 								{
+									this.AppendTextLine("Maybe others know about " + findname.name);
+
+									SetRequester(findname);
 									// ask others!
 								}
 							}
@@ -191,6 +194,23 @@ namespace SimpleChat2
 				};
 		}
 
+		public void SetRequester(findname findname)
+		{
+			RelayRequester = findname;
+		}
+
+		public void Relay(findname findname)
+		{
+			// what about ttl?
+
+			foreach (var k in this.CurrentConfiguration)
+			{
+				this.outgoingMessages1.SendCommand(k.Target,
+					findname
+				);
+			}
+		}
+
 		public void UpdateConfiguration(sendname sendname)
 		{
 			var CurrentConfigurationSnapshot = CurrentConfiguration;
@@ -198,22 +218,27 @@ namespace SimpleChat2
 
 			foreach (var k in CurrentConfigurationSnapshot)
 			{
-				if (k.Name == sendname.name)
-				{
-					k.Target = sendname.ip;
-					CurrentConfigurationAdd = false;
-				}
+
+				// for some reason we do not want to talk to ourself
+				if (k.Name != this.NicknameTextbox.Text)
+					if (k.Name == sendname.name)
+					{
+						k.Target = sendname.ip;
+						CurrentConfigurationAdd = false;
+					}
 			}
 
 			if (CurrentConfigurationAdd)
 			{
-				CurrentConfigurationSnapshot = CurrentConfigurationSnapshot.Concat(
-					new MyData
-					{
-						Name = sendname.name,
-						Target = sendname.ip
-					}
-				);
+				// for some reason we do not want to talk to ourself
+				if (sendname.name != this.NicknameTextbox.Text)
+					CurrentConfigurationSnapshot = CurrentConfigurationSnapshot.Concat(
+						new MyData
+						{
+							Name = sendname.name,
+							Target = sendname.ip
+						}
+					);
 
 			}
 
@@ -336,6 +361,7 @@ namespace SimpleChat2
 			button3.Enabled = true;
 
 			var discoveryService1 = this.discoveryService1;
+			var notificationTimer1 = this.notificationTimer1;
 
 			discoveryService1.Timer.Start();
 			notificationTimer1.TimerEnabled = true;
@@ -380,6 +406,10 @@ namespace SimpleChat2
 			button1.Enabled = false;
 			button2.Enabled = true;
 
+			button5.Enabled = false;
+			button6.Enabled = false;
+			button7.Enabled = false;
+			button8.Enabled = false;
 
 		}
 
@@ -391,6 +421,11 @@ namespace SimpleChat2
 
 			button1.Enabled = true;
 			button2.Enabled = false;
+
+			button5.Enabled = true;
+			button6.Enabled = true;
+			button7.Enabled = true;
+			button8.Enabled = true;
 		}
 
 		public void AppendTextLine(string e)
@@ -460,7 +495,7 @@ namespace SimpleChat2
 					// first name is the primary for now
 					myname = this.NicknameTextbox.Text,
 					// how do we know what IP are we on?
-					ip = ip,
+					myip = ip,
 					// the message is clear to us atleast
 					message = this.textBox6.Text,
 				}
@@ -472,7 +507,7 @@ namespace SimpleChat2
 				// first name is the primary for now
 				myname = this.NicknameTextbox.Text,
 				// how do we know what IP are we on?
-				ip = ip,
+				myip = ip,
 				// the message is clear to us atleast
 				message = this.textBox6.Text + " to " + t.Target + " from " + ip,
 			});
@@ -535,6 +570,43 @@ namespace SimpleChat2
 		private void discoveryService1_ReadyToSearchAgain()
 		{
 			this.notificationTimer1.Text = "Ready to search again...";
+		}
+
+		private void button7_Click(object sender, EventArgs e)
+		{
+			PortTextbox.Text = "7011";
+			NicknameTextbox.Text = "Smith2";
+			CurrentConfiguration = new[] {
+				new MyData
+				{
+					Name = "Kenny", Target = "127.0.0.1:7002"
+				}
+			};
+		}
+
+		private void button8_Click(object sender, EventArgs e)
+		{
+			PortTextbox.Text = "7012";
+			NicknameTextbox.Text = "Kenny2";
+			CurrentConfiguration = new[] {
+				new MyData
+				{
+					Name = "Smith", Target = "127.0.0.1:7001"
+				}
+			};
+		}
+
+		findname RelayRequester;
+
+		private void RelayTimer_Tick(object sender, EventArgs e)
+		{
+			var r = RelayRequester;
+			if (r == null)
+				return;
+			RelayRequester = null;
+
+			notificationTimer1.Text = "Who knows about " + r.name;
+			Relay(r);
 		}
 
 	}

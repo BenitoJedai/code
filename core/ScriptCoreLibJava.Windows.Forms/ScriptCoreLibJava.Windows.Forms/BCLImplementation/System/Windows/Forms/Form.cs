@@ -133,10 +133,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		}
 
 
-		public override void InternalSetVisible(bool e)
-		{
-			this.InternalElement.setVisible(e);
-		}
 
 		protected override void Dispose(bool e)
 		{

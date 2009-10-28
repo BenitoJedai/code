@@ -32,7 +32,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return this.InternalElement.getText();
 			}
 			set
 			{

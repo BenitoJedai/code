@@ -49,6 +49,9 @@
 			this.button5 = new System.Windows.Forms.Button();
 			this.button6 = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
+			this.button7 = new System.Windows.Forms.Button();
+			this.button8 = new System.Windows.Forms.Button();
+			this.RelayTimer = new System.Windows.Forms.Timer(this.components);
 			this.mySync1 = new SimpleChat2.MySync(this.components);
 			this.outgoingMessages1 = new SimpleChat2.OutgoingMessages(this.components);
 			this.discoveryService1 = new SimpleChat2.DiscoveryService(this.components);
@@ -221,7 +224,7 @@
 			// 
 			// button6
 			// 
-			this.button6.Location = new System.Drawing.Point(175, 56);
+			this.button6.Location = new System.Drawing.Point(175, 88);
 			this.button6.Name = "button6";
 			this.button6.Size = new System.Drawing.Size(75, 23);
 			this.button6.TabIndex = 16;
@@ -238,6 +241,32 @@
 			this.label7.Size = new System.Drawing.Size(148, 13);
 			this.label7.TabIndex = 17;
 			this.label7.Text = "Connect before you can chat!";
+			// 
+			// button7
+			// 
+			this.button7.Location = new System.Drawing.Point(187, 56);
+			this.button7.Name = "button7";
+			this.button7.Size = new System.Drawing.Size(75, 23);
+			this.button7.TabIndex = 18;
+			this.button7.Text = "Config 1B";
+			this.button7.UseVisualStyleBackColor = true;
+			this.button7.Click += new System.EventHandler(this.button7_Click);
+			// 
+			// button8
+			// 
+			this.button8.Location = new System.Drawing.Point(188, 117);
+			this.button8.Name = "button8";
+			this.button8.Size = new System.Drawing.Size(75, 23);
+			this.button8.TabIndex = 19;
+			this.button8.Text = "Config 2B";
+			this.button8.UseVisualStyleBackColor = true;
+			this.button8.Click += new System.EventHandler(this.button8_Click);
+			// 
+			// RelayTimer
+			// 
+			this.RelayTimer.Enabled = true;
+			this.RelayTimer.Interval = 3000;
+			this.RelayTimer.Tick += new System.EventHandler(this.RelayTimer_Tick);
 			// 
 			// outgoingMessages1
 			// 
@@ -264,6 +293,8 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(532, 478);
+			this.Controls.Add(this.button8);
+			this.Controls.Add(this.button7);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.button6);
 			this.Controls.Add(this.button5);
@@ -317,5 +348,8 @@
 		private DiscoveryService discoveryService1;
 		private System.Windows.Forms.Label label7;
 		private NotificationTimer notificationTimer1;
+		private System.Windows.Forms.Button button7;
+		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Timer RelayTimer;
 	}
 }

@@ -48,5 +48,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 
 			return Encoding.UTF8.GetString(m.ToArray());
 		}
+
+		public override string ReadToEnd()
+		{
+			var m = new MemoryStream();
+			// real slow implementation
+			var i = _BaseStream.ReadByte();
+
+			while (i >= 0)
+			{
+				m.WriteByte((byte)i);
+				i = _BaseStream.ReadByte();
+			}
+
+			return Encoding.UTF8.GetString(m.ToArray());
+		}
 	}
 }
