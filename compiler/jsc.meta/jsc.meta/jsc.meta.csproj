@@ -143,6 +143,7 @@
     <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\Extend\ExtendToAvalonEverywhere.cs" />
+    <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToNativeConsole.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
     <Compile Include="Commands\Reference\ReferenceAssets.cs" />
