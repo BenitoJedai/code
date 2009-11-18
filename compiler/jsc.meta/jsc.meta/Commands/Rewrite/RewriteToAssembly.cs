@@ -104,7 +104,17 @@ namespace jsc.meta.Commands.Rewrite
 
 		VirtualDictionary<string, string> NameObfuscation = new VirtualDictionary<string, string>();
 
-		public Type PrimaryType;
+		public Type[] PrimaryTypes = new Type[0];
+
+
+		public class PostRewriteArguments
+		{
+			public jsc.Languages.IL.ILTranslationContext context;
+			public ModuleBuilder Module;
+			public AssemblyBuilder Assembly;
+		}
+
+		public Action<PostRewriteArguments> PostRewrite;
 
 		public void Invoke()
 		{
@@ -145,14 +155,18 @@ namespace jsc.meta.Commands.Rewrite
 			else if (!staging.Exists)
 				this.staging.Create();
 
-			var assembly = this.assembly.LoadAssemblyAt(staging);
+			var assembly = Assembly.LoadFile(this.assembly.FullName);
+			//var assembly = this.assembly.LoadAssemblyAt(staging);
 			_assembly = assembly;
 
 			// load the rest of the references
 			assembly.LoadReferencesAt(staging, this.assembly.Directory);
 
 
-			this.PrimaryType = this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type);
+			if (this.PrimaryTypes.Length == 0) 
+				this.PrimaryTypes = new [] {
+					(this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type))
+				};
 
 
 			var Product = new FileInfo(Path.Combine(staging.FullName,
@@ -187,7 +201,7 @@ namespace jsc.meta.Commands.Rewrite
 			ConstructorCache.Resolve +=
 				msource =>
 				{
-					if (msource.DeclaringType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
+					if (PrimaryTypes.Any(k => k.Assembly == msource.DeclaringType.Assembly) || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
 						var DeclaringType = (TypeBuilder)TypeCache[msource.DeclaringType];
 
@@ -208,7 +222,7 @@ namespace jsc.meta.Commands.Rewrite
 			MethodCache.Resolve +=
 				msource =>
 				{
-					if (msource.DeclaringType.Assembly == PrimaryType.Assembly || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
+					if (PrimaryTypes.Any(k => k.Assembly == msource.DeclaringType.Assembly) || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
 						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
 							_assembly,
@@ -258,7 +272,29 @@ namespace jsc.meta.Commands.Rewrite
 
 				};
 
-			var kt = TypeCache[PrimaryType];
+			// ask for our primary types to be copied
+			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
+
+			#region maybe the rewriter wants to add some types at this point?
+			if (PostRewrite != null)
+				PostRewrite(
+					new PostRewriteArguments
+					{
+						Assembly = a,
+						Module = m,
+
+						context =
+							new ILTranslationContext
+							{
+
+								ConstructorCache = ConstructorCache,
+								MethodCache = MethodCache,
+								TypeCache = TypeCache,
+								TypeFieldCache = TypeFieldsCache
+							}
+					}
+				);
+			#endregion
 
 			a.Save(
 				Product.Name
@@ -268,9 +304,9 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-		private bool ShouldCopyType( Type ContextType)
+		private bool ShouldCopyType(Type ContextType)
 		{
-			return ContextType.Assembly == this.PrimaryType.Assembly || this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name);
+			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly) || this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name);
 		}
 
 

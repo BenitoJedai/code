@@ -7,6 +7,7 @@ using System.IO;
 using System.Reflection.Emit;
 using ScriptCoreLib;
 using System.Media;
+using System.Xml.Linq;
 
 namespace jsc.meta.Library
 {
@@ -15,7 +16,21 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static LocalBuilder DeclareInitializedLocal(this ILGenerator il, Type t)
+		{
+			var loc = il.DeclareLocal(t);
+			
+			il.Emit(OpCodes.Newobj, t.GetConstructor(new Type[0]));
 
+			il.Emit(OpCodes.Stloc, loc.LocalIndex);
+
+			return loc;
+		}
+
+		public static void DefineManifestResource(this ModuleBuilder m, string name, XElement e)
+		{
+			m.DefineManifestResource(name, new MemoryStream(Encoding.UTF8.GetBytes(e.ToString())), ResourceAttributes.Public);
+		}
 
 		public static MethodBuilder DefineByteArrayToSoundPlayerConversion(this TypeBuilder t)
 		{
@@ -76,7 +91,7 @@ namespace jsc.meta.Library
 				null, null
 			);
 
-			return (MethodBuilder)MethodCache[msource.Method];	
+			return (MethodBuilder)MethodCache[msource.Method];
 		}
 
 		class DefineDefaultPropertyMarker

@@ -49,7 +49,7 @@ namespace jsc.meta
 				new ExtendToNativeConsole().Invoke,
 				new ExtendToJavaConsole().Invoke,
 				new ExtendToAvalonEverywhere().Invoke,
-
+				new ExtendToGoogleAppEngineWebService().Invoke,
 
 				new ReferenceWaveComponent().Invoke,
 				new ReferenceTextComponent().Invoke,
