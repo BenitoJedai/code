@@ -24,8 +24,22 @@ namespace OrcasAppEngieWebService
 		}
 
 		[WebMethod]
-		public string HelloWorld2()
+		public string HelloWorld2(string a, string b)
 		{
+			//POST /WebService1.asmx/HelloWorld2 HTTP/1.1
+			//Host: localhost
+			//Content-Type: application/x-www-form-urlencoded
+			//Content-Length: length
+
+			//a=string&b=string
+
+			//HTTP/1.1 200 OK
+			//Content-Type: text/xml; charset=utf-8
+			//Content-Length: length
+
+			//<?xml version="1.0" encoding="utf-8"?>
+			//<string xmlns="http://tempuri.org/">string</string>
+
 			return "Hello World";
 		}
 	}
