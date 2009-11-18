@@ -80,7 +80,9 @@
     <Compile Include="BCLImplementation\System\ComponentModel\IContainer.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\IComponent.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\ISite.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
+    <Compile Include="BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
     <Compile Include="BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="BCLImplementation\System\Configuration\SettingsBase.cs" />
     <Compile Include="BCLImplementation\System\Console.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="BCLImplementation\System\IO\Directory.cs" />
+    <Compile Include="BCLImplementation\System\IServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="BCLImplementation\System\Net\Dns.cs" />
     <Compile Include="BCLImplementation\System\Net\EndPoint.cs" />
