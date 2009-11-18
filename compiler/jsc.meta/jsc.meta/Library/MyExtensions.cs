@@ -22,7 +22,7 @@ namespace jsc.meta.Library
 			
 			il.Emit(OpCodes.Newobj, t.GetConstructor(new Type[0]));
 
-			il.Emit(OpCodes.Stloc, loc.LocalIndex);
+			il.Emit(OpCodes.Stloc, (short)loc.LocalIndex);
 
 			return loc;
 		}

@@ -116,6 +116,8 @@ namespace jsc.meta.Commands.Rewrite
 
 		public Action<PostRewriteArguments> PostRewrite;
 
+		public FileInfo Output;
+
 		public void Invoke()
 		{
 			//Debugger.Launch();
@@ -171,6 +173,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var Product = new FileInfo(Path.Combine(staging.FullName,
 			(string.IsNullOrEmpty(this.product) ? this.assembly.Name + "Rewrite" : this.product) + this.assembly.Extension));
+			this.Output = Product;
 
 			var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
 

@@ -255,8 +255,7 @@ namespace jsc.Script
 			}
 			else
 			{
-
-				Environment.Exit(-1);
+				throw new InvalidOperationException(e);
 			}
 
 		}

@@ -1174,6 +1174,17 @@ namespace jsc
 			return OpParamData[x + 0] + (OpParamData[x + 1] << 8) + (OpParamData[x + 2] << 16) + (OpParamData[x + 3] << 24);
 		}
 
+		public short OpParamAsInt16
+		{
+			get
+			{
+				if (OpParam.Length == 2)
+					return (short)(OpParam[0] + (OpParam[1] << 8));
+				else
+					throw new NotSupportedException(new { OpParam.Length }.ToString());
+			}
+		}
+
 		public int OpParamAsInt32
 		{
 			get
@@ -1804,7 +1815,7 @@ namespace jsc
 				if (this == OpCodes.Ldloc_S || this == OpCodes.Stloc_S || this == OpCodes.Ldloca_S)
 					return this.OwnerMethod.GetMethodBody().LocalVariables[this.OpParamAsInt8];
 				if (this == OpCodes.Ldloc || this == OpCodes.Stloc || this == OpCodes.Ldloca)
-					return this.OwnerMethod.GetMethodBody().LocalVariables[this.OpParamAsInt32];
+					return this.OwnerMethod.GetMethodBody().LocalVariables[this.OpParamAsInt16];
 
 
 

@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Text;
 using System.Web.Services;
-using jsc.meta.Commands.Rewrite;
 using System.Xml.Linq;
+using jsc.Languages.IL;
+using jsc.meta.Commands.Rewrite;
+using jsc.meta.Library;
 using jsc.meta.Library;
 using jsc.meta.Library.Web;
-using System.Reflection.Emit;
-using jsc.Languages.IL;
+using ScriptCoreLib;
 
 namespace jsc.meta.Commands.Extend
 {
+	[Description("An example how ASP.NET webservices could be translated to Google App Engine")]
 	public class ExtendToGoogleAppEngineWebService
 	{
 		// asp.net web service
@@ -47,6 +51,13 @@ namespace jsc.meta.Commands.Extend
 
 			// we are loading it at where it currently is
 			var assembly = Assembly.LoadFile(this.assembly.FullName);
+
+			// we need to copy referenced assemblies to staging folder
+			staging.DefinesTypes(
+				typeof(ScriptCoreLib.ScriptAttribute),
+				typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+				typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken)
+			);
 
 			new Builder
 			{
@@ -90,8 +101,10 @@ namespace jsc.meta.Commands.Extend
 					Console.WriteLine(item.WebService.FullName + " " + item.Method.Name);
 				}
 
+
+
 				// okay now lets rewrite the primary webservice and add data for jsc
-				new RewriteToAssembly
+				var r = new RewriteToAssembly
 				{
 					assembly = context.assembly,
 					staging = context.staging,
@@ -121,6 +134,7 @@ namespace jsc.meta.Commands.Extend
 								var Handler = a.Module.DefineType(item.HandlerFullName, TypeAttributes.Public | TypeAttributes.Sealed, a.context.TypeCache[typeof(WebServiceServlet)]);
 								var InvokeWebService = Handler.DefineMethod("InvokeWebService", MethodAttributes.Virtual | MethodAttributes.Public, typeof(void), new[] { a.context.TypeCache[typeof(WebServiceServlet.InvokeWebServiceArguments)] });
 
+								#region DispatchList
 								var DispatchList = item.Methods.Select(
 									m =>
 									{
@@ -135,7 +149,14 @@ namespace jsc.meta.Commands.Extend
 
 											// do we need any arguments?
 
-											il.Emit(OpCodes.Call, m.Method);
+											foreach (var p in m.Method.GetParameters())
+											{
+												il.Emit(OpCodes.Ldarg_1);
+												il.Emit(OpCodes.Ldstr, p.Name);
+												il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("GetString")]);
+											}
+
+											il.Emit(OpCodes.Call, a.context.MethodCache[m.Method]);
 
 
 											il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("SetReturnParameterString")]);
@@ -147,6 +168,8 @@ namespace jsc.meta.Commands.Extend
 										return new { Dispatch, m };
 									}
 								).ToArray();
+								#endregion
+
 
 								#region Dispatch by GetMethodName
 								{
@@ -158,26 +181,27 @@ namespace jsc.meta.Commands.Extend
 
 									il.Emit(OpCodes.Ldarg_1);
 									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("GetMethodName")]);
-									il.Emit(OpCodes.Stloc, loc_MethodName.LocalIndex);
+									il.Emit(OpCodes.Stloc, loc_MethodName);
 
 									foreach (var m in DispatchList)
 									{
 
-										il.Emit(OpCodes.Ldloc, loc_MethodName.LocalIndex);
+										il.Emit(OpCodes.Ldloc, loc_MethodName);
 										il.Emit(OpCodes.Ldstr, m.m.Method.Name);
 										il.Emit(OpCodes.Call, typeof(string).GetMethod("op_Equality", new[] { typeof(string), typeof(string) }));
 										il.Emit(OpCodes.Ldc_I4_0);
 										il.Emit(OpCodes.Ceq);
-										il.Emit(OpCodes.Stloc, loc_IsMethodName.LocalIndex);
+										il.Emit(OpCodes.Stloc, loc_IsMethodName);
 
 										var next = il.DefineLabel();
 
-										il.Emit(OpCodes.Ldloc, loc_IsMethodName.LocalIndex);
+										il.Emit(OpCodes.Ldloc, loc_IsMethodName);
 										il.Emit(OpCodes.Brtrue, next);
 
-										il.Emit(OpCodes.Ldloc, loc_WebService.LocalIndex);
+										il.Emit(OpCodes.Ldloc, loc_WebService);
 										il.Emit(OpCodes.Ldarg_1);
 										il.Emit(OpCodes.Call, m.Dispatch);
+										il.Emit(OpCodes.Ret);
 
 										il.MarkLabel(next);
 									}
@@ -237,9 +261,58 @@ namespace jsc.meta.Commands.Extend
 							};
 
 
-							//a.Module.DefineType
+							#region yay attributes
+							var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
+
+							var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
+
+
+							var AssemblyScriptAttribute = new ScriptAttribute
+							{
+								IsScriptLibrary = true,
+								ScriptLibraries = new[] {
+									typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+									typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
+								},
+								NonScriptTypes = assembly.GetTypes().Where(
+									k =>
+										k.Namespace.EndsWith(".My") ||
+										k.Namespace.EndsWith(".My.Resources")
+								).ToArray()
+							};
+
+							a.Assembly.DefineScriptAttribute(
+								new
+								{
+									AssemblyScriptAttribute.IsScriptLibrary,
+									AssemblyScriptAttribute.ScriptLibraries,
+									AssemblyScriptAttribute.NonScriptTypes
+								}
+							);
+
+							a.Assembly.SetCustomAttribute(
+								new CustomAttributeBuilder(
+									ScriptTypeFilterAttribute, new object[] { ScriptType.Java }
+								)
+							);
+							#endregion
+
 						}
-				}.Invoke();
+				};
+				
+				r.Invoke();
+
+				jsc.Program.TypedMain(
+					new jsc.CompileSessionInfo
+					{
+						Options = new jsc.CommandLineOptions
+						{
+							TargetAssembly = r.Output,
+							IsJava = true,
+							IsNoLogo = true
+						}
+					}
+				);
 			}
 		}
 	}

@@ -16,6 +16,10 @@ namespace OrcasAppEngieWebService
 	// [System.Web.Script.Services.ScriptService]
 	public class WebService1 : System.Web.Services.WebService
 	{
+		// step 1. expose wsdl
+		// step 2. consume wsdl
+		// step 3. ??
+		// step 4. profit :)
 
 		[WebMethod]
 		public string HelloWorld()
