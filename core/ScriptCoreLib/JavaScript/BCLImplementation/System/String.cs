@@ -232,9 +232,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         }
 
         [Script(OptimizedCode = @"return a1.join(a0);")]
-        static public __String Join(__String a0, __String[] a1)
+		static public string Join(string a0, string[] a1)
         {
-            return default(__String);
+			return default(string);
         }
 
         [Script(NoDecoration = true)]
