@@ -194,6 +194,7 @@
     <Content Include="Documents\changelog.txt" />
     <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
+    <EmbeddedResource Include="Tools\ant\GoogleAppEngine\build.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
