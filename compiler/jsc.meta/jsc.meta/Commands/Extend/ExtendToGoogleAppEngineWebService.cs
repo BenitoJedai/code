@@ -137,14 +137,14 @@ namespace jsc.meta.Commands.Extend
 							foreach (var item in t)
 							{
 								var Handler = a.Module.DefineType(item.HandlerFullName, TypeAttributes.Public | TypeAttributes.Sealed, a.context.TypeCache[typeof(WebServiceServlet)]);
-								var InvokeWebService = Handler.DefineMethod("InvokeWebService", MethodAttributes.Virtual | MethodAttributes.Public, typeof(void), new[] { a.context.TypeCache[typeof(WebServiceServlet.InvokeWebServiceArguments)] });
+								var InvokeWebService = Handler.DefineMethod("InvokeWebService", MethodAttributes.Virtual | MethodAttributes.Public, typeof(void), new[] { a.context.TypeCache[typeof(InvokeWebServiceArguments)] });
 
 								#region DispatchList
 								var DispatchList = item.Methods.Select(
 									m =>
 									{
 										var Dispatch = Handler.DefineMethod("Dispatch" + m.Method.Name, MethodAttributes.Static, typeof(void),
-											new[] { a.context.TypeCache[item.WebService], a.context.TypeCache[typeof(WebServiceServlet.InvokeWebServiceArguments)] }
+											new[] { a.context.TypeCache[item.WebService], a.context.TypeCache[typeof(InvokeWebServiceArguments)] }
 										);
 
 										{
@@ -158,13 +158,13 @@ namespace jsc.meta.Commands.Extend
 											{
 												il.Emit(OpCodes.Ldarg_1);
 												il.Emit(OpCodes.Ldstr, p.Name);
-												il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("GetString")]);
+												il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("GetString")]);
 											}
 
 											il.Emit(OpCodes.Call, a.context.MethodCache[m.Method]);
 
 
-											il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("SetReturnParameterString")]);
+											il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("SetReturnParameterString")]);
 
 
 											il.Emit(OpCodes.Ret);
@@ -183,18 +183,19 @@ namespace jsc.meta.Commands.Extend
 
 									il.Emit(OpCodes.Ldarg_1);
 									il.Emit(OpCodes.Ldstr, item.WebService.Name);
-									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(WebServiceServlet.InvokeWebServiceArguments)].Single(k => k.Name == "ServiceName"));
+									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments)].Single(k => k.Name == "ServiceName"));
 
 									var loc_MethodName = il.DeclareLocal(typeof(string));
 									var loc_IsMethodName = il.DeclareLocal(typeof(bool));
 
 									il.Emit(OpCodes.Ldarg_1);
-									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("GetMethodName")]);
+									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("GetMethodName")]);
 									il.Emit(OpCodes.Stloc, loc_MethodName);
 
 									// il.EmitWriteLine("method: ");
 									// il.EmitWriteLine(loc_MethodName); 
 
+									#region Overview
 									{
 										il.Emit(OpCodes.Ldloc, loc_MethodName);
 										il.Emit(OpCodes.Ldstr, "");
@@ -203,13 +204,45 @@ namespace jsc.meta.Commands.Extend
 										il.Emit(OpCodes.Ceq);
 										il.Emit(OpCodes.Stloc, loc_IsMethodName);
 
-										var next = il.DefineLabel();
+										var skip_overview = il.DefineLabel();
 
 										il.Emit(OpCodes.Ldloc, loc_IsMethodName);
-										il.Emit(OpCodes.Brtrue, next);
+										il.Emit(OpCodes.Brtrue, skip_overview);
 
 										//il.EmitWriteLine(m.Dispatch.Name);
 
+										#region Display one operation
+										var loc_Operation = il.DeclareLocal(typeof(string));
+										il.Emit(OpCodes.Ldarg_1);
+										il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("GetOperationName")]);
+										il.Emit(OpCodes.Stloc, loc_Operation);
+										il.EmitWriteLine(loc_Operation);
+										var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo[])]);
+
+										foreach (var m in DispatchList)
+										{
+
+											il.Emit(OpCodes.Ldloc, loc_Operation);
+											il.Emit(OpCodes.Ldstr, m.m.Method.Name);
+											il.Emit(OpCodes.Call, typeof(string).GetMethod("op_Equality", new[] { typeof(string), typeof(string) }));
+											il.Emit(OpCodes.Ldc_I4_0);
+											il.Emit(OpCodes.Ceq);
+											il.Emit(OpCodes.Stloc, loc_IsMethodName);
+
+											var next = il.DefineLabel();
+
+											il.Emit(OpCodes.Ldloc, loc_IsMethodName);
+											il.Emit(OpCodes.Brtrue, next);
+
+											RenderOperationPage(il, m.m.Method, a, loc_OperationParameters);
+
+											il.Emit(OpCodes.Ret);
+
+											il.MarkLabel(next);
+										}
+										#endregion
+
+										#region Display all methods
 										var loc_Methods = il.DeclareLocal(typeof(string[]));
 
 										il.Emit(OpCodes.Ldc_I4, DispatchList.Length);
@@ -224,22 +257,25 @@ namespace jsc.meta.Commands.Extend
 											il.Emit(OpCodes.Ldstr, m.k.m.Method.Name);
 											il.Emit(OpCodes.Stelem_Ref);
 
-										//L_0008: ldloc.1 
-										//L_0009: ldc.i4.0 
-										//L_000a: ldstr "foo"
-										//L_000f: stelem.ref 
+											//L_0008: ldloc.1 
+											//L_0009: ldc.i4.0 
+											//L_000a: ldstr "foo"
+											//L_000f: stelem.ref 
 
 										}
 
 										il.Emit(OpCodes.Ldarg_1);
 										il.Emit(OpCodes.Ldloc, loc_Methods);
-										il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("RenderMethodsToDocumentContent")]);
+										il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("RenderMethodsToDocumentContent")]);
+										#endregion
 
 										il.Emit(OpCodes.Ret);
 
-										il.MarkLabel(next);
+										il.MarkLabel(skip_overview);
 									}
+									#endregion
 
+									#region Call the dispatch
 									foreach (var m in DispatchList)
 									{
 
@@ -263,7 +299,9 @@ namespace jsc.meta.Commands.Extend
 										il.Emit(OpCodes.Ret);
 
 										il.MarkLabel(next);
+
 									}
+									#endregion
 
 									// lets dispatch now
 									//il.EmitWriteLine("No such method!");
@@ -412,6 +450,35 @@ namespace jsc.meta.Commands.Extend
 
 					proccess_ant.WaitForExit();
 				}
+			}
+
+			private void RenderOperationPage(
+				ILGenerator il,
+				MethodInfo m,
+				RewriteToAssembly.PostRewriteArguments a,
+				LocalBuilder loc_OperationParameters
+				)
+			{
+				var p = m.GetParameters().Select((k, i) => new { k, i }).ToArray();
+
+				il.Emit(OpCodes.Ldc_I4, p.Length);
+				il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo)]);
+				il.Emit(OpCodes.Stloc, loc_OperationParameters);
+
+				foreach (var item in p)
+				{
+
+				}
+
+				// are we sure argument 1 is there for us?
+				il.Emit(OpCodes.Ldarg_1);
+				il.Emit(OpCodes.Ldstr, m.Name);
+				il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+				il.Emit(OpCodes.Call,
+					a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("RenderOperationToDocumentContent")]
+				);
+
+
 			}
 		}
 	}
