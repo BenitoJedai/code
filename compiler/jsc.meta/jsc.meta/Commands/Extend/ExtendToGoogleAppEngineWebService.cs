@@ -14,6 +14,10 @@ using jsc.meta.Library;
 using jsc.meta.Library;
 using jsc.meta.Library.Web;
 using ScriptCoreLib;
+using System.Xml;
+using System.Xml.XPath;
+using System.Collections;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -28,6 +32,7 @@ namespace jsc.meta.Commands.Extend
 		public FileInfo assembly;
 		public DirectoryInfo staging;
 
+		public DirectoryInfo javahome;
 		public FileInfo ant;
 		public DirectoryInfo appengine;
 
@@ -198,6 +203,8 @@ namespace jsc.meta.Commands.Extend
 										il.Emit(OpCodes.Ldloc, loc_IsMethodName);
 										il.Emit(OpCodes.Brtrue, next);
 
+										//il.EmitWriteLine(m.Dispatch.Name);
+
 										il.Emit(OpCodes.Ldloc, loc_WebService);
 										il.Emit(OpCodes.Ldarg_1);
 										il.Emit(OpCodes.Call, m.Dispatch);
@@ -207,6 +214,7 @@ namespace jsc.meta.Commands.Extend
 									}
 
 									// lets dispatch now
+									//il.EmitWriteLine("No such method!");
 
 									il.Emit(OpCodes.Ret);
 								}
@@ -250,7 +258,7 @@ namespace jsc.meta.Commands.Extend
 											from k in t
 											select new XElement(xmlns.javaee + "servlet-mapping", 
 												new XElement(xmlns.javaee + "servlet-name", k.HandlerName),
-												new XElement(xmlns.javaee + "url-pattern", "/" + k.HandlerName + ".asmx/*")
+												new XElement(xmlns.javaee + "url-pattern", "/" + k.WebService.Name + ".asmx/*")
 											)
 										)
 									)
@@ -299,7 +307,7 @@ namespace jsc.meta.Commands.Extend
 
 						}
 				};
-				
+
 				r.Invoke();
 
 				jsc.Program.TypedMain(
@@ -313,6 +321,45 @@ namespace jsc.meta.Commands.Extend
 						}
 					}
 				);
+
+				{
+					var ant_build_xml = XDocument.Load(
+						XmlReader.Create(
+							typeof(ExtendToGoogleAppEngineWebService).Assembly.GetManifestResourceStream("jsc.meta.Tools.ant.GoogleAppEngine.build.xml")
+						)
+					);
+
+					ant_build_xml.Root.AddFirst(new XComment("modified by jsc.meta"));
+
+					var r_Output_web = r.Output.Directory.CreateSubdirectory("web");
+
+					// http://www.larswilhelmsen.com/2008/12/12/linq-to-xml-xpathselectelement-annoyance/
+					// http://msdn.microsoft.com/en-us/library/bb341675.aspx
+					var location = ((IEnumerable)ant_build_xml.XPathEvaluate("/project/property[@name='appengine.sdk']/@location")).Cast<XAttribute>().Single();
+
+					if (this.context.appengine != null)
+						location.Value = this.context.appengine.FullName;
+
+					var ant_build_xml_file = Path.Combine(r_Output_web.FullName, "build.xml");
+					ant_build_xml.Save(ant_build_xml_file);
+
+
+					var proccess_ant_info =new ProcessStartInfo(
+							this.context.ant.FullName,
+							"-f build.xml"
+							)
+						{
+							UseShellExecute = false,
+							
+							WorkingDirectory = r_Output_web.FullName
+						};
+
+					proccess_ant_info.EnvironmentVariables["JAVA_HOME"] = this.context.javahome.FullName;
+
+					var proccess_ant = Process.Start(proccess_ant_info);
+
+					proccess_ant.WaitForExit();
+				}
 			}
 		}
 	}
