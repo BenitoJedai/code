@@ -168,6 +168,7 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
+    <Compile Include="Library\Web\InvokeWebServiceArguments.cs" />
     <Compile Include="Library\Web\SmartStreamReader.cs" />
     <Compile Include="Library\Web\WebServiceServlet.cs" />
     <Compile Include="Library\WriteToProvider.cs" />
