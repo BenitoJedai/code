@@ -23,6 +23,8 @@ namespace jsc.meta.Library.Web
 
 				InvokeWebService(a);
 
+				//Console.WriteLine("req: " + req.getPathInfo());
+
 				if (a.Content != null)
 				{
 					resp.setContentType("text/xml; charset=utf-8");
@@ -31,14 +33,21 @@ namespace jsc.meta.Library.Web
 				else
 				{
 					resp.setContentType("text/html");
-					resp.getWriter().println("Sorry! The named method was not found!");
+
+					var Content = a.DocumentContent;
+
+					if (Content == null)
+						Content = "Sorry! The named method was not found!";
+
+					resp.getWriter().println(Content);
 				}
 
 				resp.getWriter().flush();
 			}
-			catch
+			catch (csharp.ThrowableException exc)
 			{
-
+				//Console.WriteLine("error!");
+				((java.lang.Throwable)(object)exc).printStackTrace();
 			}
 		}
 
@@ -49,6 +58,9 @@ namespace jsc.meta.Library.Web
 			public string GetMethodName()
 			{
 				var p = this.req.getPathInfo();
+
+				if (p == null)
+					return "";
 
 				if (p.StartsWith("/"))
 				{
@@ -82,6 +94,101 @@ namespace jsc.meta.Library.Web
 			}
 
 			public string Content;
+
+			public string DocumentContent;
+
+			internal void RenderMethodsToDocumentContent()
+			{
+				var a = new[] {
+					"foo", 
+					"bar"
+				};
+
+				RenderMethodsToDocumentContent(a);
+			}
+
+			public string ServiceName;
+
+			public void RenderMethodsToDocumentContent(string[] Methods)
+			{
+				// we are server side
+				// we are rendering a html document
+				// we could use ScriptCoreLib.Document if it were ready for serverside DOM
+
+				var w = new StringBuilder();
+
+				w.AppendLine(@"
+
+<html>
+
+    <head><link rel='alternate' type='text/xml' href='?disco' />
+
+    <style type='text/css'>
+    
+		BODY { color: #000000; background-color: white; font-family: Verdana; margin-left: 0px; margin-top: 0px; }
+		#content { margin-left: 30px; font-size: .70em; padding-bottom: 2em; }
+		A:link { color: #336699; font-weight: bold; text-decoration: underline; }
+		A:visited { color: #6699cc; font-weight: bold; text-decoration: underline; }
+		A:active { color: #336699; font-weight: bold; text-decoration: underline; }
+		A:hover { color: cc3300; font-weight: bold; text-decoration: underline; }
+		P { color: #000000; margin-top: 0px; margin-bottom: 12px; font-family: Verdana; }
+		pre { background-color: #e5e5cc; padding: 5px; font-family: Courier New; font-size: x-small; margin-top: -5px; border: 1px #f0f0e0 solid; }
+		td { color: #000000; font-family: Verdana; font-size: .7em; }
+		h2 { font-size: 1.5em; font-weight: bold; margin-top: 25px; margin-bottom: 10px; border-top: 1px solid #003366; margin-left: -15px; color: #003366; }
+		h3 { font-size: 1.1em; color: #000000; margin-left: -15px; margin-top: 10px; margin-bottom: 10px; }
+		ul { margin-top: 10px; margin-left: 20px; }
+		ol { margin-top: 10px; margin-left: 20px; }
+		li { margin-top: 10px; color: #000000; }
+		font.value { color: darkblue; font: bold; }
+		font.key { color: darkgreen; font: bold; }
+		font.error { color: darkred; font: bold; }
+		.heading1 { color: #ffffff; font-family: Tahoma; font-size: 26px; font-weight: normal; background-color: #003366; margin-top: 0px; margin-bottom: 0px; margin-left: -30px; padding-top: 10px; padding-bottom: 3px; padding-left: 15px; width: 105%; }
+		.button { background-color: #dcdcdc; font-family: Verdana; font-size: 1em; border-top: #cccccc 1px solid; border-bottom: #666666 1px solid; border-left: #cccccc 1px solid; border-right: #666666 1px solid; }
+		.frmheader { color: #000000; background: #dcdcdc; font-family: Verdana; font-size: .7em; font-weight: normal; border-bottom: 1px solid #dcdcdc; padding-top: 2px; padding-bottom: 2px; }
+		.frmtext { font-family: Verdana; font-size: .7em; margin-top: 8px; margin-bottom: 0px; margin-left: 32px; }
+		.frmInput { font-family: Verdana; font-size: 1em; }
+		.intro { margin-left: -15px; }
+           
+    </style>
+
+    <title>
+	WebService1 Web Service
+</title></head>
+
+  <body>
+
+    <div id='content'>
+
+      <p class='heading1'>WebService1</p><br>
+
+      
+
+      <span>
+
+          <p class='intro'>The following operations are supported.  For a formal definition, please review the <a href='?WSDL'>Service Description</a>. </p>
+
+");
+				w.AppendLine("<ul>");
+
+				foreach (var item in Methods)
+				{
+					w.AppendLine("<li><a href='" + this.ServiceName + ".asmx?op=" + item + "'>" + item + "</a></li>");
+
+				}
+
+				w.AppendLine("</ul>");
+
+
+				w.AppendLine(@"
+
+</span>
+</div>
+</body>
+</html>
+");
+
+				this.DocumentContent = w.ToString();
+			}
 		}
 
 		public abstract void InvokeWebService(InvokeWebServiceArguments a);

@@ -96,6 +96,7 @@
     <Compile Include="BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="BCLImplementation\System\IO\StreamReader.cs" />
     <Compile Include="BCLImplementation\System\IO\Directory.cs" />
+    <Compile Include="BCLImplementation\System\IO\TextWriter.cs" />
     <Compile Include="BCLImplementation\System\IServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\MarshalByRefObject.cs" />
     <Compile Include="BCLImplementation\System\Net\Dns.cs" />

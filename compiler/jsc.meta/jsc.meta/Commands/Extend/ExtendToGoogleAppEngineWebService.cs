@@ -181,12 +181,64 @@ namespace jsc.meta.Commands.Extend
 									var il = InvokeWebService.GetILGenerator();
 									var loc_WebService = il.DeclareInitializedLocal(a.context.TypeCache[item.WebService]);
 
+									il.Emit(OpCodes.Ldarg_1);
+									il.Emit(OpCodes.Ldstr, item.WebService.Name);
+									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(WebServiceServlet.InvokeWebServiceArguments)].Single(k => k.Name == "ServiceName"));
+
 									var loc_MethodName = il.DeclareLocal(typeof(string));
 									var loc_IsMethodName = il.DeclareLocal(typeof(bool));
 
 									il.Emit(OpCodes.Ldarg_1);
 									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("GetMethodName")]);
 									il.Emit(OpCodes.Stloc, loc_MethodName);
+
+									// il.EmitWriteLine("method: ");
+									// il.EmitWriteLine(loc_MethodName); 
+
+									{
+										il.Emit(OpCodes.Ldloc, loc_MethodName);
+										il.Emit(OpCodes.Ldstr, "");
+										il.Emit(OpCodes.Call, typeof(string).GetMethod("op_Equality", new[] { typeof(string), typeof(string) }));
+										il.Emit(OpCodes.Ldc_I4_0);
+										il.Emit(OpCodes.Ceq);
+										il.Emit(OpCodes.Stloc, loc_IsMethodName);
+
+										var next = il.DefineLabel();
+
+										il.Emit(OpCodes.Ldloc, loc_IsMethodName);
+										il.Emit(OpCodes.Brtrue, next);
+
+										//il.EmitWriteLine(m.Dispatch.Name);
+
+										var loc_Methods = il.DeclareLocal(typeof(string[]));
+
+										il.Emit(OpCodes.Ldc_I4, DispatchList.Length);
+										il.Emit(OpCodes.Newarr, typeof(string));
+										il.Emit(OpCodes.Stloc, loc_Methods);
+
+
+										foreach (var m in DispatchList.Select((k, i) => new { i, k }))
+										{
+											il.Emit(OpCodes.Ldloc, loc_Methods);
+											il.Emit(OpCodes.Ldc_I4, m.i);
+											il.Emit(OpCodes.Ldstr, m.k.m.Method.Name);
+											il.Emit(OpCodes.Stelem_Ref);
+
+										//L_0008: ldloc.1 
+										//L_0009: ldc.i4.0 
+										//L_000a: ldstr "foo"
+										//L_000f: stelem.ref 
+
+										}
+
+										il.Emit(OpCodes.Ldarg_1);
+										il.Emit(OpCodes.Ldloc, loc_Methods);
+										il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet.InvokeWebServiceArguments).GetMethod("RenderMethodsToDocumentContent")]);
+
+										il.Emit(OpCodes.Ret);
+
+										il.MarkLabel(next);
+									}
 
 									foreach (var m in DispatchList)
 									{
@@ -344,13 +396,13 @@ namespace jsc.meta.Commands.Extend
 					ant_build_xml.Save(ant_build_xml_file);
 
 
-					var proccess_ant_info =new ProcessStartInfo(
+					var proccess_ant_info = new ProcessStartInfo(
 							this.context.ant.FullName,
 							"-f build.xml"
 							)
 						{
 							UseShellExecute = false,
-							
+
 							WorkingDirectory = r_Output_web.FullName
 						};
 
