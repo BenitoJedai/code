@@ -192,8 +192,8 @@ namespace jsc.meta.Commands.Extend
 									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("GetMethodName")]);
 									il.Emit(OpCodes.Stloc, loc_MethodName);
 
-									// il.EmitWriteLine("method: ");
-									// il.EmitWriteLine(loc_MethodName); 
+									//il.EmitWriteLine("method: ");
+									//il.EmitWriteLine(loc_MethodName); 
 
 									#region Overview
 									{
@@ -217,7 +217,9 @@ namespace jsc.meta.Commands.Extend
 										il.Emit(OpCodes.Call, a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("GetOperationName")]);
 										il.Emit(OpCodes.Stloc, loc_Operation);
 										il.EmitWriteLine(loc_Operation);
+
 										var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo[])]);
+										var loc_OperationParameter = il.DeclareLocal(a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo)]);
 
 										foreach (var m in DispatchList)
 										{
@@ -234,7 +236,7 @@ namespace jsc.meta.Commands.Extend
 											il.Emit(OpCodes.Ldloc, loc_IsMethodName);
 											il.Emit(OpCodes.Brtrue, next);
 
-											RenderOperationPage(il, m.m.Method, a, loc_OperationParameters);
+											RenderOperationPage(il, m.m.Method, a, loc_OperationParameters, loc_OperationParameter);
 
 											il.Emit(OpCodes.Ret);
 
@@ -456,7 +458,8 @@ namespace jsc.meta.Commands.Extend
 				ILGenerator il,
 				MethodInfo m,
 				RewriteToAssembly.PostRewriteArguments a,
-				LocalBuilder loc_OperationParameters
+				LocalBuilder loc_OperationParameters,
+				LocalBuilder loc_OperationParameter
 				)
 			{
 				var p = m.GetParameters().Select((k, i) => new { k, i }).ToArray();
@@ -467,7 +470,31 @@ namespace jsc.meta.Commands.Extend
 
 				foreach (var item in p)
 				{
+					il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(InvokeWebServiceArguments.ParameterInfo).GetConstructor(new Type[0])]);
+					il.Emit(OpCodes.Stloc, loc_OperationParameter);
 
+					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+					il.Emit(OpCodes.Ldstr, item.k.Name);
+					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Name"));
+
+					//L_001c: ldtoken string
+					//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+
+					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+					il.Emit(OpCodes.Ldtoken, item.k.ParameterType);
+					il.Emit(OpCodes.Call, 
+						typeof(Type).GetMethod("GetTypeFromHandle", 
+							new [] {typeof(System.RuntimeTypeHandle) }
+						)
+					);
+
+
+					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Type"));
+
+					il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+					il.Emit(OpCodes.Ldc_I4, item.i);
+					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+					il.Emit(OpCodes.Stelem_Ref);
 				}
 
 				// are we sure argument 1 is there for us?
