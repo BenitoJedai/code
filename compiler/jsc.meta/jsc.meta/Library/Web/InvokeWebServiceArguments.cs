@@ -223,9 +223,10 @@ public ref class MyWebService {
 			RenderOperationToDocumentContent("foo", a);
 		}
 
+
 		public void RenderOperationToDocumentContent(string MethodName, ParameterInfo[] Parameters)
 		{
-			
+
 			var w = new StringBuilder();
 
 			w.AppendLine(@"
@@ -298,18 +299,24 @@ public ref class MyWebService {
 
 </tr>
 
-                        
-                          <tr>
-                            <td class='frmText' style='color: #000000; font-weight: normal;'>a:</td>
-                            <td><input class='frmInput' type='text' size='50' name='a'></td>
-                          </tr>
-                        
-                          <tr>
-                            <td class='frmText' style='color: #000000; font-weight: normal;'>b:</td>
-                            <td><input class='frmInput' type='text' size='50' name='b'></td>
+                        ");
 
+
+			foreach (var item in Parameters)
+			{
+				w.AppendLine(@"
+
+                          <tr>
+                            <td class='frmText' style='color: #000000; font-weight: normal;'>" + item.Name + @":</td>
+                            <td><input class='frmInput' type='text' size='50' name='" + item.Name +  @"'></td>
                           </tr>
                         
+				");
+			}
+	
+
+
+			w.AppendLine(@"
                         <tr>
                           <td></td>
                           <td align='right'> <input type='submit' value='Invoke' class='button'></td>

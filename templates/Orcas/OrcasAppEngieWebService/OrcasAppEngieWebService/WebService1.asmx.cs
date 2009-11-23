@@ -44,7 +44,7 @@ namespace OrcasAppEngieWebService
 			//<?xml version="1.0" encoding="utf-8"?>
 			//<string xmlns="http://tempuri.org/">string</string>
 
-			return "Hello World";
+			return "Hello World : " + a + " " + b;
 		}
 	}
 }
