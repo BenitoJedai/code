@@ -10,7 +10,17 @@ namespace jsc.meta.Library.Web
 		// this class is a template
 		// this class cannot be used in .net
 
+		protected override void doPost(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
+		{
+			InternalInvokeWebService(req, resp);
+		}
+
 		protected override void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
+		{
+			InternalInvokeWebService(req, resp);
+		}
+
+		private void InternalInvokeWebService(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 		{
 			try
 			{
