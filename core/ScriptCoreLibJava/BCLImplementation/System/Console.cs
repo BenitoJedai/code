@@ -2,16 +2,43 @@
 using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
+using System.IO;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
-	[Script(Implements = typeof(Console))]
+	[Script(Implements = typeof(global::System.Console))]
 	internal class __Console
 	{
 		// http://java.sun.com/javase/6/docs/api/java/text/Normalizer.html
 		// http://stackoverflow.com/questions/1272032/java-utf-8-strange-behaviour
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4038677
 		// http://blogs.msdn.com/oldnewthing/archive/2005/08/29/457483.aspx
+
+		[Script]
+		public class __ConsoleOut : TextWriter
+		{
+			public override Encoding Encoding
+			{
+				get { return Encoding.UTF8; }
+			}
+
+			public override void WriteLine(string value)
+			{
+				__Console.InternalOut.println(value);
+			}
+		}
+
+		static TextWriter CachedOut;
+		public static TextWriter Out
+		{
+			get
+			{
+				if (CachedOut == null)
+					CachedOut = new __ConsoleOut();
+
+				return CachedOut;
+			}
+		}
 
 		static string InternalGetEnvironmentEncoding()
 		{
