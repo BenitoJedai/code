@@ -96,6 +96,6 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-c:\util\jsc\bin\jsc.meta.exe ExtendToGoogleAppEngineWebService /assembly:"$(TargetPath)" /application:"jsc-project" /version:"4" /ant:"C:\util\apache-ant-1.7.1\bin\ant.bat" /javahome:"C:\Program Files\Java\jdk1.6.0_14"</PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe ExtendToGoogleAppEngineWebService /assembly:"$(TargetPath)" /application:"jsc-project" /version:"4" /ant:"C:\util\apache-ant-1.7.1\bin\ant.bat" /javahome:"C:\Program Files\Java\jdk1.6.0_14" /appengine:"C:\util\appengine-java-sdk-1.2.6"</PostBuildEvent>
   </PropertyGroup>
 </Project>
