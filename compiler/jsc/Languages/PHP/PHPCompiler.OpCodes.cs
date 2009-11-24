@@ -320,7 +320,7 @@ namespace jsc.Script.PHP
 					else
 					{
 						//if (e.i.StackBeforeStrict[1].SingleStackInstruction.OpCode == OpCodes.Ldnull)
-							WriteInlineOperator(e.p, e.i, "===");
+						WriteInlineOperator(e.p, e.i, "===");
 						//else
 						//    WriteInlineOperator(e.p, e.i, "==");
 					}
@@ -728,6 +728,62 @@ namespace jsc.Script.PHP
 			CIW[OpCodes.Newobj] =
 				delegate(CodeEmitArgs e)
 				{
+					var TargetConstructor = e.i.TargetConstructor;
+					var TargetConstructorDeclaringType = ResolveImplementation(TargetConstructor.DeclaringType) ?? TargetConstructor.DeclaringType;
+
+					var sa = ScriptAttribute.OfProvider(TargetConstructorDeclaringType);
+
+					if (!(sa != null && sa.InternalConstructor))
+						if (TargetConstructorDeclaringType.GetConstructors().Length > 1)
+						{
+							// yay, a special mode!
+
+							var InstructionName =
+								"_" + GetDecoratedTypeName(e.Method.DeclaringType, false) +
+								"_" + e.Method.MetadataToken.ToString("x8") +
+								"_" + e.i.Offset.ToString("x8");
+
+							Write(InstructionName);
+							WriteParameterInfoFromStack(TargetConstructor, e.p, e.i.StackBeforeStrict, 0);
+
+							this.CompileType_WriteAdditionalStaticMembers +=
+								delegate
+								{
+									WriteIdent();
+									WriteKeywordSpace(Keywords._function);
+									Write(InstructionName);
+									Write("(");
+									WriteMethodParameterList(TargetConstructor);
+									Write(")");
+									WriteLine();
+
+									using (CreateScope())
+									{
+										WriteIdent();
+										Write("$value");
+										WriteAssignment();
+										WriteKeywordSpace(Keywords._new);
+										WriteDecoratedTypeName(TargetConstructor.DeclaringType);
+										Write("()");
+										Write(";");
+										WriteLine();
+
+										WriteIdent();
+										WriteKeywordSpace(Keywords._return);
+										Write("$value");
+										Write("->");
+										WriteDecoratedMethodName(TargetConstructor, false);
+										Write("(");
+										WriteMethodParameterList(TargetConstructor);
+										Write(")");
+										Write(";");
+										WriteLine();
+									}
+								};
+
+							return;
+						}
+
 					WriteTypeConstruction(e);
 
 				};
@@ -748,6 +804,47 @@ namespace jsc.Script.PHP
 							throw new SkipThisPrestatementException();
 						}
 					}
+
+					#region multiple constructor support
+					var TargetConstructor = e.i.TargetConstructor;
+					if (TargetConstructor != null)
+					{
+						var TargetConstructorDeclaringType = ResolveImplementation(TargetConstructor.DeclaringType) ?? TargetConstructor.DeclaringType;
+
+						Action InvokeBaseMultiConstructor =
+							delegate
+							{
+								WriteSelf();
+								Write("->");
+								WriteDecoratedMethodName(TargetConstructor, false);
+								WriteParameterInfoFromStack(TargetConstructor, e.p, e.i.StackBeforeStrict, 1);
+							};
+
+						// we should not call empty base constructors
+						// from multiconstructor types
+
+						if (TargetConstructorDeclaringType == e.Method.DeclaringType.BaseType)
+							if (e.Method.DeclaringType.GetConstructors().Length > 1)
+							{
+								if (TargetConstructorDeclaringType.GetConstructors().Length == 1)
+								{
+									this.WriteCommentLine("Empty base constructor call ommited.");
+
+									throw new SkipThisPrestatementException();
+								}
+								else
+								{
+									InvokeBaseMultiConstructor();
+									return;
+								}
+							}
+							else
+							{
+								InvokeBaseMultiConstructor();
+								return;
+							}
+					}
+					#endregion
 
 					if (Script.CompilerBase.IsToStringMethod(m))
 					{

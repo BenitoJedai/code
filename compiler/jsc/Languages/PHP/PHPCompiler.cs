@@ -193,23 +193,7 @@ namespace jsc.Script.PHP
 			base.WriteNativeNoExceptionMethodName(m);
 		}
 
-		private void WriteMethodName(MethodBase m)
-		{
-
-
-			if (m.IsInstanceConstructor())
-				Write("__construct");
-			else
-			{
-				if (IsToStringMethod(m))
-				{
-					Write("__toString");
-				}
-				else
-					WriteDecoratedMethodName(m, false);
-			}
-
-		}
+	
 
 
 
@@ -297,25 +281,6 @@ namespace jsc.Script.PHP
 
 
 
-		private void WriteTypeInstanceConstructors(Type z)
-		{
-			ConstructorInfo[] zci = z.GetConstructors(BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-
-			if (zci.Length > 1)
-			{
-				Break("PHP does not support multiple constructors, type: " + z.FullName);
-			}
-
-			foreach (ConstructorInfo zc in zci)
-			{
-				WriteIdent();
-				WriteCommentLine(zc.DeclaringType.FullName + ".ctor");
-				WriteMethodSignature(z, zc, false);
-				WriteMethodBody(zc);
-
-			}
-			WriteLine();
-		}
 
 		public override void WriteTypeFields(Type z, ScriptAttribute za)
 		{
@@ -424,52 +389,6 @@ namespace jsc.Script.PHP
 
 
 
-		public override void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic)
-		{
-			WriteMethodSignature(compiland, m, dStatic, WriteMethodSignatureMode.Delcaring);
-		}
-
-		public void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic, WriteMethodSignatureMode Mode)
-		{
-
-			WriteIdent();
-
-			if (compiland.IsInterface)
-			{
-				if (m.IsPublic)
-					WriteKeywordSpace(Keywords._public);
-			}
-			else
-			{
-				if (compiland.IsAbstract)
-					if (m.IsAbstract)
-					{
-						if (Mode == WriteMethodSignatureMode.Delcaring)
-							WriteKeywordSpace(Keywords._abstract);
-					}
-			}
-
-			Write("function ");
-			WriteMethodName(m);
-
-			Write("(");
-			WriteMethodParameterList(m);
-			Write(")");
-
-
-			if (compiland.IsInterface ||
-				(m.IsAbstract && !compiland.IsInterface && compiland.IsAbstract) && (Mode == WriteMethodSignatureMode.Delcaring)
-				)
-				WriteLine(";");
-			else
-				WriteLine();
-		}
-
-		public override void WriteMethodSignature(MethodBase m, bool dStatic)
-		{
-			CompilerBase.BreakToDebugger("obsolete");
-
-		}
 
 		public override void WriteMethodParameterList(MethodBase m)
 		{

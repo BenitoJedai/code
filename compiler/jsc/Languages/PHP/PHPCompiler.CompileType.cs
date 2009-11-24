@@ -16,12 +16,16 @@ namespace jsc.Script.PHP
 
 	partial class PHPCompiler
 	{
+		public Action CompileType_WriteAdditionalMembers;
+		public Action CompileType_WriteAdditionalStaticMembers;
+
 
 		public override bool CompileType(Type z)
 		{
 			try
 			{
-
+				CompileType_WriteAdditionalMembers = delegate { };
+				CompileType_WriteAdditionalStaticMembers = delegate { };
 
 				if (z.IsEnum)
 					return false;
@@ -78,7 +82,7 @@ namespace jsc.Script.PHP
 
 						WriteVirtualMethodOverrides(z);
 
-
+						CompileType_WriteAdditionalMembers();
 					}
 				}
 
@@ -91,6 +95,8 @@ namespace jsc.Script.PHP
 
 
 				WriteTypeStaticConstructor(z, true);
+
+				this.CompileType_WriteAdditionalStaticMembers();
 
 				WriteLine();
 			}

@@ -794,7 +794,13 @@ namespace jsc.Script
 		{
 			return false;
 		}
+
 		public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization)
+		{
+			WriteMethodBody(m, predicate, CustomVariableInitialization, null);
+		}
+
+		public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization, Action CustomReturnAction)
 		{
 			using (CreateScope())
 			{
@@ -871,6 +877,9 @@ namespace jsc.Script
 									return predicate != null && predicate(p);
 								}
 							);
+
+							if (CustomReturnAction != null)
+								CustomReturnAction();
 						}
 					}
 

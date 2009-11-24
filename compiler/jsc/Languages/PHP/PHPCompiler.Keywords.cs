@@ -38,7 +38,9 @@ namespace jsc.Script.PHP
 			_implements,
 			_interface,
 			_abstract,
-			_class
+			_class,
+
+			___construct
 
         }
 
