@@ -11,7 +11,6 @@ using System.Xml.Linq;
 using jsc.Languages.IL;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
-using jsc.meta.Library;
 using jsc.meta.Library.Web;
 using ScriptCoreLib;
 using System.Xml;

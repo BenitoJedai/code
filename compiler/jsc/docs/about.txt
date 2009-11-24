@@ -389,3 +389,5 @@ version history:
 	java: fixed conversion from byte to int if calling a method
 27.10.2009
 	java: added hint where the BCLImplementation lookup actually fails
+24.11.2009
+	php: added initial multiple constructor support

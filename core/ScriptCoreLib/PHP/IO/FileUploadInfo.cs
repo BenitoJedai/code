@@ -8,7 +8,7 @@ namespace ScriptCoreLib.PHP.IO
 
 
     [Serializable]
-    [Script]
+	[Script, System.Obsolete]
     public class FileUploadInfo
     {
         public string name;

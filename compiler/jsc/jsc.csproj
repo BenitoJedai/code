@@ -203,6 +203,9 @@
     <Compile Include="Languages\Java\JavaCompiler.WriteImportTypes.cs" />
     <Compile Include="Languages\Java\JavaCompiler.KeyWords.cs" />
     <Compile Include="Languages\Java\JavaCompiler.OpCodes.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.WriteMethodName.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.WriteMethodSignature.cs" />
+    <Compile Include="Languages\PHP\PHPCompiler.WriteTypeInstanceConstructors.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.ActiveTypes.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.Compile.cs" />
     <Compile Include="Languages\PHP\PHPCompiler.WriteLocalVariableDefinition.cs" />

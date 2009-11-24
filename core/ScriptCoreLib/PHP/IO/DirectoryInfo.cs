@@ -3,7 +3,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.PHP.IO
 {
-    [Script]
+	[Script, System.Obsolete]
     public class DirectoryInfo
     {
         public string FullPath;

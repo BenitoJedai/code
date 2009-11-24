@@ -83,11 +83,45 @@ namespace OrcasPHPScriptApplication.Server
 
 			Console.WriteLine("<hr />");
 
+
+			Console.WriteLine(
+				new Information("Powered by jsc").ToString()
+			);
+
+
+
+			Console.WriteLine(
+				new Information("b", "now with multiple constructor support").ToString()
+			);
+
 			//Native.API.phpinfo();
 
 			Console.WriteLine("</body>");
 			Console.WriteLine("</html>");
 
+		}
+
+
+		[Script]
+		public class Information
+		{
+			string element = "div";
+			string content;
+			public Information(string element, string content)
+			{
+				this.element = element;
+				this.content = content;
+			}
+
+			public Information(string content)
+			{
+				this.content = content;
+			}
+
+			public override string ToString()
+			{
+				return "<" + element + ">" + content + "</" + element + "/>";
+			}
 		}
 	}
 }

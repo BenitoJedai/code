@@ -42,3 +42,5 @@
 	- Fixed RewriteToAssembly Leave to Leave.s branch targeting fixup lookup
 2009.10.30
 	- Added ExtendToGoogleAppEngineWebService command
+2009.11.24
+	- ExtendToGoogleAppEngineWebService implemented
