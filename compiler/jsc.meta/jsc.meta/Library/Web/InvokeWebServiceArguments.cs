@@ -44,7 +44,7 @@ namespace jsc.meta.Library.Web
 			// http://books.google.ee/books?id=_0HnEk1djCwC&pg=PA93&lpg=PA93&dq=app+engine+application/x-www-form-urlencoded&source=bl&ots=Kv2QqyAy9D&sig=eW2UWO3OwTb1YZ-8wsJBoef7nck&hl=et&ei=9mUKS_DxFpPv-QaHyOjFDQ&sa=X&oi=book_result&ct=result&resnum=5&ved=0CB8Q6AEwBDgK#v=onepage&q=app%20engine%20application%2Fx-www-form-urlencoded&f=false
 			// http://java.sun.com/j2ee/1.4/docs/api/javax/servlet/ServletRequest.html#getAttribute(java.lang.String)
 
-			var a = this.req.getAttribute(name);
+			var a = this.req.getParameter(name);
 
 			if (a == null)
 				return "";
@@ -54,9 +54,22 @@ namespace jsc.meta.Library.Web
 
 		public void SetReturnParameterString(string value)
 		{
+			// we should be using XElement here
 			// we really should escape value for xml...
+			
+			// http://xmmssc-www.star.le.ac.uk/SAS/xmmsas_20070308_1802/doc/param/node24.html
+			// http://www.hdfgroup.org/HDF5/XML/xml_escape_chars.htm
+			var content = value
+				.Replace("\"", "&quot;")
+				.Replace("'", "&apos;")
+				.Replace("<", "&lt;")
+				.Replace(">", "&gt;")
+				.Replace("&", "&amp;");
 
-			this.Content = "<?xml version='1.0' encoding='utf-8'?><string xmlns='http://tempuri.org/'>" + value + "</string>";
+
+
+
+			this.Content = "<?xml version='1.0' encoding='utf-8'?><string xmlns='http://tempuri.org/'>" + content + "</string>";
 		}
 
 		public string Content;
@@ -326,7 +339,7 @@ public ref class MyWebService {
 
                     </form>
                   <span>
-
+<!--
               <h3>SOAP 1.1</h3>
               <p>The following is a sample SOAP 1.1 request and response.  The <font class=value>placeholders</font> shown need to be replaced with actual values.</p>
 
@@ -398,7 +411,7 @@ Content-Length: <font class=value>length</font>
   &lt;/soap12:Body&gt;
 &lt;/soap12:Envelope&gt;</pre>
           </span>
-
+-->
           
 
           <span>
