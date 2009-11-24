@@ -350,7 +350,11 @@ namespace jsc.meta.Commands.Extend
 											from k in t
 											select new XElement(xmlns.javaee + "servlet-mapping", 
 												new XElement(xmlns.javaee + "servlet-name", k.HandlerName),
-												new XElement(xmlns.javaee + "url-pattern", "/" + k.WebService.Name + ".asmx/*")
+												
+												// http://www.coderanch.com/t/414165/Servlets/java/url-pattern-web-xml
+
+												new XElement(xmlns.javaee + "url-pattern", "/" + k.WebService.Name + ".asmx/*"),
+												new XElement(xmlns.javaee + "url-pattern", "/" + k.WebService.Name + ".asmx")
 											)
 										)
 									)
