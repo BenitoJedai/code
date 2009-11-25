@@ -295,7 +295,10 @@ namespace jsc.Script.PHP
 					Emit(e.p, e.FirstOnStack);
 				};
 
-			CIW[OpCodes.Ceq] =
+			CIW[OpCodes.Ceq,
+				OpCodes.Beq,
+				OpCodes.Beq_S] =
+		
 				delegate(CodeEmitArgs e)
 				{
 					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
