@@ -128,7 +128,11 @@ namespace jsc.Script.PHP
 						var _BaseType = i.OwnerMethod.DeclaringType.BaseType;
 						_BaseType = ResolveImplementation(_BaseType) ?? _BaseType;
 
-						if (m.DeclaringType == _BaseType)
+						var m_DeclaringType = m.DeclaringType.IsGenericType ?
+							m.DeclaringType.GetGenericTypeDefinition() :
+							m.DeclaringType;
+
+						if (m_DeclaringType == _BaseType)
 						{
 
 							bBase = true;

@@ -96,6 +96,13 @@ namespace TestMultipleConstructors
 			this.y = Y;
 
 		}
+
+		int i;
+		public MultipleConstructors2(string A, int Y, object e, int i)
+			: this(A, Y, e)
+		{
+			this.i = i;
+		}
 	}
 
 	class Consumer

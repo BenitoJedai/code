@@ -99,8 +99,14 @@ namespace OrcasPHPScriptApplication.Server
 			Console.WriteLine("</body>");
 			Console.WriteLine("</html>");
 
+			new XList();
 		}
 
+
+		[Script]
+		public class XList : System.Collections.Generic.List<string>
+		{
+		}
 
 		[Script]
 		public class Information

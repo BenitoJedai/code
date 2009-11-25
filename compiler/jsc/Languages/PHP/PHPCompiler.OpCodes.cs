@@ -235,10 +235,10 @@ namespace jsc.Script.PHP
 
 			#region  operands
 			CIW[OpCodes.Xor] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "^"); };
-			CIW[OpCodes.Clt,
-				OpCodes.Clt_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
-			CIW[OpCodes.Cgt,
-				OpCodes.Cgt_Un] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
+
+			CIW[OpCodes.Clt, OpCodes.Clt_Un, OpCodes.Blt, OpCodes.Blt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, "<"); };
+			CIW[OpCodes.Cgt, OpCodes.Cgt_Un, OpCodes.Bgt, OpCodes.Bgt_S] = delegate(CodeEmitArgs e) { WriteInlineOperator(e.p, e.i, ">"); };
+
 			CIW[OpCodes.Add] =
 				delegate(CodeEmitArgs e)
 				{
@@ -826,7 +826,12 @@ namespace jsc.Script.PHP
 						// we should not call empty base constructors
 						// from multiconstructor types
 
-						if (TargetConstructorDeclaringType == e.Method.DeclaringType.BaseType)
+						if (TargetConstructorDeclaringType == e.Method.DeclaringType)
+						{
+							InvokeBaseMultiConstructor();
+							return;
+						}
+						else if (TargetConstructorDeclaringType == e.Method.DeclaringType.BaseType)
 							if (e.Method.DeclaringType.GetConstructors().Length > 1)
 							{
 								if (TargetConstructorDeclaringType.GetConstructors().Length == 1)

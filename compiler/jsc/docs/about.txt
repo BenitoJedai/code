@@ -391,3 +391,8 @@ version history:
 	java: added hint where the BCLImplementation lookup actually fails
 24.11.2009
 	php: added initial multiple constructor support
+25.11.2009
+	php: added OpCodes.Beq_S
+	php: fixed inheriting from generic BCL type
+	php: fixed multiple constructor support calling other constructos in the same type
+	php: added OpCodes.Blt
