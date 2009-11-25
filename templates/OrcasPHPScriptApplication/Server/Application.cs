@@ -84,28 +84,34 @@ namespace OrcasPHPScriptApplication.Server
 			Console.WriteLine("<hr />");
 
 
-			Console.WriteLine(
-				new Information("Powered by jsc").ToString()
-			);
+			var ii = new InformationList
+			{
+				new Information("Powered by jsc"),
+				new Information("b", "now with multiple constructor support")
+			};
 
-
-
-			Console.WriteLine(
-				new Information("b", "now with multiple constructor support").ToString()
-			);
+			ii.ToConsole();
 
 			//Native.API.phpinfo();
 
 			Console.WriteLine("</body>");
 			Console.WriteLine("</html>");
 
-			new XList();
 		}
 
 
 		[Script]
-		public class XList : System.Collections.Generic.List<string>
+		public class InformationList : System.Collections.Generic.List<Information>
 		{
+			public void ToConsole()
+			{
+				foreach (var item in this)
+				{
+					Console.WriteLine(
+						item.ToString()
+					);
+				}
+			}
 		}
 
 		[Script]

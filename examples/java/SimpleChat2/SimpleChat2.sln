@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat2", "SimpleChat2\SimpleChat2.csproj", "{0366283C-0686-4638-809E-59BEF6B7EA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat2.Buffer", "SimpleChat2.Buffer\SimpleChat2.Buffer.csproj", "{55C29FDA-3FA3-45C2-95D7-15840347262B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat2.ClientProvider", "SimpleChat2.ClientProvider\SimpleChat2.ClientProvider.csproj", "{BB1ACCE5-F910-499C-B030-68E0F51F400C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat2.ServerProvider", "SimpleChat2.ServerProvider\SimpleChat2.ServerProvider.csproj", "{A82DA10F-7C38-468F-A541-37A0B0164B0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleChat2.Network", "SimpleChat2.Network\SimpleChat2.Network.csproj", "{ED813196-5B9B-4BAE-8706-65329EA25914}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0366283C-0686-4638-809E-59BEF6B7EA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0366283C-0686-4638-809E-59BEF6B7EA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0366283C-0686-4638-809E-59BEF6B7EA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0366283C-0686-4638-809E-59BEF6B7EA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55C29FDA-3FA3-45C2-95D7-15840347262B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55C29FDA-3FA3-45C2-95D7-15840347262B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55C29FDA-3FA3-45C2-95D7-15840347262B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55C29FDA-3FA3-45C2-95D7-15840347262B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB1ACCE5-F910-499C-B030-68E0F51F400C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1ACCE5-F910-499C-B030-68E0F51F400C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1ACCE5-F910-499C-B030-68E0F51F400C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1ACCE5-F910-499C-B030-68E0F51F400C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A82DA10F-7C38-468F-A541-37A0B0164B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A82DA10F-7C38-468F-A541-37A0B0164B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A82DA10F-7C38-468F-A541-37A0B0164B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A82DA10F-7C38-468F-A541-37A0B0164B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED813196-5B9B-4BAE-8706-65329EA25914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED813196-5B9B-4BAE-8706-65329EA25914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED813196-5B9B-4BAE-8706-65329EA25914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED813196-5B9B-4BAE-8706-65329EA25914}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
