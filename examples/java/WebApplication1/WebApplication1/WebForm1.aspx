@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication1._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication1.WebForm1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -9,10 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <button>hello world</button>
-        <img src="Files1/skeleton.gif" />
-        <a href="WebForm1.aspx">WebForm1.aspx</a>
-        This project could be running on google app engine
+    
     </div>
     </form>
 </body>
