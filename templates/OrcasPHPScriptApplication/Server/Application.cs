@@ -5,6 +5,8 @@ using ScriptCoreLib.PHP;
 using System;
 using System.Text;
 using System.IO;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace OrcasPHPScriptApplication.Server
 {
@@ -84,13 +86,8 @@ namespace OrcasPHPScriptApplication.Server
 			Console.WriteLine("<hr />");
 
 
-			var ii = new InformationList
-			{
-				new Information("Powered by jsc"),
-				new Information("b", "now with multiple constructor support")
-			};
-
-			ii.ToConsole();
+			Test1();
+			Test2();
 
 			//Native.API.phpinfo();
 
@@ -99,9 +96,39 @@ namespace OrcasPHPScriptApplication.Server
 
 		}
 
+		private static void Test2()
+		{
+			var x = new List<string> { "Hello", "World" };
+			IEnumerable a = x;
+
+			foreach (string item in a)
+			{
+				Console.WriteLine(item + " ");
+			}
+		}
+
+		private static void Test1()
+		{
+			using (Test1Create())
+			{
+
+
+			}
+		}
+
+		private static InformationList Test1Create()
+		{
+			var ii = new InformationList
+				{
+					new Information("Powered by jsc"),
+					new Information("b", "now with multiple constructor support")
+				};
+			return ii;
+		}
+
 
 		[Script]
-		public class InformationList : System.Collections.Generic.List<Information>
+		public class InformationList : System.Collections.Generic.List<Information>, IDisposable
 		{
 			public void ToConsole()
 			{
@@ -112,6 +139,15 @@ namespace OrcasPHPScriptApplication.Server
 					);
 				}
 			}
+
+			#region IDisposable Members
+
+			public void Dispose()
+			{
+				this.ToConsole();
+			}
+
+			#endregion
 		}
 
 		[Script]

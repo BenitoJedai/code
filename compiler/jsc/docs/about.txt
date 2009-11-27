@@ -396,3 +396,5 @@ version history:
 	php: fixed inheriting from generic BCL type
 	php: fixed multiple constructor support calling other constructos in the same type
 	php: added OpCodes.Blt
+28.11.2009
+	php: added OpCodes.Isinst
