@@ -92,9 +92,55 @@ namespace jsc.Script.PHP
 				//throw new NotSupportedException("emitting this opcode isn't directly supported");
 
 				// instanceof 
-				Write("/* instance of */");
+				//Write("/* instance of */");
 
 				//Write("TryCast(variable, type)");
+
+				// yay, a special mode!
+
+				var InstructionName =
+					"_" + GetDecoratedTypeName(e.Method.DeclaringType, false) +
+					"_" + e.Method.MetadataToken.ToString("x8") +
+					"_" + e.i.Offset.ToString("x8");
+
+				Write(InstructionName);
+				Write("(");
+				EmitFirstOnStack(e);
+				Write(")");
+
+
+				this.CompileType_WriteAdditionalStaticMembers +=
+					delegate
+					{
+						WriteIdent();
+						WriteKeywordSpace(Keywords._function);
+						Write(InstructionName);
+						Write("(");
+						Write("$value");
+						Write(")");
+						WriteLine();
+
+						using (CreateScope())
+						{
+							WriteIdent();
+							WriteKeywordSpace(Keywords._return);
+							Write("$value");
+							WriteSpace();
+							WriteKeywordSpace(Keywords._instanceof);
+							WriteSpace();
+							WriteDecoratedTypeName(ResolveImplementation(e.i.TargetType) ?? e.i.TargetType);
+							WriteSpace();
+							Write("?");
+							WriteSpace();
+							Write("$value");
+							WriteSpace();
+							Write(":");
+							WriteSpace();
+							Write("NULL");
+							Write(";");
+							WriteLine();
+						}
+					};
 			};
 
 
