@@ -117,4 +117,28 @@ namespace TestMultipleConstructors
 
 		}
 	}
+
+	/*
+i have an abstract class with 1 protected ctor
+ and inherited concrete class with 1 public ctor
+ concrete class tries to call base class ctor as factory
+ while it is not
+	 
+	 */
+
+	class ProtectedAbstractConstructor
+	{
+		protected ProtectedAbstractConstructor(string e)
+		{
+		}
+	}
+
+
+	class ConcreteClass : ProtectedAbstractConstructor
+	{
+		public ConcreteClass() : base("world")
+		{
+
+		}
+	}
 }

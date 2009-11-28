@@ -876,13 +876,14 @@ namespace jsc.Script.PHP
 
 						if (TargetConstructorDeclaringType == e.Method.DeclaringType)
 						{
+							// current type has multiple constructors...
 							InvokeBaseMultiConstructor();
 							return;
 						}
 						else if (TargetConstructorDeclaringType == e.Method.DeclaringType.BaseType)
-							if (e.Method.DeclaringType.GetConstructors().Length > 1)
+							if (e.Method.DeclaringType.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length > 1)
 							{
-								if (TargetConstructorDeclaringType.GetConstructors().Length == 1)
+								if (TargetConstructorDeclaringType.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).Length == 1)
 								{
 									this.WriteCommentLine("Empty base constructor call ommited.");
 
@@ -896,8 +897,8 @@ namespace jsc.Script.PHP
 							}
 							else
 							{
-								InvokeBaseMultiConstructor();
-								return;
+								//InvokeBaseMultiConstructor();
+								//return;
 							}
 					}
 					#endregion
