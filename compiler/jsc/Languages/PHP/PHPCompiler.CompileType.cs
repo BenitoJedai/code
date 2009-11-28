@@ -62,14 +62,16 @@ namespace jsc.Script.PHP
 
 
 
-				if (!z.ToScriptAttributeOrDefault().InternalConstructor)
+
+				WriteTypeSignature(z, za);
+
+				using (CreateScope())
 				{
-					WriteTypeSignature(z, za);
+					// BCL classes will define static fields!
+					WriteTypeFields(z, za);
 
-					using (CreateScope())
+					if (!z.ToScriptAttributeOrDefault().InternalConstructor)
 					{
-
-						WriteTypeFields(z, za);
 						WriteTypeInstanceConstructors(z);
 						WriteTypeInstanceMethods(z, za);
 
@@ -81,10 +83,10 @@ namespace jsc.Script.PHP
 						}
 
 						WriteVirtualMethodOverrides(z);
-
-						CompileType_WriteAdditionalMembers();
 					}
+					CompileType_WriteAdditionalMembers();
 				}
+
 
 				WriteLine();
 

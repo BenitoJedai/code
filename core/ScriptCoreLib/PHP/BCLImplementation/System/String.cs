@@ -8,6 +8,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	[Script(Implements = typeof(global::System.String), InternalConstructor = true)]
 	internal class __String
 	{
+		public static readonly string Empty = "";
+
 		public __String(char c, int count)
 		{
 		}
