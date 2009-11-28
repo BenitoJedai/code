@@ -814,7 +814,7 @@ namespace jsc.Script.PHP
 										Write("$value");
 										WriteAssignment();
 										WriteKeywordSpace(Keywords._new);
-										WriteDecoratedTypeName(TargetConstructor.DeclaringType);
+										WriteDecoratedTypeName(TargetConstructorDeclaringType);
 										Write("()");
 										Write(";");
 										WriteLine();
