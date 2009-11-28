@@ -146,8 +146,8 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var PropertyName = NameObfuscation[k.Name];
 
-				var _SetMethod = k.GetSetMethod();
-				var _GetMethod = k.GetGetMethod();
+				var _SetMethod = k.GetSetMethod(true);
+				var _GetMethod = k.GetGetMethod(true);
 
 				var kp = t.DefineProperty(PropertyName, k.Attributes, TypeCache[k.PropertyType], null);
 
@@ -167,11 +167,11 @@ namespace jsc.meta.Commands.Rewrite
 				var EventName = NameObfuscation[k.Name];
 				var kp = t.DefineEvent(EventName, k.Attributes, TypeCache[k.EventHandlerType]);
 
-				var _AddMethod = k.GetAddMethod();
+				var _AddMethod = k.GetAddMethod(true);
 				if (_AddMethod != null)
 					kp.SetAddOnMethod((MethodBuilder)MethodCache[_AddMethod]);
 
-				var _GetRemoveMethod = k.GetRemoveMethod();
+				var _GetRemoveMethod = k.GetRemoveMethod(true);
 				if (_GetRemoveMethod != null)
 					kp.SetRemoveOnMethod((MethodBuilder)MethodCache[_GetRemoveMethod]);
 
