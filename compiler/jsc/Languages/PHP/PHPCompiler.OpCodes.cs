@@ -823,7 +823,10 @@ namespace jsc.Script.PHP
 										WriteKeywordSpace(Keywords._return);
 										Write("$value");
 										Write("->");
-										WriteDecoratedMethodName(TargetConstructor, false);
+										WriteDecoratedMethodName(
+											ResolveImplementationMethod(TargetConstructor.DeclaringType, TargetConstructor) ?? TargetConstructor
+											, false
+										);
 										Write("(");
 										WriteMethodParameterList(TargetConstructor);
 										Write(")");
