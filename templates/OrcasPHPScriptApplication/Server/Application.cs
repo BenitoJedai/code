@@ -88,12 +88,23 @@ namespace OrcasPHPScriptApplication.Server
 
 			Test1();
 			Test2();
+			Test3();
 
 			//Native.API.phpinfo();
 
 			Console.WriteLine("</body>");
 			Console.WriteLine("</html>");
 
+		}
+
+		private static void Test3()
+		{
+			var PIN = "1234";
+
+			foreach (var item in PIN.ToCharArray())
+			{
+				Console.WriteLine(((byte)item).ToString("x2"));
+			}
 		}
 
 		private static void Test2()

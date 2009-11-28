@@ -1,1 +1,6 @@
-﻿...
+﻿support of emitting default values (basically zeros) for sbyte, float, long, ulong, etc (though for real long support we need struct with 2 integer fields, but emit zeros is better than fail)
+ generally, emit floats as doubles (this barely affects semantics)
+ emit arrays of booleans
+ (i've implemented this by myself adapting code from other data types and it seems to work)
+ and emit unsigned comparisons, too (just add _Un, _Un_S opcodes to the list)
+ dunno about _ovf family, better leave them out by now

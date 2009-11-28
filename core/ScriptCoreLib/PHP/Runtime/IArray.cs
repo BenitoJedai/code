@@ -380,7 +380,7 @@ namespace ScriptCoreLib.PHP.Runtime
         }
     }
 
-    [Script]
+    [Script, System.Obsolete]
     public class List<TItem> 
         //where TItem : class
     {

@@ -48,12 +48,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// <param name="_haystack">string haystack</param>
 			/// <param name="_needle">mixed needle</param>
 			[Script(IsNative = true)]
-			public static int strpos(__String _haystack, object _needle) { return default(int); }
+			public static int strpos(string _haystack, object _needle) { return default(int); }
 
 			#endregion
 
 			[Script(IsNative = true)]
-			public static int strpos(__String _haystack, object _needle, int start) { return default(int); }
+			public static int strpos(string _haystack, object _needle, int start) { return default(int); }
 
 			
 			#region mixed str_replace ( mixed search, mixed replace, mixed subject [, int &count] )
@@ -65,7 +65,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// <param name="_replace">mixed replace</param>  
 			/// <param name="_subject">mixed subject</param>  
 			[Script(IsNative = true)]
-			public static __String str_replace(object _search, object _replace, object _subject) { return default(__String); }
+			public static string str_replace(object _search, object _replace, object _subject) { return default(string); }
 
 			#endregion
 
@@ -79,7 +79,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// <param name="_start">int start</param>  
 			/// <param name="_length">int length</param>  
 			[Script(IsNative = true)]
-			public static __String substr(__String _string, int _start, int _length) { return default(__String); }
+			public static string substr(string _string, int _start, int _length) { return default(string); }
 
 			#endregion
 
@@ -91,7 +91,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// <param name="_string">string string</param>  
 			/// <param name="_start">int start</param>  
 			[Script(IsNative = true)]
-			public static __String substr(__String _string, int _start) { return default(__String); }
+			public static string substr(string _string, int _start) { return default(string); }
 
 			#endregion
 
@@ -102,7 +102,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// </summary>  
 			/// <param name="_string">string string</param>  
 			[Script(IsNative = true)]
-			public static int strlen(__String _string) { return default(int); }
+			public static int strlen(string _string) { return default(int); }
 
 			#endregion
 
@@ -113,7 +113,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// </summary>  
 			/// <param name="_str">string str</param>  
 			[Script(IsNative = true)]
-			public static __String trim(__String _str) { return default(__String); }
+			public static string trim(string _str) { return default(string); }
 
 			#endregion
 
@@ -124,7 +124,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// </summary>  
 			/// <param name="_string">string string</param>  
 			[Script(IsNative = true)]
-			public static __String strtoupper(__String _string) { return default(__String); }
+			public static string strtoupper(string _string) { return default(string); }
 
 			#endregion
 
@@ -135,7 +135,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// </summary>  
 			/// <param name="_str">string str</param>  
 			[Script(IsNative = true)]
-			public static __String strtolower(__String _str) { return default(__String); }
+			public static string strtolower(string _str) { return default(string); }
 
 			#endregion
 
@@ -147,7 +147,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			/// <param name="_str1">string str1</param>  
 			/// <param name="_str2">string str2</param>  
 			[Script(IsNative = true)]
-			public static int strcmp(__String _str1, __String _str2) { return default(int); }
+			public static int strcmp(string _str1, string _str2) { return default(int); }
 
 			#endregion
 
@@ -155,25 +155,25 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
 		#region substr
 		[Script(DefineAsStatic = true)]
-		public __String Substring(int a0)
+		public string Substring(int a0)
 		{
-			return API.substr(this, a0);
+			return API.substr((string)(object)this, a0);
 		}
 
 		[Script(DefineAsStatic = true)]
-		public __String Substring(int a0, int a1)
+		public string Substring(int a0, int a1)
 		{
-			return API.substr(this, a0, a1);
+			return API.substr((string)(object)this, a0, a1);
 		}
 
 		[Script(DefineAsStatic = true)]
-		public bool EndsWith(__String a0)
+		public bool EndsWith(string a0)
 		{
 			return this.Substring(this.Length - a0.Length) == a0;
 		}
 
 		[Script(DefineAsStatic = true)]
-		public bool StartsWith(__String a0)
+		public bool StartsWith(string a0)
 		{
 			return this.Substring(0, a0.Length) == a0;
 		}
@@ -191,15 +191,15 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
 
 		[Script(DefineAsStatic = true)]
-		public __String Replace(__String a0, __String a1)
+		public string Replace(string a0, string a1)
 		{
-			return API.str_replace(a0, a1, this);
+			return API.str_replace(a0, a1, (string)(object)this);
 		}
 
 		[Script(DefineAsStatic = true)]
-		public __String Trim()
+		public string Trim()
 		{
-			return API.trim(this);
+			return API.trim((string)(object)this);
 		}
 
 		[Script(OptimizedCode = @"$_0 = strpos({arg0}, {arg1}, {arg2}); return $_0 === false ? -1 : $_0;", UseCompilerConstants = true)]
@@ -225,21 +225,21 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		}
 
 		[Script(DefineAsStatic = true)]
-		public __String ToLower()
+		public string ToLower()
 		{
-			return API.strtolower(this);
+			return API.strtolower((string)(object)this);
 		}
 
 		[Script(DefineAsStatic = true)]
-		public __String ToUpper()
+		public string ToUpper()
 		{
-			return API.strtoupper(this);
+			return API.strtoupper((string)(object)this);
 		}
 
 		[Script(DefineAsStatic = true)]
-		public int CompareTo(__String e)
+		public int CompareTo(string e)
 		{
-			return API.strcmp(this, e);
+			return API.strcmp((string)(object)this, e);
 
 		}
 
@@ -248,7 +248,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			[Script(DefineAsStatic = true)]
 			get
 			{
-				return API.strlen(this);
+				return API.strlen((string)(object)this);
 			}
 		}
 
@@ -378,6 +378,18 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 		public string[] Split(char[] separator, StringSplitOptions options)
 		{
 			return Native.API.explode(new string(separator[0], 1), this);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public char[] ToCharArray()
+		{
+			var x = (string)(object)this;
+			var a = new char[x.Length];
+			for (int i = 0; i < x.Length; i++)
+			{
+				a[i] = x[i];
+			}
+			return a;
 		}
 	}
 }

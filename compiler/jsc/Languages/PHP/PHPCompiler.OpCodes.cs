@@ -530,6 +530,8 @@ namespace jsc.Script.PHP
 									Write("0");
 								else if (e.i.TargetType == typeof(byte))
 									Write("0");
+								else if (e.i.TargetType == typeof(char))
+									Write("0");
 								else if (e.i.TargetType == typeof(int))
 									Write("0");
 								else if (e.i.TargetType == typeof(short))
