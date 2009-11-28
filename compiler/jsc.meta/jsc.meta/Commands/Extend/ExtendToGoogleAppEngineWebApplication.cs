@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -57,13 +58,29 @@ namespace jsc.meta.Commands.Extend
 
 			#region lets find out our main target
 			{
-				var targets = Directory.GetFiles(project.Directory.FullName + @"\bin\staging\bin", "*.dll");
+				var targets = Enumerable.ToArray(
+					from f in Directory.GetFiles(project.Directory.FullName + @"\bin\staging\bin", "*.dll")
+					select new { f = new FileInfo(f), a = Assembly.LoadFile(f) }
+				);
 
-				// 
-				foreach (var item in targets)
-				{
-					Console.WriteLine(item);
-				}
+				var targets2 = Enumerable.ToArray(
+					from k in targets
+					let r = Enumerable.ToArray(
+						from kr in k.a.GetReferencedAssemblies()
+						let x = targets.FirstOrDefault(xr => xr.a.GetName().Name == kr.Name)
+						where x != null
+						select x.a
+					)
+					select new { r, k.a, k.f }
+				);
+
+				var target = Enumerable.Single(
+					from k in targets2
+					where !targets2.Any(kk => kk.r.Contains(k.a))
+					select k
+				);
+
+				Console.WriteLine(target.f.FullName);
 			}
 			#endregion
 
