@@ -99,6 +99,8 @@ namespace OrcasPHPScriptApplication.Server
 
 		private static void Test3()
 		{
+
+			var K = string.Empty;
 			var PIN = "1234";
 
 			foreach (var item in PIN.ToCharArray())

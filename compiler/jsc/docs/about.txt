@@ -398,3 +398,4 @@ version history:
 	php: added OpCodes.Blt
 28.11.2009
 	php: added OpCodes.Isinst
+	php: BCL implementation types can now have static fields
