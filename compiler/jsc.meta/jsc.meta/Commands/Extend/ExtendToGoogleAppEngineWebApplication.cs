@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Diagnostics;
 using System.Reflection;
+using jsc.meta.Commands.Rewrite;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -80,10 +81,48 @@ namespace jsc.meta.Commands.Extend
 					select k
 				);
 
-				Console.WriteLine(target.f.FullName);
+				//Console.WriteLine(target.f.FullName);
+
+				var staging = target.f.Directory.CreateSubdirectory("staging");
+
+				// okay now lets rewrite the primary webservice and add data for jsc
+				var rewrite = new RewriteToAssembly
+				{
+					assembly = target.f,
+					staging = staging,
+
+					// at this time we can focus only on the first webservice and consider it as primary
+					PrimaryTypes = target.a.GetTypes(),
+
+					product = Path.GetFileNameWithoutExtension(target.f.Name),
+
+					#region if we are going to inject code from jsc we need to copy it
+					rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
+						"jsc.meta->" + Path.GetFileNameWithoutExtension(target.f.Name),
+						"jsc->" +  Path.GetFileNameWithoutExtension(target.f.Name),
+					},
+
+					merge = new RewriteToAssembly.MergeInstruction[] {
+						"jsc.meta",
+						"jsc"
+					}.Concat(
+						// merge with other ASP.NET user libraries
+						from k in targets
+						where k.a != target.a
+						select (RewriteToAssembly.MergeInstruction)k.a.GetName().Name
+					).ToArray(),
+					#endregion
+
+				};
+
+				rewrite.Invoke();
+
+				// ready for jsc...
 			}
 			#endregion
 
 		}
+
+
 	}
 }

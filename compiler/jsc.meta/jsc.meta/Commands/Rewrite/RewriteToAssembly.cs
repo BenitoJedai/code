@@ -162,6 +162,7 @@ namespace jsc.meta.Commands.Rewrite
 			_assembly = assembly;
 
 			// load the rest of the references
+			// maybe we shouldnt load those references which will be merged?
 			assembly.LoadReferencesAt(staging, this.assembly.Directory);
 
 

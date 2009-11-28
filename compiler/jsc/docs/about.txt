@@ -399,3 +399,4 @@ version history:
 28.11.2009
 	php: added OpCodes.Isinst
 	php: BCL implementation types can now have static fields
+	il: private properties are not forgotten
