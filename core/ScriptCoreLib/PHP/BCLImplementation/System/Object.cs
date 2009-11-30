@@ -1,4 +1,5 @@
 using ScriptCoreLib.PHP;
+using System;
 
 namespace ScriptCoreLib.PHP.BCLImplementation.System
 {
@@ -22,5 +23,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
         {
             return default(int);
         }
+
+		[Script(DefineAsStatic = true)]
+		new public Type GetType()
+		{
+			return __Type.GetTypeFromValue(this);
+		}
+
     }
 }
