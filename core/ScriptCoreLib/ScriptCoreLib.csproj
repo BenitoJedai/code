@@ -589,6 +589,7 @@
     <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Predicate.cs" />
     <Compile Include="PHP\BCLImplementation\System\Random.cs" />
+    <Compile Include="PHP\BCLImplementation\System\RuntimeTypeHandle.cs" />
     <Compile Include="PHP\BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
     <Compile Include="PHP\BCLImplementation\System\Security\Cryptography\MD5.cs" />
     <Compile Include="PHP\BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs" />
@@ -613,6 +614,7 @@
     <Compile Include="PHP\BCLImplementation\System\Math.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\StringBuilder.cs" />
     <Compile Include="PHP\BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Type.cs" />
     <Compile Include="PHP\Drawing\Image.API.cs" />
     <Compile Include="PHP\Drawing\Image.cs" />
     <Compile Include="PHP\IO\DirectoryInfo.cs" />
