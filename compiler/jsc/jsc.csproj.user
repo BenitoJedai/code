@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\templates\OrcasPHPScriptApplication\bin\Debug</StartWorkingDirectory>
-    <StartArguments>OrcasPHPScriptApplication.dll -php</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\php\TestTypeOf\TestTypeOf\bin\Debug</StartWorkingDirectory>
+    <StartArguments>TestTypeOf.dll -php</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

@@ -536,6 +536,7 @@ namespace jsc.Languages.Java
 					var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
 					// typeof(System.__String) or typeof(java.lang.String)
+					
 					_TargetType = _TargetType.ToScriptAttributeOrDefault().ImplementationType ?? _TargetType;
 
 					#region _RuntimeTypeHandle_From_Class

@@ -10,6 +10,7 @@ using System.Linq;
 using jsc.CodeModel;
 
 using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Script.PHP
 {
@@ -86,6 +87,53 @@ namespace jsc.Script.PHP
 				OpCodes.Conv_U1,
 				OpCodes.Conv_U2,
 				OpCodes.Conv_R8] = CodeEmitArgs.DelegateEmitFirstOnStack;
+
+
+			#region Ldtoken
+			CIW[OpCodes.Ldtoken] =
+				e =>
+				{
+					//if (e.i.TargetType == null)
+					//    throw new NotSupportedException("ldtoken");
+
+					//WriteDecoratedTypeName(e.i.TargetType);
+
+					var _RuntimeTypeHandle = MySession.ResolveImplementation(typeof(RuntimeTypeHandle));
+					var _IntPtr = MySession.ResolveImplementation(typeof(IntPtr));
+					var _RuntimeTypeHandle_From_Class = _RuntimeTypeHandle.GetExplicitOperators(null, _RuntimeTypeHandle).Single(i => i.ReturnType == _RuntimeTypeHandle);
+
+					var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
+
+					// typeof(System.__String) or typeof(java.lang.String)
+					_TargetType = _TargetType.ToScriptAttributeOrDefault().ImplementationType ?? _TargetType;
+
+					#region _RuntimeTypeHandle_From_Class
+					//WriteDecoratedTypeName(_RuntimeTypeHandle);
+					//Write("->");
+					WriteDecoratedMethodName(_RuntimeTypeHandle_From_Class, false);
+					Write("(");
+
+					if (_TargetType.IsGenericParameter)
+					{
+						// the Type should be passed as an argument?
+						throw new NotSupportedException("typeof(T) not supported yet.");
+					}
+
+					Write("\"");
+
+					// we shall favor promitives
+					WriteDecoratedTypeName(
+						_TargetType
+					);
+
+					Write("\"");
+
+		
+
+					Write(")");
+					#endregion
+				};
+			#endregion
 
 			CIW[OpCodes.Isinst] = delegate(CodeEmitArgs e)
 			{

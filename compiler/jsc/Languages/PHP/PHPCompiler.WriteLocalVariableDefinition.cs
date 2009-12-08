@@ -36,68 +36,64 @@ namespace jsc.Script.PHP
 			if (LocalType.IsEnum)
 				LocalType = Enum.GetUnderlyingType(LocalType);
 
-			if (LocalType.IsPrimitive)
+
+			if (LocalType == typeof(bool))
 			{
-				if (LocalType == typeof(bool))
-				{
-					Write("false");
-					return;
-				}
-
-				if (LocalType == typeof(long))
-				{
-					Write("0");
-					return;
-				}
-
-				if (LocalType == typeof(int))
-				{
-					Write("0");
-					return;
-				}
-
-				if (LocalType == typeof(uint))
-				{
-					Break("uint is not supported yet. see: http://ee2.php.net/manual/en/language.types.php");
-
-					Write("0");
-					return;
-				}
-
-				if (LocalType == typeof(byte))
-				{
-					Write("0");
-					return;
-				}
-
-
-				if (LocalType == typeof(char))
-				{
-					Write("0");
-					return;
-				}
-
-				if (LocalType == typeof(double))
-				{
-					Write("0.0");
-					return;
-				}
+				Write("false");
+				return;
 			}
-			else
-			{
-				if (LocalType.IsValueType)
-				{
-					var r = this.ResolveImplementation(LocalType) ?? LocalType;
-					var ctor = r.GetConstructor(new Type [] { });
 
-					if (ctor != null)
-					{
-						this.WriteKeywordSpace(Keywords._new);
-						this.WriteDecoratedTypeName(u.DeclaringType, r);
-						this.Write("()");
-						this.WriteLine(";");
-						return;
-					}
+			if (LocalType == typeof(long))
+			{
+				Write("0");
+				return;
+			}
+
+			if (LocalType == typeof(int))
+			{
+				Write("0");
+				return;
+			}
+
+			if (LocalType == typeof(uint))
+			{
+				Break("uint is not supported yet. see: http://ee2.php.net/manual/en/language.types.php");
+
+				Write("0");
+				return;
+			}
+
+			if (LocalType == typeof(byte))
+			{
+				Write("0");
+				return;
+			}
+
+
+			if (LocalType == typeof(char))
+			{
+				Write("0");
+				return;
+			}
+
+			if (LocalType == typeof(double))
+			{
+				Write("0.0");
+				return;
+			}
+
+			if (LocalType.IsValueType)
+			{
+				var r = this.ResolveImplementation(LocalType) ?? LocalType;
+				var ctor = r.GetConstructor(new Type[] { });
+
+				if (ctor != null)
+				{
+					this.WriteKeywordSpace(Keywords._new);
+					this.WriteDecoratedTypeName(u.DeclaringType, r);
+					this.Write("()");
+					this.WriteLine(";");
+					return;
 				}
 			}
 

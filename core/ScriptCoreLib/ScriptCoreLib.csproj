@@ -589,6 +589,8 @@
     <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Predicate.cs" />
     <Compile Include="PHP\BCLImplementation\System\Random.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Reflection\FieldInfo.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Reflection\MemberInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\RuntimeTypeHandle.cs" />
     <Compile Include="PHP\BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
     <Compile Include="PHP\BCLImplementation\System\Security\Cryptography\MD5.cs" />
