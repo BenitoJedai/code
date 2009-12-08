@@ -400,3 +400,5 @@ version history:
 	php: added OpCodes.Isinst
 	php: BCL implementation types can now have static fields
 	il: private properties are not forgotten
+08.12.2009
+	php: implemented typeof 
