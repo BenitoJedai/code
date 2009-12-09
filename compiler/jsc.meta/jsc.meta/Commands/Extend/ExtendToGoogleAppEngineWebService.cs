@@ -17,6 +17,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Collections;
 using System.Diagnostics;
+using jsc.meta.Library.Web.Java;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -417,6 +418,7 @@ namespace jsc.meta.Commands.Extend
 					}
 				);
 
+				#region ant_build_xml, run.bat, upload.bat
 				{
 					var ant_build_xml = XDocument.Load(
 						XmlReader.Create(
@@ -484,6 +486,8 @@ call """ + this.context.appengine + @"\bin\appcfg.cmd"" update www
 "
 					);
 				}
+				#endregion
+
 			}
 
 			private void RenderOperationPage(
