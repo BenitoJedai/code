@@ -7,5 +7,6 @@ namespace jsc.meta.Library.Web.PHP
 {
 	public class InvokeWebServiceArguments
 	{
+
 	}
 }
