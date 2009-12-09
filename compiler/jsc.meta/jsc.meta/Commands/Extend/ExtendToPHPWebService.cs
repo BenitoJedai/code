@@ -12,6 +12,7 @@ using jsc.meta.Library;
 using ScriptCoreLib;
 using jsc.meta.Library.Web;
 using jsc.Languages.IL;
+using jsc.meta.Library.Web.Java;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -142,6 +143,14 @@ namespace jsc.meta.Commands.Extend
 
 										Console.WriteLine(REQUEST_URI + @"<br \>");
 										Console.WriteLine(SCRIPT_NAME + @"<br \>");
+
+										var i = SCRIPT_NAME.LastIndexOf("/");
+										if (i < 0)
+											i = 0;
+
+										var p = REQUEST_URI.Substring(i);
+
+										Console.WriteLine(p + @"<br \>");
 									};
 
 								dummy.EmitTo(il, new ILTranslationExtensions.EmitToArguments());
@@ -214,6 +223,7 @@ namespace jsc.meta.Commands.Extend
 				{
 					var web = r.Output.Directory.CreateSubdirectory("web");
 
+					#region Application_Main@index.php
 					var w = new StringBuilder();
 
 					w.AppendLine("<?");
@@ -230,7 +240,9 @@ namespace jsc.meta.Commands.Extend
 					w.AppendLine("?>");
 
 					File.WriteAllText(Path.Combine(web.FullName, "index.php"), w.ToString());
+					#endregion
 
+					#region htaccess
 					// http://www.dynamicdrive.com/forums/showthread.php?t=43774
 					// http://corz.org/serv/tricks/htaccess2.php
 					File.WriteAllText(Path.Combine(web.FullName, ".htaccess"),
@@ -239,6 +251,8 @@ RewriteEngine on
 DirectorySlash off 
 Options -Indexes
 RewriteRule ^(.*)$ index\.php [NC]");
+					#endregion
+
 
 				}
 			}
