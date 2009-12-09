@@ -12,7 +12,7 @@ using jsc.meta.Library;
 using ScriptCoreLib;
 using jsc.meta.Library.Web;
 using jsc.Languages.IL;
-using jsc.meta.Library.Web.Java;
+using jsc.meta.Library.Web.PHP;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -118,9 +118,13 @@ namespace jsc.meta.Commands.Extend
 					PostRewrite =
 						a =>
 						{
-							var Application = a.Module.DefineType("Application", TypeAttributes.Sealed | TypeAttributes.Abstract);
 
-							var Application_Main_ = Application.DefineMethod(Application_Main, MethodAttributes.Static);
+							var WebServiceServletImplementation = a.Module.DefineType("WebServiceServletImplementation", TypeAttributes.Public, a.context.TypeCache[typeof(WebServiceServlet)]);
+							var WebServiceServletImplementation_ctor = WebServiceServletImplementation.DefineDefaultConstructor(MethodAttributes.Public);
+
+
+
+							var Application_Main_ = WebServiceServletImplementation.DefineMethod(Application_Main, MethodAttributes.Static);
 
 							Application_Main_.DefineAttribute<ScriptAttribute>(
 								new
@@ -129,37 +133,21 @@ namespace jsc.meta.Commands.Extend
 								}
 							);
 
+
 							{
 								var il = Application_Main_.GetILGenerator();
 
-								Action dummy =
-									delegate
-									{
-										Console.WriteLine("hello world :)");
-										Console.WriteLine(@"<hr \>");
+								var loc1 = il.DeclareLocal(a.context.TypeCache[typeof(WebServiceServlet)]);
 
-										var REQUEST_URI = (string)ScriptCoreLib.PHP.Native.SuperGlobals.Server[ScriptCoreLib.PHP.Native.SuperGlobals.ServerVariables.REQUEST_URI];
-										var SCRIPT_NAME = (string)ScriptCoreLib.PHP.Native.SuperGlobals.Server[ScriptCoreLib.PHP.Native.SuperGlobals.ServerVariables.SCRIPT_NAME];
+								il.Emit(OpCodes.Newobj, WebServiceServletImplementation_ctor);
+								il.Emit(OpCodes.Stloc, loc1);
 
-										Console.WriteLine(REQUEST_URI + @"<br \>");
-										Console.WriteLine(SCRIPT_NAME + @"<br \>");
-
-										var i = SCRIPT_NAME.LastIndexOf("/");
-										if (i < 0)
-											i = 0;
-
-										var p = REQUEST_URI.Substring(i);
-
-										Console.WriteLine(p + @"<br \>");
-									};
-
-								dummy.EmitTo(il, new ILTranslationExtensions.EmitToArguments());
-
-								//il.EmitWriteLine("hello world");
-								//il.Emit(OpCodes.Ret);
+								il.Emit(OpCodes.Ldloc, loc1);
+								il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("Invoke")]);
+								il.Emit(OpCodes.Ret);
 							}
 
-							Application.CreateType();
+							WebServiceServletImplementation.CreateType();
 
 							var res = new ScriptResourceWriter(a.Assembly, a.Module)
 							{
@@ -265,48 +253,48 @@ RewriteRule ^(.*)$ index\.php [NC]");
 				LocalBuilder loc_OperationParameter
 				)
 			{
-				var p = m.GetParameters().Select((k, i) => new { k, i }).ToArray();
+				//var p = m.GetParameters().Select((k, i) => new { k, i }).ToArray();
 
-				il.Emit(OpCodes.Ldc_I4, p.Length);
-				il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo)]);
-				il.Emit(OpCodes.Stloc, loc_OperationParameters);
+				//il.Emit(OpCodes.Ldc_I4, p.Length);
+				//il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo)]);
+				//il.Emit(OpCodes.Stloc, loc_OperationParameters);
 
-				foreach (var item in p)
-				{
-					il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(InvokeWebServiceArguments.ParameterInfo).GetConstructor(new Type[0])]);
-					il.Emit(OpCodes.Stloc, loc_OperationParameter);
+				//foreach (var item in p)
+				//{
+				//    il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(InvokeWebServiceArguments.ParameterInfo).GetConstructor(new Type[0])]);
+				//    il.Emit(OpCodes.Stloc, loc_OperationParameter);
 
-					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
-					il.Emit(OpCodes.Ldstr, item.k.Name);
-					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Name"));
+				//    il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+				//    il.Emit(OpCodes.Ldstr, item.k.Name);
+				//    il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Name"));
 
-					//L_001c: ldtoken string
-					//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+				//    //L_001c: ldtoken string
+				//    //L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
 
-					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
-					il.Emit(OpCodes.Ldtoken, item.k.ParameterType);
-					il.Emit(OpCodes.Call,
-						typeof(Type).GetMethod("GetTypeFromHandle",
-							new[] { typeof(System.RuntimeTypeHandle) }
-						)
-					);
+				//    il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+				//    il.Emit(OpCodes.Ldtoken, item.k.ParameterType);
+				//    il.Emit(OpCodes.Call,
+				//        typeof(Type).GetMethod("GetTypeFromHandle",
+				//            new[] { typeof(System.RuntimeTypeHandle) }
+				//        )
+				//    );
 
 
-					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Type"));
+				//    il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Type"));
 
-					il.Emit(OpCodes.Ldloc, loc_OperationParameters);
-					il.Emit(OpCodes.Ldc_I4, item.i);
-					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
-					il.Emit(OpCodes.Stelem_Ref);
-				}
+				//    il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+				//    il.Emit(OpCodes.Ldc_I4, item.i);
+				//    il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+				//    il.Emit(OpCodes.Stelem_Ref);
+				//}
 
-				// are we sure argument 1 is there for us?
-				il.Emit(OpCodes.Ldarg_1);
-				il.Emit(OpCodes.Ldstr, m.Name);
-				il.Emit(OpCodes.Ldloc, loc_OperationParameters);
-				il.Emit(OpCodes.Call,
-					a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("RenderOperationToDocumentContent")]
-				);
+				//// are we sure argument 1 is there for us?
+				//il.Emit(OpCodes.Ldarg_1);
+				//il.Emit(OpCodes.Ldstr, m.Name);
+				//il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+				//il.Emit(OpCodes.Call,
+				//    a.context.MethodCache[typeof(InvokeWebServiceArguments).GetMethod("RenderOperationToDocumentContent")]
+				//);
 
 
 			}
