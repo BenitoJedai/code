@@ -20,7 +20,7 @@ namespace jsc.Script.PHP
 		public void Compile(Assembly ja, CompileSessionInfo sinfo)
 		{
 
-			var web = new DirectoryInfo("web");
+			var web = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
 
 			var u = web.CreateSubdirectory("inc");
 

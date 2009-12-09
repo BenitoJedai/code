@@ -65,6 +65,7 @@ using System;
 [assembly: InternalsVisibleTo("ScriptCoreLib.Windows.Forms")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Drawing.Vector")]
 [assembly: InternalsVisibleTo("ScriptCoreLib.Avalon")]
+[assembly: InternalsVisibleTo("ScriptCoreLib.Web.Services")]
 //[assembly: InternalsVisibleTo("ScriptCoreLib.Archive")]
 
 

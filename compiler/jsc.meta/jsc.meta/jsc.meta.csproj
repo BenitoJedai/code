@@ -93,6 +93,10 @@
       <HintPath>..\..\..\..\..\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ScriptCoreLib.Web.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Web.Services.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
@@ -155,6 +159,7 @@
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToNativeConsole.cs" />
+    <Compile Include="Commands\Extend\ExtendToPHPWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToPHPWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
     <Compile Include="Commands\Reference\ReferenceAssets.cs" />

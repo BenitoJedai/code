@@ -51,7 +51,9 @@ namespace jsc.meta
 				new ExtendToAvalonEverywhere().Invoke,
 				new ExtendToGoogleAppEngineWebService().Invoke,
 				new ExtendToGoogleAppEngineWebApplication().Invoke,
+
 				new ExtendToPHPWebService().Invoke,
+				new ExtendToPHPWebApplication().Invoke,
 
 				new ReferenceWaveComponent().Invoke,
 				new ReferenceTextComponent().Invoke,
