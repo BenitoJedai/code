@@ -210,23 +210,19 @@ public ref class MyWebService {
 			this.DocumentContent = w.ToString();
 		}
 
-		public class ParameterInfo
-		{
-			public string Name;
-			public Type Type;
-		}
+	
 
 
 		internal void RenderOperationToDocumentContent()
 		{
 			var a = new[]
 			{
-				new ParameterInfo
+				new SimpleParameterInfo
 				{
 					Name = "foo",
 					Type = typeof(string)
 				},
-				new ParameterInfo
+				new SimpleParameterInfo
 				{
 					Name = "bar",
 					Type = typeof(string)
@@ -237,7 +233,7 @@ public ref class MyWebService {
 		}
 
 
-		public void RenderOperationToDocumentContent(string MethodName, ParameterInfo[] Parameters)
+		public void RenderOperationToDocumentContent(string MethodName, SimpleParameterInfo[] Parameters)
 		{
 
 			var w = new StringBuilder();

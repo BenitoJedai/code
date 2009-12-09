@@ -32,6 +32,9 @@ namespace TestTypeOf
 
 		static Class1()
 		{
+
+			var string_ = typeof(string);
+
 			Console.WriteLine("Test1\n\n");
 			{
 				var t = typeof(Class1);

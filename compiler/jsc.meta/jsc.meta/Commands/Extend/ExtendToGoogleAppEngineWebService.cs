@@ -218,8 +218,8 @@ namespace jsc.meta.Commands.Extend
 										il.Emit(OpCodes.Stloc, loc_Operation);
 										il.EmitWriteLine(loc_Operation);
 
-										var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo[])]);
-										var loc_OperationParameter = il.DeclareLocal(a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo)]);
+										var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo[])]);
+										var loc_OperationParameter = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo)]);
 
 										foreach (var m in DispatchList)
 										{
@@ -501,17 +501,17 @@ call """ + this.context.appengine + @"\bin\appcfg.cmd"" update www
 				var p = m.GetParameters().Select((k, i) => new { k, i }).ToArray();
 
 				il.Emit(OpCodes.Ldc_I4, p.Length);
-				il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(InvokeWebServiceArguments.ParameterInfo)]);
+				il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(SimpleParameterInfo)]);
 				il.Emit(OpCodes.Stloc, loc_OperationParameters);
 
 				foreach (var item in p)
 				{
-					il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(InvokeWebServiceArguments.ParameterInfo).GetConstructor(new Type[0])]);
+					il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(SimpleParameterInfo).GetConstructor(new Type[0])]);
 					il.Emit(OpCodes.Stloc, loc_OperationParameter);
 
 					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
 					il.Emit(OpCodes.Ldstr, item.k.Name);
-					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Name"));
+					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(k => k.Name == "Name"));
 
 					//L_001c: ldtoken string
 					//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
@@ -525,7 +525,7 @@ call """ + this.context.appengine + @"\bin\appcfg.cmd"" update www
 					);
 
 
-					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments.ParameterInfo)].Single(k => k.Name == "Type"));
+					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(k => k.Name == "Type"));
 
 					il.Emit(OpCodes.Ldloc, loc_OperationParameters);
 					il.Emit(OpCodes.Ldc_I4, item.i);
