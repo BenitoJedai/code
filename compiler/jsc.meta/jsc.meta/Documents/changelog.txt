@@ -44,3 +44,5 @@
 	- Added ExtendToGoogleAppEngineWebService command
 2009.11.24
 	- ExtendToGoogleAppEngineWebService implemented
+2009.12.09
+	- Implementing ExtendToPHPWebService command
