@@ -122,9 +122,18 @@ namespace jsc.Script.PHP
 					Write("\"");
 
 					// we shall favor promitives
-					WriteDecoratedTypeName(
-						_TargetType
-					);
+
+					// what about native types?
+					if (_TargetType.ToScriptAttributeOrDefault().Implements == typeof(string))
+					{
+						Write("string");
+					}
+					else
+					{
+						WriteDecoratedTypeName(
+							_TargetType
+						);
+					}
 
 					Write("\"");
 
