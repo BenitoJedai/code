@@ -11,6 +11,7 @@ using System.Reflection.Emit;
 using jsc.meta.Library;
 using ScriptCoreLib;
 using jsc.meta.Library.Web;
+using jsc.Languages.IL;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -55,7 +56,7 @@ namespace jsc.meta.Commands.Extend
 		}
 
 		const string Handler = "Handler";
-
+		const string Application_Main = "Application_Main";
 
 		public class Builder
 		{
@@ -116,49 +117,44 @@ namespace jsc.meta.Commands.Extend
 					PostRewrite =
 						a =>
 						{
-							
+							var Application = a.Module.DefineType("Application", TypeAttributes.Sealed | TypeAttributes.Abstract);
+
+							var Application_Main_ = Application.DefineMethod(Application_Main, MethodAttributes.Static);
+
+							Application_Main_.DefineAttribute<ScriptAttribute>(
+								new
+								{
+									NoDecoration = true
+								}
+							);
+
+							{
+								var il = Application_Main_.GetILGenerator();
+
+								Action dummy =
+									delegate
+									{
+										Console.WriteLine("hello world :)");
+										Console.WriteLine(@"<hr \>");
+
+										var REQUEST_URI = (string)ScriptCoreLib.PHP.Native.SuperGlobals.Server[ScriptCoreLib.PHP.Native.SuperGlobals.ServerVariables.REQUEST_URI];
+										var SCRIPT_NAME = (string)ScriptCoreLib.PHP.Native.SuperGlobals.Server[ScriptCoreLib.PHP.Native.SuperGlobals.ServerVariables.SCRIPT_NAME];
+
+										Console.WriteLine(REQUEST_URI + @"<br \>");
+										Console.WriteLine(SCRIPT_NAME + @"<br \>");
+									};
+
+								dummy.EmitTo(il, new ILTranslationExtensions.EmitToArguments());
+
+								//il.EmitWriteLine("hello world");
+								//il.Emit(OpCodes.Ret);
+							}
+
+							Application.CreateType();
 
 							var res = new ScriptResourceWriter(a.Assembly, a.Module)
 							{
-								//#region appengine-web.xml
-								//{
-								//    "java/WEB-INF/appengine-web.xml",
-
-								//    new XElement(xmlns.appengine + "appengine-web-app",
-								//        new XElement(xmlns.appengine + "application", this.context.application),
-								//        new XElement(xmlns.appengine + "version", this.context.version)
-								//    )
-								//},
-								//#endregion
-								//#region web.xml
-								//{
-								//    "java/WEB-INF/web.xml",
-
-								//    new XElement(xmlns.javaee + "web-app",
-								//        new [] {
-								//            new XElement(xmlns.javaee + "display-name", this.context.application)
-								//        }.Concat(
-								//            from k in t
-								//            select new XElement(xmlns.javaee + "servlet", 
-								//                new XElement(xmlns.javaee + "servlet-name", k.HandlerName),
-								//                new XElement(xmlns.javaee + "servlet-class", k.HandlerFullName)
-								//            )
-								//        ).Concat(
-								//            from k in t
-								//            select new XElement(xmlns.javaee + "servlet-mapping", 
-								//                new XElement(xmlns.javaee + "servlet-name", k.HandlerName),
-												
-								//                // http://www.coderanch.com/t/414165/Servlets/java/url-pattern-web-xml
-
-								//                new XElement(xmlns.javaee + "url-pattern", "/" + k.WebService.Name + ".asmx/*"),
-								//                new XElement(xmlns.javaee + "url-pattern", "/" + k.WebService.Name + ".asmx")
-								//            )
-								//        )
-								//    )
-
-								//}
-								//#endregion
-
+								// any assets needed?
 							};
 
 
@@ -215,7 +211,36 @@ namespace jsc.meta.Commands.Extend
 					}
 				);
 
-				
+				{
+					var web = r.Output.Directory.CreateSubdirectory("web");
+
+					var w = new StringBuilder();
+
+					w.AppendLine("<?");
+
+					foreach (var kk in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(r.Output.FullName), true))
+					{
+						var k = Path.GetFileName(kk.Location);
+
+						w.AppendLine("require_once '" + k + ".php';");
+					}
+
+					w.AppendLine(Application_Main + "();");
+
+					w.AppendLine("?>");
+
+					File.WriteAllText(Path.Combine(web.FullName, "index.php"), w.ToString());
+
+					// http://www.dynamicdrive.com/forums/showthread.php?t=43774
+					// http://corz.org/serv/tricks/htaccess2.php
+					File.WriteAllText(Path.Combine(web.FullName, ".htaccess"),
+@"Options +FollowSymlinks
+RewriteEngine on
+DirectorySlash off 
+Options -Indexes
+RewriteRule ^(.*)$ index\.php [NC]");
+
+				}
 			}
 
 			private void RenderOperationPage(
