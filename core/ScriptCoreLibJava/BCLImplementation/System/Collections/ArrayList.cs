@@ -40,6 +40,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 			}
 		}
 
+
+		public virtual void Remove(object o)
+		{
+			this.InternalList.remove(o);
+		}
+
 		public virtual void RemoveAt(int index)
 		{
 			this.InternalList.remove(index);

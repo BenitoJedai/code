@@ -139,7 +139,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public override string ToString()
 		{
-			return this.OriginalString;
+			var w = new StringBuilder();
+
+			w.Append(this.Scheme);
+			w.Append("://");
+			w.Append(this.Host);
+			w.Append(":");
+			w.Append(this.Port);
+
+			if (string.IsNullOrEmpty(this.PathAndQuery))
+				w.Append("/");
+			else
+				w.Append(this.PathAndQuery);
+
+			return w.ToString();
 		}
 	}
 
