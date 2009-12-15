@@ -69,5 +69,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			return new __TimeSpan { InternalTicks = d1.Ticks - d2.Ticks };
 		}
+
+		public override string ToString()
+		{
+			var w = new StringBuilder();
+
+			w.Append((this.Day + "").PadLeft(2, '0'));
+			w.Append(".");
+			w.Append((this.Month + "").PadLeft(2, '0'));
+			w.Append(".");
+			w.Append(this.Year);
+			w.Append(" ");
+			w.Append((this.Hour + "").PadLeft(2, '0'));
+			w.Append(":");
+			w.Append((this.Minute + "").PadLeft(2, '0'));
+			w.Append(":");
+			w.Append((this.Second + "").PadLeft(2, '0'));
+
+			return w.ToString();
+		}
 	}
 }

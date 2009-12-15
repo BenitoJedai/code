@@ -23,7 +23,12 @@ namespace SimpleChat2.ClientProvider
 			var w = new StringBuilder();
 
 			w.Append(server.ToString());
-			w.Append(e.DefaultRequestPath);
+
+			var DefaultRequestPath = e.DefaultRequestPath;
+			if (DefaultRequestPath.StartsWith("/"))
+				DefaultRequestPath = DefaultRequestPath.Substring(1);
+
+			w.Append(DefaultRequestPath);
 			w.Append("?");
 
 			var i = 0;

@@ -31,10 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib.Reflection.Options, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,8 +50,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Library\HeaderReader.cs" />
+    <Compile Include="Library\MyExtensions.cs" />
+    <Compile Include="Library\SynchronizedActionQueue.cs" />
+    <Compile Include="Library\VirtualServerRack.cs" />
+    <Compile Include="MySync.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MySync.designer.cs">
+      <DependentUpon>MySync.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestDispatcher.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RequestDispatcher.Designer.cs">
+      <DependentUpon>RequestDispatcher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RequestHandler.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RequestHandler.Designer.cs">
+      <DependentUpon>RequestHandler.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MySync.resx">
+      <DependentUpon>MySync.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RequestDispatcher.resx">
+      <DependentUpon>RequestDispatcher.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleChat2.Network\SimpleChat2.Network.csproj">
+      <Project>{ED813196-5B9B-4BAE-8706-65329EA25914}</Project>
+      <Name>SimpleChat2.Network</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
