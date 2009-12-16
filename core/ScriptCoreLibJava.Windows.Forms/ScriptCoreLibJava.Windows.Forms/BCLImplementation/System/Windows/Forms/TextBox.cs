@@ -65,5 +65,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		{
 			this.InternalContent.setEditable(!value);
 		}
+
+		public override string[] InternalGetLines()
+		{
+			return Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+		}
 	}
 }

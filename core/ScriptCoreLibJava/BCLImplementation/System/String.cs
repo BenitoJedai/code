@@ -197,6 +197,38 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return Convert.SplitStringByChar((string)a, e[0]);
 		}
 
+		[Script(DefineAsStatic = true)]
+		public string[] Split(string[] e, global::System.StringSplitOptions o)
+		{
+			var a = new global::System.Collections.ArrayList();
+			var x = (string)(object)this;
+
+			var i = x.IndexOf(e[0]);
+
+			if (i < 0)
+			{
+				// all in
+				a.Add(x);
+			}
+			else
+			{
+				var j = 0;
+
+				while (i >= 0)
+				{
+					a.Add(x.Substring(j, i - j));
+					j = i + e[0].Length;
+					i = x.IndexOf(e[0], j);
+				}
+
+				a.Add(x.Substring(j));
+
+			}
+
+
+			return (string[])a.ToArray(typeof(string));
+		}
+
 		[Script(ExternalTarget = "startsWith")]
 		public bool StartsWith(string prefix)
 		{
@@ -280,7 +312,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return b.ToString();
 		}
 
-	
+
 
 		//[Script(DefineAsStatic = true)]
 		public static string Concat(object a)

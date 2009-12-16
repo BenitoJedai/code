@@ -34,17 +34,6 @@ namespace SimpleChat2
 
 
 
-		private void button1_Click_1(object sender, EventArgs e)
-		{
-			this.requestDispatcher1.DispatcherEnabled = true;
-		}
-
-		private void button2_Click(object sender, EventArgs e)
-		{
-			this.requestDispatcher1.DispatcherEnabled = false;
-
-		}
-
 		int Counter = 0;
 		private void requestDispatcher1_Tick()
 		{
@@ -52,39 +41,7 @@ namespace SimpleChat2
 			this.Text = "" + Counter;
 		}
 
-		private void button3_Click(object sender, EventArgs e)
-		{
-			//Console.WriteLine("asknames:");
-
-			new ChatRequest.Requests.asknames(
-				"foo",
-				"bar"
-			).SendTo(
-				new Uri("http://ahman.no-ip.info"),
-				response =>
-				{
-					Console.WriteLine(response);
-				}
-			);
-		}
-
-		private void button4_Click(object sender, EventArgs e)
-		{
-			// this is how we send messages
-			new ChatRequest.Requests.sendmessage(
-				"foo",
-				"bar",
-				"",
-				"hello world",
-				""
-			).SendTo(
-				new Uri("http://127.0.0.1:" + this.requestDispatcher1.Port),
-				response =>
-				{
-					Console.WriteLine(response);
-				}
-			);
-		}
+		
 
 		private void sendmessage_handler1_Request(SimpleChat2.Buffer.Server.sendmessage_handler.sendmessage_response e)
 		{
@@ -103,23 +60,7 @@ namespace SimpleChat2
 			);
 		}
 
-		private void button5_Click(object sender, EventArgs e)
-		{
-			// this is how we send messages
-			new ChatRequest.Requests.sendmessage(
-				"foo",
-				"bar",
-				"",
-				"",
-				""
-			).SendTo(
-				new Uri("http://127.0.0.1:" + this.requestDispatcher1.Port),
-				response =>
-				{
-					Console.WriteLine(response);
-				}
-			);
-		}
+
 
 		public void Delay(Action e)
 		{
@@ -170,7 +111,7 @@ namespace SimpleChat2
 		#region hail to ahman
 		public readonly Uri ahman = new Uri("http://ahman.no-ip.info");
 
-		void ahmanize(IDefaultRequestPath e)
+		public void ahmanize(IDefaultRequestPath e)
 		{
 			e.ThreadedSendTo(ahman);
 		}
@@ -212,7 +153,7 @@ namespace SimpleChat2
 		}
 		#endregion
 
-		private void PollerGotData(string response, string myname)
+		public void PollerGotData(string response, string myname)
 		{
 			var r = new StringReader(response);
 
@@ -229,7 +170,7 @@ namespace SimpleChat2
 
 		public bool NicknameRegistered;
 
-		private void PollerGotDataLine(string path, string myname)
+		public void PollerGotDataLine(string path, string myname)
 		{
 			var sendname = new sendname();
 			var findname = new findname();
@@ -250,13 +191,11 @@ namespace SimpleChat2
 					{
 						if (findname.myname == this.Pseudoname)
 						{
-							this.AppendTextLine("Hi!");
+							// we swallow our own question!
 						}
 						else
 						{
 							this.AppendTextLine(findname.name + " is registered to me!");
-
-
 
 							ahmanize(
 								new ChatRequest.Requests.sendname(
@@ -282,11 +221,18 @@ namespace SimpleChat2
 				{
 					if (sendname.name == Nickname)
 					{
-						this.AppendTextLine("Nickname " + Nickname + " already taken! Better luck next time!");
+						this.AppendTextLine("*** Nickname " + Nickname + " already taken! Better luck next time!");
 						this.RegistrationTimeout.Enabled = false;
+						this.Poller.Enabled = false; 
 						return;
 					}
 
+				};
+
+			sendmessage.BeforeInvoke =
+				delegate
+				{
+					AppendTextLine(sendmessage.myname + ": " + sendmessage.message);
 				};
 
 			path.Chop("/chat").GetArguments().AsParametersTo(
@@ -377,6 +323,9 @@ namespace SimpleChat2
 			NicknameRegistered = true;
 			AppendTextLine("Your nickname is now registered!");
 			RegistrationTimeout.Enabled = false;
+
+			textBox2.Enabled = true;
+			button5.Enabled = true;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -385,6 +334,43 @@ namespace SimpleChat2
 			{
 				Nickname = "ken"
 			}.Show();
+		}
+
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			var x = textBox2.Text;
+			textBox2.Text = "";
+
+			// which of our friends is online and chatting?
+
+			AppendTextLine(Nickname + ": " + x);
+
+
+			// yay, lets try to see if any of our friends is online
+			foreach (var Friend in this.textBox4.Lines)
+			{
+				if (string.IsNullOrEmpty(Friend))
+				{
+					// shooting blanks are we?
+				}
+				else if (Friend == Nickname)
+				{
+				}
+				else
+				{
+
+					ahmanize(
+						new ChatRequest.Requests.sendmessage(
+							Friend,
+							Nickname,
+							"0",
+							x,
+							"100"
+						)
+					);
+				}
+			}
 		}
 	}
 }

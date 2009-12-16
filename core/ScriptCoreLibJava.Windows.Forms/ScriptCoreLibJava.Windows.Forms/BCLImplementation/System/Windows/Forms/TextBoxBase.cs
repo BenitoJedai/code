@@ -41,5 +41,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 				InternalSetReadOnly(value);
 			}
 		}
+
+		public virtual string[] InternalGetLines()
+		{
+			return new string[0];
+		}
+
+		public string[] Lines
+		{
+			get
+			{
+				return InternalGetLines();
+			}
+			set
+			{
+			}
+		}
 	}
 }
