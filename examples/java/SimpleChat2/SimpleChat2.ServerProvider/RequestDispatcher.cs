@@ -116,12 +116,6 @@ namespace SimpleChat2.ServerProvider
 		VirtualServerRack Rack;
 
 
-		public event Action Tick;
 
-		private void _DispatcherTimer_Tick(object sender, EventArgs e)
-		{
-			if (Tick != null)
-				Tick();
-		}
 	}
 }
