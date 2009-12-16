@@ -236,13 +236,13 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Button button6;
-		private System.Windows.Forms.Timer Poller;
+		public System.Windows.Forms.Timer Poller;
 		private System.Windows.Forms.Button button7;
 		private System.Windows.Forms.Button button8;
 		private System.Windows.Forms.TextBox textBox4;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Timer RegistrationTimeout;
+		public System.Windows.Forms.Label label3;
+		public System.Windows.Forms.Timer RegistrationTimeout;
 		private System.Windows.Forms.Button button1;
 	}
 }

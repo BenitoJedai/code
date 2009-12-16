@@ -46,7 +46,7 @@ namespace SimpleChat2.ClientProvider
 					w.Append("=");
 
 
-					w.Append(v);
+					w.Append(v.Replace(" ", "+"));
 
 					i++;
 				}
