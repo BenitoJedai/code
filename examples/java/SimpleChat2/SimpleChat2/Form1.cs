@@ -42,7 +42,7 @@ namespace SimpleChat2
 			this.Text = "" + Counter;
 		}
 
-		
+
 
 		private void sendmessage_handler1_Request(SimpleChat2.Buffer.Server.sendmessage_handler.sendmessage_response e)
 		{
@@ -133,6 +133,33 @@ namespace SimpleChat2
 				ChatCheck(Nickname);
 			else
 				ChatCheck(Pseudoname);
+
+			// we should check on our friends
+			var w = new StringBuilder();
+
+			foreach (FriendStatus k in this.FriendStatusList)
+			{
+				k.PollerCounter++;
+
+				if ((k.PollerCounter % 6) == 0)
+				{
+					var x = new EncodedMessage { Message = Message_Ping };
+
+					ahmanize(
+						new ChatRequest.Requests.sendmessage(
+							k.Name,
+							Nickname,
+							"0",
+							x.ToString(),
+							"100"
+						)
+					);
+				}
+
+				w.AppendLine(k.ToString());
+			}
+
+			this.textBox6.Text = w.ToString();
 		}
 
 		private void ChatCheck(string myname)
@@ -214,7 +241,31 @@ namespace SimpleChat2
 						return;
 					}
 
-					this.AppendTextLine("Do we know " + findname.name + "?");
+					var r = default(FriendStatus);
+					foreach (FriendStatus item in this.FriendStatusList)
+					{
+						if (item.Name == sendmessage.myname)
+							r = item;
+					}
+					if (r != null)
+					{
+						if (r.IsOnline)
+						{
+							this.AppendTextLine(findname.name + " is registered to a friend!");
+
+							ahmanize(
+									new ChatRequest.Requests.sendname(
+								// to whom?
+										findname.myname,
+								// from whom?
+										r.Name,
+								// name we know about
+										r.Name,
+										"0"
+									)
+								);
+						}
+					}
 				};
 
 			sendname.BeforeInvoke =
@@ -224,7 +275,7 @@ namespace SimpleChat2
 					{
 						this.AppendTextLine("*** Nickname " + Nickname + " already taken! Better luck next time!");
 						this.RegistrationTimeout.Enabled = false;
-						this.Poller.Enabled = false; 
+						this.Poller.Enabled = false;
 						return;
 					}
 
@@ -234,7 +285,60 @@ namespace SimpleChat2
 				delegate
 				{
 					EncodedMessage m = sendmessage.message;
+
 					m.Sender = sendmessage.myname;
+
+					if (m.Message == Message_SeeYouLater)
+					{
+						this.AppendTextLine("*** " + m.Sender + " has left the chat!");
+
+						var r = default(FriendStatus);
+						foreach (FriendStatus item in this.FriendStatusList)
+						{
+							if (item.Name == sendmessage.myname)
+								r = item;
+						}
+						if (r != null)
+							this.FriendStatusList.Remove(r);
+
+						return;
+					}
+
+					if (m.Message == Message_Ping)
+					{
+						var x = new EncodedMessage { Message = Message_Pong };
+
+						ahmanize(
+							new ChatRequest.Requests.sendmessage(
+								sendmessage.myname,
+								Nickname,
+								"0",
+								x.ToString(),
+								"100"
+							)
+						);
+
+						var r = default(FriendStatus);
+						foreach (FriendStatus item in this.FriendStatusList)
+						{
+							if (item.Name == sendmessage.myname)
+								r = item;
+						}
+						if (r == null)
+							this.FriendStatusList.Add(new FriendStatus { Name = sendmessage.myname });
+
+						return;
+					}
+
+					if (m.Message == Message_Pong)
+					{
+						foreach (FriendStatus item in this.FriendStatusList)
+						{
+							if (item.Name == sendmessage.myname)
+								item.LastSeen = DateTime.Now.Ticks;
+						}
+						return;
+					}
 
 					AppendMessage(m);
 				};
@@ -247,8 +351,12 @@ namespace SimpleChat2
 			);
 		}
 
+		public bool ResumePollerDisabled;
 		public void ResumePoller()
 		{
+			if (ResumePollerDisabled)
+				return;
+
 			this.Poller.Enabled = true;
 		}
 
@@ -330,6 +438,23 @@ namespace SimpleChat2
 
 			textBox2.Enabled = true;
 			button5.Enabled = true;
+
+			button8.Enabled = true;
+
+
+			this.textBox5.Enabled = true;
+			this.textBox7.Enabled = true;
+			this.button3.Enabled = true;
+			this.button2.Enabled = true;
+
+			foreach (var item in textBox4.Lines)
+			{
+				if (!string.IsNullOrEmpty(item))
+				{
+					if (item != Nickname)
+						this.FriendStatusList.Add(new FriendStatus { Name = item });
+				}
+			}
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -379,7 +504,7 @@ namespace SimpleChat2
 
 			public string ToDisplayString()
 			{
-				return this.Time.ToString() + " " + this.Sender + "[" + this.Language + "]: " + this.Message; 
+				return this.Time.ToString() + " " + this.Sender + "[" + this.Language + "]: " + this.Message;
 			}
 		}
 
@@ -397,7 +522,7 @@ namespace SimpleChat2
 
 		private void button5_Click(object sender, EventArgs e)
 		{
-			var x = new EncodedMessage { Message = textBox2.Text, Sender = Nickname };
+			var x = new EncodedMessage { Message = textBox2.Text, Sender = Nickname, Language = textBox5.Text };
 
 			textBox2.Text = "";
 
@@ -406,8 +531,26 @@ namespace SimpleChat2
 			AppendMessage(x);
 
 
+			BroadcastMessage(x);
+		}
+
+		private void BroadcastMessage(EncodedMessage x)
+		{
+			var a = new ArrayList();
+
+			foreach (FriendStatus item in this.FriendStatusList)
+			{
+				if (item.IsOnline)
+					a.Add(item.Name);
+			}
+
+			BroadcastMessage(x, (string[])a.ToArray(typeof(string)));
+		}
+
+		private void BroadcastMessage(EncodedMessage x, string[] Friends)
+		{
 			// yay, lets try to see if any of our friends is online
-			foreach (var Friend in this.textBox4.Lines)
+			foreach (var Friend in Friends)
 			{
 				if (string.IsNullOrEmpty(Friend))
 				{
@@ -431,5 +574,85 @@ namespace SimpleChat2
 				}
 			}
 		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+
+			ResumePollerDisabled = true;
+
+			BroadcastMessage(
+				new EncodedMessage
+				{
+					Sender = Nickname,
+					Message = Message_SeeYouLater
+				},
+				this.textBox4.Lines
+			);
+
+			textBox2.Enabled = false;
+			textBox5.Enabled = false;
+			button5.Enabled = false;
+			button2.Enabled = false;
+
+			// lets wait for a while for responses?
+
+			Poller.Enabled = false;
+			textBox7.Enabled = false;
+			button3.Enabled = false;
+		}
+
+		public const string Message_SeeYouLater = "SeeYouLater";
+		public const string Message_Ping = "ping";
+		public const string Message_Pong = "pong";
+
+		public class FriendStatus
+		{
+			public string Name;
+
+			public long LastSeen;
+
+			public int PollerCounter;
+
+			public bool IsOnline
+			{
+				get
+				{
+					var n = DateTime.Now - new DateTime(LastSeen);
+
+					return n.TotalMilliseconds < 5000;
+				}
+			}
+
+			public override string ToString()
+			{
+				if (LastSeen == 0)
+					return Name + " (pending)";
+
+				if (IsOnline)
+					return Name + " (online)";
+
+				return Name + " (offline)";
+			}
+		}
+
+		public readonly ArrayList FriendStatusList = new ArrayList();
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			var n = new FriendStatus { Name = textBox7.Text };
+
+			textBox7.Clear();
+
+			this.FriendStatusList.Add(n);
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			new Form1
+			{
+				Nickname = "Tom2"
+			}.Show();
+		}
+
 	}
 }
