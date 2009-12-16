@@ -63,6 +63,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 		}
 
+		public __DateTime(long ticks)
+		{
+			this.InternalValue = java.util.Calendar.getInstance();
+			this.InternalValue.setTimeInMillis((ticks - ticks_1970_1_1) / TimeSpan.TicksPerMillisecond);
+
+		}
 
 
 		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
