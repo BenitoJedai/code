@@ -14,6 +14,7 @@ using SimpleChat2.ServerProvider.Library;
 using System.IO;
 using SimpleChat.Commands.chat;
 using ScriptCoreLib.Reflection.Options;
+using System.Collections;
 
 namespace SimpleChat2
 {
@@ -232,7 +233,10 @@ namespace SimpleChat2
 			sendmessage.BeforeInvoke =
 				delegate
 				{
-					AppendTextLine(sendmessage.myname + ": " + sendmessage.message);
+					EncodedMessage m = sendmessage.message;
+					m.Sender = sendmessage.myname;
+
+					AppendMessage(m);
 				};
 
 			path.Chop("/chat").GetArguments().AsParametersTo(
@@ -336,15 +340,70 @@ namespace SimpleChat2
 			}.Show();
 		}
 
+		public class EncodedMessage
+		{
+			public DateTime Time = DateTime.Now;
+
+			public string Sender;
+
+			public string Message;
+
+			public string Language = "en";
+
+			public override string ToString()
+			{
+				var w = new StringBuilder();
+
+				w.Append(Time.Ticks);
+				w.Append(Separator);
+				w.Append(Language);
+				w.Append(Separator);
+				w.Append(Message);
+
+				return w.ToString();
+			}
+
+			const string Separator = "__";
+
+			public static implicit operator EncodedMessage(string e)
+			{
+				var a = e.Split(new[] { Separator }, StringSplitOptions.None);
+
+				return new EncodedMessage
+				{
+					Time = new DateTime(long.Parse(a[0])),
+					Language = a[1],
+					Message = a[2]
+				};
+			}
+
+			public string ToDisplayString()
+			{
+				return this.Time.ToString() + " " + this.Sender + "[" + this.Language + "]: " + this.Message; 
+			}
+		}
+
+		readonly ArrayList Messages = new ArrayList();
+
+		void AppendMessage(EncodedMessage m)
+		{
+			if (Messages.Count > 0)
+				Messages.RemoveAt(0);
+
+			Messages.Add(m);
+
+			AppendTextLine(m.ToDisplayString());
+		}
 
 		private void button5_Click(object sender, EventArgs e)
 		{
-			var x = textBox2.Text;
+			var x = new EncodedMessage { Message = textBox2.Text, Sender = Nickname };
+
 			textBox2.Text = "";
 
 			// which of our friends is online and chatting?
 
-			AppendTextLine(Nickname + ": " + x);
+			AppendMessage(x);
 
 
 			// yay, lets try to see if any of our friends is online
@@ -365,7 +424,7 @@ namespace SimpleChat2
 							Friend,
 							Nickname,
 							"0",
-							x,
+							x.ToString(),
 							"100"
 						)
 					);
