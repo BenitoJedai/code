@@ -340,6 +340,20 @@ namespace SimpleChat2
 						return;
 					}
 
+					if (m.Message == Message_Catchup)
+					{
+						this.AppendTextLine("*** " + m.Sender + " wants to catch up...");
+
+						foreach (EncodedMessage mm in this.Messages)
+						{
+							var xx = new EncodedMessage { Time = mm.Time, Sender = Nickname, Message = mm.Sender + " said " + mm.Message };
+
+							BroadcastMessage(xx, new[] { m.Sender });
+						}
+
+						return;
+					}
+
 					AppendMessage(m);
 				};
 
@@ -455,6 +469,9 @@ namespace SimpleChat2
 						this.FriendStatusList.Add(new FriendStatus { Name = item });
 				}
 			}
+
+			AppendTextLine("Will try to catch up missed messages in 5 sec...");
+			Catchup.Enabled = true;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -508,11 +525,11 @@ namespace SimpleChat2
 			}
 		}
 
-		readonly ArrayList Messages = new ArrayList();
+		public readonly ArrayList Messages = new ArrayList();
 
-		void AppendMessage(EncodedMessage m)
+		public void AppendMessage(EncodedMessage m)
 		{
-			if (Messages.Count > 0)
+			if (Messages.Count > 10)
 				Messages.RemoveAt(0);
 
 			Messages.Add(m);
@@ -534,7 +551,7 @@ namespace SimpleChat2
 			BroadcastMessage(x);
 		}
 
-		private void BroadcastMessage(EncodedMessage x)
+		public void BroadcastMessage(EncodedMessage x)
 		{
 			var a = new ArrayList();
 
@@ -547,7 +564,7 @@ namespace SimpleChat2
 			BroadcastMessage(x, (string[])a.ToArray(typeof(string)));
 		}
 
-		private void BroadcastMessage(EncodedMessage x, string[] Friends)
+		public void BroadcastMessage(EncodedMessage x, string[] Friends)
 		{
 			// yay, lets try to see if any of our friends is online
 			foreach (var Friend in Friends)
@@ -604,6 +621,7 @@ namespace SimpleChat2
 		public const string Message_SeeYouLater = "SeeYouLater";
 		public const string Message_Ping = "ping";
 		public const string Message_Pong = "pong";
+		public const string Message_Catchup = "Catchup";
 
 		public class FriendStatus
 		{
@@ -652,6 +670,43 @@ namespace SimpleChat2
 			{
 				Nickname = "Tom2"
 			}.Show();
+		}
+
+		private void Catchup_Tick(object sender, EventArgs e)
+		{
+			Catchup.Enabled = false;
+
+			var r = default(FriendStatus);
+			foreach (FriendStatus item in this.FriendStatusList)
+			{
+				if (item.IsOnline)
+				{
+					r = item;
+					break;
+				}
+			}
+
+			if (r == null)
+			{
+				AppendTextLine("*** Starting fresh...");
+			}
+			else
+			{
+				AppendTextLine("*** Catching up with " + r.Name + "...");
+
+				var x = new EncodedMessage { Message = Message_Catchup };
+
+
+				ahmanize(
+					new ChatRequest.Requests.sendmessage(
+						r.Name,
+						Nickname,
+						"0",
+						x.ToString(),
+						"100"
+					)
+				);
+			}
 		}
 
 	}

@@ -57,6 +57,7 @@
 			this.textBox7 = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
 			this.button4 = new System.Windows.Forms.Button();
+			this.Catchup = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// findname_handler1
@@ -272,6 +273,11 @@
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.button4_Click);
 			// 
+			// Catchup
+			// 
+			this.Catchup.Interval = 5000;
+			this.Catchup.Tick += new System.EventHandler(this.Catchup_Tick);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -333,5 +339,6 @@
 		private System.Windows.Forms.TextBox textBox7;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Timer Catchup;
 	}
 }

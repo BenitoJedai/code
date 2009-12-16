@@ -10,5 +10,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		ImplementationType = typeof(java.lang.Long))]
 	internal class __Int64
 	{
+		[Script(ExternalTarget = "parseLong")]
+		public static long Parse(string e)
+		{
+			return default(long);
+		}
 	}
 }
