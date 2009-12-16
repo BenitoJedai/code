@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace SimpleChat2.ServerProvider.Library
 {
-	static class MyExtensions
+	public static class MyExtensions
 	{
 		public static Action AsOnce(this Action e)
 		{

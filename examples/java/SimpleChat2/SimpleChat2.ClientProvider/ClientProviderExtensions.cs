@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SimpleChat2.Network;
 using System.Net;
+using System.Threading;
 
 namespace SimpleChat2.ClientProvider
 {
@@ -60,8 +61,26 @@ namespace SimpleChat2.ClientProvider
 		{
 			var content = new WebClient().DownloadString(e);
 
-			done(content);
+			if (done != null)
+				done(content);
 		}
 
+		public static void ThreadedSendTo(this IDefaultRequestPath e, Uri server, SendToComplete done)
+		{
+			new Thread(
+				delegate()
+				{
+					e.SendTo(server, done);
+				}
+			)
+			{
+				IsBackground = true
+			}.Start();
+		}
+
+		public static void ThreadedSendTo(this IDefaultRequestPath e, Uri server)
+		{
+			e.ThreadedSendTo(server, null);
+		}
 	}
 }
