@@ -402,3 +402,5 @@ version history:
 	il: private properties are not forgotten
 08.12.2009
 	php: implemented typeof 
+21.12.2009
+	php: ditched short_open_tag

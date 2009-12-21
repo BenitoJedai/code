@@ -24,8 +24,9 @@ namespace jsc.Script.PHP
 
 			var u = web.CreateSubdirectory("inc");
 
-
-			WriteLine("<?");
+			// http://php.net/manual/en/ini.core.php
+			// looks like some webservers are not using short_open_tag
+			WriteLine("<?php");
 
 			Helper.WorkPool n = new Helper.WorkPool();
 
@@ -58,7 +59,7 @@ namespace jsc.Script.PHP
 
 						StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
 
-						sw.WriteLine("<?");
+						sw.WriteLine("<?php");
 						sw.Write(content);
 						sw.WriteLine("?>");
 						sw.Flush();

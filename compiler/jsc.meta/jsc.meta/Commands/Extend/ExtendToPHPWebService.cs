@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Web.Services;
-using jsc.meta.Commands.Rewrite;
 using System.Reflection.Emit;
-using jsc.meta.Library;
-using ScriptCoreLib;
-using jsc.meta.Library.Web;
+using System.Text;
+using System.Web.Services;
 using jsc.Languages.IL;
+using jsc.meta.Commands.Rewrite;
+using jsc.meta.Library;
+using jsc.meta.Library.Web;
 using jsc.meta.Library.Web.PHP;
+using ScriptCoreLib;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -214,7 +214,8 @@ namespace jsc.meta.Commands.Extend
 					#region Application_Main@index.php
 					var w = new StringBuilder();
 
-					w.AppendLine("<?");
+					// http://terrychay.com/article/short_open_tag.shtml
+					w.AppendLine("<?php");
 
 					foreach (var kk in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(r.Output.FullName), true))
 					{
