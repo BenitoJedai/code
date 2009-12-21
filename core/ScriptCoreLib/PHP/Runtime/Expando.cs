@@ -279,7 +279,10 @@ namespace ScriptCoreLib.PHP.Runtime
             return (Expando)e;
         }
 
-        [Script(OptimizedCode = @"return array_key_exists($i, $o) ? $o[$i] : NULL;")]
+		// http://php.net/manual/en/function.array-key-exists.php
+		// 5.3.0	 This function doesn't work with objects anymore, property_exists() should be used in this case.
+
+        [Script(OptimizedCode = @"return @array_key_exists($i, $o) ? $o[$i] : NULL;")]
         internal static object GetArrayMember(object o, object i)
         {
             return default(object);

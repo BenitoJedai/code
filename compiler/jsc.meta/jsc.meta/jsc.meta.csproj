@@ -176,7 +176,7 @@
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\Java\InvokeWebServiceArguments.cs" />
-    <Compile Include="Library\Web\ParameterInfo.cs" />
+    <Compile Include="Library\Web\SimpleParameterInfo.cs" />
     <Compile Include="Library\Web\PHP\InvokeWebServiceArguments.cs" />
     <Compile Include="Library\Web\PHP\WebServiceServlet.cs" />
     <Compile Include="Library\Web\SmartStreamReader.cs" />
