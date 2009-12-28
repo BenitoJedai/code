@@ -7,6 +7,8 @@ namespace jsc.meta.Library.Web.PHP
 {
 	public class InvokeWebServiceArguments
 	{
+		// this class is not directly aware of native API
+
 		public string Content;
 
 		public string DocumentContent;
