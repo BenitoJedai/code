@@ -21,7 +21,18 @@ namespace ScriptCoreLib.PHP
             /// </summary>    
             static public IArray<string, IArray> Globals
             {
-                [Script(OptimizedCode = @"return $GLOBALS;")]
+                [Script(OptimizedCode = @"
+/* for some reason globals will be empty if we do not mention them on xampp */
+$_SERVER;
+$_GET;
+$_POST;
+$_COOKIE;
+$_FILES;
+$_ENV;
+$_REQUEST;
+$_SESSION;
+
+return $GLOBALS;")]
                 get
                 {
                     return default(IArray<string, IArray>);
