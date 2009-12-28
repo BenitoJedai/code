@@ -24,5 +24,11 @@ namespace WebService1
 		{
 			return "Hello World";
 		}
+
+		[WebMethod]
+		public string HelloWorld2(string e, string f)
+		{
+			return "Hello World" + e + f;
+		}
 	}
 }
