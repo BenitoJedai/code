@@ -237,6 +237,7 @@ namespace jsc.meta.Commands.Extend
 					File.WriteAllText(Path.Combine(web.FullName, ".htaccess"),
 @"Options +FollowSymlinks
 RewriteEngine on
+RewriteBase /" + Path.GetFileNameWithoutExtension(context.assembly.Name) + @"
 DirectorySlash off 
 Options -Indexes
 RewriteRule ^(.*)$ index\.php [NC]");
