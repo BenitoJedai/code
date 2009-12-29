@@ -129,7 +129,14 @@ namespace jsc.meta.Library.Web.PHP
 		public void Invoke()
 		{
 			// no dice?
+			ScriptCoreLib.PHP.Native.header("HTTP/1.0 404 Not Found");
 
+			//InvokeDiagnostics();
+
+		}
+
+		private void InvokeDiagnostics()
+		{
 			Console.WriteLine("hello world :) one step closer to having ASP.NET web services in php!");
 			Console.WriteLine(@"<hr \>");
 
@@ -142,7 +149,6 @@ namespace jsc.meta.Library.Web.PHP
 			Console.WriteLine("Operation: " + Operation + "<br />");
 			Console.WriteLine("ServiceName: " + ServiceName + "<br />");
 			Console.WriteLine("WebMethod: " + WebMethod + "<br />");
-
 		}
 
 		public string DocumentContent;
@@ -352,7 +358,7 @@ public ref class MyWebService {
 
 
 
-                      <form target='_blank' action='/" + this.ServiceName + @".asmx/" + Operation + @"' method='POST'>                      
+                      <form target='_blank' action='" + this.ServiceName + @".asmx/" + Operation + @"' method='POST'>                      
                         
                           <table cellspacing='0' cellpadding='4' frame='box' bordercolor='#dcdcdc' rules='none' style='border-collapse: collapse;'>
                           <tr>

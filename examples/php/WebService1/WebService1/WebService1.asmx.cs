@@ -22,7 +22,9 @@ namespace WebService1
 		[WebMethod]
 		public string HelloWorld()
 		{
-			return "Hello World";
+			var r = new Random();
+
+			return "Hello World. Random: " + r.Next();
 		}
 
 		[WebMethod]
