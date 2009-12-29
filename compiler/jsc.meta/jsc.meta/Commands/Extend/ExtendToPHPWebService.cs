@@ -133,7 +133,7 @@ namespace jsc.meta.Commands.Extend
 								}
 							);
 
-					
+
 
 							{
 								var il = Application_Main_.GetILGenerator();
@@ -144,10 +144,15 @@ namespace jsc.meta.Commands.Extend
 								il.Emit(OpCodes.Newobj, WebServiceServletImplementation_ctor);
 								il.Emit(OpCodes.Stloc, loc1);
 
+								var loc_WebMethod = il.DeclareLocal(typeof(string));
+								var loc_IsWebMethod = il.DeclareLocal(typeof(bool));
+
 								var loc_Operation = il.DeclareLocal(typeof(string));
 								var loc_IsOperation = il.DeclareLocal(typeof(bool));
+
 								var loc_ServiceName = il.DeclareLocal(typeof(string));
 								var loc_IsServiceName = il.DeclareLocal(typeof(bool));
+
 								var loc_Methods = il.DeclareLocal(typeof(string[]));
 								var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo[])]);
 								var loc_OperationParameter = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo)]);
@@ -160,26 +165,31 @@ namespace jsc.meta.Commands.Extend
 								il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("get_Operation")]);
 								il.Emit(OpCodes.Stloc, loc_Operation);
 
+								il.Emit(OpCodes.Ldloc, loc1);
+								il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("get_WebMethod")]);
+								il.Emit(OpCodes.Stloc, loc_WebMethod);
+
 								foreach (var k in t)
 								{
 									#region DispatchList
 									var DispatchList = k.Methods.Select(
 										m =>
 										{
-											var Dispatch = WebServiceServletImplementation.DefineMethod("Dispatch" + m.Method.MetadataToken, MethodAttributes.Static, typeof(void),
-												new[] { a.context.TypeCache[k.WebService], a.context.TypeCache[typeof(WebServiceServlet)] }
+											var Dispatch = WebServiceServletImplementation.DefineMethod("Dispatch" + m.Method.MetadataToken,
+												MethodAttributes.Family, typeof(void),
+												new[] { a.context.TypeCache[k.WebService] }
 											);
 
 											{
 												var Dispatch_il = Dispatch.GetILGenerator();
-												Dispatch_il.Emit(OpCodes.Ldarg_1);
 												Dispatch_il.Emit(OpCodes.Ldarg_0);
+												Dispatch_il.Emit(OpCodes.Ldarg_1);
 
 												// do we need any arguments?
 
 												foreach (var p in m.Method.GetParameters())
 												{
-													Dispatch_il.Emit(OpCodes.Ldarg_1);
+													Dispatch_il.Emit(OpCodes.Ldarg_0);
 													Dispatch_il.Emit(OpCodes.Ldstr, p.Name);
 													Dispatch_il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("GetString")]);
 												}
@@ -198,6 +208,7 @@ namespace jsc.meta.Commands.Extend
 									).ToArray();
 									#endregion
 
+									var loc_Service = il.DeclareInitializedLocal(a.context.TypeCache[k.WebService]);
 
 									il.Emit(OpCodes.Ldloc, loc_ServiceName);
 									il.Emit(OpCodes.Ldstr, k.WebService.Name);
@@ -210,6 +221,32 @@ namespace jsc.meta.Commands.Extend
 
 									il.Emit(OpCodes.Ldloc, loc_IsServiceName);
 									il.Emit(OpCodes.Brtrue, next_ServiceName);
+
+									#region are we calling the method?
+									foreach (var m in DispatchList.Select((kk, i) => new { i, kk }))
+									{
+										il.Emit(OpCodes.Ldloc, loc_WebMethod);
+										il.Emit(OpCodes.Ldstr, m.kk.m.Method.Name);
+										il.Emit(OpCodes.Call, typeof(string).GetMethod("op_Equality", new[] { typeof(string), typeof(string) }));
+										il.Emit(OpCodes.Ldc_I4_0);
+										il.Emit(OpCodes.Ceq);
+										il.Emit(OpCodes.Stloc, loc_IsWebMethod);
+
+										var next_WebMethod = il.DefineLabel();
+
+										il.Emit(OpCodes.Ldloc, loc_IsWebMethod);
+										il.Emit(OpCodes.Brtrue, next_WebMethod);
+
+										il.Emit(OpCodes.Ldloc, loc1);
+										il.Emit(OpCodes.Ldloc, loc_Service);
+										il.Emit(OpCodes.Call, m.kk.Dispatch);
+
+										il.Emit(OpCodes.Br, il_ret);
+
+										il.MarkLabel(next_WebMethod);
+
+									}
+									#endregion
 
 									#region are we showing what parameters are needed?
 									foreach (var m in k.Methods.Select((kk, i) => new { i, kk }))
