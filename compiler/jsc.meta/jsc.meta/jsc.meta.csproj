@@ -28,6 +28,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <StartupObject>jsc.meta.Loader.LoaderStrategy</StartupObject>
+    <ApplicationIcon>Documents\App.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Extend\comment.txt" />
+    <Content Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
     <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
