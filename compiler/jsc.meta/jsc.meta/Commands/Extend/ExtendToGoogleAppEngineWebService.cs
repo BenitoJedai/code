@@ -466,14 +466,15 @@ namespace jsc.meta.Commands.Extend
 @echo off
 
 echo killing all java in pure hope to terminate the servlet...
+echo if there is no java running this will show as an error
 taskkill /IM java.exe /F
 taskkill /FI ""WINDOWTITLE eq volatile_dev_appserver*"" /F
 start ""volatile_dev_appserver"" /MIN """ + this.context.appengine + @"\bin\dev_appserver.cmd"" www
 
-echo waiting for the server to load...
-PING 1.1.1.1 -n 1 -w 3000 >NUL
+echo waiting 6 seconds for the server to load...
+PING 1.1.1.1 -n 1 -w 6000 >NUL
 start ""web"" explorer ""http://localhost:8080/" + t.First().WebService.Name + @".asmx""
-
+echo thanks! :)
 "
 					);
 
