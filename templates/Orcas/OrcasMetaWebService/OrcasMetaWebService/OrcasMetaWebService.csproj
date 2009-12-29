@@ -4,12 +4,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{462E95B0-F375-4CCB-B80C-D9D6556D4986}</ProjectGuid>
+    <ProjectGuid>{F5FB66D5-9AFD-49FC-8274-0E983E158C73}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OrcasAppEngineWebService</RootNamespace>
-    <AssemblyName>OrcasAppEngineWebService</AssemblyName>
+    <RootNamespace>OrcasMetaWebService</RootNamespace>
+    <AssemblyName>OrcasMetaWebService</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,7 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -81,7 +81,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>62257</DevelopmentServerPort>
+          <DevelopmentServerPort>62864</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
@@ -96,6 +96,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-c:\util\jsc\bin\jsc.meta.exe ExtendToGoogleAppEngineWebService /assembly:"$(TargetPath)" /application:"jsc-project" /version:"5" /ant:"C:\util\apache-ant-1.7.1\bin\ant.bat" /javahome:"C:\Program Files\Java\jdk1.6.0_14" /appengine:"C:\util\appengine-java-sdk-1.3.0"</PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe ExtendToGoogleAppEngineWebService /assembly:"$(TargetPath)" /application:"jsc-project" /version:"5" /ant:"C:\util\apache-ant-1.7.1\bin\ant.bat" /javahome:"C:\Program Files\Java\jdk1.6.0_14" /appengine:"C:\util\appengine-java-sdk-1.3.0" /staging:"staging.java"
+c:\util\jsc\bin\jsc.meta.exe ExtendToPHPWebService /assembly:"$(TargetPath)" /staging:"staging.php"</PostBuildEvent>
   </PropertyGroup>
 </Project>
