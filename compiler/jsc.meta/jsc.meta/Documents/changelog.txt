@@ -50,3 +50,4 @@
 	- Finished ExtendToPHPWebService command
 2010.01.05
 	- ExtendToGoogleAppEngineWebService now correctly reports service name in title
+	- initial WSDL support for ExtendToPHPWebService

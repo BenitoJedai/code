@@ -74,6 +74,23 @@ namespace jsc.meta.Library.Web.PHP
 			}
 		}
 
+		public string QueryString
+		{
+			get
+			{
+				var c = CommandLine;
+
+				{
+					var i = c.IndexOf("?");
+					if (i > -1)
+						return c.Substring(i + 1);
+				}
+
+
+				return null;
+			}
+		}
+
 		// /Service1.asmx/HelloWorld
 		public string CommandLine
 		{
@@ -290,6 +307,13 @@ public ref class MyWebService {
 			this.InternalRenderOperationToDocumentContent(Parameters);
 
 			Console.Write(DocumentContent);
+		}
+
+		public void RenderWSDL(WSDLProvider p)
+		{
+			ScriptCoreLib.PHP.Native.header("Content-Type: application/soap+xml; charset=utf-8");
+
+			Console.Write(p.ToString());
 		}
 
 		public void InternalRenderOperationToDocumentContent(SimpleParameterInfo[] Parameters)
