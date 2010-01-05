@@ -22,8 +22,13 @@ namespace OrcasMetaWebService1
 		[WebMethod(Description = "OrcasMetaWebService1. Crosscompiled from C# to Java for Google App Engine and PHP.")]
 		public string HelloWorld()
 		{
-			return "Hi there! :)";
+			var n = new ExampleCom();
+
+
+			return "Hi there! :)" + n.Text.Length;
 		}
+
+	
 
 
 	}
