@@ -153,6 +153,9 @@ namespace jsc.meta.Commands.Extend
 								var loc_ServiceName = il.DeclareLocal(typeof(string));
 								var loc_IsServiceName = il.DeclareLocal(typeof(bool));
 
+								var loc_QueryString = il.DeclareLocal(typeof(string));
+								var loc_IsWSDL = il.DeclareLocal(typeof(bool));
+
 								var loc_Methods = il.DeclareLocal(typeof(string[]));
 								var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo[])]);
 								var loc_OperationParameter = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo)]);
@@ -168,6 +171,10 @@ namespace jsc.meta.Commands.Extend
 								il.Emit(OpCodes.Ldloc, loc1);
 								il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("get_WebMethod")]);
 								il.Emit(OpCodes.Stloc, loc_WebMethod);
+
+								il.Emit(OpCodes.Ldloc, loc1);
+								il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("get_QueryString")]);
+								il.Emit(OpCodes.Stloc, loc_QueryString);
 
 								foreach (var k in t)
 								{
@@ -221,6 +228,32 @@ namespace jsc.meta.Commands.Extend
 
 									il.Emit(OpCodes.Ldloc, loc_IsServiceName);
 									il.Emit(OpCodes.Brtrue, next_ServiceName);
+
+									#region ?WSDL
+
+									il.Emit(OpCodes.Ldloc, loc_QueryString);
+									il.Emit(OpCodes.Ldstr, "WSDL");
+									il.Emit(OpCodes.Call, typeof(string).GetMethod("op_Equality", new[] { typeof(string), typeof(string) }));
+									il.Emit(OpCodes.Ldc_I4_0);
+									il.Emit(OpCodes.Ceq);
+									il.Emit(OpCodes.Stloc, loc_IsWSDL);
+
+									var skip_WSDL = il.DefineLabel();
+
+									il.Emit(OpCodes.Ldloc, loc_IsWSDL);
+									il.Emit(OpCodes.Brtrue, skip_WSDL);
+
+									il.Emit(OpCodes.Ldloc, loc1);
+									il.Emit(OpCodes.Newobj,  a.context.ConstructorCache[typeof(WSDLProvider).GetConstructor(new Type[0])]);
+									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("RenderWSDL")]);
+
+									// jsc is unable to detect plain ret opcode? must be a bug
+									il.Emit(OpCodes.Br, il_ret);
+
+									il.MarkLabel(skip_WSDL);
+
+
+									#endregion
 
 									#region are we calling the method?
 									foreach (var m in DispatchList.Select((kk, i) => new { i, kk }))
