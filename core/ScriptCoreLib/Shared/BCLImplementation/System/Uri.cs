@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 	[Script(Implements = typeof(global::System.Uri))]
 	internal class __Uri
 	{
+		// fixme: shared BCL is not the way to go! 
+
 		//public static readonly string SchemeDelimiter = "://";
 
 		public string OriginalString { get; set; }

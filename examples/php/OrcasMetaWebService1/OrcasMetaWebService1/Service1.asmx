@@ -1,1 +1,1 @@
-﻿<%@ WebService Language="C#" CodeBehind="Service1.asmx.cs" Class="OrcasMetaWebService.Service1" %>
+﻿<%@ WebService Language="C#" CodeBehind="Service1.asmx.cs" Class="OrcasMetaWebService1.Service1" %>
