@@ -581,6 +581,7 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\IEnumerable.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\IList.cs" />
+    <Compile Include="PHP\BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\IComponent.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\ISite.cs" />
     <Compile Include="PHP\BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
@@ -590,6 +591,8 @@
     <Compile Include="PHP\BCLImplementation\System\IO\FileInfo.cs" />
     <Compile Include="PHP\BCLImplementation\System\IO\FileStream.cs" />
     <Compile Include="PHP\BCLImplementation\System\IServiceProvider.cs" />
+    <Compile Include="PHP\BCLImplementation\System\MarshalByRefObject.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Net\WebClient.cs" />
     <Compile Include="PHP\BCLImplementation\System\NotSupportedException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Predicate.cs" />
     <Compile Include="PHP\BCLImplementation\System\Random.cs" />

@@ -48,3 +48,5 @@
 	- Implementing ExtendToPHPWebService command
 2009.12.29
 	- Finished ExtendToPHPWebService command
+2010.01.05
+	- ExtendToGoogleAppEngineWebService now correctly reports service name in title

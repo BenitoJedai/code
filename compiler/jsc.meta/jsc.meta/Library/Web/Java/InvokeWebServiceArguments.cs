@@ -131,7 +131,7 @@ namespace jsc.meta.Library.Web.Java
     </style>
 
     <title>
-	WebService1 Web Service
+" + this.ServiceName + @" Web Service
 </title></head>
 
   <body>
