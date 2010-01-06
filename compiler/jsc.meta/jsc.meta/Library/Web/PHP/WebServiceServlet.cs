@@ -311,7 +311,16 @@ public ref class MyWebService {
 
 		public void RenderWSDL(WSDLProvider p)
 		{
-			ScriptCoreLib.PHP.Native.header("Content-Type: application/soap+xml; charset=utf-8");
+			// fixme: special cases not handled correctly:
+
+			// 20	0.658697	192.168.1.101	217.146.66.81	HTTP/XML	
+			// POST /OrcasMetaWebService1/Service1.asmx?WSDL HTTP/1.1 
+
+			// 32	0.896395	192.168.1.101	217.146.66.81	HTTP	
+			// GET /OrcasMetaWebService1/Service1.asmx?WSDL/$metadata HTTP/1.1 
+
+			//ScriptCoreLib.PHP.Native.header("Content-Type: application/soap+xml; charset=utf-8");
+			ScriptCoreLib.PHP.Native.header("Content-Type: " + p.ContentType);
 
 			Console.Write(p.ToString());
 		}

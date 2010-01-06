@@ -157,8 +157,7 @@ namespace jsc.meta.Commands.Extend
 								var loc_IsWSDL = il.DeclareLocal(typeof(bool));
 
 								var loc_Methods = il.DeclareLocal(typeof(string[]));
-								var loc_OperationParameters = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo[])]);
-								var loc_OperationParameter = il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo)]);
+								var loc_WSDLProvider = il.DeclareLocal(a.context.TypeCache[typeof(WSDLProvider)]);
 
 								il.Emit(OpCodes.Ldloc, loc1);
 								il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("get_ServiceName")]);
@@ -182,7 +181,7 @@ namespace jsc.meta.Commands.Extend
 									var DispatchList = k.Methods.Select(
 										m =>
 										{
-											var Dispatch = WebServiceServletImplementation.DefineMethod("Dispatch" + m.Method.MetadataToken,
+											var Dispatch = WebServiceServletImplementation.DefineMethod("_" + m.Method.MetadataToken + "_Dispatch",
 												MethodAttributes.Family, typeof(void),
 												new[] { a.context.TypeCache[k.WebService] }
 											);
@@ -215,6 +214,121 @@ namespace jsc.meta.Commands.Extend
 									).ToArray();
 									#endregion
 
+									#region GetParametersList
+									var GetParametersList = k.Methods.Select(
+										m =>
+										{
+											var GetParameters = WebServiceServletImplementation.DefineMethod("_" + m.Method.MetadataToken + "_GetParameters",
+												MethodAttributes.Family, a.context.TypeCache[typeof(SimpleParameterInfo[])],
+												new Type[0] { }
+											);
+
+
+
+											{
+												var _il = GetParameters.GetILGenerator();
+
+												var loc_OperationParameters = _il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo[])]);
+												var loc_OperationParameter = _il.DeclareLocal(a.context.TypeCache[typeof(SimpleParameterInfo)]);
+
+
+												var OperationParameters = m.Method.GetParameters().Select((kkk, i) => new { k = kkk, i }).ToArray();
+
+												_il.Emit(OpCodes.Ldc_I4, OperationParameters.Length);
+												_il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(SimpleParameterInfo)]);
+												_il.Emit(OpCodes.Stloc, loc_OperationParameters);
+
+												foreach (var item in OperationParameters)
+												{
+													_il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(SimpleParameterInfo).GetConstructor(new Type[0])]);
+													_il.Emit(OpCodes.Stloc, loc_OperationParameter);
+
+													_il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+													_il.Emit(OpCodes.Ldstr, item.k.Name);
+													_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(kkk => kkk.Name == "Name"));
+
+													//L_001c: ldtoken string
+													//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+
+													_il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+													_il.Emit(OpCodes.Ldtoken, item.k.ParameterType);
+													_il.Emit(OpCodes.Call,
+														typeof(Type).GetMethod("GetTypeFromHandle",
+															new[] { typeof(System.RuntimeTypeHandle) }
+														)
+													);
+
+
+													_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(kkk => kkk.Name == "Type"));
+
+													_il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+													_il.Emit(OpCodes.Ldc_I4, item.i);
+													_il.Emit(OpCodes.Ldloc, loc_OperationParameter);
+													_il.Emit(OpCodes.Stelem_Ref);
+												}
+
+												_il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+												_il.Emit(OpCodes.Ret);
+											}
+
+											return new { GetParameters, m };
+										}
+									).ToArray();
+									#endregion
+
+									#region GetMethodsList
+
+									var GetMethods = WebServiceServletImplementation.DefineMethod("_" + k.WebService.MetadataToken + "_GetMethods",
+										MethodAttributes.Family, a.context.TypeCache[typeof(SimpleMethodInfo[])],
+										new Type[0] { }
+									);
+
+									{
+										var _il = GetMethods.GetILGenerator();
+
+										var loc_List = _il.DeclareLocal(a.context.TypeCache[typeof(SimpleMethodInfo[])]);
+										var loc_Current = _il.DeclareLocal(a.context.TypeCache[typeof(SimpleMethodInfo)]);
+
+
+										//var OperationParameters = m.Method.GetParameters().Select((kkk, i) => new { k = kkk, i }).ToArray();
+
+										_il.Emit(OpCodes.Ldc_I4, k.Methods.Length);
+										_il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(SimpleMethodInfo)]);
+										_il.Emit(OpCodes.Stloc, loc_List);
+
+										foreach (var item in k.Methods.Select((kk, i) => new { i, kk }))
+										{
+											_il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(SimpleMethodInfo).GetConstructor(new Type[0])]);
+											_il.Emit(OpCodes.Stloc, loc_Current);
+
+											_il.Emit(OpCodes.Ldloc, loc_Current);
+											_il.Emit(OpCodes.Ldstr, item.kk.Method.Name);
+											_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleMethodInfo)].Single(kkk => kkk.Name == "Name"));
+
+											_il.Emit(OpCodes.Ldloc, loc_Current);
+
+											_il.Emit(OpCodes.Ldarg_0);
+
+											_il.Emit(OpCodes.Call,
+												GetParametersList.Single(kkk => kkk.m == item.kk).GetParameters
+											);
+
+											_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleMethodInfo)].Single(kkk => kkk.Name == "Parameters"));
+
+
+
+											_il.Emit(OpCodes.Ldloc, loc_List);
+											_il.Emit(OpCodes.Ldc_I4, item.i);
+											_il.Emit(OpCodes.Ldloc, loc_Current);
+											_il.Emit(OpCodes.Stelem_Ref);
+										}
+
+										_il.Emit(OpCodes.Ldloc, loc_List);
+										_il.Emit(OpCodes.Ret);
+									}
+
+									#endregion
+
 									var loc_Service = il.DeclareInitializedLocal(a.context.TypeCache[k.WebService]);
 
 									il.Emit(OpCodes.Ldloc, loc_ServiceName);
@@ -243,8 +357,28 @@ namespace jsc.meta.Commands.Extend
 									il.Emit(OpCodes.Ldloc, loc_IsWSDL);
 									il.Emit(OpCodes.Brtrue, skip_WSDL);
 
+									il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(WSDLProvider).GetConstructor(new Type[0])]);
+									il.Emit(OpCodes.Stloc, loc_WSDLProvider);
+
+									#region loc_WSDLProvider.Methods = this.~GetMethods
+									il.Emit(OpCodes.Ldloc, loc_WSDLProvider);
 									il.Emit(OpCodes.Ldloc, loc1);
-									il.Emit(OpCodes.Newobj,  a.context.ConstructorCache[typeof(WSDLProvider).GetConstructor(new Type[0])]);
+									il.Emit(OpCodes.Call, GetMethods);
+									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(WSDLProvider)].Single(kkk => kkk.Name == "Methods"));
+									#endregion
+
+									#region loc_WSDLProvider.ServiceName = loc_ServiceName
+									il.Emit(OpCodes.Ldloc, loc_WSDLProvider);
+									il.Emit(OpCodes.Ldloc, loc_ServiceName);
+									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(WSDLProvider)].Single(kkk => kkk.Name == "ServiceName"));
+									#endregion
+
+
+
+
+									il.Emit(OpCodes.Ldloc, loc1);
+									il.Emit(OpCodes.Ldloc, loc_WSDLProvider);
+
 									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("RenderWSDL")]);
 
 									// jsc is unable to detect plain ret opcode? must be a bug
@@ -298,45 +432,18 @@ namespace jsc.meta.Commands.Extend
 
 										#region time to render params
 
-										var OperationParameters = m.kk.Method.GetParameters().Select((kkk, i) => new { k = kkk, i }).ToArray();
 
-										il.Emit(OpCodes.Ldc_I4, OperationParameters.Length);
-										il.Emit(OpCodes.Newarr, a.context.TypeCache[typeof(SimpleParameterInfo)]);
-										il.Emit(OpCodes.Stloc, loc_OperationParameters);
-
-										foreach (var item in OperationParameters)
-										{
-											il.Emit(OpCodes.Newobj, a.context.ConstructorCache[typeof(SimpleParameterInfo).GetConstructor(new Type[0])]);
-											il.Emit(OpCodes.Stloc, loc_OperationParameter);
-
-											il.Emit(OpCodes.Ldloc, loc_OperationParameter);
-											il.Emit(OpCodes.Ldstr, item.k.Name);
-											il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(kkk => kkk.Name == "Name"));
-
-											//L_001c: ldtoken string
-											//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
-
-											il.Emit(OpCodes.Ldloc, loc_OperationParameter);
-											il.Emit(OpCodes.Ldtoken, item.k.ParameterType);
-											il.Emit(OpCodes.Call,
-												typeof(Type).GetMethod("GetTypeFromHandle",
-													new[] { typeof(System.RuntimeTypeHandle) }
-												)
-											);
-
-
-											il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(kkk => kkk.Name == "Type"));
-
-											il.Emit(OpCodes.Ldloc, loc_OperationParameters);
-											il.Emit(OpCodes.Ldc_I4, item.i);
-											il.Emit(OpCodes.Ldloc, loc_OperationParameter);
-											il.Emit(OpCodes.Stelem_Ref);
-										}
 
 										// are we sure argument 1 is there for us?
 										il.Emit(OpCodes.Ldloc, loc1);
 										//il.Emit(OpCodes.Ldstr, m.kk.Method.Name);
-										il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+										//il.Emit(OpCodes.Ldloc, loc_OperationParameters);
+										il.Emit(OpCodes.Ldloc, loc1);
+
+										il.Emit(OpCodes.Call,
+											GetParametersList.Single(kkk => kkk.m == m.kk).GetParameters
+										);
+
 										il.Emit(OpCodes.Call,
 											a.context.MethodCache[typeof(WebServiceServlet).GetMethod("RenderOperationToDocumentContent")]
 										);
