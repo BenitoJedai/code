@@ -9,7 +9,8 @@ namespace jsc.meta.Library.Web
 	{
 		public string Name;
 
-		public SimpleParameterInfo ReturnParameter;
+		// To be implemented!
+		//public SimpleParameterInfo ReturnParameter;
 
 		public SimpleParameterInfo[] Parameters;
 	}
