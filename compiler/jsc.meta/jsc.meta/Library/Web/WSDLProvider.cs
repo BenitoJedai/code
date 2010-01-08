@@ -15,6 +15,16 @@ namespace jsc.meta.Library.Web
 
 		public string ContentType = "application/xml; charset=utf-8";
 
+		/// <summary>
+		/// The request was made for "WSDL/$metadata"
+		/// </summary>
+		public bool IsMetadata;
+
+		/// <summary>
+		/// The request was made as HTTP POST
+		/// </summary>
+		public string Payload;
+
 		public override string ToString()
 		{
 			var w = new StringBuilder();
