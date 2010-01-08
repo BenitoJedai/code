@@ -345,11 +345,8 @@ namespace jsc.meta.Commands.Extend
 
 									#region ?WSDL
 
-									il.Emit(OpCodes.Ldloc, loc_QueryString);
-									il.Emit(OpCodes.Ldstr, "WSDL");
-									il.Emit(OpCodes.Call, typeof(string).GetMethod("op_Equality", new[] { typeof(string), typeof(string) }));
-									il.Emit(OpCodes.Ldc_I4_0);
-									il.Emit(OpCodes.Ceq);
+									il.Emit(OpCodes.Ldloc, loc1);
+									il.Emit(OpCodes.Call, a.context.MethodCache[typeof(WebServiceServlet).GetMethod("IsWSDLRequest")]);
 									il.Emit(OpCodes.Stloc, loc_IsWSDL);
 
 									var skip_WSDL = il.DefineLabel();

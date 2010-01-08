@@ -309,16 +309,53 @@ public ref class MyWebService {
 			Console.Write(DocumentContent);
 		}
 
+		public bool IsWSDLRequest()
+		{
+			var QueryString = this.QueryString;
+
+			if (QueryString == "WSDL")
+				return true;
+
+			if (QueryString == "WSDL/$metadata")
+				return true;
+
+			return false;
+		}
+
+		public bool IsPOST
+		{
+			get
+			{
+				var m = ScriptCoreLib.PHP.Native.SuperGlobals.Server[ScriptCoreLib.PHP.Native.SuperGlobals.ServerVariables.REQUEST_METHOD];
+
+				return m == "POST";
+			}
+		}
+
 		public void RenderWSDL(WSDLProvider p)
 		{
+			var QueryString = this.QueryString;
+
 			// fixme: special cases not handled correctly:
 
 			// 20	0.658697	192.168.1.101	217.146.66.81	HTTP/XML	
 			// POST /OrcasMetaWebService1/Service1.asmx?WSDL HTTP/1.1 
+			if (QueryString == "WSDL")
+				if (IsPOST)
+				{
+					ScriptCoreLib.PHP.Native.header("HTTP/1.0 404 Not Found");
+
+					return;
+				}
 
 			// 32	0.896395	192.168.1.101	217.146.66.81	HTTP	
 			// GET /OrcasMetaWebService1/Service1.asmx?WSDL/$metadata HTTP/1.1 
+			if (QueryString == "WSDL/$metadata")
+			{
+				ScriptCoreLib.PHP.Native.header("HTTP/1.0 404 Not Found");
 
+				return;
+			}
 			//ScriptCoreLib.PHP.Native.header("Content-Type: application/soap+xml; charset=utf-8");
 			ScriptCoreLib.PHP.Native.header("Content-Type: " + p.ContentType);
 
