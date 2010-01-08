@@ -316,8 +316,11 @@ public ref class MyWebService {
 			if (QueryString == "WSDL")
 				return true;
 
-			if (QueryString == "WSDL/$metadata")
+			if (QueryString == "WSDL/mex")
 				return true;
+
+			//if (QueryString == "WSDL/$metadata")
+			//    return true;
 
 			return false;
 		}
@@ -336,26 +339,27 @@ public ref class MyWebService {
 		{
 			var QueryString = this.QueryString;
 
-			// fixme: special cases not handled correctly:
-
-			// 20	0.658697	192.168.1.101	217.146.66.81	HTTP/XML	
-			// POST /OrcasMetaWebService1/Service1.asmx?WSDL HTTP/1.1 
 			if (QueryString == "WSDL")
 				if (IsPOST)
 				{
-					ScriptCoreLib.PHP.Native.header("HTTP/1.0 404 Not Found");
+					ScriptCoreLib.PHP.Native.header("HTTP/1.0 405 Method Not Allowed");
 
 					return;
 				}
 
-			// 32	0.896395	192.168.1.101	217.146.66.81	HTTP	
-			// GET /OrcasMetaWebService1/Service1.asmx?WSDL/$metadata HTTP/1.1 
-			if (QueryString == "WSDL/$metadata")
+			if (QueryString == "WSDL/mex")
 			{
-				ScriptCoreLib.PHP.Native.header("HTTP/1.0 404 Not Found");
+				ScriptCoreLib.PHP.Native.header("HTTP/1.0 405 Method Not Allowed");
 
 				return;
 			}
+
+			//if (QueryString == "WSDL/$metadata")
+			//{
+			//    ScriptCoreLib.PHP.Native.header("HTTP/1.0 405 Method Not Allowed");
+
+			//    return;
+			//}
 			//ScriptCoreLib.PHP.Native.header("Content-Type: application/soap+xml; charset=utf-8");
 			ScriptCoreLib.PHP.Native.header("Content-Type: " + p.ContentType);
 
