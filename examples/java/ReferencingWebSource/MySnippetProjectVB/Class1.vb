@@ -1,6 +1,10 @@
-﻿Public Class Class1
+﻿Namespace SomeNamespaceForJAVA
 
-    Function About() As String
-        About = "Hey, this is Visual Basic"
-    End Function
-End Class
+    Public Class Class1
+
+        Function About() As String
+            About = "Hey, this is Visual Basic"
+        End Function
+    End Class
+
+End Namespace
