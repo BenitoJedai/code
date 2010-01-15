@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace MySnippetProject
+namespace MySnippetProject.ACME
 {
 	[Description("The source code for this class is available via HTTP GET")]
 	public class Class1
 	{
-		public readonly ACME.Class1 Contract = new MySnippetProject.ACME.Class1();
-
-		public string Invoke(string e)
+		public override string ToString()
 		{
-			return "hello world: " + e + " - " + this.Contract.ToString();
+			return "ACME.Class1";
 		}
 	}
 }
