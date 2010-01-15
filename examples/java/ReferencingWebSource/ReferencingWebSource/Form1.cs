@@ -18,7 +18,9 @@ namespace ReferencingWebSource
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("hello world");
+			var x = new MySnippetProject.Class1();
+			
+			MessageBox.Show(new Class1().About() + " - " + x.Invoke("x"));
 		}
 
 		private void button2_Click(object sender, EventArgs e)
