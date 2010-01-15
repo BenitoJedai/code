@@ -19,6 +19,10 @@ namespace jsc.meta.Commands.Reference
 	[Description("Referencing source code in the cloud as components has never been that easy!")]
 	public class ReferenceWebSource
 	{
+		// this could be extended to support zip files / tar.gz files
+		// and have it download multiple sources at once
+		// ScriptCoreLib.Archive needs to implement the algorithm then...
+
 		const string WebSource = "WebSource";
 
 		public FileInfo ProjectFileName;
