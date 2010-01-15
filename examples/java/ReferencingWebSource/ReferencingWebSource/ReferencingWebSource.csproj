@@ -119,11 +119,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ACME\X.WebSource\references.txt" />
     <Content Include="MyContext\MyInformation.TextComponent\Author.txt" />
     <Content Include="MyContext\MyInformation.TextComponent\Blog.txt" />
     <Content Include="MyContext\MyPanel.TextualUserControl\LabelComment.txt" />
     <Content Include="MyContext\MyPanel.TextualUserControl\LabelDisclaimer.txt" />
     <Content Include="MyContext\MyPanel.TextualUserControl\Layout.txt" />
+    <Content Include="WebSource\references.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -138,6 +140,7 @@
 C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath)
 C:\util\jsc\bin\jsc.meta.exe ExtendToWindowsFormsEverywhere /assembly:$(TargetPath) /javascript:false /javafusion:true  /javapath:"C:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceTextComponent /ProjectFileName:"$(ProjectPath)"
-C:\util\jsc\bin\jsc.meta.exe ReferenceTextualUserControl /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
+C:\util\jsc\bin\jsc.meta.exe ReferenceTextualUserControl /ProjectFileName:"$(ProjectPath)"
+C:\util\jsc\bin\jsc.meta.exe ReferenceWebSource /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
   </PropertyGroup>
 </Project>

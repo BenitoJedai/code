@@ -1,0 +1,1 @@
+﻿http://jsc.svn.sourceforge.net/viewvc/jsc/examples/java/ReferencingWebSource/MySnippetProject/ACME/Class1.cs
