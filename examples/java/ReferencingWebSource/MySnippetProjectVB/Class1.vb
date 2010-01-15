@@ -1,6 +1,6 @@
 ﻿Namespace SomeNamespaceForJAVA
 
-    Public Class Class1
+    Public Class Class1__
 
         Function About() As String
             About = "Hey, this is Visual Basic"

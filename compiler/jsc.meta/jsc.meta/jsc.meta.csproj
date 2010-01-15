@@ -102,6 +102,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.YAML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\lib\ScriptCoreLib.YAML.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -169,6 +173,7 @@
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
+    <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyMethod.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyConstructor.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyType.cs" />
@@ -208,6 +213,9 @@
     <Content Include="Documents\changelog.txt" />
     <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
+    <Content Include="Documents\__TemplateIcon.ico" />
+    <Content Include="Documents\__TemplateIcon_CS_JSC.ico" />
+    <Content Include="Library\comment.txt" />
     <EmbeddedResource Include="Tools\ant\GoogleAppEngine\build.xml" />
   </ItemGroup>
   <ItemGroup>

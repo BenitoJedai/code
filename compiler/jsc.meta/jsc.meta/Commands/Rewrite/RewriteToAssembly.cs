@@ -157,23 +157,30 @@ namespace jsc.meta.Commands.Rewrite
 			else if (!staging.Exists)
 				this.staging.Create();
 
-			var assembly = Assembly.LoadFile(this.assembly.FullName);
+			var assembly = this.assembly == null ? null : Assembly.LoadFile(this.assembly.FullName);
 			//var assembly = this.assembly.LoadAssemblyAt(staging);
 			_assembly = assembly;
 
 			// load the rest of the references
 			// maybe we shouldnt load those references which will be merged?
-			assembly.LoadReferencesAt(staging, this.assembly.Directory);
+			if (assembly != null)
+				assembly.LoadReferencesAt(staging, this.assembly.Directory);
 
 
-			if (this.PrimaryTypes.Length == 0) 
-				this.PrimaryTypes = new [] {
+			if (this.PrimaryTypes.Length == 0)
+				this.PrimaryTypes = new[] {
 					(this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type))
 				};
 
 
-			var Product = new FileInfo(Path.Combine(staging.FullName,
-			(string.IsNullOrEmpty(this.product) ? this.assembly.Name + "Rewrite" : this.product) + this.assembly.Extension));
+			var Product_Name = (string.IsNullOrEmpty(this.product) ?
+					this.assembly.Name + "Rewrite" :
+					this.product);
+
+			var Product_Extension = this.assembly == null ? ".dll" : this.assembly.Extension;
+
+			var Product = new FileInfo(Path.Combine(staging.FullName, Product_Name + Product_Extension));
+
 			this.Output = Product;
 
 			var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
@@ -188,11 +195,11 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-
-			foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
-			{
-				a.DefineAttribute<ObfuscationAttribute>(ka);
-			}
+			if (assembly != null)
+				foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
+				{
+					a.DefineAttribute<ObfuscationAttribute>(ka);
+				}
 
 			var TypeCache = new VirtualDictionary<Type, Type>();
 			var TypeFieldsCache = new VirtualDictionary<Type, List<FieldBuilder>>();

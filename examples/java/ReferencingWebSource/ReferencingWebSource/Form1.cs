@@ -20,7 +20,7 @@ namespace ReferencingWebSource
 		{
 			var x = new MySnippetProject.Class1();
 			
-			MessageBox.Show(new Class1().About() + " - " + x.Invoke("x"));
+			MessageBox.Show(new SomeNamespaceForJAVA.Class1().About() + " - " + x.Invoke("x"));
 		}
 
 		private void button2_Click(object sender, EventArgs e)
