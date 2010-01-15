@@ -91,6 +91,7 @@ namespace jsc.meta.Commands.Reference
 			// we need to stage it
 			var Staging = this.ProjectFileName.Directory.CreateSubdirectory("bin/" + WaveComponent + ".staging");
 
+			#region AddReference
 			Action<FileInfo, AssemblyName> AddReference =
 				(AssemblyFile, Name) =>
 				{
@@ -129,6 +130,7 @@ namespace jsc.meta.Commands.Reference
 
 					}
 				};
+			#endregion
 
 			#region multiple files to single assembly
 

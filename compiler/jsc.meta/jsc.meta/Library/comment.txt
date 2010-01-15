@@ -1,0 +1,3 @@
+﻿Classes within this namespace may be merged with rewritten assemblies.
+
+Note: The merged classes may not have full access to the BCL.

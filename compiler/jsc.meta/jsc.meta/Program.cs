@@ -58,7 +58,8 @@ namespace jsc.meta
 				new ReferenceWaveComponent().Invoke,
 				new ReferenceTextComponent().Invoke,
 				new ReferenceTextualUserControl().Invoke,
-				
+				new ReferenceWebSource().Invoke,
+
 				new RewriteToAssembly().Invoke,
 
 				new AnalyticsForStatCounter().Invoke,
