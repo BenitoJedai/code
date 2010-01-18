@@ -27,6 +27,7 @@ namespace jsc.meta.Commands.Reference
 
 		public FileInfo ProjectFileName;
 
+
 		public void Invoke()
 		{
 			var csproj = XDocument.Load(ProjectFileName.FullName);

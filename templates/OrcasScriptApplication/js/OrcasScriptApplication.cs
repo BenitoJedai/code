@@ -12,7 +12,6 @@ namespace OrcasScriptApplication.js
 	[Script, ScriptApplicationEntryPoint]
 	public class OrcasScriptApplication
 	{
-
 		public OrcasScriptApplication()
 		{
 			try
