@@ -59,6 +59,7 @@ namespace jsc.meta
 				new ReferenceTextComponent().Invoke,
 				new ReferenceTextualUserControl().Invoke,
 				new ReferenceWebSource().Invoke,
+				new ReferenceJavaScriptDocument().Invoke,
 
 				new RewriteToAssembly().Invoke,
 

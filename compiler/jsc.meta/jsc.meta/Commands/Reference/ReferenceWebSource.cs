@@ -25,6 +25,8 @@ namespace jsc.meta.Commands.Reference
 
 		const string WebSource = "WebSource";
 
+		const string __References = "references.txt";
+
 		public FileInfo ProjectFileName;
 
 
@@ -133,12 +135,15 @@ namespace jsc.meta.Commands.Reference
 			  let File = new FileInfo(Path.Combine(ProjectFileName.Directory.FullName, Include))
 			  group new { ItemGroup, None, Include, File, Directory, TargetName, Target } by Directory;
 
+		
+
 			var References = Enumerable.Distinct(
 				from k in Targets
 				from f in k
 				// should we restrict us to single file or allow multiple files to
 				// enable grouping?
-				where f.File.Name == "references.txt"
+				where 
+					f.File.Name == __References 
 				from r in File.ReadAllLines(f.File.FullName)
 				select r
 			);
@@ -202,7 +207,7 @@ namespace jsc.meta.Commands.Reference
 							);
 
 
-						
+							
 						}
 				};
 
@@ -267,10 +272,13 @@ namespace jsc.meta.Commands.Reference
 			#endregion
 		}
 
+	
 		public class SourceFile
 		{
 			public string Reference;
 			public string Content;
+
+			
 		}
 
 		private static IEnumerable<SourceFile> DownloadWebSource(IEnumerable<string> References)

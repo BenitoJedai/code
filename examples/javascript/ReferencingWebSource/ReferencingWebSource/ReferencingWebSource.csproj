@@ -52,6 +52,9 @@
     <Reference Include="ReferencingWebSource.WebSource">
       <HintPath>bin\WebSource.staging\ReferencingWebSource.WebSource.dll</HintPath>
     </Reference>
+    <Reference Include="ReferencingWebSource.WebSource.HTML">
+      <HintPath>bin\WebSource.HTML.staging\ReferencingWebSource.WebSource.HTML.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="js\Assets.cs" />
@@ -64,8 +67,9 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
+    <Content Include="WebSource.HTML\HTMLPage1.htm" />
     <Content Include="WebSource\references.txt" />
-    <Content Include="WebSource\design.txt" />
+    <Content Include="WebSource.HTML\references.txt" />
     <EmbeddedResource Include="web\assets\ReferencingWebSource\Preview.png" />
     <EmbeddedResource Include="web\assets\ReferencingWebSource\cal.png" />
   </ItemGroup>
@@ -80,6 +84,7 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
 c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
-    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceWebSource /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
+    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceWebSource /ProjectFileName:"$(ProjectPath)"
+C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
   </PropertyGroup>
 </Project>
