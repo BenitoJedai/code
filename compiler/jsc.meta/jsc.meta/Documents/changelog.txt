@@ -53,3 +53,5 @@
 	- initial WSDL support for ExtendToPHPWebService
 2010.01.15
 	- Implemented ReferenceWebSource command
+2010.01.18
+	- Implemented ReferenceJavaScriptDocument command
