@@ -16,8 +16,8 @@
     <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\java\ReferencingWebSource\ReferencingWebSource\bin\Release\staging</StartWorkingDirectory>
-    <StartArguments>ReferencingWebSourceMetaScript.exe -java</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\ReferencingWebSource\ReferencingWebSource\bin\Release</StartWorkingDirectory>
+    <StartArguments>ReferencingWebSource.dll -js</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

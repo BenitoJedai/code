@@ -168,7 +168,8 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			if (this.PrimaryTypes.Length == 0)
-				this.PrimaryTypes = new[] {
+				if (assembly != null)
+					this.PrimaryTypes = new[] {
 					(this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type))
 				};
 

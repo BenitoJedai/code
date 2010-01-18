@@ -8,6 +8,7 @@ using ScriptCoreLib;
 using System.Xml.Serialization;
 using System.Xml;
 using jsc.Loader;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.JavaScript
 {
@@ -57,7 +58,10 @@ namespace jsc.Languages.JavaScript
 			//w.Write("((function(_7,_8){var _1=0,_2='onreadystatechange',_3=document.getElementsByTagName('HEAD')[0],_4,_5;for(_4 in _7){_5=document.createElement('SCRIPT');_5.src=_7[_4];_3.appendChild(_5);_5[_2 in _5?_2:'onload']=function(){var _6=_5.readyState;if(_6==null||_6=='loaded'||_6=='complete')if(++_1==_7.length)_8();};}})([");
 			//w.Write("((function(h,i){var a=0,b='onreadystatechange',c=document.getElementsByTagName('HEAD')[0],d,e;for(d in h){e=document.createElement('SCRIPT');e.src=h[d];c.appendChild(e);e[b in e?b:'onload']=function(){var f=e.readyState;if(f==null||f=='loaded'||f=='complete')if(++a==h.length)i();};}})([");
 
-			var a = LoaderStrategy.LoadReferencedAssemblies(ass, new[] { ScriptType.JavaScript }).Select(k => Path.GetFileName(k.Location)).ToArray();
+			var a = LoaderStrategy.LoadReferencedAssemblies(ass, new[] { ScriptType.JavaScript })
+				
+				.Select(k => Path.GetFileName(k.Location)).ToArray();
+
 
 			for (int i = 0; i < a.Length; i++)
 			{
@@ -126,12 +130,21 @@ namespace jsc.Languages.JavaScript
 
 		static void DefineSpawnPoint(this Assembly ass, ScriptApplicationEntryPointAttribute s, StreamWriter w, string alias, string mime, string data)
 		{
+			var References_ =
+				LoaderStrategy.LoadReferencedAssemblies(ass, new[] { ScriptType.JavaScript })
+							.Reverse()
+							.Distinct();
+
+			var References =
+							References_
+							.OrderByDescending(k => k.ToScriptAttributeOrDefault().IsCoreLib)
+							.Select(k => Path.GetFileName(k.Location)).ToArray();
+
 			WriteEntryPointHTMLTemplate(w, s,
 				ass.GetName().Name,
 				() =>
 					SharedHelper.DefineScript(w,
-						//SharedHelper.LoadReferencedAssemblies(ass, true).Select(k => new FileInfo(k.Location).Name).ToArray()),
-						LoaderStrategy.LoadReferencedAssemblies(ass, new[] { ScriptType.JavaScript }).Reverse().Distinct().Select(k => Path.GetFileName(k.Location)).ToArray()
+						References
 					),
 
 				() => w.WriteLine("<script type='" + mime + "' class='" + alias + "'>" + (string.IsNullOrEmpty(data) ? "" : "\n" + data + "\n") + "</script>")
