@@ -18,6 +18,7 @@ using System.Reflection.Emit;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
 using jsc.Languages.IL;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -209,19 +210,7 @@ namespace jsc.meta.Commands.Reference
 							// http://www.w3schools.com/HTML/html_entities.asp
 							// http://stackoverflow.com/questions/281682/reference-to-undeclared-entity-exception-while-working-with-xml
 
-							var HTMLEntities = new Dictionary<string, string>
-							{
-								{"&nbsp;", "&#160;"},
-								{"&ndash;", "&#8211;"}
-							};
 
-							var ElementTypes = new Dictionary<string, Type>
-							{
-								{"a", typeof(IHTMLAnchor)},
-								{"img", typeof(IHTMLImage)},
-								{"textarea", typeof(IHTMLTextArea)},
-								{"input", typeof(IHTMLInput)}
-							};
 
 							foreach (var item in Sources)
 							{
@@ -269,9 +258,13 @@ namespace jsc.meta.Commands.Reference
 								#endregion
 
 								// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
-								var Elements = Page.DefineNestedType("Elements", TypeAttributes.NestedPublic);
+								var Elements = Page.DefineNestedType("StaticElements", TypeAttributes.NestedPublic);
 
+								
+								//foreach (var CurrentElement in body.XPathSelectElements("//img[@id]"))
+								//{
 
+								//}
 
 								foreach (var CurrentElement in body.XPathSelectElements("//*[@id]"))
 								{
@@ -316,40 +309,7 @@ namespace jsc.meta.Commands.Reference
 
 								Elements.CreateType();
 
-								var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
-
-								var Container = Page.DefineField("Container", typeof(IHTMLElement), FieldAttributes.Public | FieldAttributes.InitOnly);
-
-								{
-									var il = ctor.GetILGenerator();
-
-									Action set_Container =
-										delegate
-										{
-											var c = new IHTMLElement("div");
-
-										};
-
-									{
-										var il_a = new ILTranslationExtensions.EmitToArguments();
-
-										il_a[OpCodes.Stloc_0] = x =>
-										{
-											x.il.Emit(OpCodes.Stloc_0);
-
-											x.il.Emit(OpCodes.Ldarg_0);
-											x.il.Emit(OpCodes.Ldloc_0);
-											x.il.Emit(OpCodes.Stfld, Container);
-										};
-
-										il_a[OpCodes.Ret] = x => { };
-
-										set_Container.Method.EmitTo(il, il_a);
-									}
-
-
-									il.Emit(OpCodes.Ret);
-								}
+								DefinePageConstructor(body, Page);
 
 								Page.CreateType();
 							}
@@ -367,7 +327,221 @@ namespace jsc.meta.Commands.Reference
 				csproj.Save(this.ProjectFileName.FullName);
 		}
 
+		private static void DefinePageConstructor(XElement body, TypeBuilder Page)
+		{
+			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
+			var ElementType = typeof(IHTMLElement);
 
+			var Container = Page.DefineField("_Container", ElementType, FieldAttributes.Private | FieldAttributes.InitOnly);
+
+			var ElementProperty = Page.DefineProperty("Container", PropertyAttributes.None, ElementType, null);
+
+			var get_ElementField = Page.DefineMethod("get_Container", MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+
+			var get_ElementField_il = get_ElementField.GetILGenerator();
+
+			get_ElementField_il.Emit(OpCodes.Ldarg_0);
+			get_ElementField_il.Emit(OpCodes.Ldfld, Container);
+			get_ElementField_il.Emit(OpCodes.Ret);
+
+			ElementProperty.SetGetMethod(get_ElementField);
+
+
+			var Counter = new Counter();
+
+			{
+				var il = ctor.GetILGenerator();
+
+				DefinePageElement(body, Page, Counter, il, OpCodes.Ldnull);
+
+				#region this.Container = loc0
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldloc_0);
+				il.Emit(OpCodes.Stfld, Container);
+				#endregion
+
+				il.Emit(OpCodes.Ret);
+			}
+		}
+
+		public class Counter
+		{
+			public int Value;
+		}
+
+		private static void DefinePageElement(XElement body, TypeBuilder Page, Counter Counter, ILGenerator il, OpCode parent)
+		{
+			Action Implementation1 =
+				delegate
+				{
+					var c = TemplateHolder.Initialize(null);
+				};
+
+			{
+				var il_a = new ILTranslationExtensions.EmitToArguments();
+
+				il_a[OpCodes.Call] = x =>
+				{
+					var Initialize = Page.DefineMethod(
+						"Initialize_" + Counter.Value++,
+						MethodAttributes.Private,
+						typeof(IHTMLElement),
+						new[] { typeof(IHTMLElement) }
+					);
+
+					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter);
+
+					x.il.Emit(OpCodes.Ldarg_0);
+					x.il.Emit(parent);
+					x.il.Emit(OpCodes.Call, Initialize);
+				};
+
+				il_a[OpCodes.Ret] = x => { };
+				il_a[OpCodes.Ldnull] = x => { };
+
+				Implementation1.Method.EmitTo(il, il_a);
+			}
+		}
+
+		private static void DefinePageElement(XElement body, ILGenerator il, TypeBuilder Page, Counter Counter)
+		{
+
+			Action Implementation2 =
+				delegate
+				{
+					#region c.setAttribute("name", "value");
+					Action<IHTMLElement> Implementation3 =
+						c =>
+						{
+							// seems to work for .style too in browsers :)
+							c.setAttribute("name", "value");
+						};
+
+
+
+					foreach (var item in body.Attributes())
+					{
+						if (item.Name.LocalName == "id")
+						{
+							var ElementType = ElementTypes.ContainsKey(body.Name.LocalName) ? ElementTypes[body.Name.LocalName] : typeof(IHTMLElement);
+							var ElementField = Page.DefineField("_" + item.Value, ElementType, FieldAttributes.Private);
+
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Ldloc_0);
+							il.Emit(OpCodes.Castclass, ElementType);
+							il.Emit(OpCodes.Stfld, ElementField);
+
+							var ElementProperty = Page.DefineProperty(item.Value, PropertyAttributes.None, ElementType, null);
+
+							var get_ElementField = Page.DefineMethod("get_" + item.Value, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+
+							var get_ElementField_il = get_ElementField.GetILGenerator();
+
+							get_ElementField_il.Emit(OpCodes.Ldarg_0);
+							get_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
+							get_ElementField_il.Emit(OpCodes.Ret);
+
+							ElementProperty.SetGetMethod(get_ElementField);
+						}
+						else
+						{
+							var il_a = new ILTranslationExtensions.EmitToArguments();
+
+							il_a[OpCodes.Ret] = delegate { };
+							il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldloc_0);
+							il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr,
+								x.i.TargetLiteral == "name" ? item.Name.LocalName : item.Value
+							);
+
+							Implementation3.Method.EmitTo(il, il_a);
+						}
+					}
+					#endregion
+
+					#region c.appendChild
+					Action<IHTMLElement> Implementation4 =
+						c =>
+						{
+							c.appendChild(new ITextNode("e"));
+						};
+
+					foreach (var item in body.Nodes())
+					{
+						if (item is XText)
+						{
+							var il_a = new ILTranslationExtensions.EmitToArguments();
+
+							il_a[OpCodes.Ret] = delegate { };
+							il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldloc_0);
+							il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, ((XText)item).Value);
+
+							Implementation4.Method.EmitTo(il, il_a);
+						}
+
+						if (item is XElement)
+						{
+							DefinePageElement((XElement)item, Page, Counter, il, OpCodes.Ldloc_0);
+						}
+					}
+					#endregion
+				};
+
+			{
+				#region Implementation1
+				Func<object, IHTMLElement, IHTMLElement> Implementation1 =
+						(__this, parent) =>
+						{
+							var c = new IHTMLElement("" /* body.Name.LocalName */);
+
+							//c.setAttribute("title", "hi");
+							TemplateHolder.Implementation();
+
+
+
+							if (parent != null)
+								parent.appendChild(c);
+
+							return c;
+						};
+
+
+				{
+					var il_a = new ILTranslationExtensions.EmitToArguments();
+
+					il_a[OpCodes.Call] = x =>
+					{
+						Action Implementation = TemplateHolder.Implementation;
+						if (x.i.TargetMethod == Implementation.Method)
+						{
+							Implementation2();
+
+							return;
+						}
+
+						il.Emit(OpCodes.Call, x.i.TargetMethod);
+					};
+
+					il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldarg_1);
+					il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, body.Name.LocalName);
+
+					Implementation1.Method.EmitTo(il, il_a);
+				}
+				#endregion
+			}
+		}
+
+		static class TemplateHolder
+		{
+			public static IHTMLElement Initialize(IHTMLElement e)
+			{
+				return null;
+			}
+
+
+			public static void Implementation()
+			{
+			}
+		}
 
 
 		public class SourceFile
@@ -409,5 +583,19 @@ namespace jsc.meta.Commands.Reference
 
 			}
 		}
+
+		public static readonly Dictionary<string, string> HTMLEntities = new Dictionary<string, string>
+							{
+								{"&nbsp;", "&#160;"},
+								{"&ndash;", "&#8211;"}
+							};
+
+		public static readonly Dictionary<string, Type> ElementTypes = new Dictionary<string, Type>
+							{
+								{"a", typeof(IHTMLAnchor)},
+								{"img", typeof(IHTMLImage)},
+								{"textarea", typeof(IHTMLTextArea)},
+								{"input", typeof(IHTMLInput)}
+							};
 	}
 }

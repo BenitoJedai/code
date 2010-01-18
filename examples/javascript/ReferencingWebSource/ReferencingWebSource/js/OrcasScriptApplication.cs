@@ -15,11 +15,37 @@ namespace ReferencingWebSource.js
 	{
 		public ReferencingWebSource()
 		{
+			Demo2();
+			Demo2();
+
+			
+
+			//Demo1();
+
+
+		}
+
+		private static void Demo2()
+		{
+			var p = new Pages.Page1();
+
+			
+			p.Button2.onclick +=
+				delegate
+				{
+					Native.Window.alert(p.TextArea1.value);
+				};
+
+			p.Container.AttachToDocument();
+		}
+
+		private static void Demo1()
+		{
 			Native.Document.body.innerHTML = Pages.MyApp1.HTML;
 
 			var done = false;
 
-			Pages.MyApp1.Elements.Button1.onclick +=
+			Pages.MyApp1.StaticElements.Button1.onclick +=
 				e =>
 				{
 					e.PreventDefault();
@@ -36,7 +62,7 @@ namespace ReferencingWebSource.js
 
 						news.innerText = new SomeNamespaceForJAVA.Class1__().About() + " - " + x.Invoke("x");
 
-						Pages.MyApp1.Elements.MyPicture.parentNode.appendChild(news);
+						Pages.MyApp1.StaticElements.MyPicture.parentNode.appendChild(news);
 
 					}
 					{
@@ -44,18 +70,16 @@ namespace ReferencingWebSource.js
 
 						c.innerHTML = Pages.Page1.HTML;
 
-						Pages.MyApp1.Elements.MyPicture.parentNode.appendChild(c);
+						Pages.MyApp1.StaticElements.MyPicture.parentNode.appendChild(c);
 
-						Pages.Page1.Elements.Button2.onclick +=
+						Pages.Page1.StaticElements.Button2.onclick +=
 							delegate
 							{
-								Native.Window.alert(Pages.Page1.Elements.TextArea1.value);
+								Native.Window.alert(Pages.Page1.StaticElements.TextArea1.value);
 							};
 
 					}
 				};
-
-			
 		}
 
 
