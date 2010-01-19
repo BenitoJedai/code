@@ -591,6 +591,7 @@ namespace jsc.meta.Commands.Reference
 								{"&ndash;", "&#8211;"}
 							};
 
+		// this should be part of the ScriptCoreLib
 		public static readonly Dictionary<string, Type> ElementTypes = new Dictionary<string, Type>
 							{
 								{"a", typeof(IHTMLAnchor)},
@@ -599,6 +600,7 @@ namespace jsc.meta.Commands.Reference
 								{"input", typeof(IHTMLInput)},
 								{"button", typeof(IHTMLButton)},
 								{"label", typeof(IHTMLLabel)},
+								{"iframe", typeof(IHTMLIFrame)},
 							};
 	}
 }
