@@ -67,6 +67,7 @@
     <Content Include="js\WebSource.HTML\Application.htm" />
     <Content Include="js\WebSource.HTML\Details.htm" />
     <Content Include="js\WebSource.HTML\Summary.htm" />
+    <Content Include="js\WebSource.HTML\ThreeDGroup1.htm" />
     <EmbeddedResource Include="web\assets\HyperDesign\Preview.png" />
     <EmbeddedResource Include="web\assets\HyperDesign\cal.png" />
   </ItemGroup>
