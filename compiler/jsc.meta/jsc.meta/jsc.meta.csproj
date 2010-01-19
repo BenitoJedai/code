@@ -179,6 +179,7 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyType.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
+    <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\Java\InvokeWebServiceArguments.cs" />

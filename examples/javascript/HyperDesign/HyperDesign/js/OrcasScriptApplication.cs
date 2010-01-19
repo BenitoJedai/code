@@ -21,6 +21,20 @@ namespace HyperDesign.js
 
 			var g1 = new Pages.ThreeDGroup1();
 
+			g1.Frame1.onload +=
+				e =>
+				{
+					g1.Go1.style.color = Color.Blue;
+					
+				};
+
+			g1.Go1.onclick +=
+				delegate
+				{
+					g1.Go1.style.color = Color.Red;
+					g1.Frame1.src = "http://google.com";
+				};
+
 			g1.Container.AttachToDocument();
 
 			var n = new Pages.Application();
