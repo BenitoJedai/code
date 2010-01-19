@@ -17,6 +17,12 @@ namespace HyperDesign.js
 	{
 		public HyperDesign()
 		{
+			Native.Document.body.style.overflow = IStyle.OverflowEnum.auto;
+
+			var g1 = new Pages.ThreeDGroup1();
+
+			g1.Container.AttachToDocument();
+
 			var n = new Pages.Application();
 
 			n.Container.AttachToDocument();
