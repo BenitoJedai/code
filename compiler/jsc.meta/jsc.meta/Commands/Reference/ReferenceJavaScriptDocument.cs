@@ -137,7 +137,7 @@ namespace jsc.meta.Commands.Reference
 			  from None in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent))
 			  let Include = None.Attribute("Include").Value
 			  let Directory = Path.GetDirectoryName(Include)
-			  where Directory == WebSource_HTML || Directory.EndsWith("." + WebSource_HTML)
+			  where Directory == WebSource_HTML || Directory.EndsWith("." + WebSource_HTML) || Directory.EndsWith("\\" + WebSource_HTML)
 
 			  let TargetName = DefaultNamespace + "." + Directory.Replace("/", ".").Replace("\\", ".")
 			  let Target = new FileInfo(Path.Combine(Staging.FullName, TargetName.Substring(DefaultNamespace.Length + 1) + ".dll"))
@@ -156,6 +156,7 @@ namespace jsc.meta.Commands.Reference
 				where
 					f.File.Name == __References
 				from r in File.ReadAllLines(f.File.FullName)
+				where !string.IsNullOrEmpty(r)
 				select r
 			);
 
@@ -595,7 +596,9 @@ namespace jsc.meta.Commands.Reference
 								{"a", typeof(IHTMLAnchor)},
 								{"img", typeof(IHTMLImage)},
 								{"textarea", typeof(IHTMLTextArea)},
-								{"input", typeof(IHTMLInput)}
+								{"input", typeof(IHTMLInput)},
+								{"button", typeof(IHTMLButton)},
+								{"label", typeof(IHTMLLabel)},
 							};
 	}
 }

@@ -7,11 +7,11 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OrcasScriptApplication")]
+[assembly: AssemblyTitle("HyperDesign2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("zproxy.wordpress.com")]
-[assembly: AssemblyProduct("OrcasScriptApplication")]
+[assembly: AssemblyProduct("HyperDesign2")]
 [assembly: AssemblyCopyright("Copyright © zproxy.wordpress.com 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -38,7 +38,7 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 
-[assembly: 
-    Script,
-    ScriptTypeFilter(ScriptType.JavaScript, typeof(OrcasScriptApplication.js.OrcasScriptApplication))
+[assembly:
+	Script,
+	ScriptTypeFilter(ScriptType.JavaScript, typeof(HyperDesign2.js.HyperDesign2))
 ]
