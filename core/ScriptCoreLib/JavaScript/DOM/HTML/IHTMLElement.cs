@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         public int tabIndex;
 
+		//public bool contentEditable;
 
         [Script(IsStringEnum = true)]
         public enum HTMLElementEnum

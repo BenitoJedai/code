@@ -123,5 +123,10 @@ namespace ScriptCoreLib.JavaScript.DOM
         public void removeChild(INode e)
         {
         }
+
+		// http://developer.apple.com/internet/webcontent/dom2i.html
+		public void replaceChild(INode _new, INode _old)
+		{
+		}
     }
 }

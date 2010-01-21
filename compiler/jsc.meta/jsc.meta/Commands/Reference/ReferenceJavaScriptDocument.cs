@@ -25,6 +25,8 @@ namespace jsc.meta.Commands.Reference
 	[Description("Injecting javascript into HTML has never been that easy!")]
 	public class ReferenceJavaScriptDocument
 	{
+		// trivia: in fact we are referencing HTML to convert it to javascript.
+
 		// http://www.technospot.net/blogs/convert-html-to-javascript-dom-online-tool/
 
 		// user drops an html file
@@ -238,12 +240,14 @@ namespace jsc.meta.Commands.Reference
 								var body = xml.XPathSelectElement("/html/body");
 
 								var Page = Pages.DefineNestedType(title.Value, TypeAttributes.NestedPublic);
+								var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
+
 
 								// we should be returning DOM object instead?
 								#region Page_HTML
-								var Page_HTML = Page.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
+								var Page_HTML = Static.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
 
-								var Page_HTML_get = Page.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
+								var Page_HTML_get = Static.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
 
 								{
 									var il = Page_HTML_get.GetILGenerator();
@@ -259,13 +263,13 @@ namespace jsc.meta.Commands.Reference
 								#endregion
 
 								// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
-								var Elements = Page.DefineNestedType("StaticElements", TypeAttributes.NestedPublic);
+								var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
 
-								
-								//foreach (var CurrentElement in body.XPathSelectElements("//img[@id]"))
-								//{
+								var Images_value = body.XPathSelectElements("//img").ToArray();
 
-								//}
+								DefineStaticImages(a, Static, Images_value);
+
+								Static.CreateType();
 
 								foreach (var CurrentElement in body.XPathSelectElements("//*[@id]"))
 								{
@@ -310,7 +314,18 @@ namespace jsc.meta.Commands.Reference
 
 								Elements.CreateType();
 
-								DefinePageConstructor(body, Page);
+								var Images_lookup = new Dictionary<XElement, FieldBuilder>();
+
+								foreach (var i in Images_value)
+								{
+									Images_lookup[i] = null;
+								}
+
+
+								DefinePageConstructor(body, Page, new[] { Images_lookup });
+
+								// and html5 videos and sounds!
+								DefineInstanceImages(a, Page, Images_lookup);
 
 								Page.CreateType();
 							}
@@ -328,7 +343,130 @@ namespace jsc.meta.Commands.Reference
 				csproj.Save(this.ProjectFileName.FullName);
 		}
 
-		private static void DefinePageConstructor(XElement body, TypeBuilder Page)
+		private void DefineInstanceImages(RewriteToAssembly.PostRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
+		{
+			#region References
+			var References = Page.DefineProperty("Images", PropertyAttributes.None, typeof(IHTMLImage[]), null);
+
+			var References_get = Page.DefineMethod("get_Images", MethodAttributes.Public, typeof(IHTMLImage[]), null);
+
+			References.SetGetMethod(References_get);
+
+			{
+				var il = References_get.GetILGenerator();
+
+				Func<IHTMLImage[]> Implementation1 = () => new IHTMLImage[] { };
+
+				var il_a = new ILTranslationExtensions.EmitToArguments();
+
+
+
+				il_a[OpCodes.Ldc_I4_0] =
+					x =>
+					{
+						il.Emit(OpCodes.Ldc_I4, lookup.Count);
+					};
+
+				il_a[OpCodes.Stloc_0] =
+					x =>
+					{
+						il.Emit(OpCodes.Stloc_0);
+
+						foreach (var item in lookup.Select((k, index) => new { k, index }).ToArray())
+						{
+							il.Emit(OpCodes.Ldloc_0);
+							il.Emit(OpCodes.Ldc_I4, item.index);
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Ldfld, item.k.Value);
+							il.Emit(OpCodes.Stelem_Ref);
+
+
+							/*
+							L_0007: ldloc.1 
+							L_0008: ldc.i4.0 
+							L_0009: ldstr ""
+							L_000e: stelem.ref 
+							 */
+						}
+					};
+
+
+
+				Implementation1.Method.EmitTo(il, il_a);
+			}
+			#endregion
+
+		}
+
+		private void DefineStaticImages(RewriteToAssembly.PostRewriteArguments a, TypeBuilder Page, XElement[] i)
+		{
+			if (i == null)
+				throw new ArgumentNullException("i");
+			//var Images = Page.DefineNestedType("Images", TypeAttributes.NestedPublic);
+
+			var References_value = i
+				.Where(k => k.Attribute("src") != null)
+				.Select(k => k.Attribute("src").Value)
+				.Where(k => !string.IsNullOrEmpty(k))
+				.Distinct()
+				.Select((k, index) => new { k, index })
+				.ToArray();
+
+			// we might want to return IHTMLImage references instead with or without id's...
+
+			#region References
+			var References = Page.DefineProperty("Images", PropertyAttributes.None, typeof(string[]), null);
+
+			var References_get = Page.DefineMethod("get_Images", MethodAttributes.Public | MethodAttributes.Static, typeof(string[]), null);
+
+			References.SetGetMethod(References_get);
+
+			{
+				var il = References_get.GetILGenerator();
+
+				Func<string[]> Implementation1 = () => new string[] { };
+
+				var il_a = new ILTranslationExtensions.EmitToArguments();
+
+
+
+				il_a[OpCodes.Ldc_I4_0] =
+					x =>
+					{
+						il.Emit(OpCodes.Ldc_I4, References_value.Length);
+					};
+
+				il_a[OpCodes.Stloc_0] =
+					x =>
+					{
+						il.Emit(OpCodes.Stloc_0);
+
+						foreach (var item in References_value)
+						{
+							il.Emit(OpCodes.Ldloc_0);
+							il.Emit(OpCodes.Ldc_I4, item.index);
+							il.Emit(OpCodes.Ldstr, item.k);
+							il.Emit(OpCodes.Stelem_Ref);
+
+
+							/*
+							L_0007: ldloc.1 
+							L_0008: ldc.i4.0 
+							L_0009: ldstr ""
+							L_000e: stelem.ref 
+							 */
+						}
+					};
+
+
+
+				Implementation1.Method.EmitTo(il, il_a);
+			}
+			#endregion
+
+		}
+
+		private static void DefinePageConstructor(XElement body, TypeBuilder Page, Dictionary<XElement, FieldBuilder>[] lookup)
 		{
 			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
 			var ElementType = typeof(IHTMLElement);
@@ -353,7 +491,7 @@ namespace jsc.meta.Commands.Reference
 			{
 				var il = ctor.GetILGenerator();
 
-				DefinePageElement(body, Page, Counter, il, OpCodes.Ldnull);
+				DefinePageElement(body, Page, Counter, il, OpCodes.Ldnull, lookup);
 
 				#region this.Container = loc0
 				il.Emit(OpCodes.Ldarg_0);
@@ -370,7 +508,7 @@ namespace jsc.meta.Commands.Reference
 			public int Value;
 		}
 
-		private static void DefinePageElement(XElement body, TypeBuilder Page, Counter Counter, ILGenerator il, OpCode parent)
+		private static void DefinePageElement(XElement body, TypeBuilder Page, Counter Counter, ILGenerator il, OpCode parent, Dictionary<XElement, FieldBuilder>[] lookup)
 		{
 			Action Implementation1 =
 				delegate
@@ -390,7 +528,7 @@ namespace jsc.meta.Commands.Reference
 						new[] { typeof(IHTMLElement) }
 					);
 
-					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter);
+					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter, lookup);
 
 					x.il.Emit(OpCodes.Ldarg_0);
 					x.il.Emit(parent);
@@ -404,12 +542,52 @@ namespace jsc.meta.Commands.Reference
 			}
 		}
 
-		private static void DefinePageElement(XElement body, ILGenerator il, TypeBuilder Page, Counter Counter)
+		private static void DefinePageElement(XElement body, ILGenerator il, TypeBuilder Page, Counter Counter, Dictionary<XElement, FieldBuilder>[] lookup)
 		{
 
 			Action Implementation2 =
 				delegate
 				{
+					var Element__id = body.Attribute("id");
+					var ElementHasId = Element__id != null;
+					var ElementInLookup = lookup.Any(k => k.Keys.Contains(body));
+
+					if (ElementHasId || ElementInLookup)
+					{
+						var ElementType = ElementTypes.ContainsKey(body.Name.LocalName) ? ElementTypes[body.Name.LocalName] : typeof(IHTMLElement);
+						var ElementField = Page.DefineField("_" + (Element__id == null ? "" + Counter.Value++ : Element__id.Value), ElementType, FieldAttributes.Private);
+
+						foreach (var k in 
+							from k0 in lookup
+							where k0.ContainsKey(body)
+							select k0
+							)
+						{
+							k[body] = ElementField;
+						}
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldloc_0);
+						il.Emit(OpCodes.Castclass, ElementType);
+						il.Emit(OpCodes.Stfld, ElementField);
+
+						if (ElementHasId)
+						{
+							var ElementProperty = Page.DefineProperty(Element__id.Value, PropertyAttributes.None, ElementType, null);
+
+							var get_ElementField = Page.DefineMethod("get_" + Element__id.Value, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+
+							var get_ElementField_il = get_ElementField.GetILGenerator();
+
+							get_ElementField_il.Emit(OpCodes.Ldarg_0);
+							get_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
+							get_ElementField_il.Emit(OpCodes.Ret);
+
+							ElementProperty.SetGetMethod(get_ElementField);
+						}
+					}
+
+
 					#region c.setAttribute("name", "value");
 					Action<IHTMLElement> Implementation3 =
 						c =>
@@ -420,42 +598,23 @@ namespace jsc.meta.Commands.Reference
 
 
 
+
 					foreach (var item in body.Attributes())
 					{
 						if (item.Name.LocalName == "id")
-						{
-							var ElementType = ElementTypes.ContainsKey(body.Name.LocalName) ? ElementTypes[body.Name.LocalName] : typeof(IHTMLElement);
-							var ElementField = Page.DefineField("_" + item.Value, ElementType, FieldAttributes.Private);
+							continue;
 
-							il.Emit(OpCodes.Ldarg_0);
-							il.Emit(OpCodes.Ldloc_0);
-							il.Emit(OpCodes.Castclass, ElementType);
-							il.Emit(OpCodes.Stfld, ElementField);
 
-							var ElementProperty = Page.DefineProperty(item.Value, PropertyAttributes.None, ElementType, null);
+						var il_a = new ILTranslationExtensions.EmitToArguments();
 
-							var get_ElementField = Page.DefineMethod("get_" + item.Value, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+						il_a[OpCodes.Ret] = delegate { };
+						il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldloc_0);
+						il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr,
+							x.i.TargetLiteral == "name" ? item.Name.LocalName : item.Value
+						);
 
-							var get_ElementField_il = get_ElementField.GetILGenerator();
+						Implementation3.Method.EmitTo(il, il_a);
 
-							get_ElementField_il.Emit(OpCodes.Ldarg_0);
-							get_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
-							get_ElementField_il.Emit(OpCodes.Ret);
-
-							ElementProperty.SetGetMethod(get_ElementField);
-						}
-						else
-						{
-							var il_a = new ILTranslationExtensions.EmitToArguments();
-
-							il_a[OpCodes.Ret] = delegate { };
-							il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldloc_0);
-							il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr,
-								x.i.TargetLiteral == "name" ? item.Name.LocalName : item.Value
-							);
-
-							Implementation3.Method.EmitTo(il, il_a);
-						}
 					}
 					#endregion
 
@@ -481,7 +640,7 @@ namespace jsc.meta.Commands.Reference
 
 						if (item is XElement)
 						{
-							DefinePageElement((XElement)item, Page, Counter, il, OpCodes.Ldloc_0);
+							DefinePageElement((XElement)item, Page, Counter, il, OpCodes.Ldloc_0, lookup);
 						}
 					}
 					#endregion

@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
 using System;
+using System.Linq;
 
 
 namespace HyperDesign.js
@@ -21,11 +22,16 @@ namespace HyperDesign.js
 
 			var g1 = new Pages.ThreeDGroup1();
 
+			//WriteAnimations();
+
+			g1.Images.ToGoogleThreeDWarehouseImages().Animate();
+
+
 			g1.Frame1.onload +=
 				e =>
 				{
 					g1.Go1.style.color = Color.Blue;
-					
+
 				};
 
 			g1.Go1.onclick +=
@@ -125,6 +131,70 @@ namespace HyperDesign.js
 								};
 						};
 				};
+		}
+
+		private static void WriteAnimations()
+		{
+			Action<string> Write = r => new IHTMLDiv { innerText = r }.AttachToDocument();
+
+
+			foreach (var r in Pages.ThreeDGroup1.Static.Images)
+			{
+				Write(r);
+
+				var u = new Uri(r);
+
+				Write(u.Host); // sketchup.google.com
+				Write(u.AbsolutePath);
+				Write(u.Query); // /3dwarehouse/download
+
+				foreach (var p in u.Query.Split('&'))
+				{
+					var kv = p.Split('=');
+					if (kv.Length == 2)
+					{
+						Write(kv[0]);
+						Write(kv[1]);
+
+						if (kv[0] == "mid")
+						{
+							var container = new IHTMLDiv { innerText = "loading..." }.AttachToDocument();
+							var frames = Enumerable.ToArray(
+								from imagenum in Enumerable.Range(0, 36)
+								let e = new { mid = kv[1], imagenum }
+								select new IHTMLImage("http://sketchup.google.com/3dwarehouse/download?mid=" + e.mid + "&rtyp=swivel&setnum=0&imagenum=" + e.imagenum)
+								{
+									width = 40,
+									height = 30
+								}
+							);
+
+							var cc = frames.Last();
+
+							cc.InvokeOnComplete(
+								i =>
+								{
+
+									var cf = frames.AsCyclicEnumerator();
+
+									new Timer(
+										t =>
+										{
+											cf.MoveNext();
+											container.removeChildren();
+											cf.Current.AttachTo(container);
+
+										},
+										1, 1000 / 24).StartInterval();
+								}
+							);
+
+
+
+						}
+					}
+				}
+			}
 		}
 
 		public class Employee
