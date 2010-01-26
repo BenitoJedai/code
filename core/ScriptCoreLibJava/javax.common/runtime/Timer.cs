@@ -14,7 +14,8 @@ namespace javax.common.runtime
 
 
     [Script]
-	[System.Obsolete("Use Thread or Timer instead", true)]
+	// yay! some business applications use this... revert to warning!
+	[System.Obsolete("Use Thread or Timer instead", false)]
     public class Timer
     {
 

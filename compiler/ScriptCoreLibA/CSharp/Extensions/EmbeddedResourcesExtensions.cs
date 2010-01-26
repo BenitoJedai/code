@@ -122,7 +122,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 				ToManifestResourceStream_Cache[v.PrefixlessResourceName] = v;
 			}
 
-			// did you embedd the resource?
+			// did you embed the resource?
 
 			var result = a.Where(k => k.PrefixlessResourceName == request).SingleOrDefault();
 

@@ -25,7 +25,7 @@ namespace jsc.Languages.Java
 		public override bool EmitTryBlock(ILBlock.Prestatement p)
 		{
 			// http://stackoverflow.com/questions/416183/in-java-critical-sections-what-should-i-synchronize-on
-			
+
 			// this shall be updated for .net 4:
 			// http://www.danielmoth.com/Blog/2009/08/net-4-monitorenter-replaced-by.html
 
@@ -93,16 +93,27 @@ namespace jsc.Languages.Java
 				#region are we supposed to emit synchronized block? lets find out
 				if (p.Block.Flow != null)
 				{
-					var ParentFlowBranchInstruction = p.Block.Flow.Parents.Single().Branch;
+					var Parents = p.Block.Flow.Parents;
+
+					var ParentFlowBranchInstruction = 
+						// did we brake anything? :)
+						Parents.Count == 1 ? Parents.Single().Branch : null;
 
 					#region we can tolerate a Nop instruction
-					if (ParentFlowBranchInstruction.OpCode == OpCodes.Nop)
-					{
-						if (ParentFlowBranchInstruction.BranchSources.Count > 0)
-							throw new NotSupportedException();
-
-						ParentFlowBranchInstruction = ParentFlowBranchInstruction.Prev;
-					}
+					if (ParentFlowBranchInstruction != null)
+						if (ParentFlowBranchInstruction.OpCode == OpCodes.Nop)
+						{
+							if (ParentFlowBranchInstruction.BranchSources.Count > 0)
+							{
+								// i guess we are not a lock?
+								// or atleast we need to do more here!
+								ParentFlowBranchInstruction = null;
+							}
+							else
+							{
+								ParentFlowBranchInstruction = ParentFlowBranchInstruction.Prev;
+							}
+						}
 					#endregion
 
 					if (ParentFlowBranchInstruction != null)
@@ -215,7 +226,7 @@ namespace jsc.Languages.Java
 						this.WriteLine();
 
 						EmitScope(b);
-					
+
 					}
 
 					// additional space

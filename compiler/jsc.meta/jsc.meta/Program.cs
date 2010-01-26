@@ -37,6 +37,8 @@ namespace jsc.meta
 
 		public static void Main(string[] args)
 		{
+			// This is the front-end compiler for jsc solutions...
+
 			//Debugger.Launch();
 
 
