@@ -36,6 +36,12 @@ namespace HyperDesign2.js
 
 			n.Container.AttachToDocument();
 
+			n.Carlo.onclick +=
+				e =>
+				{
+					Native.Window.alert("hi");
+				};
+
 			n.Read.onclick +=
 				delegate
 				{

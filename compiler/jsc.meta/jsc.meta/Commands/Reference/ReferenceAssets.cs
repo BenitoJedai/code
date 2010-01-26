@@ -20,5 +20,7 @@ namespace jsc.meta.Commands.Reference
 
 		// html file could be used
 		// for comments and meta stuff
+
+		// is this superseded by ReferenceJavaScriptDocument
 	}
 }

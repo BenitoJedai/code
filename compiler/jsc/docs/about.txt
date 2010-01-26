@@ -406,3 +406,5 @@ version history:
 	php: ditched short_open_tag
 18.01.2010
 	js: IsCoreLib is the first library to be loaded
+26.01.2010
+	java: fixed lock detection not to crash
