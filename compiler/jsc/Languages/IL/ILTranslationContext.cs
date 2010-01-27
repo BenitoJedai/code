@@ -10,6 +10,7 @@ namespace jsc.Languages.IL
 {
 	public class ILTranslationContext
 	{
+
 		public VirtualDictionary<Type, Type> TypeCache;
 
 		/// <summary>

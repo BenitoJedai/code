@@ -115,6 +115,7 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 		public Action<PostRewriteArguments> PostRewrite;
+		public Action<PostRewriteArguments> PreRewrite;
 
 
 		public class PostTypeRewriteArguments : PostRewriteArguments
@@ -125,8 +126,17 @@ namespace jsc.meta.Commands.Rewrite
 
 		public Action<PostTypeRewriteArguments> PostTypeRewrite;
 
+		public Action<ILTranslationExtensions.EmitToArguments> ILOverride;
 
 		public FileInfo Output;
+
+		public ILTranslationContext ExternalContext = new ILTranslationContext
+		{
+			ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>(),
+			MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>(),
+			TypeCache = new VirtualDictionary<Type, Type>(),
+			TypeFieldCache = new VirtualDictionary<Type, List<FieldBuilder>>()
+		};
 
 		public void Invoke()
 		{
@@ -218,11 +228,66 @@ namespace jsc.meta.Commands.Rewrite
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
 
+			#region ExternalContext defaults...
+			this.ExternalContext.TypeCache.Resolve += 
+				source =>
+				{
+					if (this.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
+						return;
+
+					this.ExternalContext.TypeCache[source] = source;
+				};
+
+			this.ExternalContext.MethodCache.Resolve +=
+				source =>
+				{
+					if (this.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
+						return;
+
+
+					this.ExternalContext.MethodCache[source] = source;
+				};
+
+			this.ExternalContext.ConstructorCache.Resolve +=
+				source =>
+				{
+					if (this.ExternalContext.ConstructorCache.BaseDictionary.ContainsKey(source))
+						return;
+
+
+					this.ExternalContext.ConstructorCache[source] = source;
+				};
+
+			#endregion
+
+			this.RewriteArguments = new PostRewriteArguments
+					{
+						Assembly = a,
+						Module = m,
+
+						context =
+							new ILTranslationContext
+							{
+
+								ConstructorCache = ConstructorCache,
+								MethodCache = MethodCache,
+								TypeCache = TypeCache,
+								TypeFieldCache = TypeFieldsCache
+							}
+					};
 
 
 			ConstructorCache.Resolve +=
 				msource =>
 				{
+					// This unit was resolved for us...
+					if (ExternalContext.ConstructorCache[msource] != msource)
+					{
+						ConstructorCache[msource] = ExternalContext.ConstructorCache[msource];
+						return;
+					}
+
+
 					if (PrimaryTypes.Any(k => k.Assembly == msource.DeclaringType.Assembly) || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
 						var DeclaringType = (TypeBuilder)TypeCache[msource.DeclaringType];
@@ -244,12 +309,20 @@ namespace jsc.meta.Commands.Rewrite
 			MethodCache.Resolve +=
 				msource =>
 				{
+					// This unit was resolved for us...
+					if (ExternalContext.MethodCache[msource] != msource)
+					{
+						MethodCache[msource] = ExternalContext.MethodCache[msource];
+						return;
+					}
+
 					if (PrimaryTypes.Any(k => k.Assembly == msource.DeclaringType.Assembly) || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
 					{
 						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
 							_assembly,
 							this.codeinjecton,
-							this.codeinjectonparams
+							this.codeinjectonparams,
+							this.ILOverride
 						);
 						return;
 					}
@@ -263,6 +336,8 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var k = TypeCache[source];
 
+					// what about ExternalContext ?
+
 					if (TypeFieldsCache.BaseDictionary.ContainsKey(source))
 						return;
 
@@ -272,6 +347,13 @@ namespace jsc.meta.Commands.Rewrite
 			TypeCache.Resolve +=
 				source =>
 				{
+					// This unit was resolved for us...
+					if (ExternalContext.TypeCache[source] != source)
+					{
+						TypeCache[source] = ExternalContext.TypeCache[source];
+						return;
+					}
+
 					if (source.IsArray)
 					{
 						TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
@@ -299,15 +381,7 @@ namespace jsc.meta.Commands.Rewrite
 											Assembly = a,
 											Module = m,
 
-											context =
-												new ILTranslationContext
-												{
-
-													ConstructorCache = ConstructorCache,
-													MethodCache = MethodCache,
-													TypeCache = TypeCache,
-													TypeFieldCache = TypeFieldsCache
-												}
+											context = this.RewriteArguments.context
 										}
 									);
 
@@ -315,7 +389,7 @@ namespace jsc.meta.Commands.Rewrite
 
 						);
 
-					
+
 					}
 					else
 					{
@@ -324,27 +398,18 @@ namespace jsc.meta.Commands.Rewrite
 
 				};
 
+			if (PreRewrite != null)
+				PreRewrite(
+					RewriteArguments
+				);
+
 			// ask for our primary types to be copied
 			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
 
 			#region maybe the rewriter wants to add some types at this point?
 			if (PostRewrite != null)
 				PostRewrite(
-					new PostRewriteArguments
-					{
-						Assembly = a,
-						Module = m,
-
-						context =
-							new ILTranslationContext
-							{
-
-								ConstructorCache = ConstructorCache,
-								MethodCache = MethodCache,
-								TypeCache = TypeCache,
-								TypeFieldCache = TypeFieldsCache
-							}
-					}
+					RewriteArguments
 				);
 			#endregion
 
@@ -355,6 +420,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			Product.Refresh();
 		}
+
+		public PostRewriteArguments RewriteArguments { get; private set; }
 
 		private bool ShouldCopyType(Type ContextType)
 		{
