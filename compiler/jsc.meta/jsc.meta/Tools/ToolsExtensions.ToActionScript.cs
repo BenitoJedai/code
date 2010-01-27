@@ -15,6 +15,8 @@ namespace jsc.meta.Tools
 		
 		public static void ToActionScript(this FileInfo TargetAssembly, FileInfo mxmlc, FileInfo flashplayer, Type sprite, FileInfo FusionAssembly)
 		{
+			// FusionAssembly ??
+
 			jsc.Program.TypedMain(
 				new jsc.CompileSessionInfo
 				{

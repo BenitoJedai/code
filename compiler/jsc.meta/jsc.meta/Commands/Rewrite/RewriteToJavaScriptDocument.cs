@@ -12,16 +12,13 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using jsc.meta.Tools;
 
 namespace jsc.meta.Commands.Rewrite
 {
 	[Description("This command will tare an assembly to compile java and flash objects separatly.")]
 	public partial class RewriteToJavaScriptDocument : CommandBase
 	{
-		/* usage:
-				if $(ConfigurationName)==Debug goto :eof
-				c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"		 
-		 */
 
 		/* How was this feature implemented in the long run?
 		 * 
@@ -30,6 +27,8 @@ namespace jsc.meta.Commands.Rewrite
 		 * 3. Save to the svn
 		 * 4. Rewrite components to their staging folders to be proccessed by the backend compilers
 		 * 5. Get javascript to be compiled by jsc
+		 * 6. Get flash to compile without alchemy
+		 * 7. Get java to compile
 		 */
 
 		public override void Invoke()
@@ -92,6 +91,8 @@ namespace jsc.meta.Commands.Rewrite
 							{
 								if (k.IsJavaScript)
 								{
+									// look, we are injecting IL code :)
+									// to bad jsc backend had to do this the ugly way in the past...
 									InjectJavaScriptBootstrap(a);
 								}
 							}
@@ -112,19 +113,19 @@ namespace jsc.meta.Commands.Rewrite
 
 				r.Invoke();
 
+				if (k.IsJava)
+				{
+					r.Output.ToJava(this.javapath, null, null, null, k.TargetType);
+				}
+
+				if (k.IsActionScript)
+				{
+					r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null);
+				}
+
 				if (k.IsJavaScript)
 				{
-					jsc.Program.TypedMain(
-						new jsc.CompileSessionInfo
-						{
-							Options = new jsc.CommandLineOptions
-							{
-								TargetAssembly = r.Output,
-								IsJavaScript = true,
-								IsNoLogo = true
-							}
-						}
-					);
+					r.Output.ToJavaScript();
 				}
 			}
 		}

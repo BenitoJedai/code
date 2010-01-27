@@ -18,6 +18,11 @@ namespace jsc.meta.Tools
 
 		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly, string jarname)
 		{
+			ToJava(TargetAssembly, javapath, assembly_metaentrypoint, FusionAssembly, jarname, null);
+		}
+
+		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly, string jarname, Type TargetType)
+		{
 
 			// we should run jsc in another appdomain actually
 			// just to be sure our nice tool gets unloaded :)
@@ -47,6 +52,9 @@ namespace jsc.meta.Tools
 				jarname ??(Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
 			));
 
+			var TargetTypeFullName = (assembly_metaentrypoint == null ? TargetType : assembly_metaentrypoint.DeclaringType).FullName;
+
+
 			#region javac
 			Console.WriteLine("- javac");
 			var TargetSourceFiles = "java";
@@ -63,7 +71,7 @@ namespace jsc.meta.Tools
 			var proccess_javac = Process.Start(
 				new ProcessStartInfo(
 					Path.Combine(javapath.FullName, "javac.exe"),
-					@"-classpath " + TargetSourceFiles + @" -d release java\" + assembly_metaentrypoint.DeclaringType.FullName.Replace(".", @"\") + @".java"
+					@"-classpath " + TargetSourceFiles + @" -d release java\" + TargetTypeFullName.Replace(".", @"\") + @".java"
 					)
 				{
 					UseShellExecute = false,
@@ -131,6 +139,8 @@ namespace jsc.meta.Tools
 			#endregion
 
 
+
+
 			#region run_jar
 			// 4
 			var run_jar = Path.Combine(TargetAssembly.Directory.FullName, Path.GetFileNameWithoutExtension(TargetAssembly.Name) + ".jar.bat");
@@ -153,7 +163,7 @@ namespace jsc.meta.Tools
 @echo off
 setlocal
 
-call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + ClassPath + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*
+call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + ClassPath + @""" " + TargetTypeFullName + @" %*
 
 endlocal
 "
@@ -175,7 +185,7 @@ endlocal
 				Console.WriteLine(FusionAssemblyStart);
 
 				File.WriteAllText(FusionAssemblyStart,
-					@"@call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + FusionAssembly.Name + @""" " + assembly_metaentrypoint.DeclaringType.FullName + @" %*"
+					@"@call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + FusionAssembly.Name + @""" " + TargetTypeFullName + @" %*"
 				);
 			}
 
