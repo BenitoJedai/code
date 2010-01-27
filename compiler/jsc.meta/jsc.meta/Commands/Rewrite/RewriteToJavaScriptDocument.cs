@@ -273,7 +273,7 @@ namespace jsc.meta.Commands.Rewrite
 									var il = ctor.GetILGenerator();
 
 
-									WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, k.EntryPoint, __InternalElement);
+									WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement);
 
 
 									r.ExternalContext.ConstructorCache[source] = ctor;
