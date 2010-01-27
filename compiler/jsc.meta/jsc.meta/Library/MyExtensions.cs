@@ -88,7 +88,7 @@ namespace jsc.meta.Library
 				MethodCache,
 				NameObfuscation,
 				null,
-				null, null
+				null, null, null
 			);
 
 			return (MethodBuilder)MethodCache[msource.Method];
@@ -150,6 +150,7 @@ namespace jsc.meta.Library
 						ConstructorCache,
 						MethodCache,
 						NameObfuscation,
+						null,
 						null,
 						null,
 						null

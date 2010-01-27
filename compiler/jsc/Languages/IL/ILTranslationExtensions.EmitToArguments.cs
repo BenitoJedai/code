@@ -182,14 +182,14 @@ namespace jsc.Languages.IL
 
 					};
 
+				this[OpCodes.Castclass] = e => e.il.Emit(OpCodes.Castclass, this.TranslateTargetType(e.i.TargetType));
+
 
 				this[i => this.TranslateTargetType(i.TargetType)] = new[] {
 					OpCodes.Box,
 					OpCodes.Newarr,
-					OpCodes.Castclass,
 					OpCodes.Unbox_Any,
 					OpCodes.Isinst
-					
 				};
 
 				this[i => this.TranslateTargetField(i.TargetField)] = new[] {

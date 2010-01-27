@@ -27,7 +27,10 @@ namespace jsc.meta.Commands.Rewrite
 
 			Assembly PrimarySourceAssembly,
 			Delegate codeinjecton,
-			Func<Assembly, object[]> codeinjectonparams
+			Func<Assembly, object[]> codeinjectonparams,
+
+
+			Action<ILTranslationExtensions.EmitToArguments> ILOverride
 			)
 		{
 			// sanity check!
@@ -42,7 +45,15 @@ namespace jsc.meta.Commands.Rewrite
 				(source.GetMethodBody() == null || (source.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
 				source.Name : NameObfuscation[source.Name];
 
-			var km = t.DefineMethod(MethodName, source.Attributes, source.CallingConvention, tc[source.ReturnType], source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray());
+			// !! fixme
+			// How to: Define a Generic Method with Reflection Emit
+			// http://msdn.microsoft.com/en-us/library/ms228971.aspx
+			var Parameters =
+				 source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray();
+
+
+			var km = t.DefineMethod(
+				MethodName, source.Attributes, source.CallingConvention, tc[source.ReturnType], Parameters);
 
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
 
@@ -195,6 +206,12 @@ namespace jsc.meta.Commands.Rewrite
 					// MethodBuilder.Emit is too nice and always writes .leave for us.
 					// As such we need not to write this twice
 				};
+
+
+			if (ILOverride != null)
+				ILOverride(x);
+
+
 
 			mb.EmitTo(kmil, x);
 
