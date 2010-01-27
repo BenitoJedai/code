@@ -54,7 +54,19 @@ namespace jsc.meta.Commands.Rewrite
 				// possible name clash?
 				let StagingFolder = this.staging.CreateSubdirectory(TargetType.FullName).ToConsole()
 
-				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, StagingFolder }
+				// we are guessing the product name ahead of time...
+
+				let Product = IsJava ? Path.Combine(StagingFolder.FullName, @"web\bin\" + TargetType.Name + ".jar") :
+							  IsActionScript ? Path.Combine(StagingFolder.FullName, @"web\" + TargetType.Name + ".swf") :
+							  null
+
+				// javascript objects will embedd upper level objects
+				// javascript objects could be defined within one code file?
+				orderby IsJavaScript 
+
+
+				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, StagingFolder, Product }
+
 			);
 
 			foreach (var k in targets)
@@ -82,8 +94,8 @@ namespace jsc.meta.Commands.Rewrite
 					},
 					#endregion
 
-					
-					PostTypeRewrite = 
+
+					PostTypeRewrite =
 						a =>
 						{
 							// we need to inject bootstrap code
@@ -106,8 +118,24 @@ namespace jsc.meta.Commands.Rewrite
 							   {
 								   Feature = "script",
 							   }
-						    );
+							);
 
+							if (k.IsJavaScript)
+							{
+								// javascript will embed objects
+								// as it can create them
+
+								foreach (var asset in from kk in targets where !kk.IsJavaScript select kk)
+								{
+									if (!File.Exists(asset.Product))
+										throw new FileNotFoundException("", asset.Product);
+
+									a.Module.DefineManifestResource(k.TargetType + ".web.assets." + k.TargetType.FullName + "." + Path.GetFileName(asset.Product),
+										new MemoryStream(File.ReadAllBytes(asset.Product))
+									, ResourceAttributes.Public);
+
+								}
+							}
 						}
 				};
 
@@ -115,7 +143,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (k.IsJava)
 				{
-					r.Output.ToJava(this.javapath, null, null, null, k.TargetType);
+					r.Output.ToJava(this.javapath, null, null, k.TargetType.Name + ".jar", k.TargetType);
 				}
 
 				if (k.IsActionScript)

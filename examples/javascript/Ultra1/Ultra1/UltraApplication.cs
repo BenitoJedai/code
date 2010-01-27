@@ -103,7 +103,9 @@ namespace Ultra1
 						#region new UltraSprite().AttachToDocument()
 						var o = new IHTMLEmbed();
 
-						o.src = @"..\..\Ultra1.UltraSprite\web\UltraSprite.swf";
+						//o.src = @"..\..\Ultra1.UltraSprite\web\UltraSprite.swf";
+						// jsc.meta has embedded the objects for us...
+						o.src = @"assets/Ultra1.UltraApplication/UltraSprite.swf";
 						o.style.SetSize(UltraSprite.DefaultWidth, UltraSprite.DefaultHeight);
 						o.AttachToDocument();
 						#endregion
@@ -123,8 +125,9 @@ namespace Ultra1
 						var o = new IHTMLApplet();
 
 						// see: http://java.sun.com/j2se/1.4.2/docs/guide/plugin/developer_guide/java_js.html
-
-						o.archive = @"..\..\Ultra1.UltraApplet\web\bin\Ultra1.UltraApplet.jar";
+						//o.archive = @"..\..\Ultra1.UltraApplet\web\bin\Ultra1.UltraApplet.jar";
+						// jsc.meta has embedded the objects for us...
+						o.archive = @"assets/Ultra1.UltraApplication/UltraApplet.jar";
 						o.mayscript = true;
 						o.code = "Ultra1.UltraApplet";
 						o.width = UltraApplet.DefaultWidth;
