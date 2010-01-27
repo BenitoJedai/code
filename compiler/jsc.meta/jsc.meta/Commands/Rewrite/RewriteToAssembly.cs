@@ -116,6 +116,16 @@ namespace jsc.meta.Commands.Rewrite
 
 		public Action<PostRewriteArguments> PostRewrite;
 
+
+		public class PostTypeRewriteArguments : PostRewriteArguments
+		{
+			public Type SourceType;
+			public TypeBuilder Type;
+		}
+
+		public Action<PostTypeRewriteArguments> PostTypeRewrite;
+
+
 		public FileInfo Output;
 
 		public void Invoke()
@@ -275,7 +285,37 @@ namespace jsc.meta.Commands.Rewrite
 
 					if (ShouldCopyType(ContextType))
 					{
-						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null, NameObfuscation, ShouldCopyType, FullNameFixup);
+						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null, NameObfuscation, ShouldCopyType, FullNameFixup,
+
+							t =>
+							{
+
+								if (PostTypeRewrite != null)
+									PostTypeRewrite(
+										new PostTypeRewriteArguments
+										{
+											SourceType = source,
+											Type = t,
+											Assembly = a,
+											Module = m,
+
+											context =
+												new ILTranslationContext
+												{
+
+													ConstructorCache = ConstructorCache,
+													MethodCache = MethodCache,
+													TypeCache = TypeCache,
+													TypeFieldCache = TypeFieldsCache
+												}
+										}
+									);
+
+							}
+
+						);
+
+					
 					}
 					else
 					{

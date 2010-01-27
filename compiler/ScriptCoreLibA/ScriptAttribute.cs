@@ -487,7 +487,7 @@ namespace ScriptCoreLib
 
 				if (f.Length > 0)
 				{
-
+					#region filters are defined
 
 
 					//Console.WriteLine("scripttype filters defined for assambly {0}", a);
@@ -555,6 +555,18 @@ namespace ScriptCoreLib
 
 							}
 						}
+					}
+					#endregion
+
+				}
+				else
+				{
+					var Obfuscation = (ObfuscationAttribute)a.GetCustomAttributes(typeof(ObfuscationAttribute), false).FirstOrDefault();
+
+					if (Obfuscation != null)
+					{
+						if (Obfuscation.Feature == "script")
+							return a.GetTypes();
 					}
 				}
 			}
