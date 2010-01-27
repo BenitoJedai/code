@@ -16,5 +16,7 @@ namespace jsc.meta.Commands
 		{
 			return e.Invoke;
 		}
+
+
 	}
 }

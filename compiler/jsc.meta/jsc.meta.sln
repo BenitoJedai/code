@@ -2,17 +2,50 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc.meta", "jsc.meta\jsc.meta.csproj", "{86E46F4B-B22C-4C9D-8F84-804D2C331396}"
+	ProjectSection(ProjectDependencies) = postProject
+		{477C5608-F5CD-436F-935D-66675988F1D9} = {477C5608-F5CD-436F-935D-66675988F1D9}
+		{77861F2D-D284-4913-B9E9-D906C7262219} = {77861F2D-D284-4913-B9E9-D906C7262219}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc", "..\jsc\jsc.csproj", "{77861F2D-D284-4913-B9E9-D906C7262219}"
+	ProjectSection(ProjectDependencies) = postProject
+		{477C5608-F5CD-436F-935D-66675988F1D9} = {477C5608-F5CD-436F-935D-66675988F1D9}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibA", "..\ScriptCoreLibA\ScriptCoreLibA.csproj", "{477C5608-F5CD-436F-935D-66675988F1D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug with Doc|Any CPU = Debug with Doc|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		HTShop|Any CPU = HTShop|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug with Doc|Any CPU.ActiveCfg = Debug|Any CPU
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.HTShop|Any CPU.Build.0 = Release|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug with Doc|Any CPU.ActiveCfg = Debug with Doc|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.HTShop|Any CPU.ActiveCfg = HTShop|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.HTShop|Any CPU.Build.0 = HTShop|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.ActiveCfg = Debug with Doc|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.HTShop|Any CPU.ActiveCfg = HTShop|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.HTShop|Any CPU.Build.0 = HTShop|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -161,10 +161,13 @@ namespace jsc.Languages.JavaScript
 
 			// xxx
 
-			foreach (var v in from i in ScriptAttribute.FindTypes(a, ScriptType.JavaScript)
-							  let s = (ScriptAttribute)i.GetCustomAttributes(typeof(ScriptAttribute), false).SingleOrDefault()
+			var Candidates = from i in ScriptAttribute.FindTypes(a, ScriptType.JavaScript)
+							  //let s = (ScriptAttribute)i.GetCustomAttributes(typeof(ScriptAttribute), false).SingleOrDefault()
+							  let s = i.ToScriptAttribute()
 							  where s != null
-							  select i)
+							  select i;
+
+			foreach (var v in Candidates)
 			{
 				var s = (ScriptApplicationEntryPointAttribute)v.GetCustomAttributes(typeof(ScriptApplicationEntryPointAttribute), false).SingleOrDefault();
 

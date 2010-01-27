@@ -175,6 +175,7 @@
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyMethod.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyConstructor.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
+    <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />

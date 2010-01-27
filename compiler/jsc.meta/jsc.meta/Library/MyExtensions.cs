@@ -459,6 +459,40 @@ namespace jsc.meta.Library
 			// yay attributes
 			var Attribute = typeof(T);
 
+			DefineAttribute(a, z, Attribute);
+		}
+
+		public static void DefineAttribute(this TypeBuilder a, object z, Type Attribute)
+		{
+			// Not a writable property
+			var Properties = z.GetType().GetProperties();
+
+			var data = Enumerable.ToArray(
+				from k in Properties
+				let Field = Attribute.GetField(k.Name)
+				let Property = Attribute.GetProperty(k.Name)
+				let PropertyCanWrite = Property != null && Property.CanWrite
+				let Value = k.GetValue(z, null)
+				select new { Field, Property, Value, PropertyCanWrite }
+			);
+
+
+			a.SetCustomAttribute(
+				new CustomAttributeBuilder(
+					Attribute.GetConstructor(new Type[0]),
+					new object[0],
+
+					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Property),
+					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Value),
+
+					Enumerable.ToArray(from k in data where k.Field != null select k.Field),
+					Enumerable.ToArray(from k in data where k.Field != null select k.Value)
+				)
+			);
+		}
+
+		public static void DefineAttribute(this AssemblyBuilder a, object z, Type Attribute)
+		{
 			// Not a writable property
 			var Properties = z.GetType().GetProperties();
 

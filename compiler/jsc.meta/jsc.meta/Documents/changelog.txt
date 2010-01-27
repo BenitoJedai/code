@@ -55,3 +55,5 @@
 	- Implemented ReferenceWebSource command
 2010.01.18
 	- Implemented ReferenceJavaScriptDocument command
+2010.01.27
+	- Added RewriteToJavaScriptDocument command

@@ -25,7 +25,8 @@ namespace jsc.meta.Commands.Rewrite
 		   TypeBuilder OverrideDeclaringType,
 		   VirtualDictionary<string, string> NameObfuscation,
 		   Func<Type, bool> ShouldCopyType,
-			Func<string, string> FullNameFixup)
+			Func<string, string> FullNameFixup,
+			Action<TypeBuilder> PostTypeRewrite)
 		{
 			var BaseType = TypeCache[source.BaseType];
 			var _DeclaringType = (OverrideDeclaringType ?? (
@@ -83,9 +84,21 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
+			// should we copy attributes? should they be opt-out?
+			var TypeAttributes = source.GetCustomAttributes(false);
+
+			foreach (var item in TypeAttributes)
+			{
+				// call a callback?
+				t.DefineAttribute(item, item.GetType());
+			}
+
 			TypeCache[source] = t;
 
 			CopyTypeMembers(source, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
+
+			if (PostTypeRewrite != null)
+				PostTypeRewrite(t);
 
 			t.CreateType();
 		}
@@ -179,7 +192,7 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 
-			
+
 		}
 
 
