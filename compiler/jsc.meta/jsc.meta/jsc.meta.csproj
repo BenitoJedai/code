@@ -160,6 +160,7 @@
   <ItemGroup>
     <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\Extend\ExtendToAvalonEverywhere.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebService.cs" />
@@ -174,11 +175,13 @@
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyMethod.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyConstructor.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyType.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
@@ -210,6 +213,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Commands\Extend\comment.txt" />
+    <Content Include="Commands\Reference\comment.txt" />
+    <Content Include="Commands\Rewrite\comment.txt" />
     <Content Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
     <Content Include="Documents\license.txt" />

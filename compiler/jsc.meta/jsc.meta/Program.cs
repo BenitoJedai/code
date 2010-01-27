@@ -64,6 +64,7 @@ namespace jsc.meta
 				new ReferenceJavaScriptDocument().Invoke,
 
 				new RewriteToAssembly().Invoke,
+				new RewriteToJavaScriptDocument(),
 
 				new AnalyticsForStatCounter().Invoke,
 				new AnalyticsForFlagCounter().Invoke
