@@ -89,6 +89,7 @@ namespace jsc.meta.Commands.Rewrite
 			const string type = "application/x-shockwave-flash";
 
 			// http://kb2.adobe.com/cps/164/tn_16494.html
+			// http://stackoverflow.com/questions/2154931/how-to-call-dynamically-created-flash-external-interface-in-ie-from-javascript
 
 			Action Implementation1 =
 				delegate

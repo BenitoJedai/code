@@ -16,6 +16,7 @@ using jsc.meta.Tools;
 using System.Reflection.Emit;
 using jsc.Languages.IL;
 using jsc.meta.Library.Templates;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -151,45 +152,6 @@ namespace jsc.meta.Commands.Rewrite
 							   }
 							);
 
-							if (k.IsActionScript || k.IsJavaScript)
-							{
-								#region yay attributes
-								//var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
-
-								//var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
-
-
-								//var AssemblyScriptAttribute = new ScriptAttribute
-								//{
-								//    IsScriptLibrary = true,
-								//    ScriptLibraries = new[] {
-								//        typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
-								//        typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
-								//    },
-								//    //NonScriptTypes = assembly.GetTypes().Where(
-								//    //    kk =>
-								//    //        kk.Namespace.EndsWith(".My") ||
-								//    //        kk.Namespace.EndsWith(".My.Resources")
-								//    //).ToArray()
-								//};
-
-								//a.Assembly.DefineScriptAttribute(
-								//    new
-								//    {
-								//        AssemblyScriptAttribute.IsScriptLibrary,
-								//        AssemblyScriptAttribute.ScriptLibraries,
-								//        AssemblyScriptAttribute.NonScriptTypes
-								//    }
-								//);
-
-								//a.Assembly.SetCustomAttribute(
-								//    new CustomAttributeBuilder(
-								//        ScriptTypeFilterAttribute, new object[] { ScriptType.PHP }
-								//    )
-								//);
-								#endregion
-							}
-
 							if (k.IsJavaScript)
 							{
 								// javascript will embed objects
@@ -235,6 +197,8 @@ namespace jsc.meta.Commands.Rewrite
 								};
 						};
 
+					var CoType1 = new Dictionary<TypeBuilder, TypeBuilder>();
+
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
 						source =>
@@ -274,7 +238,45 @@ namespace jsc.meta.Commands.Rewrite
 										var km = r.ExternalContext.ConstructorCache[kk];
 									}
 
+
+									if (c.IsActionScript)
+									{
+										var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+
+										var t_element = t.DefineNestedType("IHTML" + source.Name,
+											   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
+
+											   // hmm, no base for proxies!
+											   typeof(IHTMLElement),
+
+											   // no interfaces either at this time!
+											   null
+									   );
+
+										t_element.DefineAttribute(
+											new ScriptAttribute
+											{
+												InternalConstructor = true
+											},
+											typeof(ScriptAttribute)
+										);
+
+										CoType1[t] = t_element;
+										//WriteJavaScriptProxy(r, source, t, __InternalElement);
+
+										foreach (var kk in source.GetMethods(
+											BindingFlags.DeclaredOnly |
+											BindingFlags.Public | BindingFlags.Instance))
+										{
+											var km = r.ExternalContext.MethodCache[kk];
+										}
+
+										t_element.CreateType();
+									}
+
+
 									t.CreateType();
+
 
 
 									return;
@@ -290,6 +292,108 @@ namespace jsc.meta.Commands.Rewrite
 							// keep it
 						};
 					#endregion
+
+					r.ExternalContext.MethodCache.Resolve +=
+						source =>
+						{
+							if (r.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
+								if (r.ExternalContext.MethodCache.BaseDictionary[source] != source)
+									return;
+
+							var c = targets.SingleOrDefault(kk => kk.TargetType == source.DeclaringType);
+
+							if (c != null)
+								if (c.IsActionScript)
+								{
+									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+									var CombineDelegates = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("CombineDelegates")];
+
+
+									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
+									var DeclaringTypeCoType = CoType1[DeclaringType];
+
+									var IsEventMethod = source.ReturnType == typeof(void) && source.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(source.GetParameterTypes()[0]);
+
+
+
+									#region DeclaringTypeCoTypeMethod
+									var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(source.Name, source.Attributes, source.CallingConvention, source.ReturnType,
+										Enumerable.ToArray(
+											from ParameterType in source.GetParameterTypes()
+											// add and remove events
+											// must first save the delegate in global object like window
+											select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : ParameterType
+										)
+									);
+									source.GetParameters().CopyTo(DeclaringTypeCoTypeMethod);
+
+									{
+										var il = DeclaringTypeCoTypeMethod.GetILGenerator();
+
+										// fixme: some methods like add_event1(Action) need rewireing!
+
+										il.EmitCode(() => { throw new NotSupportedException(); });
+									}
+									#endregion
+
+									var DeclaringTypeMethod = DeclaringType.DefineMethod(source.Name, source.Attributes, source.CallingConvention, source.ReturnType, source.GetParameterTypes());
+									source.GetParameters().CopyTo(DeclaringTypeMethod);
+
+									{
+										var il = DeclaringTypeMethod.GetILGenerator();
+
+										if (IsEventMethod)
+										{
+											if (source.Name.StartsWith("add_"))
+											{
+												#region     ((IHTMLUltraSprite) base.__InternalElement).add_event1(base.CombineDelegates("event1", value));
+
+												il.Emit(OpCodes.Ldarg_0);
+												il.Emit(OpCodes.Ldfld, __InternalElement);
+												il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
+
+
+												il.Emit(OpCodes.Ldarg_0);
+
+												il.Emit(OpCodes.Ldstr, source.Name.Substring(4));
+												il.Emit(OpCodes.Ldarg_1);
+
+												il.Emit(OpCodes.Call, CombineDelegates);
+
+												il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+
+												il.Emit(OpCodes.Ret);
+												#endregion
+
+
+											}
+											else
+											{
+												il.EmitCode(() => { throw new NotSupportedException(); });
+											}
+										}
+										else
+										{
+											#region Methods, Properties
+											il.Emit(OpCodes.Ldarg_0);
+											il.Emit(OpCodes.Ldfld, __InternalElement);
+											il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
+											for (short i = 0; i < source.GetParameters().Length; i++)
+											{
+												il.Emit(OpCodes.Ldarg, (short)(i + 1));
+											}
+
+											il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+
+											il.Emit(OpCodes.Ret);
+											#endregion
+
+										}
+									}
+
+									r.ExternalContext.MethodCache[source] = DeclaringTypeMethod;
+								}
+						};
 
 					#region ConstructorCache
 					r.ExternalContext.ConstructorCache.Resolve +=

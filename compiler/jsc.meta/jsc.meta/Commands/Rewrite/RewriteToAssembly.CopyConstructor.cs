@@ -33,6 +33,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
 
+			source.GetParameters().CopyTo(km);
+
 			mc[source] = km;
 
 			if (source.GetMethodBody() == null)

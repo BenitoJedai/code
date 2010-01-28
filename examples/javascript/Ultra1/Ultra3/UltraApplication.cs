@@ -13,12 +13,51 @@ using ScriptCoreLib.ActionScript.Extensions;
 using java.awt;
 using ScriptCoreLib.JavaScript.DOM;
 using System.ComponentModel;
-using ScriptCoreLib.ActionScript.flash.external;
 using ScriptCoreLib.ActionScript.flash.system;
-using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.ActionScript.flash.external;
 
-namespace Ultra2
+namespace Ultra3
 {
+	
+
+	[ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
+	public class UltraApplet : Applet
+	{
+		public const int DefaultWidth = 500;
+		public const int DefaultHeight = 400;
+
+
+		public override void init()
+		{
+			base.resize(DefaultWidth, DefaultHeight);
+			// creating the java applet
+
+		}
+
+		static Color GetBlue(double b)
+		{
+			int u = (int)(0xff * b);
+
+			return new Color(u);
+		}
+
+		public override void paint(global::java.awt.Graphics g)
+		{
+			// old school gradient :)
+
+			var h = this.getHeight();
+			var w = this.getWidth();
+
+			for (int i = 0; i < h; i++)
+			{
+
+				g.setColor(GetBlue(1 - (double)i / (double)h));
+				g.drawLine(0, i, w, i);
+			}
+		}
+	}
+
+
 	[ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
 	[SWF(width = DefaultWidth, height = DefaultHeight)]
 	public class UltraSprite : Sprite
@@ -48,7 +87,7 @@ namespace Ultra2
 
 			t.AttachTo(this).MoveTo(100, 8);
 
-			ScriptCoreLib.ActionScript.flash.system.Security.allowDomain("*");
+			Security.allowDomain("*");
 
 			status1 = "!";
 
@@ -89,7 +128,7 @@ namespace Ultra2
 
 
 
-			ExternalExtensions.External("FunctionTwo", (Action<string>)FunctionTwo);
+			ExternalInterface.addCallback("FunctionTwo", FunctionTwo.ToFunction());
 
 			FuncSring get_status1 = () => this.status1;
 
@@ -127,42 +166,6 @@ namespace Ultra2
 		public string status1 { get; set; }
 	}
 
-	[ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
-	public class UltraApplet : Applet
-	{
-		public const int DefaultWidth = 500;
-		public const int DefaultHeight = 400;
-
-
-		public override void init()
-		{
-			base.resize(DefaultWidth, DefaultHeight);
-			// creating the java applet
-
-		}
-
-		static Color GetBlue(double b)
-		{
-			int u = (int)(0xff * b);
-
-			return new Color(u);
-		}
-
-		public override void paint(global::java.awt.Graphics g)
-		{
-			// old school gradient :)
-
-			var h = this.getHeight();
-			var w = this.getWidth();
-
-			for (int i = 0; i < h; i++)
-			{
-
-				g.setColor(GetBlue(1 - (double)i / (double)h));
-				g.drawLine(0, i, w, i);
-			}
-		}
-	}
 
 
 	[ScriptApplicationEntryPoint]
@@ -170,18 +173,6 @@ namespace Ultra2
 	public class UltraApplication
 	{
 
-		// http://localhost/javascript/Ultra1/Ultra2/bin/Release/staging/Ultra2.UltraApplication/web/UltraApplication.htm
-
-		/*
-		Alias /javascript "C:\work\jsc.svn\examples\javascript"
-        <Directory "C:\work\jsc.svn\examples\javascript">
-               Options Indexes FollowSymLinks ExecCGI
-               AllowOverride All
-               Order allow,deny
-               Allow from all
-	
-        </Directory>		 
-		 */
 
 		// possible names:
 		// 1. application
@@ -194,7 +185,6 @@ namespace Ultra2
 		{
 			new IHTMLDiv { innerText = e }.AttachToDocument();
 		}
-
 
 		public UltraApplication(IHTMLElement e)
 		{
@@ -211,7 +201,6 @@ namespace Ultra2
 				innerText = "flash needs to run from http://"
 			}.ToWarningColor().AttachToDocument();
 
-			new IHTMLAnchor("javascript: FunctionOne('hi');", "FunctionOne").AttachToDocument();
 
 			#region UltraSprite javascript to flash
 			{
@@ -233,9 +222,7 @@ namespace Ultra2
 						f3.onclick +=
 							delegate
 							{
-								//f3.disabled = true;
 
-								
 								o.event1 +=
 									delegate
 									{
@@ -250,10 +237,7 @@ namespace Ultra2
 						f2.onclick +=
 							delegate
 							{
-								// what we want!
 								o.FunctionTwo("hi from js");
-
-
 							};
 
 						f2.AttachToDocument();
@@ -262,62 +246,6 @@ namespace Ultra2
 			}
 			#endregion
 
-			#region UltraSprite
-			{
-				var x = new IHTMLButton("create UltraSprite proxied");
-
-				x.AttachToDocument();
-
-				x.onclick +=
-					delegate
-					{
-						var o = new UltraSprite();
-
-						o.AttachToDocument();
-
-						
-						// how we get it:
-						var f3 = new IHTMLButton("UltraSprite.add_event1");
-
-						f3.onclick +=
-							delegate
-							{
-								//f3.disabled = true;
-
-								var target = ((IHTMLElement_UltraSprite)(object)o);
-
-								target.event1 +=
-									delegate
-									{
-										FunctionOne("got event1! " + target.status1);
-									};
-
-
-							};
-
-						var f2 = new IHTMLButton("UltraSprite.FunctionTwo");
-
-						f2.onclick +=
-							delegate
-							{
-								// what we want!
-								//o.FunctionTwo("hi from js");
-
-
-								// how we get it:
-								{
-									var target = ((IHTMLElement_UltraSprite)(object)o);
-
-
-									target.FunctionTwo("hi from js");
-								}
-							};
-
-						f2.AttachToDocument();
-						f3.AttachToDocument();
-					};
-			}
-			#endregion
 
 			{
 				var x = new IHTMLButton("create UltraApplet proxied");
@@ -333,48 +261,9 @@ namespace Ultra2
 					};
 			}
 
-
+			
 		}
 
 
-	}
-
-	[Script(InternalConstructor = true)]
-	public class IHTMLElement_UltraSprite : IHTMLElement
-	{
-
-
-		public void FunctionTwo(string e)
-		{
-
-		}
-
-		public string status1
-		{
-			get;
-			set;
-		}
-
-		public event Action event1
-		{
-			[Script(DefineAsStatic = true)]
-			add
-			{
-				var __callback = "_IHTMLElement_UltraSprite_add_event_" + new Random().Next();
-
-				IFunction.OfDelegate(value).Export(__callback);
-
-				this.add_event1(__callback);
-			}
-			[Script(DefineAsStatic = true)]
-			remove
-			{
-			}
-		}
-
-		void add_event1(string callback)
-		{
-
-		}
 	}
 }

@@ -9,6 +9,7 @@ using ScriptCoreLib;
 using System.Media;
 using System.Xml.Linq;
 using System.Collections;
+using jsc.Languages.IL;
 
 namespace jsc.meta.Library
 {
@@ -17,6 +18,34 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static void CopyTo(this ParameterInfo[] p, MethodBuilder m)
+		{
+			foreach (var item in p)
+			{
+				// http://msdn.microsoft.com/en-us/library/system.reflection.emit.methodbuilder.defineparameter.aspx
+
+				// The position of the parameter in the parameter list. 
+				// Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
+
+
+				m.DefineParameter(item.Position + 1, item.Attributes, item.Name);
+			}
+		}
+
+		public static void CopyTo(this ParameterInfo[] p, ConstructorBuilder m)
+		{
+			foreach (var item in p)
+			{
+			
+				m.DefineParameter(item.Position + 1, item.Attributes, item.Name);
+			}
+		}
+
+		public static void EmitCode(this ILGenerator il, Action e)
+		{
+			e.Method.EmitTo(il);
+		}
+
 		public static LocalBuilder DeclareInitializedLocal(this ILGenerator il, Type t)
 		{
 			var loc = il.DeclareLocal(t);
