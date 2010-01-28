@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using ScriptCoreLib;
 using System.Media;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace jsc.meta.Library
 {
@@ -19,7 +20,7 @@ namespace jsc.meta.Library
 		public static LocalBuilder DeclareInitializedLocal(this ILGenerator il, Type t)
 		{
 			var loc = il.DeclareLocal(t);
-			
+
 			il.Emit(OpCodes.Newobj, t.GetConstructor(new Type[0]));
 
 			il.Emit(OpCodes.Stloc, (short)loc.LocalIndex);
@@ -459,13 +460,6 @@ namespace jsc.meta.Library
 		{
 			// yay attributes
 			var Attribute = typeof(T);
-
-			DefineAttribute(a, z, Attribute);
-		}
-
-		public static void DefineAttribute(this TypeBuilder a, object z, Type Attribute)
-		{
-			// Not a writable property
 			var Properties = z.GetType().GetProperties();
 
 			var data = Enumerable.ToArray(
@@ -483,41 +477,95 @@ namespace jsc.meta.Library
 					Attribute.GetConstructor(new Type[0]),
 					new object[0],
 
-					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Property),
-					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Value),
+					Enumerable.ToArray(from k in data where k.Property != null select k.Property),
+					Enumerable.ToArray(from k in data where k.Property != null select k.Value),
 
 					Enumerable.ToArray(from k in data where k.Field != null select k.Field),
 					Enumerable.ToArray(from k in data where k.Field != null select k.Value)
 				)
+			);
+		}
+
+		internal static bool Equals(object a, object b, Type t)
+		{
+			// are we doing the right thing here?
+			// we need to compare primitives and objects...
+
+			var Comparer = typeof(Comparer<>).MakeGenericType(t);
+			var Default = (IComparer)Comparer.GetProperty("Default").GetValue(null, null);
+
+			return Default.Compare(a, b) == 0;
+		}
+
+		public static CustomAttributeBuilder ToCustomAttributeBuilder(this Attribute z)
+		{
+			var Attribute = z.GetType();
+
+			// we should not be storing values which are default!
+			var DefaultAttribute = Activator.CreateInstance(Attribute);
+
+			// We may need to track down some fields from ctor
+			// Not a writable property
+
+			var Properties = Enumerable.ToArray(
+				from q in
+					Enumerable.Concat(
+						from k in Attribute.GetProperties()
+						let Value = k.GetValue(z, null)
+						let Name = k.Name
+
+						where !Equals(Value, k.GetValue(DefaultAttribute, null), k.PropertyType)
+
+						select new { Name, Value },
+
+						from f in Attribute.GetFields(BindingFlags.Instance | BindingFlags.Public)
+						let Value = f.GetValue(z)
+						let Name = f.Name
+						where !Equals(Value, f.GetValue(DefaultAttribute), f.FieldType)
+						select new { Name, Value }
+					)
+				let Field = Attribute.GetField(q.Name)
+				let Property = Attribute.GetProperty(q.Name)
+				let PropertyCanWrite = Property != null && Property.CanWrite
+				select new { q.Name, Field, Property, PropertyValue = q.Value, PropertyCanWrite }
+			);
+
+			return new CustomAttributeBuilder(
+
+				// ctor
+				Attribute.GetConstructor(new Type[0]),
+
+				// ctor arguments
+				new object[0],
+
+				// properties
+				Enumerable.ToArray(from k in Properties where k.PropertyCanWrite select k.Property),
+				Enumerable.ToArray(from k in Properties where k.PropertyCanWrite select k.PropertyValue),
+
+				// fields
+				Enumerable.ToArray(from k in Properties where k.Field != null select k.Field),
+				Enumerable.ToArray(from k in Properties where k.Field != null select k.PropertyValue)
+			);
+		}
+
+		public static void DefineAttribute(this MethodBuilder a, object z, Type Attribute)
+		{
+			a.SetCustomAttribute(
+				((Attribute)z).ToCustomAttributeBuilder()
+			);
+		}
+
+		public static void DefineAttribute(this TypeBuilder a, object z, Type Attribute)
+		{
+			a.SetCustomAttribute(
+				((Attribute)z).ToCustomAttributeBuilder()
 			);
 		}
 
 		public static void DefineAttribute(this AssemblyBuilder a, object z, Type Attribute)
 		{
-			// Not a writable property
-			var Properties = z.GetType().GetProperties();
-
-			var data = Enumerable.ToArray(
-				from k in Properties
-				let Field = Attribute.GetField(k.Name)
-				let Property = Attribute.GetProperty(k.Name)
-				let PropertyCanWrite = Property != null && Property.CanWrite
-				let Value = k.GetValue(z, null)
-				select new { Field, Property, Value, PropertyCanWrite }
-			);
-
-
 			a.SetCustomAttribute(
-				new CustomAttributeBuilder(
-					Attribute.GetConstructor(new Type[0]),
-					new object[0],
-
-					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Property),
-					Enumerable.ToArray(from k in data where k.PropertyCanWrite select k.Value),
-
-					Enumerable.ToArray(from k in data where k.Field != null select k.Field),
-					Enumerable.ToArray(from k in data where k.Field != null select k.Value)
-				)
+				((Attribute)z).ToCustomAttributeBuilder()
 			);
 		}
 

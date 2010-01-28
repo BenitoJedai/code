@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.ActionScript.Extensions;
 using java.awt;
 using ScriptCoreLib.JavaScript.DOM;
+using System.ComponentModel;
 
 namespace Ultra1
 {
@@ -91,9 +92,24 @@ namespace Ultra1
 			parent.appendChild(i);
 
 		}
+
+
+		public static void AttachToDocument(this Applet e)
+		{
+			e.AttachTo(Native.Document.body);
+		}
+
+		public static void AttachTo(this Applet e, INode parent)
+		{
+			var i = (IHTMLElement)(object)e;
+
+			parent.appendChild(i);
+
+		}
 	}
 
 	[ScriptApplicationEntryPoint]
+	[Description("OrcasClientScriptApplication. Write javascript, flash and java applets within a C# project.")]
 	public class UltraApplication
 	{
 		
@@ -146,6 +162,20 @@ namespace Ultra1
 					{
 						var o = new UltraSprite();
 						
+						o.AttachToDocument();
+					};
+			}
+
+			{
+				var x = new IHTMLButton("create UltraApplet proxied");
+
+				x.AttachToDocument();
+
+				x.onclick +=
+					delegate
+					{
+						var o = new UltraApplet();
+
 						o.AttachToDocument();
 					};
 			}
