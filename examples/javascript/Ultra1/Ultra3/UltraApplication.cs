@@ -175,10 +175,8 @@ namespace Ultra3
 		// 3. element
 		// 4. control
 
-		[Script(NoDecoration = true)]
 		public static void FunctionOne(string e)
 		{
-			new IHTMLDiv { innerText = e }.AttachToDocument();
 		}
 
 		public UltraApplication(IHTMLElement e)
@@ -230,7 +228,7 @@ namespace Ultra3
 								o.event1 +=
 									delegate
 									{
-										FunctionOne("got event1! " + o.status1);
+										new IHTMLDiv { innerText = "got event1! " + o.status1 }.AttachToDocument();
 									};
 
 
