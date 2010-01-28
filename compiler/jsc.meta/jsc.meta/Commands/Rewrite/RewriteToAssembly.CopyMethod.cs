@@ -55,7 +55,10 @@ namespace jsc.meta.Commands.Rewrite
 			var km = t.DefineMethod(
 				MethodName, source.Attributes, source.CallingConvention, tc[source.ReturnType], Parameters);
 
+			// synchronized?
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
+
+			source.GetParameters().CopyTo(km);
 
 			// should we copy attributes? should they be opt-out?
 			var TypeAttributes = source.GetCustomAttributes(false);

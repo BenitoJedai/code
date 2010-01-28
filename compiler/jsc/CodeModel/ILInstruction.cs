@@ -1528,7 +1528,8 @@ namespace jsc
 					if (this == OpCodes.Ldarg_1) return p[1];
 					if (this == OpCodes.Ldarg_2) return p[2];
 					if (this == OpCodes.Ldarg_3) return p[3];
-					if (this.IsAnyOpCodeOf(OpCodes.Ldarga, OpCodes.Ldarga_S, OpCodes.Ldarg, OpCodes.Ldarg_S)) return p[OpParamAsInt8];
+					if (this.IsAnyOpCodeOf(OpCodes.Ldarga_S, OpCodes.Ldarg_S)) return p[OpParamAsInt8];
+					if (this.IsAnyOpCodeOf(OpCodes.Ldarga, OpCodes.Ldarg)) return p[OpParamAsInt16];
 					if (this == OpCodes.Starg_S) return p[OpParamAsInt8];
 
 
@@ -1544,7 +1545,10 @@ namespace jsc
 					if (this == OpCodes.Ldarg_1) return p[0];
 					if (this == OpCodes.Ldarg_2) return p[1];
 					if (this == OpCodes.Ldarg_3) return p[2];
-					if (this.IsAnyOpCodeOf(OpCodes.Ldarga, OpCodes.Ldarga_S, OpCodes.Ldarg_S)) return p[OpParamAsInt8 - 1];
+
+					if (this.IsAnyOpCodeOf(OpCodes.Ldarga_S, OpCodes.Ldarg_S)) return p[OpParamAsInt8 - 1];
+					if (this.IsAnyOpCodeOf(OpCodes.Ldarga, OpCodes.Ldarg)) return p[OpParamAsInt16 - 1];
+
 					if (this == OpCodes.Starg_S) return p[OpParamAsInt8 - 1];
 				}
 
