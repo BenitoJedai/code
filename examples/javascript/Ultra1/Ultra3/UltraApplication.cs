@@ -18,7 +18,7 @@ using ScriptCoreLib.ActionScript.flash.external;
 
 namespace Ultra3
 {
-	
+
 
 	[ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
 	public class UltraApplet : Applet
@@ -102,19 +102,7 @@ namespace Ultra3
 					r.graphics.drawRect(8, 8, 64, 64);
 
 
-					if (event1 != null)
-						event1();
-
-					try
-					{
-
-						ExternalInterface.call("FunctionOne", "flash says hi");
-
-					}
-					catch (Exception e)
-					{
-						t.text = e.Message;
-					}
+					raise_event1();
 
 				};
 
@@ -143,12 +131,13 @@ namespace Ultra3
 					event1 +=
 						delegate
 						{
-							// invoke at js context
-							callback.External();
+							ExternalInterface.call(callback);
 						};
 				};
 
 			ExternalExtensions.External("add_event1", add_event1);
+
+			ExternalInterface.addCallback("raise_event1", (new Action(raise_event1)).ToFunction());
 			#endregion
 
 		}
@@ -159,6 +148,12 @@ namespace Ultra3
 		public void FunctionTwo(string e)
 		{
 
+		}
+
+		public void raise_event1()
+		{
+			if (event1 != null)
+				event1();
 		}
 
 		public event Action event1;
@@ -215,6 +210,15 @@ namespace Ultra3
 
 						o.AttachToDocument();
 
+						var f4 = new IHTMLButton("UltraSprite.raise_event1");
+
+						f4.onclick +=
+							delegate
+							{
+
+								o.raise_event1();
+
+							};
 
 						// how we get it:
 						var f3 = new IHTMLButton("UltraSprite.add_event1");
@@ -240,6 +244,7 @@ namespace Ultra3
 								o.FunctionTwo("hi from js");
 							};
 
+						f4.AttachToDocument();
 						f2.AttachToDocument();
 						f3.AttachToDocument();
 					};
@@ -261,7 +266,7 @@ namespace Ultra3
 					};
 			}
 
-			
+
 		}
 
 
