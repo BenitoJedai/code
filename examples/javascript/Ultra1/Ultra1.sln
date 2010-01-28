@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra1", "Ultra1\Ultra1.csproj", "{1BDAA602-0BB4-4166-BD12-2AC9BBE9E925}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra2", "Ultra2\Ultra2.csproj", "{7A56105F-8504-4958-81E8-6C6637596639}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{1BDAA602-0BB4-4166-BD12-2AC9BBE9E925}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BDAA602-0BB4-4166-BD12-2AC9BBE9E925}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BDAA602-0BB4-4166-BD12-2AC9BBE9E925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A56105F-8504-4958-81E8-6C6637596639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A56105F-8504-4958-81E8-6C6637596639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A56105F-8504-4958-81E8-6C6637596639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A56105F-8504-4958-81E8-6C6637596639}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

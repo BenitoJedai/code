@@ -289,6 +289,7 @@ namespace ScriptCoreLib
 		{
 			get
 			{
+				// this may make rewriting attribtes difficult!
 				return _HasNoPrototype || GetConstructorAlias() != null;
 			}
 			set

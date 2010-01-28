@@ -32,6 +32,7 @@ namespace jsc.meta.Commands.Rewrite
 		 * 5. Get javascript to be compiled by jsc
 		 * 6. Get flash to compile without alchemy
 		 * 7. Get java to compile
+		 * 8. Emit flash and java object proxies and allow them to be cast to IHTMLElement
 		 */
 
 		public override void Invoke()
@@ -150,6 +151,45 @@ namespace jsc.meta.Commands.Rewrite
 							   }
 							);
 
+							if (k.IsActionScript || k.IsJavaScript)
+							{
+								#region yay attributes
+								//var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
+
+								//var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
+
+
+								//var AssemblyScriptAttribute = new ScriptAttribute
+								//{
+								//    IsScriptLibrary = true,
+								//    ScriptLibraries = new[] {
+								//        typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+								//        typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
+								//    },
+								//    //NonScriptTypes = assembly.GetTypes().Where(
+								//    //    kk =>
+								//    //        kk.Namespace.EndsWith(".My") ||
+								//    //        kk.Namespace.EndsWith(".My.Resources")
+								//    //).ToArray()
+								//};
+
+								//a.Assembly.DefineScriptAttribute(
+								//    new
+								//    {
+								//        AssemblyScriptAttribute.IsScriptLibrary,
+								//        AssemblyScriptAttribute.ScriptLibraries,
+								//        AssemblyScriptAttribute.NonScriptTypes
+								//    }
+								//);
+
+								//a.Assembly.SetCustomAttribute(
+								//    new CustomAttributeBuilder(
+								//        ScriptTypeFilterAttribute, new object[] { ScriptType.PHP }
+								//    )
+								//);
+								#endregion
+							}
+
 							if (k.IsJavaScript)
 							{
 								// javascript will embed objects
@@ -178,10 +218,12 @@ namespace jsc.meta.Commands.Rewrite
 								e =>
 								{
 									// do we know something else to do here instead of default?
-									if (e.i.TargetType == typeof(IHTMLElement))
+									if (typeof(IHTMLElement).IsAssignableFrom(e.i.TargetType))
 									{
+										var ReferencedType = e.i.StackBeforeStrict[0].SingleStackInstruction.ReferencedType;
 
-										if (typeof(Sprite).IsAssignableFrom(e.i.StackBeforeStrict[0].SingleStackInstruction.ReferencedType))
+										if (typeof(Sprite).IsAssignableFrom(ReferencedType) ||
+											typeof(Applet).IsAssignableFrom(ReferencedType))
 										{
 
 											e.il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[__InternalElementProxyToElement]);
@@ -238,7 +280,7 @@ namespace jsc.meta.Commands.Rewrite
 									return;
 								}
 
-							if (typeof(Sprite).IsAssignableFrom(source))
+							if (typeof(Sprite).IsAssignableFrom(source) || typeof(Applet).IsAssignableFrom(source))
 							{
 								// erase
 								r.ExternalContext.TypeCache[source] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
@@ -263,6 +305,7 @@ namespace jsc.meta.Commands.Rewrite
 							if (c != null)
 								if (c.IsActionScript)
 								{
+									#region WriteInitialization_ActionScriptInternalElement
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
 
 
@@ -277,6 +320,26 @@ namespace jsc.meta.Commands.Rewrite
 
 
 									r.ExternalContext.ConstructorCache[source] = ctor;
+									#endregion
+								}
+								else if (c.IsJava)
+								{
+									#region WriteInitialization_JavaInternalElement
+									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
+
+
+									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+
+									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
+
+									var il = ctor.GetILGenerator();
+
+
+									WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement);
+
+
+									r.ExternalContext.ConstructorCache[source] = ctor;
+									#endregion
 								}
 
 						};
@@ -306,51 +369,6 @@ namespace jsc.meta.Commands.Rewrite
 			}
 		}
 
-		private void WriteInitialization_ActionScriptInternalElement(ILGenerator il, Type proxy, Type context, ScriptApplicationEntryPointAttribute entry, FieldInfo __InternalElement)
-		{
-			Action Implementation1 =
-				delegate
-				{
-					var o = new IHTMLEmbed();
-
-					o.src = @"assets/Ultra1.UltraApplication/UltraSprite.swf";
-					o.style.SetSize(1, 2);
-				};
-
-			var il_a = new ILTranslationExtensions.EmitToArguments();
-
-			//il_a.TranslateTargetType = t => t == typeof(Implementation1) ? a.Type : t;
-			//il_a.TranslateTargetMethod = m => m == Implementation4.Method ? __cctor_1 : m;
-
-			il_a[OpCodes.Ldc_I4_1] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldc_I4, entry.Width);
-				};
-
-			il_a[OpCodes.Ldc_I4_2] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldc_I4, entry.Height);
-				};
-
-			il_a[OpCodes.Ldstr] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldstr, "assets/" + context.FullName + "/" + proxy.Name + ".swf");
-				};
-			il_a[OpCodes.Ret] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldarg_0);
-					il.Emit(OpCodes.Ldloc_0);
-					il.Emit(OpCodes.Stfld, __InternalElement);
-					il.Emit(OpCodes.Ret);
-				};
-
-			Implementation1.Method.EmitTo(il, il_a);
-
-		}
 
 
 

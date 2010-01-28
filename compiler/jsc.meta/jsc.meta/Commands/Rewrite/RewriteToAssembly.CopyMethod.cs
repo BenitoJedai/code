@@ -57,6 +57,15 @@ namespace jsc.meta.Commands.Rewrite
 
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
 
+			// should we copy attributes? should they be opt-out?
+			var TypeAttributes = source.GetCustomAttributes(false);
+
+			foreach (var item in TypeAttributes)
+			{
+				// call a callback?
+				km.DefineAttribute(item, item.GetType());
+			}
+
 			mc[source] = km;
 
 			var MethodBody = source.GetMethodBody();

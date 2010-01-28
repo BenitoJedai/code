@@ -49,6 +49,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra1|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_Ultra1\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\jsc.meta.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc, Version=3.0.3523.23842, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -175,6 +185,7 @@
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.CopyMethod.cs" />
