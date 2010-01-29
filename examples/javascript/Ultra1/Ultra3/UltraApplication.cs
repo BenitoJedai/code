@@ -78,7 +78,7 @@ namespace Ultra3
 							{
 
 								o.raise_event1();
-
+								o.RaiseAction2("q", "w");
 							};
 
 						// how we get it:
@@ -94,7 +94,11 @@ namespace Ultra3
 										new IHTMLDiv { innerText = "got event1! " + o.status1 }.AttachToDocument();
 									};
 
-
+								o.AtAction1 +=
+									(xx, y) =>
+									{
+										new IHTMLDiv { innerText = "x: " + xx + ", y:" + y }.AttachToDocument();
+									};
 							};
 
 						var f2 = new IHTMLButton("UltraSprite.FunctionTwo");

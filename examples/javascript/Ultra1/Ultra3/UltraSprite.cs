@@ -60,31 +60,17 @@ namespace Ultra3
 
 					raise_event1();
 
+					RaiseAction1("a", "b");
 				};
 
 			r.AttachTo(this);
 
-	
 
-			//FuncSring get_status1 = () => this.status1;
-
-			#region codegen
-			Action<string> add_event1 =
-				callback =>
+			AtAction2 +=
+				(x, y) =>
 				{
-					event1 +=
-						delegate
-						{
-							ExternalInterface.call(callback);
-						};
+					t.text = "x: " + x + ", y:" + y;
 				};
-
-			ExternalInterface.addCallback("add_event1", add_event1.ToFunction());
-
-
-
-			#endregion
-
 		}
 
 
@@ -105,6 +91,33 @@ namespace Ultra3
 		public void FunctionTwo(string e)
 		{
 			t.text = e;
+		}
+
+		public delegate void Action1(string x, string y);
+		public delegate void Action2(string x, string y);
+
+		/// <summary>
+		/// javascript listens, flash talks
+		/// </summary>
+		public event Action1 AtAction1;
+
+		public void RaiseAction1(string x, string y)
+		{
+			if (AtAction1 != null)
+				AtAction1(x, y);
+		}
+
+
+
+		/// <summary>
+		/// javascript talks, flash listens
+		/// </summary>
+		public event Action2 AtAction2;
+
+		public void RaiseAction2(string x, string y)
+		{
+			if (AtAction2 != null)
+				AtAction2(x, y);
 		}
 	}
 
