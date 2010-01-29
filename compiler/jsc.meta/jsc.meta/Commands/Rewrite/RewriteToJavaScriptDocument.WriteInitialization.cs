@@ -34,9 +34,12 @@ namespace jsc.meta.Commands.Rewrite
 					var o = new IHTMLApplet();
 
 					// see: http://java.sun.com/j2se/1.4.2/docs/guide/plugin/developer_guide/java_js.html
+					// see: http://www.raditha.com/java/javascript.php
+					// see: http://java.sun.com/j2se/1.4.2/docs/guide/plugin/developer_guide/using_tags.html
 
 					o.archive = archive;
 					o.mayscript = true;
+					o.setAttribute("scriptable", "true");
 					o.code = code;
 					o.width = 4;
 					o.height = 5;
