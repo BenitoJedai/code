@@ -32,7 +32,7 @@ namespace Ultra3
 		public override void paint(global::java.awt.Graphics g)
 		{
 			// old school gradient :)
-
+			
 			var h = this.getHeight();
 			var w = this.getWidth();
 

@@ -102,6 +102,17 @@ namespace Ultra3
 
 						f4.AttachToDocument();
 						f3.AttachToDocument();
+
+
+						//AddLoadFlashButton(o, "Startust", 
+						//    "http://swf.wonderfl.net/swf/usercode/c/cf/cfff/cffff80f3e7e58d4b330e27b566ff2efa094649b.swf");
+						//AddLoadFlashButton(o, "Smoke", 
+						//    "http://swf.wonderfl.net/swf/usercode/e/e5/e545/e5458ebf7b16817e3529321415c4f17ce965515a.swf"
+						//    //"http://swf.wonderfl.net/swf/usercode/e/e5/e545/e5458ebf7b16817e3529321415c4f17ce965515a.swf"
+						//    );
+						AddLoadFlashButton(o, "Spider Solitaire",
+							"http://games.mochiads.com/c/g/avalon-spider-solitare/SpiderFlash.swf"
+							);
 					};
 			}
 			#endregion
@@ -121,6 +132,23 @@ namespace Ultra3
 					};
 			}
 
+
+		}
+
+		private static void AddLoadFlashButton(UltraSprite o, string Title, string Source)
+		{
+			var f5 = new IHTMLButton(Title);
+
+			f5.onclick +=
+				delegate
+				{
+					o.LoadFlash(
+						Title, Source
+					);
+
+				};
+
+			f5.AttachToDocument();
 
 		}
 

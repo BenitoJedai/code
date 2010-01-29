@@ -33,7 +33,7 @@ namespace HyperDesign2.js
 		public HyperDesign2()
 		{
 			var n = new Pages.Application();
-
+			
 			n.Container.AttachToDocument();
 
 			n.Carlo.onclick +=

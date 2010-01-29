@@ -57,3 +57,5 @@
 	- Implemented ReferenceJavaScriptDocument command
 2010.01.27
 	- Added RewriteToJavaScriptDocument command
+2010.01.29	
+	- RewriteToJavaScriptDocument has now a working flash proxy
