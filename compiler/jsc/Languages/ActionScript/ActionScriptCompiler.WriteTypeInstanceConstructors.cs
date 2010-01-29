@@ -147,7 +147,7 @@ namespace jsc.Languages.ActionScript
 					CustomVariableInitialization(); 
 				};
 
-                WriteMethodSignature(target, false, WriteMethodSignatureMode.Delcaring, args, i => CustomVariableInitializationForBody += i, null);
+                WriteMethodSignature(target, false, WriteMethodSignatureMode.Declaring, args, i => CustomVariableInitializationForBody += i, null);
                 WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitializationForBody);
 
                 r.Primary = target;

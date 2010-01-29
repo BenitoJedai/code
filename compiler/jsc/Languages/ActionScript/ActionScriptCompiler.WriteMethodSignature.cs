@@ -15,12 +15,13 @@ namespace jsc.Languages.ActionScript
 	{
 		public override void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic)
 		{
-			WriteMethodSignature(m, dStatic, WriteMethodSignatureMode.Delcaring);
+			WriteMethodSignature(m, dStatic, WriteMethodSignatureMode.Declaring);
 		}
 
 		protected enum WriteMethodSignatureMode
 		{
-			Delcaring,
+			Declaring,
+			DeclaringAsMethod,
 			Implementing,
 			Overriding,
 			OverridingImplementing,
@@ -32,7 +33,14 @@ namespace jsc.Languages.ActionScript
 			WriteMethodSignature(m, dStatic, mode, null, null, m);
 		}
 
-		protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer, System.Reflection.MethodBase _ParamSignature)
+		protected void WriteMethodSignature(
+			System.Reflection.MethodBase m, 
+			bool dStatic, 
+			WriteMethodSignatureMode mode, 
+			ILFlow.StackItem[] DefaultValues, 
+			Action<Action> AddDefaultVariableInitializer, 
+			System.Reflection.MethodBase _ParamSignature
+			)
 		{
 
 			var DeclaringType = m.DeclaringType;
@@ -67,11 +75,15 @@ namespace jsc.Languages.ActionScript
 			}
 
 			var prop = new PropertyDetector(m);
-			var IsSet = !DeclaringType.IsInterface &&
+			var IsSet = 
+					mode != WriteMethodSignatureMode.DeclaringAsMethod &&
+					!DeclaringType.IsInterface &&
 					!dStatic &&
 					prop.SetProperty != null &&
 					prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1;
-			var IsGet = !DeclaringType.IsInterface &&
+			var IsGet =
+					mode != WriteMethodSignatureMode.DeclaringAsMethod &&
+					!DeclaringType.IsInterface &&
 					!dStatic &&
 					prop.GetProperty != null &&
 					prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0;
@@ -192,7 +204,7 @@ namespace jsc.Languages.ActionScript
 			}
 			#endregion
 
-			if (mode == WriteMethodSignatureMode.Delcaring)
+			if (mode == WriteMethodSignatureMode.Declaring)
 				if (DeclaringType.IsInterface)
 					Write(";");
 

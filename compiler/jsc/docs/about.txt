@@ -410,3 +410,5 @@ version history:
 	java: fixed lock detection not to crash
 28.01.2010
 	jsc: fixed OpCodes.Ldarg
+29.01.2010
+	as: properties are also exposed as methods

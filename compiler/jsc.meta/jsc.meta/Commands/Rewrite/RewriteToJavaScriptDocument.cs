@@ -186,7 +186,7 @@ namespace jsc.meta.Commands.Rewrite
 										{
 											var DeclaringType = (TypeBuilder)r.RewriteArguments.context.TypeCache[k.TargetType];
 
-											WriteInitialization_ActionScriptExterenalInterface(r, e, DeclaringType);
+											WriteInitialization_ActionScriptExterenalInterface(r, e, DeclaringType, k.TargetType);
 								
 
 										}
