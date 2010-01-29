@@ -33,8 +33,8 @@ namespace jsc.meta.Loader
 
 		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
-			// already loaded?
-			var a = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(
+			// already loaded? we might be loading once too many times :)
+			var a = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(
 				k => k.GetName().FullName == new AssemblyName(args.Name).FullName
 			);
 

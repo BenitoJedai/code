@@ -10,11 +10,14 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.ActionScript.Extensions;
-using java.awt;
 using ScriptCoreLib.JavaScript.DOM;
 using System.ComponentModel;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.flash.external;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared.Drawing;
+using Ultra1.Common;
+using Ultra1.Inline;
 
 namespace Ultra3
 {
@@ -76,9 +79,7 @@ namespace Ultra3
 						f4.onclick +=
 							delegate
 							{
-
-								o.raise_event1();
-								o.RaiseAction2("q", "w");
+								o.RaiseToActionScript("q", "w");
 							};
 
 						// how we get it:
@@ -87,30 +88,19 @@ namespace Ultra3
 						f3.onclick +=
 							delegate
 							{
+								f3.style.color = Color.Blue;
 
-								o.event1 +=
-									delegate
-									{
-										new IHTMLDiv { innerText = "got event1! " + o.status1 }.AttachToDocument();
-									};
-
-								o.AtAction1 +=
+								o.ToJavaScript +=
 									(xx, y) =>
 									{
-										new IHTMLDiv { innerText = "x: " + xx + ", y:" + y }.AttachToDocument();
+										f3.style.color = JSColor.Red;
+
+										new IHTMLDiv { innerText = Class1.ToString(xx, y)  + Class2.ToString(xx, y) }.AttachToDocument();
 									};
 							};
 
-						var f2 = new IHTMLButton("UltraSprite.FunctionTwo");
-
-						f2.onclick +=
-							delegate
-							{
-								o.FunctionTwo("hi from js");
-							};
 
 						f4.AttachToDocument();
-						f2.AttachToDocument();
 						f3.AttachToDocument();
 					};
 			}

@@ -9,6 +9,8 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.system;
 using ScriptCoreLib.ActionScript.flash.text;
+using Ultra1.Common;
+using Ultra1.Inline;
 
 namespace Ultra3
 {
@@ -58,40 +60,29 @@ namespace Ultra3
 					r.graphics.drawRect(8, 8, 64, 64);
 
 
-					raise_event1();
 
-					RaiseAction1("a", "b");
+					RaiseToJavaScript("a", "b");
 				};
 
 			r.AttachTo(this);
 
 
-			AtAction2 +=
+			ToActionScript +=
 				(x, y) =>
 				{
-					t.text = "x: " + x + ", y:" + y;
+					t.text = Class1.ToString(x, y) + Class2.ToString(x, y);
 				};
 		}
 
 
 
-	
 
-		public event Action event1;
 
-		public void raise_event1()
-		{
-			if (event1 != null)
-				event1();
-		}
 
 
 		public string status1 { get; set; }
 
-		public void FunctionTwo(string e)
-		{
-			t.text = e;
-		}
+
 
 		public delegate void Action1(string x, string y);
 		public delegate void Action2(string x, string y);
@@ -99,12 +90,12 @@ namespace Ultra3
 		/// <summary>
 		/// javascript listens, flash talks
 		/// </summary>
-		public event Action1 AtAction1;
+		public event Action1 ToJavaScript;
 
-		public void RaiseAction1(string x, string y)
+		public void RaiseToJavaScript(string x, string y)
 		{
-			if (AtAction1 != null)
-				AtAction1(x, y);
+			if (ToJavaScript != null)
+				ToJavaScript(x, y);
 		}
 
 
@@ -112,12 +103,12 @@ namespace Ultra3
 		/// <summary>
 		/// javascript talks, flash listens
 		/// </summary>
-		public event Action2 AtAction2;
+		public event Action2 ToActionScript;
 
-		public void RaiseAction2(string x, string y)
+		public void RaiseToActionScript(string x, string y)
 		{
-			if (AtAction2 != null)
-				AtAction2(x, y);
+			if (ToActionScript != null)
+				ToActionScript(x, y);
 		}
 	}
 

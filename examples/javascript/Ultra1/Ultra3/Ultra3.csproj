@@ -60,6 +60,16 @@
     <Compile Include="UltraApplicationExtensions.cs" />
     <Compile Include="UltraSprite.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ultra1.Common\Ultra1.Common.csproj">
+      <Project>{00572385-F430-48AC-AF93-692CD9EEECEF}</Project>
+      <Name>Ultra1.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ultra1.Inline\Ultra1.Inline.csproj">
+      <Project>{B1DF11C7-B825-4814-8ED2-D174698FF64C}</Project>
+      <Name>Ultra1.Inline</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
