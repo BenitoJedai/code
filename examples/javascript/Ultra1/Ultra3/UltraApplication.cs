@@ -20,146 +20,7 @@ namespace Ultra3
 {
 
 
-	[ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
-	public class UltraApplet : Applet
-	{
-		public const int DefaultWidth = 500;
-		public const int DefaultHeight = 400;
 
-
-		public override void init()
-		{
-			base.resize(DefaultWidth, DefaultHeight);
-			// creating the java applet
-
-		}
-
-		static Color GetBlue(double b)
-		{
-			int u = (int)(0xff * b);
-
-			return new Color(u);
-		}
-
-		public override void paint(global::java.awt.Graphics g)
-		{
-			// old school gradient :)
-
-			var h = this.getHeight();
-			var w = this.getWidth();
-
-			for (int i = 0; i < h; i++)
-			{
-
-				g.setColor(GetBlue(1 - (double)i / (double)h));
-				g.drawLine(0, i, w, i);
-			}
-		}
-	}
-
-
-	[ScriptApplicationEntryPoint(Width = DefaultWidth, Height = DefaultHeight)]
-	[SWF(width = DefaultWidth, height = DefaultHeight)]
-	public class UltraSprite : Sprite
-	{
-		public const int DefaultWidth = 500;
-		public const int DefaultHeight = 400;
-
-		public UltraSprite()
-		{
-			// creating the flash object 
-			// + stratus
-			// + alchemy
-
-			// funny :) i have forgotten how to write anything
-			// on flash API ... too much WPF API?
-			var r = new Sprite();
-
-			r.graphics.beginFill(0x7070);
-			r.graphics.drawRect(8, 8, 64, 64);
-
-			var t = new ScriptCoreLib.ActionScript.flash.text.TextField
-			{
-				// sandbox must be remote it to work!
-
-				text = "click on left - " + Security.sandboxType
-			};
-
-			t.AttachTo(this).MoveTo(100, 8);
-
-			Security.allowDomain("*");
-
-			status1 = "!";
-
-			r.click +=
-				delegate
-				{
-					status1 += "+";
-
-					t.text = "sending...";
-
-					r.graphics.beginFill(0xFF70);
-					r.graphics.drawRect(8, 8, 64, 64);
-
-
-					raise_event1();
-
-				};
-
-			r.AttachTo(this);
-
-			Action<string> FunctionTwo =
-				e =>
-				{
-					t.text = e;
-				};
-
-
-
-			ExternalInterface.addCallback("FunctionTwo", FunctionTwo.ToFunction());
-
-			FuncSring get_status1 = () => this.status1;
-
-			ExternalInterface.addCallback("get_status1", get_status1.ToFunction());
-
-			#region codegen
-			Action<string> add_event1 =
-				callback =>
-				{
-					t.text = "@add_event1";
-
-					event1 +=
-						delegate
-						{
-							ExternalInterface.call(callback);
-						};
-				};
-
-			ExternalExtensions.External("add_event1", add_event1);
-
-			ExternalInterface.addCallback("raise_event1", (new Action(raise_event1)).ToFunction());
-			#endregion
-
-		}
-
-
-		public delegate string FuncSring();
-
-		public void FunctionTwo(string e)
-		{
-
-		}
-
-		public void raise_event1()
-		{
-			if (event1 != null)
-				event1();
-		}
-
-		public event Action event1;
-
-		public string status1 { get; set; }
-	}
 
 
 
@@ -175,9 +36,7 @@ namespace Ultra3
 		// 3. element
 		// 4. control
 
-		public static void FunctionOne(string e)
-		{
-		}
+
 
 		public UltraApplication(IHTMLElement e)
 		{
@@ -194,6 +53,10 @@ namespace Ultra3
 				innerText = "flash needs to run from http://"
 			}.ToWarningColor().AttachToDocument();
 
+			new IHTMLDiv
+			{
+				innerText = "Create sprite, add event, raise event, click on color"
+			}.AttachToDocument();
 
 			#region UltraSprite javascript to flash
 			{

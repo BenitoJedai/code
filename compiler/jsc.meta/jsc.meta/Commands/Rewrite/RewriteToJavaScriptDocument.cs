@@ -106,6 +106,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
+					#region PostTypeRewrite
 					PostTypeRewrite =
 						a =>
 						{
@@ -118,30 +119,19 @@ namespace jsc.meta.Commands.Rewrite
 									// to bad jsc backend had to do this the ugly way in the past...
 									InjectJavaScriptBootstrap(a);
 								}
+
+								
 							}
 						},
+					#endregion
 
 					PreRewrite =
 						a =>
 						{
-							if (k.IsJavaScript)
-							{
-								//var t = a.Module.DefineType("__InternalElementProxy", TypeAttributes.Public | TypeAttributes.Abstract);
-
-								//__InternalElement = t.DefineField(
-								//    "__InternalElement",
-								//    typeof(IHTMLElement),
-								//    FieldAttributes.Public | FieldAttributes.InitOnly
-								//);
-
-								//t.CreateType();
-
-								//__InternalElementProxy = t;
-							}
-
 
 						},
 
+					#region PostRewrite
 					PostRewrite =
 						a =>
 						{
@@ -169,12 +159,53 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							}
 						}
+					#endregion
 				};
 
+				#region IsActionScript IL patching
+				if (k.IsActionScript)
+				{
+					#region ILOverride (Ret)
+					r.ILOverride =
+						(context, x) =>
+						{
+							if (context is ConstructorInfo && context.DeclaringType == k.TargetType)
+							{
+								// we need to inject code right after base ctor call
+
+								x[OpCodes.Call] =
+									e =>
+									{
+										
+										e.Default();
+
+										// will it mess up the offcet patching later on if
+										// the IL has branches ? and try/catch clauses?
+
+										if (e.i.TargetConstructor != null && e.i.TargetConstructor.DeclaringType == k.TargetType.BaseType)
+										{
+											var DeclaringType = (TypeBuilder)r.RewriteArguments.context.TypeCache[k.TargetType];
+
+											WriteInitialization_ActionScriptExterenalInterface(r, e, DeclaringType);
+								
+
+										}
+
+										
+									};
+							}
+						};
+					#endregion
+
+				}
+				#endregion
+
+				#region IsJavaScript IL patching
 				if (k.IsJavaScript)
 				{
+					#region ILOverride (Castclass)
 					r.ILOverride =
-						x =>
+						(context, x) =>
 						{
 							x[OpCodes.Castclass] =
 								e =>
@@ -196,6 +227,8 @@ namespace jsc.meta.Commands.Rewrite
 									e.Default();
 								};
 						};
+					#endregion
+
 
 					var CoType1 = new Dictionary<TypeBuilder, TypeBuilder>();
 
@@ -293,6 +326,7 @@ namespace jsc.meta.Commands.Rewrite
 						};
 					#endregion
 
+					#region MethodCache
 					r.ExternalContext.MethodCache.Resolve +=
 						source =>
 						{
@@ -394,6 +428,7 @@ namespace jsc.meta.Commands.Rewrite
 									r.ExternalContext.MethodCache[source] = DeclaringTypeMethod;
 								}
 						};
+					#endregion
 
 					#region ConstructorCache
 					r.ExternalContext.ConstructorCache.Resolve +=
@@ -450,11 +485,10 @@ namespace jsc.meta.Commands.Rewrite
 
 					#endregion
 				}
+				#endregion
 
 				r.Invoke();
 
-				if (debug1)
-					continue;
 
 				if (k.IsJava)
 				{
@@ -472,6 +506,8 @@ namespace jsc.meta.Commands.Rewrite
 				}
 			}
 		}
+
+
 
 
 

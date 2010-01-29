@@ -15,6 +15,8 @@ using ScriptCoreLib.JavaScript.Extensions;
 using jsc.Languages.IL;
 using System.Reflection.Emit;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.ActionScript.flash.external;
+using ScriptCoreLib.ActionScript.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -186,6 +188,26 @@ namespace jsc.meta.Commands.Rewrite
 				};
 
 			Implementation1.Method.EmitTo(il, il_a);
+
+		}
+
+
+		private void WriteInitialization_ActionScriptExterenalInterface(RewriteToAssembly r, ILTranslationExtensions.EmitToArguments.ILRewriteContext e, TypeBuilder DeclaringType)
+		{
+			var __InitializeExternalInterface = DeclaringType.DefineMethod("__InitializeExternalInterface", MethodAttributes.Private, CallingConventions.Standard, typeof(void), null);
+
+			e.il.Emit(OpCodes.Ldarg_0);
+			e.il.Emit(OpCodes.Call, __InitializeExternalInterface);
+
+			var il = __InitializeExternalInterface.GetILGenerator();
+
+			il.EmitCode(
+				delegate 
+				{
+					
+					ExternalInterface.addCallback("event", new Action(Console.WriteLine).ToFunction());
+				}
+			);
 
 		}
 	}
