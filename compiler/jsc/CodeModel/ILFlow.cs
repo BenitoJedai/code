@@ -348,6 +348,8 @@ namespace jsc
             if (z == null)
                 throw new ArgumentNullException();
 
+			// IL is missing a  OpCodes.ret ? :)
+
             if (z.IsFirstInFlow)
             {
                 if (z.StackBefore.Count != Branch.StackAfter.Count)

@@ -144,6 +144,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var NameObfuscationRandom = new Random();
 
+			#region NameObfuscation
 			NameObfuscation.Resolve +=
 				n =>
 				{
@@ -171,11 +172,10 @@ namespace jsc.meta.Commands.Rewrite
 
 					NameObfuscation[n] = ObfuscatedName.ToString();
 				};
+			#endregion
 
-			if (this.staging == null)
-				this.staging = this.assembly.Directory.CreateSubdirectory("staging");
-			else if (!staging.Exists)
-				this.staging.Create();
+			this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
+
 
 			var assembly = this.assembly == null ? null : Assembly.LoadFile(this.assembly.FullName);
 			//var assembly = this.assembly.LoadAssemblyAt(staging);
@@ -277,6 +277,7 @@ namespace jsc.meta.Commands.Rewrite
 					};
 
 
+			#region ConstructorCache
 			ConstructorCache.Resolve +=
 				msource =>
 				{
@@ -288,7 +289,7 @@ namespace jsc.meta.Commands.Rewrite
 					}
 
 
-					if (PrimaryTypes.Any(k => k.Assembly == msource.DeclaringType.Assembly) || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
+					if (ShouldCopyType(msource.DeclaringType))
 					{
 						var DeclaringType = (TypeBuilder)TypeCache[msource.DeclaringType];
 
@@ -305,8 +306,10 @@ namespace jsc.meta.Commands.Rewrite
 
 					ConstructorCache[msource] = msource;
 				};
+			#endregion
 
 
+			#region MethodCache
 			MethodCache.Resolve +=
 				msource =>
 				{
@@ -317,7 +320,7 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
-					if (PrimaryTypes.Any(k => k.Assembly == msource.DeclaringType.Assembly) || this.merge.Any(k => k.name == msource.DeclaringType.Assembly.GetName().Name))
+					if (ShouldCopyType(msource.DeclaringType))
 					{
 						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
 							_assembly,
@@ -331,7 +334,9 @@ namespace jsc.meta.Commands.Rewrite
 					MethodCache[msource] = msource;
 
 				};
+			#endregion
 
+			#region TypeFieldsCache
 			TypeFieldsCache.Resolve +=
 				source =>
 				{
@@ -344,7 +349,9 @@ namespace jsc.meta.Commands.Rewrite
 
 					TypeFieldsCache[source] = new List<FieldBuilder>();
 				};
+			#endregion
 
+			#region TypeCache
 			TypeCache.Resolve +=
 				source =>
 				{
@@ -398,6 +405,7 @@ namespace jsc.meta.Commands.Rewrite
 					}
 
 				};
+			#endregion
 
 			if (PreRewrite != null)
 				PreRewrite(
@@ -422,11 +430,22 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
+
+		private static bool IsMarkedForMerge(Type t)
+		{
+			return t.Assembly.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "merge");
+		}
+
+	
+
 		public PostRewriteArguments RewriteArguments { get; private set; }
 
 		private bool ShouldCopyType(Type ContextType)
 		{
-			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly) || this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name);
+			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly) 
+				|| 
+				this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name)
+				|| IsMarkedForMerge(ContextType);
 		}
 
 

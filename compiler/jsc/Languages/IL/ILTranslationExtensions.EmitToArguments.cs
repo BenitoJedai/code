@@ -143,6 +143,20 @@ namespace jsc.Languages.IL
 						e.il.Emit(OpCodes.Callvirt, TranslateTargetConstructor(e.i.TargetConstructor));
 					};
 
+
+				this[OpCodes.Ldvirtftn] =
+					e =>
+					{
+						var TargetMethod = e.i.TargetMethod;
+						if (TargetMethod != null)
+						{
+							e.il.Emit(OpCodes.Ldvirtftn, TranslateTargetMethod(e.i.TargetMethod));
+							return;
+						}
+
+						e.il.Emit(OpCodes.Ldvirtftn, TranslateTargetConstructor(e.i.TargetConstructor));
+					};
+
 				this[OpCodes.Ldftn] =
 					e =>
 					{

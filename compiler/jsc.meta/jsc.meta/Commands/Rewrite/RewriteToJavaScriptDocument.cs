@@ -120,7 +120,7 @@ namespace jsc.meta.Commands.Rewrite
 									InjectJavaScriptBootstrap(a);
 								}
 
-								
+
 							}
 						},
 					#endregion
@@ -176,7 +176,7 @@ namespace jsc.meta.Commands.Rewrite
 								x[OpCodes.Call] =
 									e =>
 									{
-										
+
 										e.Default();
 
 										// will it mess up the offcet patching later on if
@@ -187,11 +187,11 @@ namespace jsc.meta.Commands.Rewrite
 											var DeclaringType = (TypeBuilder)r.RewriteArguments.context.TypeCache[k.TargetType];
 
 											WriteInitialization_ActionScriptExterenalInterface(r, e, DeclaringType, k.TargetType);
-								
+
 
 										}
 
-										
+
 									};
 							}
 						};
@@ -356,7 +356,7 @@ namespace jsc.meta.Commands.Rewrite
 											from ParameterType in source.GetParameterTypes()
 											// add and remove events
 											// must first save the delegate in global object like window
-											select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : ParameterType
+											select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : r.RewriteArguments.context.TypeCache[ParameterType]
 										)
 									);
 									source.GetParameters().CopyTo(DeclaringTypeCoTypeMethod);
@@ -370,7 +370,19 @@ namespace jsc.meta.Commands.Rewrite
 									}
 									#endregion
 
-									var DeclaringTypeMethod = DeclaringType.DefineMethod(source.Name, source.Attributes, source.CallingConvention, source.ReturnType, source.GetParameterTypes());
+									var DeclaringTypeMethod = DeclaringType.DefineMethod(
+										source.Name, 
+										source.Attributes, 
+										source.CallingConvention, 
+										source.ReturnType, 
+										
+										Enumerable.ToArray(
+											from p in source.GetParameterTypes()
+											select r.RewriteArguments.context.TypeCache[p]
+										)
+										
+									);
+
 									source.GetParameters().CopyTo(DeclaringTypeMethod);
 
 									{
