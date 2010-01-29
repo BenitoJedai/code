@@ -80,6 +80,7 @@ namespace jsc.Languages.ActionScript
 
 						if (ScriptAttribute.IsAnonymousType(z))
 						{
+							#region IsAnonymousType
 							WriteTypeInstanceConstructors(z);
 							WriteLine();
 
@@ -97,6 +98,8 @@ namespace jsc.Languages.ActionScript
 
 							WriteMethodSignature(ToString, false);
 							WriteMethodBody(ToString);
+							#endregion
+
 						}
 						else
 						{
@@ -109,6 +112,8 @@ namespace jsc.Languages.ActionScript
 
 								WriteTypeInstanceMethods(z, za);
 								WriteLine();
+
+								WritePropertiesAsMethods(z);
 							}
 							else
 							{
@@ -153,6 +158,59 @@ namespace jsc.Languages.ActionScript
 			}
 
 			return true;
+		}
+
+		private void WritePropertiesAsMethods(Type z)
+		{
+			// In IL one can create a delegate from property set or get methods!
+			// so we are doing it the wrong way
+			// instead of first only defining the methods and then properties
+			// we are defining properties and then methods... funny :)
+
+			this.WriteIdent();
+			this.WriteCommentLine("properties as methods");
+
+			foreach (var item in z.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
+			{
+				this.WriteLine();
+
+				var GetMethod = item.GetGetMethod();
+				if (GetMethod != null)
+				{
+					WriteMethodSignature(GetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
+					using (this.CreateScope())
+					{
+						WriteIdent();
+						WriteKeywordSpace(Keywords._return);
+						WriteKeyword(Keywords._this);
+						Write(".");
+						Write(item.Name);
+						Write(";");
+						WriteLine();
+					}
+				}
+
+				this.WriteLine();
+
+
+				var SetMethod = item.GetSetMethod();
+				if (SetMethod != null)
+				{
+					WriteMethodSignature(SetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
+					using (this.CreateScope())
+					{
+						WriteIdent();
+						WriteKeyword(Keywords._this);
+						Write(".");
+						Write(item.Name);
+						WriteAssignment();
+						WriteDecoratedMethodParameter(SetMethod.GetParameters().Single());
+						Write(";");
+						WriteLine();
+					}
+				}
+
+			}
 		}
 
 	}

@@ -156,7 +156,7 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
-						if (e.i.TargetInteger == 4002)
+					if (e.i.TargetInteger == 4002)
 					{
 						il.Emit(OpCodes.Ldc_I4, entry.Height);
 						return;
@@ -165,7 +165,7 @@ namespace jsc.meta.Commands.Rewrite
 					e.Default();
 				};
 
-		
+
 
 			il_a[OpCodes.Ldstr] =
 				e =>
@@ -192,23 +192,131 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
-		private void WriteInitialization_ActionScriptExterenalInterface(RewriteToAssembly r, ILTranslationExtensions.EmitToArguments.ILRewriteContext e, TypeBuilder DeclaringType)
+		private void WriteInitialization_ActionScriptExterenalInterface(
+			RewriteToAssembly r,
+			ILTranslationExtensions.EmitToArguments.ILRewriteContext c,
+			TypeBuilder DeclaringType,
+			Type TargetType)
 		{
 			var __InitializeExternalInterface = DeclaringType.DefineMethod("__InitializeExternalInterface", MethodAttributes.Private, CallingConventions.Standard, typeof(void), null);
 
-			e.il.Emit(OpCodes.Ldarg_0);
-			e.il.Emit(OpCodes.Call, __InitializeExternalInterface);
+			c.il.Emit(OpCodes.Ldarg_0);
+			c.il.Emit(OpCodes.Call, __InitializeExternalInterface);
 
 			var il = __InitializeExternalInterface.GetILGenerator();
 
-			il.EmitCode(
-				delegate 
+			Action Implementation1 =
+				delegate
 				{
-					
 					ExternalInterface.addCallback("event", new Action(Console.WriteLine).ToFunction());
-				}
-			);
+				};
 
+			foreach (var kk in TargetType.GetMethods(
+				BindingFlags.DeclaredOnly |
+				BindingFlags.Public | BindingFlags.Instance))
+			{
+
+				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
+
+				var IsEventMethod = kk.ReturnType == typeof(void) && kk.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(kk.GetParameterTypes()[0]);
+
+
+				#region __Delegate
+				var __Delegate = DeclaringType.DefineNestedType("__Delegate_" + kk.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
+
+				var __Delegate_ctor = __Delegate.DefineConstructor(
+					MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
+					CallingConventions.Standard,
+					new Type[] { typeof(object), typeof(IntPtr) }
+				);
+
+				__Delegate_ctor.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
+				// mxmlc will complain that jsc didnt create parameter names... jsc should generate them :)
+				__Delegate_ctor.DefineParameter(1, ParameterAttributes.None, "object");
+				__Delegate_ctor.DefineParameter(2, ParameterAttributes.None, "method");
+
+				// Method attributes flags
+				MethodAttributes maDelegate = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
+				MethodImplAttributes mia = MethodImplAttributes.Runtime | MethodImplAttributes.Managed;
+
+				var __Delegate_Invoke = __Delegate.DefineMethod(
+					"Invoke", maDelegate,
+					CallingConventions.Standard, kk.ReturnType,
+					Enumerable.ToArray(
+						from ParameterType in kk.GetParameterTypes()
+						// add and remove events
+						// must first save the delegate in global object like window
+						select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : ParameterType
+					)
+				);
+
+	
+				__Delegate_Invoke.SetImplementationFlags(mia);
+				kk.GetParameters().CopyTo(__Delegate_Invoke);
+
+				#region BeginInvoke, EndInvoke
+				{
+					// BeginInvoke for Asynchronous call
+					var methodBuilder = __Delegate.DefineMethod("BeginInvoke", maDelegate, typeof(IAsyncResult), new Type[] { typeof(AsyncCallback), typeof(object) });
+					methodBuilder.SetImplementationFlags(mia);
+				}
+				{
+					// EndInvoke for Asynchronous call
+					var methodBuilder = __Delegate.DefineMethod("EndInvoke", maDelegate, typeof(void), new Type[] { typeof(IAsyncResult) });
+					methodBuilder.SetImplementationFlags(mia);
+				}
+				#endregion
+
+				__Delegate.CreateType();
+				#endregion
+
+				if (IsEventMethod)
+				{
+					// we need some additional code
+				}
+				else
+				{
+					#region addCallback
+					var il_a = new ILTranslationExtensions.EmitToArguments();
+
+					il_a[OpCodes.Newobj] =
+						e =>
+						{
+							e.il.Emit(OpCodes.Newobj, __Delegate_ctor);
+						};
+
+					il_a[OpCodes.Ldftn] =
+						e =>
+						{
+							e.il.Emit(OpCodes.Ldftn, r.RewriteArguments.context.MethodCache[kk]);
+						};
+
+
+					il_a[OpCodes.Ldnull] =
+						e =>
+						{
+							e.il.Emit(OpCodes.Ldarg_0);
+						};
+
+					il_a[OpCodes.Ldstr] =
+						e =>
+						{
+							e.il.Emit(OpCodes.Ldstr, kk.Name);
+						};
+
+					il_a[OpCodes.Ret] =
+						e =>
+						{
+
+						};
+
+					Implementation1.Method.EmitTo(il, il_a);
+					#endregion
+
+				}
+			}
+
+			il.Emit(OpCodes.Ret);
 		}
 	}
 }

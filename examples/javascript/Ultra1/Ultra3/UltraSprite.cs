@@ -66,7 +66,7 @@ namespace Ultra3
 
 	
 
-			FuncSring get_status1 = () => this.status1;
+			//FuncSring get_status1 = () => this.status1;
 
 			#region codegen
 			Action<string> add_event1 =
@@ -79,17 +79,15 @@ namespace Ultra3
 						};
 				};
 
-			ExternalInterface.addCallback("FunctionTwo", new Action<string>(FunctionTwo).ToFunction());
-			ExternalInterface.addCallback("get_status1", get_status1.ToFunction());
-
 			ExternalInterface.addCallback("add_event1", add_event1.ToFunction());
-			ExternalInterface.addCallback("raise_event1", new Action(raise_event1).ToFunction());
+
+
+
 			#endregion
 
 		}
 
 
-		public delegate string FuncSring();
 
 	
 
