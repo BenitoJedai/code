@@ -20,7 +20,10 @@ namespace jsc.meta.Commands.Rewrite
 				VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
-				VirtualDictionary<string, string> NameObfuscation)
+				VirtualDictionary<string, string> NameObfuscation,
+				Action<MethodBase,ILTranslationExtensions.EmitToArguments> ILOverride
+			
+			)
 		{
 			var km = source.IsStatic ?
 				t.DefineTypeInitializer() :
@@ -40,19 +43,15 @@ namespace jsc.meta.Commands.Rewrite
 			if (source.GetMethodBody() == null)
 				return;
 
-			MethodBase mb = source;
+			var MethodBody = source.GetMethodBody();
 
-			mb.EmitTo(km.GetILGenerator(),
-				new ILTranslationExtensions.EmitToArguments
-				{
-					// we need to redirect any typerefs and methodrefs!
-					TranslateTargetType = TargetType => tc[TargetType],
-					TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == NameObfuscation[TargetField.Name]) ?? TargetField,
+			var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
 
-					TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
-					TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
-				}
-			);
+
+			var x = CreateMethodBaseEmitToArguments(source, tc, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, ILOverride, ExceptionHandlingClauses);
+
+
+			source.EmitTo(km.GetILGenerator(), x);
 
 		}
 

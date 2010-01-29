@@ -30,7 +30,7 @@ namespace jsc.meta.Commands.Rewrite
 			Func<Assembly, object[]> codeinjectonparams,
 
 
-			Action<ILTranslationExtensions.EmitToArguments> ILOverride
+			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride
 			)
 		{
 			// sanity check!
@@ -102,8 +102,30 @@ namespace jsc.meta.Commands.Rewrite
 					a.SetEntryPoint(km);
 				}
 
+			var x = CreateMethodBaseEmitToArguments(source, tc, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, ILOverride, ExceptionHandlingClauses);
+
+
+
+			mb.EmitTo(kmil, x);
+
+
+			// we need to emit the try/catch blocks too!
+
+		}
+
+		private static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
+			MethodBase context,
+			VirtualDictionary<Type, Type> tc, 
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, 
+			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, 
+			VirtualDictionary<MethodInfo, MethodInfo> MethodCache, 
+			VirtualDictionary<string, string> NameObfuscation, 
+			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride, 
+			ExceptionHandlingClause[] ExceptionHandlingClauses)
+		{
 			var x = new ILTranslationExtensions.EmitToArguments
 			{
+				#region BeforeInstruction
 				BeforeInstruction =
 					e =>
 					{
@@ -165,6 +187,8 @@ namespace jsc.meta.Commands.Rewrite
 							}
 						}
 					},
+				#endregion
+
 
 				AfterInstruction =
 					e =>
@@ -174,6 +198,7 @@ namespace jsc.meta.Commands.Rewrite
 					},
 
 				// we need to redirect any typerefs and methodrefs!
+				#region TranslateBranchOffset
 				TranslateBranchOffset =
 					(i, o) =>
 					{
@@ -199,6 +224,8 @@ namespace jsc.meta.Commands.Rewrite
 
 						return o + Leave_s_Fixup;
 					},
+				#endregion
+
 				TranslateTargetType = TargetType => tc[TargetType],
 				TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == NameObfuscation[TargetField.Name]) ?? TargetField,
 				TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
@@ -221,15 +248,8 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			if (ILOverride != null)
-				ILOverride(x);
-
-
-
-			mb.EmitTo(kmil, x);
-
-
-			// we need to emit the try/catch blocks too!
-
+				ILOverride(context, x);
+			return x;
 		}
 
 

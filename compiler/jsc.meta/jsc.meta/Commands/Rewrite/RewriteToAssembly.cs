@@ -126,7 +126,7 @@ namespace jsc.meta.Commands.Rewrite
 
 		public Action<PostTypeRewriteArguments> PostTypeRewrite;
 
-		public Action<ILTranslationExtensions.EmitToArguments> ILOverride;
+		public Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride;
 
 		public FileInfo Output;
 
@@ -298,7 +298,8 @@ namespace jsc.meta.Commands.Rewrite
 						CopyConstructor(msource,
 							DeclaringType,
 							TypeCache, ConstructorCache, TypeFieldsCache,
-							ConstructorCache, MethodCache, NameObfuscation);
+							ConstructorCache, MethodCache, NameObfuscation,
+							ILOverride);
 						return;
 					}
 
