@@ -83,7 +83,9 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-				var r = new RewriteToAssembly
+				var r = default(RewriteToAssembly);
+
+				r = new RewriteToAssembly
 				{
 					assembly = this.assembly,
 					staging = k.StagingFolder,
@@ -123,6 +125,8 @@ namespace jsc.meta.Commands.Rewrite
 								if (k.IsJava)
 								{
 									// we need to expose add remove events via string callbacks
+
+									WriteInitialization_JavaExternalInterface(r, a, k.TargetType);
 								}
 							}
 						},
@@ -281,7 +285,7 @@ namespace jsc.meta.Commands.Rewrite
 									}
 
 
-								
+
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 
 									var t_element = t.DefineNestedType("IHTML" + source.Name,
@@ -361,7 +365,13 @@ namespace jsc.meta.Commands.Rewrite
 
 
 									#region DeclaringTypeCoTypeMethod
-									var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(source.Name, source.Attributes, source.CallingConvention, source.ReturnType,
+									var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(
+
+										// in java land we have to define a new method to translate
+										// from string to event
+										(IsEventMethod && c.IsJava ? ExternalInterfacePrefix : "") + source.Name,
+
+										source.Attributes, source.CallingConvention, source.ReturnType,
 										Enumerable.ToArray(
 											from ParameterType in source.GetParameterTypes()
 											// add and remove events

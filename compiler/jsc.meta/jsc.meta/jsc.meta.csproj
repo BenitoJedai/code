@@ -198,6 +198,7 @@
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\InternalElementProxy.cs" />
+    <Compile Include="Library\Templates\InternalJavaToJavascriptBridge.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\Java\InvokeWebServiceArguments.cs" />
     <Compile Include="Library\Web\SimpleMethodInfo.cs" />

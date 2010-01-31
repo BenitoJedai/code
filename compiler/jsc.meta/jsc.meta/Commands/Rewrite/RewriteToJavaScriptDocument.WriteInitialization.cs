@@ -17,11 +17,13 @@ using System.Reflection.Emit;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.ActionScript.flash.external;
 using ScriptCoreLib.ActionScript.Extensions;
+using jsc.meta.Library.Templates;
 
 namespace jsc.meta.Commands.Rewrite
 {
 	partial class RewriteToJavaScriptDocument
 	{
+		public const string ExternalInterfacePrefix = "__ExternalInterfacePrefix_";
 
 		private void WriteInitialization_JavaInternalElement(ILGenerator il, Type proxy, Type context, ScriptApplicationEntryPointAttribute entry, FieldBuilder __InternalElement)
 		{
@@ -195,6 +197,55 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
+		private void WriteInitialization_JavaExternalInterface(
+			RewriteToAssembly r,
+			RewriteToAssembly.PostTypeRewriteArguments a,
+			Type TargetType
+			)
+		{
+			foreach (var kk in TargetType.GetMethods(
+				BindingFlags.DeclaredOnly |
+				BindingFlags.Public | BindingFlags.Instance))
+			{
+				if (kk.IsVirtual)
+					continue;
+
+				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
+
+				var IsEventMethod = kk.IsEventMethod();
+
+				if (IsEventMethod)
+				{
+					// we need some additional code
+					var Invoke = kk.GetParameterTypes().Single().GetMethod("Invoke");
+
+					#region add_
+					if (kk.Name.StartsWith("add_"))
+					{
+						WriteInitialization_JavaExternalInterface_add(r, kk, a.Type, Invoke);
+
+
+					}
+					#endregion
+
+
+					#region remove_
+					if (kk.Name.StartsWith("remove_"))
+					{
+						var LocalMethod = a.Type.DefineMethod(ExternalInterfacePrefix + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
+
+						var LocalMethod_il = LocalMethod.GetILGenerator();
+
+						LocalMethod_il.EmitCode(() => { throw new NotSupportedException(); });
+
+					}
+					#endregion
+
+				}
+			}
+		}
+
+
 		private void WriteInitialization_ActionScriptExternalInterface(
 			RewriteToAssembly r,
 			ILTranslationExtensions.EmitToArguments.ILRewriteContext c,
@@ -223,7 +274,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
 
-				var IsEventMethod = kk.ReturnType == typeof(void) && kk.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(kk.GetParameterTypes()[0]);
+				var IsEventMethod = kk.IsEventMethod();
 
 
 				#region __Delegate
@@ -352,13 +403,118 @@ namespace jsc.meta.Commands.Rewrite
 			il.Emit(OpCodes.Ret);
 		}
 
+
+		private static void WriteInitialization_JavaExternalInterface_add(
+			RewriteToAssembly r,
+			MethodInfo kk,
+
+			TypeBuilder DeclaringType,
+			MethodInfo Invoke
+
+			)
+		{
+			Action<Func<string>, object> Implementation2 =
+						(current, value) =>
+						{
+							current += value.ToString;
+						};
+
+			var Closure = DeclaringType.DefineNestedType("<>" + kk.Name, TypeAttributes.NestedPrivate | TypeAttributes.Sealed);
+			var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
+			var Closure_this = Closure.DefineField("<>this", DeclaringType, FieldAttributes.Public);
+			var Closure_value = Closure.DefineField("<>value", typeof(string), FieldAttributes.Public);
+
+			var Closure_Invoke = Closure.DefineMethod(
+				"Invoke",
+				MethodAttributes.Public,
+				CallingConventions.Standard,
+				Invoke.ReturnType,
+				Invoke.GetParameterTypes()
+			);
+
+			var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
+
+			Func<Applet, string, object[], object> InternalJavaToJavascriptBridge_Invoke = InternalJavaToJavascriptBridge.Invoke;
+
+
+			var args = Closure_Invoke_il.DeclareLocal(typeof(object[]));
+
+			Closure_Invoke_il.Emit(OpCodes.Ldc_I4, Invoke.GetParameters().Length);
+			Closure_Invoke_il.Emit(OpCodes.Newarr, typeof(object));
+			Closure_Invoke_il.Emit(OpCodes.Stloc, (short)args.LocalIndex);
+
+			for (short i = 0; i < Invoke.GetParameters().Length; i++)
+			{
+				Closure_Invoke_il.Emit(OpCodes.Ldloc, (short)args.LocalIndex);
+				Closure_Invoke_il.Emit(OpCodes.Ldc_I4, (int)i);
+				Closure_Invoke_il.Emit(OpCodes.Ldarg, (short)(i + 1));
+				Closure_Invoke_il.Emit(OpCodes.Stelem_Ref);
+			}
+
+
+			Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
+			Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_this);
+
+			Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
+			Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_value);
+
+			Closure_Invoke_il.Emit(OpCodes.Ldloc, (short)args.LocalIndex);
+
+
+
+			// this is the first time we mention this function
+			// it will now be copied to our new assembly
+			Closure_Invoke_il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[InternalJavaToJavascriptBridge_Invoke.Method]);
+
+			if (Invoke.ReturnType == typeof(void))
+				Closure_Invoke_il.Emit(OpCodes.Pop);
+
+
+			Closure_Invoke_il.Emit(OpCodes.Ret);
+
+
+			Closure.CreateType();
+
+			var LocalMethod = DeclaringType.DefineMethod(ExternalInterfacePrefix + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
+
+			var il = LocalMethod.GetILGenerator();
+
+			il.DeclareLocal(Closure);
+
+			il.Emit(OpCodes.Newobj, Closure_ctor);
+			il.Emit(OpCodes.Stloc_0);
+
+			il.Emit(OpCodes.Ldloc_0);
+			il.Emit(OpCodes.Ldarg_0);
+			il.Emit(OpCodes.Stfld, Closure_this);
+
+			il.Emit(OpCodes.Ldloc_0);
+			il.Emit(OpCodes.Ldarg_1);
+			il.Emit(OpCodes.Stfld, Closure_value);
+
+			il.Emit(OpCodes.Ldarg_0);
+
+			il.Emit(OpCodes.Ldloc_0);
+			il.Emit(OpCodes.Ldftn, Closure_Invoke);
+
+			il.Emit(OpCodes.Newobj, r.RewriteArguments.context.ConstructorCache[kk.GetParameterTypes().Single().GetConstructors().Single()]);
+
+			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[kk]);
+
+
+
+
+			il.Emit(OpCodes.Ret);
+		}
+
 		private static MethodInfo WriteInitialization_ActionScriptExternalInterface_add(
 			RewriteToAssembly r,
 
 			TypeBuilder DeclaringType,
 			MethodInfo kk,
 			MethodInfo ExposedMethod,
-			MethodInfo Invoke)
+			MethodInfo Invoke
+			)
 		{
 			Action<Func<string>, object> Implementation2 =
 				(current, value) =>

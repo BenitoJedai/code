@@ -134,15 +134,30 @@ namespace Ultra3
 
 						f1.AttachToDocument();
 
+						UltraApplet.Action1 a =
+							(xx, y) =>
+							{
+								new IHTMLDiv { innerText = Class1.ToString(xx, y) + Class2.ToString(xx, y) }.AttachToDocument();
+								
+							};
+
 						f1.onclick +=
 							delegate
 							{
-								//var oo = (UltraApplet_IHTMLElement)(object)o;
-
-								o.RaiseToJava("hi from js");
-								//o.StatusText = "hi from js";
-								//oo.RaiseToJava("hello1");
+								o.RaiseToJava("hi from js", "");
 							};
+
+						var f2 = new IHTMLButton("add_event");
+
+						f2.AttachToDocument();
+
+						f2.onclick +=
+							delegate
+							{
+								o.AtToJavaScript += a;
+
+							};
+
 					};
 			}
 
@@ -169,12 +184,5 @@ namespace Ultra3
 
 	}
 
-	[Script(InternalConstructor = true)]
-	public class UltraApplet_IHTMLElement : IHTMLElement
-	{
-		public void RaiseToJava(string e)
-		{
 
-		}
-	}
 }

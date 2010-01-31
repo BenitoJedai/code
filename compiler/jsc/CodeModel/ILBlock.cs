@@ -1499,10 +1499,12 @@ namespace jsc
 				// whats this if doing? :)
 				// fixme: here is the bug!
 				// why is StackAfter null?
-				if (Last.StackAfter == null ||
+				// 2010.01.32: it seems OpCodes.Leave has StackAfter null.. why?
+				if (
 					i.StackAfter == null || 
 					
-					i.StackAfter.Count > Last.StackAfter.Count)
+					i.StackAfter.Count > (Last.StackAfter == null ? 0 : Last.StackAfter.Count)
+					)
 					goto skip;
 				else
 				{
