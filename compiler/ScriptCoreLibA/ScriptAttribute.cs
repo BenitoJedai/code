@@ -407,7 +407,12 @@ namespace ScriptCoreLib
 				var t = m as Type;
 				if (t != null)
 				{
-					if (t.Assembly.ToScriptAttributeOrDefault().IsScriptLibrary)
+					var ts = t.Assembly.ToScriptAttributeOrDefault();
+
+					if (ts.NonScriptTypes != null && ts.NonScriptTypes.Contains(t))
+						return null;
+
+					if (ts.IsScriptLibrary)
 						x = new ScriptAttribute();
 
 				}
@@ -531,7 +536,8 @@ namespace ScriptCoreLib
 							continue;
 						}
 
-						ScriptAttribute o = ScriptAttribute.Of(z, true);
+						ScriptAttribute o = ScriptAttribute.OfProvider(z);
+						//ScriptAttribute o = ScriptAttribute.Of(z, true);
 
 						if (o != null)
 						{
