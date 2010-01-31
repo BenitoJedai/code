@@ -66,13 +66,13 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					if (e.i.TargetLiteral == archive)
 					{
-						il.Emit(OpCodes.Ldstr, "assets/" + context.FullName + "/" + proxy.Name + ".jar");
+						il.Emit(OpCodes.Ldstr, "assets/" + context.FullName + "/" + proxy.FullName + ".jar");
 						return;
 					}
 
 					if (e.i.TargetLiteral == code)
 					{
-						il.Emit(OpCodes.Ldstr, proxy.FullName);
+						il.Emit(OpCodes.Ldstr, proxy.FullName.Replace("+", "_"));
 						return;
 					}
 
@@ -177,7 +177,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					if (e.i.TargetLiteral == src)
 					{
-						il.Emit(OpCodes.Ldstr, "assets/" + context.FullName + "/" + proxy.Name + ".swf");
+						il.Emit(OpCodes.Ldstr, "assets/" + context.FullName + "/" + proxy.FullName + ".swf");
 						return;
 					}
 

@@ -104,6 +104,10 @@
       <HintPath>..\..\..\..\..\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Web.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Web.Services.dll</HintPath>

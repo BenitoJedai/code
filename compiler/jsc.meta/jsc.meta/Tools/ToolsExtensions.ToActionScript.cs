@@ -13,7 +13,13 @@ namespace jsc.meta.Tools
 	{
 	
 		
-		public static void ToActionScript(this FileInfo TargetAssembly, FileInfo mxmlc, FileInfo flashplayer, Type sprite, FileInfo FusionAssembly)
+		public static void ToActionScript(
+			this FileInfo TargetAssembly, 
+			FileInfo mxmlc, 
+			FileInfo flashplayer, 
+			Type sprite, 
+			FileInfo FusionAssembly,
+			string ProductName)
 		{
 			// FusionAssembly ??
 
@@ -43,14 +49,16 @@ namespace jsc.meta.Tools
 			//    TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
 			//}
 
-			var obj_web_swf = Path.Combine(obj_web, sprite.Name + ".swf");
+			var obj_web_swf = Path.Combine(obj_web, 
+				ProductName ?? sprite.Name + ".swf"
+			);
 
 			var proccess_mxmlc = Process.Start(
 				new ProcessStartInfo(
 					mxmlc.FullName,
 					"-sp=. -strict -output=\"" +
 						obj_web_swf + "\" "
-						+ sprite.FullName.Replace(".", @"\") + @".as"
+						+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
 					)
 				{
 					UseShellExecute = false,
