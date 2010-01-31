@@ -12,6 +12,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 	[Script(Implements = typeof(global::System.Windows.Forms.Control))]
 	internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
 	{
+		public int Bottom
+		{
+			get
+			{
+				return this.Size.Height + this.Location.Y;
+			}
+		}
+
 		public event EventHandler Click;
 
 		public void RaiseClick()
@@ -113,7 +121,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			}
 		}
 
-		Size InternalSize;
+		Size InternalSize = new Size();
 		public Size Size
 		{
 			get

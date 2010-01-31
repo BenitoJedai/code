@@ -332,6 +332,16 @@ namespace jsc.Languages.Java
 					}
 				}
 
+				if ((ResolveImplementation(zfn.FieldType) ?? zfn.FieldType).IsNonPrimitiveValueType())
+				{
+					WriteAssignment();
+
+					WriteKeywordSpace(Keywords._new);
+					WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType);
+
+					Write("()");
+				}
+
 				WriteLine(";");
 			}
 		}

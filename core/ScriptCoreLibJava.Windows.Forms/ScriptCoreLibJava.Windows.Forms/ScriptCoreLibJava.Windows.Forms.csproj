@@ -88,6 +88,7 @@
     <Compile Include="BCLImplementation\System\Windows\Forms\TreeViewEventHandler.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\UserControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Windows\Forms\Extensions.cs" />
     <Compile Include="Windows\Forms\IAssemblyReferenceToken.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

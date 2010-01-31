@@ -120,7 +120,10 @@ namespace jsc.meta.Commands.Rewrite
 									InjectJavaScriptBootstrap(a);
 								}
 
-
+								if (k.IsJava)
+								{
+									// we need to expose add remove events via string callbacks
+								}
 							}
 						},
 					#endregion
@@ -162,6 +165,8 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 				};
 
+
+
 				#region IsActionScript IL patching
 				if (k.IsActionScript)
 				{
@@ -186,7 +191,7 @@ namespace jsc.meta.Commands.Rewrite
 										{
 											var DeclaringType = (TypeBuilder)r.RewriteArguments.context.TypeCache[k.TargetType];
 
-											WriteInitialization_ActionScriptExterenalInterface(r, e, DeclaringType, k.TargetType);
+											WriteInitialization_ActionScriptExternalInterface(r, e, DeclaringType, k.TargetType);
 
 
 										}
@@ -203,6 +208,11 @@ namespace jsc.meta.Commands.Rewrite
 				#region IsJavaScript IL patching
 				if (k.IsJavaScript)
 				{
+					// In javascript we will define a type with
+					// InternalConstructors which will act as a native interface
+					var IHTMLElementCoTypes = new Dictionary<TypeBuilder, TypeBuilder>();
+
+
 					#region ILOverride (Castclass)
 					r.ILOverride =
 						(context, x) =>
@@ -230,7 +240,6 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 
 
-					var CoType1 = new Dictionary<TypeBuilder, TypeBuilder>();
 
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
@@ -272,40 +281,40 @@ namespace jsc.meta.Commands.Rewrite
 									}
 
 
-									if (c.IsActionScript)
-									{
-										var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+								
+									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 
-										var t_element = t.DefineNestedType("IHTML" + source.Name,
-											   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
+									var t_element = t.DefineNestedType("IHTML" + source.Name,
+										   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
 
-											   // hmm, no base for proxies!
-											   typeof(IHTMLElement),
+										   // hmm, no base for proxies!
+										   typeof(IHTMLElement),
 
-											   // no interfaces either at this time!
-											   null
-									   );
+										   // no interfaces either at this time!
+										   null
+								   );
 
-										t_element.DefineAttribute(
-											new ScriptAttribute
-											{
-												InternalConstructor = true
-											},
-											typeof(ScriptAttribute)
-										);
-
-										CoType1[t] = t_element;
-										//WriteJavaScriptProxy(r, source, t, __InternalElement);
-
-										foreach (var kk in source.GetMethods(
-											BindingFlags.DeclaredOnly |
-											BindingFlags.Public | BindingFlags.Instance))
+									t_element.DefineAttribute(
+										new ScriptAttribute
 										{
-											var km = r.ExternalContext.MethodCache[kk];
-										}
+											InternalConstructor = true
+										},
+										typeof(ScriptAttribute)
+									);
 
-										t_element.CreateType();
+									IHTMLElementCoTypes[t] = t_element;
+
+									foreach (var kk in source.GetMethods(
+										BindingFlags.DeclaredOnly |
+										BindingFlags.Public | BindingFlags.Instance))
+									{
+										if (kk.IsVirtual)
+											continue;
+
+										var km = r.ExternalContext.MethodCache[kk];
 									}
+
+									t_element.CreateType();
 
 
 									t.CreateType();
@@ -315,7 +324,8 @@ namespace jsc.meta.Commands.Rewrite
 									return;
 								}
 
-							if (typeof(Sprite).IsAssignableFrom(source) || typeof(Applet).IsAssignableFrom(source))
+							if (typeof(Sprite).IsAssignableFrom(source) ||
+								typeof(Applet).IsAssignableFrom(source))
 							{
 								// erase
 								r.ExternalContext.TypeCache[source] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
@@ -337,14 +347,14 @@ namespace jsc.meta.Commands.Rewrite
 							var c = targets.SingleOrDefault(kk => kk.TargetType == source.DeclaringType);
 
 							if (c != null)
-								if (c.IsActionScript)
+								if (c.IsActionScript || c.IsJava)
 								{
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 									var CombineDelegates = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("CombineDelegates")];
 
 
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
-									var DeclaringTypeCoType = CoType1[DeclaringType];
+									var DeclaringTypeCoType = IHTMLElementCoTypes[DeclaringType];
 
 									var IsEventMethod = source.ReturnType == typeof(void) && source.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(source.GetParameterTypes()[0]);
 
@@ -371,16 +381,16 @@ namespace jsc.meta.Commands.Rewrite
 									#endregion
 
 									var DeclaringTypeMethod = DeclaringType.DefineMethod(
-										source.Name, 
-										source.Attributes, 
-										source.CallingConvention, 
-										source.ReturnType, 
-										
+										source.Name,
+										source.Attributes,
+										source.CallingConvention,
+										source.ReturnType,
+
 										Enumerable.ToArray(
 											from p in source.GetParameterTypes()
 											select r.RewriteArguments.context.TypeCache[p]
 										)
-										
+
 									);
 
 									source.GetParameters().CopyTo(DeclaringTypeMethod);
