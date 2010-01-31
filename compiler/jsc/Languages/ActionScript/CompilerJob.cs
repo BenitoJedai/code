@@ -18,6 +18,39 @@ namespace jsc.Languages
 
         private static void CompileActionScript(CompilerJob j, CompileSessionInfo sinfo)
         {
+			DirectoryInfo TargetDirectory = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
+			//DirectoryInfo SourceDir = TargetDirectory.CreateSubdirectory("java");
+			//DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
+			//DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");
+			//DirectoryInfo SourceNativeDir = TargetDirectory.CreateSubdirectory("native");
+			//DirectoryInfo SourceBinDir = TargetDirectory.CreateSubdirectory("bin");
+			DirectoryInfo SourceVersionDir = TargetDirectory.CreateSubdirectory("version");
+
+			#region SourceVersion
+			FileInfo SourceVersion = new FileInfo(
+				SourceVersionDir.FullName + "/"
+				+ j.AssamblyInfo.ManifestModule.Name
+				+ "." + Enum.GetName(typeof(ScriptType), ScriptType.ActionScript)
+				+ ".version.txt"
+				);
+
+			if (SourceVersion.Exists)
+			{
+				if (j.AssamblyFile.LastWriteTime <= SourceVersion.LastWriteTime)
+				{
+					Console.WriteLine("this version is already built: " + SourceVersion.Name);
+
+					//if (!Debugger.IsAttached)
+					//{
+					return;
+					//}
+				}
+			}
+
+
+			#endregion
+
+
             IdentWriter xw = new IdentWriter();
 
             xw.Session = new AssamblyTypeInfo();
@@ -32,45 +65,16 @@ namespace jsc.Languages
 
             xw.Session.ImplementationTypes.AddRange(alltypes);
 
-            sinfo.Logging.LogMessage("found {0} types to be compiled", xw.Session.Types.Length);
+			//sinfo.Logging.LogMessage("found {0} types to be compiled", xw.Session.Types.Length);
 
-            DirectoryInfo TargetDirectory = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
-            //DirectoryInfo SourceDir = TargetDirectory.CreateSubdirectory("java");
-            //DirectoryInfo SourceCompiledDir = TargetDirectory.CreateSubdirectory("release");
-            //DirectoryInfo SourceCompiledHeadersDir = TargetDirectory.CreateSubdirectory("headers");
-            //DirectoryInfo SourceNativeDir = TargetDirectory.CreateSubdirectory("native");
-            //DirectoryInfo SourceBinDir = TargetDirectory.CreateSubdirectory("bin");
-            DirectoryInfo SourceVersionDir = TargetDirectory.CreateSubdirectory("version");
-
+           
             // assets
             foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
             {
 				EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
             }
 
-            #region SourceVersion
-            FileInfo SourceVersion = new FileInfo(
-                SourceVersionDir.FullName + "/" 
-                + j.AssamblyInfo.ManifestModule.Name 
-                + "." + Enum.GetName(typeof(ScriptType), ScriptType.ActionScript) 
-                + ".version.txt"
-                );
-
-            if (SourceVersion.Exists)
-            {
-                if (j.AssamblyFile.LastWriteTime <= SourceVersion.LastWriteTime)
-                {
-                    Console.WriteLine("this version is already built: " + SourceVersion.Name);
-
-                    //if (!Debugger.IsAttached)
-                    //{
-                        return;
-                    //}
-                }
-            }
-
-
-            #endregion
+           
 
             Helper.WorkPool n = new Helper.WorkPool();
 

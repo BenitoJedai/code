@@ -7,12 +7,12 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AvalonExampleGallery")]
+[assembly: AssemblyTitle("Ultra4")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AvalonExampleGallery")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2007")]
+[assembly: AssemblyCompany("zproxy.wordpress.com")]
+[assembly: AssemblyProduct("Ultra4")]
+[assembly: AssemblyCopyright("Copyright © zproxy.wordpress.com 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

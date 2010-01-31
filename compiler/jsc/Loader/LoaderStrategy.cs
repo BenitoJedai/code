@@ -49,7 +49,8 @@ namespace jsc.Loader
 					// yet it doesn't tell us which namespaces belong to which
 					// target language
 
-					if (ContextScript.IsScriptLibrary)
+					if (ContextScript.IsScriptLibrary || 
+						(ContextObfuscation != null && ContextObfuscation.Feature == "script"))
 					{
 						// lets assume all types are for all languages then
 					}

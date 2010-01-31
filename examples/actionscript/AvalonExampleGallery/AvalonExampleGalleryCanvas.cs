@@ -29,6 +29,10 @@ namespace AvalonExampleGallery.Shared
 			public Action Clear;
 		}
 
+		public delegate void ViewSelected(string e);
+
+		public event ViewSelected AtViewSelected;
+
 		public AvalonExampleGalleryCanvas()
 			: this(true, null)
 		{
@@ -165,6 +169,7 @@ namespace AvalonExampleGallery.Shared
 								navbar.History.Add(
 									delegate
 									{
+										
 										cc.Timer.Start();
 										o.Target.Orphanize();
 										CarouselPages.Show();
@@ -173,6 +178,10 @@ namespace AvalonExampleGallery.Shared
 									},
 									delegate
 									{
+										if (AtViewSelected != null)
+											AtViewSelected(o.Caption.Text);
+
+
 										btnCarouselCanvas.Hide();
 										cc.Timer.Stop();
 										CarouselPages.Hide();
@@ -229,6 +238,7 @@ namespace AvalonExampleGallery.Shared
 							navbar.History.Add(
 								delegate
 								{
+									
 									o.Target.Orphanize();
 									Pages.Show();
 									Overlay.Show();
@@ -236,6 +246,9 @@ namespace AvalonExampleGallery.Shared
 								},
 								delegate
 								{
+									if (AtViewSelected != null)
+										AtViewSelected(o.Caption.Text);
+
 									btnCarouselCanvas.Hide();
 									Pages.Hide();
 									Overlay.Hide();

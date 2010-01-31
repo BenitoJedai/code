@@ -144,9 +144,17 @@ namespace jsc
 				#region ExtractAssets
 				if (options.ExtractAssets)
 				{
+					
 					DirectoryInfo TargetDirectory = options.TargetAssembly.Directory.CreateSubdirectory("web");
+					
+					var References = LoaderStrategy.LoadReferencedAssemblies(
+						Assembly.LoadFile(options.TargetAssembly.FullName),
+						options.ToScriptTypes().ToArray()
+					).Reverse().Distinct().ToArray();
 
-					foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
+
+					foreach (Assembly v in References)
+						//foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(options.TargetAssembly.FullName), true))
 					{
 						EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
 					}

@@ -134,7 +134,7 @@ namespace jsc.meta.Commands.Rewrite
 								{
 									// we have to manually add it now...
 									var s = InferScriptApplicationEntryPoint(k.TargetType);
- 
+
 									a.Type.DefineAttribute(
 										s,
 										typeof(ScriptApplicationEntryPointAttribute)
@@ -642,7 +642,7 @@ namespace jsc.meta.Commands.Rewrite
 			if (t != null)
 				return t;
 
-			if (TargetType.IsSealed)
+			if (TargetType.IsSealed || TargetType.IsPublic)
 			{
 				// we should infer only from sealed types...
 
@@ -651,7 +651,7 @@ namespace jsc.meta.Commands.Rewrite
 					return new ScriptApplicationEntryPointAttribute();
 				}
 
-				if (TargetType.GetConstructor() != null && TargetType.BaseType.IsAssignableFrom(typeof(Applet)))
+				if (TargetType.GetConstructor() != null && typeof(Applet).IsAssignableFrom(TargetType.BaseType))
 				{
 					var s = new ScriptApplicationEntryPointAttribute();
 
@@ -661,9 +661,9 @@ namespace jsc.meta.Commands.Rewrite
 					return s;
 				}
 
-				if (TargetType.GetConstructor() != null && TargetType.BaseType.IsAssignableFrom(typeof(Sprite)))
+				if (TargetType.GetConstructor() != null && typeof(Sprite).IsAssignableFrom(TargetType.BaseType))
 				{
-					var s = new ScriptApplicationEntryPointAttribute();
+					var s = new ScriptApplicationEntryPointAttribute { WithResources = true };
 
 					s.Width = TargetType.GetLiteralInt32("DefaultWidth", s.Width);
 					s.Height = TargetType.GetLiteralInt32("DefaultHeight", s.Height);
