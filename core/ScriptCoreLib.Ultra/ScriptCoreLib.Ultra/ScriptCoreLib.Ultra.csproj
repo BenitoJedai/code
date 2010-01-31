@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B1DF11C7-B825-4814-8ED2-D174698FF64C}</ProjectGuid>
+    <ProjectGuid>{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ultra1.Inline</RootNamespace>
-    <AssemblyName>Ultra1.Inline</AssemblyName>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <AssemblyName>ScriptCoreLib.Ultra</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -33,11 +33,19 @@
   <ItemGroup>
     <Reference Include="ScriptCoreLib, Version=3.0.3673.29145, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -53,9 +61,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class2.cs" />
+    <Compile Include="JavaScript\Extensions\UltraExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UltraApplicationExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -65,4 +72,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

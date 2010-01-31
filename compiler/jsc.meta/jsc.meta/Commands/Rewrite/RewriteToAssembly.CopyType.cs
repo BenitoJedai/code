@@ -58,7 +58,7 @@ namespace jsc.meta.Commands.Rewrite
 					t = _DeclaringType.DefineNestedType(
 						_NestedTypeName,
 						source.Attributes,
-						BaseType,
+						 BaseType,
 						source.StructLayoutAttribute.Size
 					);
 				}

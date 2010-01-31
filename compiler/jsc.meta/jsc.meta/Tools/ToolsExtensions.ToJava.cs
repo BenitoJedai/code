@@ -48,8 +48,8 @@ namespace jsc.meta.Tools
 
 			var obj_web = Path.Combine(TargetAssembly.Directory.FullName, "web");
 			var obj_web_bin = Path.Combine(obj_web, "bin");
-			var bin_jar = new FileInfo(Path.Combine(obj_web_bin, 
-				jarname ??(Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
+			var bin_jar = new FileInfo(Path.Combine(obj_web_bin,
+				jarname ?? (Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
 			));
 
 			var TargetTypeFullName = (assembly_metaentrypoint == null ? TargetType : assembly_metaentrypoint.DeclaringType).FullName;
@@ -71,7 +71,7 @@ namespace jsc.meta.Tools
 			var proccess_javac = Process.Start(
 				new ProcessStartInfo(
 					Path.Combine(javapath.FullName, "javac.exe"),
-					@"-classpath " + TargetSourceFiles + @" -d release java\" + TargetTypeFullName.Replace(".", @"\") + @".java"
+					@"-classpath " + TargetSourceFiles + @" -d release java\" + TargetTypeFullName.Replace(".", @"\").Replace("+", "_") + @".java"
 					)
 				{
 					UseShellExecute = false,

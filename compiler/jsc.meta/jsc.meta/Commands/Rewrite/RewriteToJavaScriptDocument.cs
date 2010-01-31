@@ -17,6 +17,7 @@ using System.Reflection.Emit;
 using jsc.Languages.IL;
 using jsc.meta.Library.Templates;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.ActionScript;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -45,10 +46,10 @@ namespace jsc.meta.Commands.Rewrite
 			var assembly = Assembly.LoadFile(this.assembly.FullName);
 
 			var targets = Enumerable.ToArray(
+
 				from TargetType in assembly.GetTypes()
-
-				let EntryPoint = TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault()
-
+				where !TargetType.IsAbstract
+				let EntryPoint = InferScriptApplicationEntryPoint(TargetType)
 				where EntryPoint != null
 
 				// what about Forms/Avalon ?
@@ -61,8 +62,8 @@ namespace jsc.meta.Commands.Rewrite
 
 				// we are guessing the product name ahead of time...
 
-				let Product = IsJava ? Path.Combine(StagingFolder.FullName, @"web\bin\" + TargetType.Name + ".jar") :
-							  IsActionScript ? Path.Combine(StagingFolder.FullName, @"web\" + TargetType.Name + ".swf") :
+				let Product = IsJava ? Path.Combine(StagingFolder.FullName, @"web\bin\" + TargetType.FullName + ".jar") :
+							  IsActionScript ? Path.Combine(StagingFolder.FullName, @"web\" + TargetType.FullName + ".swf") :
 							  null
 
 				// javascript objects will embedd upper level objects
@@ -128,6 +129,32 @@ namespace jsc.meta.Commands.Rewrite
 
 									WriteInitialization_JavaExternalInterface(r, a, k.TargetType);
 								}
+
+								if (null == k.TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault())
+								{
+									// we have to manually add it now...
+									var s = InferScriptApplicationEntryPoint(k.TargetType);
+ 
+									a.Type.DefineAttribute(
+										s,
+										typeof(ScriptApplicationEntryPointAttribute)
+									);
+
+									if (k.IsActionScript)
+									{
+										var swf = k.TargetType.GetCustomAttributes<SWFAttribute>().SingleOrDefault();
+
+										if (swf == null)
+										{
+											a.Type.DefineAttribute(
+												new SWFAttribute { width = s.Width, height = s.Height },
+												typeof(SWFAttribute)
+											);
+
+										}
+									}
+								}
+
 							}
 						},
 					#endregion
@@ -165,11 +192,43 @@ namespace jsc.meta.Commands.Rewrite
 
 								}
 							}
+
 						}
 					#endregion
 				};
 
+				if (k.IsJava)
+				{
+					#region TypeCache
+					r.ExternalContext.TypeCache.Resolve +=
+						source =>
+						{
+							var c = targets.SingleOrDefault(kk => kk.TargetType == source);
 
+							if (c != null)
+								if (c.IsJavaScript)
+								{
+									// so... flash could reference javascript element? :)
+									// basically flash could subscribe to events in
+									// javascript!
+
+									var t = r.RewriteArguments.Module.DefineType(source.FullName,
+										source.Attributes,
+
+										// hmm, no base for proxies!
+										null,
+
+										// no interfaces either at this time!
+										null
+									);
+
+									r.ExternalContext.TypeCache[source] = t;
+									t.CreateType();
+								}
+						};
+
+					#endregion
+				}
 
 				#region IsActionScript IL patching
 				if (k.IsActionScript)
@@ -206,6 +265,35 @@ namespace jsc.meta.Commands.Rewrite
 						};
 					#endregion
 
+					#region TypeCache
+					r.ExternalContext.TypeCache.Resolve +=
+						source =>
+						{
+							var c = targets.SingleOrDefault(kk => kk.TargetType == source);
+
+							if (c != null)
+								if (c.IsJavaScript)
+								{
+									// so... flash could reference javascript element? :)
+									// basically flash could subscribe to events in
+									// javascript!
+
+									var t = r.RewriteArguments.Module.DefineType(source.FullName,
+										source.Attributes,
+
+										// hmm, no base for proxies!
+										null,
+
+										// no interfaces either at this time!
+										null
+									);
+
+									r.ExternalContext.TypeCache[source] = t;
+									t.CreateType();
+								}
+						};
+
+					#endregion
 				}
 				#endregion
 
@@ -261,14 +349,20 @@ namespace jsc.meta.Commands.Rewrite
 								{
 									// we have to generate a proxy!
 
-									var t = r.RewriteArguments.Module.DefineType(source.FullName,
-										source.Attributes,
+									var t = source.IsNested ?
+										((TypeBuilder)r.RewriteArguments.context.TypeCache[source.DeclaringType]).DefineNestedType(
+											source.FullName,
+											source.Attributes,
+											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
+											null
+										)
 
-										// hmm, no base for proxies!
-										r.RewriteArguments.context.TypeCache[__InternalElementProxy],
 
-										// no interfaces either at this time!
-										null
+										: r.RewriteArguments.Module.DefineType(
+											source.FullName,
+											source.Attributes,
+											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
+											null
 									);
 
 									r.ExternalContext.TypeCache[source] = t;
@@ -524,12 +618,14 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (k.IsJava)
 				{
-					r.Output.ToJava(this.javapath, null, null, k.TargetType.Name + ".jar", k.TargetType);
+					r.Output.ToJava(this.javapath, null, null, k.TargetType.FullName + ".jar", k.TargetType);
 				}
 
 				if (k.IsActionScript)
 				{
-					r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null);
+					r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null,
+						k.TargetType.FullName + ".swf"
+					);
 				}
 
 				if (k.IsJavaScript)
@@ -537,6 +633,48 @@ namespace jsc.meta.Commands.Rewrite
 					r.Output.ToJavaScript();
 				}
 			}
+		}
+
+		private static ScriptApplicationEntryPointAttribute InferScriptApplicationEntryPoint(Type TargetType)
+		{
+			var t = TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault();
+
+			if (t != null)
+				return t;
+
+			if (TargetType.IsSealed)
+			{
+				// we should infer only from sealed types...
+
+				if (TargetType.GetConstructor(typeof(IHTMLElement)) != null && !TargetType.IsNested)
+				{
+					return new ScriptApplicationEntryPointAttribute();
+				}
+
+				if (TargetType.GetConstructor() != null && TargetType.BaseType.IsAssignableFrom(typeof(Applet)))
+				{
+					var s = new ScriptApplicationEntryPointAttribute();
+
+					s.Width = TargetType.GetLiteralInt32("DefaultWidth", s.Width);
+					s.Height = TargetType.GetLiteralInt32("DefaultHeight", s.Height);
+
+					return s;
+				}
+
+				if (TargetType.GetConstructor() != null && TargetType.BaseType.IsAssignableFrom(typeof(Sprite)))
+				{
+					var s = new ScriptApplicationEntryPointAttribute();
+
+					s.Width = TargetType.GetLiteralInt32("DefaultWidth", s.Width);
+					s.Height = TargetType.GetLiteralInt32("DefaultHeight", s.Height);
+
+
+
+					return s;
+				}
+			}
+
+			return null;
 		}
 
 

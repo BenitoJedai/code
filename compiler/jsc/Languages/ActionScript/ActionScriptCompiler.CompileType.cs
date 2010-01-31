@@ -175,18 +175,27 @@ namespace jsc.Languages.ActionScript
 				this.WriteLine();
 
 				var GetMethod = item.GetGetMethod();
-				if (GetMethod != null)
+				if (GetMethod != null && !GetMethod.IsAbstract)
 				{
-					WriteMethodSignature(GetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
-					using (this.CreateScope())
+					// Indexers like this[e] are to be excluded for now...
+					var Parameters = GetMethod.GetParameters();
+					if (Parameters.Count() == 0)
 					{
-						WriteIdent();
-						WriteKeywordSpace(Keywords._return);
-						WriteKeyword(Keywords._this);
-						Write(".");
-						Write(item.Name);
-						Write(";");
-						WriteLine();
+
+						WriteMethodSignature(GetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
+						using (this.CreateScope())
+						{
+							WriteIdent();
+							WriteKeywordSpace(Keywords._return);
+							if (GetMethod.IsStatic)
+								WriteDecoratedTypeName(GetMethod.DeclaringType);
+							else
+								WriteKeyword(Keywords._this);
+							Write(".");
+							Write(item.Name);
+							Write(";");
+							WriteLine();
+						}
 					}
 				}
 
@@ -194,19 +203,30 @@ namespace jsc.Languages.ActionScript
 
 
 				var SetMethod = item.GetSetMethod();
-				if (SetMethod != null)
+				if (SetMethod != null && !SetMethod.IsAbstract)
 				{
-					WriteMethodSignature(SetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
-					using (this.CreateScope())
+					// Indexers like this[e] are to be excluded for now...
+					var Parameters = SetMethod.GetParameters();
+					if (Parameters.Count() == 1)
 					{
-						WriteIdent();
-						WriteKeyword(Keywords._this);
-						Write(".");
-						Write(item.Name);
-						WriteAssignment();
-						WriteDecoratedMethodParameter(SetMethod.GetParameters().Single());
-						Write(";");
-						WriteLine();
+						WriteMethodSignature(SetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
+						using (this.CreateScope())
+						{
+							WriteIdent();
+							if (SetMethod.IsStatic)
+								WriteDecoratedTypeName(SetMethod.DeclaringType);
+							else
+								WriteKeyword(Keywords._this);
+							Write(".");
+							Write(item.Name);
+							WriteAssignment();
+
+
+
+							WriteDecoratedMethodParameter(Parameters.Single());
+							Write(";");
+							WriteLine();
+						}
 					}
 				}
 
