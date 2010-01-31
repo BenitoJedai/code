@@ -18,10 +18,13 @@ namespace jsc.meta.Library.Templates
 
 		public delegate string __FuncString();
 
+		static int Counter = 1;
 
 		public string CombineDelegates(string name, Delegate value)
 		{
-			var __callback = "__InternalElementProxy_" + name + new Random().Next();
+			Counter++;
+
+			var __callback = "__InternalElementProxy_" + name + "_" + Counter;
 
 			IFunction.OfDelegate(value).Export(__callback);
 

@@ -17,7 +17,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\Ultra1\Ultra3\bin\Release\staging\Ultra3.UltraApplet</StartWorkingDirectory>
-    <StartArguments>ScriptCoreLibJava.Windows.Forms.dll -java</StartArguments>
+    <StartArguments>Ultra3.UltraApplet.dll -java</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

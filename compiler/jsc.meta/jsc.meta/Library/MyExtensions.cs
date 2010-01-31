@@ -18,6 +18,11 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static bool IsEventMethod(this MethodInfo kk)
+		{
+			return kk.ReturnType == typeof(void) && kk.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(kk.GetParameterTypes()[0]);
+		}
+
 		public static void CopyTo(this ParameterInfo[] p, MethodBuilder m)
 		{
 			foreach (var item in p)
