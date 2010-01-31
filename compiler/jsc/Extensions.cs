@@ -15,6 +15,20 @@ namespace jsc //.Extensions
 {
 	public static class Extensions
 	{
+		public static bool IsNonPrimitiveValueType(this Type z)
+		{
+			ScriptAttribute za = ScriptAttribute.Of(z, true);
+
+			// All BCL structs should have an implementtation class anyhow...
+			if (za == null)
+				return false;
+
+			var z_Implements = za.Implements;
+			var z_NonPrimitiveValueType = z_Implements != null && z_Implements.IsValueType && !z_Implements.IsPrimitive;
+
+			return z_NonPrimitiveValueType;
+		}
+
 		internal static void ForEach<T>(this IEnumerable<T> source, Action<T, int> f)
 		{
 			int c = 0;

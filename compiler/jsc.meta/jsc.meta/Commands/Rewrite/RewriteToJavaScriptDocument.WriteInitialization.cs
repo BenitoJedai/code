@@ -195,7 +195,7 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
-		private void WriteInitialization_ActionScriptExterenalInterface(
+		private void WriteInitialization_ActionScriptExternalInterface(
 			RewriteToAssembly r,
 			ILTranslationExtensions.EmitToArguments.ILRewriteContext c,
 			TypeBuilder DeclaringType,

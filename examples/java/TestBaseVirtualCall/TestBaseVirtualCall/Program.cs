@@ -13,6 +13,11 @@ namespace TestBaseVirtualCall
 		{
 
 		}
+
+		public virtual void paint(object g)
+		{
+
+		}
 	}
 
 	class B : A
@@ -38,6 +43,12 @@ namespace TestBaseVirtualCall
 		protected override void Dispose(bool e)
 		{
 			base.Dispose(e);
+		}
+
+
+		public override void paint(object g)
+		{
+			base.paint(g);
 		}
 	}
 }

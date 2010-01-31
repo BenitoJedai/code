@@ -129,6 +129,20 @@ namespace Ultra3
 						var o = new UltraApplet();
 
 						o.AttachToDocument();
+
+						var f1 = new IHTMLButton("RaiseToJava");
+
+						f1.AttachToDocument();
+
+						f1.onclick +=
+							delegate
+							{
+								//var oo = (UltraApplet_IHTMLElement)(object)o;
+
+								o.RaiseToJava("hi from js");
+								//o.StatusText = "hi from js";
+								//oo.RaiseToJava("hello1");
+							};
 					};
 			}
 
@@ -153,5 +167,14 @@ namespace Ultra3
 		}
 
 
+	}
+
+	[Script(InternalConstructor = true)]
+	public class UltraApplet_IHTMLElement : IHTMLElement
+	{
+		public void RaiseToJava(string e)
+		{
+
+		}
 	}
 }

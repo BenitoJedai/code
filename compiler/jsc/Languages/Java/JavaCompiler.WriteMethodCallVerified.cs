@@ -54,7 +54,8 @@ namespace jsc.Languages.Java
 			{
 				if (i.OpCode == OpCodes.Call)
 					if (!i.OwnerMethod.IsStatic)
-						if (i.TargetMethod.DeclaringType.Equals(i.OwnerMethod.DeclaringType.BaseType))
+						//if (i.TargetMethod.DeclaringType.Equals(i.OwnerMethod.DeclaringType.BaseType))
+						if (i.TargetMethod.DeclaringType.IsAssignableFrom(i.OwnerMethod.DeclaringType.BaseType))
 						{
 							IsBaseMethodCall = true;
 						}
