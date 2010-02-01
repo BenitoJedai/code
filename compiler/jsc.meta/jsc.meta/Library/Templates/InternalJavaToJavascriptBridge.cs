@@ -9,15 +9,7 @@ namespace jsc.meta.Library.Templates
 {
 	internal class InternalJavaToJavascriptBridge
 	{
-		public static void Demo(object a, object b)
-		{
-			var xx = new[]
-			{
-				a, b
-			};
 
-			Invoke(null, null, xx);
-		}
 
 		public static object Invoke(Applet a, string method, object[] args)
 		{

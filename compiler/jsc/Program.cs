@@ -400,7 +400,7 @@ namespace jsc
 
 
 			#region loading types
-			xw.Session.Types = CompilerJob.LoadTypes(type, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+			xw.Session.Types = CompilerJob.LoadTypesFromReferencedAssemblies(type, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
 
 			//xw.Session.Types = ScriptAttribute.FindTypes(_assambly_loaded, type);
 

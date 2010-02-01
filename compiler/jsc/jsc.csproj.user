@@ -33,7 +33,7 @@
     <StartArguments>DemoApplet.dll -java</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra1|AnyCPU' ">
-    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\Ultra5\Ultra5\bin\Release\staging\Ultra5.UltraApplication+UltraSprite</StartWorkingDirectory>
-    <StartArguments>Ultra5.UltraApplication+UltraSprite.dll -as</StartArguments>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\Ultra1\Ultra4\bin\Release\staging\Ultra4.UltraApplication</StartWorkingDirectory>
+    <StartArguments>Ultra4.UltraApplication.dll -js</StartArguments>
   </PropertyGroup>
 </Project>
