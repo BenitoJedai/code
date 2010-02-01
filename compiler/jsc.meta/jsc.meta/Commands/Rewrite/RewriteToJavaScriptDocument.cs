@@ -41,6 +41,8 @@ namespace jsc.meta.Commands.Rewrite
 		{
 			this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
+			jsc.meta.Loader.LoaderStrategy.Hints.Add(this.assembly.Directory);
+
 			Console.WriteLine("RewriteToJavaScriptDocument: " + this.assembly.FullName);
 
 			var assembly = Assembly.LoadFile(this.assembly.FullName);
@@ -349,12 +351,28 @@ namespace jsc.meta.Commands.Rewrite
 								{
 									// we have to generate a proxy!
 
+									var Interfaces = Enumerable.ToArray(
+										
+										from y in source.GetInterfaces()
+
+										let ym = source.GetInterfaceMap(y)
+
+										// fixme: we should actually look
+										// where are the interfaces defined
+										// if they are within actionscript/java namespaces then exclude 
+
+										// is any of the method implemented in this concrete type?
+										where ym.TargetMethods.Any(yy => yy.DeclaringType == source)
+
+										select r.RewriteArguments.context.TypeCache[y]
+									);
+
 									var t = source.IsNested ?
 										((TypeBuilder)r.RewriteArguments.context.TypeCache[source.DeclaringType]).DefineNestedType(
 											source.FullName,
 											source.Attributes,
 											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
-											null
+											Interfaces
 										)
 
 
@@ -362,7 +380,7 @@ namespace jsc.meta.Commands.Rewrite
 											source.FullName,
 											source.Attributes,
 											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
-											null
+											Interfaces
 									);
 
 									r.ExternalContext.TypeCache[source] = t;
@@ -371,17 +389,8 @@ namespace jsc.meta.Commands.Rewrite
 									// create DOM object
 									// implicit operator?
 
-									#region copy constructors
-									foreach (var kk in source.GetConstructors(
-										BindingFlags.DeclaredOnly |
-										BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
-									{
-										var km = r.ExternalContext.ConstructorCache[kk];
-									}
-									#endregion
 
 
-									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 
 									var t_element = t.DefineNestedType("IHTML" + source.Name,
 										   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
@@ -403,12 +412,28 @@ namespace jsc.meta.Commands.Rewrite
 
 									IHTMLElementCoTypes[t] = t_element;
 
+
+									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+
+
+									#region copy constructors
+									foreach (var kk in source.GetConstructors(
+										BindingFlags.DeclaredOnly |
+										BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+									{
+										var km = r.ExternalContext.ConstructorCache[kk];
+									}
+									#endregion
+
 									#region copy methods
 									foreach (var kk in source.GetMethods(
 										BindingFlags.DeclaredOnly |
 										BindingFlags.Public | BindingFlags.Instance))
 									{
-										if (kk.IsVirtual)
+										// for now we support delegates and strings
+										if (!kk.GetSignatureTypes().All(
+											kkk => kkk == typeof(void) || kkk == typeof(string) || typeof(Delegate).IsAssignableFrom(kkk)
+										))
 											continue;
 
 										var km = r.ExternalContext.MethodCache[kk];
@@ -456,10 +481,11 @@ namespace jsc.meta.Commands.Rewrite
 
 
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
-									var DeclaringTypeCoType = IHTMLElementCoTypes[DeclaringType];
+									var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
 
 									var IsEventMethod = source.ReturnType == typeof(void) && source.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(source.GetParameterTypes()[0]);
 
+									var source_Attributes = source.Attributes | MethodAttributes.NewSlot | MethodAttributes.Final;
 
 
 									#region DeclaringTypeCoTypeMethod
@@ -469,7 +495,9 @@ namespace jsc.meta.Commands.Rewrite
 										// from string to event
 										(IsEventMethod && c.IsJava ? ExternalInterfacePrefix : "") + source.Name,
 
-										source.Attributes, source.CallingConvention, source.ReturnType,
+										source_Attributes, 
+										source.CallingConvention, 
+										source.ReturnType,
 										Enumerable.ToArray(
 											from ParameterType in source.GetParameterTypes()
 											// add and remove events
@@ -490,7 +518,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									var DeclaringTypeMethod = DeclaringType.DefineMethod(
 										source.Name,
-										source.Attributes,
+										source_Attributes,
 										source.CallingConvention,
 										source.ReturnType,
 
@@ -511,7 +539,7 @@ namespace jsc.meta.Commands.Rewrite
 											if (source.Name.StartsWith("add_"))
 											{
 												// we need a closure!
-
+												#region Closure
 												var Closure = DeclaringType.DefineNestedType("<>" + source.Name, TypeAttributes.NestedPrivate | TypeAttributes.Sealed);
 												var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
 												var Closure_this = Closure.DefineField("<>this", DeclaringType, FieldAttributes.Public);
@@ -587,6 +615,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 												il.Emit(OpCodes.Ret);
+												#endregion
 
 											}
 											else
@@ -630,30 +659,7 @@ namespace jsc.meta.Commands.Rewrite
 							var c = targets.SingleOrDefault(kk => kk.TargetType == source.DeclaringType);
 
 							if (c != null)
-								if (c.IsActionScript)
-								{
-									#region WriteInitialization_ActionScriptInternalElement
-									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
-
-
-									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
-
-									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
-
-									var il = ctor.GetILGenerator();
-
-									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Call,
-										r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
-									);
-
-									WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement);
-
-
-									r.ExternalContext.ConstructorCache[source] = ctor;
-									#endregion
-								}
-								else if (c.IsJava)
+								if (c.IsActionScript || c.IsJava)
 								{
 									#region WriteInitialization_JavaInternalElement
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
@@ -674,11 +680,23 @@ namespace jsc.meta.Commands.Rewrite
 										r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
 									);
 
-									WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
-										__SetElementLoaded,
-										__AfterElementLoaded
+									if (c.IsActionScript)
+									{
+										WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
+											__SetElementLoaded,
+											__AfterElementLoaded
 										);
 
+									}
+
+									if (c.IsJava)
+									{
+										WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
+											__SetElementLoaded,
+											__AfterElementLoaded
+										);
+
+									}
 
 									r.ExternalContext.ConstructorCache[source] = ctor;
 									#endregion

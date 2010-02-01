@@ -26,10 +26,10 @@ namespace jsc.meta.Commands.Rewrite
 		public const string ExternalInterfacePrefix = "__ExternalInterfacePrefix_";
 
 		private void WriteInitialization_JavaInternalElement(
-			ILGenerator il, 
-			Type proxy, 
-			Type context, 
-			ScriptApplicationEntryPointAttribute entry, 
+			ILGenerator il,
+			Type proxy,
+			Type context,
+			ScriptApplicationEntryPointAttribute entry,
 			FieldBuilder __InternalElement,
 			MethodInfo __SetElementLoaded,
 			MethodInfo __AfterElementLoaded
@@ -117,18 +117,27 @@ namespace jsc.meta.Commands.Rewrite
 			Implementation1.Method.EmitTo(il, il_a);
 		}
 
-		private void WriteInitialization_ActionScriptInternalElement(ILGenerator il, Type proxy, Type context, ScriptApplicationEntryPointAttribute entry, FieldInfo __InternalElement)
+		private void WriteInitialization_ActionScriptInternalElement(
+			ILGenerator il,
+			Type proxy,
+			Type context,
+			ScriptApplicationEntryPointAttribute entry,
+			FieldInfo __InternalElement,
+			MethodInfo __SetElementLoaded,
+			MethodInfo __AfterElementLoaded
+			)
 		{
 			const string src = @"assets/Ultra1.UltraApplication/UltraSprite.swf";
 			const string type = "application/x-shockwave-flash";
-
+			const int width = 4001;
+			const int height = 4002;
 			// http://kb2.adobe.com/cps/164/tn_16494.html
 			// http://stackoverflow.com/questions/2154931/how-to-call-dynamically-created-flash-external-interface-in-ie-from-javascript
 
 			Action Implementation1 =
 				delegate
 				{
-					var o = default(IHTMLEmbed);
+					var o = new IHTMLEmbed();
 					//var id = "__embed_" + new Random().Next();
 
 					// good luck getting it to work with ID :)
@@ -139,39 +148,41 @@ namespace jsc.meta.Commands.Rewrite
 					//);
 
 
-					if (o == null)
-					{
-						o = new IHTMLEmbed();
-
-						// http://www.bobbyvandersluis.com/ufo/index.html
-						// for IE we might need to consider setting innerHTML
-						// as we do already in scriptcorelib for some elements IHTMLInput
-
-						o.type = type;
-
-						// http://perishablepress.com/press/2007/04/17/embed-flash-or-die-trying/
-						// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
-						// http://developer.yahoo.com/ylive/flash_js_api/
-						// http://www.extremefx.com.ar/blog/fixing-flash-external-interface-inside-form-on-internet-explorer
-						// http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
+					//if (o == null)
+					//{
 
 
-						// do we need id and names? for IE?
-						//o.id = id;
-						//o.name = id;
+					// http://www.bobbyvandersluis.com/ufo/index.html
+					// for IE we might need to consider setting innerHTML
+					// as we do already in scriptcorelib for some elements IHTMLInput
+
+					o.type = type;
+
+					// http://perishablepress.com/press/2007/04/17/embed-flash-or-die-trying/
+					// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
+					// http://developer.yahoo.com/ylive/flash_js_api/
+					// http://www.extremefx.com.ar/blog/fixing-flash-external-interface-inside-form-on-internet-explorer
+					// http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
+
+
+					// do we need id and names? for IE?
+					//o.id = id;
+					//o.name = id;
 
 
 
-						o.setAttribute("allowFullScreen", "true");
-						o.setAttribute("allowNetworking", "all");
-						o.setAttribute("allowScriptAccess", "always");
+					o.setAttribute("allowFullScreen", "true");
+					o.setAttribute("allowNetworking", "all");
+					o.setAttribute("allowScriptAccess", "always");
 
-						// we need Ldc_I4
-						o.width = 4001;
-						o.height = 4002;
+					// we need Ldc_I4
+					o.width = 4001;
+					o.height = 4002;
 
-						o.src = src;
-					}
+					o.src = src;
+
+					o.onload += null;
+					//}
 				};
 
 			var il_a = new ILTranslationExtensions.EmitToArguments();
@@ -182,13 +193,13 @@ namespace jsc.meta.Commands.Rewrite
 			il_a[OpCodes.Ldc_I4] =
 				e =>
 				{
-					if (e.i.TargetInteger == 4001)
+					if (e.i.TargetInteger == width)
 					{
 						il.Emit(OpCodes.Ldc_I4, entry.Width);
 						return;
 					}
 
-					if (e.i.TargetInteger == 4002)
+					if (e.i.TargetInteger == height)
 					{
 						il.Emit(OpCodes.Ldc_I4, entry.Height);
 						return;
@@ -217,6 +228,16 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ldloc_0);
 					il.Emit(OpCodes.Stfld, __InternalElement);
 					il.Emit(OpCodes.Ret);
+				};
+
+
+			il_a[OpCodes.Ldnull] =
+				e =>
+				{
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldftn, __SetElementLoaded);
+					il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+
 				};
 
 			Implementation1.Method.EmitTo(il, il_a);
@@ -286,13 +307,13 @@ namespace jsc.meta.Commands.Rewrite
 
 			var il = __InitializeExternalInterface.GetILGenerator();
 
+			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[((Action)InternalActionScriptToJavascriptBridge.ExternalInterface_isActive).Method]);
+
 			Action Implementation1 =
 				delegate
 				{
-					ExternalInterface.addCallback("event", new Action(Console.WriteLine).ToFunction());
+					ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};
-
-
 
 			foreach (var kk in TargetType.GetMethods(
 				BindingFlags.DeclaredOnly |

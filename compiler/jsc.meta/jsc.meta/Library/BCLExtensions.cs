@@ -31,5 +31,11 @@ namespace jsc.meta.Library
 		{
 			return e.GetParameters().Select(k => k.ParameterType).ToArray();
 		}
+
+		public static Type[] GetSignatureTypes(this MethodInfo e)
+		{
+			return e.GetParameters().Select(k => k.ParameterType).Concat(new[] { e.ReturnType }).ToArray();
+		}
+
 	}
 }

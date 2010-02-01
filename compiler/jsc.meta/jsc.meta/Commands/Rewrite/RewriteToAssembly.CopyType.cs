@@ -28,7 +28,9 @@ namespace jsc.meta.Commands.Rewrite
 			Func<string, string> FullNameFixup,
 			Action<TypeBuilder> PostTypeRewrite)
 		{
-			var BaseType = TypeCache[source.BaseType];
+			// interfaces dont have base types!
+			var BaseType = source.BaseType == null ? null : TypeCache[source.BaseType];
+
 			var _DeclaringType = (OverrideDeclaringType ?? (
 
 				source.DeclaringType == null ? null :
@@ -43,7 +45,12 @@ namespace jsc.meta.Commands.Rewrite
 
 			var t = default(TypeBuilder);
 
-			var _Interfaces = source.GetInterfaces().Where(k => k.IsPublic || ShouldCopyType(k)).Select(k => TypeCache[k]).ToArray();
+			var _Interfaces = source.GetInterfaces() /*.Where(k => ShouldCopyType(k)) */ .Select(
+				k => TypeCache[k]
+				//k => k
+			).ToArray();
+
+	
 
 			// we might define as a nested type instead!
 			if (source.IsNested)
@@ -53,7 +60,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-				if (source.StructLayoutAttribute.Size > 0)
+				if (source.StructLayoutAttribute != null && source.StructLayoutAttribute.Size > 0)
 				{
 					t = _DeclaringType.DefineNestedType(
 						_NestedTypeName,
@@ -97,10 +104,13 @@ namespace jsc.meta.Commands.Rewrite
 
 			CopyTypeMembers(source, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
 
+			
+
 			if (PostTypeRewrite != null)
 				PostTypeRewrite(t);
 
 			t.CreateType();
+
 		}
 
 		internal static void CopyTypeMembers(Type source, VirtualDictionary<Type, Type> TypeCache, VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, VirtualDictionary<MethodInfo, MethodInfo> MethodCache, VirtualDictionary<string, string> NameObfuscation, TypeBuilder t)
