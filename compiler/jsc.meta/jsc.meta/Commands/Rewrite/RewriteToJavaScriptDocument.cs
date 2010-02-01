@@ -431,9 +431,7 @@ namespace jsc.meta.Commands.Rewrite
 										BindingFlags.Public | BindingFlags.Instance))
 									{
 										// for now we support delegates and strings
-										if (!kk.GetSignatureTypes().All(
-											kkk => kkk == typeof(void) || kkk == typeof(string) || typeof(Delegate).IsAssignableFrom(kkk)
-										))
+										if (!SignatureTypesSupportedForProxy(kk))
 											continue;
 
 										var km = r.ExternalContext.MethodCache[kk];
@@ -728,6 +726,13 @@ namespace jsc.meta.Commands.Rewrite
 					r.Output.ToJavaScript();
 				}
 			}
+		}
+
+		private static bool SignatureTypesSupportedForProxy(MethodInfo kk)
+		{
+			return kk.GetSignatureTypes().All(
+														kkk => kkk == typeof(void) || kkk == typeof(string) || typeof(Delegate).IsAssignableFrom(kkk)
+													);
 		}
 
 		private static ScriptApplicationEntryPointAttribute InferScriptApplicationEntryPoint(Type TargetType)

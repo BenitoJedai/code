@@ -14,7 +14,7 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-		// todo: generics and opcodes.leave need to be fixed!
+		// todo: generics, interfaces, and opcodes.leave need to be fixed!
 
 		public string product;
 

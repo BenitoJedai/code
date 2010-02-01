@@ -255,7 +255,7 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.Instance))
 			{
-				if (kk.IsVirtual)
+				if (!SignatureTypesSupportedForProxy(kk))
 					continue;
 
 				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
