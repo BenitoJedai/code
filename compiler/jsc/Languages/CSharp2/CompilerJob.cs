@@ -24,7 +24,7 @@ namespace jsc.Languages
 
 			//sinfo.Logging.LogMessage("loading types");
 
-			Type[] alltypes = CompilerJob.LoadTypes(
+			Type[] alltypes = CompilerJob.LoadTypesFromReferencedAssemblies(
 				ScriptType.CSharp2, 
 				Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)
 			);

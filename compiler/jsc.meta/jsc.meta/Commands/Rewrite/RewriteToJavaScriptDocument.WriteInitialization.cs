@@ -25,10 +25,20 @@ namespace jsc.meta.Commands.Rewrite
 	{
 		public const string ExternalInterfacePrefix = "__ExternalInterfacePrefix_";
 
-		private void WriteInitialization_JavaInternalElement(ILGenerator il, Type proxy, Type context, ScriptApplicationEntryPointAttribute entry, FieldBuilder __InternalElement)
+		private void WriteInitialization_JavaInternalElement(
+			ILGenerator il, 
+			Type proxy, 
+			Type context, 
+			ScriptApplicationEntryPointAttribute entry, 
+			FieldBuilder __InternalElement,
+			MethodInfo __SetElementLoaded,
+			MethodInfo __AfterElementLoaded
+			)
 		{
 			const string archive = "assets/Ultra1.UltraApplication/UltraApplet.jar";
 			const string code = "Ultra1.UltraApplet";
+			const int width = 4001;
+			const int height = 4002;
 
 			Action Implementation1 =
 				delegate
@@ -43,22 +53,30 @@ namespace jsc.meta.Commands.Rewrite
 					o.mayscript = true;
 					o.setAttribute("scriptable", "true");
 					o.code = code;
-					o.width = 4;
-					o.height = 5;
+					o.width = width;
+					o.height = height;
+
+					o.onload += null;
 				};
 
 			var il_a = new ILTranslationExtensions.EmitToArguments();
 
-			il_a[OpCodes.Ldc_I4_4] =
+			il_a[OpCodes.Ldc_I4] =
 				e =>
 				{
-					il.Emit(OpCodes.Ldc_I4, entry.Width);
-				};
+					if (e.i.TargetInteger == width)
+					{
+						il.Emit(OpCodes.Ldc_I4, entry.Width);
+						return;
+					}
 
-			il_a[OpCodes.Ldc_I4_5] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldc_I4, entry.Height);
+					if (e.i.TargetInteger == height)
+					{
+						il.Emit(OpCodes.Ldc_I4, entry.Height);
+						return;
+					}
+
+					e.Default();
 				};
 
 			il_a[OpCodes.Ldstr] =
@@ -85,6 +103,15 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ldloc_0);
 					il.Emit(OpCodes.Stfld, __InternalElement);
 					il.Emit(OpCodes.Ret);
+				};
+
+			il_a[OpCodes.Ldnull] =
+				e =>
+				{
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldftn, __SetElementLoaded);
+					il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+
 				};
 
 			Implementation1.Method.EmitTo(il, il_a);

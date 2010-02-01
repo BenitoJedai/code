@@ -25,6 +25,8 @@ namespace jsc.meta.Commands.Reference
 	[Description("Injecting javascript into HTML has never been that easy!")]
 	public class ReferenceJavaScriptDocument
 	{
+		// todo: Add (object Tag) fields to the pages!
+
 		// trivia: in fact we are referencing HTML to convert it to javascript.
 
 		// http://www.technospot.net/blogs/convert-html-to-javascript-dom-online-tool/

@@ -41,7 +41,7 @@ namespace jsc.Languages
 
 			sinfo.Logging.LogMessage("loading types");
 
-			Type[] alltypes = CompilerJob.LoadTypes(ScriptType.Java, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+			Type[] alltypes = CompilerJob.LoadTypesFromReferencedAssemblies(ScriptType.Java, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
 
 
 			xw.Session.Types = JustMyCodeFilter(sinfo.Options.JustMyCode, alltypes, j.AssamblyInfo);

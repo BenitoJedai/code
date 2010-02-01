@@ -550,7 +550,7 @@ namespace ScriptCoreLib
 
 
 
-						if (z.IsEnum /* || IsCompilerGenerated(z) */)
+						if (z.IsEnum || IsCompilerGenerated(z))
 						{
 							if (IsNestedTypeOfScriptType(z))
 							{

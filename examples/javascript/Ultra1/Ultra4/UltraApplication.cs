@@ -13,6 +13,8 @@ using ScriptCoreLib.ActionScript.Extensions;
 using java.awt;
 using ScriptCoreLib.JavaScript.DOM;
 using System.ComponentModel;
+using java.awt.@event;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace Ultra4
 {
@@ -26,13 +28,55 @@ namespace Ultra4
 			public const int DefaultWidth = 500;
 			public const int DefaultHeight = 400;
 
+			public class __MouseListener : MouseListener
+			{
+				public event Action Clicked;
+
+				#region MouseListener Members
+
+				public void mouseClicked(MouseEvent e)
+				{
+					if (Clicked != null)
+						Clicked();
+				}
+
+				public void mouseEntered(MouseEvent e)
+				{
+				}
+
+				public void mouseExited(MouseEvent e)
+				{
+				}
+
+				public void mousePressed(MouseEvent e)
+				{
+				}
+
+				public void mouseReleased(MouseEvent e)
+				{
+				}
+
+				#endregion
+			}
 
 			public override void init()
 			{
 				base.resize(DefaultWidth, DefaultHeight);
 				// creating the java applet
 
+				var c = new __MouseListener();
+
+				c.Clicked +=
+					delegate
+					{
+						if (Clicked != null)
+							Clicked();
+					};
+
+				this.addMouseListener(c);
 			}
+
+			public event Action Clicked;
 
 			static Color GetBlue(double b)
 			{
@@ -53,6 +97,18 @@ namespace Ultra4
 
 					g.setColor(GetBlue(1 - (double)i / (double)h));
 					g.drawLine(0, i, w, i);
+				}
+			}
+
+			public event Action MyLoaded
+			{
+				add
+				{
+					value();
+				}
+				remove
+				{
+
 				}
 			}
 		}
@@ -104,18 +160,37 @@ namespace Ultra4
 			}
 
 			{
-				var x = new IHTMLButton("create UltraApplet proxied");
+				var x = new IHTMLButton("create UltraApplet 1");
 
 				x.AttachToDocument();
 
 				x.onclick +=
 					delegate
 					{
+						x.style.color = JSColor.Red;
+
+
 						var o = new UltraApplet();
+
+						// adding new method means you need to restart JVM
+						o.MyLoaded +=
+							delegate
+							{
+								x.style.color = JSColor.Blue;
+							};
+
+						// it better be loaded by now!!
+						o.Clicked +=
+							delegate
+							{
+								Native.Window.alert("clicked");
+							};
 
 						o.AttachAppletToDocument();
 					};
 			}
+
+			
 
 		}
 

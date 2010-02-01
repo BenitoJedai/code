@@ -371,13 +371,14 @@ namespace jsc.meta.Commands.Rewrite
 									// create DOM object
 									// implicit operator?
 
+									#region copy constructors
 									foreach (var kk in source.GetConstructors(
 										BindingFlags.DeclaredOnly |
 										BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 									{
 										var km = r.ExternalContext.ConstructorCache[kk];
 									}
-
+									#endregion
 
 
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
@@ -402,6 +403,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									IHTMLElementCoTypes[t] = t_element;
 
+									#region copy methods
 									foreach (var kk in source.GetMethods(
 										BindingFlags.DeclaredOnly |
 										BindingFlags.Public | BindingFlags.Instance))
@@ -411,6 +413,7 @@ namespace jsc.meta.Commands.Rewrite
 
 										var km = r.ExternalContext.MethodCache[kk];
 									}
+									#endregion
 
 									t_element.CreateType();
 
@@ -449,6 +452,7 @@ namespace jsc.meta.Commands.Rewrite
 								{
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 									var CombineDelegates = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("CombineDelegates")];
+									var __AfterElementLoaded = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("__AfterElementLoaded", BindingFlags.Instance | BindingFlags.NonPublic)];
 
 
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
@@ -506,25 +510,83 @@ namespace jsc.meta.Commands.Rewrite
 										{
 											if (source.Name.StartsWith("add_"))
 											{
+												// we need a closure!
+
+												var Closure = DeclaringType.DefineNestedType("<>" + source.Name, TypeAttributes.NestedPrivate | TypeAttributes.Sealed);
+												var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
+												var Closure_this = Closure.DefineField("<>this", DeclaringType, FieldAttributes.Public);
+												var Closure_value = Closure.DefineField("<>value", r.RewriteArguments.context.TypeCache[source.GetParameterTypes().Single()], FieldAttributes.Public);
+
+
+												var Closure_Invoke = Closure.DefineMethod(
+													"Invoke",
+													MethodAttributes.Public,
+													CallingConventions.Standard,
+													typeof(void),
+													new Type[0]
+												);
+
+												var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
+
 												#region     ((IHTMLUltraSprite) base.__InternalElement).add_event1(base.CombineDelegates("event1", value));
 
-												il.Emit(OpCodes.Ldarg_0);
-												il.Emit(OpCodes.Ldfld, __InternalElement);
-												il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
+												var Closure_Invoke_il_this = Closure_Invoke_il.DeclareLocal(DeclaringType);
 
+												Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
+												Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_this);
+												Closure_Invoke_il.Emit(OpCodes.Stloc_0);
 
-												il.Emit(OpCodes.Ldarg_0);
-
-												il.Emit(OpCodes.Ldstr, source.Name.Substring(4));
-												il.Emit(OpCodes.Ldarg_1);
-
-												il.Emit(OpCodes.Call, CombineDelegates);
-
-												il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
-
-												il.Emit(OpCodes.Ret);
+												#region loc.__InternalElement
+												Closure_Invoke_il.Emit(OpCodes.Ldloc_0);
+												Closure_Invoke_il.Emit(OpCodes.Ldfld, __InternalElement);
+												Closure_Invoke_il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
 												#endregion
 
+												#region add_event1
+												Closure_Invoke_il.Emit(OpCodes.Ldloc_0);
+
+												Closure_Invoke_il.Emit(OpCodes.Ldstr, source.Name.Substring(4));
+
+												Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
+												Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_value);
+
+												Closure_Invoke_il.Emit(OpCodes.Call, CombineDelegates);
+
+												Closure_Invoke_il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+												#endregion
+
+
+												Closure_Invoke_il.Emit(OpCodes.Ret);
+
+												#endregion
+
+
+												Closure.CreateType();
+
+												il.DeclareLocal(Closure);
+
+												il.Emit(OpCodes.Newobj, Closure_ctor);
+												il.Emit(OpCodes.Stloc_0);
+
+												il.Emit(OpCodes.Ldloc_0);
+												il.Emit(OpCodes.Ldarg_0);
+												il.Emit(OpCodes.Stfld, Closure_this);
+
+												il.Emit(OpCodes.Ldloc_0);
+												il.Emit(OpCodes.Ldarg_1);
+												il.Emit(OpCodes.Stfld, Closure_value);
+
+												il.Emit(OpCodes.Ldarg_0);
+
+												il.Emit(OpCodes.Ldloc_0);
+												il.Emit(OpCodes.Ldftn, Closure_Invoke);
+
+												il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+
+												il.Emit(OpCodes.Call, __AfterElementLoaded);
+
+
+												il.Emit(OpCodes.Ret);
 
 											}
 											else
@@ -580,6 +642,10 @@ namespace jsc.meta.Commands.Rewrite
 
 									var il = ctor.GetILGenerator();
 
+									il.Emit(OpCodes.Ldarg_0);
+									il.Emit(OpCodes.Call,
+										r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
+									);
 
 									WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement);
 
@@ -592,15 +658,26 @@ namespace jsc.meta.Commands.Rewrite
 									#region WriteInitialization_JavaInternalElement
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
 
+									// we need an instance :)
 
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+									var __SetElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__SetElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
+									var __AfterElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__AfterElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
+
 
 									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
 
 									var il = ctor.GetILGenerator();
 
+									il.Emit(OpCodes.Ldarg_0);
+									il.Emit(OpCodes.Call,
+										r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
+									);
 
-									WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement);
+									WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
+										__SetElementLoaded,
+										__AfterElementLoaded
+										);
 
 
 									r.ExternalContext.ConstructorCache[source] = ctor;

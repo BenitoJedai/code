@@ -133,6 +133,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 		public static void SpawnTo(this Type alias, Action<IHTMLElement> h)
 		{
+			// note: this method is used by jsc.meta
+
 			ScriptCoreLib.JavaScript.Native.Spawn(alias.Name, i => h(i));
 		}
 

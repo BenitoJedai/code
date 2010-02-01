@@ -548,7 +548,7 @@ namespace jsc
 				}
 			}
 
-			Debugger.Break();
+			throw new NotSupportedException("current OpCodes.Leave cannot be understood");
 		}
 
 		static void OpCode_ret(IdentWriter w, ilbp p, ili i, ilfsi[] s)

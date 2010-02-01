@@ -1,17 +1,17 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
+using System.Text;
+using ScriptCoreLib;
+using ScriptCoreLib.CSharp.Extensions;
+using System.Linq;
+using jsc.Script;
 
 namespace jsc.Languages
 {
-    using ScriptCoreLib;
 
-    using Languages;
-    using Script;
-	using ScriptCoreLib.CSharp.Extensions;
 
     public partial class CompilerJob
     {
@@ -58,7 +58,9 @@ namespace jsc.Languages
 
             //sinfo.Logging.LogMessage("loading types");
 
-			Type[] alltypes = CompilerJob.LoadTypes(ScriptType.ActionScript, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)); 
+			Type[] alltypes = CompilerJob.LoadTypesFromReferencedAssemblies(ScriptType.ActionScript, Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName));
+
+			var __CommonExtensions = alltypes.Where(k => k.FullName.Contains("CommonExtensions")).ToArray();
 
 
             xw.Session.Types = /*JustMyCodeFilter(sinfo.Options.JustMyCode,*/ alltypes/*, j.AssamblyInfo)*/;
