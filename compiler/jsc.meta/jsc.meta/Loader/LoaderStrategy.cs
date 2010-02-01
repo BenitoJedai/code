@@ -30,6 +30,7 @@ namespace jsc.meta.Loader
 			Program.Main(args);
 		}
 
+		public static readonly List<DirectoryInfo> Hints = new List<DirectoryInfo>();
 
 		static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
@@ -46,11 +47,28 @@ namespace jsc.meta.Loader
 
 			if (!lib.Exists)
 				lib = new DirectoryInfo(@"c:\util\jsc\lib");
+			var r = new AssemblyName(args.Name);
 
+			foreach (var item in Hints)
+			{
+				
+				var lib_dll = Path.Combine(item.FullName, r.Name + ".dll");
+				if (File.Exists(lib_dll))
+				{
+					return Assembly.LoadFile(lib_dll);
+				}
+
+				var lib_exe = Path.Combine(item.FullName, r.Name + ".exe");
+				if (File.Exists(lib_exe))
+				{
+					return Assembly.LoadFile(lib_exe);
+				}
+			}
 
 			if (lib.Exists)
 			{
-				var r = new AssemblyName(args.Name);
+				// why return null?
+
 				if (File.Exists(Path.Combine(bin.FullName, r.Name + ".dll")))
 					return null;
 

@@ -30,6 +30,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		#endregion
 
+		#region event onload hack
+
 		#region event onload
 		public event Action onload
 		{
@@ -41,6 +43,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			[Script(DefineAsStatic = true)]
 			add
 			{
+				//Native.Window.alert("add_onload!");
+
 				__onload.CombineDelegate(this, value);
 			}
 			[Script(DefineAsStatic = true)]
@@ -65,6 +69,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		[Script]
 		internal static class __onload
 		{
+			// will HTML5 enable a more nicer solution?
+
 			internal static void CombineDelegate(IHTMLApplet a, Action value)
 			{
 				new Timer(
@@ -112,5 +118,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 				}
 			}
 		}
+		#endregion
+
 	}
 }
