@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra5", "Ultra5\Ultra5.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonExampleGallery", "..\..\actionscript\AvalonExampleGallery\AvalonExampleGallery.csproj", "{D160982B-399A-43E6-9059-46C829A9052A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultra6", "Ultra6\Ultra6.csproj", "{6F17CA90-1DD0-4B05-8AAF-ADB82B7BDA8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{D160982B-399A-43E6-9059-46C829A9052A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D160982B-399A-43E6-9059-46C829A9052A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D160982B-399A-43E6-9059-46C829A9052A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F17CA90-1DD0-4B05-8AAF-ADB82B7BDA8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F17CA90-1DD0-4B05-8AAF-ADB82B7BDA8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F17CA90-1DD0-4B05-8AAF-ADB82B7BDA8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F17CA90-1DD0-4B05-8AAF-ADB82B7BDA8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

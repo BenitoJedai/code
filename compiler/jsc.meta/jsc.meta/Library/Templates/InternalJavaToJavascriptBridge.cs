@@ -7,9 +7,12 @@ using java.applet;
 
 namespace jsc.meta.Library.Templates
 {
-	internal class InternalJavaToJavascriptBridge
+	internal class InternalJavaToJavaScriptBridge
 	{
-
+		public static object ExternalInterface_Invoke(object context, object[] arguments)
+		{
+			return null;
+		}
 
 		public static object Invoke(Applet a, string method, object[] args)
 		{

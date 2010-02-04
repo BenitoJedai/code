@@ -109,24 +109,25 @@ namespace jsc.meta.Commands.Rewrite
 		public Type[] PrimaryTypes = new Type[0];
 
 
-		public class PostRewriteArguments
+		public class AssemblyRewriteArguments
 		{
 			public jsc.Languages.IL.ILTranslationContext context;
 			public ModuleBuilder Module;
 			public AssemblyBuilder Assembly;
 		}
 
-		public Action<PostRewriteArguments> PostRewrite;
-		public Action<PostRewriteArguments> PreRewrite;
+		public Action<AssemblyRewriteArguments> PostRewrite;
+		public Action<AssemblyRewriteArguments> PreRewrite;
 
 
-		public class PostTypeRewriteArguments : PostRewriteArguments
+		public class TypeRewriteArguments : AssemblyRewriteArguments
 		{
 			public Type SourceType;
 			public TypeBuilder Type;
 		}
 
-		public Action<PostTypeRewriteArguments> PostTypeRewrite;
+		public Action<TypeRewriteArguments> PostTypeRewrite;
+		public Action<TypeRewriteArguments> PreTypeRewrite;
 
 		public Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride;
 
@@ -231,7 +232,7 @@ namespace jsc.meta.Commands.Rewrite
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
 
 			#region ExternalContext defaults...
-			this.ExternalContext.TypeCache.Resolve += 
+			this.ExternalContext.TypeCache.Resolve +=
 				source =>
 				{
 					if (this.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
@@ -262,7 +263,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			#endregion
 
-			this.RewriteArguments = new PostRewriteArguments
+			this.RewriteArguments = new AssemblyRewriteArguments
 					{
 						Assembly = a,
 						Module = m,
@@ -377,25 +378,52 @@ namespace jsc.meta.Commands.Rewrite
 
 					if (ShouldCopyType(ContextType))
 					{
-						CopyType(source, a, m, TypeCache, TypeFieldsCache, ConstructorCache, MethodCache, null, NameObfuscation, ShouldCopyType, FullNameFixup,
+						CopyType(
+							source, a, m,
+							TypeCache, TypeFieldsCache, ConstructorCache, MethodCache,
+							null,
+							NameObfuscation,
+							ShouldCopyType,
+							FullNameFixup,
 
-							t =>
-							{
+							 t =>
+							 {
+								 #region PostTypeRewrite
+								 if (PostTypeRewrite != null)
+									 PostTypeRewrite(
+										 new TypeRewriteArguments
+										 {
+											 SourceType = source,
+											 Type = t,
+											 Assembly = a,
+											 Module = m,
 
-								if (PostTypeRewrite != null)
-									PostTypeRewrite(
-										new PostTypeRewriteArguments
-										{
-											SourceType = source,
-											Type = t,
-											Assembly = a,
-											Module = m,
+											 context = this.RewriteArguments.context
+										 }
+									 );
+								 #endregion
+							 }
+							,
 
-											context = this.RewriteArguments.context
-										}
-									);
 
-							}
+							 t =>
+							 {
+								 #region PreTypeRewrite
+								 if (PreTypeRewrite != null)
+									 PreTypeRewrite(
+										 new TypeRewriteArguments
+										 {
+											 SourceType = source,
+											 Type = t,
+											 Assembly = a,
+											 Module = m,
+
+											 context = this.RewriteArguments.context
+										 }
+									 );
+								 #endregion
+
+							 }
 
 						);
 
@@ -438,14 +466,14 @@ namespace jsc.meta.Commands.Rewrite
 			return t.Assembly.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "merge");
 		}
 
-	
 
-		public PostRewriteArguments RewriteArguments { get; private set; }
+
+		public AssemblyRewriteArguments RewriteArguments { get; private set; }
 
 		private bool ShouldCopyType(Type ContextType)
 		{
-			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly) 
-				|| 
+			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly)
+				||
 				this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name)
 				|| IsMarkedForMerge(ContextType);
 		}

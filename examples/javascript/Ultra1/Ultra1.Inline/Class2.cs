@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript;
+using Ultra1.Common;
 
 namespace Ultra1.Inline
 {
@@ -16,6 +18,18 @@ namespace Ultra1.Inline
 		public static string ToString(string x, string y)
 		{
 			return "[ " + x + "= " + y + " ]";
+		}
+	}
+
+	public static class js_extensions
+	{
+		public static void MessageStatusOnClick(this IUltraPolyglot e)
+		{
+			e.Clicked +=
+				delegate
+				{
+					Native.Window.alert("MessageStatusOnClick: " + e.Status);
+				};
 		}
 	}
 }

@@ -59,11 +59,17 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra5|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_Ultra5\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\jsc.meta.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jsc, Version=3.0.3523.23842, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\jsc.exe</HintPath>
-    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -189,6 +195,7 @@
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteExternalInterface.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.Arguments.cs" />
@@ -201,9 +208,9 @@
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
-    <Compile Include="Library\Templates\InternaActionScriptToJavascriptBridge.cs" />
+    <Compile Include="Library\Templates\InternaActionScriptToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalElementProxy.cs" />
-    <Compile Include="Library\Templates\InternalJavaToJavascriptBridge.cs" />
+    <Compile Include="Library\Templates\InternalJavaToJavaScriptBridge.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\Java\InvokeWebServiceArguments.cs" />
     <Compile Include="Library\Web\SimpleMethodInfo.cs" />
@@ -278,6 +285,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\jsc\jsc.csproj">
+      <Project>{77861F2D-D284-4913-B9E9-D906C7262219}</Project>
+      <Name>jsc</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Library\Analytics\" />

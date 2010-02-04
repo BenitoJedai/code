@@ -26,8 +26,19 @@ namespace jsc.meta.Commands.Rewrite
 		   VirtualDictionary<string, string> NameObfuscation,
 		   Func<Type, bool> ShouldCopyType,
 			Func<string, string> FullNameFixup,
-			Action<TypeBuilder> PostTypeRewrite)
+			Action<TypeBuilder> PostTypeRewrite,
+			Action<TypeBuilder> PreTypeRewrite
+			)
 		{
+			// sanity check
+			if (TypeCache.BaseDictionary.ContainsKey(source))
+				return;
+
+			//Console.WriteLine("CopyType: " + source.FullName);
+
+			// we should not reenter here!
+			TypeCache[source] = null;
+
 			// interfaces dont have base types!
 			var BaseType = source.BaseType == null ? null : TypeCache[source.BaseType];
 
@@ -39,9 +50,7 @@ namespace jsc.meta.Commands.Rewrite
 				)
 			);
 
-			// sanity check
-			if (TypeCache.BaseDictionary.ContainsKey(source))
-				return;
+		
 
 			var t = default(TypeBuilder);
 
@@ -102,12 +111,20 @@ namespace jsc.meta.Commands.Rewrite
 
 			TypeCache[source] = t;
 
+			
+			if (PreTypeRewrite != null)
+				PreTypeRewrite(t);
+
 			CopyTypeMembers(source, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
 
 			
 
 			if (PostTypeRewrite != null)
 				PostTypeRewrite(t);
+
+			// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
+
+			//Console.WriteLine("CreateType: " + source.FullName);
 
 			t.CreateType();
 

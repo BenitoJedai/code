@@ -38,7 +38,7 @@ namespace jsc.meta.Commands.Rewrite
 			}
 		}
 
-		private void InjectJavaScriptBootstrap(RewriteToAssembly.PostTypeRewriteArguments a)
+		private void InjectJavaScriptBootstrap(RewriteToAssembly.TypeRewriteArguments a)
 		{
 			// would be nice to have simpler copy API!:D
 

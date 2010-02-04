@@ -30,6 +30,6 @@ namespace jsc.meta.Commands.Rewrite
 
 		public DirectoryInfo javapath;
 
-
+		public bool IsRewriteOnly;
 	}
 }

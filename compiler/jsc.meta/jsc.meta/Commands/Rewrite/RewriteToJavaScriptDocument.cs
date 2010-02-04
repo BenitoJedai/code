@@ -4,20 +4,20 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using java.applet;
+using jsc.Languages.IL;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates;
+using jsc.meta.Tools;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using jsc.meta.Tools;
-using System.Reflection.Emit;
-using jsc.Languages.IL;
-using jsc.meta.Library.Templates;
-using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.ActionScript;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -110,6 +110,24 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 
 
+					PreTypeRewrite =
+						a =>
+						{
+							if (a.Type == a.context.TypeCache[k.TargetType])
+							{
+								// so where are we?
+
+								if (k.IsActionScript)
+								{
+									WriteExternalInterface(k.TargetType, a, r, InternalActionScriptToJavaScriptBridge.ExternalInterface_Invoke);
+								}
+
+								if (k.IsJava)
+								{
+									WriteExternalInterface(k.TargetType, a, r, InternalJavaToJavaScriptBridge.ExternalInterface_Invoke);
+								}
+							}
+						},
 
 					#region PostTypeRewrite
 					PostTypeRewrite =
@@ -132,6 +150,7 @@ namespace jsc.meta.Commands.Rewrite
 									WriteInitialization_JavaExternalInterface(r, a, k.TargetType);
 								}
 
+								#region we need to inject entrypoint attributes
 								if (null == k.TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault())
 								{
 									// we have to manually add it now...
@@ -156,6 +175,8 @@ namespace jsc.meta.Commands.Rewrite
 										}
 									}
 								}
+								#endregion
+
 
 							}
 						},
@@ -183,10 +204,16 @@ namespace jsc.meta.Commands.Rewrite
 								// javascript will embed objects
 								// as it can create them
 
+								// the file is not expeced to be there..
+								if (IsRewriteOnly)
+									return;
+
 								foreach (var asset in from kk in targets where !kk.IsJavaScript select kk)
 								{
 									if (!File.Exists(asset.Product))
+									{
 										throw new FileNotFoundException("", asset.Product);
+									}
 
 									a.Module.DefineManifestResource(k.TargetType + ".web.assets." + k.TargetType.FullName + "." + Path.GetFileName(asset.Product),
 										new MemoryStream(File.ReadAllBytes(asset.Product))
@@ -280,6 +307,8 @@ namespace jsc.meta.Commands.Rewrite
 									// basically flash could subscribe to events in
 									// javascript!
 
+									// atleast we need to define a nested type declaring type...
+
 									var t = r.RewriteArguments.Module.DefineType(source.FullName,
 										source.Attributes,
 
@@ -352,7 +381,7 @@ namespace jsc.meta.Commands.Rewrite
 									// we have to generate a proxy!
 
 									var Interfaces = Enumerable.ToArray(
-										
+
 										from y in source.GetInterfaces()
 
 										let ym = source.GetInterfaceMap(y)
@@ -493,8 +522,8 @@ namespace jsc.meta.Commands.Rewrite
 										// from string to event
 										(IsEventMethod && c.IsJava ? ExternalInterfacePrefix : "") + source.Name,
 
-										source_Attributes, 
-										source.CallingConvention, 
+										source_Attributes,
+										source.CallingConvention,
 										source.ReturnType,
 										Enumerable.ToArray(
 											from ParameterType in source.GetParameterTypes()
@@ -708,7 +737,10 @@ namespace jsc.meta.Commands.Rewrite
 
 				r.Invoke();
 
+				if (IsRewriteOnly)
+					continue;
 
+				#region jsc backend
 				if (k.IsJava)
 				{
 					r.Output.ToJava(this.javapath, null, null, k.TargetType.FullName + ".jar", k.TargetType);
@@ -725,8 +757,12 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					r.Output.ToJavaScript();
 				}
+				#endregion
+
 			}
 		}
+
+
 
 		private static bool SignatureTypesSupportedForProxy(MethodInfo kk)
 		{
