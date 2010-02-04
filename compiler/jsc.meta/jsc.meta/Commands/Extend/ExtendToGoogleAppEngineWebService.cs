@@ -494,7 +494,7 @@ call """ + this.context.appengine + @"\bin\appcfg.cmd"" update www
 			private void RenderOperationPage(
 				ILGenerator il,
 				MethodInfo m,
-				RewriteToAssembly.PostRewriteArguments a,
+				RewriteToAssembly.AssemblyRewriteArguments a,
 				LocalBuilder loc_OperationParameters,
 				LocalBuilder loc_OperationParameter
 				)

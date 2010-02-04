@@ -14,6 +14,10 @@ namespace Ultra1.Common
 		}
 	}
 
+	public interface IUltraData1
+	{
+		string Data1 { get; set; }
+	}
 
 	public interface IUltraPolyglot
 	{
@@ -23,15 +27,7 @@ namespace Ultra1.Common
 		string Status { get; set; }
 	}
 
-	public static class js_extensions
-	{
-		public static void MessageStatusOnClick(this IUltraPolyglot e)
-		{
-			e.Clicked +=
-				delegate
-				{
-					Native.Window.alert("MessageStatusOnClick: " + e.Status);
-				};
-		}
-	}
+	/* this must be in merge module
+
+	*/
 }

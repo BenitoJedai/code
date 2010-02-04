@@ -345,7 +345,7 @@ namespace jsc.meta.Commands.Reference
 				csproj.Save(this.ProjectFileName.FullName);
 		}
 
-		private void DefineInstanceImages(RewriteToAssembly.PostRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
+		private void DefineInstanceImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
 		{
 			#region References
 			var References = Page.DefineProperty("Images", PropertyAttributes.None, typeof(IHTMLImage[]), null);
@@ -400,7 +400,7 @@ namespace jsc.meta.Commands.Reference
 
 		}
 
-		private void DefineStaticImages(RewriteToAssembly.PostRewriteArguments a, TypeBuilder Page, XElement[] i)
+		private void DefineStaticImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, XElement[] i)
 		{
 			if (i == null)
 				throw new ArgumentNullException("i");

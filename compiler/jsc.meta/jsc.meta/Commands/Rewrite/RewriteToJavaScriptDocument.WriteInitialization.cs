@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using java.applet;
+using jsc.Languages.IL;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.external;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using jsc.Languages.IL;
-using System.Reflection.Emit;
-using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.ActionScript.flash.external;
-using ScriptCoreLib.ActionScript.Extensions;
-using jsc.meta.Library.Templates;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -127,6 +128,9 @@ namespace jsc.meta.Commands.Rewrite
 			MethodInfo __AfterElementLoaded
 			)
 		{
+			// whatever they are doing it may work! :D
+			// see: http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
+
 			const string src = @"assets/Ultra1.UltraApplication/UltraSprite.swf";
 			const string type = "application/x-shockwave-flash";
 			const int width = 4001;
@@ -137,51 +141,71 @@ namespace jsc.meta.Commands.Rewrite
 			Action Implementation1 =
 				delegate
 				{
-					var o = new IHTMLEmbed();
+					var oo = new object();
+
 					//var id = "__embed_" + new Random().Next();
 
 					// good luck getting it to work with ID :)
 					// there probably is a way to do it!
 
-					//o = (IHTMLEmbed)new IFunction("e", "/*@cc_on return this.createElement(e); @*/ return null;").apply(Native.Document,
-					//    "<embed id='accc' name='accc' width='500' height='400'  src='assets/Ultra2.UltraApplication/UltraSprite.swf' allowfullscreen='true' allownetworking='all' allowscriptaccess='always'  />"
-					//);
+					//const string __object = "<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0' WIDTH='550' HEIGHT='400' id='myMovieName'></OBJECT>";
 
 
-					//if (o == null)
+					//var ie = (bool)new IFunction(
+					//    "/*@cc_on return true; @*/ return false;").apply(oo);
+
+					////"<embed id='accc' name='accc' width='500' height='400'  src='assets/Ultra2.UltraApplication/UltraSprite.swf' allowfullscreen='true' allownetworking='all' allowscriptaccess='always'  />"
+
+					//if (ie)
 					//{
 
+					//    var x = new IHTMLDiv();
 
-					// http://www.bobbyvandersluis.com/ufo/index.html
-					// for IE we might need to consider setting innerHTML
-					// as we do already in scriptcorelib for some elements IHTMLInput
+					//    x.innerHTML = "<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0' WIDTH='550' HEIGHT='400' id='myMovieName'><PARAM NAME='movie' VALUE='assets/Ultra4.UltraApplication/Ultra4.UltraApplication+UltraSprite.swf'><PARAM NAME='quality' VALUE='high'><PARAM NAME='quality' VALUE='high'><PARAM NAME='AllowScriptAccess' VALUE='always'></OBJECT>";
 
-					o.type = type;
+					//    //Debugger.Break();
 
-					// http://perishablepress.com/press/2007/04/17/embed-flash-or-die-trying/
-					// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
-					// http://developer.yahoo.com/ylive/flash_js_api/
-					// http://www.extremefx.com.ar/blog/fixing-flash-external-interface-inside-form-on-internet-explorer
-					// http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
+					//    //new IFunction("x",
+					//    //"x.outerHTML = \"<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0' WIDTH='550' HEIGHT='400' id='myMovieName'><PARAM NAME='movie' VALUE='assets/Ultra4.UltraApplication/Ultra4.UltraApplication+UltraSprite.swf'><PARAM NAME='quality' VALUE='high'><PARAM NAME='bgcolor' VALUE='#FFFFFF'></OBJECT>\";").apply(oo, oo);
 
-
-					// do we need id and names? for IE?
-					//o.id = id;
-					//o.name = id;
+					//    oo = x.firstChild;
+					//}
+					//else
+					//{
+						var o = new IHTMLEmbed();
 
 
+						// http://www.bobbyvandersluis.com/ufo/index.html
+						// for IE we might need to consider setting innerHTML
+						// as we do already in scriptcorelib for some elements IHTMLInput
 
-					o.setAttribute("allowFullScreen", "true");
-					o.setAttribute("allowNetworking", "all");
-					o.setAttribute("allowScriptAccess", "always");
+						o.type = type;
 
-					// we need Ldc_I4
-					o.width = 4001;
-					o.height = 4002;
+						// http://perishablepress.com/press/2007/04/17/embed-flash-or-die-trying/
+						// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
+						// http://developer.yahoo.com/ylive/flash_js_api/
+						// http://www.extremefx.com.ar/blog/fixing-flash-external-interface-inside-form-on-internet-explorer
+						// http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
 
-					o.src = src;
 
-					o.onload += null;
+						// do we need id and names? for IE?
+						//o.id = id;
+						//o.name = id;
+
+
+
+						o.setAttribute("allowFullScreen", "true");
+						o.setAttribute("allowNetworking", "all");
+						o.setAttribute("allowScriptAccess", "always");
+
+						// we need Ldc_I4
+						o.width = 4001;
+						o.height = 4002;
+
+						o.src = src;
+
+						o.onload += null;
+						oo = o;
 					//}
 				};
 
@@ -221,6 +245,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					e.Default();
 				};
+
 			il_a[OpCodes.Ret] =
 				e =>
 				{
@@ -247,7 +272,7 @@ namespace jsc.meta.Commands.Rewrite
 
 		private void WriteInitialization_JavaExternalInterface(
 			RewriteToAssembly r,
-			RewriteToAssembly.PostTypeRewriteArguments a,
+			RewriteToAssembly.TypeRewriteArguments a,
 			Type TargetType
 			)
 		{
@@ -307,7 +332,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var il = __InitializeExternalInterface.GetILGenerator();
 
-			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[((Action)InternalActionScriptToJavascriptBridge.ExternalInterface_isActive).Method]);
+			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[((Action)InternalActionScriptToJavaScriptBridge.ExternalInterface_isActive).Method]);
 
 			Action Implementation1 =
 				delegate
@@ -482,7 +507,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
 
-			Func<Applet, string, object[], object> InternalJavaToJavascriptBridge_Invoke = InternalJavaToJavascriptBridge.Invoke;
+			Func<Applet, string, object[], object> InternalJavaToJavascriptBridge_Invoke = InternalJavaToJavaScriptBridge.Invoke;
 
 
 			var args = Closure_Invoke_il.DeclareLocal(typeof(object[]));
@@ -613,7 +638,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			Closure.CreateType();
 
-			var LocalMethod = DeclaringType.DefineMethod(kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
+			var LocalMethod = DeclaringType.DefineMethod(ExternalInterfacePrefix + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
 
 			var il = LocalMethod.GetILGenerator();
 

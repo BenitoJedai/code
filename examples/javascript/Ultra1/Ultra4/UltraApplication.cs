@@ -128,6 +128,11 @@ namespace Ultra4
 			public const int DefaultWidth = 500;
 			public const int DefaultHeight = 400;
 
+			/*
+			__flash__addCallback(b, "add_Clicked")
+			__flash__addCallback(b, "add_MyLoaded")
+			__flash__addCallback(b, "set_Status")
+			 */
 
 			public event Action Clicked;
 
@@ -144,9 +149,31 @@ namespace Ultra4
 
 				// funny :) i have forgotten how to write anything
 				// on flash API ... too much WPF API?
+				AddShape(0x7070);
+			}
+
+			public void AddShape1()
+			{
+				AddShape(0xff);
+			}
+
+			public string AddShape2
+			{
+				set
+				{
+					AddShape(0xff);
+				}
+				get
+				{
+					return "";
+				}
+			}
+
+			private void AddShape(uint color)
+			{
 				var r = new Sprite();
 
-				r.graphics.beginFill(0x7070);
+				r.graphics.beginFill(color);
 				r.graphics.drawRect(8, 8, 64, 64);
 
 				r.click +=
@@ -170,6 +197,11 @@ namespace Ultra4
 				{
 
 				}
+			}
+
+			public void Special1(IUltraData1 a, IUltraData1 b)
+			{
+
 			}
 		}
 
@@ -196,6 +228,42 @@ namespace Ultra4
 							};
 
 						o.MessageStatusOnClick();
+
+						{
+							var n = new IHTMLButton("AddShape1");
+
+							n.onclick +=
+								delegate
+								{
+									var oo = (IHTMLEmbed)(object)o;
+
+									// see: http://www.mail-archive.com/flexcoders@yahoogroups.com/msg06134.html
+
+									new IFunction(
+										"x",
+										//"x.SetVariable('AddShape2', '');"
+										"x.CallFunction('<invoke name=\"AddShape1\" returntype=\"javascript\"><arguments></arguments></invoke>');"
+									).apply(null,oo);
+
+
+								};
+
+							n.AttachToDocument();
+						}
+
+						{
+							var n = new IHTMLButton("AddShape1x");
+
+							n.onclick +=
+								delegate
+								{
+									//o.AddShape2 = "";
+									o.AddShape1();
+
+								};
+
+							n.AttachToDocument();
+						}
 
 						o.AttachSpriteToDocument();
 					};

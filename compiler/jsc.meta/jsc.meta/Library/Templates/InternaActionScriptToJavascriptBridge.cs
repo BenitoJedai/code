@@ -9,13 +9,18 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace jsc.meta.Library.Templates
 {
-	internal class InternalActionScriptToJavascriptBridge
+	internal class InternalActionScriptToJavaScriptBridge
 	{
 		public delegate bool BoolFunc();
 
 		public static void ExternalInterface_isActive()
 		{
 			ExternalInterface.addCallback("isActive", new BoolFunc(() => true).ToFunction());
+		}
+
+		public static object ExternalInterface_Invoke(object context, object[] arguments)
+		{
+			return null;
 		}
 	}
 }
