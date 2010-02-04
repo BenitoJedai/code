@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,14 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OrcasJavaGoogleApplication</RootNamespace>
     <AssemblyName>OrcasJavaGoogleApplication</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
+    <FileUpgradeFlags></FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <StartupObject>
-    </StartupObject>
+    <UpgradeBackupLocation></UpgradeBackupLocation>
+    <StartupObject></StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +53,9 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="OrcasJavaGoogleApplication.WebSource.HTML">
+      <HintPath>bin\WebSource.HTML.staging\OrcasJavaGoogleApplication.WebSource.HTML.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAssemblyReferenceToken.cs" />
@@ -66,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="docs\description.txt" />
+    <Content Include="Server\WebSource.HTML\HTMLPage1.htm" />
     <Content Include="web\build.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -94,5 +96,6 @@
     <PostBuildEvent>pushd ..\..\tools\
 call build.bat $(ProjectName) $(TargetFileName)  $(ConfigurationName)
 popd</PostBuildEvent>
+    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsGeneric:true</PreBuildEvent>
   </PropertyGroup>
 </Project>

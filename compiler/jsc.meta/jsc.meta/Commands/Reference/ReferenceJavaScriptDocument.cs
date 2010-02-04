@@ -6,25 +6,28 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using jsc.Languages.IL;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
 using jsc.meta.Tools;
 using Microsoft.CSharp;
 using ScriptCoreLib;
-using System.Reflection.Emit;
-using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
-using jsc.Languages.IL;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace jsc.meta.Commands.Reference
 {
 	[Description("Injecting javascript into HTML has never been that easy!")]
 	public class ReferenceJavaScriptDocument
 	{
+		// should be renamed to ReferenceHTMLDocument ?
+		// maybe by adding an alias?
+
 		// todo: Add (object Tag) fields to the pages!
 
 		// trivia: in fact we are referencing HTML to convert it to javascript.
@@ -43,6 +46,7 @@ namespace jsc.meta.Commands.Reference
 
 		public FileInfo ProjectFileName;
 
+		public bool IsGeneric;
 
 		public void Invoke()
 		{
@@ -241,94 +245,121 @@ namespace jsc.meta.Commands.Reference
 								var title = xml.XPathSelectElement("/html/head/title");
 								var body = xml.XPathSelectElement("/html/body");
 
-								var Page = Pages.DefineNestedType(title.Value, TypeAttributes.NestedPublic);
+								// we need to make the title/page name
+								// C# compatible :)
+								var Page = Pages.DefineNestedType(title.Value.Replace(" ", "_"), TypeAttributes.NestedPublic);
 								var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
 
 
 								// we should be returning DOM object instead?
 								#region Page_HTML
-								var Page_HTML = Static.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
-
-								var Page_HTML_get = Static.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
-
 								{
-									var il = Page_HTML_get.GetILGenerator();
+									var Page_HTML = Static.DefineProperty("DocumentHTML", PropertyAttributes.None, typeof(string), null);
 
-									// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
-									var body_innerXML = body.Nodes().Aggregate("", (b, node) => b += node.ToString());
-
-									il.Emit(OpCodes.Ldstr, body_innerXML);
-									il.Emit(OpCodes.Ret);
-								}
-
-								Page_HTML.SetGetMethod(Page_HTML_get);
-								#endregion
-
-								// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
-								var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
-
-								var Images_value = body.XPathSelectElements("//img").ToArray();
-
-								DefineStaticImages(a, Static, Images_value);
-
-								Static.CreateType();
-
-								foreach (var CurrentElement in body.XPathSelectElements("//*[@id]"))
-								{
-									var id = CurrentElement.Attribute("id").Value;
-
-									var e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement);
-
-									var e = Elements.DefineProperty(id, PropertyAttributes.None, e_Type, null);
-									var get_e = Elements.DefineMethod("get_" + id, MethodAttributes.Static | MethodAttributes.Public, e_Type, null);
-
-									Func<IHTMLElement> get_e_template =
-										delegate
-										{
-											return Native.Document.getElementById("id");
-										};
+									var Page_HTML_get = Static.DefineMethod("get_DocumentHTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
 
 									{
-										var il = get_e.GetILGenerator();
-
-										var il_a = new ILTranslationExtensions.EmitToArguments();
-
-										il_a[OpCodes.Ldstr] =
-											x =>
-											{
-												x.il.Emit(OpCodes.Ldstr, id);
-											};
-
-										il_a[OpCodes.Ret] =
-											x =>
-											{
-												x.il.Emit(OpCodes.Castclass, e_Type);
-												x.il.Emit(OpCodes.Ret);
-											};
-
-										get_e_template.Method.EmitTo(il, il_a);
-
-
+										var il = Page_HTML_get.GetILGenerator();
+										
+										il.Emit(OpCodes.Ldstr, content);
+										il.Emit(OpCodes.Ret);
 									}
 
-									e.SetGetMethod(get_e);
+									Page_HTML.SetGetMethod(Page_HTML_get);
 								}
+								#endregion
 
-								Elements.CreateType();
-
-								var Images_lookup = new Dictionary<XElement, FieldBuilder>();
-
-								foreach (var i in Images_value)
+								#region Page_HTML
 								{
-									Images_lookup[i] = null;
+									var Page_HTML = Static.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
+
+									var Page_HTML_get = Static.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
+
+									{
+										var il = Page_HTML_get.GetILGenerator();
+
+										// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
+										var body_innerXML = body.Nodes().Aggregate("", (b, node) => b += node.ToString());
+
+										il.Emit(OpCodes.Ldstr, body_innerXML);
+										il.Emit(OpCodes.Ret);
+									}
+
+									Page_HTML.SetGetMethod(Page_HTML_get);
+								}
+								#endregion
+
+								// we need to use unified HTML DOM...
+								if (!this.IsGeneric)
+								{
+									// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
+									var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
+
+									var Images_value = body.XPathSelectElements("//img").ToArray();
+
+									DefineStaticImages(a, Static, Images_value);
+
+
+
+									foreach (var CurrentElement in body.XPathSelectElements("//*[@id]"))
+									{
+										var id = CurrentElement.Attribute("id").Value;
+
+										var e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement);
+
+										var e = Elements.DefineProperty(id, PropertyAttributes.None, e_Type, null);
+										var get_e = Elements.DefineMethod("get_" + id, MethodAttributes.Static | MethodAttributes.Public, e_Type, null);
+
+										Func<IHTMLElement> get_e_template =
+											delegate
+											{
+												return Native.Document.getElementById("id");
+											};
+
+										{
+											var il = get_e.GetILGenerator();
+
+											var il_a = new ILTranslationExtensions.EmitToArguments();
+
+											il_a[OpCodes.Ldstr] =
+												x =>
+												{
+													x.il.Emit(OpCodes.Ldstr, id);
+												};
+
+											il_a[OpCodes.Ret] =
+												x =>
+												{
+													x.il.Emit(OpCodes.Castclass, e_Type);
+													x.il.Emit(OpCodes.Ret);
+												};
+
+											get_e_template.Method.EmitTo(il, il_a);
+
+
+										}
+
+										e.SetGetMethod(get_e);
+									}
+
+									Elements.CreateType();
+
+									var Images_lookup = new Dictionary<XElement, FieldBuilder>();
+
+									foreach (var i in Images_value)
+									{
+										Images_lookup[i] = null;
+									}
+
+
+									DefinePageConstructor(body, Page, new[] { Images_lookup });
+
+									// and html5 videos and sounds!
+									DefineInstanceImages(a, Page, Images_lookup);
+
 								}
 
-
-								DefinePageConstructor(body, Page, new[] { Images_lookup });
-
-								// and html5 videos and sounds!
-								DefineInstanceImages(a, Page, Images_lookup);
-
+								Static.CreateType();
 								Page.CreateType();
 							}
 

@@ -23,7 +23,7 @@ namespace Ultra6
 
 	public sealed class UltraApplication
 	{
-		public sealed class UltraApplet : Applet
+		public sealed class UltraApplet : Applet, IArgumentData1
 		{
 			public const int DefaultWidth = 500;
 			public const int DefaultHeight = 400;
@@ -60,7 +60,16 @@ namespace Ultra6
 
 			public Action1 AddSubject(IArgumentData1 e)
 			{
-				return null;
+				e.CalculateHere();
+
+				return 
+					x =>
+					{
+						x.CalculateHere();
+
+						return "ok";
+					};
+
 			}
 
 			public void AddSubjectTwice(IArgumentData1 e, Action1 f)
@@ -69,6 +78,7 @@ namespace Ultra6
 			}
 
 			public event Action1 AtEvent1;
+			public string Status { get; set; }
 		}
 
 
@@ -127,6 +137,8 @@ namespace Ultra6
 						var o = new UltraSprite();
 
 						o.AttachSpriteToDocument();
+
+						o.CalculateHere();
 					};
 			}
 
@@ -141,6 +153,8 @@ namespace Ultra6
 						var o = new UltraApplet();
 
 						o.AttachAppletToDocument();
+
+						o.CalculateHere();
 					};
 			}
 
@@ -156,5 +170,13 @@ namespace Ultra6
 		string Status { get; set; }
 	}
 
+	public static class MyExtensions
+	{
+		public static void CalculateHere(this IArgumentData1 e)
+		{
+			// this method will appear in javascript, flash and java
 
+			e.Status = "result";
+		}
+	}
 }

@@ -36,8 +36,10 @@ namespace OrcasJavaGoogleApplication.Server
 
 			var w = new StringBuilder();
 
-			w.AppendLine("<h1>jsc compiler services and solutions</h1>");
-			w.AppendLine("<p>Visit <a href='http://zproxy.wordpress.com'>author's blog</a>.</p>");
+			//w.AppendLine("<h1><b>jsc solutions</b> and compiler services</h1>");
+			//w.AppendLine("<p>Visit <a href='http://zproxy.wordpress.com'>author's blog</a>.</p>");
+
+			w.Append(Pages.jsc_solutions.Static.DocumentHTML);
 
 			return w.ToString();
 		}
