@@ -13,18 +13,26 @@ namespace jsc.meta.Commands.Extend
 	[Description("An example how ASP.NET web application could be translated to Google App Engine")]
 	public class ExtendToGoogleAppEngineWebApplication
 	{
+		// examples:
+		// C:\work\jsc.svn\examples\java\WebApplication1\WebApplication1\tools
+		// usage:
+		// c:\util\jsc\bin\jsc.meta.exe ExtendToGoogleAppEngineWebApplication /project:"$(ProjectPath)"
+		// ExtendToGoogleAppEngineWebApplication /project:"C:\work\jsc.svn\templates\Orcas\OrcasMetaWebApplication\OrcasMetaWebApplication\OrcasMetaWebApplication.csproj"
+
 		public FileInfo msbuild = new FileInfo(@"C:\Windows\Microsoft.NET\Framework\v3.5\msbuild.exe");
 		public FileInfo project;
 		public FileInfo aspnet_compiler = new FileInfo(@"C:\Windows\Microsoft.NET\Framework\v2.0.50727\aspnet_compiler.exe");
 
 		public void Invoke()
 		{
+			var publish = project.Directory.CreateSubdirectory("bin/publish");
+
 			#region msbuild
 			{
 				var i = new ProcessStartInfo(
 						this.msbuild.FullName,
-						"/t:_CopyWebApplication /property:OutDir=" + project.Directory.FullName + @"\bin\publish\ /property:WebProjectOutputDir=" + project.Directory.FullName + @"\bin\publish\ " + project.Name
-						)
+						@"/t:_CopyWebApplication /property:OutDir=" + project.Directory.FullName + @"\bin\publish\ /property:WebProjectOutputDir=" + project.Directory.FullName + @"\bin\publish\ " + project.Name
+					)
 				{
 					UseShellExecute = false,
 
