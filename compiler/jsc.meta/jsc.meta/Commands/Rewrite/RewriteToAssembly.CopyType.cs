@@ -105,6 +105,10 @@ namespace jsc.meta.Commands.Rewrite
 
 			foreach (var item in TypeAttributes)
 			{
+				// for now we cannot copy ctor attributes / nonoba branch knows how...
+				if (item.GetType().GetConstructor() == null)
+					continue;
+
 				// call a callback?
 				t.DefineAttribute(item, item.GetType());
 			}
