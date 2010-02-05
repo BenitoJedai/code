@@ -18,6 +18,11 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static IEnumerable<FileInfo> GetFilesByPattern(this DirectoryInfo e, params string[] p)
+		{
+			return p.SelectMany(i => e.GetFiles(i));
+		}
+
 		public static bool IsEventMethod(this MethodInfo kk)
 		{
 			return kk.ReturnType == typeof(void) && kk.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(kk.GetParameterTypes()[0]);
@@ -41,7 +46,7 @@ namespace jsc.meta.Library
 		{
 			foreach (var item in p)
 			{
-			
+
 				m.DefineParameter(item.Position + 1, item.Attributes, item.Name);
 			}
 		}
