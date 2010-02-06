@@ -474,8 +474,16 @@ namespace jsc.meta.Commands.Rewrite
 					RewriteArguments
 				);
 
+			Console.WriteLine("");
+			Console.WriteLine("rewriting...");
+			Console.WriteLine("");
+
 			// ask for our primary types to be copied
 			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
+
+			Console.WriteLine("");
+			Console.WriteLine("rewriting... done");
+			Console.WriteLine("");
 
 			#region maybe the rewriter wants to add some types at this point?
 			if (PostRewrite != null)

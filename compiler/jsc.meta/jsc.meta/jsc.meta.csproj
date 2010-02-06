@@ -156,6 +156,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.jni.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Web.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibJava.Web.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Web.Services.dll</HintPath>

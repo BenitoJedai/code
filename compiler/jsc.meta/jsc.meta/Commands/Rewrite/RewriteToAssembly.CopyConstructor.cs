@@ -14,44 +14,45 @@ namespace jsc.meta.Commands.Rewrite
 	public partial class RewriteToAssembly
 	{
 		static void CopyConstructor(
-				ConstructorInfo source, TypeBuilder t,
+				ConstructorInfo SourceConstructor,
+				TypeBuilder t,
 				VirtualDictionary<Type, Type> tc,
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
 				VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 				VirtualDictionary<string, string> NameObfuscation,
-				Action<MethodBase,ILTranslationExtensions.EmitToArguments> ILOverride
-			
+				Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride
+
 			)
 		{
-			var km = source.IsStatic ?
+			var km = SourceConstructor.IsStatic ?
 				t.DefineTypeInitializer() :
 
 				t.DefineConstructor(
-				source.Attributes,
-				source.CallingConvention,
-				source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray()
+				SourceConstructor.Attributes,
+				SourceConstructor.CallingConvention,
+				SourceConstructor.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray()
 			);
 
-			km.SetImplementationFlags(source.GetMethodImplementationFlags());
+			km.SetImplementationFlags(SourceConstructor.GetMethodImplementationFlags());
 
-			source.GetParameters().CopyTo(km);
+			SourceConstructor.GetParameters().CopyTo(km);
 
-			mc[source] = km;
+			mc[SourceConstructor] = km;
 
-			if (source.GetMethodBody() == null)
+			if (SourceConstructor.GetMethodBody() == null)
 				return;
 
-			var MethodBody = source.GetMethodBody();
+			var MethodBody = SourceConstructor.GetMethodBody();
 
 			var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
 
 
-			var x = CreateMethodBaseEmitToArguments(source, tc, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, ILOverride, ExceptionHandlingClauses);
+			var x = CreateMethodBaseEmitToArguments(SourceConstructor, tc, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, ILOverride, ExceptionHandlingClauses);
 
 
-			source.EmitTo(km.GetILGenerator(), x);
+			SourceConstructor.EmitTo(km.GetILGenerator(), x);
 
 		}
 
