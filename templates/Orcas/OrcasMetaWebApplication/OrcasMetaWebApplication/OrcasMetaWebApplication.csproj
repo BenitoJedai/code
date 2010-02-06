@@ -74,7 +74,6 @@
   <ItemGroup>
     <Content Include="Handler1.ashx" />
     <Content Include="HTMLPage1.htm" />
-    <None Include="run.bat" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
