@@ -30,7 +30,10 @@ namespace jsc.meta.Commands.Rewrite
 			Func<Assembly, object[]> codeinjectonparams,
 
 
-			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride
+			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
+
+			Action<MethodInfo, MethodBuilder, Func<ILGenerator>> BeforeInstructions
+
 			)
 		{
 			// sanity check!
@@ -83,6 +86,21 @@ namespace jsc.meta.Commands.Rewrite
 			MethodBase mb = source;
 
 			var kmil = km.GetILGenerator();
+			var kmil_Dirty = false;
+
+			if (BeforeInstructions != null)
+				BeforeInstructions(source, km, 
+					delegate
+					{
+						kmil_Dirty = true;
+						return kmil;
+					}
+				);
+
+			// BeforeInstructions has replaced the IL
+			// they may be calling a copy of us?
+			if (kmil_Dirty)
+				return;
 
 			if (PrimarySourceAssembly != null)
 				if (source == PrimarySourceAssembly.EntryPoint)
@@ -102,20 +120,29 @@ namespace jsc.meta.Commands.Rewrite
 					a.SetEntryPoint(km);
 				}
 
-			var x = CreateMethodBaseEmitToArguments(source, tc, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, ILOverride, ExceptionHandlingClauses);
+			var x = CreateMethodBaseEmitToArguments(
+				source, 
+				tc, 
+				TypeFieldCache, 
+				ConstructorCache, 
+				MethodCache, 
+				NameObfuscation, 
+				ILOverride, 
+				ExceptionHandlingClauses
+			);
 
 
 
 			mb.EmitTo(kmil, x);
-
+			
 
 			// we need to emit the try/catch blocks too!
 
 		}
 
-		private static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
-			MethodBase context,
-			VirtualDictionary<Type, Type> tc, 
+		public static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
+			MethodBase SourceMethod,
+			VirtualDictionary<Type, Type> TypeCache, 
 			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, 
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, 
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache, 
@@ -226,8 +253,12 @@ namespace jsc.meta.Commands.Rewrite
 					},
 				#endregion
 
-				TranslateTargetType = TargetType => tc[TargetType],
-				TranslateTargetField = TargetField => TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == NameObfuscation[TargetField.Name]) ?? TargetField,
+				TranslateTargetType = TargetType => TypeCache[TargetType],
+				TranslateTargetField = 
+					TargetField => 
+						TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(
+							k => k.Name == (NameObfuscation == null ? TargetField.Name : NameObfuscation[TargetField.Name])) ?? TargetField,
+
 				TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
 				TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
 			};
@@ -248,7 +279,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			if (ILOverride != null)
-				ILOverride(context, x);
+				ILOverride(SourceMethod, x);
 			return x;
 		}
 

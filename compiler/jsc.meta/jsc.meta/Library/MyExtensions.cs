@@ -18,6 +18,45 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+
+		public static void EmitReturnSerializedArray<T>(this ILGenerator il, T[] e, 
+			Func<Type, Type> TypeCache, 
+			Func<ConstructorInfo, ConstructorInfo> ConstructorCache,
+			Func<FieldInfo, FieldInfo> FieldCache
+			)
+		{
+			var loc0 = il.DeclareLocal(TypeCache(typeof(T[])));
+			var loc1 = il.DeclareLocal(TypeCache(typeof(T)));
+
+			il.Emit(OpCodes.Ldc_I4, e.Length);
+			il.Emit(OpCodes.Newarr, TypeCache(typeof(T)));
+			il.Emit(OpCodes.Stloc_0);
+
+			foreach (var item in e.Select((k, i) => new { k, i }))
+			{
+				il.Emit(OpCodes.Newobj, ConstructorCache(typeof(T).GetConstructor()));
+				il.Emit(OpCodes.Stloc_1);
+
+				foreach (var f in typeof(T).GetFields())
+				{
+					il.Emit(OpCodes.Ldloc_1);
+
+					il.Emit(OpCodes.Ldstr, (string)f.GetValue(item.k));
+
+					il.Emit(OpCodes.Stfld, FieldCache(f));
+				}
+
+				il.Emit(OpCodes.Ldloc_0);
+				il.Emit(OpCodes.Ldc_I4, item.i);
+				il.Emit(OpCodes.Ldloc_1);
+				il.Emit(OpCodes.Stelem_Ref);	
+			}
+
+			il.Emit(OpCodes.Ldloc_0);
+			il.Emit(OpCodes.Ret);
+		}
+
+
 		public static IEnumerable<FileInfo> GetFilesByPattern(this DirectoryInfo e, params string[] p)
 		{
 			return p.SelectMany(i => e.GetFiles(i));
@@ -128,7 +167,7 @@ namespace jsc.meta.Library
 				MethodCache,
 				NameObfuscation,
 				null,
-				null, null, null
+				null, null, null, null
 			);
 
 			return (MethodBuilder)MethodCache[msource.Method];
@@ -190,6 +229,7 @@ namespace jsc.meta.Library
 						ConstructorCache,
 						MethodCache,
 						NameObfuscation,
+						null,
 						null,
 						null,
 						null,

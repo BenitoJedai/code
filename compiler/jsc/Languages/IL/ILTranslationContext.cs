@@ -19,6 +19,11 @@ namespace jsc.Languages.IL
 		/// </summary>
 		public VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache;
 
+		public FieldInfo TypeFieldCacheFunc(FieldInfo TargetField)
+		{
+			return this.TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == TargetField.Name) ?? TargetField;
+		}
+
 		public VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache;
 		public VirtualDictionary<MethodInfo, MethodInfo> MethodCache;
 	}
