@@ -12,8 +12,11 @@ namespace OrcasMetaWebApplication
 		// later we may want to expose Ultra Documents
 		// including webservice proxy
 
-		protected void Application_BeginRequest(object sender, EventArgs e)
+		public void Application_BeginRequest(object sender, EventArgs e)
 		{
+			if (this.Request.Path == "/favicon.ico")
+				return;
+
 			if (this.Request.Path != "/default.aspx")
 			{
 				if (this.Request.Path.EndsWith(".asmx"))
@@ -26,10 +29,14 @@ namespace OrcasMetaWebApplication
 					return;
 			}
 
-			
-			this.Response.Write("<a href='/jsc'>jsc</a> howdy! @ " + this.Request.Path + "?" + this.Request.QueryString);
 			this.Response.StatusCode = 200;
-			this.Response.ContentType = "text/html";
+			this.Response.ContentType = "text/html; charset=utf-8";
+
+
+			this.Response.Write(Pages.jsc_solutions.Static.DocumentHTML);
+
+			//this.Response.Write("<a href='/jsc'>jsc</a> howdy! @ " + this.Request.Path);
+			//this.Response.Write("<a href='/jsc'>jsc</a> howdy! @ " + this.Request.Path + "?" + this.Request.QueryString);
 
 			this.CompleteRequest();
 		}

@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLImplementation\System\Web\HttpResponse.cs" />
+    <Compile Include="BCLImplementation\System\Web\HttpRequest.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpAsyncHandler.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpApplication.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpContext.cs" />

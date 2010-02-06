@@ -16,6 +16,8 @@ using ScriptCoreLib;
 using System.Xml;
 using System.Collections;
 using System.Xml.XPath;
+using ScriptCoreLibJava.BCLImplementation.System.Web;
+using System.Web;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -47,23 +49,23 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-			// staging1 = before asp.net
-			// staging2 = after asp.net
-			// staging3 = merged and rewritten
+	
+			jsc.meta.Loader.LoaderStrategy.Hints.Add(project.Directory.CreateSubdirectory("bin"));
+
 
 			#region staging.net
-			var staging1 = project.Directory.CreateSubdirectory("bin/staging.msbuild");
-			var staging2 = project.Directory.CreateSubdirectory("bin/staging.aspnet");
-			var staging3 = project.Directory.CreateSubdirectory("bin/staging.merge");
-			var staging_net = project.Directory.CreateSubdirectory("bin/staging.net");
-			var staging_net_bin = staging_net.CreateSubdirectory("bin");
+			var staging_1_msbuild = project.Directory.CreateSubdirectory("bin/staging.msbuild");
+			var staging_2_aspnet = project.Directory.CreateSubdirectory("bin/staging.aspnet");
+			var staging_3_merge = project.Directory.CreateSubdirectory("bin/staging.merge");
+			var staging_4_net = project.Directory.CreateSubdirectory("bin/staging.net");
+			var staging_net_bin = staging_4_net.CreateSubdirectory("bin");
 
 
 			#region msbuild
 			{
 				var i = new ProcessStartInfo(
 						this.msbuild.FullName,
-						@"/t:_CopyWebApplication /property:OutDir=" + project.Directory.FullName + @"\bin\publish\ /property:WebProjectOutputDir=" + staging1.FullName + @"\ " + project.Name
+						@"/t:_CopyWebApplication /property:OutDir=" + project.Directory.FullName + @"\bin\publish\ /property:WebProjectOutputDir=" + staging_1_msbuild.FullName + @"\ " + project.Name
 					)
 				{
 					UseShellExecute = false,
@@ -83,7 +85,7 @@ namespace jsc.meta.Commands.Extend
 			{
 				var i = new ProcessStartInfo(
 						this.aspnet_compiler.FullName,
-						@"-v / -p """ + staging1.FullName + @""" -f """ + staging2.FullName + @""""
+						@"-v / -p """ + staging_1_msbuild.FullName + @""" -f """ + staging_2_aspnet.FullName + @""""
 						)
 				{
 					UseShellExecute = false,
@@ -98,7 +100,7 @@ namespace jsc.meta.Commands.Extend
 			}
 			#endregion
 
-			var staging2bin = staging2.CreateSubdirectory("bin");
+			var staging2bin = staging_2_aspnet.CreateSubdirectory("bin");
 
 			// we get the suffix for free! :D
 
@@ -137,7 +139,7 @@ namespace jsc.meta.Commands.Extend
 			#region lets find out our main target
 			{
 				var targets = Enumerable.ToArray(
-					from f in Directory.GetFiles(staging2.FullName + @"\bin", "*.dll")
+					from f in Directory.GetFiles(staging_2_aspnet.FullName + @"\bin", "*.dll")
 					select new { f = new FileInfo(f), a = Assembly.LoadFile(f) }
 				);
 
@@ -166,7 +168,7 @@ namespace jsc.meta.Commands.Extend
 
 				//Console.WriteLine(target.f.FullName);
 
-				var staging = staging3;
+				var staging = staging_3_merge;
 
 				// okay now lets rewrite the primary webservice and add data for jsc
 				var rewrite = new RewriteToAssembly
@@ -222,12 +224,12 @@ namespace jsc.meta.Commands.Extend
 
 			#region run the merged asp.net app
 			{
-				foreach (var item in staging2.GetFilesByPattern(
-					"*.aspx", "*.config", "*.htm", "*.ashx", "*.asmx"
+				foreach (var item in staging_2_aspnet.GetFilesByPattern(
+					"*.aspx", "*.config", "*.htm", "*.ico", "*.ashx", "*.asmx"
 					)
 				)
 				{
-					item.CopyTo(Path.Combine(staging_net.FullName, item.Name), true);
+					item.CopyTo(Path.Combine(staging_4_net.FullName, item.Name), true);
 				}
 
 
@@ -251,9 +253,9 @@ namespace jsc.meta.Commands.Extend
 			// now we can run the rewritten app in .net :)
 			File.WriteAllText(
 				Path.Combine(project.Directory.CreateSubdirectory("bin").FullName,
-					staging_net.Name + ".bat"
+					staging_4_net.Name + ".bat"
 					),
-				@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + staging_net.FullName + @""" /vpath:""/"""
+				@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + staging_4_net.FullName + @""" /vpath:""/"""
 			);
 			#endregion
 
@@ -395,6 +397,21 @@ namespace jsc.meta.Commands.Extend
 						}
 					};
 
+				r.ExternalContext.MethodCache.Resolve +=
+					SourceMethod =>
+					{
+						if (SourceMethod.DeclaringType == typeof(TypelessImplementation1))
+						{
+							var n = r.RewriteArguments.context.MethodCache[
+								rewrite_assembly_global.GetMethod(SourceMethod.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, SourceMethod.GetParameterTypes(), null)
+							];
+
+							r.ExternalContext.MethodCache[SourceMethod] = n;
+
+							return;
+						}
+					};
+
 				r.ExternalContext.TypeCache.Resolve +=
 					SourceType =>
 					{
@@ -407,6 +424,7 @@ namespace jsc.meta.Commands.Extend
 							return;
 						}
 					};
+
 
 				r.Invoke();
 
@@ -524,7 +542,11 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 		private void WriteGeneratedHandler(RewriteToAssembly.BeforeInstructionsArguments e)
 		{
-			var u = e.Type.DefineMethod("<>" + e.SourceMethod.Name, e.SourceMethod.Attributes, e.SourceMethod.CallingConvention, e.SourceMethod.ReturnType, e.SourceMethod.GetParameterTypes());
+			var u = e.Type.DefineMethod("<>" + e.SourceMethod.Name, 
+				e.SourceMethod.Attributes, 
+				e.SourceMethod.CallingConvention, 
+				e.SourceMethod.ReturnType, 
+				e.SourceMethod.GetParameterTypes());
 
 			{
 				// so this is how we copy the IL ?
@@ -600,7 +622,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 			{
 				var w = new StringBuilder();
 
-				w.AppendLine("jsc!! @ " + this.Request.Path + "?" + this.Request.QueryString);
+				w.AppendLine("jsc!! @ " + this.Request.Path);
 
 				var i = PreserveInformation.GetCurrent();
 
@@ -639,9 +661,11 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		// this could be defined in ScriptCoreLib.Ultra
 
 		readonly TypelessImplementation1 Application = new TypelessImplementation1();
+		readonly __HttpApplication Application1;
 
 		public InternalHttpServlet()
 		{
+			Application1 = (__HttpApplication)(object)Application;
 
 		}
 
@@ -659,13 +683,10 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		{
 			try
 			{
-				resp.setContentType("text/html; charset=utf-8");
+				Application1.Request = (HttpRequest)(object)new __HttpRequest { InternalContext = req };
+				Application1.Response = (HttpResponse)(object)new __HttpResponse { InternalContext = resp };
 
-				var Content = "Hello World";
-
-				resp.getWriter().println(Content);
-
-				resp.getWriter().flush();
+				Application.Application_BeginRequest(new object(), new EventArgs());
 			}
 			catch (csharp.ThrowableException exc)
 			{
