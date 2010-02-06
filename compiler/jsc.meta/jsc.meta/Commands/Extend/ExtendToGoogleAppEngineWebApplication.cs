@@ -262,6 +262,7 @@ namespace jsc.meta.Commands.Extend
 
 			var rewrite_assembly = Assembly.LoadFile(rewrite_Output.FullName);
 			var rewrtie_PrimartTypes = preserve.Select(k => rewrite_assembly.GetType(k.type)).ToArray();
+			var rewrite_assembly_global = rewrite_assembly.GetTypes().First(k => k.BaseType == typeof(System.Web.HttpApplication));
 
 			#region staging_java
 			var staging_java = project.Directory.CreateSubdirectory("bin/staging.java");
@@ -271,6 +272,7 @@ namespace jsc.meta.Commands.Extend
 				staging_java.DefinesTypes(
 					typeof(ScriptCoreLib.ScriptAttribute),
 					typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+					typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
 					typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken)
 				);
 
@@ -279,10 +281,10 @@ namespace jsc.meta.Commands.Extend
 					assembly = rewrite_Output,
 					staging = staging_java,
 
-					PrimaryTypes = 
+					PrimaryTypes =
 						//rewrtie_PrimartTypes.Concat(
-						new[] { typeof(InternalHttpServlet) }
-					//).ToArray()
+						new[] { typeof(InternalHttpServlet), rewrite_assembly_global }
+						//).ToArray()
 					,
 
 					product = rewrite_product,
@@ -301,6 +303,7 @@ namespace jsc.meta.Commands.Extend
 								IsScriptLibrary = true,
 								ScriptLibraries = new[] {
 									typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+									typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
 									typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
 								},
 
@@ -379,6 +382,32 @@ namespace jsc.meta.Commands.Extend
 						}
 				};
 
+				r.ExternalContext.ConstructorCache.Resolve +=
+					SourceConstructor =>
+					{
+						if (SourceConstructor.DeclaringType == typeof(TypelessImplementation1))
+						{
+							var __Global_ctor = r.RewriteArguments.context.ConstructorCache[rewrite_assembly_global.GetConstructor()];
+
+							r.ExternalContext.ConstructorCache[SourceConstructor] = __Global_ctor;
+
+							return;
+						}
+					};
+
+				r.ExternalContext.TypeCache.Resolve +=
+					SourceType =>
+					{
+						if (SourceType == typeof(TypelessImplementation1))
+						{
+							var __Global = r.RewriteArguments.context.TypeCache[rewrite_assembly_global];
+
+							r.ExternalContext.TypeCache[SourceType] = __Global;
+
+							return;
+						}
+					};
+
 				r.Invoke();
 
 				jsc.Program.TypedMain(
@@ -405,6 +434,7 @@ namespace jsc.meta.Commands.Extend
 
 					var r_Output_web = r.Output.Directory.CreateSubdirectory("web");
 
+					#region ant build
 					// http://www.larswilhelmsen.com/2008/12/12/linq-to-xml-xpathselectelement-annoyance/
 					// http://msdn.microsoft.com/en-us/library/bb341675.aspx
 					var location = ((IEnumerable)ant_build_xml.XPathEvaluate("/project/property[@name='appengine.sdk']/@location")).Cast<XAttribute>().Single();
@@ -431,10 +461,12 @@ namespace jsc.meta.Commands.Extend
 					var proccess_ant = Process.Start(proccess_ant_info);
 
 					proccess_ant.WaitForExit();
+					#endregion
 
 
 					// ----
 
+					#region run.bat
 					var w = new StringWriter();
 
 					w.WriteLine(@"
@@ -467,6 +499,8 @@ echo thanks! :)
 						Path.Combine(r_Output_web.FullName, "run.bat"),
 						w.ToString()
 					);
+					#endregion
+
 
 					File.WriteAllText(
 						Path.Combine(r_Output_web.FullName, "upload.bat"),
@@ -516,7 +550,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				var il = e.GetILGenerator();
 
 				var _1_Application_BeginRequest = typeof(TypelessImplementation1).GetMethod("_1_Application_BeginRequest");
-				var _0_Application_BeginRequest = typeof(TypelessImplementation1).GetMethod("_0_Application_BeginRequest");
+				var _0_Application_BeginRequest = typeof(TypelessImplementation1).GetMethod("Application_BeginRequest");
 
 
 				var il_a = RewriteToAssembly.CreateMethodBaseEmitToArguments(
@@ -553,14 +587,14 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		}
 	}
 
-	abstract class TypelessImplementation1 : System.Web.HttpApplication
+	internal class TypelessImplementation1 : System.Web.HttpApplication
 	{
 		public void _1_Application_BeginRequest(object sender, EventArgs e)
 		{
 
 		}
 
-		public void _0_Application_BeginRequest(object sender, EventArgs e)
+		public void Application_BeginRequest(object sender, EventArgs e)
 		{
 			if (this.Request.Path == "/jsc")
 			{
@@ -603,6 +637,13 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		// this class is a template
 		// this class cannot be used in .net
 		// this could be defined in ScriptCoreLib.Ultra
+
+		readonly TypelessImplementation1 Application = new TypelessImplementation1();
+
+		public InternalHttpServlet()
+		{
+
+		}
 
 		protected override void doPost(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp)
 		{

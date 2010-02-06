@@ -15,7 +15,7 @@ namespace jsc.meta.Commands.Rewrite
 	public partial class RewriteToAssembly
 	{
 		internal static void CopyType(
-		   Type source,
+		   Type SourceType,
 		   AssemblyBuilder a,
 		   ModuleBuilder m,
 		   VirtualDictionary<Type, Type> TypeCache,
@@ -31,51 +31,52 @@ namespace jsc.meta.Commands.Rewrite
 			)
 		{
 			// sanity check
-			if (TypeCache.BaseDictionary.ContainsKey(source))
+			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
-			//Console.WriteLine("CopyType: " + source.FullName);
+			Console.WriteLine("CopyType: " + SourceType.FullName);
 
 			// we should not reenter here!
-			TypeCache[source] = null;
+			TypeCache[SourceType] = null;
 
 			// interfaces dont have base types!
-			var BaseType = source.BaseType == null ? null : TypeCache[source.BaseType];
+			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
 
 			var _DeclaringType = (OverrideDeclaringType ?? (
 
-				source.DeclaringType == null ? null :
-					(TypeBuilder)TypeCache[source.DeclaringType]
+				SourceType.DeclaringType == null ? null :
+					(TypeBuilder)TypeCache[SourceType.DeclaringType]
 
 				)
 			);
 
-		
+
 
 			var t = default(TypeBuilder);
 
-			var _Interfaces = source.GetInterfaces() /*.Where(k => ShouldCopyType(k)) */ .Select(
+			var _Interfaces = SourceType.GetInterfaces() /*.Where(k => ShouldCopyType(k)) */ .Select(
 				k => TypeCache[k]
 				//k => k
 			).ToArray();
 
-	
+
 
 			// we might define as a nested type instead!
-			if (source.IsNested)
+			#region DefineType
+			if (SourceType.IsNested)
 			{
 
-				var _NestedTypeName = NameObfuscation[source.Name];
+				var _NestedTypeName = NameObfuscation[SourceType.Name];
 
 
 
-				if (source.StructLayoutAttribute != null && source.StructLayoutAttribute.Size > 0)
+				if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
 				{
 					t = _DeclaringType.DefineNestedType(
 						_NestedTypeName,
-						source.Attributes,
+						SourceType.Attributes,
 						 BaseType,
-						source.StructLayoutAttribute.Size
+						SourceType.StructLayoutAttribute.Size
 					);
 				}
 				else
@@ -83,7 +84,7 @@ namespace jsc.meta.Commands.Rewrite
 					t = _DeclaringType.DefineNestedType(
 
 						_NestedTypeName,
-						source.Attributes,
+						SourceType.Attributes,
 						BaseType,
 						_Interfaces
 					);
@@ -92,16 +93,18 @@ namespace jsc.meta.Commands.Rewrite
 			else
 			{
 				t = m.DefineType(
-					FullNameFixup(source.FullName),
-					source.Attributes,
+					FullNameFixup(SourceType.FullName),
+					SourceType.Attributes,
 					BaseType,
 					_Interfaces
 				);
 
 			}
+			#endregion
+
 
 			// should we copy attributes? should they be opt-out?
-			var TypeAttributes = source.GetCustomAttributes(false);
+			var TypeAttributes = SourceType.GetCustomAttributes(false);
 
 			foreach (var item in TypeAttributes)
 			{
@@ -113,30 +116,37 @@ namespace jsc.meta.Commands.Rewrite
 				t.DefineAttribute(item, item.GetType());
 			}
 
-			TypeCache[source] = t;
+			TypeCache[SourceType] = t;
 
-			
+
 			if (PreTypeRewrite != null)
 				PreTypeRewrite(t);
 
-			CopyTypeMembers(source, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
+			CopyTypeMembers(SourceType, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
 
-			
+
 
 			if (PostTypeRewrite != null)
 				PostTypeRewrite(t);
 
 			// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
 
-			//Console.WriteLine("CreateType: " + source.FullName);
+			Console.WriteLine("CreateType:  " + SourceType.FullName + " done!");
 
 			t.CreateType();
 
 		}
 
-		internal static void CopyTypeMembers(Type source, VirtualDictionary<Type, Type> TypeCache, VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, VirtualDictionary<MethodInfo, MethodInfo> MethodCache, VirtualDictionary<string, string> NameObfuscation, TypeBuilder t)
+		internal static void CopyTypeMembers(
+			Type SourceType, 
+			VirtualDictionary<Type, Type> TypeCache, 
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, 
+			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, 
+			VirtualDictionary<MethodInfo, MethodInfo> MethodCache, 
+			VirtualDictionary<string, string> NameObfuscation, 
+			TypeBuilder t)
 		{
-			foreach (var f in source.GetFields(
+			foreach (var f in SourceType.GetFields(
 						BindingFlags.DeclaredOnly |
 						BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
@@ -151,7 +161,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var ff = t.DefineInitializedData(FieldName, f.GetValue(null).StructAsByteArray(), f.Attributes);
 
-					TypeFieldCache[source].Add(ff);
+					TypeFieldCache[SourceType].Add(ff);
 				}
 				else
 				{
@@ -162,14 +172,14 @@ namespace jsc.meta.Commands.Rewrite
 					//ff.setd
 					//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
 
-					TypeFieldCache[source].Add(ff);
+					TypeFieldCache[SourceType].Add(ff);
 				}
 			}
 
 
 
 
-			foreach (var k in source.GetConstructors(
+			foreach (var k in SourceType.GetConstructors(
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
@@ -177,14 +187,14 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 
-			foreach (var k in source.GetMethods(
+			foreach (var k in SourceType.GetMethods(
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
 				var km = MethodCache[k];
 			}
 
-			foreach (var k in source.GetProperties(
+			foreach (var k in SourceType.GetProperties(
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
@@ -204,7 +214,7 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 
-			foreach (var k in source.GetEvents(
+			foreach (var k in SourceType.GetEvents(
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
