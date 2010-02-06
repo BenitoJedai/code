@@ -9,6 +9,9 @@ namespace OrcasMetaWebApplication
 {
 	public class Global : System.Web.HttpApplication
 	{
+		// later we may want to expose Ultra Documents
+		// including webservice proxy
+
 		protected void Application_BeginRequest(object sender, EventArgs e)
 		{
 			if (this.Request.Path != "/default.aspx")
@@ -24,9 +27,9 @@ namespace OrcasMetaWebApplication
 			}
 
 			
-			this.Response.Write("howdy! @ " + this.Request.Path + "?" + this.Request.QueryString);
+			this.Response.Write("<a href='/jsc'>jsc</a> howdy! @ " + this.Request.Path + "?" + this.Request.QueryString);
 			this.Response.StatusCode = 200;
-			this.Response.ContentType = "text/plain";
+			this.Response.ContentType = "text/html";
 
 			this.CompleteRequest();
 		}
