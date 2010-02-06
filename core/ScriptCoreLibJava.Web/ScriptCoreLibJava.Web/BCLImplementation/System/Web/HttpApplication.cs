@@ -4,12 +4,29 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.ComponentModel;
+using System.Web;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
 	[Script(Implements = typeof(global::System.Web.HttpApplication))]
-	internal class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, __IDisposable
+	internal class __HttpApplication : __IHttpAsyncHandler, __IHttpHandler, __IComponent, IDisposable
 	{
+		public HttpRequest Request { get; set; }
+		public HttpResponse Response { get; set; }
+	
+
+		public void CompleteRequest()
+		{
+			try
+			{
+				((__HttpResponse)(object)this.Response).InternalContext.getWriter().flush();
+			}
+			catch
+			{
+				throw new InvalidOperationException();
+			}
+		}
+
 		#region __IHttpHandler Members
 
 		public bool IsReusable
