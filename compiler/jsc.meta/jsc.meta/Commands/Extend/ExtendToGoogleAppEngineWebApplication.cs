@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Text;
+using System.Web;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using jsc.Languages.IL;
+using jsc.Library;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
-using jsc.Library;
-using System.Xml.Linq;
-using jsc.Languages.IL;
-using System.Reflection.Emit;
 using ScriptCoreLib;
-using System.Xml;
-using System.Collections;
-using System.Xml.XPath;
 using ScriptCoreLibJava.BCLImplementation.System.Web;
-using System.Web;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -38,7 +38,7 @@ namespace jsc.meta.Commands.Extend
 		public FileInfo aspnet_compiler = new FileInfo(@"C:\Windows\Microsoft.NET\Framework\v2.0.50727\aspnet_compiler.exe");
 
 		public string application = "jsc-project";
-		public string version = "3";
+		public string version = "5";
 
 		// eAppEngineWebService /assembly:"$(TargetPath)" /application:"jsc-project" /version:"5" /ant:"C:\util\apache-ant-1.7.1\bin\ant.bat" /javahome:"C:\Program Files\Java\jdk1.6.0_14" /appengine:"C:\util\appengine-java-sdk-1.3.0" /staging:"staging.java"
 
@@ -49,7 +49,7 @@ namespace jsc.meta.Commands.Extend
 
 		public void Invoke()
 		{
-	
+
 			jsc.meta.Loader.LoaderStrategy.Hints.Add(project.Directory.CreateSubdirectory("bin"));
 
 
@@ -222,14 +222,26 @@ namespace jsc.meta.Commands.Extend
 			#endregion
 
 
+			var staging_java = project.Directory.CreateSubdirectory("bin/staging.java");
+			var staging_java_web_www = project.Directory.CreateSubdirectory("bin/staging.java/web/www");
+
 			#region run the merged asp.net app
 			{
 				foreach (var item in staging_2_aspnet.GetFilesByPattern(
-					"*.aspx", "*.config", "*.htm", "*.ico", "*.ashx", "*.asmx"
+					"*.aspx", "*.config", "*.ashx", "*.asmx"
 					)
 				)
 				{
 					item.CopyTo(Path.Combine(staging_4_net.FullName, item.Name), true);
+				}
+
+				foreach (var item in staging_2_aspnet.GetFilesByPattern(
+					 "*.htm", "*.ico", "*.png", "*.swf"
+					)
+				)
+				{
+					item.CopyTo(Path.Combine(staging_4_net.FullName, item.Name), true);
+					item.CopyTo(Path.Combine(staging_java_web_www.FullName, item.Name), true);
 				}
 
 
@@ -267,7 +279,6 @@ namespace jsc.meta.Commands.Extend
 			var rewrite_assembly_global = rewrite_assembly.GetTypes().First(k => k.BaseType == typeof(System.Web.HttpApplication));
 
 			#region staging_java
-			var staging_java = project.Directory.CreateSubdirectory("bin/staging.java");
 
 			{
 				// we need to copy referenced assemblies to staging folder
@@ -542,10 +553,10 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 		private void WriteGeneratedHandler(RewriteToAssembly.BeforeInstructionsArguments e)
 		{
-			var u = e.Type.DefineMethod("<>" + e.SourceMethod.Name, 
-				e.SourceMethod.Attributes, 
-				e.SourceMethod.CallingConvention, 
-				e.SourceMethod.ReturnType, 
+			var u = e.Type.DefineMethod("<>" + e.SourceMethod.Name,
+				e.SourceMethod.Attributes,
+				e.SourceMethod.CallingConvention,
+				e.SourceMethod.ReturnType,
 				e.SourceMethod.GetParameterTypes());
 
 			{
