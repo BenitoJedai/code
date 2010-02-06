@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("jsc")]
-[assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2009")]
+[assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2010")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("zproxy.wordpress.com, jsc.sourceforge.net")]
 [assembly: AssemblyProduct("jsc")]
-[assembly: AssemblyCopyright("Copyright © 2009, All rights reserved")]
+[assembly: AssemblyCopyright("Copyright © 2010, All rights reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,3 +32,5 @@ using System.Runtime.InteropServices;
 //
 [assembly: AssemblyVersion("3.0.*")]
 [assembly: AssemblyFileVersion("3.0.*")]
+
+[assembly: Obfuscation(Feature = "merge")]

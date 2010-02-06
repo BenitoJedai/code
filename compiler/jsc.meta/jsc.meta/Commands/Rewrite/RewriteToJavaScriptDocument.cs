@@ -97,6 +97,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					product = k.TargetType.FullName,
 
+					/*
 					#region if we are going to inject code from jsc we need to copy it
 					rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
 						"jsc.meta->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
@@ -108,7 +109,7 @@ namespace jsc.meta.Commands.Rewrite
 						"jsc"
 					},
 					#endregion
-
+					*/
 
 					PreTypeRewrite =
 						a =>
@@ -441,7 +442,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									IHTMLElementCoTypes[t] = t_element;
 
-
+									var __InternalElementProxy__ = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 
 

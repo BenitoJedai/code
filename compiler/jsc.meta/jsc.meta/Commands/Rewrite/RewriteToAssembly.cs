@@ -129,6 +129,16 @@ namespace jsc.meta.Commands.Rewrite
 		public Action<TypeRewriteArguments> PostTypeRewrite;
 		public Action<TypeRewriteArguments> PreTypeRewrite;
 
+		public class BeforeInstructionsArguments : TypeRewriteArguments
+		{
+			public MethodInfo SourceMethod;
+			public MethodBuilder Method;
+
+			public Func<ILGenerator> GetILGenerator;
+		}
+
+		public Action<BeforeInstructionsArguments> BeforeInstructions;
+
 		public Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride;
 
 		public FileInfo Output;
@@ -325,11 +335,33 @@ namespace jsc.meta.Commands.Rewrite
 
 					if (ShouldCopyType(msource.DeclaringType))
 					{
-						CopyMethod(a, m, msource, (TypeBuilder)TypeCache[msource.DeclaringType], TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
+						var source = (TypeBuilder)TypeCache[msource.DeclaringType];
+
+						CopyMethod(a, m, msource, source, TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
 							_assembly,
 							this.codeinjecton,
 							this.codeinjectonparams,
-							this.ILOverride
+							this.ILOverride,
+
+							(SourceMethod, Method, GetILGenerator) =>
+							{
+								if (this.BeforeInstructions != null)
+									this.BeforeInstructions(
+										 new BeforeInstructionsArguments
+										 {
+											 SourceType = msource.DeclaringType,
+											 Type = source,
+											 Assembly = a,
+											 Module = m,
+
+											 SourceMethod = SourceMethod,
+											 Method = Method,
+											 GetILGenerator = GetILGenerator,
+
+											 context = this.RewriteArguments.context
+										 }
+									);
+							}
 						);
 						return;
 					}
