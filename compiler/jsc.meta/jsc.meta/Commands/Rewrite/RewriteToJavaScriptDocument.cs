@@ -654,15 +654,23 @@ namespace jsc.meta.Commands.Rewrite
 										else
 										{
 											#region Methods, Properties
+
+											var __args = il.EmitStringArgumentsAsArray(true, source.GetParameters());
+
 											il.Emit(OpCodes.Ldarg_0);
 											il.Emit(OpCodes.Ldfld, __InternalElement);
-											il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
-											for (short i = 0; i < source.GetParameters().Length; i++)
-											{
-												il.Emit(OpCodes.Ldarg, (short)(i + 1));
-											}
+											il.Emit(OpCodes.Ldstr, source.Name);
 
-											il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+											// <>.FromType ?
+											il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
+										
+											Func<IHTMLEmbedFlash, string, string[], string>
+												CallFunction = IHTMLEmbedFlashExtensions.CallFunction;
+
+											il.Emit(OpCodes.Call, CallFunction.Method);
+
+											if (source.ReturnType == typeof(void))
+												il.Emit(OpCodes.Pop);
 
 											il.Emit(OpCodes.Ret);
 											#endregion
@@ -689,7 +697,7 @@ namespace jsc.meta.Commands.Rewrite
 							if (c != null)
 								if (c.IsActionScript || c.IsJava)
 								{
-									#region WriteInitialization_JavaInternalElement
+									#region WriteInitialization_*InternalElement
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
 
 									// we need an instance :)

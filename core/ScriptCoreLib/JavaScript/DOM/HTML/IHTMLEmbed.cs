@@ -31,6 +31,22 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 			var _arguments = xml.createElement("arguments");
 
+			foreach (var item in args)
+			{
+				if (item == null)
+				{
+					_arguments.appendChild(xml.createElement("null"));
+				}
+				else
+				{
+					var _string = xml.createElement("string");
+
+					_string.appendChild(xml.createTextNode(item));
+
+					_arguments.appendChild(_string);
+				}
+
+			}
 			xml.documentElement.appendChild(_arguments);
 
 			return e.CallFunction(
