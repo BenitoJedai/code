@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace jsc.meta.Library.Templates
 {
@@ -68,6 +69,15 @@ namespace jsc.meta.Library.Templates
 			}
 
 			__Delayed.Add(e);
+		}
+
+		public static void OrphanizeLater(IHTMLElement e)
+		{
+			Native.Window.onbeforeunload +=
+				delegate
+				{
+					e.Orphanize();
+				};
 		}
 	}
 }

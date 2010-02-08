@@ -712,7 +712,8 @@ namespace jsc.meta.Commands.Rewrite
 									{
 										WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
 											__SetElementLoaded,
-											__AfterElementLoaded
+											__AfterElementLoaded,
+											r.RewriteArguments.context.MethodCache
 										);
 
 									}

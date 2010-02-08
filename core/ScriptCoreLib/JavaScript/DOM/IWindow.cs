@@ -245,6 +245,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                         value(c);
 
+						// http://stackoverflow.com/questions/276660/how-can-i-override-the-onbeforeunload-dialog-and-replace-it-with-my-own
+						// http://www.coderanch.com/t/419881/HTML-JavaScript/Stopping-onbeforeunload-event
+
+						if (c.Text == null)
+						{
+							//e.PreventDefault();
+							return new IFunction("return void(0);").apply(0);
+						}
+
                         e.returnValue = c.Text;
 
                         return c.Text;
