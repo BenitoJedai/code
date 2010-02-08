@@ -18,7 +18,7 @@ namespace jsc.meta.Library.Templates
 			ExternalInterface.addCallback("isActive", new BoolFunc(() => true).ToFunction());
 		}
 
-		public static object ExternalInterface_Invoke(object context, object[] arguments)
+		public static object ExternalInterface_Invoke(object context, object[] __arguments)
 		{
 			return null;
 		}

@@ -8,31 +8,64 @@ using System;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    [Script(InternalConstructor = true)]
-    public class IHTMLEmbed : IHTMLElement
-    {
+	[Script(InternalConstructor = true)]
+	public class IHTMLEmbedFlash : IHTMLEmbed
+	{
+		public string CallFunction(string e)
+		{
+			// IHTMLEmbed = flash10 ? :)
+
+			return null;
+		}
+	}
+
+	[Script]
+	public static class IHTMLEmbedFlashExtensions
+	{
+		public static string CallFunction(this IHTMLEmbedFlash e, string method, string[] args)
+		{
+			var xml = new ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument("invoke");
+
+			xml.documentElement.setAttribute("name", method);
+			xml.documentElement.setAttribute("returntype", "javascript");
+
+			var _arguments = xml.createElement("arguments");
+
+			xml.documentElement.appendChild(_arguments);
+
+			return e.CallFunction(
+				xml.ToXMLString()
+			);
+		}
+	}
+
+	[Script(InternalConstructor = true)]
+	public class IHTMLEmbed : IHTMLElement
+	{
 
 
-        #region Constructor
+		#region Constructor
 
-        public IHTMLEmbed()
-        {
-            // InternalConstructor
-        }
+		public IHTMLEmbed()
+		{
+			// InternalConstructor
+		}
 
 
-        static IHTMLObject InternalConstructor()
-        {
-            return (IHTMLObject)IHTMLElement.InternalConstructor(HTMLElementEnum.embed);
-        }
+		static IHTMLObject InternalConstructor()
+		{
+			return (IHTMLObject)IHTMLElement.InternalConstructor(HTMLElementEnum.embed);
+		}
 
-        #endregion
+		#endregion
 
-        public string src;
-        public string autostart;
-        public string volume;
-        public string type;
-        public string wmode;
+		public string src;
+		public string autostart;
+		public string volume;
+		public string type;
+		public string wmode;
+
+
 
 		#region event onload hack
 
@@ -124,5 +157,5 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 
-    }
+	}
 }

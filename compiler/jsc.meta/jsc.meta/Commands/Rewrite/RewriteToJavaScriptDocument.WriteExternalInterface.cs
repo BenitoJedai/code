@@ -23,7 +23,7 @@ namespace jsc.meta.Commands.Rewrite
 			const string __out_Method = "__out_Method";
 
 			const string _context = "context";
-			const string _this = "this";
+			const string _this = "_this";
 			const string _callback = "callback";
 			const string _ToType = "ToType";
 			const string _Invoke = "Invoke";
@@ -145,6 +145,8 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (item.k.ReturnType == typeof(void))
 					il.Emit(OpCodes.Pop);
+				else
+					il.Emit(OpCodes.Castclass, typeof(string));
 
 				il.Emit(OpCodes.Ret);
 
@@ -328,7 +330,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				if (item.k.DeclaringType.IsInterface)
-					m.DefineParameter(1, ParameterAttributes.None, "this");
+					m.DefineParameter(1, ParameterAttributes.None, _this);
 
 				foreach (var p in item.k.GetParameters())
 				{

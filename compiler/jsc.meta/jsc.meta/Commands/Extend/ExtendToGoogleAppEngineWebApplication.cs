@@ -235,6 +235,8 @@ namespace jsc.meta.Commands.Extend
 					item.CopyTo(Path.Combine(staging_4_net.FullName, item.Name), true);
 				}
 
+				// should we actually look at the csproj file?
+
 				foreach (var item in staging_2_aspnet.GetFilesByPattern(
 					 "*.htm", "*.ico", "*.png", "*.swf"
 					)

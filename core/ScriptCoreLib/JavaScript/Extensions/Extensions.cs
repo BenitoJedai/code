@@ -65,8 +65,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		/// <summary>
 		/// detaches the node from dom; should be renamed to Orphanize
 		/// </summary>
+		[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
 		public static T Dispose<T>(this T e)
 			where T : INode
+		{
+			return e.Orphanize();
+		}
+
+		public static T Orphanize<T>(this T e)
+				where T : INode
 		{
 			if (e == null)
 				throw new NullReferenceException();
@@ -78,8 +85,6 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 			return e;
 		}
-
-
 
 		/// <summary>
 		/// attaches this element to the current document body

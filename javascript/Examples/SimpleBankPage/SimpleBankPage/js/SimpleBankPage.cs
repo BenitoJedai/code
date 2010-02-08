@@ -39,6 +39,9 @@ namespace SimpleBankPage.js
 
             Control.appendChild(new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "This page will ask you to confirm in order to unload the page"));
 
+			var check = new IHTMLInput(HTMLInputTypeEnum.checkbox).AttachToDocument();
+			var label = new IHTMLLabel("Bypass check", check).AttachToDocument();
+
 
 
             Native.Window.onbeforeunload +=
@@ -54,6 +57,9 @@ namespace SimpleBankPage.js
                             new Timer((t) => Native.Document.body.style.backgroundColor = Color.White, 500, 0);
                         }
                     );
+
+					if (check.@checked)
+						return;
 
                     ev.Text = "This is a secure website, do you want to leave?";
                 };

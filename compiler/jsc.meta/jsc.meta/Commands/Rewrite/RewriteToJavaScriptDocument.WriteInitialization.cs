@@ -125,7 +125,8 @@ namespace jsc.meta.Commands.Rewrite
 			ScriptApplicationEntryPointAttribute entry,
 			FieldInfo __InternalElement,
 			MethodInfo __SetElementLoaded,
-			MethodInfo __AfterElementLoaded
+			MethodInfo __AfterElementLoaded,
+			Func<MethodInfo, MethodInfo> MethodCache
 			)
 		{
 			// whatever they are doing it may work! :D
@@ -138,81 +139,59 @@ namespace jsc.meta.Commands.Rewrite
 			// http://kb2.adobe.com/cps/164/tn_16494.html
 			// http://stackoverflow.com/questions/2154931/how-to-call-dynamically-created-flash-external-interface-in-ie-from-javascript
 
-			Action Implementation1 =
-				delegate
+			Action<Action> Implementation1 =
+				arg0 =>
 				{
 					var oo = new object();
 
-					//var id = "__embed_" + new Random().Next();
+					var id = "__embed_" + new Random().Next();
 
 					// good luck getting it to work with ID :)
 					// there probably is a way to do it!
 
-					//const string __object = "<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0' WIDTH='550' HEIGHT='400' id='myMovieName'></OBJECT>";
+					var o = new IHTMLEmbed();
 
 
-					//var ie = (bool)new IFunction(
-					//    "/*@cc_on return true; @*/ return false;").apply(oo);
+					// http://www.bobbyvandersluis.com/ufo/index.html
+					// for IE we might need to consider setting innerHTML
+					// as we do already in scriptcorelib for some elements IHTMLInput
 
-					////"<embed id='accc' name='accc' width='500' height='400'  src='assets/Ultra2.UltraApplication/UltraSprite.swf' allowfullscreen='true' allownetworking='all' allowscriptaccess='always'  />"
+					o.type = type;
 
-					//if (ie)
-					//{
-
-					//    var x = new IHTMLDiv();
-
-					//    x.innerHTML = "<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0' WIDTH='550' HEIGHT='400' id='myMovieName'><PARAM NAME='movie' VALUE='assets/Ultra4.UltraApplication/Ultra4.UltraApplication+UltraSprite.swf'><PARAM NAME='quality' VALUE='high'><PARAM NAME='quality' VALUE='high'><PARAM NAME='AllowScriptAccess' VALUE='always'></OBJECT>";
-
-					//    //Debugger.Break();
-
-					//    //new IFunction("x",
-					//    //"x.outerHTML = \"<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0' WIDTH='550' HEIGHT='400' id='myMovieName'><PARAM NAME='movie' VALUE='assets/Ultra4.UltraApplication/Ultra4.UltraApplication+UltraSprite.swf'><PARAM NAME='quality' VALUE='high'><PARAM NAME='bgcolor' VALUE='#FFFFFF'></OBJECT>\";").apply(oo, oo);
-
-					//    oo = x.firstChild;
-					//}
-					//else
-					//{
-						var o = new IHTMLEmbed();
+					// http://perishablepress.com/press/2007/04/17/embed-flash-or-die-trying/
+					// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
+					// http://developer.yahoo.com/ylive/flash_js_api/
+					// http://www.extremefx.com.ar/blog/fixing-flash-external-interface-inside-form-on-internet-explorer
+					// http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
 
 
-						// http://www.bobbyvandersluis.com/ufo/index.html
-						// for IE we might need to consider setting innerHTML
-						// as we do already in scriptcorelib for some elements IHTMLInput
-
-						o.type = type;
-
-						// http://perishablepress.com/press/2007/04/17/embed-flash-or-die-trying/
-						// http://curtismorley.com/2008/11/01/actionscript-security-error-2060-security-sandbox-violation/
-						// http://developer.yahoo.com/ylive/flash_js_api/
-						// http://www.extremefx.com.ar/blog/fixing-flash-external-interface-inside-form-on-internet-explorer
-						// http://code.google.com/p/swfobject/source/browse/trunk/swfobject/src/swfobject.js
-
-
-						// do we need id and names? for IE?
-						//o.id = id;
-						//o.name = id;
+					// do we need id and names? for IE?
+					o.id = id;
+					o.name = id;
 
 
 
-						o.setAttribute("allowFullScreen", "true");
-						o.setAttribute("allowNetworking", "all");
-						o.setAttribute("allowScriptAccess", "always");
+					o.setAttribute("allowFullScreen", "true");
+					o.setAttribute("allowNetworking", "all");
+					o.setAttribute("allowScriptAccess", "always");
 
-						// we need Ldc_I4
-						o.width = 4001;
-						o.height = 4002;
+					// we need Ldc_I4
+					o.width = 4001;
+					o.height = 4002;
 
-						o.src = src;
+					o.src = src;
 
-						o.onload += null;
-						oo = o;
-					//}
+					o.onload += arg0;
+
+					__InternalElementProxy.OrphanizeLater(o);
+
+					oo = o;
 				};
 
 			var il_a = new ILTranslationExtensions.EmitToArguments();
 
 			//il_a.TranslateTargetType = t => t == typeof(Implementation1) ? a.Type : t;
-			//il_a.TranslateTargetMethod = m => m == Implementation4.Method ? __cctor_1 : m;
+			il_a.TranslateTargetMethod = MethodCache;
 
 			il_a[OpCodes.Ldc_I4] =
 				e =>
@@ -256,7 +235,7 @@ namespace jsc.meta.Commands.Rewrite
 				};
 
 
-			il_a[OpCodes.Ldnull] =
+			il_a[OpCodes.Ldarg_0] =
 				e =>
 				{
 					il.Emit(OpCodes.Ldarg_0);
