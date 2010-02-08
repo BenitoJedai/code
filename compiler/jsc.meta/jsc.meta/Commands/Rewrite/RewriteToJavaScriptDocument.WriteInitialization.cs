@@ -316,6 +316,7 @@ namespace jsc.meta.Commands.Rewrite
 			Action Implementation1 =
 				delegate
 				{
+					// to be replaced by .out_method
 					ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};
 

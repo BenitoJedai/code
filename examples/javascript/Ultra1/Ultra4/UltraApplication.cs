@@ -20,13 +20,13 @@ using Ultra1.Common;
 
 namespace Ultra4
 {
-	
+
 	//[Description("OrcasClientScriptApplication. Write javascript, flash and java applets within a C# project.")]
 
 	public sealed class UltraApplication
 	{
 
-		public sealed class UltraApplet : Applet , IUltraPolyglot
+		public sealed class UltraApplet : Applet, IUltraPolyglot
 		{
 
 			public const int DefaultWidth = 500;
@@ -123,7 +123,7 @@ namespace Ultra4
 
 
 
-		public sealed class UltraSprite : Sprite , IUltraPolyglot
+		public sealed class UltraSprite : Sprite, IUltraPolyglot
 		{
 			public const int DefaultWidth = 500;
 			public const int DefaultHeight = 400;
@@ -152,9 +152,15 @@ namespace Ultra4
 				AddShape(0x7070);
 			}
 
-			public void AddShape1()
+			public void AddShape1(string color)
 			{
-				AddShape(0xff);
+				if (color == "red")
+					AddShape(0xff0000);
+				else if (color == "green")
+					AddShape(0xff00);
+				else
+					AddShape(0xff);
+
 			}
 
 			public string AddShape2
@@ -216,7 +222,7 @@ namespace Ultra4
 			//        {
 			//            item.Orphanize();
 			//        }
-					
+
 			//    };
 
 			// we are attaching to the DOM now after onload event
@@ -231,130 +237,30 @@ namespace Ultra4
 					delegate
 					{
 						var o = new UltraSprite();
-						x.style.color = JSColor.Red;
-
-						o.MyLoaded +=
-							delegate
-							{
-								x.style.color = JSColor.Blue;
-							};
-
-						//o.MessageStatusOnClick();
 
 						{
-							var n = new IHTMLButton("AddShape1 callfunction");
-
-							n.onclick +=
-								delegate
-								{
-									var oo = (IHTMLEmbed)(object)o;
-
-									// see: http://www.mail-archive.com/flexcoders@yahoogroups.com/msg06134.html
-
-									new IFunction(
-										"x",
-										//"x.SetVariable('AddShape2', '');"
-										"x.CallFunction('<invoke name=\"AddShape1\" returntype=\"javascript\"><arguments></arguments></invoke>');"
-									).apply(null,oo);
-
-
-								};
-
-							n.AttachToDocument();
-						}
-
-						{
-							var n = new IHTMLButton("AddShape1 callfunction2");
-
-							n.onclick +=
-								delegate
-								{
-									var oo = (IHTMLEmbedFlash)(object)o;
-
-									// see: http://www.mail-archive.com/flexcoders@yahoogroups.com/msg06134.html
-
-									oo.CallFunction(
-										"<invoke name=\"AddShape1\" returntype=\"javascript\"><arguments></arguments></invoke>"
-									);
-
-								};
-
-							n.AttachToDocument();
-						}
-
-						{
-							var n = new IHTMLButton("AddShape1 callfunction3");
-
-							n.onclick +=
-								delegate
-								{
-									var oo = (IHTMLEmbedFlash)(object)o;
-
-									// see: http://www.mail-archive.com/flexcoders@yahoogroups.com/msg06134.html
-
-									var xml = new ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument("invoke");
-
-									xml.documentElement.setAttribute("name", "AddShape1");
-									xml.documentElement.setAttribute("returntype", "javascript");
-									
-									var _arguments = xml.createElement("arguments");
-
-									xml.documentElement.appendChild(_arguments);
-
-									oo.CallFunction(
-										xml.ToXMLString()
-									);
-
-								};
-
-							n.AttachToDocument();
-						}
-
-						{
-							var n = new IHTMLButton("AddShape1 callfunction4");
-
-							n.onclick +=
-								delegate
-								{
-									var oo = (IHTMLEmbedFlash)(object)o;
-
-									oo.CallFunction("AddShape1", new string[0]);
-
-						
-
-								};
-
-							n.AttachToDocument();
-						}
-
-
-
-						{
-							var n = new IHTMLButton("AddShape1 via document");
-
-							n.onclick +=
-								delegate
-								{
-									var oo = (IHTMLElement)(object)o;
-
-									var o3 = (UltraSprite)(object)Expando.Of(Native.Document)[oo.name];
-
-									o3.AddShape1();
-
-
-								};
-
-							n.AttachToDocument();
-						}
-
-						{
-							var n = new IHTMLButton("AddShape1 direct");
+							var n = new IHTMLButton("AddShape1 red");
 
 							n.onclick +=
 								delegate
 								{
 									//o.AddShape2 = "";
-									o.AddShape1();
+									o.AddShape1("red");
+
+								};
+
+							n.AttachToDocument();
+						}
+
+
+						{
+							var n = new IHTMLButton("AddShape1 green");
+
+							n.onclick +=
+								delegate
+								{
+									//o.AddShape2 = "";
+									o.AddShape1("green");
 
 								};
 
@@ -365,7 +271,7 @@ namespace Ultra4
 					};
 			}
 
-			/*
+			
 			{
 				var x = new IHTMLButton("create UltraApplet");
 
@@ -387,16 +293,22 @@ namespace Ultra4
 								x.style.color = JSColor.Blue;
 
 								// it better be loaded by now!!
-								o.MessageStatusOnClick();
+								//o.MessageStatusOnClick();
 
+
+								o.Clicked +=
+									delegate
+									{
+										x.style.color = JSColor.Yellow;
+									};
 							};
 
 				
 						o.AttachAppletToDocument();
 					};
-			}*/
+			}
 
-			
+
 
 		}
 
