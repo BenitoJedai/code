@@ -112,6 +112,7 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 					*/
 
+					#region PreTypeRewrite
 					PreTypeRewrite =
 						a =>
 						{
@@ -130,6 +131,7 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							}
 						},
+					#endregion
 
 					#region PostTypeRewrite
 					PostTypeRewrite =
@@ -145,12 +147,7 @@ namespace jsc.meta.Commands.Rewrite
 									InjectJavaScriptBootstrap(a);
 								}
 
-								if (k.IsJava)
-								{
-									// we need to expose add remove events via string callbacks
 
-									WriteInitialization_JavaExternalInterface(r, a, k.TargetType);
-								}
 
 								#region we need to inject entrypoint attributes
 								if (null == k.TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault())
@@ -339,6 +336,7 @@ namespace jsc.meta.Commands.Rewrite
 					// InternalConstructors which will act as a native interface
 					var IHTMLElementCoTypes = new Dictionary<TypeBuilder, TypeBuilder>();
 
+					var ExternalInterfaceConsumerCache = new Dictionary<TypeBuilder, ExternalInterfaceConsumer>();
 
 					#region ILOverride (Castclass)
 					r.ILOverride =
@@ -400,7 +398,7 @@ namespace jsc.meta.Commands.Rewrite
 										select r.RewriteArguments.context.TypeCache[y]
 									);
 
-									var t = source.IsNested ?
+									var DeclaringType = source.IsNested ?
 										((TypeBuilder)r.RewriteArguments.context.TypeCache[source.DeclaringType]).DefineNestedType(
 											source.FullName,
 											source.Attributes,
@@ -416,38 +414,140 @@ namespace jsc.meta.Commands.Rewrite
 											Interfaces
 									);
 
-									r.ExternalContext.TypeCache[source] = t;
+									r.ExternalContext.TypeCache[source] = DeclaringType;
 
+									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+
+
+									#region CoType1
+									if (c.IsJava)
+									{
+										// in flash we will need to use CallFunction!
+
+										var CoType1 = DeclaringType.DefineNestedType("IHTML" + source.Name,
+											   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
+
+											   // hmm, no base for proxies!
+											   typeof(IHTMLElement),
+
+											   // no interfaces either at this time!
+											   null
+									   );
+
+										CoType1.DefineAttribute(
+											new ScriptAttribute
+											{
+												InternalConstructor = true
+											},
+											typeof(ScriptAttribute)
+										);
+
+										IHTMLElementCoTypes[DeclaringType] = CoType1;
+									}
+									#endregion
+
+
+									var Consumer = new ExternalInterfaceConsumer
+									{
+										DeclaringType = DeclaringType,
+										RewriteArguments = r.RewriteArguments,
+										DefineMethod =
+											(LocalName, RemoteName, ReturnType, ParameterTypes) =>
+											{
+												// we should do the object to string mapping here actually!
+
+												#region DefineMethod
+												var m = DeclaringType.DefineMethod(LocalName, MethodAttributes.Public, CallingConventions.Standard,
+													ReturnType,
+													ParameterTypes
+												);
+
+												var il = m.GetILGenerator();
+												var source_Attributes = MethodAttributes.Public | MethodAttributes.NewSlot | MethodAttributes.Final;
+
+												if (c.IsJava)
+												{
+													var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
+
+
+
+
+													#region DeclaringTypeCoTypeMethod
+													var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(
+
+														// in java land we have to define a new method to translate
+														// from string to event
+														RemoteName,
+
+														source_Attributes, 
+														CallingConventions.Standard,
+														ReturnType,
+														ParameterTypes
+													);
+
+
+													{
+														var co_il = DeclaringTypeCoTypeMethod.GetILGenerator();
+
+														// fixme: some methods like add_event1(Action) need rewireing!
+
+														co_il.EmitCode(() => { throw new NotSupportedException(); });
+													}
+													#endregion
+
+
+													il.Emit(OpCodes.Ldarg_0);
+													il.Emit(OpCodes.Ldfld, __InternalElement);
+													il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
+													for (short i = 0; i < ParameterTypes.Length; i++)
+													{
+														il.Emit(OpCodes.Ldarg, (short)(i + 1));
+													}
+
+													il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+												}
+												else
+												{
+													var __args = il.EmitStringArgumentsAsArray(true, ParameterTypes);
+
+													il.Emit(OpCodes.Ldarg_0);
+													il.Emit(OpCodes.Ldfld, __InternalElement);
+													il.Emit(OpCodes.Ldstr, RemoteName);
+
+													// <>.FromType ?
+													il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
+
+													Func<IHTMLEmbedFlash, string, string[], string>
+														CallFunction = IHTMLEmbedFlashExtensions.CallFunction;
+
+													il.Emit(OpCodes.Call, CallFunction.Method);
+
+													if (ReturnType == typeof(void))
+														il.Emit(OpCodes.Pop);
+
+
+												}
+
+												#endregion
+
+												il.Emit(OpCodes.Ret);
+
+												return m;
+											}
+									};
+
+									Consumer.Implement();
+
+									ExternalInterfaceConsumerCache[DeclaringType] = Consumer;
 
 									// create DOM object
 									// implicit operator?
 
 
-
-
-									var t_element = t.DefineNestedType("IHTML" + source.Name,
-										   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
-
-										   // hmm, no base for proxies!
-										   typeof(IHTMLElement),
-
-										   // no interfaces either at this time!
-										   null
-								   );
-
-									t_element.DefineAttribute(
-										new ScriptAttribute
-										{
-											InternalConstructor = true
-										},
-										typeof(ScriptAttribute)
-									);
-
-									IHTMLElementCoTypes[t] = t_element;
-
+								
 									var __InternalElementProxy__ = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
-									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 
+									// triggering members to be copied...
 
 									#region copy constructors
 									foreach (var kk in source.GetConstructors(
@@ -471,10 +571,12 @@ namespace jsc.meta.Commands.Rewrite
 									}
 									#endregion
 
-									t_element.CreateType();
+									if (c.IsJava)
+									{
+										IHTMLElementCoTypes[DeclaringType].CreateType();
+									}
 
-
-									t.CreateType();
+									DeclaringType.CreateType();
 
 
 
@@ -507,43 +609,11 @@ namespace jsc.meta.Commands.Rewrite
 								if (c.IsActionScript || c.IsJava)
 								{
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
-									var CombineDelegates = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("CombineDelegates")];
-
 
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
-									var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
-
 
 									var source_Attributes = source.Attributes | MethodAttributes.NewSlot | MethodAttributes.Final;
 
-
-									#region DeclaringTypeCoTypeMethod
-									var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(
-
-										// in java land we have to define a new method to translate
-										// from string to event
-										source.Name,
-
-										source_Attributes,
-										source.CallingConvention,
-										source.ReturnType,
-										Enumerable.ToArray(
-											from ParameterType in source.GetParameterTypes()
-											// add and remove events
-											// must first save the delegate in global object like window
-											select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : r.RewriteArguments.context.TypeCache[ParameterType]
-										)
-									);
-									source.GetParameters().CopyTo(DeclaringTypeCoTypeMethod);
-
-									{
-										var il = DeclaringTypeCoTypeMethod.GetILGenerator();
-
-										// fixme: some methods like add_event1(Action) need rewireing!
-
-										il.EmitCode(() => { throw new NotSupportedException(); });
-									}
-									#endregion
 
 									var DeclaringTypeMethod = DeclaringType.DefineMethod(
 										source.Name,
@@ -560,46 +630,78 @@ namespace jsc.meta.Commands.Rewrite
 
 									source.GetParameters().CopyTo(DeclaringTypeMethod);
 
+									var il = DeclaringTypeMethod.GetILGenerator();
+
+									if (c.IsJava)
 									{
-										var il = DeclaringTypeMethod.GetILGenerator();
+										var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
 
 
-										if (c.IsActionScript)
+
+
+										#region DeclaringTypeCoTypeMethod
+										var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(
+
+											// in java land we have to define a new method to translate
+											// from string to event
+											source.Name,
+
+											source_Attributes,
+											source.CallingConvention,
+											source.ReturnType,
+											Enumerable.ToArray(
+												from ParameterType in source.GetParameterTypes()
+												// add and remove events
+												// must first save the delegate in global object like window
+												select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : r.RewriteArguments.context.TypeCache[ParameterType]
+											)
+										);
+										source.GetParameters().CopyTo(DeclaringTypeCoTypeMethod);
+
 										{
-											var __args = il.EmitStringArgumentsAsArray(true, source.GetParameters());
+											var co_il = DeclaringTypeCoTypeMethod.GetILGenerator();
 
-											il.Emit(OpCodes.Ldarg_0);
-											il.Emit(OpCodes.Ldfld, __InternalElement);
-											il.Emit(OpCodes.Ldstr, source.Name);
+											// fixme: some methods like add_event1(Action) need rewireing!
 
-											// <>.FromType ?
-											il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
-
-											Func<IHTMLEmbedFlash, string, string[], string>
-												CallFunction = IHTMLEmbedFlashExtensions.CallFunction;
-
-											il.Emit(OpCodes.Call, CallFunction.Method);
-
-											if (source.ReturnType == typeof(void))
-												il.Emit(OpCodes.Pop);
-
+											co_il.EmitCode(() => { throw new NotSupportedException(); });
 										}
-										else
+										#endregion
+
+
+										il.Emit(OpCodes.Ldarg_0);
+										il.Emit(OpCodes.Ldfld, __InternalElement);
+										il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
+										for (short i = 0; i < source.GetParameters().Length; i++)
 										{
-											il.Emit(OpCodes.Ldarg_0);
-											il.Emit(OpCodes.Ldfld, __InternalElement);
-											il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
-											for (short i = 0; i < source.GetParameters().Length; i++)
-											{
-												il.Emit(OpCodes.Ldarg, (short)(i + 1));
-											}
-
-											il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+											il.Emit(OpCodes.Ldarg, (short)(i + 1));
 										}
 
-										il.Emit(OpCodes.Ret);
+										il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+									}
+									else
+									{
+										var __args = il.EmitStringArgumentsAsArray(true, source.GetParameters());
+
+										il.Emit(OpCodes.Ldarg_0);
+										il.Emit(OpCodes.Ldfld, __InternalElement);
+										il.Emit(OpCodes.Ldstr, source.Name);
+
+										// <>.FromType ?
+										il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
+
+										Func<IHTMLEmbedFlash, string, string[], string>
+											CallFunction = IHTMLEmbedFlashExtensions.CallFunction;
+
+										il.Emit(OpCodes.Call, CallFunction.Method);
+
+										if (source.ReturnType == typeof(void))
+											il.Emit(OpCodes.Pop);
+
 
 									}
+
+									il.Emit(OpCodes.Ret);
+
 
 									r.ExternalContext.MethodCache[source] = DeclaringTypeMethod;
 								}
@@ -626,9 +728,6 @@ namespace jsc.meta.Commands.Rewrite
 									// we need an instance :)
 
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
-									//var __SetElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__SetElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
-									//var __AfterElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__AfterElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
-
 
 									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
 
@@ -639,23 +738,32 @@ namespace jsc.meta.Commands.Rewrite
 										r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
 									);
 
+									// we also need to expose our incoming methods...
+
 									if (c.IsActionScript)
 									{
-										WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
-											//__SetElementLoaded,
-											//__AfterElementLoaded,
-											r.RewriteArguments.context.MethodCache
+										WriteInitialization_ActionScriptInternalElement(
+											il, 
+											c.TargetType, 
+											k.TargetType, 
+											c.EntryPoint, 
+											__InternalElement, 
+											r.RewriteArguments.context.MethodCache,
+											ExternalInterfaceConsumerCache[DeclaringType]	
 										);
 
 									}
 
 									if (c.IsJava)
 									{
-										WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement
-											//__SetElementLoaded,
-											//__AfterElementLoaded
+										WriteInitialization_JavaInternalElement(
+											il, 
+											c.TargetType, 
+											k.TargetType, 
+											c.EntryPoint, 
+											__InternalElement,
+											ExternalInterfaceConsumerCache[DeclaringType]	
 										);
-
 									}
 
 									r.ExternalContext.ConstructorCache[source] = ctor;

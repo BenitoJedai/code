@@ -8,6 +8,8 @@ using System.Reflection;
 using jsc.meta.Library;
 using System.Runtime.CompilerServices;
 using System.Reflection.Emit;
+using jsc.meta.Library.Templates;
+using ScriptCoreLib.JavaScript;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -463,6 +465,80 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			return false;
+		}
+
+
+
+		public class ExternalInterfaceConsumer
+		{
+			// this is our Sprite or Applet
+			public TypeBuilder DeclaringType;
+
+			// this is the method we shall call in the ctor...
+			public MethodBuilder __out_Method_init;
+
+			// we need to resolve merged and rewritten types
+			public RewriteToAssembly.AssemblyRewriteArguments RewriteArguments;
+
+			public Func<string, string, Type, Type[], MethodBuilder> DefineMethod;
+
+			public void Implement()
+			{
+				this.__out_Method_init = DeclaringType.DefineMethod(RewriteToJavaScriptDocument.__out_Method + "_init", MethodAttributes.Private, CallingConventions.Standard, typeof(void), new Type[0]);
+				var __out_Method_tick = DeclaringType.DefineMethod(RewriteToJavaScriptDocument.__out_Method + "_tick", MethodAttributes.Private, CallingConventions.Standard, typeof(void), new Type[0]);
+
+				// first we need to export our callbacks
+				// then we need to start polling
+				// in level1 we can assume there aren't any
+
+				var Retry = RewriteArguments.context.MethodCache[((Action<Action>)__InternalElementProxy.Retry).Method];
+
+				{
+					var il = this.__out_Method_init.GetILGenerator();
+
+
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldftn, __out_Method_tick);
+					il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+
+					il.Emit(OpCodes.Call, Retry);
+
+					il.Emit(OpCodes.Ret);
+				}
+
+
+
+				var __out_Method = this.DefineMethod(
+					
+					// local name
+					RewriteToJavaScriptDocument.__out_Method,
+
+					// remote name
+					RewriteToJavaScriptDocument.__in_Method,
+
+					// no return type
+					typeof(void),
+					// number of callback methods, including names!
+					new Type[0]
+				);
+
+				{
+					var il = __out_Method_tick.GetILGenerator();
+
+					il.Emit(OpCodes.Ldarg_0);
+
+					// load callback methods here
+					il.Emit(OpCodes.Call, __out_Method);
+
+					// signal that we are done
+					// and start dispatching...
+
+
+
+					il.EmitCode(() => { Native.Window.alert("done loading"); });
+					//il.Emit(OpCodes.Ret);
+				}
+			}
 		}
 	}
 }

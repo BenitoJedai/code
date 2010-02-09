@@ -39,6 +39,8 @@ namespace jsc.meta.Commands.Rewrite
 			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
+	
+
 			Console.WriteLine("CopyType: " + SourceType.FullName);
 
 			// we should not reenter here!
@@ -128,6 +130,40 @@ namespace jsc.meta.Commands.Rewrite
 			// at this point we should signal back? that a nested declaration can continue?
 			// does everything still work after this change? :D
 
+			#region define fields now! as they are actually what the type is all about!
+			foreach (var f in SourceType.GetFields(
+						BindingFlags.DeclaredOnly |
+						BindingFlags.Public | BindingFlags.NonPublic |
+						BindingFlags.Instance | BindingFlags.Static))
+			{
+				// if the datastruct is actually pointing to
+				// a initialized data in .sdata
+				// then we have to redefine it in our version
+				// for some reason we cannot just copy this bit in current API
+
+				var FieldName = NameObfuscation[f.Name];
+
+				if (f.FieldType.StructLayoutAttribute != null && f.FieldType.StructLayoutAttribute.Size > 0)
+				{
+					var ff = t.DefineInitializedData(FieldName, f.GetValue(null).StructAsByteArray(), f.Attributes);
+
+					TypeFieldCache[SourceType].Add(ff);
+				}
+				else
+				{
+					var ff = t.DefineField(FieldName, TypeCache[f.FieldType], f.Attributes);
+
+
+
+					//ff.setd
+					//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
+
+					TypeFieldCache[SourceType].Add(ff);
+				}
+			}
+			#endregion
+
+
 			ContextContinuation(
 				delegate
 				{
@@ -177,35 +213,7 @@ namespace jsc.meta.Commands.Rewrite
 			VirtualDictionary<string, string> NameObfuscation,
 			TypeBuilder t)
 		{
-			foreach (var f in SourceType.GetFields(
-						BindingFlags.DeclaredOnly |
-						BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
-			{
-				// if the datastruct is actually pointing to
-				// a initialized data in .sdata
-				// then we have to redefine it in our version
-				// for some reason we cannot just copy this bit in current API
-
-				var FieldName = NameObfuscation[f.Name];
-
-				if (f.FieldType.StructLayoutAttribute != null && f.FieldType.StructLayoutAttribute.Size > 0)
-				{
-					var ff = t.DefineInitializedData(FieldName, f.GetValue(null).StructAsByteArray(), f.Attributes);
-
-					TypeFieldCache[SourceType].Add(ff);
-				}
-				else
-				{
-					var ff = t.DefineField(FieldName, TypeCache[f.FieldType], f.Attributes);
-
-
-
-					//ff.setd
-					//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
-
-					TypeFieldCache[SourceType].Add(ff);
-				}
-			}
+			
 
 
 
