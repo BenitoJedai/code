@@ -18,6 +18,27 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static LocalBuilder EmitStringArgumentsAsArray(this ILGenerator il, bool IsInstance, Type[] e)
+		{
+			var loc0 = il.DeclareLocal(typeof(string[]));
+			var loc1 = il.DeclareLocal(typeof(string));
+
+			il.Emit(OpCodes.Ldc_I4, e.Length);
+			il.Emit(OpCodes.Newarr, typeof(string));
+			il.Emit(OpCodes.Stloc, (short)loc0.LocalIndex);
+
+			foreach (var item in e.Select((k, i) => new { k, i }))
+			{
+
+				il.Emit(OpCodes.Ldloc, (short)loc0.LocalIndex);
+				il.Emit(OpCodes.Ldc_I4, item.i);
+				il.Emit(OpCodes.Ldarg, (short)(item.i + (IsInstance ? 1 : 0)));
+				il.Emit(OpCodes.Stelem_Ref);
+			}
+
+			return loc0;
+		}
+
 		public static LocalBuilder EmitStringArgumentsAsArray(this ILGenerator il, bool IsInstance, ParameterInfo[] e)
 		{
 			var loc0 = il.DeclareLocal(typeof(string[]));

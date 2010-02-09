@@ -30,9 +30,8 @@ namespace jsc.meta.Commands.Rewrite
 			Type proxy,
 			Type context,
 			ScriptApplicationEntryPointAttribute entry,
-			FieldBuilder __InternalElement
-			//MethodInfo __SetElementLoaded,
-			//MethodInfo __AfterElementLoaded
+			FieldBuilder __InternalElement,
+			ExternalInterfaceConsumer Consumer
 			)
 		{
 			const string archive = "assets/Ultra1.UltraApplication/UltraApplet.jar";
@@ -56,7 +55,6 @@ namespace jsc.meta.Commands.Rewrite
 					o.width = width;
 					o.height = height;
 
-					//o.onload += null;
 				};
 
 			var il_a = new ILTranslationExtensions.EmitToArguments();
@@ -102,18 +100,16 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldloc_0);
 					il.Emit(OpCodes.Stfld, __InternalElement);
+
+					// start probing...
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, Consumer.__out_Method_init);
+
+
 					il.Emit(OpCodes.Ret);
 				};
 
-			//il_a[OpCodes.Ldnull] =
-			//    e =>
-			//    {
-			//        il.Emit(OpCodes.Ldarg_0);
-			//        il.Emit(OpCodes.Ldftn, __SetElementLoaded);
-			//        il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
-
-			//    };
-
+	
 			Implementation1.Method.EmitTo(il, il_a);
 		}
 
@@ -123,9 +119,9 @@ namespace jsc.meta.Commands.Rewrite
 			Type context,
 			ScriptApplicationEntryPointAttribute entry,
 			FieldInfo __InternalElement,
-			//MethodInfo __SetElementLoaded,
-			//MethodInfo __AfterElementLoaded,
-			Func<MethodInfo, MethodInfo> MethodCache
+			Func<MethodInfo, MethodInfo> MethodCache,
+
+			ExternalInterfaceConsumer Consumer
 			)
 		{
 			// whatever they are doing it may work! :D
@@ -138,8 +134,8 @@ namespace jsc.meta.Commands.Rewrite
 			// http://kb2.adobe.com/cps/164/tn_16494.html
 			// http://stackoverflow.com/questions/2154931/how-to-call-dynamically-created-flash-external-interface-in-ie-from-javascript
 
-			Action<Action> Implementation1 =
-				arg0 =>
+			Action Implementation1 =
+				delegate
 				{
 					var oo = new object();
 
@@ -179,8 +175,6 @@ namespace jsc.meta.Commands.Rewrite
 					o.height = 4002;
 
 					o.src = src;
-
-					//o.onload += arg0;
 
 					__InternalElementProxy.OrphanizeLater(o);
 
@@ -230,6 +224,11 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldloc_0);
 					il.Emit(OpCodes.Stfld, __InternalElement);
+
+					// start probing...
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, Consumer.__out_Method_init);
+
 					il.Emit(OpCodes.Ret);
 				};
 
@@ -248,24 +247,7 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
-		private void WriteInitialization_JavaExternalInterface(
-			RewriteToAssembly r,
-			RewriteToAssembly.TypeRewriteArguments a,
-			Type TargetType
-			)
-		{
-			foreach (var kk in TargetType.GetMethods(
-				BindingFlags.DeclaredOnly |
-				BindingFlags.Public | BindingFlags.Instance))
-			{
-				if (!SignatureTypesSupportedForProxy(kk))
-					continue;
 
-				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
-
-				
-			}
-		}
 
 
 
@@ -396,108 +378,6 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
-		private static void WriteInitialization_JavaExternalInterface_add(
-			RewriteToAssembly r,
-			MethodInfo kk,
-
-			TypeBuilder DeclaringType,
-			MethodInfo Invoke
-
-			)
-		{
-			Action<Func<string>, object> Implementation2 =
-						(current, value) =>
-						{
-							current += value.ToString;
-						};
-
-			var Closure = DeclaringType.DefineNestedType("<>" + kk.Name, TypeAttributes.NestedPrivate | TypeAttributes.Sealed);
-			var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
-			var Closure_this = Closure.DefineField("<>this", DeclaringType, FieldAttributes.Public);
-			var Closure_value = Closure.DefineField("<>value", typeof(string), FieldAttributes.Public);
-
-			var Closure_Invoke = Closure.DefineMethod(
-				"Invoke",
-				MethodAttributes.Public,
-				CallingConventions.Standard,
-				Invoke.ReturnType,
-				Invoke.GetParameterTypes()
-			);
-
-			var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
-
-			Func<Applet, string, object[], object> InternalJavaToJavascriptBridge_Invoke = InternalJavaToJavaScriptBridge.Invoke;
-
-
-			var args = Closure_Invoke_il.DeclareLocal(typeof(object[]));
-
-			Closure_Invoke_il.Emit(OpCodes.Ldc_I4, Invoke.GetParameters().Length);
-			Closure_Invoke_il.Emit(OpCodes.Newarr, typeof(object));
-			Closure_Invoke_il.Emit(OpCodes.Stloc, (short)args.LocalIndex);
-
-			for (short i = 0; i < Invoke.GetParameters().Length; i++)
-			{
-				Closure_Invoke_il.Emit(OpCodes.Ldloc, (short)args.LocalIndex);
-				Closure_Invoke_il.Emit(OpCodes.Ldc_I4, (int)i);
-				Closure_Invoke_il.Emit(OpCodes.Ldarg, (short)(i + 1));
-				Closure_Invoke_il.Emit(OpCodes.Stelem_Ref);
-			}
-
-
-			Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
-			Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_this);
-
-			Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
-			Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_value);
-
-			Closure_Invoke_il.Emit(OpCodes.Ldloc, (short)args.LocalIndex);
-
-
-
-			// this is the first time we mention this function
-			// it will now be copied to our new assembly
-			Closure_Invoke_il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[InternalJavaToJavascriptBridge_Invoke.Method]);
-
-			if (Invoke.ReturnType == typeof(void))
-				Closure_Invoke_il.Emit(OpCodes.Pop);
-
-
-			Closure_Invoke_il.Emit(OpCodes.Ret);
-
-
-			Closure.CreateType();
-
-			var LocalMethod = DeclaringType.DefineMethod("??" + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
-
-			var il = LocalMethod.GetILGenerator();
-
-			il.DeclareLocal(Closure);
-
-			il.Emit(OpCodes.Newobj, Closure_ctor);
-			il.Emit(OpCodes.Stloc_0);
-
-			il.Emit(OpCodes.Ldloc_0);
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Stfld, Closure_this);
-
-			il.Emit(OpCodes.Ldloc_0);
-			il.Emit(OpCodes.Ldarg_1);
-			il.Emit(OpCodes.Stfld, Closure_value);
-
-			il.Emit(OpCodes.Ldarg_0);
-
-			il.Emit(OpCodes.Ldloc_0);
-			il.Emit(OpCodes.Ldftn, Closure_Invoke);
-
-			il.Emit(OpCodes.Newobj, r.RewriteArguments.context.ConstructorCache[kk.GetParameterTypes().Single().GetConstructors().Single()]);
-
-			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[kk]);
-
-
-
-
-			il.Emit(OpCodes.Ret);
-		}
-
+	
 	}
 }

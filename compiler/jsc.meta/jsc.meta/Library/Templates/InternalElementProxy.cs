@@ -18,21 +18,21 @@ namespace jsc.meta.Library.Templates
 			return e.__InternalElement;
 		}
 
-		public delegate string __FuncString();
+		//public delegate string __FuncString();
 
-		static int Counter = 1;
+		//static int Counter = 1;
 
-		public string CombineDelegates(string name, Delegate value)
-		{
-			Counter++;
+		//public string CombineDelegates(string name, Delegate value)
+		//{
+		//    Counter++;
 
-			var __callback = "__InternalElementProxy_" + name + "_" + Counter;
+		//    var __callback = "__InternalElementProxy_" + name + "_" + Counter;
 
-			IFunction.OfDelegate(value).Export(__callback);
+		//    IFunction.OfDelegate(value).Export(__callback);
 
-			return __callback;
+		//    return __callback;
 
-		}
+		//}
 
 
 		//bool __IsElementLoaded;
@@ -78,6 +78,28 @@ namespace jsc.meta.Library.Templates
 				{
 					e.Orphanize();
 				};
+		}
+
+		internal static void Retry(Action e)
+		{
+			// this is a javascript utility method
+			// move to ScriptCoreLib/Ultra?
+
+			new ScriptCoreLib.JavaScript.Runtime.Timer(
+				tt =>
+				{
+					try
+					{
+						e();
+						tt.Stop();
+					}
+					catch
+					{
+
+					}
+				},
+				1, 100
+			);
 		}
 	}
 }

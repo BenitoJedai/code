@@ -345,10 +345,10 @@ namespace jsc
 
         void FollowBranch(ILInstruction z)
         {
-            if (z == null)
-                throw new ArgumentNullException();
-
-			// IL is missing a  OpCodes.ret ? :)
+			if (z == null)
+			{
+				throw new ArgumentNullException("!!! IL is missing a  OpCodes.ret ? :)");
+			}
 
             if (z.IsFirstInFlow)
             {
