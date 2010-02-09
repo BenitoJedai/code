@@ -27,9 +27,14 @@ namespace jsc.meta.Commands.Rewrite
 		   Func<Type, bool> ShouldCopyType,
 			Func<string, string> FullNameFixup,
 			Action<TypeBuilder> PostTypeRewrite,
-			Action<TypeBuilder> PreTypeRewrite
+			Action<TypeBuilder> PreTypeRewrite,
+			Action<Action> ContextContinuation
 			)
 		{
+			if (ContextContinuation == null)
+				ContextContinuation = e => e();
+
+
 			// sanity check
 			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
@@ -42,10 +47,12 @@ namespace jsc.meta.Commands.Rewrite
 			// interfaces dont have base types!
 			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
 
+			var DeclaringTypeContinuation = default(Action);
+
 			var _DeclaringType = (OverrideDeclaringType ?? (
 
 				SourceType.DeclaringType == null ? null :
-					(TypeBuilder)TypeCache[SourceType.DeclaringType]
+					(TypeBuilder)TypeCache[SourceType.DeclaringType, n => DeclaringTypeContinuation = n]
 
 				)
 			);
@@ -117,33 +124,57 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			TypeCache[SourceType] = t;
+			
+			// at this point we should signal back? that a nested declaration can continue?
+			// does everything still work after this change? :D
+
+			ContextContinuation(
+				delegate
+				{
+					Console.WriteLine("ContextContinuation:  " + SourceType.FullName);
+
+					if (PreTypeRewrite != null)
+						PreTypeRewrite(t);
+
+					// including other nested types?
+					// if we dont need these types we will waste them
+					// if we need them later we are doomed! :)
+
+					CopyTypeMembers(SourceType, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
 
 
-			if (PreTypeRewrite != null)
-				PreTypeRewrite(t);
 
-			CopyTypeMembers(SourceType, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
+					if (PostTypeRewrite != null)
+						PostTypeRewrite(t);
 
+					// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
 
+					Console.WriteLine("CreateType:  " + SourceType.FullName);
 
-			if (PostTypeRewrite != null)
-				PostTypeRewrite(t);
+					// maybe we should call create type once we are sure there
+					// are no more nested types?
+					// actually if the members refer to the nested type
+					// they have been declared by now...
+					// more testing is needed to clarify this!
+					t.CreateType();
 
-			// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
+					if (DeclaringTypeContinuation != null)
+					{
+						Console.WriteLine("DeclaringTypeContinuation:  " + SourceType.FullName);
 
-			Console.WriteLine("CreateType:  " + SourceType.FullName + " done!");
-
-			t.CreateType();
-
+						DeclaringTypeContinuation();
+					}
+				}
+			);
 		}
 
 		internal static void CopyTypeMembers(
-			Type SourceType, 
-			VirtualDictionary<Type, Type> TypeCache, 
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, 
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, 
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache, 
-			VirtualDictionary<string, string> NameObfuscation, 
+			Type SourceType,
+			VirtualDictionary<Type, Type> TypeCache,
+			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
+			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+			VirtualDictionary<string, string> NameObfuscation,
 			TypeBuilder t)
 		{
 			foreach (var f in SourceType.GetFields(

@@ -84,7 +84,8 @@ namespace jsc.meta.Commands.Rewrite
 				var __InternalElementProxy = typeof(__InternalElementProxy);
 				var __InternalElementProxyToElement = __InternalElementProxy.GetImplicitOperators(null, typeof(IHTMLElement)).Single();
 
-
+				// in flash we need to export our functions...
+				var __ExternalCallback = new List<MethodBuilderInfo>();
 
 				var r = default(RewriteToAssembly);
 
@@ -120,12 +121,12 @@ namespace jsc.meta.Commands.Rewrite
 
 								if (k.IsActionScript)
 								{
-									WriteExternalInterface(k.TargetType, a, r, InternalActionScriptToJavaScriptBridge.ExternalInterface_Invoke);
+									WriteExternalInterface(k.TargetType, a, r, InternalActionScriptToJavaScriptBridge.ExternalInterface_Invoke, __ExternalCallback.Add);
 								}
 
 								if (k.IsJava)
 								{
-									WriteExternalInterface(k.TargetType, a, r, InternalJavaToJavaScriptBridge.ExternalInterface_Invoke);
+									WriteExternalInterface(k.TargetType, a, r, InternalJavaToJavaScriptBridge.ExternalInterface_Invoke, null);
 								}
 							}
 						},
@@ -284,7 +285,9 @@ namespace jsc.meta.Commands.Rewrite
 										{
 											var DeclaringType = (TypeBuilder)r.RewriteArguments.context.TypeCache[k.TargetType];
 
-											WriteInitialization_ActionScriptExternalInterface(r, e, DeclaringType, k.TargetType);
+											WriteInitialization_ActionScriptExternalInterface(r, e, DeclaringType, k.TargetType,
+												__ExternalCallback
+											);
 
 
 										}
@@ -505,13 +508,11 @@ namespace jsc.meta.Commands.Rewrite
 								{
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
 									var CombineDelegates = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("CombineDelegates")];
-									var __AfterElementLoaded = r.RewriteArguments.context.MethodCache[typeof(__InternalElementProxy).GetMethod("__AfterElementLoaded", BindingFlags.Instance | BindingFlags.NonPublic)];
 
 
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
 									var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
 
-									var IsEventMethod = source.ReturnType == typeof(void) && source.GetParameterTypes().Length == 1 && typeof(Delegate).IsAssignableFrom(source.GetParameterTypes()[0]);
 
 									var source_Attributes = source.Attributes | MethodAttributes.NewSlot | MethodAttributes.Final;
 
@@ -521,7 +522,7 @@ namespace jsc.meta.Commands.Rewrite
 
 										// in java land we have to define a new method to translate
 										// from string to event
-										(IsEventMethod && c.IsJava ? ExternalInterfacePrefix : "") + source.Name,
+										source.Name,
 
 										source_Attributes,
 										source.CallingConvention,
@@ -562,99 +563,9 @@ namespace jsc.meta.Commands.Rewrite
 									{
 										var il = DeclaringTypeMethod.GetILGenerator();
 
-										if (IsEventMethod)
+
+										if (c.IsActionScript)
 										{
-											if (source.Name.StartsWith("add_"))
-											{
-												// we need a closure!
-												#region Closure
-												var Closure = DeclaringType.DefineNestedType("<>" + source.Name, TypeAttributes.NestedPrivate | TypeAttributes.Sealed);
-												var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
-												var Closure_this = Closure.DefineField("<>this", DeclaringType, FieldAttributes.Public);
-												var Closure_value = Closure.DefineField("<>value", r.RewriteArguments.context.TypeCache[source.GetParameterTypes().Single()], FieldAttributes.Public);
-
-
-												var Closure_Invoke = Closure.DefineMethod(
-													"Invoke",
-													MethodAttributes.Public,
-													CallingConventions.Standard,
-													typeof(void),
-													new Type[0]
-												);
-
-												var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
-
-												#region     ((IHTMLUltraSprite) base.__InternalElement).add_event1(base.CombineDelegates("event1", value));
-
-												var Closure_Invoke_il_this = Closure_Invoke_il.DeclareLocal(DeclaringType);
-
-												Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
-												Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_this);
-												Closure_Invoke_il.Emit(OpCodes.Stloc_0);
-
-												#region loc.__InternalElement
-												Closure_Invoke_il.Emit(OpCodes.Ldloc_0);
-												Closure_Invoke_il.Emit(OpCodes.Ldfld, __InternalElement);
-												Closure_Invoke_il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
-												#endregion
-
-												#region add_event1
-												Closure_Invoke_il.Emit(OpCodes.Ldloc_0);
-
-												Closure_Invoke_il.Emit(OpCodes.Ldstr, source.Name.Substring(4));
-
-												Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
-												Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_value);
-
-												Closure_Invoke_il.Emit(OpCodes.Call, CombineDelegates);
-
-												Closure_Invoke_il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
-												#endregion
-
-
-												Closure_Invoke_il.Emit(OpCodes.Ret);
-
-												#endregion
-
-
-												Closure.CreateType();
-
-												il.DeclareLocal(Closure);
-
-												il.Emit(OpCodes.Newobj, Closure_ctor);
-												il.Emit(OpCodes.Stloc_0);
-
-												il.Emit(OpCodes.Ldloc_0);
-												il.Emit(OpCodes.Ldarg_0);
-												il.Emit(OpCodes.Stfld, Closure_this);
-
-												il.Emit(OpCodes.Ldloc_0);
-												il.Emit(OpCodes.Ldarg_1);
-												il.Emit(OpCodes.Stfld, Closure_value);
-
-												il.Emit(OpCodes.Ldarg_0);
-
-												il.Emit(OpCodes.Ldloc_0);
-												il.Emit(OpCodes.Ldftn, Closure_Invoke);
-
-												il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
-
-												il.Emit(OpCodes.Call, __AfterElementLoaded);
-
-
-												il.Emit(OpCodes.Ret);
-												#endregion
-
-											}
-											else
-											{
-												il.EmitCode(() => { throw new NotSupportedException(); });
-											}
-										}
-										else
-										{
-											#region Methods, Properties
-
 											var __args = il.EmitStringArgumentsAsArray(true, source.GetParameters());
 
 											il.Emit(OpCodes.Ldarg_0);
@@ -663,7 +574,7 @@ namespace jsc.meta.Commands.Rewrite
 
 											// <>.FromType ?
 											il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
-										
+
 											Func<IHTMLEmbedFlash, string, string[], string>
 												CallFunction = IHTMLEmbedFlashExtensions.CallFunction;
 
@@ -672,10 +583,22 @@ namespace jsc.meta.Commands.Rewrite
 											if (source.ReturnType == typeof(void))
 												il.Emit(OpCodes.Pop);
 
-											il.Emit(OpCodes.Ret);
-											#endregion
-
 										}
+										else
+										{
+											il.Emit(OpCodes.Ldarg_0);
+											il.Emit(OpCodes.Ldfld, __InternalElement);
+											il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
+											for (short i = 0; i < source.GetParameters().Length; i++)
+											{
+												il.Emit(OpCodes.Ldarg, (short)(i + 1));
+											}
+
+											il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+										}
+
+										il.Emit(OpCodes.Ret);
+
 									}
 
 									r.ExternalContext.MethodCache[source] = DeclaringTypeMethod;
@@ -703,8 +626,8 @@ namespace jsc.meta.Commands.Rewrite
 									// we need an instance :)
 
 									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
-									var __SetElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__SetElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
-									var __AfterElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__AfterElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
+									//var __SetElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__SetElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
+									//var __AfterElementLoaded = r.RewriteArguments.context.MethodCache[__InternalElementProxy.GetMethod("__AfterElementLoaded", BindingFlags.NonPublic | BindingFlags.Instance)];
 
 
 									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
@@ -719,8 +642,8 @@ namespace jsc.meta.Commands.Rewrite
 									if (c.IsActionScript)
 									{
 										WriteInitialization_ActionScriptInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
-											__SetElementLoaded,
-											__AfterElementLoaded,
+											//__SetElementLoaded,
+											//__AfterElementLoaded,
 											r.RewriteArguments.context.MethodCache
 										);
 
@@ -728,9 +651,9 @@ namespace jsc.meta.Commands.Rewrite
 
 									if (c.IsJava)
 									{
-										WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement,
-											__SetElementLoaded,
-											__AfterElementLoaded
+										WriteInitialization_JavaInternalElement(il, c.TargetType, k.TargetType, c.EntryPoint, __InternalElement
+											//__SetElementLoaded,
+											//__AfterElementLoaded
 										);
 
 									}
