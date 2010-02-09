@@ -387,8 +387,8 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 			#region TypeCache
-			TypeCache.Resolve +=
-				source =>
+			TypeCache.ResolveWithContinuation +=
+				(source, continuation) =>
 				{
 					// This unit was resolved for us...
 					if (ExternalContext.TypeCache[source] != source)
@@ -456,7 +456,7 @@ namespace jsc.meta.Commands.Rewrite
 								 #endregion
 
 							 }
-
+							 , continuation
 						);
 
 

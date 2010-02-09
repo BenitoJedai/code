@@ -222,6 +222,7 @@
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
+    <Compile Include="Library\MethodBuilderInfo.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\InternaActionScriptToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalElementProxy.cs" />

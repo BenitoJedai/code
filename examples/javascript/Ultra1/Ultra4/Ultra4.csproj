@@ -58,8 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UltraApplication2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UltraApplication.cs" />
+    <Compile Include="UltraApplication1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ultra1.Common\Ultra1.Common.csproj">
@@ -81,6 +82,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /IsRewriteOnly:true</PostBuildEvent>
   </PropertyGroup>
 </Project>

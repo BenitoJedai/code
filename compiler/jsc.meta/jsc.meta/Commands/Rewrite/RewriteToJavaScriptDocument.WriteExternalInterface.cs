@@ -13,14 +13,23 @@ namespace jsc.meta.Commands.Rewrite
 {
 	partial class RewriteToJavaScriptDocument
 	{
+		const string __in_Delegate = "__in_Delegate";
+		const string __in_Interface = "__in_Interface";
+		const string __in_Method = "__in_Method";
+		const string __out_Method = "__out_Method";
 
+		private void WriteExternalInterface(
+			Type source,
+			RewriteToAssembly.TypeRewriteArguments a,
+			RewriteToAssembly r,
 
-		private void WriteExternalInterface(Type source, RewriteToAssembly.TypeRewriteArguments a, RewriteToAssembly r, Func<object, object[], object> ExternalCall)
+			Func<object, object[], object> ExternalCall,
+
+			Action<MethodBuilderInfo> ExternalCallback
+
+			)
 		{
-			const string __in_Delegate = "__in_Delegate";
-			const string __in_Interface = "__in_Interface";
-			const string __in_Method = "__in_Method";
-			const string __out_Method = "__out_Method";
+
 
 			const string _context = "context";
 			const string _this = "_this";
@@ -38,6 +47,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).Select((k, i) => new { k, i }).ToArray();
 			var MethodsLocal = x.Where(k => k.DeclaringType == source).Select((k, i) => new { k, i }).ToArray();
+			var MethodsIncoming = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
+
 
 			var __out = new Dictionary<MethodInfo, MethodBuilder>();
 			var __out_field = new Dictionary<MethodInfo, FieldBuilder>();
@@ -50,12 +61,24 @@ namespace jsc.meta.Commands.Rewrite
 				__out_field[item.k] = f;
 			}
 
-			var Initialize = a.Type.DefineMethod(__out_Method, MethodAttributes.Public, CallingConventions.Standard,
+			var InitializeParameters = Enumerable.Range(0, Methods.Length).Select(k => typeof(string)).ToArray();
 
+			var Initialize = a.Type.DefineMethod(__in_Method, MethodAttributes.Public, CallingConventions.Standard,
 				typeof(void),
-
-				Enumerable.Range(0, Methods.Length).Select(k => typeof(string)).ToArray()
+				InitializeParameters
 			);
+
+			Initialize.DefineAttribute(
+				new ObfuscationAttribute
+				{
+					Feature = "meta method: we are now able to call the external interface"
+				}
+				,
+				typeof(ObfuscationAttribute)
+			);
+
+			if (ExternalCallback != null)
+				ExternalCallback(new MethodBuilderInfo { Method = Initialize, Parameters = InitializeParameters });
 
 			{
 				var il = Initialize.GetILGenerator();
@@ -82,7 +105,8 @@ namespace jsc.meta.Commands.Rewrite
 			foreach (var item in Methods)
 			{
 				var m = a.Type.DefineMethod(
-					__out_Method + item.i, MethodAttributes.Assembly | MethodAttributes.Final,
+					// javac will complain!
+					__out_Method + item.i, MethodAttributes.Public | MethodAttributes.Final,
 
 					typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
 
@@ -307,16 +331,18 @@ namespace jsc.meta.Commands.Rewrite
 			// string to interface/delegate conversion!
 
 			#region __in_Method
-			foreach (var item in Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray())
+			foreach (var item in MethodsIncoming)
 			{
 				var ParameterTypes = item.k.GetParameterTypes().Select((k, i) => new { k, i }).ToArray();
+
+				var mParameters = Enumerable.Range(0, item.k.GetParameters().Length + (item.k.DeclaringType.IsInterface ? 1 : 0)).Select(k => typeof(string)).ToArray();
 
 				var m = a.Type.DefineMethod(
 					__in_Method + item.i, MethodAttributes.Public | MethodAttributes.Final,
 
 					typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
 
-					Enumerable.Range(0, item.k.GetParameters().Length + (item.k.DeclaringType.IsInterface ? 1 : 0)).Select(k => typeof(string)).ToArray()
+					mParameters
 				);
 
 				m.DefineAttribute(
@@ -336,6 +362,9 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					m.DefineParameter(p.Position + (item.k.DeclaringType.IsInterface ? 2 : 1), ParameterAttributes.None, p.Name);
 				}
+
+				if (ExternalCallback != null)
+					ExternalCallback(new MethodBuilderInfo { Method = m, Parameters = mParameters });
 
 				var il = m.GetILGenerator();
 

@@ -24,16 +24,15 @@ namespace jsc.meta.Commands.Rewrite
 {
 	partial class RewriteToJavaScriptDocument
 	{
-		public const string ExternalInterfacePrefix = "__ExternalInterfacePrefix_";
 
 		private void WriteInitialization_JavaInternalElement(
 			ILGenerator il,
 			Type proxy,
 			Type context,
 			ScriptApplicationEntryPointAttribute entry,
-			FieldBuilder __InternalElement,
-			MethodInfo __SetElementLoaded,
-			MethodInfo __AfterElementLoaded
+			FieldBuilder __InternalElement
+			//MethodInfo __SetElementLoaded,
+			//MethodInfo __AfterElementLoaded
 			)
 		{
 			const string archive = "assets/Ultra1.UltraApplication/UltraApplet.jar";
@@ -57,7 +56,7 @@ namespace jsc.meta.Commands.Rewrite
 					o.width = width;
 					o.height = height;
 
-					o.onload += null;
+					//o.onload += null;
 				};
 
 			var il_a = new ILTranslationExtensions.EmitToArguments();
@@ -106,14 +105,14 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ret);
 				};
 
-			il_a[OpCodes.Ldnull] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldarg_0);
-					il.Emit(OpCodes.Ldftn, __SetElementLoaded);
-					il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+			//il_a[OpCodes.Ldnull] =
+			//    e =>
+			//    {
+			//        il.Emit(OpCodes.Ldarg_0);
+			//        il.Emit(OpCodes.Ldftn, __SetElementLoaded);
+			//        il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
 
-				};
+			//    };
 
 			Implementation1.Method.EmitTo(il, il_a);
 		}
@@ -124,8 +123,8 @@ namespace jsc.meta.Commands.Rewrite
 			Type context,
 			ScriptApplicationEntryPointAttribute entry,
 			FieldInfo __InternalElement,
-			MethodInfo __SetElementLoaded,
-			MethodInfo __AfterElementLoaded,
+			//MethodInfo __SetElementLoaded,
+			//MethodInfo __AfterElementLoaded,
 			Func<MethodInfo, MethodInfo> MethodCache
 			)
 		{
@@ -181,7 +180,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					o.src = src;
 
-					o.onload += arg0;
+					//o.onload += arg0;
 
 					__InternalElementProxy.OrphanizeLater(o);
 
@@ -235,14 +234,14 @@ namespace jsc.meta.Commands.Rewrite
 				};
 
 
-			il_a[OpCodes.Ldarg_0] =
-				e =>
-				{
-					il.Emit(OpCodes.Ldarg_0);
-					il.Emit(OpCodes.Ldftn, __SetElementLoaded);
-					il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+			//il_a[OpCodes.Ldarg_0] =
+			//    e =>
+			//    {
+			//        il.Emit(OpCodes.Ldarg_0);
+			//        il.Emit(OpCodes.Ldftn, __SetElementLoaded);
+			//        il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
 
-				};
+			//    };
 
 			Implementation1.Method.EmitTo(il, il_a);
 
@@ -264,54 +263,34 @@ namespace jsc.meta.Commands.Rewrite
 
 				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
 
-				var IsEventMethod = kk.IsEventMethod();
-
-				if (IsEventMethod)
-				{
-					// we need some additional code
-					var Invoke = kk.GetParameterTypes().Single().GetMethod("Invoke");
-
-					#region add_
-					if (kk.Name.StartsWith("add_"))
-					{
-						WriteInitialization_JavaExternalInterface_add(r, kk, a.Type, Invoke);
-
-
-					}
-					#endregion
-
-
-					#region remove_
-					if (kk.Name.StartsWith("remove_"))
-					{
-						var LocalMethod = a.Type.DefineMethod(ExternalInterfacePrefix + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
-
-						var LocalMethod_il = LocalMethod.GetILGenerator();
-
-						LocalMethod_il.EmitCode(() => { throw new NotSupportedException(); });
-
-					}
-					#endregion
-
-				}
+				
 			}
 		}
+
 
 
 		private void WriteInitialization_ActionScriptExternalInterface(
 			RewriteToAssembly r,
 			ILTranslationExtensions.EmitToArguments.ILRewriteContext c,
 			TypeBuilder DeclaringType,
-			Type TargetType)
+			Type TargetType,
+			IEnumerable<MethodBuilderInfo> ExternalCallbackList)
 		{
-			var __InitializeExternalInterface = DeclaringType.DefineMethod("__InitializeExternalInterface", MethodAttributes.Private, CallingConventions.Standard, typeof(void), null);
+			var __InitializeExternalInterface = DeclaringType.DefineMethod(__out_Method, MethodAttributes.Private, CallingConventions.Standard, typeof(void), null);
+
+			__InitializeExternalInterface.DefineAttribute(
+				new ObfuscationAttribute
+				{
+					Feature = "meta method: external interface is now able to call our methods"
+				}
+				,
+				typeof(ObfuscationAttribute)
+			);
 
 			c.il.Emit(OpCodes.Ldarg_0);
 			c.il.Emit(OpCodes.Call, __InitializeExternalInterface);
 
 			var il = __InitializeExternalInterface.GetILGenerator();
-
-			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[((Action)InternalActionScriptToJavaScriptBridge.ExternalInterface_isActive).Method]);
 
 			Action Implementation1 =
 				delegate
@@ -320,18 +299,14 @@ namespace jsc.meta.Commands.Rewrite
 					ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};
 
-			foreach (var kk in TargetType.GetMethods(
-				BindingFlags.DeclaredOnly |
-				BindingFlags.Public | BindingFlags.Instance))
+			foreach (var kk in ExternalCallbackList)
 			{
 
 				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
 
-				var IsEventMethod = kk.IsEventMethod();
-
 
 				#region __Delegate
-				var __Delegate = DeclaringType.DefineNestedType("__Delegate_" + kk.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
+				var __Delegate = DeclaringType.DefineNestedType(__in_Delegate + kk.Method.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
 
 				var __Delegate_ctor = __Delegate.DefineConstructor(
 					MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
@@ -348,20 +323,15 @@ namespace jsc.meta.Commands.Rewrite
 				MethodAttributes maDelegate = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
 				MethodImplAttributes mia = MethodImplAttributes.Runtime | MethodImplAttributes.Managed;
 
+
+
 				var __Delegate_Invoke = __Delegate.DefineMethod(
 					"Invoke", maDelegate,
-					CallingConventions.Standard, kk.ReturnType,
-					Enumerable.ToArray(
-						from ParameterType in kk.GetParameterTypes()
-						// add and remove events
-						// must first save the delegate in global object like window
-						select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : r.RewriteArguments.context.TypeCache[ParameterType]
-					)
-				);
+					CallingConventions.Standard, kk.Method.ReturnType, kk.Parameters);
 
 
 				__Delegate_Invoke.SetImplementationFlags(mia);
-				kk.GetParameters().CopyTo(__Delegate_Invoke);
+
 
 				#region BeginInvoke, EndInvoke
 				{
@@ -377,83 +347,52 @@ namespace jsc.meta.Commands.Rewrite
 				#endregion
 
 				__Delegate.CreateType();
+
 				#endregion
 
-				var ExposedMethod = r.RewriteArguments.context.MethodCache[kk];
+				var ExposedMethod = kk.Method;
 
-				if (IsEventMethod)
-				{
-					// we need some additional code
-					var Invoke = kk.GetParameterTypes().Single().GetMethod("Invoke");
+				#region addCallback
+				var il_a = new ILTranslationExtensions.EmitToArguments();
 
-					#region add_
-					if (kk.Name.StartsWith("add_"))
+				il_a[OpCodes.Newobj] =
+					e =>
 					{
-						// we need a closure!
+						e.il.Emit(OpCodes.Newobj, __Delegate_ctor);
+					};
 
-						ExposedMethod = WriteInitialization_ActionScriptExternalInterface_add(r, DeclaringType, kk, ExposedMethod, Invoke);
-					}
-					#endregion
-
-
-					#region remove_
-					if (kk.Name.StartsWith("remove_"))
+				il_a[OpCodes.Ldftn] =
+					e =>
 					{
-						var LocalMethod = DeclaringType.DefineMethod(kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
-
-						var LocalMethod_il = LocalMethod.GetILGenerator();
-
-						LocalMethod_il.EmitCode(() => { throw new NotSupportedException(); });
-
-						ExposedMethod = LocalMethod;
-					}
-					#endregion
-
-				}
-
-				if (ExposedMethod != null)
-				{
-					#region addCallback
-					var il_a = new ILTranslationExtensions.EmitToArguments();
-
-					il_a[OpCodes.Newobj] =
-						e =>
-						{
-							e.il.Emit(OpCodes.Newobj, __Delegate_ctor);
-						};
-
-					il_a[OpCodes.Ldftn] =
-						e =>
-						{
-							e.il.Emit(OpCodes.Ldftn, ExposedMethod);
-						};
+						e.il.Emit(OpCodes.Ldftn, ExposedMethod);
+					};
 
 
-					il_a[OpCodes.Ldnull] =
-						e =>
-						{
-							e.il.Emit(OpCodes.Ldarg_0);
-						};
+				il_a[OpCodes.Ldnull] =
+					e =>
+					{
+						e.il.Emit(OpCodes.Ldarg_0);
+					};
 
-					il_a[OpCodes.Ldstr] =
-						e =>
-						{
-							e.il.Emit(OpCodes.Ldstr, kk.Name);
-						};
+				il_a[OpCodes.Ldstr] =
+					e =>
+					{
+						e.il.Emit(OpCodes.Ldstr, ExposedMethod.Name);
+					};
 
-					il_a[OpCodes.Ret] =
-						e =>
-						{
+				il_a[OpCodes.Ret] =
+					e =>
+					{
 
-						};
+					};
 
-					Implementation1.Method.EmitTo(il, il_a);
-					#endregion
+				Implementation1.Method.EmitTo(il, il_a);
+				#endregion
 
-				}
 			}
 
 			il.Emit(OpCodes.Ret);
+
 		}
 
 
@@ -528,7 +467,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			Closure.CreateType();
 
-			var LocalMethod = DeclaringType.DefineMethod(ExternalInterfacePrefix + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
+			var LocalMethod = DeclaringType.DefineMethod("??" + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
 
 			var il = LocalMethod.GetILGenerator();
 
@@ -560,99 +499,5 @@ namespace jsc.meta.Commands.Rewrite
 			il.Emit(OpCodes.Ret);
 		}
 
-		private static MethodInfo WriteInitialization_ActionScriptExternalInterface_add(
-			RewriteToAssembly r,
-
-			TypeBuilder DeclaringType,
-			MethodInfo kk,
-			MethodInfo ExposedMethod,
-			MethodInfo Invoke
-			)
-		{
-			Action<Func<string>, object> Implementation2 =
-				(current, value) =>
-				{
-					current += value.ToString;
-				};
-
-			var Closure = DeclaringType.DefineNestedType("<>" + kk.Name, TypeAttributes.NestedPrivate | TypeAttributes.Sealed);
-			var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
-			//var Closure_this = Closure.DefineField("<>this", DeclaringType, FieldAttributes.Public);
-			var Closure_value = Closure.DefineField("<>value", typeof(string), FieldAttributes.Public);
-
-			var Closure_Invoke = Closure.DefineMethod(
-				"Invoke",
-				MethodAttributes.Public,
-				CallingConventions.Standard,
-				Invoke.ReturnType,
-				Invoke.GetParameterTypes()
-			);
-
-			var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
-
-			Func<string, object> _0 = ExternalInterface.call;
-			Func<string, object, object> _1 = ExternalInterface.call;
-			Func<string, object, object, object> _2 = ExternalInterface.call;
-			Func<string, object, object, object, object> _3 = ExternalInterface.call;
-
-			// we are going to crash if there are more than 3 params :)
-
-			var Dispatcher = new Delegate[] { _0, _1, _2, _3 }[Invoke.GetParameterTypes().Length].Method;
-
-			Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
-			Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_value);
-
-			for (short i = 0; i < Invoke.GetParameters().Length; i++)
-			{
-				Closure_Invoke_il.Emit(OpCodes.Ldarg, (short)(i + 1));
-			}
-
-			Closure_Invoke_il.Emit(OpCodes.Call, Dispatcher);
-
-			if (Invoke.ReturnType == typeof(void))
-				Closure_Invoke_il.Emit(OpCodes.Pop);
-
-
-			Closure_Invoke_il.Emit(OpCodes.Ret);
-
-
-			Closure.CreateType();
-
-			var LocalMethod = DeclaringType.DefineMethod(ExternalInterfacePrefix + kk.Name, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { typeof(string) });
-
-			var il = LocalMethod.GetILGenerator();
-
-			il.DeclareLocal(Closure);
-
-			il.Emit(OpCodes.Newobj, Closure_ctor);
-			il.Emit(OpCodes.Stloc_0);
-
-			//LocalMethod_il.Emit(OpCodes.Ldloc_0);
-			//LocalMethod_il.Emit(OpCodes.Ldarg_0);
-			//LocalMethod_il.Emit(OpCodes.Stfld, Closure_this);
-
-			il.Emit(OpCodes.Ldloc_0);
-			il.Emit(OpCodes.Ldarg_1);
-			il.Emit(OpCodes.Stfld, Closure_value);
-
-			il.Emit(OpCodes.Ldarg_0);
-
-			il.Emit(OpCodes.Ldloc_0);
-			il.Emit(OpCodes.Ldftn, Closure_Invoke);
-
-			il.Emit(OpCodes.Newobj, r.RewriteArguments.context.ConstructorCache[kk.GetParameterTypes().Single().GetConstructors().Single()]);
-
-			il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[kk]);
-
-
-
-
-			il.Emit(OpCodes.Ret);
-
-
-
-			ExposedMethod = LocalMethod;
-			return ExposedMethod;
-		}
 	}
 }
