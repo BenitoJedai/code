@@ -129,6 +129,8 @@ namespace jsc.meta.Commands.Rewrite
 		public Action<TypeRewriteArguments> PostTypeRewrite;
 		public Action<TypeRewriteArguments> PreTypeRewrite;
 
+		public event Action<TypeRewriteArguments> TypeCreated;
+
 		public class BeforeInstructionsArguments : TypeRewriteArguments
 		{
 			public MethodInfo SourceMethod;
@@ -456,7 +458,26 @@ namespace jsc.meta.Commands.Rewrite
 								 #endregion
 
 							 }
-							 , continuation
+							 , continuation,
+
+							 t =>
+							 {
+								 #region TypeCreated
+								 if (TypeCreated != null)
+									 TypeCreated(
+										 new TypeRewriteArguments
+										 {
+											 SourceType = source,
+											 Type = t,
+											 Assembly = a,
+											 Module = m,
+
+											 context = this.RewriteArguments.context
+										 }
+									 );
+								 #endregion
+
+							 }
 						);
 
 

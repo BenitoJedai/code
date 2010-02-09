@@ -28,7 +28,8 @@ namespace jsc.meta.Commands.Rewrite
 			Func<string, string> FullNameFixup,
 			Action<TypeBuilder> PostTypeRewrite,
 			Action<TypeBuilder> PreTypeRewrite,
-			Action<Action> ContextContinuation
+			Action<Action> ContextContinuation,
+			Action<TypeBuilder> TypeCreated
 			)
 		{
 			if (ContextContinuation == null)
@@ -39,7 +40,7 @@ namespace jsc.meta.Commands.Rewrite
 			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
-	
+
 
 			Console.WriteLine("CopyType: " + SourceType.FullName);
 
@@ -126,7 +127,7 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			TypeCache[SourceType] = t;
-			
+
 			// at this point we should signal back? that a nested declaration can continue?
 			// does everything still work after this change? :D
 
@@ -192,7 +193,21 @@ namespace jsc.meta.Commands.Rewrite
 					// actually if the members refer to the nested type
 					// they have been declared by now...
 					// more testing is needed to clarify this!
+
+					// fixme:D
+					// if we rewrite nested interfaces we cannot 
+					// implement them?
+
+					//foreach (var i in SourceType.GetInterfaces().Select(ii => SourceType.GetInterfaceMap(ii)))
+					//{
+						
+					//}
+
+
 					t.CreateType();
+
+					if (TypeCreated != null)
+						TypeCreated(t);
 
 					if (DeclaringTypeContinuation != null)
 					{
@@ -213,7 +228,7 @@ namespace jsc.meta.Commands.Rewrite
 			VirtualDictionary<string, string> NameObfuscation,
 			TypeBuilder t)
 		{
-			
+
 
 
 

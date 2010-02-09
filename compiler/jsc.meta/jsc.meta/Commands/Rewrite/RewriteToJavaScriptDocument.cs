@@ -450,6 +450,7 @@ namespace jsc.meta.Commands.Rewrite
 									var Consumer = new ExternalInterfaceConsumer
 									{
 										DeclaringType = DeclaringType,
+										Rewrite = r,
 										RewriteArguments = r.RewriteArguments,
 										SourceType = source,
 
@@ -460,11 +461,7 @@ namespace jsc.meta.Commands.Rewrite
 												// we should do the object to string mapping here actually!
 
 
-												var m = e.DeclaringType.DefineMethod(
-													e.LocalName, MethodAttributes.Public | MethodAttributes.Virtual, CallingConventions.Standard,
-													e.ReturnType,
-													e.ParameterTypes
-												);
+												var m = e.Method;
 
 												var il = m.GetILGenerator();
 												var source_Attributes = MethodAttributes.Public | MethodAttributes.NewSlot | MethodAttributes.Final;
