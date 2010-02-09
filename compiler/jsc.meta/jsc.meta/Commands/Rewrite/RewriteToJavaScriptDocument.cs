@@ -451,6 +451,7 @@ namespace jsc.meta.Commands.Rewrite
 									{
 										DeclaringType = DeclaringType,
 										RewriteArguments = r.RewriteArguments,
+										SourceType = source,
 										DefineMethod =
 											(LocalName, RemoteName, ReturnType, ParameterTypes) =>
 											{
@@ -559,14 +560,8 @@ namespace jsc.meta.Commands.Rewrite
 									#endregion
 
 									#region copy methods
-									foreach (var kk in source.GetMethods(
-										BindingFlags.DeclaredOnly |
-										BindingFlags.Public | BindingFlags.Instance))
+									foreach (var kk in Consumer.SourceTypeMethods)
 									{
-										// for now we support delegates and strings
-										if (!SignatureTypesSupportedForProxy(kk))
-											continue;
-
 										var km = r.ExternalContext.MethodCache[kk];
 									}
 									#endregion
@@ -632,73 +627,12 @@ namespace jsc.meta.Commands.Rewrite
 
 									var il = DeclaringTypeMethod.GetILGenerator();
 
-									if (c.IsJava)
+									il.Emit(OpCodes.Ldarg_0);
+									for (int i = 0; i < source.GetParameters().Length; i++)
 									{
-										var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
-
-
-
-
-										#region DeclaringTypeCoTypeMethod
-										var DeclaringTypeCoTypeMethod = DeclaringTypeCoType.DefineMethod(
-
-											// in java land we have to define a new method to translate
-											// from string to event
-											source.Name,
-
-											source_Attributes,
-											source.CallingConvention,
-											source.ReturnType,
-											Enumerable.ToArray(
-												from ParameterType in source.GetParameterTypes()
-												// add and remove events
-												// must first save the delegate in global object like window
-												select typeof(Delegate).IsAssignableFrom(ParameterType) ? typeof(string) : r.RewriteArguments.context.TypeCache[ParameterType]
-											)
-										);
-										source.GetParameters().CopyTo(DeclaringTypeCoTypeMethod);
-
-										{
-											var co_il = DeclaringTypeCoTypeMethod.GetILGenerator();
-
-											// fixme: some methods like add_event1(Action) need rewireing!
-
-											co_il.EmitCode(() => { throw new NotSupportedException(); });
-										}
-										#endregion
-
-
-										il.Emit(OpCodes.Ldarg_0);
-										il.Emit(OpCodes.Ldfld, __InternalElement);
-										il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
-										for (short i = 0; i < source.GetParameters().Length; i++)
-										{
-											il.Emit(OpCodes.Ldarg, (short)(i + 1));
-										}
-
-										il.Emit(OpCodes.Call, DeclaringTypeCoTypeMethod);
+										il.Emit(OpCodes.Ldarg, (short)(i + 1));
 									}
-									else
-									{
-										var __args = il.EmitStringArgumentsAsArray(true, source.GetParameters());
-
-										il.Emit(OpCodes.Ldarg_0);
-										il.Emit(OpCodes.Ldfld, __InternalElement);
-										il.Emit(OpCodes.Ldstr, source.Name);
-
-										// <>.FromType ?
-										il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
-
-										Func<IHTMLEmbedFlash, string, string[], string>
-											CallFunction = IHTMLEmbedFlashExtensions.CallFunction;
-
-										il.Emit(OpCodes.Call, CallFunction.Method);
-
-										if (source.ReturnType == typeof(void))
-											il.Emit(OpCodes.Pop);
-
-
-									}
+									il.Emit(OpCodes.Call, ExternalInterfaceConsumerCache[DeclaringType].OutgoingMethodCache[source]);
 
 									il.Emit(OpCodes.Ret);
 
