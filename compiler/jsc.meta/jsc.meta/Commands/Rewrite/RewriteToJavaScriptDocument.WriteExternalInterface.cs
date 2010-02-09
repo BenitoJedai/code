@@ -415,7 +415,7 @@ namespace jsc.meta.Commands.Rewrite
 
 		}
 
-		private MethodInfo[] GetExternalInterfaceMethodsFromType(Type source)
+		public static MethodInfo[] GetExternalInterfaceMethodsFromType(Type source)
 		{
 			return Enumerable.ToArray(
 						from m in source.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
@@ -432,7 +432,7 @@ namespace jsc.meta.Commands.Rewrite
 					).SelectMany(k => k).Distinct().ToArray();
 		}
 
-		public IEnumerable<MethodInfo> GetExternalInterfaceMethods(MethodInfo m)
+		public static IEnumerable<MethodInfo> GetExternalInterfaceMethods(MethodInfo m)
 		{
 			// start with the actual method
 			yield return m;
@@ -471,6 +471,10 @@ namespace jsc.meta.Commands.Rewrite
 
 		public class ExternalInterfaceConsumer
 		{
+			public Type SourceType;
+
+			public MethodInfo[] SourceTypeMethods;
+
 			// this is our Sprite or Applet
 			public TypeBuilder DeclaringType;
 
@@ -481,6 +485,9 @@ namespace jsc.meta.Commands.Rewrite
 			public RewriteToAssembly.AssemblyRewriteArguments RewriteArguments;
 
 			public Func<string, string, Type, Type[], MethodBuilder> DefineMethod;
+
+
+			public readonly Dictionary<MethodInfo, MethodBuilder> OutgoingMethodCache = new Dictionary<MethodInfo,MethodBuilder>();
 
 			public void Implement()
 			{
@@ -509,7 +516,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				var __out_Method = this.DefineMethod(
-					
+
 					// local name
 					RewriteToJavaScriptDocument.__out_Method,
 
@@ -538,6 +545,38 @@ namespace jsc.meta.Commands.Rewrite
 					il.EmitCode(() => { Native.Window.alert("done loading"); });
 					//il.Emit(OpCodes.Ret);
 				}
+
+
+				var TypeCache = this.RewriteArguments.context.TypeCache;
+				var MethodCache = this.RewriteArguments.context.MethodCache;
+
+				var x = GetExternalInterfaceMethodsFromType(SourceType);
+
+				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().Select((k, i) => new { k, i }).ToArray();
+				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().Select((k, i) => new { k, i, Invoke = k.GetMethod("Invoke") }).ToArray();
+
+				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).Select((k, i) => new { k, i }).ToArray();
+				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).Select((k, i) => new { k, i }).ToArray();
+				var MethodsOutgoing = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
+
+				SourceTypeMethods = MethodsLocal.Select(k => k.k).ToArray();
+
+				foreach (var item in MethodsOutgoing)
+				{
+					var ParameterTypes = item.k.GetParameterTypes().Select((k, i) => new { k, i }).ToArray();
+
+					var mParameters = Enumerable.Range(0, item.k.GetParameters().Length + (item.k.DeclaringType.IsInterface ? 1 : 0)).Select(k => typeof(string)).ToArray();
+					var m = DefineMethod(
+						RewriteToJavaScriptDocument.__out_Method + item.i,
+						RewriteToJavaScriptDocument.__in_Method + item.i,
+						item.k.ReturnType,
+						item.k.GetParameterTypes()
+					);
+
+					
+					OutgoingMethodCache[item.k] = m;
+				}
+
 			}
 		}
 	}
