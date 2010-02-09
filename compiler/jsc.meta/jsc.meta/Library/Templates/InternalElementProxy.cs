@@ -35,41 +35,41 @@ namespace jsc.meta.Library.Templates
 		//}
 
 
-		//bool __IsElementLoaded;
-		//readonly List<Action> __Delayed = new List<Action>();
+		internal bool __IsElementLoaded;
+		internal readonly List<Action> __Delayed = new List<Action>();
 
-		//internal void __SetElementLoaded()
-		//{
-		//    //Native.Window.alert("__SetElementLoaded");
-		//    __IsElementLoaded = true;
-		//    __DelayedInvoke();
-		//    __Delayed.Clear();
-		//}
+		internal static void __SetElementLoaded(__InternalElementProxy that)
+		{
+			//Native.Window.alert("__SetElementLoaded");
+			that.__IsElementLoaded = true;
+			__DelayedInvoke(that);
+			that.__Delayed.Clear();
+		}
 
-		//private void __DelayedInvoke()
-		//{
-		//    //Native.Window.alert("__DelayedInvoke");
+		internal static void __DelayedInvoke(__InternalElementProxy that)
+		{
+			//Native.Window.alert("__DelayedInvoke");
 
-		//    // after jsc.meta rewrites this method, jsc cannot handle OpCodes.Leave if it does not return...
-		//    // todo: we should create a new test project and fix it!
-		//    foreach (var item in __Delayed)
-		//    {
-		//        //Native.Window.alert("__DelayedInvoke ##");
+			// after jsc.meta rewrites this method, jsc cannot handle OpCodes.Leave if it does not return...
+			// todo: we should create a new test project and fix it!
+			foreach (var item in that.__Delayed)
+			{
+				//Native.Window.alert("__DelayedInvoke ##");
 
-		//        item();
-		//    }
-		//}
+				item();
+			}
+		}
 
-		//internal void __AfterElementLoaded(Action e)
-		//{
-		//    if (__IsElementLoaded)
-		//    {
-		//        e();
-		//        return;
-		//    }
+		internal static void __AfterElementLoaded(__InternalElementProxy that, Action e)
+		{
+			if (that.__IsElementLoaded)
+			{
+				e();
+				return;
+			}
 
-		//    __Delayed.Add(e);
-		//}
+			that.__Delayed.Add(e);
+		}
 
 		public static void OrphanizeLater(IHTMLElement e)
 		{

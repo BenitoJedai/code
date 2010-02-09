@@ -19,6 +19,8 @@ namespace jsc.meta.Commands.Rewrite
 		const string __in_Interface = "__in_Interface";
 		const string __in_Method = "__in_Method";
 		const string __out_Method = "__out_Method";
+		const string __out_MethodDelayed = "__out_MethodDelayed";
+		const string __out_MethodClosure = "__out_MethodClosure";
 
 		private void WriteExternalInterface(
 			Type source,
@@ -484,13 +486,37 @@ namespace jsc.meta.Commands.Rewrite
 			// we need to resolve merged and rewritten types
 			public RewriteToAssembly.AssemblyRewriteArguments RewriteArguments;
 
-			public Func<string, string, Type, Type[], MethodBuilder> DefineMethod;
+			public class DefineMethodArguments
+			{
+				public string LocalName;
+				public string RemoteName;
+				public Type ReturnType;
+				public Type[] ParameterTypes;
+
+				public TypeBuilder DeclaringType;
+				public FieldBuilder DeclaringTypeContext;
+
+			}
+
+			public Func<DefineMethodArguments, MethodBuilder> DefineMethod;
 
 
-			public readonly Dictionary<MethodInfo, MethodBuilder> OutgoingMethodCache = new Dictionary<MethodInfo,MethodBuilder>();
+			public readonly Dictionary<MethodInfo, MethodBuilder> OutgoingMethodCache = new Dictionary<MethodInfo, MethodBuilder>();
+
+			public FieldBuilder OutgoingInterfaceField;
+			public FieldBuilder OutgoingDelayedField;
+			public FieldBuilder OutgoingDirectField;
+			public TypeBuilder OutgoingInterfaceType;
+			public TypeBuilder OutgoingDelayedType;
+			public TypeBuilder OutgoingDirectType;
 
 			public void Implement()
 			{
+
+				var TypeCache = this.RewriteArguments.context.TypeCache;
+				var MethodCache = this.RewriteArguments.context.MethodCache;
+
+
 				this.__out_Method_init = DeclaringType.DefineMethod(RewriteToJavaScriptDocument.__out_Method + "_init", MethodAttributes.Private, CallingConventions.Standard, typeof(void), new Type[0]);
 				var __out_Method_tick = DeclaringType.DefineMethod(RewriteToJavaScriptDocument.__out_Method + "_tick", MethodAttributes.Private, CallingConventions.Standard, typeof(void), new Type[0]);
 
@@ -503,6 +529,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var il = this.__out_Method_init.GetILGenerator();
 
+					// init implementations!
 
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldftn, __out_Method_tick);
@@ -513,20 +540,30 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ret);
 				}
 
+				this.OutgoingInterfaceType = this.DeclaringType.DefineNestedType(RewriteToJavaScriptDocument.__out_Method + "InterfaceType", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Interface, null);
+				this.OutgoingDelayedType = this.DeclaringType.DefineNestedType(RewriteToJavaScriptDocument.__out_Method + "DelayedType", TypeAttributes.NestedPublic, null, new Type[] { /*this.OutgoingInterfaceType*/ });
+				this.OutgoingDirectType = this.DeclaringType.DefineNestedType(RewriteToJavaScriptDocument.__out_Method + "DirectType", TypeAttributes.NestedPublic, null, new Type[] { /*this.OutgoingInterfaceType*/ });
+
+				var OutgoingDelayedTypeContext = this.OutgoingDelayedType.DefineField("Context", TypeCache[DeclaringType], FieldAttributes.Public);
+				var OutgoingDirectTypeContext = this.OutgoingDirectType.DefineField("Context", TypeCache[DeclaringType], FieldAttributes.Public);
+
+
+				this.OutgoingInterfaceField = this.DeclaringType.DefineField(RewriteToJavaScriptDocument.__out_Method + "Interface", this.OutgoingInterfaceType, FieldAttributes.Public);
+				this.OutgoingDelayedField = this.DeclaringType.DefineField(RewriteToJavaScriptDocument.__out_Method + "Delayed", this.OutgoingDelayedType, FieldAttributes.Public);
+				this.OutgoingDirectField = this.DeclaringType.DefineField(RewriteToJavaScriptDocument.__out_Method + "Direct", this.OutgoingDirectType, FieldAttributes.Public);
 
 
 				var __out_Method = this.DefineMethod(
+					new DefineMethodArguments
+					{
+						LocalName = RewriteToJavaScriptDocument.__out_Method,
+						RemoteName = RewriteToJavaScriptDocument.__in_Method,
+						ReturnType = typeof(void),
+						ParameterTypes = new Type[0],
 
-					// local name
-					RewriteToJavaScriptDocument.__out_Method,
-
-					// remote name
-					RewriteToJavaScriptDocument.__in_Method,
-
-					// no return type
-					typeof(void),
-					// number of callback methods, including names!
-					new Type[0]
+						DeclaringType = this.OutgoingDirectType,
+						DeclaringTypeContext = OutgoingDirectTypeContext
+					}
 				);
 
 				{
@@ -535,20 +572,20 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ldarg_0);
 
 					// load callback methods here
+					il.Emit(OpCodes.Ldfld, this.OutgoingDirectField);
+
 					il.Emit(OpCodes.Call, __out_Method);
 
 					// signal that we are done
 					// and start dispatching...
 
 
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, MethodCache[((Action<__InternalElementProxy>)__InternalElementProxy.__SetElementLoaded).Method]);
 
-					il.EmitCode(() => { Native.Window.alert("done loading"); });
-					//il.Emit(OpCodes.Ret);
+					il.Emit(OpCodes.Ret);
 				}
 
-
-				var TypeCache = this.RewriteArguments.context.TypeCache;
-				var MethodCache = this.RewriteArguments.context.MethodCache;
 
 				var x = GetExternalInterfaceMethodsFromType(SourceType);
 
@@ -567,15 +604,118 @@ namespace jsc.meta.Commands.Rewrite
 
 					var mParameters = Enumerable.Range(0, item.k.GetParameters().Length + (item.k.DeclaringType.IsInterface ? 1 : 0)).Select(k => typeof(string)).ToArray();
 					var m = DefineMethod(
+
+						new DefineMethodArguments
+						{
+							LocalName = RewriteToJavaScriptDocument.__out_Method + item.i,
+							RemoteName = RewriteToJavaScriptDocument.__in_Method + item.i,
+							ReturnType = item.k.ReturnType,
+							ParameterTypes = item.k.GetParameterTypes(),
+
+							DeclaringType = this.OutgoingDirectType,
+							DeclaringTypeContext = OutgoingDirectTypeContext
+						}
+					);
+
+
+					this.OutgoingInterfaceType.DefineMethod(
 						RewriteToJavaScriptDocument.__out_Method + item.i,
-						RewriteToJavaScriptDocument.__in_Method + item.i,
+						MethodAttributes.Abstract | MethodAttributes.Virtual,
+						CallingConventions.Standard,
 						item.k.ReturnType,
 						item.k.GetParameterTypes()
 					);
 
-					
-					OutgoingMethodCache[item.k] = m;
+
+					//m.DefineAttribute(
+					//    new ObfuscationAttribute
+					//    {
+					//        Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+					//    }
+					//    ,
+					//    typeof(ObfuscationAttribute)
+					//);
+
+
+					// Delayed implementation should be in a different interface
+					// once we are loaded we ditch the delayed interface!
+
+					var Delayed = this.OutgoingDelayedType.DefineMethod(
+						RewriteToJavaScriptDocument.__out_Method + item.i,
+						MethodAttributes.Public | MethodAttributes.Virtual,
+						CallingConventions.Standard,
+						item.k.ReturnType,
+						item.k.GetParameterTypes()
+					);
+
+					if (item.k.ReturnType == typeof(void))
+					{
+						var Closure = this.OutgoingDelayedType.DefineNestedType(RewriteToJavaScriptDocument.__out_MethodClosure + item.i,
+							TypeAttributes.NestedPublic, null
+						);
+
+						var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
+						var Closure_context = Closure.DefineField("_context", TypeCache[DeclaringType], FieldAttributes.Public);
+
+						var Closure_Invoke = Closure.DefineMethod("Invoke", MethodAttributes.Public, CallingConventions.Standard, typeof(void), new Type[0]);
+						var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
+
+						var il = Delayed.GetILGenerator();
+						var loc0 = il.DeclareInitializedLocal(Closure, Closure_ctor);
+
+
+						il.Emit(OpCodes.Ldloc, (short)loc0.LocalIndex);
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldfld, OutgoingDelayedTypeContext);
+						il.Emit(OpCodes.Stfld, Closure_context);
+
+						Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
+						Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_context);
+						Closure_Invoke_il.Emit(OpCodes.Ldfld, OutgoingDirectField);
+
+						foreach (var p in item.k.GetParameters())
+						{
+							var f = Closure.DefineField("_" + p.Position, p.ParameterType, FieldAttributes.Public);
+
+							il.Emit(OpCodes.Ldloc, (short)loc0.LocalIndex);
+							il.Emit(OpCodes.Ldarg, (short)(1 + p.Position));
+							il.Emit(OpCodes.Stfld, f);
+
+							Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
+							Closure_Invoke_il.Emit(OpCodes.Ldfld, f);
+
+						}
+
+						Closure_Invoke_il.Emit(OpCodes.Call, m);
+						Closure_Invoke_il.Emit(OpCodes.Ret);
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldfld, OutgoingDelayedTypeContext);
+
+						il.Emit(OpCodes.Ldloc, (short)loc0.LocalIndex);
+						il.Emit(OpCodes.Ldftn, Closure_Invoke);
+						il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+
+						il.Emit(OpCodes.Call, MethodCache[((Action<__InternalElementProxy, Action>)__InternalElementProxy.__AfterElementLoaded).Method]);
+						il.Emit(OpCodes.Ret);
+
+						Closure.CreateType();
+
+					}
+					else
+					{
+						Delayed.GetILGenerator().EmitCode(() => { throw new NotSupportedException(); });
+					}
+
+					OutgoingMethodCache[item.k] = Delayed;
+
+
 				}
+
+				this.OutgoingInterfaceType.CreateType();
+				this.OutgoingDelayedType.CreateType();
+				this.OutgoingDirectType.CreateType();
+
 
 			}
 		}

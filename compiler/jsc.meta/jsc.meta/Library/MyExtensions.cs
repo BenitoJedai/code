@@ -147,6 +147,18 @@ namespace jsc.meta.Library
 			return loc;
 		}
 
+
+		public static LocalBuilder DeclareInitializedLocal(this ILGenerator il, Type t, ConstructorInfo ctor)
+		{
+			var loc = il.DeclareLocal(t);
+
+			il.Emit(OpCodes.Newobj, ctor);
+
+			il.Emit(OpCodes.Stloc, (short)loc.LocalIndex);
+
+			return loc;
+		}
+
 		public static void DefineManifestResource(this ModuleBuilder m, string name, XElement e)
 		{
 			m.DefineManifestResource(name, new MemoryStream(Encoding.UTF8.GetBytes(e.ToString())), ResourceAttributes.Public);

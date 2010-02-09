@@ -452,15 +452,18 @@ namespace jsc.meta.Commands.Rewrite
 										DeclaringType = DeclaringType,
 										RewriteArguments = r.RewriteArguments,
 										SourceType = source,
+
+										#region DefineMethod
 										DefineMethod =
-											(LocalName, RemoteName, ReturnType, ParameterTypes) =>
+											e =>
 											{
 												// we should do the object to string mapping here actually!
 
-												#region DefineMethod
-												var m = DeclaringType.DefineMethod(LocalName, MethodAttributes.Public, CallingConventions.Standard,
-													ReturnType,
-													ParameterTypes
+
+												var m = e.DeclaringType.DefineMethod(
+													e.LocalName, MethodAttributes.Public | MethodAttributes.Virtual, CallingConventions.Standard,
+													e.ReturnType,
+													e.ParameterTypes
 												);
 
 												var il = m.GetILGenerator();
@@ -478,12 +481,12 @@ namespace jsc.meta.Commands.Rewrite
 
 														// in java land we have to define a new method to translate
 														// from string to event
-														RemoteName,
+														e.RemoteName,
 
-														source_Attributes, 
+														source_Attributes,
 														CallingConventions.Standard,
-														ReturnType,
-														ParameterTypes
+														e.ReturnType,
+														e.ParameterTypes
 													);
 
 
@@ -498,9 +501,10 @@ namespace jsc.meta.Commands.Rewrite
 
 
 													il.Emit(OpCodes.Ldarg_0);
+													il.Emit(OpCodes.Ldfld, e.DeclaringTypeContext);
 													il.Emit(OpCodes.Ldfld, __InternalElement);
 													il.Emit(OpCodes.Castclass, DeclaringTypeCoType);
-													for (short i = 0; i < ParameterTypes.Length; i++)
+													for (short i = 0; i < e.ParameterTypes.Length; i++)
 													{
 														il.Emit(OpCodes.Ldarg, (short)(i + 1));
 													}
@@ -509,11 +513,12 @@ namespace jsc.meta.Commands.Rewrite
 												}
 												else
 												{
-													var __args = il.EmitStringArgumentsAsArray(true, ParameterTypes);
+													var __args = il.EmitStringArgumentsAsArray(true, e.ParameterTypes);
 
 													il.Emit(OpCodes.Ldarg_0);
+													il.Emit(OpCodes.Ldfld, e.DeclaringTypeContext);
 													il.Emit(OpCodes.Ldfld, __InternalElement);
-													il.Emit(OpCodes.Ldstr, RemoteName);
+													il.Emit(OpCodes.Ldstr, e.RemoteName);
 
 													// <>.FromType ?
 													il.Emit(OpCodes.Ldloc, (short)__args.LocalIndex);
@@ -523,18 +528,23 @@ namespace jsc.meta.Commands.Rewrite
 
 													il.Emit(OpCodes.Call, CallFunction.Method);
 
-													if (ReturnType == typeof(void))
+													if (e.ReturnType == typeof(void))
 														il.Emit(OpCodes.Pop);
 
 
 												}
 
-												#endregion
+
 
 												il.Emit(OpCodes.Ret);
 
 												return m;
 											}
+
+										#endregion
+						
+											,
+									
 									};
 
 									Consumer.Implement();
@@ -545,7 +555,7 @@ namespace jsc.meta.Commands.Rewrite
 									// implicit operator?
 
 
-								
+
 									var __InternalElementProxy__ = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
 
 									// triggering members to be copied...
@@ -628,6 +638,8 @@ namespace jsc.meta.Commands.Rewrite
 									var il = DeclaringTypeMethod.GetILGenerator();
 
 									il.Emit(OpCodes.Ldarg_0);
+									il.Emit(OpCodes.Ldfld, ExternalInterfaceConsumerCache[DeclaringType].OutgoingInterfaceField);
+
 									for (int i = 0; i < source.GetParameters().Length; i++)
 									{
 										il.Emit(OpCodes.Ldarg, (short)(i + 1));
@@ -677,13 +689,13 @@ namespace jsc.meta.Commands.Rewrite
 									if (c.IsActionScript)
 									{
 										WriteInitialization_ActionScriptInternalElement(
-											il, 
-											c.TargetType, 
-											k.TargetType, 
-											c.EntryPoint, 
-											__InternalElement, 
+											il,
+											c.TargetType,
+											k.TargetType,
+											c.EntryPoint,
+											__InternalElement,
 											r.RewriteArguments.context.MethodCache,
-											ExternalInterfaceConsumerCache[DeclaringType]	
+											ExternalInterfaceConsumerCache[DeclaringType]
 										);
 
 									}
@@ -691,12 +703,12 @@ namespace jsc.meta.Commands.Rewrite
 									if (c.IsJava)
 									{
 										WriteInitialization_JavaInternalElement(
-											il, 
-											c.TargetType, 
-											k.TargetType, 
-											c.EntryPoint, 
+											il,
+											c.TargetType,
+											k.TargetType,
+											c.EntryPoint,
 											__InternalElement,
-											ExternalInterfaceConsumerCache[DeclaringType]	
+											ExternalInterfaceConsumerCache[DeclaringType]
 										);
 									}
 
