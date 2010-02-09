@@ -77,20 +77,28 @@ namespace Ultra4
 				c.Clicked +=
 					delegate
 					{
+						AddShape1("green");
 						RaiseClicked();
 					};
 
 				this.addMouseListener(c);
+
+				//AddShape1("green");
 			}
 
 			partial void RaiseClicked();
 
 
-			static Color GetBlue(double b)
+			int ColorShift = 8;
+
+			Color GetBlue(double b)
 			{
 				int u = (int)(0xff * b);
 
-				return new Color(u << 0x100);
+				u <<= ColorShift;
+
+
+				return new Color(u);
 			}
 
 			public override void paint(global::java.awt.Graphics g)
@@ -107,10 +115,24 @@ namespace Ultra4
 					g.drawLine(0, i, w, i);
 				}
 			}
-			
+
 			public void AddShape1(string color)
 			{
+				if (color == "red")
+					AddShape(16);
+				else if (color == "green")
+					AddShape(8);
+				else
+					AddShape(0);
 
+			}
+
+			private void AddShape(int p)
+			{
+				ColorShift = p;
+				this.invalidate();
+				this.repaint();
+				//this.invalidate();
 			}
 
 		}
@@ -122,15 +144,9 @@ namespace Ultra4
 			public const int DefaultWidth = 500;
 			public const int DefaultHeight = 400;
 
-			/*
-			__flash__addCallback(b, "add_Clicked")
-			__flash__addCallback(b, "add_MyLoaded")
-			__flash__addCallback(b, "set_Status")
-			 */
-
-
 			partial void SetStatus(string v);
 			partial void RaiseClicked();
+
 			public UltraSprite()
 			{
 
@@ -222,6 +238,7 @@ namespace Ultra4
 							n.AttachToDocument();
 						}
 
+						o.AddShape1("green");
 						o.AttachSpriteToDocument();
 					};
 			}
@@ -239,26 +256,39 @@ namespace Ultra4
 
 
 						var o = new UltraApplet();
-						// why isn't it loading??
-						/*
-						// adding new method means you need to restart JVM
-						o.MyLoaded +=
-							delegate
-							{
-								x.style.color = JSColor.Blue;
 
-								// it better be loaded by now!!
-								//o.MessageStatusOnClick();
+						{
+							var n = new IHTMLButton("AddShape1 red");
+
+							n.onclick +=
+								delegate
+								{
+									//o.AddShape2 = "";
+									o.AddShape1("red");
+
+								};
+
+							n.AttachToDocument();
+						}
 
 
-								o.Clicked +=
-									delegate
-									{
-										x.style.color = JSColor.Yellow;
-									};
-							};
-						*/
+						{
+							var n = new IHTMLButton("AddShape1 green");
 
+							n.onclick +=
+								delegate
+								{
+									//o.AddShape2 = "";
+									o.AddShape1("green");
+
+								};
+
+							n.AttachToDocument();
+
+							
+						}
+
+						o.AddShape1("green");
 						o.AttachAppletToDocument();
 					};
 			}
