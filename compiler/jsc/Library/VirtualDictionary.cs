@@ -10,7 +10,7 @@ namespace jsc.Library
 		public readonly Dictionary<TKey, TValue> BaseDictionary = new Dictionary<TKey, TValue>();
 
 		// refactor to upper level type?
-		public readonly Dictionary<TKey, int> Flags = new Dictionary<TKey, int>();
+		public readonly Dictionary<TKey, object> Flags = new Dictionary<TKey, object>();
 
 
 		public event Action<TKey> Resolve;

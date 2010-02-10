@@ -135,10 +135,12 @@ namespace Ultra4
 				//this.invalidate();
 			}
 
-			//public void Method1(Interface1 e)
-			//{
+			public void AddShape2(IParameters1 e)
+			{
+				AddShape1(e.Color);
+			}
 
-			//}
+
 		}
 
 
@@ -175,6 +177,11 @@ namespace Ultra4
 
 			}
 
+			public void AddShape2(IParameters1 e)
+			{
+				AddShape1(e.Color);
+			}
+
 
 			private void AddShape(uint color)
 			{
@@ -198,6 +205,15 @@ namespace Ultra4
 
 		}
 
+		public class Parameters1 : IParameters1
+		{
+			public string Color { get; set; }
+		}
+
+		public interface IParameters1
+		{
+			string Color { get; set; }
+		}
 
 		public interface Interface1
 		{

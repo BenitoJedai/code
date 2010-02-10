@@ -18,21 +18,39 @@ namespace jsc.meta.Library.Templates
 			return e.__InternalElement;
 		}
 
-		//public delegate string __FuncString();
+		public class __ExportDelegateContextType
+		{
+			int Namespace;
+			int Counter;
 
-		//static int Counter = 1;
+			public __ExportDelegateContextType()
+			{
+				Namespace = new Random().Next();
+			}
 
-		//public string CombineDelegates(string name, Delegate value)
-		//{
-		//    Counter++;
+			public string GenerateName()
+			{
+				Counter++;
 
-		//    var __callback = "__InternalElementProxy_" + name + "_" + Counter;
+				return "__InternalElementProxy" + Namespace + "_" + Counter;
+			}
+		}
 
-		//    IFunction.OfDelegate(value).Export(__callback);
 
-		//    return __callback;
+		internal __ExportDelegateContextType __ExportDelegateContext;
 
-		//}
+		internal static string __ExportDelegate(__InternalElementProxy that, Delegate value)
+		{
+			if (that.__ExportDelegateContext == null)
+				that.__ExportDelegateContext = new __ExportDelegateContextType();
+
+			var __callback = that.__ExportDelegateContext.GenerateName();
+
+			IFunction.OfDelegate(value).Export(__callback);
+
+			return __callback;
+
+		}
 
 
 		internal bool __IsElementLoaded;
