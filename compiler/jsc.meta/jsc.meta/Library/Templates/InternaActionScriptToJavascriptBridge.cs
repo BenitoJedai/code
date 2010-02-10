@@ -9,7 +9,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace jsc.meta.Library.Templates
 {
-	internal class InternalActionScriptToJavaScriptBridge
+	internal static class InternalActionScriptToJavaScriptBridge
 	{
 		//public delegate bool BoolFunc();
 

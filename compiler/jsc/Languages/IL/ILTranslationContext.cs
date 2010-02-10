@@ -21,7 +21,12 @@ namespace jsc.Languages.IL
 
 		public FieldInfo TypeFieldCacheFunc(FieldInfo TargetField)
 		{
-			return this.TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(k => k.Name == TargetField.Name) ?? TargetField;
+			return ToTypeFieldCacheFunc(TypeCache)(TargetField);
+		}
+
+		public Func<FieldInfo, FieldInfo> ToTypeFieldCacheFunc(Func<Type, Type> TypeCacheFunc)
+		{
+			return TargetField => this.TypeFieldCache[TypeCacheFunc(TargetField.DeclaringType)].SingleOrDefault(k => k.Name == TargetField.Name) ?? TargetField;
 		}
 
 		public VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache;

@@ -7,11 +7,15 @@ using java.applet;
 
 namespace jsc.meta.Library.Templates
 {
-	internal class InternalJavaToJavaScriptBridge
+	internal static class InternalJavaToJavaScriptBridge
 	{
 		public static object ExternalInterface_Invoke(object context, object[] arguments)
 		{
-			return null;
+			var a = new string[arguments.Length - 1];
+
+			System.Array.Copy(arguments, 1, a, 0, a.Length);
+
+			return Invoke((Applet)context, (string)arguments[0], a);
 		}
 
 		public static object Invoke(Applet a, string method, object[] args)
