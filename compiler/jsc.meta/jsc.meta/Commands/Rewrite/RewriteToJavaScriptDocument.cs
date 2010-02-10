@@ -648,14 +648,29 @@ namespace jsc.meta.Commands.Rewrite
 
 									var il = DeclaringTypeMethod.GetILGenerator();
 
-									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Ldfld, ExternalInterfaceConsumerCache[DeclaringType].OutgoingInterfaceField);
+									var Consumer = ExternalInterfaceConsumerCache[DeclaringType];
 
-									for (int i = 0; i < source.GetParameters().Length; i++)
+									il.Emit(OpCodes.Ldarg_0);
+									il.Emit(OpCodes.Ldfld, Consumer.OutgoingInterfaceField);
+
+									foreach (var p in source.GetParameterTypes().Select((kk, i) => new { kk, i }).ToArray())
 									{
-										il.Emit(OpCodes.Ldarg, (short)(i + 1));
+										if (p.kk.IsDelegate() || p.kk.IsInterface)
+										{
+											il.Emit(OpCodes.Ldarg_0);
+										}
+
+										// conversion here!
+										il.Emit(OpCodes.Ldarg, (short)(p.i + 1));
+
+										if (p.kk.IsDelegate() || p.kk.IsInterface)
+										{
+											il.Emit(OpCodes.Call, Consumer.__proxy_FromType[p.kk]);
+										}
 									}
-									il.Emit(OpCodes.Call, ExternalInterfaceConsumerCache[DeclaringType].OutgoingMethodCache[source]);
+									il.Emit(OpCodes.Call, Consumer.OutgoingMethodCache[source]);
+
+									// conversion here!
 
 									il.Emit(OpCodes.Ret);
 

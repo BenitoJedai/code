@@ -9,6 +9,8 @@ using jsc.meta.Library;
 using System.Runtime.CompilerServices;
 using System.Reflection.Emit;
 using jsc.meta.Library.Templates;
+using jsc;
+using jsc.Library;
 using ScriptCoreLib.JavaScript;
 
 namespace jsc.meta.Commands.Rewrite
@@ -16,7 +18,7 @@ namespace jsc.meta.Commands.Rewrite
 	partial class RewriteToJavaScriptDocument
 	{
 		const string __in_Delegate = "__in_Delegate";
-		const string __in_Interface = "__in_Interface";
+		const string __proxy_Interface = "__proxy_Interface";
 		const string __in_Method = "__in_Method";
 		const string __out_Method = "__out_Method";
 		const string __out_MethodDelayed = "__out_MethodDelayed";
@@ -25,6 +27,11 @@ namespace jsc.meta.Commands.Rewrite
 		const string _context = "context";
 		const string _callback = "callback";
 		const string _this = "_this";
+		const string _token = "_token";
+
+		const string _ToType = "ToType";
+		const string _FromType = "FromType";
+		const string _Invoke = "Invoke";
 
 		private void WriteExternalInterface(
 			Type source,
@@ -40,8 +47,6 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-			const string _ToType = "ToType";
-			const string _Invoke = "Invoke";
 
 			var TypeCache = r.RewriteArguments.context.TypeCache;
 			var MethodCache = r.RewriteArguments.context.MethodCache;
@@ -190,7 +195,13 @@ namespace jsc.meta.Commands.Rewrite
 			#region Interfaces
 			foreach (var item in Interfaces)
 			{
-				var proxy = a.Type.DefineNestedType(__in_Interface + item.i, TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic, null, new[] { TypeCache[item.k] });
+				var proxy = a.Type.DefineNestedType(
+					__proxy_Interface + item.i,
+					TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
+					null,
+					new[] { TypeCache[item.k] }
+				);
+
 				var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
 
 				var proxy_context = proxy.DefineField(_context, TypeCache[source], FieldAttributes.Public);
@@ -233,9 +244,22 @@ namespace jsc.meta.Commands.Rewrite
 
 				foreach (var m in item.k.GetMethods())
 				{
-					var proxy_method = proxy.DefineMethod(m.Name, m.Attributes & ~MethodAttributes.Abstract, m.CallingConvention, m.ReturnType, m.GetParameterTypes());
+					var proxy_method = proxy.DefineMethod(
+						m.Name,
+						m.Attributes & ~MethodAttributes.Abstract,
+						m.CallingConvention,
+						TypeCache[m.ReturnType],
+						m.GetParameterTypes().Select(k => TypeCache[k]).ToArray()
+					);
 
 					var il = proxy_method.GetILGenerator();
+
+					if (m.ReturnType.IsDelegate() || m.ReturnType.IsInterface)
+					{
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldfld, proxy_context);
+					}
+
 
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldfld, proxy_context);
@@ -250,10 +274,25 @@ namespace jsc.meta.Commands.Rewrite
 					}
 
 					il.Emit(OpCodes.Call, __out[m]);
+
+
+
+					if (m.ReturnType.IsDelegate() || m.ReturnType.IsInterface)
+					{
+						il.Emit(OpCodes.Call, __in_ToType[m.ReturnType]);
+					}
+
 					il.Emit(OpCodes.Ret);
 				}
 
-				proxy.CreateType();
+				r.TypeCreated +=
+					tt =>
+					{
+						if (tt.SourceType != a.SourceType)
+							return;
+
+						proxy.CreateType();
+					};
 			}
 			#endregion
 
@@ -421,13 +460,26 @@ namespace jsc.meta.Commands.Rewrite
 
 		public static MethodInfo[] GetExternalInterfaceMethodsFromType(Type source)
 		{
+			var _Distinct = new List<Type>();
+
+			Func<Type, bool> _DistinctFilter =
+				t =>
+				{
+					if (_Distinct.Contains(t))
+						return false;
+
+					_Distinct.Add(t);
+
+					return true;
+				};
+
 			return Enumerable.ToArray(
 						from m in source.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
 
 						// we should block overriding methods like applet.init but allow interface methods...
 						where !m.IsVirtualMethod()
 
-						let dependencies = GetExternalInterfaceMethods(m).ToArray()
+						let dependencies = GetExternalInterfaceMethods(m, _DistinctFilter).ToArray()
 
 						// we need to check dependencies
 						where dependencies.All(k => k.GetSignatureTypes().All(IsTypeSupportedForExternalInterface))
@@ -436,13 +488,14 @@ namespace jsc.meta.Commands.Rewrite
 					).SelectMany(k => k).Distinct().ToArray();
 		}
 
-		public static IEnumerable<MethodInfo> GetExternalInterfaceMethods(MethodInfo m)
+		internal static IEnumerable<MethodInfo> GetExternalInterfaceMethods(MethodInfo m, Func<Type, bool> _DistinctFilter)
 		{
 			// start with the actual method
 			yield return m;
 
+
 			// then all the methods found in interfaces
-			foreach (var item in m.GetSignatureTypes().Where(k => k.IsInterface).SelectMany<Type, MethodInfo>(t => t.GetMethods().SelectMany<MethodInfo, MethodInfo>(GetExternalInterfaceMethods)))
+			foreach (var item in m.GetSignatureTypes().Where(k => k.IsInterface).Where(_DistinctFilter).SelectMany<Type, MethodInfo>(t => t.GetMethods().SelectMany<MethodInfo, MethodInfo>(mm => GetExternalInterfaceMethods(mm, _DistinctFilter))))
 			{
 				yield return item;
 			}
@@ -472,6 +525,12 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
+
+		public class ExternalInterfaceProvider
+		{
+			// the method above shall be refactored here
+
+		}
 
 		public class ExternalInterfaceConsumer
 		{
@@ -515,6 +574,10 @@ namespace jsc.meta.Commands.Rewrite
 			public TypeBuilder OutgoingDelayedType;
 			public TypeBuilder OutgoingDirectType;
 
+			public Dictionary<Type, MethodBuilder> __proxy_ToType = new Dictionary<Type, MethodBuilder>();
+			public Dictionary<Type, MethodBuilder> __proxy_FromType = new Dictionary<Type, MethodBuilder>();
+
+
 			public void Implement()
 			{
 
@@ -529,10 +592,7 @@ namespace jsc.meta.Commands.Rewrite
 				// then we need to start polling
 				// in level1 we can assume there aren't any
 
-				//this.OutgoingInterfaceType = this.RewriteArguments.Module.DefineType(
-				//    DeclaringType.FullName + "." +
-				//    RewriteToJavaScriptDocument.__out_Method + "InterfaceType",
-				//    TypeAttributes.Public | TypeAttributes.Abstract | TypeAttributes.Interface, null);
+
 
 				this.OutgoingInterfaceType = this.DeclaringType.DefineNestedType(
 					RewriteToJavaScriptDocument.__out_Method + "InterfaceType",
@@ -577,6 +637,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				var __out_Method_Parameters = Enumerable.Range(0, Methods.Length).Select(k => typeof(string)).ToArray();
 
+				#region meta __out_method
 				var __out_Method = this.DefineMethod(
 					new DefineMethodArguments
 					{
@@ -597,6 +658,167 @@ namespace jsc.meta.Commands.Rewrite
 						DeclaringTypeContext = OutgoingDirectTypeContext
 					}
 				);
+				#endregion
+
+				Action InvokeLater = delegate { };
+
+				#region Interfaces
+				foreach (var item in Interfaces)
+				{
+					var proxy = this.DeclaringType.DefineNestedType(
+						__proxy_Interface + item.i,
+						TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
+						null,
+						new[] { TypeCache[item.k] }
+					);
+
+
+					var proxy_lookup = this.DeclaringType.DefineField(
+						__proxy_Interface + item.i + "lookup", TypeCache[typeof(InternalLookup._Consumer)],
+						FieldAttributes.Public
+					);
+
+
+					var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
+
+					var proxy_context = proxy.DefineField(_context, this.DeclaringType, FieldAttributes.Public);
+					var proxy_this = proxy.DefineField(_this, typeof(string), FieldAttributes.Public);
+
+					#region ToType
+					var proxy_ToType = proxy.DefineMethod(
+						_ToType,
+						MethodAttributes.Static | MethodAttributes.Public,
+						TypeCache[item.k],
+						new[] { this.DeclaringType, typeof(string) }
+					);
+
+					proxy_ToType.DefineParameter(1, ParameterAttributes.None, _context);
+					proxy_ToType.DefineParameter(2, ParameterAttributes.None, _this);
+
+					__proxy_ToType[item.k] = proxy_ToType;
+
+					{
+						var il = proxy_ToType.GetILGenerator();
+
+						var loc = il.DeclareLocal(proxy);
+
+						il.Emit(OpCodes.Newobj, proxy_ctor);
+						il.Emit(OpCodes.Stloc_0);
+
+						il.Emit(OpCodes.Ldloc_0);
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Stfld, proxy_context);
+
+						il.Emit(OpCodes.Ldloc_0);
+						il.Emit(OpCodes.Ldarg_1);
+						il.Emit(OpCodes.Stfld, proxy_this);
+
+						il.Emit(OpCodes.Ldloc_0);
+						il.Emit(OpCodes.Ret);
+
+					}
+					#endregion
+
+					#region FromType
+					var proxy_FromType = proxy.DefineMethod(
+						_FromType,
+						MethodAttributes.Static | MethodAttributes.Public,
+						typeof(string),
+						new[] { this.DeclaringType, TypeCache[item.k] }
+					);
+
+					proxy_FromType.DefineParameter(1, ParameterAttributes.None, _context);
+					proxy_FromType.DefineParameter(2, ParameterAttributes.None, _this);
+
+					__proxy_FromType[item.k] = proxy_FromType;
+
+					{
+						var il = proxy_FromType.GetILGenerator();
+
+						il.Emit(OpCodes.Ldarg_0);
+						//il.Emit(OpCodes.Ldfld, proxy_context);
+
+						il.Emit(OpCodes.Ldarg_0);
+						//il.Emit(OpCodes.Ldfld, proxy_context);
+						il.Emit(OpCodes.Ldfld, proxy_lookup);
+
+						il.Emit(OpCodes.Call, MethodCache[((Func<InternalLookup._Consumer, InternalLookup._Consumer>)InternalLookup._Consumer.LazyConstructor).Method]);
+
+						il.Emit(OpCodes.Stfld, proxy_lookup);
+
+
+						il.Emit(OpCodes.Ldarg_0);
+						//il.Emit(OpCodes.Ldfld, proxy_context);
+						il.Emit(OpCodes.Ldfld, proxy_lookup);
+
+						il.Emit(OpCodes.Ldarg_1);
+
+						il.Emit(OpCodes.Call, MethodCache[((Func<InternalLookup._Consumer, object, string>)InternalLookup.FromType).Method]);
+
+
+						il.Emit(OpCodes.Ret);
+
+					}
+					#endregion
+
+					foreach (var m_ in item.k.GetMethods())
+					{
+						var m = m_;
+
+						var proxy_method = proxy.DefineMethod(
+							m.Name,
+							m.Attributes & ~MethodAttributes.Abstract,
+							m.CallingConvention,
+							TypeCache[m.ReturnType],
+							m.GetParameterTypes().Select(k => TypeCache[k]).ToArray()
+						);
+
+						var il = proxy_method.GetILGenerator();
+
+						InvokeLater +=
+							delegate
+							{
+								if (m.ReturnType.IsDelegate() || m.ReturnType.IsInterface)
+								{
+									il.Emit(OpCodes.Ldarg_0);
+									il.Emit(OpCodes.Ldfld, proxy_context);
+								}
+
+
+								il.Emit(OpCodes.Ldarg_0);
+								il.Emit(OpCodes.Ldfld, proxy_context);
+								il.Emit(OpCodes.Ldfld, this.OutgoingInterfaceField);
+
+								il.Emit(OpCodes.Ldarg_0);
+								il.Emit(OpCodes.Ldfld, proxy_this);
+
+								foreach (var p in m.GetParameters())
+								{
+									// can we get the remote this/callback or do we need to generate one?
+									il.Emit(OpCodes.Ldnull);
+								}
+
+								il.Emit(OpCodes.Call, this.OutgoingMethodCache[m]);
+
+
+
+								if (m.ReturnType.IsDelegate() || m.ReturnType.IsInterface)
+								{
+									il.Emit(OpCodes.Call, __proxy_ToType[m.ReturnType]);
+								}
+
+								il.Emit(OpCodes.Ret);
+							};
+					}
+
+					this.NestedTypesCreated +=
+						delegate
+						{
+							proxy.CreateType();
+						};
+				}
+				#endregion
+
 
 				#region __in_Method
 
@@ -610,8 +832,7 @@ namespace jsc.meta.Commands.Rewrite
 						RewriteToJavaScriptDocument.__in_Method + item.i,
 						MethodAttributes.Public,
 						CallingConventions.Standard,
-						item.k.ReturnType,
-
+							item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
 						Enumerable.Range(0, item.k.GetParameters().Length + 1).Select(k => typeof(string)).ToArray()
 					);
 
@@ -760,10 +981,13 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					// interfaces and Callbacks should have an additional argument!
 
-					var ParameterTypes = item.k.GetParameterTypes().Select((k, i) => new { k, i }).ToArray();
+					var _DirectParameters = Enumerable.Range(0,
+						((item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate()) ? 1 : 0)
+						+ item.k.GetParameters().Length
+					).Select(k => typeof(string)).ToArray();
 
-					var mParameters = Enumerable.Range(0, item.k.GetParameters().Length + (item.k.DeclaringType.IsInterface ? 1 : 0)).Select(k => typeof(string)).ToArray();
-					var m = DefineMethod(
+
+					var _Direct = DefineMethod(
 
 						new DefineMethodArguments
 						{
@@ -773,37 +997,31 @@ namespace jsc.meta.Commands.Rewrite
 								MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 
 								CallingConventions.Standard,
-								item.k.ReturnType,
-								item.k.GetParameterTypes()
+								item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
+
+
+								_DirectParameters
 							),
 
 
 							LocalName = RewriteToJavaScriptDocument.__out_Method + item.i,
 							RemoteName = RewriteToJavaScriptDocument.__in_Method + item.i,
 							ReturnType = item.k.ReturnType,
-							ParameterTypes = item.k.GetParameterTypes(),
+							ParameterTypes = _DirectParameters,
 
 							DeclaringType = this.OutgoingDirectType,
 							DeclaringTypeContext = OutgoingDirectTypeContext
 						}
 					);
 
-					m.DefineAttribute(
-						new ObfuscationAttribute
-						{
-							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
-						}
-						,
-						typeof(ObfuscationAttribute)
-					);
+				
 
-
-					this.OutgoingInterfaceType.DefineMethod(
+					var _Interface = this.OutgoingInterfaceType.DefineMethod(
 						RewriteToJavaScriptDocument.__out_Method + item.i,
 						MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot,
 						CallingConventions.Standard,
-						item.k.ReturnType,
-						item.k.GetParameterTypes()
+						item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
+						_DirectParameters
 					);
 
 
@@ -813,12 +1031,13 @@ namespace jsc.meta.Commands.Rewrite
 					// Delayed implementation should be in a different interface
 					// once we are loaded we ditch the delayed interface!
 
-					var Delayed = this.OutgoingDelayedType.DefineMethod(
+					#region _Delayed
+					var _Delayed = this.OutgoingDelayedType.DefineMethod(
 						RewriteToJavaScriptDocument.__out_Method + item.i,
 						MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 						CallingConventions.Standard,
-						item.k.ReturnType,
-						item.k.GetParameterTypes()
+						item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
+						_DirectParameters
 					);
 
 					if (item.k.ReturnType == typeof(void))
@@ -829,12 +1048,19 @@ namespace jsc.meta.Commands.Rewrite
 						);
 
 						var Closure_ctor = Closure.DefineDefaultConstructor(MethodAttributes.Public);
-						var Closure_context = Closure.DefineField("_context", TypeCache[DeclaringType], FieldAttributes.Public);
+						var Closure_context = Closure.DefineField(_context, TypeCache[DeclaringType], FieldAttributes.Public);
 
-						var Closure_Invoke = Closure.DefineMethod("Invoke", MethodAttributes.Public, CallingConventions.Standard, typeof(void), new Type[0]);
+						var Closure_Invoke = Closure.DefineMethod(
+							_Invoke, 
+							MethodAttributes.Public, 
+							CallingConventions.Standard, 
+							typeof(void), 
+							new Type[0]
+						);
+
 						var Closure_Invoke_il = Closure_Invoke.GetILGenerator();
 
-						var il = Delayed.GetILGenerator();
+						var il = _Delayed.GetILGenerator();
 						var loc0 = il.DeclareInitializedLocal(Closure, Closure_ctor);
 
 
@@ -847,12 +1073,12 @@ namespace jsc.meta.Commands.Rewrite
 						Closure_Invoke_il.Emit(OpCodes.Ldfld, Closure_context);
 						Closure_Invoke_il.Emit(OpCodes.Ldfld, OutgoingDirectField);
 
-						foreach (var p in item.k.GetParameters())
+						foreach (var p in _DirectParameters.Select((k, i) => new { k, i}).ToArray())
 						{
-							var f = Closure.DefineField("_" + p.Position, p.ParameterType, FieldAttributes.Public);
+							var f = Closure.DefineField("_" + p.i, p.k, FieldAttributes.Public);
 
 							il.Emit(OpCodes.Ldloc, (short)loc0.LocalIndex);
-							il.Emit(OpCodes.Ldarg, (short)(1 + p.Position));
+							il.Emit(OpCodes.Ldarg, (short)(1 + p.i));
 							il.Emit(OpCodes.Stfld, f);
 
 							Closure_Invoke_il.Emit(OpCodes.Ldarg_0);
@@ -860,7 +1086,7 @@ namespace jsc.meta.Commands.Rewrite
 
 						}
 
-						Closure_Invoke_il.Emit(OpCodes.Call, m);
+						Closure_Invoke_il.Emit(OpCodes.Call, _Direct);
 						Closure_Invoke_il.Emit(OpCodes.Ret);
 
 						il.Emit(OpCodes.Ldarg_0);
@@ -879,16 +1105,40 @@ namespace jsc.meta.Commands.Rewrite
 					}
 					else
 					{
-						Delayed.GetILGenerator().EmitCode(() => { throw new NotSupportedException(); });
+						_Delayed.GetILGenerator().EmitCode(() => { throw new NotSupportedException(); });
 					}
+					#endregion
 
-					OutgoingMethodCache[item.k] = Delayed;
 
 
+					// on top of that we need one to translate to strings...
+
+					_Direct.DefineAttribute(
+						new ObfuscationAttribute
+						{
+							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+						}
+						,
+						typeof(ObfuscationAttribute)
+					);
+
+					_Interface.DefineAttribute(
+						new ObfuscationAttribute
+						{
+							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+						}
+						,
+						typeof(ObfuscationAttribute)
+					);
+
+
+					OutgoingMethodCache[item.k] = _Interface;
 				}
 				#endregion
 
-				this.NestedTypesCreated =
+				InvokeLater();
+
+				this.NestedTypesCreated +=
 					delegate
 					{
 						// important!
