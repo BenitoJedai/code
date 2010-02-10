@@ -28,21 +28,25 @@ namespace jsc.meta.Commands.Rewrite
 			Func<string, string> FullNameFixup,
 			Action<TypeBuilder> PostTypeRewrite,
 			Action<TypeBuilder> PreTypeRewrite,
-			Action<Action> ContextContinuation,
-			Action<TypeBuilder> TypeCreated
+			
+			/* Obselete */ Action<Action> ContextContinuation,
+			Action<TypeBuilder> TypeCreated,
+
+			RewriteToAssembly r
 			)
 		{
-			if (ContextContinuation == null)
-				ContextContinuation = e => e();
+			// we should remove the argument!
+			if (ContextContinuation != null)
+				throw new NotSupportedException();
+
+
 
 
 			// sanity check
 			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
-
-
-			Console.WriteLine("CopyType: " + SourceType.FullName);
+			Console.WriteLine("CopyType: " + SourceType.Name);
 
 			// we should not reenter here!
 			TypeCache[SourceType] = null;
@@ -50,12 +54,16 @@ namespace jsc.meta.Commands.Rewrite
 			// interfaces dont have base types!
 			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
 
-			var DeclaringTypeContinuation = default(Action);
+			//var DeclaringTypeContinuation = default(Action);
+
+			if (SourceType.IsNested)
+			{
+				Console.WriteLine("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
+			}
 
 			var _DeclaringType = (OverrideDeclaringType ?? (
-
 				SourceType.DeclaringType == null ? null :
-					(TypeBuilder)TypeCache[SourceType.DeclaringType, n => DeclaringTypeContinuation = n]
+					(TypeBuilder)TypeCache[SourceType.DeclaringType /*, n => DeclaringTypeContinuation = n*/]
 
 				)
 			);
@@ -64,9 +72,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			var t = default(TypeBuilder);
 
-			var _Interfaces = SourceType.GetInterfaces() /*.Where(k => ShouldCopyType(k)) */ .Select(
+			var _Interfaces = SourceType.GetInterfaces().Select(
 				k => TypeCache[k]
-				//k => k
 			).ToArray();
 
 
@@ -131,6 +138,14 @@ namespace jsc.meta.Commands.Rewrite
 			// at this point we should signal back? that a nested declaration can continue?
 			// does everything still work after this change? :D
 
+			foreach (var k in SourceType.GetNestedTypes(
+				BindingFlags.Public | BindingFlags.NonPublic
+				))
+			{
+				var km = TypeCache[k];
+			}
+
+
 			#region define fields now! as they are actually what the type is all about!
 			foreach (var f in SourceType.GetFields(
 						BindingFlags.DeclaredOnly |
@@ -165,58 +180,88 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
-			ContextContinuation(
-				delegate
-				{
-					Console.WriteLine("ContextContinuation:  " + SourceType.FullName);
+			//ContextContinuation(
+			//    delegate
+			//    {
+			//Console.WriteLine("ContextContinuation:  " + SourceType.FullName);
 
-					if (PreTypeRewrite != null)
-						PreTypeRewrite(t);
+			if (PreTypeRewrite != null)
+				PreTypeRewrite(t);
 
-					// including other nested types?
-					// if we dont need these types we will waste them
-					// if we need them later we are doomed! :)
+			// including other nested types?
+			// if we dont need these types we will waste them
+			// if we need them later we are doomed! :)
 
-					CopyTypeMembers(SourceType, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
-
-
-
-					if (PostTypeRewrite != null)
-						PostTypeRewrite(t);
-
-					// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
-
-					Console.WriteLine("CreateType:  " + SourceType.FullName);
-
-					// maybe we should call create type once we are sure there
-					// are no more nested types?
-					// actually if the members refer to the nested type
-					// they have been declared by now...
-					// more testing is needed to clarify this!
-
-					// fixme:D
-					// if we rewrite nested interfaces we cannot 
-					// implement them?
-
-					//foreach (var i in SourceType.GetInterfaces().Select(ii => SourceType.GetInterfaceMap(ii)))
-					//{
-						
-					//}
+			CopyTypeMembers(SourceType, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
 
 
-					t.CreateType();
 
-					if (TypeCreated != null)
-						TypeCreated(t);
+			if (PostTypeRewrite != null)
+				PostTypeRewrite(t);
 
-					if (DeclaringTypeContinuation != null)
+			// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
+
+
+			// maybe we should call create type once we are sure there
+			// are no more nested types?
+			// actually if the members refer to the nested type
+			// they have been declared by now...
+			// more testing is needed to clarify this!
+
+			// fixme:D
+			// if we rewrite nested interfaces we cannot 
+			// implement them?
+
+			//foreach (var i in SourceType.GetInterfaces().Select(ii => SourceType.GetInterfaceMap(ii)))
+			//{
+
+			//}
+
+			//if (DeclaringTypeContinuation != null)
+			//{
+			//    Console.WriteLine("DeclaringTypeContinuation:  " + SourceType.FullName);
+
+			//    DeclaringTypeContinuation();
+			//}
+
+
+			if (SourceType.IsNested && SourceType.IsClass && !(TypeCache.Flags.ContainsKey(SourceType.DeclaringType)))
+			{
+				Console.WriteLine("Delayed:  " + SourceType.FullName);
+
+
+				r.TypeCreated +=
+					tt =>
 					{
-						Console.WriteLine("DeclaringTypeContinuation:  " + SourceType.FullName);
+						if (tt.SourceType != SourceType.DeclaringType)
+							return;
 
-						DeclaringTypeContinuation();
-					}
-				}
-			);
+						Console.WriteLine("Delayed CreateType:  " + SourceType.FullName);
+
+
+						t.CreateType();
+
+						if (TypeCreated != null)
+							TypeCreated(t);
+					};
+
+
+				return;
+			}
+
+
+
+
+			t.CreateType();
+			TypeCache.Flags[SourceType] = 1;
+			Console.WriteLine("CreateType:  " + SourceType.FullName);
+
+			if (TypeCreated != null)
+				TypeCreated(t);
+
+
+			//    }
+			//);
 		}
 
 		internal static void CopyTypeMembers(
@@ -231,7 +276,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-
+	
 
 			foreach (var k in SourceType.GetConstructors(
 				BindingFlags.DeclaredOnly |

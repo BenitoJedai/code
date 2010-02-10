@@ -389,13 +389,32 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 			#region TypeCache
-			TypeCache.ResolveWithContinuation +=
-				(source, continuation) =>
+			TypeCache.Resolve +=
+				(source) =>
 				{
 					// This unit was resolved for us...
 					if (ExternalContext.TypeCache[source] != source)
 					{
 						TypeCache[source] = ExternalContext.TypeCache[source];
+
+						// was continuation honored?
+
+						TypeCache.Flags[source] = 1;
+						Console.WriteLine("CreateType:  " + source.FullName);
+
+						if (TypeCreated != null)
+							TypeCreated(
+								new TypeRewriteArguments
+								{
+									SourceType = source,
+									Type = (TypeBuilder)TypeCache[source],
+									Assembly = a,
+									Module = m,
+
+									context = this.RewriteArguments.context
+								}
+							);
+
 						return;
 					}
 
@@ -458,7 +477,7 @@ namespace jsc.meta.Commands.Rewrite
 								 #endregion
 
 							 }
-							 , continuation,
+							 , null,
 
 							 t =>
 							 {
@@ -477,7 +496,8 @@ namespace jsc.meta.Commands.Rewrite
 									 );
 								 #endregion
 
-							 }
+							 },
+							 this
 						);
 
 

@@ -539,9 +539,9 @@ namespace jsc.meta.Commands.Rewrite
 											}
 
 										#endregion
-						
-											,
-									
+
+,
+
 									};
 
 									Consumer.Implement();
@@ -580,6 +580,20 @@ namespace jsc.meta.Commands.Rewrite
 
 									DeclaringType.CreateType();
 
+									if (source.IsNested)
+									{
+										r.TypeCreated +=
+											e =>
+											{
+
+												if (e.SourceType == source.DeclaringType)
+													Consumer.NestedTypesCreated();
+											};
+									}
+									else
+									{
+										Consumer.NestedTypesCreated();
+									}
 
 
 									return;

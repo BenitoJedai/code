@@ -8,24 +8,14 @@ namespace jsc.Library
 	public class VirtualDictionary<TKey, TValue>
 	{
 		public readonly Dictionary<TKey, TValue> BaseDictionary = new Dictionary<TKey, TValue>();
-		
-		public event Action<TKey, Action<Action>> ResolveWithContinuation;
+
+		// refactor to upper level type?
+		public readonly Dictionary<TKey, int> Flags = new Dictionary<TKey, int>();
+
+
 		public event Action<TKey> Resolve;
 
-		public TValue this[TKey k, Action<Action> Continuation]
-		{
-			get
-			{
-				// nested type declaring type problem...
-
-				if (!BaseDictionary.ContainsKey(k))
-					if (ResolveWithContinuation != null)
-						ResolveWithContinuation(k, Continuation);
-
-				return BaseDictionary[k];
-			}
-
-		}
+	
 
 		public TValue this[TKey k]
 		{
@@ -35,8 +25,8 @@ namespace jsc.Library
 				{
 					if (Resolve != null)
 						Resolve(k);
-					else if (ResolveWithContinuation != null)
-						ResolveWithContinuation(k, null);
+					//else if (ResolveWithContinuation != null)
+					//    ResolveWithContinuation(k, null);
 				}
 
 				return BaseDictionary[k];
