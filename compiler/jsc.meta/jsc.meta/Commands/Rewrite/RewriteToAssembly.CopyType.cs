@@ -46,6 +46,9 @@ namespace jsc.meta.Commands.Rewrite
 			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
+			if (SourceType.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "invalidmerge"))
+				throw new InvalidOperationException(SourceType.FullName);
+
 			Console.WriteLine("CopyType: " + SourceType.Name);
 
 			// we should not reenter here!

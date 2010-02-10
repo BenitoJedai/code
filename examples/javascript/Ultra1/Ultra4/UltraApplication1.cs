@@ -255,7 +255,7 @@ namespace Ultra4
 						var o = new UltraSprite();
 
 						{
-							var n = new IHTMLButton("AddShape1 red");
+							var n = new IHTMLButton("AddShape1 red !");
 
 							n.onclick +=
 								delegate
@@ -308,7 +308,7 @@ namespace Ultra4
 						var o = new UltraApplet();
 
 						{
-							var n = new IHTMLButton("AddShape1 red");
+							var n = new IHTMLButton("AddShape1 red !");
 
 							n.onclick +=
 								delegate

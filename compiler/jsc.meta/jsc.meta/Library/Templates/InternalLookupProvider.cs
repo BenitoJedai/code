@@ -29,6 +29,14 @@ namespace jsc.meta.Library.Templates
 
 		public static object ToType(InternalLookup that, string e)
 		{
+			// if it looks like our code but does not exist then throw
+			// if it looks remote code return null
+
+			// implement and test here
+			// code contracts?
+
+			return that.Items[0];
+
 			var i = (int.Parse(e) - that.Offset) / that.Step;
 
 			return that.Items[i];

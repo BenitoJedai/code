@@ -98,19 +98,20 @@ namespace jsc.meta.Commands.Rewrite
 
 					product = k.TargetType.FullName,
 
-					/*
+					
 					#region if we are going to inject code from jsc we need to copy it
 					rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
 						"jsc.meta->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
 						"jsc->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
 					},
-
+					/*
 					merge = new RewriteToAssembly.MergeInstruction[] {
 						"jsc.meta",
 						"jsc"
 					},
+					 * */
 					#endregion
-					*/
+
 
 					#region PreTypeRewrite
 					PreTypeRewrite =
