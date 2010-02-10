@@ -208,11 +208,13 @@ namespace Ultra4
 		public class Parameters1 : IParameters1
 		{
 			public string Color { get; set; }
+			public IParameters1 Redirect { get; set; }
 		}
 
 		public interface IParameters1
 		{
-			string Color { get; set; }
+			string Color { get; set; } 
+			IParameters1 Redirect { get; }
 		}
 
 		public interface Interface1
@@ -259,7 +261,12 @@ namespace Ultra4
 								delegate
 								{
 									//o.AddShape2 = "";
-									o.AddShape1("red");
+									o.AddShape2(
+										new Parameters1
+										{
+											Color = "red"
+										}
+									);
 
 								};
 
@@ -307,7 +314,12 @@ namespace Ultra4
 								delegate
 								{
 									//o.AddShape2 = "";
-									o.AddShape1("red");
+									o.AddShape2(
+										new Parameters1
+										{
+											Color = "red"
+										}
+									);
 
 								};
 
@@ -328,7 +340,7 @@ namespace Ultra4
 
 							n.AttachToDocument();
 
-							
+
 						}
 
 						o.AddShape1("green");
@@ -374,7 +386,7 @@ namespace Ultra4
 			}
 		}
 
-		
+
 	}
 
 
