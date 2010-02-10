@@ -198,7 +198,26 @@ namespace Ultra4
 
 		}
 
-	
+
+		public interface Interface1
+		{
+			void Method1(string e);
+		}
+
+		public class ClassA : Interface1
+		{
+			public void Method1(string e)
+			{
+			}
+		}
+
+		public class ClassB : Interface1
+		{
+			public void Method1(string e)
+			{
+
+			}
+		}
 
 		ClassA A = new ClassA();
 		ClassB B = new ClassB();
@@ -342,23 +361,5 @@ namespace Ultra4
 		
 	}
 
-	public interface Interface1
-	{
-		void Method1(string e);
-	}
 
-	public class ClassA : Interface1
-	{
-		public void Method1(string e)
-		{
-		}
-	}
-
-	public class ClassB : Interface1
-	{
-		public void Method1(string e)
-		{
-
-		}
-	}
 }

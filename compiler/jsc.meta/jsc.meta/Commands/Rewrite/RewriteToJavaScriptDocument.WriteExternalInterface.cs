@@ -527,14 +527,14 @@ namespace jsc.meta.Commands.Rewrite
 				// then we need to start polling
 				// in level1 we can assume there aren't any
 
-				this.OutgoingInterfaceType = this.RewriteArguments.Module.DefineType(
-					DeclaringType.FullName + "." +
-					RewriteToJavaScriptDocument.__out_Method + "InterfaceType",
-					TypeAttributes.Public | TypeAttributes.Abstract | TypeAttributes.Interface, null);
-
-				//this.OutgoingInterfaceType = this.DeclaringType.DefineNestedType(
+				//this.OutgoingInterfaceType = this.RewriteArguments.Module.DefineType(
+				//    DeclaringType.FullName + "." +
 				//    RewriteToJavaScriptDocument.__out_Method + "InterfaceType",
-				//    TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Interface, null);
+				//    TypeAttributes.Public | TypeAttributes.Abstract | TypeAttributes.Interface, null);
+
+				this.OutgoingInterfaceType = this.DeclaringType.DefineNestedType(
+					RewriteToJavaScriptDocument.__out_Method + "InterfaceType",
+					TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Interface, null);
 
 				this.OutgoingDelayedType = this.DeclaringType.DefineNestedType(RewriteToJavaScriptDocument.__out_Method + "DelayedType", TypeAttributes.NestedPublic | TypeAttributes.Sealed, null, new Type[] { 
 					this.OutgoingInterfaceType 
@@ -795,14 +795,25 @@ namespace jsc.meta.Commands.Rewrite
 
 				}
 
-				this.OutgoingInterfaceType.CreateType();
+				this.NestedTypesCreated =
+					delegate
+					{
+						// important!
+						// if we implement an interface which is a nested type
+						// then the declaring types need call CreateType first!
+						// the rewriter should also remember this rule!
 
+						// BCL should provide .CreateTypeWheneverYouFeelLike();
 
-				this.OutgoingDelayedType.CreateType();
-				this.OutgoingDirectType.CreateType();
+						this.OutgoingInterfaceType.CreateType();
+						this.OutgoingDelayedType.CreateType();
+						this.OutgoingDirectType.CreateType();
+					};
 
 
 			}
+
+			public Action NestedTypesCreated;
 		}
 
 	}
