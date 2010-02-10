@@ -399,7 +399,7 @@ namespace jsc.meta.Commands.Rewrite
 
 						// was continuation honored?
 
-						TypeCache.Flags[source] = 1;
+						TypeCache.Flags[source] = new object();
 						Console.WriteLine("CreateType:  " + source.FullName);
 
 						if (TypeCreated != null)

@@ -29,7 +29,7 @@ namespace jsc.meta.Commands.Rewrite
 			Action<TypeBuilder> PostTypeRewrite,
 			Action<TypeBuilder> PreTypeRewrite,
 			
-			/* Obselete */ Action<Action> ContextContinuation,
+			/* Obsolete */ Action<Action> ContextContinuation,
 			Action<TypeBuilder> TypeCreated,
 
 			RewriteToAssembly r
@@ -253,7 +253,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			t.CreateType();
-			TypeCache.Flags[SourceType] = 1;
+			TypeCache.Flags[SourceType] = new object();
 			Console.WriteLine("CreateType:  " + SourceType.FullName);
 
 			if (TypeCreated != null)

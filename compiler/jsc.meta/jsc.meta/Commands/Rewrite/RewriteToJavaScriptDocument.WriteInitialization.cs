@@ -287,50 +287,7 @@ namespace jsc.meta.Commands.Rewrite
 				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
 
 
-				#region __Delegate
-				var __Delegate = DeclaringType.DefineNestedType(__in_Delegate + kk.Method.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
-
-				var __Delegate_ctor = __Delegate.DefineConstructor(
-					MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
-					CallingConventions.Standard,
-					new Type[] { typeof(object), typeof(IntPtr) }
-				);
-
-				__Delegate_ctor.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
-				// mxmlc will complain that jsc didnt create parameter names... jsc should generate them :)
-				__Delegate_ctor.DefineParameter(1, ParameterAttributes.None, "object");
-				__Delegate_ctor.DefineParameter(2, ParameterAttributes.None, "method");
-
-				// Method attributes flags
-				MethodAttributes maDelegate = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
-				MethodImplAttributes mia = MethodImplAttributes.Runtime | MethodImplAttributes.Managed;
-
-
-
-				var __Delegate_Invoke = __Delegate.DefineMethod(
-					"Invoke", maDelegate,
-					CallingConventions.Standard, kk.Method.ReturnType, kk.Parameters);
-
-
-				__Delegate_Invoke.SetImplementationFlags(mia);
-
-
-				#region BeginInvoke, EndInvoke
-				{
-					// BeginInvoke for Asynchronous call
-					var methodBuilder = __Delegate.DefineMethod("BeginInvoke", maDelegate, typeof(IAsyncResult), new Type[] { typeof(AsyncCallback), typeof(object) });
-					methodBuilder.SetImplementationFlags(mia);
-				}
-				{
-					// EndInvoke for Asynchronous call
-					var methodBuilder = __Delegate.DefineMethod("EndInvoke", maDelegate, typeof(void), new Type[] { typeof(IAsyncResult) });
-					methodBuilder.SetImplementationFlags(mia);
-				}
-				#endregion
-
-				__Delegate.CreateType();
-
-				#endregion
+				var __Delegate_ctor = DefineAnonymousDelegate(DeclaringType, kk);
 
 				var ExposedMethod = kk.Method;
 
@@ -375,6 +332,55 @@ namespace jsc.meta.Commands.Rewrite
 
 			il.Emit(OpCodes.Ret);
 
+		}
+
+		private static ConstructorBuilder DefineAnonymousDelegate(TypeBuilder DeclaringType, MethodBuilderInfo kk)
+		{
+			#region __Delegate
+			var __Delegate = DeclaringType.DefineNestedType(__in_Delegate + kk.Method.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
+
+			var __Delegate_ctor = __Delegate.DefineConstructor(
+				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
+				CallingConventions.Standard,
+				new Type[] { typeof(object), typeof(IntPtr) }
+			);
+
+			__Delegate_ctor.SetImplementationFlags(MethodImplAttributes.Runtime | MethodImplAttributes.Managed);
+			// mxmlc will complain that jsc didnt create parameter names... jsc should generate them :)
+			__Delegate_ctor.DefineParameter(1, ParameterAttributes.None, "object");
+			__Delegate_ctor.DefineParameter(2, ParameterAttributes.None, "method");
+
+			// Method attributes flags
+			MethodAttributes maDelegate = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual;
+			MethodImplAttributes mia = MethodImplAttributes.Runtime | MethodImplAttributes.Managed;
+
+
+
+			var __Delegate_Invoke = __Delegate.DefineMethod(
+				"Invoke", maDelegate,
+				CallingConventions.Standard, kk.Method.ReturnType, kk.Parameters);
+
+
+			__Delegate_Invoke.SetImplementationFlags(mia);
+
+
+			#region BeginInvoke, EndInvoke
+			{
+				// BeginInvoke for Asynchronous call
+				var methodBuilder = __Delegate.DefineMethod("BeginInvoke", maDelegate, typeof(IAsyncResult), new Type[] { typeof(AsyncCallback), typeof(object) });
+				methodBuilder.SetImplementationFlags(mia);
+			}
+			{
+				// EndInvoke for Asynchronous call
+				var methodBuilder = __Delegate.DefineMethod("EndInvoke", maDelegate, typeof(void), new Type[] { typeof(IAsyncResult) });
+				methodBuilder.SetImplementationFlags(mia);
+			}
+			#endregion
+
+			__Delegate.CreateType();
+
+			#endregion
+			return __Delegate_ctor;
 		}
 
 
