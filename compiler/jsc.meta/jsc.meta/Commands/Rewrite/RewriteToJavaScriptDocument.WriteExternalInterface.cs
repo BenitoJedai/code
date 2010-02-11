@@ -127,6 +127,7 @@ namespace jsc.meta.Commands.Rewrite
 				var TypeCache = this.Rewrite.RewriteArguments.context.TypeCache;
 				var MethodCache = this.Rewrite.RewriteArguments.context.MethodCache;
 				var ConstructorCache = this.Rewrite.RewriteArguments.context.ConstructorCache;
+				var FieldCache = this.Rewrite.RewriteArguments.context.FieldCache;
 
 
 				var proxy = this.DeclaringType.DefineNestedType(
@@ -225,7 +226,8 @@ namespace jsc.meta.Commands.Rewrite
 										return proxy_lookup;
 								}
 
-								throw new NotSupportedException();
+
+								return FieldCache[ff];
 							}
 
 					};
@@ -311,7 +313,7 @@ namespace jsc.meta.Commands.Rewrite
 										return proxy_lookup;
 								}
 
-								throw new NotSupportedException();
+								return FieldCache[ff];
 							}
 
 					};
@@ -378,8 +380,8 @@ namespace jsc.meta.Commands.Rewrite
 				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().Select((k, i) => IndexValueTuple.Create(k, i)).ToArray();
 				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().Select((k, i) => new { k, i, Invoke = k.GetMethod("Invoke") }).ToArray();
 
-				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).Select((k, i) => new { k, i }).ToArray();
-				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).Select((k, i) => new { k, i }).ToArray();
+				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
+				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsIncoming = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
 
 
@@ -450,7 +452,7 @@ namespace jsc.meta.Commands.Rewrite
 					m.DefineAttribute(
 						new ObfuscationAttribute
 						{
-							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name + " " + item.k.MetadataToken.ToString("x8")
 						}
 						,
 						typeof(ObfuscationAttribute)
@@ -635,7 +637,7 @@ namespace jsc.meta.Commands.Rewrite
 					m.DefineAttribute(
 						new ObfuscationAttribute
 						{
-							Feature = "in method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+							Feature = "in method: " + item.k.DeclaringType.FullName + "." + item.k.Name + " " + item.k.MetadataToken.ToString("x8")
 						}
 						,
 						typeof(ObfuscationAttribute)
@@ -891,8 +893,8 @@ namespace jsc.meta.Commands.Rewrite
 				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().Select((k, i) => IndexValueTuple.Create(k, i)).ToArray();
 				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().Select((k, i) => new { k, i, Invoke = k.GetMethod("Invoke") }).ToArray();
 
-				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).Select((k, i) => new { k, i }).ToArray();
-				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).Select((k, i) => new { k, i }).ToArray();
+				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
+				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsOutgoing = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
 
 				SourceTypeMethods = MethodsLocal.Select(k => k.k).ToArray();
@@ -954,8 +956,11 @@ namespace jsc.meta.Commands.Rewrite
 				var ExportDelegates = new Dictionary<MethodInfo, ConstructorInfo>();
 				var ExportFields = new Dictionary<MethodInfo, FieldInfo>();
 
-				foreach (var item in Methods)
+				foreach (var item in MethodsOutgoing)
 				{
+					if (item.k.DeclaringType == SourceType)
+						continue;
+
 					var m = this.DeclaringType.DefineMethod(
 						RewriteToJavaScriptDocument.__in_Method + item.i,
 						MethodAttributes.Public,
@@ -981,7 +986,7 @@ namespace jsc.meta.Commands.Rewrite
 					m.DefineAttribute(
 						new ObfuscationAttribute
 						{
-							Feature = "in method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+							Feature = "in method: " + item.k.DeclaringType.FullName + "." + item.k.Name + " " + item.k.MetadataToken.ToString("x8")
 						}
 						,
 						typeof(ObfuscationAttribute)
@@ -1273,7 +1278,7 @@ namespace jsc.meta.Commands.Rewrite
 					_Direct.DefineAttribute(
 						new ObfuscationAttribute
 						{
-							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name + " " + item.k.MetadataToken.ToString("x8")
 						}
 						,
 						typeof(ObfuscationAttribute)
@@ -1282,7 +1287,7 @@ namespace jsc.meta.Commands.Rewrite
 					_Interface.DefineAttribute(
 						new ObfuscationAttribute
 						{
-							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name
+							Feature = "out method: " + item.k.DeclaringType.FullName + "." + item.k.Name + " " + item.k.MetadataToken.ToString("x8")
 						}
 						,
 						typeof(ObfuscationAttribute)
@@ -1418,15 +1423,23 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
 
+				var x = "";
+
 				var n = _this as InternalToTypeReturnTypeImplementation;
 				if (n != null)
-					return n._this;
+					x = n._this;
+				else
+					x = InternalLookup.FromType(context.lookup, _this);
 
-				return InternalLookup.FromType(context.lookup, _this);
+				//Native.Window.alert("FromType " + x);
+
+				return x;
 			}
 
 			public static InternalToTypeReturnType ToType(InternalToTypeContext context, string _this)
 			{
+				//Native.Window.alert("ToType " + _this);
+
 				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
 
 				var local = (InternalToTypeReturnType)InternalLookup.ToType(context.lookup, _this);

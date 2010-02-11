@@ -29,6 +29,8 @@ namespace Ultra4
 
 		public interface IAddShape
 		{
+			void AddShape1(string color);
+
 			void AddShape2(IParameters1 e);
 
 			IParameters1 ColorControl
@@ -320,25 +322,13 @@ namespace Ultra4
 					{
 						var o = new UltraSprite();
 
+						CreateButton(o, "blue");
 						CreateButton(o, "red");
 						CreateButton(o, "green");
 
 
-						{
-							var n = new IHTMLButton("AddShape1 green");
+					
 
-							n.onclick +=
-								delegate
-								{
-									//o.AddShape2 = "";
-									o.AddShape1("green");
-
-								};
-
-							n.AttachToDocument();
-						}
-
-						o.AddShape1("green");
 						o.AttachSpriteToDocument();
 					};
 			}
@@ -361,21 +351,7 @@ namespace Ultra4
 						CreateButton(o, "green");
 
 
-						{
-							var n = new IHTMLButton("AddShape1 green");
-
-							n.onclick +=
-								delegate
-								{
-									//o.AddShape2 = "";
-									o.AddShape1("green");
-
-								};
-
-							n.AttachToDocument();
-
-
-						}
+				
 
 						o.AddShape1("green");
 						o.AttachAppletToDocument();
@@ -400,6 +376,7 @@ namespace Ultra4
 		{
 			{
 				var n = new IHTMLButton("AddShape1 " + t + " send interface");
+				n.style.color = t;
 
 				n.onclick +=
 					delegate
@@ -419,6 +396,7 @@ namespace Ultra4
 
 			{
 				var n = new IHTMLButton("AddShape1 " + t + " get interface");
+				n.style.color = t;
 
 				n.onclick +=
 					delegate
@@ -429,6 +407,23 @@ namespace Ultra4
 					};
 
 				n.AttachToDocument();
+			}
+			{
+				{
+					var n = new IHTMLButton("AddShape1 "  + t);
+
+					n.style.color = t;
+					n.onclick +=
+						delegate
+						{
+							z.AddShape1(t);
+
+						};
+
+					n.AttachToDocument();
+
+
+				}
 			}
 		}
 
