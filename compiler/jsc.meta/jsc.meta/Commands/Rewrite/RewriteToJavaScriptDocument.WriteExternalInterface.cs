@@ -713,7 +713,7 @@ namespace jsc.meta.Commands.Rewrite
 					{
 
 
-
+						#region ToType il
 						var il = proxy_ToType.GetILGenerator();
 						var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
 						{
@@ -770,6 +770,7 @@ namespace jsc.meta.Commands.Rewrite
 
 						((Func<InternalToTypeContext, string, InternalToTypeReturnType>)InternalToType.ToType).Method.EmitTo(il, il_a);
 
+						#endregion
 
 
 
@@ -793,24 +794,67 @@ namespace jsc.meta.Commands.Rewrite
 					__proxy_FromType[item.k] = proxy_FromType;
 
 					{
+
+						#region ToType il
 						var il = proxy_FromType.GetILGenerator();
+						var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
+						{
+							TranslateTargetMethod = MethodCache,
+
+							TranslateTargetConstructor =
+								ctor =>
+								{
+									if (ctor.DeclaringType == typeof(InternalToTypeReturnTypeImplementation))
+										return proxy_ctor;
+
+									return this.RewriteArguments.context.ConstructorCache[ctor];
+								},
 
 
-						#region LazyConstructor
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, proxy_lookup);
-						il.Emit(OpCodes.Call, MethodCache[((Func<InternalLookup._Consumer, InternalLookup._Consumer>)InternalLookup._Consumer.LazyConstructor).Method]);
-						il.Emit(OpCodes.Stfld, proxy_lookup);
+							TranslateTargetType =
+								tt =>
+								{
+									if (tt == typeof(InternalToTypeContext))
+										return this.DeclaringType;
+
+									if (tt == typeof(InternalToTypeReturnType))
+										return TypeCache[item.k];
+
+									if (tt == typeof(InternalToTypeReturnTypeImplementation))
+										return proxy;
+
+									return TypeCache[tt];
+								},
+
+							TranslateTargetField =
+								ff =>
+								{
+									if (ff.DeclaringType == typeof(InternalToTypeReturnTypeImplementation))
+									{
+										if (ff.Name == _context)
+											return proxy_context;
+
+										if (ff.Name == _this)
+											return proxy_this;
+
+									}
+
+									if (ff.DeclaringType == typeof(InternalToTypeContext))
+									{
+										if (ff.Name == "lookup")
+											return proxy_lookup;
+									}
+
+									throw new NotSupportedException();
+								}
+
+						};
+
+						((Func<InternalToTypeContext, InternalToTypeReturnType, string>)InternalToType.FromType).Method.EmitTo(il, il_a);
+
 						#endregion
 
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, proxy_lookup);
 
-						il.Emit(OpCodes.Ldarg_1);
-						il.Emit(OpCodes.Call, MethodCache[((Func<InternalLookup._Consumer, object, string>)InternalLookup.FromType).Method]);
-
-						il.Emit(OpCodes.Ret);
 
 					}
 					#endregion
@@ -1272,6 +1316,16 @@ namespace jsc.meta.Commands.Rewrite
 
 		internal class InternalToType
 		{
+			public static string FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
+			{
+				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
+
+				var n = _this as InternalToTypeReturnTypeImplementation;
+				if (n != null)
+					return n._this;
+
+				return InternalLookup.FromType(context.lookup, _this);
+			}
 
 			public static InternalToTypeReturnType ToType(InternalToTypeContext context, string _this)
 			{
