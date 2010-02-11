@@ -21,6 +21,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 			return i;
 		}
 
+		public virtual int IndexOf(object value)
+		{
+			return this.InternalList.indexOf(value);
+		}
+
 		public virtual object this[int index]
 		{
 			get

@@ -121,14 +121,29 @@ namespace jsc.meta.Commands.Rewrite
 							{
 								// so where are we?
 
-								if (k.IsActionScript)
+								if (k.IsActionScript || k.IsJava)
 								{
-									WriteExternalInterface(k.TargetType, a, r, InternalActionScriptToJavaScriptBridge.ExternalInterface_Invoke, __ExternalCallback.Add);
-								}
 
-								if (k.IsJava)
-								{
-									WriteExternalInterface(k.TargetType, a, r, InternalJavaToJavaScriptBridge.ExternalInterface_Invoke, null);
+									var p = new ExternalInterfaceProvider
+									{
+										SourceType = k.TargetType,
+										DeclaringType = a.Type,
+										a = a,
+										Rewrite = r,
+									};
+
+									if (k.IsActionScript)
+									{
+										p.ExternalCall = InternalActionScriptToJavaScriptBridge.ExternalInterface_Invoke;
+										p.ExternalCallback = __ExternalCallback.Add;
+									}
+
+									if (k.IsJava)
+									{
+										p.ExternalCall = InternalJavaToJavaScriptBridge.ExternalInterface_Invoke;
+									}
+
+									p.Implement();
 								}
 							}
 						},
@@ -640,7 +655,7 @@ namespace jsc.meta.Commands.Rewrite
 										source.Name,
 										source_Attributes,
 										source.CallingConvention,
-										
+
 										 r.RewriteArguments.context.TypeCache[source.ReturnType],
 
 										Enumerable.ToArray(
@@ -657,6 +672,11 @@ namespace jsc.meta.Commands.Rewrite
 									var il = DeclaringTypeMethod.GetILGenerator();
 
 									var Consumer = ExternalInterfaceConsumerCache[DeclaringType];
+
+									if (source.ReturnType.IsDelegate() || source.ReturnType.IsInterface)
+									{
+										il.Emit(OpCodes.Ldarg_0);
+									}
 
 									il.Emit(OpCodes.Ldarg_0);
 									il.Emit(OpCodes.Ldfld, Consumer.OutgoingInterfaceField);
@@ -680,6 +700,10 @@ namespace jsc.meta.Commands.Rewrite
 									il.Emit(OpCodes.Call, Consumer.OutgoingMethodCache[source]);
 
 									// conversion here!
+									if (source.ReturnType.IsDelegate() || source.ReturnType.IsInterface)
+									{
+										il.Emit(OpCodes.Call, Consumer.__proxy_FromType[source.ReturnType]);
+									}
 
 									il.Emit(OpCodes.Ret);
 
