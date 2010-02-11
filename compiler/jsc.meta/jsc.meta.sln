@@ -20,6 +20,7 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug with Doc|Any CPU = Debug with Doc|Any CPU
 		Debug_Ultra1|Any CPU = Debug_Ultra1|Any CPU
+		Debug_Ultra1T1|Any CPU = Debug_Ultra1T1|Any CPU
 		Debug_Ultra5|Any CPU = Debug_Ultra5|Any CPU
 		Debug_WebApp|Any CPU = Debug_WebApp|Any CPU
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +31,8 @@ Global
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_Ultra1|Any CPU.ActiveCfg = Debug_Ultra1|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_Ultra1|Any CPU.Build.0 = Debug_Ultra1|Any CPU
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_Ultra1T1|Any CPU.ActiveCfg = Debug_Ultra1T1|Any CPU
+		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_Ultra1T1|Any CPU.Build.0 = Debug_Ultra1T1|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_Ultra5|Any CPU.ActiveCfg = Debug_Ultra5|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_Ultra5|Any CPU.Build.0 = Debug_Ultra5|Any CPU
 		{86E46F4B-B22C-4C9D-8F84-804D2C331396}.Debug_WebApp|Any CPU.ActiveCfg = Debug_WebApp|Any CPU
@@ -42,6 +45,8 @@ Global
 		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
 		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_Ultra1|Any CPU.ActiveCfg = Debug_Ultra1|Any CPU
 		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_Ultra1|Any CPU.Build.0 = Debug_Ultra1|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_Ultra1T1|Any CPU.ActiveCfg = Debug_Ultra1T1|Any CPU
+		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_Ultra1T1|Any CPU.Build.0 = Debug_Ultra1T1|Any CPU
 		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_Ultra5|Any CPU.ActiveCfg = Debug_Ultra5|Any CPU
 		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_Ultra5|Any CPU.Build.0 = Debug_Ultra5|Any CPU
 		{77861F2D-D284-4913-B9E9-D906C7262219}.Debug_WebApp|Any CPU.ActiveCfg = Debug_WebApp|Any CPU
@@ -54,6 +59,8 @@ Global
 		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug with Doc|Any CPU.Build.0 = Debug with Doc|Any CPU
 		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_Ultra1|Any CPU.ActiveCfg = Debug_Ultra1|Any CPU
 		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_Ultra1|Any CPU.Build.0 = Debug_Ultra1|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_Ultra1T1|Any CPU.ActiveCfg = Debug_Ultra1T1|Any CPU
+		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_Ultra1T1|Any CPU.Build.0 = Debug_Ultra1T1|Any CPU
 		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_Ultra5|Any CPU.ActiveCfg = Debug_Ultra5|Any CPU
 		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_Ultra5|Any CPU.Build.0 = Debug_Ultra5|Any CPU
 		{477C5608-F5CD-436F-935D-66675988F1D9}.Debug_WebApp|Any CPU.ActiveCfg = Debug_WebApp|Any CPU
@@ -66,6 +73,8 @@ Global
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_Ultra1|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_Ultra1|Any CPU.Build.0 = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_Ultra1T1|Any CPU.ActiveCfg = Debug_Ultra1T1|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_Ultra1T1|Any CPU.Build.0 = Debug_Ultra1T1|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_Ultra5|Any CPU.ActiveCfg = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_Ultra5|Any CPU.Build.0 = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug_WebApp|Any CPU.ActiveCfg = Debug|Any CPU

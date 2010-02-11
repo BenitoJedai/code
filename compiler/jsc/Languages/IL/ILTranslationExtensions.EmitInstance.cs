@@ -37,7 +37,7 @@ namespace jsc.Languages.IL
 				}
 				else throw new NotImplementedException();
 
-				il.Emit(OpCodes.Stfld, context.TypeFieldCache[t].Single(kk => kk.Name == k.f.Name));
+				il.Emit(OpCodes.Stfld, context.FieldCache[k.f]);
 			}
 
 

@@ -20,7 +20,7 @@ namespace jsc.meta.Commands.Rewrite
 	TypeBuilder t,
 	VirtualDictionary<Type, Type> tc,
 	VirtualDictionary<MethodInfo, MethodInfo> mc,
-	VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+	//VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 	VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 	VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 
@@ -109,7 +109,6 @@ namespace jsc.meta.Commands.Rewrite
 										ConstructorCache = ConstructorCache,
 										MethodCache = MethodCache,
 										TypeCache = tc,
-										TypeFieldCache = TypeFieldCache
 									}
 								);
 							}

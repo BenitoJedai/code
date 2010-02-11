@@ -245,7 +245,8 @@ namespace jsc.meta.Commands.Extend
 
 													_il.Emit(OpCodes.Ldloc, loc_OperationParameter);
 													_il.Emit(OpCodes.Ldstr, item.k.Name);
-													_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(kkk => kkk.Name == "Name"));
+
+													_il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(SimpleParameterInfo).GetField("Name")]);
 
 													//L_001c: ldtoken string
 													//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
@@ -259,7 +260,7 @@ namespace jsc.meta.Commands.Extend
 													);
 
 
-													_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(kkk => kkk.Name == "Type"));
+													_il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(SimpleParameterInfo).GetField("Type")]);
 
 													_il.Emit(OpCodes.Ldloc, loc_OperationParameters);
 													_il.Emit(OpCodes.Ldc_I4, item.i);
@@ -303,7 +304,7 @@ namespace jsc.meta.Commands.Extend
 
 											_il.Emit(OpCodes.Ldloc, loc_Current);
 											_il.Emit(OpCodes.Ldstr, item.kk.Method.Name);
-											_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleMethodInfo)].Single(kkk => kkk.Name == "Name"));
+											_il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(SimpleMethodInfo).GetField("Name")]);
 
 											_il.Emit(OpCodes.Ldloc, loc_Current);
 
@@ -313,7 +314,7 @@ namespace jsc.meta.Commands.Extend
 												GetParametersList.Single(kkk => kkk.m == item.kk).GetParameters
 											);
 
-											_il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleMethodInfo)].Single(kkk => kkk.Name == "Parameters"));
+											_il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(SimpleMethodInfo).GetField("Parameters")]);
 
 
 
@@ -361,13 +362,13 @@ namespace jsc.meta.Commands.Extend
 									il.Emit(OpCodes.Ldloc, loc_WSDLProvider);
 									il.Emit(OpCodes.Ldloc, loc1);
 									il.Emit(OpCodes.Call, GetMethods);
-									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(WSDLProvider)].Single(kkk => kkk.Name == "Methods"));
+									il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(WSDLProvider).GetField("Methods")]);
 									#endregion
 
 									#region loc_WSDLProvider.ServiceName = loc_ServiceName
 									il.Emit(OpCodes.Ldloc, loc_WSDLProvider);
 									il.Emit(OpCodes.Ldloc, loc_ServiceName);
-									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(WSDLProvider)].Single(kkk => kkk.Name == "ServiceName"));
+									il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(WSDLProvider).GetField("ServiceName")]);
 									#endregion
 
 

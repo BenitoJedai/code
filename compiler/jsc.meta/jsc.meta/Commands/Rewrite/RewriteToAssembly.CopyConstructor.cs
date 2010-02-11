@@ -17,8 +17,9 @@ namespace jsc.meta.Commands.Rewrite
 				ConstructorInfo SourceConstructor,
 				TypeBuilder t,
 				VirtualDictionary<Type, Type> tc,
+				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
-				VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+				//VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 				VirtualDictionary<string, string> NameObfuscation,
@@ -49,7 +50,17 @@ namespace jsc.meta.Commands.Rewrite
 			var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
 
 
-			var x = CreateMethodBaseEmitToArguments(SourceConstructor, tc, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, ILOverride, ExceptionHandlingClauses);
+			var x = CreateMethodBaseEmitToArguments(
+				SourceConstructor, 
+				tc, 
+				FieldCache,
+				//TypeFieldCache, 
+				ConstructorCache, 
+				MethodCache, 
+				NameObfuscation, 
+				ILOverride, 
+				ExceptionHandlingClauses
+			);
 
 
 			SourceConstructor.EmitTo(km.GetILGenerator(), x);

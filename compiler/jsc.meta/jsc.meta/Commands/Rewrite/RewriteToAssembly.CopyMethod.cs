@@ -19,8 +19,10 @@ namespace jsc.meta.Commands.Rewrite
 			MethodInfo source,
 			TypeBuilder t,
 			VirtualDictionary<Type, Type> tc,
+				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
+
 			VirtualDictionary<MethodInfo, MethodInfo> mc,
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+			//VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 			VirtualDictionary<string, string> NameObfuscation,
@@ -89,7 +91,7 @@ namespace jsc.meta.Commands.Rewrite
 			var kmil_Dirty = false;
 
 			if (BeforeInstructions != null)
-				BeforeInstructions(source, km, 
+				BeforeInstructions(source, km,
 					delegate
 					{
 						kmil_Dirty = true;
@@ -108,7 +110,7 @@ namespace jsc.meta.Commands.Rewrite
 					// we found the entrypoint
 					if (codeinjecton != null)
 					{
-						WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, TypeFieldCache, ConstructorCache, MethodCache,
+						WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, ConstructorCache, MethodCache,
 							PrimarySourceAssembly,
 							codeinjecton,
 							codeinjectonparams
@@ -121,20 +123,21 @@ namespace jsc.meta.Commands.Rewrite
 				}
 
 			var x = CreateMethodBaseEmitToArguments(
-				source, 
-				tc, 
-				TypeFieldCache, 
-				ConstructorCache, 
-				MethodCache, 
-				NameObfuscation, 
-				ILOverride, 
+				source,
+				tc,
+				FieldCache,
+				//TypeFieldCache,
+				ConstructorCache,
+				MethodCache,
+				NameObfuscation,
+				ILOverride,
 				ExceptionHandlingClauses
 			);
 
 
 
 			mb.EmitTo(kmil, x);
-			
+
 
 			// we need to emit the try/catch blocks too!
 
@@ -142,12 +145,12 @@ namespace jsc.meta.Commands.Rewrite
 
 		public static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
 			MethodBase SourceMethod,
-			VirtualDictionary<Type, Type> TypeCache, 
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache, 
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache, 
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache, 
-			VirtualDictionary<string, string> NameObfuscation, 
-			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride, 
+			VirtualDictionary<Type, Type> TypeCache,
+			VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
+			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
+			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+			VirtualDictionary<string, string> NameObfuscation,
+			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
 			ExceptionHandlingClause[] ExceptionHandlingClauses)
 		{
 			var x = new ILTranslationExtensions.EmitToArguments
@@ -253,14 +256,10 @@ namespace jsc.meta.Commands.Rewrite
 					},
 				#endregion
 
-				TranslateTargetType = TargetType => TypeCache[TargetType],
-				TranslateTargetField = 
-					TargetField => 
-						TypeFieldCache[TargetField.DeclaringType].SingleOrDefault(
-							k => k.Name == (NameObfuscation == null ? TargetField.Name : NameObfuscation[TargetField.Name])) ?? TargetField,
-
-				TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
-				TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
+				TranslateTargetType = TypeCache,
+				TranslateTargetField = FieldCache,
+				TranslateTargetMethod = MethodCache,
+				TranslateTargetConstructor = ConstructorCache,
 			};
 
 			x[OpCodes.Endfinally] =
