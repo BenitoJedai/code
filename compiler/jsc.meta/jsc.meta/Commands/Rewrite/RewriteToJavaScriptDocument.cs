@@ -579,7 +579,6 @@ namespace jsc.meta.Commands.Rewrite
 										IHTMLElementCoTypes[DeclaringType].CreateType();
 									}
 
-									DeclaringType.CreateType();
 
 									if (source.IsNested)
 									{
@@ -588,11 +587,16 @@ namespace jsc.meta.Commands.Rewrite
 											{
 
 												if (e.SourceType == source.DeclaringType)
+												{
+													DeclaringType.CreateType();
+
 													Consumer.NestedTypesCreated();
+												}
 											};
 									}
 									else
 									{
+										DeclaringType.CreateType();
 										Consumer.NestedTypesCreated();
 									}
 
@@ -636,7 +640,8 @@ namespace jsc.meta.Commands.Rewrite
 										source.Name,
 										source_Attributes,
 										source.CallingConvention,
-										source.ReturnType,
+										
+										 r.RewriteArguments.context.TypeCache[source.ReturnType],
 
 										Enumerable.ToArray(
 											from p in source.GetParameterTypes()
@@ -644,6 +649,8 @@ namespace jsc.meta.Commands.Rewrite
 										)
 
 									);
+
+									//Console.WriteLine("from js: " + source.Name);
 
 									source.GetParameters().CopyTo(DeclaringTypeMethod);
 

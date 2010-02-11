@@ -23,20 +23,27 @@ namespace Ultra4
 
 	//[Description("OrcasClientScriptApplication. Write javascript, flash and java applets within a C# project.")]
 
-	public interface IAddShape
-	{
-		void AddShape2(IParameters1 e);
-	}
-
-
-	public interface IParameters1
-	{
-		string Color { get; set; }
-		IParameters1 Redirect { get; }
-	}
 
 	public sealed partial class UltraApplication
 	{
+
+		public interface IAddShape
+		{
+			void AddShape2(IParameters1 e);
+
+			IParameters1 ColorControl
+			{
+				get;
+			}
+		}
+
+
+		public interface IParameters1
+		{
+			string Color { get; set; }
+			IParameters1 Redirect { get; }
+		}
+
 
 		public sealed partial class UltraApplet : Applet, IAddShape
 		{
@@ -152,7 +159,23 @@ namespace Ultra4
 				AddShape1(e.Color);
 			}
 
+			public IParameters1 ColorControl
+			{
+				get
+				{
+					var p = new Parameters2
+					{
+					};
 
+					p.ColorChanged +=
+						delegate
+						{
+							this.AddShape2(p);
+						};
+
+					return p;
+				}
+			}
 		}
 
 
@@ -212,7 +235,23 @@ namespace Ultra4
 			}
 
 
+			public IParameters1 ColorControl
+			{
+				get
+				{
+					var p = new Parameters2
+					{
+					};
 
+					p.ColorChanged +=
+						delegate
+						{
+							this.AddShape2(p);
+						};
+
+					return p;
+				}
+			}
 
 
 		}
@@ -224,7 +263,25 @@ namespace Ultra4
 		}
 
 
-	
+		public class Parameters2 : IParameters1
+		{
+			public event Action ColorChanged;
+
+			string _Color;
+			public string Color
+			{
+				get { return _Color; }
+				set
+				{
+					_Color = value;
+					if (ColorChanged != null)
+						ColorChanged();
+				}
+			}
+			public IParameters1 Redirect { get; set; }
+		}
+
+
 
 		public interface Interface1
 		{
@@ -341,22 +398,38 @@ namespace Ultra4
 
 		private static void CreateButton(IAddShape z, string t)
 		{
-			var n = new IHTMLButton("AddShape1 " + t + " !");
+			{
+				var n = new IHTMLButton("AddShape1 " + t + " send interface");
 
-			n.onclick +=
-				delegate
-				{
-					//o.AddShape2 = "";
-					z.AddShape2(
-						new Parameters1
-						{
-							Color = t
-						}
-					);
+				n.onclick +=
+					delegate
+					{
+						//o.AddShape2 = "";
+						z.AddShape2(
+							new Parameters1
+							{
+								Color = t
+							}
+						);
 
-				};
+					};
 
-			n.AttachToDocument();
+				n.AttachToDocument();
+			}
+
+			{
+				var n = new IHTMLButton("AddShape1 " + t + " get interface");
+
+				n.onclick +=
+					delegate
+					{
+						var i = z.ColorControl;
+
+						i.Color = t;
+					};
+
+				n.AttachToDocument();
+			}
 		}
 
 		public class WebService
