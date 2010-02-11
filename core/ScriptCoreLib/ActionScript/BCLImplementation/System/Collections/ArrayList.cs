@@ -126,7 +126,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections
 
 		public int IndexOf(object value)
 		{
-			throw new NotImplementedException();
+			return this.InternalList.IndexOf(value);
 		}
 
 		public void Insert(int index, object value)
