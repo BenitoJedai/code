@@ -208,7 +208,7 @@ namespace jsc.meta.Commands.Extend
 								il.EmitReturnSerializedArray(preserve.ToArray(),
 									e.context.TypeCache,
 									e.context.ConstructorCache,
-									e.context.TypeFieldCacheFunc
+									e.context.FieldCache
 								);
 							}
 						}
@@ -569,7 +569,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					RewriteToAssembly.CreateMethodBaseEmitToArguments(
 						e.SourceMethod,
 						e.context.TypeCache,
-						e.context.TypeFieldCache,
+						e.context.FieldCache,
 						e.context.ConstructorCache,
 						e.context.MethodCache,
 						null,
@@ -591,7 +591,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				var il_a = RewriteToAssembly.CreateMethodBaseEmitToArguments(
 						e.SourceMethod,
 						e.context.TypeCache,
-						e.context.TypeFieldCache,
+						e.context.FieldCache,
 						e.context.ConstructorCache,
 						e.context.MethodCache,
 						null,

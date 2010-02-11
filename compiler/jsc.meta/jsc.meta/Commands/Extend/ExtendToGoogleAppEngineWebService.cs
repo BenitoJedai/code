@@ -183,7 +183,8 @@ namespace jsc.meta.Commands.Extend
 
 									il.Emit(OpCodes.Ldarg_1);
 									il.Emit(OpCodes.Ldstr, item.WebService.Name);
-									il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(InvokeWebServiceArguments)].Single(k => k.Name == "ServiceName"));
+
+									il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(InvokeWebServiceArguments).GetField("ServiceName")]);
 
 									var loc_MethodName = il.DeclareLocal(typeof(string));
 									var loc_IsMethodName = il.DeclareLocal(typeof(bool));
@@ -512,7 +513,7 @@ call """ + this.context.appengine + @"\bin\appcfg.cmd"" update www
 
 					il.Emit(OpCodes.Ldloc, loc_OperationParameter);
 					il.Emit(OpCodes.Ldstr, item.k.Name);
-					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(k => k.Name == "Name"));
+					il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(SimpleParameterInfo).GetField("Name")]);
 
 					//L_001c: ldtoken string
 					//L_0021: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
@@ -526,7 +527,7 @@ call """ + this.context.appengine + @"\bin\appcfg.cmd"" update www
 					);
 
 
-					il.Emit(OpCodes.Stfld, a.context.TypeFieldCache[typeof(SimpleParameterInfo)].Single(k => k.Name == "Type"));
+					il.Emit(OpCodes.Stfld, a.context.FieldCache[typeof(SimpleParameterInfo).GetField("Type")]);
 
 					il.Emit(OpCodes.Ldloc, loc_OperationParameters);
 					il.Emit(OpCodes.Ldc_I4, item.i);

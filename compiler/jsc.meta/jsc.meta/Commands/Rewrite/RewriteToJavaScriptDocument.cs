@@ -98,7 +98,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					product = k.TargetType.FullName,
 
-					
+
 					#region if we are going to inject code from jsc we need to copy it
 					rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
 						"jsc.meta->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
@@ -417,7 +417,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									r.ExternalContext.TypeCache[source] = DeclaringType;
 
-									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
 
 									#region CoType1
@@ -625,7 +625,7 @@ namespace jsc.meta.Commands.Rewrite
 							if (c != null)
 								if (c.IsActionScript || c.IsJava)
 								{
-									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
 									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
 
@@ -656,6 +656,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									foreach (var p in source.GetParameterTypes().Select((kk, i) => new { kk, i }).ToArray())
 									{
+
 										if (p.kk.IsDelegate() || p.kk.IsInterface)
 										{
 											il.Emit(OpCodes.Ldarg_0);
@@ -700,7 +701,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									// we need an instance :)
 
-									var __InternalElement = r.RewriteArguments.context.TypeFieldCache[__InternalElementProxy].Single(kk => kk.Name == "__InternalElement");
+									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
 									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
 

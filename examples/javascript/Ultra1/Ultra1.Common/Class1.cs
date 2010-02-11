@@ -27,7 +27,8 @@ namespace Ultra1.Common
 		string Status { get; set; }
 	}
 
-	/* this must be in merge module
-
-	*/
+	public class FieldClass1
+	{
+		public string FieldX;
+	}
 }

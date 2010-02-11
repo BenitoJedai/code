@@ -179,8 +179,8 @@ namespace jsc.meta.Library
 				};
 
 			var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
+			var FieldCache = new jsc.Library.VirtualDictionary<FieldInfo, FieldInfo>();
 			var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
-			var FieldCache = new jsc.Library.VirtualDictionary<Type, List<FieldBuilder>>();
 			var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
 			var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
 
@@ -188,6 +188,12 @@ namespace jsc.meta.Library
 				source =>
 				{
 					TypeCache[source] = source;
+				};
+
+			FieldCache.Resolve +=
+				source =>
+				{
+					FieldCache[source] = source;
 				};
 
 			ConstructorCache.Resolve +=
@@ -214,8 +220,8 @@ namespace jsc.meta.Library
 				msource.Method,
 				t,
 				TypeCache,
-				MethodCache,
 				FieldCache,
+				MethodCache,
 				ConstructorCache,
 				MethodCache,
 				NameObfuscation,
@@ -248,18 +254,24 @@ namespace jsc.meta.Library
 
 			var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
 			var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
-			var FieldCache = new jsc.Library.VirtualDictionary<Type, List<FieldBuilder>>();
+			var FieldCache = new jsc.Library.VirtualDictionary<FieldInfo, FieldInfo>();
 			var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
 			var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
 
 			ConstructorCache[typeof(DefineDefaultPropertyMarker).GetConstructor(new Type[0])] = ctor;
 			TypeCache[typeof(DefineDefaultPropertyMarker)] = t;
-			FieldCache[typeof(DefineDefaultPropertyMarker)] = new List<FieldBuilder>();
 
 			TypeCache.Resolve +=
 				source =>
 				{
 					TypeCache[source] = source;
+				};
+
+			// test me!
+			FieldCache.Resolve +=
+				source =>
+				{
+					FieldCache[source] = source;
 				};
 
 			NameObfuscation.Resolve +=
@@ -277,8 +289,8 @@ namespace jsc.meta.Library
 						source,
 						t,
 						TypeCache,
-						MethodCache,
 						FieldCache,
+						MethodCache,
 						ConstructorCache,
 						MethodCache,
 						NameObfuscation,

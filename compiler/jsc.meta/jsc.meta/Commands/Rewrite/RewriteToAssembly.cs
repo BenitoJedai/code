@@ -14,6 +14,9 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
+		// usage: c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)"
+		//
+
 		// todo: generics, interfaces, and opcodes.leave need to be fixed!
 
 		public string product;
@@ -139,6 +142,7 @@ namespace jsc.meta.Commands.Rewrite
 			public Func<ILGenerator> GetILGenerator;
 		}
 
+		// to be phased out
 		public Action<BeforeInstructionsArguments> BeforeInstructions;
 
 		public Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride;
@@ -150,7 +154,7 @@ namespace jsc.meta.Commands.Rewrite
 			ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>(),
 			MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>(),
 			TypeCache = new VirtualDictionary<Type, Type>(),
-			TypeFieldCache = new VirtualDictionary<Type, List<FieldBuilder>>()
+			FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>()
 		};
 
 		public void Invoke()
@@ -238,7 +242,7 @@ namespace jsc.meta.Commands.Rewrite
 				}
 
 			var TypeCache = new VirtualDictionary<Type, Type>();
-			var TypeFieldsCache = new VirtualDictionary<Type, List<FieldBuilder>>();
+			var FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>();
 
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
@@ -287,39 +291,44 @@ namespace jsc.meta.Commands.Rewrite
 								ConstructorCache = ConstructorCache,
 								MethodCache = MethodCache,
 								TypeCache = TypeCache,
-								TypeFieldCache = TypeFieldsCache
+								FieldCache = FieldCache,
 							}
 					};
 
 
 			#region ConstructorCache
 			ConstructorCache.Resolve +=
-				msource =>
+				SourceConstructor =>
 				{
 					// This unit was resolved for us...
-					if (ExternalContext.ConstructorCache[msource] != msource)
+					if (ExternalContext.ConstructorCache[SourceConstructor] != SourceConstructor)
 					{
-						ConstructorCache[msource] = ExternalContext.ConstructorCache[msource];
+						ConstructorCache[SourceConstructor] = ExternalContext.ConstructorCache[SourceConstructor];
 						return;
 					}
 
 
-					if (ShouldCopyType(msource.DeclaringType))
+					if (ShouldCopyType(SourceConstructor.DeclaringType))
 					{
-						var DeclaringType = (TypeBuilder)TypeCache[msource.DeclaringType];
+						var DeclaringType = (TypeBuilder)TypeCache[SourceConstructor.DeclaringType];
 
-						if (ConstructorCache.BaseDictionary.ContainsKey(msource))
+						if (ConstructorCache.BaseDictionary.ContainsKey(SourceConstructor))
 							return;
 
-						CopyConstructor(msource,
+						CopyConstructor(
+							SourceConstructor,
 							DeclaringType,
-							TypeCache, ConstructorCache, TypeFieldsCache,
-							ConstructorCache, MethodCache, NameObfuscation,
+							TypeCache, 
+							FieldCache,
+							ConstructorCache, 
+							ConstructorCache, 
+							MethodCache, 
+							NameObfuscation,
 							ILOverride);
 						return;
 					}
 
-					ConstructorCache[msource] = msource;
+					ConstructorCache[SourceConstructor] = SourceConstructor;
 				};
 			#endregion
 
@@ -339,7 +348,15 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						var source = (TypeBuilder)TypeCache[msource.DeclaringType];
 
-						CopyMethod(a, m, msource, source, TypeCache, MethodCache, TypeFieldsCache, ConstructorCache, MethodCache, NameObfuscation,
+						CopyMethod(
+							a, 
+							m, 
+							msource, 
+							source, 
+							TypeCache, 
+							FieldCache,
+							MethodCache, 
+							ConstructorCache, MethodCache, NameObfuscation,
 							_assembly,
 							this.codeinjecton,
 							this.codeinjectonparams,
@@ -373,20 +390,47 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
-			#region TypeFieldsCache
-			TypeFieldsCache.Resolve +=
-				source =>
+	
+
+			#region FieldCache
+			FieldCache.Resolve +=
+				SourceField =>
 				{
-					var k = TypeCache[source];
+					// if the datastruct is actually pointing to
+					// a initialized data in .sdata
+					// then we have to redefine it in our version
+					// for some reason we cannot just copy this bit in current API
 
-					// what about ExternalContext ?
+					var DeclaringType_ = TypeCache[SourceField.DeclaringType];
 
-					if (TypeFieldsCache.BaseDictionary.ContainsKey(source))
-						return;
+					if (DeclaringType_ is TypeBuilder)
+					{
+						var DeclaringType = (TypeBuilder)DeclaringType_;
+						var FieldName = NameObfuscation[SourceField.Name];
 
-					TypeFieldsCache[source] = new List<FieldBuilder>();
+						if (SourceField.FieldType.StructLayoutAttribute != null && SourceField.FieldType.StructLayoutAttribute.Size > 0)
+						{
+							var ff = DeclaringType.DefineInitializedData(FieldName, SourceField.GetValue(null).StructAsByteArray(), SourceField.Attributes);
+
+							FieldCache[SourceField] = ff;
+						}
+						else
+						{
+							var ff = DeclaringType.DefineField(FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
+
+							//ff.setd
+							//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
+
+							FieldCache[SourceField] = ff;
+						}
+					}
+					else
+					{
+						FieldCache[SourceField] = DeclaringType_.GetField(SourceField.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+					}
 				};
 			#endregion
+
 
 			#region TypeCache
 			TypeCache.Resolve +=
@@ -433,7 +477,11 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						CopyType(
 							source, a, m,
-							TypeCache, TypeFieldsCache, ConstructorCache, MethodCache,
+							TypeCache,
+							FieldCache,
+							 
+							ConstructorCache, 
+							MethodCache,
 							null,
 							NameObfuscation,
 							ShouldCopyType,
@@ -477,7 +525,7 @@ namespace jsc.meta.Commands.Rewrite
 								 #endregion
 
 							 }
-							 , null,
+							 ,
 
 							 t =>
 							 {

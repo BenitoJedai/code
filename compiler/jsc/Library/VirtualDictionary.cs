@@ -25,8 +25,6 @@ namespace jsc.Library
 				{
 					if (Resolve != null)
 						Resolve(k);
-					//else if (ResolveWithContinuation != null)
-					//    ResolveWithContinuation(k, null);
 				}
 
 				return BaseDictionary[k];

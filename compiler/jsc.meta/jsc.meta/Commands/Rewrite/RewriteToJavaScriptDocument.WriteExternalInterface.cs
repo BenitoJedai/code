@@ -664,6 +664,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				Action InvokeLater = delegate { };
 
+
 				#region Interfaces
 				foreach (var item in Interfaces)
 				{
@@ -671,22 +672,32 @@ namespace jsc.meta.Commands.Rewrite
 						__proxy_Interface + item.i,
 						TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
 						null,
-						new[] { TypeCache[item.k] }
+						new Type[] {
+							TypeCache[item.k] 
+						}
 					);
 
+					var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
+
+
+					var proxy_lookup_Type = TypeCache[typeof(InternalLookup._Consumer)];
 
 					var proxy_lookup = this.DeclaringType.DefineField(
-						__proxy_Interface + item.i + "lookup", TypeCache[typeof(InternalLookup._Consumer)],
+						__proxy_Interface + item.i + "lookup",
+
+						proxy_lookup_Type,
+
 						FieldAttributes.Public
 					);
 
 
-					var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
-
+					
 					var proxy_context = proxy.DefineField(_context, this.DeclaringType, FieldAttributes.Public);
 					var proxy_this = proxy.DefineField(_this, typeof(string), FieldAttributes.Public);
-
+					
+					
 					#region ToType
+					
 					var proxy_ToType = proxy.DefineMethod(
 						_ToType,
 						MethodAttributes.Static | MethodAttributes.Public,
@@ -702,15 +713,7 @@ namespace jsc.meta.Commands.Rewrite
 					{
 
 
-						/*
-public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplication+UltraApplet context, string _this)
-{
-	context.__proxy_Interface0lookup = InternalLookup._Consumer.LazyConstructor(context.__proxy_Interface0lookup);
-	UltraApplication.IParameters1 parameters = (UltraApplication.IParameters1) InternalLookup.FromType(context.__proxy_Interface0lookup, _this);
-	return new UltraApplication.UltraApplication+UltraApplet.__proxy_Interface0 { context = context, _this = _this };
-}
-						 
-						 */
+
 						var il = proxy_ToType.GetILGenerator();
 						var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
 						{
@@ -765,14 +768,18 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 
 						};
 
-							
-
 						((Func<InternalToTypeContext, string, InternalToTypeReturnType>)InternalToType.ToType).Method.EmitTo(il, il_a);
 
+
+
+
+
 					}
+					
 					#endregion
 
 					#region FromType
+					
 					var proxy_FromType = proxy.DefineMethod(
 						_FromType,
 						MethodAttributes.Static | MethodAttributes.Public,
@@ -787,6 +794,7 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 
 					{
 						var il = proxy_FromType.GetILGenerator();
+
 
 						#region LazyConstructor
 						il.Emit(OpCodes.Ldarg_0);
@@ -807,6 +815,7 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 					}
 					#endregion
 
+					#region Methods
 					foreach (var m_ in item.k.GetMethods())
 					{
 						var m = m_;
@@ -856,6 +865,10 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 								il.Emit(OpCodes.Ret);
 							};
 					}
+					
+					#endregion
+
+
 
 					this.NestedTypesCreated +=
 						delegate
@@ -863,7 +876,10 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 							proxy.CreateType();
 						};
 				}
+
+
 				#endregion
+
 
 
 				#region __in_Method
@@ -909,19 +925,29 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 
 					var il = m.GetILGenerator();
 
-					il.Emit(OpCodes.Ldarg_0);
-					il.Emit(OpCodes.Ldarg_1);
-
-					il.Emit(OpCodes.Call, this.__proxy_ToType[item.k.DeclaringType]);
-
-					foreach (var p in item.k.GetParameters())
+					if (this.__proxy_ToType.ContainsKey(item.k.DeclaringType))
 					{
-						il.Emit(OpCodes.Ldarg, (short)(p.Position + 2));
+						var __proxy_ToType = this.__proxy_ToType[item.k.DeclaringType];
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldarg_1);
+
+						il.Emit(OpCodes.Call, __proxy_ToType);
+
+						foreach (var p in item.k.GetParameters())
+						{
+							il.Emit(OpCodes.Ldarg, (short)(p.Position + 2));
+						}
+
+						il.Emit(OpCodes.Call, MethodCache[item.k]);
+
+						il.Emit(OpCodes.Ret);
 					}
+					else
+					{
+						il.EmitCode(() => { throw new NotImplementedException(); });
 
-					il.Emit(OpCodes.Call, MethodCache[item.k]);
-
-					il.Emit(OpCodes.Ret);
+					}
 
 
 					var __Delegate_ctor = DefineAnonymousDelegate(DeclaringType,
@@ -1043,6 +1069,7 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 				{
 					// interfaces and Callbacks should have an additional argument!
 
+					var _DirectReturnType = item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string);
 					var _DirectParameters = Enumerable.Range(0,
 						((item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate()) ? 1 : 0)
 						+ item.k.GetParameters().Length
@@ -1059,16 +1086,14 @@ public static UltraApplication.IParameters1 ToType(UltraApplication.UltraApplica
 								MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 
 								CallingConventions.Standard,
-								item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
-
-
+								_DirectReturnType,
 								_DirectParameters
 							),
 
 
 							LocalName = RewriteToJavaScriptDocument.__out_Method + item.i,
 							RemoteName = RewriteToJavaScriptDocument.__in_Method + item.i,
-							ReturnType = item.k.ReturnType,
+							ReturnType = _DirectReturnType,
 							ParameterTypes = _DirectParameters,
 
 							DeclaringType = this.OutgoingDirectType,

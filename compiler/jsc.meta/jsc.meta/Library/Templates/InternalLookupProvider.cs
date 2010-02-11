@@ -9,9 +9,9 @@ namespace jsc.meta.Library.Templates
 	public abstract class InternalLookup
 	{
 		public readonly ArrayList Items = new ArrayList();
+		public readonly ArrayList Keys = new ArrayList();
 
-		public int Offset;
-		public int Step;
+		public string Prefix;
 
 		public static string FromType(InternalLookup that, object e)
 		{
@@ -22,22 +22,25 @@ namespace jsc.meta.Library.Templates
 				i = that.Items.Count;
 
 				that.Items.Add(e);
+
+				var k = that.Prefix + i;
+
+				that.Keys.Add(k);
+
+				return k;
 			}
 
-			return "" + (i * that.Step + that.Offset);
+			return (string)that.Keys[i];
 		}
 
 		public static object ToType(InternalLookup that, string e)
 		{
-			// if it looks like our code but does not exist then throw
-			// if it looks remote code return null
+			var i = that.Keys.IndexOf(e);
 
-			// implement and test here
-			// code contracts?
-
-			return that.Items[0];
-
-			var i = (int.Parse(e) - that.Offset) / that.Step;
+			if (i < 0)
+			{
+				return null;
+			}
 
 			return that.Items[i];
 		}
@@ -46,8 +49,8 @@ namespace jsc.meta.Library.Templates
 		{
 			public _Consumer()
 			{
-				this.Step = 2;
-				this.Offset = 100;
+				this.Prefix = "_Consumer";
+				
 			}
 
 			public static _Consumer LazyConstructor(_Consumer e)
@@ -63,8 +66,7 @@ namespace jsc.meta.Library.Templates
 		{
 			public _Provider()
 			{
-				this.Step = 2;
-				this.Offset = 101;
+				this.Prefix = "_Provider";
 			}
 
 			public static _Provider LazyConstructor(_Provider e)

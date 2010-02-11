@@ -23,10 +23,22 @@ namespace Ultra4
 
 	//[Description("OrcasClientScriptApplication. Write javascript, flash and java applets within a C# project.")]
 
+	public interface IAddShape
+	{
+		void AddShape2(IParameters1 e);
+	}
+
+
+	public interface IParameters1
+	{
+		string Color { get; set; }
+		IParameters1 Redirect { get; }
+	}
+
 	public sealed partial class UltraApplication
 	{
 
-		public sealed partial class UltraApplet : Applet
+		public sealed partial class UltraApplet : Applet, IAddShape
 		{
 
 			public const int DefaultWidth = 500;
@@ -145,7 +157,7 @@ namespace Ultra4
 
 
 
-		public sealed partial class UltraSprite : Sprite
+		public sealed partial class UltraSprite : Sprite, IAddShape
 		{
 			public const int DefaultWidth = 500;
 			public const int DefaultHeight = 400;
@@ -211,11 +223,8 @@ namespace Ultra4
 			public IParameters1 Redirect { get; set; }
 		}
 
-		public interface IParameters1
-		{
-			string Color { get; set; } 
-			IParameters1 Redirect { get; }
-		}
+
+	
 
 		public interface Interface1
 		{
@@ -254,24 +263,8 @@ namespace Ultra4
 					{
 						var o = new UltraSprite();
 
-						{
-							var n = new IHTMLButton("AddShape1 red !");
-
-							n.onclick +=
-								delegate
-								{
-									//o.AddShape2 = "";
-									o.AddShape2(
-										new Parameters1
-										{
-											Color = "red"
-										}
-									);
-
-								};
-
-							n.AttachToDocument();
-						}
+						CreateButton(o, "red");
+						CreateButton(o, "green");
 
 
 						{
@@ -307,24 +300,8 @@ namespace Ultra4
 
 						var o = new UltraApplet();
 
-						{
-							var n = new IHTMLButton("AddShape1 red !");
-
-							n.onclick +=
-								delegate
-								{
-									//o.AddShape2 = "";
-									o.AddShape2(
-										new Parameters1
-										{
-											Color = "red"
-										}
-									);
-
-								};
-
-							n.AttachToDocument();
-						}
+						CreateButton(o, "red");
+						CreateButton(o, "green");
 
 
 						{
@@ -361,6 +338,27 @@ namespace Ultra4
 			);
 
 		}
+
+		private static void CreateButton(IAddShape z, string t)
+		{
+			var n = new IHTMLButton("AddShape1 " + t + " !");
+
+			n.onclick +=
+				delegate
+				{
+					//o.AddShape2 = "";
+					z.AddShape2(
+						new Parameters1
+						{
+							Color = t
+						}
+					);
+
+				};
+
+			n.AttachToDocument();
+		}
+
 		public class WebService
 		{
 			public object Context;

@@ -15,30 +15,25 @@ namespace jsc.meta.Commands.Rewrite
 	public partial class RewriteToAssembly
 	{
 		internal static void CopyType(
-		   Type SourceType,
-		   AssemblyBuilder a,
-		   ModuleBuilder m,
-		   VirtualDictionary<Type, Type> TypeCache,
-		   VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
-		   VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-		   VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
-		   TypeBuilder OverrideDeclaringType,
-		   VirtualDictionary<string, string> NameObfuscation,
-		   Func<Type, bool> ShouldCopyType,
-			Func<string, string> FullNameFixup,
-			Action<TypeBuilder> PostTypeRewrite,
-			Action<TypeBuilder> PreTypeRewrite,
-			
-			/* Obsolete */ Action<Action> ContextContinuation,
-			Action<TypeBuilder> TypeCreated,
+				Type SourceType,
+				AssemblyBuilder a,
+				ModuleBuilder m,
+				VirtualDictionary<Type, Type> TypeCache,
+				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
+				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
+				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+				TypeBuilder OverrideDeclaringType,
+				VirtualDictionary<string, string> NameObfuscation,
+				Func<Type, bool> ShouldCopyType,
+				Func<string, string> FullNameFixup,
+				Action<TypeBuilder> PostTypeRewrite,
+				Action<TypeBuilder> PreTypeRewrite,
 
-			RewriteToAssembly r
+				Action<TypeBuilder> TypeCreated,
+
+				RewriteToAssembly r
 			)
 		{
-			// we should remove the argument!
-			if (ContextContinuation != null)
-				throw new NotSupportedException();
-
 
 
 
@@ -141,6 +136,7 @@ namespace jsc.meta.Commands.Rewrite
 			// at this point we should signal back? that a nested declaration can continue?
 			// does everything still work after this change? :D
 
+
 			foreach (var k in SourceType.GetNestedTypes(
 				BindingFlags.Public | BindingFlags.NonPublic
 				))
@@ -155,30 +151,7 @@ namespace jsc.meta.Commands.Rewrite
 						BindingFlags.Public | BindingFlags.NonPublic |
 						BindingFlags.Instance | BindingFlags.Static))
 			{
-				// if the datastruct is actually pointing to
-				// a initialized data in .sdata
-				// then we have to redefine it in our version
-				// for some reason we cannot just copy this bit in current API
-
-				var FieldName = NameObfuscation[f.Name];
-
-				if (f.FieldType.StructLayoutAttribute != null && f.FieldType.StructLayoutAttribute.Size > 0)
-				{
-					var ff = t.DefineInitializedData(FieldName, f.GetValue(null).StructAsByteArray(), f.Attributes);
-
-					TypeFieldCache[SourceType].Add(ff);
-				}
-				else
-				{
-					var ff = t.DefineField(FieldName, TypeCache[f.FieldType], f.Attributes);
-
-
-
-					//ff.setd
-					//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
-
-					TypeFieldCache[SourceType].Add(ff);
-				}
+				var ff = FieldCache[f];
 			}
 			#endregion
 
@@ -195,7 +168,7 @@ namespace jsc.meta.Commands.Rewrite
 			// if we dont need these types we will waste them
 			// if we need them later we are doomed! :)
 
-			CopyTypeMembers(SourceType, TypeCache, TypeFieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
+			CopyTypeMembers(SourceType, TypeCache, FieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
 
 
 
@@ -270,7 +243,7 @@ namespace jsc.meta.Commands.Rewrite
 		internal static void CopyTypeMembers(
 			Type SourceType,
 			VirtualDictionary<Type, Type> TypeCache,
-			VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
+			VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 			VirtualDictionary<string, string> NameObfuscation,
@@ -279,7 +252,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-	
+
 
 			foreach (var k in SourceType.GetConstructors(
 				BindingFlags.DeclaredOnly |

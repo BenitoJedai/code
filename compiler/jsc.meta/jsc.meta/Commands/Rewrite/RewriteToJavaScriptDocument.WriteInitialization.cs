@@ -30,7 +30,7 @@ namespace jsc.meta.Commands.Rewrite
 			Type proxy,
 			Type context,
 			ScriptApplicationEntryPointAttribute entry,
-			FieldBuilder __InternalElement,
+			FieldInfo __InternalElement,
 			ExternalInterfaceConsumer Consumer
 			)
 		{
