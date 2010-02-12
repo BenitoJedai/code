@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
 
-        [Script(OptimizedCode="return function(a0, a1) { return o[p](a0, a1); }")]
+		[Script(OptimizedCode = "return function() { return o[p].apply(o, arguments); }")]
         internal static IFunction InternalGetAsyncInvoke(object o, global::System.IntPtr p)
         {
             return default(IFunction);

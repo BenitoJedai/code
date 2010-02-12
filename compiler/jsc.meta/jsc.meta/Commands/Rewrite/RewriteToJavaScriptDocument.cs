@@ -669,44 +669,11 @@ namespace jsc.meta.Commands.Rewrite
 
 									source.GetParameters().CopyTo(DeclaringTypeMethod);
 
-									var il = DeclaringTypeMethod.GetILGenerator();
 
 									var Consumer = ExternalInterfaceConsumerCache[DeclaringType];
-									var OutgoingInterfaceField = Consumer.OutgoingInterfaceField;
 
-									if (source.ReturnType.IsDelegate() || source.ReturnType.IsInterface)
-									{
-										il.Emit(OpCodes.Ldarg_0);
-									}
+									Consumer.ImplementTranslationMethod(source, DeclaringTypeMethod.GetILGenerator(), Consumer.OutgoingInterfaceField, null, null);
 
-									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Ldfld, Consumer.OutgoingInterfaceField);
-
-									foreach (var p in source.GetParameterTypes().Select((kk, i) => new { kk, i }).ToArray())
-									{
-
-										if (p.kk.IsDelegate() || p.kk.IsInterface)
-										{
-											il.Emit(OpCodes.Ldarg_0);
-										}
-
-										// conversion here!
-										il.Emit(OpCodes.Ldarg, (short)(p.i + 1));
-
-										if (p.kk.IsDelegate() || p.kk.IsInterface)
-										{
-											il.Emit(OpCodes.Call, Consumer.__proxy_FromType[p.kk]);
-										}
-									}
-									il.Emit(OpCodes.Call, Consumer.OutgoingMethodCache[source]);
-
-									// conversion here!
-									if (source.ReturnType.IsDelegate() || source.ReturnType.IsInterface)
-									{
-										il.Emit(OpCodes.Call, Consumer.__proxy_ToType[source.ReturnType]);
-									}
-
-									il.Emit(OpCodes.Ret);
 
 
 									r.ExternalContext.MethodCache[source] = DeclaringTypeMethod;

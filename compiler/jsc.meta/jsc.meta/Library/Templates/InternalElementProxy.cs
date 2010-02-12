@@ -28,23 +28,23 @@ namespace jsc.meta.Library.Templates
 				Namespace = new Random().Next();
 			}
 
-			public string GenerateName()
+			public string GenerateName(string method)
 			{
 				Counter++;
 
-				return "__InternalElementProxy" + Namespace + "_" + Counter;
+				return "__InternalElementProxy" + Namespace + "_" + Counter + "_" + method ;
 			}
 		}
 
 
 		internal __ExportDelegateContextType __ExportDelegateContext;
 
-		internal static string __ExportDelegate(__InternalElementProxy that, Delegate value)
+		internal static string __ExportDelegate(__InternalElementProxy that, Delegate value, string method)
 		{
 			if (that.__ExportDelegateContext == null)
 				that.__ExportDelegateContext = new __ExportDelegateContextType();
 
-			var __callback = that.__ExportDelegateContext.GenerateName();
+			var __callback = that.__ExportDelegateContext.GenerateName(method);
 
 			IFunction.OfDelegate(value).Export(__callback);
 
