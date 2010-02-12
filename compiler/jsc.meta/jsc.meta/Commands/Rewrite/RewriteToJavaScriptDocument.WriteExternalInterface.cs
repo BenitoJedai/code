@@ -1413,6 +1413,11 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
+
+			internal class __InternalToTypeReturnType : InternalToTypeReturnType
+			{
+
+			}
 			[Obfuscation(Feature = "invalidmerge")]
 			internal class InternalToTypeContext : InternalToType_.InternalToTypeContext
 			{
@@ -1468,6 +1473,11 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
+			internal class __InternalToTypeReturnType : InternalToTypeReturnType
+			{
+
+			}
+
 			[Obfuscation(Feature = "invalidmerge")]
 			internal class InternalToTypeContext : InternalToType_.InternalToTypeContext
 			{
@@ -1498,6 +1508,67 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 
+		}
+
+
+		public static class InternalToTypeTestConcept
+		{
+			public static void TestConcept()
+			{
+				var ctx = new InternalToType_Provider.InternalToTypeContext();
+
+				// represents a random object
+				var obj1 = new InternalToType_Provider.__InternalToTypeReturnType();
+				var obj2 = new InternalToType_Provider.__InternalToTypeReturnType();
+
+				var tk1a = InternalToType_Provider.FromType(ctx, obj1);
+				var tk1b = InternalToType_Provider.FromType(ctx, obj1);
+
+				var ob1a = InternalToType_Provider.ToType(ctx, tk1a);
+				var ob1b = InternalToType_Provider.ToType(ctx, tk1b);
+
+				var tk2a = InternalToType_Provider.FromType(ctx, obj2);
+				var tk2b = InternalToType_Provider.FromType(ctx, obj2);
+
+				var ob2a = InternalToType_Provider.ToType(ctx, tk2a);
+				var ob2b = InternalToType_Provider.ToType(ctx, tk2b);
+
+				var c_ctx = new InternalToType_Consumer.InternalToTypeContext();
+
+
+				{
+					// represend that random object within remoting site
+					var c_ob1a = InternalToType_Consumer.ToType(c_ctx, tk1a);
+					var c_ob1b = InternalToType_Consumer.ToType(c_ctx, tk1b);
+
+					var c_ob2a = InternalToType_Consumer.ToType(c_ctx, tk2a);
+					var c_ob2b = InternalToType_Consumer.ToType(c_ctx, tk2b);
+
+					var c_tk1a = InternalToType_Consumer.FromType(c_ctx, c_ob1a);
+					var c_tk1b = InternalToType_Consumer.FromType(c_ctx, c_ob1b);
+
+					var c_tk2a = InternalToType_Consumer.FromType(c_ctx, c_ob2a);
+					var c_tk2b = InternalToType_Consumer.FromType(c_ctx, c_ob2b);
+				}
+
+				{
+					// vice versa
+					var c_obj1 = new InternalToType_Consumer.__InternalToTypeReturnType();
+					var c_obj2 = new InternalToType_Consumer.__InternalToTypeReturnType();
+
+					var c_tk1a = InternalToType_Consumer.FromType(c_ctx, c_obj1);
+					var c_tk1b = InternalToType_Consumer.FromType(c_ctx, c_obj1);
+
+					var c_ob1a = InternalToType_Consumer.ToType(c_ctx, c_tk1a);
+					var c_ob1b = InternalToType_Consumer.ToType(c_ctx, c_tk1b);
+
+					var c_tk2a = InternalToType_Consumer.FromType(c_ctx, c_obj2);
+					var c_tk2b = InternalToType_Consumer.FromType(c_ctx, c_obj2);
+
+					var c_ob2a = InternalToType_Consumer.ToType(c_ctx, c_tk2a);
+					var c_ob2b = InternalToType_Consumer.ToType(c_ctx, c_tk2b);
+				}
+			}
 		}
 	}
 }

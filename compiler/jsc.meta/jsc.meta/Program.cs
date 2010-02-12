@@ -44,7 +44,7 @@ namespace jsc.meta
 
 			ShowLogo();
 
-
+			jsc.meta.Commands.Rewrite.Templates.InternalToTypeTestConcept.TestConcept();
 
 			args.AsParametersTo(
 				new ExtendToWindowsFormsEverywhere().Invoke,
