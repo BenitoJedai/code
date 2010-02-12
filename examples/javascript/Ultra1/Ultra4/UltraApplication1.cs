@@ -17,6 +17,7 @@ using java.awt.@event;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.ActionScript.flash.external;
 using Ultra1.Common;
+using System.Diagnostics;
 
 namespace Ultra4
 {
@@ -47,138 +48,138 @@ namespace Ultra4
 		}
 
 
-		public sealed partial class UltraApplet : Applet, IAddShape
-		{
+		//public sealed partial class UltraApplet : Applet, IAddShape
+		//{
 
-			public const int DefaultWidth = 500;
-			public const int DefaultHeight = 400;
+		//    public const int DefaultWidth = 500;
+		//    public const int DefaultHeight = 400;
 
-			public class __MouseListener : MouseListener
-			{
-				public event Action Clicked;
+		//    public class __MouseListener : MouseListener
+		//    {
+		//        public event Action Clicked;
 
-				#region MouseListener Members
+		//        #region MouseListener Members
 
-				public void mouseClicked(MouseEvent e)
-				{
-					if (Clicked != null)
-						Clicked();
-				}
+		//        public void mouseClicked(MouseEvent e)
+		//        {
+		//            if (Clicked != null)
+		//                Clicked();
+		//        }
 
-				public void mouseEntered(MouseEvent e)
-				{
-				}
+		//        public void mouseEntered(MouseEvent e)
+		//        {
+		//        }
 
-				public void mouseExited(MouseEvent e)
-				{
-				}
+		//        public void mouseExited(MouseEvent e)
+		//        {
+		//        }
 
-				public void mousePressed(MouseEvent e)
-				{
-				}
+		//        public void mousePressed(MouseEvent e)
+		//        {
+		//        }
 
-				public void mouseReleased(MouseEvent e)
-				{
-				}
+		//        public void mouseReleased(MouseEvent e)
+		//        {
+		//        }
 
-				#endregion
-			}
+		//        #endregion
+		//    }
 
-			partial void SetStatus(string v);
+		//    partial void SetStatus(string v);
 
-			public override void init()
-			{
-				SetStatus("java");
+		//    public override void init()
+		//    {
+		//        SetStatus("java");
 
-				base.resize(DefaultWidth, DefaultHeight);
-				// creating the java applet
+		//        base.resize(DefaultWidth, DefaultHeight);
+		//        // creating the java applet
 
-				var c = new __MouseListener();
+		//        var c = new __MouseListener();
 
-				c.Clicked +=
-					delegate
-					{
-						AddShape1("green");
-						RaiseClicked();
-					};
+		//        c.Clicked +=
+		//            delegate
+		//            {
+		//                AddShape1("green");
+		//                RaiseClicked();
+		//            };
 
-				this.addMouseListener(c);
+		//        this.addMouseListener(c);
 
-				//AddShape1("green");
-			}
+		//        //AddShape1("green");
+		//    }
 
-			partial void RaiseClicked();
-
-
-			int ColorShift = 8;
-
-			Color GetBlue(double b)
-			{
-				int u = (int)(0xff * b);
-
-				u <<= ColorShift;
+		//    partial void RaiseClicked();
 
 
-				return new Color(u);
-			}
+		//    int ColorShift = 8;
 
-			public override void paint(global::java.awt.Graphics g)
-			{
-				// old school gradient :)
+		//    Color GetBlue(double b)
+		//    {
+		//        int u = (int)(0xff * b);
 
-				var h = this.getHeight();
-				var w = this.getWidth();
+		//        u <<= ColorShift;
 
-				for (int i = 0; i < h; i++)
-				{
 
-					g.setColor(GetBlue(1 - (double)i / (double)h));
-					g.drawLine(0, i, w, i);
-				}
-			}
+		//        return new Color(u);
+		//    }
 
-			public void AddShape1(string color)
-			{
-				if (color == "red")
-					AddShape(16);
-				else if (color == "green")
-					AddShape(8);
-				else
-					AddShape(0);
+		//    public override void paint(global::java.awt.Graphics g)
+		//    {
+		//        // old school gradient :)
 
-			}
+		//        var h = this.getHeight();
+		//        var w = this.getWidth();
 
-			private void AddShape(int p)
-			{
-				ColorShift = p;
-				this.invalidate();
-				this.repaint();
-				//this.invalidate();
-			}
+		//        for (int i = 0; i < h; i++)
+		//        {
 
-			public void AddShape2(IParameters1 e)
-			{
-				AddShape1(e.Color);
-			}
+		//            g.setColor(GetBlue(1 - (double)i / (double)h));
+		//            g.drawLine(0, i, w, i);
+		//        }
+		//    }
 
-			public IParameters1 ColorControl
-			{
-				get
-				{
-					var p = new Parameters2
-					{
-					};
+		//    public void AddShape1(string color)
+		//    {
+		//        if (color == "red")
+		//            AddShape(16);
+		//        else if (color == "green")
+		//            AddShape(8);
+		//        else
+		//            AddShape(0);
 
-					p.ColorChanged +=
-						delegate
-						{
-							this.AddShape2(p);
-						};
+		//    }
 
-					return p;
-				}
-			}
-		}
+		//    private void AddShape(int p)
+		//    {
+		//        ColorShift = p;
+		//        this.invalidate();
+		//        this.repaint();
+		//        //this.invalidate();
+		//    }
+
+		//    public void AddShape2(IParameters1 e)
+		//    {
+		//        AddShape1(e.Color);
+		//    }
+
+		//    public IParameters1 ColorControl
+		//    {
+		//        get
+		//        {
+		//            var p = new Parameters2
+		//            {
+		//            };
+
+		//            p.ColorChanged +=
+		//                delegate
+		//                {
+		//                    this.AddShape2(p);
+		//                };
+
+		//            return p;
+		//        }
+		//    }
+		//}
 
 
 
@@ -190,9 +191,17 @@ namespace Ultra4
 			partial void SetStatus(string v);
 			partial void RaiseClicked();
 
+			ScriptCoreLib.ActionScript.flash.text.TextField MyText = new ScriptCoreLib.ActionScript.flash.text.TextField();
+
+			public string GetStatus1()
+			{
+				return "ok";
+			}
+
 			public UltraSprite()
 			{
-
+				MyText.text = "flash!:D 3";
+				MyText.MoveTo(128, 8).AttachTo(this);
 
 				// creating the flash object 
 				// + stratus
@@ -212,11 +221,59 @@ namespace Ultra4
 				else
 					AddShape(0xff);
 
+				//AtDelay(1000,
+				//    delegate
+				//    {
+				//        var u = ExternalInterface.call("confirm", "hello");
+
+				//        MyText.text = "confirm: " + u;
+				//    }
+				//);
 			}
 
 			public void AddShape2(IParameters1 e)
 			{
-				AddShape1(e.Color);
+				MyText.text = "AddShape2..";
+
+				AddShape1("red");
+
+				Action AtLater =
+					delegate
+					{
+						AddShape2Later(e);
+					};
+
+
+
+				AtDelay(5000, AtLater);
+			}
+
+			private static void AtDelay(int delay, Action AtLater)
+			{
+				var t = new ScriptCoreLib.ActionScript.flash.utils.Timer(delay, 1);
+
+				t.timer +=
+					delegate
+					{
+						AtLater();
+					};
+
+				t.start();
+			}
+
+			private void AddShape2Later(IParameters1 e)
+			{
+				try
+				{
+					var c = e.Color;
+					AddShape1(c);
+					MyText.text = "AddShape2: " + c;
+
+				}
+				catch (Exception ex)
+				{
+					MyText.text = "ex: " + ex.Message;
+				}
 			}
 
 
@@ -268,11 +325,18 @@ namespace Ultra4
 		public class Parameters2 : IParameters1
 		{
 			public event Action ColorChanged;
+			public event Action ColorQueried;
 
 			string _Color;
 			public string Color
 			{
-				get { return _Color; }
+				get
+				{
+					if (ColorQueried != null)
+						ColorQueried();
+
+					return _Color;
+				}
 				set
 				{
 					_Color = value;
@@ -327,36 +391,48 @@ namespace Ultra4
 						CreateButton(o, "green");
 
 
-					
+						var n = new IHTMLButton("status");
+
+						n.onclick +=
+							delegate
+							{
+
+								new IHTMLDiv { innerText = "status: " + o.GetStatus1() }.AttachToDocument();
+
+
+
+							};
+
+						n.AttachToDocument();
 
 						o.AttachSpriteToDocument();
 					};
 			}
 
 
-			{
-				var x = new IHTMLButton("create UltraApplet");
+			//{
+			//    var x = new IHTMLButton("create UltraApplet");
 
-				x.AttachToDocument();
+			//    x.AttachToDocument();
 
-				x.onclick +=
-					delegate
-					{
-						x.style.color = JSColor.Red;
-
-
-						var o = new UltraApplet();
-
-						CreateButton(o, "red");
-						CreateButton(o, "green");
+			//    x.onclick +=
+			//        delegate
+			//        {
+			//            x.style.color = JSColor.Red;
 
 
-				
+			//            var o = new UltraApplet();
 
-						o.AddShape1("green");
-						o.AttachAppletToDocument();
-					};
-			}
+			//            CreateButton(o, "red");
+			//            CreateButton(o, "green");
+
+
+
+
+			//            o.AddShape1("green");
+			//            o.AttachAppletToDocument();
+			//        };
+			//}
 
 
 			var ws = new WebService();
@@ -375,19 +451,25 @@ namespace Ultra4
 		private static void CreateButton(IAddShape z, string t)
 		{
 			{
-				var n = new IHTMLButton("AddShape1 " + t + " send interface");
+				var n = new IHTMLButton("AddShape1 " + t + " new Parameters1 { Color = t }");
 				n.style.color = t;
 
 				n.onclick +=
 					delegate
 					{
-						//o.AddShape2 = "";
-						z.AddShape2(
-							new Parameters1
+						var p = new Parameters2 { Color = t };
+
+						p.ColorQueried +=
+							delegate
 							{
-								Color = t
-							}
-						);
+								//Debugger.Break();
+
+								new IHTMLDiv { innerText = "get_Color?!" }.AttachToDocument();
+							};
+
+						//o.AddShape2 = "";
+						z.AddShape2(p);
+
 
 					};
 
@@ -395,7 +477,7 @@ namespace Ultra4
 			}
 
 			{
-				var n = new IHTMLButton("AddShape1 " + t + " get interface");
+				var n = new IHTMLButton("AddShape1 " + t + " z.ColorControl.Color");
 				n.style.color = t;
 
 				n.onclick +=
@@ -410,7 +492,7 @@ namespace Ultra4
 			}
 			{
 				{
-					var n = new IHTMLButton("AddShape1 "  + t);
+					var n = new IHTMLButton("AddShape1 " + t);
 
 					n.style.color = t;
 					n.onclick +=

@@ -144,8 +144,13 @@ namespace jsc.meta.Commands.Rewrite
 					// good luck getting it to work with ID :)
 					// there probably is a way to do it!
 
+					// IE and Opera cannot return values from functions...
+					// IE cannot be returned to either.
+					// so.. forget returns!
+
 					var o = new IHTMLEmbed();
 
+					// http://forums.adobe.com/thread/461204
 
 					// http://www.bobbyvandersluis.com/ufo/index.html
 					// for IE we might need to consider setting innerHTML
@@ -171,8 +176,8 @@ namespace jsc.meta.Commands.Rewrite
 					o.setAttribute("allowScriptAccess", "always");
 
 					// we need Ldc_I4
-					o.width = 4001;
-					o.height = 4002;
+					o.width = width;
+					o.height = height;
 
 					o.src = src;
 
