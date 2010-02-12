@@ -19,11 +19,128 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Web;
+using jsc.meta.Commands.Rewrite.Templates;
+using System.Web.Profile;
 
 namespace jsc.meta.Commands.Rewrite
 {
+	namespace Templates
+	{
+		public class InternalGlobal : HttpApplication
+		{
+			public static void InternalApplication_BeginRequest(InternalGlobal that)
+			{
+				that.Response.ContentType = "text/plain";
+				that.Response.Write("Hello World");
+				that.CompleteRequest();
+			}
+
+			public static DefaultProfile InternalGetProfile(InternalGlobal that)
+			{
+				return (DefaultProfile)that.Context.Profile;
+			}
+		}
+	}
+
 	partial class RewriteToJavaScriptDocument
 	{
+		private void WriteGlobalApplication(RewriteToAssembly r, RewriteToAssembly.AssemblyRewriteArguments a, Type type, DirectoryInfo web, DirectoryInfo web_bin)
+		{
+			#region Global
+			var GlobalFullName = type.Namespace + ".Global";
+
+			var Global = a.Module.DefineType(GlobalFullName,
+				TypeAttributes.Public,
+				r.RewriteArguments.context.TypeCache[typeof(InternalGlobal)],
+				new Type[0]
+			);
+
+
+			var Application_BeginRequest = Global.DefineMethod("Application_BeginRequest", MethodAttributes.Public,
+				CallingConventions.Standard, typeof(void),
+				new[] { typeof(object), typeof(EventArgs) }
+			);
+
+			{
+				var il = Application_BeginRequest.GetILGenerator();
+
+				il.Emit(OpCodes.Ldarg_0);
+
+
+				il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[
+					((Action<InternalGlobal>)InternalGlobal.InternalApplication_BeginRequest).Method
+				]);
+
+
+				il.Emit(OpCodes.Ret);
+			}
+
+			Global.CreateType();
+			#endregion
+
+
+			var global_asax = a.Module.DefineType("ASP.global_asax", TypeAttributes.Public, Global);
+
+			var __initialized = global_asax.DefineField("__initialized", typeof(bool), FieldAttributes.Private | FieldAttributes.Static);
+
+			var get_Profile = global_asax.DefineMethod("get_Profile", MethodAttributes.Family, CallingConventions.Standard, typeof(DefaultProfile), new Type[0]);
+
+			{
+				var il = get_Profile.GetILGenerator();
+
+				il.Emit(OpCodes.Ldarg_0);
+
+				il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[
+					((Func<InternalGlobal, DefaultProfile>)InternalGlobal.InternalGetProfile).Method
+				]);
+
+
+				il.Emit(OpCodes.Ret);
+			}
+
+			var Profile = global_asax.DefineProperty("Profile", PropertyAttributes.None, typeof(DefaultProfile), null);
+
+			Profile.SetGetMethod(get_Profile);
+
+			global_asax.CreateType();
+
+			File.WriteAllText(Path.Combine(web_bin.FullName, "App_global.asax.compiled"),
+@"<?xml version='1.0' encoding='utf-8'?>
+<preserve resultType='8' virtualPath='/global.asax'  flags='150000' assembly='" + r.product + @"' type='ASP.global_asax'>
+  <filedeps>
+    <filedep name='/global.asax' />
+  </filedeps>
+</preserve>
+");
+
+
+			File.WriteAllText(Path.Combine(web.FullName, "web.config"),
+@"<?xml version='1.0'?>
+<configuration>
+	<system.web>
+		<compilation debug='true'/>
+  </system.web>
+</configuration>
+".Trim());
+
+			File.WriteAllText(Path.Combine(web.FullName, "PrecompiledApp.config"), "<precompiledApp version='2' updatable='false'/>");
+			File.WriteAllText(Path.Combine(web.FullName, "Default.htm"), "");
+
+
+			#region staging.net.bat
+			// now we can run the rewritten app in .net :)
+			File.WriteAllText(
+				Path.Combine(web.FullName,
+					"WebDev.WebServer.bat"
+					),
+				@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + web.FullName + @""" /vpath:""/"""
+			);
+			#endregion
+
+		}
+
+
 		public class WebServiceForJavaScript
 		{
 			public RewriteToAssembly r;
