@@ -18,6 +18,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.ActionScript.flash.external;
 using Ultra1.Common;
 using System.Diagnostics;
+using System.Web;
 
 namespace Ultra4
 {
@@ -651,9 +652,7 @@ namespace Ultra4
 		public sealed class WebService
 		{
 			// initialized on the server
-			public object Context;
-			public object Session;
-			public object ServerServices;
+			
 
 			// rewrite this class to after msbuild step
 			public delegate void Func1(string e);
@@ -676,6 +675,8 @@ namespace Ultra4
 			{
 				result("world: " + e);
 			}
+
+		
 		}
 
 

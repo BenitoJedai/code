@@ -18,6 +18,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using jsc.meta.Commands.Rewrite.Templates;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -235,7 +236,7 @@ namespace jsc.meta.Commands.Rewrite
 								if (IsRewriteOnly)
 									return;
 
-								foreach (var asset in from kk in targets where !kk.IsJavaScript select kk)
+								foreach (var asset in from kk in targets where kk.IsActionScript || kk.IsJava select kk)
 								{
 									if (!File.Exists(asset.Product))
 									{
@@ -251,7 +252,14 @@ namespace jsc.meta.Commands.Rewrite
 
 							if (k.IsWebService)
 							{
-								WriteGlobalApplication(r, a, k.TargetType, k.DefaultStagingFolder, k.StagingFolder);
+								var __js = targets.Single(kk => kk.IsJavaScript);
+
+								WriteGlobalApplication(r, a, k.TargetType, k.DefaultStagingFolder, k.StagingFolder, 
+									__js.StagingFolder,
+									__js.TargetType
+
+
+								);
 							}
 
 						}
@@ -262,9 +270,11 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
-						source =>
+						SourceType =>
 						{
-							var c = targets.SingleOrDefault(kk => kk.TargetType == source);
+						
+
+							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
 							if (c != null)
 								if (c.IsJavaScript)
@@ -273,8 +283,8 @@ namespace jsc.meta.Commands.Rewrite
 									// basically flash could subscribe to events in
 									// javascript!
 
-									var t = r.RewriteArguments.Module.DefineType(source.FullName,
-										source.Attributes,
+									var t = r.RewriteArguments.Module.DefineType(SourceType.FullName,
+										SourceType.Attributes,
 
 										// hmm, no base for proxies!
 										null,
@@ -283,7 +293,7 @@ namespace jsc.meta.Commands.Rewrite
 										null
 									);
 
-									r.ExternalContext.TypeCache[source] = t;
+									r.ExternalContext.TypeCache[SourceType] = t;
 									t.CreateType();
 								}
 						};
