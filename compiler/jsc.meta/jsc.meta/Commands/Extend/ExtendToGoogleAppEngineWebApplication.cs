@@ -238,7 +238,7 @@ namespace jsc.meta.Commands.Extend
 				// should we actually look at the csproj file?
 
 				foreach (var item in staging_2_aspnet.GetFilesByPattern(
-					 "*.htm", "*.ico", "*.png", "*.swf"
+					 "*.htm", "*.js", "*.ico", "*.png", "*.swf"
 					)
 				)
 				{
