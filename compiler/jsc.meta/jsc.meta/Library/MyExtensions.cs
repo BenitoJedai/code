@@ -18,6 +18,11 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+		public static void NotImplemented(this MethodBuilder m)
+		{
+			m.GetILGenerator().EmitCode(() => { throw new NotImplementedException(); });
+		}
+
 		public static LocalBuilder EmitStringArgumentsAsArray(this ILGenerator il, bool IsInstance, Type[] e)
 		{
 			var loc0 = il.DeclareLocal(typeof(string[]));
