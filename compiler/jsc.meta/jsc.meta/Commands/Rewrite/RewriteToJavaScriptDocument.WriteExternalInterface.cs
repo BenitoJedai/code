@@ -764,8 +764,19 @@ namespace jsc.meta.Commands.Rewrite
 
 				foreach (var p in SourceMethod.GetParameters())
 				{
+					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+					{
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldfld, proxy_context);
+					}
+
 					// can we get the remote this/callback or do we need to generate one?
-					il.Emit(OpCodes.Ldnull);
+					il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
+
+					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+					{
+						il.Emit(OpCodes.Call, __proxy_FromType[p.ParameterType]);
+					}
 				}
 
 				il.Emit(OpCodes.Call, OutgoingMethodCache[SourceMethod]);

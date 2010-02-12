@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared;
 using System;
+using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
@@ -27,7 +28,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			var xml = new ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument("invoke");
 
 			xml.documentElement.setAttribute("name", method);
-			xml.documentElement.setAttribute("returntype", "javascript");
+			xml.documentElement.setAttribute("returntype", "xml");
 
 			var _arguments = xml.createElement("arguments");
 
@@ -49,9 +50,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			}
 			xml.documentElement.appendChild(_arguments);
 
-			return e.CallFunction(
+			var responseText = e.CallFunction(
 				xml.ToXMLString()
 			);
+
+			var responseValue = IXMLDocument.Parse(responseText).documentElement.text;
+
+			return responseValue;
 		}
 	}
 

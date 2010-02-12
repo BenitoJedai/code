@@ -144,9 +144,7 @@ namespace jsc.meta.Commands.Rewrite
 					// good luck getting it to work with ID :)
 					// there probably is a way to do it!
 
-					// IE and Opera cannot return values from functions...
-					// IE cannot be returned to either.
-					// so.. forget returns!
+					// IE and Opera cannot return values from functions from javascript to flash
 
 					var o = new IHTMLEmbed();
 

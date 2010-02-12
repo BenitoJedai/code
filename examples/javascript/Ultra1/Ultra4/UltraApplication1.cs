@@ -47,6 +47,19 @@ namespace Ultra4
 			IParameters1 Redirect { get; }
 		}
 
+		public class XSendStatus : Ultra4.IXSendStatus
+		{
+			public string e;
+
+			public Action At;
+
+			public void SendStatus(string e)
+			{
+				this.e = e;
+
+				At();
+			}
+		}
 
 		//public sealed partial class UltraApplet : Applet, IAddShape
 		//{
@@ -198,9 +211,25 @@ namespace Ultra4
 				return "ok";
 			}
 
+			public void GetStatus2(IXSendStatus e)
+			{
+				MyText.text = "GetStatus2..";
+
+				//AtDelay(1000,
+				//    delegate
+				//    {
+						e.SendStatus("ok");
+
+				//        MyText.text = "GetStatus2.. done";
+				//    }
+				//);
+
+		
+			}
+
 			public UltraSprite()
 			{
-				MyText.text = "flash!:D 3";
+				MyText.text = "flash!:D 7";
 				MyText.MoveTo(128, 8).AttachTo(this);
 
 				// creating the flash object 
@@ -233,19 +262,23 @@ namespace Ultra4
 
 			public void AddShape2(IParameters1 e)
 			{
-				MyText.text = "AddShape2..";
+				//MyText.text = "AddShape2..";
 
-				AddShape1("red");
+				//AddShape1("red");
 
-				Action AtLater =
-					delegate
-					{
-						AddShape2Later(e);
-					};
+				var c = e.Color;
+				AddShape1(c);
+				MyText.text = "AddShape2: " + c;
+
+				//Action AtLater =
+				//    delegate
+				//    {
+				//        //AddShape2Later(e);
+				//    };
 
 
 
-				AtDelay(5000, AtLater);
+				//AtDelay(5000, AtLater);
 			}
 
 			private static void AtDelay(int delay, Action AtLater)
@@ -390,20 +423,49 @@ namespace Ultra4
 						CreateButton(o, "red");
 						CreateButton(o, "green");
 
+						{
+							var n = new IHTMLButton("status");
 
-						var n = new IHTMLButton("status");
+							n.onclick +=
+								delegate
+								{
 
-						n.onclick +=
-							delegate
-							{
-
-								new IHTMLDiv { innerText = "status: " + o.GetStatus1() }.AttachToDocument();
+									new IHTMLDiv { innerText = "status: " + o.GetStatus1() }.AttachToDocument();
 
 
 
-							};
+								};
 
-						n.AttachToDocument();
+							n.AttachToDocument();
+						}
+
+						{
+							var n = new IHTMLButton("status 2");
+
+							n.onclick +=
+								delegate
+								{
+									var p = new XSendStatus
+									{
+											
+									};
+
+									p.At =
+										delegate
+										{
+											//Debugger.Break();
+
+											new IHTMLDiv { innerText = "status 2: " + p.e }.AttachToDocument();
+										};
+
+
+									o.GetStatus2(p);
+
+								};
+
+							n.AttachToDocument();
+						}
+
 
 						o.AttachSpriteToDocument();
 					};
@@ -483,9 +545,16 @@ namespace Ultra4
 				n.onclick +=
 					delegate
 					{
+						new IHTMLDiv { innerText = "var i = z.ColorControl;" }.AttachToDocument();
+
 						var i = z.ColorControl;
 
+						new IHTMLDiv { innerText = "i.Color = t;" }.AttachToDocument();
+
 						i.Color = t;
+
+						new IHTMLDiv { innerText = ";" }.AttachToDocument();
+
 					};
 
 				n.AttachToDocument();
