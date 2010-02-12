@@ -26,6 +26,9 @@ namespace OrcasMetaWebApplication
 			if (this.Request.Path.EndsWith(".asmx"))
 				return;
 
+			if (this.Request.Path.EndsWith(".js"))
+				return;
+
 			if (this.Request.Path.EndsWith(".htm"))
 				return;
 
