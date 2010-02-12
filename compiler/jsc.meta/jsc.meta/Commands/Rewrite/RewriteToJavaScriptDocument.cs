@@ -672,6 +672,7 @@ namespace jsc.meta.Commands.Rewrite
 									var il = DeclaringTypeMethod.GetILGenerator();
 
 									var Consumer = ExternalInterfaceConsumerCache[DeclaringType];
+									var OutgoingInterfaceField = Consumer.OutgoingInterfaceField;
 
 									if (source.ReturnType.IsDelegate() || source.ReturnType.IsInterface)
 									{
@@ -702,7 +703,7 @@ namespace jsc.meta.Commands.Rewrite
 									// conversion here!
 									if (source.ReturnType.IsDelegate() || source.ReturnType.IsInterface)
 									{
-										il.Emit(OpCodes.Call, Consumer.__proxy_FromType[source.ReturnType]);
+										il.Emit(OpCodes.Call, Consumer.__proxy_ToType[source.ReturnType]);
 									}
 
 									il.Emit(OpCodes.Ret);
