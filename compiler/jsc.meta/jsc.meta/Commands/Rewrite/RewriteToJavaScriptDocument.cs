@@ -50,14 +50,23 @@ namespace jsc.meta.Commands.Rewrite
 			var targets = Enumerable.ToArray(
 
 				from TargetType in assembly.GetTypes()
-				where !TargetType.IsAbstract
+
+				// we want sealed types
+				where !TargetType.IsAbstract && TargetType.IsSealed
+
+				// how do we detect ad hoc web services? a suffix will do for now...
+				// if it defines some cool fields we will need to populate them later
+				let IsWebService = TargetType.Name.EndsWith("WebService")
+
+
 				let EntryPoint = InferScriptApplicationEntryPoint(TargetType)
-				where EntryPoint != null
+				where IsWebService || EntryPoint != null
 
 				// what about Forms/Avalon ?
 				let IsActionScript = typeof(Sprite).IsAssignableFrom(TargetType)
 				let IsJava = typeof(Applet).IsAssignableFrom(TargetType)
-				let IsJavaScript = !IsActionScript && !IsJava
+				let IsJavaScript = TargetType.GetConstructor(typeof(IHTMLElement)) != null
+
 
 				// possible name clash?
 				let StagingFolder = this.staging.CreateSubdirectory(TargetType.FullName)
@@ -70,10 +79,10 @@ namespace jsc.meta.Commands.Rewrite
 
 				// javascript objects will embedd upper level objects
 				// javascript objects could be defined within one code file?
-				orderby IsJavaScript
+				orderby IsJavaScript || IsWebService, IsWebService
 
 
-				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, StagingFolder, Product }
+				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, IsWebService, StagingFolder, Product }
 
 			);
 
@@ -86,6 +95,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				// in flash we need to export our functions...
 				var __ExternalCallback = new List<MethodBuilderInfo>();
+				var __WebServiceForJavaScript = default(WebServiceForJavaScript);
 
 				var r = default(RewriteToAssembly);
 
@@ -99,18 +109,11 @@ namespace jsc.meta.Commands.Rewrite
 					product = k.TargetType.FullName,
 
 
-					#region if we are going to inject code from jsc we need to copy it
 					rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
 						"jsc.meta->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
 						"jsc->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
 					},
-					/*
-					merge = new RewriteToAssembly.MergeInstruction[] {
-						"jsc.meta",
-						"jsc"
-					},
-					 * */
-					#endregion
+
 
 
 					#region PreTypeRewrite
@@ -156,41 +159,48 @@ namespace jsc.meta.Commands.Rewrite
 							// we need to inject bootstrap code
 							if (a.Type == a.context.TypeCache[k.TargetType])
 							{
-								if (k.IsJavaScript)
+								if (k.IsWebService)
 								{
-									// look, we are injecting IL code :)
-									// to bad jsc backend had to do this the ugly way in the past...
-									InjectJavaScriptBootstrap(a);
+									// no entrypoints for me?
 								}
-
-
-
-								#region we need to inject entrypoint attributes
-								if (null == k.TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault())
+								else
 								{
-									// we have to manually add it now...
-									var s = InferScriptApplicationEntryPoint(k.TargetType);
-
-									a.Type.DefineAttribute(
-										s,
-										typeof(ScriptApplicationEntryPointAttribute)
-									);
-
-									if (k.IsActionScript)
+									if (k.IsJavaScript)
 									{
-										var swf = k.TargetType.GetCustomAttributes<SWFAttribute>().SingleOrDefault();
+										// look, we are injecting IL code :)
+										// to bad jsc backend had to do this the ugly way in the past...
+										InjectJavaScriptBootstrap(a);
+									}
 
-										if (swf == null)
+
+
+									#region we need to inject entrypoint attributes
+									if (null == k.TargetType.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().SingleOrDefault())
+									{
+										// we have to manually add it now...
+										var s = InferScriptApplicationEntryPoint(k.TargetType);
+
+										a.Type.DefineAttribute(
+											s,
+											typeof(ScriptApplicationEntryPointAttribute)
+										);
+
+										if (k.IsActionScript)
 										{
-											a.Type.DefineAttribute(
-												new SWFAttribute { width = s.Width, height = s.Height },
-												typeof(SWFAttribute)
-											);
+											var swf = k.TargetType.GetCustomAttributes<SWFAttribute>().SingleOrDefault();
 
+											if (swf == null)
+											{
+												a.Type.DefineAttribute(
+													new SWFAttribute { width = s.Width, height = s.Height },
+													typeof(SWFAttribute)
+												);
+
+											}
 										}
 									}
+									#endregion
 								}
-								#endregion
 
 
 							}
@@ -241,7 +251,7 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 				};
 
-				if (k.IsJava)
+				if (k.IsJava || k.IsActionScript || k.IsWebService)
 				{
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
@@ -273,6 +283,8 @@ namespace jsc.meta.Commands.Rewrite
 
 					#endregion
 				}
+
+
 
 				#region IsActionScript IL patching
 				if (k.IsActionScript)
@@ -311,37 +323,7 @@ namespace jsc.meta.Commands.Rewrite
 						};
 					#endregion
 
-					#region TypeCache
-					r.ExternalContext.TypeCache.Resolve +=
-						source =>
-						{
-							var c = targets.SingleOrDefault(kk => kk.TargetType == source);
 
-							if (c != null)
-								if (c.IsJavaScript)
-								{
-									// so... flash could reference javascript element? :)
-									// basically flash could subscribe to events in
-									// javascript!
-
-									// atleast we need to define a nested type declaring type...
-
-									var t = r.RewriteArguments.Module.DefineType(source.FullName,
-										source.Attributes,
-
-										// hmm, no base for proxies!
-										null,
-
-										// no interfaces either at this time!
-										null
-									);
-
-									r.ExternalContext.TypeCache[source] = t;
-									t.CreateType();
-								}
-						};
-
-					#endregion
 				}
 				#endregion
 
@@ -384,53 +366,63 @@ namespace jsc.meta.Commands.Rewrite
 
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
-						source =>
+						SourceType =>
 						{
-							if (r.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
-								if (r.ExternalContext.TypeCache.BaseDictionary[source] != source)
+							if (r.ExternalContext.TypeCache.BaseDictionary.ContainsKey(SourceType))
+								if (r.ExternalContext.TypeCache.BaseDictionary[SourceType] != SourceType)
 									return;
 
 
-							var c = targets.SingleOrDefault(kk => kk.TargetType == source);
+							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
 							if (c != null)
-								if (c.IsActionScript || c.IsJava)
+								if (c.IsWebService)
+								{
+									__WebServiceForJavaScript = new WebServiceForJavaScript
+									{
+										r = r,
+										SourceType =SourceType
+									};
+
+									__WebServiceForJavaScript.WriteType();
+								}
+								else if (c.IsActionScript || c.IsJava)
 								{
 									// we have to generate a proxy!
 
 									var Interfaces = Enumerable.ToArray(
 
-										from y in source.GetInterfaces()
+										from y in SourceType.GetInterfaces()
 
-										let ym = source.GetInterfaceMap(y)
+										let ym = SourceType.GetInterfaceMap(y)
 
 										// fixme: we should actually look
 										// where are the interfaces defined
 										// if they are within actionscript/java namespaces then exclude 
 
 										// is any of the method implemented in this concrete type?
-										where ym.TargetMethods.Any(yy => yy.DeclaringType == source)
+										where ym.TargetMethods.Any(yy => yy.DeclaringType == SourceType)
 
 										select r.RewriteArguments.context.TypeCache[y]
 									);
 
-									var DeclaringType = source.IsNested ?
-										((TypeBuilder)r.RewriteArguments.context.TypeCache[source.DeclaringType]).DefineNestedType(
-											source.FullName,
-											source.Attributes,
+									var DeclaringType = SourceType.IsNested ?
+										((TypeBuilder)r.RewriteArguments.context.TypeCache[SourceType.DeclaringType]).DefineNestedType(
+											SourceType.FullName,
+											SourceType.Attributes,
 											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
 											Interfaces
 										)
 
 
 										: r.RewriteArguments.Module.DefineType(
-											source.FullName,
-											source.Attributes,
+											SourceType.FullName,
+											SourceType.Attributes,
 											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
 											Interfaces
 									);
 
-									r.ExternalContext.TypeCache[source] = DeclaringType;
+									r.ExternalContext.TypeCache[SourceType] = DeclaringType;
 
 									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
@@ -440,7 +432,7 @@ namespace jsc.meta.Commands.Rewrite
 									{
 										// in flash we will need to use CallFunction!
 
-										var CoType1 = DeclaringType.DefineNestedType("IHTML" + source.Name,
+										var CoType1 = DeclaringType.DefineNestedType("IHTML" + SourceType.Name,
 											   TypeAttributes.Sealed | TypeAttributes.NestedAssembly,
 
 											   // hmm, no base for proxies!
@@ -468,7 +460,7 @@ namespace jsc.meta.Commands.Rewrite
 										DeclaringType = DeclaringType,
 										Rewrite = r,
 										RewriteArguments = r.RewriteArguments,
-										SourceType = source,
+										SourceType = SourceType,
 
 										#region DefineMethod
 										DefineMethod =
@@ -574,7 +566,7 @@ namespace jsc.meta.Commands.Rewrite
 									// triggering members to be copied...
 
 									#region copy constructors
-									foreach (var kk in source.GetConstructors(
+									foreach (var kk in SourceType.GetConstructors(
 										BindingFlags.DeclaredOnly |
 										BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 									{
@@ -595,13 +587,13 @@ namespace jsc.meta.Commands.Rewrite
 									}
 
 
-									if (source.IsNested)
+									if (SourceType.IsNested)
 									{
 										r.TypeCreated +=
 											e =>
 											{
 
-												if (e.SourceType == source.DeclaringType)
+												if (e.SourceType == SourceType.DeclaringType)
 												{
 													DeclaringType.CreateType();
 
@@ -619,11 +611,11 @@ namespace jsc.meta.Commands.Rewrite
 									return;
 								}
 
-							if (typeof(Sprite).IsAssignableFrom(source) ||
-								typeof(Applet).IsAssignableFrom(source))
+							if (typeof(Sprite).IsAssignableFrom(SourceType) ||
+								typeof(Applet).IsAssignableFrom(SourceType))
 							{
 								// erase
-								r.ExternalContext.TypeCache[source] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
+								r.ExternalContext.TypeCache[SourceType] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
 								return;
 							}
 
@@ -633,33 +625,37 @@ namespace jsc.meta.Commands.Rewrite
 
 					#region MethodCache
 					r.ExternalContext.MethodCache.Resolve +=
-						source =>
+						SourceMethod =>
 						{
-							if (r.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
-								if (r.ExternalContext.MethodCache.BaseDictionary[source] != source)
+							if (r.ExternalContext.MethodCache.BaseDictionary.ContainsKey(SourceMethod))
+								if (r.ExternalContext.MethodCache.BaseDictionary[SourceMethod] != SourceMethod)
 									return;
 
-							var c = targets.SingleOrDefault(kk => kk.TargetType == source.DeclaringType);
+							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceMethod.DeclaringType);
 
 							if (c != null)
-								if (c.IsActionScript || c.IsJava)
+								if (c.IsWebService)
+								{
+									__WebServiceForJavaScript.WriteMethod(SourceMethod);
+								}
+								else if (c.IsActionScript || c.IsJava)
 								{
 									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
-									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
+									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[SourceMethod.DeclaringType];
 
-									var source_Attributes = source.Attributes | MethodAttributes.NewSlot | MethodAttributes.Final;
+									var source_Attributes = SourceMethod.Attributes | MethodAttributes.NewSlot | MethodAttributes.Final;
 
 
 									var DeclaringTypeMethod = DeclaringType.DefineMethod(
-										source.Name,
+										SourceMethod.Name,
 										source_Attributes,
-										source.CallingConvention,
+										SourceMethod.CallingConvention,
 
-										 r.RewriteArguments.context.TypeCache[source.ReturnType],
+										 r.RewriteArguments.context.TypeCache[SourceMethod.ReturnType],
 
 										Enumerable.ToArray(
-											from p in source.GetParameterTypes()
+											from p in SourceMethod.GetParameterTypes()
 											select r.RewriteArguments.context.TypeCache[p]
 										)
 
@@ -667,16 +663,16 @@ namespace jsc.meta.Commands.Rewrite
 
 									//Console.WriteLine("from js: " + source.Name);
 
-									source.GetParameters().CopyTo(DeclaringTypeMethod);
+									SourceMethod.GetParameters().CopyTo(DeclaringTypeMethod);
 
 
 									var Consumer = ExternalInterfaceConsumerCache[DeclaringType];
 
-									Consumer.ImplementTranslationMethod(source, DeclaringTypeMethod.GetILGenerator(), Consumer.OutgoingInterfaceField, null, null);
+									Consumer.ImplementTranslationMethod(SourceMethod, DeclaringTypeMethod.GetILGenerator(), Consumer.OutgoingInterfaceField, null, null);
 
 
 
-									r.ExternalContext.MethodCache[source] = DeclaringTypeMethod;
+									r.ExternalContext.MethodCache[SourceMethod] = DeclaringTypeMethod;
 								}
 						};
 					#endregion
@@ -778,12 +774,8 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-		private static bool SignatureTypesSupportedForProxy(MethodInfo kk)
-		{
-			return kk.GetSignatureTypes().All(
-														kkk => kkk == typeof(void) || kkk == typeof(string) || typeof(Delegate).IsAssignableFrom(kkk)
-													);
-		}
+
+
 
 		private static ScriptApplicationEntryPointAttribute InferScriptApplicationEntryPoint(Type TargetType)
 		{

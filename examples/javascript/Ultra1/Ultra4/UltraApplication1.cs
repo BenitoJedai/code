@@ -543,16 +543,38 @@ namespace Ultra4
 			//}
 
 
-			var ws = new WebService();
 
-			ws.Method1("hello",
-				x =>
-				{
-					// back from the web server
-					// be it asp.net
-					// gae or php... :)
-				}
-			);
+			{
+				var n = new IHTMLButton("webservice");
+
+				n.onclick +=
+					delegate
+					{
+
+
+						var ws = new WebService();
+
+						// we only access methods for now. later we could enable
+						// string based proxing within session
+						// if sessions support storing objects
+						// asp.net, php and gae
+
+						ws.Method1("hello",
+							x =>
+							{
+								// back from the web server
+								// be it asp.net
+								// gae or php... :)
+
+								new IHTMLDiv { innerText = "webservice: " + x }.AttachToDocument();
+
+							}
+						);
+
+					};
+
+				n.AttachToDocument();
+			}
 
 		}
 
@@ -626,9 +648,12 @@ namespace Ultra4
 			}
 		}
 
-		public class WebService
+		public sealed class WebService
 		{
+			// initialized on the server
 			public object Context;
+			public object Session;
+			public object ServerServices;
 
 			// rewrite this class to after msbuild step
 			public delegate void Func1(string e);
@@ -640,14 +665,16 @@ namespace Ultra4
 
 			// generate sync wrapper
 
+			// we can talk to other servers or databases here
+
 			public void Method1(string e, Func1 result)
 			{
-
+				result("hello: " + e);
 			}
 
 			public void Method2(string e, Func2 result)
 			{
-
+				result("world: " + e);
 			}
 		}
 

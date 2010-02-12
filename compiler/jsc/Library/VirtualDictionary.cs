@@ -15,7 +15,13 @@ namespace jsc.Library
 
 		public event Action<TKey> Resolve;
 
-	
+		public TValue[] this[TKey[] k]
+		{
+			get
+			{
+				return k.Select(kk => this[kk]).ToArray();
+			}
+		}
 
 		public TValue this[TKey k]
 		{

@@ -220,6 +220,7 @@
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteExternalInterface.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.InjectJavaScriptBootstrap.cs" />
