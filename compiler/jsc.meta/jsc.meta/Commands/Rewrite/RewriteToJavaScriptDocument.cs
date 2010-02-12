@@ -69,7 +69,9 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				// possible name clash?
-				let StagingFolder = this.staging.CreateSubdirectory(TargetType.FullName)
+				let DefaultStagingFolder = this.staging.CreateSubdirectory(TargetType.FullName)
+
+				let StagingFolder = IsWebService ? DefaultStagingFolder.CreateSubdirectory("bin") : DefaultStagingFolder
 
 				// we are guessing the product name ahead of time...
 
@@ -82,7 +84,7 @@ namespace jsc.meta.Commands.Rewrite
 				orderby IsJavaScript || IsWebService, IsWebService
 
 
-				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, IsWebService, StagingFolder, Product }
+				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, IsWebService, DefaultStagingFolder, StagingFolder, Product }
 
 			);
 
@@ -247,6 +249,11 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							}
 
+							if (k.IsWebService)
+							{
+								WriteGlobalApplication(r, a, k.TargetType, k.DefaultStagingFolder, k.StagingFolder);
+							}
+
 						}
 					#endregion
 				};
@@ -381,7 +388,7 @@ namespace jsc.meta.Commands.Rewrite
 									__WebServiceForJavaScript = new WebServiceForJavaScript
 									{
 										r = r,
-										SourceType =SourceType
+										SourceType = SourceType
 									};
 
 									__WebServiceForJavaScript.WriteType();
