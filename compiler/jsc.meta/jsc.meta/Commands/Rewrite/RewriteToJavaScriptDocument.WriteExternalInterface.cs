@@ -20,7 +20,7 @@ namespace jsc.meta.Commands.Rewrite
 	partial class RewriteToJavaScriptDocument
 	{
 		const string __in_Delegate = "__in_Delegate";
-		const string __proxy_Interface = "__proxy_Interface";
+		const string __proxy = "__proxy";
 		const string __in_Method = "__in_Method";
 		const string __out_Method = "__out_Method";
 		const string __out_MethodDelayed = "__out_MethodDelayed";
@@ -31,8 +31,6 @@ namespace jsc.meta.Commands.Rewrite
 		const string _this = "_this";
 		const string _token = "_token";
 
-		const string _ToType = "ToType";
-		const string _FromType = "FromType";
 		const string _Invoke = "Invoke";
 
 
@@ -116,245 +114,349 @@ namespace jsc.meta.Commands.Rewrite
 
 			public readonly Dictionary<MethodInfo, MethodBuilder> OutgoingMethodCache = new Dictionary<MethodInfo, MethodBuilder>();
 
-			internal TypeBuilder ImplementInterfaceProxy(
-				ActionType InvokeLater,
-				IndexValueTuple<Type> item,
-				Type proxy_lookup_Type__,
-				Delegate __FromType,
-				Delegate __ToType,
-				Action<FieldBuilder, FieldBuilder, MethodInfo, MethodBuilder> __ImplementMethod)
+			public class ProxyTypeWriter
 			{
-				var TypeCache = this.Rewrite.RewriteArguments.context.TypeCache;
-				var MethodCache = this.Rewrite.RewriteArguments.context.MethodCache;
-				var ConstructorCache = this.Rewrite.RewriteArguments.context.ConstructorCache;
-				var FieldCache = this.Rewrite.RewriteArguments.context.FieldCache;
+				public ExternalInterfaceBase Context;
 
+				public ActionType InvokeLater;
+				public IndexValueTuple<Type> item;
+				public Type proxy_lookup_Type__;
+				public Delegate __FromType;
+				public Delegate __ToType;
+				public Action<FieldBuilder, FieldBuilder, MethodInfo, MethodBuilder> __ImplementMethod;
 
-				var proxy = this.DeclaringType.DefineNestedType(
-								   __proxy_Interface + item.i,
-								   TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
-								   null,
-								   new Type[] {
-							TypeCache[item.k] 
-						}
-			   );
-
-				var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
-
-
-
-				var proxy_lookup_Type = TypeCache[proxy_lookup_Type__];
-
-				var proxy_lookup = this.DeclaringType.DefineField(
-					__proxy_Interface + item.i + "lookup",
-
-					proxy_lookup_Type,
-
-					FieldAttributes.Public
-				);
-
-
-
-				var proxy_context = proxy.DefineField(_context, this.DeclaringType, FieldAttributes.Public);
-				var proxy_this = proxy.DefineField(_this, typeof(string), FieldAttributes.Public);
-
-
-				#region ToType
-
-				var proxy_ToType = proxy.DefineMethod(
-					_ToType,
-					MethodAttributes.Static | MethodAttributes.Public,
-					TypeCache[item.k],
-					new[] { this.DeclaringType, typeof(string) }
-				);
-
-				proxy_ToType.DefineParameter(1, ParameterAttributes.None, _context);
-				proxy_ToType.DefineParameter(2, ParameterAttributes.None, _this);
-
-				__proxy_ToType[item.k] = proxy_ToType;
-
+				public TypeBuilder ImplementInterfaceProxy()
 				{
+					var TypeCache = this.Context.Rewrite.RewriteArguments.context.TypeCache;
+					var MethodCache = this.Context.Rewrite.RewriteArguments.context.MethodCache;
+					var ConstructorCache = this.Context.Rewrite.RewriteArguments.context.ConstructorCache;
+					var FieldCache = this.Context.Rewrite.RewriteArguments.context.FieldCache;
 
-
-					#region ToType il
-					var il = proxy_ToType.GetILGenerator();
-					var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
-					{
-						TranslateTargetMethod = MethodCache,
-
-						TranslateTargetConstructor =
-							ctor =>
-							{
-								if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ctor.DeclaringType))
-									return proxy_ctor;
-
-								return ConstructorCache[ctor];
-							},
-
-
-						TranslateTargetType =
-							tt =>
-							{
-								if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(tt))
-									return this.DeclaringType;
-
-								if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(tt))
-									return proxy;
-
-								if (typeof(InternalToType_.InternalToTypeReturnType).IsAssignableFrom(tt))
-									return TypeCache[item.k];
-
-								return TypeCache[tt];
-							},
-
-						TranslateTargetField =
-							ff =>
-							{
-								if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ff.DeclaringType))
-								{
-									if (ff.Name == _context)
-										return proxy_context;
-
-									if (ff.Name == _this)
-										return proxy_this;
-
-								}
-
-								if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(ff.DeclaringType))
-								{
-									if (ff.Name == "lookup")
-										return proxy_lookup;
-								}
-
-
-								return FieldCache[ff];
-							}
-
-					};
-
-
-
-					__ToType.Method.EmitTo(il, il_a);
-
-					#endregion
-
-
-
-
-				}
-
-				#endregion
-
-				#region FromType
-
-				var proxy_FromType = proxy.DefineMethod(
-					_FromType,
-					MethodAttributes.Static | MethodAttributes.Public,
-					typeof(string),
-					new[] { this.DeclaringType, TypeCache[item.k] }
-				);
-
-				proxy_FromType.DefineParameter(1, ParameterAttributes.None, _context);
-				proxy_FromType.DefineParameter(2, ParameterAttributes.None, _this);
-
-				__proxy_FromType[item.k] = proxy_FromType;
-
-				{
-
-					#region FromType il
-					var il = proxy_FromType.GetILGenerator();
-					var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
-					{
-						TranslateTargetMethod = MethodCache,
-
-						TranslateTargetConstructor =
-							ctor =>
-							{
-								if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ctor.DeclaringType))
-									return proxy_ctor;
-
-								return ConstructorCache[ctor];
-							},
-
-
-						TranslateTargetType =
-							tt =>
-							{
-								if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(tt))
-									return this.DeclaringType;
-
-								if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(tt))
-									return proxy;
-
-								if (typeof(InternalToType_.InternalToTypeReturnType).IsAssignableFrom(tt))
-									return TypeCache[item.k];
-
-
-
-								return TypeCache[tt];
-							},
-
-						TranslateTargetField =
-							ff =>
-							{
-								if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ff.DeclaringType))
-								{
-									if (ff.Name == _context)
-										return proxy_context;
-
-									if (ff.Name == _this)
-										return proxy_this;
-
-								}
-
-								if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(ff.DeclaringType))
-								{
-									if (ff.Name == "lookup")
-										return proxy_lookup;
-								}
-
-								return FieldCache[ff];
-							}
-
-					};
-
-
-
-					__FromType.Method.EmitTo(il, il_a);
-
-					#endregion
-
-
-
-				}
-				#endregion
-
-
-
-				#region Methods
-				foreach (var m_ in item.k.GetMethods())
-				{
-					var SourceMethod = m_;
-
-					var proxy_method = proxy.DefineMethod(
-						SourceMethod.Name,
-						SourceMethod.Attributes & ~MethodAttributes.Abstract,
-						SourceMethod.CallingConvention,
-						TypeCache[SourceMethod.ReturnType],
-						SourceMethod.GetParameterTypes().Select(k => TypeCache[k]).ToArray()
+					var proxy = this.Context.DeclaringType.DefineNestedType(
+						__proxy + item.i,
+						TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
+						null,
+						item.k.IsInterface ? new Type[] { TypeCache[item.k] } : null
 					);
 
+					var proxy_context = proxy.DefineField(_context, this.Context.DeclaringType, FieldAttributes.Public);
+					var proxy_this = proxy.DefineField(_this, typeof(string), FieldAttributes.Public);
 
-					InvokeLater.Action +=
-						delegate
+
+					var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
+
+					#region proxy_lookup
+					var proxy_lookup_Type = TypeCache[proxy_lookup_Type__];
+					var proxy_lookup = this.Context.DeclaringType.DefineField(
+						__proxy + item.i + "lookup",
+
+						proxy_lookup_Type,
+
+						FieldAttributes.Public
+					);
+					#endregion
+
+					#region ToType
+
+					var proxy_ToType = proxy.DefineMethod(
+						__ToType.Method.Name,
+						MethodAttributes.Static | MethodAttributes.Public,
+						TypeCache[item.k],
+						new[] { this.Context.DeclaringType, typeof(string) }
+					);
+
+					proxy_ToType.DefineParameter(1, ParameterAttributes.None, _context);
+					proxy_ToType.DefineParameter(2, ParameterAttributes.None, _this);
+
+					Context.__proxy_ToType[item.k] = proxy_ToType;
+
+					var Methods = default(Dictionary<MethodInfo, MethodBuilder>);
+
+					{
+
+
+						#region ToType il
+						var il = proxy_ToType.GetILGenerator();
+						var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
 						{
+							TranslateTargetConstructor =
+								ctor =>
+								{
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ctor.DeclaringType))
+										return proxy_ctor;
 
-							__ImplementMethod(proxy_context, proxy_this, SourceMethod, proxy_method);
+									if (typeof(Action).IsAssignableFrom(ctor.DeclaringType))
+										return ConstructorCache[item.k.GetConstructors().Single()];
+
+									return ConstructorCache[ctor];
+								},
+
+							TranslateTargetMethod =
+								SourceMethod =>
+								{
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(SourceMethod.DeclaringType))
+									{
+										return Methods[item.k.GetMethod("Invoke")];
+									}
+
+									return MethodCache[SourceMethod];
+								},
+
+
+							TranslateTargetType =
+								tt =>
+								{
+									if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(tt))
+										return this.Context.DeclaringType;
+
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(tt))
+										return proxy;
+
+									if (typeof(InternalToType_.InternalToTypeReturnType).IsAssignableFrom(tt))
+										return TypeCache[item.k];
+
+									if (typeof(Action).IsAssignableFrom(tt))
+										return TypeCache[item.k];
+
+									return TypeCache[tt];
+								},
+
+							TranslateTargetField =
+								ff =>
+								{
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ff.DeclaringType))
+									{
+										if (ff.Name == _context)
+											return proxy_context;
+
+										if (ff.Name == _this)
+											return proxy_this;
+
+									}
+
+									if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(ff.DeclaringType))
+									{
+										if (ff.Name == "lookup")
+											return proxy_lookup;
+									}
+
+
+									return FieldCache[ff];
+								}
+
 						};
+
+
+						InvokeLater.Action +=
+							delegate
+							{
+								__ToType.Method.EmitTo(il, il_a);
+							};
+
+						#endregion
+
+
+
+
+					}
+
+					#endregion
+
+					#region FromType
+
+					var proxy_FromType = proxy.DefineMethod(
+						__FromType.Method.Name,
+						MethodAttributes.Static | MethodAttributes.Public,
+						typeof(string),
+						new[] { this.Context.DeclaringType, TypeCache[item.k] }
+					);
+
+					proxy_FromType.DefineParameter(1, ParameterAttributes.None, _context);
+					proxy_FromType.DefineParameter(2, ParameterAttributes.None, _this);
+
+					this.Context.__proxy_FromType[item.k] = proxy_FromType;
+
+					{
+
+						#region FromType il
+						var il = proxy_FromType.GetILGenerator();
+						var il_a = new jsc.Languages.IL.ILTranslationExtensions.EmitToArguments
+						{
+							TranslateTargetMethod = MethodCache,
+
+							TranslateTargetConstructor =
+								ctor =>
+								{
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ctor.DeclaringType))
+										return proxy_ctor;
+
+									return ConstructorCache[ctor];
+								},
+
+
+							TranslateTargetType =
+								tt =>
+								{
+									if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(tt))
+										return this.Context.DeclaringType;
+
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(tt))
+										return proxy;
+
+									if (typeof(InternalToType_.InternalToTypeReturnType).IsAssignableFrom(tt))
+										return TypeCache[item.k];
+
+
+
+									return TypeCache[tt];
+								},
+
+							TranslateTargetField =
+								ff =>
+								{
+									if (typeof(InternalToType_.InternalToTypeReturnTypeImplementation).IsAssignableFrom(ff.DeclaringType))
+									{
+										if (ff.Name == _context)
+											return proxy_context;
+
+										if (ff.Name == _this)
+											return proxy_this;
+
+									}
+
+									if (typeof(InternalToType_.InternalToTypeContext).IsAssignableFrom(ff.DeclaringType))
+									{
+										if (ff.Name == "lookup")
+											return proxy_lookup;
+									}
+
+									return FieldCache[ff];
+								}
+
+						};
+
+
+
+						__FromType.Method.EmitTo(il, il_a);
+
+						#endregion
+
+
+
+					}
+					#endregion
+
+					Methods = ImplementMethods(proxy, proxy_context, proxy_this);
+
+					return proxy;
 				}
 
+				private Dictionary<MethodInfo, MethodBuilder> ImplementMethods(TypeBuilder proxy, FieldBuilder proxy_context, FieldBuilder proxy_this)
+				{
+					var TypeCache = this.Context.Rewrite.RewriteArguments.context.TypeCache;
+
+					var Methods = this.item.k.IsInterface ? item.k.GetMethods() : new[] { this.item.k.GetMethod("Invoke") };
+
+					var r = new Dictionary<MethodInfo, MethodBuilder>();
+
+					#region Methods
+					foreach (var m_ in Methods)
+					{
+						var SourceMethod = m_;
+
+						var proxy_method = proxy.DefineMethod(
+							SourceMethod.Name,
+							SourceMethod.Attributes & ~MethodAttributes.Abstract,
+							SourceMethod.CallingConvention,
+							TypeCache[SourceMethod.ReturnType],
+							SourceMethod.GetParameterTypes().Select(k => TypeCache[k]).ToArray()
+						);
+
+						r[m_] = proxy_method;
+
+						InvokeLater.Action +=
+							delegate
+							{
+
+								__ImplementMethod(proxy_context, proxy_this, SourceMethod, proxy_method);
+							};
+					}
+
+					#endregion
+
+					return r;
+				}
+
+
+			}
+
+
+			public void ImplementTranslationMethod(MethodInfo SourceMethod, ILGenerator il, FieldBuilder OutgoingInterfaceField, FieldBuilder ContextField, FieldBuilder TokenField)
+			{
+
+
+
+				if (SourceMethod.ReturnType.IsDelegate() || SourceMethod.ReturnType.IsInterface)
+				{
+					#region this.context
+					il.Emit(OpCodes.Ldarg_0);
+
+					if (ContextField != null)
+						il.Emit(OpCodes.Ldfld, ContextField);
+					#endregion
+
+				}
+
+				#region this.context.interface
+				il.Emit(OpCodes.Ldarg_0);
+
+				if (ContextField != null)
+					il.Emit(OpCodes.Ldfld, ContextField);
+
+				if (OutgoingInterfaceField != null)
+					il.Emit(OpCodes.Ldfld, OutgoingInterfaceField);
+
 				#endregion
-				return proxy;
+
+				if (TokenField != null)
+				{
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldfld, TokenField);
+				}
+
+				#region parameters
+				foreach (var p in SourceMethod.GetParameters())
+				{
+
+					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+					{
+						#region this.context
+						il.Emit(OpCodes.Ldarg_0);
+
+						if (ContextField != null)
+							il.Emit(OpCodes.Ldfld, ContextField);
+						#endregion
+					}
+
+					// conversion here!
+					il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
+
+					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+					{
+						il.Emit(OpCodes.Call, this.__proxy_FromType[p.ParameterType]);
+					}
+				}
+				#endregion
+
+				il.Emit(OpCodes.Call, this.OutgoingMethodCache[SourceMethod]);
+
+				// conversion here!
+				if (SourceMethod.ReturnType.IsDelegate() || SourceMethod.ReturnType.IsInterface)
+				{
+					il.Emit(OpCodes.Call, this.__proxy_ToType[SourceMethod.ReturnType]);
+				}
+
+				il.Emit(OpCodes.Ret);
 			}
 
 		}
@@ -377,10 +479,13 @@ namespace jsc.meta.Commands.Rewrite
 
 				var x = GetExternalInterfaceMethodsFromType(SourceType);
 
-				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().Select((k, i) => IndexValueTuple.Create(k, i)).ToArray();
-				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().Select((k, i) => new { k, i, Invoke = k.GetMethod("Invoke") }).ToArray();
+				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().ToArray();
+				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().ToArray();
+				var InterfacesAndDelegates =
+					Interfaces.Concat(Delegates).Distinct().Select((k, i) => IndexValueTuple.Create(k, i)).ToArray();
 
-				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
+
+				var Methods = Interfaces.SelectMany(k => k.GetMethods()).Concat(Delegates.Select(k => k.GetMethod("Invoke"))).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsIncoming = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
 
@@ -419,7 +524,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					foreach (var item in Methods)
 					{
-						Initialize.DefineParameter(item.i + 1, ParameterAttributes.None, item.k.Name);
+						Initialize.DefineParameter(item.i + 1, ParameterAttributes.None, "_" + item.i + "_" + item.k.Name);
 
 						il.Emit(OpCodes.Ldarg_0);
 						il.Emit(OpCodes.Ldarg, (short)(item.i + 1));
@@ -517,16 +622,24 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				#region Interfaces
-				foreach (var item in Interfaces)
+				foreach (var item in InterfacesAndDelegates)
 				{
-					var proxy = this.ImplementInterfaceProxy(
-						InvokeLater,
-						item,
-						typeof(InternalLookup._Provider),
-							(Func<InternalToType_Provider.InternalToTypeContext, InternalToType_Provider.InternalToTypeReturnType, string>)InternalToType_Provider.FromType,
-							(Func<InternalToType_Provider.InternalToTypeContext, string, InternalToType_Provider.InternalToTypeReturnType>)InternalToType_Provider.ToType,
-						ImplementInterfaceProxyMethod
-					);
+					var proxy = new ProxyTypeWriter
+					{
+						Context = this,
+						InvokeLater = InvokeLater,
+						item = item,
+						proxy_lookup_Type__ = typeof(InternalLookup._Provider),
+						__FromType = (Func<InternalToType_Provider.InternalToTypeContext, InternalToType_Provider.InternalToTypeReturnType, string>)InternalToType_Provider.__FromType,
+						__ToType =
+							item.k.IsInterface ?
+								(Delegate)((Func<InternalToType_Provider.InternalToTypeContext, string, InternalToType_Provider.InternalToTypeReturnType>)
+								InternalToType_Provider.__ToInterface)
+							: (Delegate)((Func<InternalToType_Provider.InternalToTypeContext, string, Action>)
+								InternalToType_Provider.__ToDelegate)
+								,
+						__ImplementMethod = ImplementInterfaceProxyMethod
+					}.ImplementInterfaceProxy();
 
 
 					Rewrite.TypeCreated +=
@@ -540,91 +653,18 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
-				#region Delegates
-				foreach (var item in Delegates)
-				{
-					var proxy = a.Type.DefineNestedType(__in_Delegate + item.i, TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic | TypeAttributes.Class, null, null);
 
-					var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
-
-					var proxy_context = proxy.DefineField(_context, TypeCache[SourceType], FieldAttributes.Public);
-					var proxy_callback = proxy.DefineField(_callback, typeof(string), FieldAttributes.Public);
-
-
-					var proxy_Invoke = proxy.DefineMethod(_Invoke, MethodAttributes.Public, TypeCache[item.Invoke.ReturnType], item.Invoke.GetParameterTypes().Select(k => TypeCache[k]).ToArray());
-
-					item.Invoke.GetParameters().CopyTo(proxy_Invoke);
-
-
-					{
-
-						var il = proxy_Invoke.GetILGenerator();
-
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, proxy_context);
-
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, proxy_callback);
-
-						foreach (var p in item.Invoke.GetParameters())
-						{
-							// can we get the remote this/callback or do we need to generate one?
-							il.Emit(OpCodes.Ldnull);
-						}
-
-						il.Emit(OpCodes.Call, OutgoingMethodCache[item.Invoke]);
-						il.Emit(OpCodes.Ret);
-					}
-					#region ToType
-					var proxy_ToType = proxy.DefineMethod(
-						_ToType,
-						MethodAttributes.Static | MethodAttributes.Public,
-						TypeCache[item.k],
-						new[] { TypeCache[SourceType], typeof(string) }
-					);
-
-					proxy_ToType.DefineParameter(1, ParameterAttributes.None, _context);
-					proxy_ToType.DefineParameter(2, ParameterAttributes.None, _callback);
-
-					{
-						var il = proxy_ToType.GetILGenerator();
-
-						var loc = il.DeclareLocal(proxy);
-
-						il.Emit(OpCodes.Newobj, proxy_ctor);
-						il.Emit(OpCodes.Stloc_0);
-
-						il.Emit(OpCodes.Ldloc_0);
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Stfld, proxy_context);
-
-						il.Emit(OpCodes.Ldloc_0);
-						il.Emit(OpCodes.Ldarg_1);
-						il.Emit(OpCodes.Stfld, proxy_callback);
-
-						il.Emit(OpCodes.Ldloc_0);
-						il.Emit(OpCodes.Ldftn, proxy_Invoke);
-						il.Emit(OpCodes.Newobj, Rewrite.RewriteArguments.context.ConstructorCache[item.k.GetConstructors().Single()]);
-						il.Emit(OpCodes.Ret);
-					}
-					#endregion
-
-					__proxy_ToType[item.k] = proxy_ToType;
-
-					proxy.CreateType();
-				}
-				#endregion
-
-				// delegates!!
-
-				// string to interface/delegate conversion!
 
 				#region __in_Method
 				foreach (var item in MethodsIncoming)
 				{
 					var ParameterTypes = item.k.GetParameterTypes().Select((k, i) => new { k, i }).ToArray();
 
-					var mParameters = Enumerable.Range(0, item.k.GetParameters().Length + (item.k.DeclaringType.IsInterface ? 1 : 0)).Select(k => typeof(string)).ToArray();
+					var mParameters = Enumerable.Range(0, item.k.GetParameters().Length +
+						(
+							item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate()
+
+						? 1 : 0)).Select(k => typeof(string)).ToArray();
 
 					var m = a.Type.DefineMethod(
 						__in_Method + item.i, MethodAttributes.Public | MethodAttributes.Final,
@@ -644,12 +684,17 @@ namespace jsc.meta.Commands.Rewrite
 					);
 
 
-					if (item.k.DeclaringType.IsInterface)
+					if (item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate())
 						m.DefineParameter(1, ParameterAttributes.None, _this);
 
 					foreach (var p in item.k.GetParameters())
 					{
-						m.DefineParameter(p.Position + (item.k.DeclaringType.IsInterface ? 2 : 1), ParameterAttributes.None, p.Name);
+						m.DefineParameter(
+							p.Position +
+							((
+								item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate()
+							)
+						? 2 : 1), ParameterAttributes.None, p.Name);
 					}
 
 					if (ExternalCallback != null)
@@ -662,14 +707,6 @@ namespace jsc.meta.Commands.Rewrite
 						// we should rewire old implementation to here...
 
 						#region local
-						m.DefineAttribute(
-							new ObfuscationAttribute
-							{
-								Feature = "in method: local" // delegate or interface
-							}
-							,
-							typeof(ObfuscationAttribute)
-						);
 
 						if (item.k.ReturnType.IsDelegate() || item.k.ReturnType.IsInterface)
 						{
@@ -704,12 +741,9 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Ret);
 						#endregion
 
-						continue;
 					}
 					else
 					{
-						var __proxy_ToType = this.__proxy_ToType[item.k.DeclaringType];
-
 						if (item.k.ReturnType.IsDelegate() || item.k.ReturnType.IsInterface)
 						{
 							il.Emit(OpCodes.Ldarg_0);
@@ -718,14 +752,22 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Ldarg_0);
 						il.Emit(OpCodes.Ldarg_1);
 
-						il.Emit(OpCodes.Call, __proxy_ToType);
+						il.Emit(OpCodes.Call, this.__proxy_ToType[item.k.DeclaringType]);
 
 						foreach (var p in item.k.GetParameters())
 						{
 
+							if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+							{
+								il.Emit(OpCodes.Ldarg_0);
+							}
 
 							il.Emit(OpCodes.Ldarg, (short)(p.Position + 2));
 
+							if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+							{
+								il.Emit(OpCodes.Call, __proxy_ToType[p.ParameterType]);
+							}
 
 						}
 
@@ -749,46 +791,8 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var il = proxy_method.GetILGenerator();
 
-				if (SourceMethod.ReturnType.IsDelegate() || SourceMethod.ReturnType.IsInterface)
-				{
-					il.Emit(OpCodes.Ldarg_0);
-					il.Emit(OpCodes.Ldfld, proxy_context);
-				}
+				ImplementTranslationMethod(SourceMethod, il, null, proxy_context, proxy_this);
 
-
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Ldfld, proxy_context);
-
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Ldfld, proxy_this);
-
-				foreach (var p in SourceMethod.GetParameters())
-				{
-					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
-					{
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, proxy_context);
-					}
-
-					// can we get the remote this/callback or do we need to generate one?
-					il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
-
-					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
-					{
-						il.Emit(OpCodes.Call, __proxy_FromType[p.ParameterType]);
-					}
-				}
-
-				il.Emit(OpCodes.Call, OutgoingMethodCache[SourceMethod]);
-
-
-
-				if (SourceMethod.ReturnType.IsDelegate() || SourceMethod.ReturnType.IsInterface)
-				{
-					il.Emit(OpCodes.Call, __proxy_ToType[SourceMethod.ReturnType]);
-				}
-
-				il.Emit(OpCodes.Ret);
 			}
 		}
 
@@ -901,10 +905,13 @@ namespace jsc.meta.Commands.Rewrite
 
 				var x = GetExternalInterfaceMethodsFromType(SourceType);
 
-				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().Select((k, i) => IndexValueTuple.Create(k, i)).ToArray();
-				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().Select((k, i) => new { k, i, Invoke = k.GetMethod("Invoke") }).ToArray();
+				var Interfaces = x.Select(k => k.DeclaringType).Where(k => k.IsInterface).Distinct().ToArray();
+				var Delegates = x.SelectMany(k => k.GetSignatureTypes()).Where(k => k.IsDelegate()).Distinct().ToArray();
+				var InterfacesAndDelegates =
+					Interfaces.Concat(Delegates).Distinct().Select((k, i) => IndexValueTuple.Create(k, i)).ToArray();
 
-				var Methods = Interfaces.SelectMany(k => k.k.GetMethods()).Concat(Delegates.Select(k => k.Invoke)).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
+
+				var Methods = Interfaces.SelectMany(k => k.GetMethods()).Concat(Delegates.Select(k => k.GetMethod("Invoke"))).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsOutgoing = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
 
@@ -940,14 +947,26 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				#region Interfaces
-				foreach (var item in Interfaces)
+				foreach (var item in InterfacesAndDelegates)
 				{
-					var proxy = ImplementInterfaceProxy(InvokeLater, item,
-						typeof(InternalLookup._Consumer),
-							(Func<InternalToType_Consumer.InternalToTypeContext, InternalToType_Consumer.InternalToTypeReturnType, string>)InternalToType_Consumer.FromType,
-							(Func<InternalToType_Consumer.InternalToTypeContext, string, InternalToType_Consumer.InternalToTypeReturnType>)InternalToType_Consumer.ToType,
+					var proxy = new ProxyTypeWriter
+					{
+						Context = this,
+						InvokeLater = InvokeLater,
+						item = item,
+						proxy_lookup_Type__ = typeof(InternalLookup._Consumer),
+						__FromType = (Func<InternalToType_Consumer.InternalToTypeContext, InternalToType_Consumer.InternalToTypeReturnType, string>)InternalToType_Consumer.__FromType,
 
-							ImplementInterfaceProxyMethod);
+						__ToType = item.k.IsInterface ?
+								(Delegate)(Func<InternalToType_Consumer.InternalToTypeContext, string, InternalToType_Consumer.InternalToTypeReturnType>)
+								InternalToType_Consumer.__ToInterface
+							: (Delegate)(Func<InternalToType_Consumer.InternalToTypeContext, string, Action>)
+								InternalToType_Consumer.__ToDelegate,
+
+						__ImplementMethod = ImplementInterfaceProxyMethod
+					}.ImplementInterfaceProxy();
+
+
 
 					this.NestedTypesCreated +=
 						delegate
@@ -1097,7 +1116,9 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Ldftn, Exports[item.k]);
 						il.Emit(OpCodes.Newobj, ExportDelegates[item.k]);
 
-						il.Emit(OpCodes.Call, MethodCache[((Func<__InternalElementProxy, Delegate, string>)__InternalElementProxy.__ExportDelegate).Method]);
+						il.Emit(OpCodes.Ldstr, __in_Method + item.i + item.k.Name);
+
+						il.Emit(OpCodes.Call, MethodCache[((Func<__InternalElementProxy, Delegate, string, string>)__InternalElementProxy.__ExportDelegate).Method]);
 
 						il.Emit(OpCodes.Stfld, ExportFields[item.k]);
 						// we should actually export our instance methods
@@ -1339,47 +1360,7 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var il = proxy_method.GetILGenerator();
 
-				if (SourceMethod.ReturnType.IsDelegate() || SourceMethod.ReturnType.IsInterface)
-				{
-					il.Emit(OpCodes.Ldarg_0);
-					il.Emit(OpCodes.Ldfld, proxy_context);
-				}
-
-
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Ldfld, proxy_context);
-				il.Emit(OpCodes.Ldfld, this.OutgoingInterfaceField);
-
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Ldfld, proxy_this);
-
-				foreach (var p in SourceMethod.GetParameters())
-				{
-					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
-					{
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, proxy_context);
-					}
-
-					// can we get the remote this/callback or do we need to generate one?
-					il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
-
-					if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
-					{
-						il.Emit(OpCodes.Call, __proxy_FromType[p.ParameterType]);
-					}
-				}
-
-				il.Emit(OpCodes.Call, this.OutgoingMethodCache[SourceMethod]);
-
-
-
-				if (SourceMethod.ReturnType.IsDelegate() || SourceMethod.ReturnType.IsInterface)
-				{
-					il.Emit(OpCodes.Call, __proxy_ToType[SourceMethod.ReturnType]);
-				}
-
-				il.Emit(OpCodes.Ret);
+				ImplementTranslationMethod(SourceMethod, proxy_method.GetILGenerator(), OutgoingInterfaceField, proxy_context, proxy_this);
 			}
 
 			public Action NestedTypesCreated;
@@ -1416,6 +1397,10 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				public InternalToTypeContext context;
 				public string _this;
+
+				public void Invoke()
+				{
+				}
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
@@ -1435,24 +1420,14 @@ namespace jsc.meta.Commands.Rewrite
 				public InternalLookup._Consumer lookup;
 			}
 
-			public static string FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
+			public static string __FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
 			{
 				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
 
-				var x = "";
-
-				var n = _this as InternalToTypeReturnTypeImplementation;
-				if (n != null)
-					x = n._this;
-				else
-					x = InternalLookup.FromType(context.lookup, _this);
-
-				//Native.Window.alert("FromType " + x);
-
-				return x;
+				return InternalLookup.FromType(context.lookup, _this);
 			}
 
-			public static InternalToTypeReturnType ToType(InternalToTypeContext context, string _this)
+			public static InternalToTypeReturnType __ToInterface(InternalToTypeContext context, string _this)
 			{
 				//Native.Window.alert("ToType " + _this);
 
@@ -1466,7 +1441,17 @@ namespace jsc.meta.Commands.Rewrite
 				return new InternalToTypeReturnTypeImplementation { context = context, _this = _this };
 			}
 
+			public static Action __ToDelegate(InternalToTypeContext context, string _this)
+			{
+				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
 
+				var local = (Action)InternalLookup.ToType(context.lookup, _this);
+
+				if (local != null)
+					return local;
+
+				return new InternalToTypeReturnTypeImplementation { context = context, _this = _this }.Invoke;
+			}
 		}
 
 		internal class InternalToType_Provider
@@ -1476,6 +1461,10 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				public InternalToTypeContext context;
 				public string _this;
+
+				public void Invoke()
+				{
+				}
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
@@ -1495,18 +1484,14 @@ namespace jsc.meta.Commands.Rewrite
 				public InternalLookup._Provider lookup;
 			}
 
-			public static string FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
+			public static string __FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
 			{
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
-
-				var n = _this as InternalToTypeReturnTypeImplementation;
-				if (n != null)
-					return n._this;
 
 				return InternalLookup.FromType(context.lookup, _this);
 			}
 
-			public static InternalToTypeReturnType ToType(InternalToTypeContext context, string _this)
+			public static InternalToTypeReturnType __ToInterface(InternalToTypeContext context, string _this)
 			{
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
 
@@ -1518,7 +1503,17 @@ namespace jsc.meta.Commands.Rewrite
 				return new InternalToTypeReturnTypeImplementation { context = context, _this = _this };
 			}
 
+			public static Action __ToDelegate(InternalToTypeContext context, string _this)
+			{
+				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
 
+				var local = (Action)InternalLookup.ToType(context.lookup, _this);
+
+				if (local != null)
+					return local;
+
+				return new InternalToTypeReturnTypeImplementation { context = context, _this = _this }.Invoke;
+			}
 		}
 
 
@@ -1532,34 +1527,34 @@ namespace jsc.meta.Commands.Rewrite
 				var obj1 = new InternalToType_Provider.__InternalToTypeReturnType();
 				var obj2 = new InternalToType_Provider.__InternalToTypeReturnType();
 
-				var tk1a = InternalToType_Provider.FromType(ctx, obj1);
-				var tk1b = InternalToType_Provider.FromType(ctx, obj1);
+				var tk1a = InternalToType_Provider.__FromType(ctx, obj1);
+				var tk1b = InternalToType_Provider.__FromType(ctx, obj1);
 
-				var ob1a = InternalToType_Provider.ToType(ctx, tk1a);
-				var ob1b = InternalToType_Provider.ToType(ctx, tk1b);
+				var ob1a = InternalToType_Provider.__ToInterface(ctx, tk1a);
+				var ob1b = InternalToType_Provider.__ToInterface(ctx, tk1b);
 
-				var tk2a = InternalToType_Provider.FromType(ctx, obj2);
-				var tk2b = InternalToType_Provider.FromType(ctx, obj2);
+				var tk2a = InternalToType_Provider.__FromType(ctx, obj2);
+				var tk2b = InternalToType_Provider.__FromType(ctx, obj2);
 
-				var ob2a = InternalToType_Provider.ToType(ctx, tk2a);
-				var ob2b = InternalToType_Provider.ToType(ctx, tk2b);
+				var ob2a = InternalToType_Provider.__ToInterface(ctx, tk2a);
+				var ob2b = InternalToType_Provider.__ToInterface(ctx, tk2b);
 
 				var c_ctx = new InternalToType_Consumer.InternalToTypeContext();
 
 
 				{
 					// represend that random object within remoting site
-					var c_ob1a = InternalToType_Consumer.ToType(c_ctx, tk1a);
-					var c_ob1b = InternalToType_Consumer.ToType(c_ctx, tk1b);
+					var c_ob1a = InternalToType_Consumer.__ToInterface(c_ctx, tk1a);
+					var c_ob1b = InternalToType_Consumer.__ToInterface(c_ctx, tk1b);
 
-					var c_ob2a = InternalToType_Consumer.ToType(c_ctx, tk2a);
-					var c_ob2b = InternalToType_Consumer.ToType(c_ctx, tk2b);
+					var c_ob2a = InternalToType_Consumer.__ToInterface(c_ctx, tk2a);
+					var c_ob2b = InternalToType_Consumer.__ToInterface(c_ctx, tk2b);
 
-					var c_tk1a = InternalToType_Consumer.FromType(c_ctx, c_ob1a);
-					var c_tk1b = InternalToType_Consumer.FromType(c_ctx, c_ob1b);
+					var c_tk1a = InternalToType_Consumer.__FromType(c_ctx, c_ob1a);
+					var c_tk1b = InternalToType_Consumer.__FromType(c_ctx, c_ob1b);
 
-					var c_tk2a = InternalToType_Consumer.FromType(c_ctx, c_ob2a);
-					var c_tk2b = InternalToType_Consumer.FromType(c_ctx, c_ob2b);
+					var c_tk2a = InternalToType_Consumer.__FromType(c_ctx, c_ob2a);
+					var c_tk2b = InternalToType_Consumer.__FromType(c_ctx, c_ob2b);
 				}
 
 				{
@@ -1567,17 +1562,17 @@ namespace jsc.meta.Commands.Rewrite
 					var c_obj1 = new InternalToType_Consumer.__InternalToTypeReturnType();
 					var c_obj2 = new InternalToType_Consumer.__InternalToTypeReturnType();
 
-					var c_tk1a = InternalToType_Consumer.FromType(c_ctx, c_obj1);
-					var c_tk1b = InternalToType_Consumer.FromType(c_ctx, c_obj1);
+					var c_tk1a = InternalToType_Consumer.__FromType(c_ctx, c_obj1);
+					var c_tk1b = InternalToType_Consumer.__FromType(c_ctx, c_obj1);
 
-					var c_ob1a = InternalToType_Consumer.ToType(c_ctx, c_tk1a);
-					var c_ob1b = InternalToType_Consumer.ToType(c_ctx, c_tk1b);
+					var c_ob1a = InternalToType_Consumer.__ToInterface(c_ctx, c_tk1a);
+					var c_ob1b = InternalToType_Consumer.__ToInterface(c_ctx, c_tk1b);
 
-					var c_tk2a = InternalToType_Consumer.FromType(c_ctx, c_obj2);
-					var c_tk2b = InternalToType_Consumer.FromType(c_ctx, c_obj2);
+					var c_tk2a = InternalToType_Consumer.__FromType(c_ctx, c_obj2);
+					var c_tk2b = InternalToType_Consumer.__FromType(c_ctx, c_obj2);
 
-					var c_ob2a = InternalToType_Consumer.ToType(c_ctx, c_tk2a);
-					var c_ob2b = InternalToType_Consumer.ToType(c_ctx, c_tk2b);
+					var c_ob2a = InternalToType_Consumer.__ToInterface(c_ctx, c_tk2a);
+					var c_ob2b = InternalToType_Consumer.__ToInterface(c_ctx, c_tk2b);
 				}
 			}
 		}

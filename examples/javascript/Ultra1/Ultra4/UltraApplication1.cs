@@ -206,6 +206,14 @@ namespace Ultra4
 
 			ScriptCoreLib.ActionScript.flash.text.TextField MyText = new ScriptCoreLib.ActionScript.flash.text.TextField();
 
+			public delegate void Delgate1(string a, string b);
+
+			 public event Action AtEvent1;
+		
+
+			public event Delgate1 AtEvent2;
+		
+
 			public string GetStatus1()
 			{
 				return "ok";
@@ -218,18 +226,18 @@ namespace Ultra4
 				//AtDelay(1000,
 				//    delegate
 				//    {
-						e.SendStatus("ok");
+				e.SendStatus("ok");
 
 				//        MyText.text = "GetStatus2.. done";
 				//    }
 				//);
 
-		
+
 			}
 
 			public UltraSprite()
 			{
-				MyText.text = "flash!:D 7";
+				MyText.text = "flash!:D 9";
 				MyText.MoveTo(128, 8).AttachTo(this);
 
 				// creating the flash object 
@@ -258,6 +266,17 @@ namespace Ultra4
 				//        MyText.text = "confirm: " + u;
 				//    }
 				//);
+
+				if (this.AtEvent1 != null)
+					this.AtEvent1();
+
+				RaiseEvent2();
+			}
+
+			private void RaiseEvent2()
+			{
+				if (this.AtEvent2 != null)
+					this.AtEvent2("a", "b");
 			}
 
 			public void AddShape2(IParameters1 e)
@@ -440,6 +459,35 @@ namespace Ultra4
 						}
 
 						{
+						
+
+							o.AtEvent2 +=
+								(a, b) =>
+								{
+									//Debugger.Break();
+
+									new IHTMLDiv { innerText = "AtEvent2! " +
+										
+										// jsc.meta does not support generics yet
+
+										// new { a, b }.ToString() 
+									
+										a + " " + b
+									}.AttachToDocument();
+
+								};
+
+							o.AtEvent1 +=
+								delegate
+								{
+									//Debugger.Break();
+
+									new IHTMLDiv { innerText = "AtEvent1! " }.AttachToDocument();
+
+								};
+						}
+
+						{
 							var n = new IHTMLButton("status 2");
 
 							n.onclick +=
@@ -447,7 +495,7 @@ namespace Ultra4
 								{
 									var p = new XSendStatus
 									{
-											
+
 									};
 
 									p.At =
@@ -487,11 +535,9 @@ namespace Ultra4
 
 			//            CreateButton(o, "red");
 			//            CreateButton(o, "green");
+			//            CreateButton(o, "blue");
 
 
-
-
-			//            o.AddShape1("green");
 			//            o.AttachAppletToDocument();
 			//        };
 			//}
@@ -519,14 +565,16 @@ namespace Ultra4
 				n.onclick +=
 					delegate
 					{
+						// can opera java call javascript?
+						// does not work in opera for java
+						// does not work in IE for flash
+
 						var p = new Parameters2 { Color = t };
 
 						p.ColorQueried +=
 							delegate
 							{
-								//Debugger.Break();
-
-								new IHTMLDiv { innerText = "get_Color?!" }.AttachToDocument();
+								new IHTMLDiv { innerText = "ColorQueried" }.AttachToDocument();
 							};
 
 						//o.AddShape2 = "";
