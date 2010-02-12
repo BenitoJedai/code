@@ -27,12 +27,37 @@ namespace jsc.meta.Commands.Rewrite
 {
 	namespace Templates
 	{
-		public class InternalGlobal : HttpApplication
+		public class InternalFileInfo
 		{
+			public string Name;
+		}
+
+
+		public abstract class InternalGlobal : HttpApplication
+		{
+
 			public static void InternalApplication_BeginRequest(InternalGlobal that)
 			{
-				that.Response.ContentType = "text/plain";
-				that.Response.Write("Hello World");
+				var x = false;
+				foreach (var item in that.GetFiles())
+				{
+					if (that.Request.Path == "/" + item.Name)
+					{
+						x = true;
+						break;
+					}
+				}
+				if (x)
+					return;
+
+				that.Response.ContentType = "text/html";
+				that.Response.Write("Powered by jsc: " + that.Request.Path);
+
+				foreach (var item in that.GetFiles())
+				{
+					that.Response.Write("<br /> file: <a href='" + item.Name + "'>" + item.Name + "</a>");
+
+				}
 				that.CompleteRequest();
 			}
 
@@ -40,19 +65,39 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				return (DefaultProfile)that.Context.Profile;
 			}
+
+			public abstract InternalFileInfo[] GetFiles();
+
+
+			//public abstract string GetApplicationSource();
 		}
 	}
 
 	partial class RewriteToJavaScriptDocument
 	{
-		private void WriteGlobalApplication(RewriteToAssembly r, RewriteToAssembly.AssemblyRewriteArguments a, Type type, DirectoryInfo web, DirectoryInfo web_bin)
+	
+
+		private void WriteGlobalApplication(
+			RewriteToAssembly r,
+			RewriteToAssembly.AssemblyRewriteArguments a,
+			Type type,
+			DirectoryInfo web,
+			DirectoryInfo web_bin,
+			DirectoryInfo js_StagingFolder,
+			Type js_TargetType)
 		{
+			var js_staging_web = js_StagingFolder.CreateSubdirectory("web");
+
+			var TypeCache = r.RewriteArguments.context.TypeCache;
+			var ConstructorCache = r.RewriteArguments.context.ConstructorCache;
+			var FieldCache = r.RewriteArguments.context.FieldCache;
+
 			#region Global
 			var GlobalFullName = type.Namespace + ".Global";
 
 			var Global = a.Module.DefineType(GlobalFullName,
 				TypeAttributes.Public,
-				r.RewriteArguments.context.TypeCache[typeof(InternalGlobal)],
+				TypeCache[typeof(InternalGlobal)],
 				new Type[0]
 			);
 
@@ -65,7 +110,10 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var il = Application_BeginRequest.GetILGenerator();
 
+				var __WebService = il.DeclareInitializedLocal(TypeCache[type]);
+
 				il.Emit(OpCodes.Ldarg_0);
+
 
 
 				il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[
@@ -75,6 +123,40 @@ namespace jsc.meta.Commands.Rewrite
 
 				il.Emit(OpCodes.Ret);
 			}
+
+			var GetFiles = Global.DefineMethod("GetFiles",
+				MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard, TypeCache[typeof(InternalFileInfo[])],
+				null
+			);
+
+			var __Files = js_staging_web.GetFilesByPattern("*.js", "*.htm").Concat(js_staging_web.CreateSubdirectory("assets").GetFiles("*.*", SearchOption.AllDirectories));
+			var __Files2 = __Files.Select(k => new 
+				{ k, 
+					
+					Name1 = k.FullName.Substring(js_staging_web.FullName.Length + 1),
+					Name = k.FullName.Substring(js_staging_web.FullName.Length + 1).Replace("\\", "/") 
+				
+				}
+				
+			).ToArray();
+
+			var __Files1 = __Files2.Select(k => new InternalFileInfo { Name = k.Name }).ToArray();
+
+			GetFiles.GetILGenerator().EmitReturnSerializedArray(__Files1,
+				TypeCache,
+				ConstructorCache,
+				FieldCache
+			);
+
+			foreach (var item in __Files2)
+			{
+				new FileInfo(Path.Combine(web.FullName, item.Name1)).Directory.Create();
+
+				item.k.CopyTo(Path.Combine(web.FullName, item.Name1), true);
+			}
+
+
+
 
 			Global.CreateType();
 			#endregion
@@ -91,6 +173,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				il.Emit(OpCodes.Ldarg_0);
 
+
 				il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[
 					((Func<InternalGlobal, DefaultProfile>)InternalGlobal.InternalGetProfile).Method
 				]);
@@ -98,6 +181,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				il.Emit(OpCodes.Ret);
 			}
+
 
 			var Profile = global_asax.DefineProperty("Profile", PropertyAttributes.None, typeof(DefaultProfile), null);
 
