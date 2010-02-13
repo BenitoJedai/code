@@ -58,7 +58,8 @@ namespace jsc.meta.Commands.Rewrite
 				// how do we detect ad hoc web services? a suffix will do for now...
 				// if it defines some cool fields we will need to populate them later
 				let IsWebService = TargetType.Name.EndsWith("WebService")
-
+				let IsWebServicePHP = false
+				let IsWebServiceJava = false
 
 				let EntryPoint = InferScriptApplicationEntryPoint(TargetType)
 				where IsWebService || EntryPoint != null
@@ -69,10 +70,9 @@ namespace jsc.meta.Commands.Rewrite
 				let IsJavaScript = TargetType.GetConstructor(typeof(IHTMLElement)) != null
 
 
-				// possible name clash?
-				let DefaultStagingFolder = this.staging.CreateSubdirectory(TargetType.FullName)
 
-				let StagingFolder = IsWebService ? DefaultStagingFolder.CreateSubdirectory("bin") : DefaultStagingFolder
+				let StagingFolder = this.staging.CreateSubdirectory(TargetType.FullName)
+
 
 				// we are guessing the product name ahead of time...
 
@@ -85,11 +85,73 @@ namespace jsc.meta.Commands.Rewrite
 				orderby IsJavaScript || IsWebService, IsWebService
 
 
-				select new { TargetType, EntryPoint, IsActionScript, IsJava, IsJavaScript, IsWebService, DefaultStagingFolder, StagingFolder, Product }
+				select new
+				{
+					TargetType,
+					EntryPoint,
+					IsActionScript,
+					IsJava,
+					IsJavaScript,
+					IsWebService,
+					IsWebServicePHP,
+					IsWebServiceJava,
+					StagingFolder,
+					Product
+				}
 
 			);
 
-			foreach (var k in targets)
+			#region manage WebService
+			var targets_variations = targets.SelectMany(
+				k => k.IsWebService ?
+					new[]
+					{
+						new {
+							k.TargetType,
+							k.EntryPoint,
+							k.IsActionScript,
+							k.IsJava,
+							k.IsJavaScript,
+							k.IsWebService,
+							k.IsWebServicePHP,
+							k.IsWebServiceJava,
+							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.net/bin"),
+							k.Product
+						},
+
+						new {
+							k.TargetType,
+							k.EntryPoint,
+							k.IsActionScript,
+							k.IsJava,
+							k.IsJavaScript,
+							k.IsWebService,
+							IsWebServicePHP = true,
+							k.IsWebServiceJava,
+							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.php"),
+							k.Product
+						},
+
+							new {
+							k.TargetType,
+							k.EntryPoint,
+							k.IsActionScript,
+							k.IsJava,
+							k.IsJavaScript,
+							k.IsWebService,
+							k.IsWebServicePHP,
+							IsWebServiceJava = true,
+							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.java"),
+							k.Product
+						},
+					}
+				:
+					new[] { k }
+			).ToArray();
+			#endregion
+
+
+			foreach (var k in targets_variations)
 			{
 				// lets do a rewrite and inject neccesary bootstrap and proxy code
 
@@ -254,9 +316,12 @@ namespace jsc.meta.Commands.Rewrite
 							{
 								var __js = targets.Single(kk => kk.IsJavaScript);
 
-								WriteGlobalApplication(r, a, k.TargetType, k.DefaultStagingFolder, k.StagingFolder, 
+								WriteGlobalApplication(r, a, k.TargetType,
+									k.StagingFolder,
 									__js.StagingFolder,
-									__js.TargetType
+									__js.TargetType,
+									k.IsWebServicePHP,
+									k.IsWebServiceJava
 
 
 								);
@@ -272,7 +337,7 @@ namespace jsc.meta.Commands.Rewrite
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
-						
+
 
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
@@ -389,6 +454,7 @@ namespace jsc.meta.Commands.Rewrite
 								if (r.ExternalContext.TypeCache.BaseDictionary[SourceType] != SourceType)
 									return;
 
+							// webservice will have .net, php and java outputs
 
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 

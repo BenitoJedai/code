@@ -656,7 +656,7 @@ namespace Ultra4
 
 			// rewrite this class to after msbuild step
 			public delegate void Func1(string e);
-			public delegate void Func2(string e);
+			public delegate void Func2(string e, string f);
 
 			// rewrite this to json service?
 			// rewrite this to xml service?
@@ -671,9 +671,10 @@ namespace Ultra4
 				result("hello: " + e);
 			}
 
-			public void Method2(string e, Func2 result)
+			public void Method2(string e, string f, Func2 result)
 			{
-				result("world: " + e);
+				result("world: " + e, "hi: " + f);
+				result("world2: " + e, "hi2: " + f);
 			}
 
 		
