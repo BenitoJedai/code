@@ -597,7 +597,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				}
 
-			
+
 
 				Write("<h2>WebMethods</h2>");
 
@@ -616,6 +616,14 @@ namespace jsc.meta.Commands.Rewrite
 				foreach (var item in that.GetFiles())
 				{
 					Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' />" + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
+				}
+
+				Write("<h2>Form Keys</h2>");
+
+				foreach (var item in that.Request.Form.Keys)
+				{
+					Write("<br />  " + (string)item);
+
 				}
 
 				that.CompleteRequest();
@@ -672,7 +680,7 @@ namespace jsc.meta.Commands.Rewrite
 							Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
 							Write(" parameter: <code>" + p.Name + "</code>");
 
-							
+
 						}
 						else
 						{
