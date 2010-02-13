@@ -55,7 +55,7 @@ namespace jsc.meta.Library
 
 			foreach (var item in e.Select((k, i) => new { k, i }))
 			{
-			
+
 				il.Emit(OpCodes.Ldloc, (short)loc0.LocalIndex);
 				il.Emit(OpCodes.Ldc_I4, item.i);
 				il.Emit(OpCodes.Ldarg, (short)(item.k.Position + (IsInstance ? 1 : 0)));
@@ -65,41 +65,70 @@ namespace jsc.meta.Library
 			return loc0;
 		}
 
-		public static void EmitReturnSerializedArray<T>(this ILGenerator il, T[] e, 
-			Func<Type, Type> TypeCache, 
+		public static void EmitReturnSerializedArray<T>(this ILGenerator il, T[] e,
+			Func<Type, Type> TypeCache,
 			Func<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			Func<FieldInfo, FieldInfo> FieldCache
 			)
 		{
-			var loc0 = il.DeclareLocal(TypeCache(typeof(T[])));
-			var loc1 = il.DeclareLocal(TypeCache(typeof(T)));
+			var loc0 = InternalCreateArray(il, typeof(T), e, TypeCache, ConstructorCache, FieldCache);
+
+			il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+			il.Emit(OpCodes.Ret);
+		}
+
+		private static LocalBuilder InternalCreateArray(ILGenerator il, Type ElementType, Array e, Func<Type, Type> TypeCache, Func<ConstructorInfo, ConstructorInfo> ConstructorCache, Func<FieldInfo, FieldInfo> FieldCache)
+		{
+			Type ArrayType = ElementType.MakeArrayType();
+
+			var loc0 = il.DeclareLocal(TypeCache(ArrayType));
+			var loc1 = il.DeclareLocal(TypeCache(ElementType));
 
 			il.Emit(OpCodes.Ldc_I4, e.Length);
-			il.Emit(OpCodes.Newarr, TypeCache(typeof(T)));
-			il.Emit(OpCodes.Stloc_0);
+			il.Emit(OpCodes.Newarr, TypeCache(ElementType));
+			il.Emit(OpCodes.Stloc, (short)(loc0.LocalIndex));
 
-			foreach (var item in e.Select((k, i) => new { k, i }))
+			var i = -1;
+			foreach (var item in e)
 			{
-				il.Emit(OpCodes.Newobj, ConstructorCache(typeof(T).GetConstructor()));
-				il.Emit(OpCodes.Stloc_1);
+				i++;
 
-				foreach (var f in typeof(T).GetFields())
+				il.Emit(OpCodes.Newobj, ConstructorCache(ElementType.GetConstructor()));
+				il.Emit(OpCodes.Stloc, (short)(loc1.LocalIndex));
+
+				foreach (var f in ElementType.GetFields())
 				{
-					il.Emit(OpCodes.Ldloc_1);
+					if (f.GetValue(item) != null)
+						if (f.FieldType.IsArray)
+						{
+							var loc2 = InternalCreateArray(
+								il, f.FieldType.GetElementType(), (Array)f.GetValue(item), TypeCache, ConstructorCache, FieldCache);
 
-					il.Emit(OpCodes.Ldstr, (string)f.GetValue(item.k));
-
-					il.Emit(OpCodes.Stfld, FieldCache(f));
+							il.Emit(OpCodes.Ldloc, (short)(loc1.LocalIndex));
+							il.Emit(OpCodes.Ldloc, (short)(loc2.LocalIndex));
+							il.Emit(OpCodes.Stfld, FieldCache(f));
+						}
+						else if (f.FieldType == typeof(string))
+						{
+							il.Emit(OpCodes.Ldloc, (short)(loc1.LocalIndex));
+							il.Emit(OpCodes.Ldstr, (string)f.GetValue(item));
+							il.Emit(OpCodes.Stfld, FieldCache(f));
+						}
+						else if (f.FieldType == typeof(bool))
+						{
+							il.Emit(OpCodes.Ldloc, (short)(loc1.LocalIndex));
+							il.Emit(((bool)f.GetValue(item)) ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
+							il.Emit(OpCodes.Stfld, FieldCache(f));
+						}
+						else throw new NotImplementedException();
 				}
 
-				il.Emit(OpCodes.Ldloc_0);
-				il.Emit(OpCodes.Ldc_I4, item.i);
-				il.Emit(OpCodes.Ldloc_1);
-				il.Emit(OpCodes.Stelem_Ref);	
+				il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+				il.Emit(OpCodes.Ldc_I4, i);
+				il.Emit(OpCodes.Ldloc, (short)(loc1.LocalIndex));
+				il.Emit(OpCodes.Stelem_Ref);
 			}
-
-			il.Emit(OpCodes.Ldloc_0);
-			il.Emit(OpCodes.Ret);
+			return loc0;
 		}
 
 
