@@ -600,6 +600,19 @@ namespace Ultra4
 								xx.innerText = r.responseText;
 
 								xx.AttachToDocument();
+
+								var xml = r.responseXML;
+
+								foreach (var item in xml.documentElement.childNodes)
+								{
+									new IHTMLDiv { innerText = "callback: " + item.nodeName }.AttachToDocument();
+
+									foreach (var p in item.childNodes)
+									{
+										new IHTMLDiv { innerText = "parameter: " + p.nodeName + " = " + p.text }.AttachToDocument();	 
+
+									}
+								}
 							}
 						);
 						x.send("_06000039_e=" + Native.Window.escape("ding dong"));

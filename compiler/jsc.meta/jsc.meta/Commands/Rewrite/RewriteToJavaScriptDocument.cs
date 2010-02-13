@@ -491,7 +491,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									var DeclaringType = SourceType.IsNested ?
 										((TypeBuilder)r.RewriteArguments.context.TypeCache[SourceType.DeclaringType]).DefineNestedType(
-											SourceType.FullName,
+											SourceType.Name,
 											SourceType.Attributes,
 											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
 											Interfaces

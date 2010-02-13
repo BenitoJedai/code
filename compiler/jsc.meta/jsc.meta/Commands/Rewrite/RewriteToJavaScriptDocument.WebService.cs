@@ -364,7 +364,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				this.DeclaringType = SourceType.IsNested ?
 					((TypeBuilder)r.RewriteArguments.context.TypeCache[SourceType.DeclaringType]).DefineNestedType(
-						SourceType.FullName,
+						SourceType.Name,
 						SourceType.Attributes,
 						null,
 						Interfaces
@@ -408,6 +408,8 @@ namespace jsc.meta.Commands.Rewrite
 			public void WriteMethod(MethodInfo SourceMethod)
 			{
 				var TypeCache = r.RewriteArguments.context.TypeCache;
+				var FieldCache = r.RewriteArguments.context.FieldCache;
+				var MethodCache = r.RewriteArguments.context.MethodCache;
 
 				if (SourceMethod.ReturnType != typeof(void))
 					throw new NotSupportedException();
@@ -422,7 +424,110 @@ namespace jsc.meta.Commands.Rewrite
 
 				r.ExternalContext.MethodCache[SourceMethod] = m;
 
-				m.NotImplemented();
+				var request = this.DeclaringType.DefineNestedType("<>" + SourceMethod.MetadataToken.ToString("x8"),
+					TypeAttributes.NestedPublic,
+					TypeCache[typeof(InternalWebMethodRequest)]
+				);
+
+				var request_ctor = request.DefineDefaultConstructor(MethodAttributes.Public);
+
+
+				var request_delegates = Enumerable.ToDictionary(
+					from p in SourceMethod.GetParameters()
+					where p.ParameterType.IsDelegate()
+					select new KeyValuePair<ParameterInfo, FieldBuilder>(p, request.DefineField(p.Name, TypeCache[p.ParameterType], FieldAttributes.Public))
+					, k => k.Key, k => k.Value
+				);
+
+
+				var request_InvokeCallback = request.DefineMethod("InvokeCallback", 
+					MethodAttributes.Virtual | MethodAttributes.Public | MethodAttributes.HideBySig, 
+					CallingConventions.Standard,
+					typeof(void),
+					new[] { typeof(string), TypeCache[typeof(InternalWebMethodRequest.ParameterLookup)] }
+				);
+
+				{
+					var il = request_InvokeCallback.GetILGenerator();
+
+					var loc0 = il.DeclareLocal(typeof(bool));
+
+					foreach (var p in SourceMethod.GetParameters())
+					{
+						if (p.ParameterType.IsDelegate())
+						{
+							il.Emit(OpCodes.Ldstr, p.Name);
+							il.Emit(OpCodes.Ldarg_1);
+							il.Emit(OpCodes.Call, ((Func<string, string, bool>)string.Equals).Method);
+							il.Emit(OpCodes.Stloc_0);
+
+							il.Emit(OpCodes.Ldloc_0);
+
+							var skip = il.DefineLabel();
+							il.Emit(OpCodes.Brfalse, skip);
+
+
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Ldfld, request_delegates[p]);
+
+							foreach (var pp in p.ParameterType.GetMethod("Invoke").GetParameters())
+							{
+								il.Emit(OpCodes.Ldarg_2);
+								il.Emit(OpCodes.Ldstr, pp.Name);
+								il.Emit(OpCodes.Call, MethodCache[typeof(InternalWebMethodRequest.ParameterLookup).GetMethod("Invoke")]);
+							}
+							
+							il.Emit(OpCodes.Call, MethodCache[p.ParameterType.GetMethod("Invoke")]);
+							il.Emit(OpCodes.Ret);
+
+							il.MarkLabel(skip);
+						}
+					}
+
+					il.Emit(OpCodes.Ret);
+				}
+
+				{
+					var il = m.GetILGenerator();
+
+					var loc0 = il.DeclareInitializedLocal(request, request_ctor);
+
+					var request_MetadataToken = FieldCache[typeof(InternalWebMethodRequest).GetField("MetadataToken")];
+
+					il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+					il.Emit(OpCodes.Ldstr, SourceMethod.MetadataToken.ToString("x8"));
+					il.Emit(OpCodes.Stfld, request_MetadataToken);
+
+					foreach (var p in SourceMethod.GetParameters())
+					{
+						if (p.ParameterType.IsDelegate())
+						{
+							il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+							il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
+							il.Emit(OpCodes.Stfld, request_delegates[p]);
+						}
+						else
+						{
+							il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+							il.Emit(OpCodes.Ldstr, p.Name);
+							il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
+							il.Emit(OpCodes.Call,
+								MethodCache[((Action<InternalWebMethodRequest, string, string>)InternalWebMethodRequest.AddParameter).Method]
+
+							);
+						}
+					}
+
+					il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+					il.Emit(OpCodes.Call,
+						MethodCache[((Action<InternalWebMethodRequest>)InternalWebMethodRequest.Invoke).Method]
+
+					);
+
+					il.Emit(OpCodes.Ret);
+				}
+
+				request.CreateType();
 			}
 		}
 	}
@@ -575,30 +680,7 @@ namespace jsc.meta.Commands.Rewrite
 
 						if (that.Context.Request.Path == "/xml")
 						{
-							that.Response.ContentType = "text/xml";
-
-							Write("<document>");
-
-							if (WebMethod.Results != null)
-								foreach (var item in WebMethod.Results)
-								{
-									Write("<" + item.Name + ">");
-
-									foreach (var p in item.Parameters)
-									{
-										Write("<" + p.Name + ">");
-										Write(escapeXML(p.Value));
-										Write("</" + p.Name + ">");
-
-									}
-
-									Write("</" + item.Name + ">");
-							
-								}
-
-							Write("</document>");
-
-							that.CompleteRequest();
+							WriteXDocument(that, Write, WebMethod);
 							return;
 						}
 						else
@@ -657,13 +739,35 @@ namespace jsc.meta.Commands.Rewrite
 					Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' />" + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
 				}
 
-				Write("<h2>Form Keys</h2>");
 
-				foreach (var item in that.Request.Form.Keys)
-				{
-					Write("<br />  " + (string)item);
 
-				}
+				that.CompleteRequest();
+			}
+
+			private static void WriteXDocument(InternalGlobal that, StringAction Write, InternalWebMethodInfo WebMethod)
+			{
+				that.Response.ContentType = "text/xml";
+
+				Write("<document>");
+
+				if (WebMethod.Results != null)
+					foreach (var item in WebMethod.Results)
+					{
+						Write("<" + item.Name + ">");
+
+						foreach (var p in item.Parameters)
+						{
+							Write("<" + p.Name + ">");
+							Write(escapeXML(p.Value));
+							Write("</" + p.Name + ">");
+
+						}
+
+						Write("</" + item.Name + ">");
+
+					}
+
+				Write("</document>");
 
 				that.CompleteRequest();
 			}
@@ -781,6 +885,90 @@ namespace jsc.meta.Commands.Rewrite
 			public static void ApplyTo(InternalWebMethodWorker that, InternalWebMethodInfo target)
 			{
 				target.Results = that.ToArray();
+			}
+		}
+
+		public abstract class InternalWebMethodRequest
+		{
+			public string MetadataToken;
+
+			public string Data;
+
+			public static void AddParameter(InternalWebMethodRequest that, string name, string value)
+			{
+				if (null == value)
+					return;
+
+				if (string.IsNullOrEmpty(that.Data))
+				{
+					that.Data = "";
+				}
+				else
+				{
+					that.Data += "&";
+				}
+
+				that.Data += "_" + that.MetadataToken + "_" + name + "=" + Native.Window.escape(value);
+			}
+
+			public static void Invoke(InternalWebMethodRequest that)
+			{
+				var x = new IXMLHttpRequest();
+
+				x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/xml?WebMethod=" + that.MetadataToken);
+				x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+				x.send(that.Data);
+
+				x.InvokeOnComplete(that.Complete);
+
+			}
+
+			public void Complete(IXMLHttpRequest r)
+			{
+				var xml = r.responseXML;
+
+				foreach (var item in xml.documentElement.childNodes)
+				{
+					//Debugger.Break();
+
+					//Native.Window.alert("callback: " + item.nodeName);
+
+					InvokeCallback(item.nodeName,
+						x =>
+						{
+							//Native.Window.alert("parameter: " + x);
+
+							var u = default(string);
+
+							foreach (var p in item.childNodes)
+							{
+								if (p.nodeName == x)
+								{
+									u = p.text;
+									break;
+								}
+							}
+
+							return u;
+						}
+					);
+
+					//new IHTMLDiv { innerText = "callback: " + item.nodeName }.AttachToDocument();
+
+					//foreach (var p in item.childNodes)
+					//{
+					//    new IHTMLDiv { innerText = "parameter: " + p.nodeName + " = " + p.text }.AttachToDocument();
+
+					//}
+				}
+			}
+
+			public delegate string ParameterLookup(string parameter);
+
+			public virtual void InvokeCallback(string name, ParameterLookup lookup)
+			{
+				throw new Exception("InvokeCallback");
 			}
 		}
 	}

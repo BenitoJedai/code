@@ -512,7 +512,7 @@ namespace jsc
 		{
 			if (i.IsAbstract)
 			{
-				w.Write("/* abstract */");
+				w.Write("throw new Error('abstract method');");
 
 				return;
 			}
