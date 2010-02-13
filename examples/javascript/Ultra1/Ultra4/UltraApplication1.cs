@@ -586,8 +586,13 @@ namespace Ultra4
 					{
 
 
-						new IXMLHttpRequest(
-							"/?WebMethod=06000039", "_06000039_e=1",
+						var x = new IXMLHttpRequest();
+
+						x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/?WebMethod=06000039");
+						x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+						x.send("_06000039_e=" + Native.Window.escape("ding dong"));
+
+						x.InvokeOnComplete(
 							r =>
 							{
 
