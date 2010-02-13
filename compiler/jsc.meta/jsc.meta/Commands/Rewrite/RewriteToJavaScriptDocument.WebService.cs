@@ -22,6 +22,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using System.Web;
 using jsc.meta.Commands.Rewrite.Templates;
 using System.Web.Profile;
+using System.Collections;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -46,6 +47,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var TypeCache = r.RewriteArguments.context.TypeCache;
 			var ConstructorCache = r.RewriteArguments.context.ConstructorCache;
+			var MethodCache = r.RewriteArguments.context.MethodCache;
 			var FieldCache = r.RewriteArguments.context.FieldCache;
 
 			#region Global
@@ -58,6 +60,7 @@ namespace jsc.meta.Commands.Rewrite
 			);
 
 
+			#region Application_BeginRequest
 			var Application_BeginRequest = Global.DefineMethod("Application_BeginRequest", MethodAttributes.Public,
 				CallingConventions.Standard, typeof(void),
 				new[] { typeof(object), typeof(EventArgs) }
@@ -79,6 +82,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				il.Emit(OpCodes.Ret);
 			}
+			#endregion
 
 
 			var __Files = js_staging_web.GetFilesByPattern("*.js", "*.htm").Concat(js_staging_web.CreateSubdirectory("assets").GetFiles("*.*", SearchOption.AllDirectories));
@@ -96,6 +100,7 @@ namespace jsc.meta.Commands.Rewrite
 			var __Files1 = __Files2.Select(k => new InternalFileInfo { Name = k.Name }).ToArray();
 
 
+			#region GetFiles
 			var GetFiles = Global.DefineMethod("GetFiles",
 					MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard, TypeCache[typeof(InternalFileInfo[])],
 					null
@@ -106,6 +111,7 @@ namespace jsc.meta.Commands.Rewrite
 				ConstructorCache,
 				FieldCache
 			);
+			#endregion
 
 			var __WebMethods = Enumerable.ToArray(
 				from m in SourceType.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
@@ -126,6 +132,7 @@ namespace jsc.meta.Commands.Rewrite
 				}
 			);
 
+			#region GetWebMethods
 			var GetWebMethods = Global.DefineMethod("GetWebMethods",
 				MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard,
 				TypeCache[typeof(InternalWebMethodInfo[])],
@@ -137,16 +144,125 @@ namespace jsc.meta.Commands.Rewrite
 				ConstructorCache,
 				FieldCache
 			);
+			#endregion
 
 
-			var Invoke = Global.DefineMethod("Invoke", MethodAttributes.Virtual | MethodAttributes.Public,
+			var Global_Invoke = Global.DefineMethod("Invoke", MethodAttributes.Virtual | MethodAttributes.Public,
 				CallingConventions.Standard,
 				typeof(void), new[] { TypeCache[typeof(InternalWebMethodInfo)] }
 
 			);
 
 			{
-				var il = Invoke.GetILGenerator();
+				var il = Global_Invoke.GetILGenerator();
+
+				var loc0 = il.DeclareInitializedLocal(TypeCache[SourceType], ConstructorCache[SourceType.GetConstructor()]);
+				var loc1 = il.DeclareLocal(typeof(bool));
+
+				foreach (var item in SourceType.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance))
+				{
+					il.Emit(OpCodes.Ldarg_1);
+					il.Emit(OpCodes.Ldfld, FieldCache[typeof(InternalWebMethodInfo).GetField("MetadataToken")]);
+					il.Emit(OpCodes.Ldstr, item.MetadataToken.ToString("x8"));
+					il.Emit(OpCodes.Call, ((Func<string, string, bool>)string.Equals).Method);
+					il.Emit(OpCodes.Stloc, (short)loc1.LocalIndex);
+
+					var skip = il.DefineLabel();
+
+					il.Emit(OpCodes.Ldloc, (short)loc1.LocalIndex);
+					il.Emit(OpCodes.Brfalse, skip);
+
+					var work = Global.DefineNestedType("<>" + item.MetadataToken.ToString("x8"),
+						TypeAttributes.NestedPublic,
+						TypeCache[typeof(InternalWebMethodWorker)]
+					);
+
+					var work_ctor = work.DefineDefaultConstructor(MethodAttributes.Public);
+
+					var work_Results = FieldCache[typeof(InternalWebMethodWorker).GetField("Results")];
+
+					var loc2 = il.DeclareInitializedLocal(work, work_ctor);
+
+
+					il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
+
+					foreach (var p in item.GetParameters())
+					{
+						if (p.ParameterType.IsDelegate())
+						{
+							var p_Invoke = p.ParameterType.GetMethod("Invoke");
+
+							var AddResult = work.DefineMethod(p.Name, MethodAttributes.Public, CallingConventions.Standard,
+								typeof(void),
+								p_Invoke.GetParameterTypes()
+							);
+
+							var AddResult_il = AddResult.GetILGenerator();
+
+							var loc3 = AddResult_il.DeclareInitializedLocal(TypeCache[typeof(InternalWebMethodInfo)], ConstructorCache[typeof(InternalWebMethodInfo).GetConstructor()]);
+
+							AddResult_il.Emit(OpCodes.Ldloc, (short)(loc3.LocalIndex));
+							AddResult_il.Emit(OpCodes.Ldstr, p.Name);
+							AddResult_il.Emit(OpCodes.Stfld, FieldCache[typeof(InternalWebMethodInfo).GetField("Name")]);
+
+							foreach (var p_InvokeParameter in p_Invoke.GetParameters())
+							{
+								AddResult_il.Emit(OpCodes.Ldloc, (short)(loc3.LocalIndex));
+								AddResult_il.Emit(OpCodes.Ldstr, p_InvokeParameter.Name);
+								AddResult_il.Emit(OpCodes.Ldarg, (short)(p_InvokeParameter.Position + 1));
+								AddResult_il.Emit(OpCodes.Call,
+									MethodCache[
+										(
+											(Action<InternalWebMethodInfo, string, string>)InternalWebMethodInfo.AddParameter
+										).Method
+									]
+								);
+							}
+
+							AddResult_il.Emit(OpCodes.Ldarg_0);
+							AddResult_il.Emit(OpCodes.Ldloc, (short)(loc3.LocalIndex));
+							AddResult_il.Emit(OpCodes.Call,
+								MethodCache[((Action<InternalWebMethodWorker, InternalWebMethodInfo>)InternalWebMethodWorker.Add).Method]
+							);
+
+							AddResult_il.Emit(OpCodes.Ret);
+
+							il.Emit(OpCodes.Ldloc, (short)(loc2.LocalIndex));
+							il.Emit(OpCodes.Ldftn, AddResult);
+							il.Emit(OpCodes.Newobj, ConstructorCache[p.ParameterType.GetConstructors().Single()]);
+						}
+						else
+						{
+							il.Emit(OpCodes.Ldarg_1);
+							il.Emit(OpCodes.Ldstr, p.Name);
+							il.Emit(OpCodes.Call, MethodCache[
+								((Func<InternalWebMethodInfo, string, string>)InternalWebMethodInfo.GetParameterValue).Method
+								]
+							);
+						}
+					}
+
+					il.Emit(OpCodes.Call, MethodCache[item]);
+
+					il.Emit(OpCodes.Ldloc, (short)(loc2.LocalIndex));
+					il.Emit(OpCodes.Ldarg_1);
+					il.Emit(OpCodes.Call, MethodCache[
+						((Action<InternalWebMethodWorker, InternalWebMethodInfo>)InternalWebMethodWorker.ApplyTo).Method
+						]
+					);
+
+
+
+					il.Emit(OpCodes.Ret);
+
+					il.MarkLabel(skip);
+
+
+
+
+					work.CreateType();
+				}
+
 
 
 				il.Emit(OpCodes.Ret);
@@ -340,6 +456,24 @@ namespace jsc.meta.Commands.Rewrite
 
 			public InternalWebMethodParameterInfo[] Parameters;
 
+			public ArrayList InternalParameters;
+
+			public static void AddParameter(InternalWebMethodInfo that, string Name, string Value)
+			{
+				if (that.InternalParameters == null)
+					that.InternalParameters = new ArrayList();
+
+				var n = new InternalWebMethodParameterInfo
+				{
+					Name = Name,
+					Value = Value
+				};
+
+				that.InternalParameters.Add(n);
+
+				that.Parameters = (InternalWebMethodParameterInfo[])that.InternalParameters.ToArray(typeof(InternalWebMethodParameterInfo));
+			}
+
 			public InternalWebMethodInfo[] Results;
 
 			public string ToQueryString()
@@ -364,6 +498,21 @@ namespace jsc.meta.Commands.Rewrite
 				return k;
 			}
 
+			public static string GetParameterValue(InternalWebMethodInfo that, string name)
+			{
+				var r = default(string);
+
+				foreach (var item in that.Parameters)
+				{
+					if (item.Name == name)
+					{
+						r = item.Value;
+						break;
+					}
+				}
+
+				return r;
+			}
 			public void LoadParameters(HttpContext c)
 			{
 				foreach (var Parameter in this.Parameters)
@@ -420,17 +569,35 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						that.Invoke(WebMethod);
 
-						Write("<h2>Results</h2>");
+						if (WebMethod.Results == null)
+						{
+
+							Write("<h2>No Results</h2>");
+						}
+						else
+						{
+							Write("<h2>" + WebMethod.Results.Length + " Results</h2>");
+
+							foreach (var item in WebMethod.Results)
+							{
+								WriteWebMethod(Write, item,
+									Parameter =>
+									{
+										if (Parameter == null)
+											return;
+
+										Write(" = '<code>" + Parameter.Value + "</code>'");
+									}
+								);
+							}
+						}
 
 						//WebMethod.
 					}
 
 				}
 
-				Write("<title>Powered by jsc: " + that.Request.Path + "</title>");
-
-				Write("<br /> HttpMethod : " + that.Request.HttpMethod);
-
+			
 
 				Write("<h2>WebMethods</h2>");
 
@@ -438,6 +605,11 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					WriteWebMethodForm(that, Write, item);
 				}
+
+				Write("<title>Powered by jsc: " + that.Request.Path + "</title>");
+
+				Write("<br /> HttpMethod : " + that.Request.HttpMethod);
+
 
 				Write("<h2>Files</h2>");
 
@@ -475,31 +647,44 @@ namespace jsc.meta.Commands.Rewrite
 
 			private static void WriteWebMethod(StringAction Write, InternalWebMethodInfo item, InternalWebMethodParameterInfoAction more)
 			{
-				Write("<br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='" + item.ToQueryString() + "'>" + item.Name + "</a></code>");
+				if (string.IsNullOrEmpty(item.MetadataToken))
+				{
+					Write("<br /> ");
+					Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
+					Write(" method: <code>" + item.Name + "</code>");
+
+				}
+				else
+				{
+					Write("<br /> <img src='http://i.msdn.microsoft.com/deshae98.pubmethod(en-us,VS.90).gif' /> method: <code><a href='" + item.ToQueryString() + "'>" + item.Name + "</a></code>");
+				}
 
 				if (more != null)
 					more(null);
 
-				foreach (var p in item.Parameters)
-				{
-					Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
-
-					if (p.IsDelegate)
+				if (item.Parameters != null)
+					foreach (var p in item.Parameters)
 					{
-						Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
-						Write(" parameter: <code>" + p.Name + "</code>");
+						Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
+
+						if (p.IsDelegate)
+						{
+							Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubdelegate(en-us,VS.90).gif' />");
+							Write(" parameter: <code>" + p.Name + "</code>");
+
+							
+						}
+						else
+						{
+							Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' />");
+							Write(" parameter: <code>" + p.Name + "</code>");
+
+							if (more != null)
+								more(p);
+
+						}
+
 					}
-					else
-					{
-						Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' />");
-						Write(" parameter: <code>" + p.Name + "</code>");
-
-						if (more != null)
-							more(p);
-
-					}
-
-				}
 
 
 			}
@@ -530,6 +715,26 @@ namespace jsc.meta.Commands.Rewrite
 			public abstract void Invoke(InternalWebMethodInfo e);
 
 			//public abstract string GetApplicationSource();
+		}
+
+		public class InternalWebMethodWorker
+		{
+			public readonly ArrayList Results = new ArrayList();
+
+			public static void Add(InternalWebMethodWorker that, InternalWebMethodInfo value)
+			{
+				that.Results.Add(value);
+			}
+
+			public InternalWebMethodInfo[] ToArray()
+			{
+				return (InternalWebMethodInfo[])this.Results.ToArray(typeof(InternalWebMethodInfo));
+			}
+
+			public static void ApplyTo(InternalWebMethodWorker that, InternalWebMethodInfo target)
+			{
+				target.Results = that.ToArray();
+			}
 		}
 	}
 

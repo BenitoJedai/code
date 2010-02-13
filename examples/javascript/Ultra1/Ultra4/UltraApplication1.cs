@@ -577,6 +577,38 @@ namespace Ultra4
 				n.AttachToDocument();
 			}
 
+
+			{
+				var n = new IHTMLButton("webservice manually");
+
+				n.onclick +=
+					delegate
+					{
+
+
+						var ws = new WebService();
+
+						// we only access methods for now. later we could enable
+						// string based proxing within session
+						// if sessions support storing objects
+						// asp.net, php and gae
+
+						ws.Method1("hello",
+							x =>
+							{
+								// back from the web server
+								// be it asp.net
+								// gae or php... :)
+
+								new IHTMLDiv { innerText = "webservice: " + x }.AttachToDocument();
+
+							}
+						);
+
+					};
+
+				n.AttachToDocument();
+			}
 		}
 
 		private static void CreateButton(IAddShape z, string t)
@@ -677,7 +709,12 @@ namespace Ultra4
 				result("world2: " + e, "hi2: " + f);
 			}
 
-		
+			public void Method3(string e, string f, Func2 result, Func1 result2)
+			{
+				result2("hello: " + e);
+				result("world: " + e, "hi: " + f);
+				result("world2: " + e, "hi2: " + f);
+			}
 		}
 
 
