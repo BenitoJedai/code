@@ -539,6 +539,11 @@ namespace jsc.meta.Commands.Rewrite
 		{
 			public delegate void StringAction(string e);
 
+			static string escapeXML(string s)
+			{
+				return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+			}
+
 			public static void InternalApplication_BeginRequest(InternalGlobal that)
 			{
 				if (that.Request.Path == "/favicon.ico")
@@ -551,7 +556,6 @@ namespace jsc.meta.Commands.Rewrite
 				if (FileExists(that))
 					return;
 
-				that.Response.ContentType = "text/html";
 
 				StringAction Write = that.Response.Write;
 
@@ -569,26 +573,60 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						that.Invoke(WebMethod);
 
-						if (WebMethod.Results == null)
+						if (that.Context.Request.Path == "/xml")
 						{
+							that.Response.ContentType = "text/xml";
 
-							Write("<h2>No Results</h2>");
+							Write("<document>");
+
+							if (WebMethod.Results != null)
+								foreach (var item in WebMethod.Results)
+								{
+									Write("<" + item.Name + ">");
+
+									foreach (var p in item.Parameters)
+									{
+										Write("<" + p.Name + ">");
+										Write(escapeXML(p.Value));
+										Write("</" + p.Name + ">");
+
+									}
+
+									Write("</" + item.Name + ">");
+							
+								}
+
+							Write("</document>");
+
+							that.CompleteRequest();
+							return;
 						}
 						else
 						{
-							Write("<h2>" + WebMethod.Results.Length + " Results</h2>");
 
-							foreach (var item in WebMethod.Results)
+							that.Response.ContentType = "text/html";
+
+							if (WebMethod.Results == null)
 							{
-								WriteWebMethod(Write, item,
-									Parameter =>
-									{
-										if (Parameter == null)
-											return;
 
-										Write(" = '<code>" + Parameter.Value + "</code>'");
-									}
-								);
+								Write("<h2>No Results</h2>");
+							}
+							else
+							{
+								Write("<h2>" + WebMethod.Results.Length + " Results</h2>");
+
+								foreach (var item in WebMethod.Results)
+								{
+									WriteWebMethod(Write, item,
+										Parameter =>
+										{
+											if (Parameter == null)
+												return;
+
+											Write(" = '<code>" + Parameter.Value + "</code>'");
+										}
+									);
+								}
 							}
 						}
 
@@ -600,6 +638,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				Write("<h2>WebMethods</h2>");
+				Write("<a href='xml'>/xml</a>");
 
 				foreach (var item in WebMethods)
 				{
