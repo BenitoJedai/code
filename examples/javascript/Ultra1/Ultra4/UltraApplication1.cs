@@ -586,24 +586,19 @@ namespace Ultra4
 					{
 
 
-						var ws = new WebService();
-
-						// we only access methods for now. later we could enable
-						// string based proxing within session
-						// if sessions support storing objects
-						// asp.net, php and gae
-
-						ws.Method1("hello",
-							x =>
+						new IXMLHttpRequest(
+							"/?WebMethod=06000039", "_06000039_e=1",
+							r =>
 							{
-								// back from the web server
-								// be it asp.net
-								// gae or php... :)
 
-								new IHTMLDiv { innerText = "webservice: " + x }.AttachToDocument();
+								var xx = new IHTMLDiv();
 
+								xx.innerHTML = r.responseText;
+
+								xx.AttachToDocument();
 							}
 						);
+
 
 					};
 
