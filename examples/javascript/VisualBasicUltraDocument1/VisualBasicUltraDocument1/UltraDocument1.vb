@@ -47,7 +47,9 @@ Public NotInheritable Class UltraDocument1
 
     End Sub
     Private Sub AddHandlers_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
-        AddHandler s.XClick, AddressOf AtXClick
+
+        s.AddXClick(AddressOf AtXClick)
+        'AddHandler s.XClick, AddressOf AtXClick
     End Sub
 
     Private Sub AddShape_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
@@ -125,10 +127,18 @@ Public NotInheritable Class UltraSprite
 
     Public Event XClick As Action
 
-    Public Sub RaiseXClick()
+    Public Sub AddXClick(ByVal e As Action)
+        AddHandler XClick, e
         AddShape2()
 
+    End Sub
+
+    Public Sub RaiseXClick()
+
         RaiseEvent XClick()
+
+        AddShape2()
+
     End Sub
 
 
