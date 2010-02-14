@@ -1352,7 +1352,9 @@ namespace jsc
 
 			if (i.IsAnyOpCodeOf(OpCodes.Div, OpCodes.Div_Un)) w.Write("/");
 
-			if (i == OpCodes.Sub) w.Write("-");
+			if (i == OpCodes.Sub ||
+				i == OpCodes.Sub_Ovf) w.Write("-");
+
 			if (i == OpCodes.Add ||
 				i == OpCodes.Add_Ovf ||
 				i == OpCodes.Add_Ovf_Un) w.Write("+");

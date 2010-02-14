@@ -507,6 +507,7 @@ namespace Ultra4
 											new IHTMLDiv { innerText = "status 2: " + p.e }.AttachToDocument();
 										};
 
+									Debugger.Break();
 
 									o.GetStatus2(p);
 

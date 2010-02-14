@@ -60,7 +60,9 @@ namespace jsc
 					 OpCodes.Stloc_S,
 					 OpCodes.Stloc] = new OpCodeHandler(OpCode_stloc);
 
-			Handlers[OpCodes.Sub,
+			Handlers[
+					 OpCodes.Sub,
+					 OpCodes.Sub_Ovf,
 					 OpCodes.Add,
 					 OpCodes.Add_Ovf,
 					 OpCodes.Add_Ovf_Un,

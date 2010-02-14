@@ -380,6 +380,12 @@ namespace jsc.meta.Commands.Rewrite
 
 				r.ExternalContext.TypeCache[SourceType] = DeclaringType;
 
+
+				foreach (var item in SourceType.GetConstructors())
+				{
+					var k = r.RewriteArguments.context.ConstructorCache[item];
+				}
+
 				foreach (var item in SourceType.GetMethods())
 				{
 					var k = r.RewriteArguments.context.MethodCache[item];
@@ -920,7 +926,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				x.send(that.Data);
 
-				x.InvokeOnComplete(that.Complete);
+				x.InvokeOnComplete(that.Complete, 50);
 
 			}
 

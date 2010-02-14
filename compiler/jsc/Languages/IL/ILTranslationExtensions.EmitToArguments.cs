@@ -318,6 +318,7 @@ namespace jsc.Languages.IL
 					OpCodes.Rem,
 					OpCodes.Not,
 					OpCodes.Sub,
+					OpCodes.Sub_Ovf,
 					OpCodes.Shl,
 					OpCodes.Shr,
 					OpCodes.Shr_Un,
@@ -325,6 +326,7 @@ namespace jsc.Languages.IL
 					OpCodes.Or,
 					OpCodes.And,
 					OpCodes.Add,
+					OpCodes.Add_Ovf,
 					OpCodes.Div,
 					OpCodes.Mul,
 
