@@ -480,7 +480,8 @@ namespace jsc.Languages.ActionScript
 
 			#region operators
 
-			CIW[OpCodes.Add] =
+			CIW[OpCodes.Add,
+				OpCodes.Add_Ovf] =
 				delegate(CodeEmitArgs e)
 				{
 					if (e.i.IsInlinePrefixOperator(OpCodes.Add))
@@ -493,7 +494,8 @@ namespace jsc.Languages.ActionScript
 					WriteInlineOperator(e.p, e.i, "+");
 				};
 
-			CIW[OpCodes.Sub] =
+			CIW[OpCodes.Sub,
+				OpCodes.Sub_Ovf] =
 				delegate(CodeEmitArgs e)
 				{
 					if (e.i.IsInlinePrefixOperator(OpCodes.Sub))

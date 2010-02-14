@@ -2,13 +2,17 @@
 Imports ScriptCoreLib.JavaScript.Extensions
 Imports ScriptCoreLib.Shared.Drawing
 Imports System.Net
+Imports ScriptCoreLib.ActionScript.flash.display
+Imports ScriptCoreLib.ActionScript.Extensions
+
 
 Public NotInheritable Class UltraDocument1
 
+    Dim AddShape As New IHTMLButton
     Dim ChangeColor As New IHTMLButton
     Dim GetData1 As New IHTMLButton
     Dim x As New IHTMLDiv
-
+    Dim s As New UltraSprite
     Public Sub New(ByVal e As IHTMLElement)
 
         x.innerText = "hello world"
@@ -21,10 +25,28 @@ Public NotInheritable Class UltraDocument1
         GetData1.innerText = "GetData1"
         GetData1.AttachTo(x)
 
+        AddShape.innerText = "AddShape"
+        AddShape.AttachTo(x)
+
         AddHandler GetData1.onclick, AddressOf GetData1_onclick
         AddHandler ChangeColor.onclick, AddressOf ChangeColor_onclick
+        AddHandler AddShape.onclick, AddressOf AddShape_onclick
+
+        s.AttachSpriteTo(x)
+    End Sub
+
+
+    Private Sub AddShape_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
+
+
+        ' delay did not work?
+        s.AddShape1()
+
+
+
 
     End Sub
+
 
     Private Sub ChangeColor_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
         x.style.color = Color.Red
@@ -68,4 +90,39 @@ Public NotInheritable Class MyWebService
 
     End Sub
 
+End Class
+
+Public NotInheritable Class UltraSprite
+    Inherits Sprite
+
+    Public Sub New()
+
+
+
+    End Sub
+
+
+    Class __AddShape1
+        Public xx As Integer
+        Public xxx As Integer
+
+    End Class
+
+    Dim AddShape1__ As __AddShape1
+
+    Public Sub AddShape1()
+        If (AddShape1__ Is Nothing) Then
+            AddShape1__ = New __AddShape1
+        End If
+
+        Dim x As New Sprite
+
+        AddShape1__.xx += &H20
+        AddShape1__.xxx += 16
+
+        x.graphics.beginFill(Convert.ToUInt32(AddShape1__.xx))
+        x.graphics.drawRect(AddShape1__.xxx, 8, 100, 100)
+
+        x.AttachTo(Me)
+    End Sub
 End Class

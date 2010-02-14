@@ -18,6 +18,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 			return __String.FromCharCode(value);
 		}
 
+		public static uint ToUInt32(int value)
+		{
+			return ((uint)value);
+
+		}
+
 		public static uint ToUInt32(long value)
 		{
 			return ((uint)value & 0xffffffff);
@@ -63,7 +69,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 		public static double ToDouble(string value)
 		{
-	
+
 			return double.Parse(value);
 
 		}

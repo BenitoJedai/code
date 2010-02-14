@@ -768,59 +768,61 @@ namespace jsc.meta.Commands.Rewrite
 								if (r.ExternalContext.ConstructorCache.BaseDictionary[source] != source)
 									return;
 
+							if (!source.IsStatic)
+							{
+								var c = targets.SingleOrDefault(kk => kk.TargetType == source.DeclaringType);
 
-							var c = targets.SingleOrDefault(kk => kk.TargetType == source.DeclaringType);
-
-							if (c != null)
-								if (c.IsActionScript || c.IsJava)
-								{
-									#region WriteInitialization_*InternalElement
-									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
-
-									// we need an instance :)
-
-									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
-
-									var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
-
-									var il = ctor.GetILGenerator();
-
-									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Call,
-										r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
-									);
-
-									// we also need to expose our incoming methods...
-
-									if (c.IsActionScript)
+								if (c != null)
+									if (c.IsActionScript || c.IsJava)
 									{
-										WriteInitialization_ActionScriptInternalElement(
-											il,
-											c.TargetType,
-											k.TargetType,
-											c.EntryPoint,
-											__InternalElement,
-											r.RewriteArguments.context.MethodCache,
-											ExternalInterfaceConsumerCache[DeclaringType]
+										#region WriteInitialization_*InternalElement
+										var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
+
+										// we need an instance :)
+
+										var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
+
+										var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
+
+										var il = ctor.GetILGenerator();
+
+										il.Emit(OpCodes.Ldarg_0);
+										il.Emit(OpCodes.Call,
+											r.RewriteArguments.context.ConstructorCache[__InternalElementProxy.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance).Single()]
 										);
 
-									}
+										// we also need to expose our incoming methods...
 
-									if (c.IsJava)
-									{
-										WriteInitialization_JavaInternalElement(
-											il,
-											c.TargetType,
-											k.TargetType,
-											c.EntryPoint,
-											__InternalElement,
-											ExternalInterfaceConsumerCache[DeclaringType]
-										);
-									}
+										if (c.IsActionScript)
+										{
+											WriteInitialization_ActionScriptInternalElement(
+												il,
+												c.TargetType,
+												k.TargetType,
+												c.EntryPoint,
+												__InternalElement,
+												r.RewriteArguments.context.MethodCache,
+												ExternalInterfaceConsumerCache[DeclaringType]
+											);
 
-									r.ExternalContext.ConstructorCache[source] = ctor;
-									#endregion
-								}
+										}
+
+										if (c.IsJava)
+										{
+											WriteInitialization_JavaInternalElement(
+												il,
+												c.TargetType,
+												k.TargetType,
+												c.EntryPoint,
+												__InternalElement,
+												ExternalInterfaceConsumerCache[DeclaringType]
+											);
+										}
+
+										r.ExternalContext.ConstructorCache[source] = ctor;
+										#endregion
+									}
+							}
 
 						};
 
