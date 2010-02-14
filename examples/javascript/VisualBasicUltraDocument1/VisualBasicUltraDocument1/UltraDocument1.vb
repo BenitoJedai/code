@@ -9,6 +9,7 @@ Imports ScriptCoreLib.ActionScript.Extensions
 Public NotInheritable Class UltraDocument1
 
     Dim AddShape As New IHTMLButton
+    Dim AddHandlers As New IHTMLButton
     Dim ChangeColor As New IHTMLButton
     Dim GetData1 As New IHTMLButton
     Dim x As New IHTMLDiv
@@ -28,13 +29,26 @@ Public NotInheritable Class UltraDocument1
         AddShape.innerText = "AddShape"
         AddShape.AttachTo(x)
 
+        AddHandlers.innerText = "AddHandlers"
+        AddHandlers.AttachTo(x)
+
         AddHandler GetData1.onclick, AddressOf GetData1_onclick
         AddHandler ChangeColor.onclick, AddressOf ChangeColor_onclick
         AddHandler AddShape.onclick, AddressOf AddShape_onclick
+        AddHandler AddHandlers.onclick, AddressOf AddHandlers_onclick
 
         s.AttachSpriteTo(x)
     End Sub
 
+    Public Sub AtXClick()
+        x.style.color = Color.Blue
+
+
+
+    End Sub
+    Private Sub AddHandlers_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
+        AddHandler s.XClick, AddressOf AtXClick
+    End Sub
 
     Private Sub AddShape_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
 
@@ -108,6 +122,16 @@ Public NotInheritable Class UltraSprite
 
     End Class
 
+
+    Public Event XClick As Action
+
+    Public Sub RaiseXClick()
+        AddShape2()
+
+        RaiseEvent XClick()
+    End Sub
+
+
     Dim AddShape1__ As __AddShape1
 
     Public Sub AddShape1()
@@ -117,11 +141,32 @@ Public NotInheritable Class UltraSprite
 
         Dim x As New Sprite
 
+        AddHandler x.click, AddressOf RaiseXClick
+
         AddShape1__.xx += &H20
         AddShape1__.xxx += 16
 
         x.graphics.beginFill(Convert.ToUInt32(AddShape1__.xx))
         x.graphics.drawRect(AddShape1__.xxx, 8, 100, 100)
+
+        x.AttachTo(Me)
+    End Sub
+
+    Dim AddShape2__ As __AddShape1
+
+    Public Sub AddShape2()
+        If (AddShape2__ Is Nothing) Then
+            AddShape2__ = New __AddShape1
+        End If
+
+        Dim x As New Sprite
+
+
+        AddShape2__.xx += &H20
+        AddShape2__.xxx += 16
+
+        x.graphics.beginFill(Convert.ToUInt32(AddShape2__.xx))
+        x.graphics.drawRect(AddShape2__.xxx, 108, 100, 100)
 
         x.AttachTo(Me)
     End Sub
