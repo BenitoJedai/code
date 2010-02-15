@@ -1127,7 +1127,7 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Ldftn, Exports[item.k]);
 						il.Emit(OpCodes.Newobj, ExportDelegates[item.k]);
 
-						il.Emit(OpCodes.Ldstr, __in_Method + item.i + item.k.Name);
+						il.Emit(OpCodes.Ldstr, __in_Method + item.k.MetadataToken.ToString("x8") + item.k.Name);
 
 						il.Emit(OpCodes.Call, MethodCache[((Func<__InternalElementProxy, Delegate, string, string>)__InternalElementProxy.__ExportDelegate).Method]);
 
@@ -1209,8 +1209,8 @@ namespace jsc.meta.Commands.Rewrite
 							),
 
 
-							LocalName = RewriteToJavaScriptDocument.__out_Method + item.i,
-							RemoteName = RewriteToJavaScriptDocument.__in_Method + item.i,
+							LocalName = RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
+							RemoteName = RewriteToJavaScriptDocument.__in_Method + item.k.MetadataToken.ToString("x8"),
 							ReturnType = _DirectReturnType,
 							ParameterTypes = _DirectParameters,
 

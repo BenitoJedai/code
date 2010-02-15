@@ -44,4 +44,10 @@
     <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_UltraTutorial|AnyCPU' ">
+    <StartProgram>c:\util\jsc\bin\jsc.exe</StartProgram>
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\actionscript\AvalonPipeMania\bin\Debug</StartWorkingDirectory>
+    <StartArguments>AvalonPipeMania.Assets.dll -ExtractAssets</StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
 </Project>

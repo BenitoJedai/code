@@ -716,6 +716,7 @@ namespace jsc.meta.Commands.Rewrite
 
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceMethod.DeclaringType);
 
+
 							if (c != null)
 								if (c.IsWebService)
 								{
@@ -725,10 +726,10 @@ namespace jsc.meta.Commands.Rewrite
 								{
 									var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
-									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[SourceMethod.DeclaringType];
 
 									var source_Attributes = SourceMethod.Attributes | MethodAttributes.NewSlot | MethodAttributes.Final;
 
+									var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[SourceMethod.DeclaringType];
 
 									var DeclaringTypeMethod = DeclaringType.DefineMethod(
 										SourceMethod.Name,

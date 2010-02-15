@@ -192,7 +192,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public override string ToString()
         {
-            return this.Hour + ":" + this.Minute + ":" + this.Second + "." + this.Millisecond;
+			var w = new StringBuilder();
+
+			w.Append(this.Day.ToString().PadLeft(2, '0'));
+			w.Append(".");
+			w.Append(this.Month.ToString().PadLeft(2, '0'));
+			w.Append(".");
+			w.Append(this.Year.ToString().PadLeft(4, '0'));
+			w.Append(" ");
+			w.Append(this.Hour.ToString().PadLeft(2, '0'));
+			w.Append(":");
+			w.Append(this.Minute.ToString().PadLeft(2, '0'));
+			w.Append(":");
+			w.Append(this.Second.ToString().PadLeft(2, '0'));
+
+            return w.ToString();
         }
 
 		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)

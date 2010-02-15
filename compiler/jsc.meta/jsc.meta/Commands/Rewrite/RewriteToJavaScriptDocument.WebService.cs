@@ -381,10 +381,17 @@ namespace jsc.meta.Commands.Rewrite
 				r.ExternalContext.TypeCache[SourceType] = DeclaringType;
 
 
+				foreach (var item in SourceType.GetNestedTypes())
+				{
+					var k = r.RewriteArguments.context.TypeCache[item];
+				}
+
 				foreach (var item in SourceType.GetConstructors())
 				{
 					var k = r.RewriteArguments.context.ConstructorCache[item];
 				}
+
+				
 
 				foreach (var item in SourceType.GetMethods())
 				{
@@ -413,6 +420,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			public void WriteMethod(MethodInfo SourceMethod)
 			{
+
 				var TypeCache = r.RewriteArguments.context.TypeCache;
 				var FieldCache = r.RewriteArguments.context.FieldCache;
 				var MethodCache = r.RewriteArguments.context.MethodCache;

@@ -59,14 +59,23 @@ namespace jsc.meta.Library.Templates
 		internal static void __SetElementLoaded(__InternalElementProxy that)
 		{
 			//Native.Window.alert("__SetElementLoaded");
-			that.__IsElementLoaded = true;
-			__DelayedInvoke(that);
-			that.__Delayed.Clear();
+
+			//new ScriptCoreLib.JavaScript.Runtime.Timer(
+			//    t =>
+				{
+					that.__IsElementLoaded = true;
+					__DelayedInvoke(that);
+					//Native.Window.alert("__DelayedInvoke");
+					that.__Delayed.Clear();
+					//t.Stop();
+				}
+			
+			// chrome needs some extra time?
+			//, 100, 100);
 		}
 
 		internal static void __DelayedInvoke(__InternalElementProxy that)
 		{
-			//Native.Window.alert("__DelayedInvoke");
 
 			// after jsc.meta rewrites this method, jsc cannot handle OpCodes.Leave if it does not return...
 			// todo: we should create a new test project and fix it!
@@ -116,7 +125,7 @@ namespace jsc.meta.Library.Templates
 
 					}
 				},
-				1, 100
+				100, 100
 			);
 		}
 	}
