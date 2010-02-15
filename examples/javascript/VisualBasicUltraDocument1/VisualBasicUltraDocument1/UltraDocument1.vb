@@ -4,14 +4,17 @@ Imports ScriptCoreLib.Shared.Drawing
 Imports System.Net
 Imports ScriptCoreLib.ActionScript.flash.display
 Imports ScriptCoreLib.ActionScript.Extensions
+Imports ScriptCoreLib.ActionScript.flash.text
+Imports ScriptCoreLib.JavaScript
 
 
 Public NotInheritable Class UltraDocument1
+    Implements IService
 
     Dim AddShape As New IHTMLButton
     Dim AddHandlers As New IHTMLButton
     Dim ChangeColor As New IHTMLButton
-    Dim GetData1 As New IHTMLButton
+    Dim ButtonGetData1 As New IHTMLButton
     Dim x As New IHTMLDiv
     Dim s As New UltraSprite
     Public Sub New(ByVal e As IHTMLElement)
@@ -23,8 +26,8 @@ Public NotInheritable Class UltraDocument1
         ChangeColor.innerText = "ChangeColor"
         ChangeColor.AttachTo(x)
 
-        GetData1.innerText = "GetData1"
-        GetData1.AttachTo(x)
+        ButtonGetData1.innerText = "GetData1"
+        ButtonGetData1.AttachTo(x)
 
         AddShape.innerText = "AddShape"
         AddShape.AttachTo(x)
@@ -32,7 +35,7 @@ Public NotInheritable Class UltraDocument1
         AddHandlers.innerText = "AddHandlers"
         AddHandlers.AttachTo(x)
 
-        AddHandler GetData1.onclick, AddressOf GetData1_onclick
+        AddHandler ButtonGetData1.onclick, AddressOf GetData1_onclick
         AddHandler ChangeColor.onclick, AddressOf ChangeColor_onclick
         AddHandler AddShape.onclick, AddressOf AddShape_onclick
         AddHandler AddHandlers.onclick, AddressOf AddHandlers_onclick
@@ -68,6 +71,15 @@ Public NotInheritable Class UltraDocument1
         x.style.color = Color.Red
     End Sub
 
+    Public Sub GetData1(ByVal address As String, ByVal r As StringAction) Implements IService.GetData1
+        Native.Window.alert("GetData1")
+
+        Dim ws As New MyWebService
+
+        ws.GetData1("http://example.com", r)
+
+
+    End Sub
 
     Private Sub GetData1_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent)
         Dim ws As New MyWebService
@@ -75,6 +87,7 @@ Public NotInheritable Class UltraDocument1
         ws.GetData1("http://example.com", AddressOf GotData)
 
 
+        s.UseService(Me)
     End Sub
 
     Public Sub GotData(ByVal data As String)
@@ -92,11 +105,18 @@ Public NotInheritable Class UltraDocument1
     End Sub
 End Class
 
+Public Delegate Sub StringAction(ByVal e As String)
+
+Public Interface IService
+    Sub GetData1(ByVal address As String, ByVal r As StringAction)
+
+End Interface
+
 Public NotInheritable Class MyWebService
+    Implements IService
 
-    Public Delegate Sub StringAction(ByVal e As String)
 
-    Public Sub GetData1(ByVal address As String, ByVal r As StringAction)
+    Public Sub GetData1(ByVal address As String, ByVal r As StringAction) Implements IService.GetData1
 
         Dim c As New WebClient
 
@@ -111,12 +131,27 @@ End Class
 Public NotInheritable Class UltraSprite
     Inherits Sprite
 
+
     Public Sub New()
 
 
 
     End Sub
 
+    Public Sub UseService(ByVal ws As IService)
+
+        ws.GetData1("http://example.com", AddressOf GotData)
+
+    End Sub
+
+    Private Sub GotData(ByVal data As String)
+        Dim t As New TextField
+
+        t.text = data
+
+
+        t.AttachTo(Me)
+    End Sub
 
     Class __AddShape1
         Public xx As Integer

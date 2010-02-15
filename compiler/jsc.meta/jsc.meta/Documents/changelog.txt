@@ -59,3 +59,5 @@
 	- Added RewriteToJavaScriptDocument command
 2010.01.29	
 	- RewriteToJavaScriptDocument has now a working flash proxy
+2010.02.15
+	- Added ReferenceAddClonedProject command

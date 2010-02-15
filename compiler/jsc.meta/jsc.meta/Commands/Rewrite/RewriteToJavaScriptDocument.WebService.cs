@@ -657,6 +657,9 @@ namespace jsc.meta.Commands.Rewrite
 
 			public static void InternalApplication_BeginRequest(InternalGlobal that)
 			{
+				if (FileExists(that))
+					return;
+
 				if (that.Request.Path == "/favicon.ico")
 				{
 					that.Response.Redirect("http://jsc.sf.net/favicon.ico");
@@ -664,9 +667,12 @@ namespace jsc.meta.Commands.Rewrite
 					return;
 				}
 
-				if (FileExists(that))
+				if (that.Request.Path == "/crossdomain.xml")
+				{
+					that.Response.StatusCode = 404;
+					that.CompleteRequest();
 					return;
-
+				}
 
 				StringAction Write = that.Response.Write;
 
@@ -723,10 +729,15 @@ namespace jsc.meta.Commands.Rewrite
 
 				}
 
+				Write("<h2>Special pages</h2>");
 
+				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: "  + "<a href='/xml'>/xml</a>");
+				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
+				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
 
 				Write("<h2>WebMethods</h2>");
-				Write("<a href='xml'>/xml</a>");
+
+				
 
 				foreach (var item in WebMethods)
 				{

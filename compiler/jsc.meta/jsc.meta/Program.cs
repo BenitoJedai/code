@@ -62,6 +62,7 @@ namespace jsc.meta
 				new ReferenceTextualUserControl().Invoke,
 				new ReferenceWebSource().Invoke,
 				new ReferenceJavaScriptDocument().Invoke,
+				new ReferenceAddClonedProject(),
 
 				new RewriteToAssembly().Invoke,
 				new RewriteToJavaScriptDocument(),

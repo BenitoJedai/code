@@ -495,7 +495,7 @@ namespace jsc.meta.Commands.Rewrite
 				#region __out_Method(__out_field)
 				foreach (var item in Methods)
 				{
-					var f = a.Type.DefineField(__out_Method + item.i + _callback, typeof(string), FieldAttributes.Assembly);
+					var f = a.Type.DefineField(__out_Method + item.k.MetadataToken.ToString("x8") + _callback, typeof(string), FieldAttributes.Assembly);
 
 					__out_field[item.k] = f;
 				}
@@ -545,7 +545,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var m = a.Type.DefineMethod(
 						// javac will complain!
-						__out_Method + item.i, MethodAttributes.Public | MethodAttributes.Final,
+						__out_Method + item.k.MetadataToken.ToString("x8"), MethodAttributes.Public | MethodAttributes.Final,
 
 						typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
 
@@ -667,7 +667,7 @@ namespace jsc.meta.Commands.Rewrite
 						? 1 : 0)).Select(k => typeof(string)).ToArray();
 
 					var m = a.Type.DefineMethod(
-						__in_Method + item.i, MethodAttributes.Public | MethodAttributes.Final,
+						__in_Method + item.k.MetadataToken.ToString("x8"), MethodAttributes.Public | MethodAttributes.Final,
 
 						typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
 
@@ -992,7 +992,7 @@ namespace jsc.meta.Commands.Rewrite
 						continue;
 
 					var m = this.DeclaringType.DefineMethod(
-						RewriteToJavaScriptDocument.__in_Method + item.i,
+						RewriteToJavaScriptDocument.__in_Method + item.k.MetadataToken.ToString("x8"),
 						MethodAttributes.Public,
 						CallingConventions.Standard,
 							item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
@@ -1041,14 +1041,25 @@ namespace jsc.meta.Commands.Rewrite
 
 					foreach (var p in item.k.GetParameters())
 					{
+
+						if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+						{
+							il.Emit(OpCodes.Ldarg_0);
+						}
+
 						il.Emit(OpCodes.Ldarg, (short)(p.Position + 2));
+
+						if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+						{
+							il.Emit(OpCodes.Call, this.__proxy_ToType[p.ParameterType]);
+						}
 					}
 
 					il.Emit(OpCodes.Call, MethodCache[item.k]);
 
 					if (item.k.ReturnType.IsDelegate() || item.k.ReturnType.IsInterface)
 					{
-						il.Emit(OpCodes.Call, __proxy_FromType[item.k.ReturnType]);
+						il.Emit(OpCodes.Call, this.__proxy_FromType[item.k.ReturnType]);
 					}
 
 					il.Emit(OpCodes.Ret);
@@ -1188,7 +1199,7 @@ namespace jsc.meta.Commands.Rewrite
 						new DefineMethodArguments
 						{
 							Method = this.OutgoingDirectType.DefineMethod(
-								RewriteToJavaScriptDocument.__out_Method + item.i,
+								RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
 
 								MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 
@@ -1211,7 +1222,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 					var _Interface = this.OutgoingInterfaceType.DefineMethod(
-						RewriteToJavaScriptDocument.__out_Method + item.i,
+						RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
 						MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot,
 						CallingConventions.Standard,
 						item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
@@ -1227,7 +1238,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					#region _Delayed
 					var _Delayed = this.OutgoingDelayedType.DefineMethod(
-						RewriteToJavaScriptDocument.__out_Method + item.i,
+						RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
 						MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 						CallingConventions.Standard,
 						item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
