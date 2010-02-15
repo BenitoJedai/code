@@ -42,7 +42,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 		public override string ToString()
 		{
-			return "[DateTime]";
+			var w = new StringBuilder();
+
+			w.Append(this.Day.ToString().PadLeft(2, '0'));
+			w.Append(".");
+			w.Append(this.Month.ToString().PadLeft(2, '0'));
+			w.Append(".");
+			w.Append(this.Year.ToString().PadLeft(4, '0'));
+			w.Append(" ");
+			w.Append(this.Hour.ToString().PadLeft(2, '0'));
+			w.Append(":");
+			w.Append(this.Minute.ToString().PadLeft(2, '0'));
+			w.Append(":");
+			w.Append(this.Second.ToString().PadLeft(2, '0'));
+
+			return w.ToString();
 		}
 
 		public long Ticks

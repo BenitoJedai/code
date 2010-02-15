@@ -52,4 +52,8 @@
     <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\Ultra1\Ultra4\bin\Release\staging\Ultra4.UltraApplication</StartWorkingDirectory>
     <StartArguments>Ultra4.UltraApplication.dll -js</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_UltraTutorial|AnyCPU' ">
+    <StartWorkingDirectory>C:\work\jsc.svn\examples\javascript\Ultra1\Ultra4\bin\Release\staging\Ultra4.UltraApplication</StartWorkingDirectory>
+    <StartArguments>Ultra4.UltraApplication.dll -js</StartArguments>
+  </PropertyGroup>
 </Project>
