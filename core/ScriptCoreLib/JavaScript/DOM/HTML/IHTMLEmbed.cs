@@ -50,8 +50,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			}
 			xml.documentElement.appendChild(_arguments);
 
+			var xml_string = xml.ToXMLString();
+
 			var responseText = e.CallFunction(
-				xml.ToXMLString()
+				xml_string
 			);
 
 			var responseValue = IXMLDocument.Parse(responseText).documentElement.text;

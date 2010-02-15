@@ -220,25 +220,42 @@ namespace Ultra4
 				return "ok";
 			}
 
+			public void WhenLoaded(Action e)
+			{
+				MyText.text = "WhenLoaded";
+				e();
+			}
+
 			public void GetStatus2(IXSendStatus e)
 			{
-				MyText.text = "GetStatus2..";
+				MyText.text = "GetStatus2 y!";
 
-				//AtDelay(1000,
-				//    delegate
-				//    {
-				e.SendStatus("ok");
+				try
+				{
+					//AtDelay(1000,
+					//    delegate
+					//    {
+					e.SendStatus("ok");
 
-				//        MyText.text = "GetStatus2.. done";
-				//    }
-				//);
+					//        MyText.text = "GetStatus2.. done";
+					//    }
+					//);
 
+					//MyText.text = "=" + ExternalInterface.call("function () { return confirm('GetStatus2'); }");
+				}
+				catch (Exception ex)
+				{
+					MyText.text = "error: " + ex.Message;
+
+				}
 
 			}
 
 			public UltraSprite()
 			{
-				MyText.text = "flash!:D 9";
+				ScriptCoreLib.ActionScript.flash.system.Security.allowDomain("*");
+
+				MyText.text = "flash!:D 11";
 				MyText.MoveTo(128, 8).AttachTo(this);
 
 				// creating the flash object 
@@ -439,6 +456,13 @@ namespace Ultra4
 					{
 						var o = new UltraSprite();
 
+						o.WhenLoaded(
+							delegate
+							{
+								Native.Window.alert("WhenLoaded");
+							}
+						);
+
 						CreateButton(o, "blue");
 						CreateButton(o, "red");
 						CreateButton(o, "green");
@@ -507,7 +531,7 @@ namespace Ultra4
 											new IHTMLDiv { innerText = "status 2: " + p.e }.AttachToDocument();
 										};
 
-									Debugger.Break();
+									//Debugger.Break();
 
 									o.GetStatus2(p);
 

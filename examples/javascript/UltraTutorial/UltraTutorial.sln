@@ -1,0 +1,32 @@
+
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraTutorial", "UltraTutorial\UltraTutorial.csproj", "{C294AAAC-ABFB-44B5-B36C-DAFCEA39C5BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraTutorial01", "UltraTutorial01\UltraTutorial01.csproj", "{718DD644-0BE5-4784-B954-3A92226F46FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraTutorial02", "UltraTutorial02\UltraTutorial02.csproj", "{62DF0389-7E7F-4800-8894-7354F8EA347C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C294AAAC-ABFB-44B5-B36C-DAFCEA39C5BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C294AAAC-ABFB-44B5-B36C-DAFCEA39C5BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C294AAAC-ABFB-44B5-B36C-DAFCEA39C5BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C294AAAC-ABFB-44B5-B36C-DAFCEA39C5BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{718DD644-0BE5-4784-B954-3A92226F46FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{718DD644-0BE5-4784-B954-3A92226F46FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{718DD644-0BE5-4784-B954-3A92226F46FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{718DD644-0BE5-4784-B954-3A92226F46FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62DF0389-7E7F-4800-8894-7354F8EA347C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62DF0389-7E7F-4800-8894-7354F8EA347C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62DF0389-7E7F-4800-8894-7354F8EA347C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62DF0389-7E7F-4800-8894-7354F8EA347C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

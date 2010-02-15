@@ -223,6 +223,7 @@
     <Compile Include="Commands\Extend\ExtendToPHPWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToPHPWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
+    <Compile Include="Commands\Reference\ReferenceAddClonedProject.cs" />
     <Compile Include="Commands\Reference\ReferenceAssets.cs" />
     <Compile Include="Commands\Reference\ReferenceAvalonDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
@@ -244,10 +245,11 @@
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
+    <Compile Include="Library\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
-    <Compile Include="Library\Templates\InternaActionScriptToJavaScriptBridge.cs" />
-    <Compile Include="Library\Templates\InternalElementProxy.cs" />
-    <Compile Include="Library\Templates\InternalJavaToJavaScriptBridge.cs" />
+    <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />
+    <Compile Include="Library\Templates\Java\InternalElementProxy.cs" />
+    <Compile Include="Library\Templates\JavaScript\InternalJavaToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\Java\InvokeWebServiceArguments.cs" />

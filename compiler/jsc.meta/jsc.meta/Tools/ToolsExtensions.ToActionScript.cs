@@ -69,6 +69,9 @@ namespace jsc.meta.Tools
 
 			proccess_mxmlc.WaitForExit();
 
+			if (proccess_mxmlc.ExitCode != 0)
+				throw new ArgumentOutOfRangeException();
+
 			var m = new MemoryStream();
 			var w = new BinaryWriter(m);
 			w.Write(File.ReadAllBytes(flashplayer.FullName));
