@@ -11,16 +11,28 @@ namespace UltraTutorial06
 	{
 		public UltraApplication(IHTMLElement e)
 		{
-			var Title = new IHTMLDiv();
+			var Title = new IHTMLDiv
+				{
+					innerHTML = @"
+<img border='0' src='http://www.w3schools.com/images/compatible_ie.gif' width='31' height='30' alt='Internet Explorer' title='Internet Explorer' />
+<img border='0' src='http://www.w3schools.com/images/compatible_firefox.gif' width='31' height='30' alt='Firefox' title='Firefox' />
+<img border='0' src='http://www.w3schools.com/images/compatible_opera.gif' width='28' height='30' alt='Opera' title='Opera' />
+<img border='0' src='http://www.w3schools.com/images/compatible_chrome.gif' width='31' height='30' alt='Google Chrome' title='Google Chrome' />
+<img border='0' src='http://www.w3schools.com/images/compatible_safari.gif' width='28' height='30' alt='Safari' title='Safari' />
+"
+				};
+
 
 			var TitleLogo = new IHTMLImage("assets/ScriptCoreLib/jsc.png");
 			var TitleText = new IHTMLSpan("UltraApplication");
 			TitleText.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
 			TitleText.style.paddingLeft = "2em";
-			TitleText.style.fontSize = "large-xx";
+			TitleText.style.fontSize = "xx-large";
 			TitleLogo.style.verticalAlign = "middle";
+
+
 			Title.appendChild(TitleLogo);
-			Title.appendChild(new IHTMLSpan("UltraApplication"));
+			Title.appendChild(TitleText);
 
 			Title.style.height = "128px";
 
