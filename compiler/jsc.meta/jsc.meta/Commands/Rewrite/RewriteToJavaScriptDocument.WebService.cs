@@ -446,6 +446,15 @@ namespace jsc.meta.Commands.Rewrite
 
 			if (IsWebServiceJava)
 			{
+				DirectoryInfo web = web_bin.CreateSubdirectory("web/www");
+
+				foreach (var item in __Files2)
+				{
+					new FileInfo(Path.Combine(web.FullName, item.Name1)).Directory.Create();
+
+					item.k.CopyTo(Path.Combine(web.FullName, item.Name1), true);
+				}
+
 				#region ant_build_xml, run.bat, upload.bat
 				{
 					var ant_build_xml = XDocument.Load(
@@ -487,21 +496,25 @@ namespace jsc.meta.Commands.Rewrite
 						Path.Combine(r_Output_web.FullName, "build.bat"),
 						@"
 @echo off
+echo current path cannot be very long...
+
 set JAVA_HOME=" + this.javahome.FullName + @"
-cd " + r_Output_web.FullName + @" 
+subst b: " + r_Output_web.FullName + @" 
+b:
 call " + this.ant.FullName + @" -f build.xml
+subst b: /D
 "
 					);
 					#endregion
 
-					InvokeAfterBackendCompiler(
-						delegate
-						{
-							var proccess_ant = Process.Start(proccess_ant_info);
+					//InvokeAfterBackendCompiler(
+					//    delegate
+					//    {
+					//        var proccess_ant = Process.Start(proccess_ant_info);
 
-							proccess_ant.WaitForExit();
-						}
-					);
+					//        proccess_ant.WaitForExit();
+					//    }
+					//);
 
 					#endregion
 
