@@ -314,6 +314,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="docs\todo.txt" />
+    <Content Include="Languages\CSharp2\comment.txt" />
     <Content Include="Languages\IL\comment.txt" />
     <Content Include="Library\comment.txt" />
     <Content Include="Resx\App.ico" />

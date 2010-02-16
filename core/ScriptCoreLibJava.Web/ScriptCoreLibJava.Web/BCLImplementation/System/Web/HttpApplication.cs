@@ -13,7 +13,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 	{
 		public HttpRequest Request { get; set; }
 		public HttpResponse Response { get; set; }
-	
+
+		HttpContext _Context;
+		public HttpContext Context
+		{
+			get
+			{
+				if (_Context == null)
+					_Context = (HttpContext)(object)new __HttpContext { Request = this.Request, Response = this.Response };
+
+				return _Context;
+			}
+		}
 
 		public void CompleteRequest()
 		{

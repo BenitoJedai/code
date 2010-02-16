@@ -10,6 +10,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 	[Script(Implements = typeof(global::System.Net.WebClient))]
 	internal class __WebClient : __Component
 	{
+		public string DownloadString(string u)
+		{
+			return DownloadString(new Uri(u));
+		}
+
 		public string DownloadString(Uri u)
 		{
 			var w = new StringBuilder();

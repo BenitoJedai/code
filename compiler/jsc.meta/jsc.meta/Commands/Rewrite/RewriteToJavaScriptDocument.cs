@@ -19,6 +19,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using jsc.meta.Commands.Rewrite.Templates;
+using jsc.meta.Library.Templates.Java;
+using System.Xml.Linq;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -154,6 +156,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			foreach (var k in targets_variations)
 			{
+				var InvokeAfterBackendCompiler = new List<Action>();
+
 				// lets do a rewrite and inject neccesary bootstrap and proxy code
 
 				var __InternalElementProxy = typeof(__InternalElementProxy);
@@ -165,12 +169,27 @@ namespace jsc.meta.Commands.Rewrite
 
 				var r = default(RewriteToAssembly);
 
+				var PrimaryTypes = new[] { k.TargetType };
+
+
+				if (k.IsWebServiceJava)
+				{
+					k.StagingFolder.DefinesTypes(
+						typeof(ScriptCoreLib.ScriptAttribute),
+						typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken)
+					);
+
+				}
+
+
 				r = new RewriteToAssembly
 				{
 					assembly = this.assembly,
 					staging = k.StagingFolder,
 
-					PrimaryTypes = new[] { k.TargetType },
+					PrimaryTypes = PrimaryTypes,
 
 					product = k.TargetType.FullName,
 
@@ -283,12 +302,15 @@ namespace jsc.meta.Commands.Rewrite
 					PostRewrite =
 						a =>
 						{
-							a.Assembly.DefineAttribute<ObfuscationAttribute>(
-							   new
-							   {
-								   Feature = "script",
-							   }
-							);
+							if (k.IsJavaScript || k.IsActionScript || k.IsJava)
+							{
+								a.Assembly.DefineAttribute<ObfuscationAttribute>(
+								   new
+								   {
+									   Feature = "script",
+								   }
+								);
+							}
 
 							if (k.IsJavaScript)
 							{
@@ -323,8 +345,103 @@ namespace jsc.meta.Commands.Rewrite
 									__js.TargetType,
 									RewriteOutput[__js],
 									k.IsWebServicePHP,
-									k.IsWebServiceJava
+									k.IsWebServiceJava,
+									InvokeAfterBackendCompiler.Add
 								);
+
+								if (k.IsWebServiceJava)
+								{
+									#region yay attributes
+									var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
+
+									var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
+
+
+									var AssemblyScriptAttribute = new ScriptAttribute
+									{
+										IsScriptLibrary = true,
+										ScriptLibraries = new[] {
+											typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+											typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
+											typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
+										},
+
+										// at this point we should not have NonScriptTypes anymore...
+
+										//NonScriptTypes = assembly.GetTypes().Where(
+										//    k =>
+										//        k.Namespace.EndsWith(".My") ||
+										//        k.Namespace.EndsWith(".My.Resources")
+										//).ToArray()
+									};
+
+									a.Assembly.DefineScriptAttribute(
+										new
+										{
+											AssemblyScriptAttribute.IsScriptLibrary,
+											AssemblyScriptAttribute.ScriptLibraries,
+											AssemblyScriptAttribute.NonScriptTypes
+										}
+									);
+
+									a.Assembly.SetCustomAttribute(
+										new CustomAttributeBuilder(
+											ScriptTypeFilterAttribute, new object[] { ScriptType.Java }
+										)
+									);
+									#endregion
+
+									var xmlns = new
+									{
+										appengine = (XNamespace)"http://appengine.google.com/ns/1.0",
+										javaee = (XNamespace)"http://java.sun.com/xml/ns/javaee"
+									};
+
+									var Handler = a.context.TypeCache[typeof(InternalHttpServlet)];
+
+									var _application = "jsc-project";
+									var _version = "5";
+
+									var res = new ScriptResourceWriter(a.Assembly, a.Module)
+									{
+										#region appengine-web.xml
+										{
+											"java/WEB-INF/appengine-web.xml",
+
+											new XElement(xmlns.appengine + "appengine-web-app",
+												new XElement(xmlns.appengine + "application", _application),
+												new XElement(xmlns.appengine + "version", _version)
+											)
+										},
+										#endregion
+										#region web.xml
+										{
+											"java/WEB-INF/web.xml",
+
+											new XElement(xmlns.javaee + "web-app",
+												new [] {
+													new XElement(xmlns.javaee + "display-name", _application),
+
+													new XElement(xmlns.javaee + "servlet", 
+														new XElement(xmlns.javaee + "servlet-name", Handler.Name),
+														new XElement(xmlns.javaee + "servlet-class", Handler.FullName)
+													),
+
+													new XElement(xmlns.javaee + "servlet-mapping", 
+														new XElement(xmlns.javaee + "servlet-name", Handler.Name),
+														
+														// http://www.coderanch.com/t/414165/Servlets/java/url-pattern-web-xml
+
+														new XElement(xmlns.javaee + "url-pattern", "/*")
+													)
+												}
+											)
+
+										}
+										#endregion
+
+									};
+								}
 							}
 
 						}
@@ -337,8 +454,6 @@ namespace jsc.meta.Commands.Rewrite
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
-
-
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
 							if (c != null)
@@ -844,6 +959,21 @@ namespace jsc.meta.Commands.Rewrite
 					r.Output.ToJava(this.javapath, null, null, k.TargetType.FullName + ".jar", k.TargetType);
 				}
 
+				if (k.IsWebServiceJava)
+				{
+					jsc.Program.TypedMain(
+						new jsc.CompileSessionInfo
+						{
+							Options = new jsc.CommandLineOptions
+							{
+								TargetAssembly = r.Output,
+								IsJava = true,
+								IsNoLogo = true
+							}
+						}
+					);
+				}
+
 				if (k.IsActionScript)
 				{
 					r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null,
@@ -857,6 +987,11 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
+				foreach (var item in InvokeAfterBackendCompiler)
+				{
+					item();
+				}
+				InvokeAfterBackendCompiler.Clear();
 			}
 		}
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using System.Collections.Specialized;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
@@ -16,6 +17,30 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			get
 			{
 				return this.InternalContext.getPathInfo();
+			}
+		}
+
+		public string HttpMethod
+		{
+			get
+			{
+				return this.InternalContext.getMethod();
+			}
+		}
+
+		public NameValueCollection Form
+		{
+			get
+			{
+				return new NameValueCollection();
+			}
+		}
+
+		public NameValueCollection QueryString
+		{
+			get
+			{
+				return new NameValueCollection();
 			}
 		}
 	}

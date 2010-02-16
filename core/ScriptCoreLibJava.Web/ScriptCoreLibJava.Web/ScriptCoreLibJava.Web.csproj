@@ -60,6 +60,8 @@
     <Compile Include="BCLImplementation\System\Web\HttpApplication.cs" />
     <Compile Include="BCLImplementation\System\Web\HttpContext.cs" />
     <Compile Include="BCLImplementation\System\Web\IHttpHandler.cs" />
+    <Compile Include="BCLImplementation\System\Web\Profile\DefaultProfile.cs" />
+    <Compile Include="BCLImplementation\System\Web\Profile\ProfileBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Web\IAssemblyReferenceToken.cs" />
   </ItemGroup>
