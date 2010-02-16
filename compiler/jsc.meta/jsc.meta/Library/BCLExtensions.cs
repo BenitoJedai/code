@@ -9,6 +9,7 @@ namespace jsc.meta.Library
 {
 	public static class BCLExtensions
 	{
+		
 		public static T ToConsole<T>(this T e) where T : class
 		{
 			Console.WriteLine(e);

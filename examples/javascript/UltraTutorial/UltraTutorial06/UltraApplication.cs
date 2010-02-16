@@ -5,7 +5,7 @@ using System;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace UltraTutorial05
+namespace UltraTutorial06
 {
 	public sealed partial class UltraApplication : IWebServiceEnabled
 	{
@@ -116,7 +116,7 @@ namespace UltraTutorial05
 
 	public delegate void DownloadDataResult(string e);
 
-	public sealed partial class AlphaWebService : UltraTutorial05.IAlphaWebService
+	public sealed partial class AlphaWebService : UltraTutorial06.IAlphaWebService
 	{
 
 		public void DownloadData(string url, DownloadDataResult result)

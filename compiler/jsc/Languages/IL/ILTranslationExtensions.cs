@@ -14,7 +14,6 @@ namespace jsc.Languages.IL
 	public static partial class ILTranslationExtensions
 	{
 
-
 		public static void EmitTo(this Delegate source, ILGenerator il, EmitToArguments a)
 		{
 			source.Method.EmitTo(il, a);

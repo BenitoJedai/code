@@ -63,7 +63,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 		{
 			get
 			{
-				return 0;
+				throw new NotImplementedException();
+				//return 0;
 			}
 		}
 
