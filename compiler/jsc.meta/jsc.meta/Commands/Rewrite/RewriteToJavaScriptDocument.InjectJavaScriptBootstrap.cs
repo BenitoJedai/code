@@ -30,6 +30,12 @@ namespace jsc.meta.Commands.Rewrite
 			public static void Implementation2()
 			{
 				typeof(Implementation1).SpawnTo(Implementation4);
+
+				foreach (var item in Native.Document.getElementsByClassName("LoadingAnimation").ToArray())
+				{
+					item.FadeOut();
+				}
+
 			}
 
 			public static void Implementation4(IHTMLElement i)

@@ -11,6 +11,20 @@ namespace UltraTutorial06
 	{
 		public UltraApplication(IHTMLElement e)
 		{
+			var Title = new IHTMLDiv("UltraApplication");
+
+			Title.AttachToDocument();
+			Title.FadeIn(2500, 1000,
+				delegate
+				{
+					1500.AtDelay(ContinueBuildingApplication);
+				}
+			);
+		}
+
+		private void ContinueBuildingApplication()
+		{
+
 			var note1 = new IHTMLPre
 			{
 				innerHTML = @"Notice: If flash does not respond to events, you need to clear your cache. 
@@ -18,6 +32,8 @@ namespace UltraTutorial06
   - If so Try http://127.0.0.1 or http://COMPUTERNAME
 + Opera does not pass delegates?
 + IE cannot return from javascript to flash
++ Web page could be delivered within flash package
++ Javascript rewrite could omit unused types and methods
 "
 
 			}.AttachToDocument();

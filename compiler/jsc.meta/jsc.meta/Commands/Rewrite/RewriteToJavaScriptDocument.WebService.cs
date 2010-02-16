@@ -23,6 +23,7 @@ using System.Web;
 using jsc.meta.Commands.Rewrite.Templates;
 using System.Web.Profile;
 using System.Collections;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -38,6 +39,7 @@ namespace jsc.meta.Commands.Rewrite
 			DirectoryInfo web_bin,
 			DirectoryInfo js_StagingFolder,
 			Type js_TargetType,
+			FileInfo js_RewriteOutput,
 			bool IsWebServicePHP,
 			bool IsWebServiceJava
 			)
@@ -146,7 +148,54 @@ namespace jsc.meta.Commands.Rewrite
 			);
 			#endregion
 
+			#region GetScriptApplications
+			var GetScriptApplications = Global.DefineMethod("GetScriptApplications",
+				MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard,
+				TypeCache[typeof(InternalScriptApplication[])],
+				null
+			);
 
+			#region References
+			var References_ =
+				jsc.Loader.LoaderStrategy.LoadReferencedAssemblies(Assembly.LoadFile(js_RewriteOutput.FullName), new[] { ScriptType.JavaScript })
+							.Reverse()
+							.Distinct();
+
+			var References =
+							References_
+							.OrderByDescending(k => k.ToScriptAttributeOrDefault().IsCoreLib)
+							.Select(k => Path.GetFileName(k.Location)).ToArray();
+			#endregion
+
+			GetScriptApplications.GetILGenerator().EmitReturnSerializedArray(
+				new[]
+				{
+					// in the future we could enable multiple script applications
+					// with different references...
+					// each ScriptApplication could define a path from which it should run 
+					// for now we assume single application and should show it in default path
+
+					new InternalScriptApplication
+					{
+						TypeName = js_TargetType.Name,
+						TypeFullName = js_TargetType.FullName,
+						References = References.Select(k =>
+							new InternalScriptApplication.Reference 
+							{
+								AssemblyFile = k
+								// so what libraries are referenced in the IsJavascript product assembly?
+							}
+						).ToArray()
+					}
+				}
+				,
+				TypeCache,
+				ConstructorCache,
+				FieldCache
+			);
+			#endregion
+
+			#region Global_Invoke
 			var Global_Invoke = Global.DefineMethod("Invoke", MethodAttributes.Virtual | MethodAttributes.Public,
 				CallingConventions.Standard,
 				typeof(void), new[] { TypeCache[typeof(InternalWebMethodInfo)] }
@@ -267,6 +316,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				il.Emit(OpCodes.Ret);
 			}
+			#endregion
 
 			Global.CreateType();
 			#endregion
@@ -666,7 +716,13 @@ namespace jsc.meta.Commands.Rewrite
 			public static void InternalApplication_BeginRequest(InternalGlobal that)
 			{
 				if (FileExists(that))
+				{
+					// fake lag
+					if (that.Request.Path.EndsWith(".js"))
+						System.Threading.Thread.Sleep(1000);
+
 					return;
+				}
 
 				if (that.Request.Path == "/favicon.ico")
 				{
@@ -726,7 +782,73 @@ namespace jsc.meta.Commands.Rewrite
 					return;
 				}
 
+				if (IsDefaultPath(that.Request.Path))
+				{
+					that.Response.ContentType = "text/html";
+
+					var app = that.GetScriptApplications()[0];
+
+					WriteScriptApplication(Write, app);
+
+					that.CompleteRequest();
+					return;
+				}
+				// we could invoke web service handler now?
 				that.Response.Redirect("/jsc");
+			}
+
+			private static void WriteScriptApplication(StringAction Write, InternalScriptApplication app)
+			{
+				StringAction WriteLine = k => Write(k + Environment.NewLine);
+
+				// this function is running in .net, google app engine java and php
+				// this function is based on JavaScript.EntrypointProvider
+				// we could show a cool loading animation?
+
+				WriteLine(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">");
+				WriteLine(@"<html>");
+				WriteLine(@"<head>");
+				WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">");
+				WriteLine(@"<title>" + app.TypeName + @"</title>");
+
+
+				//WriteLine(@"<script></script>");
+				WriteLine(@"</head>");
+				WriteLine(@"<body style='margin: 0; overflow: hidden;'><noscript>ScriptApplication cannot run without JavaScript!</noscript>");
+
+				// should we display custom logo?
+				// only the first image will be fetched, then the script...
+				//WriteLine(@"<div style='border-style: none; position: absolute; left: 50%; top: 50%;' >");
+				//WriteLine(@"<img class='LoadingAnimation' src='/assets/ScriptCoreLib/jsc.png' title='jsc' style='border-style: none; margin-left: -48px; margin-top: -48px; ' /> ");
+				//WriteLine(@"</div>");
+
+				// http://www.ajaxload.info/
+				WriteLine(@"<div style='border-style: none; position: absolute; left: 50%; top: 50%;' >");
+				WriteLine(@"<img class='LoadingAnimation' src='/assets/ScriptCoreLib/loading.gif' title='loading...'  style='border-style: none; margin-left: -16px; margin-top: -16px; ' /> ");
+				WriteLine(@"</div>");
+
+				WriteLine(@"<script type='text/xml' class='" + app.TypeName + "'></script>");
+
+
+				foreach (var item in app.References)
+				{
+					Write(@"<script type='text/javascript' src='" + item.AssemblyFile + @".js'></script>");
+
+				}
+
+				WriteLine(@"</body>");
+				WriteLine(@"</html>");
+			}
+
+			public static bool IsDefaultPath(string e)
+			{
+				if (e == "/")
+					return true;
+
+				if (e == "/default.htm")
+					return true;
+
+				return false;
 			}
 
 			private static void WriteDiagnosticsResults(StringAction Write, InternalWebMethodInfo WebMethod)
@@ -780,6 +902,21 @@ namespace jsc.meta.Commands.Rewrite
 
 				Write("<br /> HttpMethod : " + that.Request.HttpMethod);
 
+				Write("<h2>Script Applications</h2>");
+
+				foreach (var item in that.GetScriptApplications())
+				{
+					Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> script application: " + item.TypeName);
+
+					foreach (var r in item.References)
+					{
+						Write("<br /> &nbsp;&nbsp;&nbsp;&nbsp;");
+
+						Write("<img src='http://i.msdn.microsoft.com/yxcx7skw.pubclass(en-us,VS.90).gif' /> reference: ");
+						Write(r.AssemblyFile);
+
+					}
+				}
 
 				Write("<h2>Files</h2>");
 
@@ -1023,6 +1160,7 @@ namespace jsc.meta.Commands.Rewrite
 		public class InternalScriptApplication
 		{
 			public string TypeName;
+			public string TypeFullName;
 
 			public class Reference
 			{
