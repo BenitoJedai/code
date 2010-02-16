@@ -241,6 +241,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return default(bool);
 		}
 
+		public static bool Equals(string e, string f)
+		{
+			if (e == null)
+				return null == f;
+
+			return e == f;
+		}
+
 		[Script(ExternalTarget = "equals")]
 		public bool Equals(string e)
 		{

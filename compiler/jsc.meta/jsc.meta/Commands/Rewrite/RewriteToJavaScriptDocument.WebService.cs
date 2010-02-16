@@ -24,6 +24,10 @@ using jsc.meta.Commands.Rewrite.Templates;
 using System.Web.Profile;
 using System.Collections;
 using ScriptCoreLib.CSharp.Extensions;
+using jsc.meta.Library.Templates.Java;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using System.Xml;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -41,7 +45,9 @@ namespace jsc.meta.Commands.Rewrite
 			Type js_TargetType,
 			FileInfo js_RewriteOutput,
 			bool IsWebServicePHP,
-			bool IsWebServiceJava
+			bool IsWebServiceJava,
+
+			Action<Action> InvokeAfterBackendCompiler
 			)
 		{
 
@@ -61,6 +67,7 @@ namespace jsc.meta.Commands.Rewrite
 				new Type[0]
 			);
 
+			var Global_ctor = Global.DefineDefaultConstructor(MethodAttributes.Public);
 
 			#region Application_BeginRequest
 			var Application_BeginRequest = Global.DefineMethod("Application_BeginRequest", MethodAttributes.Public,
@@ -71,7 +78,7 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var il = Application_BeginRequest.GetILGenerator();
 
-				var __WebService = il.DeclareInitializedLocal(TypeCache[SourceType]);
+				//var __WebService = il.DeclareInitializedLocal(TypeCache[SourceType]);
 
 				il.Emit(OpCodes.Ldarg_0);
 
@@ -321,8 +328,48 @@ namespace jsc.meta.Commands.Rewrite
 			Global.CreateType();
 			#endregion
 
+			#region IsWebServiceJava
+			if (IsWebServiceJava)
+			{
+				r.ExternalContext.TypeCache.Resolve +=
+					__SourceType =>
+					{
+						if (__SourceType == typeof(TypelessImplementation1))
+						{
+							r.ExternalContext.TypeCache[__SourceType] = Global;
+							return;
+						}
+
+					};
+
+				r.ExternalContext.MethodCache.Resolve +=
+					__SourceMethod =>
+					{
+						if (__SourceMethod.DeclaringType == typeof(TypelessImplementation1))
+						{
+							r.ExternalContext.MethodCache[__SourceMethod] = Application_BeginRequest;
+							return;
+						}
+					};
+
+
+				r.ExternalContext.ConstructorCache.Resolve +=
+					__SourceConstructor =>
+					{
+						if (__SourceConstructor.DeclaringType == typeof(TypelessImplementation1))
+						{
+							r.ExternalContext.ConstructorCache[__SourceConstructor] = Global_ctor;
+							return;
+						}
+					};
+
+				var InternalHttpServlet = TypeCache[typeof(InternalHttpServlet)];
+			}
+			#endregion
+
+
 			#region asp.net
-			if (!(IsWebServiceJava || IsWebServicePHP))
+			if (!IsWebServiceJava && !IsWebServicePHP)
 			{
 				DirectoryInfo web = web_bin.Parent;
 
@@ -397,7 +444,120 @@ namespace jsc.meta.Commands.Rewrite
 			}
 			#endregion
 
+			if (IsWebServiceJava)
+			{
+				#region ant_build_xml, run.bat, upload.bat
+				{
+					var ant_build_xml = XDocument.Load(
+						XmlReader.Create(
+							typeof(RewriteToJavaScriptDocument).Assembly.GetManifestResourceStream("jsc.meta.Tools.ant.GoogleAppEngine.build.xml")
+						)
+					);
 
+					ant_build_xml.Root.AddFirst(new XComment("modified by jsc.meta"));
+
+					var r_Output_web = r.Output.Directory.CreateSubdirectory("web");
+
+					#region ant build
+					// http://www.larswilhelmsen.com/2008/12/12/linq-to-xml-xpathselectelement-annoyance/
+					// http://msdn.microsoft.com/en-us/library/bb341675.aspx
+					var location = ((IEnumerable)ant_build_xml.XPathEvaluate("/project/property[@name='appengine.sdk']/@location")).Cast<XAttribute>().Single();
+
+					if (this.appengine != null)
+						location.Value = this.appengine.FullName;
+
+					var ant_build_xml_file = Path.Combine(r_Output_web.FullName, "build.xml");
+					ant_build_xml.Save(ant_build_xml_file);
+
+
+					var proccess_ant_info = new ProcessStartInfo(
+							this.ant.FullName,
+							"-f build.xml"
+							)
+					{
+						UseShellExecute = false,
+
+						WorkingDirectory = r_Output_web.FullName
+					};
+
+					proccess_ant_info.EnvironmentVariables["JAVA_HOME"] = this.javahome.FullName;
+
+					#region upload.bat
+					File.WriteAllText(
+						Path.Combine(r_Output_web.FullName, "build.bat"),
+						@"
+@echo off
+set JAVA_HOME=" + this.javahome.FullName + @"
+cd " + r_Output_web.FullName + @" 
+call " + this.ant.FullName + @" -f build.xml
+"
+					);
+					#endregion
+
+					InvokeAfterBackendCompiler(
+						delegate
+						{
+							var proccess_ant = Process.Start(proccess_ant_info);
+
+							proccess_ant.WaitForExit();
+						}
+					);
+
+					#endregion
+
+
+					// ----
+
+					#region run.bat
+					var w = new StringWriter();
+
+					w.WriteLine(@"
+@echo off
+
+echo killing all java in pure hope to terminate the servlet...
+echo.
+echo error is OK
+echo.
+taskkill /IM java.exe /F
+taskkill /FI ""WINDOWTITLE eq volatile_dev_appserver*"" /F
+start ""volatile_dev_appserver"" /MIN """ + this.appengine + @"\bin\dev_appserver.cmd"" www
+");
+
+					for (int i = 10; i >= 0; i--)
+					{
+						w.WriteLine(@"
+echo waiting " + i + @" seconds for the server to load...
+PING 1.1.1.1 -n 1 -w 1000 >NUL
+");
+					}
+
+
+					w.WriteLine(@"
+start ""web"" explorer ""http://localhost:8080/""
+echo thanks! :)
+");
+
+					File.WriteAllText(
+						Path.Combine(r_Output_web.FullName, "run.bat"),
+						w.ToString()
+					);
+					#endregion
+
+					#region upload.bat
+					File.WriteAllText(
+						Path.Combine(r_Output_web.FullName, "upload.bat"),
+						@"
+@echo off
+call """ + this.appengine + @"\bin\appcfg.cmd"" update www
+
+"
+					);
+					#endregion
+
+				}
+				#endregion
+
+			}
 		}
 
 

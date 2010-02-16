@@ -162,7 +162,7 @@ namespace UltraTutorial06
 		{
 			var c = new WebClient();
 
-			result(c.DownloadString(url));
+			result(c.DownloadString(new Uri(url)));
 		}
 	}
 

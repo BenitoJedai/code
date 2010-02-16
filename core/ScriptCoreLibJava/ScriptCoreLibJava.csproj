@@ -73,6 +73,8 @@
     <Compile Include="BCLImplementation\System\Collections\IList.cs" />
     <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
     <Compile Include="BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
@@ -120,6 +122,9 @@
     <Compile Include="BCLImplementation\System\Reflection\ICustomAttributeProvider.cs" />
     <Compile Include="BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\StreamingContext.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs" />
     <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs" />

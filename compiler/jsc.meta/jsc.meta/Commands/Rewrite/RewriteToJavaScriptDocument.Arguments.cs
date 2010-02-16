@@ -20,6 +20,11 @@ namespace jsc.meta.Commands.Rewrite
 		 * 4. pass primitives and interfaces as arguments
 		 */
 
+		public DirectoryInfo javahome = new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_14");
+		public FileInfo ant = new FileInfo(@"C:\util\apache-ant-1.7.1\bin\ant.bat");
+		public DirectoryInfo appengine = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.0");
+
+
 
 		public DirectoryInfo staging;
 
