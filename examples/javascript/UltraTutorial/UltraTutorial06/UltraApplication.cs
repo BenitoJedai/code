@@ -15,14 +15,14 @@ namespace UltraTutorial06
 
 			var TitleLogo = new IHTMLImage("assets/ScriptCoreLib/jsc.png");
 			var TitleText = new IHTMLSpan("UltraApplication");
-			TitleText.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Helvetica;
+			TitleText.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
 			TitleText.style.paddingLeft = "2em";
+			TitleText.style.fontSize = "large-xx";
 			TitleLogo.style.verticalAlign = "middle";
 			Title.appendChild(TitleLogo);
 			Title.appendChild(new IHTMLSpan("UltraApplication"));
 
-			Title.style.height = "64px";
-			Title.style.fontSize = "large";
+			Title.style.height = "128px";
 
 			Title.AttachToDocument();
 			Title.FadeIn(2500, 1000,
