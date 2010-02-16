@@ -391,7 +391,7 @@ namespace jsc.meta.Commands.Rewrite
 					var k = r.RewriteArguments.context.ConstructorCache[item];
 				}
 
-				
+
 
 				foreach (var item in SourceType.GetMethods())
 				{
@@ -454,8 +454,8 @@ namespace jsc.meta.Commands.Rewrite
 				);
 
 
-				var request_InvokeCallback = request.DefineMethod("InvokeCallback", 
-					MethodAttributes.Virtual | MethodAttributes.Public | MethodAttributes.HideBySig, 
+				var request_InvokeCallback = request.DefineMethod("InvokeCallback",
+					MethodAttributes.Virtual | MethodAttributes.Public | MethodAttributes.HideBySig,
 					CallingConventions.Standard,
 					typeof(void),
 					new[] { typeof(string), TypeCache[typeof(InternalWebMethodRequest.ParameterLookup)] }
@@ -490,7 +490,7 @@ namespace jsc.meta.Commands.Rewrite
 								il.Emit(OpCodes.Ldstr, pp.Name);
 								il.Emit(OpCodes.Call, MethodCache[typeof(InternalWebMethodRequest.ParameterLookup).GetMethod("Invoke")]);
 							}
-							
+
 							il.Emit(OpCodes.Call, MethodCache[p.ParameterType.GetMethod("Invoke")]);
 							il.Emit(OpCodes.Ret);
 
@@ -694,58 +694,82 @@ namespace jsc.meta.Commands.Rewrite
 				if (that.Request.HttpMethod == "POST")
 				{
 					var WebMethod = InternalWebMethodInfo.First(WebMethods, that.Request.QueryString[InternalWebMethodInfo.QueryKey]);
-					if (WebMethod != null)
+					if (WebMethod == null)
 					{
-						that.Invoke(WebMethod);
-
-						if (that.Context.Request.Path == "/xml")
-						{
-							WriteXDocument(that, Write, WebMethod);
-							return;
-						}
-						else
-						{
-
-							that.Response.ContentType = "text/html";
-
-							if (WebMethod.Results == null)
-							{
-
-								Write("<h2>No Results</h2>");
-							}
-							else
-							{
-								Write("<h2>" + WebMethod.Results.Length + " Results</h2>");
-
-								foreach (var item in WebMethod.Results)
-								{
-									WriteWebMethod(Write, item,
-										Parameter =>
-										{
-											if (Parameter == null)
-												return;
-
-											Write(" = '<code>" + Parameter.Value + "</code>'");
-										}
-									);
-								}
-							}
-						}
-
-						//WebMethod.
+						that.Response.StatusCode = 404;
+						that.CompleteRequest();
+						return;
 					}
+
+					that.Invoke(WebMethod);
+
+					if (that.Context.Request.Path == "/xml")
+					{
+						WriteXDocument(that, Write, WebMethod);
+						that.CompleteRequest();
+						return;
+					}
+
+					that.Response.ContentType = "text/html";
+					WriteDiagnosticsResults(Write, WebMethod);
+					WriteDiagnostics(that, Write, WebMethods);
+					that.CompleteRequest();
+					return;
 
 				}
 
+				if (that.Request.Path == "/jsc")
+				{
+					that.Response.ContentType = "text/html";
+					WriteDiagnostics(that, Write, WebMethods);
+					that.CompleteRequest();
+					return;
+				}
+
+				that.Response.Redirect("/jsc");
+			}
+
+			private static void WriteDiagnosticsResults(StringAction Write, InternalWebMethodInfo WebMethod)
+			{
+				if (WebMethod.Results == null)
+				{
+
+					Write("<h2>No Results</h2>");
+				}
+				else
+				{
+					Write("<h2>" + WebMethod.Results.Length + " Results</h2>");
+
+					foreach (var item in WebMethod.Results)
+					{
+						WriteWebMethod(Write, item,
+							Parameter =>
+							{
+								if (Parameter == null)
+									return;
+
+								Write(" = '<code>" + Parameter.Value + "</code>'");
+							}
+						);
+					}
+
+					Write("<br />");
+				}
+			}
+
+			private static void WriteDiagnostics(InternalGlobal that, StringAction Write, InternalWebMethodInfo[] WebMethods)
+			{
+				Write("<a href='http://jsc-solutions.net'><img border='0' src='http://services.zproxybuzz.info/assets/Bulldog/jsc.png' /></a>");
 				Write("<h2>Special pages</h2>");
 
-				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: "  + "<a href='/xml'>/xml</a>");
+				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/xml'>/xml</a>");
 				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
 				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
+				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/jsc'>/jsc</a>");
 
 				Write("<h2>WebMethods</h2>");
 
-				
+
 
 				foreach (var item in WebMethods)
 				{
@@ -766,7 +790,6 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-				that.CompleteRequest();
 			}
 
 			private static void WriteXDocument(InternalGlobal that, StringAction Write, InternalWebMethodInfo WebMethod)
@@ -890,7 +913,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			public abstract void Invoke(InternalWebMethodInfo e);
 
-			//public abstract string GetApplicationSource();
+			public abstract InternalScriptApplication[] GetScriptApplications();
 		}
 
 		public class InternalWebMethodWorker
@@ -995,6 +1018,18 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				throw new Exception("InvokeCallback");
 			}
+		}
+
+		public class InternalScriptApplication
+		{
+			public string TypeName;
+
+			public class Reference
+			{
+				public string AssemblyFile;
+			}
+
+			public Reference[] References;
 		}
 	}
 

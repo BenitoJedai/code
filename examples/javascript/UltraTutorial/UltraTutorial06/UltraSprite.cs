@@ -6,7 +6,7 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 
-namespace UltraTutorial05
+namespace UltraTutorial06
 {
 	public sealed class UltraSprite : Sprite
 	{

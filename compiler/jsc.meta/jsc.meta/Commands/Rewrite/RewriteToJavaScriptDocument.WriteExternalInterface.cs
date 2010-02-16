@@ -87,6 +87,17 @@ namespace jsc.meta.Commands.Rewrite
 			if (t == typeof(string))
 				return true;
 
+			// supporting primitives are we?
+			// we could use System.Convert for now
+
+			//if (t == typeof(bool))
+			//    return true;
+
+			//if (t == typeof(int))
+			//    return true;
+
+			// we should also enable support for Convertable WPF like types
+
 			if (t.IsDelegate())
 				return true;
 
@@ -503,7 +514,7 @@ namespace jsc.meta.Commands.Rewrite
 				var InitializeParameters = Enumerable.Range(0, Methods.Length).Select(k => typeof(string)).ToArray();
 
 				var Initialize = a.Type.DefineMethod(__in_Method, MethodAttributes.Public, CallingConventions.Standard,
-					typeof(void),
+					typeof(string),
 					InitializeParameters
 				);
 
@@ -532,6 +543,7 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Stfld, __out_field[item.k]);
 					}
 
+					il.Emit(OpCodes.Ldstr, this.SourceType.MetadataToken.ToString("x8"));
 					il.Emit(OpCodes.Ret);
 				}
 
@@ -928,13 +940,13 @@ namespace jsc.meta.Commands.Rewrite
 							RewriteToJavaScriptDocument.__out_Method,
 							MethodAttributes.Public,
 							CallingConventions.Standard,
-							typeof(void),
+							typeof(string),
 							__out_Method_Parameters
 						),
 
 						LocalName = RewriteToJavaScriptDocument.__out_Method,
 						RemoteName = RewriteToJavaScriptDocument.__in_Method,
-						ReturnType = typeof(void),
+						ReturnType = typeof(string),
 						ParameterTypes = __out_Method_Parameters,
 
 						DeclaringType = this.OutgoingDirectType,
@@ -1166,6 +1178,17 @@ namespace jsc.meta.Commands.Rewrite
 					}
 
 					il.Emit(OpCodes.Call, __out_Method);
+
+					il.Emit(OpCodes.Ldstr, this.SourceType.MetadataToken.ToString("x8"));
+					il.Emit(OpCodes.Call, ((Func<string, string, bool>)string.Equals).Method);
+
+					var skip = il.DefineLabel();
+
+					il.Emit(OpCodes.Brtrue, skip);
+
+					il.EmitCode(() => { throw new NotSupportedException(); });
+
+					il.MarkLabel(skip);
 
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldarg_0);

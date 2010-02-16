@@ -40,6 +40,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return value;
 		}
 
+		public static string ToString(bool value)
+		{
+			if (value)
+				return "true";
+
+			return "false";
+		}
+		public static bool ToBoolean(string value)
+		{
+			if ("true" == value)
+				return true;
+
+			return false;
+		}
 
         public static string ToString(char value)
         {

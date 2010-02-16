@@ -1,5 +1,5 @@
 using System;
-namespace UltraTutorial05
+namespace UltraTutorial06
 {
 	public interface IAlphaWebService
 	{
