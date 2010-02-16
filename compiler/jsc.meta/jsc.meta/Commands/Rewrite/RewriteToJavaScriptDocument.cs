@@ -150,6 +150,7 @@ namespace jsc.meta.Commands.Rewrite
 			).ToArray();
 			#endregion
 
+			var RewriteOutput = targets.ToDictionary(k => k, k => default(FileInfo));
 
 			foreach (var k in targets_variations)
 			{
@@ -320,10 +321,9 @@ namespace jsc.meta.Commands.Rewrite
 									k.StagingFolder,
 									__js.StagingFolder,
 									__js.TargetType,
+									RewriteOutput[__js],
 									k.IsWebServicePHP,
 									k.IsWebServiceJava
-
-
 								);
 							}
 
@@ -832,6 +832,8 @@ namespace jsc.meta.Commands.Rewrite
 				#endregion
 
 				r.Invoke();
+
+				RewriteOutput[k] = r.Output;
 
 				if (IsRewriteOnly)
 					continue;

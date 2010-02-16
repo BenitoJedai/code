@@ -677,6 +677,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ActionScript\todo.txt" />
+    <EmbeddedResource Include="web\assets\ScriptCoreLib\loading.gif" />
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.png" />
   </ItemGroup>
   <ItemGroup>

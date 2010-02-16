@@ -1,4 +1,4 @@
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="GetTimeFeature.cs" />
     <Compile Include="IAlphaWebService.cs" />
+    <Compile Include="MyFader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UltraApplication.cs" />
     <Compile Include="UltraSprite.cs" />
