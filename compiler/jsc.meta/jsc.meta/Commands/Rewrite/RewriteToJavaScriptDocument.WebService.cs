@@ -891,8 +891,8 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				if (FileExists(that))
 				{
 					// fake lag
-					if (that.Request.Path.EndsWith(".js"))
-						System.Threading.Thread.Sleep(1000);
+					//if (that.Request.Path.EndsWith(".js"))
+					//    System.Threading.Thread.Sleep(1000);
 
 					return;
 				}
@@ -982,7 +982,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				WriteLine(@"<html>");
 				WriteLine(@"<head>");
 				WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">");
-				WriteLine(@"<title>" + app.TypeName + @"</title>");
+				WriteLine(@"<title>Loading...</title>");
 
 
 				//WriteLine(@"<script></script>");

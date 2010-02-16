@@ -19,6 +19,19 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         {
         }
 
+		public IHTMLAnchor()
+		{
+		}
+
+
+		private static IHTMLAnchor InternalConstructor()
+		{
+			IHTMLAnchor a = (IHTMLAnchor)new IHTMLElement(HTMLElementEnum.a);
+
+
+			return a;
+		}
+
         private static IHTMLAnchor InternalConstructor(string text)
         {
             IHTMLAnchor a = InternalConstructor("about:blank", text);
