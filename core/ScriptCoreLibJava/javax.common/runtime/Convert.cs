@@ -1,6 +1,5 @@
 using java.lang;
 using java.util;
-
 using ScriptCoreLib;
 
 
@@ -467,32 +466,10 @@ namespace javax.common.runtime
             return false;
         }
 
+		[System.Obsolete]
         public static string[] SplitStringByChar(string e, char p)
         {
-            ArrayList a = new ArrayList();
-
-            int i = -1;
-            bool b = true;
-
-            while (b)
-            {
-                int j = e.IndexOf(p, i + 1);
-
-                if (j == -1)
-                {
-                    a.add(e.Substring(i + 1));
-                    b = false;
-                }
-                else
-                {
-                    a.add(e.Substring(i + 1, j - i - 1));
-                    i = j;
-                }
-                    
-
-            }
-
-            return (string[])a.toArray(new string[a.size()]);
+			return ScriptCoreLibJava.BCLImplementation.System.__String.SplitStringByChar(e, p);
         }
 
     }

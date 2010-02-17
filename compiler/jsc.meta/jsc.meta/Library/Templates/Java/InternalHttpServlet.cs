@@ -76,12 +76,10 @@ namespace jsc.meta.Library.Templates.Java
 		// this class cannot be used in .net
 		// this could be defined in ScriptCoreLib.Ultra
 
-		readonly TypelessImplementation1 Application = new TypelessImplementation1();
-		readonly __HttpApplication Application1;
 
 		public InternalHttpServlet()
 		{
-			Application1 = (__HttpApplication)(object)Application;
+
 
 		}
 
@@ -99,10 +97,20 @@ namespace jsc.meta.Library.Templates.Java
 		{
 			try
 			{
+				//Console.WriteLine("<request>");
+
+				TypelessImplementation1 Application = new TypelessImplementation1();
+				__HttpApplication Application1;
+
+				Application1 = (__HttpApplication)(object)Application;
+
 				Application1.Request = (HttpRequest)(object)new __HttpRequest { InternalContext = req };
 				Application1.Response = (HttpResponse)(object)new __HttpResponse { InternalContext = resp };
 
 				Application.Application_BeginRequest(new object(), new EventArgs());
+
+				//Console.WriteLine("</request>");
+
 			}
 			catch (csharp.ThrowableException exc)
 			{

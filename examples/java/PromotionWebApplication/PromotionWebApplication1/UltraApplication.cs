@@ -60,8 +60,15 @@ namespace PromotionWebApplication1
 		}
 	}
 
+	public delegate void StringAction(string e);
+
 	public sealed class UltraWebService
 	{
 
+		public void Hello(string data, StringAction result)
+		{
+			result(data + " hello");
+			result(data + " world");
+		}
 	}
 }
