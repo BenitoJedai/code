@@ -556,6 +556,13 @@ echo thanks! :)
 					);
 					#endregion
 
+					File.WriteAllText(
+						Path.Combine(r_Output_web.FullName, "build.run.bat"), @"
+@echo off
+call build.bat
+call run.bat
+"
+					);
 					#region upload.bat
 					File.WriteAllText(
 						Path.Combine(r_Output_web.FullName, "upload.bat"),
@@ -844,10 +851,17 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 			{
 				var r = default(string);
 
+				//Console.WriteLine("GetParameterValue: name: " + name);
+
+
 				foreach (var item in that.Parameters)
 				{
+					//Console.WriteLine("GetParameterValue: item.name: " + item.Name);
+
 					if (item.Name == name)
 					{
+						//Console.WriteLine("GetParameterValue: item.value: " + item.Value);
+
 						r = item.Value;
 						break;
 					}
@@ -855,6 +869,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 				return r;
 			}
+
 			public void LoadParameters(HttpContext c)
 			{
 				foreach (var Parameter in this.Parameters)
@@ -864,15 +879,34 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					}
 					else
 					{
+						//WriteFormKeysToConsole(c);
+
+						// do we support null parameters?
 						var value = "";
+
+						//Console.WriteLine("LoadParameters: name: " + Parameter.Name);
+
 						var key = "_" + this.MetadataToken + "_" + Parameter.Name;
 
+						//Console.WriteLine("LoadParameters: key: " + key);
 						var value_Form = c.Request.Form[key];
-						if (value_Form != null)
+
+						if (null != value_Form)
 							value = value_Form;
+						
+
+						//Console.WriteLine("LoadParameters: value: " + value);
 
 						Parameter.Value = value;
 					}
+				}
+			}
+
+			private static void WriteFormKeysToConsole(HttpContext c)
+			{
+				foreach (var item in c.Request.Form.AllKeys)
+				{
+					Console.WriteLine("WriteFormKeysToConsole: existing key: " + item);
 				}
 			}
 		}
@@ -904,6 +938,13 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					return;
 				}
 
+				if (that.Request.Path == "/robots.txt")
+				{
+					that.Response.StatusCode = 404;
+					that.CompleteRequest();
+					return;
+				}
+
 				if (that.Request.Path == "/crossdomain.xml")
 				{
 					that.Response.StatusCode = 404;
@@ -914,6 +955,8 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				StringAction Write = that.Response.Write;
 
 				var WebMethods = that.GetWebMethods();
+
+				Console.WriteLine();
 
 				foreach (var item in WebMethods)
 				{
@@ -1057,6 +1100,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				Write("<a href='http://jsc-solutions.net'><img border='0' src='http://services.zproxybuzz.info/assets/Bulldog/jsc.png' /></a>");
 				Write("<h2>Special pages</h2>");
 
+				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/robots.txt'>/robots.txt</a>");
 				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/xml'>/xml</a>");
 				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/crossdomain.xml'>/crossdomain.xml</a>");
 				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/favicon.ico'>/favicon.ico</a>");
@@ -1074,6 +1118,26 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				Write("<title>Powered by jsc: " + that.Request.Path + "</title>");
 
 				Write("<br /> HttpMethod : " + that.Request.HttpMethod);
+
+				Write("<h2>Form</h2>");
+				foreach (var item in that.Request.Form.AllKeys)
+				{
+					Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
+					Write(item);
+					Write(" = ");
+					Write(escapeXML(that.Request.Form[item]));
+					Write("</code>");
+				}
+
+				Write("<h2>QueryString</h2>");
+				foreach (var item in that.Request.QueryString.AllKeys)
+				{
+					Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
+					Write(item);
+					Write(" = ");
+					Write(escapeXML(that.Request.QueryString[item]));
+					Write("</code>");
+				}
 
 				Write("<h2>Script Applications</h2>");
 

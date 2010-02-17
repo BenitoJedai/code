@@ -78,7 +78,8 @@
           description="Compile the application servlet code">
     <mkdir dir="${war.dir}/WEB-INF/classes"/>
     <mkdir dir="${war.dir}/WEB-INF/lib"/>
-    <javac srcdir="java" destdir="${war.dir}/WEB-INF/classes">
+    <!-- http://www.jguru.com/faq/view.jsp?EID=1122360 -->
+    <javac srcdir="java" destdir="${war.dir}/WEB-INF/classes" debug="true" debuglevel="lines,source">
       <classpath>
         <fileset dir="${appengine.sdk}/lib/user">
           <include name="*.jar"/>

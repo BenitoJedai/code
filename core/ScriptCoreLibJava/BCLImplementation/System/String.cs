@@ -2,6 +2,7 @@
 using System.Text;
 using ScriptCoreLib;
 using javax.common.runtime;
+using System;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
@@ -193,8 +194,45 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		[Script(DefineAsStatic = true)]
 		public string[] Split(char[] e)
 		{
-			object a = (object)this;
-			return Convert.SplitStringByChar((string)a, e[0]);
+			var a = (string)(object)this;
+
+			if (null == a)
+				throw new InvalidOperationException();
+
+			return SplitStringByChar(a, e[0]);
+		}
+
+
+
+		public static string[] SplitStringByChar(string e, char p)
+		{
+			if (null == e)
+				throw new InvalidOperationException();
+
+			var a = new java.util.ArrayList();
+
+			int i = -1;
+			bool b = true;
+
+			while (b)
+			{
+				int j = e.IndexOf(p, i + 1);
+
+				if (j == -1)
+				{
+					a.add(e.Substring(i + 1));
+					b = false;
+				}
+				else
+				{
+					a.add(e.Substring(i + 1, j - i - 1));
+					i = j;
+				}
+
+
+			}
+
+			return (string[])a.toArray(new string[a.size()]);
 		}
 
 		[Script(DefineAsStatic = true)]

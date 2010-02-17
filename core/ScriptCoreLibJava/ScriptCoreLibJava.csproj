@@ -696,6 +696,7 @@
     <Compile Include="java\util\Collections.cs" />
     <Compile Include="java\util\AbstractSet.cs" />
     <Compile Include="java\util\AbstractCollection.cs" />
+    <Compile Include="java\util\Dictionary.cs" />
     <Compile Include="java\util\EventObject.cs" />
     <Compile Include="java\util\EventListener.cs" />
     <Compile Include="java\util\HashSet.cs" />
