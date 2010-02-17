@@ -893,7 +893,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 						if (null != value_Form)
 							value = value_Form;
-						
+
 
 						//Console.WriteLine("LoadParameters: value: " + value);
 
@@ -1086,7 +1086,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 								if (Parameter == null)
 									return;
 
-								Write(" = '<code>" + Parameter.Value + "</code>'");
+								Write(" = '<code style='color: red'>" + escapeXML(Parameter.Value) + "</code>'");
 							}
 						);
 					}

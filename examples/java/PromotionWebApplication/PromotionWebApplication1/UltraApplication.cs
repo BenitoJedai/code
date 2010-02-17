@@ -24,6 +24,12 @@ namespace PromotionWebApplication1
 		{
 			Native.Document.title = "jsc solutions";
 
+			StringActionAction GetTitleFromServer = new UltraWebService().GetTitleFromServer;
+
+			GetTitleFromServer(
+				n => Native.Document.title = n
+			);
+
 			var c = new IHTMLDiv().AttachToDocument();
 			
 			c.style.position = IStyle.PositionEnum.absolute;
@@ -31,6 +37,17 @@ namespace PromotionWebApplication1
 			c.style.top = "50%";
 
 			var a = new IHTMLAnchor { href = "#about" }.AttachTo(c);
+
+			a.onclick +=
+				ee =>
+				{
+					ee.PreventDefault();
+
+					GetTitleFromServer(
+						n => Native.Document.title = n
+					);
+				};
+
 
 			var jsc = new IHTMLImage("assets/ScriptCoreLib/jsc.png").AttachTo(a);
 
@@ -61,6 +78,7 @@ namespace PromotionWebApplication1
 	}
 
 	public delegate void StringAction(string e);
+	public delegate void StringActionAction(StringAction e);
 
 	public sealed class UltraWebService
 	{
@@ -69,6 +87,23 @@ namespace PromotionWebApplication1
 		{
 			result(data + " hello");
 			result(data + " world");
+		}
+
+		public void GetTitleFromServer(StringAction result)
+		{
+			var r = new Random();
+
+			var Targets = new[]
+			{
+				"javascript",
+				"java",
+				"actionscript",
+				"php"
+			};
+
+			result("jsc solutions - C# to " + Targets[r.Next(0, Targets.Length)]);
+			
+			// should we 
 		}
 	}
 }
