@@ -103,7 +103,8 @@ namespace PromotionWebApplication1
 
 			result("jsc solutions - C# to " + Targets[r.Next(0, Targets.Length)]);
 			
-			// should we 
+			// should we add timing information if we use Thread.Sleep to the results?
+
 		}
 	}
 }
