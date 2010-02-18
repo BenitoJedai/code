@@ -17,7 +17,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 namespace PromotionWebApplication1
 {
 
-	
+
 	public sealed class UltraApplication
 	{
 		public UltraApplication(IHTMLElement e)
@@ -30,23 +30,28 @@ namespace PromotionWebApplication1
 				n => Native.Document.title = n
 			);
 
+
+
 			var c = new IHTMLDiv().AttachToDocument();
-			
+
 			c.style.position = IStyle.PositionEnum.absolute;
 			c.style.left = "50%";
 			c.style.top = "50%";
 
-			var a = new IHTMLAnchor { href = "#about" }.AttachTo(c);
+			var a = new IHTMLAnchor { href = "http://sketch.odopod.com/sketches/149253", target = "BackgroundFrame" }.AttachTo(c);
 
-			a.onclick +=
-				ee =>
-				{
-					ee.PreventDefault();
+			//a.onclick +=
+			//    ee =>
+			//    {
+			//        ee.PreventDefault();
 
-					GetTitleFromServer(
-						n => Native.Document.title = n
-					);
-				};
+			//        new IHTMLDiv { innerHTML = "<embed src='http://sketch.odopod.com/flash/OdoSketch.swf?sketchURL=/sketches/149253.xml&userURL=/users/28416&bgURL=/images/bigbg.jpg&mode=embed' AllowScriptAccess='always' bgcolor=#EDE7DB menu='false' quality='high' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='1000' height='400'></embed>" }
+			//            .AttachToDocument();
+
+			//        GetTitleFromServer(
+			//            n => Native.Document.title = n
+			//        );
+			//    };
 
 
 			var jsc = new IHTMLImage("assets/ScriptCoreLib/jsc.png").AttachTo(a);
@@ -74,6 +79,42 @@ namespace PromotionWebApplication1
 					);
 				}
 			);
+
+			GoogleAnalytics();
+
+
+
+		}
+
+		private static void GoogleAnalytics()
+		{
+			var analytics = new IHTMLScript
+			{
+				type = "text/javascript",
+				src = "http://www.google-analytics.com/ga.js"
+			};
+
+			analytics.onload +=
+				delegate
+				{
+					1.AtDelay(
+						delegate
+						{
+							new IFunction(@"
+
+
+try {
+var pageTracker = _gat._getTracker('UA-13087448-1');
+pageTracker._setDomainName('.jsc-solutions.net');
+pageTracker._trackPageview();
+} catch(err) { }
+").apply(Native.Window);
+						}
+					);
+				};
+
+
+			analytics.AttachToDocument();
 		}
 	}
 
@@ -102,7 +143,7 @@ namespace PromotionWebApplication1
 			};
 
 			result("jsc solutions - C# to " + Targets[r.Next(0, Targets.Length)]);
-			
+
 			// should we add timing information if we use Thread.Sleep to the results?
 
 		}

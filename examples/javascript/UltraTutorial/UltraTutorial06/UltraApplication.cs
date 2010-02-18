@@ -7,6 +7,11 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace UltraTutorial06
 {
+	public class SecondaryApplication
+	{
+		// jsc libraries referenced here are to be loaded ad hoc
+	}
+
 	public sealed partial class UltraApplication : IWebServiceEnabled
 	{
 		public UltraApplication(IHTMLElement e)
@@ -157,6 +162,8 @@ namespace UltraTutorial06
 
 	public sealed partial class AlphaWebService : UltraTutorial06.IAlphaWebService
 	{
+		// should we support fields?
+		// should we support POCO?
 
 		public void DownloadData(string url, DownloadDataResult result)
 		{
@@ -164,6 +171,9 @@ namespace UltraTutorial06
 
 			result(c.DownloadString(new Uri(url)));
 		}
+
+		// can we have yield return here?
+		// can we have linq to sql?
 	}
 
 }
