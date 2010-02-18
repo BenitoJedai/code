@@ -10,6 +10,8 @@ namespace UltraTutorial06
 {
 	public sealed class UltraSprite : Sprite
 	{
+		// what about alchemy?
+
 		public const int DefaultWidth = 600;
 		public const int DefaultHeight = 200;
 

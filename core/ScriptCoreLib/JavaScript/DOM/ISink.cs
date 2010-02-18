@@ -91,9 +91,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true, NoExeptions = true)]
-        public void InternalEvent(bool b, global::System.Delegate e, string f)
+        public void InternalEvent(bool bAttach, global::System.Delegate e, string f)
         {
-            InternalEvent(b, e, f, "on" + f);
+            InternalEvent(bAttach, e, f, "on" + f);
 
 
         }
