@@ -9,15 +9,7 @@ namespace PromotionWebApplication1.Library
 {
 	public static class MyFader
 	{
-		static public void AtDelay(this int ms, Action e)
-		{
-			new Timer(
-				delegate
-				{
-					e();
-				}
-			).StartTimeout(ms);
-		}
+		
 
 		static public void FadeIn(this IHTMLElement target, int waittime, int fadetime, Action done)
 		{

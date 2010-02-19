@@ -210,6 +210,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 			send<object>(null);
 		}
 
+		// we probably could get away with object
 		public void send<T>(T data)
 		{
 		}
@@ -303,6 +304,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 			[Script(DefineAsStatic = true)]
 			get
 			{
+				// note: IE in no-Addon mode will fail
 				return IXMLDocument.Parse(responseText);
 			}
 		}
