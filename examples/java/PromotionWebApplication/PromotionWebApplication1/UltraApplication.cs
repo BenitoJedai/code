@@ -41,13 +41,15 @@ namespace PromotionWebApplication1
 				var c = new IHTMLDiv().AttachToDocument();
 
 				c.style.position = IStyle.PositionEnum.absolute;
-				c.style.left = "50%";
+				//c.style.left = "50%";
 				c.style.top = "80%";
+				c.style.width = "100%";
 
 				var c2 = new IHTMLDiv { };
 
-				c2.style.width = "300px";
-				c2.style.marginLeft = "-150px";
+				c2.style.width = "100%";
+				//c2.style.width = "300px";
+				//c2.style.marginLeft = "-150px";
 				//a.style.backgroundColor = Color.Red;
 				c2.style.textAlign = IStyle.TextAlignEnum.center;
 				//a.innerText = "info info info info info info info info info info info info ";
@@ -67,6 +69,8 @@ namespace PromotionWebApplication1
 				c2.AttachTo(c);
 
 				c.AttachToDocument();
+
+				c.FadeIn(500, 1000, null);
 			}
 			#endregion
 
