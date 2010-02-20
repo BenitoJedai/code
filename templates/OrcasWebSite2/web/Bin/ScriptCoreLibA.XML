@@ -104,6 +104,11 @@
             For the authors page, a quote you'd like to include (try to keep to ~300 characters).
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.GoogleGadgetAttribute.src">
+            <summary>
+            You could override flash embed source by setting this property.
+            </summary>
+        </member>
         <member name="T:ScriptCoreLib.SharedHelper">
             <summary>
             this class is shared among scriptcorelib assemblies 
@@ -118,9 +123,29 @@
             <param name="a"></param>
             <returns></returns>
         </member>
+        <member name="T:ScriptCoreLib.Shared.PlatformInvocationServices">
+            <summary>
+            Methods inside this type shall be implemented for each platform separatly
+            </summary>
+        </member>
         <member name="T:ScriptCoreLib.ScriptImportsTypeAttribute">
             <summary>
             Defines an external type to be imported with current class definition. To be used with native source code injection.
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.ScriptType">
+            <summary>
+            A class can be marked to be translated into a target langage
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.ActionScript.DynamicTypeAttribute">
+            <summary>
+            This is translated into the keyword 'dynamic'
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.Library.ProtectiveFileStream">
+            <summary>
+            ProtectiveFileStream protects against modifing a file when no changes were actually made
             </summary>
         </member>
         <member name="T:ScriptCoreLib.Shared.ScriptResourcesAttribute">
@@ -132,16 +157,6 @@
         <member name="T:ScriptCoreLib.ScriptLanguageProviderAttribute">
             <summary>
             this attribut tells the compiler in what namespaces the classes marked with ScriptAttribute are eligible for cross compilation
-            </summary>
-        </member>
-        <member name="T:ScriptCoreLib.ScriptType">
-            <summary>
-            A class can be marked to be translated into a target langage
-            </summary>
-        </member>
-        <member name="T:ScriptCoreLib.ScriptNamespaceRenameAttribute">
-            <summary>
-            renames a native namespace
             </summary>
         </member>
         <member name="T:ScriptCoreLib.ScriptVersionAttribute">
@@ -177,13 +192,19 @@
         </member>
         <member name="F:ScriptCoreLib.ScriptAttribute.LibraryImport">
             <summary>
-            defines a lib which will be called upon static constructor
+            Defines a lib which will be called upon static constructor in java.
+            In C this should point for example to winmm.lib.
             </summary>
         </member>
         <member name="F:ScriptCoreLib.ScriptAttribute.IsNative">
             <summary>
-            native class implementation is provided by runtime.
-            body of a native method will never be emitted
+            Native class implementation is provided by runtime. The end compiler
+            will need to be able to find their definition. 
+            
+            Body of a native method will never be emitted.
+            
+            While targeting C a delegate can be marked as IsNative. This delegate
+            will then be treated as typeless static function pointer.
             </summary>
         </member>
         <member name="F:ScriptCoreLib.ScriptAttribute.ExternalTarget">
@@ -224,6 +245,30 @@
             it has no prototype and constructor code is relocated
             </summary>
         </member>
+        <member name="F:ScriptCoreLib.ScriptAttribute.IsCoreLib">
+            <summary>
+            This field will mark the primary scriptcorelib for the target language.
+            In this assembly additional types may be written to support the runtime.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptAttribute.IsScriptLibrary">
+            <summary>
+            All types are now implicitly being attached to a default [Script]. 
+            Every type referenced in this assembly must have a BCL implementation
+            in its target language. Every defined type in this shall be converted
+            to its target language
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptAttribute.ScriptLibraries">
+            <summary>
+            Assemblies referenced with these types shall be treated as script libraries
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptAttribute.NonScriptTypes">
+            <summary>
+            This assembly level field can be used to define types which should not be considered as a script type.
+            </summary>
+        </member>
         <member name="F:ScriptCoreLib.ScriptAttribute.IsArray">
             <summary>
             supports the ldlen opcode
@@ -254,7 +299,9 @@
         </member>
         <member name="F:ScriptCoreLib.ScriptAttribute.NoDecoration">
             <summary>
-            set this field to true, to prevent decoration
+            In some target languages method overload requires some name decoration in order to work. 
+            In ActionScript you can apply this flag to a type or assembly to prevent the name decoration.
+            As such using overloaded methods will result in compile error in a later step.
             </summary>
         </member>
         <member name="F:ScriptCoreLib.ScriptAttribute.OptimizedCode">
@@ -274,6 +321,13 @@
             <summary>
             enum members get written as literals
             </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ScriptAttribute.IsScriptLibraryViaObfuscationAttribute(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            A script library can now be marked via [assembly: Obfuscation(Feature = "script")]
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
         </member>
         <member name="M:ScriptCoreLib.ScriptAttribute.Of(System.Type,System.Boolean)">
             <summary>
@@ -315,10 +369,44 @@
             script files are loaded dynamically
             </summary>
         </member>
+        <member name="F:ScriptCoreLib.ScriptApplicationEntryPointAttribute.WithResources">
+            <summary>
+            By setting this property to true, this type will be responsible
+            for assets. For ActionScript this would mean registering them with 
+            the resource collector. In the future versions this property might
+            be true by default.
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.ActionScript.EmbedResourcesAttribute">
+            <summary>
+            This attribute shall be attached to the resource collector type, which
+            must have a static Default member which must have a Class this[string e] setter
+            The resources will be registered with the collector within
+            a ScriptEntryPoint static constructor.
+            
+            By supporting this attribute you can embed resources like web/assets/AssemblyName/asset.png
+            </summary>
+        </member>
         <member name="T:ScriptCoreLib.HexAttribute">
             <summary>
             Indicates that the integer value assigned to a parameter should be represented
             as an hex 
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.IEntryPoint">
+            <summary>
+            The jsc compiler will invoke specific entrypoints in the target assembly.
+            This will enable to fill existing placeholder files with data.
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.ScriptNamespaceRenameAttribute">
+            <summary>
+            Renames a native namespace. For example java.lang.String could be written as ScriptCoreLibJava.java.lang.String.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ScriptNamespaceRenameAttribute.FilterToIsNative">
+            <summary>
+            Only native classes shall be considered while renaming
             </summary>
         </member>
     </members>

@@ -42,6 +42,12 @@
             user cannot select text, does not work with img in IE
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.JavaScript.DOM.HTML.IHTMLApplet.isActive">
+            <summary>
+            Method for determining whether or not the applet is active. An applet is activated right before its start() method is called and deactivated right after its stop() method is called.
+            </summary>
+            <returns>The Boolean value is true if the applet is active, false otherwise.</returns>
+        </member>
         <member name="F:ScriptCoreLib.ActionScript.flash.events.Event.ACTIVATE">
             <summary>
             [static] The Event.ACTIVATE constant defines the value of the type property of an activate event object.
@@ -433,6 +439,11 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.geom.Transform.matrix">
             <summary>
             A Matrix object containing values that affect the scaling, rotation, and translation of the display object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Transform.matrix3D">
+            <summary>
+            Provides access to the Matrix3D object of a three-dimensional display object.
             </summary>
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.geom.Transform.pixelBounds">
@@ -1586,6 +1597,11 @@
             Indicates the y coordinate of the DisplayObject instance relative to the local coordinates of the parent DisplayObjectContainer.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.display.DisplayObject.z">
+            <summary>
+            Indicates the z coordinate position along the z-axis of the DisplayObject instance relative to the 3D parent container.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.display.Bitmap.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,System.String,System.Boolean)">
             <summary>
             Initializes a Bitmap object to refer to the specified BitmapData object.
@@ -1997,6 +2013,21 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.display.Sprite.useHandCursor">
             <summary>
             A Boolean value that indicates whether the pointing hand (hand cursor) appears when the mouse rolls over a sprite in which the buttonMode property is set to true.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.events.SampleDataEvent.SAMPLE_DATA">
+            <summary>
+            [static] Defines the value of the type property of a SampleDataEvent event object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.events.SampleDataEvent.data">
+            <summary>
+            The data in the audio stream.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.events.SampleDataEvent.position">
+            <summary>
+            The position of the data in the audio stream.
             </summary>
         </member>
         <member name="M:ScriptCoreLib.JavaScript.Runtime.Timer.StartInterval">
@@ -2806,6 +2837,46 @@
             http://www.w3schools.com/tags/tag_label.asp
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLRequest.#ctor(System.String)">
+            <summary>
+            Creates a URLRequest object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLRequest.#ctor">
+            <summary>
+            Creates a URLRequest object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequest.contentType">
+            <summary>
+            The MIME content type of the content in the the data property.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequest.data">
+            <summary>
+            An object containing data to be transmitted with the URL request.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequest.digest">
+            <summary>
+            A string that uniquely identifies the signed Adobe platform component to be stored to (or retrieved from) the Flash Player cache.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequest.method">
+            <summary>
+            Controls the HTTP form submission method.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequest.requestHeaders">
+            <summary>
+            The array of HTTP request headers to be appended to the HTTP request.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequest.url">
+            <summary>
+            The URL to be requested.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.media.SoundTransform.#ctor(System.Double,System.Double)">
             <summary>
             Creates a SoundTransform object.
@@ -3216,22 +3287,22 @@
             Fills an image with pixels representing random noise.
             </summary>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,ScriptCoreLib.ActionScript.Array,ScriptCoreLib.ActionScript.Array,ScriptCoreLib.ActionScript.Array,ScriptCoreLib.ActionScript.Array)">
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32[],System.UInt32[],System.UInt32[],ScriptCoreLib.ActionScript.Array)">
             <summary>
             Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
             </summary>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,ScriptCoreLib.ActionScript.Array,ScriptCoreLib.ActionScript.Array,ScriptCoreLib.ActionScript.Array)">
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32[],System.UInt32[],System.UInt32[])">
             <summary>
             Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
             </summary>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,ScriptCoreLib.ActionScript.Array,ScriptCoreLib.ActionScript.Array)">
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32[],System.UInt32[])">
             <summary>
             Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
             </summary>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,ScriptCoreLib.ActionScript.Array)">
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.paletteMap(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Rectangle,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32[])">
             <summary>
             Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
             </summary>
@@ -3241,7 +3312,7 @@
             Remaps the color channel values in an image that has up to four arrays of color palette data, one for each channel.
             </summary>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.perlinNoise(System.Double,System.Double,System.UInt32,System.Int32,System.Boolean,System.Boolean,System.UInt32,System.Boolean,ScriptCoreLib.ActionScript.Array)">
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.BitmapData.perlinNoise(System.Double,System.Double,System.UInt32,System.Int32,System.Boolean,System.Boolean,System.UInt32,System.Boolean,ScriptCoreLib.ActionScript.flash.geom.Point[])">
             <summary>
             Generates a Perlin noise image.
             </summary>
@@ -3504,6 +3575,16 @@
             Specifies that the Stage is in full-screen mode.
             </summary>
         </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.net.NetStream.CONNECT_TO_FMS">
+            <summary>
+            A static object used as a parameter to the constructor for a NetStream instance.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.net.NetStream.DIRECT_CONNECTIONS">
+            <summary>
+            Creates a peer-to-peer publisher connection.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.net.NetStream.attachAudio(ScriptCoreLib.ActionScript.flash.media.Microphone)">
             <summary>
             Specifies an audio stream sent over the NetStream object, from a Microphone object passed as the source.
@@ -3626,7 +3707,7 @@
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.client">
             <summary>
-            Specifies the object on which callback methods are invoked.
+            Specifies the object on which callback methods are invoked to handle streaming or FLV file data.
             </summary>
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.currentFPS">
@@ -3634,14 +3715,44 @@
             [read-only] The number of frames per second being displayed.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.farID">
+            <summary>
+            [read-only] The identifier of the far end that is connected to this NetStream instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.farNonce">
+            <summary>
+            [read-only] A value chosen substantially by the other end of this stream, unique to this connection.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.info">
+            <summary>
+            [read-only] Returns a NetStreamInfo object whose properties contain statistics about the quality of service.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.liveDelay">
             <summary>
             [read-only] The number of seconds of data in the subscribing stream's buffer in live (unbuffered) mode.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.maxPauseBufferTime">
+            <summary>
+            Specifies how long to buffer messages during pause mode, in seconds.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.nearNonce">
+            <summary>
+            [read-only] A value chosen substantially by this end of the stream, unique to this connection.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.objectEncoding">
             <summary>
             [read-only] The object encoding (AMF version) for this NetStream object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.peerStreams">
+            <summary>
+            [read-only] An object that holds all of the subscribing NetStream instances that are listening to this publishing NetStream instance.
             </summary>
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetStream.soundTransform">
@@ -3697,6 +3808,316 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.display.FrameLabel.name">
             <summary>
             [read-only] The name of the label.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.add(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Adds the value of the x, y, and z elements of the current Vector3D object to the values of the x, y, and z elements of another Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.angleBetween(ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            [static] Returns the angle in radians between two vectors.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.clone">
+            <summary>
+            Returns a new Vector3D object that is an exact copy of the current Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.crossProduct(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Returns a new Vector3D object that is perpendicular (at a right angle) to the current Vector3D and another Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.decrementBy(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Decrements the value of the x, y, and z elements of the current Vector3D object by the values of the x, y, and z elements of specified Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.distance(ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            [static] Returns the distance between two Vector3D objects.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.dotProduct(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            If the current Vector3D object and the one specified as the parameter are unit vertices, this method returns the cosine of the angle between the two vertices.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.equals(ScriptCoreLib.ActionScript.flash.geom.Vector3D,System.Boolean)">
+            <summary>
+            Determines whether two Vector3D objects are equal by comparing the x, y, and z elements of the current Vector3D object with a specified Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.equals(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Determines whether two Vector3D objects are equal by comparing the x, y, and z elements of the current Vector3D object with a specified Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.incrementBy(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Increments the value of the x, y, and z elements of the current Vector3D object by the values of the x, y, and z elements of a specified Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.nearEquals(ScriptCoreLib.ActionScript.flash.geom.Vector3D,System.Double,System.Boolean)">
+            <summary>
+            Compares the elements of the current Vector3D object with the elements of a specified Vector3D object to determine whether they are nearly equal.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.nearEquals(ScriptCoreLib.ActionScript.flash.geom.Vector3D,System.Double)">
+            <summary>
+            Compares the elements of the current Vector3D object with the elements of a specified Vector3D object to determine whether they are nearly equal.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.negate">
+            <summary>
+            Sets the current Vector3D object to its inverse.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.normalize">
+            <summary>
+            Converts a Vector3D object to a unit vector by dividing the first three elements (x, y, z) by the length of the vector.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.project">
+            <summary>
+            Divides the value of the x, y, and z properties of the current Vector3D object by the value of its w property.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.scaleBy(System.Double)">
+            <summary>
+            Scales the current Vector3D object by a scalar, a magnitude.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.subtract(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Subtracts the value of the x, y, and z elements of the current Vector3D object from the values of the x, y, and z elements of another Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.#ctor(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Creates an instance of a Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Creates an instance of a Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.#ctor(System.Double,System.Double)">
+            <summary>
+            Creates an instance of a Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.#ctor(System.Double)">
+            <summary>
+            Creates an instance of a Vector3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Vector3D.#ctor">
+            <summary>
+            Creates an instance of a Vector3D object.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.geom.Vector3D.X_AXIS">
+            <summary>
+            [static] The x axis defined as a Vector3D object with coordinates (1,0,0).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.geom.Vector3D.Y_AXIS">
+            <summary>
+            [static] The y axis defined as a Vector3D object with coordinates (0,1,0).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.geom.Vector3D.Z_AXIS">
+            <summary>
+            [static] The z axis defined as a Vector3D object with coordinates (0,0,1).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Vector3D.length">
+            <summary>
+            [read-only] The length, magnitude, of the current Vector3D object from the origin (0,0,0) to the object's x, y, and z coordinates.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Vector3D.lengthSquared">
+            <summary>
+            [read-only] The square of the length of the current Vector3D object, calculated using the x, y, and z properties.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Vector3D.w">
+            <summary>
+            The fourth element of a Vector3D object (in addition to the x, y, and z properties) can hold data such as the angle of rotation.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Vector3D.x">
+            <summary>
+            The first element of a Vector3D object, such as the x coordinate of a point in the three-dimensional space.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Vector3D.y">
+            <summary>
+            The second element of a Vector3D object, such as the y coordinate of a point in the three-dimensional space.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Vector3D.z">
+            <summary>
+            The third element of a Vector3D object, such as the z coordinate of a point in three-dimensional space.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.append(ScriptCoreLib.ActionScript.flash.geom.Matrix3D)">
+            <summary>
+            Appends the matrix by multiplying another Matrix3D object by the current Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.appendRotation(System.Double,ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Appends an incremental rotation to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.appendRotation(System.Double,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Appends an incremental rotation to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.appendScale(System.Double,System.Double,System.Double)">
+            <summary>
+            Appends an incremental scale change along the x, y, and z axes to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.appendTranslation(System.Double,System.Double,System.Double)">
+            <summary>
+            Appends an incremental translation, a repositioning along the x, y, and z axes, to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.clone">
+            <summary>
+            Returns a new Matrix3D object that is an exact copy of the current Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.decompose(System.String)">
+            <summary>
+            Returns the transformation matrix's translation, rotation, and scale settings as a Vector of three Vector3D objects.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.decompose">
+            <summary>
+            Returns the transformation matrix's translation, rotation, and scale settings as a Vector of three Vector3D objects.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.deltaTransformVector(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Uses the transformation matrix without its translation elements to transforms a Vector3D object from one space coordinate to another.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.identity">
+            <summary>
+            Converts the current matrix to an identity or unit matrix.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.interpolate(ScriptCoreLib.ActionScript.flash.geom.Matrix3D,ScriptCoreLib.ActionScript.flash.geom.Matrix3D,System.Double)">
+            <summary>
+            [static] Simplifies the interpolation from one frame of reference to another by interpolating a display object a percent point closer to a target display object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.interpolateTo(ScriptCoreLib.ActionScript.flash.geom.Matrix3D,System.Double)">
+            <summary>
+            Interpolates the display object's matrix a percent closer to a target's matrix.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.invert">
+            <summary>
+            Inverts the current matrix.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.pointAt(ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Rotates the display object so that it faces a specified position.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.pointAt(ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Rotates the display object so that it faces a specified position.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.pointAt(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Rotates the display object so that it faces a specified position.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.prepend(ScriptCoreLib.ActionScript.flash.geom.Matrix3D)">
+            <summary>
+            Prepends a matrix by multiplying the current Matrix3D object by another Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.prependRotation(System.Double,ScriptCoreLib.ActionScript.flash.geom.Vector3D,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Prepends an incremental rotation to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.prependRotation(System.Double,ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Prepends an incremental rotation to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.prependScale(System.Double,System.Double,System.Double)">
+            <summary>
+            Prepends an incremental scale change along the x, y, and z axes to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.prependTranslation(System.Double,System.Double,System.Double)">
+            <summary>
+            Prepends an incremental translation, a repositioning along the x, y, and z axes, to a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.recompose(ScriptCoreLib.ActionScript.Vector,System.String)">
+            <summary>
+            Sets the transformation matrix's translation, rotation, and scale setting.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.recompose(ScriptCoreLib.ActionScript.Vector)">
+            <summary>
+            Sets the transformation matrix's translation, rotation, and scale setting.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.transformVector(ScriptCoreLib.ActionScript.flash.geom.Vector3D)">
+            <summary>
+            Uses the transformation matrix to transform a Vector3D object from one space coordinate to another.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.transformVectors(ScriptCoreLib.ActionScript.Vector,ScriptCoreLib.ActionScript.Vector)">
+            <summary>
+            Uses the transformation matrix to transform a Vector of Numbers from one coordinate space to another.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.transpose">
+            <summary>
+            Converts the current Matrix3D object to a matrix where the rows and columns are swapped.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.#ctor(ScriptCoreLib.ActionScript.Vector)">
+            <summary>
+            Creates a Matrix3D object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.#ctor">
+            <summary>
+            Creates a Matrix3D object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.determinant">
+            <summary>
+            [read-only] A Number that determines whether a matrix is invertible.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.position">
+            <summary>
+            A Vector3D object that holds the position, the three-dimensional coordinate (x,y,z) of a display object within the transformation's frame of reference.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.geom.Matrix3D.rawData">
+            <summary>
+            A Vector of 16 Numbers, where every four elements can be a row or a column of a 4x4 matrix.
             </summary>
         </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument">
@@ -4750,7 +5171,7 @@
             <param name="_haystack">string haystack</param>
             <param name="_needle">string needle</param>
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strpos(ScriptCoreLib.PHP.BCLImplementation.System.__String,System.Object)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strpos(System.String,System.Object)">
             <summary>
             Returns the numeric position of the first occurrence of needle in the haystack string. Unlike the strrpos(), this function can take a full string as the needle parameter and the entire string will be used. 
             </summary>
@@ -4765,7 +5186,7 @@
             <param name="_replace">mixed replace</param>  
             <param name="_subject">mixed subject</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.substr(ScriptCoreLib.PHP.BCLImplementation.System.__String,System.Int32,System.Int32)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.substr(System.String,System.Int32,System.Int32)">
             <summary>  
             substr() returns the portion of string specified by the start and length parameters.   
             </summary>  
@@ -4773,38 +5194,38 @@
             <param name="_start">int start</param>  
             <param name="_length">int length</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.substr(ScriptCoreLib.PHP.BCLImplementation.System.__String,System.Int32)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.substr(System.String,System.Int32)">
             <summary>  
             substr() returns the portion of string specified by the start and length parameters.   
             </summary>  
             <param name="_string">string string</param>  
             <param name="_start">int start</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strlen(ScriptCoreLib.PHP.BCLImplementation.System.__String)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strlen(System.String)">
             <summary>  
             Returns the length of the given string.   
             </summary>  
             <param name="_string">string string</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.trim(ScriptCoreLib.PHP.BCLImplementation.System.__String)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.trim(System.String)">
             <summary>  
             This function returns a string with whitespace stripped from the beginning and end of str  
             </summary>  
             <param name="_str">string str</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strtoupper(ScriptCoreLib.PHP.BCLImplementation.System.__String)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strtoupper(System.String)">
             <summary>  
             Returns string with all alphabetic characters converted to uppercase.   
             </summary>  
             <param name="_string">string string</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strtolower(ScriptCoreLib.PHP.BCLImplementation.System.__String)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strtolower(System.String)">
             <summary>  
             Returns string with all alphabetic characters converted to lowercase.   
             </summary>  
             <param name="_str">string str</param>  
         </member>
-        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strcmp(ScriptCoreLib.PHP.BCLImplementation.System.__String,ScriptCoreLib.PHP.BCLImplementation.System.__String)">
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__String.API.strcmp(System.String,System.String)">
             <summary>  
             Returns &lt; 0 if str1 is less than str2; &gt; 0 if str1 is greater than str2, and 0 if they are equal.   
             </summary>  
@@ -4909,6 +5330,26 @@
             This class can be used to read a simple zip file
             </summary>
         </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilterMode.CLAMP">
+            <summary>
+            [static] Clamps the displacement value to the edge of the source image.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilterMode.COLOR">
+            <summary>
+            [static] If the displacement value is outside the image, substitutes the values in the color and alpha properties.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilterMode.IGNORE">
+            <summary>
+            [static] If the displacement value is out of range, ignores the displacement and uses the source pixel.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilterMode.WRAP">
+            <summary>
+            [static] Wraps the displacement value to the other side of the source image.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.JavaScript.Runtime.Cookie`1.Value">
             <summary>
             this is a time expensive property
@@ -4972,6 +5413,12 @@
             returns file content as string
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.__Type.API.gettype(System.Object)">
+            <summary>  
+            Returns the type of the PHP variable var.   
+            </summary>  
+            <param name="_var">mixed var</param>  
+        </member>
         <member name="M:ScriptCoreLib.JavaScript.DOM.HTML.IHTMLTableBody.AddRow(System.Object[])">
             <summary>
             accepts either string or INode
@@ -4993,7 +5440,7 @@
             <param name="functionName"></param>
             <param name="closure"></param>
         </member>
-        <member name="M:ScriptCoreLib.ActionScript.flash.external.ExternalInterface.call(System.String,System.Object)">
+        <member name="M:ScriptCoreLib.ActionScript.flash.external.ExternalInterface.call(System.String)">
             <summary>
             Calls a function exposed by the Flash Player container, passing zero or more arguments.
             </summary>
@@ -5274,6 +5721,16 @@
         <member name="P:ScriptCoreLib.ActionScript.flash.utils.IDataInput.objectEncoding">
             <summary>
             Used to determine whether the AMF3 or AMF0 format is used when writing or reading binary data using the readObject() method.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.utils.Dictionary.#ctor(System.Boolean)">
+            <summary>
+            Creates a new Dictionary object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.utils.Dictionary.#ctor">
+            <summary>
+            Creates a new Dictionary object.
             </summary>
         </member>
         <member name="M:ScriptCoreLib.PHP.Runtime.ApplicationSwitch.DoPage">
@@ -5931,6 +6388,46 @@
             [read-only] Gets the parent domain of this application domain.
             </summary>
         </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.events.DataEvent.DATA">
+            <summary>
+            [static] Defines the value of the type property of a data event object.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.events.DataEvent.UPLOAD_COMPLETE_DATA">
+            <summary>
+            [static] Defines the value of the type property of an uploadCompleteData event object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.DataEvent.clone">
+            <summary>
+            [override] Creates a copy of the DataEvent object and sets the value of each property to match that of the original.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.DataEvent.#ctor(System.String,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Creates an event object that contains information about data events.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.DataEvent.#ctor(System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an event object that contains information about data events.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.DataEvent.#ctor(System.String,System.Boolean)">
+            <summary>
+            Creates an event object that contains information about data events.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.events.DataEvent.#ctor(System.String)">
+            <summary>
+            Creates an event object that contains information about data events.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.events.DataEvent.data">
+            <summary>
+            The raw data loaded into Flash Player or Adobe AIR.
+            </summary>
+        </member>
         <member name="F:ScriptCoreLib.Shared.MyTransportDescriptor`1.Callback">
             <summary>
             callback id, so we can send back info, if file upload
@@ -5958,7 +6455,7 @@
         </member>
         <member name="M:ScriptCoreLib.JavaScript.Extensions.Extensions.Dispose``1(``0)">
             <summary>
-            detaches the node from dom
+            detaches the node from dom; should be renamed to Orphanize
             </summary>
         </member>
         <member name="M:ScriptCoreLib.JavaScript.Extensions.Extensions.AttachToDocument``1(``0)">
@@ -5966,14 +6463,186 @@
             attaches this element to the current document body
             </summary>
         </member>
+        <member name="T:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest">
+            <summary>
+            http://www.devguru.com/Technologies/xmldom/quickref/obj_httpRequest.html
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.#ctor(ScriptCoreLib.Shared.HTTPMethodEnum,System.String,System.Action{ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest})">
+            <summary>
+            creates object, opens connection
+            </summary>
+            <param name="method"></param>
+            <param name="url"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.InternalConstructor(System.String,System.Action{ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest},System.Boolean)">
+            <summary>
+            sends no data, with head method
+            </summary>
+            <param name="url"></param>
+            <param name="handler"></param>
+            <param name="async"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.InternalConstructor(System.String,ScriptCoreLib.JavaScript.DOM.XML.IXMLDocument,System.Action{ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest},System.Boolean)">
+            <summary>
+            sends data with POST method
+            </summary>
+            <param name="url"></param>
+            <param name="data"></param>
+            <param name="handler"></param>
+            <param name="async"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.InternalConstructor(ScriptCoreLib.Shared.HTTPMethodEnum,System.String,System.Action{ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest})">
+            <summary>
+            sends http request, with no data
+            </summary>
+            <param name="method"></param>
+            <param name="url"></param>
+            <param name="handler"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.responseXML">
+            <summary>
+            parses the xml
+            
+            Content-type: application/xhtml+xml
+            -OR-
+            Content-type: text/xml
+            &lt;?xml version='1.0' encoding='utf-8' standalone='yes'?&gt;
+            </summary>
+        </member>
+        <member name="T:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.HTTPStatusCodes">
+            <summary>
+            http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.1.1
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.JavaScript.DOM.IXMLHttpRequest.HTTPStatusCodes.Accepted">
+            <summary>
+            202 - ok to read xml
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.close">
+            <summary>
+            Closes the stream, causing any download of data to cease.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.extract(ScriptCoreLib.ActionScript.flash.utils.ByteArray,System.Double,System.Double)">
+            <summary>
+            Extracts raw sound data from a Sound object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.extract(ScriptCoreLib.ActionScript.flash.utils.ByteArray,System.Double)">
+            <summary>
+            Extracts raw sound data from a Sound object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.load(ScriptCoreLib.ActionScript.flash.net.URLRequest,ScriptCoreLib.ActionScript.flash.media.SoundLoaderContext)">
+            <summary>
+            Initiates loading of an external MP3 file from the specified URL.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.load(ScriptCoreLib.ActionScript.flash.net.URLRequest)">
+            <summary>
+            Initiates loading of an external MP3 file from the specified URL.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.play(System.Double,System.Int32,ScriptCoreLib.ActionScript.flash.media.SoundTransform)">
             <summary>
             Generates a new SoundChannel object to play back the sound.
             </summary>
-            <param name="startTime"></param>
-            <param name="loops"></param>
-            <param name="sndTransform"></param>
-            <returns></returns>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.play(System.Double,System.Int32)">
+            <summary>
+            Generates a new SoundChannel object to play back the sound.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.play(System.Double)">
+            <summary>
+            Generates a new SoundChannel object to play back the sound.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.play">
+            <summary>
+            Generates a new SoundChannel object to play back the sound.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.#ctor(ScriptCoreLib.ActionScript.flash.net.URLRequest,ScriptCoreLib.ActionScript.flash.media.SoundLoaderContext)">
+            <summary>
+            Creates a new Sound object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.#ctor(ScriptCoreLib.ActionScript.flash.net.URLRequest)">
+            <summary>
+            Creates a new Sound object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.media.Sound.#ctor">
+            <summary>
+            Creates a new Sound object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.media.Sound.bytesLoaded">
+            <summary>
+            [read-only] Returns the currently available number of bytes in this sound object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.media.Sound.bytesTotal">
+            <summary>
+            [read-only] Returns the total number of bytes in this sound object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.media.Sound.id3">
+            <summary>
+            [read-only] Provides access to the metadata that is part of an MP3 file.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.media.Sound.isBuffering">
+            <summary>
+            [read-only] Returns the buffering state of external MP3 files.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.media.Sound.length">
+            <summary>
+            [read-only] The length of the current sound in milliseconds.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.media.Sound.url">
+            <summary>
+            [read-only] The URL from which this sound was loaded.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.media.Sound.complete">
+            <summary>
+            Dispatched when data has loaded successfully.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.media.Sound.onid3">
+            <summary>
+            Dispatched by a Sound object when ID3 data is available for an MP3 sound.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.media.Sound.ioError">
+            <summary>
+            Dispatched when an input/output error occurs that causes a load operation to fail.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.media.Sound.open">
+            <summary>
+            Dispatched when a load operation starts.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.media.Sound.progress">
+            <summary>
+            Dispatched when data is received as a load operation progresses.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.media.Sound.sampleData">
+            <summary>
+            Dispatched when the player requests new audio data.
+            </summary>
         </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.text.TextField.appendText(System.String)">
             <summary>
@@ -6966,6 +7635,541 @@
             [read-only] The difference, in minutes, between universal time (UTC) and the computer's local time.
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.addASCuePoint(System.Object,System.String,System.Object)">
+            <summary>
+            Adds an ActionScript cue point and has the same effect as adding an ActionScript cue point using the Cue Points dialog box, except that it occurs when an application executes rather than during application development.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.addASCuePoint(System.Object,System.String)">
+            <summary>
+            Adds an ActionScript cue point and has the same effect as adding an ActionScript cue point using the Cue Points dialog box, except that it occurs when an application executes rather than during application development.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.addASCuePoint(System.Object)">
+            <summary>
+            Adds an ActionScript cue point and has the same effect as adding an ActionScript cue point using the Cue Points dialog box, except that it occurs when an application executes rather than during application development.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bringVideoPlayerToFront(System.UInt32)">
+            <summary>
+            Brings a video player to the front of the stack of video players.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.closeVideoPlayer(System.UInt32)">
+            <summary>
+            Closes NetStream and deletes the video player specified by the index parameter.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.enterFullScreenDisplayState">
+            <summary>
+            Sets the FLVPlayback video player to full screen.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.findCuePoint(System.Object,System.String)">
+            <summary>
+            Finds the cue point of the type specified by the type parameter and having the time, name, or combination of time and name that you specify through the parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.findNearestCuePoint(System.Object,System.String)">
+            <summary>
+            Finds a cue point of the specified type that matches or is earlier than the time that you specify.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.findNextCuePointWithName(System.Object)">
+            <summary>
+            Finds the next cue point in my_cuePoint.array that has the same name as my_cuePoint.name.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.getVideoPlayer(System.Double)">
+            <summary>
+            Gets the video player specified by the index parameter.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.isFLVCuePointEnabled(System.Object)">
+            <summary>
+            Returns false if the FLV file embedded cue point is disabled.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.load(System.String,System.Double,System.Boolean)">
+            <summary>
+            Begins loading the FLV file and provides a shortcut for setting the autoPlay property to false and setting the source, totalTime, and isLive properties, if given.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.load(System.String,System.Double)">
+            <summary>
+            Begins loading the FLV file and provides a shortcut for setting the autoPlay property to false and setting the source, totalTime, and isLive properties, if given.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.load(System.String)">
+            <summary>
+            Begins loading the FLV file and provides a shortcut for setting the autoPlay property to false and setting the source, totalTime, and isLive properties, if given.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.pause">
+            <summary>
+            Pauses playing the video stream.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.play(System.String,System.Double,System.Boolean)">
+            <summary>
+            Plays the video stream.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.play(System.String,System.Double)">
+            <summary>
+            Plays the video stream.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.play(System.String)">
+            <summary>
+            Plays the video stream.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.play">
+            <summary>
+            Plays the video stream.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playWhenEnoughDownloaded">
+            <summary>
+            Plays the FLV file when enough of it has downloaded.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.removeASCuePoint(System.Object)">
+            <summary>
+            Removes an ActionScript cue point from the currently loaded FLV file.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seek(System.Double)">
+            <summary>
+            Seeks to a given time in the file, specified in seconds, with a precision of three decimal places (milliseconds).
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekPercent(System.Double)">
+            <summary>
+            Seeks to a percentage of the file and places the playhead there.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekSeconds(System.Double)">
+            <summary>
+            Seeks to a given time in the file, specified in seconds, with a precision up to three decimal places (milliseconds).
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekToNavCuePoint(System.Object)">
+            <summary>
+            Seeks to a navigation cue point that matches the specified time, name, or time and name.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekToNextNavCuePoint(System.Double)">
+            <summary>
+            Seeks to the next navigation cue point, based on the current value of the playheadTime property.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekToNextNavCuePoint">
+            <summary>
+            Seeks to the next navigation cue point, based on the current value of the playheadTime property.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekToPrevNavCuePoint(System.Double)">
+            <summary>
+            Seeks to the previous navigation cue point, based on the current value of the playheadTime property.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekToPrevNavCuePoint">
+            <summary>
+            Seeks to the previous navigation cue point, based on the current value of the playheadTime property.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.setFLVCuePointEnabled(System.Boolean,System.Object)">
+            <summary>
+            Enables or disables one or more FLV file cue points.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.setScale(System.Double,System.Double)">
+            <summary>
+            Sets the scaleX and scaleY properties simultaneously.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.setSize(System.Double,System.Double)">
+            <summary>
+            Sets width and height simultaneously.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.stop">
+            <summary>
+            Stops the video from playing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.activeVideoPlayerIndex">
+            <summary>
+            A number that specifies which video player instance is affected by other application programming interfaces (APIs).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.align">
+            <summary>
+            Specifies the video layout when the scaleMode property is set to VideoScaleMode.MAINTAIN_ASPECT_RATIO or VideoScaleMode.NO_SCALE.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.autoPlay">
+            <summary>
+            A Boolean value that, if set to true, causes the FLV file to start playing automatically after the source property is set.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.autoRewind">
+            <summary>
+            A Boolean value that, if true, causes the FLV file to rewind to Frame 1 when play stops, either because the player reached the end of the stream or the stop() method was called.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.backButton">
+            <summary>
+            BackButton playback control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bitrate">
+            <summary>
+            A number that specifies the bits per second at which to transfer the FLV file.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.buffering">
+            <summary>
+            [read-only] A Boolean value that is true if the video is in a buffering state.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bufferingBar">
+            <summary>
+            Buffering bar control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bufferingBarHidesAndDisablesOthers">
+            <summary>
+            If set to true, hides the SeekBar control and disables the Play, Pause, PlayPause, BackButton and ForwardButton controls while the FLV file is in the buffering state.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bufferTime">
+            <summary>
+            A number that specifies the number of seconds to buffer in memory before beginning to play a video stream.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bytesLoaded">
+            <summary>
+            [read-only] A number that indicates the extent of downloading, in number of bytes, for an HTTP download.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.bytesTotal">
+            <summary>
+            [read-only] A number that specifies the total number of bytes downloaded for an HTTP download.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.cuePoints">
+            <summary>
+            [write-only] An array that describes ActionScript cue points and disabled embedded FLV file cue points.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.forwardButton">
+            <summary>
+            Forward button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.fullScreenBackgroundColor">
+            <summary>
+            Background color used when in full-screen takeover mode.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.fullScreenButton">
+            <summary>
+            FullScreen button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.fullScreenSkinDelay">
+            <summary>
+            Specifies the delay time in milliseconds to hide the skin.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.fullScreenTakeOver">
+            <summary>
+            When the stage enters full-screen mode, the FLVPlayback component is on top of all content and takes over the entire screen.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.height">
+            <summary>
+            A number that specifies the height of the FLVPlayback instance.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.idleTimeout">
+            <summary>
+            The amount of time, in milliseconds, before Flash terminates an idle connection to Flash Media Server (FMS) because playing paused or stopped.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.isLive">
+            <summary>
+            A Boolean value that is true if the video stream is live.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.isRTMP">
+            <summary>
+            [read-only] A Boolean value that is true if the FLV file is streaming from Flash Media Server (FMS) using RTMP.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.metadata">
+            <summary>
+            [read-only] An object that is a metadata information packet that is received from a call to the NetSteam.onMetaData() callback method, if available.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.metadataLoaded">
+            <summary>
+            [read-only] A Boolean value that is true if a metadata packet has been encountered and processed or if the FLV file was encoded without the metadata packet.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.muteButton">
+            <summary>
+            Mute button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.ncMgr">
+            <summary>
+            [read-only] An INCManager object that provides access to an instance of the class implementing INCManager, which is an interface to the NCManager class.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.pauseButton">
+            <summary>
+            Pause button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.paused">
+            <summary>
+            [read-only] A Boolean value that is true if the FLV file is in a paused state.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playButton">
+            <summary>
+            Play button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playheadPercentage">
+            <summary>
+            A number that specifies the current playheadTime as a percentage of the totalTime property.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playheadTime">
+            <summary>
+            A number that is the current playhead time or position, measured in seconds, which can be a fractional value.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playheadUpdateInterval">
+            <summary>
+            A number that is the amount of time, in milliseconds, between each playheadUpdate event.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playing">
+            <summary>
+            [read-only] A Boolean value that is true if the FLV file is in the playing state.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.playPauseButton">
+            <summary>
+            Play/pause button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.preferredHeight">
+            <summary>
+            [read-only] A number that specifies the height of the source FLV file.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.preferredWidth">
+            <summary>
+            [read-only] Gives the width of the source FLV file.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.preview">
+            <summary>
+            [write-only] Only for live preview.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.progressInterval">
+            <summary>
+            A number that is the amount of time, in milliseconds, between each progress event.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.registrationHeight">
+            <summary>
+            The height used to align the video content when autoresizing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.registrationWidth">
+            <summary>
+            The width used to align the video content when autoresizing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.registrationX">
+            <summary>
+            The x coordinate used to align the video content when autoresizing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.registrationY">
+            <summary>
+            The y coordinate used to align the video content when autoresizing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.scaleMode">
+            <summary>
+            Specifies how the video will resize after loading.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.scaleX">
+            <summary>
+            A number that is the horizontal scale.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.scaleY">
+            <summary>
+            A number that is the vertical scale.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.scrubbing">
+            <summary>
+            [read-only] A Boolean value that is true if the user is scrubbing with the SeekBar and false otherwise.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekBar">
+            <summary>
+            The SeekBar control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekBarInterval">
+            <summary>
+            A number that specifies, in milliseconds, how often to check the SeekBar handle when scrubbing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekBarScrubTolerance">
+            <summary>
+            A number that specifies how far a user can move the SeekBar handle before an update occurs.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.seekToPrevOffset">
+            <summary>
+            The number of seconds that the seekToPrevNavCuePoint() method uses when it compares its time against the previous cue point.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.skin">
+            <summary>
+            A string that specifies the URL to a skin SWF file.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.skinAutoHide">
+            <summary>
+            A Boolean value that, if true, hides the component skin when the mouse is not over the video.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.skinBackgroundAlpha">
+            <summary>
+            The alpha for the background of the skin.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.skinBackgroundColor">
+            <summary>
+            The color for the background of the skin (0xRRGGBB).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.skinFadeTime">
+            <summary>
+            The amount of time in milliseconds that it takes for the skin to fade in or fade out when hiding or showing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.skinScaleMaximum">
+            <summary>
+            This property specifies the largest multiple that FLVPlayback will use to scale up its skin when it enters full screen mode with a Flash Player that supports hardware acceleration.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.soundTransform">
+            <summary>
+            Provides direct access to the VideoPlayer.soundTransform property to expose more sound control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.source">
+            <summary>
+            A string that specifies the URL of the FLV file to stream and how to stream it.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.state">
+            <summary>
+            [read-only] A string that specifies the state of the component.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.stateResponsive">
+            <summary>
+            [read-only] A Boolean value that is true if the state is responsive.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.stopButton">
+            <summary>
+            The Stop button control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.stopped">
+            <summary>
+            [read-only] A Boolean value that is true if the state of the FLVPlayback instance is stopped.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.totalTime">
+            <summary>
+            A number that is the total playing time for the video in seconds.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.visibleVideoPlayerIndex">
+            <summary>
+            A number that you can use to manage multiple FLV file streams.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.volume">
+            <summary>
+            A number in the range of 0 to 1 that indicates the volume control setting.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.volumeBar">
+            <summary>
+            The volume bar control.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.volumeBarInterval">
+            <summary>
+            A number that specifies, in milliseconds, how often to check the volume bar handle location when scrubbing.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.volumeBarScrubTolerance">
+            <summary>
+            A number that specifies how far a user can move the volume bar handle before an update occurs.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.width">
+            <summary>
+            A number that specifies the width of the FLVPlayback instance on the Stage.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.x">
+            <summary>
+            A number that specifies the horizontal position (in pixels) of the video player.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.fl.video.FLVPlayback.y">
+            <summary>
+            A number that specifies the vertical position (in pixels) of the video player.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLVariables.decode(System.String)">
+            <summary>
+            Converts the variable string to properties of the specified URLVariables object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLVariables.#ctor(System.String)">
+            <summary>
+            Creates a new URLVariables object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLVariables.#ctor">
+            <summary>
+            Creates a new URLVariables object.
+            </summary>
+        </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.net.SharedObject.clear">
             <summary>
             For local shared objects, purges all of the data and deletes the shared object from the disk.
@@ -7054,6 +8258,101 @@
         <member name="E:ScriptCoreLib.ActionScript.flash.net.SharedObject.sync">
             <summary>
             Dispatched when a remote shared object has been updated by the server.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32,System.UInt32,System.Double,System.Double,System.String,System.UInt32,System.Double)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32,System.UInt32,System.Double,System.Double,System.String,System.UInt32)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32,System.UInt32,System.Double,System.Double,System.String)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32,System.UInt32,System.Double,System.Double)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32,System.UInt32,System.Double)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32,System.UInt32)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point,System.UInt32)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData,ScriptCoreLib.ActionScript.flash.geom.Point)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor(ScriptCoreLib.ActionScript.flash.display.BitmapData)">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.#ctor">
+            <summary>
+            Initializes a DisplacementMapFilter instance with the specified parameters.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.alpha">
+            <summary>
+            Specifies the alpha transparency value to use for out-of-bounds displacements.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.color">
+            <summary>
+            Specifies what color to use for out-of-bounds displacements.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.componentX">
+            <summary>
+            Describes which color channel to use in the map image to displace the x result.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.componentY">
+            <summary>
+            Describes which color channel to use in the map image to displace the y result.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.mapBitmap">
+            <summary>
+            A BitmapData object containing the displacement map data.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.mapPoint">
+            <summary>
+            A value that contains the offset of the upper-left corner of the target display object from the upper-left corner of the map image.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.mode">
+            <summary>
+            The mode for the filter.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.scaleX">
+            <summary>
+            The multiplier to use to scale the x displacement result from the map calculation.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.filters.DisplacementMapFilter.scaleY">
+            <summary>
+            The multiplier to use to scale the y displacement result from the map calculation.
             </summary>
         </member>
         <member name="F:ScriptCoreLib.ActionScript.Array.CASEINSENSITIVE">
@@ -7274,6 +8573,11 @@
         <member name="P:ScriptCoreLib.Shared.AssemblyInfo.BuildDateTimeString">
             <summary>
             date when library was compiled
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.JavaScript.DOM.IStyle.appleDashboardRegion">
+            <summary>
+            Example values: "dashboard-region(control rectangle)" "none"
             </summary>
         </member>
         <member name="F:ScriptCoreLib.JavaScript.DOM.IStyle.cursor">
@@ -7803,7 +9107,7 @@
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.connectedProxyType">
             <summary>
-            [read-only] If a successful connection is made, indicates the method that was used to make it: a direct connection, the CONNECT method, or HTTP tunneling.
+            [read-only] The proxy type used to make a successful NetConnection.connect() call to Flash Media Server: "none", "HTTP", "HTTPS", or "CONNECT".
             </summary>
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.defaultObjectEncoding">
@@ -7811,14 +9115,49 @@
             [static] The default object encoding for NetConnection objects.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.farID">
+            <summary>
+            [read-only] The identifier of the Flash Media Server instance to which this Flash Player or Adobe AIR instance is connected.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.farNonce">
+            <summary>
+            [read-only] A value chosen substantially by Flash Media Server, unique to this connection.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.maxPeerConnections">
+            <summary>
+            The total number of inbound and outbound peer connections that this instance of Flash Player or Adobe AIR allows.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.nearID">
+            <summary>
+            [read-only] The identifier of this Flash Player or Adobe AIR instance for this NetConnection instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.nearNonce">
+            <summary>
+            [read-only] A value chosen substantially by this Flash Player or Adobe AIR instance, unique to this connection.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.objectEncoding">
             <summary>
             The object encoding for this NetConnection instance.
             </summary>
         </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.protocol">
+            <summary>
+            [read-only] The protocol used to establish the connection.
+            </summary>
+        </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.proxyType">
             <summary>
             Determines which fallback methods are tried if an initial connection attempt to the server fails.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.unconnectedPeerStreams">
+            <summary>
+            [read-only] An object that holds all of the peer subscriber NetStream objects that are not associated with publishing NetStream objects.
             </summary>
         </member>
         <member name="P:ScriptCoreLib.ActionScript.flash.net.NetConnection.uri">
@@ -7912,6 +9251,36 @@
             </summary>
             <param name="e"></param>
             <returns></returns>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.net.URLRequestMethod.GET">
+            <summary>
+            [static] Specifies that the URLRequest object is a GET.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.net.URLRequestMethod.POST">
+            <summary>
+            [static] Specifies that the URLRequest object is a POST.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BitmapDataChannel.ALPHA">
+            <summary>
+            [static] The alpha channel.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BitmapDataChannel.BLUE">
+            <summary>
+            [static] The blue channel.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BitmapDataChannel.GREEN">
+            <summary>
+            [static] The green channel.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BitmapDataChannel.RED">
+            <summary>
+            [static] The red channel.
+            </summary>
         </member>
         <member name="T:ScriptCoreLib.JavaScript.DOM.HTML.IHTMLSelect">
             <summary>
@@ -8485,6 +9854,154 @@
             Creates a new Responder object.
             </summary>
         </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLRequestHeader.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new URLRequestHeader object that encapsulates a single HTTP request header.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLRequestHeader.#ctor(System.String)">
+            <summary>
+            Creates a new URLRequestHeader object that encapsulates a single HTTP request header.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.URLRequestHeader.#ctor">
+            <summary>
+            Creates a new URLRequestHeader object that encapsulates a single HTTP request header.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequestHeader.name">
+            <summary>
+            An HTTP request header name (such as Content-Type or SOAPAction).
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.URLRequestHeader.value">
+            <summary>
+            The value associated with the name property (such as text/plain).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.album">
+            <summary>
+            The name of the album; corresponds to the ID3 2.0 tag TALB.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.artist">
+            <summary>
+            The name of the artist; corresponds to the ID3 2.0 tag TPE1.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.comment">
+            <summary>
+            A comment about the recording; corresponds to the ID3 2.0 tag COMM.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.genre">
+            <summary>
+            The genre of the song; corresponds to the ID3 2.0 tag TCON.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.songName">
+            <summary>
+            The name of the song; corresponds to the ID3 2.0 tag TIT2.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.track">
+            <summary>
+            The track number; corresponds to the ID3 2.0 tag TRCK.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.media.ID3Info.year">
+            <summary>
+            The year of the recording; corresponds to the ID3 2.0 tag TYER.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.GradientType.LINEAR">
+            <summary>
+            [static] Value used to specify a linear gradient fill.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.GradientType.RADIAL">
+            <summary>
+            [static] Value used to specify a radial gradient fill.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.ADD">
+            <summary>
+            [static] Adds the values of the constituent colors of the display object to the colors of its background, applying a ceiling of 0xFF.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.ALPHA">
+            <summary>
+            [static] Applies the alpha value of each pixel of the display object to the background.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.DARKEN">
+            <summary>
+            [static] Selects the darker of the constituent colors of the display object and the colors of the background (the colors with the smaller values).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.DIFFERENCE">
+            <summary>
+            [static] Compares the constituent colors of the display object with the colors of its background, and subtracts the darker of the values of the two constituent colors from the lighter value.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.ERASE">
+            <summary>
+            [static] Erases the background based on the alpha value of the display object.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.HARDLIGHT">
+            <summary>
+            [static] Adjusts the color of each pixel based on the darkness of the display object.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.INVERT">
+            <summary>
+            [static] Inverts the background.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.LAYER">
+            <summary>
+            [static] Forces the creation of a transparency group for the display object.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.LIGHTEN">
+            <summary>
+            [static] Selects the lighter of the constituent colors of the display object and the colors of the background (the colors with the larger values).
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.MULTIPLY">
+            <summary>
+            [static] Multiplies the values of the display object constituent colors by the constituent colors of the background color, and normalizes by dividing by 0xFF, resulting in darker colors.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.NORMAL">
+            <summary>
+            [static] The display object appears in front of the background.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.OVERLAY">
+            <summary>
+            [static] Adjusts the color of each pixel based on the darkness of the background.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.SCREEN">
+            <summary>
+            [static] Multiplies the complement (inverse) of the display object color by the complement of the background color, resulting in a bleaching effect.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.SHADER">
+            <summary>
+            [static] Uses a shader to define the blend between objects.
+            </summary>
+        </member>
+        <member name="F:ScriptCoreLib.ActionScript.flash.display.BlendMode.SUBTRACT">
+            <summary>
+            [static] Subtracts the values of the constituent colors in the display object from the values of the background color, applying a floor of 0.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.JavaScript.DOM.IStyleExtensions.SetMatrixTransform(ScriptCoreLib.JavaScript.DOM.IStyle,System.Double[])">
+            <param name="Matrix">M11, M12, M21, M22, Dx, Dy</param>
+        </member>
         <member name="M:ScriptCoreLib.PHP.Runtime.IArray.MembersToArray">
             <summary>
             converts each array member from object to array
@@ -8518,6 +10035,38 @@
             <param name="_array">array &amp;array </param>
         </member>
         <member name="M:ScriptCoreLib.PHP.Runtime.IArray.API.is_array(System.Object)">
+            <summary>
+            Finds whether the given variable is an array. 
+            </summary>
+            <param name="_mixed">mixed var </param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__List`1.API.sort(System.Object)" -->
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__List`1.API.array_keys(System.Object)">
+            <summary>  
+            array_keys() returns the keys, numeric and string, from the input array.   
+            </summary>  
+            <param name="_input">array input</param>  
+        </member>
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__List`1.API.count(System.Object)">
+            <summary>
+            Returns the number of elements in var, which is typically an array, since anything else will have one element. 
+            </summary>
+            <param name="_var">mixed var</param>
+        </member>
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__List`1.API.array_push(System.Object,System.Object)">
+            <summary>
+            array_push() treats array as a stack, and pushes the passed variables onto the end of array. The length of array increases by the number of variables pushed.
+            </summary>
+            <param name="_array">array &amp;array</param>
+            <param name="_mixed">mixed var </param>
+        </member>
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__List`1.API.array_pop(System.Object)">
+            <summary>
+            array_pop() pops and returns the last value of the array, shortening the array by one element. If array is empty (or is not an array), NULL will be returned. 
+            </summary>
+            <param name="_array">array &amp;array </param>
+        </member>
+        <member name="M:ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic.__List`1.API.is_array(System.Object)">
             <summary>
             Finds whether the given variable is an array. 
             </summary>
@@ -8676,6 +10225,31 @@
         <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.beginBitmapFill(ScriptCoreLib.ActionScript.flash.display.BitmapData)">
             <summary>
             Fills a drawing area with a bitmap image.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.beginGradientFill(System.String,System.UInt32[],System.Double[],System.Int32[],ScriptCoreLib.ActionScript.flash.geom.Matrix,System.String,System.String,System.Double)">
+            <summary>
+            Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.beginGradientFill(System.String,System.UInt32[],System.Double[],System.Int32[],ScriptCoreLib.ActionScript.flash.geom.Matrix,System.String,System.String)">
+            <summary>
+            Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.beginGradientFill(System.String,System.UInt32[],System.Double[],System.Int32[],ScriptCoreLib.ActionScript.flash.geom.Matrix,System.String)">
+            <summary>
+            Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.beginGradientFill(System.String,System.UInt32[],System.Double[],System.Int32[],ScriptCoreLib.ActionScript.flash.geom.Matrix)">
+            <summary>
+            Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.beginGradientFill(System.String,System.UInt32[],System.Double[],System.Int32[])">
+            <summary>
+            Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
             </summary>
         </member>
         <member name="M:ScriptCoreLib.ActionScript.flash.display.Graphics.clear">
@@ -8880,6 +10454,171 @@
         <member name="T:ScriptCoreLib.ActionScript.Extensions.PreloaderSprite">
             <summary>
             To be used with FrameAttribute and TypeOfByNameOverrideAttribute
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.browse(ScriptCoreLib.ActionScript.flash.net.FileFilter[])">
+            <summary>
+            Displays a file-browsing dialog box that lets the user select a file to upload.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.browse">
+            <summary>
+            Displays a file-browsing dialog box that lets the user select a file to upload.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.cancel">
+            <summary>
+            Cancels any ongoing upload or download operation on this FileReference object.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.download(ScriptCoreLib.ActionScript.flash.net.URLRequest,System.String)">
+            <summary>
+            Opens a dialog box that lets the user download a file from a remote server.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.download(ScriptCoreLib.ActionScript.flash.net.URLRequest)">
+            <summary>
+            Opens a dialog box that lets the user download a file from a remote server.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.load">
+            <summary>
+            Starts the load of a local file selected by a user.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.save(System.Object,System.String)">
+            <summary>
+            Opens a dialog box that lets the user save a file to the local filesystem.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.save(System.Object)">
+            <summary>
+            Opens a dialog box that lets the user save a file to the local filesystem.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.upload(ScriptCoreLib.ActionScript.flash.net.URLRequest,System.String,System.Boolean)">
+            <summary>
+            Starts the upload of a file selected by a user to a remote server.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.upload(ScriptCoreLib.ActionScript.flash.net.URLRequest,System.String)">
+            <summary>
+            Starts the upload of a file selected by a user to a remote server.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.upload(ScriptCoreLib.ActionScript.flash.net.URLRequest)">
+            <summary>
+            Starts the upload of a file selected by a user to a remote server.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileReference.#ctor">
+            <summary>
+            Creates a new FileReference object.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.creationDate">
+            <summary>
+            [read-only] The creation date of the file on the local disk.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.creator">
+            <summary>
+            [read-only] The Macintosh creator type of the file, which is only used in Mac OS versions prior to Mac OS X.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.data">
+            <summary>
+            [read-only] The ByteArray object representing the data from the loaded file after a successful call to the load() method.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.modificationDate">
+            <summary>
+            [read-only] The date that the file on the local disk was last modified.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.name">
+            <summary>
+            [read-only] The name of the file on the local disk.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.size">
+            <summary>
+            [read-only] The size of the file on the local disk in bytes.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileReference.type">
+            <summary>
+            [read-only] The file type.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.cancelled">
+            <summary>
+            Dispatched when a file upload or download is canceled through the file-browsing dialog box by the user.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.complete">
+            <summary>
+            Dispatched when download is complete or when upload generates an HTTP status code of 200.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.httpStatus">
+            <summary>
+            Dispatched when an upload fails and an HTTP status code is available to describe the failure.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.ioError">
+            <summary>
+            Dispatched when the upload or download fails.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.open">
+            <summary>
+            Dispatched when an upload or download operation starts.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.progress">
+            <summary>
+            Dispatched periodically during the file upload or download operation.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.securityError">
+            <summary>
+            Dispatched when a call to the FileReference.upload() or FileReference.download() method tries to upload a file to a server or get a file from a server that is outside the caller's security sandbox.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.select">
+            <summary>
+            Dispatched when the user selects a file for upload or download from the file-browsing dialog box.
+            </summary>
+        </member>
+        <member name="E:ScriptCoreLib.ActionScript.flash.net.FileReference.uploadCompleteData">
+            <summary>
+            Dispatched after data is received from the server after a successful upload.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileFilter.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates a new FileFilter instance.
+            </summary>
+        </member>
+        <member name="M:ScriptCoreLib.ActionScript.flash.net.FileFilter.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new FileFilter instance.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileFilter.description">
+            <summary>
+            The description string for the filter.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileFilter.extension">
+            <summary>
+            A list of file extensions.
+            </summary>
+        </member>
+        <member name="P:ScriptCoreLib.ActionScript.flash.net.FileFilter.macType">
+            <summary>
+            A list of Macintosh file types.
             </summary>
         </member>
         <member name="F:ScriptCoreLib.ActionScript.flash.events.SyncEvent.SYNC">
