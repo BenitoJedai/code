@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
+using System;
 
 
 namespace OrcasWebApplication.JavaScript
@@ -24,7 +25,7 @@ namespace OrcasWebApplication.JavaScript
 
             e.onclick += delegate
             {
-                e.innerHTML = "this content has changed at " + IDate.Now;
+                e.innerHTML = "this content has changed at " + DateTime.Now;
             };
         }
 

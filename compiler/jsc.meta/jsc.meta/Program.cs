@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using ScriptCoreLib.Reflection.Options;
 using jsc.meta.Commands;
 using jsc.meta.Commands.Extend;
 using jsc.meta.Commands.Reference;
 using jsc.meta.Commands.Rewrite;
 using System.Diagnostics;
 using jsc.meta.Commands.Analytics;
+using ScriptCoreLib.Reflection.Options;
 
 namespace jsc.meta
 {

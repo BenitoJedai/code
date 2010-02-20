@@ -15,7 +15,7 @@ namespace OrcasWebApplication
 
         protected void Application_Start(object sender, EventArgs e)
         {
-
+			jsc.server.DualTextWriter.StreamToDiagnostics();
         }
 
         protected void Session_Start(object sender, EventArgs e)
