@@ -25,6 +25,11 @@ namespace jsc.meta.Commands.Reference
 	[Description("Injecting javascript into HTML has never been that easy!")]
 	public class ReferenceJavaScriptDocument
 	{
+		/*
+		 usage:
+		 * C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"
+		 */
+
 		// should be renamed to ReferenceHTMLDocument ?
 		// maybe by adding an alias?
 
@@ -47,6 +52,7 @@ namespace jsc.meta.Commands.Reference
 		public FileInfo ProjectFileName;
 
 		public bool IsGeneric;
+		public bool IsMerge;
 
 		public void Invoke()
 		{
@@ -193,10 +199,10 @@ namespace jsc.meta.Commands.Reference
 					    "jsc->" +  DefaultNamespace,
 					},
 
-					merge = new RewriteToAssembly.MergeInstruction[] {
-					    "jsc.meta",
-					    "jsc"
-					},
+					//merge = new RewriteToAssembly.MergeInstruction[] {
+					//    "jsc.meta",
+					//    "jsc"
+					//},
 					#endregion
 
 					PostRewrite =
@@ -209,7 +215,8 @@ namespace jsc.meta.Commands.Reference
 							a.Assembly.DefineAttribute<ObfuscationAttribute>(
 								new
 								{
-									Feature = "script",
+									Feature =
+										this.IsMerge ? "merge" : "script"
 								}
 							);
 
@@ -260,7 +267,7 @@ namespace jsc.meta.Commands.Reference
 
 									{
 										var il = Page_HTML_get.GetILGenerator();
-										
+
 										il.Emit(OpCodes.Ldstr, content);
 										il.Emit(OpCodes.Ret);
 									}
@@ -590,7 +597,7 @@ namespace jsc.meta.Commands.Reference
 						var ElementType = ElementTypes.ContainsKey(body.Name.LocalName) ? ElementTypes[body.Name.LocalName] : typeof(IHTMLElement);
 						var ElementField = Page.DefineField("_" + (Element__id == null ? "" + Counter.Value++ : Element__id.Value), ElementType, FieldAttributes.Private);
 
-						foreach (var k in 
+						foreach (var k in
 							from k0 in lookup
 							where k0.ContainsKey(body)
 							select k0

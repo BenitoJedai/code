@@ -38,39 +38,10 @@ namespace PromotionWebApplication1
 
 			#region Contact Us
 			{
-				var c = new IHTMLDiv().AttachToDocument();
+				var cc = new Pages.About();
 
-				c.style.position = IStyle.PositionEnum.absolute;
-				//c.style.left = "50%";
-				c.style.top = "80%";
-				c.style.width = "100%";
-
-				var c2 = new IHTMLDiv { };
-
-				c2.style.width = "100%";
-				//c2.style.width = "300px";
-				//c2.style.marginLeft = "-150px";
-				//a.style.backgroundColor = Color.Red;
-				c2.style.textAlign = IStyle.TextAlignEnum.center;
-				//a.innerText = "info info info info info info info info info info info info ";
-
-				{
-					var a = new IHTMLAnchor { href = "email:info@jsc-solutions.net", innerText = "Contact Us" }.AttachTo(c2);
-					a.style.padding = "1em";
-				}
-
-				c2.appendChild(new IHTMLSpan { innerText = "|" });
-
-				{
-					var a = new IHTMLAnchor { href = "http://www.google.com/moderator/#15/e=a4e&t=a4e.40", innerText = "What interests you most?" }.AttachTo(c2);
-					a.style.padding = "1em";
-				}
-
-				c2.AttachTo(c);
-
-				c.AttachToDocument();
-
-				c.FadeIn(500, 1000, null);
+				cc.Container.AttachToDocument();
+				cc.Container.FadeIn(500, 1000, null);
 			}
 			#endregion
 
