@@ -2,9 +2,15 @@
 <html>
 	<head>
 		<title>About</title>
-		<!-- could we have style element and class selectors? -->
+		<!-- could we have style element and class selectors?
+		 css and resource files should also be processed.
+		 
+		 Stylesheets liked from here are to be embedded as assets.
+		 When the first instance is created the stylesheet shall be loaded.
+		 -->
+		<link type="text/css" rel="stylesheet" href="About.css" />
 	</head>
-	<body style='
+	<body class='AboutContainer' style='
 	    position: absolute;
 	    top: 80%;
 	    width: 100%;
