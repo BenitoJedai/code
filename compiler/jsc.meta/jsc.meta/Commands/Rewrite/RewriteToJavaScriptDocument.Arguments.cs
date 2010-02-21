@@ -36,5 +36,22 @@ namespace jsc.meta.Commands.Rewrite
 		public DirectoryInfo javapath;
 
 		public bool IsRewriteOnly;
+
+		public bool DisableWebServiceJava;
+		public bool DisableWebServicePHP;
+
+		public class AtWebServiceReadyArguments
+		{
+			public FileInfo Assembly;
+
+			public string GlobalType;
+
+		}
+
+		/// <summary>
+		/// Rewrite was done at runtime and the caller wants to start using the new
+		/// component once it is ready.
+		/// </summary>
+		public event Action<AtWebServiceReadyArguments> AtWebServiceReady;
 	}
 }

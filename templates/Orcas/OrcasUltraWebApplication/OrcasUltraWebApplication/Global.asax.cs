@@ -12,10 +12,7 @@ namespace OrcasUltraWebApplication
 
 		protected void Application_Start(object sender, EventArgs e)
 		{
-			global::jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.AsService.Bind(
-				this,
-				typeof(UltraApplication)
-			);
+		
 		}
 
 		protected void Session_Start(object sender, EventArgs e)
@@ -25,7 +22,10 @@ namespace OrcasUltraWebApplication
 
 		protected void Application_BeginRequest(object sender, EventArgs e)
 		{
-
+			global::jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.AsService.BeginRequest(
+				this,
+				typeof(UltraApplication)
+			);
 		}
 
 		protected void Application_AuthenticateRequest(object sender, EventArgs e)
