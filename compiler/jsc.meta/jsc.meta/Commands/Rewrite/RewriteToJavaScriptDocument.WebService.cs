@@ -918,7 +918,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		{
 			public static bool FileExists(InternalGlobal g)
 			{
-				var that = g.Application;
+				var that = g.InternalApplication;
 
 				bool x = false;
 				foreach (var item in g.GetFiles())
@@ -939,7 +939,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			public static void InternalApplication_BeginRequest(InternalGlobal g)
 			{
-				var that = g.Application;
+				var that = g.InternalApplication;
 				var Context = that.Context;
 
 				if (InternalGlobalExtensions.FileExists(g))
@@ -1133,7 +1133,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			private static void WriteDiagnostics(InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
 			{
-				var Context = g.Application.Context;
+				var Context = g.InternalApplication.Context;
 
 
 				Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
@@ -1208,7 +1208,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			private static void WriteXDocument(InternalGlobal g, StringAction Write, InternalWebMethodInfo WebMethod)
 			{
-				var that = g.Application;
+				var that = g.InternalApplication;
 				var Context = that.Context;
 
 				Context.Response.ContentType = "text/xml";
@@ -1309,7 +1309,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			public static DefaultProfile InternalGetProfile(InternalGlobal g)
 			{
-				var that = g.Application;
+				var that = g.InternalApplication;
 				return (DefaultProfile)that.Context.Profile;
 			}
 
@@ -1319,7 +1319,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		public abstract class InternalGlobal : HttpApplication
 		{
 			HttpApplication InternalApplicationOverride;
-			public HttpApplication Application
+			public HttpApplication InternalApplication
 			{
 				get
 				{
