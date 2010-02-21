@@ -69,6 +69,7 @@
     <Compile Include="UltraApplication.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design.WebSource.HTML\About.css" />
     <Content Include="Design.WebSource.HTML\About.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
