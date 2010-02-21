@@ -197,28 +197,29 @@ namespace jsc.meta.Commands.Rewrite
 						}
 						else
 						{
-							AfterSyncLock =
-								delegate
-								{
-
-									var Global = this.WebService.CreateGlobal();
-
-									Global.SetApplication(Context);
-
-									var Exists = Global.FileExists();
-
-									if (Exists)
+							if (Builder != null)
+								AfterSyncLock =
+									delegate
 									{
-										var FilePath = Context.Request.Path.Substring(1);
-										var LocalFile = Path.Combine(this.WebService.Arguments.Assembly.Directory.Parent.FullName, FilePath);
 
-										if (File.Exists(LocalFile))
+										var Global = this.WebService.CreateGlobal();
+
+										Global.SetApplication(Context);
+
+										var Exists = Global.FileExists();
+
+										if (Exists)
 										{
-											Context.Response.TransmitFile(LocalFile);
-											Context.CompleteRequest();
+											var FilePath = Context.Request.Path.Substring(1);
+											var LocalFile = Path.Combine(this.WebService.Arguments.Assembly.Directory.Parent.FullName, FilePath);
+
+											if (File.Exists(LocalFile))
+											{
+												Context.Response.TransmitFile(LocalFile);
+												Context.CompleteRequest();
+											}
 										}
-									}
-								};
+									};
 						}
 					}
 
