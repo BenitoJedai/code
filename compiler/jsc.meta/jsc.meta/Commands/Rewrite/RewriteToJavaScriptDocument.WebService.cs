@@ -1035,16 +1035,22 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			private static void WriteScriptApplication(StringAction Write, InternalScriptApplication app)
 			{
+				// http://validator.w3.org/check?uri=
+
 				StringAction WriteLine = k => Write(k + Environment.NewLine);
 
 				// this function is running in .net, google app engine java and php
 				// this function is based on JavaScript.EntrypointProvider
 				// we could show a cool loading animation?
+				// can we have XElement support already`?
 
+				// <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 				WriteLine(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">");
 				WriteLine(@"<html>");
 				WriteLine(@"<head>");
-				WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"">");
+
+				// do we need this?
+				//WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"" />");
 				WriteLine(@"<title>Loading...</title>");
 
 
