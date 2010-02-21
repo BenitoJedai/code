@@ -120,6 +120,7 @@ namespace jsc.meta.Commands.Rewrite
 							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.net/bin"),
 							k.Product
 						},
+						this.DisableWebServicePHP ? null :
 
 						new {
 							k.TargetType,
@@ -134,7 +135,8 @@ namespace jsc.meta.Commands.Rewrite
 							k.Product
 						},
 
-							new {
+						this.DisableWebServiceJava ? null :
+						new {
 							k.TargetType,
 							k.EntryPoint,
 							k.IsActionScript,
@@ -149,7 +151,7 @@ namespace jsc.meta.Commands.Rewrite
 					}
 				:
 					new[] { k }
-			).ToArray();
+			).Where(k => k != null).ToArray();
 			#endregion
 
 			var RewriteOutput = targets.ToDictionary(k => k, k => default(FileInfo));
@@ -950,49 +952,63 @@ namespace jsc.meta.Commands.Rewrite
 
 				RewriteOutput[k] = r.Output;
 
-				if (IsRewriteOnly)
-					continue;
-
-				#region jsc backend
-				if (k.IsJava)
+				if (!IsRewriteOnly)
 				{
-					r.Output.ToJava(this.javapath, null, null, k.TargetType.FullName + ".jar", k.TargetType);
-				}
 
-				if (k.IsWebServiceJava)
-				{
-					jsc.Program.TypedMain(
-						new jsc.CompileSessionInfo
-						{
-							Options = new jsc.CommandLineOptions
+					#region jsc backend
+					if (k.IsJava)
+					{
+						r.Output.ToJava(this.javapath, null, null, k.TargetType.FullName + ".jar", k.TargetType);
+					}
+
+					if (k.IsWebServiceJava)
+					{
+						jsc.Program.TypedMain(
+							new jsc.CompileSessionInfo
 							{
-								TargetAssembly = r.Output,
-								IsJava = true,
-								IsNoLogo = true
+								Options = new jsc.CommandLineOptions
+								{
+									TargetAssembly = r.Output,
+									IsJava = true,
+									IsNoLogo = true
+								}
 							}
-						}
-					);
+						);
+					}
+
+					if (k.IsActionScript)
+					{
+						r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null,
+							k.TargetType.FullName + ".swf"
+						);
+					}
+
+					if (k.IsJavaScript)
+					{
+						r.Output.ToJavaScript();
+					}
+					#endregion
+
+					foreach (var item in InvokeAfterBackendCompiler)
+					{
+						item();
+					}
+					InvokeAfterBackendCompiler.Clear();
 				}
 
-				if (k.IsActionScript)
+				if (k.IsWebService && !k.IsWebServiceJava && !k.IsWebServicePHP)
 				{
-					r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null,
-						k.TargetType.FullName + ".swf"
-					);
+					if (this.AtWebServiceReady != null)
+						this.AtWebServiceReady(
+							new AtWebServiceReadyArguments
+							{
+								Assembly = r.Output,
+								GlobalType = k.TargetType.Namespace + ".Global"
+							}
+						);
 				}
-
-				if (k.IsJavaScript)
-				{
-					r.Output.ToJavaScript();
-				}
-				#endregion
-
-				foreach (var item in InvokeAfterBackendCompiler)
-				{
-					item();
-				}
-				InvokeAfterBackendCompiler.Clear();
 			}
+
 		}
 
 

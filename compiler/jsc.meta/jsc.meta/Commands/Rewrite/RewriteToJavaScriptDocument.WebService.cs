@@ -48,6 +48,7 @@ namespace jsc.meta.Commands.Rewrite
 			bool IsWebServiceJava,
 
 			Action<Action> InvokeAfterBackendCompiler
+
 			)
 		{
 
@@ -85,7 +86,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[
-					((Action<InternalGlobal>)InternalGlobal.InternalApplication_BeginRequest).Method
+					((Action<InternalGlobal>)InternalGlobalExtensions.InternalApplication_BeginRequest).Method
 				]);
 
 
@@ -394,7 +395,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 					il.Emit(OpCodes.Call, r.RewriteArguments.context.MethodCache[
-						((Func<InternalGlobal, DefaultProfile>)InternalGlobal.InternalGetProfile).Method
+						((Func<InternalGlobal, DefaultProfile>)InternalGlobalExtensions.InternalGetProfile).Method
 					]);
 
 
@@ -911,18 +912,37 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 			}
 		}
 
-		public abstract class InternalGlobal : HttpApplication
+		public delegate void StringAction(string e);
+
+		public static class InternalGlobalExtensions
 		{
-			public delegate void StringAction(string e);
+			public static bool FileExists(InternalGlobal g)
+			{
+				var that = g.Application;
+
+				bool x = false;
+				foreach (var item in g.GetFiles())
+				{
+					if (that.Request.Path == "/" + item.Name)
+					{
+						x = true;
+						break;
+					}
+				}
+				return x;
+			}
 
 			static string escapeXML(string s)
 			{
 				return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
 			}
 
-			public static void InternalApplication_BeginRequest(InternalGlobal that)
+			public static void InternalApplication_BeginRequest(InternalGlobal g)
 			{
-				if (FileExists(that))
+				var that = g.Application;
+				var Context = that.Context;
+
+				if (InternalGlobalExtensions.FileExists(g))
 				{
 					// fake lag
 					//if (that.Request.Path.EndsWith(".js"))
@@ -931,30 +951,30 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					return;
 				}
 
-				if (that.Request.Path == "/favicon.ico")
+				if (Context.Request.Path == "/favicon.ico")
 				{
-					that.Response.Redirect("http://jsc.sf.net/favicon.ico");
+					Context.Response.Redirect("http://jsc.sf.net/favicon.ico");
 					that.CompleteRequest();
 					return;
 				}
 
-				if (that.Request.Path == "/robots.txt")
+				if (Context.Request.Path == "/robots.txt")
 				{
-					that.Response.StatusCode = 404;
+					Context.Response.StatusCode = 404;
 					that.CompleteRequest();
 					return;
 				}
 
-				if (that.Request.Path == "/crossdomain.xml")
+				if (Context.Request.Path == "/crossdomain.xml")
 				{
-					that.Response.StatusCode = 404;
+					Context.Response.StatusCode = 404;
 					that.CompleteRequest();
 					return;
 				}
 
-				StringAction Write = that.Response.Write;
+				StringAction Write = Context.Response.Write;
 
-				var WebMethods = that.GetWebMethods();
+				var WebMethods = g.GetWebMethods();
 
 				Console.WriteLine();
 
@@ -963,28 +983,28 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					item.LoadParameters(that.Context);
 				}
 
-				if (that.Request.HttpMethod == "POST")
+				if (Context.Request.HttpMethod == "POST")
 				{
-					var WebMethod = InternalWebMethodInfo.First(WebMethods, that.Request.QueryString[InternalWebMethodInfo.QueryKey]);
+					var WebMethod = InternalWebMethodInfo.First(WebMethods, Context.Request.QueryString[InternalWebMethodInfo.QueryKey]);
 					if (WebMethod == null)
 					{
-						that.Response.StatusCode = 404;
+						Context.Response.StatusCode = 404;
 						that.CompleteRequest();
 						return;
 					}
 
-					that.Invoke(WebMethod);
+					g.Invoke(WebMethod);
 
 					if (that.Context.Request.Path == "/xml")
 					{
-						WriteXDocument(that, Write, WebMethod);
+						WriteXDocument(g, Write, WebMethod);
 						that.CompleteRequest();
 						return;
 					}
 
 					that.Response.ContentType = "text/html";
 					WriteDiagnosticsResults(Write, WebMethod);
-					WriteDiagnostics(that, Write, WebMethods);
+					WriteDiagnostics(g, Write, WebMethods);
 					that.CompleteRequest();
 					return;
 
@@ -993,7 +1013,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				if (that.Request.Path == "/jsc")
 				{
 					that.Response.ContentType = "text/html";
-					WriteDiagnostics(that, Write, WebMethods);
+					WriteDiagnostics(g, Write, WebMethods);
 					that.CompleteRequest();
 					return;
 				}
@@ -1002,7 +1022,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				{
 					that.Response.ContentType = "text/html";
 
-					var app = that.GetScriptApplications()[0];
+					var app = g.GetScriptApplications()[0];
 
 					WriteScriptApplication(Write, app);
 
@@ -1056,12 +1076,28 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				WriteLine(@"</html>");
 			}
 
+			public static bool IsDefaultPathOrSpecialPath(string e)
+			{
+				if (IsDefaultPath(e))
+					return true;
+
+				if (e == "/jsc")
+					return true;
+
+				if (e == "/xml")
+					return true;
+
+				return false;
+			}
 			public static bool IsDefaultPath(string e)
 			{
 				if (e == "/")
 					return true;
 
 				if (e == "/default.htm")
+					return true;
+
+				if (e == "/default.aspx")
 					return true;
 
 				return false;
@@ -1095,9 +1131,13 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				}
 			}
 
-			private static void WriteDiagnostics(InternalGlobal that, StringAction Write, InternalWebMethodInfo[] WebMethods)
+			private static void WriteDiagnostics(InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
 			{
-				Write("<a href='http://jsc-solutions.net'><img border='0' src='http://services.zproxybuzz.info/assets/Bulldog/jsc.png' /></a>");
+				var Context = g.Application.Context;
+
+
+				Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
+
 				Write("<h2>Special pages</h2>");
 
 				Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> special page: " + "<a href='/robots.txt'>/robots.txt</a>");
@@ -1112,36 +1152,36 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 				foreach (var item in WebMethods)
 				{
-					WriteWebMethodForm(that, Write, item);
+					WriteWebMethodForm(g, Write, item);
 				}
 
-				Write("<title>Powered by jsc: " + that.Request.Path + "</title>");
+				Write("<title>Powered by jsc: " + Context.Request.Path + "</title>");
 
-				Write("<br /> HttpMethod : " + that.Request.HttpMethod);
+				Write("<br /> HttpMethod : " + Context.Request.HttpMethod);
 
 				Write("<h2>Form</h2>");
-				foreach (var item in that.Request.Form.AllKeys)
+				foreach (var item in Context.Request.Form.AllKeys)
 				{
 					Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
 					Write(item);
 					Write(" = ");
-					Write(escapeXML(that.Request.Form[item]));
+					Write(escapeXML(Context.Request.Form[item]));
 					Write("</code>");
 				}
 
 				Write("<h2>QueryString</h2>");
-				foreach (var item in that.Request.QueryString.AllKeys)
+				foreach (var item in Context.Request.QueryString.AllKeys)
 				{
 					Write("<br /> " + "<img src='http://i.msdn.microsoft.com/w144atby.pubproperty(en-us,VS.90).gif' /> <code>");
 					Write(item);
 					Write(" = ");
-					Write(escapeXML(that.Request.QueryString[item]));
+					Write(escapeXML(Context.Request.QueryString[item]));
 					Write("</code>");
 				}
 
 				Write("<h2>Script Applications</h2>");
 
-				foreach (var item in that.GetScriptApplications())
+				foreach (var item in g.GetScriptApplications())
 				{
 					Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' /> script application: " + item.TypeName);
 
@@ -1157,7 +1197,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 				Write("<h2>Files</h2>");
 
-				foreach (var item in that.GetFiles())
+				foreach (var item in g.GetFiles())
 				{
 					Write("<br /> " + "<img src='http://www.favicon.cc/favicon/16/38/favicon.png' />" + " file: <a href='" + item.Name + "'>" + item.Name + "</a>");
 				}
@@ -1166,9 +1206,12 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			}
 
-			private static void WriteXDocument(InternalGlobal that, StringAction Write, InternalWebMethodInfo WebMethod)
+			private static void WriteXDocument(InternalGlobal g, StringAction Write, InternalWebMethodInfo WebMethod)
 			{
-				that.Response.ContentType = "text/xml";
+				var that = g.Application;
+				var Context = that.Context;
+
+				Context.Response.ContentType = "text/xml";
 
 				Write("<document>");
 
@@ -1262,23 +1305,40 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 			}
 
-			private static bool FileExists(InternalGlobal that)
+	
+
+			public static DefaultProfile InternalGetProfile(InternalGlobal g)
 			{
-				bool x = false;
-				foreach (var item in that.GetFiles())
-				{
-					if (that.Request.Path == "/" + item.Name)
-					{
-						x = true;
-						break;
-					}
-				}
-				return x;
+				var that = g.Application;
+				return (DefaultProfile)that.Context.Profile;
 			}
 
-			public static DefaultProfile InternalGetProfile(InternalGlobal that)
+		}
+
+
+		public abstract class InternalGlobal : HttpApplication
+		{
+			HttpApplication InternalApplicationOverride;
+			public HttpApplication Application
 			{
-				return (DefaultProfile)that.Context.Profile;
+				get
+				{
+					if (InternalApplicationOverride != null)
+						return InternalApplicationOverride;
+
+					return this;
+				}
+			}
+
+			public void SetApplication(HttpApplication value)
+			{
+				this.InternalApplicationOverride = value;
+			}
+
+
+			public bool FileExists()
+			{
+				return InternalGlobalExtensions.FileExists(this);
 			}
 
 			public abstract InternalFileInfo[] GetFiles();
