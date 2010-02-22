@@ -34,7 +34,11 @@ namespace jsc.meta.Commands.Reference
 		// maybe by adding an alias?
 
 		// todo: Add (object Tag) fields to the pages!
-
+		// todo: Referenced files as ScriptResources
+		// todo: could we parse js content and make it callable, how do we infer types? :) we could just expose IFunctions :) sounds good!
+		// todo: some system should scan the source and send todo's to twitter thanks...
+		// todo: whatif i want to use some types within flash? classes should be made for flash too! in IsMerge mode atleast.
+		
 		// trivia: in fact we are referencing HTML to convert it to javascript.
 
 		// http://www.technospot.net/blogs/convert-html-to-javascript-dom-online-tool/
@@ -791,6 +795,9 @@ namespace jsc.meta.Commands.Reference
 							};
 
 		// this should be part of the ScriptCoreLib
+		
+		// todo: we should actually scan the html elements for InternalConstructos and infer the type names!
+
 		public static readonly Dictionary<string, Type> ElementTypes = new Dictionary<string, Type>
 							{
 								{"a", typeof(IHTMLAnchor)},
