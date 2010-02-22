@@ -256,6 +256,7 @@
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
+    <Compile Include="Library\MVSProjectFile.cs" />
     <Compile Include="Library\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />

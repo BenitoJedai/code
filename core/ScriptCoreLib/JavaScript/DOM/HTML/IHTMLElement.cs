@@ -29,6 +29,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             address,
             applet,
             area,
+			audio,
             b,
             @base,
             basefont,

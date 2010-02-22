@@ -2,22 +2,22 @@ using ScriptCoreLib.JavaScript;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    [Script(InternalConstructor=true)]
-    public class IHTMLAnchor : IHTMLElement
-    {
-        #region constructors
+	[Script(InternalConstructor = true)]
+	public class IHTMLAnchor : IHTMLElement
+	{
+		#region constructors
 
-        public IHTMLAnchor(string href, string text)
-        {
-        }
+		public IHTMLAnchor(string href, string text)
+		{
+		}
 
-        public IHTMLAnchor(string href, params INode[] children)
-        {
-        }
+		public IHTMLAnchor(string href, params INode[] children)
+		{
+		}
 
-        public IHTMLAnchor(string text)
-        {
-        }
+		public IHTMLAnchor(string text)
+		{
+		}
 
 		public IHTMLAnchor()
 		{
@@ -32,45 +32,45 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			return a;
 		}
 
-        private static IHTMLAnchor InternalConstructor(string text)
-        {
-            IHTMLAnchor a = InternalConstructor("about:blank", text);
+		private static IHTMLAnchor InternalConstructor(string text)
+		{
+			IHTMLAnchor a = InternalConstructor("about:blank", text);
 
 
-            return a;
-        }
+			return a;
+		}
 
-        private static IHTMLAnchor InternalConstructor(string href, params INode[] children)
-        {
-            IHTMLAnchor a = (IHTMLAnchor)new IHTMLElement(HTMLElementEnum.a);
+		private static IHTMLAnchor InternalConstructor(string href, params INode[] children)
+		{
+			IHTMLAnchor a = (IHTMLAnchor)new IHTMLElement(HTMLElementEnum.a);
 
-            a.href = href;
-            a.target = "_blank";
-            a.appendChild(children);
+			a.href = href;
+			a.target = "_blank";
+			a.appendChild(children);
 
-            return a;
-        }
+			return a;
+		}
 
-        private static IHTMLAnchor InternalConstructor(string href, string text)
-        {
-            IHTMLAnchor a = (IHTMLAnchor)new IHTMLElement(HTMLElementEnum.a);
+		private static IHTMLAnchor InternalConstructor(string href, string text)
+		{
+			IHTMLAnchor a = (IHTMLAnchor)new IHTMLElement(HTMLElementEnum.a);
 
-            a.href = href;
-            a.target = "_blank";
+			a.href = href;
+			a.target = "_blank";
 
-            if (text != null)
-            {
-                a.appendChild(text);
-            }
+			if (text != null)
+			{
+				a.appendChild(text);
+			}
 
-            return a;
-        }
+			return a;
+		}
 
-        #endregion
+		#endregion
 
-        public string href;
-        public string target;
+		public string href;
+		public string target;
 
 
-    }
+	}
 }
