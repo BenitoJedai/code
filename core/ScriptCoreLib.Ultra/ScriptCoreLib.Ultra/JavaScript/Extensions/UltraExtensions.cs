@@ -11,12 +11,12 @@ namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class UltraExtensions
 	{
-		public static void AttachSpriteToDocument(this Sprite e)
+		public static IHTMLElement AttachSpriteToDocument(this Sprite e)
 		{
-			e.AttachSpriteTo(Native.Document.body);
+			return e.AttachSpriteTo(Native.Document.body);
 		}
 
-		public static void AttachSpriteTo(this Sprite e, INode parent)
+		public static IHTMLElement AttachSpriteTo(this Sprite e, INode parent)
 		{
 			// at the moment the .castclass opcode will be translated only within
 			//  rewriteable assemblies
@@ -25,15 +25,16 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 			parent.appendChild(i);
 
+			return i;
 		}
 
 
-		public static void AttachAppletToDocument(this Applet e)
+		public static IHTMLElement AttachAppletToDocument(this Applet e)
 		{
-			e.AttachAppletTo(Native.Document.body);
+			return e.AttachAppletTo(Native.Document.body);
 		}
 
-		public static void AttachAppletTo(this Applet e, INode parent)
+		public static IHTMLElement AttachAppletTo(this Applet e, INode parent)
 		{
 			// at the moment the .castclass opcode will be translated only within
 			//  rewriteable assemblies
@@ -42,6 +43,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 			parent.appendChild(i);
 
+			return i;
 		}
 	}
 }

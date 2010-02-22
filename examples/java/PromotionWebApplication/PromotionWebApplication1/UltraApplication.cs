@@ -14,10 +14,19 @@ using System.ComponentModel;
 using PromotionWebApplication1.Library;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
+using java.applet;
 
 namespace PromotionWebApplication1
 {
+#if UsingJava
+	public sealed class AboutApplet : Applet
+	{
+		public void Method1(string p)
+		{
 
+		}
+	}
+#endif
 
 	public sealed class UltraApplication
 	{
@@ -30,7 +39,15 @@ namespace PromotionWebApplication1
 
 			StringActionAction GetTitleFromServer = new UltraWebService().GetTitleFromServer;
 
+#if UsingJava
+			var Applet1 = new AboutApplet();
 
+			Applet1.Method1("hello world");
+
+			var Applet1Element = Applet1.AttachAppletToDocument();
+
+			Applet1Element.style.border = "1px solid red";
+#endif
 
 			GetTitleFromServer(
 				n => Native.Document.title = n

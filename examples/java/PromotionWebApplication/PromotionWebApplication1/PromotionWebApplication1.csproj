@@ -71,6 +71,9 @@
   <ItemGroup>
     <Content Include="Design.WebSource.HTML\About.css" />
     <Content Include="Design.WebSource.HTML\About.htm" />
+    <Content Include="Design.WebSource.HTML\AboutApplet.java" />
+    <None Include="Design.WebSource.HTML\AboutSprite.as" />
+    <Content Include="Design.WebSource.HTML\AboutScript.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
