@@ -55,10 +55,84 @@ namespace PromotionWebApplication1
 
 			#region Contact Us
 			{
+				// using wordpress as CMS are we?
+				// http://en.support.wordpress.com/pages/hide-pages/
+				// http://en.support.wordpress.com/pages/page-attributes/
+				// we will build a snapshot of the site.
+				// hidden pages need to be subpages :)
+
+				var MyPages = new IHTMLDiv
+				{
+
+				};
+
+				MyPages.style.overflow = IStyle.OverflowEnum.auto;
+				MyPages.style.position = IStyle.PositionEnum.absolute;
+				MyPages.style.width = "100%";
+				MyPages.style.height = "100%";
+				MyPages.AttachToDocument();
+
+				var MyPagesInternal = new IHTMLDiv();
+
+				MyPagesInternal.style.margin = "4em";
+				MyPagesInternal.AttachTo(MyPages);
+
 				var cc = new Pages.About();
+				var MyPagesCurrent = default(IHTMLElement);
+
+
+				cc.About.onclick +=
+					ee =>
+					{
+						ee.PreventDefault();
+
+
+						var about = new Design.About();
+
+
+
+						MyPagesCurrent.FadeOutCollapse(
+							1, 100,
+							delegate
+							{
+								MyPagesCurrent = about.Container;
+
+								about.Container.AttachTo(MyPagesInternal);
+								about.Container.FadeIn(1, 100, null);
+							}
+						);
+
+		
+					};
+
+
+				cc.Licensing.onclick +=
+					ee =>
+					{
+						ee.PreventDefault();
+
+
+						var licensing = new Design.Licensing();
+
+
+						MyPagesCurrent.FadeOutCollapse(
+							1, 100,
+							delegate
+							{
+
+								MyPagesCurrent = licensing.Container;
+
+								licensing.Container.AttachTo(MyPagesInternal);
+								licensing.Container.FadeIn(1, 100, null);
+							}
+						);
+
+					};
 
 				cc.Container.AttachToDocument();
 				cc.Container.FadeIn(500, 1000, null);
+
+
 			}
 			#endregion
 

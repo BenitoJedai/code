@@ -1666,6 +1666,9 @@ namespace jsc.Script
 			if (z == null)
 				return null;
 
+			if (IsSafeLiteralChar == null)
+				IsSafeLiteralChar = DefaultIsSafeLiteralChar;
+
 			var w = new StringWriter();
 
 			foreach (char x in z)
