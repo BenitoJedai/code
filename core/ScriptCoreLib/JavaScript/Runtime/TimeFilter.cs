@@ -18,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
     /// provides the functionality to deal with exessive event flushing, like mouse move
     /// </summary>
     [Script]
+	[System.Obsolete("To be moved out of CoreLib or removed")]
     public class TimeFilter
     {
         public double Value;

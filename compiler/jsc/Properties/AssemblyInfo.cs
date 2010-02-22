@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("zproxy.wordpress.com, jsc.sourceforge.net")]
 [assembly: AssemblyProduct("jsc")]
-[assembly: AssemblyCopyright("Copyright © 2010, All rights reserved")]
+[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

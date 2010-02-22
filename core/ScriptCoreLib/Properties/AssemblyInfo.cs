@@ -13,7 +13,7 @@ using System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("neutronic")]
 [assembly: AssemblyProduct("ScriptCoreLib")]
-[assembly: AssemblyCopyright("Copyright © zporxy.wordpress.com 2009")]
+[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

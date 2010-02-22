@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
     // http://www.devguru.com/Technologies/ecmascript/quickref/js_property.html
 
     [Script]
+	[System.Obsolete("To be moved out of CoreLib or removed")]
     public static class Convert 
     {
         public static string DateFromMysqlDateFormatString(string e)

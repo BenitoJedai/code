@@ -12,6 +12,7 @@ using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.JavaScript.Controls.Effects
 {
+	[System.Obsolete("To be moved out of CoreLib")]
     [Script]
     public class TweenDataPoint : TweenData<Point>
     {

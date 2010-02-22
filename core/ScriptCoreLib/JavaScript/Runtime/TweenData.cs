@@ -8,6 +8,7 @@ using ScriptCoreLib.Shared;
 namespace ScriptCoreLib.JavaScript.Runtime
 {
     [Script]
+	[System.Obsolete("To be moved out of CoreLib or removed")]
     public class TweenData<TValue>
     {
         private bool Dirty;

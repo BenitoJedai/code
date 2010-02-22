@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared;
 namespace ScriptCoreLib.JavaScript.Runtime
 {
     [Script]
+	[System.Obsolete("To be moved out of CoreLib or removed")]
     public class Fader 
     {
         static public void FadeOut(IHTMLElement target)
