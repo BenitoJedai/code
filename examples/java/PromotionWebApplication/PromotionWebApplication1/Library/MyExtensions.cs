@@ -10,8 +10,21 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace PromotionWebApplication1.Library
 {
+	public delegate void TimerAction(Timer t);
+
 	public static class MyExtensions
 	{
+
+		static public void AtInterval(this int ms, TimerAction e)
+		{
+			new Timer(
+				t =>
+				{
+					e(t);
+				}
+			).StartInterval(ms);
+		}
+
 		static public void AtInterval(this int ms, Action e)
 		{
 			new Timer(

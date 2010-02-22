@@ -63,3 +63,5 @@
 	- Added ReferenceAddClonedProject command
 2010.02.21
 	- Extended RewriteToJavaScriptDocument command to work at runtime within ASP.NET
+2010.02.22
+	- RewriteToJavaScriptDocument now also emits html controls

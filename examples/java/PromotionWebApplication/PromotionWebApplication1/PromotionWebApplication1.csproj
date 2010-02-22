@@ -62,6 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Design\About.cs" />
+    <Compile Include="Design\Licensing.cs" />
     <Compile Include="Library\GoogleAnalytics.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\MyFader.cs" />
@@ -74,6 +76,7 @@
     <Content Include="Design.WebSource.HTML\AboutApplet.java" />
     <None Include="Design.WebSource.HTML\AboutSprite.as" />
     <Content Include="Design.WebSource.HTML\AboutScript.js" />
+    <Content Include="Design.WebSource.HTML\references.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

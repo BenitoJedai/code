@@ -19,6 +19,8 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.Xml;
+using jsc.Script;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -227,7 +229,9 @@ namespace jsc.meta.Commands.Reference
 								}
 							);
 
-							var Pages = a.Module.DefineType(DefaultNamespace + ".Pages", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+							// Nested types do not play well with type erasure...
+
+							//var Pages = a.Module.DefineType(DefaultNamespace + ".Pages", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
 
 							// http://www.w3schools.com/tags/ref_entities.asp
 							// http://www.w3schools.com/HTML/html_entities.asp
@@ -243,6 +247,10 @@ namespace jsc.meta.Commands.Reference
 								// dirty fix..
 								var content = item.Content;
 
+								// http://blogs.pingpoet.com/overflow/archive/2005/07/20/6607.aspx
+								// http://msdn.microsoft.com/en-us/library/bb356942.aspx
+								// fixme: XmlReader + DTD
+
 								// yet another fix
 								const string doctype_ok = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">";
 								const string doctype_vs = @"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0 Transitional//EN"">";
@@ -254,130 +262,53 @@ namespace jsc.meta.Commands.Reference
 										 (i, k) => i.Replace(k.Key, k.Value)
 								 );
 
-								var xml = XDocument.Parse(content);
 
-								var title = xml.XPathSelectElement("/html/head/title");
-								var body = xml.XPathSelectElement("/html/body");
+								// really dirty fix...
+
+								content = content.Replace("<html xmlns=\"http://www.w3.org/1999/xhtml\"", "<html ");
+
+								//var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { ProhibitDtd = false });
+								//var xml = XDocument.Load(reader);
+								////var nameTable = reader.NameTable;
+								//var namespaceManager = new XmlNamespaceManager(nameTable);
+								//namespaceManager.AddNamespace("", "http://www.w3.org/1999/xhtml");
+
+								var xml = XDocument.Parse(content);
+								// http://stackoverflow.com/questions/477962/how-to-create-xelement-with-default-namespace-for-children-without-using-xnamespa
+
+								XNamespace xhtml = "http://www.w3.org/1999/xhtml";
+
+								// For body and each class element
+								var TitleElement = xml.XPathSelectElement("/html/head/title");
+								var BodyElement = xml.XPathSelectElement("/html/body");
+
+								var PageName = CompilerBase.GetSafeLiteral(TitleElement.Value, null);
 
 								// we need to make the title/page name
 								// C# compatible :)
-								var Page = Pages.DefineNestedType(title.Value.Replace(" ", "_"), TypeAttributes.NestedPublic);
-								var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
+
+								// The web application could opt in for dynamic CMS updates... RSS ? :) Download HTML on the server and push updates?
 
 
-								// we should be returning DOM object instead?
-								#region Page_HTML
+								WritePageType(DefaultNamespace, a, content, BodyElement, PageName);
+
+
+								var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
+
+								foreach (var k in __id)
 								{
-									var Page_HTML = Static.DefineProperty("DocumentHTML", PropertyAttributes.None, typeof(string), null);
-
-									var Page_HTML_get = Static.DefineMethod("get_DocumentHTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
-
-									{
-										var il = Page_HTML_get.GetILGenerator();
-
-										il.Emit(OpCodes.Ldstr, content);
-										il.Emit(OpCodes.Ret);
-									}
-
-									Page_HTML.SetGetMethod(Page_HTML_get);
-								}
-								#endregion
-
-								#region Page_HTML
-								{
-									var Page_HTML = Static.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
-
-									var Page_HTML_get = Static.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
-
-									{
-										var il = Page_HTML_get.GetILGenerator();
-
-										// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
-										var body_innerXML = body.Nodes().Aggregate("", (b, node) => b += node.ToString());
-
-										il.Emit(OpCodes.Ldstr, body_innerXML);
-										il.Emit(OpCodes.Ret);
-									}
-
-									Page_HTML.SetGetMethod(Page_HTML_get);
-								}
-								#endregion
-
-								// we need to use unified HTML DOM...
-								if (!this.IsGeneric)
-								{
-									// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
-									var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
-
-									var Images_value = body.XPathSelectElements("//img").ToArray();
-
-									DefineStaticImages(a, Static, Images_value);
-
-
-
-									foreach (var CurrentElement in body.XPathSelectElements("//*[@id]"))
-									{
-										var id = CurrentElement.Attribute("id").Value;
-
-										var e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement);
-
-										var e = Elements.DefineProperty(id, PropertyAttributes.None, e_Type, null);
-										var get_e = Elements.DefineMethod("get_" + id, MethodAttributes.Static | MethodAttributes.Public, e_Type, null);
-
-										Func<IHTMLElement> get_e_template =
-											delegate
-											{
-												return Native.Document.getElementById("id");
-											};
-
-										{
-											var il = get_e.GetILGenerator();
-
-											var il_a = new ILTranslationExtensions.EmitToArguments();
-
-											il_a[OpCodes.Ldstr] =
-												x =>
-												{
-													x.il.Emit(OpCodes.Ldstr, id);
-												};
-
-											il_a[OpCodes.Ret] =
-												x =>
-												{
-													x.il.Emit(OpCodes.Castclass, e_Type);
-													x.il.Emit(OpCodes.Ret);
-												};
-
-											get_e_template.Method.EmitTo(il, il_a);
-
-
-										}
-
-										e.SetGetMethod(get_e);
-									}
-
-									Elements.CreateType();
-
-									var Images_lookup = new Dictionary<XElement, FieldBuilder>();
-
-									foreach (var i in Images_value)
-									{
-										Images_lookup[i] = null;
-									}
-
-
-									DefinePageConstructor(body, Page, new[] { Images_lookup });
-
-									// and html5 videos and sounds!
-									DefineInstanceImages(a, Page, Images_lookup);
-
+									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + k.id);
 								}
 
-								Static.CreateType();
-								Page.CreateType();
+								var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
+
+								foreach (var k in __class)
+								{
+									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + k.@class);
+								}
 							}
 
-							Pages.CreateType();
+							//Pages.CreateType();
 						}
 				};
 
@@ -388,6 +319,129 @@ namespace jsc.meta.Commands.Reference
 
 			if (csproj_dirty)
 				csproj.Save(this.ProjectFileName.FullName);
+		}
+
+		private void WritePageType(string DefaultNamespace, RewriteToAssembly.AssemblyRewriteArguments a, string content, XElement BodyElement, string PageName)
+		{
+			var PageFullName = DefaultNamespace + ".Pages." + PageName;
+			Console.WriteLine(PageFullName);
+
+			var Page = a.Module.DefineType(PageFullName, TypeAttributes.Public);
+
+			var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
+
+
+			// we should be returning DOM object instead?
+			#region DocumentHTML
+			if (content != null)
+			{
+				var Page_HTML = Static.DefineProperty("DocumentHTML", PropertyAttributes.None, typeof(string), null);
+
+				var Page_HTML_get = Static.DefineMethod("get_DocumentHTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
+
+				{
+					var il = Page_HTML_get.GetILGenerator();
+
+					il.Emit(OpCodes.Ldstr, content);
+					il.Emit(OpCodes.Ret);
+				}
+
+				Page_HTML.SetGetMethod(Page_HTML_get);
+			}
+			#endregion
+
+			#region Page_HTML
+			{
+				var Page_HTML = Static.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
+
+				var Page_HTML_get = Static.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
+
+				{
+					var il = Page_HTML_get.GetILGenerator();
+
+					// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
+					var body_innerXML = BodyElement.Nodes().Aggregate("", (b, node) => b += node.ToString());
+
+					il.Emit(OpCodes.Ldstr, body_innerXML);
+					il.Emit(OpCodes.Ret);
+				}
+
+				Page_HTML.SetGetMethod(Page_HTML_get);
+			}
+			#endregion
+
+			// we need to use unified HTML DOM...
+			if (!this.IsGeneric)
+			{
+				// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
+				var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
+
+				var Images_value = BodyElement.XPathSelectElements("/img").ToArray();
+
+				DefineStaticImages(a, Static, Images_value);
+
+
+
+				foreach (var CurrentElement in BodyElement.XPathSelectElements("/*[@id]"))
+				{
+					var id = CurrentElement.Attribute("id").Value;
+
+					var e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement);
+
+					var e = Elements.DefineProperty(id, PropertyAttributes.None, e_Type, null);
+					var get_e = Elements.DefineMethod("get_" + id, MethodAttributes.Static | MethodAttributes.Public, e_Type, null);
+
+					Func<IHTMLElement> get_e_template =
+						delegate
+						{
+							return Native.Document.getElementById("id");
+						};
+
+					{
+						var il = get_e.GetILGenerator();
+
+						var il_a = new ILTranslationExtensions.EmitToArguments();
+
+						il_a[OpCodes.Ldstr] =
+							x =>
+							{
+								x.il.Emit(OpCodes.Ldstr, id);
+							};
+
+						il_a[OpCodes.Ret] =
+							x =>
+							{
+								x.il.Emit(OpCodes.Castclass, e_Type);
+								x.il.Emit(OpCodes.Ret);
+							};
+
+						get_e_template.Method.EmitTo(il, il_a);
+
+
+					}
+
+					e.SetGetMethod(get_e);
+				}
+
+				Elements.CreateType();
+
+				var Images_lookup = new Dictionary<XElement, FieldBuilder>();
+
+				foreach (var i in Images_value)
+				{
+					Images_lookup[i] = null;
+				}
+
+
+				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup });
+
+				// and html5 videos and sounds!
+				DefineInstanceImages(a, Page, Images_lookup);
+
+			}
+
+			Static.CreateType();
+			Page.CreateType();
 		}
 
 		private void DefineInstanceImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
@@ -406,12 +460,13 @@ namespace jsc.meta.Commands.Reference
 
 				var il_a = new ILTranslationExtensions.EmitToArguments();
 
+				var Images = lookup.Where(k => k.Value != null).Select((k, index) => new { k, index }).ToArray();
 
 
 				il_a[OpCodes.Ldc_I4_0] =
 					x =>
 					{
-						il.Emit(OpCodes.Ldc_I4, lookup.Count);
+						il.Emit(OpCodes.Ldc_I4, Images.Length);
 					};
 
 				il_a[OpCodes.Stloc_0] =
@@ -419,7 +474,7 @@ namespace jsc.meta.Commands.Reference
 					{
 						il.Emit(OpCodes.Stloc_0);
 
-						foreach (var item in lookup.Select((k, index) => new { k, index }).ToArray())
+						foreach (var item in Images)
 						{
 							il.Emit(OpCodes.Ldloc_0);
 							il.Emit(OpCodes.Ldc_I4, item.index);
@@ -570,9 +625,9 @@ namespace jsc.meta.Commands.Reference
 				{
 					var Initialize = Page.DefineMethod(
 						"Initialize_" + Counter.Value++,
-						MethodAttributes.Private,
+						MethodAttributes.Family | MethodAttributes.Static,
 						typeof(IHTMLElement),
-						new[] { typeof(IHTMLElement) }
+						new[] { Page, typeof(IHTMLElement) }
 					);
 
 					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter, lookup);
@@ -791,14 +846,17 @@ namespace jsc.meta.Commands.Reference
 			}
 		}
 
+		// http://www.w3.org/TR/REC-html40/sgml/entities.html
 		public static readonly Dictionary<string, string> HTMLEntities = new Dictionary<string, string>
 							{
 								{"&nbsp;", "&#160;"},
-								{"&ndash;", "&#8211;"}
+								{"&ndash;", "&#8211;"},
+								{"&laquo;", "&#171;"},
+								{"&raquo;", "&#187;"},
 							};
 
 		// this should be part of the ScriptCoreLib
-		
+
 		// todo: we should actually scan the html elements for InternalConstructos and infer the type names!
 
 		public static readonly Dictionary<string, Type> ElementTypes = new Dictionary<string, Type>
