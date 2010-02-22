@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Serialized;
 namespace ScriptCoreLib.JavaScript.Serialized
 {
     [Script]
+	[System.Obsolete("To be moved out of CoreLib or removed")]
     public class ObjectStreamHelper<T> : IObjectStreamHelper<T>
         where T : class
     {

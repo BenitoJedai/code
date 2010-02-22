@@ -19,8 +19,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
             // InternalConstructor
         }
 
-        [Script(OptimizedCode = @"")]
-        static IHTMLElementTemplate InternalConstructor()
+		static IHTMLAudio InternalConstructor()
         {
 			return (IHTMLAudio)IHTMLElement.InternalConstructor(HTMLElementEnum.audio);
         }

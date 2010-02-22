@@ -14,6 +14,7 @@ namespace ScriptCoreLib.JavaScript.Controls
     /// <summary>
     /// wrapper for a spawn control, defined by input element
     /// </summary>
+	[System.Obsolete("To be moved out of CoreLib")]
     [Script]
     public class SpawnControlBase
     {

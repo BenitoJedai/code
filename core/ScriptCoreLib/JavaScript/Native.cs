@@ -25,14 +25,14 @@ namespace ScriptCoreLib
             static public IHTMLDocument Document;
 
             
-            [Script(ExternalTarget = "Math"), System.Obsolete("Use global::System.Math instead!", false)]
-            static internal IMath Math;
+			[Script(ExternalTarget = "Math"), System.Obsolete("Use global::System.Math instead!", false)]
+			static internal IMath Math;
             
 
             [Script(ExternalTarget = "screen")]
             static public IScreen Screen;
 
-
+			[System.Obsolete("To be moved out of CoreLib or removed")]
             public static EventHandler<IEvent> DisabledEventHandler
             {
                 get
@@ -115,7 +115,8 @@ namespace ScriptCoreLib
                 Native.Document.getElementsByClassName(classname + ":inline").ForEach(h);
             }
 
-            public static IHTMLEmbed PlaySound(string src)
+			[System.Obsolete("To be moved out of CoreLib or removed")]
+			public static IHTMLEmbed PlaySound(string src)
             {
                 var u = new IHTMLEmbed();
 
@@ -129,7 +130,8 @@ namespace ScriptCoreLib
                 return u;
             }
 
-            public static void Include(string src)
+			[System.Obsolete("To be moved out of CoreLib or removed")]
+			public static void Include(string src)
             {
                 System.Console.WriteLine("include " + src);
 
