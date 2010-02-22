@@ -11,6 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     {
 		// see: http://www.whatwg.org/specs/web-apps/current-work/#audio
 		// see: http://www.happyworm.com/jquery/jplayer/HTML5.Audio.Support/
+		// see: https://developer.mozilla.org/En/HTML/Element/Audio
 
         #region Constructor
 
