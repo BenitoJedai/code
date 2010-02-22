@@ -1053,6 +1053,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				//WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"" />");
 				WriteLine(@"<title>Loading...</title>");
 
+				WriteLine("<meta name='google-site-verification' content='uMipBZ74jD_65lTkiAVKRHM1HSJRo_NAgpk6NChQuOA' />");
 
 				//WriteLine(@"<script></script>");
 				WriteLine(@"</head>");
