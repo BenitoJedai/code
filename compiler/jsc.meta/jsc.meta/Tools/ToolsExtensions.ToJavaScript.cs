@@ -6,6 +6,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using jsc.meta.Library.VolumeFunctions;
+using jsc.meta.Library;
 
 namespace jsc.meta.Tools
 {
@@ -16,22 +18,40 @@ namespace jsc.meta.Tools
 		/// javascript by jsc.
 		/// </summary>
 		/// <param name="TargetAssembly"></param>
-		public static void ToJavaScript(this FileInfo TargetAssembly)
+		public static void ToJavaScript(this FileInfo TargetAssembly_,
+
+			Action<string> RaiseProccessStatusChanged
+
+			)
 		{
 			// we should run jsc in another appdomain actually
 			// just to be sure our nice tool gets unloaded :)
 
-			jsc.Program.TypedMain(
-				new jsc.CompileSessionInfo
-				{
-					Options = new jsc.CommandLineOptions
+			using (var v = TargetAssembly_.ToVirtualDrive())
+			{
+				var TargetAssembly = v.VirtualFile;
+				jsc.Program.TypedMain(
+					new jsc.CompileSessionInfo
 					{
-						TargetAssembly = TargetAssembly,
-						IsJavaScript = true,
-						IsNoLogo = true
+						Options = new jsc.CommandLineOptions
+						{
+							TargetAssembly = TargetAssembly,
+							IsJavaScript = true,
+							IsNoLogo = true
+						}.Apply(
+							k =>
+							{
+								if (RaiseProccessStatusChanged != null)
+									k.ProccessStatusChanged +=
+										e =>
+										{
+											RaiseProccessStatusChanged(e);
+										};
+							}
+						)
 					}
-				}
-			);
+				);
+			}
 		}
 
 	}

@@ -133,6 +133,15 @@ namespace jsc
             Description = "Will not emit source code of the referenced assemblies if flag is set"
             )]
         public bool JustMyCode;
+
+
+		public event Action<string> ProccessStatusChanged;
+
+		public void RaiseProccessStatusChanged(string e)
+		{
+			if (ProccessStatusChanged != null)
+				ProccessStatusChanged(e);
+		}
     }
 
 }

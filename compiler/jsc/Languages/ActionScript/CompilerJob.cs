@@ -100,6 +100,7 @@ namespace jsc.Languages
 
                         if (c.CompileType(xx))
                         {
+
                             c.ToConsole(xx, sinfo);
 
                             Program.WriteSingleScriptFile(Languages.ActionScript.ActionScriptCompiler.FileExtension, TargetDirectory, c, xx);

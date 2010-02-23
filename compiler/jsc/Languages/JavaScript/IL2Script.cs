@@ -1405,7 +1405,7 @@ namespace jsc
 
 
 
-		public static void DeclareTypes(IdentWriter w, Type[] arg_types, bool debug, ScriptAttribute attribute, Assembly assembly)
+		public static void DeclareTypes(IdentWriter w, Type[] arg_types, bool debug, ScriptAttribute attribute, Assembly assembly, CompileSessionInfo sinfo)
 		{
 			Type[] types = SortTypes(w, arg_types);
 
@@ -1456,6 +1456,7 @@ namespace jsc
 				if (!z.IsClass)
 					continue;
 
+				
 				ScriptAttribute sa = ScriptAttribute.Of(z);
 
 				#region DelegateImplementationProvider
@@ -1517,6 +1518,7 @@ namespace jsc
 					Task.Enabled = true;
 					Task.WriteLine("type: [{0}]", z.FullName);
 
+					sinfo.Options.RaiseProccessStatusChanged(z.FullName);
 
 					//using (new Task("DeclareTypes", z.FullName))
 					//{

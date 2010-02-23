@@ -21,6 +21,9 @@ namespace jsc.meta.Commands.Rewrite
 		 */
 
 		public DirectoryInfo javahome = new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_14");
+		// we probably do not need both :)
+		public DirectoryInfo javapath = new DirectoryInfo(@"c:\Program Files\Java\jdk1.6.0_14\bin");
+
 		public FileInfo ant = new FileInfo(@"C:\util\apache-ant-1.7.1\bin\ant.bat");
 		public DirectoryInfo appengine = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.0");
 
@@ -30,10 +33,10 @@ namespace jsc.meta.Commands.Rewrite
 
 		public FileInfo assembly;
 
-		public FileInfo mxmlc;
-		public FileInfo flashplayer;
+		public FileInfo mxmlc = new FileInfo(@"C:\util\flex\bin\mxmlc.exe");
+		public FileInfo flashplayer = new FileInfo(@"C:\util\flex\runtimes\player\win\FlashPlayer.exe");
 
-		public DirectoryInfo javapath;
+		
 
 		public bool IsRewriteOnly;
 
@@ -53,5 +56,13 @@ namespace jsc.meta.Commands.Rewrite
 		/// component once it is ready.
 		/// </summary>
 		public event Action<AtWebServiceReadyArguments> AtWebServiceReady;
+
+		public event Action<string> ProccessStatusChanged;
+
+		public void RaiseProccessStatusChanged(string e)
+		{
+			if (ProccessStatusChanged != null)
+				ProccessStatusChanged(e);
+		}
 	}
 }

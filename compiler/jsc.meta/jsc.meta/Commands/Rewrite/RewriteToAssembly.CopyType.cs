@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using jsc.Languages.IL;
 using jsc.Library;
 using jsc;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -34,7 +35,13 @@ namespace jsc.meta.Commands.Rewrite
 				RewriteToAssembly r
 			)
 		{
+			Action<string> Diagnostics =
+				e =>
+				{
+					Debug.WriteLine(e);
 
+					Console.WriteLine(e);
+				};
 
 
 			// sanity check
@@ -44,7 +51,7 @@ namespace jsc.meta.Commands.Rewrite
 			if (SourceType.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "invalidmerge"))
 				throw new InvalidOperationException(SourceType.FullName);
 
-			Console.WriteLine("CopyType: " + SourceType.Name);
+			Diagnostics("CopyType: " + SourceType.Name);
 
 			// we should not reenter here!
 			TypeCache[SourceType] = null;
@@ -56,7 +63,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			if (SourceType.IsNested)
 			{
-				Console.WriteLine("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
+				Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
 			}
 
 			var _DeclaringType = (OverrideDeclaringType ?? (
@@ -141,6 +148,11 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.Public | BindingFlags.NonPublic
 				))
 			{
+				// just like try/catch initialized data fields are special....
+
+				if (k.IsInitializedDataFieldType())
+					continue;
+
 				var km = TypeCache[k];
 			}
 
@@ -151,6 +163,8 @@ namespace jsc.meta.Commands.Rewrite
 						BindingFlags.Public | BindingFlags.NonPublic |
 						BindingFlags.Instance | BindingFlags.Static))
 			{
+				Diagnostics("Field: " + SourceType.Name + "." + f.Name);
+
 				var ff = FieldCache[f];
 			}
 			#endregion
@@ -203,7 +217,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			if (SourceType.IsNested && SourceType.IsClass && !(TypeCache.Flags.ContainsKey(SourceType.DeclaringType)))
 			{
-				Console.WriteLine("Delayed:  " + SourceType.FullName);
+				Diagnostics("Delayed:  " + SourceType.FullName);
 
 
 				r.TypeCreated +=
@@ -212,7 +226,7 @@ namespace jsc.meta.Commands.Rewrite
 						if (tt.SourceType != SourceType.DeclaringType)
 							return;
 
-						Console.WriteLine("Delayed CreateType:  " + SourceType.FullName);
+						Diagnostics("Delayed CreateType:  " + SourceType.FullName);
 
 
 						t.CreateType();
@@ -230,7 +244,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			t.CreateType();
 			TypeCache.Flags[SourceType] = new object();
-			Console.WriteLine("CreateType:  " + SourceType.FullName);
+			Diagnostics("CreateType:  " + SourceType.FullName);
 
 			if (TypeCreated != null)
 				TypeCreated(t);
@@ -247,7 +261,8 @@ namespace jsc.meta.Commands.Rewrite
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 			VirtualDictionary<string, string> NameObfuscation,
-			TypeBuilder t)
+			TypeBuilder t
+			)
 		{
 
 
@@ -258,6 +273,7 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
+				
 				var km = ConstructorCache[k];
 			}
 

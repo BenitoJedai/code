@@ -114,7 +114,7 @@ namespace jsc.meta.Commands.Extend
 
 			if (this.context.javascript)
 			{
-				MetaScript.ToJavaScript();
+				MetaScript.ToJavaScript(null);
 			}
 
 			if (this.context.javapath != null)

@@ -65,3 +65,5 @@
 	- Extended RewriteToJavaScriptDocument command to work at runtime within ASP.NET
 2010.02.22
 	- RewriteToJavaScriptDocument now also emits html controls
+2010.02.23
+	- RewriteToJavaScriptDocument has initial support for long paths
