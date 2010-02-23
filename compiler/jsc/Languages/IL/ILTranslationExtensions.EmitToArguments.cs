@@ -300,6 +300,7 @@ namespace jsc.Languages.IL
 					OpCodes.Dup,
 
 					OpCodes.Conv_I4,
+					OpCodes.Conv_U,
 					OpCodes.Conv_U1,
 					OpCodes.Conv_U2,
 					OpCodes.Conv_U4,

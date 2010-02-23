@@ -156,8 +156,19 @@ namespace jsc.meta.Commands.Rewrite
 
 			var RewriteOutput = targets.ToDictionary(k => k, k => default(FileInfo));
 
+			var ki = -1;
 			foreach (var k in targets_variations)
 			{
+				ki++;
+
+				Action<string> RaiseProccessStatusChanged =
+					e =>
+					{
+						this.RaiseProccessStatusChanged("Component '" + k.TargetType.FullName + "' (" + (ki + 1) + " of " + targets_variations.Length + "): " + e);
+					};
+
+				RaiseProccessStatusChanged("rewriting");
+
 				var InvokeAfterBackendCompiler = new List<Action>();
 
 				// lets do a rewrite and inject neccesary bootstrap and proxy code
@@ -207,6 +218,8 @@ namespace jsc.meta.Commands.Rewrite
 					PreTypeRewrite =
 						a =>
 						{
+							RaiseProccessStatusChanged("rewriting " + a.Type.FullName);
+
 							if (a.Type == a.context.TypeCache[k.TargetType])
 							{
 								// so where are we?
@@ -954,6 +967,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (!IsRewriteOnly)
 				{
+					RaiseProccessStatusChanged("backend compilation for " + k.TargetType.FullName);
 
 					#region jsc backend
 					if (k.IsJava)
@@ -979,13 +993,14 @@ namespace jsc.meta.Commands.Rewrite
 					if (k.IsActionScript)
 					{
 						r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null,
-							k.TargetType.FullName + ".swf"
+							k.TargetType.FullName + ".swf",
+							RaiseProccessStatusChanged
 						);
 					}
 
 					if (k.IsJavaScript)
 					{
-						r.Output.ToJavaScript();
+						r.Output.ToJavaScript(RaiseProccessStatusChanged);
 					}
 					#endregion
 

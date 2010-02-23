@@ -442,7 +442,7 @@ namespace jsc
 			}
 			else if (type == ScriptType.JavaScript)
 			{
-				IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded);
+				IL2Script.DeclareTypes(xw, xw.Session.Types.Where(k => k.Assembly == _assambly_loaded).ToArray(), false, AssamblyS, _assambly_loaded, sinfo);
 
 				_assambly_loaded.WriteEntryPoints(TargetDirectory);
 			}
@@ -540,6 +540,7 @@ namespace jsc
 			{
 				string[] n = _ns.Split('.');
 
+				// http://blogs.msdn.com/jnak/archive/2010/01/14/windows-azure-path-too-long.aspx
 				for (int i = 0; i < n.Length; i++)
 					p = p.CreateSubdirectory(n[i]);
 			}

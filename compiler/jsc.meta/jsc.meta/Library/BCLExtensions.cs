@@ -9,7 +9,21 @@ namespace jsc.meta.Library
 {
 	public static class BCLExtensions
 	{
-		
+
+		public static byte[] ToBytes(this FileStream s)
+		{
+			var x = new byte[s.Length];
+
+			s.Read(x, 0, x.Length);
+
+			return x;
+		}
+
+		public static bool IsInitializedDataFieldType(this Type SourceType)
+		{
+			return (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0);
+		}
+
 		public static T ToConsole<T>(this T e) where T : class
 		{
 			Console.WriteLine(e);

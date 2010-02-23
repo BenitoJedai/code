@@ -14,152 +14,12 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-		// usage: c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)"
-		//
 
-		// todo: generics, interfaces, and opcodes.leave need to be fixed!
-
-		public string product;
-
-		/// <summary>
-		/// Types within these assemblies will be merged to the new primary assembly
-		/// </summary>
-		public MergeInstruction[] merge = new MergeInstruction[0];
-
-		public class MergeInstruction
-		{
-			public string name;
-
-			public static implicit operator MergeInstruction(string e)
-			{
-				return new MergeInstruction { name = e };
-			}
-		}
-
-		public FileInfo assembly;
-
-
-		public DirectoryInfo staging;
-
-		public string type;
-
-
-		/// <summary>
-		/// We should be translating complex IL to more simple IL.
-		/// For example switch statements could be translated to
-		/// if statements. We might want to use jsx and then after simplifing 
-		/// IL run jsc on the generated assembly.
-		/// 
-		/// jsc is the default translation provider which just happens
-		/// to understand our ScriptAttribute
-		/// 
-		/// jsx happens to be a more advanced IL reader than jsc
-		/// 
-		/// if in the future any vendor comes up with a better solution
-		/// which we can implement we will consider them too.
-		/// 
-		/// Some target languages wont implement specific features
-		/// for which we will need to simplify IL anyhow.
-		/// 
-		/// We could also be inlining methods and delete them.
-		/// </summary>
-		public bool simplify;
-
-		/// <summary>
-		/// We can provide obfuscation features. Simply by renaming all
-		/// methods would do. We could also make the IL harder for disassamblers
-		/// like reflector.
-		/// </summary>
-		public bool obfuscate = false;
-
-		internal Delegate codeinjecton;
-		internal Func<Assembly, object[]> codeinjectonparams;
-
-		public class NamespaceRenameInstructions
-		{
-			// we could provide namespace renaming to provide 
-			// brand support
-			public string rule;
-
-			public static implicit operator NamespaceRenameInstructions(string e)
-			{
-				return new NamespaceRenameInstructions { rule = e };
-			}
-
-			public string From
-			{
-				get
-				{
-					return rule.Substring(0, rule.IndexOf("->"));
-				}
-			}
-
-			public string To
-			{
-				get
-				{
-					return rule.Substring(rule.IndexOf("->") + 2);
-				}
-			}
-		}
-
-		public NamespaceRenameInstructions[] rename;
-
-		internal Assembly _assembly;
-
-		VirtualDictionary<string, string> NameObfuscation = new VirtualDictionary<string, string>();
-
-		public Type[] PrimaryTypes = new Type[0];
-
-
-		public class AssemblyRewriteArguments
-		{
-			public jsc.Languages.IL.ILTranslationContext context;
-			public ModuleBuilder Module;
-			public AssemblyBuilder Assembly;
-		}
-
-		public Action<AssemblyRewriteArguments> PostRewrite;
-		public Action<AssemblyRewriteArguments> PreRewrite;
-
-
-		public class TypeRewriteArguments : AssemblyRewriteArguments
-		{
-			public Type SourceType;
-			public TypeBuilder Type;
-		}
-
-		public Action<TypeRewriteArguments> PostTypeRewrite;
-		public Action<TypeRewriteArguments> PreTypeRewrite;
-
-		public event Action<TypeRewriteArguments> TypeCreated;
-
-		public class BeforeInstructionsArguments : TypeRewriteArguments
-		{
-			public MethodInfo SourceMethod;
-			public MethodBuilder Method;
-
-			public Func<ILGenerator> GetILGenerator;
-		}
-
-		// to be phased out
-		public Action<BeforeInstructionsArguments> BeforeInstructions;
-
-		public Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride;
-
-		public FileInfo Output;
-
-		public ILTranslationContext ExternalContext = new ILTranslationContext
-		{
-			ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>(),
-			MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>(),
-			TypeCache = new VirtualDictionary<Type, Type>(),
-			FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>()
-		};
 
 		public void Invoke()
 		{
-			//Debugger.Launch();
+			if (this.AttachDebugger)
+				Debugger.Launch();
 
 			var NameObfuscationRandom = new Random();
 
@@ -208,9 +68,11 @@ namespace jsc.meta.Commands.Rewrite
 
 			if (this.PrimaryTypes.Length == 0)
 				if (assembly != null)
-					this.PrimaryTypes = new[] {
-					(this.type == null ? assembly.EntryPoint.DeclaringType : assembly.GetType(this.type))
-				};
+					this.PrimaryTypes =
+						(string.IsNullOrEmpty(this.type) ?
+							(assembly.EntryPoint == null ? assembly.GetTypes() : new[] { assembly.EntryPoint.DeclaringType }) :
+								new[] { assembly.GetType(this.type) }
+						);
 
 
 			var Product_Name = (string.IsNullOrEmpty(this.product) ?
@@ -318,11 +180,11 @@ namespace jsc.meta.Commands.Rewrite
 						CopyConstructor(
 							SourceConstructor,
 							DeclaringType,
-							TypeCache, 
+							TypeCache,
 							FieldCache,
-							ConstructorCache, 
-							ConstructorCache, 
-							MethodCache, 
+							ConstructorCache,
+							ConstructorCache,
+							MethodCache,
 							NameObfuscation,
 							ILOverride);
 						return;
@@ -349,13 +211,13 @@ namespace jsc.meta.Commands.Rewrite
 						var source = (TypeBuilder)TypeCache[msource.DeclaringType];
 
 						CopyMethod(
-							a, 
-							m, 
-							msource, 
-							source, 
-							TypeCache, 
+							a,
+							m,
+							msource,
+							source,
+							TypeCache,
 							FieldCache,
-							MethodCache, 
+							MethodCache,
 							ConstructorCache, MethodCache, NameObfuscation,
 							_assembly,
 							this.codeinjecton,
@@ -390,7 +252,7 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
-	
+
 
 			#region FieldCache
 			FieldCache.Resolve +=
@@ -403,14 +265,21 @@ namespace jsc.meta.Commands.Rewrite
 
 					var DeclaringType_ = TypeCache[SourceField.DeclaringType];
 
+					// Things may have changed... abort?
+					if (FieldCache.BaseDictionary.ContainsKey(SourceField))
+						return;
+
+
 					if (DeclaringType_ is TypeBuilder)
 					{
 						var DeclaringType = (TypeBuilder)DeclaringType_;
 						var FieldName = NameObfuscation[SourceField.Name];
 
-						if (SourceField.FieldType.StructLayoutAttribute != null && SourceField.FieldType.StructLayoutAttribute.Size > 0)
+						if (SourceField.FieldType.IsInitializedDataFieldType())
 						{
-							var ff = DeclaringType.DefineInitializedData(FieldName, SourceField.GetValue(null).StructAsByteArray(), SourceField.Attributes);
+							var value = SourceField.GetValue(null).StructAsByteArray();
+
+							var ff = DeclaringType.DefineInitializedData(FieldName, value, SourceField.Attributes);
 
 							FieldCache[SourceField] = ff;
 						}
@@ -479,8 +348,8 @@ namespace jsc.meta.Commands.Rewrite
 							source, a, m,
 							TypeCache,
 							FieldCache,
-							 
-							ConstructorCache, 
+
+							ConstructorCache,
 							MethodCache,
 							null,
 							NameObfuscation,
@@ -563,8 +432,11 @@ namespace jsc.meta.Commands.Rewrite
 					RewriteArguments
 				);
 
+			// we cannot be rewriting initialized data types...
+			PrimaryTypes = PrimaryTypes.Where(k => !k.IsInitializedDataFieldType()).ToArray();
+
 			Console.WriteLine("");
-			Console.WriteLine("rewriting...");
+			Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
 			Console.WriteLine("");
 
 			// ask for our primary types to be copied

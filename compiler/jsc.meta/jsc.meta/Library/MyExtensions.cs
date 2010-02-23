@@ -353,13 +353,15 @@ namespace jsc.meta.Library
 
 		}
 
-		public static void Apply<T>(this T e, Action<T> handler)
+		public static T Apply<T>(this T e, Action<T> handler)
 			where T : class
 		{
 			if (e == default(T))
-				return;
+				return e;
 
 			handler(e);
+
+			return e;
 		}
 
 		public static int GetLiteralInt32(this Type t, string name, int Default)

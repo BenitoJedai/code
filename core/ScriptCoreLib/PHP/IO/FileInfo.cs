@@ -4,7 +4,7 @@ using ScriptCoreLib;
 namespace ScriptCoreLib.PHP.IO
 {
     [Script, System.Obsolete]
-    public class FileInfo
+    internal class FileInfo
     {
         public void Delete()
         {
