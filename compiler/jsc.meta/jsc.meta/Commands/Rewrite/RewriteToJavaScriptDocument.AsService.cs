@@ -142,7 +142,8 @@ namespace jsc.meta.Commands.Rewrite
 										assembly = new FileInfo(this.PrimaryApplication.Assembly.Location),
 
 										DisableWebServiceJava = true,
-										DisableWebServicePHP = true
+										DisableWebServicePHP = true,
+										DisableWebServiceTypeMerge = true
 										//IsRewriteOnly = true
 									};
 

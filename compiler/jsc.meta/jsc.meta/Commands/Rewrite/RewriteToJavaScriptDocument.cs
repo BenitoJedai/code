@@ -21,6 +21,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using jsc.meta.Commands.Rewrite.Templates;
 using jsc.meta.Library.Templates.Java;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -465,10 +466,28 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (k.IsJava || k.IsActionScript || k.IsWebService)
 				{
+					//Debugger.Launch();
+
+					r.AtShouldCopyType +=
+						t =>
+						{
+							//Debugger.Break();
+
+							if (k.IsWebService && this.DisableWebServiceTypeMerge)
+							{
+								if (t.ContextType.Assembly == k.TargetType.Assembly)
+								{
+									t.DisableCopyType = true;
+								}
+							}
+
+						};
+
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
+						
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
 							if (c != null)
