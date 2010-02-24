@@ -331,6 +331,13 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
+					if (TypeCache.BaseDictionary.ContainsKey(source))
+					{
+						// seems like we are not supposed to resolve this type and use
+						// what has been inserted in the cache!
+						return;
+					}
+
 					if (source.IsArray)
 					{
 						TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
@@ -471,8 +478,25 @@ namespace jsc.meta.Commands.Rewrite
 
 		public AssemblyRewriteArguments RewriteArguments { get; private set; }
 
+		public class AtShouldCopyTypeTuple
+		{
+			public Type ContextType;
+
+			public bool DisableCopyType;
+		}
+
+		public event Action<AtShouldCopyTypeTuple> AtShouldCopyType;
+
 		private bool ShouldCopyType(Type ContextType)
 		{
+			var t = new AtShouldCopyTypeTuple { ContextType = ContextType };
+
+			if (AtShouldCopyType != null)
+				AtShouldCopyType(t);
+
+			if (t.DisableCopyType)
+				return false;
+
 			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly)
 				||
 				this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name)

@@ -43,6 +43,13 @@ namespace jsc.meta.Commands.Rewrite
 		public bool DisableWebServiceJava;
 		public bool DisableWebServicePHP;
 
+		/// <summary>
+		/// Server side debugging scenario is enabled by setting DisableWebServiceTypeMerge to true.
+		/// One can now insert Debug.Break statements into the WebService class and the original
+		/// assembly will be used.
+		/// </summary>
+		public bool DisableWebServiceTypeMerge;
+
 		public class AtWebServiceReadyArguments
 		{
 			public FileInfo Assembly;

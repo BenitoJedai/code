@@ -6,14 +6,24 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
-using System.Diagnostics;
 
-namespace OrcasUltraWebApplication
+namespace OrcasUltraWebApplication3
 {
 	public sealed class UltraApplication
 	{
 		public UltraApplication(IHTMLElement e)
 		{
+			var cloud = new OrcasUltraWebApplication2.TheCloudEffect();
+
+			cloud.AttachSpriteToDocument();
+
+
+			cloud.AtLogoClick +=
+				delegate
+				{
+					Native.Window.alert("from flash");
+				};
+
 			new IHTMLDiv { innerHTML = "Hello world!" }.AttachToDocument();
 
 			{
@@ -47,7 +57,7 @@ namespace OrcasUltraWebApplication
 						s.onload +=
 							delegate
 							{
-								var f =  new IFunction("e", "return ExampleLibrary_Method1(e);");
+								var f = new IFunction("e", "return ExampleLibrary_Method1(e);");
 
 								var btn2 = new IHTMLButton { innerText = "Invoke ExampleLibrary_Method1" }.AttachToDocument();
 
@@ -66,13 +76,11 @@ namespace OrcasUltraWebApplication
 	}
 
 	public delegate void StringAction(string e);
-	
+
 	public sealed class UltraWebService
 	{
 		public void GetTime(string x, StringAction result)
 		{
-			Debugger.Break();
-
 			result(x + DateTime.Now);
 		}
 	}
