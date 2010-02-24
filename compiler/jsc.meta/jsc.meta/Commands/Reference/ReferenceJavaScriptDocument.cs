@@ -8,19 +8,19 @@ using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using jsc.Languages.IL;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
 using jsc.meta.Tools;
+using jsc.Script;
 using Microsoft.CSharp;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using System.Xml;
-using jsc.Script;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -327,6 +327,13 @@ namespace jsc.meta.Commands.Reference
 			Console.WriteLine(PageFullName);
 
 			var Page = a.Module.DefineType(PageFullName, TypeAttributes.Public);
+
+			{
+				var PropertyName = "Tag";
+				var PropertyType = typeof(object);
+
+				Page.DefineAutomaticProperty(PropertyName, PropertyType);
+			}
 
 			var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
 
@@ -650,7 +657,9 @@ namespace jsc.meta.Commands.Reference
 			Action Implementation2 =
 				delegate
 				{
-					var Element__id = body.Attribute("id");
+					// http://www.456bereastreet.com/archive/200412/the_alt_and_title_attributes/
+
+					var Element__id = body.Attribute("id") ?? body.Attribute("alt");
 					var ElementHasId = Element__id != null;
 					var ElementInLookup = lookup.Any(k => k.Keys.Contains(body));
 
@@ -675,9 +684,14 @@ namespace jsc.meta.Commands.Reference
 
 						if (ElementHasId)
 						{
-							var ElementProperty = Page.DefineProperty(Element__id.Value, PropertyAttributes.None, ElementType, null);
+							var ElementPropertyName = CompilerBase.GetSafeLiteral(
+									Element__id.Value, null
+								);
 
-							var get_ElementField = Page.DefineMethod("get_" + Element__id.Value, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+							var ElementProperty = Page.DefineProperty(
+								ElementPropertyName, PropertyAttributes.None, ElementType, null);
+
+							var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
 
 							var get_ElementField_il = get_ElementField.GetILGenerator();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,28 +8,27 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Web;
+using System.Web.Profile;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using java.applet;
 using jsc.Languages.IL;
+using jsc.meta.Commands.Rewrite.Templates;
 using jsc.meta.Library;
 using jsc.meta.Library.Templates;
+using jsc.meta.Library.Templates.Java;
+using jsc.meta.Library.VolumeFunctions;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.external;
+using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System.Web;
-using jsc.meta.Commands.Rewrite.Templates;
-using System.Web.Profile;
-using System.Collections;
-using ScriptCoreLib.CSharp.Extensions;
-using jsc.meta.Library.Templates.Java;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using System.Xml;
-using jsc.meta.Library.VolumeFunctions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -52,11 +52,14 @@ namespace jsc.meta.Commands.Rewrite
 
 			)
 		{
-			using (var __VirtualFrom = __js_StagingFolder.CreateSubdirectory("web").ToVirtualDrive())
-			using (var __VirtualTo = __web_bin.Parent.ToVirtualDrive())
+			//using (var __VirtualFrom = __js_StagingFolder.CreateSubdirectory("web").ToVirtualDrive())
+			//using (var __VirtualTo = __web_bin.Parent.ToVirtualDrive())
 			{
-				var web_bin = __VirtualTo.VirtualDirectory.CreateSubdirectory("bin");
-				var js_staging_web = __VirtualFrom.VirtualDirectory;
+				//var web_bin = __VirtualTo.VirtualDirectory.CreateSubdirectory("bin");
+				//var js_staging_web = __VirtualFrom.VirtualDirectory;
+
+				var web_bin = __web_bin;
+				var js_staging_web = __js_StagingFolder.CreateSubdirectory("web");
 
 				var TypeCache = r.RewriteArguments.context.TypeCache;
 				var ConstructorCache = r.RewriteArguments.context.ConstructorCache;
@@ -107,8 +110,8 @@ namespace jsc.meta.Commands.Rewrite
 					let Name0 = k.FullName.Substring(js_staging_web.FullName.Length)
 					let Name2 = Name0.Replace("\\", "/")
 
-					let Name1 = Name2.EndsWith("/") ? Name0.Substring(1) : Name0
-					let Name = Name2.EndsWith("/") ? Name2.Substring(1) : Name2
+					let Name1 = Name2.StartsWith("/") ? Name0.Substring(1) : Name0
+					let Name = Name2.StartsWith("/") ? Name2.Substring(1) : Name2
 
 					select new
 					{
@@ -386,7 +389,8 @@ namespace jsc.meta.Commands.Rewrite
 				#region asp.net
 				if (!IsWebServiceJava && !IsWebServicePHP)
 				{
-					DirectoryInfo web = __VirtualTo.VirtualDirectory;
+					//DirectoryInfo web = __VirtualTo.VirtualDirectory;
+					var web = __web_bin.Parent;
 
 					foreach (var item in __Files2)
 					{

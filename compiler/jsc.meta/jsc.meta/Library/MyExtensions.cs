@@ -18,6 +18,39 @@ namespace jsc.meta.Library
 
 	public static class MyExtensions
 	{
+
+		public static void DefineAutomaticProperty(this TypeBuilder Page, string PropertyName, Type PropertyType)
+		{
+			var Page_Tag = Page.DefineProperty(PropertyName, PropertyAttributes.None, PropertyType, null);
+			var Page_TagField = Page.DefineField("_" + PropertyName, PropertyType, FieldAttributes.Private);
+
+			{
+				var get_Page_Tag = Page.DefineMethod("get_" + PropertyName, MethodAttributes.Public, CallingConventions.Standard, PropertyType, null);
+
+				var get_Page_Tag_il = get_Page_Tag.GetILGenerator();
+
+				get_Page_Tag_il.Emit(OpCodes.Ldarg_0);
+				get_Page_Tag_il.Emit(OpCodes.Ldfld, Page_TagField);
+				get_Page_Tag_il.Emit(OpCodes.Ret);
+
+				Page_Tag.SetGetMethod(get_Page_Tag);
+			}
+
+			{
+				var set_Page_Tag = Page.DefineMethod("set_" + PropertyName, MethodAttributes.Public, CallingConventions.Standard, typeof(void), new[] { PropertyType });
+
+				var set_Page_Tag_il = set_Page_Tag.GetILGenerator();
+
+				set_Page_Tag_il.Emit(OpCodes.Ldarg_0);
+				set_Page_Tag_il.Emit(OpCodes.Ldarg_1);
+				set_Page_Tag_il.Emit(OpCodes.Stfld, Page_TagField);
+				set_Page_Tag_il.Emit(OpCodes.Ret);
+
+				Page_Tag.SetSetMethod(set_Page_Tag);
+			}
+		}
+
+
 		public static void NotImplemented(this MethodBuilder m)
 		{
 			m.GetILGenerator().EmitCode(() => { throw new NotImplementedException(); });
@@ -480,6 +513,7 @@ namespace jsc.meta.Library
 
 			return e;
 		}
+
 
 		public static void EmitSetProperty(this ILGenerator il, PropertyInfo p, string value)
 		{
