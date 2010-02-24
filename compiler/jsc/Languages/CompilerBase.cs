@@ -1034,17 +1034,17 @@ namespace jsc.Script
 
 					if (var.Block.IsHandlerBlock)
 						if (var.Block.Clause.Flags != ExceptionHandlingClauseOptions.Finally)
-					{
-						ILBlock.Prestatement set_exc = var.Block.Prestatements.PrestatementCommands[0];
-
-
-						if (set_exc.Instruction != null && set_exc.Instruction.IsStoreLocal)
 						{
-							if (set_exc.Instruction.IsEqualVariable(i))
-								return true;
-							// maybe ok
+							ILBlock.Prestatement set_exc = var.Block.Prestatements.PrestatementCommands[0];
+
+
+							if (set_exc.Instruction != null && set_exc.Instruction.IsStoreLocal)
+							{
+								if (set_exc.Instruction.IsEqualVariable(i))
+									return true;
+								// maybe ok
+							}
 						}
-					}
 
 					// a block case
 
@@ -1174,10 +1174,10 @@ namespace jsc.Script
 				Type t = m.DeclaringType;
 				MethodBase method = m;
 
-			
-					if (StringToSByteArrayProviderImplementation(p, i, m))
-						return;
-				
+
+				if (StringToSByteArrayProviderImplementation(p, i, m))
+					return;
+
 
 				if (IsTypeOfOperator(m))
 				{
@@ -1648,7 +1648,9 @@ namespace jsc.Script
 
 		public static bool DefaultIsSafeLiteralChar(char x)
 		{
-			return char.IsLetter(x) || char.IsNumber(x);
+			// using TypeBuilder one can emit names with spaces!
+
+			return !char.IsWhiteSpace(x) && (char.IsLetter(x) || char.IsNumber(x));
 		}
 
 		public virtual bool IsSafeLiteralChar(char x)

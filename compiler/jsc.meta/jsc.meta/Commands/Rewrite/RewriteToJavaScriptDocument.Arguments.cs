@@ -20,6 +20,12 @@ namespace jsc.meta.Commands.Rewrite
 		 * 4. pass primitives and interfaces as arguments
 		 */
 
+		public DirectoryInfo staging;
+
+		public FileInfo assembly;
+
+		// we should enable the use of settings files!
+
 		public DirectoryInfo javahome = new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_14");
 		// we probably do not need both :)
 		public DirectoryInfo javapath = new DirectoryInfo(@"c:\Program Files\Java\jdk1.6.0_14\bin");
@@ -29,9 +35,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-		public DirectoryInfo staging;
 
-		public FileInfo assembly;
 
 		public FileInfo mxmlc = new FileInfo(@"C:\util\flex\bin\mxmlc.exe");
 		public FileInfo flashplayer = new FileInfo(@"C:\util\flex\runtimes\player\win\FlashPlayer.exe");

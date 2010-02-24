@@ -1,14 +1,15 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EEA736FF-7E2E-4684-87D5-394B57909095}</ProjectGuid>
+    <ProjectGuid>{AA6A0F8F-FB65-469D-8C07-7707355F1F42}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UltraTutorial06</RootNamespace>
-    <AssemblyName>UltraTutorial06</AssemblyName>
+    <RootNamespace>UltraTutorial07</RootNamespace>
+    <AssemblyName>UltraTutorial07</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -57,6 +58,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltraTutorial07.WebSource.HTML">
+      <HintPath>bin\WebSource.HTML.staging\UltraTutorial07.WebSource.HTML.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetTimeFeature.cs" />
@@ -69,7 +73,7 @@
     <Compile Include="UltraSprite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Design.WebSource.HTML\" />
+    <Content Include="Design.WebSource.HTML\Browsers.htm" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -82,5 +86,6 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
+    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"</PreBuildEvent>
   </PropertyGroup>
 </Project>
