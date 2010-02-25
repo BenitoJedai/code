@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcasUltraWebApplication2",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite1", "Rewrite1\Rewrite1.csproj", "{B6592C90-2BC0-4765-82AC-6093C931E317}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite2", "Rewrite2\Rewrite2.csproj", "{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite3", "Rewrite3\Rewrite3.csproj", "{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,14 @@ Global
 		{B6592C90-2BC0-4765-82AC-6093C931E317}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6592C90-2BC0-4765-82AC-6093C931E317}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6592C90-2BC0-4765-82AC-6093C931E317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

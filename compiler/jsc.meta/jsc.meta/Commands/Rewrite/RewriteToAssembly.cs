@@ -147,21 +147,21 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			this.RewriteArguments = new AssemblyRewriteArguments
+			{
+				Assembly = a,
+				Module = m,
+
+				context =
+					new ILTranslationContext
 					{
-						Assembly = a,
-						Module = m,
 
-						context =
-							new ILTranslationContext
-							{
-
-								ConstructorCache = ConstructorCache,
-								MethodCache = MethodCache,
-								TypeCache = TypeCache,
-								FieldCache = FieldCache,
-								TypeRenameCache = TypeRenameCache
-							}
-					};
+						ConstructorCache = ConstructorCache,
+						MethodCache = MethodCache,
+						TypeCache = TypeCache,
+						FieldCache = FieldCache,
+						TypeRenameCache = TypeRenameCache
+					}
+			};
 
 
 			#region ConstructorCache
@@ -214,6 +214,8 @@ namespace jsc.meta.Commands.Rewrite
 			MethodCache.Resolve +=
 				msource =>
 				{
+
+
 					// This unit was resolved for us...
 					if (ExternalContext.MethodCache[msource] != msource)
 					{
@@ -262,7 +264,12 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
-					MethodCache[msource] = msource;
+					MethodCache[msource] =
+						msource.IsGenericMethod ? msource.GetGenericMethodDefinition().MakeGenericMethod(
+						msource.GetGenericArguments().Select(
+							k => TypeCache[k]
+						).ToArray()
+						) : msource;
 
 				};
 			#endregion

@@ -29,6 +29,7 @@ namespace jsc.meta.Library
 			if (!AddScriptResources.Contains(ScriptResources))
 			{
 				AddScriptResources.Add(ScriptResources);
+
 				this.Assembly.DefineAttribute<ScriptCoreLib.Shared.ScriptResourcesAttribute>(
 					new { Value = ScriptResources }
 				);
@@ -37,6 +38,32 @@ namespace jsc.meta.Library
 			var n = this.Assembly.GetName().Name + ".web." + name.Replace("/", ".");
 
 			this.Module.DefineManifestResource(n, value);
+		}
+
+		public void Add(string name, byte[] value)
+		{
+			var ScriptResources = name.Substring(0, name.LastIndexOf("/"));
+
+			if (!AddScriptResources.Contains(ScriptResources))
+			{
+				AddScriptResources.Add(ScriptResources);
+
+				this.Assembly.DefineAttribute<ScriptCoreLib.Shared.ScriptResourcesAttribute>(
+					new { Value = ScriptResources }
+				);
+			}
+
+			System.Reflection.Assembly a = this.Assembly;
+
+			var n = GetScriptResourcePath(name, a);
+
+			this.Module.DefineManifestResource(n, new MemoryStream(value), System.Reflection.ResourceAttributes.Public);
+		}
+
+		public static string GetScriptResourcePath(string name, System.Reflection.Assembly a)
+		{
+			var n = a.GetName().Name + ".web." + name.Replace("/", ".");
+			return n;
 		}
 
 		#region IEnumerable Members

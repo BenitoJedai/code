@@ -119,6 +119,18 @@ namespace jsc.meta.Commands.Rewrite
 			public jsc.Languages.IL.ILTranslationContext context;
 			public ModuleBuilder Module;
 			public AssemblyBuilder Assembly;
+
+			ScriptResourceWriter _ScriptResources;
+			public ScriptResourceWriter ScriptResourceWriter
+			{
+				get
+				{
+					if (_ScriptResources == null)
+						_ScriptResources = new ScriptResourceWriter(Assembly, Module);
+
+					return _ScriptResources;
+				}
+			}
 		}
 
 		public Action<AssemblyRewriteArguments> PostRewrite;

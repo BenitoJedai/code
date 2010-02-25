@@ -4,7 +4,6 @@ using System.Web;
 using System;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
-using UltraTutorial08.HTML.Pages.FromWeb;
 
 namespace UltraTutorial08
 {
@@ -17,22 +16,30 @@ namespace UltraTutorial08
 	{
 		public UltraApplication(IHTMLElement e)
 		{
+			//{ HTML.Pages.FromWeb.Browsers x; }
+			//{ HTML.Images.FromBase64._troll__by_GirlFlash x; }
+			//{ new HTML.Images.FromBase64._troll__by_GirlFlash(); }
+			//{ new HTML.Images.FromBase64._troll__by_GirlFlash().AttachToDocument(); }
+
+			////new HTML.Images.FromBase64._troll__by_GirlFlash().AttachToDocument();
+			Start1();
+		}
+
+		private void Start1()
+		{
 			var Title = new IHTMLDiv
 			{
-				
+
 			};
 
-			new Browsers
-			{
-				
-				
-			}.Container.AttachTo(Title);
+			//new Browsers
+			//{
+			//}.Container.AttachTo(Title);
 
-			new HTML.Images.FromBase64.twitter_small().AttachToDocument();
-			new HTML.Images.FromBase64._troll__by_GirlFlash().AttachToDocument();
+			//new HTML.Images.FromBase64.twitter_small().AttachToDocument();
 
 
-			
+
 			var TitleLogo = new IHTMLImage("assets/ScriptCoreLib/jsc.png");
 			var TitleText = new IHTMLSpan("UltraApplication");
 			TitleText.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
@@ -50,24 +57,24 @@ namespace UltraTutorial08
 			Title.FadeIn(2500, 1000,
 				delegate
 				{
-					1500.AtDelay(ContinueBuildingApplication);
+					//1500.AtDelay(ContinueBuildingApplication);
 				}
 			);
 		}
-
+		/*
 		private void ContinueBuildingApplication()
 		{
 
 			var note1 = new IHTMLPre
 			{
 				innerHTML = @"Notice: If flash does not respond to events, you need to clear your cache. 
-+ Chrome flash in 'localhost' on Cassini always fails?
-  - If so Try http://127.0.0.1 or http://COMPUTERNAME
-+ Opera does not pass delegates?
-+ IE cannot return from javascript to flash
-+ Web page could be delivered within flash package
-+ Javascript rewrite could omit unused types and methods
-"
+		+ Chrome flash in 'localhost' on Cassini always fails?
+		  - If so Try http://127.0.0.1 or http://COMPUTERNAME
+		+ Opera does not pass delegates?
+		+ IE cannot return from javascript to flash
+		+ Web page could be delivered within flash package
+		+ Javascript rewrite could omit unused types and methods
+		"
 
 			}.AttachToDocument();
 
@@ -126,7 +133,7 @@ namespace UltraTutorial08
 
 			ButtonsForWebService();
 		}
-
+		*/
 		private static void ButtonsForWebService()
 		{
 			AddButtonForGetTime();
@@ -150,7 +157,7 @@ namespace UltraTutorial08
 				};
 		}
 
-
+		
 		public IHTMLInput WebServiceEnabled;
 
 		#region IWebServiceEnabled Members
@@ -159,8 +166,9 @@ namespace UltraTutorial08
 		{
 			get { return Convert.ToString(WebServiceEnabled.@checked); }
 		}
-
 		#endregion
+		
+
 	}
 
 	public delegate void DownloadDataResult(string e);
