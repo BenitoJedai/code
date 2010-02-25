@@ -233,14 +233,18 @@
     <Compile Include="Commands\Extend\ExtendToPHPWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToPHPWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
+    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.Arguments.cs" />
+    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefineNamedImages.cs" />
     <Compile Include="Commands\Reference\ReferenceAddClonedProject.cs" />
     <Compile Include="Commands\Reference\ReferenceAssets.cs" />
     <Compile Include="Commands\Reference\ReferenceAvalonDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
+    <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToAssembly.ShouldCopyType.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.AsService.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs" />
@@ -254,6 +258,7 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
@@ -261,10 +266,13 @@
     <Compile Include="Library\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />
+    <Compile Include="Library\Templates\JavaScript\Named\NamedImage.cs" />
     <Compile Include="Library\Templates\Java\InternalElementProxy.cs" />
     <Compile Include="Library\Templates\JavaScript\InternalJavaToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
     <Compile Include="Library\Templates\Java\InternalHttpServlet.cs" />
+    <Compile Include="Library\Templates\WebService\InternalFileInfo.cs" />
+    <Compile Include="Library\Templates\WebService\InternalScriptApplication.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsExtensions.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsProvider.cs" />
     <Compile Include="Library\VolumeFunctions\Win32File.cs" />
@@ -298,7 +306,9 @@
   <ItemGroup>
     <Content Include="Commands\Extend\comment.txt" />
     <Content Include="Commands\Reference\comment.txt" />
+    <Content Include="Commands\Reference\ReferenceUltraSource\comment.txt" />
     <Content Include="Commands\Rewrite\comment.txt" />
+    <Content Include="Commands\Rewrite\RewriteToUltraApplication\comment.txt" />
     <Content Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
     <Content Include="Documents\license.txt" />
@@ -306,6 +316,7 @@
     <Content Include="Documents\__TemplateIcon.ico" />
     <Content Include="Documents\__TemplateIcon_CS_JSC.ico" />
     <Content Include="Library\comment.txt" />
+    <Content Include="Library\Templates\WebService\comment.txt" />
     <EmbeddedResource Include="Tools\ant\GoogleAppEngine\build.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +355,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
+      <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
+      <Name>ScriptCoreLib.Ultra.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\jsc\jsc.csproj">
       <Project>{77861F2D-D284-4913-B9E9-D906C7262219}</Project>
       <Name>jsc</Name>

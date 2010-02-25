@@ -1,0 +1,9 @@
+﻿RewriteToJavascriptDocument will be rebranded.
+
+ReferenceUltraSource is THE post build event.
+
+Features to be added:
+- Alchemy support
+- Player IO support
+- Stratus support
+- Network sync rewriter

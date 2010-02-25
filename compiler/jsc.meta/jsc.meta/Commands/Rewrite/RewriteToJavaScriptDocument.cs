@@ -43,6 +43,9 @@ namespace jsc.meta.Commands.Rewrite
 
 		public override void Invoke()
 		{
+			if (this.AttachDebugger)
+				Debugger.Launch();
+
 			this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
 			jsc.meta.Loader.LoaderStrategy.Hints.Add(this.assembly.Directory);

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AA6A0F8F-FB65-469D-8C07-7707355F1F42}</ProjectGuid>
+    <ProjectGuid>{0B3488C1-5C4B-41EC-9259-34FC176AF6A0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UltraTutorial07</RootNamespace>
-    <AssemblyName>UltraTutorial07</AssemblyName>
+    <RootNamespace>UltraTutorial08</RootNamespace>
+    <AssemblyName>UltraTutorial08</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -58,8 +58,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="UltraTutorial07.WebSource.HTML">
-      <HintPath>bin\WebSource.HTML.staging\UltraTutorial07.WebSource.HTML.dll</HintPath>
+    <Reference Include="UltraTutorial08.WebSource.HTML">
+      <HintPath>bin\WebSource.HTML.staging\UltraTutorial08.WebSource.HTML.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -73,9 +73,9 @@
     <Compile Include="UltraSprite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design.WebSource.HTML\Browsers.htm" />
-    <Content Include="Design.WebSource.HTML\twitter_small.png" />
-    <Content Include="Design.WebSource.HTML\_troll__by_GirlFlash.gif" />
+    <Content Include="Design.UltraSource\Browsers.htm" />
+    <Content Include="Design.UltraSource\twitter_small.png" />
+    <Content Include="Design.UltraSource\_troll__by_GirlFlash.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

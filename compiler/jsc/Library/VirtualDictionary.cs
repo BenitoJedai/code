@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.Ultra.Library;
 
 namespace jsc.Library
 {
-	public class VirtualDictionary<TKey, TValue>
+	public abstract class VirtualDictionaryBase
 	{
-		public readonly Dictionary<TKey, TValue> BaseDictionary = new Dictionary<TKey, TValue>();
+		public abstract IDisposable ToTransientTransaction();
+	}
+
+	public class VirtualDictionary<TKey, TValue> : VirtualDictionaryBase
+	{
+		public Dictionary<TKey, TValue> BaseDictionary = new Dictionary<TKey, TValue>();
 
 		// refactor to upper level type?
-		public readonly Dictionary<TKey, object> Flags = new Dictionary<TKey, object>();
+		public Dictionary<TKey, object> Flags = new Dictionary<TKey, object>();
 
 
 		public event Action<TKey> Resolve;
@@ -44,6 +50,22 @@ namespace jsc.Library
 		public static implicit operator Func<TKey, TValue>(VirtualDictionary<TKey, TValue> e)
 		{
 			return k => e[k];
+		}
+
+		public override IDisposable ToTransientTransaction()
+		{
+			var BaseDictionary = this.BaseDictionary;
+			var Flags = this.Flags;
+
+			this.BaseDictionary = new Dictionary<TKey, TValue>(BaseDictionary);
+			this.Flags = new Dictionary<TKey, object>(Flags);
+
+			return (Disposable)
+				delegate
+				{
+					this.BaseDictionary = BaseDictionary;
+					this.Flags = Flags;
+				};
 		}
 	}
 }

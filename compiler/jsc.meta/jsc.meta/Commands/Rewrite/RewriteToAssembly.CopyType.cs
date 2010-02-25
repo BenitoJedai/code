@@ -24,6 +24,7 @@ namespace jsc.meta.Commands.Rewrite
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 				TypeBuilder OverrideDeclaringType,
+				VirtualDictionary<Type, string> TypeRenameCache,
 				VirtualDictionary<string, string> NameObfuscation,
 				Func<Type, bool> ShouldCopyType,
 				Func<string, string> FullNameFixup,
@@ -51,7 +52,12 @@ namespace jsc.meta.Commands.Rewrite
 			if (SourceType.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "invalidmerge"))
 				throw new InvalidOperationException(SourceType.FullName);
 
-			Diagnostics("CopyType: " + SourceType.Name);
+			var TypeName = SourceType.IsNested ? TypeRenameCache[SourceType] ?? SourceType.Name :
+				TypeRenameCache[SourceType] ?? SourceType.FullName;
+
+
+
+			Diagnostics("CopyType: " + TypeName);
 
 			// we should not reenter here!
 			TypeCache[SourceType] = null;
@@ -88,7 +94,7 @@ namespace jsc.meta.Commands.Rewrite
 			if (SourceType.IsNested)
 			{
 
-				var _NestedTypeName = NameObfuscation[SourceType.Name];
+				var _NestedTypeName = NameObfuscation[TypeName];
 
 
 
@@ -115,7 +121,7 @@ namespace jsc.meta.Commands.Rewrite
 			else
 			{
 				t = m.DefineType(
-					FullNameFixup(SourceType.FullName),
+					FullNameFixup(TypeName),
 					SourceType.Attributes,
 					BaseType,
 					_Interfaces
@@ -273,7 +279,7 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
-				
+
 				var km = ConstructorCache[k];
 			}
 

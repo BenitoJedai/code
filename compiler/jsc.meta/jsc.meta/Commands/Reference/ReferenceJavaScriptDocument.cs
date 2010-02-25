@@ -21,47 +21,16 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using jsc.Library;
+using ScriptCoreLib.Ultra.Library.Extensions;
+using jsc.meta.Library.Templates.JavaScript;
 
 namespace jsc.meta.Commands.Reference
 {
 	[Description("Injecting javascript into HTML has never been that easy!")]
-	public class ReferenceJavaScriptDocument
+	public partial class ReferenceJavaScriptDocument
 	{
-		/*
-		 usage:
-		 * C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"
-		 */
 
-		// should be renamed to ReferenceHTMLDocument ?
-		// should be renamed to ReferenceWhateveryouLike? HTML documents are just documentation? :)
-		// maybe by adding an alias?
-
-		// todo: Add (object Tag) fields to the pages!
-		// todo: Referenced files as ScriptResources
-		// todo: could we parse js content and make it callable, how do we infer types? :) we could just expose IFunctions :) sounds good!
-		// todo: some system should scan the source and send todo's to twitter thanks...
-		// todo: whatif i want to use some types within flash? classes should be made for flash too! in IsMerge mode atleast.
-		// todo: whatif i want to reuse java source or as3 source? they should also be scanned. Something alike ReferenceWebSource
-		// todo: scan for microformats?
-
-		// trivia: in fact we are referencing HTML to convert it to javascript.
-
-		// http://www.technospot.net/blogs/convert-html-to-javascript-dom-online-tool/
-
-		// user drops an html file
-		// ScriptCoreLib.JavaScript.DOM tree will be built
-
-		// images should be downloaded and packaged as assets
-
-
-		const string WebSource_HTML = "WebSource.HTML";
-
-		const string __References = "references.txt";
-
-		public FileInfo ProjectFileName;
-
-		public bool IsGeneric;
-		public bool IsMerge;
 
 		public void Invoke()
 		{
@@ -160,7 +129,9 @@ namespace jsc.meta.Commands.Reference
 			  from None in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent))
 			  let Include = None.Attribute("Include").Value
 			  let Directory = Path.GetDirectoryName(Include)
-			  where Directory == WebSource_HTML || Directory.EndsWith("." + WebSource_HTML) || Directory.EndsWith("\\" + WebSource_HTML)
+
+
+			  where DirectoryNeedsConversion(Directory)
 
 			  let TargetName = DefaultNamespace + "." + Directory.Replace("/", ".").Replace("\\", ".")
 			  let Target = new FileInfo(Path.Combine(Staging.FullName, TargetName.Substring(DefaultNamespace.Length + 1) + ".dll"))
@@ -187,7 +158,20 @@ namespace jsc.meta.Commands.Reference
 				from k in Targets
 				from f in k
 				where f.File.Name.EndsWith(".htm")
-				select new SourceFile { Content = File.ReadAllText(f.File.FullName), Reference = f.File.FullName }
+				select new SourceFile
+				{
+					Content = File.ReadAllText(f.File.FullName),
+					Reference = f.File.FullName,
+					GetLocalResource =
+						n =>
+						{
+							var r = k.SingleOrDefault(kk => kk.File.Name == n);
+
+							if (r == null) return null;
+
+							return r.File;
+						}
+				}
 			);
 
 			// http://support.microsoft.com/kb/304655
@@ -197,7 +181,9 @@ namespace jsc.meta.Commands.Reference
 				var Product = DefaultNamespace + "." + WebSource_HTML;
 
 				// at this time we are not actually merging anything...
-				var r = new RewriteToAssembly
+				var r = default(RewriteToAssembly);
+
+				r = new RewriteToAssembly
 				{
 					staging = Staging,
 					product = Product,
@@ -237,6 +223,8 @@ namespace jsc.meta.Commands.Reference
 							// http://www.w3schools.com/HTML/html_entities.asp
 							// http://stackoverflow.com/questions/281682/reference-to-undeclared-entity-exception-while-working-with-xml
 
+
+							var TypeVariations = new Dictionary<string, TypeVariations>();
 
 
 							foreach (var item in Sources)
@@ -290,23 +278,27 @@ namespace jsc.meta.Commands.Reference
 								// The web application could opt in for dynamic CMS updates... RSS ? :) Download HTML on the server and push updates?
 
 
-								WritePageType(DefaultNamespace, a, content, BodyElement, PageName);
+								DefineNamedImages(DefaultNamespace, a, BodyElement, r, item.GetLocalResource, TypeVariations.Add);
+
+								WritePageType(DefaultNamespace, a, content, BodyElement, PageName, TypeVariations);
 
 
 								var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
 
 								foreach (var k in __id)
 								{
-									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + k.id);
+									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + k.id, TypeVariations);
 								}
 
 								var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
 
 								foreach (var k in __class)
 								{
-									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + k.@class);
+									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + k.@class, TypeVariations);
 								}
+
 							}
+
 
 							//Pages.CreateType();
 						}
@@ -321,9 +313,29 @@ namespace jsc.meta.Commands.Reference
 				csproj.Save(this.ProjectFileName.FullName);
 		}
 
-		private void WritePageType(string DefaultNamespace, RewriteToAssembly.AssemblyRewriteArguments a, string content, XElement BodyElement, string PageName)
+		private static bool DirectoryNeedsConversion(string Directory)
 		{
-			var PageFullName = DefaultNamespace + ".Pages." + PageName;
+			if (Directory == WebSource_HTML || Directory.EndsWith("." + WebSource_HTML) || Directory.EndsWith("\\" + WebSource_HTML))
+				return true;
+
+			if (Directory == UltraSource || Directory.EndsWith("." + UltraSource) || Directory.EndsWith("\\" + UltraSource))
+				return true;
+
+			return false;
+		}
+
+
+		private void WritePageType(
+			string DefaultNamespace,
+			RewriteToAssembly.AssemblyRewriteArguments a,
+			string content,
+			XElement BodyElement,
+			string PageName,
+
+			Dictionary<string, TypeVariations> TypeVariations
+			)
+		{
+			var PageFullName = DefaultNamespace + ".HTML.Pages.FromWeb." + PageName;
 			Console.WriteLine(PageFullName);
 
 			var Page = a.Module.DefineType(PageFullName, TypeAttributes.Public);
@@ -339,6 +351,8 @@ namespace jsc.meta.Commands.Reference
 
 
 			// we should be returning DOM object instead?
+			// should use DataNamespace instead?
+
 			#region DocumentHTML
 			if (content != null)
 			{
@@ -440,7 +454,7 @@ namespace jsc.meta.Commands.Reference
 				}
 
 
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup });
+				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup }, TypeVariations);
 
 				// and html5 videos and sounds!
 				DefineInstanceImages(a, Page, Images_lookup);
@@ -575,7 +589,12 @@ namespace jsc.meta.Commands.Reference
 
 		}
 
-		private static void DefinePageConstructor(XElement body, TypeBuilder Page, Dictionary<XElement, FieldBuilder>[] lookup)
+		private static void DefinePageConstructor(
+			XElement body,
+			TypeBuilder Page,
+			Dictionary<XElement, FieldBuilder>[] lookup,
+			Dictionary<string, TypeVariations> TypeVariations
+			)
 		{
 			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
 			var ElementType = typeof(IHTMLElement);
@@ -600,7 +619,7 @@ namespace jsc.meta.Commands.Reference
 			{
 				var il = ctor.GetILGenerator();
 
-				DefinePageElement(body, Page, Counter, il, OpCodes.Ldnull, lookup);
+				DefinePageElement(body, Page, Counter, il, OpCodes.Ldnull, lookup, TypeVariations);
 
 				#region this.Container = loc0
 				il.Emit(OpCodes.Ldarg_0);
@@ -617,7 +636,16 @@ namespace jsc.meta.Commands.Reference
 			public int Value;
 		}
 
-		private static void DefinePageElement(XElement body, TypeBuilder Page, Counter Counter, ILGenerator il, OpCode parent, Dictionary<XElement, FieldBuilder>[] lookup)
+		private static void DefinePageElement(
+			XElement body,
+			TypeBuilder Page,
+			Counter Counter,
+			ILGenerator il,
+			OpCode parent,
+			Dictionary<XElement, FieldBuilder>[] lookup,
+			Dictionary<string, TypeVariations> TypeVariations
+
+			)
 		{
 			Action Implementation1 =
 				delegate
@@ -637,7 +665,7 @@ namespace jsc.meta.Commands.Reference
 						new[] { Page, typeof(IHTMLElement) }
 					);
 
-					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter, lookup);
+					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter, lookup, TypeVariations);
 
 					x.il.Emit(OpCodes.Ldarg_0);
 					x.il.Emit(parent);
@@ -651,30 +679,57 @@ namespace jsc.meta.Commands.Reference
 			}
 		}
 
-		private static void DefinePageElement(XElement body, ILGenerator il, TypeBuilder Page, Counter Counter, Dictionary<XElement, FieldBuilder>[] lookup)
-		{
+		private static void DefinePageElement(
+			XElement CurrentElement,
+			ILGenerator il,
+			TypeBuilder Page,
+			Counter Counter,
+			Dictionary<XElement, FieldBuilder>[] lookup,
+			Dictionary<string, TypeVariations> TypeVariations
 
-			Action Implementation2 =
+			)
+		{
+			var DefaultElementType =
+				// ScriptCoreLib ElementType Lookup...
+				(ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement));
+
+			var ElementType = DefaultElementType;
+
+			if (ElementType == typeof(IHTMLImage))
+			{
+				CurrentElement.Attribute("src").Apply(
+					src =>
+					{
+						var v = TypeVariations[src.Value];
+
+						ElementType = v.FromWeb ?? v.FromBase64;
+					}
+				);
+			}
+
+
+			Action Continuation1 =
 				delegate
 				{
 					// http://www.456bereastreet.com/archive/200412/the_alt_and_title_attributes/
 
-					var Element__id = body.Attribute("id") ?? body.Attribute("alt");
+					var Element__id = CurrentElement.Attribute("id") ?? CurrentElement.Attribute("alt");
 					var ElementHasId = Element__id != null;
-					var ElementInLookup = lookup.Any(k => k.Keys.Contains(body));
+					var ElementInLookup = lookup.Any(k => k.Keys.Contains(CurrentElement));
 
 					if (ElementHasId || ElementInLookup)
 					{
-						var ElementType = ElementTypes.ContainsKey(body.Name.LocalName) ? ElementTypes[body.Name.LocalName] : typeof(IHTMLElement);
+
+
 						var ElementField = Page.DefineField("_" + (Element__id == null ? "" + Counter.Value++ : Element__id.Value), ElementType, FieldAttributes.Private);
 
 						foreach (var k in
 							from k0 in lookup
-							where k0.ContainsKey(body)
+							where k0.ContainsKey(CurrentElement)
 							select k0
 							)
 						{
-							k[body] = ElementField;
+							k[CurrentElement] = ElementField;
 						}
 
 						il.Emit(OpCodes.Ldarg_0);
@@ -715,11 +770,13 @@ namespace jsc.meta.Commands.Reference
 
 
 
-					foreach (var item in body.Attributes())
+					foreach (var item in CurrentElement.Attributes())
 					{
 						if (item.Name.LocalName == "id")
 							continue;
 
+						if (DefaultElementType == typeof(IHTMLImage) && item.Name == "src")
+							continue;
 
 						var il_a = new ILTranslationExtensions.EmitToArguments();
 
@@ -741,7 +798,7 @@ namespace jsc.meta.Commands.Reference
 							c.appendChild(new ITextNode("e"));
 						};
 
-					foreach (var item in body.Nodes())
+					foreach (var item in CurrentElement.Nodes())
 					{
 						if (item is XText)
 						{
@@ -756,7 +813,7 @@ namespace jsc.meta.Commands.Reference
 
 						if (item is XElement)
 						{
-							DefinePageElement((XElement)item, Page, Counter, il, OpCodes.Ldloc_0, lookup);
+							DefinePageElement((XElement)item, Page, Counter, il, OpCodes.Ldloc_0, lookup, TypeVariations);
 						}
 					}
 					#endregion
@@ -765,9 +822,25 @@ namespace jsc.meta.Commands.Reference
 			{
 				#region Implementation1
 				Func<object, IHTMLElement, IHTMLElement> Implementation1 =
+					(__this, parent) =>
+					{
+						var c = new IHTMLElement("" /* body.Name.LocalName */);
+
+						//c.setAttribute("title", "hi");
+						TemplateHolder.Implementation();
+
+
+
+						if (parent != null)
+							parent.appendChild(c);
+
+						return c;
+					};
+
+				Func<object, IHTMLElement, IHTMLElement> Implementation2 =
 						(__this, parent) =>
 						{
-							var c = new IHTMLElement("" /* body.Name.LocalName */);
+							var c = new NamedImage();
 
 							//c.setAttribute("title", "hi");
 							TemplateHolder.Implementation();
@@ -780,16 +853,36 @@ namespace jsc.meta.Commands.Reference
 							return c;
 						};
 
-
 				{
-					var il_a = new ILTranslationExtensions.EmitToArguments();
+					var il_a = new ILTranslationExtensions.EmitToArguments
+					{
+						TranslateTargetType =
+							SourceType =>
+							{
+								if (ElementType != DefaultElementType)
+									if (SourceType == typeof(NamedImage))
+										return ElementType;
+
+								return SourceType;
+							},
+
+						TranslateTargetConstructor =
+							SourceConstructor =>
+							{
+								if (ElementType != DefaultElementType)
+									if (SourceConstructor.DeclaringType == typeof(NamedImage))
+										return ElementType.GetConstructor(new Type[0]);
+
+								return SourceConstructor;
+							}
+					};
 
 					il_a[OpCodes.Call] = x =>
 					{
 						Action Implementation = TemplateHolder.Implementation;
 						if (x.i.TargetMethod == Implementation.Method)
 						{
-							Implementation2();
+							Continuation1();
 
 							return;
 						}
@@ -798,9 +891,12 @@ namespace jsc.meta.Commands.Reference
 					};
 
 					il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldarg_1);
-					il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, body.Name.LocalName);
+					il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, CurrentElement.Name.LocalName);
 
-					Implementation1.Method.EmitTo(il, il_a);
+					if (DefaultElementType == typeof(IHTMLImage))
+						Implementation2.Method.EmitTo(il, il_a);
+					else
+						Implementation1.Method.EmitTo(il, il_a);
 				}
 				#endregion
 			}
@@ -825,7 +921,7 @@ namespace jsc.meta.Commands.Reference
 			public string Reference;
 			public string Content;
 
-
+			public Func<string, FileInfo> GetLocalResource;
 		}
 
 		private static IEnumerable<SourceFile> DownloadWebSource(IEnumerable<string> References)
@@ -883,5 +979,7 @@ namespace jsc.meta.Commands.Reference
 								{"label", typeof(IHTMLLabel)},
 								{"iframe", typeof(IHTMLIFrame)},
 							};
+
+
 	}
 }
