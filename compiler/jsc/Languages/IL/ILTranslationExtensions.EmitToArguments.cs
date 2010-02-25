@@ -16,6 +16,9 @@ namespace jsc.Languages.IL
 
 		public class EmitToArguments
 		{
+			public Action<ILRewriteContext> BeforeInstructions;
+			public Action<ILRewriteContext> AfterInstructions;
+
 			public Action<ILRewriteContext> BeforeInstruction;
 			public Action<ILRewriteContext> AfterInstruction;
 
@@ -368,6 +371,13 @@ namespace jsc.Languages.IL
 				public ILGenerator il;
 
 				public Action Default;
+
+				public Action Complete;
+
+				/// <summary>
+				/// Whose IL are we reading or rewriting?
+				/// </summary>
+				public MethodBase SourceMethod;
 			}
 
 

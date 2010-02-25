@@ -31,6 +31,8 @@ namespace UltraTutorial08
 			new HTML.Images.FromBase64.twitter_small().AttachToDocument();
 			new HTML.Images.FromBase64._troll__by_GirlFlash().AttachToDocument();
 
+
+			
 			var TitleLogo = new IHTMLImage("assets/ScriptCoreLib/jsc.png");
 			var TitleText = new IHTMLSpan("UltraApplication");
 			TitleText.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;

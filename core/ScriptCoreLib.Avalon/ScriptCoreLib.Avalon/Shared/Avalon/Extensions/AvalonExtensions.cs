@@ -90,28 +90,34 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		internal static ImageSource ToSource(this EmbeddedResourcesExtensions.ManifestResourceEntry fileStream)
 		{
 			var ext = fileStream.File.ToLower();
+			var s = fileStream.Stream;
 
+			return ToImageSource(ext, s);
+
+		}
+
+		internal static BitmapSource ToImageSource(string ext, Stream s)
+		{
 			if (ext.EndsWith(".png"))
 			{
-				var bitmapDecoder = new PngBitmapDecoder(fileStream.Stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
+				var bitmapDecoder = new PngBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
 				return bitmapDecoder.Frames[0];
 			}
 
 			if (ext.EndsWith(".gif"))
 			{
-				var bitmapDecoder = new GifBitmapDecoder(fileStream.Stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
+				var bitmapDecoder = new GifBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
 				return bitmapDecoder.Frames[0];
 			}
 
 			if (ext.EndsWith(".jpg"))
 			{
-				var bitmapDecoder = new JpegBitmapDecoder(fileStream.Stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
+				var bitmapDecoder = new JpegBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
 				return bitmapDecoder.Frames[0];
 			}
 
 
 			throw new NotSupportedException(ext);
-
 		}
 
 
