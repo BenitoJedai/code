@@ -10,7 +10,7 @@ namespace jsc.meta.Library.Templates.JavaScript
 	public class NamedImage : global::ScriptCoreLib.JavaScript.DOM.HTML.IHTMLImage
 	{
 		internal const string IHTMLImage_src = "IHTMLImage.src";
-
+		
 		public NamedImage()
 		{
 
@@ -18,7 +18,56 @@ namespace jsc.meta.Library.Templates.JavaScript
 
 		public static NamedImage InternalConstructor()
 		{
-			return (NamedImage)new IHTMLImage { src = IHTMLImage_src };
+			var i = new IHTMLImage { src = IHTMLImage_src };
+
+			i.style.SetSize(NamedImageInformation.GetImageDefaultWidth(), NamedImageInformation.GetImageDefaultHeight());
+
+			return (NamedImage)i;
+		}
+
+		public static int ImageDefaultWidth
+		{
+			get
+			{
+				return NamedImageInformation.GetImageDefaultWidth();
+			}
+		}
+
+		public static int ImageDefaultHeight
+		{
+			get
+			{
+				return NamedImageInformation.GetImageDefaultHeight();
+			}
+		}
+
+
+		public static int ImageFileSize
+		{
+			get
+			{
+				return NamedImageInformation.GetImageFileSize();
+			}
+		}
+	}
+
+	public static class NamedImageInformation
+	{
+		// note: this type is shared between variations FromWeb, FromBase64, FromAssets
+
+		public static int GetImageDefaultWidth()
+		{
+			throw new NotImplementedException();
+		}
+
+		public static int GetImageFileSize()
+		{
+			throw new NotImplementedException();
+		}
+
+		public static int GetImageDefaultHeight()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

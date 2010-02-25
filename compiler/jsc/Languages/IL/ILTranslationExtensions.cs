@@ -55,19 +55,35 @@ namespace jsc.Languages.IL
 				);
 			}
 
+			var IsComplete = false;
+
+			Action Complete = delegate
+			{
+				IsComplete = true;
+			};
+
+			if (x.BeforeInstructions != null)
+				x.BeforeInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete });
+
 			foreach (var i in xb.Instructrions)
 			{
-				if (x.BeforeInstruction != null)
-					x.BeforeInstruction(new EmitToArguments.ILRewriteContext { i = i, il = il });
+				if (IsComplete)
+					break;
 
-				x.Configuration[i.OpCode](new EmitToArguments.ILRewriteContext { i = i, il = il });
+				if (x.BeforeInstruction != null)
+					x.BeforeInstruction(new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete });
+
+				x.Configuration[i.OpCode](new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete });
 
 				if (x.AfterInstruction != null)
-					x.AfterInstruction(new EmitToArguments.ILRewriteContext { i = i, il = il });
+					x.AfterInstruction(new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete });
 
 			}
 
-	
+
+			if (x.AfterInstructions != null)
+				x.AfterInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete });
+
 		}
 
 

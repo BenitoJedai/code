@@ -14,16 +14,17 @@ using System.Xml.XPath;
 using jsc.Languages.IL;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates.JavaScript;
 using jsc.meta.Tools;
 using jsc.Script;
 using Microsoft.CSharp;
 using ScriptCoreLib;
+using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using jsc.meta.Library.Templates.JavaScript;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using ScriptCoreLib.ActionScript;
+using System.Windows.Media.Imaging;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -63,63 +64,129 @@ namespace jsc.meta.Commands.Reference
 				// if its not from the web, only in our project then this type cannot be made available can it.
 
 				var LocalResource = GetLocalResource(src.Value);
+				var Resource = LocalResource == null ? new WebClient().DownloadData(src.Value) : File.ReadAllBytes(LocalResource.FullName);
+				var Extension = src.Value.Substring(src.Value.LastIndexOf("."));
+				var Bitmap = ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions.ToImageSource(Extension, new MemoryStream(Resource));
+
+
 				var Variations = new TypeVariations();
 
-				if (LocalResource == null)
+
+				using (a.context.ToTransientTransaction())
 				{
-					Variations.FromWeb = DefineNamedImage(a, r,
-						DefaultNamespace + ".HTML.Images.FromWeb." + name,
-						src.Value,
-						null
-					);
-				}
+					var TemplateType = typeof(NamedImageInformation);
 
-				var Resource = LocalResource == null ? new WebClient().DownloadData(src.Value) : File.ReadAllBytes(LocalResource.FullName);
-
-				Variations.FromAssets = DefineNamedImage(a, r,
-					DefaultNamespace + ".HTML.Images.FromAssets." + name,
-					"assets/namespace/" + src.Value,
-					null
-				);
-
-				// src="data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
-
-
-				var ResourceBase64 = Convert.ToBase64String(Resource);
-
-				var ContentType = src.Value.Substring(src.Value.LastIndexOf("."));
-				var Source = "data:" + EmbedMimeTypes.Resolve(ContentType) + ";base64," + ResourceBase64;
-
-				{
-					var Base64Lookup = a.Module.DefineType(DefaultNamespace + ".Data.Base64Lookup." + Resource.ToMD5Bytes().ToHexString(), TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract, null);
-
-
-					var m = Base64Lookup.DefineMethod("GetSource", MethodAttributes.Public | MethodAttributes.Static, typeof(string), null);
-
-					m.GetILGenerator().Apply(
-						il =>
+					r.ILOverride +=
+						(m, il_a) =>
 						{
-							il.Emit(OpCodes.Ldstr, Source);
-							il.Emit(OpCodes.Ret);
-						}
-					);
+							if (m.DeclaringType != TemplateType)
+								return;
+
+							il_a.BeforeInstructions =
+								e =>
+								{
+									if (e.SourceMethod == ((Func<int>)NamedImageInformation.GetImageDefaultHeight).Method)
+									{
+										e.il.Emit(OpCodes.Ldc_I4, (int)Bitmap.Height);
+										e.il.Emit(OpCodes.Ret);
+										e.Complete();
+										return;
+									}
+
+									if (e.SourceMethod == ((Func<int>)NamedImageInformation.GetImageDefaultWidth).Method)
+									{
+										e.il.Emit(OpCodes.Ldc_I4, (int)Bitmap.Width);
+										e.il.Emit(OpCodes.Ret);
+										e.Complete();
+										return;
+									}
+
+									if (e.SourceMethod == ((Func<int>)NamedImageInformation.GetImageFileSize).Method)
+									{
+										e.il.Emit(OpCodes.Ldc_I4, (int)Resource.Length);
+										e.il.Emit(OpCodes.Ret);
+										e.Complete();
+										return;
+									}
+								};
+
+						};
 
 
-					//Base64LookupCache[new Uri(uri)] = m;
+					a.context.TypeRenameCache.Resolve +=
+						SourceType =>
+						{
+							if (SourceType != TemplateType)
+								return;
 
-					Base64Lookup.CreateType();
+							a.context.TypeRenameCache[SourceType] =
+								DefaultNamespace + ".Data.Images." + name;
+						};
+
+					var MyType = a.context.TypeCache[TemplateType];
+
+					if (LocalResource == null)
+					{
+						Variations.FromWeb = DefineNamedImage(a, r,
+							DefaultNamespace + ".HTML.Images.FromWeb." + name,
+							src.Value,
+							null,
+							Bitmap
+						);
+					}
 
 
-
-					Variations.FromBase64 = DefineNamedImage(a, r,
-						DefaultNamespace + ".HTML.Images.FromBase64." + name,
+					Variations.FromAssets = DefineNamedImage(a, r,
+						DefaultNamespace + ".HTML.Images.FromAssets." + name,
+						"assets/namespace/" + src.Value,
 						null,
-						m
+							Bitmap
 					);
+
+					// src="data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
+
+
+					var ResourceBase64 = Convert.ToBase64String(Resource);
+
+					var Source = "data:" + EmbedMimeTypes.Resolve(Extension) + ";base64," + ResourceBase64;
+
+					{
+						var Base64Lookup = a.Module.DefineType(DefaultNamespace + ".Data.Base64Lookup." + Resource.ToMD5Bytes().ToHexString(), TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract, null);
+
+
+						var m = Base64Lookup.DefineMethod("GetSource", MethodAttributes.Public | MethodAttributes.Static, typeof(string), null);
+
+						m.GetILGenerator().Apply(
+							il =>
+							{
+								il.Emit(OpCodes.Ldstr, Source);
+								il.Emit(OpCodes.Ret);
+							}
+						);
+
+
+						//Base64LookupCache[new Uri(uri)] = m;
+
+						Base64Lookup.CreateType();
+
+
+
+						Variations.FromBase64 = DefineNamedImage(a, r,
+							DefaultNamespace + ".HTML.Images.FromBase64." + name,
+							null,
+							m,
+							Bitmap
+						);
+					}
+
+
+					AddTypeVariations(src.Value, Variations);
+
+
+
+					TemplateType = null;
+
 				}
-
-
-				AddTypeVariations(src.Value, Variations);
 			}
 		}
 
@@ -128,7 +195,8 @@ namespace jsc.meta.Commands.Reference
 			RewriteToAssembly r,
 			string ImageFullName,
 			string ImageSource,
-			MethodInfo get_ImageSource)
+			MethodInfo get_ImageSource,
+			BitmapSource Bitmap)
 		{
 			var TemplateType = typeof(NamedImage);
 
