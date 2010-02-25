@@ -1663,6 +1663,8 @@ namespace jsc.Script
 			return GetSafeLiteral(z, IsSafeLiteralChar);
 		}
 
+
+
 		public static string GetSafeLiteral(string z, Func<char, bool> IsSafeLiteralChar)
 		{
 			if (z == null)

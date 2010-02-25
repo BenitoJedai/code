@@ -67,3 +67,5 @@
 	- RewriteToJavaScriptDocument now also emits html controls
 2010.02.23
 	- RewriteToJavaScriptDocument has initial support for long paths
+2010.02.25
+	- Prepared rebranding for ReferenceUltraSource

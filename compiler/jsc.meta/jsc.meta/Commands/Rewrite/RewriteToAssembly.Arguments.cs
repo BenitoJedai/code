@@ -156,6 +156,7 @@ namespace jsc.meta.Commands.Rewrite
 			ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>(),
 			MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>(),
 			TypeCache = new VirtualDictionary<Type, Type>(),
+			TypeRenameCache = new VirtualDictionary<Type,string>(),
 			FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>()
 		};
 

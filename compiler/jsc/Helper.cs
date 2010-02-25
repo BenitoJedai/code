@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Threading;
+using ScriptCoreLib.Ultra.Library;
 
 namespace jsc
 {
@@ -126,19 +127,6 @@ namespace jsc
             }
         }
 
-        public class Disposable : IDisposable
-        {
-            public event Action Disposing;
-
-            #region IDisposable Members
-
-            public void Dispose()
-            {
-                Helper.Invoke(Disposing);
-            }
-
-            #endregion
-        }
 
         public class ConsoleStopper : Disposable
         {

@@ -5,3 +5,7 @@ We are using the default BCL implementations by referencing them in jsc.meta.
 What we are essentially doing is sacrificing flexibility in the name of simplicity.
 
 We could add a parameter to override BCL implementation strategy.
+
+2010.02.25:
+
+We can extend assemblies which we cannot rewrite. Which we can we should just rewrite.

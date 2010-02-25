@@ -29,6 +29,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using jsc.meta.Library.Templates.WebService;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -798,10 +799,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 	namespace Templates
 	{
-		public class InternalFileInfo
-		{
-			public string Name;
-		}
+
 
 		public class InternalWebMethodParameterInfo
 		{
@@ -1480,18 +1478,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 			}
 		}
 
-		public class InternalScriptApplication
-		{
-			public string TypeName;
-			public string TypeFullName;
 
-			public class Reference
-			{
-				public string AssemblyFile;
-			}
-
-			public Reference[] References;
-		}
 	}
 
 }

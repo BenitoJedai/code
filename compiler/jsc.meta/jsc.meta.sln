@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibA", "..\Script
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug with Doc|Any CPU = Debug with Doc|Any CPU
@@ -101,6 +103,24 @@ Global
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug with Doc|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug with Doc|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_Ultra1|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_Ultra1|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_Ultra1T1|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_Ultra1T1|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_Ultra5|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_Ultra5|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_UltraTutorial|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_UltraTutorial|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_VBUltra1|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_VBUltra1|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_WebApp|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug_WebApp|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

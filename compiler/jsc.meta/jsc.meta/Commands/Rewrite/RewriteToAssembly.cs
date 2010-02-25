@@ -21,6 +21,41 @@ namespace jsc.meta.Commands.Rewrite
 			if (this.AttachDebugger)
 				Debugger.Launch();
 
+			#region ExternalContext defaults...
+
+
+			this.ExternalContext.TypeCache.Resolve +=
+				source =>
+				{
+					if (this.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
+						return;
+
+					this.ExternalContext.TypeCache[source] = source;
+				};
+
+			this.ExternalContext.MethodCache.Resolve +=
+				source =>
+				{
+					if (this.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
+						return;
+
+
+					this.ExternalContext.MethodCache[source] = source;
+				};
+
+			this.ExternalContext.ConstructorCache.Resolve +=
+				source =>
+				{
+					if (this.ExternalContext.ConstructorCache.BaseDictionary.ContainsKey(source))
+						return;
+
+
+					this.ExternalContext.ConstructorCache[source] = source;
+				};
+
+			#endregion
+
+
 			var NameObfuscationRandom = new Random();
 
 			#region NameObfuscation
@@ -104,42 +139,12 @@ namespace jsc.meta.Commands.Rewrite
 				}
 
 			var TypeCache = new VirtualDictionary<Type, Type>();
+			var TypeRenameCache = new VirtualDictionary<Type, string>();
 			var FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>();
 
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
 
-			#region ExternalContext defaults...
-			this.ExternalContext.TypeCache.Resolve +=
-				source =>
-				{
-					if (this.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
-						return;
-
-					this.ExternalContext.TypeCache[source] = source;
-				};
-
-			this.ExternalContext.MethodCache.Resolve +=
-				source =>
-				{
-					if (this.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
-						return;
-
-
-					this.ExternalContext.MethodCache[source] = source;
-				};
-
-			this.ExternalContext.ConstructorCache.Resolve +=
-				source =>
-				{
-					if (this.ExternalContext.ConstructorCache.BaseDictionary.ContainsKey(source))
-						return;
-
-
-					this.ExternalContext.ConstructorCache[source] = source;
-				};
-
-			#endregion
 
 			this.RewriteArguments = new AssemblyRewriteArguments
 					{
@@ -154,6 +159,7 @@ namespace jsc.meta.Commands.Rewrite
 								MethodCache = MethodCache,
 								TypeCache = TypeCache,
 								FieldCache = FieldCache,
+								TypeRenameCache = TypeRenameCache
 							}
 					};
 
@@ -194,6 +200,15 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
+
+			TypeRenameCache.Resolve +=
+				SourceType =>
+				{
+					if (TypeRenameCache.BaseDictionary.ContainsKey(SourceType))
+						return;
+
+					TypeRenameCache[SourceType] = default(string);
+				};
 
 			#region MethodCache
 			MethodCache.Resolve +=
@@ -287,8 +302,13 @@ namespace jsc.meta.Commands.Rewrite
 						{
 							var ff = DeclaringType.DefineField(FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
 
-							//ff.setd
-							//var ff3 = t.DefineInitializedData(f.Name + "___", 100, f.Attributes);
+							if (SourceField.IsLiteral)
+							{
+								// should we enable constant value override? :)
+
+								ff.SetConstant(SourceField.GetRawConstantValue());
+							}
+
 
 							FieldCache[SourceField] = ff;
 						}
@@ -359,6 +379,7 @@ namespace jsc.meta.Commands.Rewrite
 							ConstructorCache,
 							MethodCache,
 							null,
+							TypeRenameCache,
 							NameObfuscation,
 							ShouldCopyType,
 							FullNameFixup,
@@ -485,23 +506,6 @@ namespace jsc.meta.Commands.Rewrite
 			public bool DisableCopyType;
 		}
 
-		public event Action<AtShouldCopyTypeTuple> AtShouldCopyType;
-
-		private bool ShouldCopyType(Type ContextType)
-		{
-			var t = new AtShouldCopyTypeTuple { ContextType = ContextType };
-
-			if (AtShouldCopyType != null)
-				AtShouldCopyType(t);
-
-			if (t.DisableCopyType)
-				return false;
-
-			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly)
-				||
-				this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name)
-				|| IsMarkedForMerge(ContextType);
-		}
 
 
 

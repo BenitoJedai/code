@@ -4,9 +4,9 @@ using System.Web;
 using System;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
-using UltraTutorial07.HTML.Pages.FromWeb;
+using UltraTutorial08.HTML.Pages.FromWeb;
 
-namespace UltraTutorial07
+namespace UltraTutorial08
 {
 	public class SecondaryApplication
 	{
@@ -163,7 +163,7 @@ namespace UltraTutorial07
 
 	public delegate void DownloadDataResult(string e);
 
-	public sealed partial class AlphaWebService : UltraTutorial07.IAlphaWebService
+	public sealed partial class AlphaWebService : UltraTutorial08.IAlphaWebService
 	{
 		// should we support fields?
 		// should we support POCO?
