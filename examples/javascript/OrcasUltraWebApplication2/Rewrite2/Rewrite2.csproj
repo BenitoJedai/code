@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B6592C90-2BC0-4765-82AC-6093C931E317}</ProjectGuid>
+    <ProjectGuid>{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rewrite1</RootNamespace>
-    <AssemblyName>Rewrite1</AssemblyName>
+    <RootNamespace>Rewrite2</RootNamespace>
+    <AssemblyName>Rewrite2</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,16 +48,6 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Rewrite2\Rewrite2.csproj">
-      <Project>{F74E1CDE-B94A-4F9B-BBF8-144E2E16E122}</Project>
-      <Name>Rewrite2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Rewrite3\Rewrite3.csproj">
-      <Project>{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}</Project>
-      <Name>Rewrite3</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -66,7 +56,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /AttachDebugger:true</PostBuildEvent>
-  </PropertyGroup>
 </Project>

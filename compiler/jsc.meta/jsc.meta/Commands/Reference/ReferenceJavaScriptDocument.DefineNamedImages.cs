@@ -49,6 +49,7 @@ namespace jsc.meta.Commands.Reference
 
 			)
 		{
+
 			var Images_value = BodyElement.XPathSelectElements("//img").ToArray();
 			foreach (var CurrentElement in Images_value)
 			{
@@ -135,12 +136,15 @@ namespace jsc.meta.Commands.Reference
 						);
 					}
 
+					var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name;
+
+					a.ScriptResourceWriter.Add(AssetPath, Resource);
 
 					Variations.FromAssets = DefineNamedImage(a, r,
 						DefaultNamespace + ".HTML.Images.FromAssets." + name,
-						"assets/namespace/" + src.Value,
+						AssetPath,
 						null,
-							Bitmap
+						Bitmap
 					);
 
 					// src="data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
