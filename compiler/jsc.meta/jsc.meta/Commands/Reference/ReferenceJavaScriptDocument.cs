@@ -155,6 +155,7 @@ namespace jsc.meta.Commands.Reference
 					f.File.Name == __References
 				from r in File.ReadAllLines(f.File.FullName)
 				where !string.IsNullOrEmpty(r)
+				where !r.StartsWith("#")
 				select r
 			);
 

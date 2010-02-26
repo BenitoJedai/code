@@ -39,7 +39,9 @@ namespace jsc.meta.Commands.Reference
 		// should be renamed to ReferenceWhateveryouLike? HTML documents are just documentation? :)
 		// maybe by adding an alias?
 
-		// todo: Add (object Tag) fields to the pages!
+		// todo: Add on demand Asset Pages. We dont need all that html up front
+		// todo: We want assets for flash! Including mp3!
+		// todo: Seamless use of Avalon/Forms needs to be tested
 		// todo: Referenced files as ScriptResources
 		// todo: could we parse js content and make it callable, how do we infer types? :) we could just expose IFunctions :) sounds good!
 		// todo: some system should scan the source and send todo's to twitter thanks...
@@ -60,9 +62,12 @@ namespace jsc.meta.Commands.Reference
 		// todo: to be phased out once moved to ReferenceUltraSource
 		const string WebSource_HTML = "WebSource.HTML";
 
-		// yay new branding? :)
+		// yay new branding? :) 
+		// step 2 enable sub folders
+		// step 3 do not event filter by folder just import everything
 		const string UltraSource = "UltraSource";
 
+		// The new way to reference web resources would be within the HTML documents.
 		const string __References = "references.txt";
 
 		public FileInfo ProjectFileName;
