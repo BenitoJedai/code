@@ -125,7 +125,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		public IHTMLElement() { }
 		public IHTMLElement(string tag)
 		{
-			throw new System.NotImplementedException();
+			// must keep it empty?
+			//throw new System.NotImplementedException();
 		}
 		public IHTMLElement(HTMLElementEnum tag) { }
 		public IHTMLElement(HTMLElementEnum tag, string text) { }

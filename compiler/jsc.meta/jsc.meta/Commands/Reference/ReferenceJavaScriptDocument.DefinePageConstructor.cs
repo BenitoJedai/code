@@ -29,10 +29,10 @@ namespace jsc.meta.Commands.Reference
 	partial class ReferenceJavaScriptDocument
 	{
 		private static void DefinePageConstructor(
-		XElement body,
-		TypeBuilder Page,
-		Dictionary<XElement, FieldBuilder>[] lookup,
-		Func<string, Type> SourceToNamedElement
+			XElement body,
+			TypeBuilder Page,
+			Dictionary<XElement, FieldBuilder>[] lookup,
+			Func<string, Type> SourceToNamedElement
 		)
 		{
 			// what happens in design mode in .net ? :)
@@ -57,7 +57,7 @@ namespace jsc.meta.Commands.Reference
 			}
 
 			{
-				var GetContainer = Page.DefineMethod("GetContainer", MethodAttributes.Public, typeof(IHTMLElement), null);
+				var GetContainer = Page.DefineMethod("GetContainer", MethodAttributes.Public | MethodAttributes.Virtual, typeof(IHTMLElement), null);
 
 
 				var get_ElementField_il = GetContainer.GetILGenerator();

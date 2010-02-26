@@ -81,7 +81,7 @@ namespace jsc.meta.Commands.Reference
 
 			// bin is assumed to being ignored by svn
 			// we need to stage it
-			var Staging = this.ProjectFileName.Directory.CreateSubdirectory("bin/" + WebSource_HTML + ".staging");
+			var Staging = this.ProjectFileName.Directory.CreateSubdirectory("bin/staging." + UltraSource);
 
 			// fixme: no caching as of yet
 			//var Cache = Staging.CreateSubdirectory("cache");
@@ -356,62 +356,6 @@ namespace jsc.meta.Commands.Reference
 		}
 
 
-
-		private void DefineInstanceImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
-		{
-			#region References
-			var References = Page.DefineProperty("Images", PropertyAttributes.None, typeof(IHTMLImage[]), null);
-
-			var References_get = Page.DefineMethod("get_Images", MethodAttributes.Public, typeof(IHTMLImage[]), null);
-
-			References.SetGetMethod(References_get);
-
-			{
-				var il = References_get.GetILGenerator();
-
-				Func<IHTMLImage[]> Implementation1 = () => new IHTMLImage[] { };
-
-				var il_a = new ILTranslationExtensions.EmitToArguments();
-
-				var Images = lookup.Where(k => k.Value != null).Select((k, index) => new { k, index }).ToArray();
-
-
-				il_a[OpCodes.Ldc_I4_0] =
-					x =>
-					{
-						il.Emit(OpCodes.Ldc_I4, Images.Length);
-					};
-
-				il_a[OpCodes.Stloc_0] =
-					x =>
-					{
-						il.Emit(OpCodes.Stloc_0);
-
-						foreach (var item in Images)
-						{
-							il.Emit(OpCodes.Ldloc_0);
-							il.Emit(OpCodes.Ldc_I4, item.index);
-							il.Emit(OpCodes.Ldarg_0);
-							il.Emit(OpCodes.Ldfld, item.k.Value);
-							il.Emit(OpCodes.Stelem_Ref);
-
-
-							/*
-							L_0007: ldloc.1 
-							L_0008: ldc.i4.0 
-							L_0009: ldstr ""
-							L_000e: stelem.ref 
-							 */
-						}
-					};
-
-
-
-				Implementation1.Method.EmitTo(il, il_a);
-			}
-			#endregion
-
-		}
 
 		private void DefineStaticImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, XElement[] i)
 		{

@@ -105,7 +105,16 @@ namespace jsc.meta.Commands.Reference
 				// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
 				var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
 
-				var Images_value = BodyElement.XPathSelectElements("/img").ToArray();
+				var Images_value = 
+					
+					BodyElement.XPathSelectElements("//img").Concat(
+					BodyElement.XPathSelectElements("//IMG")
+					).ToArray();
+
+				var Anchors_value = 
+					BodyElement.XPathSelectElements("//a").Concat(
+					BodyElement.XPathSelectElements("//A")
+				).ToArray();
 
 				DefineStaticImages(a, Static, Images_value);
 
@@ -154,6 +163,9 @@ namespace jsc.meta.Commands.Reference
 
 				Elements.CreateType();
 
+				// not all elements should have a field
+				// it would be pure overkill
+
 				var Images_lookup = new Dictionary<XElement, FieldBuilder>();
 
 				foreach (var i in Images_value)
@@ -161,11 +173,19 @@ namespace jsc.meta.Commands.Reference
 					Images_lookup[i] = null;
 				}
 
+				var Anchors_lookup = new Dictionary<XElement, FieldBuilder>();
 
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup }, SourceToNamedElement);
+				foreach (var i in Anchors_value)
+				{
+					Anchors_lookup[i] = null;
+				}
+
+
+				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup }, SourceToNamedElement);
 
 				// and html5 videos and sounds!
 				DefineInstanceImages(a, Page, Images_lookup);
+				DefineInstanceLinks(a, Page, Anchors_lookup);
 
 			}
 
