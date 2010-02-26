@@ -10,7 +10,7 @@ namespace jsc.meta.Library
 	public static class BCLExtensions
 	{
 
-		public static byte[] ToBytes(this FileStream s)
+		public static byte[] ToBytes(this Stream s)
 		{
 			var x = new byte[s.Length];
 

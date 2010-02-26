@@ -159,7 +159,7 @@ namespace jsc.meta.Commands.Rewrite
 		// to be phased out
 		public Action<BeforeInstructionsArguments> BeforeInstructions;
 
-		public Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride;
+		public event Action<MethodBase, ILTranslationExtensions.EmitToArguments> AtILOverride;
 
 		public FileInfo Output;
 

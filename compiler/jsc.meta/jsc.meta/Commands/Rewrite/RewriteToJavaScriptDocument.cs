@@ -165,6 +165,11 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				ki++;
 
+				// while rewriting we may decide to merge script
+				// resources. This is the cache.
+				var CurrentScriptResources = new ScriptResources();
+
+				#region RaiseProccessStatusChanged
 				Action<string> RaiseProccessStatusChanged =
 					e =>
 					{
@@ -172,6 +177,7 @@ namespace jsc.meta.Commands.Rewrite
 					};
 
 				RaiseProccessStatusChanged("rewriting");
+				#endregion
 
 				var InvokeAfterBackendCompiler = new List<Action>();
 
@@ -469,13 +475,9 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (k.IsJava || k.IsActionScript || k.IsWebService)
 				{
-					//Debugger.Launch();
-
 					r.AtShouldCopyType +=
 						t =>
 						{
-							//Debugger.Break();
-
 							if (k.IsWebService && this.DisableWebServiceTypeMerge)
 							{
 								if (t.ContextType.Assembly == k.TargetType.Assembly)
@@ -524,7 +526,7 @@ namespace jsc.meta.Commands.Rewrite
 				if (k.IsActionScript)
 				{
 					#region ILOverride (Ret)
-					r.ILOverride =
+					r.AtILOverride +=
 						(context, x) =>
 						{
 							if (context is ConstructorInfo && context.DeclaringType == k.TargetType)
@@ -561,6 +563,26 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
+				r.AtILOverride +=
+					(context, x) =>
+					{
+						// how slow will it be if we run this method for each instruction? :)
+
+						x.BeforeInstruction +=
+							e =>
+							{
+								if (e.i.OpCode == OpCodes.Ldstr)
+								{
+									// if it is a websource we need to copy it.
+
+									CurrentScriptResources.Cache[e.i.OwnerMethod.DeclaringType.Assembly].AddWhenResource(
+										r.RewriteArguments.ScriptResourceWriter,
+										e.i.TargetLiteral
+									);
+								}
+							};
+					};
+
 				#region IsJavaScript IL patching
 				if (k.IsJavaScript)
 				{
@@ -571,7 +593,7 @@ namespace jsc.meta.Commands.Rewrite
 					var ExternalInterfaceConsumerCache = new Dictionary<TypeBuilder, ExternalInterfaceConsumer>();
 
 					#region ILOverride (Castclass)
-					r.ILOverride =
+					r.AtILOverride +=
 						(context, x) =>
 						{
 							x[OpCodes.Castclass] =

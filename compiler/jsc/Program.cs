@@ -116,7 +116,7 @@ namespace jsc
 
 				AppDomain.CurrentDomain.AssemblyResolve += delegate(object sender, ResolveEventArgs args)
 				{
-
+					// fixme: to be merged with LoaderStrategy
 					string name = new AssemblyName(args.Name).Name;
 
 

@@ -192,7 +192,7 @@ namespace jsc.meta.Commands.Rewrite
 							ConstructorCache,
 							MethodCache,
 							NameObfuscation,
-							ILOverride);
+							AtILOverride);
 						return;
 					}
 
@@ -239,7 +239,7 @@ namespace jsc.meta.Commands.Rewrite
 							_assembly,
 							this.codeinjecton,
 							this.codeinjectonparams,
-							this.ILOverride,
+							this.AtILOverride,
 
 							(SourceMethod, Method, GetILGenerator) =>
 							{
