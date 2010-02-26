@@ -12,26 +12,40 @@ namespace ScriptCoreLib.JavaScript
 {
 	public abstract class UltraComponent 
 	{
-		// Should we bet on the ComponentModel.Component?
+		// Should we inherit ComponentModel.Component?
+
 		// http://www.google.com/search?q=UltraComponent
 
 
 
 		public object Tag { get; set; }
 
-		public abstract IHTMLElement GetContainer();
-	}
-
-	public static class UltraComponentExtensions
-	{
-		public static void AttachToDocument(UltraComponent c)
+		public virtual IHTMLElement Container
 		{
-			c.GetContainer().AttachToDocument();
+			get
+			{
+				throw new NotImplementedException();
+			}
 		}
 
-		public static void AttachTo(UltraComponent c, INode p)
+
+		public virtual IHTMLImage[] Images
 		{
-			c.GetContainer().AttachTo(p);
+			get
+			{
+				throw new NotImplementedException();
+			}
 		}
+
+		public virtual IHTMLAnchor[] Anchors
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
+
 	}
+
+
 }

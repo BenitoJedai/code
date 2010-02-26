@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="JavaScript\Extensions\AppletExtensions.cs" />
     <Compile Include="JavaScript\Extensions\SpriteExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\UltraComponentExtensions.cs" />
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
