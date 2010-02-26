@@ -1,1 +1,3 @@
-﻿http://sites.google.com/a/jsc-solutions.net/wiki/home/documentation/knowledge-base/concept-of-ultra?tmpl=/system/app/templates/print/
+﻿# this is a comment
+# empty lines will also be ignored
+http://sites.google.com/a/jsc-solutions.net/wiki/home/documentation/knowledge-base/concept-of-ultra?tmpl=/system/app/templates/print/
