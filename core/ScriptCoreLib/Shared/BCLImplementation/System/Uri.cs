@@ -27,6 +27,8 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 
 		public string[] Segments { get; set; }
 
+		public int Port { get; set; }
+
 		public __Uri(string uriString)
 		{
 			this.OriginalString = uriString;
@@ -42,6 +44,14 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 			var path_i = uriString.IndexOf("/", scheme_i + SchemeDelimiter.Length);
 
 			this.Host = uriString.Substring(scheme_i + SchemeDelimiter.Length, path_i - (scheme_i + SchemeDelimiter.Length));
+
+			var host_i = this.Host.IndexOf(":");
+
+			if (host_i >= 0)
+			{
+				this.Port = int.Parse(this.Host.Substring(host_i + 1));
+				this.Host = this.Host.Substring(0, host_i);
+			}
 
 			this.PathAndQuery = uriString.Substring(path_i);
 
