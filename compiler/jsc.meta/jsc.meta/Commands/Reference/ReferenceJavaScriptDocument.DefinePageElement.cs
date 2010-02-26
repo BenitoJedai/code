@@ -51,7 +51,7 @@ namespace jsc.meta.Commands.Reference
 				il_a[OpCodes.Call] = x =>
 				{
 					var Initialize = Page.DefineMethod(
-						"Initialize_" + Counter.Value++,
+						"Initialize_" + Counter.Value++ + "_" + body.Name.LocalName,
 						MethodAttributes.Family | MethodAttributes.Static,
 						typeof(IHTMLElement),
 						new[] { Page, typeof(IHTMLElement) }

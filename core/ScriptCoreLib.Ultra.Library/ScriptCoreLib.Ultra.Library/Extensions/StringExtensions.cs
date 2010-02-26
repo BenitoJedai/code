@@ -7,6 +7,16 @@ namespace ScriptCoreLib.Ultra.Library.Extensions
 {
 	public static class StringExtensions
 	{
+		public static string SkipUntilLastIfAny(this string e, string u)
+		{
+			var i = e.LastIndexOf(u);
+
+			if (i < 0)
+				return e;
+
+			return e.Substring(i + u.Length);
+		}
+
 		public static string SkipUntilIfAny(this string e, string u)
 		{
 			var i = e.IndexOf(u);

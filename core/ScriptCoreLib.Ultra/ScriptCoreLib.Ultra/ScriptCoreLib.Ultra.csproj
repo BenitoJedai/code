@@ -85,7 +85,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\Extensions\UltraExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\AppletExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\SpriteExtensions.cs" />
+    <Compile Include="JavaScript\UltraComponent.cs">
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

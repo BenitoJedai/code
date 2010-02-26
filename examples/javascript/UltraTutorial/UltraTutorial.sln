@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraTutorial07", "UltraTut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraTutorial08", "UltraTutorial08\UltraTutorial08.csproj", "{0B3488C1-5C4B-41EC-9259-34FC176AF6A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraTutorial09", "UltraTutorial09\UltraTutorial09.csproj", "{8B3695DD-651B-4C6D-A285-96DBC7FDBD6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{0B3488C1-5C4B-41EC-9259-34FC176AF6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B3488C1-5C4B-41EC-9259-34FC176AF6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B3488C1-5C4B-41EC-9259-34FC176AF6A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B3695DD-651B-4C6D-A285-96DBC7FDBD6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3695DD-651B-4C6D-A285-96DBC7FDBD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3695DD-651B-4C6D-A285-96DBC7FDBD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3695DD-651B-4C6D-A285-96DBC7FDBD6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

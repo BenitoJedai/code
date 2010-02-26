@@ -6,7 +6,7 @@ using System;
 namespace ScriptCoreLib.PHP.IO
 {
 	[Script, System.Obsolete]
-	public class FileSystemInfo
+	internal class FileSystemInfo
 	{
 		public static string ScriptPath
 		{

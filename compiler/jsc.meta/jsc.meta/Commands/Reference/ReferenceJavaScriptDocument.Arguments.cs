@@ -56,7 +56,8 @@ namespace jsc.meta.Commands.Reference
 
 		// images should be downloaded and packaged as assets
 
-
+		 
+		// todo: to be phased out once moved to ReferenceUltraSource
 		const string WebSource_HTML = "WebSource.HTML";
 
 		// yay new branding? :)
@@ -81,6 +82,7 @@ namespace jsc.meta.Commands.Reference
 		/// </summary>
 		public bool IsMerge;
 
+		public bool AttachDebugger;
 
 	}
 }

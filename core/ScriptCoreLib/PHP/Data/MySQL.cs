@@ -86,11 +86,11 @@ namespace ScriptCoreLib.PHP.Runtime
         }
 
         [Script]
-        public class CommandBuilder : Command
+		public class CommandBuilder : Command
         {
             public bool AutoEscape = false;
 
-            public FileInfo CommandFile;
+            internal FileInfo CommandFile;
 
             public CommandBuilder(string file): base("")
             {

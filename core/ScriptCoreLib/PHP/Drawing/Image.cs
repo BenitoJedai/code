@@ -7,8 +7,8 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.PHP.Drawing
 {
-    [Script]
-    public partial class Image : global::System.IDisposable
+    [Script, System.Obsolete]
+    internal partial class Image : global::System.IDisposable
     {
 
         public string FileName

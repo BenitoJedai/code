@@ -49,6 +49,9 @@ namespace jsc.meta.Commands.Reference
 
 			)
 		{
+			if (GetLocalResource == null)
+				GetLocalResource = e => null;
+
 
 			var Images_value = BodyElement.XPathSelectElements("//img").ToArray();
 			foreach (var CurrentElement in Images_value)
@@ -60,7 +63,7 @@ namespace jsc.meta.Commands.Reference
 				// todo: we might need to infer file extension from http content type instead!
 
 				var name1 = (alt ?? src).Value;
-				var name0 = name1.Replace("\\", "/").SkipUntilIfAny("/").TakeUntilIfAny(".");
+				var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilIfAny(".");
 				var name = CompilerBase.GetSafeLiteral(name0, null);
 
 				// should we add suffix? Use argument?
