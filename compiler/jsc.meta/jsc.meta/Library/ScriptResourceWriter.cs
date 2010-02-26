@@ -22,7 +22,7 @@ namespace jsc.meta.Library
 
 		readonly List<string> AddScriptResources = new List<string>();
 
-		public void Add(string name, XElement value)
+		public string Add(string name, XElement value)
 		{
 			var ScriptResources = name.Substring(0, name.LastIndexOf("/"));
 
@@ -38,9 +38,11 @@ namespace jsc.meta.Library
 			var n = this.Assembly.GetName().Name + ".web." + name.Replace("/", ".");
 
 			this.Module.DefineManifestResource(n, value);
+
+			return n;
 		}
 
-		public void Add(string name, byte[] value)
+		public string Add(string name, byte[] value)
 		{
 			var ScriptResources = name.Substring(0, name.LastIndexOf("/"));
 
@@ -58,6 +60,8 @@ namespace jsc.meta.Library
 			var n = GetScriptResourcePath(name, a);
 
 			this.Module.DefineManifestResource(n, new MemoryStream(value), System.Reflection.ResourceAttributes.Public);
+
+			return n;
 		}
 
 		public static string GetScriptResourcePath(string name, System.Reflection.Assembly a)

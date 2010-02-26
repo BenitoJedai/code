@@ -280,23 +280,32 @@ namespace jsc.meta.Commands.Reference
 
 								DefineNamedImages(DefaultNamespace, a, BodyElement, r, item.GetLocalResource, TypeVariations.Add);
 
-								WritePageType(DefaultNamespace, a, content, BodyElement, PageName, TypeVariations);
-
-
-								var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
-
-								foreach (var k in __id)
+								var VariationsForPages = new Dictionary<string, Func<string, Type>>
 								{
-									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + k.id, TypeVariations);
-								}
+									{"FromWeb", Source => TypeVariations[Source].FromWeb ?? TypeVariations[Source].FromAssets},
+									{"FromAssets", Source => TypeVariations[Source].FromAssets},
+									{"FromBase64", Source => TypeVariations[Source].FromBase64}
+								};
 
-								var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
-
-								foreach (var k in __class)
+								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
-									WritePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + k.@class, TypeVariations);
-								}
+									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
 
+
+									var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
+
+									foreach (var k in __id)
+									{
+										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + k.id, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+									}
+
+									var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
+
+									foreach (var k in __class)
+									{
+										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + k.@class, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+									}
+								}
 							}
 
 
@@ -325,145 +334,6 @@ namespace jsc.meta.Commands.Reference
 		}
 
 
-		private void WritePageType(
-			string DefaultNamespace,
-			RewriteToAssembly.AssemblyRewriteArguments a,
-			string content,
-			XElement BodyElement,
-			string PageName,
-
-			Dictionary<string, TypeVariations> TypeVariations
-			)
-		{
-			var PageFullName = DefaultNamespace + ".HTML.Pages.FromWeb." + PageName;
-			Console.WriteLine(PageFullName);
-
-			var Page = a.Module.DefineType(PageFullName, TypeAttributes.Public);
-
-			{
-				var PropertyName = "Tag";
-				var PropertyType = typeof(object);
-
-				Page.DefineAutomaticProperty(PropertyName, PropertyType);
-			}
-
-			var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
-
-
-			// we should be returning DOM object instead?
-			// should use DataNamespace instead?
-
-			#region DocumentHTML
-			if (content != null)
-			{
-				var Page_HTML = Static.DefineProperty("DocumentHTML", PropertyAttributes.None, typeof(string), null);
-
-				var Page_HTML_get = Static.DefineMethod("get_DocumentHTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
-
-				{
-					var il = Page_HTML_get.GetILGenerator();
-
-					il.Emit(OpCodes.Ldstr, content);
-					il.Emit(OpCodes.Ret);
-				}
-
-				Page_HTML.SetGetMethod(Page_HTML_get);
-			}
-			#endregion
-
-			#region Page_HTML
-			{
-				var Page_HTML = Static.DefineProperty("HTML", PropertyAttributes.None, typeof(string), null);
-
-				var Page_HTML_get = Static.DefineMethod("get_HTML", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
-
-				{
-					var il = Page_HTML_get.GetILGenerator();
-
-					// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
-					var body_innerXML = BodyElement.Nodes().Aggregate("", (b, node) => b += node.ToString());
-
-					il.Emit(OpCodes.Ldstr, body_innerXML);
-					il.Emit(OpCodes.Ret);
-				}
-
-				Page_HTML.SetGetMethod(Page_HTML_get);
-			}
-			#endregion
-
-			// we need to use unified HTML DOM...
-			if (!this.IsGeneric)
-			{
-				// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
-				var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
-
-				var Images_value = BodyElement.XPathSelectElements("/img").ToArray();
-
-				DefineStaticImages(a, Static, Images_value);
-
-
-
-				foreach (var CurrentElement in BodyElement.XPathSelectElements("/*[@id]"))
-				{
-					var id = CurrentElement.Attribute("id").Value;
-
-					var e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement);
-
-					var e = Elements.DefineProperty(id, PropertyAttributes.None, e_Type, null);
-					var get_e = Elements.DefineMethod("get_" + id, MethodAttributes.Static | MethodAttributes.Public, e_Type, null);
-
-					Func<IHTMLElement> get_e_template =
-						delegate
-						{
-							return Native.Document.getElementById("id");
-						};
-
-					{
-						var il = get_e.GetILGenerator();
-
-						var il_a = new ILTranslationExtensions.EmitToArguments();
-
-						il_a[OpCodes.Ldstr] =
-							x =>
-							{
-								x.il.Emit(OpCodes.Ldstr, id);
-							};
-
-						il_a[OpCodes.Ret] =
-							x =>
-							{
-								x.il.Emit(OpCodes.Castclass, e_Type);
-								x.il.Emit(OpCodes.Ret);
-							};
-
-						get_e_template.Method.EmitTo(il, il_a);
-
-
-					}
-
-					e.SetGetMethod(get_e);
-				}
-
-				Elements.CreateType();
-
-				var Images_lookup = new Dictionary<XElement, FieldBuilder>();
-
-				foreach (var i in Images_value)
-				{
-					Images_lookup[i] = null;
-				}
-
-
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup }, TypeVariations);
-
-				// and html5 videos and sounds!
-				DefineInstanceImages(a, Page, Images_lookup);
-
-			}
-
-			Static.CreateType();
-			Page.CreateType();
-		}
 
 		private void DefineInstanceImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
 		{
@@ -593,7 +463,7 @@ namespace jsc.meta.Commands.Reference
 			XElement body,
 			TypeBuilder Page,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Dictionary<string, TypeVariations> TypeVariations
+			Func<string, Type> SourceToNamedElement
 			)
 		{
 			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
@@ -619,7 +489,8 @@ namespace jsc.meta.Commands.Reference
 			{
 				var il = ctor.GetILGenerator();
 
-				DefinePageElement(body, Page, Counter, il, OpCodes.Ldnull, lookup, TypeVariations);
+				DefinePageElement(
+					body, Page, Counter, il, OpCodes.Ldnull, lookup, SourceToNamedElement);
 
 				#region this.Container = loc0
 				il.Emit(OpCodes.Ldarg_0);
@@ -636,271 +507,6 @@ namespace jsc.meta.Commands.Reference
 			public int Value;
 		}
 
-		private static void DefinePageElement(
-			XElement body,
-			TypeBuilder Page,
-			Counter Counter,
-			ILGenerator il,
-			OpCode parent,
-			Dictionary<XElement, FieldBuilder>[] lookup,
-			Dictionary<string, TypeVariations> TypeVariations
-
-			)
-		{
-			Action Implementation1 =
-				delegate
-				{
-					var c = TemplateHolder.Initialize(null);
-				};
-
-			{
-				var il_a = new ILTranslationExtensions.EmitToArguments();
-
-				il_a[OpCodes.Call] = x =>
-				{
-					var Initialize = Page.DefineMethod(
-						"Initialize_" + Counter.Value++,
-						MethodAttributes.Family | MethodAttributes.Static,
-						typeof(IHTMLElement),
-						new[] { Page, typeof(IHTMLElement) }
-					);
-
-					DefinePageElement(body, Initialize.GetILGenerator(), Page, Counter, lookup, TypeVariations);
-
-					x.il.Emit(OpCodes.Ldarg_0);
-					x.il.Emit(parent);
-					x.il.Emit(OpCodes.Call, Initialize);
-				};
-
-				il_a[OpCodes.Ret] = x => { };
-				il_a[OpCodes.Ldnull] = x => { };
-
-				Implementation1.Method.EmitTo(il, il_a);
-			}
-		}
-
-		private static void DefinePageElement(
-			XElement CurrentElement,
-			ILGenerator il,
-			TypeBuilder Page,
-			Counter Counter,
-			Dictionary<XElement, FieldBuilder>[] lookup,
-			Dictionary<string, TypeVariations> TypeVariations
-
-			)
-		{
-			var DefaultElementType =
-				// ScriptCoreLib ElementType Lookup...
-				(ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement));
-
-			var ElementType = DefaultElementType;
-
-			if (ElementType == typeof(IHTMLImage))
-			{
-				CurrentElement.Attribute("src").Apply(
-					src =>
-					{
-						var v = TypeVariations[src.Value];
-
-						ElementType = v.FromWeb ?? v.FromBase64;
-					}
-				);
-			}
-
-
-			Action Continuation1 =
-				delegate
-				{
-					// http://www.456bereastreet.com/archive/200412/the_alt_and_title_attributes/
-
-					var Element__id = CurrentElement.Attribute("id") ?? CurrentElement.Attribute("alt");
-					var ElementHasId = Element__id != null;
-					var ElementInLookup = lookup.Any(k => k.Keys.Contains(CurrentElement));
-
-					if (ElementHasId || ElementInLookup)
-					{
-
-
-						var ElementField = Page.DefineField("_" + (Element__id == null ? "" + Counter.Value++ : Element__id.Value), ElementType, FieldAttributes.Private);
-
-						foreach (var k in
-							from k0 in lookup
-							where k0.ContainsKey(CurrentElement)
-							select k0
-							)
-						{
-							k[CurrentElement] = ElementField;
-						}
-
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldloc_0);
-						il.Emit(OpCodes.Castclass, ElementType);
-						il.Emit(OpCodes.Stfld, ElementField);
-
-						if (ElementHasId)
-						{
-							var ElementPropertyName = CompilerBase.GetSafeLiteral(
-									Element__id.Value, null
-								);
-
-							var ElementProperty = Page.DefineProperty(
-								ElementPropertyName, PropertyAttributes.None, ElementType, null);
-
-							var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
-
-							var get_ElementField_il = get_ElementField.GetILGenerator();
-
-							get_ElementField_il.Emit(OpCodes.Ldarg_0);
-							get_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
-							get_ElementField_il.Emit(OpCodes.Ret);
-
-							ElementProperty.SetGetMethod(get_ElementField);
-						}
-					}
-
-
-					#region c.setAttribute("name", "value");
-					Action<IHTMLElement> Implementation3 =
-						c =>
-						{
-							// seems to work for .style too in browsers :)
-							c.setAttribute("name", "value");
-						};
-
-
-
-
-					foreach (var item in CurrentElement.Attributes())
-					{
-						if (item.Name.LocalName == "id")
-							continue;
-
-						if (DefaultElementType == typeof(IHTMLImage) && item.Name == "src")
-							continue;
-
-						var il_a = new ILTranslationExtensions.EmitToArguments();
-
-						il_a[OpCodes.Ret] = delegate { };
-						il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldloc_0);
-						il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr,
-							x.i.TargetLiteral == "name" ? item.Name.LocalName : item.Value
-						);
-
-						Implementation3.Method.EmitTo(il, il_a);
-
-					}
-					#endregion
-
-					#region c.appendChild
-					Action<IHTMLElement> Implementation4 =
-						c =>
-						{
-							c.appendChild(new ITextNode("e"));
-						};
-
-					foreach (var item in CurrentElement.Nodes())
-					{
-						if (item is XText)
-						{
-							var il_a = new ILTranslationExtensions.EmitToArguments();
-
-							il_a[OpCodes.Ret] = delegate { };
-							il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldloc_0);
-							il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, ((XText)item).Value);
-
-							Implementation4.Method.EmitTo(il, il_a);
-						}
-
-						if (item is XElement)
-						{
-							DefinePageElement((XElement)item, Page, Counter, il, OpCodes.Ldloc_0, lookup, TypeVariations);
-						}
-					}
-					#endregion
-				};
-
-			{
-				#region Implementation1
-				Func<object, IHTMLElement, IHTMLElement> Implementation1 =
-					(__this, parent) =>
-					{
-						var c = new IHTMLElement("" /* body.Name.LocalName */);
-
-						//c.setAttribute("title", "hi");
-						TemplateHolder.Implementation();
-
-
-
-						if (parent != null)
-							parent.appendChild(c);
-
-						return c;
-					};
-
-				Func<object, IHTMLElement, IHTMLElement> Implementation2 =
-						(__this, parent) =>
-						{
-							var c = new NamedImage();
-
-							//c.setAttribute("title", "hi");
-							TemplateHolder.Implementation();
-
-
-
-							if (parent != null)
-								parent.appendChild(c);
-
-							return c;
-						};
-
-				{
-					var il_a = new ILTranslationExtensions.EmitToArguments
-					{
-						TranslateTargetType =
-							SourceType =>
-							{
-								if (ElementType != DefaultElementType)
-									if (SourceType == typeof(NamedImage))
-										return ElementType;
-
-								return SourceType;
-							},
-
-						TranslateTargetConstructor =
-							SourceConstructor =>
-							{
-								if (ElementType != DefaultElementType)
-									if (SourceConstructor.DeclaringType == typeof(NamedImage))
-										return ElementType.GetConstructor(new Type[0]);
-
-								return SourceConstructor;
-							}
-					};
-
-					il_a[OpCodes.Call] = x =>
-					{
-						Action Implementation = TemplateHolder.Implementation;
-						if (x.i.TargetMethod == Implementation.Method)
-						{
-							Continuation1();
-
-							return;
-						}
-
-						il.Emit(OpCodes.Call, x.i.TargetMethod);
-					};
-
-					il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldarg_1);
-					il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, CurrentElement.Name.LocalName);
-
-					if (DefaultElementType == typeof(IHTMLImage))
-						Implementation2.Method.EmitTo(il, il_a);
-					else
-						Implementation1.Method.EmitTo(il, il_a);
-				}
-				#endregion
-			}
-		}
 
 		static class TemplateHolder
 		{

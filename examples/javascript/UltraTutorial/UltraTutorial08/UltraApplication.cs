@@ -38,6 +38,7 @@ namespace UltraTutorial08
 			}.Container.AttachTo(Title);
 
 			new HTML.Images.FromBase64.twitter_small().AttachToDocument();
+			new HTML.Images.FromAssets.twitter_small().AttachToDocument();
 
 
 

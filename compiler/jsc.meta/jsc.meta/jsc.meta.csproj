@@ -233,6 +233,8 @@
     <Compile Include="Commands\Extend\ExtendToPHPWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToPHPWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
+    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageType.cs" />
+    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageElement.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.Arguments.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefineNamedImages.cs" />
     <Compile Include="Commands\Reference\ReferenceAddClonedProject.cs" />
@@ -244,6 +246,7 @@
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.ScriptResources.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.ShouldCopyType.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.AsService.cs" />

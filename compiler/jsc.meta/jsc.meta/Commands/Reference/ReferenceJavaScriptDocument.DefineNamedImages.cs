@@ -56,7 +56,11 @@ namespace jsc.meta.Commands.Reference
 				var src = CurrentElement.Attribute("src");
 				var alt = CurrentElement.Attribute("alt");
 
-				var name0 = (alt ?? src).Value.Replace("\\", "/").SkipUntilIfAny("/").TakeUntilIfAny(".");
+				// we are working with uri's here!
+				// todo: we might need to infer file extension from http content type instead!
+
+				var name1 = (alt ?? src).Value;
+				var name0 = name1.Replace("\\", "/").SkipUntilIfAny("/").TakeUntilIfAny(".");
 				var name = CompilerBase.GetSafeLiteral(name0, null);
 
 				// should we add suffix? Use argument?
@@ -77,7 +81,7 @@ namespace jsc.meta.Commands.Reference
 				{
 					var TemplateType = typeof(NamedImageInformation);
 
-					r.ILOverride +=
+					r.AtILOverride +=
 						(m, il_a) =>
 						{
 							if (m.DeclaringType != TemplateType)
@@ -136,7 +140,7 @@ namespace jsc.meta.Commands.Reference
 						);
 					}
 
-					var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name;
+					var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name + Extension;
 
 					a.ScriptResourceWriter.Add(AssetPath, Resource);
 
@@ -206,7 +210,7 @@ namespace jsc.meta.Commands.Reference
 
 			using (a.context.ToTransientTransaction())
 			{
-				r.ILOverride +=
+				r.AtILOverride +=
 					(m, il_a) =>
 					{
 						if (m.DeclaringType != TemplateType)
