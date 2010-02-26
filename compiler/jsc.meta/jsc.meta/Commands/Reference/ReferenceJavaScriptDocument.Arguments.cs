@@ -39,6 +39,7 @@ namespace jsc.meta.Commands.Reference
 		// should be renamed to ReferenceWhateveryouLike? HTML documents are just documentation? :)
 		// maybe by adding an alias?
 
+		// todo: What about zip files?
 		// todo: Add on demand Asset Pages. We dont need all that html up front
 		// todo: We want assets for flash! Including mp3!
 		// todo: Seamless use of Avalon/Forms needs to be tested
