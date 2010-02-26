@@ -1082,7 +1082,7 @@ namespace jsc.meta.Commands.Rewrite
 						new MethodBuilderInfo
 						{
 							Method = m,
-							Parameters = item.k.GetParameterTypes()
+							Parameters = TypeCache[item.k.GetParameterTypes()]
 						}
 					);
 
