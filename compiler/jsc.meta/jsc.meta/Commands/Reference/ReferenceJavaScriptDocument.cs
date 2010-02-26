@@ -318,14 +318,21 @@ namespace jsc.meta.Commands.Reference
 
 									foreach (var k in __id)
 									{
-										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + k.id, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + 
+											
+											CompilerBase.GetSafeLiteral(k.id, null)
+
+											, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
 									}
 
 									var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
 
 									foreach (var k in __class)
 									{
-										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + k.@class, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + 
+											CompilerBase.GetSafeLiteral(k.@class, null)
+
+											, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
 									}
 								}
 							}

@@ -24,7 +24,7 @@ namespace UltraTutorial10
 			//{ new HTML.Images.FromBase64._troll__by_GirlFlash().AttachToDocument(); }
 
 			////new HTML.Images.FromBase64._troll__by_GirlFlash().AttachToDocument();
-			var concept = new ConceptOfUltra();
+			var concept = new UltraTutorial10.HTML.Pages.FromAssets.Controls.Anonymous.ConceptOfUltra_sites_canvas_main();
 
 			//concept.Anchors
 			//concept.AttachToDocument();
