@@ -28,6 +28,7 @@ namespace ScriptCoreLib.JavaScript
 			}
 		}
 
+		// these properties should be inferred from the container.
 
 		public virtual IHTMLImage[] Images
 		{
