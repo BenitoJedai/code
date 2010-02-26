@@ -4,6 +4,7 @@ using System.Web;
 using System;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
+using UltraTutorial08.HTML.Pages.FromWeb;
 
 namespace UltraTutorial08
 {
@@ -32,11 +33,11 @@ namespace UltraTutorial08
 
 			};
 
-			//new Browsers
-			//{
-			//}.Container.AttachTo(Title);
+			new Browsers
+			{
+			}.Container.AttachTo(Title);
 
-			//new HTML.Images.FromBase64.twitter_small().AttachToDocument();
+			new HTML.Images.FromBase64.twitter_small().AttachToDocument();
 
 
 
@@ -57,83 +58,19 @@ namespace UltraTutorial08
 			Title.FadeIn(2500, 1000,
 				delegate
 				{
-					//1500.AtDelay(ContinueBuildingApplication);
-				}
-			);
-		}
-		/*
-		private void ContinueBuildingApplication()
-		{
-
-			var note1 = new IHTMLPre
-			{
-				innerHTML = @"Notice: If flash does not respond to events, you need to clear your cache. 
-		+ Chrome flash in 'localhost' on Cassini always fails?
-		  - If so Try http://127.0.0.1 or http://COMPUTERNAME
-		+ Opera does not pass delegates?
-		+ IE cannot return from javascript to flash
-		+ Web page could be delivered within flash package
-		+ Javascript rewrite could omit unused types and methods
-		"
-
-			}.AttachToDocument();
-
-			note1.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.pre;
-			note1.style.fontSize = "small";
-			note1.style.color = Color.Red;
-
-
-			var s = new UltraSprite();
-
-			s.AttachSpriteToDocument();
-
-			var SayHello = new IHTMLButton { innerText = "Say Hello to flash!" }.AttachToDocument();
-
-			SayHello.onclick +=
-				delegate
-				{
-					s.AppendLine("Hello from javascript");
-
-					s.WhenReady(
+					1500.AtDelay(
 						delegate
 						{
-							s.AppendLine("What about using the web service?");
+							ContinueBuildingApplication();
 						}
 					);
-				};
-
-			s.AppendLine("This call is delayed until flash is loaded (1)");
-			s.AppendLine("This call is delayed until flash is loaded (2)");
-			s.AppendLine("This call is delayed until flash is loaded (3)");
-
-			s.WhenReady(
-				delegate
-				{
-					s.AppendLine("What about using the web service?");
 				}
 			);
-
-			// passing the interface to flash is delayed until it is loaded, using the getter will fault
-			s.WebService = new AlphaWebService();
-			s.WebServiceEnabled = this;
-
-			s.AppendLine("This call is delayed until flash is loaded (4)");
-
-			new IHTMLBreak().AttachToDocument();
-
-
-			this.WebServiceEnabled = new IHTMLInput(ScriptCoreLib.Shared.HTMLInputTypeEnum.checkbox);
-
-			var WebServiceEnabledLabel = new IHTMLLabel("WebService is enabled for flash", this.WebServiceEnabled);
-
-			new IHTMLDiv(
-				WebServiceEnabledLabel,
-				WebServiceEnabled
-			).AttachToDocument();
-
-			ButtonsForWebService();
 		}
-		*/
+
+		partial void ContinueBuildingApplication();
+
+
 		private static void ButtonsForWebService()
 		{
 			AddButtonForGetTime();
@@ -157,7 +94,7 @@ namespace UltraTutorial08
 				};
 		}
 
-		
+
 		public IHTMLInput WebServiceEnabled;
 
 		#region IWebServiceEnabled Members
@@ -167,7 +104,7 @@ namespace UltraTutorial08
 			get { return Convert.ToString(WebServiceEnabled.@checked); }
 		}
 		#endregion
-		
+
 
 	}
 

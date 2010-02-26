@@ -337,7 +337,9 @@ namespace jsc.meta.Commands.Rewrite
 
 		}
 
-		private static ConstructorBuilder DefineAnonymousDelegate(TypeBuilder DeclaringType, MethodBuilderInfo kk)
+		private static ConstructorBuilder DefineAnonymousDelegate(
+			TypeBuilder DeclaringType, 
+			MethodBuilderInfo kk)
 		{
 			#region __Delegate
 			var __Delegate = DeclaringType.DefineNestedType(__in_Delegate + kk.Method.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
