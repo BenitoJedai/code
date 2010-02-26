@@ -233,6 +233,7 @@
     <Compile Include="Commands\Extend\ExtendToPHPWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToPHPWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
+    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageConstructor.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageType.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageElement.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.Arguments.cs" />

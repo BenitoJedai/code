@@ -24,6 +24,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using jsc.Library;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using jsc.meta.Library.Templates.JavaScript;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -34,6 +35,9 @@ namespace jsc.meta.Commands.Reference
 
 		public void Invoke()
 		{
+			if (this.AttachDebugger)
+				Debugger.Launch();
+
 			var csproj = XDocument.Load(ProjectFileName.FullName);
 			var csproj_dirty = false;
 
@@ -178,7 +182,7 @@ namespace jsc.meta.Commands.Reference
 			var Sources = DownloadWebSource(References).Concat(LocalSources).ToArray();
 
 			{
-				var Product = DefaultNamespace + "." + WebSource_HTML;
+				var Product = DefaultNamespace + "." + UltraSource;
 
 				// at this time we are not actually merging anything...
 				var r = default(RewriteToAssembly);
@@ -253,8 +257,21 @@ namespace jsc.meta.Commands.Reference
 
 								// really dirty fix...
 
-								content = content.Replace("<html xmlns=\"http://www.w3.org/1999/xhtml\"", "<html ");
+								// wordpress, why are you making the day harder than it needs to be? :)
+								content = content.Replace(" xmlns=\"http://www.w3.org/1999/xhtml\"", " ");
+								content = content.Replace(" xmlns=\"http://www.google.com/ns/jotspot\" ", " ");
 
+								// should we use html tidy?
+								// is the google sites printing view public?
+								// google sites, why aren't attributes qouted? :|
+								content = content.Replace(" cellpadding=1 cellspacing=1>", " cellpadding='1' cellspacing='1'>");
+								content = content.Replace(" target=_top>", " target='_top'>");
+
+								// http://stackoverflow.com/questions/66837/when-is-a-cdata-section-necessary-within-a-script-tag
+								content = content.Replace("<script type=\"text/javascript\">", "<script type=\"text/javascript\"><![CDATA[");
+								content = content.Replace("<script>", "<script><![CDATA[");
+								content = content.Replace("</script>", "]]></script>");
+								
 								//var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { ProhibitDtd = false });
 								//var xml = XDocument.Load(reader);
 								////var nameTable = reader.NameTable;
@@ -270,7 +287,12 @@ namespace jsc.meta.Commands.Reference
 								var TitleElement = xml.XPathSelectElement("/html/head/title");
 								var BodyElement = xml.XPathSelectElement("/html/body");
 
-								var PageName = CompilerBase.GetSafeLiteral(TitleElement.Value, null);
+								var TitleValue = TitleElement == null || string.IsNullOrEmpty(TitleElement.Value) ?
+									item.Reference.TakeUntilIfAny("?").SkipUntilLastIfAny("/").TakeUntilIfAny(".") :
+									TitleElement.Value;
+
+								// should we make CamelCaseing optional?
+								var PageName = CompilerBase.GetSafeLiteral(TitleValue, null).ToCamelCase();
 
 								// we need to make the title/page name
 								// C# compatible :)
@@ -459,48 +481,6 @@ namespace jsc.meta.Commands.Reference
 
 		}
 
-		private static void DefinePageConstructor(
-			XElement body,
-			TypeBuilder Page,
-			Dictionary<XElement, FieldBuilder>[] lookup,
-			Func<string, Type> SourceToNamedElement
-			)
-		{
-			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
-			var ElementType = typeof(IHTMLElement);
-
-			var Container = Page.DefineField("_Container", ElementType, FieldAttributes.Private | FieldAttributes.InitOnly);
-
-			var ElementProperty = Page.DefineProperty("Container", PropertyAttributes.None, ElementType, null);
-
-			var get_ElementField = Page.DefineMethod("get_Container", MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
-
-			var get_ElementField_il = get_ElementField.GetILGenerator();
-
-			get_ElementField_il.Emit(OpCodes.Ldarg_0);
-			get_ElementField_il.Emit(OpCodes.Ldfld, Container);
-			get_ElementField_il.Emit(OpCodes.Ret);
-
-			ElementProperty.SetGetMethod(get_ElementField);
-
-
-			var Counter = new Counter();
-
-			{
-				var il = ctor.GetILGenerator();
-
-				DefinePageElement(
-					body, Page, Counter, il, OpCodes.Ldnull, lookup, SourceToNamedElement);
-
-				#region this.Container = loc0
-				il.Emit(OpCodes.Ldarg_0);
-				il.Emit(OpCodes.Ldloc_0);
-				il.Emit(OpCodes.Stfld, Container);
-				#endregion
-
-				il.Emit(OpCodes.Ret);
-			}
-		}
 
 		public class Counter
 		{

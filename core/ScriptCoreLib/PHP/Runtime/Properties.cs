@@ -3,8 +3,8 @@ using ScriptCoreLib.PHP.IO;
 
 namespace ScriptCoreLib.PHP.Runtime
 {
-    [Script]
-    public class Properties
+	[Script, System.Obsolete]
+	internal class Properties
     {
         public string Default;
 

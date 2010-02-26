@@ -14,6 +14,7 @@ using System.Xml.XPath;
 using jsc.Languages.IL;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates.JavaScript;
 using jsc.meta.Tools;
 using jsc.Script;
 using Microsoft.CSharp;
@@ -21,7 +22,6 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using jsc.meta.Library.Templates.JavaScript;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -42,14 +42,18 @@ namespace jsc.meta.Commands.Reference
 			var PageFullName = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName;
 			Console.WriteLine(PageFullName);
 
-			var Page = a.Module.DefineType(PageFullName, TypeAttributes.Public);
+			var Page = a.Module.DefineType(
+				PageFullName, 
+				TypeAttributes.Public, 
+				typeof(UltraComponent)
+			);
 
-			{
-				var PropertyName = "Tag";
-				var PropertyType = typeof(object);
+			//{
+			//    var PropertyName = "Tag";
+			//    var PropertyType = typeof(object);
 
-				Page.DefineAutomaticProperty(PropertyName, PropertyType);
-			}
+			//    Page.DefineAutomaticProperty(PropertyName, PropertyType);
+			//}
 
 			var Static = Page.DefineNestedType("Static", TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Sealed);
 

@@ -40,6 +40,7 @@ namespace UltraTutorial08
 			new HTML.Images.FromBase64.twitter_small().AttachToDocument();
 			new HTML.Images.FromAssets.twitter_small().AttachToDocument();
 
+			
 
 
 			var TitleLogo = new IHTMLImage("assets/ScriptCoreLib/jsc.png");

@@ -61,6 +61,9 @@
     <Reference Include="UltraTutorial08.WebSource.HTML">
       <HintPath>bin\WebSource.HTML.staging\UltraTutorial08.WebSource.HTML.dll</HintPath>
     </Reference>
+    <Reference Include="UltraTutorial08.UltraSource">
+      <HintPath>bin\WebSource.HTML.staging\UltraTutorial08.UltraSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UltraApplication.ContinueBuildingApplication.cs" />
