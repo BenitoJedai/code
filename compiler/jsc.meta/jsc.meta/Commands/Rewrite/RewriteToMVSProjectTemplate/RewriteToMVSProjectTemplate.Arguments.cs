@@ -18,16 +18,20 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 		/// </summary>
 		public FileInfo Assembly;
 
+		public bool AttachDebugger;
+
+
 		/// <summary>
 		/// Either be it under My Documents or a full path where to create the new template.
 		/// </summary>
-		public string UserProjectTemplates = @"Visual Studio 10\Templates\ProjectTemplates";
+		public string UserProjectTemplates = ProjectTemplatesTwentyTen;
 
-		public bool AttachDebugger;
 
-		public DirectoryInfo SDKProjectTemplates = new DirectoryInfo(
-			@"c:\util\jsc\templates\Visual Studio 10\Templates\ProjectTemplates"
-		);
+		public DirectoryInfo SDKProjectTemplates;
 
+		public const string ProjectTemplatesTwentyTen = @"Visual Studio 10\Templates\ProjectTemplates";
+		public const string ProjectTemplatesOrcas = @"Visual Studio 2008\Templates\ProjectTemplates";
+
+		public bool DefaultToOrcas;
 	}
 }

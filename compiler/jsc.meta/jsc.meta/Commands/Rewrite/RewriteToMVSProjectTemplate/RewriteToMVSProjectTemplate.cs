@@ -25,7 +25,19 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			if (this.AttachDebugger)
 				Debugger.Launch();
 
+			if (this.DefaultToOrcas)
+			{
+				Console.WriteLine("DefaultToOrcas");
 
+				this.UserProjectTemplates = ProjectTemplatesOrcas;
+			}
+
+			if (this.SDKProjectTemplates == null)
+			{
+				this.SDKProjectTemplates = new DirectoryInfo(
+					@"c:\util\jsc\templates\" + this.UserProjectTemplates
+				);
+			}
 
 			var Assembly = System.Reflection.Assembly.LoadFile(this.Assembly.FullName);
 
@@ -176,7 +188,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			zip["__TemplateIcon.ico"].Bytes = Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.meta.Documents.__TemplateIcon_CS_JSC.ico").ToBytes();
 			zip["__PreviewImage.png"].Bytes = Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.meta.Documents.jsc.png").ToBytes();
 
-			File.WriteAllBytes(Path.Combine(ProjectTemplates.FullName, Attributes.Title + ".zip"), zip.ToBytes());
+			var ProjectTemplateFile = Path.Combine(ProjectTemplates.FullName, Attributes.Title + ".zip");
+			Console.WriteLine(ProjectTemplateFile);
+			File.WriteAllBytes(ProjectTemplateFile, zip.ToBytes());
 
 			SDKProjectTemplates.Create();
 			File.WriteAllBytes(Path.Combine(SDKProjectTemplates.FullName, Attributes.Title + ".zip"), zip.ToBytes());

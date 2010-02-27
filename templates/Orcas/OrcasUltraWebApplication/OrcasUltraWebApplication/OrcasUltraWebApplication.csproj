@@ -116,7 +116,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /IsRewriteOnly:true /DisableWebServiceTypeMerge:true /DisableWebServiceJava:true /DisableWebServicePHP:true
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
+)
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
