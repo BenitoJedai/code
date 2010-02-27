@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCorLibA")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2010")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("neutronic")]
-[assembly: AssemblyProduct("ScriptCorLibA")]
-[assembly: AssemblyCopyright("Copyright © neutronic 2006")]
+[assembly: AssemblyCompany("jsc-solutions.net")]
+[assembly: AssemblyProduct("jsc")]
+[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("3.60.0.0")]
-[assembly: AssemblyFileVersion("3.60.0.0")]
+[assembly: AssemblyVersion("3.0.*")]
+[assembly: AssemblyFileVersion("3.0.*")]

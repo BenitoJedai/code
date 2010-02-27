@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("jsc")]
 [assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2010")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("zproxy.wordpress.com, jsc.sourceforge.net")]
+[assembly: AssemblyCompany("jsc-solutions.net")]
 [assembly: AssemblyProduct("jsc")]
 [assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
