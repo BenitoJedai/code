@@ -11,6 +11,8 @@ using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
 using jsc.Script;
 using System.Threading;
+using jsc.Library;
+
 namespace jsc
 {
 
@@ -548,12 +550,8 @@ namespace jsc
 			string content = c.MyWriter.ToString();
 
 
-			StreamWriter sw = new StreamWriter(new FileStream(p.FullName + "/" + c.GetTypeNameForFilename(x) + "." + ScriptFileExtension, FileMode.Create));
 
-			sw.Write(content);
-			sw.Flush();
-
-			sw.Close();
+			content.WriteToFile(p.FullName + "/" + c.GetTypeNameForFilename(x) + "." + ScriptFileExtension);
 
 		}
 

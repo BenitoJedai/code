@@ -17,7 +17,7 @@ using System.ComponentModel;
 namespace OrcasUltraApplication
 {
 
-	//[Description("OrcasClientScriptApplication. Write javascript, flash and java applets within a C# project.")]
+	//[Description("OrcasUltraApplication. Write javascript, flash and java applets within a C# project.")]
 
 	public sealed class UltraApplication
 	{

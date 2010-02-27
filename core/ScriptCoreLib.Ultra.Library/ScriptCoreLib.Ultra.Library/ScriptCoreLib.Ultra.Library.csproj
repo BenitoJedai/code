@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Delegates\StringAction.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Extensions\CryptographyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
