@@ -2000,6 +2000,9 @@ namespace jsc
 				if (this.OpParam.Length != 4)
 					return null;
 
+				if (!new[] { 4, 10 }.Contains(this.OpParam[3]))
+					return null;
+
 				Type[] ma = (OwnerMethod.IsGenericMethod) ? OwnerMethod.GetGenericArguments() : null;
 
 

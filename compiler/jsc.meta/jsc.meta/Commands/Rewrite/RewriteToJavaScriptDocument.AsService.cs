@@ -206,12 +206,12 @@ namespace jsc.meta.Commands.Rewrite
 							Context.Response.Write("<code>" + InternalGlobalExtensions.escapeXML(this.BuilderStatus) + "</code>");
 							Context.Response.Write("<h3>For how long has it been doing that?</h3>");
 							Context.Response.Write("<code>" + BuilderStopwatch.Elapsed.ToString() + "</code>");
-							Context.Response.Write("<h4>Could it be faster?</h4>");
-							Context.Response.Write("<p><strong>Yes! Contact <a href='info@jsc-solutions.net'>sales</a></strong> to purchase a faster version*</p>");
-							Context.Response.Write("<p></p>");
-							Context.Response.Write("<p></p>");
-							Context.Response.Write("<p></p>");
-							Context.Response.Write("<p><small>* Additional development is required by our end</small></p>");
+							//Context.Response.Write("<h4>Could it be faster?</h4>");
+							//Context.Response.Write("<p><strong>Yes! Contact <a href='info@jsc-solutions.net'>sales</a></strong> to purchase a faster version*</p>");
+							//Context.Response.Write("<p></p>");
+							//Context.Response.Write("<p></p>");
+							//Context.Response.Write("<p></p>");
+							//Context.Response.Write("<p><small>* Additional development is required by our end</small></p>");
 							Context.Response.Write("</div>");
 
 

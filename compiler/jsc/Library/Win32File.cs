@@ -43,7 +43,31 @@ namespace System.IO
         const uint OPEN_ALWAYS = 4;
         const uint TRUNCATE_EXISTING = 5;
 
+		// http://www.pinvoke.net/default.aspx/kernel32.createdirectory
+		[DllImport("kernel32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool CreateDirectory(string lpPathName,
+		   IntPtr lpSecurityAttributes);
+
+		public static bool CreateDirectory(string lpPathName)
+		{
+			var filepath = lpPathName;
+
+			filepath = filepath.Replace("/", "\\");
+			if (filepath.StartsWith(@"\\"))
+			{
+				filepath = @"\\?\UNC\" + filepath.Substring(2, filepath.Length - 2);
+			}
+			else
+				filepath = @"\\?\" + filepath;
+
+			return CreateDirectory(filepath, IntPtr.Zero);
+		}
 		// http://msdn.microsoft.com/en-us/library/aa363858(VS.85).aspx
+		// An application cannot create a directory by using CreateFile, therefore only the OPEN_EXISTING value 
+		// is valid for dwCreationDisposition for this use case. To create a directory, the application must call 
+		// CreateDirectory or CreateDirectoryEx.
+
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         static extern SafeFileHandle CreateFileW(string lpFileName, uint dwDesiredAccess,
                                               uint dwShareMode, IntPtr lpSecurityAttributes, uint dwCreationDisposition,
@@ -161,7 +185,7 @@ namespace System.IO
 
             if ((iError > 0 && !AlreadyExistsError) || sh.IsInvalid)
             {
-                throw new Exception("Error opening file Win32 Error:" + iError);
+				throw new IOException("Error opening file Win32 Error:" + iError);
             }
             else
             {
@@ -204,7 +228,7 @@ namespace System.IO
 
 			if ((iError > 0 && !AlreadyExistsError) || sh.IsInvalid)
 			{
-				throw new Exception("Error opening file Win32 Error:" + iError);
+				throw new IOException("Error opening file Win32 Error:" + iError);
 			}
             else
             {
@@ -248,7 +272,7 @@ namespace System.IO
 
 			if ((iError > 0 && !AlreadyExistsError) || sh.IsInvalid)
 			{
-				throw new Exception("Error opening file Win32 Error:" + iError);
+				throw new IOException("Error opening file Win32 Error:" + iError);
 			}
             else
             {

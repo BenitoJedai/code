@@ -69,3 +69,5 @@
 	- RewriteToJavaScriptDocument has initial support for long paths
 2010.02.25
 	- Prepared rebranding for ReferenceUltraSource
+2010.02.27
+	- Added RewriteToMVSProjectTemplate

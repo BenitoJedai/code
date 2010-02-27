@@ -44,7 +44,7 @@ namespace jsc.meta.Commands.Rewrite
 			RewriteToAssembly.AssemblyRewriteArguments a,
 			Type SourceType,
 			DirectoryInfo __web_bin,
-			DirectoryInfo __js_StagingFolder,
+			DirectoryInfo __js_StagingFolder__,
 			Type js_TargetType,
 			FileInfo js_RewriteOutput,
 			bool IsWebServicePHP,
@@ -54,14 +54,17 @@ namespace jsc.meta.Commands.Rewrite
 
 			)
 		{
-			//using (var __VirtualFrom = __js_StagingFolder.CreateSubdirectory("web").ToVirtualDrive())
-			//using (var __VirtualTo = __web_bin.Parent.ToVirtualDrive())
-			{
-				//var web_bin = __VirtualTo.VirtualDirectory.CreateSubdirectory("bin");
-				//var js_staging_web = __VirtualFrom.VirtualDirectory;
 
-				var web_bin = __web_bin;
-				var js_staging_web = __js_StagingFolder.CreateSubdirectory("web");
+			var __root = (!IsWebServiceJava && !IsWebServicePHP) ? __web_bin.Parent : __web_bin;
+
+			using (var __js_StagingFolder_virtual = __js_StagingFolder__.ToVirtualDrive())
+			using (var __root_virtual = __root.ToVirtualDrive())
+			{
+				var js_staging_web = __js_StagingFolder_virtual.VirtualDirectory.CreateSubdirectory("web");
+				
+				var root = __root_virtual.VirtualDirectory;
+				var root_bin = root.CreateSubdirectory("bin");
+
 
 				var TypeCache = r.RewriteArguments.context.TypeCache;
 				var ConstructorCache = r.RewriteArguments.context.ConstructorCache;
@@ -392,13 +395,12 @@ namespace jsc.meta.Commands.Rewrite
 				if (!IsWebServiceJava && !IsWebServicePHP)
 				{
 					//DirectoryInfo web = __VirtualTo.VirtualDirectory;
-					var web = __web_bin.Parent;
 
 					foreach (var item in __Files2)
 					{
-						new FileInfo(Path.Combine(web.FullName, item.Name1)).Directory.Create();
+						new FileInfo(Path.Combine(root.FullName, item.Name1)).Directory.Create();
 
-						item.k.CopyTo(Path.Combine(web.FullName, item.Name1), true);
+						item.k.CopyTo(Path.Combine(root.FullName, item.Name1), true);
 					}
 
 					#region global_asax
@@ -430,8 +432,16 @@ namespace jsc.meta.Commands.Rewrite
 					global_asax.CreateType();
 					#endregion
 
-					File.WriteAllText(Path.Combine(web_bin.FullName, "App_global.asax.compiled"),
-		@"<?xml version='1.0' encoding='utf-8'?>
+					if (this.DisableWebServiceTypeMerge)
+					{
+						// we are running under ASP.NET are we?
+
+					}
+					else
+					{
+						#region DevServer
+						File.WriteAllText(Path.Combine(root_bin.FullName, "App_global.asax.compiled"),
+			@"<?xml version='1.0' encoding='utf-8'?>
 <preserve resultType='8' virtualPath='/global.asax'  flags='150000' assembly='" + r.product + @"' type='ASP.global_asax'>
   <filedeps>
     <filedep name='/global.asax' />
@@ -440,8 +450,8 @@ namespace jsc.meta.Commands.Rewrite
 ");
 
 
-					File.WriteAllText(Path.Combine(web.FullName, "web.config"),
-		@"<?xml version='1.0'?>
+						File.WriteAllText(Path.Combine(root.FullName, "web.config"),
+			@"<?xml version='1.0'?>
 <configuration>
 	<system.web>
 		<compilation debug='true'/>
@@ -449,35 +459,38 @@ namespace jsc.meta.Commands.Rewrite
 </configuration>
 ".Trim());
 
-					File.WriteAllText(Path.Combine(web.FullName, "PrecompiledApp.config"), "<precompiledApp version='2' updatable='false'/>");
-					File.WriteAllText(Path.Combine(web.FullName, "Default.htm"), "");
+						File.WriteAllText(Path.Combine(root.FullName, "PrecompiledApp.config"), "<precompiledApp version='2' updatable='false'/>");
+						File.WriteAllText(Path.Combine(root.FullName, "Default.htm"), "");
 
 
-					#region staging.net.bat
-					// now we can run the rewritten app in .net :)
-					File.WriteAllText(
-						Path.Combine(web.FullName,
-							"WebDev.WebServer.bat"
-							),
-						@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + web.FullName + @""" /vpath:""/"""
-					);
-					#endregion
+						#region staging.net.bat
+						// now we can run the rewritten app in .net :)
+						File.WriteAllText(
+							Path.Combine(root.FullName,
+								"WebDev.WebServer.bat"
+								),
+							@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
+						);
+						#endregion
 
-					#region staging.net.bat
-					// now we can run the rewritten app in .net :)
-					File.WriteAllText(
-						Path.Combine(web.FullName,
-							"WebDev.WebServer40.bat"
-							),
-						@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\10.0\WebDev.WebServer40.exe"" /port:8081 /path:""" + web.FullName + @""" /vpath:""/"""
-					);
-					#endregion
+						#region staging.net.bat
+						// now we can run the rewritten app in .net :)
+						File.WriteAllText(
+							Path.Combine(root.FullName,
+								"WebDev.WebServer40.bat"
+								),
+							@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\10.0\WebDev.WebServer40.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
+						);
+						#endregion
+						#endregion
+
+					}
 				}
 				#endregion
 
 				if (IsWebServiceJava)
 				{
-					DirectoryInfo __web = web_bin.CreateSubdirectory("web/www");
+					DirectoryInfo __web = root_bin.CreateSubdirectory("web/www");
 
 					using (var __web_virtual = __web.ToVirtualDrive())
 					{

@@ -544,7 +544,10 @@ namespace jsc
 
 				// http://blogs.msdn.com/jnak/archive/2010/01/14/windows-azure-path-too-long.aspx
 				for (int i = 0; i < n.Length; i++)
-					p = p.CreateSubdirectory(n[i]);
+				{
+					p = new DirectoryInfo(Path.Combine(p.FullName, n[i]));
+					Win32File.CreateDirectory(p.FullName);
+				}
 			}
 
 			string content = c.MyWriter.ToString();
@@ -557,6 +560,8 @@ namespace jsc
 
 		private static bool IsAssamblyUptodate(FileInfo f0, FileInfo f1)
 		{
+			// should check for dependencies?
+
 			bool bUpToDate = false;
 
 			if (!f0.Exists || f1.Exists)
@@ -594,59 +599,9 @@ namespace jsc
 				xw.Session.ImplementationTypes.AddRange(impl);
 			}
 
-			//AssemblyName[] r = _assambly_loaded.GetReferencedAssemblies();
-
-			//// should we even load?
-
-			//foreach (AssemblyName x in r)
-			//{
-
-			//    try
-			//    {
-
-			//        FileInfo AssamblyFile = new FileInfo(x.Name + ".dll");
-
-
-			//        if (!AssamblyFile.Exists)
-			//            continue;
-
-			//        Assembly xa = Assembly.LoadFile(AssamblyFile.FullName);
-
-			//        ScriptAttribute sa = ScriptAttribute.OfProvider(xa);
-
-			//        if (sa == null)
-			//            continue;
-
-			//        Type[] impl = ScriptAttribute.FindTypes(xa, type);
-
-			//        //Console.WriteLine("reference: " + x.FullName + " with " + impl.Length + " type");
-
-			//        xw.Session.ImplementationTypes.AddRange(impl);
-
-			//    }
-			//    catch
-			//    {
-			//        string desc = "cannot load reference " + x.FullName;
-
-			//        Script.CompilerBase.WriteVisualStudioMessage(CompilerBase.MessageType.error, 0, desc);
-
-
-			//        throw new Exception(desc);
-			//    }
-			//}
 
 		}
 
-		//private static void WriteAssamblyAttributes(string target_assambly, IL2ScriptWriter xw, Assembly _assambly_loaded)
-		//{
-		//    //xw.Helper.DOMAttribute("description", "jsc compiler", "http://zproxy.zapto.org/jsc");
-		//    ////xw.Helper.DOMAttribute("csharp", "http://www.ecma-international.org/publications/standards/Ecma-334.htm");
-		//    ////xw.Helper.DOMAttribute("javascript", "http://www.ecma-international.org/publications/standards/Ecma-262.htm");
-		//    //xw.Helper.DOMAttribute("assambly", target_assambly, _assambly_loaded.ToString());
-		//    //xw.Helper.DOMAttribute("environment", Environment.MachineName + "/" + Environment.UserName);
-		//    xw.Helper.DOMAttribute("time", DateTime.Now.ToUniversalTime().ToString());
-		//    //xw.Helper.DOMAttribute("copyright", "all rights reserved");
-		//}
 
 
 
