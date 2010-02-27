@@ -123,7 +123,7 @@ namespace jsc.meta.Library.Templates.WebService
 				return;
 			}
 			// we could invoke web service handler now?
-			that.Response.Redirect("/jsc");
+			that.Response.Redirect("/#" + that.Request.Path);
 		}
 
 		private static void WriteScriptApplication(StringAction Write, InternalScriptApplication app)
