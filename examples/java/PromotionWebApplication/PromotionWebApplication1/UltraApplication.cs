@@ -18,15 +18,7 @@ using java.applet;
 
 namespace PromotionWebApplication1
 {
-#if UsingJava
-	public sealed class AboutApplet : Applet
-	{
-		public void Method1(string p)
-		{
 
-		}
-	}
-#endif
 
 	public sealed class UltraApplication
 	{
@@ -130,14 +122,21 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
+				if (Native.Document.location.hash == "#/audio")
+				{
+					new HTML.Pages.FromAssets.Audio().Container.AttachToDocument();
+				}
+				else
+				{
+					var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 
-				cc.Container.AttachToDocument();
-				
-				// see: http://en.wikipedia.org/wiki/Perl_control_structures
-				// "Unless" == "if not"  ;)
+					cc.Container.AttachToDocument();
 
-				IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+					// see: http://en.wikipedia.org/wiki/Perl_control_structures
+					// "Unless" == "if not"  ;)
+
+					IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+				}
 			}
 			#endregion
 
