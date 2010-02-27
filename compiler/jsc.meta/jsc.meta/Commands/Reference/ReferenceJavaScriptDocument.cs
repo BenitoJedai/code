@@ -270,8 +270,12 @@ namespace jsc.meta.Commands.Reference
 
 								// http://stackoverflow.com/questions/66837/when-is-a-cdata-section-necessary-within-a-script-tag
 								content = content.Replace("<script type=\"text/javascript\">", "<script type=\"text/javascript\"><![CDATA[");
+								content = content.Replace("/* <![CDATA[ */", "");
+								content = content.Replace("/* ]]> */", "");
+
 								content = content.Replace("<script>", "<script><![CDATA[");
 								content = content.Replace("</script>", "]]></script>");
+								content = content.Replace(">]]></script>", "></script>");
 								
 								//var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { ProhibitDtd = false });
 								//var xml = XDocument.Load(reader);
@@ -281,6 +285,7 @@ namespace jsc.meta.Commands.Reference
 
 								var xml = XDocument.Parse(content);
 								// http://stackoverflow.com/questions/477962/how-to-create-xelement-with-default-namespace-for-children-without-using-xnamespa
+								// http://www.experts-exchange.com/Programming/Languages/C_Sharp/Q_24536293.html
 
 								XNamespace xhtml = "http://www.w3.org/1999/xhtml";
 
@@ -301,7 +306,7 @@ namespace jsc.meta.Commands.Reference
 								// The web application could opt in for dynamic CMS updates... RSS ? :) Download HTML on the server and push updates?
 
 
-								DefineNamedImages(DefaultNamespace, a, BodyElement, r, item.GetLocalResource, TypeVariations.Add);
+								DefineNamedImages(DefaultNamespace, a, BodyElement, r, item.GetLocalResource, TypeVariations, PageName);
 
 								var VariationsForPages = new Dictionary<string, Func<string, Type>>
 								{

@@ -30,7 +30,16 @@ namespace ScriptCoreLib.ActionScript
 			//    * image/svg-xml
 
 
-			var lookup = new Dictionary<string, string>
+
+
+			foreach (var p in lookup)
+				if (FileName.EndsWith(p.Key))
+					return p.Value;
+
+			return OctetStream;
+		}
+
+		public static readonly Dictionary<string, string> lookup = new Dictionary<string, string>
                 {
                     {".ttf", "application/x-font"},
                     {".gif", "image/gif"},
@@ -39,12 +48,5 @@ namespace ScriptCoreLib.ActionScript
                     {".mp3", "audio/mpeg"},
                     {".swf", "application/x-shockwave-flash"},
                 };
-
-			foreach (var p in lookup)
-				if (FileName.EndsWith(p.Key))
-					return p.Value;
-
-			return OctetStream;
-		}
 	}
 }

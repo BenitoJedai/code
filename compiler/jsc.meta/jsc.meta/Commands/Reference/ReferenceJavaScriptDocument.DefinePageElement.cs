@@ -58,10 +58,10 @@ namespace jsc.meta.Commands.Reference
 					);
 
 					DefinePageElement(
-						body, 
-						Initialize.GetILGenerator(), 
-						Page, 
-						Counter, 
+						body,
+						Initialize.GetILGenerator(),
+						Page,
+						Counter,
 						lookup,
 						SourceToNamedElement
 					);
@@ -108,7 +108,16 @@ namespace jsc.meta.Commands.Reference
 						//// shall we default to FromAssets or FromBase64 ?
 						//ElementType = v.FromWeb ?? v.FromAssets;
 
-						ElementType = SourceToNamedElement(src.Value);
+
+
+
+
+
+						var src_value = src.Value;
+						if (src_value.StartsWith("//"))
+							src_value = "http:" + src_value;
+
+						ElementType = SourceToNamedElement(src_value);
 					}
 				);
 			}
@@ -119,7 +128,11 @@ namespace jsc.meta.Commands.Reference
 				{
 					// http://www.456bereastreet.com/archive/200412/the_alt_and_title_attributes/
 
-					var Element__id = CurrentElement.Attribute("id") ?? CurrentElement.Attribute("alt");
+					var Element__id = CurrentElement.Attribute("id");
+
+					if (Element__id == null && CurrentElement.Attribute("alt") != null && !string.IsNullOrEmpty(CurrentElement.Attribute("alt").Value))
+						Element__id = CurrentElement.Attribute("alt");
+
 					var ElementHasId = Element__id != null;
 					var ElementInLookup = lookup.Any(k => k.Keys.Contains(CurrentElement));
 
@@ -220,11 +233,11 @@ namespace jsc.meta.Commands.Reference
 						if (item is XElement)
 						{
 							DefinePageElement(
-								(XElement)item, 
-								Page, 
-								Counter, 
-								il, 
-								OpCodes.Ldloc_0, 
+								(XElement)item,
+								Page,
+								Counter,
+								il,
+								OpCodes.Ldloc_0,
 								lookup,
 								SourceToNamedElement
 							);

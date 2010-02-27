@@ -5,8 +5,8 @@ using System.Text;
 
 namespace PromotionWebApplication1.Design
 {
-	public class About : Pages.Controls.Anonymous.About___jsc_solutions_net_postcontent
-	{
-		// note if wordpress.com changes class names this class breaks :)
-	}
+	//public class About : PromotionWebApplication1.HTML.Pages.FromAssets.Controls.Anonymous.AboutJscSolutionsNet_postcontent
+	//{
+	//    // note if wordpress.com changes class names this class breaks :)
+	//}
 }

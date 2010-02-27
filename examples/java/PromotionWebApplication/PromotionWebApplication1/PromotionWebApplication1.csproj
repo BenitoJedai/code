@@ -30,6 +30,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Assets\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -57,8 +65,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="PromotionWebApplication1.WebSource.HTML">
-      <HintPath>bin\WebSource.HTML.staging\PromotionWebApplication1.WebSource.HTML.dll</HintPath>
+    <Reference Include="PromotionWebApplication1.UltraSource">
+      <HintPath>bin\staging.UltraSource\PromotionWebApplication1.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -71,12 +79,14 @@
     <Compile Include="UltraApplication.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design.WebSource.HTML\About.css" />
-    <Content Include="Design.WebSource.HTML\About.htm" />
-    <Content Include="Design.WebSource.HTML\AboutApplet.java" />
-    <None Include="Design.WebSource.HTML\AboutSprite.as" />
-    <Content Include="Design.WebSource.HTML\AboutScript.js" />
-    <Content Include="Design.WebSource.HTML\references.txt" />
+    <Content Include="Design.UltraSource\About.css" />
+    <Content Include="Design.UltraSource\About.htm" />
+    <Content Include="Design.UltraSource\AboutApplet.java" />
+    <None Include="Design.UltraSource\AboutSprite.as" />
+    <Content Include="Design.UltraSource\AboutScript.js" />
+    <Content Include="Design.UltraSource\CenteredLogo.htm" />
+    <Content Include="Design.UltraSource\jsc.png" />
+    <Content Include="Design.UltraSource\references.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -87,8 +97,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
+    <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin"</PostBuildEvent>
-    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true</PreBuildEvent>
+    <PreBuildEvent>if not $(ConfigurationName)==Assets goto :eof
+C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true</PreBuildEvent>
   </PropertyGroup>
 </Project>

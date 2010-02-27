@@ -162,10 +162,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\lib\ScriptCoreLib.YAML.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
@@ -374,6 +370,10 @@
     <ProjectReference Include="..\..\jsc\jsc.csproj">
       <Project>{77861F2D-D284-4913-B9E9-D906C7262219}</Project>
       <Name>jsc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ScriptCoreLibA\ScriptCoreLibA.csproj">
+      <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
+      <Name>ScriptCoreLibA</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
