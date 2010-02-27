@@ -152,6 +152,8 @@ namespace jsc.meta.Commands.Rewrite
 									r.AtWebServiceReady +=
 										a =>
 										{
+											// what if there was no web service defined? :)
+
 											WebService = new WebServiceInterface(a);
 										};
 
