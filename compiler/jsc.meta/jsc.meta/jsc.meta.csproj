@@ -318,10 +318,11 @@
     <Content Include="Commands\Rewrite\RewriteToUltraApplication\comment.txt" />
     <Content Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
+    <EmbeddedResource Include="Documents\jsc.png" />
     <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
     <Content Include="Documents\__TemplateIcon.ico" />
-    <Content Include="Documents\__TemplateIcon_CS_JSC.ico" />
+    <EmbeddedResource Include="Documents\__TemplateIcon_CS_JSC.ico" />
     <Content Include="Library\comment.txt" />
     <Content Include="Library\Templates\WebService\comment.txt" />
     <EmbeddedResource Include="Tools\ant\GoogleAppEngine\build.xml" />

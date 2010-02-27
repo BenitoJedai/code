@@ -470,11 +470,13 @@ namespace jsc //.Extensions
 			).ToDictionary(i => i.name, i => i.value);
 		}
 
+	
+
 		public static string GetResourceFileContent(this string name)
 		{
 			return new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(name)).ReadToEnd();
-
 		}
+
 		public static string ReplaceSpace(this string e, params string[] u)
 		{
 			foreach (var v in u)

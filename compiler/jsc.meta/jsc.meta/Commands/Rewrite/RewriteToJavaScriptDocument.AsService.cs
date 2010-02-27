@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Web;
 using jsc.meta.Library;
 using jsc.meta.Library.Templates.WebService;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
