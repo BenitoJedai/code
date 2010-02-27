@@ -148,11 +148,13 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 				)
 			).ToString();
 
+			var ProjectContent = File.ReadAllText(this.ProjectFileName.FullName);
+
+			ProjectContent = ProjectContent.Replace(Path.GetFileNameWithoutExtension(this.ProjectFileName.Name), _safeprojectname);
+			ProjectContent = ProjectContent.Replace(@"c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate", @"rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate");
 
 
-			zip[this.ProjectFileName.Name].Bytes = Encoding.UTF8.GetBytes(
-				File.ReadAllText(this.ProjectFileName.FullName).Replace(Path.GetFileNameWithoutExtension(this.ProjectFileName.Name), _safeprojectname)
-			);
+			zip[this.ProjectFileName.Name].Bytes = Encoding.UTF8.GetBytes(ProjectContent);
 
 			foreach (var f in ProjectFiles.SelectMany(k => k))
 			{

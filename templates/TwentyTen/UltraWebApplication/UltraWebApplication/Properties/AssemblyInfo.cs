@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Ultra Web Application")]
-[assembly: AssemblyDescription("Ultra Web Application. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
+[assembly: AssemblyDescription("Ultra Web Application. Integrated with ASP.NET. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("jsc-solutions.net")]
 [assembly: AssemblyProduct("UltraWebApplication")]
