@@ -10,6 +10,7 @@ using System.Diagnostics;
 using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Shared;
 using jsc.meta.Library;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
