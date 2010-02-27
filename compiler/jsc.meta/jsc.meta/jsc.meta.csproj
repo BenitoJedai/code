@@ -274,10 +274,15 @@
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
     <Compile Include="Library\Templates\Java\InternalHttpServlet.cs" />
     <Compile Include="Library\Templates\WebService\InternalFileInfo.cs" />
+    <Compile Include="Library\Templates\WebService\InternalGlobal.cs" />
+    <Compile Include="Library\Templates\WebService\InternalGlobalExtensions.cs" />
     <Compile Include="Library\Templates\WebService\InternalScriptApplication.cs" />
+    <Compile Include="Library\Templates\WebService\InternalWebMethodInfo.cs" />
+    <Compile Include="Library\Templates\WebService\InternalWebMethodParameterInfo.cs" />
+    <Compile Include="Library\Templates\JavaScript\InternalWebMethodRequest.cs" />
+    <Compile Include="Library\Templates\WebService\InternalWebMethodWorker.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsExtensions.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsProvider.cs" />
-    <Compile Include="Library\VolumeFunctions\Win32File.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
     <Compile Include="Library\Web\Java\InvokeWebServiceArguments.cs" />
     <Compile Include="Library\Web\SimpleMethodInfo.cs" />

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Web;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates.WebService;
 
 namespace jsc.meta.Commands.Rewrite
 {
