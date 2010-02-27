@@ -45,8 +45,10 @@ namespace jsc.meta.Commands.Reference
 			RewriteToAssembly r,
 			Func<string, FileInfo> GetLocalResource,
 
-			Action<string, TypeVariations> AddTypeVariations
 
+			Dictionary<string, TypeVariations> TypeVariations,
+
+			string PageName
 			)
 		{
 			if (GetLocalResource == null)
@@ -62,18 +64,41 @@ namespace jsc.meta.Commands.Reference
 				// we are working with uri's here!
 				// todo: we might need to infer file extension from http content type instead!
 
-				var name1 = (alt ?? src).Value;
+				var name1 = src.Value;
+
+				if (alt != null && !string.IsNullOrEmpty(alt.Value))
+					name1 = alt.Value;
+
 				var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilIfAny(".");
 				var name = CompilerBase.GetSafeLiteral(name0, null);
+
 
 				// should we add suffix? Use argument?
 				//name += "Image";
 
 				// if its not from the web, only in our project then this type cannot be made available can it.
 
-				var LocalResource = GetLocalResource(src.Value);
-				var Resource = LocalResource == null ? new WebClient().DownloadData(src.Value) : File.ReadAllBytes(LocalResource.FullName);
-				var Extension = src.Value.Substring(src.Value.LastIndexOf("."));
+				var src_value = src.Value;
+				if (src_value.StartsWith("//"))
+					src_value = "http:" + src_value;
+
+				if (TypeVariations.ContainsKey(src_value))
+					continue;
+
+				var LocalResource = GetLocalResource(src_value);
+				var __WebClient = default(WebClient);
+
+				var Resource = LocalResource == null ?
+					(__WebClient = new WebClient()).DownloadData(new Uri(src_value)) :
+					File.ReadAllBytes(LocalResource.FullName);
+
+
+				var Extension = __WebClient == null ? src.Value.Substring(src.Value.LastIndexOf(".")) :
+					EmbedMimeTypes.lookup.First(
+						k => k.Value == __WebClient.ResponseHeaders[HttpResponseHeader.ContentType]
+					).Key;
+
+
 				var Bitmap = ScriptCoreLib.Shared.Avalon.Extensions.AvalonExtensions.ToImageSource(Extension, new MemoryStream(Resource));
 
 
@@ -128,6 +153,7 @@ namespace jsc.meta.Commands.Reference
 								return;
 
 							a.context.TypeRenameCache[SourceType] =
+								// ?
 								DefaultNamespace + ".Data.Images." + name;
 						};
 
@@ -191,7 +217,7 @@ namespace jsc.meta.Commands.Reference
 					}
 
 
-					AddTypeVariations(src.Value, Variations);
+					TypeVariations.Add(src_value, Variations);
 
 
 

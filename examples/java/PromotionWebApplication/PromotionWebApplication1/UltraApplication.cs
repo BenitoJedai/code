@@ -39,15 +39,7 @@ namespace PromotionWebApplication1
 
 			StringActionAction GetTitleFromServer = new UltraWebService().GetTitleFromServer;
 
-#if UsingJava
-			var Applet1 = new AboutApplet();
 
-			Applet1.Method1("hello world");
-
-			var Applet1Element = Applet1.AttachAppletToDocument();
-
-			Applet1Element.style.border = "1px solid red";
-#endif
 
 			GetTitleFromServer(
 				n => Native.Document.title = n
@@ -77,57 +69,57 @@ namespace PromotionWebApplication1
 				MyPagesInternal.style.margin = "4em";
 				MyPagesInternal.AttachTo(MyPages);
 
-				var cc = new Pages.About();
+				var cc = new HTML.Pages.FromAssets.About();
 				var MyPagesCurrent = default(IHTMLElement);
 
 
-				cc.About.onclick +=
-					ee =>
-					{
-						ee.PreventDefault();
+				//cc.About.onclick +=
+				//    ee =>
+				//    {
+				//        ee.PreventDefault();
 
 
-						var about = new Design.About();
+				//        var about = new Design.About();
 
 
 
-						MyPagesCurrent.FadeOutCollapse(
-							1, 100,
-							delegate
-							{
-								MyPagesCurrent = about.Container;
+				//        MyPagesCurrent.FadeOutCollapse(
+				//            1, 100,
+				//            delegate
+				//            {
+				//                MyPagesCurrent = about.Container;
 
-								about.Container.AttachTo(MyPagesInternal);
-								about.Container.FadeIn(1, 100, null);
-							}
-						);
+				//                about.Container.AttachTo(MyPagesInternal);
+				//                about.Container.FadeIn(1, 100, null);
+				//            }
+				//        );
 
 		
-					};
+				//    };
 
 
-				cc.Licensing.onclick +=
-					ee =>
-					{
-						ee.PreventDefault();
+				//cc.Licensing.onclick +=
+				//    ee =>
+				//    {
+				//        ee.PreventDefault();
 
 
-						var licensing = new Design.Licensing();
+				//        var licensing = new Design.Licensing();
 
 
-						MyPagesCurrent.FadeOutCollapse(
-							1, 100,
-							delegate
-							{
+				//        MyPagesCurrent.FadeOutCollapse(
+				//            1, 100,
+				//            delegate
+				//            {
 
-								MyPagesCurrent = licensing.Container;
+				//                MyPagesCurrent = licensing.Container;
 
-								licensing.Container.AttachTo(MyPagesInternal);
-								licensing.Container.FadeIn(1, 100, null);
-							}
-						);
+				//                licensing.Container.AttachTo(MyPagesInternal);
+				//                licensing.Container.FadeIn(1, 100, null);
+				//            }
+				//        );
 
-					};
+				//    };
 
 				cc.Container.AttachToDocument();
 				cc.Container.FadeIn(500, 1000, null);
@@ -138,40 +130,14 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				var c = new IHTMLDiv().AttachToDocument();
+				var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 
-				c.style.position = IStyle.PositionEnum.absolute;
-				c.style.left = "50%";
-				c.style.top = "50%";
-
-				var a = new IHTMLAnchor { href = "http://sketch.odopod.com/sketches/149253", target = "BackgroundFrame" }.AttachTo(c);
-
-				//a.onclick +=
-				//    ee =>
-				//    {
-				//        ee.PreventDefault();
-
-				//        new IHTMLDiv { innerHTML = "<embed src='http://sketch.odopod.com/flash/OdoSketch.swf?sketchURL=/sketches/149253.xml&userURL=/users/28416&bgURL=/images/bigbg.jpg&mode=embed' AllowScriptAccess='always' bgcolor=#EDE7DB menu='false' quality='high' pluginspage='http://www.macromedia.com/go/getflashplayer' type='application/x-shockwave-flash' width='1000' height='400'></embed>" }
-				//            .AttachToDocument();
-
-				//        GetTitleFromServer(
-				//            n => Native.Document.title = n
-				//        );
-				//    };
-
-
-				var logo = new IHTMLImage("assets/ScriptCoreLib/jsc.png").AttachTo(a);
-
-				logo.style.borderStyle = "none";
-				logo.style.marginLeft = "-48px";
-				logo.style.marginTop = "-48px";
-
-				logo.style.SetSize(96, 96);
-
+				cc.Container.AttachToDocument();
+				
 				// see: http://en.wikipedia.org/wiki/Perl_control_structures
 				// "Unless" == "if not"  ;)
 
-				IsMicrosoftInternetExplorer.YetIfNotThen(logo.BeginPulseAnimation).ButIfSoThen(logo.HideNowButShowAtDelay);
+				IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
 			}
 			#endregion
 

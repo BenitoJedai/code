@@ -19,6 +19,8 @@ using jsc.meta.Commands.Rewrite.Templates;
 using jsc.meta.Library;
 using jsc.meta.Library.Templates;
 using jsc.meta.Library.Templates.Java;
+using jsc.meta.Library.Templates.JavaScript;
+using jsc.meta.Library.Templates.WebService;
 using jsc.meta.Library.VolumeFunctions;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
@@ -29,8 +31,6 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using jsc.meta.Library.Templates.WebService;
-using jsc.meta.Library.Templates.JavaScript;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -63,7 +63,7 @@ namespace jsc.meta.Commands.Rewrite
 				var js_staging_web = __js_StagingFolder_virtual.VirtualDirectory.CreateSubdirectory("web");
 				
 				var root = __root_virtual.VirtualDirectory;
-				var root_bin = root.CreateSubdirectory("bin");
+				
 
 
 				var TypeCache = r.RewriteArguments.context.TypeCache;
@@ -440,7 +440,7 @@ namespace jsc.meta.Commands.Rewrite
 					else
 					{
 						#region DevServer
-						File.WriteAllText(Path.Combine(root_bin.FullName, "App_global.asax.compiled"),
+						File.WriteAllText(Path.Combine(root.CreateSubdirectory("bin").FullName, "App_global.asax.compiled"),
 			@"<?xml version='1.0' encoding='utf-8'?>
 <preserve resultType='8' virtualPath='/global.asax'  flags='150000' assembly='" + r.product + @"' type='ASP.global_asax'>
   <filedeps>
@@ -490,7 +490,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (IsWebServiceJava)
 				{
-					DirectoryInfo __web = root_bin.CreateSubdirectory("web/www");
+					DirectoryInfo __web = root.CreateSubdirectory("web/www");
 
 					using (var __web_virtual = __web.ToVirtualDrive())
 					{
@@ -607,13 +607,13 @@ echo thanks! :)
 						);
 						#endregion
 
-						File.WriteAllText(
-							Path.Combine(r_Output_web.FullName, "build.run.bat"), @"
-@echo off
-call build.bat
-call run.bat
-"
-						);
+//                        File.WriteAllText(
+//                            Path.Combine(r_Output_web.FullName, "build.run.bat"), @"
+//@echo off
+//call build.bat
+//call run.bat
+//"
+//                        );
 						#region upload.bat
 						File.WriteAllText(
 							Path.Combine(r_Output_web.FullName, "upload.bat"),

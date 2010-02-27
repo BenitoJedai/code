@@ -31,6 +31,9 @@ namespace jsc.meta.Commands.Reference
 		/*
 		 usage:
 		 * C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"
+		 * 
+		 
+		 * ReferenceJavaScriptDocument /ProjectFileName:"W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication1\PromotionWebApplication1.csproj"
 		 */
 
 		// should be merged with ReferenceWebSource ?
