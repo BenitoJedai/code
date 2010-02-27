@@ -28,6 +28,12 @@ namespace ScriptCoreLib.JavaScript
 			}
 		}
 
+		public static implicit operator IHTMLElement(UltraComponent e)
+		{
+			// this operator shall help building nested layouts
+			return e.Container;
+		}
+
 		// these properties should be inferred from the container.
 
 		public virtual IHTMLImage[] Images
