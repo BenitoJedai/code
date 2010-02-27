@@ -12,7 +12,7 @@ using ScriptCoreLib;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("jsc-solutions.net")]
 [assembly: AssemblyProduct("UltraApplication")]
-[assembly: AssemblyCopyright("Copyright © zproxy.wordpress.com 2010")]
+[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

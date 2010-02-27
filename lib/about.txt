@@ -13,3 +13,7 @@ ScriptCoreLib.YAML.dll
 The jsc solution should install such libraries under jsc/lib where as compiler and core components still go under jsc/bin.
 
 Arvo Sulakatko
+
+2010.02.27:
+
+The Concept of Ultra including rewrite capabilities of jsc could make this folder deprecated.
