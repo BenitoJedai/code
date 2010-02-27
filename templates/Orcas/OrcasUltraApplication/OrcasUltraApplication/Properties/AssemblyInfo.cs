@@ -7,12 +7,12 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OrcasUltraApplication")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Ultra Application")]
+[assembly: AssemblyDescription("Ultra Application. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("zproxy.wordpress.com")]
-[assembly: AssemblyProduct("OrcasUltraApplication")]
-[assembly: AssemblyCopyright("Copyright © zproxy.wordpress.com 2010")]
+[assembly: AssemblyCompany("jsc-solutions.net")]
+[assembly: AssemblyProduct("UltraApplication")]
+[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
