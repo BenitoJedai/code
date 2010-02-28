@@ -82,6 +82,8 @@ namespace PromotionWebApplication1
 						}
 					);
 
+					new SoundCloudHeader().Container.AttachTo(MyPagesInternal);
+
 					new UltraWebService().SoundCloudTracksDownload(
 						ee =>
 						{
@@ -94,8 +96,8 @@ namespace PromotionWebApplication1
 							t.Audio.src = ee.streamUrl;
 							t.Identity.innerText = ee.uid;
 
-							t.Play.onclick += delegate { t.Audio.play(); };
-							t.Pause.onclick += delegate { t.Audio.pause(); };
+							t.Play.onclick += eee => { eee.PreventDefault(); t.Audio.play(); };
+							t.Pause.onclick += eee => { eee.PreventDefault(); t.Audio.pause(); };
 
 							DoubleAction SetProgress1 = p =>
 							{

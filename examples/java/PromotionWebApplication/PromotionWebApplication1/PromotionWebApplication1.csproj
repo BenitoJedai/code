@@ -85,7 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Audio.UltraSource\Audio.htm" />
+    <Content Include="Audio.UltraSource\references.txt" />
     <Content Include="Audio.UltraSource\rooster.mp3" />
+    <Content Include="Audio.UltraSource\SoundCloudHeader.htm" />
     <Content Include="Audio.UltraSource\SoundCloudTrack.htm" />
     <Content Include="Design.UltraSource\About.css" />
     <Content Include="Design.UltraSource\About.htm" />

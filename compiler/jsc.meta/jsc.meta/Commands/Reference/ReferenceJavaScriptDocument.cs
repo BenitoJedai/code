@@ -270,6 +270,10 @@ namespace jsc.meta.Commands.Reference
 
 								// http://stackoverflow.com/questions/66837/when-is-a-cdata-section-necessary-within-a-script-tag
 								content = content.Replace("<script type=\"text/javascript\">", "<script type=\"text/javascript\"><![CDATA[");
+								content = content.Replace("<script type=\"text/javascript\" charset=\"utf-8\">", "<script type=\"text/javascript\" charset=\"utf-8\"><![CDATA[");
+								
+
+								content = content.Replace("<meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\">", "");
 								content = content.Replace("/* <![CDATA[ */", "");
 								content = content.Replace("/* ]]> */", "");
 
