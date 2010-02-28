@@ -95,6 +95,7 @@ namespace PromotionWebApplication1.Library
 			target.style.height = c + "px";
 
 			target.style.Opacity = 0;
+			target.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.empty;
 
 			waittime.AtDelay(
 				delegate

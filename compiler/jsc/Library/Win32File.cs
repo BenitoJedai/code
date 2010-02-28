@@ -299,7 +299,8 @@ namespace System.IO
         public static FileStream OpenWrite(string filepath)
         {
             //open writable open(String, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None).
-            return Open(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+			//return Open(filepath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+			return Open(filepath, FileMode.Truncate, FileAccess.Write, FileShare.None);
         }
 
 

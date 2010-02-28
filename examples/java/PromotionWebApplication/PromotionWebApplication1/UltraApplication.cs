@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using java.applet;
+using PromotionWebApplication1.HTML.Pages.FromAssets;
 using PromotionWebApplication1.Library;
+using PromotionWebApplication1.Services;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
@@ -15,8 +17,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
-using PromotionWebApplication1.Services;
-using PromotionWebApplication1.HTML.Pages.FromAssets;
 using ScriptCoreLib.Ultra.Library.Delegates;
 namespace PromotionWebApplication1
 {
@@ -39,6 +39,17 @@ namespace PromotionWebApplication1
 				n => Native.Document.title = n
 			);
 
+			var MyPagesBackground = new IHTMLDiv
+			{
+
+			};
+
+			MyPagesBackground.style.overflow = IStyle.OverflowEnum.hidden;
+			MyPagesBackground.style.position = IStyle.PositionEnum.absolute;
+			MyPagesBackground.style.width = "100%";
+			MyPagesBackground.style.height = "100%";
+			MyPagesBackground.AttachToDocument();
+
 			var MyPages = new IHTMLDiv
 			{
 
@@ -55,19 +66,7 @@ namespace PromotionWebApplication1
 			MyPagesInternal.style.margin = "4em";
 			MyPagesInternal.AttachTo(MyPages);
 
-			#region Contact Us
-			{
-				// using wordpress as CMS are we?
-				// http://en.support.wordpress.com/pages/hide-pages/
-				// http://en.support.wordpress.com/pages/page-attributes/
-				// we will build a snapshot of the site.
-				// hidden pages need to be subpages :)
 
-
-				new About().Container.AttachToDocument();
-
-			}
-			#endregion
 
 			#region logo
 			{
@@ -82,91 +81,162 @@ namespace PromotionWebApplication1
 						}
 					);
 
+					new SoundCloudBackground().Container.AttachTo(MyPagesBackground);
 					new SoundCloudHeader().Container.AttachTo(MyPagesInternal);
 
-					new UltraWebService().SoundCloudTracksDownload(
-						ee =>
+					var page = 1;
+
+					var Tracks = new IHTMLDiv().AttachTo(MyPagesInternal);
+					Tracks.style.margin = "1em";
+
+					var More = new SoundCloudMore();
+
+
+					Action LoadCurrentPage = delegate
+					{
+						var loading = new SoundCloudLoading();
+
+						loading.Container.AttachTo(Tracks);
+
+						new UltraWebService().SoundCloudTracksDownload(
+							System.Convert.ToString(page),
+							ee =>
+							{
+								if (loading != null)
+								{
+									loading.Container.Orphanize();
+									loading = null;
+								}
+
+								var t = new SoundCloudTrack();
+
+								t.Content.ApplyToggleConcept(t.HideContent, t.ShowContent).Hide();
+
+								t.Title.innerHTML = ee.trackName;
+								t.Waveform.src = ee.waveformUrl;
+
+								t.Audio.src = ee.streamUrl;
+								t.Audio.autobuffer = true;
+
+								t.Identity.innerText = ee.uid;
+
+								t.Play.onclick += eee => { eee.PreventDefault(); t.Audio.play(); };
+								t.Pause.onclick += eee => { eee.PreventDefault(); t.Audio.pause(); };
+
+								t.Title.style.cursor = IStyle.CursorEnum.pointer;
+								t.Title.onclick += eee =>
+									{
+										eee.PreventDefault();
+
+										if (t.Audio.paused)
+											t.Audio.play();
+										else
+											t.Audio.pause();
+									};
+
+								DoubleAction SetProgress1 = p =>
+								{
+
+									t.Gradient3.style.width = System.Convert.ToInt32(800 * p) + "px";
+									t.Gradient4.style.width = System.Convert.ToInt32(800 * p) + "px";
+								};
+
+								t.Gradient5.style.Opacity = 0.4;
+								t.Gradient6.style.Opacity = 0.4;
+
+								DoubleAction SetProgress2 = p =>
+								{
+
+									t.Gradient5.style.width = System.Convert.ToInt32(800 * p) + "px";
+									t.Gradient6.style.width = System.Convert.ToInt32(800 * p) + "px";
+								};
+
+								AtTimer +=
+									delegate
+									{
+										if (t.Audio.duration == 0)
+										{
+											t.Play.Hide();
+											t.Pause.Hide();
+											return;
+										}
+										else
+										{
+											if (t.Audio.paused)
+												t.Title.style.color = Color.None;
+											else
+												t.Title.style.color = Color.Blue;
+
+											t.Play.Show(t.Audio.paused);
+											t.Pause.Show(!t.Audio.paused);
+										}
+
+										var p = t.Audio.currentTime / t.Audio.duration;
+										SetProgress1(p);
+									};
+
+								t.Waveform.onmouseout +=
+									delegate
+									{
+										SetProgress2(0);
+									};
+
+								t.Waveform.onmousemove +=
+									eee =>
+									{
+										SetProgress2(eee.OffsetX / 800.0);
+									};
+
+								t.Waveform.onclick +=
+									eee =>
+									{
+										t.Audio.currentTime = t.Audio.duration * (eee.OffsetX / 800.0);
+										t.Audio.play();
+									};
+
+								t.Waveform.style.cursor = IStyle.CursorEnum.pointer;
+
+								SetProgress1(0);
+								SetProgress2(0);
+
+								t.Container.AttachTo(Tracks);
+							}
+						);
+
+
+						10000.AtDelay(
+							delegate
+							{
+								More.MoreButton.FadeIn(0, 1000, null);
+							}
+						);
+					};
+
+
+					More.MoreButton.Hide();
+					More.Container.AttachTo(MyPagesInternal);
+
+					More.MoreButton.onclick += eee =>
 						{
-							var t = new SoundCloudTrack();
-
-							t.Content.ApplyToggleConcept(t.HideContent, t.ShowContent).Hide();
-
-							t.Title.innerHTML = ee.trackName;
-							t.Waveform.src = ee.waveformUrl;
-							t.Audio.src = ee.streamUrl;
-							t.Identity.innerText = ee.uid;
-
-							t.Play.onclick += eee => { eee.PreventDefault(); t.Audio.play(); };
-							t.Pause.onclick += eee => { eee.PreventDefault(); t.Audio.pause(); };
-
-							DoubleAction SetProgress1 = p =>
-							{
-
-								t.Gradient3.style.width = System.Convert.ToInt32(800 * p) + "px";
-								t.Gradient4.style.width = System.Convert.ToInt32(800 * p) + "px";
-							};
-
-							t.Gradient5.style.Opacity = 0.4;
-							t.Gradient6.style.Opacity = 0.4;
-
-							DoubleAction SetProgress2 = p =>
-							{
-
-								t.Gradient5.style.width = System.Convert.ToInt32(800 * p) + "px";
-								t.Gradient6.style.width = System.Convert.ToInt32(800 * p) + "px";
-							};
-
-							AtTimer +=
+							eee.PreventDefault();
+							More.MoreButton.FadeOut(1, 300,
 								delegate
 								{
-									if (t.Audio.duration == 0)
-									{
-										t.Play.Hide();
-										t.Pause.Hide();
-										return;
-									}
-									else
-									{
-										t.Play.Show(t.Audio.paused);
-										t.Pause.Show(!t.Audio.paused);
-									}
+									page++;
+									LoadCurrentPage();
+								}
+							);
+						};
 
-									var p = t.Audio.currentTime / t.Audio.duration;
-									SetProgress1(p);
-								};
+					LoadCurrentPage();
 
-							t.Waveform.onmouseout +=
-								delegate
-								{
-									SetProgress2(0);
-								};
-
-							t.Waveform.onmousemove +=
-								eee =>
-								{
-									SetProgress2(eee.OffsetX / 800.0);
-								};
-
-							t.Waveform.onclick +=
-								eee =>
-								{
-									t.Audio.currentTime = t.Audio.duration * (eee.OffsetX / 800.0);
-									t.Audio.play();
-								};
-
-							t.Waveform.style.cursor = IStyle.CursorEnum.pointer;
-
-							SetProgress1(0);
-							SetProgress2(0);
-
-							t.Container.AttachTo(MyPagesInternal);
-						}
-					);
 				}
 				else
 				{
 					//new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
 					//new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
+
+					new About().Container.AttachToDocument();
 
 					var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 
@@ -238,9 +308,10 @@ namespace PromotionWebApplication1
 
 		}
 
-		public void /*ISoundCloudTracksDownload. not supported yet ? */ SoundCloudTracksDownload(Services.SoundCloudTrackFound yield)
+		/*ISoundCloudTracksDownload. not supported yet ? */
+		public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
 		{
-			new Services.SoundCloudTracks().Download(yield);
+			new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
 		}
 	}
 }
