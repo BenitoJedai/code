@@ -12,7 +12,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		// compiler: generate from IDL at http://www.whatwg.org/specs/web-apps/current-work/#htmlmediaelement
 
 		public string src;
-
+		public bool controls;
 
 		public void load()
 		{

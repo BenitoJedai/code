@@ -15,6 +15,7 @@ using PromotionWebApplication1.Library;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using java.applet;
+using PromotionWebApplication1.HTML.Audio.FromAssets;
 
 namespace PromotionWebApplication1
 {
@@ -128,6 +129,8 @@ namespace PromotionWebApplication1
 				}
 				else
 				{
+					new rooster { controls = true }.AttachToDocument();
+
 					var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 
 					cc.Container.AttachToDocument();

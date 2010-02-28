@@ -231,13 +231,13 @@
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageType.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageElement.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.Arguments.cs" />
-    <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefineNamedImages.cs" />
     <Compile Include="Commands\Reference\ReferenceAddClonedProject.cs" />
     <Compile Include="Commands\Reference\ReferenceAssets.cs" />
     <Compile Include="Commands\Reference\ReferenceAvalonDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
+    <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DefineNamedElements.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.ElementTypes.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
@@ -268,6 +268,7 @@
     <Compile Include="Library\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />
+    <Compile Include="Library\Templates\JavaScript\Named\NamedAudio.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\NamedImage.cs" />
     <Compile Include="Library\Templates\Java\InternalElementProxy.cs" />
     <Compile Include="Library\Templates\JavaScript\InternalJavaToJavaScriptBridge.cs" />

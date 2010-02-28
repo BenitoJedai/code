@@ -306,7 +306,18 @@ namespace jsc.meta.Commands.Reference
 								// The web application could opt in for dynamic CMS updates... RSS ? :) Download HTML on the server and push updates?
 
 
-								DefineNamedImages(DefaultNamespace, a, BodyElement, r, item.GetLocalResource, TypeVariations, PageName);
+								new DefineNamedElements
+								{
+
+									DefaultNamespace = DefaultNamespace,
+									a = a,
+									BodyElement = BodyElement,
+									r = r,
+									GetLocalResource = item.GetLocalResource,
+									TypeVariations = TypeVariations,
+									PageName = PageName,
+									ElementTypes = ElementTypes
+								}.Define();
 
 								var VariationsForPages = new Dictionary<string, Func<string, Type>>
 								{
