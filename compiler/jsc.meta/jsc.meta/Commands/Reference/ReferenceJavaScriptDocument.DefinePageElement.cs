@@ -22,6 +22,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using jsc.meta.Library.Templates.JavaScript;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -35,8 +36,8 @@ namespace jsc.meta.Commands.Reference
 			ILGenerator il,
 			OpCode parent,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Func<string, Type> SourceToNamedElement
-
+			Func<string, Type> SourceToNamedElement,
+			Dictionary<string, Type> ElementTypes
 		)
 		{
 			Action Implementation1 =
@@ -63,7 +64,8 @@ namespace jsc.meta.Commands.Reference
 						Page,
 						Counter,
 						lookup,
-						SourceToNamedElement
+						SourceToNamedElement,
+						ElementTypes
 					);
 
 					x.il.Emit(OpCodes.Ldarg_0);
@@ -86,8 +88,8 @@ namespace jsc.meta.Commands.Reference
 			Counter Counter,
 			Dictionary<XElement, FieldBuilder>[] lookup,
 
-			Func<string, Type> SourceToNamedElement
-			//Dictionary<string, TypeVariations> TypeVariations
+			Func<string, Type> SourceToNamedElement,
+			Dictionary<string, Type> ElementTypes
 
 			)
 		{
@@ -165,15 +167,41 @@ namespace jsc.meta.Commands.Reference
 							var ElementProperty = Page.DefineProperty(
 								ElementPropertyName, PropertyAttributes.None, ElementType, null);
 
-							var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+							{
+								var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
 
-							var get_ElementField_il = get_ElementField.GetILGenerator();
+								var get_ElementField_il = get_ElementField.GetILGenerator();
 
-							get_ElementField_il.Emit(OpCodes.Ldarg_0);
-							get_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
-							get_ElementField_il.Emit(OpCodes.Ret);
+								get_ElementField_il.Emit(OpCodes.Ldarg_0);
+								get_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
+								get_ElementField_il.Emit(OpCodes.Ret);
 
-							ElementProperty.SetGetMethod(get_ElementField);
+								ElementProperty.SetGetMethod(get_ElementField);
+							}
+
+							{
+								var set_ElementField = Page.DefineMethod("set_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, null, new[] { ElementType });
+
+								var set_ElementField_il = set_ElementField.GetILGenerator();
+
+								set_ElementField_il.Emit(OpCodes.Ldarg_0);
+								set_ElementField_il.Emit(OpCodes.Ldfld, ElementField);
+
+								set_ElementField_il.Emit(OpCodes.Ldarg_1);
+
+								set_ElementField_il.Emit(OpCodes.Call,
+									((Action<INode, INode>)INodeExtensions.ReplaceWith).Method);
+
+								set_ElementField_il.Emit(OpCodes.Ldarg_0);
+								set_ElementField_il.Emit(OpCodes.Ldarg_1);
+								set_ElementField_il.Emit(OpCodes.Stfld, ElementField);
+
+								set_ElementField_il.Emit(OpCodes.Ret);
+
+								ElementProperty.SetSetMethod(set_ElementField);
+							}
+
+
 						}
 					}
 
@@ -239,7 +267,8 @@ namespace jsc.meta.Commands.Reference
 								il,
 								OpCodes.Ldloc_0,
 								lookup,
-								SourceToNamedElement
+								SourceToNamedElement,
+								ElementTypes
 							);
 						}
 					}
@@ -286,9 +315,8 @@ namespace jsc.meta.Commands.Reference
 						TranslateTargetType =
 							SourceType =>
 							{
-								if (ElementType != DefaultElementType)
-									if (SourceType == typeof(NamedImage))
-										return ElementType;
+								if (SourceType == typeof(NamedImage))
+									return ElementType;
 
 								return SourceType;
 							},
@@ -296,9 +324,8 @@ namespace jsc.meta.Commands.Reference
 						TranslateTargetConstructor =
 							SourceConstructor =>
 							{
-								if (ElementType != DefaultElementType)
-									if (SourceConstructor.DeclaringType == typeof(NamedImage))
-										return ElementType.GetConstructor(new Type[0]);
+								if (SourceConstructor.DeclaringType == typeof(NamedImage))
+									return ElementType.GetConstructor(new Type[0]);
 
 								return SourceConstructor;
 							}
@@ -320,7 +347,7 @@ namespace jsc.meta.Commands.Reference
 					il_a[OpCodes.Ldarg_0] = x => x.il.Emit(OpCodes.Ldarg_1);
 					il_a[OpCodes.Ldstr] = x => x.il.Emit(OpCodes.Ldstr, CurrentElement.Name.LocalName);
 
-					if (DefaultElementType == typeof(IHTMLImage))
+					if (DefaultElementType != typeof(IHTMLElement))
 						Implementation2.Method.EmitTo(il, il_a);
 					else
 						Implementation1.Method.EmitTo(il, il_a);

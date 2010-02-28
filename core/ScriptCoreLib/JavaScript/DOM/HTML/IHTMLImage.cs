@@ -10,9 +10,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 	/// <summary>
 	/// 
 	/// </summary>
-	[Script(InternalConstructor = true, ExternalTarget = "Image")]
+	[Script(InternalConstructor = true /*, ExternalTarget = "Image"*/)]
 	public class IHTMLImage : IHTMLElement
 	{
+		// http://www.w3schools.com/tags/tag_IMG.asp
+
 		public string alt;
 		public string src;
 		public int border;
@@ -20,31 +22,38 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		public bool complete;
 
 		#region constructors
+
 		public IHTMLImage() { }
-		public IHTMLImage(int width, int height) { }
-		public IHTMLImage(string src) { }
 
-
-		static internal IHTMLImage InternalConstructor(string src)
+		static internal IHTMLImage InternalConstructor()
 		{
-			try
-			{
-				IHTMLImage n = new IHTMLImage();
-
-				n.src = src;
-
-				return n;
-			}
-			catch
-			{
-				string u = "image failed to load: [" + src + "]";
-
-				System.Console.WriteLine(u);
-
-				throw new global::System.Exception(u);
-			}
-
+			return (IHTMLImage) new IHTMLElement(HTMLElementEnum.img);
 		}
+
+		//internal IHTMLImage(int width, int height) { }
+		//internal IHTMLImage(string src) { }
+
+
+		//static internal IHTMLImage InternalConstructor(string src)
+		//{
+		//    try
+		//    {
+		//        IHTMLImage n = new IHTMLImage();
+
+		//        n.src = src;
+
+		//        return n;
+		//    }
+		//    catch
+		//    {
+		//        string u = "image failed to load: [" + src + "]";
+
+		//        System.Console.WriteLine(u);
+
+		//        throw new global::System.Exception(u);
+		//    }
+
+		//}
 
 		#endregion
 
@@ -68,9 +77,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		public static implicit operator IHTMLImage(string src)
 		{
-			return new IHTMLImage(src);
+			return new IHTMLImage { src = src };
 		}
 
+		// fixme: rewrtie to extension methods
 
 		[Script(DefineAsStatic = true)]
 		public void InvokeOnComplete(EventHandler<IHTMLImage> e)

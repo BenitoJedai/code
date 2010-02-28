@@ -29,16 +29,22 @@ namespace jsc.meta.Commands.Reference
 	partial class ReferenceJavaScriptDocument
 	{
 		private static void DefinePageConstructor(
-			XElement body,
+			XElement CurrentElement,
 			TypeBuilder Page,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Func<string, Type> SourceToNamedElement
+			Func<string, Type> SourceToNamedElement,
+			Dictionary<string, Type> ElementTypes
 		)
 		{
 			// what happens in design mode in .net ? :)
 
 			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
-			var ElementType = typeof(IHTMLElement);
+			
+			var DefaultElementType =
+				// ScriptCoreLib ElementType Lookup...
+				(ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement));
+
+			var ElementType = DefaultElementType;
 
 			var FieldContainer = Page.DefineField("_Container", ElementType, FieldAttributes.Private | FieldAttributes.InitOnly);
 
@@ -75,7 +81,9 @@ namespace jsc.meta.Commands.Reference
 				var il = ctor.GetILGenerator();
 
 				DefinePageElement(
-					body, Page, Counter, il, OpCodes.Ldnull, lookup, SourceToNamedElement);
+					CurrentElement, Page, Counter, il, OpCodes.Ldnull, lookup, SourceToNamedElement,
+					ElementTypes
+				);
 
 				#region this.Container = loc0
 				il.Emit(OpCodes.Ldarg_0);

@@ -3,8 +3,8 @@ using ScriptCoreLib.Shared;
 namespace ScriptCoreLib.PHP.Runtime
 {
 
-    [Script]
-    public class ApplicationSwitch<TItem> : ApplicationSwitch
+	[Script, System.Obsolete]
+    internal class ApplicationSwitch<TItem> : ApplicationSwitch
     {
         public EventHandler<EventHandlerArgs<TItem>> this[List<TItem> range, EventHandler<Predicate<TItem, string>> convert]
         {

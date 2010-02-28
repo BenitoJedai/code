@@ -43,10 +43,7 @@ namespace jsc.meta.Loader
 				return a;
 
 			var bin = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory;
-			var lib = new DirectoryInfo(Path.Combine(bin.FullName, @"..\lib"));
 
-			if (!lib.Exists)
-				lib = new DirectoryInfo(@"c:\util\jsc\lib");
 			var r = new AssemblyName(args.Name);
 
 			foreach (var item in Hints)
@@ -65,6 +62,12 @@ namespace jsc.meta.Loader
 				}
 			}
 
+			var lib = new DirectoryInfo(Path.Combine(bin.FullName, @"..\lib"));
+
+			if (!lib.Exists)
+				lib = new DirectoryInfo(@"c:\util\jsc\lib");
+
+			
 			if (lib.Exists)
 			{
 				// why return null?
@@ -87,6 +90,9 @@ namespace jsc.meta.Loader
 					return Assembly.LoadFile(lib_exe);
 				}
 			}
+
+
+		
 			return null;
 		}
 

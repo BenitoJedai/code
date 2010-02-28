@@ -181,7 +181,9 @@ namespace jsc.meta.Commands.Reference
 				}
 
 
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup }, SourceToNamedElement);
+				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup }, SourceToNamedElement,
+					ElementTypes
+				);
 
 				// and html5 videos and sounds!
 				DefineInstanceImages(a, Page, Images_lookup);
