@@ -9,14 +9,14 @@ namespace PromotionWebApplication1.Services
 {
 	public interface ISoundCloudTracksDownload
 	{
-		void SoundCloudTracksDownload(SoundCloudTrackFound yield);
+		void SoundCloudTracksDownload(string page, SoundCloudTrackFound yield);
 	}
 
 	public static class SoundCloudTracksDownloadExtensions
 	{
-		public static void SoundCloudTracksDownload(this ISoundCloudTracksDownload e, AtSoundCloudTrackFoundTuple yield)
+		public static void SoundCloudTracksDownload(this ISoundCloudTracksDownload e, string page, AtSoundCloudTrackFoundTuple yield)
 		{
-			e.SoundCloudTracksDownload(yield.ToSoundCloudTrackFound());
+			e.SoundCloudTracksDownload(page, yield.ToSoundCloudTrackFound());
 		}
 
 		public static SoundCloudTrackFound ToSoundCloudTrackFound(this AtSoundCloudTrackFoundTuple y)
@@ -60,15 +60,15 @@ namespace PromotionWebApplication1.Services
 
 	public delegate string YieldValue(string key, string value);
 
-	public class SoundCloudTracks
+	public class SoundCloudTracks : ISoundCloudTracksDownload
 	{
 		const string Source = "http://soundcloud.com/tracks";
 
-		public void Download(SoundCloudTrackFound yield)
+		public void SoundCloudTracksDownload(string page, SoundCloudTrackFound yield)
 		{
 			var c = new WebClient();
 
-			var data = c.DownloadString(new Uri(Source));
+			var data = c.DownloadString(new Uri(Source + "?page=" + page));
 
 			data.AtIndecies("'player mode medium  {",
 				p =>

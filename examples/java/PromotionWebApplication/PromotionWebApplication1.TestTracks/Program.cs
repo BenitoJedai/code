@@ -12,10 +12,10 @@ namespace PromotionWebApplication1.TestTracks
 		{
 			var w = new UltraWebService();
 			
-			w.SoundCloudTracksDownload(
+			w.SoundCloudTracksDownload("4",
 				e =>
 				{
-					
+					Console.WriteLine(e.trackName);
 				}
 			);
 		}
