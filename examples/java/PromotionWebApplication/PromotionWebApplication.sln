@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1.TestTracks", "PromotionWebApplication1.TestTracks\PromotionWebApplication1.TestTracks.csproj", "{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -23,6 +25,12 @@ Global
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00A6CB37-64BC-4C54-849D-70A834E146A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

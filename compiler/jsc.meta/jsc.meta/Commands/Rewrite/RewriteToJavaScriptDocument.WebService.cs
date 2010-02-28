@@ -37,7 +37,7 @@ namespace jsc.meta.Commands.Rewrite
 
 	partial class RewriteToJavaScriptDocument
 	{
-
+		// todo: http://ajaxpatterns.org/HTTP_Streaming
 
 		private void WriteGlobalApplication(
 			RewriteToAssembly r,
@@ -828,20 +828,6 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 		}
 	}
 
-	namespace Templates
-	{
 
-
-
-
-
-
-
-
-
-
-
-
-	}
 
 }

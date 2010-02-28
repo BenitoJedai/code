@@ -71,3 +71,5 @@
 	- Prepared rebranding for ReferenceUltraSource
 2010.02.27
 	- Added RewriteToMVSProjectTemplate
+2010.02.28
+	- Added HTML5 Audio support into ReferenceUltraSource

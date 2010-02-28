@@ -37,6 +37,17 @@ namespace ScriptCoreLib.Ultra.Library.Extensions
 			return e.Substring(0, i);
 		}
 
+		public static string TakeUntilLastIfAny(this string e, string u)
+		{
+			var i = e.LastIndexOf(u);
+
+			if (i < 0)
+				return e;
+
+			return e.Substring(0, i);
+		}
+
+
 		public static string ToHexString(this byte[] e)
 		{
 			var w = new StringBuilder();
@@ -55,5 +66,45 @@ namespace ScriptCoreLib.Ultra.Library.Extensions
 
 			return u.Substring((e >> 4) & 0xF, 1) + u.Substring((e >> 0) & 0xF, 1);
 		}
+
+		public static void AtIndecies(this string e, string target, AtIndeciesDelegate h)
+		{
+			var i = e.IndexOf(target);
+			var YieldIndex = -1;
+			while (i >= 0)
+			{
+				YieldIndex++;
+
+				h(
+					new AtIndeciesArguments
+					{
+						e = e,
+						i = i,
+						target = target,
+						YieldIndex = YieldIndex,
+						YieldBreak = () => i = -1
+					}
+				);
+
+
+				if (i >= 0)
+					i = e.IndexOf(target, i + target.Length);
+			}
+		}
+
+
 	}
+
+	public class AtIndeciesArguments
+	{
+		public string e;
+		public string target;
+		public int i;
+
+		public int YieldIndex;
+
+		public Action YieldBreak;
+	}
+
+	public delegate void AtIndeciesDelegate(AtIndeciesArguments a);
 }
