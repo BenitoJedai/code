@@ -23,9 +23,13 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 	{
 		public class TypeVariations
 		{
-			public Type FromWeb;
-			public Type FromBase64;
 			public Type FromAssets;
+
+			public Type FromWeb;
+			public bool FromWebNotAvailable;
+
+			public Type FromBase64;
+			public bool FromBase64NotAvailable;
 		}
 
 		public class DefineNamedElements
@@ -94,8 +98,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					var LocalResource = GetLocalResource(src_value);
 					var __WebClient = default(WebClient);
 
-					var Resource = LocalResource == null ?
-						(__WebClient = new WebClient()).DownloadData(new Uri(src_value)) :
+					var Resource = default(byte[]);
+					
+					if (LocalResource == null)
+					{
+						Console.WriteLine("Downloading: " + src_value);
+						(__WebClient = new WebClient()).DownloadData(new Uri(src_value));
+					}
+					else
 						File.ReadAllBytes(LocalResource.FullName);
 
 
@@ -181,34 +191,15 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						if (LocalResource == null)
 						{
-							Variations.FromWeb = DefineNamedImage(a, r,
-								DefaultNamespace + ".HTML." + Namespace + ".FromWeb." + name,
-								src.Value,
-								null
-								
-							);
+							DefineNamedElement(ElementType, Namespace, name, Variations, src.Value, "FromWeb");
 						}
 
 						var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name + Extension;
 
 						a.ScriptResourceWriter.Add(AssetPath, Resource);
 
-						if (ElementType == typeof(IHTMLImage))
-						{
-							Variations.FromAssets = DefineNamedImage(a, r,
-								DefaultNamespace + ".HTML." + Namespace + ".FromAssets." + name,
-								AssetPath,
-								null
 
-							);
-						}
-						else
-						{
-							Variations.FromAssets = DefineNamedAudio(a, r,
-								DefaultNamespace + ".HTML." + Namespace + ".FromAssets." + name,
-								AssetPath
-							);
-						}
+						DefineNamedElement(ElementType, Namespace, name, Variations, AssetPath, "FromAssets");
 
 						// src="data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
 
@@ -252,6 +243,19 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						#endregion
 
 
+						if (Variations.FromBase64 == null)
+						{
+							Variations.FromBase64NotAvailable = true;
+							Variations.FromBase64 = Variations.FromAssets;
+						}
+
+						if (Variations.FromWeb == null)
+						{
+							Variations.FromWebNotAvailable = true;
+							Variations.FromWeb = Variations.FromAssets;
+						}
+
+
 						TypeVariations.Add(src_value, Variations);
 
 
@@ -259,6 +263,26 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						TemplateType = null;
 
 					}
+				}
+			}
+
+			private void DefineNamedElement(Type ElementType, string Namespace, string name, TypeVariations Variations, string AssetPath, string VariationName)
+			{
+				if (ElementType == typeof(IHTMLImage))
+				{
+					Variations.FromAssets = DefineNamedImage(a, r,
+						DefaultNamespace + ".HTML." + Namespace + "." + VariationName + "." + name,
+						AssetPath,
+						null
+
+					);
+				}
+				else
+				{
+					Variations.FromAssets = DefineNamedAudio(a, r,
+						DefaultNamespace + ".HTML." + Namespace + "." + VariationName + "." + name,
+						AssetPath
+					);
 				}
 			}
 		}

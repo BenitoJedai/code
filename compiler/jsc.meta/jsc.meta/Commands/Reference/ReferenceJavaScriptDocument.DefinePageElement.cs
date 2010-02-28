@@ -36,7 +36,7 @@ namespace jsc.meta.Commands.Reference
 			ILGenerator il,
 			OpCode parent,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Func<string, Type> SourceToNamedElement,
+			Dictionary<string, Type> NamedElements,
 			Dictionary<string, Type> ElementTypes
 		)
 		{
@@ -64,7 +64,7 @@ namespace jsc.meta.Commands.Reference
 						Page,
 						Counter,
 						lookup,
-						SourceToNamedElement,
+						NamedElements,
 						ElementTypes
 					);
 
@@ -88,7 +88,7 @@ namespace jsc.meta.Commands.Reference
 			Counter Counter,
 			Dictionary<XElement, FieldBuilder>[] lookup,
 
-			Func<string, Type> SourceToNamedElement,
+			Dictionary<string, Type> NamedElements,
 			Dictionary<string, Type> ElementTypes
 
 			)
@@ -99,30 +99,30 @@ namespace jsc.meta.Commands.Reference
 
 			var ElementType = DefaultElementType;
 
-			if (ElementType == typeof(IHTMLImage))
-			{
-				CurrentElement.Attribute("src").Apply(
-					src =>
+			CurrentElement.Attribute("src").Apply(
+				src =>
+				{
+					//var v = TypeVariations[src.Value];
+
+					//// if the image is not on the web
+					//// shall we default to FromAssets or FromBase64 ?
+					//ElementType = v.FromWeb ?? v.FromAssets;
+
+
+
+
+
+
+					var src_value = src.Value;
+					if (src_value.StartsWith("//"))
+						src_value = "http:" + src_value;
+
+					if (NamedElements.ContainsKey(src_value))
 					{
-						//var v = TypeVariations[src.Value];
-
-						//// if the image is not on the web
-						//// shall we default to FromAssets or FromBase64 ?
-						//ElementType = v.FromWeb ?? v.FromAssets;
-
-
-
-
-
-
-						var src_value = src.Value;
-						if (src_value.StartsWith("//"))
-							src_value = "http:" + src_value;
-
-						ElementType = SourceToNamedElement(src_value);
+						ElementType = NamedElements[src_value];
 					}
-				);
-			}
+				}
+			);
 
 
 			Action Continuation1 =
@@ -222,7 +222,7 @@ namespace jsc.meta.Commands.Reference
 						if (item.Name.LocalName == "id")
 							continue;
 
-						if (DefaultElementType == typeof(IHTMLImage) && item.Name == "src")
+						if (DefaultElementType != ElementType && item.Name == "src")
 							continue;
 
 						var il_a = new ILTranslationExtensions.EmitToArguments();
@@ -267,7 +267,7 @@ namespace jsc.meta.Commands.Reference
 								il,
 								OpCodes.Ldloc_0,
 								lookup,
-								SourceToNamedElement,
+								NamedElements,
 								ElementTypes
 							);
 						}
