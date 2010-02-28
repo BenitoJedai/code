@@ -88,6 +88,7 @@
     <Compile Include="JavaScript\Extensions\AppletExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensions.cs" />
     <Compile Include="JavaScript\Extensions\SpriteExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\ToggleConcept.cs" />
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

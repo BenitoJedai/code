@@ -71,13 +71,17 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					var src = CurrentElement.Attribute("src");
 					var alt = CurrentElement.Attribute("alt");
 
+					// it must be just a placeholder
+					if (src == null || string.IsNullOrEmpty(src.Value))
+						continue;
+
 					// we are working with uri's here!
 					// todo: we might need to infer file extension from http content type instead!
 
 					var name1 = src.Value;
 
 					if (alt != null && !string.IsNullOrEmpty(alt.Value))
-						name1 = alt.Value;
+						name1 = alt.Value.TakeUntilLastIfAny(".");
 
 					var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilIfAny(".");
 					var name = CompilerBase.GetSafeLiteral(name0, null);
@@ -99,20 +103,37 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					var __WebClient = default(WebClient);
 
 					var Resource = default(byte[]);
-					
+
+
 					if (LocalResource == null)
 					{
 						Console.WriteLine("Downloading: " + src_value);
-						(__WebClient = new WebClient()).DownloadData(new Uri(src_value));
+						Resource = (__WebClient = new WebClient()).DownloadData(new Uri(src_value));
 					}
 					else
-						File.ReadAllBytes(LocalResource.FullName);
+						Resource = File.ReadAllBytes(LocalResource.FullName);
 
 
-					var Extension = __WebClient == null ? src.Value.Substring(src.Value.LastIndexOf(".")) :
-						EmbedMimeTypes.lookup.First(
-							k => k.Value == __WebClient.ResponseHeaders[HttpResponseHeader.ContentType]
-						).Key;
+					var Extension = default(string);
+
+					if (__WebClient == null)
+						Extension = "." +src.Value.SkipUntilLastIfAny(".");
+					else
+					{
+						var ContentType = __WebClient.ResponseHeaders[HttpResponseHeader.ContentType].TakeUntilIfAny(";");
+
+						if (EmbedMimeTypes.lookup.ContainsValue(ContentType))
+						{
+							Extension = EmbedMimeTypes.lookup.FirstOrDefault(
+								k => k.Value == ContentType
+							).Key;
+						}
+						else
+						{
+							// if the server does not provide a meaningful content type we have to rely on alt attribute
+							Extension = "." + alt.Value.SkipUntilLastIfAny(".");
+						}
+					}
 
 
 					var Bitmap = default(BitmapSource);

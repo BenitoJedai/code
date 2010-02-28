@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -76,11 +80,13 @@
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\MyFader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SoundCloudTracks.cs" />
     <Compile Include="UltraApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Audio.UltraSource\Audio.htm" />
     <Content Include="Audio.UltraSource\rooster.mp3" />
+    <Content Include="Audio.UltraSource\SoundCloudTrack.htm" />
     <Content Include="Design.UltraSource\About.css" />
     <Content Include="Design.UltraSource\About.htm" />
     <Content Include="Future.UltraSource\AboutApplet.java" />
@@ -89,6 +95,8 @@
     <Content Include="Design.UltraSource\CenteredLogo.htm" />
     <Content Include="Design.UltraSource\jsc.png" />
     <Content Include="Design.UltraSource\references.txt" />
+    <Content Include="Future.UltraSource\NamedTuples.htm" />
+    <Content Include="Future.UltraSource\Tuple1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

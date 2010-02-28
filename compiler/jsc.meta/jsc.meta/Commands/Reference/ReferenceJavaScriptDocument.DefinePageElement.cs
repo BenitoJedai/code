@@ -23,6 +23,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using jsc.meta.Library.Templates.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -161,7 +162,7 @@ namespace jsc.meta.Commands.Reference
 						if (ElementHasId)
 						{
 							var ElementPropertyName = CompilerBase.GetSafeLiteral(
-									Element__id.Value, null
+									 Element__id.Value.TakeUntilLastIfAny("."), null
 								);
 
 							var ElementProperty = Page.DefineProperty(
