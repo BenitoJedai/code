@@ -5,7 +5,7 @@ using System.Text;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
-	public class ReferenceUltraSource : CommandBase
+	public partial class ReferenceUltraSource : CommandBase
 	{
 		public override void Invoke()
 		{

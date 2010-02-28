@@ -10,7 +10,14 @@ namespace jsc.meta.Library
 	public static class BCLExtensions
 	{
 
-
+		public static IEnumerable<Type> GetSubTypesFromAssembly(this Type t)
+		{
+			foreach (var item in t.Assembly.GetTypes())
+			{
+				if (item != t && t.IsAssignableFrom(item))
+					yield return item;
+			}
+		}
 
 		public static bool IsInitializedDataFieldType(this Type SourceType)
 		{

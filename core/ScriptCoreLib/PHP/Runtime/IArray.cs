@@ -4,24 +4,7 @@ using ScriptCoreLib.PHP;
 
 namespace ScriptCoreLib.PHP.Runtime
 {
-    ///// <summary>
-    ///// Defines explicit and implicit methods to convert to an array
-    ///// </summary>
-    //[Script]
-    //public class ToArrayConvertable 
-    //{
-    //    public IArray<string> ToArray()
-    //    {
-    //        Expando e = Expando.Of(this);
 
-    //        return e.GetMembers();
-    //    }
-
-    //    public static implicit operator IArray<string>(ToArrayConvertable m)
-    //    {
-    //        return m.ToArray();
-    //    }
-    //}
 
 
 

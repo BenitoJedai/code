@@ -20,7 +20,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static IHTMLArea InternalConstructor()
         {
-            return (IHTMLArea) new IHTMLElement(HTMLElementEnum.map);
+            return (IHTMLArea) new IHTMLElement(HTMLElementEnum.area);
         }
 
         #endregion

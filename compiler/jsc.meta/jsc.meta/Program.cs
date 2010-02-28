@@ -12,6 +12,7 @@ using System.Diagnostics;
 using jsc.meta.Commands.Analytics;
 using ScriptCoreLib.Reflection.Options;
 using jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate;
+using jsc.meta.Commands.Rewrite.RewriteToInstaller;
 
 namespace jsc.meta
 {
@@ -68,6 +69,7 @@ namespace jsc.meta
 				new RewriteToAssembly().Invoke,
 				new RewriteToJavaScriptDocument(),
 				new RewriteToMVSProjectTemplate(),
+				new RewriteToInstaller(),
 
 				new AnalyticsForStatCounter().Invoke,
 				new AnalyticsForFlagCounter().Invoke

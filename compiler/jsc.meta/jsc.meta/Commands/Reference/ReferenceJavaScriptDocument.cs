@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,8 +13,10 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using jsc.Languages.IL;
+using jsc.Library;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates.JavaScript;
 using jsc.meta.Tools;
 using jsc.Script;
 using Microsoft.CSharp;
@@ -21,19 +24,16 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using jsc.Library;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using jsc.meta.Library.Templates.JavaScript;
-using System.Diagnostics;
 
 namespace jsc.meta.Commands.Reference
 {
 	[Description("Injecting javascript into HTML has never been that easy!")]
-	public partial class ReferenceJavaScriptDocument
+	public partial class ReferenceJavaScriptDocument : ReferenceUltraSource.ReferenceUltraSource
 	{
 
 
-		public void Invoke()
+		public override void Invoke()
 		{
 			if (this.AttachDebugger)
 				Debugger.Launch();
@@ -508,20 +508,7 @@ namespace jsc.meta.Commands.Reference
 								{"&raquo;", "&#187;"},
 							};
 
-		// this should be part of the ScriptCoreLib
 
-		// todo: we should actually scan the html elements for InternalConstructos and infer the type names!
-
-		public static readonly Dictionary<string, Type> ElementTypes = new Dictionary<string, Type>
-							{
-								{"a", typeof(IHTMLAnchor)},
-								{"img", typeof(IHTMLImage)},
-								{"textarea", typeof(IHTMLTextArea)},
-								{"input", typeof(IHTMLInput)},
-								{"button", typeof(IHTMLButton)},
-								{"label", typeof(IHTMLLabel)},
-								{"iframe", typeof(IHTMLIFrame)},
-							};
 
 
 	}

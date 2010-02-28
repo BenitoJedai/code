@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Diagnostics.Contracts;
 
 namespace UltraApplication
 {
@@ -127,6 +128,8 @@ namespace UltraApplication
 					delegate
 					{
 						Hello(
+						x: "XXX",
+
 							result:
 							ee =>
 							{
@@ -192,5 +195,8 @@ public event Action EventMember
 		{
 			result(x + " hi");
 		}
+
+
+	
 	}
 }

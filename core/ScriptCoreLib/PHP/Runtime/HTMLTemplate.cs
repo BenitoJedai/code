@@ -1,9 +1,10 @@
 using ScriptCoreLib;
+using System;
 
 namespace ScriptCoreLib.PHP.Runtime
 {
-    [Script]
-    public class HTMLTemplate
+    [Script, Obsolete]
+    internal class HTMLTemplate
     {
         public string Text;
 

@@ -125,7 +125,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			Native.Window.onload +=
 				delegate
 				{
-					var i = new IHTMLImage("assets/ScriptCoreLib/jsc.png");
+					IHTMLImage i = "assets/ScriptCoreLib/jsc.png";
 
 					i.style.position = IStyle.PositionEnum.absolute;
 					i.style.right = "1em";
