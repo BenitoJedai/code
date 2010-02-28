@@ -276,7 +276,7 @@ namespace jsc.meta.Commands.Reference
 								content = content.Replace("<script>", "<script><![CDATA[");
 								content = content.Replace("</script>", "]]></script>");
 								content = content.Replace(">]]></script>", "></script>");
-								
+
 								//var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { ProhibitDtd = false });
 								//var xml = XDocument.Load(reader);
 								////var nameTable = reader.NameTable;
@@ -319,11 +319,11 @@ namespace jsc.meta.Commands.Reference
 									ElementTypes = ElementTypes
 								}.Define();
 
-								var VariationsForPages = new Dictionary<string, Func<string, Type>>
+								var VariationsForPages = new Dictionary<string, Dictionary<string, Type>>
 								{
-									{"FromWeb", Source => TypeVariations[Source].FromWeb ?? TypeVariations[Source].FromAssets},
-									{"FromAssets", Source => TypeVariations[Source].FromAssets},
-									{"FromBase64", Source => TypeVariations[Source].FromBase64}
+									{"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromWeb)},
+									{"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromAssets)},
+									{"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromBase64)},
 								};
 
 								foreach (var CurrentVariationForPage in VariationsForPages)
@@ -335,8 +335,8 @@ namespace jsc.meta.Commands.Reference
 
 									foreach (var k in __id)
 									{
-										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" + 
-											
+										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" +
+
 											CompilerBase.GetSafeLiteral(k.id, null)
 
 											, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
@@ -346,7 +346,7 @@ namespace jsc.meta.Commands.Reference
 
 									foreach (var k in __class)
 									{
-										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" + 
+										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" +
 											CompilerBase.GetSafeLiteral(k.@class, null)
 
 											, CurrentVariationForPage.Key, CurrentVariationForPage.Value);

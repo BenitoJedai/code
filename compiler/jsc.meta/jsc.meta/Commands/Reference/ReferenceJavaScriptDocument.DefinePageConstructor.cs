@@ -32,7 +32,7 @@ namespace jsc.meta.Commands.Reference
 			XElement CurrentElement,
 			TypeBuilder Page,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Func<string, Type> SourceToNamedElement,
+			Dictionary<string, Type> NamedElements,
 			Dictionary<string, Type> ElementTypes
 		)
 		{
@@ -81,7 +81,8 @@ namespace jsc.meta.Commands.Reference
 				var il = ctor.GetILGenerator();
 
 				DefinePageElement(
-					CurrentElement, Page, Counter, il, OpCodes.Ldnull, lookup, SourceToNamedElement,
+					CurrentElement, Page, Counter, il, OpCodes.Ldnull, lookup, 
+					NamedElements,
 					ElementTypes
 				);
 

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using java.applet;
+using PromotionWebApplication1.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.JavaScript.DOM;
-using System.ComponentModel;
-using PromotionWebApplication1.Library;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
-using java.applet;
-using PromotionWebApplication1.HTML.Audio.FromAssets;
 
 namespace PromotionWebApplication1
 {
@@ -129,7 +128,8 @@ namespace PromotionWebApplication1
 				}
 				else
 				{
-					new rooster { controls = true }.AttachToDocument();
+					new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
+					new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
 
 					var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 

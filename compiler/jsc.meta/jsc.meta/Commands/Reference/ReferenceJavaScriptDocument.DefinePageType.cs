@@ -36,7 +36,7 @@ namespace jsc.meta.Commands.Reference
 			string PageName,
 
 			string VariationName,
-			Func<string, Type> SourceToNamedElement
+			Dictionary<string, Type> NamedElements
 		)
 		{
 			var PageFullName = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName;
@@ -181,7 +181,8 @@ namespace jsc.meta.Commands.Reference
 				}
 
 
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup }, SourceToNamedElement,
+				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup }, 
+					NamedElements,
 					ElementTypes
 				);
 
