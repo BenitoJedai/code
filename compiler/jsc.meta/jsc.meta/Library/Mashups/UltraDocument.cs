@@ -4,6 +4,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace jsc.meta.Library.Mashups
 {
@@ -25,7 +26,7 @@ namespace jsc.meta.Library.Mashups
 			}
 		}
 
-		public UltraDocument()
+		public UltraDocument(IHTMLElement e)
 		{
 			// javascript code
 
@@ -47,7 +48,19 @@ namespace jsc.meta.Library.Mashups
 
 	class UltraWebService
 	{
+		// private methods shall use /xml?WebMethod=000000 path
+
 		public string QueryParam1;
+
+		public UltraWebService()
+		{
+
+		}
+
+		public UltraWebService(Uri Host)
+		{
+			// should we support multiple hosts?
+		}
 
 		public void Method1(string PostParam1, Action<string> YieldReturn)
 		{
@@ -77,6 +90,7 @@ namespace jsc.meta.Library.Mashups
 			// a method in this class shall be accessible as
 			// http://localhost/PageX/?QueryParam1=foo&PostParam1=bar
 
+			// public methods WILL expose their addres "/PageX/Method1?PostParam1=foo
 			public void Method1(string PostParam1, Action<XElement> YieldReturn)
 			{
 				YieldReturn(
@@ -84,7 +98,31 @@ namespace jsc.meta.Library.Mashups
 				);
 			}
 
+			// nonpublic methods WONT expose their addres "/PageX/Method2?PostParam1=foo
+			internal void Method2(string PostParam1, Action<XElement> YieldReturn)
+			{
+				YieldReturn(
+					new XElement("Document1")
+				);
+			}
 		}
 
+
+		// public methods WILL expose their addres "/Method7?PostParam1=foo
+		public void Method7(string PostParam1, Action<XElement> YieldReturn)
+		{
+			YieldReturn(
+				new XElement("Document1")
+			);
+		}
+
+
+		// nonpublic methods WONT expose their addres "/Method8?PostParam1=foo
+		internal void Method8(string PostParam1, Action<XElement> YieldReturn)
+		{
+			YieldReturn(
+				new XElement("Document1")
+			);
+		}
 	}
 }
