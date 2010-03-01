@@ -262,6 +262,8 @@
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
+    <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
+    <Compile Include="Library\Mashups\UltraSecondary.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
     <Compile Include="Library\MVSProjectFile.cs" />

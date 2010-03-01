@@ -236,7 +236,10 @@ namespace PromotionWebApplication1
 					//new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
 					//new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
 
-					new About().Container.AttachToDocument();
+					var aa = new About();
+					aa.Service.innerText = Native.Document.location.hash;
+
+					aa.Container.AttachToDocument();
 
 					var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 
