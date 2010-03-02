@@ -19,6 +19,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 	{
 		public bool AttachDebugger;
 
+		public bool Obfuscate = false;
 
 		public string Feature;
 
@@ -71,6 +72,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 					product = name,
 					productExtension = ".exe",
+
+					// does it work? :)
+					obfuscate = Obfuscate,
 
 					merge = new RewriteToAssembly.MergeInstruction[] { "ScriptCoreLib.Archive.ZIP" },
 
@@ -139,8 +143,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 	namespace Templates
 	{
-		public static class Installer
+		public class Installer
 		{
+			// shall be a commandline argument
+			public DirectoryInfo SDK = new DirectoryInfo(@"c:\util\jsc");
+
+
 			public static ZIPFile Archive
 			{
 				get
@@ -149,12 +157,21 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				}
 			}
 
+
 			public static void Install(string[] e)
+			{
+				new Installer().Invoke();
+			}
+
+			public void Invoke()
 			{
 				var zip = new FileInfo(Path.ChangeExtension(new FileInfo(typeof(Installer).Assembly.Location).FullName, ".zip"));
 
+				Console.Title = "http://jsc-solutions.net";
+				Console.WriteLine("Welcome to jsc installer!");
+				Console.WriteLine("For more information please visit http://jsc-solutions.net");
 
-				Console.WriteLine("jsc installer");
+				Console.WriteLine();
 				Console.WriteLine("The following files will be created:");
 				Console.WriteLine();
 
@@ -164,6 +181,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				files[zip.FullName] = a.ToBytes();
 
 				var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+				foreach (var bin in a.Entries.Where(k => k.FileName.StartsWith("bin/")))
+				{
+					files[Path.Combine(SDK.FullName, bin.FileName)] = bin.Bytes;
+				}
+
+				// note lib is to be deprecated with ultra
+				foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
+				{
+					files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
+				}
 
 				foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))
 				{
@@ -177,10 +206,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 					}
 				}
 
-				foreach (var item in files)
-				{
-					Console.WriteLine(item.Key + " - " + item.Value.Length + " bytes");
-				}
+				Display(files);
 
 				Console.WriteLine();
 				Console.WriteLine("Do you want to install jsc? [y/n]");
@@ -188,11 +214,41 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				if (Console.ReadKey(true).KeyChar != 'y')
 					return;
 
+				Continue(files);
+			}
 
-
+			private static void Continue(Dictionary<string, byte[]> files)
+			{
+				Console.WriteLine();
+				foreach (var f in files)
+				{
+					Console.Write(".");
+					File.WriteAllBytes(f.Key, f.Value);
+				}
+				Console.WriteLine();
 
 				Console.WriteLine("Thank you for installing jsc!");
 				Console.ReadKey(true);
+			}
+
+			private static void Display(Dictionary<string, byte[]> files)
+			{
+				var q = from k in files
+						let f = new FileInfo(k.Key)
+						orderby f.Name
+						group new { f, k.Value } by f.Directory.FullName;
+
+				foreach (var g in q)
+				{
+
+					Console.WriteLine();
+					Console.WriteLine(g.Key);
+
+					foreach (var gf in g)
+					{
+						Console.WriteLine("\t" + gf.f.Name);
+					}
+				}
 			}
 		}
 	}
