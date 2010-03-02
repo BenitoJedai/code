@@ -26,7 +26,7 @@ using System.Diagnostics;
 namespace jsc.meta.Commands.Rewrite
 {
 	[Description("This command will tare an assembly to compile java and flash objects separatly.")]
-	public partial class RewriteToJavaScriptDocument : CommandBase
+	public partial class RewriteToJavaScriptDocument : RewriteToUltraApplication.RewriteToUltraApplication
 	{
 
 		/* How was this feature implemented in the long run?

@@ -61,9 +61,9 @@ namespace jsc.meta.Commands.Rewrite
 			using (var __root_virtual = __root.ToVirtualDrive())
 			{
 				var js_staging_web = __js_StagingFolder_virtual.VirtualDirectory.CreateSubdirectory("web");
-				
+
 				var root = __root_virtual.VirtualDirectory;
-				
+
 
 
 				var TypeCache = r.RewriteArguments.context.TypeCache;
@@ -439,6 +439,12 @@ namespace jsc.meta.Commands.Rewrite
 					}
 					else
 					{
+						WriteWebDevLauncher(
+							new FileInfo(
+								Path.Combine(root.FullName, SourceType.Namespace + ".exe")
+							)
+						);
+
 						#region DevServer
 						File.WriteAllText(Path.Combine(root.CreateSubdirectory("bin").FullName, "App_global.asax.compiled"),
 			@"<?xml version='1.0' encoding='utf-8'?>
@@ -484,6 +490,7 @@ namespace jsc.meta.Commands.Rewrite
 						#endregion
 						#endregion
 
+						// C:\Windows\assembly\GAC_32\WebDev.WebHost\9.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost.dll
 					}
 				}
 				#endregion
@@ -607,13 +614,13 @@ echo thanks! :)
 						);
 						#endregion
 
-//                        File.WriteAllText(
-//                            Path.Combine(r_Output_web.FullName, "build.run.bat"), @"
-//@echo off
-//call build.bat
-//call run.bat
-//"
-//                        );
+						//                        File.WriteAllText(
+						//                            Path.Combine(r_Output_web.FullName, "build.run.bat"), @"
+						//@echo off
+						//call build.bat
+						//call run.bat
+						//"
+						//                        );
 						#region upload.bat
 						File.WriteAllText(
 							Path.Combine(r_Output_web.FullName, "upload.bat"),

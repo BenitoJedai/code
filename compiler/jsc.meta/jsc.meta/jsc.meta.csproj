@@ -258,6 +258,7 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.WebDevLauncher.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.cs" />

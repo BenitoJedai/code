@@ -5,7 +5,7 @@ using System.Text;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
-	public class RewriteToUltraApplication : CommandBase
+	public partial class RewriteToUltraApplication : CommandBase
 	{
 		public override void Invoke()
 		{

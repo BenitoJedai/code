@@ -10,6 +10,7 @@ using jsc.meta.Library;
 using ScriptCoreLib;
 using System.Collections.Generic;
 using jsc.meta.Tools;
+using jsc.meta.Library;
 
 namespace jsc.meta.Commands.Extend
 {
