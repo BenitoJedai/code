@@ -30,30 +30,25 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			return (IHTMLImage) new IHTMLElement(HTMLElementEnum.img);
 		}
 
-		//internal IHTMLImage(int width, int height) { }
-		//internal IHTMLImage(string src) { }
+		public IHTMLImage(string src) { }
 
 
-		//static internal IHTMLImage InternalConstructor(string src)
-		//{
-		//    try
-		//    {
-		//        IHTMLImage n = new IHTMLImage();
+		static internal IHTMLImage InternalConstructor(string src)
+		{
+			return new IHTMLImage { src = src };
+		}
 
-		//        n.src = src;
+		public IHTMLImage(int width, int height) { }
 
-		//        return n;
-		//    }
-		//    catch
-		//    {
-		//        string u = "image failed to load: [" + src + "]";
+		static internal IHTMLImage InternalConstructor(int width, int height)
+		{
+			var i = new IHTMLImage { };
 
-		//        System.Console.WriteLine(u);
+			i.style.SetSize(width, height);
 
-		//        throw new global::System.Exception(u);
-		//    }
+			return i;
+		}
 
-		//}
 
 		#endregion
 

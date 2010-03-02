@@ -154,7 +154,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
+    <PostBuildEvent>mkdir "c:\util\jsc\bin"
+copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

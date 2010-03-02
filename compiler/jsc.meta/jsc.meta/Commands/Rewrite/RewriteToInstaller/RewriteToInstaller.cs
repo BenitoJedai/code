@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using ScriptCoreLib.Archive.ZIP;
-using jsc.meta.Library;
-using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
+using System.Reflection.Emit;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Reflection.Emit;
+using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
+using jsc.meta.Library;
+using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {
@@ -43,7 +43,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				}
 
 				var lib = new DirectoryInfo(Path.Combine(jsc.FullName, "lib"));
-				foreach (var item in bin.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
+				foreach (var item in lib.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
 				{
 					zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
 				}
@@ -56,6 +56,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 				// http://www.theregister.co.uk/2007/04/23/vista_program_naming_oddness/
 
+				var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
 				var name = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
 				var name_zip = name + ".zip";
 
@@ -135,6 +136,16 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 					exe_zip.ToBytes()
 				);
 
+
+				File.WriteAllBytes(
+
+					Path.Combine(jsc.FullName,
+						name1_zip
+					),
+
+					zip.ToBytes()
+				);
+
 			}
 		}
 
@@ -196,6 +207,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 				foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))
 				{
+					files[Path.Combine(SDK.FullName, template.FileName)] = template.Bytes;
+
 					var file = template.FileName.SkipUntilIfAny("/");
 					var mvs = file.TakeUntilIfAny("/");
 
@@ -223,6 +236,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				foreach (var f in files)
 				{
 					Console.Write(".");
+
+					new FileInfo(f.Key).Directory.Create();
+
 					File.WriteAllBytes(f.Key, f.Value);
 				}
 				Console.WriteLine();

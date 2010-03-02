@@ -63,12 +63,16 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			{
 				ProjectType = "CSharp";
 				ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual C#");
+				SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual C#");
 			}
 			else
 				throw new NotSupportedException();
 			// VB, F#, Others ?
 
+			Console.WriteLine("Company: " + Attributes.Company);
+
 			ProjectTemplates = ProjectTemplates.CreateSubdirectory(Attributes.Company);
+			SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory(Attributes.Company);
 
 			const string _safeprojectname = "$safeprojectname$";
 

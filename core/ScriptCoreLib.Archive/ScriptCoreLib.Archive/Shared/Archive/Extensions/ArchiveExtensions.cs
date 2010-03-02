@@ -28,11 +28,11 @@ namespace ScriptCoreLib.Shared.Archive.Extensions
 
 		public static MemoryStream ToMemoryStream(this string e)
 		{
-			var s = e.ToManifestResourceStream().Stream;
+			var s = e.ToManifestResourceStream(typeof(ArchiveExtensions).Assembly).Stream;
 			var b = new byte[s.Length];
 			s.Read(b, 0, b.Length);
 
-			
+
 			return new MemoryStream(b);
 		}
 	}
