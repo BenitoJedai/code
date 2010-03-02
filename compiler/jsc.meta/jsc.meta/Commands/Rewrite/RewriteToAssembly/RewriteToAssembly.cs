@@ -114,7 +114,7 @@ namespace jsc.meta.Commands.Rewrite
 					this.assembly.Name + "Rewrite" :
 					this.product);
 
-			var Product_Extension = this.assembly == null ? ".dll" : this.assembly.Extension;
+			var Product_Extension = this.assembly == null ? productExtension : this.assembly.Extension;
 
 			var Product = new FileInfo(Path.Combine(staging.FullName, Product_Name + Product_Extension));
 
@@ -138,6 +138,7 @@ namespace jsc.meta.Commands.Rewrite
 					a.DefineAttribute<ObfuscationAttribute>(ka);
 				}
 
+			var TypeDefinitionCache = new VirtualDictionary<Type, Type>();
 			var TypeCache = new VirtualDictionary<Type, Type>();
 			var TypeRenameCache = new VirtualDictionary<Type, string>();
 			var FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>();
@@ -234,8 +235,8 @@ namespace jsc.meta.Commands.Rewrite
 							source,
 							TypeCache,
 							FieldCache,
-							MethodCache,
-							ConstructorCache, MethodCache, NameObfuscation,
+							ConstructorCache,
+							MethodCache, NameObfuscation,
 							_assembly,
 							this.codeinjecton,
 							this.codeinjectonparams,
@@ -327,6 +328,11 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
+			TypeDefinitionCache.Resolve +=
+				(source) =>
+				{
+					
+				};
 
 			#region TypeCache
 			TypeCache.Resolve +=
@@ -380,6 +386,7 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						CopyType(
 							source, a, m,
+							TypeDefinitionCache,
 							TypeCache,
 							FieldCache,
 
@@ -456,14 +463,20 @@ namespace jsc.meta.Commands.Rewrite
 					}
 					else
 					{
-						TypeCache[source] = source;
+						TypeCache[source] =
+
+							source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
+								source.GetGenericArguments().Select(
+									k => TypeCache[k]
+								).ToArray()
+							) : source;
 					}
 
 				};
 			#endregion
 
-			if (PreRewrite != null)
-				PreRewrite(
+			if (PreAssemblyRewrite != null)
+				PreAssemblyRewrite(
 					RewriteArguments
 				);
 
@@ -477,16 +490,18 @@ namespace jsc.meta.Commands.Rewrite
 			// ask for our primary types to be copied
 			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
 
-			Console.WriteLine("");
-			Console.WriteLine("rewriting... done");
-			Console.WriteLine("");
 
 			#region maybe the rewriter wants to add some types at this point?
-			if (PostRewrite != null)
-				PostRewrite(
+			if (PostAssemblyRewrite != null)
+				PostAssemblyRewrite(
 					RewriteArguments
 				);
 			#endregion
+
+
+			Console.WriteLine("");
+			Console.WriteLine("rewriting... done");
+			Console.WriteLine("");
 
 			a.Save(
 				Product.Name

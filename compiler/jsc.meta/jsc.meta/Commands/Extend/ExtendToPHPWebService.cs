@@ -115,7 +115,7 @@ namespace jsc.meta.Commands.Extend
 					},
 					#endregion
 
-					PostRewrite =
+					PostAssemblyRewrite =
 						a =>
 						{
 

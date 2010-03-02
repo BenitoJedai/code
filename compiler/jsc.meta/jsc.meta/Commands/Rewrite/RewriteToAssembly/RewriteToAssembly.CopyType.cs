@@ -19,6 +19,7 @@ namespace jsc.meta.Commands.Rewrite
 				Type SourceType,
 				AssemblyBuilder a,
 				ModuleBuilder m,
+				VirtualDictionary<Type, Type> TypeDefinitionCache,
 				VirtualDictionary<Type, Type> TypeCache,
 				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
 				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
@@ -59,77 +60,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			Diagnostics("CopyType: " + TypeName);
 
-			// we should not reenter here!
-			TypeCache[SourceType] = null;
-
-			// interfaces dont have base types!
-			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
-
-			//var DeclaringTypeContinuation = default(Action);
-
-			if (SourceType.IsNested)
-			{
-				Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
-			}
-
-			var _DeclaringType = (OverrideDeclaringType ?? (
-				SourceType.DeclaringType == null ? null :
-					(TypeBuilder)TypeCache[SourceType.DeclaringType /*, n => DeclaringTypeContinuation = n*/]
-
-				)
-			);
-
-
-
-			var t = default(TypeBuilder);
-
-			var _Interfaces = SourceType.GetInterfaces().Select(
-				k => TypeCache[k]
-			).ToArray();
-
-
-
-			// we might define as a nested type instead!
-			#region DefineType
-			if (SourceType.IsNested)
-			{
-
-				var _NestedTypeName = NameObfuscation[TypeName];
-
-
-
-				if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
-				{
-					t = _DeclaringType.DefineNestedType(
-						_NestedTypeName,
-						SourceType.Attributes,
-						 BaseType,
-						SourceType.StructLayoutAttribute.Size
-					);
-				}
-				else
-				{
-					t = _DeclaringType.DefineNestedType(
-
-						_NestedTypeName,
-						SourceType.Attributes,
-						BaseType,
-						_Interfaces
-					);
-				}
-			}
-			else
-			{
-				t = m.DefineType(
-					FullNameFixup(TypeName),
-					SourceType.Attributes,
-					BaseType,
-					_Interfaces
-				);
-
-			}
-			#endregion
-
+			var t = CopyTypeDefinition(SourceType, m, TypeCache, OverrideDeclaringType, NameObfuscation, ShouldCopyType, FullNameFixup, Diagnostics, TypeName);
 
 			// should we copy attributes? should they be opt-out?
 			var TypeAttributes = SourceType.GetCustomAttributes(false);
@@ -143,8 +74,6 @@ namespace jsc.meta.Commands.Rewrite
 				// call a callback?
 				t.DefineAttribute(item, item.GetType());
 			}
-
-			TypeCache[SourceType] = t;
 
 			// at this point we should signal back? that a nested declaration can continue?
 			// does everything still work after this change? :D
@@ -234,7 +163,8 @@ namespace jsc.meta.Commands.Rewrite
 
 						Diagnostics("Delayed CreateType:  " + SourceType.FullName);
 
-
+						// How is it possible?
+						// "Duplicate definition for runtime implemented delegate method"
 						t.CreateType();
 
 						if (TypeCreated != null)
@@ -258,6 +188,99 @@ namespace jsc.meta.Commands.Rewrite
 
 			//    }
 			//);
+		}
+
+		private static TypeBuilder CopyTypeDefinition(
+			Type SourceType, 
+			ModuleBuilder m, 
+			VirtualDictionary<Type, Type> TypeCache, 
+			TypeBuilder OverrideDeclaringType, 
+			VirtualDictionary<string, string> NameObfuscation, 
+			Func<Type, bool> ShouldCopyType, 
+			Func<string, string> FullNameFixup, 
+			Action<string> Diagnostics, 
+			string TypeName)
+		{
+			// we should not reenter here!
+			TypeCache[SourceType] = null;
+
+			// interfaces dont have base types!
+			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
+
+			//var DeclaringTypeContinuation = default(Action);
+
+			if (SourceType.IsNested)
+			{
+				Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
+			}
+
+			// We beed a separate TypeDeclarationCache for this to work:
+			// Type { NestedType, Delegate1(NestedType) }
+
+			var _DeclaringType = (OverrideDeclaringType ?? (
+				SourceType.DeclaringType == null ? null :
+					(TypeBuilder)TypeCache[SourceType.DeclaringType /*, n => DeclaringTypeContinuation = n*/]
+
+				)
+			);
+
+			var t = default(TypeBuilder);
+
+			var _Interfaces = Enumerable.ToArray(
+
+				from k in SourceType.GetInterfaces()
+
+				where ShouldCopyType(k) || k.IsPublic
+
+				select TypeCache[k]
+			).ToArray();
+
+
+
+			// we might define as a nested type instead!
+			#region DefineType
+			if (SourceType.IsNested)
+			{
+
+				var _NestedTypeName = NameObfuscation[TypeName];
+
+
+
+				if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
+				{
+					t = _DeclaringType.DefineNestedType(
+						_NestedTypeName,
+						SourceType.Attributes,
+						 BaseType,
+						SourceType.StructLayoutAttribute.Size
+					);
+				}
+				else
+				{
+					t = _DeclaringType.DefineNestedType(
+
+						_NestedTypeName,
+						SourceType.Attributes,
+						BaseType,
+						_Interfaces
+					);
+				}
+			}
+			else
+			{
+				t = m.DefineType(
+					FullNameFixup(TypeName),
+					SourceType.Attributes,
+					BaseType,
+					_Interfaces
+				);
+
+			}
+			#endregion
+
+
+			TypeCache[SourceType] = t;
+			return t;
 		}
 
 		internal static void CopyTypeMembers(

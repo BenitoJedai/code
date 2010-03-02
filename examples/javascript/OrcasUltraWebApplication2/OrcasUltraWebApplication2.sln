@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite2", "Rewrite2\Rewrit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite3", "Rewrite3\Rewrite3.csproj", "{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite4", "Rewrite4\Rewrite4.csproj", "{D1FF9B55-7B22-4AF1-8296-79C6A3FD3344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rewrite5", "Rewrite5\Rewrite5.csproj", "{27333BB5-0944-451F-9478-DB4CA718FE84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DCD95AD-53F0-4BB4-933D-4B8D3EBF1AE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FF9B55-7B22-4AF1-8296-79C6A3FD3344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FF9B55-7B22-4AF1-8296-79C6A3FD3344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FF9B55-7B22-4AF1-8296-79C6A3FD3344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FF9B55-7B22-4AF1-8296-79C6A3FD3344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27333BB5-0944-451F-9478-DB4CA718FE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27333BB5-0944-451F-9478-DB4CA718FE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27333BB5-0944-451F-9478-DB4CA718FE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27333BB5-0944-451F-9478-DB4CA718FE84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

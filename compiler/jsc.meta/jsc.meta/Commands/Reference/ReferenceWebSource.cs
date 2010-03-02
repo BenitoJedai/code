@@ -192,7 +192,7 @@ namespace jsc.meta.Commands.Reference
 					},
 					#endregion
 
-					PostRewrite =
+					PostAssemblyRewrite =
 						a =>
 						{
 							// at this point we are free to add any additional code here

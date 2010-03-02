@@ -14,7 +14,7 @@ namespace jsc.meta.Library.Mashups
 
 	static class MonetizationUseCase
 	{
-		class Player
+		public class Player
 		{
 			public bool MoreArmorBought;
 
