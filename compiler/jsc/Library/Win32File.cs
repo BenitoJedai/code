@@ -160,7 +160,7 @@ namespace System.IO
 		#endregion
 
 
-		public static FileStream Open(string filepath, FileMode mode)
+		internal static FileStream Open(string filepath, FileMode mode)
 		{
 			//opened in the specified mode and path, with read/write access and not shared
 			FileStream fs = null;
@@ -181,7 +181,7 @@ namespace System.IO
 			SafeFileHandle sh = CreateFileW(filepath, uaccess, ushare, IntPtr.Zero, umode, FILE_ATTRIBUTE_NORMAL, IntPtr.Zero);
 			int iError = Marshal.GetLastWin32Error();
 
-			var AlreadyExistsError = ((mode == FileMode.Append || mode == FileMode.OpenOrCreate) && iError == ERROR_ALREADY_EXISTS);
+			var AlreadyExistsError = ((mode == FileMode.Append || mode == FileMode.Create) && iError == ERROR_ALREADY_EXISTS);
 
 			if ((iError > 0 && !AlreadyExistsError) || sh.IsInvalid)
 			{
@@ -204,7 +204,7 @@ namespace System.IO
 			return fs;
 		}
 
-		public static FileStream Open(string filepath, FileMode mode, FileAccess access)
+		internal static FileStream Open(string filepath, FileMode mode, FileAccess access)
 		{
 			//opened in the specified mode and access and not shared
 			FileStream fs = null;
@@ -224,7 +224,7 @@ namespace System.IO
 				filepath = @"\\?\" + filepath;
 			SafeFileHandle sh = CreateFileW(filepath, uaccess, ushare, IntPtr.Zero, umode, FILE_ATTRIBUTE_NORMAL, IntPtr.Zero);
 			int iError = Marshal.GetLastWin32Error();
-			var AlreadyExistsError = ((mode == FileMode.Append || mode == FileMode.OpenOrCreate) && iError == ERROR_ALREADY_EXISTS);
+			var AlreadyExistsError = ((mode == FileMode.Append || mode == FileMode.Create) && iError == ERROR_ALREADY_EXISTS);
 
 			if ((iError > 0 && !AlreadyExistsError) || sh.IsInvalid)
 			{
@@ -246,7 +246,7 @@ namespace System.IO
 
 		}
 
-		public static FileStream Open(string filepath, FileMode mode, FileAccess access, FileShare share)
+		internal static FileStream Open(string filepath, FileMode mode, FileAccess access, FileShare share)
 		{
 			//opened in the specified mode , access and  share
 			FileStream fs = null;
@@ -268,7 +268,7 @@ namespace System.IO
 				filepath = @"\\?\" + filepath;
 			SafeFileHandle sh = CreateFileW(filepath, uaccess, ushare, IntPtr.Zero, umode, FILE_ATTRIBUTE_NORMAL, IntPtr.Zero);
 			int iError = Marshal.GetLastWin32Error();
-			var AlreadyExistsError = ((mode == FileMode.Append || mode == FileMode.OpenOrCreate) && iError == ERROR_ALREADY_EXISTS);
+			var AlreadyExistsError = ((mode == FileMode.Append || mode == FileMode.Create) && iError == ERROR_ALREADY_EXISTS);
 
 			if ((iError > 0 && !AlreadyExistsError) || sh.IsInvalid)
 			{

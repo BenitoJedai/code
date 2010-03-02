@@ -17,6 +17,8 @@ call :build compiler\jsc\jsc.sln
 
 :: java
 call :build core\ScriptCoreLibJava\ScriptCoreLibJava.sln
+call :build core\ScriptCoreLibJava.Web\ScriptCoreLibJava.Web.sln
+call :build core\ScriptCoreLibJava.Web.Services\ScriptCoreLibJava.Web.Services.sln
 call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
 
 :: rebuild framework

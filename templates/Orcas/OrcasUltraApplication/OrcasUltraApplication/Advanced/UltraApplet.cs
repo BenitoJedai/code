@@ -6,14 +6,16 @@ using java.applet;
 using java.awt;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Diagnostics;
 
 namespace OrcasUltraApplication.Advanced
 {
-	public sealed class UltraApplet : Applet
+
+
+	public class UltraAppletBase : Applet
 	{
 		public const int DefaultWidth = 500;
 		public const int DefaultHeight = 400;
-
 
 		public override void init()
 		{
@@ -45,22 +47,6 @@ namespace OrcasUltraApplication.Advanced
 		}
 	}
 
-	public static class UltraAppletIntegration
-	{
-		public static void CreateApplet(this UltraApplication a)
-		{
-			var x = new IHTMLButton("create UltraSprite proxied");
 
-			x.AttachToDocument();
-
-			x.onclick +=
-				delegate
-				{
-					var o = new UltraSprite();
-
-					o.AttachSpriteToDocument();
-				};
-		}
-	}
 
 }

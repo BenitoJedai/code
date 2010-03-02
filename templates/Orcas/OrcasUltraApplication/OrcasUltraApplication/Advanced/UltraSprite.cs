@@ -6,15 +6,16 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using System.Diagnostics;
 
 namespace OrcasUltraApplication.Advanced
 {
-	public sealed class UltraSprite : Sprite
+	public class UltraSpriteBase : Sprite
 	{
 		public const int DefaultWidth = 500;
 		public const int DefaultHeight = 400;
 
-		public UltraSprite()
+		public UltraSpriteBase()
 		{
 			// creating the flash object 
 			// + stratus
@@ -34,21 +35,5 @@ namespace OrcasUltraApplication.Advanced
 
 	}
 
-	public static class UltraSpriteIntegration
-	{
-		public static void CreateSprite(this UltraApplication a)
-		{
-			var x = new IHTMLButton("create UltraApplet ");
 
-			x.AttachToDocument();
-
-			x.onclick +=
-				delegate
-				{
-					var o = new UltraApplet();
-
-					o.AttachAppletToDocument();
-				};
-		}
-	}
 }
