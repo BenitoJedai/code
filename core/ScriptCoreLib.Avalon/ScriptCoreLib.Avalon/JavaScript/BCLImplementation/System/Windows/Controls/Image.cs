@@ -76,7 +76,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 				if (alias != null)
 				{
-					new IHTMLImage(alias).InvokeOnComplete(Apply);
+					IHTMLImage i = alias;
+					
+					i.InvokeOnComplete(Apply);
 
 				}
 				else if (v.InternalBitmap != null)

@@ -249,7 +249,7 @@ namespace ScriptCoreLib.JavaScript.Cards
 
         public IHTMLImage ToImage(string path)
         {
-            var i = new IHTMLImage(GetImagePath(path));
+			IHTMLImage i = GetImagePath(path);
 
             i.alt = Description;
 

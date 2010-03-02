@@ -56,7 +56,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 			HTMLTarget.style.padding = "0";
 
 
-			var icon = new IHTMLImage("assets/ScriptCoreLib.Windows.Forms/App.ico");
+			IHTMLImage icon = "assets/ScriptCoreLib.Windows.Forms/App.ico";
 
 			icon.style.SetLocation(7, 7, 16, 16);
 

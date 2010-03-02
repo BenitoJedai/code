@@ -6,6 +6,9 @@ set flags=/nologo /verbosity:q
 
 set target=C:\util\jsc\bin
 
+mkdir C:\util\jsc\bin
+mkdir C:\util\jsc\lib
+
 :: C:\util\jsc\bin is expected to exist as compiler and framework assemblies will be placed there
 
 :: rebuild compiler
@@ -20,6 +23,7 @@ call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
 
 call :build core\jsc.server\jsc.server.sln
 call :build core\ScriptCoreLib\ScriptCoreLib.sln
+call :build core\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.XLinq\ScriptCoreLib.XLinq.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
@@ -29,6 +33,7 @@ call :build core\ScriptCoreLib.Mochi\ScriptCoreLib.Mochi.sln
 call :build core\ScriptCoreLib.GoogleMaps\ScriptCoreLib.GoogleMaps.sln
 call :build core\ScriptCoreLib.Drawing\ScriptCoreLib.Drawing.sln
 call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
+call :build core\ScriptCoreLib.Archive.ZIP\ScriptCoreLib.Archive.ZIP.sln
 call :build core\ScriptCoreLib.Archive\ScriptCoreLib.Archive.sln
 call :build core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.sln
 call :build core\ScriptCoreLib.RayCaster\ScriptCoreLib.RayCaster.sln
@@ -45,7 +50,13 @@ call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredCon
 call :build javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.sln
 
 
+call :build compiler\jsc.meta\jsc.meta.sln
+
 :: rebuild templates
+call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
+call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sln
+
+
 call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
 call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashApplication.sln
 
@@ -53,7 +64,7 @@ call :build templates\AppletTemplate\DemoApplet.sln
 call :build templates\OrcasWebApplication\OrcasWebApplication.sln
 call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
 call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
-call :build templates\OrcasWebSite\OrcasWebSite.sln
+::call :build templates\OrcasWebSite\OrcasWebSite.sln
 
 
 
@@ -91,6 +102,7 @@ call :build templates\OrcasWebSite\OrcasWebSite.sln
 
 ::call :build javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller
 
 endlocal
 goto :eof
