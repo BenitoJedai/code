@@ -439,22 +439,24 @@ namespace jsc.meta.Commands.Rewrite
 						TypeCache[source] = ExternalContext.TypeCache[source];
 
 						// was continuation honored?
+						if (TypeCache[source] is TypeBuilder)
+						{
+							TypeCache.Flags[source] = new object();
+							Console.WriteLine("CreateType:  " + source.FullName);
 
-						TypeCache.Flags[source] = new object();
-						Console.WriteLine("CreateType:  " + source.FullName);
+							if (TypeCreated != null)
+								TypeCreated(
+									new TypeRewriteArguments
+									{
+										SourceType = source,
+										Type = (TypeBuilder)TypeCache[source],
+										Assembly = a,
+										Module = m,
 
-						if (TypeCreated != null)
-							TypeCreated(
-								new TypeRewriteArguments
-								{
-									SourceType = source,
-									Type = (TypeBuilder)TypeCache[source],
-									Assembly = a,
-									Module = m,
-
-									context = this.RewriteArguments.context
-								}
-							);
+										context = this.RewriteArguments.context
+									}
+								);
+						}
 
 						return;
 					}
