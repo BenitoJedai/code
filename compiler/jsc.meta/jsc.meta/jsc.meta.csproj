@@ -330,6 +330,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="jsc.meta.installer.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -395,8 +398,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
-
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller</PostBuildEvent>
+</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>

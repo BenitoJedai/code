@@ -305,7 +305,7 @@ namespace jsc.meta.Commands.Extend
 
 					product = rewrite_product,
 
-					PostRewrite =
+					PostAssemblyRewrite =
 						a =>
 						{
 							#region yay attributes

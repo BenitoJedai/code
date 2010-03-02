@@ -131,7 +131,7 @@ namespace jsc.meta.Commands.Extend
 					},
 					#endregion
 
-					PostRewrite =
+					PostAssemblyRewrite =
 						a =>
 						{
 							foreach (var item in t)

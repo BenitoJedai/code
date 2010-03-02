@@ -318,14 +318,14 @@ namespace jsc.meta.Commands.Rewrite
 						},
 					#endregion
 
-					PreRewrite =
+					PreAssemblyRewrite =
 						a =>
 						{
 
 						},
 
 					#region PostRewrite
-					PostRewrite =
+					PostAssemblyRewrite =
 						a =>
 						{
 							if (k.IsJavaScript || k.IsActionScript || k.IsJava)

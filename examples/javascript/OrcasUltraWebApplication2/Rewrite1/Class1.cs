@@ -22,5 +22,12 @@ namespace Rewrite1
 			Rewrite2.Class1.Invoke<Class3>(null);
 		}
 
+		class Nested1
+		{
+		}
+
+		delegate void Action1(Nested1 a);
+
+		Nested1 c;
 	}
 }

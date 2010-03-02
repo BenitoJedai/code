@@ -18,11 +18,8 @@ namespace jsc.meta.Commands.Rewrite
 			ModuleBuilder m,
 			MethodInfo source,
 			TypeBuilder t,
-			VirtualDictionary<Type, Type> tc,
+			VirtualDictionary<Type, Type> TypeCache,
 				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
-
-			VirtualDictionary<MethodInfo, MethodInfo> mc,
-			//VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 			VirtualDictionary<string, string> NameObfuscation,
@@ -40,7 +37,7 @@ namespace jsc.meta.Commands.Rewrite
 		{
 			// sanity check!
 
-			if (mc.BaseDictionary.ContainsKey(source))
+			if (MethodCache.BaseDictionary.ContainsKey(source))
 				return;
 
 			// Unknown runtime implemented delegate method
@@ -54,11 +51,13 @@ namespace jsc.meta.Commands.Rewrite
 			// How to: Define a Generic Method with Reflection Emit
 			// http://msdn.microsoft.com/en-us/library/ms228971.aspx
 			var Parameters =
-				 source.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray();
+				 TypeCache[source.GetParameterTypes()];
 
+			if (Parameters.Contains(null))
+				throw new InvalidOperationException();
 
 			var km = t.DefineMethod(
-				MethodName, source.Attributes, source.CallingConvention, tc[source.ReturnType], Parameters);
+				MethodName, source.Attributes, source.CallingConvention, TypeCache[source.ReturnType], Parameters);
 
 			// synchronized?
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
@@ -74,7 +73,7 @@ namespace jsc.meta.Commands.Rewrite
 				km.DefineAttribute(item, item.GetType());
 			}
 
-			mc[source] = km;
+			MethodCache[source] = km;
 
 			var MethodBody = source.GetMethodBody();
 
@@ -110,7 +109,11 @@ namespace jsc.meta.Commands.Rewrite
 					// we found the entrypoint
 					if (codeinjecton != null)
 					{
-						WriteEntryPointCodeInjection(a, m, kmil, t, tc, mc, ConstructorCache, MethodCache,
+						WriteEntryPointCodeInjection(
+							a, m, kmil, t
+							, TypeCache,
+							ConstructorCache,
+							MethodCache,
 							PrimarySourceAssembly,
 							codeinjecton,
 							codeinjectonparams
@@ -124,7 +127,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var x = CreateMethodBaseEmitToArguments(
 				source,
-				tc,
+				TypeCache,
 				FieldCache,
 				//TypeFieldCache,
 				ConstructorCache,

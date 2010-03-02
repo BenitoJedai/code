@@ -21,6 +21,7 @@ namespace jsc.meta.Commands.Rewrite
 		// todo: generics, interfaces, and opcodes.leave need to be fixed!
 
 		public string product;
+		public string productExtension = ".dll";
 
 		/// <summary>
 		/// Types within these assemblies will be merged to the new primary assembly
@@ -133,8 +134,8 @@ namespace jsc.meta.Commands.Rewrite
 			}
 		}
 
-		public Action<AssemblyRewriteArguments> PostRewrite;
-		public Action<AssemblyRewriteArguments> PreRewrite;
+		public Action<AssemblyRewriteArguments> PostAssemblyRewrite;
+		public Action<AssemblyRewriteArguments> PreAssemblyRewrite;
 
 
 		public class TypeRewriteArguments : AssemblyRewriteArguments

@@ -19,8 +19,6 @@ namespace jsc.meta.Commands.Rewrite
 	ILGenerator kmil,
 	TypeBuilder t,
 	VirtualDictionary<Type, Type> tc,
-	VirtualDictionary<MethodInfo, MethodInfo> mc,
-	//VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
 	VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
 	VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 
@@ -65,7 +63,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var ea = new ILTranslationExtensions.EmitToArguments
 			{
-				TranslateTargetMethod = TargetMethod => mc[TargetMethod],
+				TranslateTargetMethod = TargetMethod => MethodCache[TargetMethod],
 				TranslateTargetConstructor = TargetConstructor => ConstructorCache[TargetConstructor],
 			};
 
@@ -115,7 +113,7 @@ namespace jsc.meta.Commands.Rewrite
 							else throw new NotSupportedException();
 						}
 
-						e.il.Emit(OpCodes.Call, mc[codeinjecton.Method]);
+						e.il.Emit(OpCodes.Call, MethodCache[codeinjecton.Method]);
 
 						return;
 					}
