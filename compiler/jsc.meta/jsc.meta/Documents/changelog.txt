@@ -73,3 +73,5 @@
 	- Added RewriteToMVSProjectTemplate
 2010.02.28
 	- Added HTML5 Audio support into ReferenceUltraSource
+2010.03.02
+	- Fixed RewriteToAssembly generic support for nonrewritten types

@@ -50,17 +50,14 @@ namespace jsc.meta.Commands.Rewrite
 			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
+			#region invalidmerge
 			if (SourceType.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "invalidmerge"))
 				throw new InvalidOperationException(SourceType.FullName);
-
-			var TypeName = SourceType.IsNested ? TypeRenameCache[SourceType] ?? SourceType.Name :
-				TypeRenameCache[SourceType] ?? SourceType.FullName;
+			#endregion
 
 
-
-			Diagnostics("CopyType: " + TypeName);
-
-			var t = CopyTypeDefinition(SourceType, m, TypeCache, OverrideDeclaringType, NameObfuscation, ShouldCopyType, FullNameFixup, Diagnostics, TypeName);
+			var t = (TypeBuilder)TypeDefinitionCache[SourceType]; ;
+			TypeCache[SourceType] = t;
 
 			// should we copy attributes? should they be opt-out?
 			var TypeAttributes = SourceType.GetCustomAttributes(false);
@@ -105,10 +102,6 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
-			//ContextContinuation(
-			//    delegate
-			//    {
-			//Console.WriteLine("ContextContinuation:  " + SourceType.FullName);
 
 			if (PreTypeRewrite != null)
 				PreTypeRewrite(t);
@@ -186,103 +179,127 @@ namespace jsc.meta.Commands.Rewrite
 				TypeCreated(t);
 
 
-			//    }
-			//);
+
 		}
 
-		private static TypeBuilder CopyTypeDefinition(
-			Type SourceType, 
-			ModuleBuilder m, 
-			VirtualDictionary<Type, Type> TypeCache, 
-			TypeBuilder OverrideDeclaringType, 
-			VirtualDictionary<string, string> NameObfuscation, 
-			Func<Type, bool> ShouldCopyType, 
-			Func<string, string> FullNameFixup, 
-			Action<string> Diagnostics, 
-			string TypeName)
+		public class CopyTypeDefinition
 		{
-			// we should not reenter here!
-			TypeCache[SourceType] = null;
+			public VirtualDictionary<Type, Type> TypeDefinitionCache;
+			public VirtualDictionary<Type, string> TypeRenameCache;
+			public Type SourceType;
+			public ModuleBuilder m;
+			//public VirtualDictionary<Type, Type> TypeCache;
+			public TypeBuilder OverrideDeclaringType;
+			public VirtualDictionary<string, string> NameObfuscation;
+			public Func<Type, bool> ShouldCopyType;
+			public Func<string, string> FullNameFixup;
+			public Action<string> Diagnostics;
 
-			// interfaces dont have base types!
-			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
 
-			//var DeclaringTypeContinuation = default(Action);
 
-			if (SourceType.IsNested)
+
+			public TypeBuilder Invoke()
 			{
-				Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
-			}
+				if (Diagnostics == null)
+					Diagnostics =
+					e =>
+					{
+						Debug.WriteLine(e);
 
-			// We beed a separate TypeDeclarationCache for this to work:
-			// Type { NestedType, Delegate1(NestedType) }
+						Console.WriteLine(e);
+					};
 
-			var _DeclaringType = (OverrideDeclaringType ?? (
-				SourceType.DeclaringType == null ? null :
-					(TypeBuilder)TypeCache[SourceType.DeclaringType /*, n => DeclaringTypeContinuation = n*/]
-
-				)
-			);
-
-			var t = default(TypeBuilder);
-
-			var _Interfaces = Enumerable.ToArray(
-
-				from k in SourceType.GetInterfaces()
-
-				where ShouldCopyType(k) || k.IsPublic
-
-				select TypeCache[k]
-			).ToArray();
+				var TypeName = SourceType.IsNested ? TypeRenameCache[SourceType] ?? SourceType.Name :
+					TypeRenameCache[SourceType] ?? SourceType.FullName;
 
 
+				Diagnostics("CopyType: " + TypeName);
 
-			// we might define as a nested type instead!
-			#region DefineType
-			if (SourceType.IsNested)
-			{
+				// we should not reenter here!
+				TypeDefinitionCache[SourceType] = null;
 
-				var _NestedTypeName = NameObfuscation[TypeName];
+				// interfaces dont have base types!
+				var BaseType = SourceType.BaseType == null ? null : TypeDefinitionCache[SourceType.BaseType];
 
+				//var DeclaringTypeContinuation = default(Action);
 
-
-				if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
+				if (SourceType.IsNested)
 				{
-					t = _DeclaringType.DefineNestedType(
-						_NestedTypeName,
-						SourceType.Attributes,
-						 BaseType,
-						SourceType.StructLayoutAttribute.Size
-					);
+					Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
+				}
+
+				// We beed a separate TypeDeclarationCache for this to work:
+				// Type { NestedType, Delegate1(NestedType) }
+
+				var _DeclaringType = (OverrideDeclaringType ?? (
+					SourceType.DeclaringType == null ? null :
+						(TypeBuilder)TypeDefinitionCache[SourceType.DeclaringType]
+
+					)
+				);
+
+				var t = default(TypeBuilder);
+
+				var _Interfaces = Enumerable.ToArray(
+
+					from k in SourceType.GetInterfaces()
+
+					where ShouldCopyType(k) || k.IsPublic
+
+					select TypeDefinitionCache[k]
+				).ToArray();
+
+
+
+				// we might define as a nested type instead!
+				#region DefineType
+				if (SourceType.IsNested)
+				{
+
+					var _NestedTypeName = NameObfuscation[TypeName];
+
+
+
+					if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
+					{
+						t = _DeclaringType.DefineNestedType(
+							_NestedTypeName,
+							SourceType.Attributes,
+							 BaseType,
+							SourceType.StructLayoutAttribute.Size
+						);
+					}
+					else
+					{
+						t = _DeclaringType.DefineNestedType(
+
+							_NestedTypeName,
+							SourceType.Attributes,
+							BaseType,
+							_Interfaces
+						);
+					}
 				}
 				else
 				{
-					t = _DeclaringType.DefineNestedType(
-
-						_NestedTypeName,
+					t = m.DefineType(
+						FullNameFixup(TypeName),
 						SourceType.Attributes,
 						BaseType,
 						_Interfaces
 					);
+
 				}
+				#endregion
+
+
+				TypeDefinitionCache[SourceType] = t;
+
+				Diagnostics("TypeDefinitionCache: " + TypeName);
+
+				return t;
 			}
-			else
-			{
-				t = m.DefineType(
-					FullNameFixup(TypeName),
-					SourceType.Attributes,
-					BaseType,
-					_Interfaces
-				);
-
-			}
-			#endregion
-
-
-			TypeCache[SourceType] = t;
-			return t;
 		}
-
 		internal static void CopyTypeMembers(
 			Type SourceType,
 			VirtualDictionary<Type, Type> TypeCache,

@@ -1,2 +1,2 @@
 ﻿
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /AttachDebugger:true
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /AttachDebugger:false

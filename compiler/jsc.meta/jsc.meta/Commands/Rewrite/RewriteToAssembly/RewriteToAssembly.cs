@@ -197,7 +197,42 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
-					ConstructorCache[SourceConstructor] = SourceConstructor;
+					//    L_0086: newobj instance void [System.Core]System.Func`2<class [ScriptCoreLib.Archive.ZIP]ScriptCoreLib.Archive.ZIP.ZIPFile/Entry, bool>::.ctor(object, native int)
+
+					var source = SourceConstructor.DeclaringType;
+
+					if (source.IsGenericType)
+					{
+						if (source.GetGenericArguments().Any(k => k != TypeCache[k]))
+						{
+							// http://connect.microsoft.com/VisualStudio/feedback/details/94516/typebuilder-getconstructor-throws-argumentexception-when-supplied-created-generic-type
+							var GenericArguments = TypeCache[source.GetGenericArguments()];
+
+
+							var GenericTypeDefinition = source.GetGenericTypeDefinition();
+							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
+							var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+							var ParameterTypes = TypeCache[SourceConstructor.GetParameterTypes()];
+
+							var GenericTypeDefinitionConstructor =
+								GenericTypeDefinition.GetConstructor(Flags, null, ParameterTypes, null);
+
+							var GenericTypeConstructor =
+								//GenericType.GetConstructor(Flags, null, ParameterTypes, null);
+
+							TypeBuilder.GetConstructor(GenericType, GenericTypeDefinitionConstructor);
+
+							ConstructorCache[SourceConstructor] = GenericTypeConstructor;
+						}
+						else
+							ConstructorCache[SourceConstructor] = SourceConstructor;
+
+					}
+					else
+					{
+						ConstructorCache[SourceConstructor] = SourceConstructor;
+					}
+
 				};
 			#endregion
 
@@ -264,13 +299,33 @@ namespace jsc.meta.Commands.Rewrite
 						);
 						return;
 					}
+					else
+					{
+						var source = msource.DeclaringType;
 
-					MethodCache[msource] =
-						msource.IsGenericMethod ? msource.GetGenericMethodDefinition().MakeGenericMethod(
-						msource.GetGenericArguments().Select(
-							k => TypeCache[k]
-						).ToArray()
-						) : msource;
+						// do we need to redirect the type also?
+						if (source.GetGenericArguments().Any(k => k != TypeCache[k]))
+						{
+							var GenericArguments = TypeCache[source.GetGenericArguments()];
+
+
+							var GenericTypeDefinition = source.GetGenericTypeDefinition();
+							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
+							var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+							var ParameterTypes = TypeCache[msource.GetParameterTypes()];
+
+							var GenericTypeDefinitionMethod = GenericTypeDefinition.GetMethod(msource.Name, Flags, null, ParameterTypes, null);
+							var GenericTypeMethod = TypeBuilder.GetMethod(GenericType, GenericTypeDefinitionMethod);
+							MethodCache[msource] = GenericTypeMethod;
+						}
+						else
+						{
+							MethodCache[msource] =
+								msource.IsGenericMethod ? msource.GetGenericMethodDefinition().MakeGenericMethod(
+									TypeCache[msource.GetGenericArguments()]
+								) : msource;
+						}
+					}
 
 				};
 			#endregion
@@ -328,11 +383,51 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
+			#region TypeDefinitionCache
 			TypeDefinitionCache.Resolve +=
 				(source) =>
 				{
-					
+
+					if (source.IsArray)
+					{
+						TypeDefinitionCache[source] = TypeDefinitionCache[source.GetElementType()].MakeArrayType();
+						return;
+					}
+					var ContextType = source;
+					if (ShouldCopyType(ContextType))
+					{
+						var ttt = new CopyTypeDefinition
+						{
+							TypeDefinitionCache = TypeDefinitionCache,
+							TypeRenameCache = TypeRenameCache,
+							SourceType = source,
+							m = m,
+
+							OverrideDeclaringType = null,
+							NameObfuscation = NameObfuscation,
+							ShouldCopyType = ShouldCopyType,
+							FullNameFixup = FullNameFixup,
+							Diagnostics = null,
+
+						};
+
+						var t = ttt.Invoke();
+
+						TypeDefinitionCache[source] = t;
+					}
+					else
+					{
+						TypeDefinitionCache[source] =
+
+							source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
+								source.GetGenericArguments().Select(
+									k => TypeCache[k]
+								).ToArray()
+							) : source;
+					}
 				};
+			#endregion
+
 
 			#region TypeCache
 			TypeCache.Resolve +=
@@ -489,6 +584,9 @@ namespace jsc.meta.Commands.Rewrite
 
 			// ask for our primary types to be copied
 			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
+
+			// did we define any type declarations which we did not actually create yet?
+			var kt2 = TypeDefinitionCache.BaseDictionary.Select(k => TypeCache[k.Key]).ToArray();
 
 
 			#region maybe the rewriter wants to add some types at this point?
