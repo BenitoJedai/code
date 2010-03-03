@@ -32,6 +32,16 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 		internal const string jsc_installer_zip = "jsc.installer.zip";
 
+		/// <summary>
+		/// The generated shell should check if there is a newer version available.
+		/// If there is it should download it instead.
+		/// 
+		/// We can simply load that new asembly and load its new payload into our shell.
+		/// </summary>
+		public Uri AutoUpdateLocation = new Uri("http://www.jsc-solutions.com/download");
+
+
+
 		public override void Invoke()
 		{
 			if (this.AttachDebugger)
