@@ -17,6 +17,13 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {
 	public class RewriteToInstaller : CommandBase
 	{
+		// we are able to generate a console installer for jsc for now
+		// we could Create an ultra application instead
+		// if the template is provided we could just provide
+		// our information and and the installer is already a web/desktop app.
+		public string TemplateAssembly;
+		public string TemplateWebService;
+
 		public bool AttachDebugger;
 
 		public bool Obfuscate = false;

@@ -266,6 +266,7 @@
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
     <Compile Include="Library\Mashups\UltraSecondary.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
+    <Compile Include="Library\Mashups\UltraWebServiceWithDelayedDOM.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
     <Compile Include="Library\MVSProjectFile.cs" />
     <Compile Include="Library\MVSSolutionFile.cs" />
