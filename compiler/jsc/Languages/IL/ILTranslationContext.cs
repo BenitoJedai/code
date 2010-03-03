@@ -12,6 +12,7 @@ namespace jsc.Languages.IL
 	public class ILTranslationContext
 	{
 		public VirtualDictionary<Type, string> TypeRenameCache;
+		public VirtualDictionary<Type, Type> TypeDefinitionCache;
 		public VirtualDictionary<Type, Type> TypeCache;
 		public VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache;
 		public VirtualDictionary<MethodInfo, MethodInfo> MethodCache;
@@ -27,6 +28,7 @@ namespace jsc.Languages.IL
 			return (Disposable)
 				new VirtualDictionaryBase[]{
 					TypeRenameCache,
+					TypeDefinitionCache,
 					TypeCache,
 					ConstructorCache,
 					MethodCache,

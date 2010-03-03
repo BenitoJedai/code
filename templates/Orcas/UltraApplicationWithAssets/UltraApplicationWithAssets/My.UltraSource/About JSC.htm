@@ -1,0 +1,103 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>About JSC</title>
+</head>
+<body>
+    <div style='margin: 1em; border-right: 1px solid #202020; border-bottom: 1px solid #202020;'>
+        <div style='border: 1px solid #909090;'>
+            <div style='background: #efefef; border-bottom: 1px solid gray;'>
+                <img src="jsc.png" />
+            </div>
+            <div style='padding: 1em;'>
+                <b>Ultra Application With Assets</b>. Write javascript, flash and java applets within
+                a C# project.
+                <br />
+                <br />
+                <a href='http://jsc-solutions.net'>http://jsc-solutions.net</a>
+                <br />
+                <div id='WebServiceContainer' style='border: 1px solid blue; margin: 1em;'>
+                    <button id='WebService_GetTime'>
+                        <div style='margin-bottom: 4px; margin-top: 4px; border: 1px solid blue;'>
+                            <div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;30</span>&nbsp;<span style="color: blue;">new</span>
+                                    <span style="color: #2b91af;">UltraWebService</span>().GetTime</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+                <br />
+                <i>Note: This page was designed within Microsoft Visual Studio HTML Designer.</i></div>
+            <div>
+                <!-- 
+            
+            http://www.shouldersofgiants.co.uk/Examples/CrossDomain/ParentPage.html
+            http://softwareas.com/cross-domain-communication-with-iframes
+            http://ajaxian.com/archives/cross-domain-iframe-communication-without-location-polling
+            
+            -->
+                <div style='position: relative; margin: 1em;'>
+                    <iframe style='width: 40%; height: 300px;' frameborder="0" src='http://www.jsc-solutions.net/UltraApplicationWithAssets'>
+                    </iframe>
+                    <button id='Inline1' onclick='javascript: this.style.color = "red"' style='text-align: left;
+                        position: absolute; left: 41%; width: 59%; height: 300px;'>
+                        <div>
+                            Click to run inline javascript seen below. (onclick attribute)
+                        </div>
+                        <div style='overflow: hidden; margin: 1em; border: 1px solid gray;'>
+                            <div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;38</span>&nbsp;javascript: <span
+                                        style="color: blue;">this</span>.style.color = <span style="color: #a31515;">&quot;red&quot;</span></p>
+                            </div>
+                        </div>
+                        <div>
+                            C# code will revert this after 1 sec.</div>
+                        <div style='overflow: hidden; margin: 1em; border: 1px solid gray;'>
+                            <div style="font-family: Courier New; font-size: 10pt; color: black; background: white;">
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;38</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; a.Inline1.onclick +=</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;39</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span style="color: blue;">
+                                        delegate</span></p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;40</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;41</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span
+                                        style="color: blue;">new</span> <span style="color: #2b91af;">Timer</span>(</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;42</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    <span style="color: blue;">delegate</span></p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;43</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    {</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;44</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; a.Inline1.style.color = <span style="color: #a31515;">&quot;&quot;</span>;</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;45</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                                    }</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;46</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ).StartTimeout(1000);</p>
+                                <p style="margin: 0px;">
+                                    <span style="color: #2b91af;">&nbsp;&nbsp;&nbsp;47</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; };</p>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

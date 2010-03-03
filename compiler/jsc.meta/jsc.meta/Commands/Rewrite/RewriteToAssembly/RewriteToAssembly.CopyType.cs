@@ -170,6 +170,8 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
+			// seems like base types better be completed...
+			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
 
 			t.CreateType();
 			TypeCache.Flags[SourceType] = new object();
