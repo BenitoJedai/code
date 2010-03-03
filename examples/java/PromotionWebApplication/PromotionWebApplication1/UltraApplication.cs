@@ -233,8 +233,8 @@ namespace PromotionWebApplication1
 												else
 													t.Title.style.color = Color.Blue;
 
-												t.Play.Show(t.Audio.paused);
-												t.Pause.Show(!t.Audio.paused);
+												t.Play.Show(!playing);
+												t.Pause.Show(playing);
 											}
 
 											var p = t.Audio.currentTime / t.Audio.duration;
