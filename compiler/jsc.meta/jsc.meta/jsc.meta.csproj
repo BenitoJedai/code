@@ -232,8 +232,6 @@
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefinePageElement.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.Arguments.cs" />
     <Compile Include="Commands\Reference\ReferenceAddClonedProject.cs" />
-    <Compile Include="Commands\Reference\ReferenceAssets.cs" />
-    <Compile Include="Commands\Reference\ReferenceAvalonDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />

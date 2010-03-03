@@ -158,6 +158,7 @@ namespace jsc.meta.Commands.Rewrite
 
 						ConstructorCache = ConstructorCache,
 						MethodCache = MethodCache,
+						TypeDefinitionCache = TypeDefinitionCache,
 						TypeCache = TypeCache,
 						FieldCache = FieldCache,
 						TypeRenameCache = TypeRenameCache
