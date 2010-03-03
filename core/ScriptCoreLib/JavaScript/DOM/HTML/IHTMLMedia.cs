@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
@@ -17,6 +18,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		public string src;
 
+		public bool ended;
 		public bool paused;
 		public bool controls;
 		public bool muted;
@@ -37,6 +39,23 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		public void pause()
 		{
+		}
+
+		// event prefix on or at?
+		public event Action<IEvent> onended
+		{
+			[Script(DefineAsStatic = true)]
+			add
+			{
+				// probably no IE support
+				base.InternalEvent(true, value, "ended", "ended");
+			}
+			[Script(DefineAsStatic = true)]
+			remove
+			{
+				// probably no IE support
+				base.InternalEvent(false, value, "ended", "ended");
+			}
 		}
     }
 }

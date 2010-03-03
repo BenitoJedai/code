@@ -187,6 +187,12 @@ namespace ScriptCoreLib.Reflection.Options
 				return;
 			}
 
+			if (f.FieldType.Equals(typeof(Uri)))
+			{
+				f.SetValue(e, new Uri(value));
+				return;
+			}
+
 			Trace("AsParameterTo: unknown data type " + f.FieldType.FullName);
 		}
 
