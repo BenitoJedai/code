@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}</ProjectGuid>
+    <ProjectGuid>{00951B4D-2F33-46D1-96C0-143F46A55FEB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UltraApplicationWithAssets</RootNamespace>
-    <AssemblyName>UltraApplicationWithAssets</AssemblyName>
+    <RootNamespace>UltraApplicationWithAssets4</RootNamespace>
+    <AssemblyName>UltraApplicationWithAssets4</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -65,8 +65,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UltraApplicationWithAssets.UltraSource">
-      <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets.UltraSource.dll</HintPath>
+    <Reference Include="UltraApplicationWithAssets4.UltraSource">
+      <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets4.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -91,10 +91,10 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false
 )</PostBuildEvent>
     <PreBuildEvent>if not $(ConfigurationName)==Assets goto :eof
 C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:false</PreBuildEvent>

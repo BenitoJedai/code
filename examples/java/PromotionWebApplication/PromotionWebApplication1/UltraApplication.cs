@@ -71,27 +71,11 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				//if (Native.Document.location.hash == "#/installer")
-				//{
-				//    Native.Document.body.style.backgroundColor = JSColor.System.ThreeDFace;
-
-				//    IFunction.OfDelegate(
-				//            (AtInstaller)
-				//            (info =>
-				//            {
-
-				//                new IHTMLDiv { innerText = info }.AttachToDocument();
-
-				//                new IHTMLButton("Install");
-
-				//                return "ok";
-				//            }
-				//            )
-				//        ).Export("Installer_SetInfo");
-
-				//    new IHTMLDiv("Installing jsc...").AttachToDocument();
-				//}
-				//else 
+				if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
+				{
+					new UltraApplicationWithAssets().Container.AttachToDocument();
+				}
+				else 
 				if (Native.Document.location.hash == "#/audio")
 				{
 					Action AtTimer = delegate { };

@@ -173,6 +173,12 @@ namespace jsc.meta.Commands.Rewrite
 			// seems like base types better be completed...
 			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
 
+			var _Interfaces = Enumerable.ToArray(
+				from k in SourceType.GetInterfaces()
+				where ShouldCopyType(k) || k.IsPublic
+				select TypeCache[k]
+			).ToArray();
+
 			t.CreateType();
 			TypeCache.Flags[SourceType] = new object();
 			Diagnostics("CreateType:  " + SourceType.FullName);
@@ -241,6 +247,7 @@ namespace jsc.meta.Commands.Rewrite
 				);
 
 				var t = default(TypeBuilder);
+
 
 				var _Interfaces = Enumerable.ToArray(
 

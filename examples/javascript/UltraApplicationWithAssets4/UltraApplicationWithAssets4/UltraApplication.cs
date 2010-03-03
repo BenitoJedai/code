@@ -1,15 +1,15 @@
 using System;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using UltraApplicationWithAssets.Advanced;
+using UltraApplicationWithAssets4.Advanced;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Runtime;
-using UltraApplicationWithAssets.HTML.Audio.FromAssets;
+using UltraApplicationWithAssets4.HTML.Audio.FromAssets;
 
-namespace UltraApplicationWithAssets
+namespace UltraApplicationWithAssets4
 {
 
-	//[Description("UltraApplicationWithAssets. Write javascript, flash and java applets within a C# project.")]
+	//[Description("UltraApplicationWithAssets4. Write javascript, flash and java applets within a C# project.")]
 
 	public sealed partial class UltraApplication
 	{

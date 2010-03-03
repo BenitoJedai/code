@@ -9,6 +9,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class INode : ISink
     {
+		// add
+
         [Script(HasNoPrototype = true)]
         class __INode_text : INode
         {

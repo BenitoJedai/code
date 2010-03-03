@@ -143,7 +143,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 								}.Concat(
 									from f in g
 									select (XObject)new XElement(ns_vstemplate + "ProjectItem",
-										new XAttribute("ReplaceParameters", "true"),
+										new XAttribute("ReplaceParameters", ShouldReplaceParameters(f.ItemFile.Extension)),
 										new XAttribute("TargetFileName", f.ItemFile.Name),
 										new XText(f.ItemFile.Name)
 									)
@@ -154,7 +154,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 							where g.Key == ""
 							from f in g
 							select (XObject)new XElement(ns_vstemplate + "ProjectItem",
-								new XAttribute("ReplaceParameters", "true"),
+								new XAttribute("ReplaceParameters", ShouldReplaceParameters(f.ItemFile.Extension)),
 								new XAttribute("TargetFileName", f.ItemFile.Name),
 								new XText(f.ItemFile.Name)
 							)
@@ -174,10 +174,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
 			foreach (var f in ProjectFiles.SelectMany(k => k))
 			{
-				if (f.Item.Name == nsCompile)
+				if (f.Item.Name == nsCompile ||
+
+					f.Item.Name == nsContent && f.ItemFile.Extension == ".htm")
 				{
 					var Content = File.ReadAllText(f.ItemFile.FullName);
-
 
 					Content = Content.Replace(Path.GetFileNameWithoutExtension(this.ProjectFileName.Name), _safeprojectname);
 
@@ -199,6 +200,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			SDKProjectTemplates.Create();
 			File.WriteAllBytes(Path.Combine(SDKProjectTemplates.FullName, Attributes.Title + ".zip"), zip.ToBytes());
 
+		}
+
+
+		public bool ShouldReplaceParameters(string extension)
+		{
+			if (extension == ".png")
+				return false;
+
+			if (extension == ".mp3")
+				return false;
+
+			return true;
 		}
 	}
 }
