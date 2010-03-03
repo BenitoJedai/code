@@ -588,6 +588,7 @@ namespace jsc.meta.Commands.Rewrite
 			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
 
 			// did we define any type declarations which we did not actually create yet?
+			// fixme: maybe we shold just close the unclosed TypeBuilders?
 			var kt2 = TypeDefinitionCache.BaseDictionary.Select(k => TypeCache[k.Key]).ToArray();
 
 
