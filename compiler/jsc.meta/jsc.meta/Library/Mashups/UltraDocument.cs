@@ -105,6 +105,15 @@ namespace jsc.meta.Library.Mashups
 					new XElement("Document1")
 				);
 			}
+
+			// http://localhost/PageX/Method22 redirects to http://example.com
+			// http://localhost/pagex/method22 redirects to http://example.com
+			public void Method22(string PostParam1, Action<Uri> YieldReturn)
+			{
+				YieldReturn(
+					new Uri("http://example.com")
+				);
+			}
 		}
 
 
