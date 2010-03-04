@@ -1196,7 +1196,7 @@ namespace jsc
 
 
 			// whatif hasnoprototype?
-			if (type.IsSerializable)
+			if (type.IsSerializable && !type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Any())
 			{
 				#region type.prototype.meta = {};
 				w.Helper.WriteOptionalIdent();

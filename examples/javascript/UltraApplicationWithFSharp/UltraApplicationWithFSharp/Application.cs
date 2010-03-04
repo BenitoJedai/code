@@ -39,6 +39,10 @@ namespace UltraApplicationWithFSharp
 							Module1.square(5)
 						);
 
+						var c = new Module1.MyContract();
+
+						c.GetContainer().AttachToDocument();
+						
 					};
 			}
 
