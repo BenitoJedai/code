@@ -21,6 +21,15 @@ namespace jsc.meta.Library.Mashups
 		// loaded for /#/Page1
 		class Page1 : IPage1
 		{
+			// todo:
+			// secondary applications could be
+			// windows forms or wpf application windows
+			// and we could load them up via iframe?
+			// or within our main page.
+			// we should use vista like glass borders
+			// if we load it up in an iframe
+			// how do we communicate?
+
 			// primary application will not implement this type
 			// we can only reference via interface from the primary application
 

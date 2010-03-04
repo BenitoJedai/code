@@ -168,6 +168,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
 			ProjectContent = ProjectContent.Replace(Path.GetFileNameWithoutExtension(this.ProjectFileName.Name), _safeprojectname);
 			ProjectContent = ProjectContent.Replace(@"c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate", @"rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate");
+			ProjectContent = ProjectContent.Replace(@"c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToMVSProjectTemplate", @"rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate");
 
 
 			zip[this.ProjectFileName.Name].Bytes = Encoding.UTF8.GetBytes(ProjectContent);

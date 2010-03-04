@@ -7,6 +7,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
 	public partial class ReferenceUltraSource : CommandBase
 	{
+		// todo: we need to add cs/vb/fs compiler support
+
 		// we might want to only reference the files from the internet...
 		// we could save a local copy as a dependant file
 		// the local copy would be saved in the svn
