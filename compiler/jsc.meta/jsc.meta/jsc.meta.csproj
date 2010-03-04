@@ -330,6 +330,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="jsc.meta.v4.0.30128.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="jsc.meta.installer.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -398,7 +401,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
-</PostBuildEvent>
+copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.30128.exe" /y</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
