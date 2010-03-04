@@ -17,6 +17,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {
 	public class RewriteToInstaller : CommandBase
 	{
+		// http://notgartner.wordpress.com/2010/03/04/what-does-a-finished-product-look-like/
 		// we are able to generate a console installer for jsc for now
 		// we could Create an ultra application instead
 		// if the template is provided we could just provide
@@ -37,6 +38,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 		/// If there is it should download it instead.
 		/// 
 		/// We can simply load that new asembly and load its new payload into our shell.
+		/// 
+		/// The payload should also know when it's out of date to invoke the installer again
+		/// for updates.
 		/// </summary>
 		public Uri AutoUpdateLocation = new Uri("http://www.jsc-solutions.com/download");
 
@@ -193,6 +197,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 			public void Invoke()
 			{
+				// http://notgartner.wordpress.com/2010/03/04/what-does-a-finished-product-look-like/
+
 				var zip = new FileInfo(Path.ChangeExtension(new FileInfo(typeof(Installer).Assembly.Location).FullName, ".zip"));
 
 				Console.Title = "http://jsc-solutions.net";
