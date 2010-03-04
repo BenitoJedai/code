@@ -457,7 +457,7 @@ namespace jsc
 
 			bool ndec = (sa != null && sa.NoDecoration);
 
-			if (IsSerializeableType(x, ndec))
+			if (!x.DeclaringType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Any() && IsSerializeableType(x, ndec))
 				ndec = true;
 
 	
