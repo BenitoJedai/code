@@ -75,7 +75,11 @@ namespace PromotionWebApplication1
 			MyPagesInternal.style.margin = "4em";
 			MyPagesInternal.AttachTo(MyPages);
 
-
+			// http://www.google.com/support/forum/p/Google+Analytics/thread?tid=486a963e463df665&hl=en
+			var gapathname = Native.Document.location.pathname;
+			var gasearch = Native.Document.location.search;
+			var gahash = Native.Window.escape(Native.Document.location.hash);
+			var gapageview = gapathname + gasearch + gahash;
 
 			#region logo
 			{
@@ -150,6 +154,24 @@ namespace PromotionWebApplication1
 									else
 										// we are the first  :)
 										t.Audio.play();
+
+									t.MoreButton.onclick +=
+										delegate
+										{
+											t.Audio.pause();
+
+											if (_AudioLinks.Next != null)
+											{
+												_AudioLinks.Next.Audio.currentTime = 0;
+												_AudioLinks.Next.Audio.play();
+
+												if (_AudioLinks.Next.Next == null)
+												{
+													page++;
+													LoadCurrentPage();
+												}
+											}
+										};
 
 									t.Audio.onended +=
 										delegate
@@ -303,7 +325,7 @@ namespace PromotionWebApplication1
 						//new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
 
 						var aa = new About();
-						aa.Service.innerText = Native.Document.location.hash;
+						aa.Service.innerText = gapageview;
 
 						aa.Container.AttachToDocument();
 
@@ -319,11 +341,13 @@ namespace PromotionWebApplication1
 			}
 			#endregion
 
+	
+
 			"UA-13087448-1".ToGoogleAnalyticsTracker(
 				pageTracker =>
 				{
 					pageTracker._setDomainName(".jsc-solutions.net");
-					pageTracker._trackPageview();
+					pageTracker._trackPageview(gapageview);
 				}
 			);
 
