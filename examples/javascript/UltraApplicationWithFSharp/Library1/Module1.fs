@@ -27,8 +27,14 @@ let WashText (text:string) =
 
 
 type MyContract() =
-    let magicHtml = new ScriptCoreLib.JavaScript.DOM.HTML.IHTMLDiv ("hello")
-    member this.GetText() = magicHtml.innerText
-    member this.GetContainer() = magicHtml
+    let _Container = new ScriptCoreLib.JavaScript.DOM.HTML.IHTMLDiv ("hello")
+    member this.GetText() = _Container.innerText
+    member this.GetContainer() = _Container
 
-    member this.MakeBlue() = magicHtml.style.color = "blue" ignore
+    member this.MakeBlue() = 
+        _Container.style.color <- "blue" 
+
+    member this.AddButton(text, h) =
+        let btn = new ScriptCoreLib.JavaScript.DOM.HTML.IHTMLButton(text)
+        _Container.appendChild(btn)
+        _Container.add_onclick(h)
