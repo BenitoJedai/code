@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraApplicationWithFSharp"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Library1", "Library1\Library1.fsproj", "{554C6C08-5DFD-4733-B68D-D2583AFC7E0F}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Library2", "Library2\Library2.fsproj", "{2B3A4017-BE71-46E9-B745-35EE5275C52E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{554C6C08-5DFD-4733-B68D-D2583AFC7E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{554C6C08-5DFD-4733-B68D-D2583AFC7E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{554C6C08-5DFD-4733-B68D-D2583AFC7E0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3A4017-BE71-46E9-B745-35EE5275C52E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3A4017-BE71-46E9-B745-35EE5275C52E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3A4017-BE71-46E9-B745-35EE5275C52E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3A4017-BE71-46E9-B745-35EE5275C52E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
