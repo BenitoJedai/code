@@ -35,18 +35,24 @@ namespace UltraApplicationWithFSharp
 				x.onclick +=
 					delegate
 					{
-						Native.Window.alert(
-							Module1.square(5)
-						);
+
 
 						var c = new Module1.MyContract();
 
 						c.GetContainer().AttachToDocument();
-						
+
+						c.AddButton("hello",
+							delegate
+							{
+								Native.Window.alert(
+									Module1.square(5)
+								);
+							}
+						);
 					};
 			}
 
-		
+
 
 			{
 				var x = new IHTMLButton("UltraWebService.Hello");
