@@ -50,7 +50,21 @@ do ()
     // http://stackoverflow.com/questions/324947/f-this-expression-should-have-type-unit-but-has-type-consolekeyinfo
         base.addChild(BackgroundSprite) |> ignore
 
-    member this.AtClick(h: Action) = BackgroundSprite.add_click(fun (y) -> h.Invoke())
+        base.add_click(
+            fun (y) -> 
+                do
+                    BackgroundSprite.graphics.beginFill(0x700000u)
+                    BackgroundSprite.graphics.drawRect(0., 0., (float)DefaultWidth, (float)DefaultHeight)
+        )
+
+    member this.AtClick(h: Action) = 
+        base.add_click(
+            fun (y) -> 
+                do
+                    BackgroundSprite.graphics.beginFill(0x70u)
+                    BackgroundSprite.graphics.drawRect(0., 0., (float)DefaultWidth, (float)DefaultHeight)
+                    h.Invoke()
+        )
 
 
 [<Sealed>]
@@ -81,12 +95,25 @@ do ()
             let w = new UltraSprite()
           
             SpriteExtensions.AttachSpriteToDocument(w)  |> ignore  
-            w.AtClick(
-                fun () ->
-                    let news = new IHTMLDiv("FSharp: flash click")
+
+            let AtClickButton = new IHTMLButton("AtClick")
+            do Native.Document.body.appendChild(AtClickButton)
+
+            do AtClickButton.add_onclick(
+                fun (e) ->
+                    let news2 = new IHTMLDiv("FSharp: AtClick")
+                    
                     do Native.Document.body.appendChild(
-                           news
-                    )
+                               news2
+                        )
+
+                    do w.AtClick(
+                            fun () ->
+                                let news = new IHTMLDiv("FSharp: flash click")
+                                do Native.Document.body.appendChild(
+                                       news
+                                )
+                        )
             )
 
     )
