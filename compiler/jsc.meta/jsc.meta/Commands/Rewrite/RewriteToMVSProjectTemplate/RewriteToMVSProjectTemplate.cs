@@ -43,9 +43,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
 			var Attributes = new
 			{
-				Assembly.GetCustomAttributes<AssemblyDescriptionAttribute>().First().Description,
-				Assembly.GetCustomAttributes<AssemblyTitleAttribute>().First().Title,
-				Assembly.GetCustomAttributes<AssemblyCompanyAttribute>().First().Company
+				(
+					Assembly.GetCustomAttributes<AssemblyDescriptionAttribute>().FirstOrDefault() 
+				)
+				.Description,
+
+				(
+					Assembly.GetCustomAttributes<AssemblyTitleAttribute>().FirstOrDefault()
+				).Title,
+
+				(
+					Assembly.GetCustomAttributes<AssemblyCompanyAttribute>().FirstOrDefault()
+				).Company
 			};
 
 			var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -64,6 +73,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 				ProjectType = "CSharp";
 				ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual C#");
 				SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual C#");
+			}
+			else if (this.ProjectFileName.Extension == ".fsproj")
+			{
+				ProjectType = "FSharp";
+				ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual F#");
+				SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual F#");
 			}
 			else
 				throw new NotSupportedException();
