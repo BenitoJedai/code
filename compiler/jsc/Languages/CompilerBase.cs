@@ -1658,9 +1658,19 @@ namespace jsc.Script
 			return DefaultIsSafeLiteralChar(x);
 		}
 
+		public virtual string[] GetSafeLiteralBannedValues()
+		{
+			return new string[0];
+		}
+
 		public string GetSafeLiteral(string z)
 		{
-			return GetSafeLiteral(z, IsSafeLiteralChar);
+			var x = GetSafeLiteral(z, IsSafeLiteralChar);
+
+			if (GetSafeLiteralBannedValues().Contains(x))
+				x = "___" + x;
+
+			return x;
 		}
 
 

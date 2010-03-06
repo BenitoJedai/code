@@ -415,3 +415,5 @@ version history:
 31.01.2010
 	java: value type fields are now initialized
 	java: base method calls detection fixed
+06.03.2010
+	as: safe names are now used for namespaces

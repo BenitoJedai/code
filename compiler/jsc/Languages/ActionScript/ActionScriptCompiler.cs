@@ -12,143 +12,143 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.Languages.ActionScript
 {
-    partial class ActionScriptCompiler : Script.CompilerCLike
-    {
-        public static string FileExtension = "as";
+	partial class ActionScriptCompiler : Script.CompilerCLike
+	{
+		public static string FileExtension = "as";
 
-        public readonly AssamblyTypeInfo MySession;
+		public readonly AssamblyTypeInfo MySession;
 
-        public ActionScriptCompiler(TextWriter xw, AssamblyTypeInfo xs)
-            : base(xw)
-        {
-            MySession = xs;
+		public ActionScriptCompiler(TextWriter xw, AssamblyTypeInfo xs)
+			: base(xw)
+		{
+			MySession = xs;
 
-            CreateInstructionHandlers();
-        }
-
-
+			CreateInstructionHandlers();
+		}
 
 
 
 
 
-        Type CachedArrayEnumeratorType;
-
-        public Type GetArrayEnumeratorType()
-        {
-            return CachedArrayEnumeratorType ?? (CachedArrayEnumeratorType = (from i in MySession.ImplementationTypes
-                                                                              let a = i.ToScriptAttribute()
-                                                                              where a != null
-                                                                              where a.IsArrayEnumerator
-                                                                              select i).SingleOrDefault());
-        }
-
-        public override void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
-        {
-            var x = GetArrayEnumeratorType();
-            if (x == null)
-                throw new Exception("SZArrayEnumerator is missing");
-
-            var ArrayToEnumerator = x.GetImplicitOperators(null, null).Single();
-
-            WriteDecoratedTypeNameOrImplementationTypeName(x, false, false, IsFullyQualifiedNamesRequired(p.DeclaringMethod.DeclaringType, x));
-            Write(".");
-            WriteDecoratedMethodName(ArrayToEnumerator, false);
-            Write("(");
-
-            Emit(p, s);
-
-            Write(")");
-
-        }
-
-   
 
 
+		Type CachedArrayEnumeratorType;
+
+		public Type GetArrayEnumeratorType()
+		{
+			return CachedArrayEnumeratorType ?? (CachedArrayEnumeratorType = (from i in MySession.ImplementationTypes
+																			  let a = i.ToScriptAttribute()
+																			  where a != null
+																			  where a.IsArrayEnumerator
+																			  select i).SingleOrDefault());
+		}
+
+		public override void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
+		{
+			var x = GetArrayEnumeratorType();
+			if (x == null)
+				throw new Exception("SZArrayEnumerator is missing");
+
+			var ArrayToEnumerator = x.GetImplicitOperators(null, null).Single();
+
+			WriteDecoratedTypeNameOrImplementationTypeName(x, false, false, IsFullyQualifiedNamesRequired(p.DeclaringMethod.DeclaringType, x));
+			Write(".");
+			WriteDecoratedMethodName(ArrayToEnumerator, false);
+			Write("(");
+
+			Emit(p, s);
+
+			Write(")");
+
+		}
 
 
-        public override void WriteAbstractMethodBody(MethodBase m)
-        {
-            WriteIdent();
-            WriteLine("{ throw new Error(\"Abstract method not implemented\"); }");
-        }
-
-        public override Predicate<ILBlock.Prestatement> MethodBodyFilter
-        {
-            get
-            {
-                return
-                 delegate(ILBlock.Prestatement p)
-                 {
-                     // note that instance constructor returns pointer to instance
-
-                     #region remove redundant returns
-                     if (p.Instruction != null)
-                         if (p.Instruction == OpCodes.Ret)
-                             if (p.Instruction.Next == null)
-                                 if (p.Instruction.StackBeforeStrict.Length == 0)
-                                 {
-                                     return true;
-                                 }
-                     #endregion
 
 
-                     return false;
-                 };
-            }
-        }
 
-        /// <summary>
-        /// a special opcode emit mode
-        /// </summary>
-        bool WriteCall_DebugTrace_Assign_Active;
 
-        public override void WriteCall_DebugTrace_AfterAssign(MethodInfo m, ILBlock.Prestatement p)
-        {
-            if (p.Instruction.TargetVariable == null)
-                return;
+		public override void WriteAbstractMethodBody(MethodBase m)
+		{
+			WriteIdent();
+			WriteLine("{ throw new Error(\"Abstract method not implemented\"); }");
+		}
 
-            WriteIdent();
-            WriteDecoratedMethodName(m, false);
-            Write("(");
+		public override Predicate<ILBlock.Prestatement> MethodBodyFilter
+		{
+			get
+			{
+				return
+				 delegate(ILBlock.Prestatement p)
+				 {
+					 // note that instance constructor returns pointer to instance
 
-            Write("\"");
+					 #region remove redundant returns
+					 if (p.Instruction != null)
+						 if (p.Instruction == OpCodes.Ret)
+							 if (p.Instruction.Next == null)
+								 if (p.Instruction.StackBeforeStrict.Length == 0)
+								 {
+									 return true;
+								 }
+					 #endregion
 
-            Write(" [ ");
-            WriteVariableName(p.Instruction.OwnerMethod.DeclaringType, p.Instruction.OwnerMethod, p.Instruction.TargetVariable);
-            Write(" ] \" + ");
-            WriteVariableName(p.Instruction.OwnerMethod.DeclaringType, p.Instruction.OwnerMethod, p.Instruction.TargetVariable);
 
-            Write(")");
-            WriteLine(";");
-        }
+					 return false;
+				 };
+			}
+		}
 
-        public override void WriteCall_DebugTrace_Assign(MethodInfo m, ILBlock.Prestatement p)
-        {
-            if (WriteCall_DebugTrace_Assign_Active)
-                return;
+		/// <summary>
+		/// a special opcode emit mode
+		/// </summary>
+		bool WriteCall_DebugTrace_Assign_Active;
 
-            WriteIdent();
-            WriteDecoratedMethodName(m, false);
-            Write("(");
+		public override void WriteCall_DebugTrace_AfterAssign(MethodInfo m, ILBlock.Prestatement p)
+		{
+			if (p.Instruction.TargetVariable == null)
+				return;
 
-            Write("\"");
+			WriteIdent();
+			WriteDecoratedMethodName(m, false);
+			Write("(");
 
-            WriteCall_DebugTrace_Assign_Active = true;
-            WriteLine_NewLineEnabled = false;
-            WriteIdent_Enabled = false;
+			Write("\"");
 
-            EmitInstruction(p, p.Instruction);
+			Write(" [ ");
+			WriteVariableName(p.Instruction.OwnerMethod.DeclaringType, p.Instruction.OwnerMethod, p.Instruction.TargetVariable);
+			Write(" ] \" + ");
+			WriteVariableName(p.Instruction.OwnerMethod.DeclaringType, p.Instruction.OwnerMethod, p.Instruction.TargetVariable);
 
-            WriteIdent_Enabled = true;
-            WriteLine_NewLineEnabled = true;
-            WriteCall_DebugTrace_Assign_Active = false;
+			Write(")");
+			WriteLine(";");
+		}
 
-            Write("\"");
+		public override void WriteCall_DebugTrace_Assign(MethodInfo m, ILBlock.Prestatement p)
+		{
+			if (WriteCall_DebugTrace_Assign_Active)
+				return;
 
-            Write(")");
-            WriteLine(";");
-        }
+			WriteIdent();
+			WriteDecoratedMethodName(m, false);
+			Write("(");
+
+			Write("\"");
+
+			WriteCall_DebugTrace_Assign_Active = true;
+			WriteLine_NewLineEnabled = false;
+			WriteIdent_Enabled = false;
+
+			EmitInstruction(p, p.Instruction);
+
+			WriteIdent_Enabled = true;
+			WriteLine_NewLineEnabled = true;
+			WriteCall_DebugTrace_Assign_Active = false;
+
+			Write("\"");
+
+			Write(")");
+			WriteLine(";");
+		}
 
 		public void WriteSafeLiteralWithoutTypeNameClash(string e)
 		{
@@ -163,7 +163,12 @@ namespace jsc.Languages.ActionScript
 
 			WriteSafeLiteral(e);
 		}
-    }
+
+		public override string[] GetSafeLiteralBannedValues()
+		{
+			return Enum.GetNames(typeof(Keywords)).Select(k => k.Substring(1)).ToArray();
+		}
+	}
 
 
 }
