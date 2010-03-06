@@ -35,14 +35,22 @@ do ()
     [<Literal>]
     let DefaultWidth = 100
     [<Literal>]
-    let DefaultHeight = 100
+    let  DefaultHeight = 100
 
+
+    // http://www.caribousoftware.com/BobsBlog/archive/2009/09/05/f-classes-in-progress.aspx
     let BackgroundSprite = new Sprite()
-    do BackgroundSprite.graphics.beginFill(0x7070u)
-    do BackgroundSprite.graphics.drawRect(0., 0., (float)DefaultWidth, (float)DefaultHeight)
-//    do BackgroundSprite.useHandCursor = true
-//    do BackgroundSprite.buttonMode = true
-    do base.add(BackgroundSprite)
+
+    do
+        BackgroundSprite.useHandCursor <- true
+        BackgroundSprite.buttonMode <- true
+        BackgroundSprite.graphics.beginFill(0x7070u)
+        BackgroundSprite.graphics.drawRect(0., 0., (float)DefaultWidth, (float)DefaultHeight)
+
+    // http://stackoverflow.com/questions/324947/f-this-expression-should-have-type-unit-but-has-type-consolekeyinfo
+        base.addChild(BackgroundSprite) |> ignore
+
+    member this.AtClick(h: Action) = BackgroundSprite.add_click(fun (y) -> h.Invoke())
 
 
 [<Sealed>]
@@ -57,6 +65,25 @@ do ()
             do w.WebMethod1("client fsharp. ",
                 fun (y) ->
                     let news = new IHTMLDiv("FSharp: server: " + y)
+                    do Native.Document.body.appendChild(
+                           news
+                    )
+            )
+
+    )
+
+    let AddSpriteButton = new IHTMLButton("Add Sprite")
+    do AddSpriteButton.style.color <- "blue"
+    
+    do Native.Document.body.appendChild(AddSpriteButton)
+    do AddSpriteButton.add_onclick(
+        fun (e) ->
+            let w = new UltraSprite()
+          
+            SpriteExtensions.AttachSpriteToDocument(w)  |> ignore  
+            w.AtClick(
+                fun () ->
+                    let news = new IHTMLDiv("FSharp: flash click")
                     do Native.Document.body.appendChild(
                            news
                     )

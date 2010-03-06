@@ -106,7 +106,12 @@ namespace jsc.Languages.ActionScript
                 WriteIdent();
 
 				WriteKeywordSpace(Keywords._import);
-                Write(/*NamespaceFixup(*/var/*)*/);
+
+				var _namespace = string.Join(".", var.Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+
+				Write(_namespace);
+
+
                 WriteLine(";");
 
             }

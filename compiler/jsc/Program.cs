@@ -545,7 +545,9 @@ namespace jsc
 				// http://blogs.msdn.com/jnak/archive/2010/01/14/windows-azure-path-too-long.aspx
 				for (int i = 0; i < n.Length; i++)
 				{
-					p = new DirectoryInfo(Path.Combine(p.FullName, n[i]));
+					var nn = CompilerBase.GetSafeLiteral(n[i], null);
+
+					p = new DirectoryInfo(Path.Combine(p.FullName, nn));
 					Win32File.CreateDirectory(p.FullName);
 				}
 			}

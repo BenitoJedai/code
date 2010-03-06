@@ -78,7 +78,9 @@ namespace jsc.Languages.ActionScript
 
 						if (UseFullyQualifiedName && !string.IsNullOrEmpty(ns))
 						{
-							Write(ns);
+							var _namespace = string.Join(".", ns.Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+
+							Write(_namespace);
 							Write(".");
 						}
 

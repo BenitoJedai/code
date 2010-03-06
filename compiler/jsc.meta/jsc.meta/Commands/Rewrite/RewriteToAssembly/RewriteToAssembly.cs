@@ -590,8 +590,36 @@ namespace jsc.meta.Commands.Rewrite
 
 			// did we define any type declarations which we did not actually create yet?
 			// fixme: maybe we shold just close the unclosed TypeBuilders?
-			var kt2 = TypeDefinitionCache.BaseDictionary.Select(k => TypeCache[k.Key]).ToArray();
+			//var kt2 = TypeDefinitionCache.BaseDictionary.Select(k => TypeCache[k.Key]).ToArray();
 
+			foreach (var item in TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys))
+			{
+
+				var tb = TypeDefinitionCache[item] as TypeBuilder;
+
+				if (tb != null)
+				{
+					tb.CreateType();
+
+					TypeCache[item] = tb;
+					TypeCache.Flags[item] = new object();
+					Console.WriteLine("CreateType:  " + item.FullName);
+
+					if (TypeCreated != null)
+						TypeCreated(
+							new TypeRewriteArguments
+							{
+								SourceType = item,
+								Type = (TypeBuilder)TypeCache[item],
+								Assembly = a,
+								Module = m,
+
+								context = this.RewriteArguments.context
+							}
+						);
+				}
+
+			}
 
 			#region maybe the rewriter wants to add some types at this point?
 			if (PostAssemblyRewrite != null)

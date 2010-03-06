@@ -30,7 +30,11 @@ namespace jsc.Languages.ActionScript
 
 			WriteIdent();
 			WriteKeywordSpace(Keywords._package);
-			Write(NamespaceFixup(z.Namespace, z));
+
+			var _namespace = string.Join(".", NamespaceFixup(z.Namespace, z).Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+
+			Write(_namespace);
+
 			WriteLine();
 
 			using (CreateScope())
