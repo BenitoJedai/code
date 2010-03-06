@@ -33,5 +33,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 		public const string ProjectTemplatesOrcas = @"Visual Studio 2008\Templates\ProjectTemplates";
 
 		public bool DefaultToOrcas;
+
+
+
+
 	}
 }
