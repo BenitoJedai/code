@@ -69,8 +69,9 @@ namespace jsc.Languages.ActionScript
 						WriteKeywordSpace(Keywords._protected);
 					else
 					{
-						// cannot use private as it blocks off delegates
-						WriteKeywordSpace(Keywords._internal);
+						// cannot use private nor internal as it blocks off delegates
+						//WriteKeywordSpace(Keywords._internal);
+						WriteKeywordSpace(Keywords._public);
 					}
 			}
 
