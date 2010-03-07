@@ -109,7 +109,7 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ret);
 				};
 
-	
+
 			Implementation1.Method.EmitTo(il, il_a);
 		}
 
@@ -277,11 +277,13 @@ namespace jsc.meta.Commands.Rewrite
 
 			var il = __InitializeExternalInterface.GetILGenerator();
 
+
 			Action Implementation1 =
 				delegate
 				{
 					// to be replaced by .out_method
-					ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
+					if (ExternalInterface.available)
+						ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};
 
 			foreach (var kk in ExternalCallbackList)
@@ -338,7 +340,7 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 		private static ConstructorBuilder DefineAnonymousDelegate(
-			TypeBuilder DeclaringType, 
+			TypeBuilder DeclaringType,
 			MethodBuilderInfo kk)
 		{
 			#region __Delegate
@@ -389,6 +391,6 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
-	
+
 	}
 }
