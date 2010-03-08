@@ -2,6 +2,8 @@
 setlocal
 
 set msbuild=%SystemRoot%\Microsoft.NET\Framework\v3.5\MSBuild.exe
+set msbuild40=%SystemRoot%\Microsoft.NET\Framework\v4.0.30128\MSBuild.exe
+
 set flags=/nologo /verbosity:q
 
 set target=C:\util\jsc\bin
@@ -14,6 +16,7 @@ mkdir C:\util\jsc\lib
 :: rebuild compiler
 call :build compiler\ScriptCoreLibA\ScriptCoreLibA.sln
 call :build compiler\jsc\jsc.sln
+
 
 :: java
 call :build core\ScriptCoreLibJava\ScriptCoreLibJava.sln
@@ -54,11 +57,17 @@ call :build javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.C
 
 call :build compiler\jsc.meta\jsc.meta.sln
 
-:: rebuild templates
+:: rebuild Ultra templates
 call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
 call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sln
 
+call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln
+call :build40 templates\TwentyTen\UltraWebApplication\UltraWebApplication.sln
 
+call :build40 templates\TwentyTen\FSharp\UltraApplication\UltraApplication.sln
+
+
+:: rebuild templates
 call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
 call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashApplication.sln
 
@@ -66,6 +75,7 @@ call :build templates\AppletTemplate\DemoApplet.sln
 call :build templates\OrcasWebApplication\OrcasWebApplication.sln
 call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
 call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
+
 ::call :build templates\OrcasWebSite\OrcasWebSite.sln
 
 
@@ -112,4 +122,9 @@ goto :eof
 :build
 echo - %1
 call %msbuild% %flags% %1
+goto :eof
+
+:build40
+echo - %1
+call %msbuild40% %flags% %1
 goto :eof
