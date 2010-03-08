@@ -1,0 +1,24 @@
+﻿<Canvas
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+
+    <!-- Canvas objects can be a child of another Canvas object. -->
+    <Canvas
+    Canvas.Left="20" Canvas.Top="20">
+        <Rectangle
+      Width="200" Height="35"
+      Fill="PowderBlue" />
+        <TextBlock
+      Canvas.Left="25" Canvas.Top="5"
+      Foreground="Teal" FontFamily="Verdana" FontSize="18" FontWeight="Bold"
+      Text="Sample Output" />
+    </Canvas>
+
+    <TextBlock
+    Canvas.Left="36" Canvas.Top="80"
+    Foreground="Maroon" FontFamily="Verdana" FontSize="24" FontWeight="Bold"
+    Text="Hello, world" />
+</Canvas>
+    
