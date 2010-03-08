@@ -16,7 +16,8 @@ namespace jsc.meta.Commands.Rewrite
 	{
 		// usage: c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)"
 		// usage: RewriteToAssembly /assembly:"C:\work\jsc.svn\examples\javascript\OrcasUltraWebApplication2\Rewrite1\bin\Debug\Rewrite1.dll"
-		//
+		// usage: RewriteToAssembly /Output:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.merged.dll" /AssemblyMerge:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.dll" /AssemblyMerge:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.UltraSource.dll"
+
 
 		// todo: generics, interfaces, and opcodes.leave need to be fixed!
 
@@ -35,6 +36,22 @@ namespace jsc.meta.Commands.Rewrite
 			public static implicit operator MergeInstruction(string e)
 			{
 				return new MergeInstruction { name = e };
+			}
+		}
+
+
+		/// <summary>
+		/// Multiple assemblies can be merged into single assembly. No types from these assemblies shalle be omitted.
+		/// </summary>
+		public AssemblyMergeInstruction[] AssemblyMerge = new AssemblyMergeInstruction[0];
+
+		public class AssemblyMergeInstruction
+		{
+			public string name;
+
+			public static implicit operator AssemblyMergeInstruction(string e)
+			{
+				return new AssemblyMergeInstruction { name = e };
 			}
 		}
 
@@ -174,5 +191,12 @@ namespace jsc.meta.Commands.Rewrite
 		};
 
 
+
+		/// <summary>
+		/// By setting this argument to true, assemblies which are marked with
+		/// [Obfuscation(Feature = "merge")]
+		/// no longer get merged.
+		/// </summary>
+		public bool DisableIsMarkedForMerge;
 	}
 }

@@ -66,11 +66,7 @@ namespace jsc.meta.Commands.Reference
 		// todo: to be phased out once moved to ReferenceUltraSource
 		const string WebSource_HTML = "WebSource.HTML";
 
-		// yay new branding? :) 
-		// step 2 enable sub folders
-		// step 3 do not event filter by folder just import everything
-		const string UltraSource = "UltraSource";
-
+	
 		// The new way to reference web resources would be within the HTML documents.
 		const string __References = "references.txt";
 

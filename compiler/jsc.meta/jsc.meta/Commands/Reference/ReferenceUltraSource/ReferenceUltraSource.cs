@@ -25,6 +25,12 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 		// is this superseded by ReferenceJavaScriptDocument
 
+		// yay new branding? :) 
+		// step 2 enable sub folders
+		// step 3 do not event filter by folder just import everything
+		public const string UltraSource = "UltraSource";
+
+
 		public override void Invoke()
 		{
 			

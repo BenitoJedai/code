@@ -166,10 +166,10 @@ namespace jsc.meta.Commands.Reference
 								);
 
 							var ElementProperty = Page.DefineProperty(
-								ElementPropertyName, PropertyAttributes.None, ElementType, null);
+								ElementPropertyName, PropertyAttributes.None, DefaultElementType, null);
 
 							{
-								var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, ElementType, null);
+								var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, DefaultElementType, null);
 
 								var get_ElementField_il = get_ElementField.GetILGenerator();
 
@@ -181,7 +181,7 @@ namespace jsc.meta.Commands.Reference
 							}
 
 							{
-								var set_ElementField = Page.DefineMethod("set_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, null, new[] { ElementType });
+								var set_ElementField = Page.DefineMethod("set_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, null, new[] { DefaultElementType });
 
 								var set_ElementField_il = set_ElementField.GetILGenerator();
 

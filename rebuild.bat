@@ -59,6 +59,8 @@ call :build compiler\jsc.meta\jsc.meta.sln
 
 :: rebuild Ultra templates
 call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
+call :build templates\Orcas\UltraApplicationWithAssets\UltraApplicationWithAssets.sln
+call :build templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
 call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sln
 
 call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln

@@ -105,54 +105,105 @@ namespace ScriptCoreLib.Reflection.Options
 
 				if (f != null)
 				{
-					if (f.FieldType.IsArray)
-					{
-						var et = f.FieldType.GetElementType();
-
-						var x = Activator.CreateInstance(et);
-
-						var a = (Array)f.GetValue(e);
-
-
-						if (a == null)
-						{
-							a = Array.CreateInstance(et, 1);
-						}
-						else
-						{
-							var n = Array.CreateInstance(et, a.Length + 1);
-							a.CopyTo(n, 0);
-							a = n;
-						}
-						a.SetValue(x, a.Length - 1);
-						f.SetValue(e, a);
-
-						v.AsParameterTo(x);
-
-					}
-					else if (f.FieldType.IsClass)
-					{
-						var x = f.GetValue(e);
-
-						if (x == null)
-						{
-							x = Activator.CreateInstance(f.FieldType);
-
-							f.SetValue(e, x);
-						}
-
-						v.AsParameterTo(x);
-					}
-					else
-					{
-						Trace("AsParameterTo: not a class " + f.FieldType.FullName);
-					}
+					SetField(e, v, f, false);
 				}
 				else
 				{
 					Trace("AsParameterTo: no field found for " + k);
 				}
 			}
+		}
+
+		private static void SetField(object e, string v, FieldInfo f, bool HasImplicitValue)
+		{
+			if (f.FieldType.IsArray)
+			{
+				var et = f.FieldType.GetElementType();
+
+				var x = default(object);
+
+				if (HasImplicitValue)
+				{
+					x = CreateInstanceFromString(et, v);
+				}
+				else
+				{
+					x = Activator.CreateInstance(et);
+				}
+
+
+				var a = (Array)f.GetValue(e);
+
+
+				if (a == null)
+				{
+					a = Array.CreateInstance(et, 1);
+				}
+				else
+				{
+					var n = Array.CreateInstance(et, a.Length + 1);
+					a.CopyTo(n, 0);
+					a = n;
+				}
+				a.SetValue(x, a.Length - 1);
+				f.SetValue(e, a);
+
+				if (!HasImplicitValue)
+					v.AsParameterTo(x);
+
+			}
+			else if (f.FieldType.IsClass)
+			{
+				var x = f.GetValue(e);
+
+				if (HasImplicitValue)
+				{
+					x = CreateInstanceFromString(f.FieldType, v);
+					f.SetValue(e, x);
+				}
+				else if (x == null)
+				{
+					x = Activator.CreateInstance(f.FieldType);
+					f.SetValue(e, x);
+				}
+
+				if (!HasImplicitValue)
+					v.AsParameterTo(x);
+			}
+			else
+			{
+				Trace("AsParameterTo: not a class " + f.FieldType.FullName);
+			}
+		}
+
+		public static object CreateInstanceFromString(Type t, string arg0)
+		{
+			// is this the correct way for all supported platforms?
+
+			var m = t.GetMethods(BindingFlags.Static | BindingFlags.Public);
+			var ctor = default(MethodInfo);
+
+			foreach (var item in m)
+			{
+				if (item.ReturnType.Equals(t))
+				{
+					var p = item.GetParameters();
+
+					if (p.Length == 1)
+						if (p[0].ParameterType.Equals(typeof(string)))
+						{
+							ctor = item;
+							break;
+						}
+				}
+			}
+
+			var x = default(object);
+
+			if (ctor != null)
+				x = ctor.Invoke(null, new object[] { arg0 });
+
+			return x;
 		}
 
 		internal static void AsParameterTo(this string value, object e, FieldInfo f)
@@ -193,7 +244,11 @@ namespace ScriptCoreLib.Reflection.Options
 				return;
 			}
 
-			Trace("AsParameterTo: unknown data type " + f.FieldType.FullName);
+
+
+			SetField(e, value, f, true);
+
+			//Trace("AsParameterTo: unknown data type " + f.FieldType.FullName);
 		}
 
 		internal static void Trace(string e)
