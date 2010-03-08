@@ -29,7 +29,7 @@ namespace jsc.meta.Commands.Rewrite
 			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly)
 				||
 				this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name)
-				|| IsMarkedForMerge(ContextType);
+				|| (!DisableIsMarkedForMerge && IsMarkedForMerge(ContextType));
 		}
 
 

@@ -88,7 +88,12 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
-			this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
+
+
+			if (this.assembly == null)
+				this.staging = this.staging.CreateTemp();
+			else
+				this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
 
 			var assembly = this.assembly == null ? null : Assembly.LoadFile(this.assembly.FullName);
@@ -100,6 +105,66 @@ namespace jsc.meta.Commands.Rewrite
 			if (assembly != null)
 				assembly.LoadReferencesAt(staging, this.assembly.Directory);
 
+			// AssemblyMerge will copy resources too... getting crowded!
+			Action<AssemblyBuilder, ModuleBuilder> InvokeLater = delegate { };
+
+			if (this.Output != null)
+			{
+				this.product = Path.GetFileNameWithoutExtension(this.Output.Name);
+				this.productExtension = this.Output.Extension;
+			}
+
+			var Product_Name = (string.IsNullOrEmpty(this.product) ?
+					this.assembly.Name + "Rewrite" :
+					this.product);
+
+
+			if (this.PrimaryTypes.Length == 0)
+			{
+				this.PrimaryTypes = this.AssemblyMerge.SelectMany(
+					k =>
+					{
+						var shadow = Path.Combine(this.staging.FullName, Path.GetFileName(k.name));
+
+						var loaded = File.Exists(shadow);
+
+						if (!loaded)
+							File.Copy(
+								k.name,
+								shadow
+							);
+
+						var shadow_assembly = Assembly.LoadFile(shadow);
+
+						if (!loaded)
+							shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(Path.GetDirectoryName(k.name)));
+
+						InvokeLater +=
+							(__a, __m) =>
+							{
+								// should we copy attributes? should they be opt-out?
+								CopyAttributes(shadow_assembly, __a);
+
+								foreach (var item in shadow_assembly.GetManifestResourceNames())
+								{
+									var n = item;
+
+									if (n.StartsWith(shadow_assembly.GetName().Name))
+										n = Product_Name + n.Substring(shadow_assembly.GetName().Name.Length);
+
+									__m.DefineManifestResource(
+										n, 
+										shadow_assembly.GetManifestResourceStream(item), ResourceAttributes.Public
+									);
+
+								}
+							};
+
+
+						return shadow_assembly.GetTypes();
+					}
+				).ToArray();
+			}
 
 			if (this.PrimaryTypes.Length == 0)
 				if (assembly != null)
@@ -110,25 +175,28 @@ namespace jsc.meta.Commands.Rewrite
 						);
 
 
-			var Product_Name = (string.IsNullOrEmpty(this.product) ?
-					this.assembly.Name + "Rewrite" :
-					this.product);
 
 			var Product_Extension = this.assembly == null ? productExtension : this.assembly.Extension;
 
 			var Product = new FileInfo(Path.Combine(staging.FullName, Product_Name + Product_Extension));
 
-			this.Output = Product;
 
 			var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
 
-
-			if (Product.Exists)
-				Product.Delete();
+			if (this.Output == null)
+			{
+				// we probably did not load the same file... and we can easly remove it!
+				if (Product.Exists)
+					Product.Delete();
+			}
 
 
 			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
-			var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name), Product.Name);
+			var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
+				// Unable to add resource to transient module or transient assembly.
+				this.Output == null ?  Product.Name : "~" + Product.Name
+				
+			);
 
 
 
@@ -590,7 +658,6 @@ namespace jsc.meta.Commands.Rewrite
 
 			// did we define any type declarations which we did not actually create yet?
 			// fixme: maybe we shold just close the unclosed TypeBuilders?
-			//var kt2 = TypeDefinitionCache.BaseDictionary.Select(k => TypeCache[k.Key]).ToArray();
 
 			foreach (var item in TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys))
 			{
@@ -621,6 +688,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
+
+
 			#region maybe the rewriter wants to add some types at this point?
 			if (PostAssemblyRewrite != null)
 				PostAssemblyRewrite(
@@ -628,17 +697,89 @@ namespace jsc.meta.Commands.Rewrite
 				);
 			#endregion
 
+			InvokeLater(a, m);
 
+	
 			Console.WriteLine("");
 			Console.WriteLine("rewriting... done");
 			Console.WriteLine("");
 
-			a.Save(
-				Product.Name
-			);
+			
 
+			if (this.Output == null)
+			{
+				a.Save(
+					Product.Name
+				);
+				this.Output = Product;
+			}
+			else
+			{
+				// we probably loaded that assembly and now are trying to write to it...
+				a.Save(
+					"~" + Product.Name
+				);
+
+				new FileInfo( 
+					Path.Combine(Product.Directory.FullName, "~" + Product.Name) 
+				).CopyTo(this.Output.FullName, true);
+			}
 
 			Product.Refresh();
+		}
+
+		private static void CopyAttributes(Assembly shadow_assembly, AssemblyBuilder __a)
+		{
+			var TypeAttributes = shadow_assembly.GetCustomAttributes(false);
+
+			foreach (var item in TypeAttributes)
+			{
+				// for now we cannot copy ctor attributes / nonoba branch knows how...
+				if (item.GetType().GetConstructor() == null)
+				{
+					var ctors = item.GetType().GetConstructors().OrderByDescending(k => k.GetParameters().Length);
+
+					foreach (var _ctor in ctors)
+					{
+
+						if (CopyAttributes(item, __a, _ctor))
+							break;
+					}
+				}
+				else
+				{
+					// call a callback?
+					__a.DefineAttribute(item, item.GetType());
+				}
+			}
+		}
+
+		private static bool CopyAttributes(object item, AssemblyBuilder __a, ConstructorInfo ctor)
+		{
+			var xb = new ILBlock(ctor);
+
+			var a = Enumerable.ToDictionary(
+				from i in xb.Instructrions
+				let p = i.TargetParameter
+				where p != null
+				let stfld = i.NextInstruction
+				let f = stfld.TargetField
+				where f != null
+				group f by p
+			, k => k.Key, k => k.First());
+
+			if (a.Count < ctor.GetParameters().Length)
+				return false;
+
+			__a.SetCustomAttribute(
+				ctor, Enumerable.ToArray(
+					from p in ctor.GetParameters()
+					let f = a[p]
+					select f.GetValue(item)
+				)
+			);
+
+			return true;
 		}
 
 

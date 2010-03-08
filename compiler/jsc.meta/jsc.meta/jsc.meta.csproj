@@ -145,11 +145,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Reflection.Options, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\lib\ScriptCoreLib.Reflection.Options.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ScriptCoreLib.Web.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Web.Services.dll</HintPath>
@@ -260,14 +255,15 @@
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
     <Compile Include="Library\Mashups\UltraSecondary.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\Mashups\UltraWebServiceWithDelayedDOM.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
-    <Compile Include="Library\MVSProjectFile.cs" />
-    <Compile Include="Library\MVSSolutionFile.cs" />
+    <Compile Include="Library\MSVS\MSVSProjectFile.cs" />
+    <Compile Include="Library\MSVS\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\NamedAudio.cs" />
@@ -370,6 +366,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\core\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options.csproj">
+      <Project>{2CB7C626-30E2-44EC-941A-86321A353D1C}</Project>
+      <Name>ScriptCoreLib.Reflection.Options</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
       <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
       <Name>ScriptCoreLib.Ultra.Library</Name>

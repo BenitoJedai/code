@@ -31,6 +31,11 @@ namespace jsc.meta.Library
 			return e;
 		}
 
+		public static DirectoryInfo CreateTemp(this DirectoryInfo e)
+		{
+			return e.Create(() => new DirectoryInfo(Path.GetTempPath()).CreateSubdirectory(Path.GetRandomFileName()));
+		}
+
 		public static DirectoryInfo Create(this DirectoryInfo e, Func<DirectoryInfo> f)
 		{
 			if (e == null)

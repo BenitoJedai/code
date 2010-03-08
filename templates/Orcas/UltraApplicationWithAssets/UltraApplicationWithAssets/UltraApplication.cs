@@ -18,7 +18,12 @@ namespace UltraApplicationWithAssets
 		{
 			Native.Document.title = "Ultra Application";
 
+
+			//var logo2 = new global::UltraLibraryWithAssets.HTML.Images.FromAssets.jsc();
+
 			var a = new HTML.Pages.FromAssets.AboutJSC();
+
+			//a.Logo1 = logo2;
 
 			a.Container.AttachToDocument();
 
