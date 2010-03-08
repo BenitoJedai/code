@@ -158,8 +158,8 @@ namespace jsx
                 Assembly.GetExecutingAssembly(),
 
                 //Assembly.LoadFile(@"X:\c#\jsc\svn\templates\OrcasVisualBasicScriptApplication\bin\Release\OrcasVisualBasicScriptApplication.dll"),
-                Assembly.LoadFile(@"C:\util\reflector\reflector.exe"),
-				Assembly.LoadFile(@"C:\work\jsc.svn\examples\c\WavePlayer2\WavePlayer2\bin\WaveComponent.staging\MySounds1.WaveComponent.dll"),
+				//Assembly.LoadFile(@"C:\util\reflector\reflector.exe"),
+				//Assembly.LoadFile(@"C:\work\jsc.svn\examples\c\WavePlayer2\WavePlayer2\bin\WaveComponent.staging\MySounds1.WaveComponent.dll"),
                 GetEnumerators(typeof(jsx.Tests.Sequence.YieldSupport)),
                 GetEnumerators(typeof(System.Linq.Enumerable))
 

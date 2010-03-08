@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("jsx")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("jsc-solutions.net")]
 [assembly: AssemblyProduct("jsx")]
 [assembly: AssemblyCopyright("Copyright ?  2005")]
 [assembly: AssemblyTrademark("")]

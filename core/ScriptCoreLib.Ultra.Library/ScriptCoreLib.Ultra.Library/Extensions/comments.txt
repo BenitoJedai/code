@@ -1,0 +1,8 @@
+﻿We are providing extensions for
+- jsc
+- jsx
+- jsc.meta
+- user applications
+
+Types within this assembly are only pulled if in use.
+We can define more extensions which may not be rewritten into final assembly.

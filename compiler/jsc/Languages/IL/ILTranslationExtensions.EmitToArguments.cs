@@ -250,7 +250,8 @@ namespace jsc.Languages.IL
 					OpCodes.Br_S,
 					OpCodes.Brtrue_S,
 					OpCodes.Brfalse_S,
-					OpCodes.Bne_Un_S
+					OpCodes.Bne_Un_S,
+					OpCodes.Bge_S
 				};
 
 
