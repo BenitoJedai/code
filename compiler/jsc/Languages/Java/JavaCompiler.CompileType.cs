@@ -37,7 +37,12 @@ namespace jsc.Languages.Java
             {
                 this.WriteIdent();
 				this.WriteKeywordSpace(Keywords._package);
-				this.Write(NamespaceFixup(z.Namespace, z) + ";");
+
+				var _namespace = string.Join(".", NamespaceFixup(z.Namespace, z).Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+
+				this.Write(_namespace + ";");
+
+				//this.Write(NamespaceFixup(z.Namespace, z) + ";");
 				this.WriteLine();
 				this.WriteLine();
             }

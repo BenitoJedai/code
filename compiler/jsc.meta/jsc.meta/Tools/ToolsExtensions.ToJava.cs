@@ -81,6 +81,9 @@ namespace jsc.meta.Tools
 			);
 
 			proccess_javac.WaitForExit();
+
+			if (proccess_javac.ExitCode != 0)
+				throw new ArgumentOutOfRangeException();
 			#endregion
 
 
