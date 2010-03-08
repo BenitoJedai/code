@@ -65,6 +65,8 @@ call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sl
 
 call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln
 call :build40 templates\TwentyTen\UltraWebApplication\UltraWebApplication.sln
+::call :build40 templates\TwentyTen\UltraApplicationWithAssets\UltraApplicationWithAssets.sln
+call :build40 templates\TwentyTen\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
 
 call :build40 templates\TwentyTen\FSharp\UltraApplication\UltraApplication.sln
 
