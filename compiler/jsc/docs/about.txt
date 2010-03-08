@@ -417,3 +417,5 @@ version history:
 	java: base method calls detection fixed
 06.03.2010
 	as: safe names are now used for namespaces
+08.03.2010
+	java: safe names are now used for namespaces 

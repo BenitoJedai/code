@@ -581,11 +581,13 @@ namespace jsc.Languages.Java
 
 		string ToJavaTypeName(string e)
 		{
-			e = e.Replace("`", "_");
-			e = e.Replace("<", "_");
-			e = e.Replace(">", "_");
+			// why not reuse GetSafeLiteral?
 
-			return e;
+			//e = e.Replace("`", "_");
+			//e = e.Replace("<", "_");
+			//e = e.Replace(">", "_");
+
+			return this.GetSafeLiteral(e);
 		}
 
 		// http://www.idevelopment.info/data/Programming/java/miscellaneous_java/Java_Primitive_Types.html

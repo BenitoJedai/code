@@ -96,7 +96,13 @@ namespace jsc.Languages.Java
 
 
 				WriteKeywordImport();
-				Write(Namespace);
+				//Write(Namespace);
+
+				var _namespace = string.Join(".", Namespace.Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+
+				this.Write(_namespace);
+
+
 				WriteLine(";");
 
 			}

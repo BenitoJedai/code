@@ -8,5 +8,5 @@ open global.System.Reflection
  type UltraWebService() =
     member 
         this.WebMethod1(x : string,  yieldreturn : Action<string>) =
-     let y = x + x
+     let y = x + DateTime.Now.ToString()
      do yieldreturn.Invoke(y)

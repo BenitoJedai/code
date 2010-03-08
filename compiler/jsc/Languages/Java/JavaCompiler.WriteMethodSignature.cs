@@ -53,7 +53,17 @@ namespace jsc.Languages.Java
 				if (m.IsFamily)
 					WriteKeywordSpace(Keywords._protected);
 				else
-					WriteKeywordPrivate();
+				{
+					// F# generates private closures and makes
+					// delegates from them
+					// we need to have them public!
+					// we should actually look ahead if 
+					// anyone is taking a delegate of the method
+					// and only then make it public...
+
+					//WriteKeywordPrivate();
+					WriteKeywordPublic();
+				}
 			}
 
 			if (m.IsStatic || dStatic)

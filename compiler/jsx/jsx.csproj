@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.20404</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4D7EED61-DBFD-48E8-9671-8E734C1F2817}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -118,6 +118,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>TypeViewerForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
+      <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
+      <Name>ScriptCoreLib.Ultra.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tools\" />
