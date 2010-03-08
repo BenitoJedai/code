@@ -54,6 +54,9 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UltraWebService.fs" />
+    <Compile Include="UltraSprite.fs" />
+    <Compile Include="UltraApplet.fs" />
     <Compile Include="Application.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
