@@ -6,6 +6,7 @@ open java.awt
 open System;
 open ScriptCoreLib.Ultra.Library.Extensions
 
+
 [<Sealed>]
  type UltraApplet() =
     inherit Applet()
