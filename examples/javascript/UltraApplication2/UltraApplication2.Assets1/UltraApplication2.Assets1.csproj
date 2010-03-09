@@ -78,14 +78,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\matrix1.png" />
     <Content Include="My.UltraSource\Assets.htm" />
-    <Content Include="My.UltraSource\jsc.png" />
+    <Resource Include="My.UltraSource\jsc.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="My.UltraSource\XMLFile1.xaml">
+    <None Include="My.UltraSource\XMLFile1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

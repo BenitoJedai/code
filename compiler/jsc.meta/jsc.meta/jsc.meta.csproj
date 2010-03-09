@@ -266,12 +266,14 @@
     <Compile Include="Library\MSVS\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />
+    <Compile Include="Library\Templates\Avalon\AvalonNamedImage.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\NamedAudio.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\NamedImage.cs" />
     <Compile Include="Library\Templates\Java\InternalElementProxy.cs" />
     <Compile Include="Library\Templates\JavaScript\InternalJavaToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
     <Compile Include="Library\Templates\Java\InternalHttpServlet.cs" />
+    <Compile Include="Library\Templates\NamedImageInformation.cs" />
     <Compile Include="Library\Templates\WebService\InternalFileInfo.cs" />
     <Compile Include="Library\Templates\WebService\InternalGlobal.cs" />
     <Compile Include="Library\Templates\WebService\InternalGlobalExtensions.cs" />

@@ -334,7 +334,9 @@ namespace jsc.Languages.IL
 					OpCodes.Add_Ovf,
 					OpCodes.Div,
 					OpCodes.Mul,
+					OpCodes.Neg,
 
+					// try/catch is special
 					//OpCodes.Endfinally,
 					
 				}.ForEach(

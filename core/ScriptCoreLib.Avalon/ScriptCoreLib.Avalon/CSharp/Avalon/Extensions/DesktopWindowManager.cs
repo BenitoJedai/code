@@ -105,5 +105,17 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 
 		}
+
+		public static void ExplicitWithGlass(this Window x)
+		{
+
+			x.SourceInitialized +=
+				delegate
+				{
+					x.ExtendGlassFrame();
+				};
+
+
+		}
 	}
 }
