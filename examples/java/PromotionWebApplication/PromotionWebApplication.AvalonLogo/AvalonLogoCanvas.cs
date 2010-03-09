@@ -12,6 +12,7 @@ using System.Diagnostics;
 using ScriptCoreLib.Shared.Lambda;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Threading;
 
 namespace PromotionWebApplication.AvalonLogo
 {
@@ -83,23 +84,31 @@ namespace PromotionWebApplication.AvalonLogo
 			Add(new Internet_Explorer_7_Logo());
 			Add(new Firefox_3());
 			Add(new Opera());
-			Add(new Flash());
-			Add(new Java());
-			Add(new PHP());
-			Add(new DotNet());
+			//Add(new Flash());
+			//Add(new Java());
+			//Add(new PHP());
+			//Add(new DotNet());
 
 			var size = 64;
-			var step = 0.0002;
+			var step = 0.0003;
 
 			Action<DispatcherTimer> AtAnimation = delegate { };
 
-			(1000 / 100).AtIntervalWithTimer(
+			// .net is fast, but js will be slow :)
+
+			(1000 / 20).AtIntervalWithTimer(
 				t =>
 				{
 					var ms = s.ElapsedMilliseconds;
 
 
 					var i = 0;
+					
+					AtAnimation(t);
+
+					// using for each must be the last thing in a method 
+					// because .leave operator currently cannot be understood by jsc
+
 					foreach (var item_ in images)
 					{
 						var item = item_.Image;
@@ -141,7 +150,6 @@ namespace PromotionWebApplication.AvalonLogo
 						i++;
 					}
 
-					AtAnimation(t);
 				}
 			);
 
@@ -183,16 +191,7 @@ namespace PromotionWebApplication.AvalonLogo
 
 			WaitAndAppear(200, 0.07, n => logo.Opacity = n);
 
-			var ii = 0;
-			foreach (var item__ in images
-				//.Randomize()
-				)
-			{
-				var item = item__;
-
-				WaitAndAppear(500 + ((ii + images.Count / 2) % images.Count) * 200, 0.07, n => item.Opacity = n);
-				ii++;
-			}
+			ShowSattelites(images, WaitAndAppear);
 
 			Canvas.SetZIndex(logo, Convert.ToInt32(500));
 
@@ -231,13 +230,7 @@ namespace PromotionWebApplication.AvalonLogo
 				{
 					WaitAndAppear(1, 0.12, n => logo.Opacity = 1 - n);
 
-					foreach (var item__ in images)
-					{
-						var item = item__;
-
-						WaitAndAppear(1 + 1000.Random(), 0.12, n => item.Opacity = 1 - n);
-						ii++;
-					}
+				
 
 					AtAnimation =
 						t =>
@@ -250,7 +243,30 @@ namespace PromotionWebApplication.AvalonLogo
 							if (AtClose != null)
 								AtClose();
 						};
+
+					foreach (var item__ in images)
+					{
+						var item = item__;
+
+						WaitAndAppear(1 + 1000.Random(), 0.12, n => item.Opacity = 1 - n);
+					}
 				};
+		}
+
+		private static void ShowSattelites(List<XImage> images, Action<int, double, Action<double>> WaitAndAppear)
+		{
+			var ii = 0;
+			foreach (var item__ in images
+				//.Randomize()
+				)
+			{
+				var item = item__;
+
+				WaitAndAppear(500 + ((ii + images.Count / 2) % images.Count) * 200, 0.07, n => item.Opacity = n);
+				ii++;
+			}
+			// we would be breaking jsc atm...
+			//return ii;
 		}
 
 		public event Action AtLogoClick;
@@ -270,5 +286,52 @@ namespace PromotionWebApplication.AvalonLogo
 		}
 
 		#endregion
+	}
+
+	namespace Desktop
+	{
+		using ScriptCoreLib.CSharp.Avalon.Extensions;
+
+		public static class AvalonLogoForDesktop
+		{
+			// note: this class can only run under .net
+
+			public static void ShowDialog(Action<Action> AnnounceCloseAction)
+			{
+				var t = new Thread(
+					delegate()
+					{
+						var c = new PromotionWebApplication.AvalonLogo.AvalonLogoCanvas();
+
+						if (AnnounceCloseAction != null)
+							AnnounceCloseAction(c.Close);
+
+						c.Container.BitmapEffect = new DropShadowBitmapEffect();
+
+						var w = c.ToWindow();
+
+						c.AtClose += w.Close;
+
+						// http://blog.joachim.at/?p=39
+						// http://blogs.msdn.com/changov/archive/2009/01/19/webbrowser-control-on-transparent-wpf-window.aspx
+						// http://blogs.interknowlogy.com/johnbowen/archive/2007/06/20/20458.aspx
+						w.AllowsTransparency = true;
+						w.WindowStyle = System.Windows.WindowStyle.None;
+						w.Background = Brushes.Transparent;
+						w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+						w.Topmost = true;
+
+
+						w.ShowDialog();
+					}
+				)
+				{
+					ApartmentState = ApartmentState.STA
+				};
+
+				t.Start();
+				t.Join();
+			}
+		}
 	}
 }

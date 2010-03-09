@@ -6,6 +6,7 @@ using System.IO;
 using jsc.meta.Library;
 using System.Reflection;
 using jsc.meta.Commands.Reference.ReferenceUltraSource;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 {
@@ -30,10 +31,14 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 		/// </summary>
 		public MSVSProjectFile PrimaryProject;
 
+		public bool AttachDebugger;
+
+		public bool DisableUltraSourceDetection;
 
 		public override void Invoke()
 		{
-
+			if (this.AttachDebugger)
+				Debugger.Launch();
 	
 			var UltraSourceReferences = Enumerable.ToArray(
 				from k in PrimaryProject.HintPaths
@@ -43,10 +48,17 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 				select p
 			);
 
-			if (!UltraSourceReferences.Any())
+			if (DisableUltraSourceDetection)
 			{
-				Console.WriteLine("No UltraSource assemblies found to be merged.");
-				return;
+				// see? no checks!
+			}
+			else
+			{
+				if (!UltraSourceReferences.Any())
+				{
+					Console.WriteLine("No UltraSource assemblies found to be merged.");
+					return;
+				}
 			}
 
 			var r = new RewriteToAssembly

@@ -548,7 +548,8 @@ namespace jsc
 				}
 			}
 
-			throw new NotSupportedException("current OpCodes.Leave cannot be understood");
+			// this needs to be fixed!
+			throw new NotSupportedException("current OpCodes.Leave cannot be understood at " + i.Location);
 		}
 
 		static void OpCode_ret(IdentWriter w, ilbp p, ili i, ilfsi[] s)

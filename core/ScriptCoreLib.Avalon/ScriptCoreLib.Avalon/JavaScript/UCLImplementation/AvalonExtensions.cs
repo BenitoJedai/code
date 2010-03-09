@@ -16,11 +16,13 @@ namespace ScriptCoreLib.JavaScript.UCLImplementation
 	{
 		public static AvalonSoundChannel ToSound(this string asset)
 		{
+			// we can now use HTML5 audio element
 			return new AvalonSoundChannel();
 		}
 
 		public static AvalonSoundChannel PlaySound(this string asset)
 		{
+			// we can now use HTML5 audio element
 			return new AvalonSoundChannel();
 		}
 

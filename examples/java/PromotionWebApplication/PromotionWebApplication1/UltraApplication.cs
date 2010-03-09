@@ -9,7 +9,7 @@ using PromotionWebApplication1.Library;
 using PromotionWebApplication1.Services;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
-using ScriptCoreLib.ActionScript.Extensions;
+//using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
@@ -18,6 +18,9 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Ultra.Library.Delegates;
+using PromotionWebApplication.AvalonLogo;
+//using ScriptCoreLib.Shared.Avalon.Extensions;
+
 namespace PromotionWebApplication1
 {
 
@@ -324,19 +327,38 @@ namespace PromotionWebApplication1
 						//new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
 						//new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
 
+
+						var ccc = new IHTMLDiv();
+
+						ccc.style.position = IStyle.PositionEnum.absolute;
+						ccc.style.left = "50%";
+						ccc.style.top = "50%";
+						ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
+						ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
+
+						ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
+
+						ccc.AttachToDocument();
+
 						var aa = new About();
 						aa.Service.innerText = gapageview;
 
 						aa.Container.AttachToDocument();
 
-						var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
+						var alo = new AvalonLogoCanvas();
 
-						cc.Container.AttachToDocument();
+						alo.Container.AttachToContainer(ccc);
 
-						// see: http://en.wikipedia.org/wiki/Perl_control_structures
-						// "Unless" == "if not"  ;)
+						//alo.Container.AttachTo(
 
-						IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+						//var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
+
+						//cc.Container.AttachToDocument();
+
+						//// see: http://en.wikipedia.org/wiki/Perl_control_structures
+						//// "Unless" == "if not"  ;)
+
+						//IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
 					}
 			}
 			#endregion
