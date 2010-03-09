@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using ScriptCoreLib.CSharp.Extensions;
 using System.Windows.Navigation;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using System.Runtime.InteropServices;
+using System.Windows.Interop;
 
 namespace ScriptCoreLib.CSharp.Avalon.Extensions
 {
@@ -67,6 +69,6 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 			return w;
 		}
 
-
+	
 	}
 }

@@ -14,14 +14,13 @@ namespace PromotionWebApplication.AvalonLogo.Test
 {
 	class Program
 	{
-
-
-		[STAThread]
 		static void Main(string[] args)
 		{
-			AvalonLogoForDesktop.ShowDialog(null);
+			var j = AvalonLogoForDesktop.ShowDialogSplash();
 
+			// ...
 
+			j.Join();
 		}
 	}
 }
