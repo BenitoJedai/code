@@ -16,6 +16,9 @@ using jsc.Script;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using System.Windows.Controls;
+using jsc.meta.Library.Templates.Avalon;
+using jsc.meta.Library.Templates;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
@@ -117,7 +120,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					var Extension = default(string);
 
 					if (__WebClient == null)
-						Extension = "." +src.Value.SkipUntilLastIfAny(".");
+						Extension = "." + src.Value.SkipUntilLastIfAny(".");
 					else
 					{
 						var ContentType = __WebClient.ResponseHeaders[HttpResponseHeader.ContentType].TakeUntilIfAny(";");
@@ -222,6 +225,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						DefineNamedElement(ElementType, Namespace, name, Variations, AssetPath, "FromAssets");
 
+						if (ElementType == typeof(IHTMLImage))
+							DefineAvalonNamedImage(a, r,
+								DefaultNamespace + ".Avalon.Images." + name, AssetPath, null
+							);
+
+
+						// lets define 
+
 						// src="data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
 
 						#region ResourceBase64
@@ -300,6 +311,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				}
 				else
 				{
+					// sure it's audio?
 					Variations.FromAssets = DefineNamedAudio(a, r,
 						DefaultNamespace + ".HTML." + Namespace + "." + VariationName + "." + name,
 						AssetPath
@@ -410,5 +422,61 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				return MyType;
 			}
 		}
+
+		private static Type DefineAvalonNamedImage(
+		RewriteToAssembly.AssemblyRewriteArguments a,
+		RewriteToAssembly r,
+		string ImageFullName,
+		string ImageSource,
+		MethodInfo get_ImageSource)
+		{
+			var TemplateType = typeof(AvalonNamedImage);
+
+			using (a.context.ToTransientTransaction())
+			{
+				r.AtILOverride +=
+					(m, il_a) =>
+					{
+						if (m.DeclaringType != TemplateType)
+							return;
+
+						il_a[OpCodes.Ldstr] =
+							(e) =>
+							{
+								if (e.i.TargetLiteral != AvalonNamedImage._src)
+								{
+									e.Default();
+									return;
+								}
+
+								if (ImageSource != null)
+								{
+									e.il.Emit(OpCodes.Ldstr, ImageSource);
+									return;
+								}
+
+								e.il.Emit(OpCodes.Call, get_ImageSource);
+							};
+					};
+
+				a.context.TypeRenameCache.Resolve +=
+					SourceType =>
+					{
+						if (SourceType != TemplateType)
+							return;
+
+						a.context.TypeRenameCache[SourceType] =
+							ImageFullName;
+					};
+
+				var MyType = a.context.TypeCache[TemplateType];
+
+				TemplateType = null;
+
+				return MyType;
+			}
+		}
+
+
 	}
 }

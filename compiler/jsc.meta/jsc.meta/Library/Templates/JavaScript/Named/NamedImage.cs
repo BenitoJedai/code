@@ -22,6 +22,7 @@ namespace jsc.meta.Library.Templates.JavaScript
 
 			i.style.SetSize(NamedImageInformation.GetImageDefaultWidth(), NamedImageInformation.GetImageDefaultHeight());
 
+
 			return (NamedImage)i;
 		}
 
@@ -51,23 +52,5 @@ namespace jsc.meta.Library.Templates.JavaScript
 		}
 	}
 
-	public static class NamedImageInformation
-	{
-		// note: this type is shared between variations FromWeb, FromBase64, FromAssets
 
-		public static int GetImageDefaultWidth()
-		{
-			throw new NotImplementedException();
-		}
-
-		public static int GetImageFileSize()
-		{
-			throw new NotImplementedException();
-		}
-
-		public static int GetImageDefaultHeight()
-		{
-			throw new NotImplementedException();
-		}
-	}
 }
