@@ -296,7 +296,12 @@ namespace PromotionWebApplication.AvalonLogo
 		{
 			// note: this class can only run under .net
 
-			public static void ShowDialog(Action<Action> AnnounceCloseAction)
+			public static Thread ShowDialogSplash()
+			{
+				return ShowDialog(c => 4500.AtDelay(c));
+			}
+
+			public static Thread ShowDialog(Action<Action> AnnounceCloseAction)
 			{
 				var t = new Thread(
 					delegate()
@@ -310,6 +315,8 @@ namespace PromotionWebApplication.AvalonLogo
 
 						var w = c.ToWindow();
 
+						w.ToTransparentWindow();
+
 						c.AtClose += w.Close;
 
 						// http://blog.joachim.at/?p=39
@@ -320,17 +327,19 @@ namespace PromotionWebApplication.AvalonLogo
 						w.Background = Brushes.Transparent;
 						w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 						w.Topmost = true;
-
+						w.ShowInTaskbar = false;
 
 						w.ShowDialog();
 					}
 				)
 				{
-					ApartmentState = ApartmentState.STA
+					ApartmentState = ApartmentState.STA,
+					IsBackground = true
 				};
 
 				t.Start();
-				t.Join();
+
+				return t;
 			}
 		}
 	}
