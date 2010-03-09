@@ -31,10 +31,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalSprite;
 		}
 
+		bool InternalGetOpacityTarget_DisableContainerReset;
+
 		public override IHTMLElement InternalGetOpacityTarget()
 		{
 			if (InternalBitmap != null)
+			{
+				if (!InternalGetOpacityTarget_DisableContainerReset)
+				{
+					InternalGetDisplayObject().style.Opacity = 1;
+					InternalGetOpacityTarget_DisableContainerReset = true;
+				}
+
 				return InternalBitmap;
+			}
 
 			// beaware of recursion
 			return InternalGetDisplayObject();

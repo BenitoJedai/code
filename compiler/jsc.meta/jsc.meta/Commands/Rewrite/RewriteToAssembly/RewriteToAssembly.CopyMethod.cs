@@ -279,6 +279,15 @@ namespace jsc.meta.Commands.Rewrite
 					// As such we need not to write this twice
 				};
 
+			x[OpCodes.Leave] =
+				e =>
+				{
+					// see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
+
+					// MethodBuilder.Emit is too nice and always writes .leave for us.
+					// As such we need not to write this twice
+				};
+
 
 			if (ILOverride != null)
 				ILOverride(SourceMethod, x);

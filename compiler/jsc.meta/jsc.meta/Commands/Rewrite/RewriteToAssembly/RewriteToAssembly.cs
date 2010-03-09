@@ -153,7 +153,7 @@ namespace jsc.meta.Commands.Rewrite
 										n = Product_Name + n.Substring(shadow_assembly.GetName().Name.Length);
 
 									__m.DefineManifestResource(
-										n, 
+										n,
 										shadow_assembly.GetManifestResourceStream(item), ResourceAttributes.Public
 									);
 
@@ -180,10 +180,15 @@ namespace jsc.meta.Commands.Rewrite
 
 			var Product = new FileInfo(Path.Combine(staging.FullName, Product_Name + Product_Extension));
 
+			// we might want to use temp path instead and later figure out if we are replacing input...
+			var OutputUndefined = this.Output == null;
+
+			if (OutputUndefined)
+				this.Output = Product;
 
 			var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
 
-			if (this.Output == null)
+			if (OutputUndefined)
 			{
 				// we probably did not load the same file... and we can easly remove it!
 				if (Product.Exists)
@@ -194,8 +199,8 @@ namespace jsc.meta.Commands.Rewrite
 			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
 			var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
 				// Unable to add resource to transient module or transient assembly.
-				this.Output == null ?  Product.Name : "~" + Product.Name
-				
+				OutputUndefined ? Product.Name : "~" + Product.Name
+
 			);
 
 
@@ -375,17 +380,56 @@ namespace jsc.meta.Commands.Rewrite
 						// do we need to redirect the type also?
 						if (source.GetGenericArguments().Any(k => k != TypeCache[k]))
 						{
+							//var msource_gp = msource.GetGenericMethodDefinition().GetParameterTypes();
+
+
 							var GenericArguments = TypeCache[source.GetGenericArguments()];
 
 
 							var GenericTypeDefinition = source.GetGenericTypeDefinition();
+							var GenericTypeDefinition_GetGenericArguments = GenericTypeDefinition.GetGenericArguments();
+
 							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
 							var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
-							var ParameterTypes = TypeCache[msource.GetParameterTypes()];
+							var ParameterTypes =
 
+
+							msource.IsGenericMethod ? msource.GetGenericMethodDefinition().GetParameterTypes().Select(
+								k =>
+								{
+									if (k.IsGenericTypeDefinition)
+										return k;
+
+									return TypeCache[k];
+								}
+								).ToArray() : TypeCache[msource.GetParameterTypes()];
+
+							ParameterTypes = ParameterTypes.Select(k =>
+							{
+
+								#region resolve Type Generics
+								for (int iii = 0; iii < GenericArguments.Length; iii++)
+								{
+									if (GenericArguments[iii] == k)
+										return GenericTypeDefinition_GetGenericArguments[iii];
+								}
+								#endregion
+
+
+
+								return k;
+							}).ToArray();
+							// Type must be a type provided by the runtime.
+							// Parameter name: types
 							var GenericTypeDefinitionMethod = GenericTypeDefinition.GetMethod(msource.Name, Flags, null, ParameterTypes, null);
+
 							var GenericTypeMethod = TypeBuilder.GetMethod(GenericType, GenericTypeDefinitionMethod);
-							MethodCache[msource] = GenericTypeMethod;
+
+							var GenericTypeMethod__ = msource.IsGenericMethod ? GenericTypeMethod.MakeGenericMethod(
+								 TypeCache[msource.GetGenericArguments()]
+								 ) : GenericTypeMethod;
+
+							MethodCache[msource] = GenericTypeMethod__;
 						}
 						else
 						{
@@ -699,19 +743,18 @@ namespace jsc.meta.Commands.Rewrite
 
 			InvokeLater(a, m);
 
-	
+
 			Console.WriteLine("");
 			Console.WriteLine("rewriting... done");
 			Console.WriteLine("");
 
-			
 
-			if (this.Output == null)
+
+			if (OutputUndefined)
 			{
 				a.Save(
 					Product.Name
 				);
-				this.Output = Product;
 			}
 			else
 			{
@@ -720,8 +763,8 @@ namespace jsc.meta.Commands.Rewrite
 					"~" + Product.Name
 				);
 
-				new FileInfo( 
-					Path.Combine(Product.Directory.FullName, "~" + Product.Name) 
+				new FileInfo(
+					Path.Combine(Product.Directory.FullName, "~" + Product.Name)
 				).CopyTo(this.Output.FullName, true);
 			}
 

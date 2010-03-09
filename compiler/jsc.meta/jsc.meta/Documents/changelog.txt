@@ -75,3 +75,5 @@
 	- Added HTML5 Audio support into ReferenceUltraSource
 2010.03.02
 	- Fixed RewriteToAssembly generic support for nonrewritten types
+2010.03.09
+	- Fixed RewriteToAssembly generic support for nonrewritten types for Type<T>.Method<M>
