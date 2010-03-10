@@ -118,7 +118,12 @@ call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptAp
 
 ::call :build javascript\Examples\FormsExample.VisualBasic\FormsExample.VisualBasic.sln
 
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller
+set SplashType=PromotionWebApplication.AvalonLogo.Desktop.AvalonLogoForDesktop
+set SplashMethod=ShowDialogSplash
+set SplashAssembly=W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication.AvalonLogo\bin\Assets\PromotionWebApplication.AvalonLogo.dll
+
+:: we need to pre build that assembly in "Assets" configuration
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash.SplashType:%SplashType% /Splash.SplashMethod:%SplashMethod% /Splash.SplashAssembly:%SplashAssembly%
 
 endlocal
 goto :eof

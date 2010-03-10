@@ -14,6 +14,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 		public string SplashType;
 		public string SplashMethod;
 
-
+		public override string ToString()
+		{
+			return new { PrimaryAssembly, SplashAssembly, SplashType, SplashMethod }.ToString();
+		}
 	}
 }

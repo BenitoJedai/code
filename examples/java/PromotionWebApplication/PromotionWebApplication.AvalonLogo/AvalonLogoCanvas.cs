@@ -98,6 +98,8 @@ namespace PromotionWebApplication.AvalonLogo
 
 			// .net is fast, but js will be slow :)
 
+			var randomphase = Math.PI * 2 * new Random().NextDouble();
+
 			(1000 / 20).AtIntervalWithTimer(
 				t =>
 				{
@@ -114,13 +116,13 @@ namespace PromotionWebApplication.AvalonLogo
 					foreach (var item_ in images)
 					{
 						var item = item_.Image;
-						var phase = Math.PI * 2 * i / images.Count;
+						var phase = Math.PI * 2 * i / images.Count + randomphase;
 
 
 						var cos = Math.Cos(step * ms + phase);
 						var sin = Math.Sin(step * ms + phase);
 
-						var z1margin = 0.3;
+						var z1margin = 0.7;
 						var z1 = (cos + (1 + z1margin)) / (2 + z1margin);
 
 						var z2margin = 1.0;

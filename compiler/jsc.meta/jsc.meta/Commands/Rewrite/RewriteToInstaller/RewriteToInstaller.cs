@@ -117,6 +117,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 				r.Invoke();
 
+				if (this.Splash != null)
+				{
+					this.Splash.PrimaryAssembly = r.Output;
+					this.Splash.Invoke();
+				}
+
 				var exe_zip = new ZIPFile
 				{
 					{ r.Output.Name, File.ReadAllBytes(r.Output.FullName)}

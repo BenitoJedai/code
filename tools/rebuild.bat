@@ -1,5 +1,6 @@
 @echo off
 setlocal
+pushd ..
 
 set msbuild=%SystemRoot%\Microsoft.NET\Framework\v3.5\MSBuild.exe
 set msbuild40=%SystemRoot%\Microsoft.NET\Framework\v4.0.30128\MSBuild.exe
@@ -12,6 +13,7 @@ mkdir C:\util\jsc\bin
 mkdir C:\util\jsc\lib
 
 :: C:\util\jsc\bin is expected to exist as compiler and framework assemblies will be placed there
+
 
 :: rebuild compiler
 call :build compiler\ScriptCoreLibA\ScriptCoreLibA.sln
@@ -125,6 +127,7 @@ set SplashAssembly=W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWeb
 :: we need to pre build that assembly in "Assets" configuration
 call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash.SplashType:%SplashType% /Splash.SplashMethod:%SplashMethod% /Splash.SplashAssembly:%SplashAssembly%
 
+popd
 endlocal
 goto :eof
 
