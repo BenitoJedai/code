@@ -14,11 +14,22 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 	{
 		readonly Sprite InternalSprite = new Sprite();
 
-		Bitmap InternalBitmap;
+		internal Bitmap InternalBitmap;
 
 		public __Image()
 		{
 
+		}
+
+		internal bool InternalSmoothing;
+
+		public void InternalSetSmoothing(bool value)
+		{
+			// http://livedocs.adobe.com/flex/3/langref/flash/display/Bitmap.html#smoothing
+
+			InternalSmoothing = value;
+			if (InternalBitmap != null)
+				InternalBitmap.smoothing = value;
 		}
 
 		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
@@ -63,6 +74,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					InternalSprite.addChild(InternalBitmap);
 
 					InternalUpdateStrech();
+					InternalSetSmoothing(InternalSmoothing);
 				}
 				else if (stream != null)
 				{
@@ -76,6 +88,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 							InternalSprite.addChild(InternalBitmap);
 
 							InternalUpdateStrech();
+							InternalSetSmoothing(InternalSmoothing);
 						}
 					);
 				}
@@ -90,6 +103,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 							InternalSprite.addChild(InternalBitmap);
 
 							InternalUpdateStrech();
+							InternalSetSmoothing(InternalSmoothing);
 						}
 					);
 				}

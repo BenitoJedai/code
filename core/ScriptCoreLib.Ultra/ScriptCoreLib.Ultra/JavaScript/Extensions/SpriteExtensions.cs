@@ -28,6 +28,11 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return i;
 		}
 
+		public static void ToTransparentSprite(this Sprite s)
+		{
+			var x = (IHTMLEmbed)(object)s;
 
+			x.setAttribute("wmode", "transparent");
+		}
 	}
 }

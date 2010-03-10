@@ -16,7 +16,7 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 	partial class AvalonSharedExtensions
 	{
-		public static event Action<Delegate, long> TimerEvent;
+		//public static event Action<Delegate, long> TimerEvent;
 
 
 		public static DispatcherTimer AtDelay(this int Milliseconds, Action Handler)
@@ -32,12 +32,12 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			t.Tick +=
 				delegate
 				{
-					var mark = DateTime.Now.Ticks;
+					//var mark = DateTime.Now.Ticks;
 
 					Handler();
 
-					if (TimerEvent != null)
-						TimerEvent(Handler, DateTime.Now.Ticks - mark);
+					//if (TimerEvent != null)
+					//    TimerEvent(Handler, DateTime.Now.Ticks - mark);
 
 					t.Stop();
 				};
@@ -57,12 +57,12 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			t.Tick +=
 				delegate
 				{
-					var mark = DateTime.Now.Ticks;
+					//var mark = DateTime.Now.Ticks;
 
 					Handler(t);
 
-					if (TimerEvent != null)
-						TimerEvent(Handler, DateTime.Now.Ticks - mark);
+					//if (TimerEvent != null)
+					//    TimerEvent(Handler, DateTime.Now.Ticks - mark);
 				};
 
 			t.Start();
@@ -88,8 +88,8 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 
 					Handler(Counter);
 
-					if (TimerEvent != null)
-						TimerEvent(Handler, DateTime.Now.Ticks - mark);
+					//if (TimerEvent != null)
+					//    TimerEvent(Handler, DateTime.Now.Ticks - mark);
 
 					Counter++;
 				};
@@ -127,12 +127,12 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 			t.Tick +=
 				delegate
 				{
-					var mark = DateTime.Now.Ticks;
+					//var mark = DateTime.Now.Ticks;
 
 					Handler();
 
-					if (TimerEvent != null)
-						TimerEvent(Handler, DateTime.Now.Ticks - mark);
+					//if (TimerEvent != null)
+					//    TimerEvent(Handler, DateTime.Now.Ticks - mark);
 				};
 
 			t.Start();

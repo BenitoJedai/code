@@ -85,10 +85,11 @@ namespace jsc.meta.Tools
 				if (RaiseProccessStatusChanged != null)
 					RaiseProccessStatusChanged("mxmlc");
 
+				// see: http://www.docsultant.com/site2/articles/flex_cmd.html
 				var proccess_mxmlc = Process.Start(
 					new ProcessStartInfo(
 						mxmlc.FullName,
-						"-sp=. -strict -output=\"" +
+						"-sp=. -verbose-stacktraces -strict -output=\"" +
 							obj_web_swf + "\" "
 							+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
 						)

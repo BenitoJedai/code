@@ -71,7 +71,7 @@ namespace PromotionWebApplication.AvalonLogo
 					};
 
 
-
+					RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.Fant);
 					images.Add(n);
 					i.Opacity = 0;
 					i.AttachTo(this);
@@ -90,7 +90,9 @@ namespace PromotionWebApplication.AvalonLogo
 			//Add(new DotNet());
 
 			var size = 64;
-			var step = 0.0003;
+
+
+			var step = 0.0002;
 
 			Action<DispatcherTimer> AtAnimation = delegate { };
 
@@ -301,6 +303,11 @@ namespace PromotionWebApplication.AvalonLogo
 				return ShowDialog(c => 4500.AtDelay(c));
 			}
 
+			public static Thread ShowDialog()
+			{
+				return ShowDialog(null);
+			}
+
 			public static Thread ShowDialog(Action<Action> AnnounceCloseAction)
 			{
 				var t = new Thread(
@@ -311,7 +318,8 @@ namespace PromotionWebApplication.AvalonLogo
 						if (AnnounceCloseAction != null)
 							AnnounceCloseAction(c.Close);
 
-						c.Container.BitmapEffect = new DropShadowBitmapEffect();
+						//c.Container.Effect = new DropShadowEffect();
+						//c.Container.BitmapEffect = new DropShadowBitmapEffect();
 
 						var w = c.ToWindow();
 

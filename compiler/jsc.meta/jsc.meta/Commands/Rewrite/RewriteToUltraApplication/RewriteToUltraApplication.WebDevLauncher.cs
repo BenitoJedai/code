@@ -15,6 +15,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 	{
 		public static void WriteWebDevLauncher(FileInfo Target)
 		{
+			// todo: use notifications!
+			// http://msdn.microsoft.com/en-us/library/aa511448.aspx
+
 
 			var r = default(RewriteToAssembly);
 

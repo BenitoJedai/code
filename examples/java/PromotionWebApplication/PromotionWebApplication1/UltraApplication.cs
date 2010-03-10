@@ -84,6 +84,8 @@ namespace PromotionWebApplication1
 			var gahash = Native.Window.escape(Native.Document.location.hash);
 			var gapageview = gapathname + gasearch + gahash;
 
+			var hash = Native.Document.location.hash;
+
 			#region logo
 			{
 				if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
@@ -327,38 +329,53 @@ namespace PromotionWebApplication1
 						//new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
 						//new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
 
+						var IsAvalonJavaScript = hash == "#/avalon.js";
+						var IsAvalonActionScript = hash == "#/avalon.as";
+						var IsAvalon = IsAvalonActionScript || IsAvalonJavaScript;
 
-						var ccc = new IHTMLDiv();
+						if (IsAvalon)
+						{
+							var ccc = new IHTMLDiv();
 
-						ccc.style.position = IStyle.PositionEnum.absolute;
-						ccc.style.left = "50%";
-						ccc.style.top = "50%";
-						ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
-						ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
+							ccc.style.position = IStyle.PositionEnum.absolute;
+							ccc.style.left = "50%";
+							ccc.style.top = "50%";
+							ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
+							ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
 
-						ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
+							ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
 
-						ccc.AttachToDocument();
+							ccc.AttachToDocument();
+
+							if (IsAvalonActionScript)
+							{
+								var alof = new UltraSprite();
+								alof.ToTransparentSprite();
+								alof.AttachSpriteTo(ccc);
+							}
+
+							if (IsAvalonJavaScript)
+							{
+								var alo = new AvalonLogoCanvas();
+								alo.Container.AttachToContainer(ccc);
+							}
+						}
+						else
+						{
+							var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
+
+							cc.Container.AttachToDocument();
+
+							// see: http://en.wikipedia.org/wiki/Perl_control_structures
+							// "Unless" == "if not"  ;)
+
+							IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+						}
 
 						var aa = new About();
 						aa.Service.innerText = gapageview;
-
 						aa.Container.AttachToDocument();
 
-						var alo = new AvalonLogoCanvas();
-
-						alo.Container.AttachToContainer(ccc);
-
-						//alo.Container.AttachTo(
-
-						//var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
-
-						//cc.Container.AttachToDocument();
-
-						//// see: http://en.wikipedia.org/wiki/Perl_control_structures
-						//// "Unless" == "if not"  ;)
-
-						//IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
 					}
 			}
 			#endregion
@@ -393,6 +410,7 @@ namespace PromotionWebApplication1
 
 	}
 
+	
 	public delegate void StringAction(string e);
 	public delegate void StringActionAction(StringAction e);
 
