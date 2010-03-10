@@ -92,7 +92,9 @@ namespace jsc.meta.Commands.Rewrite
 		/// </summary>
 		public bool obfuscate = false;
 
+		[Obsolete]
 		internal Delegate codeinjecton;
+		[Obsolete]
 		internal Func<Assembly, object[]> codeinjectonparams;
 
 		public class NamespaceRenameInstructions

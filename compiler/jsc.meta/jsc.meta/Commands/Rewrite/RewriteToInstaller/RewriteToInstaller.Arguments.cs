@@ -45,7 +45,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 		public Uri AutoUpdateLocation = new Uri("http://www.jsc-solutions.com/download");
 
 		// we are wrapping our thing inside a splash screen, if specified
-		public RewriteToSplashScreen.RewriteToSplashScreen SplashScreen;
+		public RewriteToSplashScreen.RewriteToSplashScreen Splash;
 
 	}
 
