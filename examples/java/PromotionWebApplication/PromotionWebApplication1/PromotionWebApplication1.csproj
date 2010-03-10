@@ -53,9 +53,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Archive.ZIP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\lib\ScriptCoreLib.Archive.ZIP.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Controls.TextEditor, Version=1.0.3721.20701, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Controls.TextEditor.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -93,6 +101,7 @@
   <ItemGroup>
     <Compile Include="Design\About.cs" />
     <Compile Include="Design\Licensing.cs" />
+    <Compile Include="SaveFileAction.cs" />
     <Compile Include="Library\GoogleAnalytics.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\MyFader.cs" />
@@ -112,6 +121,8 @@
     <Content Include="Audio.UltraSource\SoundCloudTrack.htm" />
     <Content Include="Design.UltraSource\About.css" />
     <Content Include="Design.UltraSource\About.htm" />
+    <Content Include="Design.UltraSource\DefaultPage1.htm" />
+    <Content Include="Design.UltraSource\SimpleCodeView.htm" />
     <Content Include="Design.UltraSource\UltraApplicationWithAssets.htm" />
     <Content Include="Future.UltraSource\AboutApplet.java" />
     <None Include="Future.UltraSource\AboutSprite.as" />
@@ -132,7 +143,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true</PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex33\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex33\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true</PostBuildEvent>
     <PreBuildEvent>if not $(ConfigurationName)==Assets goto :eof
 C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true</PreBuildEvent>
   </PropertyGroup>

@@ -86,10 +86,12 @@ namespace jsc.meta.Tools
 					RaiseProccessStatusChanged("mxmlc");
 
 				// see: http://www.docsultant.com/site2/articles/flex_cmd.html
+				// see: http://www.rblab.com/blog/2009/09/target-flash-player-10-from-mxmlc-flex-sdk-compiler/
+
 				var proccess_mxmlc = Process.Start(
 					new ProcessStartInfo(
 						mxmlc.FullName,
-						"-sp=. -verbose-stacktraces -strict -output=\"" +
+						"-sp=. -verbose-stacktraces --target-player=10.0.0 -strict -output=\"" +
 							obj_web_swf + "\" "
 							+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
 						)
