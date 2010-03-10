@@ -303,6 +303,15 @@ namespace PromotionWebApplication.AvalonLogo
 				return ShowDialog(c => 4500.AtDelay(c));
 			}
 
+			public static void ShowDialogSplash(Action h)
+			{
+				var t = ShowDialogSplash();
+
+				h();
+
+				t.Join();
+			}
+
 			public static Thread ShowDialog()
 			{
 				return ShowDialog(null);

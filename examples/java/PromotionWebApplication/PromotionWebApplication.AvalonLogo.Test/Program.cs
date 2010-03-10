@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Effects;
 using System.Windows;
 using PromotionWebApplication.AvalonLogo.Desktop;
+using System.Threading;
 
 namespace PromotionWebApplication.AvalonLogo.Test
 {
@@ -16,11 +17,10 @@ namespace PromotionWebApplication.AvalonLogo.Test
 	{
 		static void Main(string[] args)
 		{
-			var j = AvalonLogoForDesktop.ShowDialog();
-
-			// ...
-
-			j.Join();
+			AvalonLogoForDesktop.ShowDialogSplash(
+				// primary task executes longer than splash
+				() => Thread.Sleep(7000)
+			);
 		}
 	}
 }
