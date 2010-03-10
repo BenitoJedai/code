@@ -11,6 +11,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 	internal class __FrameworkElement : __UIElement
 	{
 		public int InternalZIndex;
+		public bool InternalZIndexPending;
 
 		public string Name
 		{

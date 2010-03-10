@@ -112,6 +112,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			}
 
 			this.Children.Add(e);
+
+			__FrameworkElement _f = e as FrameworkElement;
+
+			if (_f != null)
+			{
+				if (_f.InternalZIndexPending)
+				{
+					_f.InternalZIndexPending = false;
+					SetZIndex(e, _f.InternalZIndex);
+				}
+			}
+
 		}
 
 		#endregion
@@ -123,15 +135,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			if (f == null)
 				throw new Exception("SetZIndex expects element to be FrameworkElement");
 
+			__FrameworkElement _f = f;
+
+			_f.InternalZIndex = value;
+
+			if (f.Parent == null)
+			{
+				// the element has not been attached yet...
+				_f.InternalZIndexPending = true;
+				return;
+			}
+
 			var Parent = f.Parent as Panel;
 
 			if (Parent == null)
-				throw new Exception("SetZIndex expects element.Parent to be Panel");
+				throw new Exception("SetZIndex expects element.Parent to be Panel, but instead it was " + f.Parent.GetType().FullName);
 
-			__FrameworkElement _f = f;
-
-
-			_f.InternalZIndex = value;
+	
 
 			// so how many guys have the zindex less or equal than our value?
 

@@ -81,6 +81,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Keyboard.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\MatrixTransform.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\RenderOptions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\TranslateTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\Dispatcher.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\GeneralTransform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Matrix.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\MatrixTransform.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\RenderOptions.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\ScaleTransform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Transform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\TranslateTransform.cs" />

@@ -16,7 +16,7 @@ namespace PromotionWebApplication.AvalonLogo.Test
 	{
 		static void Main(string[] args)
 		{
-			var j = AvalonLogoForDesktop.ShowDialogSplash();
+			var j = AvalonLogoForDesktop.ShowDialog();
 
 			// ...
 
