@@ -37,8 +37,8 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-		public FileInfo mxmlc = new FileInfo(@"C:\util\flex\bin\mxmlc.exe");
-		public FileInfo flashplayer = new FileInfo(@"C:\util\flex\runtimes\player\win\FlashPlayer.exe");
+		public FileInfo mxmlc = new FileInfo(@"C:\util\flex33\bin\mxmlc.exe");
+		public FileInfo flashplayer = new FileInfo(@"C:\util\flex33\runtimes\player\win\FlashPlayer.exe");
 
 
 		public bool AttachDebugger;

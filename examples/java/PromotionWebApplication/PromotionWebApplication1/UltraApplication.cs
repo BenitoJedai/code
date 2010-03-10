@@ -19,6 +19,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using PromotionWebApplication.AvalonLogo;
+using ScriptCoreLib.JavaScript.Controls;
 //using ScriptCoreLib.Shared.Avalon.Extensions;
 
 namespace PromotionWebApplication1
@@ -34,6 +35,11 @@ namespace PromotionWebApplication1
 
 			public AudioLink Prev;
 			public AudioLink Next;
+		}
+
+		public void Button1_click(IEvent e)
+		{
+
 		}
 
 		public UltraApplication(IHTMLElement e)
@@ -88,7 +94,89 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
+				if (Native.Document.location.hash == "#/source")
+				{
+					new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);
+					var n = new TextEditor(MyPagesInternal);
+
+					n.Width = 600;
+					n.Height = 400;
+
+					//n.InnerHTML = "<p>Create your own <b>Ultra Application</b> Project Template</p>";
+
+
+					new DefaultPage1().Container.AttachTo(n.Document.body);
+
+					var m1 = new SimpleCodeView();
+
+					m1.Container.AttachTo(MyPagesInternal);
+					m1.SelectType.onchange +=
+						delegate
+						{
+							m1.TypeName.innerText = m1.SelectType.value;
+						};
+
+					m1.SelectEvent.onchange +=
+						delegate
+						{
+							m1.EventName.innerText = m1.SelectEvent.value;
+						};
+
+					var download = new IHTMLButton
+					 {
+						 //disabled = true
+					 };
+
+					download.style.margin = "1em";
+
+					var download_text = new IHTMLSpan("I am ready to save this template").AttachTo(download);
+
+					download_text.style.margin = "1em";
+
+					download.AttachTo(MyPagesInternal);
+
+					var ss = new SaveFileAction();
+
+
+					//ss.ToTransparentSprite();
+					ss.AttachSpriteTo(MyPagesInternal);
+
+					ss.AfterSave +=
+						delegate
+						{
+							download_text.innerText = "I am ready to save this template";
+						};
+
+					ss.WhenReady(
+						delegate
+						{
+							download_text.style.color = "blue";
+
+							//download.disabled = false;
+
+
+							download.onclick +=
+								delegate
+								{
+									download_text.innerText = "Save by clicking here -> ";
+
+									//var url = "data:text/html;base64," + ScriptCoreLib.JavaScript.Runtime.Convert.ToBase64String(n.InnerHTML);
+
+									////data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
+									//Native.Window.open(url, "_blank");
+
+									ss.Add(n.InnerHTML, "Project1.csproj");
+									ss.Add(n.InnerHTML, "My.UltraSource/Default.htm");
+
+									// codebehind :)
+									ss.Add(m1.Code1.value, "My.UltraSource/Default.htm.cs");
+
+									ss.SaveFile("Project1");
+								};
+						}
+					);
+				}
+				else if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
 				{
 					new UltraApplicationWithAssets().Container.AttachToDocument();
 				}
@@ -333,44 +421,43 @@ namespace PromotionWebApplication1
 						var IsAvalonActionScript = hash == "#/avalon.as";
 						var IsAvalon = IsAvalonActionScript || IsAvalonJavaScript;
 
-						if (IsAvalon)
+						//if (IsAvalon)
+						//{
+						var ccc = new IHTMLDiv();
+
+						ccc.style.position = IStyle.PositionEnum.absolute;
+						ccc.style.left = "50%";
+						ccc.style.top = "50%";
+						ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
+						ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
+
+						ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
+
+						ccc.AttachToDocument();
+
+						if (IsAvalonActionScript)
 						{
-							var ccc = new IHTMLDiv();
-
-							ccc.style.position = IStyle.PositionEnum.absolute;
-							ccc.style.left = "50%";
-							ccc.style.top = "50%";
-							ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
-							ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
-
-							ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
-
-							ccc.AttachToDocument();
-
-							if (IsAvalonActionScript)
-							{
-								var alof = new UltraSprite();
-								alof.ToTransparentSprite();
-								alof.AttachSpriteTo(ccc);
-							}
-
-							if (IsAvalonJavaScript)
-							{
-								var alo = new AvalonLogoCanvas();
-								alo.Container.AttachToContainer(ccc);
-							}
+							var alof = new UltraSprite();
+							alof.ToTransparentSprite();
+							alof.AttachSpriteTo(ccc);
 						}
 						else
 						{
-							var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
-
-							cc.Container.AttachToDocument();
-
-							// see: http://en.wikipedia.org/wiki/Perl_control_structures
-							// "Unless" == "if not"  ;)
-
-							IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+							var alo = new AvalonLogoCanvas();
+							alo.Container.AttachToContainer(ccc);
 						}
+						//}
+						//else
+						//{
+						//    var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
+
+						//    cc.Container.AttachToDocument();
+
+						//    // see: http://en.wikipedia.org/wiki/Perl_control_structures
+						//    // "Unless" == "if not"  ;)
+
+						//    IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+						//}
 
 						var aa = new About();
 						aa.Service.innerText = gapageview;
@@ -380,7 +467,7 @@ namespace PromotionWebApplication1
 			}
 			#endregion
 
-	
+
 
 			"UA-13087448-1".ToGoogleAnalyticsTracker(
 				pageTracker =>
@@ -410,7 +497,7 @@ namespace PromotionWebApplication1
 
 	}
 
-	
+
 	public delegate void StringAction(string e);
 	public delegate void StringActionAction(StringAction e);
 

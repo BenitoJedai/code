@@ -107,7 +107,13 @@ namespace jsc.meta.Commands.Rewrite
 				#endregion
 
 
-				var __Files = js_staging_web.GetFilesByPattern("*.js", "*.htm").Concat(js_staging_web.CreateSubdirectory("assets").GetFiles("*.*", SearchOption.AllDirectories));
+				var __Files = js_staging_web.GetFilesByPattern("*.js", "*.htm")
+				
+					// assets is the new naming
+					.Concat(js_staging_web.CreateSubdirectory("assets").GetFiles("*.*", SearchOption.AllDirectories))
+					// old naming :)
+					.Concat(js_staging_web.CreateSubdirectory("fx").GetFiles("*.*", SearchOption.AllDirectories));
+
 				var __Files2 = Enumerable.ToArray(
 
 					from k in __Files

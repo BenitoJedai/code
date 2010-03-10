@@ -85,7 +85,8 @@ namespace jsc.meta.Commands.Rewrite
 				if (k.IsInitializedDataFieldType())
 					continue;
 
-				var km = TypeCache[k];
+				// can we get away with defs only?
+				var km = TypeDefinitionCache[k];
 			}
 
 

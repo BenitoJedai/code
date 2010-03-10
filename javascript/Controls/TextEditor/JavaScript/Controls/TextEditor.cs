@@ -370,7 +370,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 				c1.style.margin = "1px";
 				c1.style.overflow = IStyle.OverflowEnum.hidden;
 				c1.style.cursor = IStyle.CursorEnum.pointer;
-
+				c1.style.fontSize = "1pt";
 				c1.style.SetSize(14, 14);
 
 
