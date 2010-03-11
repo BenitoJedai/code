@@ -500,6 +500,11 @@ namespace jsc.meta.Commands.Rewrite
 			TypeDefinitionCache.Resolve +=
 				(source) =>
 				{
+					if (source.IsGenericParameter)
+					{
+						TypeDefinitionCache[source] = source;
+						return;
+					}
 
 					if (source.IsArray)
 					{
@@ -580,6 +585,13 @@ namespace jsc.meta.Commands.Rewrite
 						// what has been inserted in the cache!
 						return;
 					}
+
+					if (source.IsGenericParameter)
+					{
+						TypeCache[source] = source;
+						return;
+					}
+
 
 					if (source.IsArray)
 					{

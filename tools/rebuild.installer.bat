@@ -9,12 +9,10 @@ set flags=/nologo /verbosity:q
 set target=C:\util\jsc\bin
 
 
-set SplashType=PromotionWebApplication.AvalonLogo.Desktop.AvalonLogoForDesktop
-set SplashMethod=ShowDialogSplash
-set SplashAssembly=W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication.AvalonLogo\bin\Assets\PromotionWebApplication.AvalonLogo.dll
+set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 
 :: we need to pre build that assembly in "Assets" configuration
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash.SplashType:%SplashType% /Splash.SplashMethod:%SplashMethod% /Splash.SplashAssembly:%SplashAssembly%
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:true
 
 endlocal
 goto :eof
