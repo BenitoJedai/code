@@ -11,8 +11,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 	{
 		public FileInfo PrimaryAssembly;
 
-		public AvalonSplashComponent Splash;
+		public FileInfo Splash;
 
+		public static RewriteToSplashScreen FromSplash(string Splash)
+		{
+			return new RewriteToSplashScreen { Splash = new FileInfo(Splash) };
+		}
 
 		public override string ToString()
 		{
