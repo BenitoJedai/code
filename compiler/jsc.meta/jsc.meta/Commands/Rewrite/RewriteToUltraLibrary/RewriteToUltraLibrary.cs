@@ -10,43 +10,31 @@ using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 {
-	public class RewriteToUltraLibrary : CommandBase
+	public partial class RewriteToUltraLibrary : CommandBase
 	{
-		/* 
-
-		 * To be used in Assets build configuration post build event!
-		 * 
-		 usage: 
-		 
-		 RewriteToUltraLibrary /PrimaryAssembly:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.dll" /PrimaryProject:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\UltraLibraryWithAssets.csproj"
-		 
-		 c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)"
-		
-		 */
-
-		public FileInfo PrimaryAssembly;
-
-		/// <summary>
-		/// At runtime we cannot see the unreferenced assemblies. For now we just also load the project file to get additional intel.
-		/// </summary>
-		public MSVSProjectFile PrimaryProject;
-
-		public bool AttachDebugger;
-
-		public bool DisableUltraSourceDetection;
 
 		public override void Invoke()
 		{
 			if (this.AttachDebugger)
 				Debugger.Launch();
-	
+
 			var UltraSourceReferences = Enumerable.ToArray(
-				from k in PrimaryProject.HintPaths
+				from pp in new[] { PrimaryProject }
+				where pp != null
+				from k in pp.HintPaths
 				where Path.GetFileNameWithoutExtension(k).EndsWith(ReferenceUltraSource.UltraSource)
 				let p = Path.Combine(PrimaryAssembly.Directory.FullName, Path.GetFileName(k))
 				where File.Exists(p)
 				select p
 			);
+
+			if (this.Output != null)
+			{
+				this.DisableUltraSourceDetection = true;
+			}
+
+			if (this.Output == null)
+				this.Output = this.PrimaryAssembly;
 
 			if (DisableUltraSourceDetection)
 			{
@@ -61,23 +49,40 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 				}
 			}
 
+
 			var r = new RewriteToAssembly
 			{
 
 				DisableIsMarkedForMerge = true,
 
+				obfuscate = this.Obfuscate,
+
 				AssemblyMerge = Enumerable.ToArray(
 					Enumerable.Concat(
-				
+
 
 						new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName },
 
-						from k in UltraSourceReferences
+						from k in UltraSourceReferences 
 						select (RewriteToAssembly.AssemblyMergeInstruction)k
 					)
 				),
 
-				Output = PrimaryAssembly
+				Output = this.Output,
+
+				PostTypeRewrite =
+					a =>
+					{
+						if (this.EntryPoint != null)
+						{
+							if (a.SourceType.FullName == this.EntryPoint.TypeName)
+							{
+								var m = a.SourceType.GetMethod(this.EntryPoint.Method, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+
+								a.Assembly.SetEntryPoint(a.context.MethodCache[m], System.Reflection.Emit.PEFileKinds.WindowApplication);
+							}
+						}
+					}
 			};
 
 			r.Invoke();

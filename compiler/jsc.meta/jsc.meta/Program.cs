@@ -14,6 +14,7 @@ using ScriptCoreLib.Reflection.Options;
 using jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate;
 using jsc.meta.Commands.Rewrite.RewriteToInstaller;
 using jsc.meta.Commands.Rewrite.RewriteToUltraLibrary;
+using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
 
 namespace jsc.meta
 {
@@ -72,6 +73,7 @@ namespace jsc.meta
 				new RewriteToMVSProjectTemplate(),
 				new RewriteToInstaller(),
 				new RewriteToUltraLibrary(),
+				new RewriteToSplashScreen(),
 
 				new AnalyticsForStatCounter().Invoke,
 				new AnalyticsForFlagCounter().Invoke

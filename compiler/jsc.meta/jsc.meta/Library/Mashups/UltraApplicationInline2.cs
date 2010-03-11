@@ -17,13 +17,6 @@ namespace jsc.meta.Library.Mashups
 	{
 		public UltraApplicationInline2(IHTMLElement p)
 		{
-			var s = new Sprite
-			{
-				width = 32,
-				height = 32,
-
-				// can we inherit and extend in F# ad hoc?
-			};
 
 			Func<Canvas> CreateCanvas =
 				delegate
@@ -47,6 +40,19 @@ namespace jsc.meta.Library.Mashups
 				{
 					// by default we are not going to register any handlers
 				};
+
+
+			var s = new Sprite
+			{
+				width = 32,
+				height = 32,
+
+				// can we inherit and extend in F# ad hoc?
+			};
+
+			// lets add this Inline Flash Sprite into javascript DOM
+			ScriptCoreLib.JavaScript.Extensions.SpriteExtensions.AttachSpriteToDocument(s);
+
 
 			s.click +=
 				ee =>
@@ -79,9 +85,7 @@ namespace jsc.meta.Library.Mashups
 
 				};
 
-			// lets add this Inline Flash Sprite into javascript DOM
-			ScriptCoreLib.JavaScript.Extensions.SpriteExtensions.AttachSpriteToDocument(s);
-
+		
 
 			{
 

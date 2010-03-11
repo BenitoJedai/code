@@ -102,6 +102,7 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Assets (
   c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
+  c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication.AvalonLogo\bin\Assets\PromotionWebApplication.AvalonLogo.dll" /EntryPoint:"PromotionWebApplication.AvalonLogo.Desktop.AvalonLogoForDesktop" /Obfuscate:false
 )
 
 if $(ConfigurationName)==Debug (
