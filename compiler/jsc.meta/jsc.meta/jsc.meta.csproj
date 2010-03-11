@@ -262,8 +262,11 @@
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
+    <Compile Include="Library\Mashups\UltraApplicationInline.cs" />
     <Compile Include="Library\Mashups\UltraSecondary.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
+    <Compile Include="Library\Mashups\UltraStaticSpriteApplet.cs" />
+    <Compile Include="Library\Mashups\UltraWebService.cs" />
     <Compile Include="Library\Mashups\UltraWebServiceWithDelayedDOM.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
     <Compile Include="Library\MSVS\MSVSProjectFile.cs" />

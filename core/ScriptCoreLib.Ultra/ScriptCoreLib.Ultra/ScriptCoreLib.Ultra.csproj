@@ -85,6 +85,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="JavaScript\Extensions\AppletExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensions.cs" />
     <Compile Include="JavaScript\Extensions\SpriteExtensions.cs" />
