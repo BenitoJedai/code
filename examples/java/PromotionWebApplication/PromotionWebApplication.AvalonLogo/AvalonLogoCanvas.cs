@@ -319,6 +319,14 @@ namespace PromotionWebApplication.AvalonLogo
 				return ShowDialog(null);
 			}
 
+			internal static void Main(string[] args)
+			{
+				AvalonLogoForDesktop.ShowDialogSplash(
+					// primary task executes longer than splash
+					() => Thread.Sleep(7000)
+				);
+			}
+
 			public static Thread ShowDialog(Action<Action> AnnounceCloseAction)
 			{
 				var t = new Thread(

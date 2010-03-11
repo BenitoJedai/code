@@ -59,6 +59,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Archive.ZIP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\lib\ScriptCoreLib.Archive.ZIP.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
@@ -86,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
+    <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="JavaScript\Extensions\AppletExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensions.cs" />
     <Compile Include="JavaScript\Extensions\SpriteExtensions.cs" />
