@@ -261,6 +261,7 @@
     <Compile Include="Commands\Rewrite\RewriteToUltraDocumentation\RewriteToUltraDocumentation.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
+    <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline.cs" />
     <Compile Include="Library\Mashups\UltraSecondary.cs" />

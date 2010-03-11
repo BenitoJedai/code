@@ -6,7 +6,7 @@ using ScriptCoreLib.Ultra.Library.Delegates;
 
 namespace jsc.meta.Library.Mashups
 {
-	public static class UltraWebServiceExtensions
+	internal static class UltraWebServiceExtensions
 	{
 		public static void Method1(this string input1, StringAction e)
 		{
@@ -15,7 +15,7 @@ namespace jsc.meta.Library.Mashups
 		}
 	}
 
-	public sealed partial class UltraWebService
+	internal sealed partial class UltraWebService
 	{
 		// web services could also support "interned/internal" delegates
 
