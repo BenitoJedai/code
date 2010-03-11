@@ -56,8 +56,24 @@ namespace jsc.meta.Commands.Rewrite
 			if (Parameters.Contains(null))
 				throw new InvalidOperationException();
 
+			
 			var km = t.DefineMethod(
-				MethodName, source.Attributes, source.CallingConvention, TypeCache[source.ReturnType], Parameters);
+				MethodName, source.Attributes, source.CallingConvention, 
+				TypeCache[source.ReturnType], 
+				Parameters
+				
+			);
+
+			MethodCache[source] = km;
+
+			Console.WriteLine("Method: " + km.Name);
+
+			if (source.IsGenericMethodDefinition)
+			{
+				var ga = source.GetGenericArguments();
+				var gp = km.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
+
+			}
 
 			// synchronized?
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
@@ -73,7 +89,6 @@ namespace jsc.meta.Commands.Rewrite
 				km.DefineAttribute(item, item.GetType());
 			}
 
-			MethodCache[source] = km;
 
 			var MethodBody = source.GetMethodBody();
 

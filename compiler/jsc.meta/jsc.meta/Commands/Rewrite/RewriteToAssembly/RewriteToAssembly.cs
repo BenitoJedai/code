@@ -250,6 +250,55 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
+					//    L_0086: newobj instance void [System.Core]System.Func`2<class [ScriptCoreLib.Archive.ZIP]ScriptCoreLib.Archive.ZIP.ZIPFile/Entry, bool>::.ctor(object, native int)
+
+					var source = SourceConstructor.DeclaringType;
+					var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+
+
+					if (source.IsGenericType)
+						if (!source.IsGenericTypeDefinition)
+						{
+							var Def = source.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
+
+							// Define it in the TypeBuilder
+							var Def1 = ConstructorCache[Def];
+
+							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+
+							var ResolvedType2 = ResolvedType1.MakeGenericType(
+								TypeDefinitionCache[source.GetGenericArguments()]
+							);
+
+							// http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
+							// http://msdn.microsoft.com/en-us/library/ms145835.aspx
+
+							//var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+
+
+							// The specified method must be declared on the generic type definition of the specified type.
+							// Parameter name: type
+							var Def2 = default(ConstructorInfo);
+
+							//ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
+
+							try
+							{
+								Def2 = TypeBuilder.GetConstructor(ResolvedType2, Def1);
+							}
+							catch
+							{
+								Def2 = ResolvedType2.GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
+							}
+
+
+
+							ConstructorCache[SourceConstructor] = Def;
+							return;
+						}
+
+
+
 
 					if (ShouldCopyType(SourceConstructor.DeclaringType))
 					{
@@ -271,41 +320,8 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
-					//    L_0086: newobj instance void [System.Core]System.Func`2<class [ScriptCoreLib.Archive.ZIP]ScriptCoreLib.Archive.ZIP.ZIPFile/Entry, bool>::.ctor(object, native int)
 
-					var source = SourceConstructor.DeclaringType;
-
-					if (source.IsGenericType)
-					{
-						if (source.GetGenericArguments().Any(k => k != TypeCache[k]))
-						{
-							// http://connect.microsoft.com/VisualStudio/feedback/details/94516/typebuilder-getconstructor-throws-argumentexception-when-supplied-created-generic-type
-							var GenericArguments = TypeCache[source.GetGenericArguments()];
-
-
-							var GenericTypeDefinition = source.GetGenericTypeDefinition();
-							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
-							var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-							var ParameterTypes = TypeCache[SourceConstructor.GetParameterTypes()];
-
-							var GenericTypeDefinitionConstructor =
-								GenericTypeDefinition.GetConstructor(Flags, null, ParameterTypes, null);
-
-							var GenericTypeConstructor =
-								//GenericType.GetConstructor(Flags, null, ParameterTypes, null);
-
-							TypeBuilder.GetConstructor(GenericType, GenericTypeDefinitionConstructor);
-
-							ConstructorCache[SourceConstructor] = GenericTypeConstructor;
-						}
-						else
-							ConstructorCache[SourceConstructor] = SourceConstructor;
-
-					}
-					else
-					{
-						ConstructorCache[SourceConstructor] = SourceConstructor;
-					}
+					ConstructorCache[SourceConstructor] = SourceConstructor;
 
 				};
 			#endregion
@@ -324,7 +340,7 @@ namespace jsc.meta.Commands.Rewrite
 			MethodCache.Resolve +=
 				msource =>
 				{
-
+					Console.WriteLine("MethodCache: " + msource.ToString());
 
 					// This unit was resolved for us...
 					if (ExternalContext.MethodCache[msource] != msource)
@@ -333,15 +349,68 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 					}
 
+					var source = msource.DeclaringType;
+					var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+
+
+					if (source.IsGenericType)
+						if (!source.IsGenericTypeDefinition)
+						{
+							var Def = source.GetGenericTypeDefinition().GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+
+							// Define it in the TypeBuilder
+							var Def1 = MethodCache[Def];
+
+							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+
+							var ResolvedType2 = ResolvedType1.MakeGenericType(
+								TypeDefinitionCache[source.GetGenericArguments()]
+							);
+
+							// http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
+							// http://msdn.microsoft.com/en-us/library/ms145835.aspx
+
+							//var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+
+
+							// The specified method must be declared on the generic type definition of the specified type.
+							// Parameter name: type
+							var Def2 = default(MethodInfo);
+
+							// ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
+							try
+							{
+								Def2 = TypeBuilder.GetMethod(ResolvedType2, Def1);
+							}
+							catch
+							{
+								Def2 = ResolvedType2.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+							}
+
+							var Def3 = Def2;
+
+							if (msource.IsGenericMethod)
+								Def3 = Def2.MakeGenericMethod(
+								 TypeDefinitionCache[msource.GetGenericArguments()]
+								 );
+
+							MethodCache[msource] = Def3;
+							return;
+						}
+
+
+
+
+					#region ShouldCopyType - CopyMethod
 					if (ShouldCopyType(msource.DeclaringType))
 					{
-						var source = (TypeBuilder)TypeCache[msource.DeclaringType];
+						var tb_source = (TypeBuilder)TypeCache[msource.DeclaringType.IsGenericType ? msource.DeclaringType.GetGenericTypeDefinition() : msource.DeclaringType];
 
 						CopyMethod(
 							a,
 							m,
 							msource,
-							source,
+							tb_source,
 							TypeCache,
 							FieldCache,
 							ConstructorCache,
@@ -358,7 +427,7 @@ namespace jsc.meta.Commands.Rewrite
 										 new BeforeInstructionsArguments
 										 {
 											 SourceType = msource.DeclaringType,
-											 Type = source,
+											 Type = tb_source,
 											 Assembly = a,
 											 Module = m,
 
@@ -373,24 +442,24 @@ namespace jsc.meta.Commands.Rewrite
 						);
 						return;
 					}
-					else
-					{
-						var source = msource.DeclaringType;
+					#endregion
 
+
+					if (!msource.IsGenericMethodDefinition)
+					{
 						// do we need to redirect the type also?
 						if (source.GetGenericArguments().Any(k => k != TypeCache[k]))
 						{
 							//var msource_gp = msource.GetGenericMethodDefinition().GetParameterTypes();
 
 
-							var GenericArguments = TypeCache[source.GetGenericArguments()];
+							var GenericArguments = TypeDefinitionCache[source.GetGenericArguments()];
 
 
 							var GenericTypeDefinition = source.GetGenericTypeDefinition();
 							var GenericTypeDefinition_GetGenericArguments = GenericTypeDefinition.GetGenericArguments();
 
 							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
-							var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 							var ParameterTypes =
 
 
@@ -402,7 +471,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									return TypeCache[k];
 								}
-								).ToArray() : TypeCache[msource.GetParameterTypes()];
+								).ToArray() : TypeDefinitionCache[msource.GetParameterTypes()];
 
 							ParameterTypes = ParameterTypes.Select(k =>
 							{
@@ -426,7 +495,7 @@ namespace jsc.meta.Commands.Rewrite
 							var GenericTypeMethod = TypeBuilder.GetMethod(GenericType, GenericTypeDefinitionMethod);
 
 							var GenericTypeMethod__ = msource.IsGenericMethod ? GenericTypeMethod.MakeGenericMethod(
-								 TypeCache[msource.GetGenericArguments()]
+								 TypeDefinitionCache[msource.GetGenericArguments()]
 								 ) : GenericTypeMethod;
 
 							MethodCache[msource] = GenericTypeMethod__;
@@ -434,12 +503,19 @@ namespace jsc.meta.Commands.Rewrite
 						else
 						{
 							MethodCache[msource] =
-								msource.IsGenericMethod ? msource.GetGenericMethodDefinition().MakeGenericMethod(
-									TypeCache[msource.GetGenericArguments()]
+								msource.IsGenericMethod ?
+
+								MethodCache[msource.GetGenericMethodDefinition()]
+
+								.MakeGenericMethod(
+									TypeDefinitionCache[msource.GetGenericArguments()]
 								) : msource;
 						}
+
+						return;
 					}
 
+					MethodCache[msource] = msource;
 				};
 			#endregion
 
@@ -460,6 +536,43 @@ namespace jsc.meta.Commands.Rewrite
 					if (FieldCache.BaseDictionary.ContainsKey(SourceField))
 						return;
 
+					var source = SourceField.DeclaringType;
+
+					if (source.IsGenericType)
+						if (!source.IsGenericTypeDefinition)
+						{
+							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+
+							var ResolvedType2 = ResolvedType1.MakeGenericType(
+								TypeDefinitionCache[source.GetGenericArguments()]
+							);
+
+							var Def0 = ResolvedType1.GetField(
+								SourceField.Name,
+								BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+							);
+
+
+							var Def1 = FieldCache[Def0];
+
+							//try
+							//{
+							// Message	"The specified field must be declared on the generic type definition 
+							// of the specified type.\r\nParameter name: type"	string
+
+							// Message	"The specified Type must not be a generic type definition.\r\nParameter name: type"	string
+
+							Def1 = TypeBuilder.GetField(ResolvedType2, Def0);
+							//}
+							//catch
+							//{
+							//    Def1 = ResolvedType2.GetField(Def0.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+							//}
+
+							FieldCache[SourceField] = Def0;
+
+							return;
+						}
 
 					if (DeclaringType_ is TypeBuilder)
 					{
@@ -491,7 +604,13 @@ namespace jsc.meta.Commands.Rewrite
 					}
 					else
 					{
-						FieldCache[SourceField] = DeclaringType_.GetField(SourceField.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+						// Specified method is not supported.
+						// http://msdn.microsoft.com/en-us/library/4ek9c21e.aspx
+
+						FieldCache[SourceField] = DeclaringType_.GetField(
+							SourceField.Name,
+							BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+						);
 					}
 				};
 			#endregion
@@ -511,6 +630,19 @@ namespace jsc.meta.Commands.Rewrite
 						TypeDefinitionCache[source] = TypeDefinitionCache[source.GetElementType()].MakeArrayType();
 						return;
 					}
+
+					if (source.IsGenericType)
+						if (!source.IsGenericTypeDefinition)
+						{
+							TypeDefinitionCache[source] =
+								TypeDefinitionCache[source.GetGenericTypeDefinition()].MakeGenericType(
+									source.GetGenericArguments().Select(
+										k => TypeDefinitionCache[k]
+									).ToArray()
+								);
+							return;
+						}
+
 					var ContextType = source;
 					if (ShouldCopyType(ContextType))
 					{
@@ -539,7 +671,7 @@ namespace jsc.meta.Commands.Rewrite
 
 							source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
 								source.GetGenericArguments().Select(
-									k => TypeCache[k]
+									k => TypeDefinitionCache[k]
 								).ToArray()
 							) : source;
 					}
@@ -598,6 +730,18 @@ namespace jsc.meta.Commands.Rewrite
 						TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
 						return;
 					}
+
+					if (source.IsGenericType)
+						if (!source.IsGenericTypeDefinition)
+						{
+							TypeCache[source] =
+								TypeCache[source.GetGenericTypeDefinition()].MakeGenericType(
+									source.GetGenericArguments().Select(
+										k => TypeCache[k]
+									).ToArray()
+								);
+							return;
+						}
 
 					// should we actually copy the field type?
 					// simple rule - same assembly equals must copy
