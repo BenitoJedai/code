@@ -46,7 +46,7 @@ namespace jsc.meta.Library.Mashups
 		}
 	}
 
-	class UltraWebService
+	partial class UltraWebService
 	{
 		// private methods shall use /xml?WebMethod=000000 path
 
