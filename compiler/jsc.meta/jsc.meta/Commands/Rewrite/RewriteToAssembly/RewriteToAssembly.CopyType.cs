@@ -218,7 +218,15 @@ namespace jsc.meta.Commands.Rewrite
 						Console.WriteLine(e);
 					};
 
-				var TypeName = SourceType.IsNested ? TypeRenameCache[SourceType] ?? SourceType.Name :
+				var TypeName = 
+					SourceType.IsNested ? 
+					TypeRenameCache[SourceType] ?? SourceType.Name :
+
+					// http://msdn.microsoft.com/en-us/library/system.type.fullname.aspx
+					// a null reference (Nothing in Visual Basic) if the current instance represents a 
+					// generic type parameter, an array type, pointer type, or byref type based on a 
+					// type parameter, or a generic type that is not a generic type definition
+					// but contains unresolved type parameters.
 					TypeRenameCache[SourceType] ?? SourceType.FullName;
 
 
@@ -299,9 +307,17 @@ namespace jsc.meta.Commands.Rewrite
 						_Interfaces
 					);
 
+					
+
 				}
 				#endregion
 
+				if (SourceType.IsGenericTypeDefinition)
+				{
+					var ga = SourceType.GetGenericArguments();
+					var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
+
+				}
 
 				TypeDefinitionCache[SourceType] = t;
 
