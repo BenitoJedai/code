@@ -256,6 +256,15 @@ namespace jsc.Languages.IL
 					OpCodes.Bge_S
 				};
 
+				this[OpCodes.Switch] =
+					e =>
+					{
+
+						e.il.Emit(OpCodes.Switch, e.i.BranchTargets.Select(k => e.Labels[k]).ToArray());
+
+					
+
+					};
 				// switch? :)s
 
 
@@ -322,8 +331,11 @@ namespace jsc.Languages.IL
 					OpCodes.Ldlen,
 					OpCodes.Throw,
 					OpCodes.Nop,
+
 					OpCodes.Cgt,
+					OpCodes.Cgt_Un,
 					OpCodes.Clt,
+					OpCodes.Clt_Un,
 					OpCodes.Ceq,
 
 					OpCodes.Rem,
@@ -387,6 +399,8 @@ namespace jsc.Languages.IL
 				/// Whose IL are we reading or rewriting?
 				/// </summary>
 				public MethodBase SourceMethod;
+
+				public IDictionary<ILInstruction, Label> Labels;
 			}
 
 
@@ -401,7 +415,8 @@ namespace jsc.Languages.IL
 						{
 							i = e.i,
 							il = e.il,
-							Default = () => Default(e)
+							Default = () => Default(e),
+							Labels = e.Labels
 						}
 					);
 				}

@@ -17,6 +17,21 @@ namespace TestTypeGenerics
 
 		void I1.A()
 		{
+			((I1)this).A();
+			var i = 0;
+			switch (i)
+			{
+				case 5:
+					((I1)this).A();
+					break;
+				case 6:
+					((I1)this).A();
+					break;
+
+				default:
+					break;
+			}
+		
 		}
 
 		#endregion
