@@ -51,7 +51,7 @@ namespace jsc.Languages.IL
 			if (missing.Any())
 			{
 				throw new NotSupportedException(
-					"Some OpCodes are not supported yet: " + string.Join(", ", missing)
+					"Some OpCodes are not supported yet: " + string.Join(", ", missing) + " at " + m.DeclaringType + " " + m.Name
 				);
 			}
 

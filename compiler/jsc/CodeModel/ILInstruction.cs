@@ -1420,9 +1420,11 @@ namespace jsc
 					{
 						if (TargetConstructor == null)
 						{
-							Debugger.Break();
+							throw new NotSupportedException(
+								"Newobj must be able resolve TargetConstructor. Is the IL valid? " + this.Location
+							);
 
-							return 0;
+							//return 0;
 						}
 
 						return TargetConstructor.GetParameters().Length;
@@ -1656,6 +1658,10 @@ namespace jsc
 				}
 				catch (ArgumentException e)
 				{
+					// {"A BadImageFormatException has been thrown while parsing the signature. 
+					// This is likely due to lack of a generic context. Ensure genericTypeArguments 
+					// and genericMethodArguments are provided and contain enough context."}
+
 					// not a method nor a ctor
 					return null;
 				}

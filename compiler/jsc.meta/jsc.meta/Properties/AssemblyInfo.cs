@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("jsc.meta")]
-[assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2009")]
+[assembly: AssemblyDescription("JSC - C# to JavaScript, ActionScript, PHP, Java, C and C#")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("zproxy.wordpress.com, jsc.sourceforge.net")]
+[assembly: AssemblyCompany("http://www.jsc-solutions.net")]
 [assembly: AssemblyProduct("jsc.meta")]
 [assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]

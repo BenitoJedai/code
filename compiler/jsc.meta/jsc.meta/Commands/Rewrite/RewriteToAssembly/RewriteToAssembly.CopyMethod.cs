@@ -66,7 +66,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			MethodCache[source] = km;
 
-			Console.WriteLine("Method: " + km.Name);
+			//Console.WriteLine("Method: " + km.Name);
 
 			if (source.IsGenericMethodDefinition)
 			{
@@ -74,6 +74,8 @@ namespace jsc.meta.Commands.Rewrite
 				var gp = km.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
 
 			}
+
+			
 
 			// synchronized?
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());

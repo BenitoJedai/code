@@ -134,10 +134,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -339,6 +335,10 @@
     <ProjectReference Include="..\..\core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
       <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
       <Name>ScriptCoreLib.Ultra.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ScriptCoreLibA\ScriptCoreLibA.csproj">
+      <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
+      <Name>ScriptCoreLibA</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
