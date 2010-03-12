@@ -21,6 +21,8 @@ namespace jsc.Library
 
 		public event Action<TKey> Resolve;
 
+		public object Tag;
+
 		public TValue[] this[TKey[] k]
 		{
 			get
