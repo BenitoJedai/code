@@ -23,5 +23,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
         {
             return LocalName;
         }
+
+		public static implicit operator __XName(string e)
+		{
+			return new __XName { InternalValue = e };
+		}
     }
 }

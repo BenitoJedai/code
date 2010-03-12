@@ -34,31 +34,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			// implement
 		}
 
-		public IXMLElement InternalElement
-		{
-			get
-			{
-				IXMLElement e = (IXMLElement)this.InternalValue;
-				return e;
-			}
-		}
-		public IEnumerable<XElement> Elements(XName name)
-		{
-			var e = InternalElement;
-			var a = new List<XElement>();
-
-			foreach (var item in e.childNodes)
-			{
-				if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
-					if (item.nodeName == name.LocalName)
-						a.Add(
-							(XElement)(object)new __XElement { InternalValue = item }
-						);
-
-			}
-
-			return a;
-		}
 
 		public string Value
 		{

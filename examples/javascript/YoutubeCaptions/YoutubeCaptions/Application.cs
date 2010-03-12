@@ -18,17 +18,26 @@ namespace YoutubeCaptions
 		{
 			Native.Document.title = "Ultra Application";
 
+			new IHTMLDiv(
+					"downloading..."
+				).AttachToDocument();
+
 			"".ToCaptions(
-						x =>
-						{
-							foreach (var item in x.Root.Elements("text"))
-							{
-								new IHTMLDiv(
-									item.Value
-								).AttachToDocument();
-							}
-						}
-					);
+				x =>
+				{
+					new IHTMLDiv(
+						"done!"
+					).AttachToDocument();
+
+
+					foreach (var item in x.Root.Elements("text"))
+					{
+						new IHTMLDiv(
+							item.Value
+						).AttachToDocument();
+					}
+				}
+			);
 		}
 
 
