@@ -207,7 +207,8 @@ namespace jsc.Languages.IL
 					OpCodes.Newarr,
 					OpCodes.Unbox_Any,
 					OpCodes.Isinst,
-					OpCodes.Constrained
+					OpCodes.Constrained,
+					OpCodes.Initobj
 				};
 
 				this[i => this.TranslateTargetField(i.TargetField)] = new[] {
@@ -215,6 +216,7 @@ namespace jsc.Languages.IL
 					OpCodes.Ldfld,
 					OpCodes.Stsfld,
 					OpCodes.Ldsfld,
+					OpCodes.Ldflda,
 					
 				};
 
@@ -253,6 +255,8 @@ namespace jsc.Languages.IL
 					OpCodes.Bne_Un_S,
 					OpCodes.Bge_S
 				};
+
+				// switch? :)s
 
 
 
@@ -312,6 +316,8 @@ namespace jsc.Languages.IL
 					OpCodes.Conv_I2,
 					OpCodes.Conv_R4,
 					OpCodes.Conv_R8,
+					OpCodes.Conv_Ovf_I,
+					OpCodes.Conv_Ovf_I_Un,
 
 					OpCodes.Ldlen,
 					OpCodes.Throw,

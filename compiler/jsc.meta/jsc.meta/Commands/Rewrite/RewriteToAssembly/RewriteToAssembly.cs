@@ -9,6 +9,8 @@ using System.Reflection.Emit;
 using jsc.Languages.IL;
 using jsc.Library;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.CodeDom.Compiler;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -259,6 +261,21 @@ namespace jsc.meta.Commands.Rewrite
 					if (source.IsGenericType)
 						if (!source.IsGenericTypeDefinition)
 						{
+							// are we rewriting any part of this generic type? if we are not we need just to pass it!
+
+							var source_GenericTypeDefinition = source.GetGenericTypeDefinition();
+
+							if (!ShouldCopyType(source_GenericTypeDefinition))
+							{
+								// the type itself is not copied. what about arguments passed in?
+
+								if (!source.GetGenericArguments().Any(ShouldCopyType))
+								{
+									ConstructorCache[SourceConstructor] = SourceConstructor;
+									return;
+								}
+							}
+
 							var Def = source.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
 
 							// Define it in the TypeBuilder
@@ -293,7 +310,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-							ConstructorCache[SourceConstructor] = Def;
+							ConstructorCache[SourceConstructor] = Def2;
 							return;
 						}
 
@@ -340,7 +357,7 @@ namespace jsc.meta.Commands.Rewrite
 			MethodCache.Resolve +=
 				msource =>
 				{
-					Console.WriteLine("MethodCache: " + msource.ToString());
+					//Console.WriteLine("MethodCache: " + msource.ToString());
 
 					// This unit was resolved for us...
 					if (ExternalContext.MethodCache[msource] != msource)
@@ -398,7 +415,15 @@ namespace jsc.meta.Commands.Rewrite
 							return;
 						}
 
-
+					if (msource.IsGenericMethod)
+						if (!msource.IsGenericMethodDefinition)
+						{
+							MethodCache[msource] = MethodCache[msource.GetGenericMethodDefinition()].MakeGenericMethod(
+								 TypeDefinitionCache[msource.GetGenericArguments()]
+							);
+							
+							return;
+						}
 
 
 					#region ShouldCopyType - CopyMethod
@@ -541,35 +566,52 @@ namespace jsc.meta.Commands.Rewrite
 					if (source.IsGenericType)
 						if (!source.IsGenericTypeDefinition)
 						{
+							var source_GenericTypeDefinition = source.GetGenericTypeDefinition();
+
+							if (!ShouldCopyType(source_GenericTypeDefinition))
+							{
+								// the type itself is not copied. what about arguments passed in?
+
+								if (!source.GetGenericArguments().Any(ShouldCopyType))
+								{
+									FieldCache[SourceField] = SourceField;
+									return;
+								}
+							}
+
 							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
 
 							var ResolvedType2 = ResolvedType1.MakeGenericType(
 								TypeDefinitionCache[source.GetGenericArguments()]
 							);
 
-							var Def0 = ResolvedType1.GetField(
+							//var Def0 = ResolvedType1.GetField(
+							//    SourceField.Name,
+							//    BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+							//);
+
+
+							var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[source_GenericTypeDefinition.GetField(
 								SourceField.Name,
 								BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+								)]
 							);
-
-
-							var Def1 = FieldCache[Def0];
 
 							//try
 							//{
 							// Message	"The specified field must be declared on the generic type definition 
 							// of the specified type.\r\nParameter name: type"	string
 
-							// Message	"The specified Type must not be a generic type definition.\r\nParameter name: type"	string
+							// Message	"The specified Type must not be a generic type definition.\r\nParameter name: type"	string http://msdn.microsoft.com/en-us/library/ms145828(VS.95).aspx
 
-							Def1 = TypeBuilder.GetField(ResolvedType2, Def0);
+							//Def1 = TypeBuilder.GetField(ResolvedType2, Def0);
 							//}
 							//catch
 							//{
 							//    Def1 = ResolvedType2.GetField(Def0.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 							//}
 
-							FieldCache[SourceField] = Def0;
+							FieldCache[SourceField] = Def1;
 
 							return;
 						}
@@ -904,6 +946,15 @@ namespace jsc.meta.Commands.Rewrite
 			Console.WriteLine("rewriting... done");
 			Console.WriteLine("");
 
+			// http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
+
+			a.SetCustomAttribute(
+				typeof(GeneratedCodeAttribute).GetConstructors().Single(),
+				typeof(RewriteToAssembly).FullName + " at " + DateTime.Now,
+				""
+				//typeof(RewriteToAssembly).Assembly.GetCustomAttributes<AssemblyVersionAttribute>().Single().Version
+				//new GeneratedCodeAttribute(
+			);
 
 
 			if (OutputUndefined)

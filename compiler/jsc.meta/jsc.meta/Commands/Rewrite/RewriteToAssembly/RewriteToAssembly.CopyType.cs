@@ -96,7 +96,7 @@ namespace jsc.meta.Commands.Rewrite
 						BindingFlags.Public | BindingFlags.NonPublic |
 						BindingFlags.Instance | BindingFlags.Static))
 			{
-				Diagnostics("Field: " + SourceType.Name + "." + f.Name);
+				//Diagnostics("Field: " + SourceType.Name + "." + f.Name);
 
 				var ff = FieldCache[f];
 			}
@@ -143,10 +143,42 @@ namespace jsc.meta.Commands.Rewrite
 			//    DeclaringTypeContinuation();
 			//}
 
+			Action AtTypeCreated =
+				delegate
+				{
+					// seems like base types better be completed...
+					var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
+
+					var _Interfaces = Enumerable.ToArray(
+						from k in SourceType.GetInterfaces()
+						where ShouldCopyType(k) || k.IsPublic
+						select TypeCache[k]
+					).ToArray();
+
+					// explicit interfaces?
+
+					var map = SourceType.GetInterfaces().Select(k => SourceType.GetInterfaceMap(k)).ToArray();
+
+					foreach (var item in map)
+					{
+						for (int i = 0; i < item.InterfaceMethods.Length; i++)
+						{
+							if (item.TargetMethods[i].DeclaringType == SourceType)
+								if (item.InterfaceMethods[i].Name != item.TargetMethods[i].Name)
+									t.DefineMethodOverride(MethodCache[item.TargetMethods[i]], MethodCache[item.InterfaceMethods[i]]);
+						}
+					}
+
+					t.CreateType();
+					TypeCache.Flags[SourceType] = new object();
+
+					if (TypeCreated != null)
+						TypeCreated(t);
+				};
 
 			if (SourceType.IsNested && SourceType.IsClass && !(TypeCache.Flags.ContainsKey(SourceType.DeclaringType)))
 			{
-				Diagnostics("Delayed:  " + SourceType.FullName);
+				//Diagnostics("Delayed:  " + SourceType.FullName);
 
 
 				r.TypeCreated +=
@@ -155,14 +187,9 @@ namespace jsc.meta.Commands.Rewrite
 						if (tt.SourceType != SourceType.DeclaringType)
 							return;
 
-						Diagnostics("Delayed CreateType:  " + SourceType.FullName);
+						//Diagnostics("Delayed CreateType:  " + SourceType.FullName);
 
-						// How is it possible?
-						// "Duplicate definition for runtime implemented delegate method"
-						t.CreateType();
-
-						if (TypeCreated != null)
-							TypeCreated(t);
+						AtTypeCreated();
 					};
 
 
@@ -170,24 +197,9 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 
+			//Diagnostics("CreateType:  " + SourceType.FullName);
 
-			// seems like base types better be completed...
-			var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
-
-			var _Interfaces = Enumerable.ToArray(
-				from k in SourceType.GetInterfaces()
-				where ShouldCopyType(k) || k.IsPublic
-				select TypeCache[k]
-			).ToArray();
-
-			t.CreateType();
-			TypeCache.Flags[SourceType] = new object();
-			Diagnostics("CreateType:  " + SourceType.FullName);
-
-			if (TypeCreated != null)
-				TypeCreated(t);
-
-
+			AtTypeCreated();
 
 		}
 
@@ -218,8 +230,8 @@ namespace jsc.meta.Commands.Rewrite
 						Console.WriteLine(e);
 					};
 
-				var TypeName = 
-					SourceType.IsNested ? 
+				var TypeName =
+					SourceType.IsNested ?
 					TypeRenameCache[SourceType] ?? SourceType.Name :
 
 					// http://msdn.microsoft.com/en-us/library/system.type.fullname.aspx
@@ -230,7 +242,7 @@ namespace jsc.meta.Commands.Rewrite
 					TypeRenameCache[SourceType] ?? SourceType.FullName;
 
 
-				Diagnostics("CopyType: " + TypeName);
+				Diagnostics("CopyTypeDefinition: " + TypeName);
 
 				// we should not reenter here!
 				TypeDefinitionCache[SourceType] = null;
@@ -240,10 +252,10 @@ namespace jsc.meta.Commands.Rewrite
 
 				//var DeclaringTypeContinuation = default(Action);
 
-				if (SourceType.IsNested)
-				{
-					Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
-				}
+				//if (SourceType.IsNested)
+				//{
+				//    Diagnostics("Should create " + SourceType.DeclaringType.Name + " before " + SourceType.Name);
+				//}
 
 				// We beed a separate TypeDeclarationCache for this to work:
 				// Type { NestedType, Delegate1(NestedType) }
@@ -307,7 +319,7 @@ namespace jsc.meta.Commands.Rewrite
 						_Interfaces
 					);
 
-					
+
 
 				}
 				#endregion
@@ -321,7 +333,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				TypeDefinitionCache[SourceType] = t;
 
-				Diagnostics("TypeDefinitionCache: " + TypeName);
+				//Diagnostics("TypeDefinitionCache: " + TypeName);
 
 				return t;
 			}

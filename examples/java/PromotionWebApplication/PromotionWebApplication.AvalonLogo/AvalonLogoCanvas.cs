@@ -100,7 +100,7 @@ namespace PromotionWebApplication.AvalonLogo
 
 			var randomphase = Math.PI * 2 * new Random().NextDouble();
 
-			(1000 / 20).AtIntervalWithTimer(
+			(1000 / 50).AtIntervalWithTimer(
 				t =>
 				{
 					var ms = s.ElapsedMilliseconds;
