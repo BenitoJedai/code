@@ -166,6 +166,8 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				ki++;
 
+				var ScriptLibraries = new List<Type>();
+
 				// while rewriting we may decide to merge script
 				// resources. This is the cache.
 				var CurrentScriptResources = new ScriptResources();
@@ -195,6 +197,14 @@ namespace jsc.meta.Commands.Rewrite
 
 				var PrimaryTypes = new[] { k.TargetType };
 
+				if (k.IsJavaScript)
+				{
+					k.StagingFolder.DefinesTypes(
+						typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
+						typeof(ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken)
+					);
+
+				}
 
 				if (k.IsWebServiceJava)
 				{
@@ -324,18 +334,27 @@ namespace jsc.meta.Commands.Rewrite
 
 						},
 
-					#region PostRewrite
+					#region PostAssemblyRewrite
 					PostAssemblyRewrite =
 						a =>
 						{
 							if (k.IsJavaScript || k.IsActionScript || k.IsJava)
 							{
-								a.Assembly.DefineAttribute<ObfuscationAttribute>(
-								   new
+								a.Assembly.DefineAttribute(
+								   new ObfuscationAttribute
 								   {
 									   Feature = "script",
-								   }
+								   },
+								   typeof(ObfuscationAttribute)
 								);
+
+								a.Module.DefineType(
+									k.TargetType.Namespace + ".ImplementationDetails.BCLImplementationReferences",
+									TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract, 
+									null, 
+									r.RewriteArguments.context.TypeCache[ScriptLibraries.ToArray()]
+								).CreateType();
+
 							}
 
 							if (k.IsJavaScript)
@@ -361,6 +380,7 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							}
 
+							#region IsWebService
 							if (k.IsWebService)
 							{
 								var __js = targets.Single(kk => kk.IsJavaScript);
@@ -469,6 +489,8 @@ namespace jsc.meta.Commands.Rewrite
 									};
 								}
 							}
+							#endregion
+
 
 						}
 					#endregion
@@ -493,7 +515,7 @@ namespace jsc.meta.Commands.Rewrite
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
-						
+
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
 							if (c != null)
@@ -620,11 +642,30 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 
 
+					var ScriptCoreLib_Query = typeof(global::ScriptCoreLib.Shared.Query.IAssemblyReferenceToken);
+					var System_Core = typeof(global::System.Linq.Enumerable).Assembly;
+
+					var ScriptCoreLib_XLinq = typeof(global::ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken);
+					var System_XLinq = typeof(global::System.Xml.Linq.XElement).Assembly;
+
 
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
+							if (ScriptCoreLib_Query != null && SourceType.Assembly == System_Core)
+							{
+								ScriptLibraries.Add(ScriptCoreLib_Query);
+								ScriptCoreLib_Query = null;
+							}
+
+							if (ScriptCoreLib_XLinq != null && SourceType.Assembly == System_XLinq)
+							{
+								ScriptLibraries.Add(ScriptCoreLib_XLinq);
+								ScriptCoreLib_XLinq = null;
+							}
+
+
 							if (r.ExternalContext.TypeCache.BaseDictionary.ContainsKey(SourceType))
 								if (r.ExternalContext.TypeCache.BaseDictionary[SourceType] != SourceType)
 									return;
