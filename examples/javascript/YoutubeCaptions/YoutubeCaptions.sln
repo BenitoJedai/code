@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeCaptions", "YoutubeCaptions\YoutubeCaptions.csproj", "{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeCaptions.Test", "YoutubeCaptions.Test\YoutubeCaptions.Test.csproj", "{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseAdvanced|Any CPU = ReleaseAdvanced|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}.ReleaseAdvanced|Any CPU.ActiveCfg = ReleaseAdvanced|Any CPU
+		{EE10DFD7-8179-420B-B2F6-27C48F0FA4C4}.ReleaseAdvanced|Any CPU.Build.0 = ReleaseAdvanced|Any CPU
+		{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}.ReleaseAdvanced|Any CPU.ActiveCfg = Release|Any CPU
+		{FC2E00B2-D6A3-4A00-8F3E-855E7124692B}.ReleaseAdvanced|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

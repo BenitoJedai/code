@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{BBB683B6-BBF0-453B-88CB-34E4E241F6CB}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -60,6 +60,12 @@
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XContainer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XElement.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XNode.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XContainer.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XDocument.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XElement.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XName.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XNode.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\XLinq\IAssemblyReferenceToken.cs" />
   </ItemGroup>
