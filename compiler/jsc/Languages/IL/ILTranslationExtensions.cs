@@ -55,6 +55,12 @@ namespace jsc.Languages.IL
 				);
 			}
 
+			// http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.marklabel.aspx
+			var labels = Enumerable.ToDictionary(
+				from i in xb.Instructrions
+				select new { i, label = il.DefineLabel()}
+			, k => k.i, k => k.label);
+
 			var IsComplete = false;
 
 			Action Complete = delegate
@@ -63,26 +69,29 @@ namespace jsc.Languages.IL
 			};
 
 			if (x.BeforeInstructions != null)
-				x.BeforeInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete });
+				x.BeforeInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete, Labels = labels });
 
 			foreach (var i in xb.Instructrions)
 			{
 				if (IsComplete)
 					break;
 
-				if (x.BeforeInstruction != null)
-					x.BeforeInstruction(new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete });
+				il.MarkLabel(labels[i]);
 
-				x.Configuration[i.OpCode](new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete });
+				if (x.BeforeInstruction != null)
+					x.BeforeInstruction(new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete, Labels = labels });
+
+				x.Configuration[i.OpCode](new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete, Labels = labels });
 
 				if (x.AfterInstruction != null)
-					x.AfterInstruction(new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete });
+					x.AfterInstruction(new EmitToArguments.ILRewriteContext { SourceMethod = m, i = i, il = il, Complete = Complete, Labels = labels });
+
 
 			}
 
 
 			if (x.AfterInstructions != null)
-				x.AfterInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete });
+				x.AfterInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete, Labels = labels });
 
 		}
 
