@@ -384,6 +384,18 @@ namespace jsc.meta.Library
 
 		}
 
+		public static T Initialize<T>(this object value, T e)
+			where T : class
+		{
+			if (value == null)
+				return e;
+
+			if (value is T)
+				return value as T;
+
+			return e;
+		}
+
 		public static T Apply<T>(this T e, Action<T> handler)
 			where T : class
 		{

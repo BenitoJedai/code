@@ -37,6 +37,8 @@ namespace jsc.meta.Commands.Rewrite
 				RewriteToAssembly r
 			)
 		{
+
+
 			Action<string> Diagnostics =
 				e =>
 				{
@@ -221,6 +223,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			public TypeBuilder Invoke()
 			{
+
+
 				if (Diagnostics == null)
 					Diagnostics =
 					e =>
@@ -242,7 +246,9 @@ namespace jsc.meta.Commands.Rewrite
 					TypeRenameCache[SourceType] ?? SourceType.FullName;
 
 
-				Diagnostics("CopyTypeDefinition: " + TypeName);
+				Diagnostics("CopyTypeDefinition: " +
+					SourceType.FullName
+				);
 
 				// we should not reenter here!
 				TypeDefinitionCache[SourceType] = null;
@@ -336,8 +342,11 @@ namespace jsc.meta.Commands.Rewrite
 				//Diagnostics("TypeDefinitionCache: " + TypeName);
 
 				return t;
+
 			}
+
 		}
+
 		internal static void CopyTypeMembers(
 			Type SourceType,
 			VirtualDictionary<Type, Type> TypeCache,
@@ -406,7 +415,6 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			}
-
 
 
 		}
