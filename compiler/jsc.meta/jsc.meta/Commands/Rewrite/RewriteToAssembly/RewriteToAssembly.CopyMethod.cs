@@ -56,12 +56,12 @@ namespace jsc.meta.Commands.Rewrite
 			if (Parameters.Contains(null))
 				throw new InvalidOperationException();
 
-			
+
 			var km = t.DefineMethod(
-				MethodName, source.Attributes, source.CallingConvention, 
-				TypeCache[source.ReturnType], 
+				MethodName, source.Attributes, source.CallingConvention,
+				TypeCache[source.ReturnType],
 				Parameters
-				
+
 			);
 
 			MethodCache[source] = km;
@@ -75,7 +75,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
-			
+
 
 			// synchronized?
 			km.SetImplementationFlags(source.GetMethodImplementationFlags());
@@ -189,25 +189,37 @@ namespace jsc.meta.Commands.Rewrite
 
 							}
 
-							if ((ex.Flags & ExceptionHandlingClauseOptions.Finally) == ExceptionHandlingClauseOptions.Finally)
+							if (ex.HandlerOffset == e.i.Offset)
 							{
-								if (ex.HandlerOffset == e.i.Offset)
+								// http://blogs.msdn.com/clrteam/archive/2009/03/23/exceptions-out-of-fault-finally.aspx
+
+								if (ex.Flags  == ExceptionHandlingClauseOptions.Finally)
 								{
 									//Console.WriteLine(".finally");
 									e.il.BeginFinallyBlock();
+
+
 								}
-
-
-							}
-							else
-							{
-								if (ex.HandlerOffset == e.i.Offset)
+								else if (ex.Flags == ExceptionHandlingClauseOptions.Clause)
 								{
+
 									//Console.WriteLine(".catch");
 									e.il.BeginCatchBlock(ex.CatchType);
+
+
 								}
+								else if (ex.Flags == ExceptionHandlingClauseOptions.Fault)
+								{
+
+									//Console.WriteLine(".catch");
+									e.il.BeginFaultBlock();
 
 
+								}
+								else
+								{
+									throw new NotImplementedException();
+								}
 							}
 						}
 
