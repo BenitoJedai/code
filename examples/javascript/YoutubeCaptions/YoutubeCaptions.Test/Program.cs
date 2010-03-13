@@ -9,15 +9,12 @@ namespace YoutubeCaptions.Test
 	{
 		static void Main(string[] args)
 		{
-			"".ToCaptions(
+			"".ToCaptionTuples(
 				x =>
 				{
-					foreach (var item in x.Root.Elements("text"))
-					{
-						Console.WriteLine(
-							item.Value
-						);
-					}
+					Console.WriteLine(
+						x
+					);
 				}
 			);
 		}
