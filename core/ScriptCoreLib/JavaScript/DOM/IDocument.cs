@@ -28,6 +28,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
     }
 
+	
     [Script(HasNoPrototype = true)]
     public class IDocument<DOMElement> : IDocument
         where DOMElement : IElement

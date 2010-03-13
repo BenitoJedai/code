@@ -27,9 +27,12 @@ namespace YoutubeCaptions
 				{
 					var text = new IHTMLSpan(x.Text);
 
-					var n = new IHTMLDiv(
+					var n = new IHTMLDiv
+					{
+
 						text
-					).AttachToDocument();
+
+					}.AttachToDocument();
 
 					n.title = x.Start + " (" + x.Duration + ")";
 					text.style.marginLeft = x.Start + "px";
