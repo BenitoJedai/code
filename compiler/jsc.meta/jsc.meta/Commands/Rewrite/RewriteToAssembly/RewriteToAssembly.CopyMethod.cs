@@ -83,14 +83,10 @@ namespace jsc.meta.Commands.Rewrite
 			source.GetParameters().CopyTo(km);
 
 			// should we copy attributes? should they be opt-out?
-			var TypeAttributes = source.GetCustomAttributes(false);
-
-			foreach (var item in TypeAttributes)
+			foreach (var item in source.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 			{
-				// call a callback?
-				km.DefineAttribute(item, item.GetType());
-			}
-
+				km.SetCustomAttribute(item(ConstructorCache));
+			} 
 
 			var MethodBody = source.GetMethodBody();
 

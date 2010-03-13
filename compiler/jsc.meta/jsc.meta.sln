@@ -25,6 +25,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "frontend", "frontend", "{62A051CC-0A34-4A66-86CD-E0080C941580}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{F5085066-9969-46FA-AA30-759028175C82}"
+	ProjectSection(SolutionItems) = preProject
+		comment.txt = comment.txt
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Reflection.Options", "..\..\core\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options.csproj", "{2CB7C626-30E2-44EC-941A-86321A353D1C}"
 EndProject

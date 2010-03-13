@@ -34,8 +34,8 @@ namespace TestTypeGenerics
 	[TestTypeGenerics.My("Y", NamedInt = 5)]
 	public class Class2
 	{
-		//[DllImport("Kernel32.dll")]
-		//internal static extern uint QueryDosDevice(string lpDeviceName, StringBuilder lpTargetPath, uint ucchMax);
+		[DllImport("Kernel32.dll")]
+		internal static extern uint QueryDosDevice(string lpDeviceName, StringBuilder lpTargetPath, uint ucchMax);
 
 
 		[TestTypeGenerics.My("Y", NamedInt = 5)]

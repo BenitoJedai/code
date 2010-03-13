@@ -209,7 +209,8 @@ namespace jsc.Languages.IL
 					OpCodes.Isinst,
 					OpCodes.Constrained,
 					OpCodes.Initobj,
-					OpCodes.Ldobj
+					OpCodes.Ldobj,
+					OpCodes.Stobj
 				};
 
 				this[i => this.TranslateTargetField(i.TargetField)] = new[] {
