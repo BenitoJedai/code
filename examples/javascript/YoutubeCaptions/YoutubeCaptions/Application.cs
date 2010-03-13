@@ -5,6 +5,8 @@ using ScriptCoreLib.JavaScript;
 using System.Net;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Xml.Linq;
+using ScriptCoreLib.Shared.Drawing;
+using System.Linq;
 
 namespace YoutubeCaptions
 {
@@ -18,11 +20,27 @@ namespace YoutubeCaptions
 		{
 			Native.Document.title = "Ultra Application";
 
-			new IHTMLDiv(
-					"downloading..."
-				).AttachToDocument();
+	
 
-			"".ToCaptionTuples(
+			// Color Theory: Mixing Paint Colors : Color Theory: Mixing Primary Colors
+			// http://www.youtube.com/watch?v=COzgtcZzOZw
+
+			Native.Document.body.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
+
+			DoVideo("COzgtcZzOZw");
+			DoVideo("2MxWAX_HuAw");
+		}
+
+		private static void DoVideo(string video)
+		{
+			var uri = video.ToYoutubeVideo();
+
+			var di = new IHTMLDiv
+			{
+				new IHTMLAnchor { href = uri.ToString(), innerText = video }
+			}.AttachToDocument();
+			
+			video.ToCaptionTuples(
 				x =>
 				{
 					var text = new IHTMLSpan(x.Text);
@@ -32,7 +50,26 @@ namespace YoutubeCaptions
 
 						text
 
-					}.AttachToDocument();
+					}.AttachTo(di);
+
+					var colors = @"red,blue,green,yellow".Split(',');
+
+					var c = Enumerable.FirstOrDefault(
+						from k in colors
+						where (" " + x.Text + " ").Contains(" " + k + " ")
+						select k
+					);
+
+					if (c != null)
+						text.style.backgroundColor = c;
+
+					if (x.Text.Contains("step"))
+					{
+						n.style.fontSize = "large";
+						n.style.color = "blue";
+						n.style.textDecoration = "underline";
+					}
+
 
 					n.title = x.Start + " (" + x.Duration + ")";
 					text.style.marginLeft = x.Start + "px";
@@ -94,6 +131,15 @@ namespace YoutubeCaptions
 
 	public delegate void StringAction(string e);
 
+	public static class My2Extensions
+	{
+		public static Uri ToYoutubeVideo(this string video)
+		{
+			var uri = new Uri("http://www.youtube.com/watch?v=" + video);
+			return uri;
+		}
+	}
+
 	public sealed class UltraWebService
 	{
 		public void GetCaptions(string video, StringAction result)
@@ -101,7 +147,7 @@ namespace YoutubeCaptions
 			if (string.IsNullOrEmpty(video))
 				video = "LT_x9s67yWA";
 
-			var uri = new Uri("http://www.youtube.com/watch?v=" + video);
+			var uri = video.ToYoutubeVideo();
 
 			var c = new WebClient();
 
