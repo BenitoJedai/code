@@ -145,7 +145,12 @@ namespace jsc.meta.Commands.Rewrite
 							(__a, __m) =>
 							{
 								// should we copy attributes? should they be opt-out?
-								CopyAttributes(shadow_assembly, __a);
+
+								foreach (var item in shadow_assembly.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+								{
+									__a.SetCustomAttribute(item(this.RewriteArguments.context.ConstructorCache));
+								} 
+
 
 								foreach (var item in shadow_assembly.GetManifestResourceNames())
 								{
@@ -984,61 +989,7 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-		private static void CopyAttributes(Assembly shadow_assembly, AssemblyBuilder __a)
-		{
-			Func<bool, object[]> GetCustomAttributes = shadow_assembly.GetCustomAttributes;
-			
-			var TypeAttributes = GetCustomAttributes(false);
-
-			foreach (var item in TypeAttributes)
-			{
-				// for now we cannot copy ctor attributes / nonoba branch knows how...
-				if (item.GetType().GetConstructor() == null)
-				{
-					var ctors = item.GetType().GetConstructors().OrderByDescending(k => k.GetParameters().Length);
-
-					foreach (var _ctor in ctors)
-					{
-
-						if (CopyAttributes(item, __a, _ctor))
-							break;
-					}
-				}
-				else
-				{
-					// call a callback?
-					__a.DefineAttribute(item, item.GetType());
-				}
-			}
-		}
-
-		private static bool CopyAttributes(object item, AssemblyBuilder __a, ConstructorInfo ctor)
-		{
-			var xb = new ILBlock(ctor);
-
-			var a = Enumerable.ToDictionary(
-				from i in xb.Instructrions
-				let p = i.TargetParameter
-				where p != null
-				let stfld = i.NextInstruction
-				let f = stfld.TargetField
-				where f != null
-				group f by p
-			, k => k.Key, k => k.First());
-
-			if (a.Count < ctor.GetParameters().Length)
-				return false;
-
-			__a.SetCustomAttribute(
-				ctor, Enumerable.ToArray(
-					from p in ctor.GetParameters()
-					let f = a[p]
-					select f.GetValue(item)
-				)
-			);
-
-			return true;
-		}
+	
 
 
 		private static bool IsMarkedForMerge(Type t)

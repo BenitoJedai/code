@@ -61,18 +61,11 @@ namespace jsc.meta.Commands.Rewrite
 			var t = (TypeBuilder)TypeDefinitionCache[SourceType]; ;
 			TypeCache[SourceType] = t;
 
-			// should we copy attributes? should they be opt-out?
-			var TypeAttributes = SourceType.GetCustomAttributes(false);
-
-			foreach (var item in TypeAttributes)
+			foreach (var item in SourceType.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 			{
-				// for now we cannot copy ctor attributes / nonoba branch knows how...
-				if (item.GetType().GetConstructor() == null)
-					continue;
+				t.SetCustomAttribute(item(ConstructorCache));
+			} 
 
-				// call a callback?
-				t.DefineAttribute(item, item.GetType());
-			}
 
 			// at this point we should signal back? that a nested declaration can continue?
 			// does everything still work after this change? :D
