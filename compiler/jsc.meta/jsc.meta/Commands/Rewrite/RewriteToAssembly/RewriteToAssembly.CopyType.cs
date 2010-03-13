@@ -159,17 +159,25 @@ namespace jsc.meta.Commands.Rewrite
 
 					// explicit interfaces?
 
-					var map = SourceType.GetInterfaces().Select(k => SourceType.GetInterfaceMap(k)).ToArray();
+					var __explicit =
+						from i in SourceType.GetInterfaces()
+						let map = SourceType.GetInterfaceMap(i)
+						from j in Enumerable.Range(0, map.InterfaceMethods.Length)
+						let TargetMethod = map.TargetMethods[j]
+						let InterfaceMethod = map.InterfaceMethods[j]
+						where TargetMethod.DeclaringType == SourceType
+						where !TargetMethod.IsPublic || TargetMethod.Name != InterfaceMethod.Name
+						select new { TargetMethod, InterfaceMethod };
 
-					foreach (var item in map)
+
+					foreach (var item in __explicit)
 					{
-						for (int i = 0; i < item.InterfaceMethods.Length; i++)
-						{
-							if (item.TargetMethods[i].DeclaringType == SourceType)
-								if (item.InterfaceMethods[i].Name != item.TargetMethods[i].Name)
-									t.DefineMethodOverride(MethodCache[item.TargetMethods[i]], MethodCache[item.InterfaceMethods[i]]);
-						}
+						t.DefineMethodOverride(MethodCache[item.TargetMethod], MethodCache[item.InterfaceMethod]);
 					}
+
+					// Method 'MoveNext' in type '<LoadReferencedAssemblies>d__0' from 
+					// assembly '20100313_jsc.installer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'
+					// does not have an implementation.
 
 					t.CreateType();
 					TypeCache.Flags[SourceType] = new object();
