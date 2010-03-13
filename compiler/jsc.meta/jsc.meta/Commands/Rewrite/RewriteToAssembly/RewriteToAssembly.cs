@@ -344,6 +344,7 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
+			#region TypeRenameCache
 			TypeRenameCache.Resolve +=
 				SourceType =>
 				{
@@ -352,6 +353,8 @@ namespace jsc.meta.Commands.Rewrite
 
 					TypeRenameCache[SourceType] = default(string);
 				};
+			#endregion
+
 
 			#region MethodCache
 			MethodCache.Resolve +=
@@ -901,6 +904,7 @@ namespace jsc.meta.Commands.Rewrite
 			// did we define any type declarations which we did not actually create yet?
 			// fixme: maybe we shold just close the unclosed TypeBuilders?
 
+			#region close unclosed definitions
 			foreach (var item in TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys))
 			{
 
@@ -929,6 +933,8 @@ namespace jsc.meta.Commands.Rewrite
 				}
 
 			}
+			#endregion
+
 
 
 
@@ -980,7 +986,9 @@ namespace jsc.meta.Commands.Rewrite
 
 		private static void CopyAttributes(Assembly shadow_assembly, AssemblyBuilder __a)
 		{
-			var TypeAttributes = shadow_assembly.GetCustomAttributes(false);
+			Func<bool, object[]> GetCustomAttributes = shadow_assembly.GetCustomAttributes;
+			
+			var TypeAttributes = GetCustomAttributes(false);
 
 			foreach (var item in TypeAttributes)
 			{
