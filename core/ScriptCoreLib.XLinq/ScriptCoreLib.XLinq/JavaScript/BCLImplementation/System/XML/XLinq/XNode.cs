@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 {
@@ -15,7 +16,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
         public override string ToString()
         {
-            return InternalValue.ToString();
+			
+            return IXMLDocument.ToXMLString(InternalValue);
         }
+
+
     }
 }

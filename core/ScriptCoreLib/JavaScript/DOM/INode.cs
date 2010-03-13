@@ -9,6 +9,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class INode : ISink
     {
+		// http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
+
+
+		 //readonly attribute NamedNodeMap     attributes;
+
 		// add
 
         [Script(HasNoPrototype = true)]

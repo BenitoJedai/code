@@ -42,5 +42,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 				return this.InternalElement.text;
 			}
 		}
+
+		public XAttribute Attribute(XName name)
+		{
+			var e = InternalElement;
+
+			if (e.hasAttribute(name.LocalName))
+			{
+				return (XAttribute)(object)new __XAttribute { InternalElement = this, Name = name };
+
+			}
+
+			return null;
+		}
 	}
 }

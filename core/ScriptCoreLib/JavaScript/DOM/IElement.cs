@@ -11,6 +11,8 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IElement : INode
     {
+		// http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/idl-definitions.html
+
         public string tagName;
 
         internal void setAttributeNS(string ns, string name, object value)
@@ -22,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         {
 
         }
+
+		// http://msdn.microsoft.com/en-us/library/ms536429(VS.85).aspx
 
         public object getAttribute(string name)
         {

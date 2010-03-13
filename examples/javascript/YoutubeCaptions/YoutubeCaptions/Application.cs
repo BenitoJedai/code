@@ -22,20 +22,17 @@ namespace YoutubeCaptions
 					"downloading..."
 				).AttachToDocument();
 
-			"".ToCaptions(
+			"".ToCaptionTuples(
 				x =>
 				{
-					new IHTMLDiv(
-						"done!"
+					var text = new IHTMLSpan(x.Text);
+
+					var n = new IHTMLDiv(
+						text
 					).AttachToDocument();
 
-
-					foreach (var item in x.Root.Elements("text"))
-					{
-						new IHTMLDiv(
-							item.Value
-						).AttachToDocument();
-					}
+					n.title = x.Start + " (" + x.Duration + ")";
+					text.style.marginLeft = x.Start + "px";
 				}
 			);
 		}
@@ -43,8 +40,43 @@ namespace YoutubeCaptions
 
 	}
 
+	public class CaptionTuple
+	{
+		public string Text;
+		public string Start;
+		public string Duration;
+
+		public override string ToString()
+		{
+			return "[" + Start + "] " + Text;
+		}
+	}
+
 	public static class MyExtensions
 	{
+		public static void ToCaptionTuples(this string video, Action<CaptionTuple> yield)
+		{
+			video.ToCaptions(
+				(XDocument x) =>
+				{
+					foreach (var item in x.Root.Elements("text"))
+					{
+						var start = item.Attribute("start");
+						var dur = item.Attribute("dur");
+
+						yield(
+							new CaptionTuple
+							{
+								Text = item.Value,
+								Start = start.Value,
+								Duration = dur.Value
+							}
+						);
+					}
+				}
+			);
+		}
+
 		public static void ToCaptions(this string video, Action<XDocument> e)
 		{
 

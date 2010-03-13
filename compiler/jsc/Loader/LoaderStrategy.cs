@@ -12,7 +12,8 @@ namespace jsc.Loader
 	{
 		public static IEnumerable<Assembly> LoadReferencedAssemblies(Assembly Context, ScriptType[] filter, params ScriptAttribute[] UpperContextScript)
 		{
-
+			// if an assembly is not being picked up
+			// then maybe you forgot to include the namespace for translation?
 
 			var ContextObfuscation = Context.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
 			var ContextScript = Context.GetCustomAttributes<ScriptAttribute>().FirstOrDefault();
