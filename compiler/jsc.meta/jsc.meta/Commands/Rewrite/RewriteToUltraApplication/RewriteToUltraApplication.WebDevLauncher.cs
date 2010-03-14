@@ -31,7 +31,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				// does it work? :)
 				//obfuscate = Obfuscate,
 
-				//merge = new RewriteToAssembly.MergeInstruction[] { "ScriptCoreLib.Archive.ZIP" },
+				merge = new RewriteToAssembly.MergeInstruction[] { 
+					// This assembly cannot be merged due to unverifiable code?
+					//"WebDev.WebHost"
+				},
 
 				PostAssemblyRewrite =
 					a =>
@@ -49,6 +52,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 			};
 
+			// http://code.google.com/p/youwebit/issues/detail?id=1#c6
+
 			var _WebDev = Assembly.LoadFile(@"C:\Windows\assembly\GAC_32\WebDev.WebHost\9.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost.dll");
 			var _WebDev_Server = _WebDev.GetTypes().Single(k => k.Name == "Server");
 
@@ -57,7 +62,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				{
 					if (SourceType == typeof(Server))
 					{
-						r.ExternalContext.TypeCache[SourceType] = _WebDev_Server;
+						r.ExternalContext.TypeCache[SourceType] = r.RewriteArguments.context.TypeCache[_WebDev_Server];
 						return;
 					}
 				};
@@ -69,7 +74,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 					if (SourceType == typeof(Server))
 					{
-						r.ExternalContext.ConstructorCache[SourceCtor] = _WebDev_Server.GetConstructor(SourceCtor.GetParameterTypes());
+						r.ExternalContext.ConstructorCache[SourceCtor] =
+							r.RewriteArguments.context.ConstructorCache[
+								_WebDev_Server.GetConstructor(SourceCtor.GetParameterTypes())
+							];
 						return;
 					}
 				};
@@ -83,7 +91,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 					if (SourceType == typeof(Server))
 					{
-						r.ExternalContext.MethodCache[SourceMethod] = _WebDev_Server.GetMethod(SourceMethod.Name, SourceMethod.GetParameterTypes());
+						r.ExternalContext.MethodCache[SourceMethod] =
+							r.RewriteArguments.context.MethodCache[
+								_WebDev_Server.GetMethod(SourceMethod.Name, SourceMethod.GetParameterTypes())
+							];
 						return;
 					}
 				};
@@ -126,7 +137,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 				var port = new Random().Next(1024, short.MaxValue);
 
-			
+
 				var url = "http://localhost:" + port;
 
 

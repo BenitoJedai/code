@@ -370,6 +370,7 @@ namespace PromotionWebApplication.AvalonLogo
 				w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
 				w.Topmost = true;
 				w.ShowInTaskbar = false;
+				w.Focusable = false;
 
 				w.ShowDialog();
 			}

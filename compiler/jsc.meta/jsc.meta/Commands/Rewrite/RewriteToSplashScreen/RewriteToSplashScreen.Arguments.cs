@@ -22,5 +22,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 		{
 			return new { PrimaryAssembly }.ToString();
 		}
+
+		public DirectoryInfo staging;
 	}
 }

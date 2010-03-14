@@ -220,6 +220,7 @@ namespace jsc.Languages.IL
 					OpCodes.Stsfld,
 					OpCodes.Ldsfld,
 					OpCodes.Ldflda,
+					OpCodes.Ldsflda,
 					
 				};
 
@@ -244,22 +245,7 @@ namespace jsc.Languages.IL
 				//};
 
 				//// http://msdn.microsoft.com/en-us/library/74b4xzyw(VS.71).aspx
-				//// If we translate the branch offset from byte to int
-				//// we got some problems!
-				//// For now we wont implement this but it will bite us later!
-				//this[i => 
-				//    (byte)
-				//        checked(
-				//            (sbyte)TranslateBranchOffset(i, 
-				//                unchecked(
-				//                    (sbyte)i.OpParamAsInt8)))
-				//    ] = new[] {
-				//    OpCodes.Br_S,
-				//    OpCodes.Brtrue_S,
-				//    OpCodes.Brfalse_S,
-				//    OpCodes.Bne_Un_S,
-				//    OpCodes.Bge_S
-				//};
+			
 
 				this[
 					OpCodes.Br_S,
@@ -267,8 +253,20 @@ namespace jsc.Languages.IL
 					OpCodes.Brfalse_S,
 					OpCodes.Bne_Un_S,
 					OpCodes.Bge_S,
+					OpCodes.Bge,
+					OpCodes.Blt,
+					OpCodes.Blt_S,
+					OpCodes.Ble_S,
+					OpCodes.Bgt,
+					OpCodes.Bgt_S,
 					OpCodes.Br,
-					OpCodes.Brtrue] =
+					OpCodes.Brtrue,
+					OpCodes.Brfalse,
+					OpCodes.Beq,
+					OpCodes.Beq_S
+					
+					
+					] =
 					e =>
 					{
 
@@ -370,6 +368,11 @@ namespace jsc.Languages.IL
 					OpCodes.Mul,
 					OpCodes.Neg,
 
+					OpCodes.Volatile,
+
+					OpCodes.Stind_I,
+					OpCodes.Stind_I1,
+					OpCodes.Stind_I2,
 					// try/catch is special
 					//OpCodes.Endfinally,
 					

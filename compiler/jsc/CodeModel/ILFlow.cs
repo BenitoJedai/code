@@ -438,7 +438,13 @@ namespace jsc
                 return;
             }
 
-            Debugger.Break();
+			if (Branch.OpCode.FlowControl == FlowControl.Meta)
+			{
+				FollowBranch(Branch.Next);
+				return;
+			}
+
+			throw new NotSupportedException();
         }
 
 

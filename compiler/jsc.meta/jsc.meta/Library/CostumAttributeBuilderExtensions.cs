@@ -19,7 +19,9 @@ namespace jsc.meta.Library
 
 				// is there a constructor which saves all parameters to fields?
 
-				let ctor = Enumerable.First(
+				// http://msdn.microsoft.com/en-us/library/system.security.permissions.permissionsetattribute(VS.100).aspx
+
+				let ctor = Enumerable.FirstOrDefault(
 
 					from c in t.GetConstructors(BindingFlags.Public | BindingFlags.Instance)
 					let args = c.GetParameters()
@@ -41,6 +43,8 @@ namespace jsc.meta.Library
 
 					select new { c, args, ldarg_stfld }
 				)
+				
+				where ctor != null
 
 				let ctor_params = ctor.ldarg_stfld.Select(k => k.First().GetValue(a)).ToArray()
 
@@ -74,6 +78,8 @@ namespace jsc.meta.Library
 					e => e.Select(k => k is Type ? context.TypeCache[(Type)k] : k).ToArray();
 
 				// Property must be on the same type of the given ConstructorInfo.
+				if (x == null)
+					return null;
 
 				return new CustomAttributeBuilder(
 					context.ConstructorCache[x.ctor.c],
