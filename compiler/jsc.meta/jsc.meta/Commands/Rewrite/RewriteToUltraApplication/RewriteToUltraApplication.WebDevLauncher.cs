@@ -8,12 +8,14 @@ using jsc.meta.Commands.Rewrite.RewriteToUltraApplication.Templates;
 using jsc.meta.Library;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Threading;
+using System.Drawing;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
 	partial class RewriteToUltraApplication
 	{
-		public static void WriteWebDevLauncher(FileInfo Target)
+		public void WriteWebDevLauncher(FileInfo Target)
 		{
 			// todo: use notifications!
 			// http://msdn.microsoft.com/en-us/library/aa511448.aspx
@@ -40,12 +42,16 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 					a =>
 					{
 
+						a.Module.DefineManifestResource("App.ico",
+							typeof(RewriteToUltraApplication).Assembly.GetManifestResourceStream("jsc.meta.Documents.App.ico"),
+							ResourceAttributes.Public
+						);
 
 
 
 						a.Assembly.SetEntryPoint(
 							a.context.MethodCache[((Action<string[]>)WebDevLauncer.Launch).Method]
-							//,System.Reflection.Emit.PEFileKinds.WindowApplication
+							, System.Reflection.Emit.PEFileKinds.WindowApplication
 						);
 					}
 
@@ -100,6 +106,14 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				};
 
 			r.Invoke();
+
+			if (this.Splash != null)
+			{
+				this.Splash.IsConsole = false;
+				this.Splash.PrimaryAssembly = r.Output;
+
+				this.Splash.Invoke();
+			}
 		}
 	}
 
@@ -134,11 +148,71 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 				// http://kbalertz.com/903898/Windows-Forms-NotifyIcon-component-Visual-Basic-display-application-notification.aspx
 
-
 				var port = new Random().Next(1024, short.MaxValue);
 
 
 				var url = "http://localhost:" + port;
+
+				var t = new Thread(
+					delegate()
+					{
+						Application.EnableVisualStyles();
+						Application.SetCompatibleTextRenderingDefault(false);
+
+
+						using (var n = new NotifyIcon())
+						{
+
+							//n.Icon = new Icon(
+							n.Icon = new Icon(typeof(WebDevLauncer).Assembly.GetManifestResourceStream("App.ico"));
+							n.Visible = true;
+							n.ContextMenuStrip = new ContextMenuStrip
+							{
+
+							};
+
+							n.ContextMenuStrip.Items.Add(
+								new ToolStripMenuItem(
+									"Close " + typeof(WebDevLauncer).Assembly.GetName().Name,
+									null,
+									delegate
+									{
+										Application.Exit();
+									}
+								)
+							);
+							n.ContextMenuStrip.Items.Add(
+								new ToolStripMenuItem(
+									"Browse " + typeof(WebDevLauncer).Assembly.GetName().Name,
+									null,
+									delegate
+									{
+										Process.Start(url);
+									}
+								)
+							);
+
+							n.DoubleClick +=
+								delegate
+								{
+									Process.Start(url);
+								};
+
+
+							n.Text = typeof(WebDevLauncer).Assembly.GetName().Name;
+							n.ShowBalloonTip(300, typeof(WebDevLauncer).Assembly.GetName().Name, "Loading...", ToolTipIcon.None);
+
+
+							Application.Run();
+						}
+
+					}
+				) { ApartmentState = ApartmentState.STA, IsBackground = true };
+
+				t.Start();
+
+
+				Process.Start(url);
 
 
 
@@ -146,12 +220,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 				s.Start();
 
+				t.Join();
 
-				Console.Title = url;
-				Console.WriteLine(url);
-				Process.Start(url);
-				Console.WriteLine("Press any key to close this Ultra Application!");
-				Console.ReadKey(true);
+				//Console.Title = url;
+				//Console.WriteLine(url);
+				//Console.WriteLine("Press any key to close this Ultra Application!");
+				//Console.ReadKey(true);
 
 				s.Stop();
 			}

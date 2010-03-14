@@ -9,6 +9,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 {
 	partial class RewriteToSplashScreen
 	{
+		public bool IsConsole = true;
+
 		public FileInfo PrimaryAssembly;
 
 		public FileInfo Splash;

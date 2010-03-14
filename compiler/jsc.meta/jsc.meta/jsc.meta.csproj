@@ -258,6 +258,7 @@
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.WebDevLauncher.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.Arguments.cs" />
@@ -329,7 +330,7 @@
     <Content Include="Commands\Reference\ReferenceUltraSource\comment.txt" />
     <Content Include="Commands\Rewrite\comment.txt" />
     <Content Include="Commands\Rewrite\RewriteToUltraApplication\comment.txt" />
-    <Content Include="Documents\App.ico" />
+    <EmbeddedResource Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
     <EmbeddedResource Include="Documents\jsc.png" />
     <Content Include="Documents\license.txt" />
