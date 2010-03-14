@@ -146,7 +146,7 @@ namespace jsc.meta.Commands.Rewrite
 				get
 				{
 					if (_ScriptResources == null)
-						_ScriptResources = new ScriptResourceWriter(Assembly, Module);
+						_ScriptResources = new ScriptResourceWriter(Assembly, Module, context);
 
 					return _ScriptResources;
 				}

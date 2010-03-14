@@ -448,7 +448,7 @@ namespace jsc.meta.Commands.Rewrite
 									var _application = "jsc-project";
 									var _version = "5";
 
-									var res = new ScriptResourceWriter(a.Assembly, a.Module)
+									var res = new ScriptResourceWriter(a.Assembly, a.Module, a.context)
 									{
 										#region appengine-web.xml
 										{

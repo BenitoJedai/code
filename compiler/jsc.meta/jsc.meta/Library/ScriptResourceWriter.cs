@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Collections;
 using System.Xml.Linq;
 using System.IO;
+using jsc.Languages.IL;
 
 namespace jsc.meta.Library
 {
@@ -13,46 +14,36 @@ namespace jsc.meta.Library
 	{
 		public readonly AssemblyBuilder Assembly;
 		public readonly ModuleBuilder Module;
+		public readonly ILTranslationContext context;
 
-		public ScriptResourceWriter(AssemblyBuilder Assembly, ModuleBuilder Module)
+		public ScriptResourceWriter(AssemblyBuilder Assembly, ModuleBuilder Module, ILTranslationContext context)
 		{
 			this.Assembly = Assembly;
 			this.Module = Module;
+			this.context = context;
 		}
 
 		readonly List<string> AddScriptResources = new List<string>();
 
 		public string Add(string name, XElement value)
 		{
-			var ScriptResources = name.Substring(0, name.LastIndexOf("/"));
-
-			if (!AddScriptResources.Contains(ScriptResources))
-			{
-				AddScriptResources.Add(ScriptResources);
-
-				this.Assembly.DefineAttribute<ScriptCoreLib.Shared.ScriptResourcesAttribute>(
-					new { Value = ScriptResources }
-				);
-			}
-
-			var n = this.Assembly.GetName().Name + ".web." + name.Replace("/", ".");
-
-			this.Module.DefineManifestResource(n, value);
-
-			return n;
+			return Add(name, Encoding.UTF8.GetBytes(value.ToString()));
 		}
 
 		public string Add(string name, byte[] value)
 		{
 			var ScriptResources = name.Substring(0, name.LastIndexOf("/"));
 
+
 			if (!AddScriptResources.Contains(ScriptResources))
 			{
 				AddScriptResources.Add(ScriptResources);
 
-				this.Assembly.DefineAttribute<ScriptCoreLib.Shared.ScriptResourcesAttribute>(
-					new { Value = ScriptResources }
-				);
+				var sra = new ScriptCoreLib.Shared.ScriptResourcesAttribute { Value = ScriptResources };
+
+				this.Assembly.SetCustomAttribute(sra.ToCustomAttributeBuilder()(context));
+
+
 			}
 
 			System.Reflection.Assembly a = this.Assembly;

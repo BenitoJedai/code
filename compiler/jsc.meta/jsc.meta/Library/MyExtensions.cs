@@ -730,7 +730,7 @@ namespace jsc.meta.Library
 			return Default.Compare(a, b) == 0;
 		}
 
-		public static CustomAttributeBuilder ToCustomAttributeBuilder(this Attribute z)
+		 static CustomAttributeBuilder ToCustomAttributeBuilder(this Attribute z)
 		{
 			var Attribute = z.GetType();
 

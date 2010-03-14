@@ -11,6 +11,7 @@ using jsc.Library;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.CodeDom.Compiler;
+using System.Xml.Linq;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -996,13 +997,23 @@ namespace jsc.meta.Commands.Rewrite
 
 			// http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
 
-			a.SetCustomAttribute(
-				typeof(GeneratedCodeAttribute).GetConstructors().Single(),
-				typeof(RewriteToAssembly).FullName + " at " + DateTime.Now,
-				""
-				//typeof(RewriteToAssembly).Assembly.GetCustomAttributes<AssemblyVersionAttribute>().Single().Version
-				//new GeneratedCodeAttribute(
+			m.DefineManifestResource("RewriteToAssembly.htm",
+				new XElement("body",
+					new XElement("p",
+						typeof(RewriteToAssembly).FullName + " at " + DateTime.Now
+					)
+				)
 			);
+
+
+			
+			//a.SetCustomAttribute(
+			//    typeof(GeneratedCodeAttribute).GetConstructors().Single(),
+			//    typeof(RewriteToAssembly).FullName + " at " + DateTime.Now,
+			//    ""
+			//    //typeof(RewriteToAssembly).Assembly.GetCustomAttributes<AssemblyVersionAttribute>().Single().Version
+			//    //new GeneratedCodeAttribute(
+			//);
 
 
 			if (OutputUndefined)

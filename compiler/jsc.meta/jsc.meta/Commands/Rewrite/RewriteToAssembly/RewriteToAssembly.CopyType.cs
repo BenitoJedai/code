@@ -124,17 +124,7 @@ namespace jsc.meta.Commands.Rewrite
 			// if we rewrite nested interfaces we cannot 
 			// implement them?
 
-			//foreach (var i in SourceType.GetInterfaces().Select(ii => SourceType.GetInterfaceMap(ii)))
-			//{
-
-			//}
-
-			//if (DeclaringTypeContinuation != null)
-			//{
-			//    Console.WriteLine("DeclaringTypeContinuation:  " + SourceType.FullName);
-
-			//    DeclaringTypeContinuation();
-			//}
+		
 
 			Action AtTypeCreated =
 				delegate

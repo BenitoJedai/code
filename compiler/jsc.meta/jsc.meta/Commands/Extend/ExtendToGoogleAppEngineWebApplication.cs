@@ -356,7 +356,7 @@ namespace jsc.meta.Commands.Extend
 
 							var Handler = a.context.TypeCache[typeof(InternalHttpServlet)];
 
-							var res = new ScriptResourceWriter(a.Assembly, a.Module)
+							var res = new ScriptResourceWriter(a.Assembly, a.Module, a.context)
 							{
 								#region appengine-web.xml
 								{
