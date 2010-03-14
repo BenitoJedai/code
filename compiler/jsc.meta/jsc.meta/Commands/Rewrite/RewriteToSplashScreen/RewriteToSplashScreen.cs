@@ -46,10 +46,14 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 			};
 
 			r.PostAssemblyRewrite =
-					a =>
-					{
-						a.Assembly.SetEntryPoint(r.RewriteArguments.context.MethodCache[Main.Method], PEFileKinds.ConsoleApplication);
-					};
+				a =>
+				{
+					//r.RewriteArguments.Assembly.SetCustomAttribute(
+					//    new ObfuscationAttribute { Feature = "script" }.ToCustomAttributeBuilder()(r.RewriteArguments.context)
+					//);
+
+					a.Assembly.SetEntryPoint(r.RewriteArguments.context.MethodCache[Main.Method], PEFileKinds.ConsoleApplication);
+				};
 
 			var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
 
