@@ -58,7 +58,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 					//    new ObfuscationAttribute { Feature = "script" }.ToCustomAttributeBuilder()(r.RewriteArguments.context)
 					//);
 
-					a.Assembly.SetEntryPoint(r.RewriteArguments.context.MethodCache[Main.Method], PEFileKinds.ConsoleApplication);
+					a.Assembly.SetEntryPoint(
+						r.RewriteArguments.context.MethodCache[Main.Method],
+						this.IsConsole ?  PEFileKinds.ConsoleApplication : PEFileKinds.WindowApplication
+					);
 
 					foreach (var item in Application.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 					{
