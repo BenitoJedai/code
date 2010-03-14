@@ -181,6 +181,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 									}
 								)
 							);
+
 							n.ContextMenuStrip.Items.Add(
 								new ToolStripMenuItem(
 									"Browse " + typeof(WebDevLauncer).Assembly.GetName().Name,
@@ -190,6 +191,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 										Process.Start(url);
 									}
 								)
+								{
+									ToolTipText = url
+								}
 							);
 
 							n.DoubleClick +=

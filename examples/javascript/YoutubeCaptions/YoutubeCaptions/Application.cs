@@ -18,7 +18,7 @@ namespace YoutubeCaptions
 
 		public Application(IHTMLElement e)
 		{
-			Native.Document.title = "Ultra Application";
+			Native.Document.title = "YoutubeCaptions";
 
 	
 
