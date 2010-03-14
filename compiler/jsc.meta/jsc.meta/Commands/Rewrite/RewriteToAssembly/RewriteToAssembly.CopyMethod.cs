@@ -18,12 +18,7 @@ namespace jsc.meta.Commands.Rewrite
 			ModuleBuilder m,
 			MethodInfo source,
 			TypeBuilder t,
-			VirtualDictionary<Type, Type> TypeCache,
-				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 			VirtualDictionary<string, string> NameObfuscation,
-
 			Assembly PrimarySourceAssembly,
 			Delegate codeinjecton,
 			Func<Assembly, object[]> codeinjectonparams,
@@ -31,13 +26,13 @@ namespace jsc.meta.Commands.Rewrite
 
 			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
 
-			Action<MethodInfo, MethodBuilder, Func<ILGenerator>> BeforeInstructions
-
+			Action<MethodInfo, MethodBuilder, Func<ILGenerator>> BeforeInstructions,
+			ILTranslationContext context
 			)
 		{
 			// sanity check!
 
-			if (MethodCache.BaseDictionary.ContainsKey(source))
+			if (context.MethodCache.BaseDictionary.ContainsKey(source))
 				return;
 
 			// Unknown runtime implemented delegate method
@@ -51,7 +46,7 @@ namespace jsc.meta.Commands.Rewrite
 			// How to: Define a Generic Method with Reflection Emit
 			// http://msdn.microsoft.com/en-us/library/ms228971.aspx
 			var Parameters =
-				 TypeCache[source.GetParameterTypes()];
+				 context.TypeCache[source.GetParameterTypes()];
 
 			if (Parameters.Contains(null))
 				throw new InvalidOperationException();
@@ -59,12 +54,12 @@ namespace jsc.meta.Commands.Rewrite
 
 			var km = t.DefineMethod(
 				MethodName, source.Attributes, source.CallingConvention,
-				TypeCache[source.ReturnType],
+				context.TypeCache[source.ReturnType],
 				Parameters
 
 			);
 
-			MethodCache[source] = km;
+			context.MethodCache[source] = km;
 
 			//Console.WriteLine("Method: " + km.Name);
 
@@ -85,8 +80,8 @@ namespace jsc.meta.Commands.Rewrite
 			// should we copy attributes? should they be opt-out?
 			foreach (var item in source.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 			{
-				km.SetCustomAttribute(item(ConstructorCache));
-			} 
+				km.SetCustomAttribute(item(context));
+			}
 
 			var MethodBody = source.GetMethodBody();
 
@@ -124,9 +119,9 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						WriteEntryPointCodeInjection(
 							a, m, kmil, t
-							, TypeCache,
-							ConstructorCache,
-							MethodCache,
+							, context.TypeCache,
+							context.ConstructorCache,
+							context.MethodCache,
 							PrimarySourceAssembly,
 							codeinjecton,
 							codeinjectonparams
@@ -140,14 +135,11 @@ namespace jsc.meta.Commands.Rewrite
 
 			var x = CreateMethodBaseEmitToArguments(
 				source,
-				TypeCache,
-				FieldCache,
-				//TypeFieldCache,
-				ConstructorCache,
-				MethodCache,
+
 				NameObfuscation,
 				ILOverride,
-				ExceptionHandlingClauses
+				ExceptionHandlingClauses,
+				context
 			);
 
 
@@ -161,13 +153,10 @@ namespace jsc.meta.Commands.Rewrite
 
 		public static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
 			MethodBase SourceMethod,
-			VirtualDictionary<Type, Type> TypeCache,
-			VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
 			VirtualDictionary<string, string> NameObfuscation,
 			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
-			ExceptionHandlingClause[] ExceptionHandlingClauses)
+			ExceptionHandlingClause[] ExceptionHandlingClauses,
+			ILTranslationContext context)
 		{
 			var x = new ILTranslationExtensions.EmitToArguments
 			{
@@ -189,7 +178,7 @@ namespace jsc.meta.Commands.Rewrite
 							{
 								// http://blogs.msdn.com/clrteam/archive/2009/03/23/exceptions-out-of-fault-finally.aspx
 
-								if (ex.Flags  == ExceptionHandlingClauseOptions.Finally)
+								if (ex.Flags == ExceptionHandlingClauseOptions.Finally)
 								{
 									//Console.WriteLine(".finally");
 									e.il.BeginFinallyBlock();
@@ -200,7 +189,7 @@ namespace jsc.meta.Commands.Rewrite
 								{
 
 									//Console.WriteLine(".catch");
-									e.il.BeginCatchBlock(ex.CatchType);
+									e.il.BeginCatchBlock(context.TypeCache[ex.CatchType]);
 
 
 								}
@@ -256,38 +245,39 @@ namespace jsc.meta.Commands.Rewrite
 					},
 
 				// we need to redirect any typerefs and methodrefs!
-				#region TranslateBranchOffset
-				TranslateBranchOffset =
-					(i, o) =>
-					{
-						Func<ILInstruction, ILInstruction> NextInstruction = ii => o < 0
-							? (ii.Offset < (i.Offset + o) ? null : ii.Prev)
-							: (ii.Offset >= (i.Offset + o) ? null : ii.Next);
+				//#region TranslateBranchOffset
+				//TranslateBranchOffset =
+				//    (i, o) =>
+				//    {
+				//        Func<ILInstruction, ILInstruction> NextInstruction = ii => o < 0
+				//            ? (ii.Offset < (i.Offset + o) ? null : ii.Prev)
+				//            : (ii.Offset >= (i.Offset + o) ? null : ii.Next);
 
-						var Selection = new List<ILInstruction>();
+				//        var Selection = new List<ILInstruction>();
 
-						#region Selection
-						var p = NextInstruction(i);
-						while (p != null)
-						{
-							Selection.Add(p);
-							p = NextInstruction(p);
-						}
-						#endregion
+				//        #region Selection
+				//        var p = NextInstruction(i);
+				//        while (p != null)
+				//        {
+				//            Selection.Add(p);
+				//            p = NextInstruction(p);
+				//        }
+				//        #endregion
 
-						var Leave_s_Count = Selection.Count(k => k.OpCode == OpCodes.Leave_S);
-						var Leave_s_Fixup = Leave_s_Count * (Math.Sign(o) * 3);
+				//        var Leave_s_Count = Selection.Count(k => k.OpCode == OpCodes.Leave_S);
+				//        var Leave_s_Fixup = Leave_s_Count * (Math.Sign(o) * 3);
 
-						//Console.WriteLine(new { i.Location, Leave_s_Count, Leave_s_Fixup });
+				//        //Console.WriteLine(new { i.Location, Leave_s_Count, Leave_s_Fixup });
 
-						return o + Leave_s_Fixup;
-					},
-				#endregion
+				//        return o + Leave_s_Fixup;
+				//    },
+				//#endregion
 
-				TranslateTargetType = TypeCache,
-				TranslateTargetField = FieldCache,
-				TranslateTargetMethod = MethodCache,
-				TranslateTargetConstructor = ConstructorCache,
+
+				TranslateTargetType = context.TypeCache,
+				TranslateTargetField = context.FieldCache,
+				TranslateTargetMethod = context.MethodCache,
+				TranslateTargetConstructor = context.ConstructorCache,
 			};
 
 			x[OpCodes.Endfinally] =

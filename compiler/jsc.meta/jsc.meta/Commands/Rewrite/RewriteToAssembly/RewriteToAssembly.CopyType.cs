@@ -19,11 +19,7 @@ namespace jsc.meta.Commands.Rewrite
 				Type SourceType,
 				AssemblyBuilder a,
 				ModuleBuilder m,
-				VirtualDictionary<Type, Type> TypeDefinitionCache,
-				VirtualDictionary<Type, Type> TypeCache,
-				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
-				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+
 				TypeBuilder OverrideDeclaringType,
 				VirtualDictionary<Type, string> TypeRenameCache,
 				VirtualDictionary<string, string> NameObfuscation,
@@ -34,7 +30,9 @@ namespace jsc.meta.Commands.Rewrite
 
 				Action<TypeBuilder> TypeCreated,
 
-				RewriteToAssembly r
+				RewriteToAssembly r,
+
+				ILTranslationContext context
 			)
 		{
 
@@ -49,7 +47,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			// sanity check
-			if (TypeCache.BaseDictionary.ContainsKey(SourceType))
+			if (context.TypeCache.BaseDictionary.ContainsKey(SourceType))
 				return;
 
 			#region invalidmerge
@@ -58,12 +56,12 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
-			var t = (TypeBuilder)TypeDefinitionCache[SourceType]; ;
-			TypeCache[SourceType] = t;
+			var t = (TypeBuilder)context.TypeDefinitionCache[SourceType]; ;
+			context.TypeCache[SourceType] = t;
 
 			foreach (var item in SourceType.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 			{
-				t.SetCustomAttribute(item(ConstructorCache));
+				t.SetCustomAttribute(item(context));
 			} 
 
 
@@ -81,7 +79,7 @@ namespace jsc.meta.Commands.Rewrite
 					continue;
 
 				// can we get away with defs only?
-				var km = TypeDefinitionCache[k];
+				var km = context.TypeDefinitionCache[k];
 			}
 
 
@@ -93,7 +91,7 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				//Diagnostics("Field: " + SourceType.Name + "." + f.Name);
 
-				var ff = FieldCache[f];
+				var ff = context.FieldCache[f];
 			}
 			#endregion
 
@@ -106,7 +104,7 @@ namespace jsc.meta.Commands.Rewrite
 			// if we dont need these types we will waste them
 			// if we need them later we are doomed! :)
 
-			CopyTypeMembers(SourceType, TypeCache, FieldCache, ConstructorCache, MethodCache, NameObfuscation, t);
+			CopyTypeMembers(SourceType,  NameObfuscation, t, context);
 
 
 
@@ -142,12 +140,12 @@ namespace jsc.meta.Commands.Rewrite
 				delegate
 				{
 					// seems like base types better be completed...
-					var BaseType = SourceType.BaseType == null ? null : TypeCache[SourceType.BaseType];
+					var BaseType = SourceType.BaseType == null ? null : context.TypeCache[SourceType.BaseType];
 
 					var _Interfaces = Enumerable.ToArray(
 						from k in SourceType.GetInterfaces()
 						where ShouldCopyType(k) || k.IsPublic
-						select TypeCache[k]
+						select context.TypeCache[k]
 					).ToArray();
 
 					// explicit interfaces?
@@ -165,7 +163,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					foreach (var item in __explicit)
 					{
-						t.DefineMethodOverride(MethodCache[item.TargetMethod], MethodCache[item.InterfaceMethod]);
+						t.DefineMethodOverride(context.MethodCache[item.TargetMethod], context.MethodCache[item.InterfaceMethod]);
 					}
 
 					// Method 'MoveNext' in type '<LoadReferencedAssemblies>d__0' from 
@@ -173,13 +171,13 @@ namespace jsc.meta.Commands.Rewrite
 					// does not have an implementation.
 
 					t.CreateType();
-					TypeCache.Flags[SourceType] = new object();
+					context.TypeCache.Flags[SourceType] = new object();
 
 					if (TypeCreated != null)
 						TypeCreated(t);
 				};
 
-			if (SourceType.IsNested && SourceType.IsClass && !(TypeCache.Flags.ContainsKey(SourceType.DeclaringType)))
+			if (SourceType.IsNested && SourceType.IsClass && !(context.TypeCache.Flags.ContainsKey(SourceType.DeclaringType)))
 			{
 				//Diagnostics("Delayed:  " + SourceType.FullName);
 
@@ -350,12 +348,10 @@ namespace jsc.meta.Commands.Rewrite
 
 		internal static void CopyTypeMembers(
 			Type SourceType,
-			VirtualDictionary<Type, Type> TypeCache,
-			VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
-			VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-			VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
+	
 			VirtualDictionary<string, string> NameObfuscation,
-			TypeBuilder t
+			TypeBuilder t,
+			ILTranslationContext context
 			)
 		{
 
@@ -368,7 +364,7 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
 
-				var km = ConstructorCache[k];
+				var km = context.ConstructorCache[k];
 			}
 
 
@@ -376,26 +372,15 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
-				var km = MethodCache[k];
+				var km = context.MethodCache[k];
 			}
 
 			foreach (var k in SourceType.GetProperties(
 				BindingFlags.DeclaredOnly |
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
-				var PropertyName = NameObfuscation[k.Name];
-
-				var _SetMethod = k.GetSetMethod(true);
-				var _GetMethod = k.GetGetMethod(true);
-
-				var kp = t.DefineProperty(PropertyName, k.Attributes, TypeCache[k.PropertyType], null);
-
-				if (_SetMethod != null)
-					kp.SetSetMethod((MethodBuilder)MethodCache[_SetMethod]);
-
-				if (_GetMethod != null)
-					kp.SetGetMethod((MethodBuilder)MethodCache[_GetMethod]);
-
+				var km = context.PropertyCache[k];
+				
 			}
 
 
@@ -404,15 +389,15 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
 				var EventName = NameObfuscation[k.Name];
-				var kp = t.DefineEvent(EventName, k.Attributes, TypeCache[k.EventHandlerType]);
+				var kp = t.DefineEvent(EventName, k.Attributes, context.TypeCache[k.EventHandlerType]);
 
 				var _AddMethod = k.GetAddMethod(true);
 				if (_AddMethod != null)
-					kp.SetAddOnMethod((MethodBuilder)MethodCache[_AddMethod]);
+					kp.SetAddOnMethod((MethodBuilder)context.MethodCache[_AddMethod]);
 
 				var _GetRemoveMethod = k.GetRemoveMethod(true);
 				if (_GetRemoveMethod != null)
-					kp.SetRemoveOnMethod((MethodBuilder)MethodCache[_GetRemoveMethod]);
+					kp.SetRemoveOnMethod((MethodBuilder)context.MethodCache[_GetRemoveMethod]);
 
 
 			}
