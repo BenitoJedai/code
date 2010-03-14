@@ -36,6 +36,8 @@ namespace jsc.meta.Commands.Rewrite
 				return;
 
 			// Unknown runtime implemented delegate method
+			// Operation could destabilize the runtime.
+			// http://www.fuzzydev.com/blogs/dotnet/archive/2006/06/10/Operation_could_destabilize_the_runtime.aspx
 
 			var MethodName =
 				//(source == this._assembly.EntryPoint) ||
@@ -245,33 +247,7 @@ namespace jsc.meta.Commands.Rewrite
 					},
 
 				// we need to redirect any typerefs and methodrefs!
-				//#region TranslateBranchOffset
-				//TranslateBranchOffset =
-				//    (i, o) =>
-				//    {
-				//        Func<ILInstruction, ILInstruction> NextInstruction = ii => o < 0
-				//            ? (ii.Offset < (i.Offset + o) ? null : ii.Prev)
-				//            : (ii.Offset >= (i.Offset + o) ? null : ii.Next);
-
-				//        var Selection = new List<ILInstruction>();
-
-				//        #region Selection
-				//        var p = NextInstruction(i);
-				//        while (p != null)
-				//        {
-				//            Selection.Add(p);
-				//            p = NextInstruction(p);
-				//        }
-				//        #endregion
-
-				//        var Leave_s_Count = Selection.Count(k => k.OpCode == OpCodes.Leave_S);
-				//        var Leave_s_Fixup = Leave_s_Count * (Math.Sign(o) * 3);
-
-				//        //Console.WriteLine(new { i.Location, Leave_s_Count, Leave_s_Fixup });
-
-				//        return o + Leave_s_Fixup;
-				//    },
-				//#endregion
+				
 
 
 				TranslateTargetType = context.TypeCache,

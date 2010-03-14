@@ -59,10 +59,15 @@ namespace jsc.meta.Commands.Rewrite
 			var t = (TypeBuilder)context.TypeDefinitionCache[SourceType]; ;
 			context.TypeCache[SourceType] = t;
 
-			foreach (var item in SourceType.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+			foreach (var item in 
+				from kk in SourceType.GetCustomAttributes(false)
+				let aa = kk.ToCustomAttributeBuilder()(context)
+				where aa != null
+				select aa
+				)
 			{
-				t.SetCustomAttribute(item(context));
-			} 
+				t.SetCustomAttribute(item);
+			}
 
 
 			// at this point we should signal back? that a nested declaration can continue?
@@ -104,7 +109,7 @@ namespace jsc.meta.Commands.Rewrite
 			// if we dont need these types we will waste them
 			// if we need them later we are doomed! :)
 
-			CopyTypeMembers(SourceType,  NameObfuscation, t, context);
+			CopyTypeMembers(SourceType, NameObfuscation, t, context);
 
 
 
@@ -124,7 +129,7 @@ namespace jsc.meta.Commands.Rewrite
 			// if we rewrite nested interfaces we cannot 
 			// implement them?
 
-		
+
 
 			Action AtTypeCreated =
 				delegate
@@ -275,6 +280,15 @@ namespace jsc.meta.Commands.Rewrite
 				).ToArray();
 
 
+				var TypeAttributes = SourceType.Attributes;
+
+				TypeAttributes &= ~TypeAttributes.HasSecurity;
+
+				// http://msdn.microsoft.com/en-us/library/system.reflection.typeattributes.aspx
+				//                Bad type attributes. Reserved bits set on the type.
+				//Public | BeforeFieldInit | HasSecurity
+
+
 
 				// we might define as a nested type instead!
 				#region DefineType
@@ -289,7 +303,7 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						t = _DeclaringType.DefineNestedType(
 							_NestedTypeName,
-							SourceType.Attributes,
+							TypeAttributes,
 							 BaseType,
 							SourceType.StructLayoutAttribute.Size
 						);
@@ -299,7 +313,7 @@ namespace jsc.meta.Commands.Rewrite
 						t = _DeclaringType.DefineNestedType(
 
 							_NestedTypeName,
-							SourceType.Attributes,
+							TypeAttributes,
 							BaseType,
 							_Interfaces
 						);
@@ -309,7 +323,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					t = m.DefineType(
 						FullNameFixup(TypeName),
-						SourceType.Attributes,
+						TypeAttributes,
 						BaseType,
 						_Interfaces
 					);
@@ -338,7 +352,7 @@ namespace jsc.meta.Commands.Rewrite
 
 		internal static void CopyTypeMembers(
 			Type SourceType,
-	
+
 			VirtualDictionary<string, string> NameObfuscation,
 			TypeBuilder t,
 			ILTranslationContext context
@@ -370,7 +384,7 @@ namespace jsc.meta.Commands.Rewrite
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 			{
 				var km = context.PropertyCache[k];
-				
+
 			}
 
 

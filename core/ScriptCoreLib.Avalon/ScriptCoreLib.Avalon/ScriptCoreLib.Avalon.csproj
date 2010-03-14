@@ -116,6 +116,7 @@
     <Compile Include="CSharp\Avalon\Controls\FileDialog.cs" />
     <Compile Include="CSharp\Avalon\Extensions\AvalonExtensions.cs" />
     <Compile Include="CSharp\Avalon\Extensions\DesktopWindowManager.cs" />
+    <Compile Include="CSharp\Avalon\Extensions\WindowStylesEx.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\Control.cs" />

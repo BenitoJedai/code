@@ -126,7 +126,7 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 		public static extern int GetWindowLong(IntPtr hwnd, int index);
 
 		[DllImport("user32.dll")]
-		public static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+		public static extern int SetWindowLong(IntPtr hwnd, int index, WindowExStyles newStyle);
 
 
 
@@ -140,9 +140,9 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 					IntPtr hwnd = new WindowInteropHelper(x).Handle;
 
 					// Change the extended window style to include WS_EX_TRANSPARENT
-					int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+					WindowExStyles extendedStyle = (WindowExStyles)GetWindowLong(hwnd, GWL_EXSTYLE);
 
-					SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+					SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
 				};
 
 

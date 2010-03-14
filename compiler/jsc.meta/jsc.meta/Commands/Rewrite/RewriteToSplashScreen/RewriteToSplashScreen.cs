@@ -18,8 +18,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 
 			Action<Action> ShowDialogSplash = InternalSplashScreen.ShowDialogSplash;
 			Action<string[]> Main = InternalSplashScreenApplication.Main;
+			Action<string[]> ApplicationMain = InternalApplication.Main;
 
-			var Splash = Assembly.LoadFile(this.Splash.FullName);
+			this.staging = this.staging.CreateTemp();
+
+			var Application = this.PrimaryAssembly.LoadAssemblyAt(this.staging);
+			var Splash = this.Splash.LoadAssemblyAt(this.staging);
 
 			var ImplementationForShowDialogSplash = Enumerable.First(
 				from i in new ILBlock(Splash.EntryPoint).Instructrions
@@ -42,7 +46,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 					"ScriptCoreLib.Avalon",
 					"ScriptCoreLib.Query",
 					"ScriptCoreLibA",
+					Path.GetFileNameWithoutExtension( this.PrimaryAssembly.Name)
 				}
+
 			};
 
 			r.PostAssemblyRewrite =
@@ -53,6 +59,27 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 					//);
 
 					a.Assembly.SetEntryPoint(r.RewriteArguments.context.MethodCache[Main.Method], PEFileKinds.ConsoleApplication);
+
+					foreach (var item in Application.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+					{
+						a.Assembly.SetCustomAttribute(item(r.RewriteArguments.context));
+					}
+
+
+
+					foreach (var item in Application.GetManifestResourceNames())
+					{
+						var n = item;
+
+						if (n.StartsWith(Application.GetName().Name))
+							n = r.product + n.Substring(Application.GetName().Name.Length);
+
+						r.RewriteArguments.Module.DefineManifestResource(
+							n,
+							Application.GetManifestResourceStream(item), ResourceAttributes.Public
+						);
+
+					}
 				};
 
 			var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
@@ -84,6 +111,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 					{
 						r.ExternalContext.TypeCache[SourceType] = r.RewriteArguments.context.TypeCache[ImplementationForShowDialogSplash.DeclaringType];
 					}
+
+					if (SourceType == typeof(InternalApplication))
+					{
+						r.ExternalContext.TypeCache[SourceType] = r.RewriteArguments.context.TypeCache[Application.EntryPoint.DeclaringType];
+					}
 				};
 
 			r.ExternalContext.MethodCache.Resolve +=
@@ -92,6 +124,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 					if (SourceMethod == ShowDialogSplash.Method)
 					{
 						r.ExternalContext.MethodCache[SourceMethod] = r.RewriteArguments.context.MethodCache[ImplementationForShowDialogSplash];
+					}
+
+					if (SourceMethod == ApplicationMain.Method)
+					{
+						r.ExternalContext.MethodCache[SourceMethod] = r.RewriteArguments.context.MethodCache[Application.EntryPoint];
 					}
 				};
 
