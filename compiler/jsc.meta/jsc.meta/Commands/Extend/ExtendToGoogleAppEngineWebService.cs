@@ -322,7 +322,7 @@ namespace jsc.meta.Commands.Extend
 								javaee = (XNamespace)"http://java.sun.com/xml/ns/javaee"
 							};
 
-							var res = new ScriptResourceWriter(a.Assembly, a.Module)
+							var res = new ScriptResourceWriter(a.Assembly, a.Module, a.context)
 							{
 								#region appengine-web.xml
 								{

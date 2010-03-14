@@ -332,31 +332,7 @@ namespace PromotionWebApplication.AvalonLogo
 				var t = new Thread(
 					delegate()
 					{
-						var c = new PromotionWebApplication.AvalonLogo.AvalonLogoCanvas();
-
-						if (AnnounceCloseAction != null)
-							AnnounceCloseAction(c.Close);
-
-						//c.Container.Effect = new DropShadowEffect();
-						//c.Container.BitmapEffect = new DropShadowBitmapEffect();
-
-						var w = c.ToWindow();
-
-						w.ToTransparentWindow();
-
-						c.AtClose += w.Close;
-
-						// http://blog.joachim.at/?p=39
-						// http://blogs.msdn.com/changov/archive/2009/01/19/webbrowser-control-on-transparent-wpf-window.aspx
-						// http://blogs.interknowlogy.com/johnbowen/archive/2007/06/20/20458.aspx
-						w.AllowsTransparency = true;
-						w.WindowStyle = System.Windows.WindowStyle.None;
-						w.Background = Brushes.Transparent;
-						w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-						w.Topmost = true;
-						w.ShowInTaskbar = false;
-
-						w.ShowDialog();
+						InternalShowDialog(AnnounceCloseAction);
 					}
 				)
 				{
@@ -367,6 +343,35 @@ namespace PromotionWebApplication.AvalonLogo
 				t.Start();
 
 				return t;
+			}
+
+			private static void InternalShowDialog(Action<Action> AnnounceCloseAction)
+			{
+				var c = new PromotionWebApplication.AvalonLogo.AvalonLogoCanvas();
+
+				if (AnnounceCloseAction != null)
+					AnnounceCloseAction(c.Close);
+
+				//c.Container.Effect = new DropShadowEffect();
+				//c.Container.BitmapEffect = new DropShadowBitmapEffect();
+
+				var w = c.ToWindow();
+
+				w.ToTransparentWindow();
+
+				c.AtClose += w.Close;
+
+				// http://blog.joachim.at/?p=39
+				// http://blogs.msdn.com/changov/archive/2009/01/19/webbrowser-control-on-transparent-wpf-window.aspx
+				// http://blogs.interknowlogy.com/johnbowen/archive/2007/06/20/20458.aspx
+				w.AllowsTransparency = true;
+				w.WindowStyle = System.Windows.WindowStyle.None;
+				w.Background = Brushes.Transparent;
+				w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+				w.Topmost = true;
+				w.ShowInTaskbar = false;
+
+				w.ShowDialog();
 			}
 		}
 	}

@@ -492,7 +492,7 @@ namespace jsc.meta.Commands.Extend
 
 							WebServiceServletImplementation.CreateType();
 
-							var res = new ScriptResourceWriter(a.Assembly, a.Module)
+							var res = new ScriptResourceWriter(a.Assembly, a.Module, a.context)
 							{
 								// any assets needed?
 							};
