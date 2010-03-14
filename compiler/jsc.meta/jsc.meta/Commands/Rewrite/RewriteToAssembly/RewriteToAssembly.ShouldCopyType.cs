@@ -18,6 +18,22 @@ namespace jsc.meta.Commands.Rewrite
 
 		private bool ShouldCopyType(Type ContextType)
 		{
+			if (ContextType.IsGenericType)
+				if (!ContextType.IsGenericTypeDefinition)
+				{
+					if (!ShouldCopyType(ContextType.GetGenericTypeDefinition()))
+					{
+						// the type itself is not copied. what about arguments passed in?
+
+						if (!ContextType.GetGenericArguments().Any(ShouldCopyType))
+						{
+							return false;
+						}
+					}
+
+					return true;
+				}
+
 			var t = new AtShouldCopyTypeTuple { ContextType = ContextType };
 
 			if (AtShouldCopyType != null)

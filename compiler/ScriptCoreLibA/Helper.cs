@@ -166,6 +166,8 @@ namespace ScriptCoreLib
 			var k = r.Keys.OrderByDescending(
 				kk =>
 				{
+	
+
 					// fixme: we should apply namespace filters here
 					var any = kk.GetTypes().Any(
 						kkk =>

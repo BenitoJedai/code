@@ -1,17 +1,17 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
-using jsc.meta.Library;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Xml.Linq;
 using jsc.Languages.IL;
 using jsc.Library;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.CodeDom.Compiler;
-using System.Xml.Linq;
+using jsc.meta.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -118,8 +118,9 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			var Product_Name = (string.IsNullOrEmpty(this.product) ?
-					this.assembly.Name + "Rewrite" :
+					this.assembly.Name + ".Rewrite" :
 					this.product);
+
 
 
 			if (this.PrimaryTypes.Length == 0)
@@ -303,17 +304,10 @@ namespace jsc.meta.Commands.Rewrite
 						{
 							// are we rewriting any part of this generic type? if we are not we need just to pass it!
 
-							var source_GenericTypeDefinition = source.GetGenericTypeDefinition();
-
-							if (!ShouldCopyType(source_GenericTypeDefinition))
+							if (!ShouldCopyType(source))
 							{
-								// the type itself is not copied. what about arguments passed in?
-
-								if (!source.GetGenericArguments().Any(ShouldCopyType))
-								{
-									ConstructorCache[SourceConstructor] = SourceConstructor;
-									return;
-								}
+								ConstructorCache[SourceConstructor] = SourceConstructor;
+								return;
 							}
 
 							var Def = source.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
@@ -604,18 +598,13 @@ namespace jsc.meta.Commands.Rewrite
 					if (source.IsGenericType)
 						if (!source.IsGenericTypeDefinition)
 						{
-							var source_GenericTypeDefinition = source.GetGenericTypeDefinition();
 
-							if (!ShouldCopyType(source_GenericTypeDefinition))
+							if (!ShouldCopyType(source))
 							{
-								// the type itself is not copied. what about arguments passed in?
-
-								if (!source.GetGenericArguments().Any(ShouldCopyType))
-								{
-									FieldCache[SourceField] = SourceField;
-									return;
-								}
+								FieldCache[SourceField] = SourceField;
+								return;
 							}
+
 
 							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
 
@@ -629,7 +618,7 @@ namespace jsc.meta.Commands.Rewrite
 							//);
 
 
-							var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[source_GenericTypeDefinition.GetField(
+							var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[source.GetGenericTypeDefinition().GetField(
 								SourceField.Name,
 								BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
 								)]
@@ -997,23 +986,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			// http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
 
-			m.DefineManifestResource("RewriteToAssembly.htm",
-				new XElement("body",
-					new XElement("p",
-						typeof(RewriteToAssembly).FullName + " at " + DateTime.Now
-					)
-				)
-			);
-
-
 			
-			//a.SetCustomAttribute(
-			//    typeof(GeneratedCodeAttribute).GetConstructors().Single(),
-			//    typeof(RewriteToAssembly).FullName + " at " + DateTime.Now,
-			//    ""
-			//    //typeof(RewriteToAssembly).Assembly.GetCustomAttributes<AssemblyVersionAttribute>().Single().Version
-			//    //new GeneratedCodeAttribute(
-			//);
 
 
 			if (OutputUndefined)
@@ -1036,6 +1009,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			Product.Refresh();
 		}
+
+	
 
 
 

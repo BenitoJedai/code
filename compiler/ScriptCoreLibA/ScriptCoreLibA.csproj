@@ -113,6 +113,7 @@
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
     <Compile Include="ActionScript\EmbedResourcesAttribute.cs" />
     <Compile Include="CSharp\Extensions\CodeWriterExtensions.cs" />
+    <Compile Include="CSharp\Extensions\EmbeddedResourcesExtensions.ToManifestResourceStream.cs" />
     <Compile Include="CSharp\Extensions\ScriptAttributeExtensions.cs" />
     <Compile Include="CSharp\Extensions\StringToSByteArray.cs" />
     <Compile Include="IEntryPoint.cs" />
