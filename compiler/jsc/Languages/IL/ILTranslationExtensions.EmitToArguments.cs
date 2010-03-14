@@ -35,7 +35,8 @@ namespace jsc.Languages.IL
 			/// us to enable method composition.
 			/// </summary>
 			public Func<int, int> TranslateLocalIndex = LocalIndex => LocalIndex;
-			public Func<ILInstruction, int, int> TranslateBranchOffset = (i, o) => o;
+
+
 			public Func<FieldInfo, FieldInfo> TranslateTargetField = TargetField => TargetField;
 			public Func<MethodInfo, MethodInfo> TranslateTargetMethod = TargetMethod => TargetMethod;
 			public Func<ConstructorInfo, ConstructorInfo> TranslateTargetConstructor = TargetConstructor => TargetConstructor;
@@ -183,7 +184,7 @@ namespace jsc.Languages.IL
 				{
 					e.il.Emit(OpCodes.Ldc_R8, (double)e.i.TargetDouble);
 				};
-			
+
 				this[OpCodes.Ldtoken] =
 					e =>
 					{
@@ -227,10 +228,7 @@ namespace jsc.Languages.IL
 					OpCodes.Ldloca
 				};
 
-				this[i => TranslateBranchOffset(i, i.OpParamAsInt32)] = new[] {
-					OpCodes.Br,
-					OpCodes.Brtrue,
-				};
+
 
 				this[i => i.OpParamAsInt8] = new[] {
 					OpCodes.Ldc_I4_S,
@@ -240,32 +238,48 @@ namespace jsc.Languages.IL
 					OpCodes.Ldloca_S
 				};
 
-				// http://msdn.microsoft.com/en-us/library/74b4xzyw(VS.71).aspx
-				// If we translate the branch offset from byte to int
-				// we got some problems!
-				// For now we wont implement this but it will bite us later!
-				this[i => 
-					(byte)
-						checked(
-							(sbyte)TranslateBranchOffset(i, 
-								unchecked(
-									(sbyte)i.OpParamAsInt8)))
-					] = new[] {
+				//this[i => TranslateBranchOffset(i, i.OpParamAsInt32)] = new[] {
+				//    OpCodes.Br,
+				//    OpCodes.Brtrue,
+				//};
+
+				//// http://msdn.microsoft.com/en-us/library/74b4xzyw(VS.71).aspx
+				//// If we translate the branch offset from byte to int
+				//// we got some problems!
+				//// For now we wont implement this but it will bite us later!
+				//this[i => 
+				//    (byte)
+				//        checked(
+				//            (sbyte)TranslateBranchOffset(i, 
+				//                unchecked(
+				//                    (sbyte)i.OpParamAsInt8)))
+				//    ] = new[] {
+				//    OpCodes.Br_S,
+				//    OpCodes.Brtrue_S,
+				//    OpCodes.Brfalse_S,
+				//    OpCodes.Bne_Un_S,
+				//    OpCodes.Bge_S
+				//};
+
+				this[
 					OpCodes.Br_S,
 					OpCodes.Brtrue_S,
 					OpCodes.Brfalse_S,
 					OpCodes.Bne_Un_S,
-					OpCodes.Bge_S
-				};
+					OpCodes.Bge_S,
+					OpCodes.Br,
+					OpCodes.Brtrue] =
+					e =>
+					{
+
+						e.il.Emit(e.i.OpCode, e.i.BranchTargets.Select(k => e.Labels[k]).Single());
+					};
 
 				this[OpCodes.Switch] =
 					e =>
 					{
 
-						e.il.Emit(OpCodes.Switch, e.i.BranchTargets.Select(k => e.Labels[k]).ToArray());
-
-					
-
+						e.il.Emit(e.i.OpCode, e.i.BranchTargets.Select(k => e.Labels[k]).ToArray());
 					};
 				// switch? :)s
 
@@ -383,6 +397,11 @@ namespace jsc.Languages.IL
 				set { value.ForEach(OpCode => this[OpCode] = e => e.il.Emit(OpCode, selector(e.i))); }
 			}
 
+			public OpCode[] this[Func<ILInstruction, Label> selector]
+			{
+				set { value.ForEach(OpCode => this[OpCode] = e => e.il.Emit(OpCode, selector(e.i))); }
+			}
+
 			public OpCode[] this[Func<ILInstruction, byte> selector]
 			{
 				set { value.ForEach(OpCode => this[OpCode] = e => e.il.Emit(OpCode, selector(e.i))); }
@@ -405,6 +424,17 @@ namespace jsc.Languages.IL
 				public IDictionary<ILInstruction, Label> Labels;
 			}
 
+
+			public Action<ILRewriteContext> this[params OpCode[] o]
+			{
+				set
+				{
+					foreach (var item in o)
+					{
+						this[item] = value;
+					}
+				}
+			}
 
 			public Action<ILRewriteContext> this[OpCode o]
 			{

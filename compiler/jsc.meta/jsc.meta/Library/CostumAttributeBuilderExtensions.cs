@@ -6,12 +6,13 @@ using System.Reflection.Emit;
 using jsc.meta.Library.Templates;
 using System.Reflection;
 using System.Collections;
+using jsc.Languages.IL;
 
 namespace jsc.meta.Library
 {
 	public static class CostumAttributeBuilderExtensions
 	{
-		public static Func<Func<ConstructorInfo, ConstructorInfo>, CustomAttributeBuilder> ToCustomAttributeBuilder(this object a)
+		public static Func<ILTranslationContext, CustomAttributeBuilder> ToCustomAttributeBuilder(this object a)
 		{
 			var x = Enumerable.FirstOrDefault(
 				from t in new[] { a.GetType() }
@@ -66,17 +67,26 @@ namespace jsc.meta.Library
 				select new { ctor, ctor_params, properties, fields }
 			);
 
-			return (ConstructorCache) => new CustomAttributeBuilder(
-				ConstructorCache(x.ctor.c),
-				x.ctor_params,
 
-				x.properties.Select(k => k.p).ToArray(),
-				x.properties.Select(k => k.value).ToArray(),
+			return context =>
+			{
+				Func<object[], object[]> ff =
+					e => e.Select(k => k is Type ? context.TypeCache[(Type)k] : k).ToArray();
 
-				x.fields.Select(k => k.p).ToArray(),
-				x.fields.Select(k => k.value).ToArray()
+				// Property must be on the same type of the given ConstructorInfo.
 
-			);
+				return new CustomAttributeBuilder(
+					context.ConstructorCache[x.ctor.c],
+					ff(x.ctor_params),
+
+					x.properties.Select(k => context.PropertyCache[k.p]).ToArray(),
+					ff(x.properties.Select(k => k.value).ToArray()),
+
+					x.fields.Select(k => context.FieldCache[k.p]).ToArray(),
+					ff(x.fields.Select(k => k.value).ToArray())
+
+				);
+			};
 		}
 
 		internal static bool Equals(object a, object b, Type t)

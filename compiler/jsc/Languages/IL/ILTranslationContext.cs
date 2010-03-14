@@ -17,6 +17,7 @@ namespace jsc.Languages.IL
 		public VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache;
 		public VirtualDictionary<MethodInfo, MethodInfo> MethodCache;
 		public VirtualDictionary<FieldInfo, FieldInfo> FieldCache;
+		public VirtualDictionary<PropertyInfo, PropertyInfo> PropertyCache;
 
 
 		/// <summary>
@@ -32,7 +33,8 @@ namespace jsc.Languages.IL
 					TypeCache,
 					ConstructorCache,
 					MethodCache,
-					FieldCache
+					FieldCache,
+					PropertyCache
 				}.Select(k => k.ToTransientTransaction()).ToArray()
 			;
 		}

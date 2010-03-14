@@ -14,16 +14,11 @@ namespace jsc.meta.Commands.Rewrite
 	public partial class RewriteToAssembly
 	{
 		static void CopyConstructor(
-				ConstructorInfo SourceConstructor,
-				TypeBuilder t,
-				VirtualDictionary<Type, Type> tc,
-				VirtualDictionary<FieldInfo, FieldInfo> FieldCache,
-				VirtualDictionary<ConstructorInfo, ConstructorInfo> mc,
-				//VirtualDictionary<Type, List<FieldBuilder>> TypeFieldCache,
-				VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache,
-				VirtualDictionary<MethodInfo, MethodInfo> MethodCache,
-				VirtualDictionary<string, string> NameObfuscation,
-				Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride
+			ConstructorInfo SourceConstructor,
+			TypeBuilder t,
+			VirtualDictionary<string, string> NameObfuscation,
+			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
+			ILTranslationContext context
 
 			)
 		{
@@ -33,14 +28,14 @@ namespace jsc.meta.Commands.Rewrite
 				t.DefineConstructor(
 				SourceConstructor.Attributes,
 				SourceConstructor.CallingConvention,
-				SourceConstructor.GetParameters().Select(kp => tc[kp.ParameterType]).ToArray()
+				SourceConstructor.GetParameters().Select(kp => context.TypeCache[kp.ParameterType]).ToArray()
 			);
 
 			km.SetImplementationFlags(SourceConstructor.GetMethodImplementationFlags());
 
 			SourceConstructor.GetParameters().CopyTo(km);
 
-			mc[SourceConstructor] = km;
+			context.ConstructorCache[SourceConstructor] = km;
 
 			if (SourceConstructor.GetMethodBody() == null)
 				return;
@@ -51,15 +46,11 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			var x = CreateMethodBaseEmitToArguments(
-				SourceConstructor, 
-				tc, 
-				FieldCache,
-				//TypeFieldCache, 
-				ConstructorCache, 
-				MethodCache, 
-				NameObfuscation, 
-				ILOverride, 
-				ExceptionHandlingClauses
+				SourceConstructor,
+				NameObfuscation,
+				ILOverride,
+				ExceptionHandlingClauses,
+				context
 			);
 
 

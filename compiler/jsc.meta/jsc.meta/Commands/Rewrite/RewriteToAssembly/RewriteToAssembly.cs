@@ -148,8 +148,8 @@ namespace jsc.meta.Commands.Rewrite
 
 								foreach (var item in shadow_assembly.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 								{
-									__a.SetCustomAttribute(item(this.RewriteArguments.context.ConstructorCache));
-								} 
+									__a.SetCustomAttribute(item(this.RewriteArguments.context));
+								}
 
 
 								foreach (var item in shadow_assembly.GetManifestResourceNames())
@@ -225,6 +225,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
+			var PropertyCache = new VirtualDictionary<PropertyInfo, PropertyInfo>();
 
 
 			this.RewriteArguments = new AssemblyRewriteArguments
@@ -241,10 +242,43 @@ namespace jsc.meta.Commands.Rewrite
 						TypeDefinitionCache = TypeDefinitionCache,
 						TypeCache = TypeCache,
 						FieldCache = FieldCache,
-						TypeRenameCache = TypeRenameCache
+						TypeRenameCache = TypeRenameCache,
+						PropertyCache = PropertyCache
 					}
 			};
 
+			#region PropertyCache
+			PropertyCache.Resolve +=
+				SourceProperty =>
+				{
+					var Source = TypeCache[SourceProperty.DeclaringType];
+
+					if (Source is TypeBuilder)
+					{
+						var k = SourceProperty;
+						var t = Source as TypeBuilder;
+
+						var PropertyName = NameObfuscation[k.Name];
+
+						var _SetMethod = k.GetSetMethod(true);
+						var _GetMethod = k.GetGetMethod(true);
+
+						var kp = t.DefineProperty(PropertyName, k.Attributes, TypeCache[k.PropertyType], null);
+
+						if (_SetMethod != null)
+							kp.SetSetMethod((MethodBuilder)MethodCache[_SetMethod]);
+
+						if (_GetMethod != null)
+							kp.SetGetMethod((MethodBuilder)MethodCache[_GetMethod]);
+
+						PropertyCache[SourceProperty] = kp;
+
+						return;
+					}
+
+					PropertyCache[SourceProperty] = Source.GetProperty(SourceProperty.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+				};
+			#endregion
 
 			#region ConstructorCache
 			ConstructorCache.Resolve +=
@@ -332,13 +366,10 @@ namespace jsc.meta.Commands.Rewrite
 						CopyConstructor(
 							SourceConstructor,
 							DeclaringType,
-							TypeCache,
-							FieldCache,
-							ConstructorCache,
-							ConstructorCache,
-							MethodCache,
 							NameObfuscation,
-							AtILOverride);
+							AtILOverride,
+							this.RewriteArguments.context
+						);
 						return;
 					}
 
@@ -429,7 +460,7 @@ namespace jsc.meta.Commands.Rewrite
 							MethodCache[msource] = MethodCache[msource.GetGenericMethodDefinition()].MakeGenericMethod(
 								 TypeDefinitionCache[msource.GetGenericArguments()]
 							);
-							
+
 							return;
 						}
 
@@ -444,10 +475,7 @@ namespace jsc.meta.Commands.Rewrite
 							m,
 							msource,
 							tb_source,
-							TypeCache,
-							FieldCache,
-							ConstructorCache,
-							MethodCache, NameObfuscation,
+							NameObfuscation,
 							_assembly,
 							this.codeinjecton,
 							this.codeinjectonparams,
@@ -471,7 +499,8 @@ namespace jsc.meta.Commands.Rewrite
 											 context = this.RewriteArguments.context
 										 }
 									);
-							}
+							},
+							this.RewriteArguments.context
 						);
 						return;
 					}
@@ -667,40 +696,46 @@ namespace jsc.meta.Commands.Rewrite
 
 			#region TypeDefinitionCache
 			TypeDefinitionCache.Resolve +=
-				(source) =>
+				(SourceType) =>
 				{
-					if (source.IsGenericParameter)
+					if (SourceType.IsGenericParameter)
 					{
-						TypeDefinitionCache[source] = source;
+						TypeDefinitionCache[SourceType] = SourceType;
 						return;
 					}
 
-					if (source.IsArray)
+					if (SourceType.IsByRef)
 					{
-						TypeDefinitionCache[source] = TypeDefinitionCache[source.GetElementType()].MakeArrayType();
+						TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakeByRefType();
 						return;
 					}
 
-					if (source.IsGenericType)
-						if (!source.IsGenericTypeDefinition)
+					if (SourceType.IsArray)
+					{
+						TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakeArrayType();
+						return;
+					}
+
+					if (SourceType.IsGenericType)
+						if (!SourceType.IsGenericTypeDefinition)
 						{
-							TypeDefinitionCache[source] =
-								TypeDefinitionCache[source.GetGenericTypeDefinition()].MakeGenericType(
-									source.GetGenericArguments().Select(
+							TypeDefinitionCache[SourceType] =
+								TypeDefinitionCache[SourceType.GetGenericTypeDefinition()].MakeGenericType(
+									SourceType.GetGenericArguments().Select(
 										k => TypeDefinitionCache[k]
 									).ToArray()
 								);
 							return;
 						}
 
-					var ContextType = source;
+					var ContextType = SourceType;
 					if (ShouldCopyType(ContextType))
 					{
 						var ttt = new CopyTypeDefinition
 						{
 							TypeDefinitionCache = TypeDefinitionCache,
 							TypeRenameCache = TypeRenameCache,
-							SourceType = source,
+							SourceType = SourceType,
 							m = m,
 
 							OverrideDeclaringType = null,
@@ -713,17 +748,17 @@ namespace jsc.meta.Commands.Rewrite
 
 						var t = ttt.Invoke();
 
-						TypeDefinitionCache[source] = t;
+						TypeDefinitionCache[SourceType] = t;
 					}
 					else
 					{
-						TypeDefinitionCache[source] =
+						TypeDefinitionCache[SourceType] =
 
-							source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
-								source.GetGenericArguments().Select(
+							SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition().MakeGenericType(
+								SourceType.GetGenericArguments().Select(
 									k => TypeDefinitionCache[k]
 								).ToArray()
-							) : source;
+							) : SourceType;
 					}
 				};
 			#endregion
@@ -775,6 +810,13 @@ namespace jsc.meta.Commands.Rewrite
 					}
 
 
+					if (source.IsByRef)
+					{
+						TypeCache[source] = TypeCache[source.GetElementType()].MakeByRefType();
+						return;
+					}
+
+
 					if (source.IsArray)
 					{
 						TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
@@ -802,12 +844,6 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						CopyType(
 							source, a, m,
-							TypeDefinitionCache,
-							TypeCache,
-							FieldCache,
-
-							ConstructorCache,
-							MethodCache,
 							null,
 							TypeRenameCache,
 							NameObfuscation,
@@ -872,7 +908,8 @@ namespace jsc.meta.Commands.Rewrite
 								 #endregion
 
 							 },
-							 this
+							 this,
+							 this.RewriteArguments.context
 						);
 
 
@@ -989,7 +1026,7 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-	
+
 
 
 		private static bool IsMarkedForMerge(Type t)

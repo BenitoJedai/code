@@ -569,13 +569,10 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				e.SourceMethod.EmitTo(il,
 					RewriteToAssembly.CreateMethodBaseEmitToArguments(
 						e.SourceMethod,
-						e.context.TypeCache,
-						e.context.FieldCache,
-						e.context.ConstructorCache,
-						e.context.MethodCache,
 						null,
 						null,
-						e.SourceMethod.GetMethodBody().ExceptionHandlingClauses.ToArray()
+						e.SourceMethod.GetMethodBody().ExceptionHandlingClauses.ToArray(),
+						e.context
 					)
 				);
 			}
@@ -591,13 +588,10 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 				var il_a = RewriteToAssembly.CreateMethodBaseEmitToArguments(
 						e.SourceMethod,
-						e.context.TypeCache,
-						e.context.FieldCache,
-						e.context.ConstructorCache,
-						e.context.MethodCache,
 						null,
 						null,
-						e.SourceMethod.GetMethodBody().ExceptionHandlingClauses.ToArray()
+						e.SourceMethod.GetMethodBody().ExceptionHandlingClauses.ToArray(),
+						e.context
 					);
 
 				il_a.TranslateTargetMethod = k => k == _1_Application_BeginRequest ? u : e.context.MethodCache[k];

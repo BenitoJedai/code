@@ -29,6 +29,9 @@ namespace TestTypeGenerics
 
 		// This is a named argument
 		public int NamedInt { get; set; }
+
+
+		public Type T;
 	}
 
 	[TestTypeGenerics.My("Y", NamedInt = 5)]
@@ -37,11 +40,105 @@ namespace TestTypeGenerics
 		[DllImport("Kernel32.dll")]
 		internal static extern uint QueryDosDevice(string lpDeviceName, StringBuilder lpTargetPath, uint ucchMax);
 
-
-		[TestTypeGenerics.My("Y", NamedInt = 5)]
-		public void Method<M>(M m)
+		struct MARGINS
 		{
 
+			public int Left;
+			public int Right;
+			public int Top;
+			public int Bottom;
 		}
+
+		[DllImport("dwmapi.dll", PreserveSig = false)]
+		static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+
+		[TestTypeGenerics.My("Y", NamedInt = 5, T = typeof(Class2))]
+		public void Method<M>(M m)
+		{
+			int i = 0;
+			if (i > 0)
+			{
+				Console.WriteLine();
+				try
+				{
+					switch (i)
+					{
+						case 1: Console.WriteLine(); break;
+						case 2: Console.WriteLine(); break;
+						case 3: Console.WriteLine(); break;
+						case 4: Console.WriteLine(); break;
+
+					}
+
+					switch (i)
+					{
+						case 1: Console.WriteLine(); break;
+						case 2: Console.WriteLine(); break;
+						case 3: Console.WriteLine(); break;
+						case 4: Console.WriteLine(); break;
+
+					}
+
+					switch (i)
+					{
+						case 1: Console.WriteLine(); break;
+						case 2: Console.WriteLine(); break;
+						case 3: Console.WriteLine(); break;
+						case 4: Console.WriteLine(); break;
+
+					}
+
+					switch (i)
+					{
+						case 1: Console.WriteLine(); break;
+						case 2: Console.WriteLine(); break;
+						case 3: Console.WriteLine(); break;
+						case 4: Console.WriteLine(); break;
+
+					}
+
+					switch (i)
+					{
+						case 1: Console.WriteLine(); break;
+						case 2: Console.WriteLine(); break;
+						case 3: Console.WriteLine(); break;
+						case 4: Console.WriteLine(); break;
+
+					}
+
+					switch (i)
+					{
+						case 1: Console.WriteLine(); break;
+						case 2: Console.WriteLine(); break;
+						case 3: Console.WriteLine(); break;
+						case 4: Console.WriteLine(); break;
+
+					}
+				}
+				catch (MyException ex)
+				{
+
+				}
+			}
+		}
+	}
+
+	[global::System.Serializable]
+	public class MyException : Exception
+	{
+		//
+		// For guidelines regarding the creation of new exception types, see
+		//    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
+		// and
+		//    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
+		//
+
+		public MyException() { }
+		public MyException(string message) : base(message) { }
+		public MyException(string message, Exception inner) : base(message, inner) { }
+		protected MyException(
+		  System.Runtime.Serialization.SerializationInfo info,
+		  System.Runtime.Serialization.StreamingContext context)
+			: base(info, context) { }
 	}
 }

@@ -290,13 +290,10 @@ namespace jsc.meta.Library
 				null,
 				msource.Method,
 				t,
-				TypeCache,
-				FieldCache,
-				ConstructorCache,
-				MethodCache,
 				NameObfuscation,
 				null,
-				null, null, null, null
+				null, null, null, null,
+				new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache }
 			);
 
 			return (MethodBuilder)MethodCache[msource.Method];
@@ -323,10 +320,13 @@ namespace jsc.meta.Library
 
 
 			var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
+			var TypeDefinitionCache = new jsc.Library.VirtualDictionary<Type, Type>();
 			var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var FieldCache = new jsc.Library.VirtualDictionary<FieldInfo, FieldInfo>();
 			var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
+			var PropertyCache = new jsc.Library.VirtualDictionary<PropertyInfo, PropertyInfo>();
 			var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
+			var TypeRenameCache = new jsc.Library.VirtualDictionary<Type, string>();
 
 			ConstructorCache[typeof(DefineDefaultPropertyMarker).GetConstructor(new Type[0])] = ctor;
 			TypeCache[typeof(DefineDefaultPropertyMarker)] = t;
@@ -358,26 +358,31 @@ namespace jsc.meta.Library
 						null,
 						source,
 						t,
-						TypeCache,
-						FieldCache,
-						ConstructorCache,
-						MethodCache,
 						NameObfuscation,
 						null,
 						null,
 						null,
 						null,
-						null
+						null,
+				new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache }
+
 					);
 				};
 
 			jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyTypeMembers(typeof(DefineDefaultPropertyMarker),
-				TypeCache,
-				FieldCache,
-				ConstructorCache,
-				MethodCache,
 				NameObfuscation,
-				t
+				t,
+				new ILTranslationContext
+				{
+					ConstructorCache = ConstructorCache,
+					FieldCache = FieldCache,
+					MethodCache = MethodCache,
+					PropertyCache = PropertyCache,
+					TypeCache = TypeCache,
+					TypeDefinitionCache = TypeDefinitionCache,
+					TypeRenameCache = TypeRenameCache
+				}
+
 			);
 
 
