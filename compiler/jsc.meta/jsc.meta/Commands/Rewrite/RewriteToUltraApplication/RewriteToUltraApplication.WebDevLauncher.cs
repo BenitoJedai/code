@@ -150,8 +150,13 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 				var port = new Random().Next(1024, short.MaxValue);
 
+				var Text = typeof(WebDevLauncer).Assembly.GetName().Name;
+				const string Launcher = "Launcher";
+				if (Text.EndsWith(Launcher))
+					Text = Text.Substring(0, Text.Length - Launcher.Length);
 
 				var url = "http://localhost:" + port;
+				var dir = new FileInfo(typeof(WebDevLauncer).Assembly.Location).Directory.FullName;
 
 				var t = new Thread(
 					delegate()
@@ -173,7 +178,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 							n.ContextMenuStrip.Items.Add(
 								new ToolStripMenuItem(
-									"Close " + typeof(WebDevLauncer).Assembly.GetName().Name,
+									"Close " + Text,
 									null,
 									delegate
 									{
@@ -182,9 +187,39 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 								)
 							);
 
+	
+
 							n.ContextMenuStrip.Items.Add(
 								new ToolStripMenuItem(
-									"Browse " + typeof(WebDevLauncer).Assembly.GetName().Name,
+									"Open in Explorer",
+									null,
+									delegate
+									{
+										Process.Start(dir);
+									}
+								)
+								{
+									ToolTipText = dir
+								}
+							);
+
+							n.ContextMenuStrip.Items.Add(
+							new ToolStripMenuItem(
+								"Browse to Diagnostics",
+								null,
+								delegate
+								{
+									Process.Start(url + "/jsc");
+								}
+								)
+								{
+									ToolTipText = url
+								}
+							);
+
+							n.ContextMenuStrip.Items.Add(
+								new ToolStripMenuItem(
+									"Browse to " + Text,
 									null,
 									delegate
 									{
@@ -195,7 +230,6 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 									ToolTipText = url
 								}
 							);
-
 							n.DoubleClick +=
 								delegate
 								{
@@ -203,8 +237,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 								};
 
 
-							n.Text = typeof(WebDevLauncer).Assembly.GetName().Name;
-							n.ShowBalloonTip(300, typeof(WebDevLauncer).Assembly.GetName().Name, "Loading...", ToolTipIcon.None);
+							
+							n.Text = Text;
+							n.ShowBalloonTip(300, Text, "Loading...", ToolTipIcon.None);
 
 
 							Application.Run();
@@ -220,7 +255,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 
 
-				var s = new Server(port, "/", new FileInfo(typeof(WebDevLauncer).Assembly.Location).Directory.FullName);
+				var s = new Server(port, "/", dir);
 
 				s.Start();
 

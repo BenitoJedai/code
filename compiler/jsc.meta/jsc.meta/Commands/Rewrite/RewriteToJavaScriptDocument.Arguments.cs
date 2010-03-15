@@ -61,6 +61,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			public string GlobalType;
 
+			public FileInfo WebDevLauncher;
 		}
 
 		/// <summary>

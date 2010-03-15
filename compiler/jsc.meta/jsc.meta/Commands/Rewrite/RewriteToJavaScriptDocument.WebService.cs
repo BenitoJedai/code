@@ -50,8 +50,9 @@ namespace jsc.meta.Commands.Rewrite
 			bool IsWebServicePHP,
 			bool IsWebServiceJava,
 
-			Action<Action> InvokeAfterBackendCompiler
+			Action<Action> InvokeAfterBackendCompiler,
 
+			Action<FileInfo> YieldWebDevLauncher
 			)
 		{
 
@@ -108,7 +109,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				var __Files = js_staging_web.GetFilesByPattern("*.js", "*.htm")
-				
+
 					// assets is the new naming
 					.Concat(js_staging_web.CreateSubdirectory("assets").GetFiles("*.*", SearchOption.AllDirectories))
 					// old naming :)
@@ -438,22 +439,16 @@ namespace jsc.meta.Commands.Rewrite
 					global_asax.CreateType();
 					#endregion
 
-					if (this.DisableWebServiceTypeMerge)
-					{
-						// we are running under ASP.NET are we?
+					// not needed for asp.net version?
 
-					}
-					else
-					{
-						WriteWebDevLauncher(
-							new FileInfo(
-								Path.Combine(root.FullName, SourceType.Namespace + ".exe")
-							)
-						);
+					var WebDevLauncher = new FileInfo(Path.Combine(__root.FullName, SourceType.Namespace + "Launcher.exe"));
 
-						#region DevServer
-						File.WriteAllText(Path.Combine(root.CreateSubdirectory("bin").FullName, "App_global.asax.compiled"),
-			@"<?xml version='1.0' encoding='utf-8'?>
+					WriteWebDevLauncher(WebDevLauncher);
+					YieldWebDevLauncher(WebDevLauncher);
+
+					#region DevServer
+					File.WriteAllText(Path.Combine(root.CreateSubdirectory("bin").FullName, "App_global.asax.compiled"),
+		@"<?xml version='1.0' encoding='utf-8'?>
 <preserve resultType='8' virtualPath='/global.asax'  flags='150000' assembly='" + r.product + @"' type='ASP.global_asax'>
   <filedeps>
     <filedep name='/global.asax' />
@@ -462,8 +457,8 @@ namespace jsc.meta.Commands.Rewrite
 ");
 
 
-						File.WriteAllText(Path.Combine(root.FullName, "web.config"),
-			@"<?xml version='1.0'?>
+					File.WriteAllText(Path.Combine(root.FullName, "web.config"),
+		@"<?xml version='1.0'?>
 <configuration>
 	<system.web>
 		<compilation debug='true'/>
@@ -471,36 +466,50 @@ namespace jsc.meta.Commands.Rewrite
 </configuration>
 ".Trim());
 
-						File.WriteAllText(Path.Combine(root.FullName, "PrecompiledApp.config"), "<precompiledApp version='2' updatable='false'/>");
-						File.WriteAllText(Path.Combine(root.FullName, "Default.htm"), "");
+					File.WriteAllText(Path.Combine(root.FullName, "PrecompiledApp.config"), "<precompiledApp version='2' updatable='false'/>");
+					File.WriteAllText(Path.Combine(root.FullName, "Default.htm"), "");
 
 
-						#region staging.net.bat
-						// now we can run the rewritten app in .net :)
-						File.WriteAllText(
-							Path.Combine(root.FullName,
-								"WebDev.WebServer.bat"
-								),
-							@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
+					#region staging.net.bat
+					// now we can run the rewritten app in .net :)
+					File.WriteAllText(
+						Path.Combine(root.FullName,
+							"WebDev.WebServer.bat"
+							),
+						@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
+					);
+					#endregion
+
+					#region staging.net.bat
+					// now we can run the rewritten app in .net :)
+					File.WriteAllText(
+						Path.Combine(root.FullName,
+							"WebDev.WebServer40.bat"
+							),
+						@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\10.0\WebDev.WebServer40.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
+					);
+					#endregion
+					#endregion
+
+
+
+					if (this.DisableWebServiceTypeMerge)
+					{
+						// we are running under ASP.NET are we?
+
+						var SourceAssembly = new FileInfo(SourceType.Assembly.Location);
+
+						SourceAssembly.CopyTo(
+							Path.Combine(root.CreateSubdirectory("bin").FullName, SourceAssembly.Name), true
 						);
-						#endregion
 
-						#region staging.net.bat
-						// now we can run the rewritten app in .net :)
-						File.WriteAllText(
-							Path.Combine(root.FullName,
-								"WebDev.WebServer40.bat"
-								),
-							@"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\10.0\WebDev.WebServer40.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
-						);
-						#endregion
-						#endregion
 
 						// C:\Windows\assembly\GAC_32\WebDev.WebHost\9.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost.dll
 					}
 				}
 				#endregion
 
+				#region IsWebServiceJava
 				if (IsWebServiceJava)
 				{
 					DirectoryInfo __web = root.CreateSubdirectory("web/www");
@@ -642,6 +651,8 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					#endregion
 
 				}
+				#endregion
+
 			}
 		}
 

@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
-using System.IO;
 using System.Reflection;
-using jsc.meta.Commands.Rewrite.Templates;
 using System.Threading;
 using System.Diagnostics;
 using System.Web;
-using jsc.meta.Library;
 using jsc.meta.Library.Templates.WebService;
+using System.IO;
+using jsc.meta.Library;
 using ScriptCoreLib.Ultra.Library.Extensions;
 
-namespace jsc.meta.Commands.Rewrite
+namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
-	partial class RewriteToJavaScriptDocument
+	partial class RewriteToUltraApplication
 	{
 		[Obfuscation(Feature = "invalidmerge")]
 		public class AsService
@@ -288,5 +286,6 @@ namespace jsc.meta.Commands.Rewrite
 
 			readonly static Dictionary<Type, AsService> Lookup = new Dictionary<Type, AsService>();
 		}
+
 	}
 }
