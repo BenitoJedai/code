@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bb5adf38-3f58-4cf1-9ba8-89a84a26b407}</ProjectGuid>
+    <ProjectGuid>{6e79394d-26e7-4559-a686-b88f8fd41fdf}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>UltraApplication</RootNamespace>
-    <AssemblyName>UltraApplication</AssemblyName>
+    <RootNamespace>UltraApplicationWithFlash</RootNamespace>
+    <AssemblyName>UltraApplicationWithFlash</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>UltraApplication</Name>
+    <Name>UltraApplicationWithFlash</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,7 +20,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\UltraApplication.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\UltraApplicationWithFlash.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +29,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\UltraApplication.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\UltraApplicationWithFlash.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="UltraWebService.fs" />
     <Compile Include="UltraSprite.fs" />
-    <Compile Include="UltraApplet.fs" />
     <Compile Include="Application.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

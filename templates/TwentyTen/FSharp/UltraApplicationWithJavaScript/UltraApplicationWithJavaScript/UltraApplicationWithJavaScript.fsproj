@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bb5adf38-3f58-4cf1-9ba8-89a84a26b407}</ProjectGuid>
+    <ProjectGuid>{c27f82ed-109f-4f9e-a39d-cdd57f18e42a}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>UltraApplication</RootNamespace>
-    <AssemblyName>UltraApplication</AssemblyName>
+    <RootNamespace>UltraApplicationWithJavaScript</RootNamespace>
+    <AssemblyName>UltraApplicationWithJavaScript</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>UltraApplication</Name>
+    <Name>UltraApplicationWithJavaScript</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,7 +20,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\UltraApplication.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\UltraApplicationWithJavaScript.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +29,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\UltraApplication.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\UltraApplicationWithJavaScript.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -58,8 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UltraWebService.fs" />
-    <Compile Include="UltraSprite.fs" />
-    <Compile Include="UltraApplet.fs" />
     <Compile Include="Application.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

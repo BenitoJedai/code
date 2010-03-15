@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bb5adf38-3f58-4cf1-9ba8-89a84a26b407}</ProjectGuid>
+    <ProjectGuid>{88c28b08-be45-4c91-8957-c989197c499c}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>UltraApplication</RootNamespace>
-    <AssemblyName>UltraApplication</AssemblyName>
+    <RootNamespace>UltraApplicationWithSplash</RootNamespace>
+    <AssemblyName>UltraApplicationWithSplash</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>UltraApplication</Name>
+    <Name>UltraApplicationWithSplash</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,7 +20,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\UltraApplication.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\UltraApplicationWithSplash.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,16 +29,24 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\UltraApplication.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\UltraApplicationWithSplash.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
       <HintPath>..\..\..\..\..\..\..\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="jsc.splash">
+      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\jsc.splash.exe</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="ScriptCoreLib">
       <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
@@ -55,11 +63,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UltraWebService.fs" />
-    <Compile Include="UltraSprite.fs" />
-    <Compile Include="UltraApplet.fs" />
     <Compile Include="Application.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

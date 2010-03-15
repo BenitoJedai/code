@@ -1,7 +1,7 @@
-﻿// Learn more about F# at http://fsharp.net
+// Learn more about F# at http://fsharp.net
 
 
-namespace UltraApplication
+namespace UltraApplicationWithFlash
 
 
 // http://en.wikibooks.org/wiki/F_Sharp_Programming/Modules_and_Namespaces
@@ -15,15 +15,15 @@ open global.ScriptCoreLib.ActionScript.flash.display
 open global.ScriptCoreLib.ActionScript.Extensions
 
 // http://stackoverflow.com/questions/2269625/using-assembly-attributes-in-f
-[<assembly: AssemblyTitleAttribute("Ultra Application")>] 
-[<assembly: AssemblyDescriptionAttribute("Ultra Application. Write javascript, flash and java applets within a F# project. http://jsc-solutions.net")>] 
+[<assembly: AssemblyTitleAttribute("Ultra Application With Flash")>] 
+[<assembly: AssemblyDescriptionAttribute("Ultra Application With Flash. Write javascript, flash and java applets within a F# project. http://jsc-solutions.net")>] 
 [<assembly: AssemblyCompanyAttribute("jsc-solutions.net")>] 
 do ()
    
 [<Sealed>]
  type Application(e : IHTMLElement) = do
     
-    Native.Document.title <- "UltraApplication"
+    Native.Document.title <- "UltraApplicationWithFlash"
 
     let ApplicationView = Extensions.Extensions.AttachToDocument( new IHTMLDiv())
     do
@@ -41,7 +41,7 @@ do ()
 
     c.add_onmouseout(
         fun (e) ->
-            c.style.backgroundColor <- ""
+            c.style.backgroundColor <- "#"
     )
 
     c.style.margin <- "2em"
@@ -107,22 +107,6 @@ do ()
                                 )
                         )
             )
-
-    )
-
-
-
-    let AddAppletButton = new IHTMLButton("Add Applet")
-    do AddAppletButton.style.color <- "blue"
-    
-    do c.appendChild(AddAppletButton)
-    do AddAppletButton.add_onclick(
-        fun (e) ->
-            let w = new UltraApplet()
-          
-            AppletExtensions.AttachAppletTo(w, c)  |> ignore  
-
-          
 
     )
 

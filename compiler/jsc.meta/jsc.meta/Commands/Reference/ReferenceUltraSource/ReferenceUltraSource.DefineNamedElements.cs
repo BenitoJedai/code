@@ -218,7 +218,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							DefineNamedElement(ElementType, Namespace, name, Variations, src.Value, "FromWeb");
 						}
 
-						var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name + Extension;
+						//var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name + Extension;
+						// Long paths are not good. ASP.NET will fault.
+						var AssetPath = "assets/" + DefaultNamespace + "/" + name + Extension;
 
 						a.ScriptResourceWriter.Add(AssetPath, Resource);
 

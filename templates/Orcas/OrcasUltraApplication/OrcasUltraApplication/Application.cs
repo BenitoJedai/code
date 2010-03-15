@@ -14,7 +14,7 @@ namespace OrcasUltraApplication
 
 		public Application(IHTMLElement e)
 		{
-			Native.Document.title = "Ultra Application";
+			Native.Document.title = "OrcasUltraApplication";
 
 			var c = new IHTMLDiv
 			{
@@ -40,13 +40,14 @@ namespace OrcasUltraApplication
 			c.style.borderLeft = "2em solid #777777";
 
 
-			new IHTMLDiv(
+			new IHTMLDiv
+			{
 				new IHTMLAnchor
 				{
 					innerText = "Write javascript, flash and java applets within a C# project.",
 					href = "http://www.jsc-solutions.net"
 				}
-			).AttachTo(c);
+			}.AttachTo(c);
 
 
 			{
