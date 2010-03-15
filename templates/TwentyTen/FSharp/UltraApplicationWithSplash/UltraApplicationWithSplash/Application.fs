@@ -1,7 +1,7 @@
-﻿// Learn more about F# at http://fsharp.net
+// Learn more about F# at http://fsharp.net
 
 
-namespace UltraApplication
+namespace UltraApplicationWithSplash
 
 
 // http://en.wikibooks.org/wiki/F_Sharp_Programming/Modules_and_Namespaces
@@ -11,19 +11,17 @@ open global.ScriptCoreLib.JavaScript
 open global.ScriptCoreLib.JavaScript.Extensions
 open global.System
 open global.System.Reflection
-open global.ScriptCoreLib.ActionScript.flash.display
-open global.ScriptCoreLib.ActionScript.Extensions
 
 // http://stackoverflow.com/questions/2269625/using-assembly-attributes-in-f
-[<assembly: AssemblyTitleAttribute("Ultra Application")>] 
-[<assembly: AssemblyDescriptionAttribute("Ultra Application. Write javascript, flash and java applets within a F# project. http://jsc-solutions.net")>] 
+[<assembly: AssemblyTitleAttribute("Ultra Application With Avalon")>] 
+[<assembly: AssemblyDescriptionAttribute("Ultra Application With Avalon. Write javascript, flash and java applets within a F# project. http://jsc-solutions.net")>] 
 [<assembly: AssemblyCompanyAttribute("jsc-solutions.net")>] 
 do ()
    
 [<Sealed>]
  type Application(e : IHTMLElement) = do
     
-    Native.Document.title <- "UltraApplication"
+    Native.Document.title <- "UltraApplicationWithSplash"
 
     let ApplicationView = Extensions.Extensions.AttachToDocument( new IHTMLDiv())
     do
@@ -41,7 +39,7 @@ do ()
 
     c.add_onmouseout(
         fun (e) ->
-            c.style.backgroundColor <- ""
+            c.style.backgroundColor <- "#"
     )
 
     c.style.margin <- "2em"
@@ -78,51 +76,30 @@ do ()
 
     )
 
-    let AddSpriteButton = new IHTMLButton("Add Sprite")
-    do AddSpriteButton.style.color <- "blue"
-    
-    do c.Add(AddSpriteButton)
-    do AddSpriteButton.add_onclick(
+
+    let ShowSplash = new IHTMLButton("Show Splash")
+    do ShowSplash.style.color <- "blue"
+
+    do c.Add(ShowSplash)
+    do ShowSplash.add_onclick(
         fun (e) ->
-            let w = new UltraSprite()
-          
-            SpriteExtensions.AttachSpriteTo(w, ApplicationView)  |> ignore  
+            let logo = new PromotionWebApplication.AvalonLogo.AvalonLogoCanvas()
+            let logoc = new IHTMLDiv()
 
-            let AtClickButton = new IHTMLButton("AtClick")
-            do c.Add(AtClickButton)
-
-            do AtClickButton.add_onclick(
-                fun (e) ->
-                    let news2 = new IHTMLDiv("FSharp: AtClick")
-                    
-                    do c.appendChild(
-                               news2
-                        )
-
-                    do w.AtClick(
-                            fun () ->
-                                let news = new IHTMLDiv("FSharp: flash click")
-                                do c.Add(
-                                       news
-                                )
-                        )
+            logoc.style.SetSize(
+                PromotionWebApplication.AvalonLogo.AvalonLogoCanvas.DefaultWidth,
+                PromotionWebApplication.AvalonLogo.AvalonLogoCanvas.DefaultHeight
             )
 
+            logoc.style.position <- IStyle.PositionEnum.relative
+
+            c.Add(logoc)
+
+            logo.add_AtClose(
+                fun () ->
+                    global.ScriptCoreLib.JavaScript.Extensions.Extensions.Orphanize(logoc) |> ignore
+            )
+
+            ScriptCoreLib.JavaScript.Extensions.AvalonExtensions.AttachToContainer(logo.Container, logoc) |> ignore
+            
     )
-
-
-
-    let AddAppletButton = new IHTMLButton("Add Applet")
-    do AddAppletButton.style.color <- "blue"
-    
-    do c.appendChild(AddAppletButton)
-    do AddAppletButton.add_onclick(
-        fun (e) ->
-            let w = new UltraApplet()
-          
-            AppletExtensions.AttachAppletTo(w, c)  |> ignore  
-
-          
-
-    )
-

@@ -10,13 +10,6 @@ namespace OrcasUltraApplication
 	{
 		public static void Main(string[] args)
 		{
-			AppDomain.CurrentDomain.AssemblyResolve +=
-				(sender, _args) =>
-				{
-
-					return null;
-				};
-
 			global::jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(
 				typeof(Application)
 			);

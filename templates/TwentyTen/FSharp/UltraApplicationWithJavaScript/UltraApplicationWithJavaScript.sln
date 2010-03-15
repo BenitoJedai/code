@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UltraApplicationWithJavaScript", "UltraApplicationWithJavaScript\UltraApplicationWithJavaScript.fsproj", "{C27F82ED-109F-4F9E-A39D-CDD57F18E42A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C27F82ED-109F-4F9E-A39D-CDD57F18E42A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C27F82ED-109F-4F9E-A39D-CDD57F18E42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C27F82ED-109F-4F9E-A39D-CDD57F18E42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C27F82ED-109F-4F9E-A39D-CDD57F18E42A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
