@@ -105,7 +105,8 @@ namespace jsc.Languages
 
 						c.CurrentJob = j;
 
-						Program.AttachXMLDoc(new FileInfo(xx.Assembly.ManifestModule.FullyQualifiedName), c);
+						// todo: we are loading the xml once too many...
+						// Program.AttachXMLDoc(new FileInfo(xx.Assembly.ManifestModule.FullyQualifiedName), c);
 
 						if (c.CompileType(xx))
 						{

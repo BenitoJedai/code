@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{bb5adf38-3f58-4cf1-9ba8-89a84a26b407}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>UltraApplication</RootNamespace>
     <AssemblyName>UltraApplication</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
     <DocumentationFile>bin\Release\UltraApplication.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jsc.meta">
+      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="ScriptCoreLib">

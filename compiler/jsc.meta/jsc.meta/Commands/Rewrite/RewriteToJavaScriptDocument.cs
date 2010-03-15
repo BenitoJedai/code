@@ -183,6 +183,7 @@ namespace jsc.meta.Commands.Rewrite
 				#endregion
 
 				var InvokeAfterBackendCompiler = new List<Action>();
+				var WebDevLauncher = default(FileInfo);
 
 				// lets do a rewrite and inject neccesary bootstrap and proxy code
 
@@ -385,14 +386,18 @@ namespace jsc.meta.Commands.Rewrite
 							{
 								var __js = targets.Single(kk => kk.IsJavaScript);
 
-								WriteGlobalApplication(r, a, k.TargetType,
+								WriteGlobalApplication(
+									r, 
+									a, 
+									k.TargetType,
 									k.StagingFolder,
 									__js.StagingFolder,
 									__js.TargetType,
 									RewriteOutput[__js],
 									k.IsWebServicePHP,
 									k.IsWebServiceJava,
-									InvokeAfterBackendCompiler.Add
+									InvokeAfterBackendCompiler.Add,
+									n => WebDevLauncher = n
 								);
 
 								if (k.IsWebServiceJava)
@@ -1104,7 +1109,8 @@ namespace jsc.meta.Commands.Rewrite
 							new AtWebServiceReadyArguments
 							{
 								Assembly = r.Output,
-								GlobalType = k.TargetType.Namespace + ".Global"
+								GlobalType = k.TargetType.Namespace + ".Global",
+								WebDevLauncher = WebDevLauncher
 							}
 						);
 				}

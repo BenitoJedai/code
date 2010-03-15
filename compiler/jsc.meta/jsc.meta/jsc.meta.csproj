@@ -244,7 +244,6 @@
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.ScriptResources.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.ShouldCopyType.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.Arguments.cs" />
-    <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.AsService.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WebService.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteExternalInterface.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.WriteInitialization.cs" />
@@ -258,6 +257,8 @@
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.AsProgram.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.AsService.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.WebDevLauncher.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.cs" />

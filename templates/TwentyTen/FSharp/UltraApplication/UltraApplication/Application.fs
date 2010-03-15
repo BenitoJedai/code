@@ -40,7 +40,7 @@ do ()
             do w.WebMethod1("client fsharp. ",
                 fun (y) ->
                     let news = new IHTMLDiv("FSharp: server: " + y)
-                    do Native.Document.body.appendChild(
+                    do Native.Document.body.Add(
                            news
                     )
             )
@@ -58,7 +58,7 @@ do ()
             SpriteExtensions.AttachSpriteTo(w, ApplicationView)  |> ignore  
 
             let AtClickButton = new IHTMLButton("AtClick")
-            do ApplicationView.appendChild(AtClickButton)
+            do ApplicationView.Add(AtClickButton)
 
             do AtClickButton.add_onclick(
                 fun (e) ->
@@ -71,7 +71,7 @@ do ()
                     do w.AtClick(
                             fun () ->
                                 let news = new IHTMLDiv("FSharp: flash click")
-                                do ApplicationView.appendChild(
+                                do ApplicationView.Add(
                                        news
                                 )
                         )
@@ -94,4 +94,11 @@ do ()
           
 
     )
+
+module Program =
+    [<Microsoft.FSharp.Core.EntryPoint>]
+    let Main args =
+        let PrimaryApplication = typeof<UltraApplication>
+        do jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(PrimaryApplication)
+        0
 

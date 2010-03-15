@@ -83,6 +83,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 						);
 
 					}
+
 				};
 
 			var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
