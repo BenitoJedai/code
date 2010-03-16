@@ -1,15 +1,19 @@
+using System;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System.Web;
-using System;
+using ScriptCoreLib.JavaScript;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace UltraTutorial05
+namespace UltraApplicationWithFlash
 {
-	public sealed partial class UltraApplication : IWebServiceEnabled
+
+	//[Description("UltraApplicationWithFlash. Write javascript, flash and java applets within a C# project.")]
+
+
+	public sealed partial class Application : IWebServiceEnabled
 	{
-		public UltraApplication(IHTMLElement e)
+		public Application(IHTMLElement e)
 		{
 			var note1 = new IHTMLPre
 			{
@@ -58,7 +62,7 @@ namespace UltraTutorial05
 			);
 
 			// passing the interface to flash is delayed until it is loaded, using the getter will fault
-			s.WebService = new AlphaWebService();
+			s.WebService = new UltraWebService();
 			s.WebServiceEnabled = this;
 
 			s.AppendLine("This call is delayed until flash is loaded (4)");
@@ -76,6 +80,51 @@ namespace UltraTutorial05
 			).AttachToDocument();
 
 			ButtonsForWebService();
+
+
+			var o = s;
+
+
+			o.AttachSpriteToDocument();
+
+			var cc = new IHTMLButton
+			{
+				innerText = "Continue"
+			};
+
+			cc.AttachToDocument();
+
+			cc.onclick +=
+				delegate
+				{
+					var p = new JavaScriptPingPong
+					{
+						AtMethod1 =
+							delegate
+							{
+								Native.Document.body.appendChild(new IHTMLDiv("AtMethod1"));
+							}
+					};
+
+					o.PingPongService(p,
+						y =>
+						{
+							//if (y == p)
+							//{
+							//    Native.Document.body.appendChild(new IHTMLDiv("ok"));
+							//}
+							//else
+							//{
+							//    Native.Document.body.appendChild(new IHTMLDiv("fault"));
+							//}
+							y.Method1();
+						}
+					);
+
+					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage"));
+					o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
+					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage ?"));
+				};
 		}
 
 		private static void ButtonsForWebService()
@@ -92,7 +141,7 @@ namespace UltraTutorial05
 			DownloadData.onclick +=
 				delegate
 				{
-					new AlphaWebService().DownloadData(url.value,
+					new UltraWebService().DownloadData(url.value,
 						x =>
 						{
 							new IHTMLPre { innerText = url.value + Environment.NewLine + Environment.NewLine + x }.AttachToDocument();
@@ -116,7 +165,7 @@ namespace UltraTutorial05
 
 	public delegate void DownloadDataResult(string e);
 
-	public sealed partial class AlphaWebService : UltraTutorial05.IAlphaWebService
+	public sealed partial class UltraWebService : IAlphaWebService
 	{
 
 		public void DownloadData(string url, DownloadDataResult result)
@@ -126,5 +175,4 @@ namespace UltraTutorial05
 			result(c.DownloadString(url));
 		}
 	}
-
 }
