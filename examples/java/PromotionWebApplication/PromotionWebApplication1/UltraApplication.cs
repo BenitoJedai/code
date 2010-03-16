@@ -445,6 +445,13 @@ namespace PromotionWebApplication1
 						{
 							var alo = new AvalonLogoCanvas();
 							alo.Container.AttachToContainer(ccc);
+
+							alo.AtLogoClick +=
+								delegate
+								{
+									Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
+								};
+
 						}
 						//}
 						//else
