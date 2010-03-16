@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "HelloFSharpTeam2", "HelloFSharpTeam2\HelloFSharpTeam2.fsproj", "{9F93E933-DEB4-41ED-AC67-F2AFD1A1171A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F93E933-DEB4-41ED-AC67-F2AFD1A1171A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F93E933-DEB4-41ED-AC67-F2AFD1A1171A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F93E933-DEB4-41ED-AC67-F2AFD1A1171A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F93E933-DEB4-41ED-AC67-F2AFD1A1171A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
