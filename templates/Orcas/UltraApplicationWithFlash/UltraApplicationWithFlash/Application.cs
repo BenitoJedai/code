@@ -11,7 +11,7 @@ namespace UltraApplicationWithFlash
 	public sealed partial class Application
 	{
 
-		public Application(IHTMLElement e)
+		public void  OLDApplication(IHTMLElement e)
 		{
 			Native.Document.title = "UltraApplicationWithFlash";
 
@@ -138,11 +138,45 @@ namespace UltraApplicationWithFlash
 
 	public delegate void StringAction(string e);
 
-	public sealed class UltraWebService
+	public sealed partial class UltraWebService
 	{
-		public void GetTime(string x, StringAction result)
+		public void GetTime(string prefix, GetTimeResult result)
 		{
-			result(x + DateTime.Now);
+			result(prefix + ": " + DateTime.Now);
+		}
+	}
+
+	public interface IAlphaWebService
+	{
+		void DownloadData(string url, DownloadDataResult result);
+		void GetTime(string prefix, GetTimeResult result);
+	}
+
+	public interface IWebServiceEnabled
+	{
+		// primitives not yet supporter
+		string IsEnabled { get; }
+	}
+
+	public delegate void GetTimeResult(string e);
+
+
+	partial class Application
+	{
+		private static void AddButtonForGetTime()
+		{
+			var GetTime = new IHTMLButton { innerText = "GetTime" }.AttachToDocument();
+
+			GetTime.onclick +=
+				delegate
+				{
+					new UltraWebService().GetTime("[client time]: " + DateTime.Now + " [server time]",
+						x =>
+						{
+							new IHTMLDiv { innerText = x }.AttachToDocument();
+						}
+					);
+				};
 		}
 	}
 }

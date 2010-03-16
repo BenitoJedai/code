@@ -282,6 +282,7 @@ namespace jsc.meta.Commands.Rewrite
 				delegate
 				{
 					// to be replaced by .out_method
+
 					if (ExternalInterface.available)
 						ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};

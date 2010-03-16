@@ -10,13 +10,10 @@ using ScriptCoreLib.JavaScript;
 
 namespace UltraApplicationWithFlash
 {
-	public sealed class UltraSprite : Sprite
+	public sealed partial class UltraSprite : Sprite
 	{
 
-		public const int DefaultWidth = 500;
-		public const int DefaultHeight = 400;
-
-		public UltraSprite()
+		public void UltraSprite2()
 		{
 			// creating the flash object 
 			// + stratus
