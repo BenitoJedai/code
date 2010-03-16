@@ -25,6 +25,8 @@ namespace jsc.Languages.ActionScript
 
 			if (e.i.StackBeforeStrict.Length == 1)
 			{
+				Write("(");
+
 				EmitFirstOnStack(e);
 
 				WriteSpace();
@@ -35,6 +37,8 @@ namespace jsc.Languages.ActionScript
 					e.i.TargetType, false, false,
 					IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 				);
+
+				Write(")");
 			}
 			else
 				throw new NotSupportedException();

@@ -17,6 +17,8 @@ namespace jsc.meta.Library.Templates
 		{
 			var i = that.Items.IndexOf(e);
 
+			//Console.WriteLine("    <Item Index='" + i + "' />");
+
 			if (i < 0)
 			{
 				i = that.Items.Count;
@@ -49,7 +51,7 @@ namespace jsc.meta.Library.Templates
 		{
 			public _Consumer()
 			{
-				this.Prefix = "_Consumer";
+				this.Prefix = "_DefinedByJavaScript";
 				
 			}
 
@@ -66,7 +68,7 @@ namespace jsc.meta.Library.Templates
 		{
 			public _Provider()
 			{
-				this.Prefix = "_Provider";
+				this.Prefix = "_DefinedByPlugin";
 			}
 
 			public static _Provider LazyConstructor(_Provider e)

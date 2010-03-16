@@ -113,6 +113,8 @@ namespace jsc.meta.Commands.Rewrite
 
 		public abstract class ExternalInterfaceBase
 		{
+			public bool EmitDiagnostics = true;
+
 			public Type SourceType;
 
 			// this is our Sprite or Applet
@@ -475,12 +477,13 @@ namespace jsc.meta.Commands.Rewrite
 		public class ExternalInterfaceProvider : ExternalInterfaceBase
 		{
 			// the method above shall be refactored here
+			// this is flash or java
 
 			public RewriteToAssembly.TypeRewriteArguments a;
 
 			public Func<object, object[], object> ExternalCall;
 
-			public Action<MethodBuilderInfo> ExternalCallback;
+			public List<MethodBuilderInfo> ExternalCallback;
 
 			public void Implement()
 			{
@@ -528,7 +531,7 @@ namespace jsc.meta.Commands.Rewrite
 				);
 
 				if (ExternalCallback != null)
-					ExternalCallback(new MethodBuilderInfo { Method = Initialize, Parameters = InitializeParameters });
+					ExternalCallback.Add(new MethodBuilderInfo { Method = Initialize, Parameters = InitializeParameters });
 
 				{
 					var il = Initialize.GetILGenerator();
@@ -583,6 +586,37 @@ namespace jsc.meta.Commands.Rewrite
 					}
 
 					var il = m.GetILGenerator();
+
+					#region diagnostics
+					if (this.EmitDiagnostics)
+					{
+						il.EmitWriteLine("<Method Name='" + m.Name + "' Hint='" + item.k.DeclaringType.FullName + "." + item.k.Name + "'>");
+
+						if (item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate())
+						{
+							il.Emit(OpCodes.Ldstr, "  <Parameter Name='this'>");
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.Emit(OpCodes.Ldarg, (ushort)(1));
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.EmitWriteLine(" />");
+						}
+
+						foreach (var p in item.k.GetParameters())
+						{
+							il.Emit(OpCodes.Ldstr, "  <Parameter Name='" + p.Name + "'>");
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.Emit(OpCodes.Ldarg, (ushort)(p.Position + 2));
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.EmitWriteLine(" />");
+						}
+
+						il.EmitWriteLine("</Method>");
+					}
+					#endregion
 
 					#region loc0 = arguments
 					il.DeclareLocal(typeof(object[]));
@@ -699,24 +733,83 @@ namespace jsc.meta.Commands.Rewrite
 					if (item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate())
 						m.DefineParameter(1, ParameterAttributes.None, _this);
 
+					var DefinedMethodParameterOffset = ((
+								item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate()
+							)
+						? 2 : 1);
+
+
 					foreach (var p in item.k.GetParameters())
 					{
 						m.DefineParameter(
-							p.Position +
-							((
-								item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate()
-							)
-						? 2 : 1), ParameterAttributes.None, p.Name);
+							p.Position + DefinedMethodParameterOffset
+						, ParameterAttributes.None, p.Name);
 					}
 
 					if (ExternalCallback != null)
-						ExternalCallback(new MethodBuilderInfo { Method = m, Parameters = mParameters });
+						ExternalCallback.Add(new MethodBuilderInfo { Method = m, Parameters = mParameters });
 
 					var il = m.GetILGenerator();
+
+					#region diagnostics
+					if (this.EmitDiagnostics)
+					{
+						il.EmitWriteLine("<Method Name='" + m.Name + "' Hint='" + item.k.DeclaringType.FullName + "." + item.k.Name + "'>");
+
+						if (item.k.DeclaringType.IsInterface || item.k.DeclaringType.IsDelegate())
+						{
+							il.Emit(OpCodes.Ldstr, "  <Parameter Name='this'>");
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.Emit(OpCodes.Ldarg, (short)(1));
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.EmitWriteLine(" />");
+						}
+
+						foreach (var p in item.k.GetParameters())
+						{
+							il.Emit(OpCodes.Ldstr, "  <Parameter Name='" + p.Name + "'>");
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.Emit(OpCodes.Ldarg, (short)(p.Position + DefinedMethodParameterOffset));
+							il.Emit(OpCodes.Call, ((Action<string>)Console.Write).Method);
+
+							il.EmitWriteLine(" />");
+						}
+
+						il.EmitWriteLine("</Method>");
+					}
+					#endregion
 
 					if (item.k.DeclaringType == SourceType)
 					{
 						// we should rewire old implementation to here...
+
+						var TranslatedParameters = Enumerable.ToArray(
+							from p in ParameterTypes
+							let ldarg = new Action(() => il.Emit(OpCodes.Ldarg, (short)(p.i + 1)))
+							let RequiresToType = p.k.IsDelegate() || p.k.IsInterface
+
+							let ldloc = new Func<Action>(
+								delegate
+								{
+									var loc = il.DeclareLocal(TypeCache[p.k]);
+
+									il.Emit(OpCodes.Ldarg_0);
+									ldarg();
+									il.Emit(OpCodes.Call, __proxy_ToType[p.k]);
+
+									il.Emit(OpCodes.Stloc, (short)loc.LocalIndex);
+
+
+
+									return () => il.Emit(OpCodes.Ldloc, (short)loc.LocalIndex);
+								}
+							)
+
+							select RequiresToType ? ldloc() : ldarg
+						);
 
 						#region local
 
@@ -728,19 +821,9 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Ldarg_0);
 
 
-						foreach (var p in ParameterTypes)
+						foreach (var p in TranslatedParameters)
 						{
-							if (p.k.IsDelegate() || p.k.IsInterface)
-							{
-								il.Emit(OpCodes.Ldarg_0);
-							}
-
-							il.Emit(OpCodes.Ldarg, (short)(p.i + 1));
-
-							if (p.k.IsDelegate() || p.k.IsInterface)
-							{
-								il.Emit(OpCodes.Call, __proxy_ToType[p.k]);
-							}
+							p();
 						}
 
 						il.Emit(OpCodes.Call, MethodCache[item.k]);
@@ -832,6 +915,7 @@ namespace jsc.meta.Commands.Rewrite
 
 		public class ExternalInterfaceConsumer : ExternalInterfaceBase
 		{
+			// this is javascript
 
 			public MethodInfo[] SourceTypeMethods;
 
@@ -1458,7 +1542,26 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
 
-				return InternalLookup.FromType(context.lookup, _this);
+				//Console.WriteLine("  <FromType>");
+
+				var Token = default(string);
+
+				var _AsConsumer = _this as InternalToTypeReturnTypeImplementation;
+				if (_AsConsumer != null)
+				{
+					Token = _AsConsumer._this;
+				}
+				else
+				{
+					Token = InternalLookup.FromType(context.lookup, _this);
+
+				}
+
+				//Console.WriteLine("    <Token>" + Token + "</Token>");
+
+				//Console.WriteLine("  </FromType>");
+
+				return Token;
 			}
 
 			public static InternalToTypeReturnType __ToInterface(InternalToTypeContext context, string _this)
@@ -1522,11 +1625,32 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
 
-				return InternalLookup.FromType(context.lookup, _this);
+				//Console.WriteLine("  <FromType>");
+
+				var Token = default(string);
+
+				var _AsConsumer = _this as InternalToTypeReturnTypeImplementation;
+				if (_AsConsumer != null)
+				{
+					Token = _AsConsumer._this;
+				}
+				else
+				{
+					Token = InternalLookup.FromType(context.lookup, _this);
+
+				}
+
+				//Console.WriteLine("    <Token>" + Token + "</Token>");
+
+				//Console.WriteLine("  </FromType>");
+
+				return Token;
 			}
 
 			public static InternalToTypeReturnType __ToInterface(InternalToTypeContext context, string _this)
 			{
+				//Console.WriteLine("  <ToInterface Token='" + _this + "' />");
+
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
 
 				var local = (InternalToTypeReturnType)InternalLookup.ToType(context.lookup, _this);
@@ -1539,6 +1663,8 @@ namespace jsc.meta.Commands.Rewrite
 
 			public static Action __ToDelegate(InternalToTypeContext context, string _this)
 			{
+				//Console.WriteLine("  <ToDelegate Token='" + _this + "' />");
+
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
 
 				var local = (Action)InternalLookup.ToType(context.lookup, _this);

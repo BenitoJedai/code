@@ -260,7 +260,7 @@ namespace jsc.meta.Commands.Rewrite
 									if (k.IsActionScript)
 									{
 										p.ExternalCall = InternalActionScriptToJavaScriptBridge.ExternalInterface_Invoke;
-										p.ExternalCallback = __ExternalCallback.Add;
+										p.ExternalCallback = __ExternalCallback;
 									}
 
 									if (k.IsJava)
@@ -957,13 +957,8 @@ namespace jsc.meta.Commands.Rewrite
 										source_Attributes,
 										SourceMethod.CallingConvention,
 
-										 r.RewriteArguments.context.TypeCache[SourceMethod.ReturnType],
-
-										Enumerable.ToArray(
-											from p in SourceMethod.GetParameterTypes()
-											select r.RewriteArguments.context.TypeCache[p]
-										)
-
+										r.RewriteArguments.context.TypeCache[SourceMethod.ReturnType],
+										r.RewriteArguments.context.TypeCache[SourceMethod.GetParameterTypes()]
 									);
 
 									//Console.WriteLine("from js: " + source.Name);
