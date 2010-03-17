@@ -11,7 +11,18 @@ namespace UltraLibraryWithAssets1
 	{
 		public Class1(PHTMLDocument doc) : base(doc)
 		{
+			WhenReady(
+				delegate
+				{
+					this.OK.onclick +=
+						e =>
+						{
+							this.OK.setAttribute("style", "color: blue;");
 
+							this.OK.innerText = "thanks!";
+						};
+				}
+			);
 		}
 	}
 }
