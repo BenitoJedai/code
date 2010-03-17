@@ -98,7 +98,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				}
 				#endregion
 
-		
+
 				var CurrentIndex = -1;
 
 				Func<FieldBuilder, MethodBuilder> DefineInitializeTextNode =
@@ -123,7 +123,34 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						return InternalInitialize;
 					};
-	
+
+				Action<string, FieldBuilder> DefineProperty =
+					(PropertyName, Field) =>
+					{
+						var ElementPropertyName = CompilerBase.GetSafeLiteral(
+								 PropertyName.TakeUntilLastIfAny("."), null
+							);
+
+						var ElementProperty = Page.DefineProperty(
+							ElementPropertyName, PropertyAttributes.None,
+							typeof(PHTMLElement)
+							, null);
+
+						{
+							var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard,
+								typeof(PHTMLElement)
+								, null);
+
+							var get_ElementField_il = get_ElementField.GetILGenerator();
+
+							get_ElementField_il.Emit(OpCodes.Ldarg_0);
+							get_ElementField_il.Emit(OpCodes.Ldfld, Field);
+							get_ElementField_il.Emit(OpCodes.Ret);
+
+							ElementProperty.SetGetMethod(get_ElementField);
+						}
+					};
+
 				var DefineInitializeElement = default(Action<XElement, ILGenerator, FieldBuilder, Action<FieldBuilder, ILGenerator>>);
 
 				DefineInitializeElement =
@@ -133,6 +160,11 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						var __Field = Page.DefineField("InternalElement" + CurrentIndex, typeof(PHTMLElement), FieldAttributes.InitOnly);
 
+						// so whats the name of this element?
+						var __id = CurrentElement.Attribute("id");
+
+						if (__id != null)
+							DefineProperty(__id.Value, __Field);
 
 						var InternalInitialize = Page.DefineMethod("InternalInitialize" + CurrentIndex, MethodAttributes.Private, CallingConventions.HasThis, typeof(void),
 							new[] { typeof(PHTMLElement) }
