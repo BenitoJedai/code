@@ -139,8 +139,8 @@ namespace UltraApplicationWithFlash
 
 					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage"));
 					//o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
-					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage2"));
-					//o.BuildPage2(Native.Document.ToProxy());
+					Native.Document.body.appendChild(new IHTMLDiv("BuildPage2"));
+					o.BuildPage2(Native.Document.ToProxy());
 
 				};
 		}
