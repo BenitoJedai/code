@@ -1,20 +1,17 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A106010C-46DD-47E4-AC1E-7D4A7AE3C905}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{7D371804-C8BE-4FF9-A079-C54A76038672}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UltraApplicationWithFlash</RootNamespace>
-    <AssemblyName>UltraApplicationWithFlash</AssemblyName>
+    <RootNamespace>UltraLibraryWithAssets1</RootNamespace>
+    <AssemblyName>UltraLibraryWithAssets1</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>
-    </ApplicationIcon>
-    <StartupObject>
-    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,18 +30,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseAdvanced|AnyCPU' ">
-    <OutputPath>bin\ReleaseAdvanced\</OutputPath>
-    <DefineConstants>TRACE;ReleaseAdvanced</DefineConstants>
-    <DebugType>pdbonly</DebugType>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Assets\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
@@ -71,14 +65,18 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltraLibraryWithAssets1.UltraSource">
+      <HintPath>bin\staging.UltraSource\UltraLibraryWithAssets1.UltraSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application2.cs" />
-    <Compile Include="UltraSprite2.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="MyAssets.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Application.cs" />
-    <Compile Include="UltraSprite.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="My.UltraSource\Assets.htm" />
+    <Content Include="My.UltraSource\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -89,10 +87,15 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
-) else (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:true
-)</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Assets (
+  c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)"
+)
+
+if $(ConfigurationName)==Debug (
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
+) 
+</PostBuildEvent>
+    <PreBuildEvent>if not $(ConfigurationName)==Assets goto :eof
+      C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:false</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace jsc.meta.Library
 {
 	public static class BCLExtensions
 	{
+		public static MethodInfo ToReferencedMethod(this Delegate t)
+		{
+			var xb = new ILBlock(t.Method);
+
+			return xb.Instructrions.Where(k => k.OpCode == OpCodes.Ldftn || k.OpCode == OpCodes.Ldvirtftn).Select(k => k.TargetMethod).Single();
+		}
 
 		public static IEnumerable<Type> GetSubTypesFromAssembly(this Type t)
 		{

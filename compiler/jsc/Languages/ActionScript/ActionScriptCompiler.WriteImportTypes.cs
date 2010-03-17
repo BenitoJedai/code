@@ -119,7 +119,7 @@ namespace jsc.Languages.ActionScript
 
         }
 
-        private readonly Dictionary<Type, IEnumerable<Type>> GetImportTypes_Cache =
+        internal readonly Dictionary<Type, IEnumerable<Type>> GetImportTypes_Cache =
     new Dictionary<Type, IEnumerable<Type>>();
 
         private IEnumerable<Type> GetImportTypes(Type t)
@@ -133,7 +133,7 @@ namespace jsc.Languages.ActionScript
 
 
             if (t.BaseType != null && t.BaseType != typeof(object))
-                imp.Add(MySession.ResolveImplementation(t.BaseType));
+                imp.Add(MySession.ResolveImplementation(t.BaseType) ?? t.BaseType);
 
             if (t == typeof(object))
                 return new Type[] { };

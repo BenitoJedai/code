@@ -330,6 +330,9 @@ namespace jsc.meta.Commands.Reference
 									{"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromBase64)},
 								};
 
+
+							
+
 								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
 									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key, CurrentVariationForPage.Value);

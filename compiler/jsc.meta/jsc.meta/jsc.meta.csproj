@@ -234,6 +234,7 @@
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
+    <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DefineRemotingPages.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DefineNamedElements.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.ElementTypes.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.cs" />

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraApplicationWithFlash1", "UltraApplicationWithFlash1\UltraApplicationWithFlash1.csproj", "{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraLibraryWithAssets1", "UltraLibraryWithAssets1\UltraLibraryWithAssets1.csproj", "{7D371804-C8BE-4FF9-A079-C54A76038672}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseAdvanced|Any CPU = ReleaseAdvanced|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.Assets|Any CPU.ActiveCfg = ReleaseAdvanced|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.Assets|Any CPU.Build.0 = ReleaseAdvanced|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.ReleaseAdvanced|Any CPU.ActiveCfg = ReleaseAdvanced|Any CPU
+		{E3F3F526-B4AA-4519-A7A4-10AD741A2A25}.ReleaseAdvanced|Any CPU.Build.0 = ReleaseAdvanced|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.ReleaseAdvanced|Any CPU.ActiveCfg = Release|Any CPU
+		{7D371804-C8BE-4FF9-A079-C54A76038672}.ReleaseAdvanced|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -39,6 +39,17 @@ namespace jsc.meta.Commands.Reference
 			Dictionary<string, Type> NamedElements
 		)
 		{
+			new DefineRemotingPages
+			{
+				DefaultNamespace = DefaultNamespace,
+				a = a,
+				content = content,
+				BodyElement = BodyElement,
+				PageName = PageName,
+				VariationName = VariationName,
+				NamedElements = NamedElements
+			}.Invoke();
+
 			var PageFullName = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName;
 			Console.WriteLine(PageFullName);
 
