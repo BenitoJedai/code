@@ -13,8 +13,22 @@ namespace jsc.meta.Library.Templates
 
 		public string Prefix;
 
+		public InternalLookup BaseInternalLookup;
+
+		public static InternalLookup GetRootInternalLookup(InternalLookup that)
+		{
+			var p = that;
+
+			while (p.BaseInternalLookup != null)
+				p = p.BaseInternalLookup;
+
+			return p;
+		}
+
 		public static string FromType(InternalLookup that, object e)
 		{
+			that = GetRootInternalLookup(that);
+
 			var i = that.Items.IndexOf(e);
 
 			//Console.WriteLine("    <Item Index='" + i + "' />");
@@ -37,6 +51,8 @@ namespace jsc.meta.Library.Templates
 
 		public static object ToType(InternalLookup that, string e)
 		{
+			that = GetRootInternalLookup(that);
+
 			var i = that.Keys.IndexOf(e);
 
 			if (i < 0)
@@ -52,13 +68,13 @@ namespace jsc.meta.Library.Templates
 			public _Consumer()
 			{
 				this.Prefix = "_DefinedByJavaScript";
-				
+
 			}
 
 			public static _Consumer LazyConstructor(_Consumer e)
 			{
 				if (e == null)
-					return new _Consumer();
+					return new _Consumer {  };
 
 				return e;
 			}
@@ -74,7 +90,7 @@ namespace jsc.meta.Library.Templates
 			public static _Provider LazyConstructor(_Provider e)
 			{
 				if (e == null)
-					return new _Provider();
+					return new _Provider {  };
 
 				return e;
 			}
