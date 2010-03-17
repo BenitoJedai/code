@@ -6,7 +6,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 {
-	public interface PTextNode
+	public interface PTextNode : PNode
 	{
 		// to be used from flash or java applet
 		// to be defined as async API
@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 	public delegate void PTextNodeAction(PTextNode e);
 
-	public class PITextNode : PTextNode
+	public class PITextNode : PINode, PTextNode
 	{
 		internal ITextNode InternalTextNode;
 
@@ -30,5 +30,16 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 		}
 
 		#endregion
+
+		public static implicit operator PITextNode(ITextNode i)
+		{
+			var v = new PITextNode
+			{
+				InternalTextNode = i,
+				InternalNode = i
+			};
+
+			return v;
+		}
 	}
 }

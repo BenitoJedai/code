@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
+using System.Collections;
 
 namespace ScriptCoreLib.JavaScript.Remoting
 {
@@ -26,8 +27,29 @@ namespace ScriptCoreLib.JavaScript.Remoting
 			}
 		}
 
+		internal void InternalMarkReady()
+		{
+			var a = InternalWhenReady;
+
+			InternalWhenReady = null;
+
+			foreach (Action item in a.ToArray())
+			{
+				item();
+			}
+		}
+
+		internal ArrayList InternalWhenReady = new ArrayList();
+
 		public void WhenReady(Action h)
 		{
+			if (InternalWhenReady == null)
+			{
+				h();
+				return;
+			}
+
+			InternalWhenReady.Add(h);
 
 		}
 	}
