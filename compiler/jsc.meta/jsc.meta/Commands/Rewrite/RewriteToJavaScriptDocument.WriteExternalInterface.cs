@@ -14,6 +14,7 @@ using jsc.Library;
 using jsc.Languages.IL;
 using ScriptCoreLib.JavaScript;
 using jsc.meta.Commands.Rewrite.Templates;
+using ScriptCoreLib.Shared;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -181,7 +182,7 @@ namespace jsc.meta.Commands.Rewrite
 				public Type proxy_lookup_Type__;
 				public Delegate __FromType;
 				public Delegate __ToType;
-				public Action<FieldBuilder, FieldBuilder, MethodInfo, MethodBuilder> __ImplementMethod;
+				public Action<FieldBuilder, FieldInfo, MethodInfo, MethodBuilder> __ImplementMethod;
 
 				public TypeBuilder ImplementInterfaceProxy()
 				{
@@ -193,12 +194,13 @@ namespace jsc.meta.Commands.Rewrite
 					var proxy = this.Context.DeclaringType.DefineNestedType(
 						__proxy + item.i + "_" + item.k.Name,
 						TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
-						null,
+						TypeCache[typeof(RemotingToken)],
 						item.k.IsInterface ? new Type[] { TypeCache[item.k] } : null
 					);
 
 					var proxy_context = proxy.DefineField(_context, this.Context.DeclaringType, FieldAttributes.Public);
-					var proxy_this = proxy.DefineField(_this, typeof(string), FieldAttributes.Public);
+					//var proxy_this = proxy.DefineField(_this, typeof(string), FieldAttributes.Public);
+					var proxy_this = FieldCache[typeof(RemotingToken).GetField("_this")];
 
 
 					var proxy_ctor = proxy.DefineDefaultConstructor(MethodAttributes.Public);
@@ -409,7 +411,7 @@ namespace jsc.meta.Commands.Rewrite
 					return proxy;
 				}
 
-				private Dictionary<MethodInfo, MethodBuilder> ImplementMethods(TypeBuilder proxy, FieldBuilder proxy_context, FieldBuilder proxy_this)
+				private Dictionary<MethodInfo, MethodBuilder> ImplementMethods(TypeBuilder proxy, FieldBuilder proxy_context, FieldInfo proxy_this)
 				{
 					var TypeCache = this.Context.Rewrite.RewriteArguments.context.TypeCache;
 
@@ -459,9 +461,7 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var w = new StringWriter();
 
-				w.Write(
-					u.MetadataToken.ToString("x8")
-					);
+				w.Write("_" + u.MetadataToken.ToString("x8"));
 
 
 				if (u.IsGenericType)
@@ -477,17 +477,16 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var w = new StringWriter();
 
+
 				w.Write(ToSharedName(u.DeclaringType));
 
 
-				w.Write("_"
-					   + u.MetadataToken.ToString("x8")
-				);
+				w.Write("_" + u.MetadataToken.ToString("x8"));
 
 				return w.ToString();
 			}
 
-			public void ImplementTranslationMethod(MethodInfo SourceMethod, ILGenerator il, FieldBuilder OutgoingInterfaceField, FieldBuilder ContextField, FieldBuilder TokenField)
+			public void ImplementTranslationMethod(MethodInfo SourceMethod, ILGenerator il, FieldBuilder OutgoingInterfaceField, FieldBuilder ContextField, FieldInfo TokenField)
 			{
 
 
@@ -604,7 +603,7 @@ namespace jsc.meta.Commands.Rewrite
 						__out_Method
 
 							+ ToSharedName(item.k)
-		
+
 						+ _callback
 
 						, typeof(string), FieldAttributes.Assembly);
@@ -818,7 +817,7 @@ namespace jsc.meta.Commands.Rewrite
 						__in_Method
 
 						+ ToSharedName(item.k)
-						
+
 						, MethodAttributes.Public | MethodAttributes.Final,
 
 						typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
@@ -997,7 +996,7 @@ namespace jsc.meta.Commands.Rewrite
 				InvokeLater.Action();
 			}
 
-			private void ImplementInterfaceProxyMethod(FieldBuilder proxy_context, FieldBuilder proxy_this, MethodInfo SourceMethod, MethodBuilder proxy_method)
+			private void ImplementInterfaceProxyMethod(FieldBuilder proxy_context, FieldInfo proxy_this, MethodInfo SourceMethod, MethodBuilder proxy_method)
 			{
 				var il = proxy_method.GetILGenerator();
 
@@ -1345,7 +1344,7 @@ namespace jsc.meta.Commands.Rewrite
 							__in_Method
 
 							+ ToSharedName(item.k)
-						
+
 							+ item.k.Name);
 
 						il.Emit(OpCodes.Call, MethodCache[((Func<__InternalElementProxy, Delegate, string, string>)__InternalElementProxy.__ExportDelegate).Method]);
@@ -1432,7 +1431,7 @@ namespace jsc.meta.Commands.Rewrite
 								RewriteToJavaScriptDocument.__out_Method
 
 								+ ToSharedName(item.k),
-							
+
 								MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 
 								CallingConventions.Standard,
@@ -1449,7 +1448,7 @@ namespace jsc.meta.Commands.Rewrite
 							RemoteName =
 								RewriteToJavaScriptDocument.__in_Method
 								+ ToSharedName(item.k)
-								
+
 								,
 
 							ReturnType = _DirectReturnType,
@@ -1611,7 +1610,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			private void ImplementInterfaceProxyMethod(
 				FieldBuilder proxy_context,
-				FieldBuilder proxy_this,
+				FieldInfo proxy_this,
 				MethodInfo SourceMethod,
 				MethodBuilder proxy_method)
 			{
@@ -1629,7 +1628,10 @@ namespace jsc.meta.Commands.Rewrite
 	namespace Templates
 	{
 
-
+		internal interface InternalTokenContainer
+		{
+			string InternalToken { get; }
+		}
 
 
 		internal class InternalToType_
@@ -1650,14 +1652,14 @@ namespace jsc.meta.Commands.Rewrite
 		internal class InternalToType_Consumer
 		{
 			[Obfuscation(Feature = "invalidmerge")]
-			internal class InternalToTypeReturnTypeImplementation : InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
+			internal class InternalToTypeReturnTypeImplementation : RemotingToken, InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
 			{
 				public InternalToTypeContext context;
-				public string _this;
 
 				public void Invoke()
 				{
 				}
+
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
@@ -1681,24 +1683,36 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
 
-				//Console.WriteLine("  <FromType>");
+				if (_this == null)
+					return null;
+
+				Console.WriteLine("  <FromType>");
 
 				var Token = default(string);
 
-				var _AsConsumer = _this as InternalToTypeReturnTypeImplementation;
-				if (_AsConsumer != null)
+
+				var RemotingToken = _this as RemotingToken;
+				if (RemotingToken != null)
 				{
-					Token = _AsConsumer._this;
+					Console.WriteLine("  <RemotingToken />");
+					Token = RemotingToken._this;
 				}
-				else
+
+				//var _AsConsumer = _this as InternalToTypeReturnTypeImplementation;
+				//if (_AsConsumer != null)
+				//{
+				//    Token = _AsConsumer._this;
+				//}
+
+				if (Token == null)
 				{
 					Token = InternalLookup.FromType(context.lookup, _this);
 
 				}
 
-				//Console.WriteLine("    <Token>" + Token + "</Token>");
+				Console.WriteLine("    <Token>" + Token + "</Token>");
 
-				//Console.WriteLine("  </FromType>");
+				Console.WriteLine("  </FromType>");
 
 				return Token;
 			}
@@ -1733,14 +1747,14 @@ namespace jsc.meta.Commands.Rewrite
 		internal class InternalToType_Provider
 		{
 			[Obfuscation(Feature = "invalidmerge")]
-			internal class InternalToTypeReturnTypeImplementation : InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
+			internal class InternalToTypeReturnTypeImplementation : RemotingToken, InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
 			{
 				public InternalToTypeContext context;
-				public string _this;
 
 				public void Invoke()
 				{
 				}
+
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
@@ -1764,24 +1778,37 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
 
-				//Console.WriteLine("  <FromType>");
+				if (_this == null)
+					return null;
+
+				Console.WriteLine("  <FromType>");
 
 				var Token = default(string);
 
-				var _AsConsumer = _this as InternalToTypeReturnTypeImplementation;
-				if (_AsConsumer != null)
+
+				var RemotingToken = _this as RemotingToken;
+				if (RemotingToken != null)
 				{
-					Token = _AsConsumer._this;
+					Console.WriteLine("  <RemotingToken />");
+
+
+					Token = RemotingToken._this;
 				}
-				else
+
+				//var _AsConsumer = _this as InternalToTypeReturnTypeImplementation;
+				//if (_AsConsumer != null)
+				//{
+				//    Token = _AsConsumer._this;
+				//}
+
+				if (Token == null)
 				{
 					Token = InternalLookup.FromType(context.lookup, _this);
-
 				}
 
-				//Console.WriteLine("    <Token>" + Token + "</Token>");
+				Console.WriteLine("    <Token>" + Token + "</Token>");
 
-				//Console.WriteLine("  </FromType>");
+				Console.WriteLine("  </FromType>");
 
 				return Token;
 			}

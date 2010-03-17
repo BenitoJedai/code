@@ -98,6 +98,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             [Script(OptimizedCode = @"
             if (w0['dump'] != void(0))
                 w0.dump(e0);
+
+			if (w0['console'] != void(0))
+                w0.console.log(e0);
             ")]
             internal static void InternalDump(object w0, object e0) { }
 
@@ -134,23 +137,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             #endregion
 
-#if BLOAT
-        [System.Obsolete("Obselete", true)]
-        public static void LogAssambley(params IAssemblyInfo[] e)
-        {
-            if (Native.Document == null)
-                return;
 
-            var max = Helper.Max(e, 0, ( p) => p.TargetOut = p.TargetIn.ModuleName.Length);
-
-            Console.Log(" Assembly list :".PadLeft(max + 2, '-'));
-
-            foreach (IAssemblyInfo a in e)
-            {
-                Console.Log(a.ModuleName.PadRight(max) + " : " + a.BuildDateTimeString);
-            }
-        }
-#endif
             public static bool ShowLogAsStatus = false;
 
             public static void Log(string p)
