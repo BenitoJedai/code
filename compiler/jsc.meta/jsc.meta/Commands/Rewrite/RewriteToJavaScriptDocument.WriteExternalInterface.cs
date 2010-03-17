@@ -36,42 +36,87 @@ namespace jsc.meta.Commands.Rewrite
 
 		public static MethodInfo[] GetExternalInterfaceMethodsFromType(Type source)
 		{
-			var _Distinct = new List<Type>();
+			var m = GetExternalInterfaceMethodsFromTypeEnumerable(source).Distinct().ToArray();
 
-			Func<Type, bool> _DistinctFilter =
-				t =>
-				{
-					if (_Distinct.Contains(t))
-						return false;
-
-					_Distinct.Add(t);
-
-					return true;
-				};
-
-			return Enumerable.ToArray(
-						from m in source.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-
-						// we should block overriding methods like applet.init but allow interface methods...
-						where !m.IsVirtualMethod()
-
-						let dependencies = GetExternalInterfaceMethods(m, _DistinctFilter).ToArray()
-
-						// we need to check dependencies
-						where dependencies.All(k => k.GetSignatureTypes().All(IsTypeSupportedForExternalInterface))
-
-						select dependencies
-					).SelectMany(k => k).Distinct().ToArray();
+			return m;
 		}
 
-		internal static IEnumerable<MethodInfo> GetExternalInterfaceMethods(MethodInfo m, Func<Type, bool> _DistinctFilter)
+		static IEnumerable<MethodInfo> GetExternalInterfaceMethodsFromTypeEnumerable(Type source)
+		{
+			// what about memberless interfaces?
+
+			var History = new List<Type>();
+			var Queue = new Queue<Type>();
+
+			Queue.Enqueue(source);
+
+			while (Queue.Count > 0)
+			{
+				var t = Queue.Dequeue();
+				History.Add(t);
+
+				if (t.IsInterface)
+				{
+					foreach (var item in t.GetInterfaces())
+					{
+						if (!History.Contains(item))
+							Queue.Enqueue(item);
+					}
+				}
+
+				foreach (var m in t.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance))
+				{
+					var s = m.GetSignatureTypes();
+
+					if (s.All(IsTypeSupportedForExternalInterface))
+					{
+						foreach (var item in s)
+						{
+							if (item.IsDelegate() || item.IsInterface)
+							{
+								if (!History.Contains(item))
+									Queue.Enqueue(item);
+							}
+						}
+
+						yield return m;
+					}
+				}
+			}
+		}
+
+		static MethodInfo[] GetExternalInterfaceMethodsFromType(Type source, Func<Type, bool> _DistinctFilter)
+		{
+			var r = Enumerable.ToArray(
+				from m in source.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+
+				// we should block overriding methods like applet.init but allow interface methods...
+				where !m.IsVirtualMethod()
+
+				let dependencies = GetExternalInterfaceMethods(m, _DistinctFilter).ToArray()
+
+				// we need to check dependencies
+				where dependencies.All(k => k.GetSignatureTypes().All(IsTypeSupportedForExternalInterface))
+
+				select dependencies
+			);
+
+
+
+			return r.SelectMany(k => k).Distinct().ToArray();
+		}
+
+		static IEnumerable<MethodInfo> GetExternalInterfaceMethods(MethodInfo m, Func<Type, bool> _DistinctFilter)
 		{
 			// start with the actual method
 			yield return m;
 
+			var Interfaces = m.GetSignatureTypes().Where(k => k.IsInterface).Where(_DistinctFilter).ToArray();
+
+
 
 			// then all the methods found in interfaces
-			foreach (var item in m.GetSignatureTypes().Where(k => k.IsInterface).Where(_DistinctFilter).SelectMany<Type, MethodInfo>(t => t.GetMethods().SelectMany<MethodInfo, MethodInfo>(mm => GetExternalInterfaceMethods(mm, _DistinctFilter))))
+			foreach (var item in Interfaces.SelectMany<Type, MethodInfo>(t => t.GetMethods().SelectMany<MethodInfo, MethodInfo>(mm => GetExternalInterfaceMethods(mm, _DistinctFilter))))
 			{
 				yield return item;
 			}
@@ -146,7 +191,7 @@ namespace jsc.meta.Commands.Rewrite
 					var FieldCache = this.Context.Rewrite.RewriteArguments.context.FieldCache;
 
 					var proxy = this.Context.DeclaringType.DefineNestedType(
-						__proxy + item.i,
+						__proxy + item.i + "_" + item.k.Name,
 						TypeAttributes.Sealed | TypeAttributes.Class | TypeAttributes.NestedPublic,
 						null,
 						item.k.IsInterface ? new Type[] { TypeCache[item.k] } : null
@@ -368,7 +413,14 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var TypeCache = this.Context.Rewrite.RewriteArguments.context.TypeCache;
 
-					var Methods = this.item.k.IsInterface ? item.k.GetMethods() : new[] { this.item.k.GetMethod("Invoke") };
+					var Methods = this.item.k.IsInterface ?
+
+						item.k.GetMethods().Concat(
+							item.k.GetInterfaces().SelectMany(k => k.GetMethods())
+						).ToArray()
+
+
+						: new[] { this.item.k.GetMethod("Invoke") };
 
 					var r = new Dictionary<MethodInfo, MethodBuilder>();
 
@@ -403,6 +455,37 @@ namespace jsc.meta.Commands.Rewrite
 
 			}
 
+			public static string ToSharedName(Type u)
+			{
+				var w = new StringWriter();
+
+				w.Write(
+					u.MetadataToken.ToString("x8")
+					);
+
+
+				if (u.IsGenericType)
+					foreach (var item in u.GetGenericArguments())
+					{
+						w.Write("_" + ToSharedName(item));
+					}
+
+				return w.ToString();
+			}
+
+			public static string ToSharedName(MethodInfo u)
+			{
+				var w = new StringWriter();
+
+				w.Write(ToSharedName(u.DeclaringType));
+
+
+				w.Write("_"
+					   + u.MetadataToken.ToString("x8")
+				);
+
+				return w.ToString();
+			}
 
 			public void ImplementTranslationMethod(MethodInfo SourceMethod, ILGenerator il, FieldBuilder OutgoingInterfaceField, FieldBuilder ContextField, FieldBuilder TokenField)
 			{
@@ -501,15 +584,30 @@ namespace jsc.meta.Commands.Rewrite
 
 				var Methods = Interfaces.SelectMany(k => k.GetMethods()).Concat(Delegates.Select(k => k.GetMethod("Invoke"))).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
 				var MethodsLocal = x.Where(k => k.DeclaringType == SourceType).OrderBy(k => k.MetadataToken).Select((k, i) => new { k, i }).ToArray();
-				var MethodsIncoming = Methods.Concat(MethodsLocal).Select((k, i) => new { k.k, i }).ToArray();
+				var MethodsIncoming = Methods.Concat(MethodsLocal).Select(k => k.k).Distinct().Select((k, i) => new { k, i }).ToArray();
 
+				#region checking...
+				{
+					var Duplicates = MethodsIncoming.GroupBy(k => ToSharedName(k.k)).Where(k => k.Count() > 1).ToArray();
+
+					if (Duplicates.Any())
+						throw new NotSupportedException();
+				}
+				#endregion
 
 				var __out_field = new Dictionary<MethodInfo, FieldBuilder>();
 
 				#region __out_Method(__out_field)
 				foreach (var item in Methods)
 				{
-					var f = a.Type.DefineField(__out_Method + item.k.MetadataToken.ToString("x8") + _callback, typeof(string), FieldAttributes.Assembly);
+					var f = a.Type.DefineField(
+						__out_Method
+
+							+ ToSharedName(item.k)
+		
+						+ _callback
+
+						, typeof(string), FieldAttributes.Assembly);
 
 					__out_field[item.k] = f;
 				}
@@ -560,7 +658,11 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var m = a.Type.DefineMethod(
 						// javac will complain!
-						__out_Method + item.k.MetadataToken.ToString("x8"), MethodAttributes.Public | MethodAttributes.Final,
+						__out_Method
+
+						+ ToSharedName(item.k)
+
+						, MethodAttributes.Public | MethodAttributes.Final,
 
 						typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
 
@@ -713,7 +815,11 @@ namespace jsc.meta.Commands.Rewrite
 						? 1 : 0)).Select(k => typeof(string)).ToArray();
 
 					var m = a.Type.DefineMethod(
-						__in_Method + item.k.MetadataToken.ToString("x8"), MethodAttributes.Public | MethodAttributes.Final,
+						__in_Method
+
+						+ ToSharedName(item.k)
+						
+						, MethodAttributes.Public | MethodAttributes.Final,
 
 						typeof(void) == item.k.ReturnType ? typeof(void) : typeof(string),
 
@@ -878,6 +984,15 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
+
+				#region checking...
+				{
+					var Duplicates = ExternalCallback.GroupBy(k => k.Method.Name).Where(k => k.Count() > 1).ToArray();
+
+					if (Duplicates.Any())
+						throw new NotSupportedException();
+				}
+				#endregion
 
 				InvokeLater.Action();
 			}
@@ -1088,7 +1203,9 @@ namespace jsc.meta.Commands.Rewrite
 						continue;
 
 					var m = this.DeclaringType.DefineMethod(
-						RewriteToJavaScriptDocument.__in_Method + item.k.MetadataToken.ToString("x8"),
+						RewriteToJavaScriptDocument.__in_Method
+							+ ToSharedName(item.k)
+						,
 						MethodAttributes.Public,
 						CallingConventions.Standard,
 							item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
@@ -1167,7 +1284,8 @@ namespace jsc.meta.Commands.Rewrite
 						{
 							Method = m,
 							Parameters = TypeCache[item.k.GetParameterTypes()]
-						}
+						},
+						__in_Delegate + m.Name
 					);
 
 					ExportDelegates[item.k] = __Delegate_ctor;
@@ -1223,7 +1341,12 @@ namespace jsc.meta.Commands.Rewrite
 						il.Emit(OpCodes.Ldftn, Exports[item.k]);
 						il.Emit(OpCodes.Newobj, ExportDelegates[item.k]);
 
-						il.Emit(OpCodes.Ldstr, __in_Method + item.k.MetadataToken.ToString("x8") + item.k.Name);
+						il.Emit(OpCodes.Ldstr,
+							__in_Method
+
+							+ ToSharedName(item.k)
+						
+							+ item.k.Name);
 
 						il.Emit(OpCodes.Call, MethodCache[((Func<__InternalElementProxy, Delegate, string, string>)__InternalElementProxy.__ExportDelegate).Method]);
 
@@ -1306,8 +1429,10 @@ namespace jsc.meta.Commands.Rewrite
 						new DefineMethodArguments
 						{
 							Method = this.OutgoingDirectType.DefineMethod(
-								RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
+								RewriteToJavaScriptDocument.__out_Method
 
+								+ ToSharedName(item.k),
+							
 								MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 
 								CallingConventions.Standard,
@@ -1316,8 +1441,17 @@ namespace jsc.meta.Commands.Rewrite
 							),
 
 
-							LocalName = RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
-							RemoteName = RewriteToJavaScriptDocument.__in_Method + item.k.MetadataToken.ToString("x8"),
+							LocalName =
+								RewriteToJavaScriptDocument.__out_Method
+								+ ToSharedName(item.k)
+								,
+
+							RemoteName =
+								RewriteToJavaScriptDocument.__in_Method
+								+ ToSharedName(item.k)
+								
+								,
+
 							ReturnType = _DirectReturnType,
 							ParameterTypes = _DirectParameters,
 
@@ -1329,7 +1463,9 @@ namespace jsc.meta.Commands.Rewrite
 
 
 					var _Interface = this.OutgoingInterfaceType.DefineMethod(
-						RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
+						RewriteToJavaScriptDocument.__out_Method
+							+ ToSharedName(item.k)
+						,
 						MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot,
 						CallingConventions.Standard,
 						item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),
@@ -1345,7 +1481,10 @@ namespace jsc.meta.Commands.Rewrite
 
 					#region _Delayed
 					var _Delayed = this.OutgoingDelayedType.DefineMethod(
-						RewriteToJavaScriptDocument.__out_Method + item.k.MetadataToken.ToString("x8"),
+						RewriteToJavaScriptDocument.__out_Method
+
+							+ ToSharedName(item.k)
+						,
 						MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.Virtual | MethodAttributes.Final | MethodAttributes.NewSlot,
 						CallingConventions.Standard,
 						item.k.ReturnType == typeof(void) ? typeof(void) : typeof(string),

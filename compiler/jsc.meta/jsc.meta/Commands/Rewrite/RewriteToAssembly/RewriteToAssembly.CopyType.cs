@@ -145,7 +145,13 @@ namespace jsc.meta.Commands.Rewrite
 
 					// explicit interfaces?
 
-					var __explicit =
+					if (SourceType.IsInterface)
+					{
+						// System.ArgumentException: 'this' type cannot be an interface itself.
+					}
+					else
+					{
+						var __explicit =
 						from i in SourceType.GetInterfaces()
 						let map = SourceType.GetInterfaceMap(i)
 						from j in Enumerable.Range(0, map.InterfaceMethods.Length)
@@ -156,9 +162,10 @@ namespace jsc.meta.Commands.Rewrite
 						select new { TargetMethod, InterfaceMethod };
 
 
-					foreach (var item in __explicit)
-					{
-						t.DefineMethodOverride(context.MethodCache[item.TargetMethod], context.MethodCache[item.InterfaceMethod]);
+						foreach (var item in __explicit)
+						{
+							t.DefineMethodOverride(context.MethodCache[item.TargetMethod], context.MethodCache[item.InterfaceMethod]);
+						}
 					}
 
 					// Method 'MoveNext' in type '<LoadReferencedAssemblies>d__0' from 

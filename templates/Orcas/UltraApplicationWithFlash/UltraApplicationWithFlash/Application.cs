@@ -2,6 +2,8 @@ using System;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
+using ScriptCoreLib.JavaScript.Remoting.Extensions;
 
 namespace UltraApplicationWithFlash
 {
@@ -94,7 +96,7 @@ namespace UltraApplicationWithFlash
 
 					var  cc = new IHTMLButton
 					{
-						innerText = "Continue"
+						innerText = "Continue 1"
 					};
 
 					cc.AttachToDocument();
@@ -127,8 +129,10 @@ namespace UltraApplicationWithFlash
 							);
 
 							//Native.Document.body.appendChild(new IHTMLDiv("BuildPage"));
-							o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
-							//Native.Document.body.appendChild(new IHTMLDiv("BuildPage ?"));
+							//o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
+							//Native.Document.body.appendChild(new IHTMLDiv("BuildPage2"));
+							//o.BuildPage2(Native.Document.ToProxy());
+
 						};
 				};
 

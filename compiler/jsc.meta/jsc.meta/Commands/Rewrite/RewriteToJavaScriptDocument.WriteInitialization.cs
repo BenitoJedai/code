@@ -287,13 +287,21 @@ namespace jsc.meta.Commands.Rewrite
 						ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};
 
+			var __DelegateIndex = -1;
+
+			var Duplicates = ExternalCallbackList.GroupBy(k => k.Method.Name).Where(k => k.Count() > 1).ToArray();
+
+			if (Duplicates.Any())
+				throw new NotSupportedException();
+
 			foreach (var kk in ExternalCallbackList)
 			{
+				__DelegateIndex++;
 
 				// http://olondono.blogspot.com/2008/02/creating-code-at-runtime-part-2.html
 
 
-				var __Delegate_ctor = DefineAnonymousDelegate(DeclaringType, kk);
+				var __Delegate_ctor = DefineAnonymousDelegate(DeclaringType, kk, __in_Delegate + kk.Method.Name);
 
 				var ExposedMethod = kk.Method;
 
@@ -342,10 +350,11 @@ namespace jsc.meta.Commands.Rewrite
 
 		private static ConstructorBuilder DefineAnonymousDelegate(
 			TypeBuilder DeclaringType,
-			MethodBuilderInfo kk)
+			MethodBuilderInfo kk,
+			string DelegateName)
 		{
 			#region __Delegate
-			var __Delegate = DeclaringType.DefineNestedType(__in_Delegate + kk.Method.Name, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
+			var __Delegate = DeclaringType.DefineNestedType(DelegateName, TypeAttributes.NestedFamily | TypeAttributes.AutoClass | TypeAttributes.Sealed, typeof(MulticastDelegate));
 
 			var __Delegate_ctor = __Delegate.DefineConstructor(
 				MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,

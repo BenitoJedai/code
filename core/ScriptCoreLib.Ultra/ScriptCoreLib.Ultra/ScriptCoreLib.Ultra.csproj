@@ -91,10 +91,17 @@
   <ItemGroup>
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
+    <Compile Include="JavaScript\Remoting\DOM\PNode.cs" />
+    <Compile Include="JavaScript\Remoting\DOM\PEvent.cs" />
+    <Compile Include="JavaScript\Remoting\DOM\PTextNode.cs" />
+    <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLDocument.cs" />
+    <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLElement.cs" />
     <Compile Include="JavaScript\Extensions\AppletExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensions.cs" />
     <Compile Include="JavaScript\Extensions\SpriteExtensions.cs" />
     <Compile Include="JavaScript\Extensions\ToggleConcept.cs" />
+    <Compile Include="JavaScript\Remoting\Extensions\PIHTMLDocumentExtensions.cs" />
+    <Compile Include="JavaScript\Remoting\Extensions\PNodeExtensions.cs" />
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
