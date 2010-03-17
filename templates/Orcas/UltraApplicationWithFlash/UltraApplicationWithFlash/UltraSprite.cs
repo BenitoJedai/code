@@ -7,6 +7,9 @@ using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Diagnostics;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
+using ScriptCoreLib.JavaScript.Remoting.Extensions;
+using ScriptCoreLib.JavaScript.Remoting.DOM;
 
 namespace UltraApplicationWithFlash
 {
@@ -30,6 +33,35 @@ namespace UltraApplicationWithFlash
 
 
 			r.AttachTo(this);
+		}
+
+		public void BuildPage2(PHTMLDocument doc)
+		{
+			AppendLine("BuildPage2");
+			doc.createElement("div",
+				div1 =>
+				{
+					AppendLine("BuildPage2 div1");
+
+					div1.innerText = "Click PHTMLElement";
+					div1.setAttribute("style", "color: blue;");
+
+					div1.onclick +=
+						e =>
+						{
+							div1.setAttribute("style", "color: red;");
+						};
+
+					doc.get_body(
+						body =>
+						{
+							AppendLine("BuildPage2 body");
+
+							div1.AttachTo(body);
+						}
+					);
+				}
+			);
 		}
 
 		public void BuildPage(IHTMLBuilder body)
@@ -137,6 +169,11 @@ namespace UltraApplicationWithFlash
 		{
 			y(e);
 		}
+
+		public void PingPongServiceBase(IPingPong e, Action<IPingPongBase> y)
+		{
+			y(e);
+		}
 	}
 
 	public class JavaScriptPingPong : IPingPong
@@ -147,9 +184,19 @@ namespace UltraApplicationWithFlash
 		{
 			AtMethod1();
 		}
+
+		public void Method2()
+		{
+			AtMethod1();
+		}
 	}
 
-	public interface IPingPong
+	public interface IPingPongBase
+	{
+		void Method2();
+	}
+
+	public interface IPingPong : IPingPongBase
 	{
 		void Method1();
 	}

@@ -4,6 +4,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.JavaScript.Remoting.Extensions;
 
 namespace UltraApplicationWithFlash
 {
@@ -98,32 +99,49 @@ namespace UltraApplicationWithFlash
 				delegate
 				{
 					var p = new JavaScriptPingPong
-					{
-						AtMethod1 =
-							delegate
-							{
-								Native.Document.body.appendChild(new IHTMLDiv("AtMethod1"));
-							}
-					};
+						{
+							AtMethod1 =
+								delegate
+								{
+									Native.Document.body.appendChild(new IHTMLDiv("AtMethod1"));
+								}
+						};
 
 					o.PingPongService(p,
 						y =>
 						{
-							//if (y == p)
-							//{
-							//    Native.Document.body.appendChild(new IHTMLDiv("ok"));
-							//}
-							//else
-							//{
-							//    Native.Document.body.appendChild(new IHTMLDiv("fault"));
-							//}
+							if (y == p)
+							{
+								Native.Document.body.appendChild(new IHTMLDiv("ok"));
+							}
+							else
+							{
+								Native.Document.body.appendChild(new IHTMLDiv("fault"));
+							}
 							y.Method1();
 						}
 					);
 
+					o.PingPongServiceBase(p,
+						y =>
+						{
+							if (y == p)
+							{
+								Native.Document.body.appendChild(new IHTMLDiv("PingPongServiceBase: ok"));
+							}
+							else
+							{
+								Native.Document.body.appendChild(new IHTMLDiv("PingPongServiceBase: fault"));
+							}
+							y.Method2();
+						}
+					);
+
 					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage"));
-					o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
-					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage ?"));
+					//o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
+					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage2"));
+					//o.BuildPage2(Native.Document.ToProxy());
+
 				};
 		}
 
