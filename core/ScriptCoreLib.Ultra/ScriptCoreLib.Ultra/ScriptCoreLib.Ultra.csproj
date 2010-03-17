@@ -102,6 +102,7 @@
     <Compile Include="JavaScript\Extensions\ToggleConcept.cs" />
     <Compile Include="JavaScript\Remoting\Extensions\PIHTMLDocumentExtensions.cs" />
     <Compile Include="JavaScript\Remoting\Extensions\PNodeExtensions.cs" />
+    <Compile Include="JavaScript\Remoting\PUltraComponent.cs" />
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
