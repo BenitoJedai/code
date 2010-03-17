@@ -168,6 +168,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			public RewriteToAssembly Rewrite;
 
+			public readonly Dictionary<Type, FieldBuilder> __proxy_lookup = new Dictionary<Type, FieldBuilder>();
 			public readonly Dictionary<Type, MethodBuilder> __proxy_ToType = new Dictionary<Type, MethodBuilder>();
 			public readonly Dictionary<Type, MethodBuilder> __proxy_FromType = new Dictionary<Type, MethodBuilder>();
 
@@ -214,6 +215,9 @@ namespace jsc.meta.Commands.Rewrite
 
 						FieldAttributes.Public
 					);
+
+					Context.__proxy_lookup[item.k] = proxy_lookup;
+
 					#endregion
 
 					#region ToType
@@ -289,8 +293,8 @@ namespace jsc.meta.Commands.Rewrite
 										if (ff.Name == _context)
 											return proxy_context;
 
-										if (ff.Name == _this)
-											return proxy_this;
+										//if (ff.Name == _this)
+										//    return proxy_this;
 
 									}
 
@@ -379,8 +383,8 @@ namespace jsc.meta.Commands.Rewrite
 										if (ff.Name == _context)
 											return proxy_context;
 
-										if (ff.Name == _this)
-											return proxy_this;
+										//if (ff.Name == _this)
+										//    return proxy_this;
 
 									}
 
@@ -395,9 +399,52 @@ namespace jsc.meta.Commands.Rewrite
 
 						};
 
+						il_a[OpCodes.Call] =
+							e =>
+							{
+								if (e.i.TargetMethod == ((Action)InternalToType_.InitializeBaseInterfaces).Method)
+								{
+									if (item.k.IsInterface)
+										foreach (var ki in item.k.GetInterfaces())
+										{
+											// we need to call their FromType
+
+											e.il.Emit(OpCodes.Ldarg_0);
+											e.il.Emit(OpCodes.Ldnull);
+											e.il.Emit(OpCodes.Call, this.Context.__proxy_FromType[ki]);
+											e.il.Emit(OpCodes.Pop);
 
 
-						__FromType.Method.EmitTo(il, il_a);
+											e.il.Emit(OpCodes.Ldarg_0);
+											e.il.Emit(OpCodes.Ldfld, this.Context.__proxy_lookup[item.k]);
+
+											e.il.Emit(OpCodes.Ldarg_0);
+											e.il.Emit(OpCodes.Ldfld, this.Context.__proxy_lookup[ki]);
+
+											e.il.Emit(OpCodes.Call, MethodCache[ ((Action<InternalLookup, InternalLookup>)InternalLookup.AddBaseInterface).Method]);
+											// now add this lookup...
+										}
+
+
+
+									e.il.Emit(OpCodes.Ldarg_0);
+									e.il.Emit(OpCodes.Ldfld, this.Context.__proxy_lookup[item.k]);
+									e.il.Emit(OpCodes.Call, MethodCache[ ((Action<InternalLookup>)InternalLookup.FreezeBaseInterfaces).Method]);
+
+									return;
+								}
+
+
+								e.Default();
+							};
+
+
+						InvokeLater.Action +=
+							delegate
+							{
+								__FromType.Method.EmitTo(il, il_a);
+							};
+
 
 						#endregion
 
@@ -1647,6 +1694,10 @@ namespace jsc.meta.Commands.Rewrite
 			internal interface InternalToTypeContext
 			{
 			}
+
+			public static void InitializeBaseInterfaces()
+			{
+			}
 		}
 
 		internal class InternalToType_Consumer
@@ -1682,6 +1733,8 @@ namespace jsc.meta.Commands.Rewrite
 			public static string __FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
 			{
 				context.lookup = InternalLookup._Consumer.LazyConstructor(context.lookup);
+
+				InternalToType_.InitializeBaseInterfaces();
 
 				if (_this == null)
 					return null;
@@ -1774,9 +1827,13 @@ namespace jsc.meta.Commands.Rewrite
 				public InternalLookup._Provider lookup;
 			}
 
+
+
 			public static string __FromType(InternalToTypeContext context, InternalToTypeReturnType _this)
 			{
 				context.lookup = InternalLookup._Provider.LazyConstructor(context.lookup);
+
+				InternalToType_.InitializeBaseInterfaces();
 
 				if (_this == null)
 					return null;

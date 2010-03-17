@@ -1,22 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using ScriptCoreLib.JavaScript.DOM;
+using System.Collections;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 {
-    using ScriptCoreLib.JavaScript.DOM;
 
-    [Script(Implements = typeof(global::System.Collections.ArrayList))]
-    internal class __ArrayList
-    {
-        readonly IArray<object> InternalList = new IArray<object>();
 
-        public virtual int Add(object e)
-        {
-            InternalList.push(e);
+	[Script(Implements = typeof(global::System.Collections.ArrayList))]
+	internal class __ArrayList
+	{
+		readonly IArray<object> InternalList = new IArray<object>();
+
+		public virtual int Add(object e)
+		{
+			InternalList.push(e);
 
 			return InternalList.length - 1;
-        }
+		}
 
 		public int IndexOf(object e)
 		{
@@ -42,5 +43,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 				InternalList[index] = value;
 			}
 		}
-    }
+
+		// Do we support IDisposable ?
+		// we should add extra metadata for is interface
+
+		//public global::System.Collections.IEnumerator GetEnumerator()
+		//{
+		//}
+
+	}
 }
