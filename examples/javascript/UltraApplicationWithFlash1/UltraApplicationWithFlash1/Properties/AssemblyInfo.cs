@@ -1,16 +1,18 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
+using ScriptCoreLib;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptCoreLib.Ultra")]
-[assembly: AssemblyDescription("This assembly contains types which will be merged with final application. Not to be used with jsc backend directly.")]
+[assembly: AssemblyTitle("Ultra Application With Flash")]
+[assembly: AssemblyDescription("Ultra Application With Flash. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ScriptCoreLib.Ultra")]
-[assembly: AssemblyCopyright("Copyright ©  2010")]
+[assembly: AssemblyCompany("jsc-solutions.net")]
+[assembly: AssemblyProduct("UltraApplication")]
+[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dd52ed72-e16b-48c4-984a-3ca3162041e4")]
+[assembly: Guid("91a9e2f5-2152-4ebf-8b11-d814dfb83a78")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,7 +37,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-// jsc.meta rewriter will pull types from this assembly
-[assembly: Obfuscation(Feature = "merge")]
-
-[assembly: InternalsVisibleTo("jsc.meta")]

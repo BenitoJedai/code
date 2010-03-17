@@ -508,7 +508,7 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				var w = new StringWriter();
 
-				w.Write("_" + u.MetadataToken.ToString("x8"));
+				w.Write("_" + (u.MetadataToken ^ u.Assembly.GetHashCode()).ToString("x8"));
 
 
 				if (u.IsGenericType)

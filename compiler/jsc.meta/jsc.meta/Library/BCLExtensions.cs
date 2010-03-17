@@ -14,7 +14,15 @@ namespace jsc.meta.Library
 		{
 			var xb = new ILBlock(t.Method);
 
-			return xb.Instructrions.Where(k => k.OpCode == OpCodes.Ldftn || k.OpCode == OpCodes.Ldvirtftn).Select(k => k.TargetMethod).Single();
+			return xb.Instructrions.Where(k => 
+				new [] {
+					OpCodes.Ldftn ,
+					OpCodes.Ldvirtftn,
+					OpCodes.Call,
+					OpCodes.Callvirt
+				}.Contains(k.OpCode)
+
+			).Select(k => k.TargetMethod).Single();
 		}
 
 		public static IEnumerable<Type> GetSubTypesFromAssembly(this Type t)

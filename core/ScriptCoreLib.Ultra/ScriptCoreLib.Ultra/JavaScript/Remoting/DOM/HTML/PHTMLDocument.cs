@@ -13,7 +13,6 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 		void createElement(string tag, PHTMLElementAction h);
 		void createTextNode(string text, PTextNodeAction h);
-		void createTextNode(string text);
 
 		void get_documentElement(PHTMLElementAction e);
 		void get_body(PHTMLElementAction e);
@@ -37,20 +36,12 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 		public void createTextNode(string text, PTextNodeAction y)
 		{
-			var v = new PITextNode
-			{
-				InternalTextNode = InternalDocument.createTextNode(text)
-			};
+			PITextNode v = InternalDocument.createTextNode(text);
 
 			y(v);
 		}
 
-		public void createTextNode(string text)
-		{
-			InternalDocument.createTextNode(text);
-		}
-
-
+	
 
 
 		public void get_documentElement(PHTMLElementAction e)
