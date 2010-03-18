@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Diagnostics;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
 
 namespace UltraApplicationWithFlash1
 {
@@ -17,6 +18,9 @@ namespace UltraApplicationWithFlash1
 		public const int DefaultHeight = 200;
 
 		TextField t;
+
+		// does get work in IE?
+		public PHTMLElementAction DoSomethingCoolWithThisElementInJavaScript { get; set; }
 
 		public UltraSprite()
 		{

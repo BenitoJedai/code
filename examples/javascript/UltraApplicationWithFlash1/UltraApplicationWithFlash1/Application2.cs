@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript;
 using System.Net;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.JavaScript.Remoting.Extensions;
+using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
 
 namespace UltraApplicationWithFlash1
 {
@@ -140,6 +141,18 @@ namespace UltraApplicationWithFlash1
 					//Native.Document.body.appendChild(new IHTMLDiv("BuildPage"));
 					//o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
 					Native.Document.body.appendChild(new IHTMLDiv("BuildPage2"));
+
+					o.DoSomethingCoolWithThisElementInJavaScript =
+						i =>
+						{
+							IHTMLElement x = i as PIHTMLElement;
+
+							if (x == null)
+								return;
+
+							x.style.SetSize(200, 200);
+						};
+
 					o.BuildPage2(Native.Document.ToProxy());
 
 				};

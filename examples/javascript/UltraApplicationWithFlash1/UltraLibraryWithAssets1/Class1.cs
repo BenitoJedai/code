@@ -11,7 +11,7 @@ namespace UltraLibraryWithAssets1
 {
 	public class Class1 : Assets
 	{
-		public Class1(PHTMLDocument doc_)
+		public Class1(PHTMLDocument doc_, PHTMLElementAction Enhance)
 			: base(doc_)
 		{
 			// be careful with closures!
@@ -43,6 +43,8 @@ namespace UltraLibraryWithAssets1
 						};
 
 					this.jsc.Container.get_style(style => style.border = "1px solid red");
+
+					Enhance(this.jsc.Container);
 
 					this.jsc.Container.onclick +=
 						delegate

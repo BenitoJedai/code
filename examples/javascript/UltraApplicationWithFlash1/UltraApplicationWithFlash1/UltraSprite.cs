@@ -38,7 +38,11 @@ namespace UltraApplicationWithFlash1
 
 		public void BuildPage2(PHTMLDocument doc)
 		{
-			var c1 = new Class1(doc);
+			var c1 = new Class1(doc, this.DoSomethingCoolWithThisElementInJavaScript)
+			{
+
+			};
+
 
 			c1.AttachToDocument(doc);
 
