@@ -199,11 +199,14 @@ namespace jsc.meta.Commands.Reference
 					    "jsc->" +  DefaultNamespace,
 					},
 
-					//merge = new RewriteToAssembly.MergeInstruction[] {
-					//    "jsc.meta",
-					//    "jsc"
-					//},
+					merge = new RewriteToAssembly.MergeInstruction[] {
+					    "jsc.meta",
+					    "jsc"
+					},
 					#endregion
+
+					// we do not want to merge ScriptCoreLib.Ultra
+					DisableIsMarkedForMerge = true,
 
 					PostAssemblyRewrite =
 						a =>
@@ -230,6 +233,7 @@ namespace jsc.meta.Commands.Reference
 
 
 							var TypeVariations = new Dictionary<string, TypeVariations>();
+							var RemotingTypeVariations = new Dictionary<string, TypeVariations>();
 
 
 							foreach (var item in Sources)
@@ -271,7 +275,7 @@ namespace jsc.meta.Commands.Reference
 								// http://stackoverflow.com/questions/66837/when-is-a-cdata-section-necessary-within-a-script-tag
 								content = content.Replace("<script type=\"text/javascript\">", "<script type=\"text/javascript\"><![CDATA[");
 								content = content.Replace("<script type=\"text/javascript\" charset=\"utf-8\">", "<script type=\"text/javascript\" charset=\"utf-8\"><![CDATA[");
-								
+
 
 								content = content.Replace("<meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\">", "");
 								content = content.Replace("/* <![CDATA[ */", "");
@@ -318,7 +322,10 @@ namespace jsc.meta.Commands.Reference
 									BodyElement = BodyElement,
 									r = r,
 									GetLocalResource = item.GetLocalResource,
+
 									TypeVariations = TypeVariations,
+									RemotingTypeVariations = RemotingTypeVariations,
+
 									PageName = PageName,
 									ElementTypes = ElementTypes
 								}.Define();
@@ -331,11 +338,20 @@ namespace jsc.meta.Commands.Reference
 								};
 
 
-							
+								var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, Type>>
+								{
+									{"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key, k => k.Value.FromWeb)},
+									{"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key, k => k.Value.FromAssets)},
+									{"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k => k.Value.FromBase64)},
+								};
+
 
 								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
-									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key, 
+										CurrentVariationForPage.Value,
+										RemotingVariationsForPages[CurrentVariationForPage.Key]
+									);
 
 
 									var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
@@ -346,7 +362,9 @@ namespace jsc.meta.Commands.Reference
 
 											CompilerBase.GetSafeLiteral(k.id, null)
 
-											, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
+											RemotingVariationsForPages[CurrentVariationForPage.Key]
+										);
 									}
 
 									var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
@@ -356,7 +374,9 @@ namespace jsc.meta.Commands.Reference
 										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" +
 											CompilerBase.GetSafeLiteral(k.@class, null)
 
-											, CurrentVariationForPage.Key, CurrentVariationForPage.Value);
+											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
+											RemotingVariationsForPages[CurrentVariationForPage.Key]
+										);
 									}
 								}
 							}

@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib;
-namespace jsc.meta.Library.Templates.JavaScript
+namespace jsc.meta.Library.Templates.JavaScript.Named
 {
 	[Script(InternalConstructor = true)]
 	public class NamedImage : global::ScriptCoreLib.JavaScript.DOM.HTML.IHTMLImage
 	{
-		internal const string IHTMLImage_src = "IHTMLImage.src";
+		internal const string DefaultSource = "DefaultSource";
 		
 		public NamedImage()
 		{
@@ -18,7 +18,7 @@ namespace jsc.meta.Library.Templates.JavaScript
 
 		public static NamedImage InternalConstructor()
 		{
-			var i = new IHTMLImage { src = IHTMLImage_src };
+			var i = new IHTMLImage { src = DefaultSource };
 
 			i.style.SetSize(NamedImageInformation.GetImageDefaultWidth(), NamedImageInformation.GetImageDefaultHeight());
 

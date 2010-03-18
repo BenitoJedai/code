@@ -33,5 +33,16 @@ namespace ScriptCoreLib.JavaScript.Remoting.Extensions
 			);
 		}
 
+
+		public static void AttachTo(this PUltraComponent c1, PNode parent)
+		{
+			c1.WhenReady(
+				delegate
+				{
+					parent.appendChild(c1.Container);
+				}
+			);
+		}
+
 	}
 }

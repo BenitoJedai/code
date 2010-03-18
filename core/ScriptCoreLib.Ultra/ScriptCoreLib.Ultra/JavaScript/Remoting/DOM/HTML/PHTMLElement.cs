@@ -17,6 +17,7 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 		string innerText { set; }
 
+		void get_style(PStyleAction e);
 	}
 
 	public delegate void PHTMLElementAction(PHTMLElement e);
@@ -38,6 +39,16 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 			{
 				this.InternalElement.innerText = value;
 			}
+		}
+
+		public void get_style(PStyleAction e)
+		{
+			e(
+				new PIStyle
+				{
+					InternalStyle = this.InternalElement.style
+				}
+			);
 		}
 
 	
