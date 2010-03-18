@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib;
-namespace jsc.meta.Library.Templates.JavaScript
+namespace jsc.meta.Library.Templates.JavaScript.Named
 {
 	[Script(InternalConstructor = true)]
 	public class NamedAudio : global::ScriptCoreLib.JavaScript.DOM.HTML.IHTMLAudio

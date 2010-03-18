@@ -35,7 +35,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			public string PageName;
 
 			public string VariationName;
-			public Dictionary<string, Type> NamedElements;
+			public Dictionary<string, Type> RemotingNamedElements;
 
 			public void Invoke()
 			{
@@ -48,6 +48,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				var __setAttribute = new Func<PHTMLElement, Action<string, string>>(doc => doc.setAttribute).ToReferencedMethod();
 				var __appendChild = new Func<PNode, Action<PNode>>(doc => doc.appendChild).ToReferencedMethod();
 				var __InternalMarkReady = new Func<PUltraComponent, Action>(doc => doc.InternalMarkReady).ToReferencedMethod();
+				var __WhenReady = new Func<PUltraComponent, Action<Action>>(doc => doc.WhenReady).ToReferencedMethod();
 				var __get_Container = new Func<PUltraComponent, PHTMLElement>(doc => doc.Container).ToReferencedMethod();
 				var __get_Document = new Func<PUltraComponent, PHTMLDocument>(doc => doc.Document).ToReferencedMethod();
 				var __InternalDocument = new Func<PUltraComponent, PHTMLDocument>(doc => doc.InternalDocument).ToReferencedField();
@@ -89,8 +90,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				var CurrentIndex = -1;
 
 				#region DefineInitializeTextNode
-				Func<FieldBuilder, MethodBuilder> DefineInitializeTextNode =
-					(__ParentField) =>
+				Func<Action<ILGenerator>, MethodBuilder> DefineInitializeTextNode =
+					(EmitParentField) =>
 					{
 						CurrentIndex++;
 
@@ -100,8 +101,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						var il = InternalInitialize.GetILGenerator();
 
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, __ParentField);
+						EmitParentField(il);
 
 						il.Emit(OpCodes.Ldarg_1);
 
@@ -123,12 +123,12 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						var ElementProperty = Page.DefineProperty(
 							ElementPropertyName, PropertyAttributes.None,
-							typeof(PHTMLElement)
+							Field.FieldType
 							, null);
 
 						{
 							var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard,
-								typeof(PHTMLElement)
+								Field.FieldType
 								, null);
 
 							var get_ElementField_il = get_ElementField.GetILGenerator();
@@ -142,23 +142,167 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					};
 				#endregion
 
-				#region DefineInitializeElement
-				var DefineInitializeElement = default(Action<XElement, ILGenerator, FieldBuilder, Action<FieldBuilder, ILGenerator>>);
-
-				DefineInitializeElement =
-					(CurrentElement, xil, __ParentField, done) =>
+				#region DefineFieldAndOptionallyProperty
+				Func<XElement, Type, FieldInfo> DefineFieldAndOptionallyProperty =
+					(CurrentElement, __FieldType) =>
 					{
-						CurrentIndex++;
-
-						var __Field = Page.DefineField("InternalElement" + CurrentIndex, typeof(PHTMLElement), FieldAttributes.InitOnly);
+						var __Field = Page.DefineField("InternalElement" + CurrentIndex, __FieldType, FieldAttributes.Private);
 
 						// so whats the name of this element?
 						var __id = CurrentElement.Attribute("id");
 
+						if (__id == null && CurrentElement.Attribute("alt") != null && !string.IsNullOrEmpty(CurrentElement.Attribute("alt").Value))
+							__id = CurrentElement.Attribute("alt");
+
 						if (__id != null)
 							DefineProperty(__id.Value, __Field);
 
+						return __Field;
+					};
+				#endregion
+
+
+				#region DefineInitializeNamedElement
+				Action<XElement, Type, ILGenerator, Action<ILGenerator>, Action<Action<ILGenerator>, ILGenerator>> DefineInitializeNamedElement =
+					(CurrentElement, NamedComponent, xil, EmitParentField, done) =>
+					{
+						var __Field = DefineFieldAndOptionallyProperty(CurrentElement, NamedComponent);
+
 						var InternalInitialize = Page.DefineMethod("InternalInitialize" + CurrentIndex, MethodAttributes.Private, CallingConventions.HasThis, typeof(void),
+							new Type[0] { }
+						);
+
+						{
+							var il = xil;
+
+
+							il.Emit(OpCodes.Ldarg_0);
+
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Ldfld, __InternalDocument);
+							il.Emit(OpCodes.Newobj, NamedComponent.GetConstructors().Single());
+
+							il.Emit(OpCodes.Stfld, __Field);
+
+
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Ldfld, __Field);
+							
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Ldftn, InternalInitialize);
+							il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
+
+							il.Emit(OpCodes.Call, __WhenReady);
+
+						}
+
+						Action<ILGenerator> EmitLoadElement =
+							il =>
+							{
+								//il.Emit(OpCodes.Nop);
+								il.Emit(OpCodes.Ldarg_0);
+								il.Emit(OpCodes.Ldfld, __Field);
+								il.Emit(OpCodes.Ldfld, __InternalElement);
+								//il.Emit(OpCodes.Nop);
+							};
+
+						{
+							var il = InternalInitialize.GetILGenerator();
+
+						
+
+							EmitParentField(il);
+
+							EmitLoadElement(il);
+
+							il.Emit(OpCodes.Callvirt, __appendChild);
+
+							if (done != null)
+								done(EmitLoadElement, il);
+
+							il.Emit(OpCodes.Ret);
+						}
+					};
+				#endregion
+
+
+				#region DefineInitializeElement
+				var DefineInitializeElement = default(Action<XElement, ILGenerator, Action<ILGenerator>, Action<Action<ILGenerator>, ILGenerator>>);
+
+
+				DefineInitializeElement =
+					(CurrentElement, xil, EmitParentField, done) =>
+					{
+						CurrentIndex++;
+
+						// img, audio, video 
+						var NamedComponent = default(Type);
+
+						var __src = CurrentElement.Attribute("src");
+						if (__src != null && RemotingNamedElements.ContainsKey(__src.Value))
+							NamedComponent = RemotingNamedElements[__src.Value];
+
+						Action<Action<ILGenerator>, ILGenerator> BeforeDone =
+							(EmitField, il) =>
+							{
+								#region Attributes
+								foreach (var item in CurrentElement.Attributes())
+								{
+									if (item.Name.LocalName == "id")
+										continue;
+
+									if (item.Name.LocalName == "src")
+										if (NamedComponent != null)
+											continue;
+
+									EmitField(il);
+								
+									il.Emit(OpCodes.Ldstr, item.Name.LocalName);
+									il.Emit(OpCodes.Ldstr, item.Value);
+									il.Emit(OpCodes.Call, __setAttribute);
+
+								}
+								#endregion
+
+								#region Nodes
+								foreach (var item in CurrentElement.Nodes())
+								{
+									if (item is XText)
+									{
+										var InitializeTextNode = DefineInitializeTextNode(EmitField);
+
+										il.Emit(OpCodes.Ldarg_0);
+										il.Emit(OpCodes.Ldfld, __InternalDocument);
+										il.Emit(OpCodes.Ldstr, ((XText)item).Value);
+
+										il.Emit(OpCodes.Ldarg_0);
+										il.Emit(OpCodes.Ldftn, InitializeTextNode);
+										il.Emit(OpCodes.Newobj, typeof(PTextNodeAction).GetConstructors().Single());
+
+										il.Emit(OpCodes.Call, __createTextNode);
+									}
+
+									if (item is XElement)
+									{
+
+										DefineInitializeElement(item as XElement, il, EmitField, null);
+									}
+								}
+								#endregion
+
+				
+							};
+
+						if (NamedComponent != null)
+						{
+							DefineInitializeNamedElement(CurrentElement, NamedComponent, xil, EmitParentField, BeforeDone);
+							return;
+						}
+
+						var __Field = DefineFieldAndOptionallyProperty(CurrentElement, typeof(PHTMLElement));
+						
+
+						var InternalInitialize = Page.DefineMethod("InternalInitialize" + CurrentIndex + "_" + CurrentElement.Name.LocalName, MethodAttributes.Private, CallingConventions.HasThis, typeof(void),
 							new[] { typeof(PHTMLElement) }
 						);
 
@@ -174,10 +318,19 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							il.Emit(OpCodes.Ldarg_0);
 							il.Emit(OpCodes.Ldftn, InternalInitialize);
 							il.Emit(OpCodes.Newobj, typeof(PHTMLElementAction).GetConstructors().Single());
-							il.Emit(OpCodes.Call, __createElement);
+							il.Emit(OpCodes.Callvirt, __createElement);
 						}
 
+						Action<ILGenerator> EmitLoadElement =
+							il =>
+							{
+								//il.Emit(OpCodes.Nop);
+								il.Emit(OpCodes.Ldarg_0);
+								il.Emit(OpCodes.Ldfld, __Field);
+								//il.Emit(OpCodes.Nop);
+							};
 
+						#region InternalInitialize
 						{
 							var il = InternalInitialize.GetILGenerator();
 
@@ -185,59 +338,24 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							il.Emit(OpCodes.Ldarg_1);
 							il.Emit(OpCodes.Stfld, __Field);
 
-							if (__ParentField != null)
+							if (EmitParentField != null)
 							{
-								il.Emit(OpCodes.Ldarg_0);
-								il.Emit(OpCodes.Ldfld, __ParentField);
+								EmitParentField(il);
 
-								il.Emit(OpCodes.Ldarg_0);
-								il.Emit(OpCodes.Ldfld, __Field);
+								EmitLoadElement(il);
 
-								il.Emit(OpCodes.Call, __appendChild);
+								il.Emit(OpCodes.Callvirt, __appendChild);
 							}
 
-							foreach (var item in CurrentElement.Attributes())
-							{
-								if (item.Name.LocalName == "id")
-									continue;
-
-								il.Emit(OpCodes.Ldarg_1);
-								il.Emit(OpCodes.Ldstr, item.Name.LocalName);
-								il.Emit(OpCodes.Ldstr, item.Value);
-								il.Emit(OpCodes.Call, __setAttribute);
-
-							}
-
-							foreach (var item in CurrentElement.Nodes())
-							{
-								if (item is XText)
-								{
-									var InitializeTextNode = DefineInitializeTextNode(__Field);
-
-									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Ldfld, __InternalDocument);
-									il.Emit(OpCodes.Ldstr, ((XText)item).Value);
-
-									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Ldftn, InitializeTextNode);
-									il.Emit(OpCodes.Newobj, typeof(PTextNodeAction).GetConstructors().Single());
-
-									il.Emit(OpCodes.Call, __createTextNode);
-								}
-
-								if (item is XElement)
-								{
-
-									DefineInitializeElement(item as XElement, il, __Field, null);
-								}
-							}
+							BeforeDone(EmitLoadElement, il);
 
 							if (done != null)
-								done(__Field, il);
+								done(EmitLoadElement, il);
 
 							il.Emit(OpCodes.Ret);
 
 						}
+						#endregion
 
 					};
 				#endregion
@@ -245,12 +363,12 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 				DefineInitializeElement(this.BodyElement, Page_ctor.GetILGenerator(), null,
-					(__Field, il) =>
+					(EmitField, il) =>
 					{
 						il.Emit(OpCodes.Ldarg_0);
 
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, __Field);
+						EmitField(il);
+
 						il.Emit(OpCodes.Stfld, __InternalElement);
 
 						il.Emit(OpCodes.Ldarg_0);

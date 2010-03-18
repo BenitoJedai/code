@@ -12,8 +12,8 @@ namespace ScriptCoreLib.JavaScript.Remoting
 		public object Tag { get; set; }
 
 
-		internal PHTMLElement InternalElement;
-		internal PHTMLDocument InternalDocument;
+		protected internal PHTMLElement InternalElement;
+		protected internal PHTMLDocument InternalDocument;
 
 
 		public PHTMLElement Container
@@ -48,6 +48,9 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
 		public void WhenReady(Action h)
 		{
+			if (h == null)
+				return;
+
 			if (InternalWhenReady == null)
 			{
 				h();

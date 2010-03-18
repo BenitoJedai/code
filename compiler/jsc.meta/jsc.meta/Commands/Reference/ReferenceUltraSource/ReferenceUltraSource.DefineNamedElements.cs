@@ -6,19 +6,20 @@ using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates;
+using jsc.meta.Library.Templates.Avalon;
 using jsc.meta.Library.Templates.JavaScript;
 using jsc.Script;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using System.Windows.Controls;
-using jsc.meta.Library.Templates.Avalon;
-using jsc.meta.Library.Templates;
+using jsc.meta.Library.Templates.JavaScript.Named;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
@@ -33,6 +34,22 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 			public Type FromBase64;
 			public bool FromBase64NotAvailable;
+
+			public void AssingDefaults()
+			{
+				var Variations = this;
+				if (Variations.FromBase64 == null)
+				{
+					Variations.FromBase64NotAvailable = true;
+					Variations.FromBase64 = Variations.FromAssets;
+				}
+
+				if (Variations.FromWeb == null)
+				{
+					Variations.FromWebNotAvailable = true;
+					Variations.FromWeb = Variations.FromAssets;
+				}
+			}
 		}
 
 		public class DefineNamedElements
@@ -45,6 +62,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 			public Dictionary<string, TypeVariations> TypeVariations;
+			public Dictionary<string, TypeVariations> RemotingTypeVariations;
 
 			public string PageName;
 			public Dictionary<string, Type> ElementTypes;
@@ -146,6 +164,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 					var Variations = new TypeVariations();
+					var RemotingVariations = new TypeVariations();
 
 
 					using (a.context.ToTransientTransaction())
@@ -215,7 +234,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						if (LocalResource == null)
 						{
-							DefineNamedElement(ElementType, Namespace, name, Variations, src.Value, "FromWeb");
+							DefineNamedElement(ElementType, Namespace, name, Variations, RemotingVariations, src.Value, "FromWeb");
 						}
 
 						//var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name + Extension;
@@ -225,13 +244,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						a.ScriptResourceWriter.Add(AssetPath, Resource);
 
 
-						DefineNamedElement(ElementType, Namespace, name, Variations, AssetPath, "FromAssets");
+						DefineNamedElement(ElementType, Namespace, name, Variations, RemotingVariations, AssetPath, "FromAssets");
 
 						if (ElementType == typeof(IHTMLImage))
+						{
 							DefineAvalonNamedImage(a, r,
 								DefaultNamespace + ".Avalon.Images." + name, AssetPath, null
 							);
-
+						}
 
 						// lets define 
 
@@ -246,7 +266,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							var Source = "data:" + EmbedMimeTypes.Resolve(Extension) + ";base64," + ResourceBase64;
 
 							{
-								var Base64Lookup = a.Module.DefineType(DefaultNamespace + ".Data.Base64Lookup." + Resource.ToMD5Bytes().ToHexString(), TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract, null);
+								var Base64Lookup = a.Module.DefineType(DefaultNamespace + ".Data.Base64Lookup._" + Resource.ToMD5Bytes().ToHexString(), TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract, null);
 
 
 								var m = Base64Lookup.DefineMethod("GetSource", MethodAttributes.Public | MethodAttributes.Static, typeof(string), null);
@@ -271,26 +291,23 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 									null,
 									m
 								);
+
+								RemotingVariations.FromBase64 = DefineRemotingNamedImage(a, r,
+									DefaultNamespace + ".HTML.Images.FromBase64.Remoting." + name,
+									null,
+									m
+								);
 							}
 
 						}
 						#endregion
 
 
-						if (Variations.FromBase64 == null)
-						{
-							Variations.FromBase64NotAvailable = true;
-							Variations.FromBase64 = Variations.FromAssets;
-						}
-
-						if (Variations.FromWeb == null)
-						{
-							Variations.FromWebNotAvailable = true;
-							Variations.FromWeb = Variations.FromAssets;
-						}
-
+						Variations.AssingDefaults();
+						RemotingVariations.AssingDefaults();
 
 						TypeVariations.Add(src_value, Variations);
+						RemotingTypeVariations.Add(src_value, RemotingVariations);
 
 
 
@@ -300,7 +317,11 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				}
 			}
 
-			private void DefineNamedElement(Type ElementType, string Namespace, string name, TypeVariations Variations, string AssetPath, string VariationName)
+			private void DefineNamedElement(Type ElementType, string Namespace, string name,
+				TypeVariations Variations,
+				TypeVariations RemotingVariations, 
+				
+				string AssetPath, string VariationName)
 			{
 				if (ElementType == typeof(IHTMLImage))
 				{
@@ -308,8 +329,15 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						DefaultNamespace + ".HTML." + Namespace + "." + VariationName + "." + name,
 						AssetPath,
 						null
-
 					);
+
+					// From Assets - would that be from the web server assets?
+
+					//RemotingVariations.FromAssets = DefineRemotingNamedImage(a, r,
+					//    DefaultNamespace + ".HTML." + Namespace + "." + VariationName + ".Remoting." + name,
+					//    AssetPath,
+					//    null
+					//);
 				}
 				else
 				{
@@ -322,59 +350,6 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			}
 		}
 
-		private static Type DefineNamedImage(
-			RewriteToAssembly.AssemblyRewriteArguments a,
-			RewriteToAssembly r,
-			string ImageFullName,
-			string ImageSource,
-			MethodInfo get_ImageSource)
-		{
-			var TemplateType = typeof(NamedImage);
-
-			using (a.context.ToTransientTransaction())
-			{
-				r.AtILOverride +=
-					(m, il_a) =>
-					{
-						if (m.DeclaringType != TemplateType)
-							return;
-
-						il_a[OpCodes.Ldstr] =
-							(e) =>
-							{
-								if (e.i.TargetLiteral != NamedImage.IHTMLImage_src)
-								{
-									e.Default();
-									return;
-								}
-
-								if (ImageSource != null)
-								{
-									e.il.Emit(OpCodes.Ldstr, ImageSource);
-									return;
-								}
-
-								e.il.Emit(OpCodes.Call, get_ImageSource);
-							};
-					};
-
-				a.context.TypeRenameCache.Resolve +=
-					SourceType =>
-					{
-						if (SourceType != TemplateType)
-							return;
-
-						a.context.TypeRenameCache[SourceType] =
-							ImageFullName;
-					};
-
-				var MyType = a.context.TypeCache[TemplateType];
-
-				TemplateType = null;
-
-				return MyType;
-			}
-		}
 
 
 		private static Type DefineNamedAudio(
@@ -426,11 +401,12 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 		}
 
 		private static Type DefineAvalonNamedImage(
-		RewriteToAssembly.AssemblyRewriteArguments a,
-		RewriteToAssembly r,
-		string ImageFullName,
-		string ImageSource,
-		MethodInfo get_ImageSource)
+			RewriteToAssembly.AssemblyRewriteArguments a,
+			RewriteToAssembly r,
+			string ImageFullName,
+			string ImageSource,
+			MethodInfo get_ImageSource
+			)
 		{
 			var TemplateType = typeof(AvalonNamedImage);
 

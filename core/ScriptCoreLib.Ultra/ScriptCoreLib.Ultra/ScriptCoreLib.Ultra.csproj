@@ -94,6 +94,7 @@
     <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLElement.Events.cs" />
     <Compile Include="JavaScript\Remoting\DOM\PNode.cs" />
     <Compile Include="JavaScript\Remoting\DOM\PEvent.cs" />
+    <Compile Include="JavaScript\Remoting\DOM\PStyle.cs" />
     <Compile Include="JavaScript\Remoting\DOM\PTextNode.cs" />
     <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLDocument.cs" />
     <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLElement.cs" />

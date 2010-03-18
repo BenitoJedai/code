@@ -24,6 +24,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using jsc.meta.Library.Templates.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using jsc.meta.Library.Templates.JavaScript.Named;
 
 namespace jsc.meta.Commands.Reference
 {

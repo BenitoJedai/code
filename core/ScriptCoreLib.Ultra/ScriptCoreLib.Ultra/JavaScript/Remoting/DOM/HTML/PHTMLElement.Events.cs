@@ -7,7 +7,7 @@ using ScriptCoreLib.Ultra.Library;
 
 namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 {
-	[InferAdditionalMembers]
+	//[InferAdditionalMembers]
 	partial interface PHTMLElement
 	{
 		// this remoting namespace should be generated from IDL...
