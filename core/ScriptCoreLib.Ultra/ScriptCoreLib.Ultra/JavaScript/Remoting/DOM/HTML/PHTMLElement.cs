@@ -6,7 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 {
-	public interface PHTMLElement : PNode
+	public partial interface PHTMLElement : PNode
 	{
 		// to be used from flash or java applet
 		// to be defined as async API
@@ -14,7 +14,6 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 		void setAttribute(string name, string value);
 
-		event PEventAction onclick;
 
 		string innerText { set; }
 
@@ -22,7 +21,7 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 	public delegate void PHTMLElementAction(PHTMLElement e);
 
-	public class PIHTMLElement : PINode, PHTMLElement
+	public partial class PIHTMLElement : PINode, PHTMLElement
 	{
 		internal IHTMLElement InternalElement;
 
@@ -41,26 +40,7 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 			}
 		}
 
-		public event PEventAction onclick
-		{
-			add
-			{
-				this.InternalElement.onclick +=
-					e =>
-					{
-						value(
-							new PIEvent
-							{
-								InternalEvent = e
-							}
-						);
-					};
-			}
-			remove
-			{
-
-			}
-		}
+	
 
 		public static implicit operator PIHTMLElement(IHTMLElement i)
 		{

@@ -10,12 +10,25 @@ namespace jsc.meta.Library
 {
 	public static class BCLExtensions
 	{
+		public static FieldInfo ToReferencedField(this Delegate t)
+		{
+			var xb = new ILBlock(t.Method);
+
+			return xb.Instructrions.Where(k =>
+				new[] {
+					OpCodes.Ldfld ,
+					OpCodes.Stfld,
+				}.Contains(k.OpCode)
+
+			).Select(k => k.TargetField).Single();
+		}
+
 		public static MethodInfo ToReferencedMethod(this Delegate t)
 		{
 			var xb = new ILBlock(t.Method);
 
-			return xb.Instructrions.Where(k => 
-				new [] {
+			return xb.Instructrions.Where(k =>
+				new[] {
 					OpCodes.Ldftn ,
 					OpCodes.Ldvirtftn,
 					OpCodes.Call,
