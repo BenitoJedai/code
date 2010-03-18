@@ -44,5 +44,15 @@ namespace ScriptCoreLib.JavaScript.Remoting.Extensions
 			);
 		}
 
+
+		public static void Orphanize(this PNode n)
+		{
+			n.get_parentNode(
+				p =>
+				{
+					p.removeChild(n);
+				}
+			);
+		}
 	}
 }

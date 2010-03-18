@@ -290,7 +290,7 @@
     <Compile Include="Library\Templates\JavaScript\Named\NamedImage.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\Remoting\NamedImage.cs" />
     <Compile Include="Library\Templates\Java\InternalElementProxy.cs" />
-    <Compile Include="Library\Templates\JavaScript\InternalJavaToJavaScriptBridge.cs" />
+    <Compile Include="Library\Templates\Java\InternalJavaToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
     <Compile Include="Library\Templates\Java\InternalHttpServlet.cs" />
     <Compile Include="Library\Templates\NamedImageInformation.cs" />

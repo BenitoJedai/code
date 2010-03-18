@@ -49,7 +49,21 @@ namespace UltraLibraryWithAssets1
 						{
 							var n = new jsc(doc);
 
-							n.AttachTo(this.Zone);
+							n.WhenReady(
+								delegate
+								{
+									n.Container.setAttribute("style", "cursor: pointer;");
+									n.Container.setAttribute("title", "click to remove");
+
+									n.Container.onclick +=
+										delegate
+										{
+											n.Container.Orphanize();
+										};
+
+									n.AttachTo(this.Zone);
+								}
+							);
 						};
 
 					this.OK.onclick +=
