@@ -72,7 +72,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 
-		
+
+				var Page_InternalProgress = Page.DefineMethod("InternalProgress", MethodAttributes.Private);
 
 
 
@@ -106,6 +107,10 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						il.Emit(OpCodes.Ldarg_1);
 
 						il.Emit(OpCodes.Call, __appendChild);
+
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Call, Page_InternalProgress);
 
 						il.Emit(OpCodes.Ret);
 
@@ -187,7 +192,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 							il.Emit(OpCodes.Ldarg_0);
 							il.Emit(OpCodes.Ldfld, __Field);
-							
+
 							il.Emit(OpCodes.Ldarg_0);
 							il.Emit(OpCodes.Ldftn, InternalInitialize);
 							il.Emit(OpCodes.Newobj, typeof(Action).GetConstructors().Single());
@@ -209,7 +214,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						{
 							var il = InternalInitialize.GetILGenerator();
 
-						
+
 
 							EmitParentField(il);
 
@@ -231,7 +236,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 				DefineInitializeElement =
-					(CurrentElement, xil, EmitParentField, done) =>
+					(CurrentElement, xil, EmitParentField, ElementStored) =>
 					{
 						CurrentIndex++;
 
@@ -256,7 +261,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 											continue;
 
 									EmitField(il);
-								
+
 									il.Emit(OpCodes.Ldstr, item.Name.LocalName);
 									il.Emit(OpCodes.Ldstr, item.Value);
 									il.Emit(OpCodes.Call, __setAttribute);
@@ -290,7 +295,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 								}
 								#endregion
 
-				
+
+								il.Emit(OpCodes.Ldarg_0);
+								il.Emit(OpCodes.Call, Page_InternalProgress);
 							};
 
 						if (NamedComponent != null)
@@ -300,14 +307,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						}
 
 						var __Field = DefineFieldAndOptionallyProperty(CurrentElement, typeof(PHTMLElement));
-						
+
 
 						var InternalInitialize = Page.DefineMethod("InternalInitialize" + CurrentIndex + "_" + CurrentElement.Name.LocalName, MethodAttributes.Private, CallingConventions.HasThis, typeof(void),
 							new[] { typeof(PHTMLElement) }
 						);
 
 
-
+						#region  __createElement
 						{
 							var il = xil;
 
@@ -320,6 +327,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							il.Emit(OpCodes.Newobj, typeof(PHTMLElementAction).GetConstructors().Single());
 							il.Emit(OpCodes.Callvirt, __createElement);
 						}
+						#endregion
 
 						Action<ILGenerator> EmitLoadElement =
 							il =>
@@ -347,10 +355,10 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 								il.Emit(OpCodes.Callvirt, __appendChild);
 							}
 
-							BeforeDone(EmitLoadElement, il);
+							if (ElementStored != null)
+								ElementStored(EmitLoadElement, il);
 
-							if (done != null)
-								done(EmitLoadElement, il);
+							BeforeDone(EmitLoadElement, il);
 
 							il.Emit(OpCodes.Ret);
 
@@ -370,14 +378,48 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						EmitField(il);
 
 						il.Emit(OpCodes.Stfld, __InternalElement);
-
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Call, __InternalMarkReady);
 					}
 				);
 
 				Page_ctor.GetILGenerator().Emit(OpCodes.Ret);
 
+				var Page_InternalProgressState = Page.DefineField("InternalProgressState", typeof(int), FieldAttributes.Private);
+
+				#region Page_InternalProgress
+				{
+					var il = Page_InternalProgress.GetILGenerator();
+
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldfld, Page_InternalProgressState);
+					il.Emit(OpCodes.Ldc_I4_1);
+					il.Emit(OpCodes.Add);
+					il.Emit(OpCodes.Stfld, Page_InternalProgressState);
+
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Ldfld, Page_InternalProgressState);
+					il.Emit(OpCodes.Ldc_I4, CurrentIndex);
+
+					var __if  = il.DeclareLocal(typeof(bool));
+
+					il.Emit(OpCodes.Ceq);
+					il.Emit(OpCodes.Stloc_S, (byte)__if.LocalIndex);
+
+					var skip = il.DefineLabel();
+
+					il.Emit(OpCodes.Ldloc_S, (byte)__if.LocalIndex);
+					
+					il.Emit(OpCodes.Brfalse, skip);
+
+
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, __InternalMarkReady);
+
+					il.MarkLabel(skip);
+
+					il.Emit(OpCodes.Ret);
+				}
+				#endregion
 
 				Page.CreateType();
 			}

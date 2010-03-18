@@ -12,8 +12,10 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 		// to be defined as async API
 
 		void appendChild(PNode e);
+		void removeChild(PNode e);
 
 
+		void get_parentNode(PNodeAction y);
 	}
 
 	public delegate void PNodeAction(PNode e);
@@ -30,6 +32,29 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 			this.InternalNode.appendChild(i.InternalNode);
 		}
-	
+
+		public void removeChild(PNode e)
+		{
+			var i = e as PINode;
+			if (i == null)
+				return;
+
+			this.InternalNode.removeChild(i.InternalNode);
+		}
+
+		public void get_parentNode( PNodeAction y)
+		{
+			y((PINode)this.InternalNode.parentNode);
+		}
+
+		public static implicit operator PINode(INode i)
+		{
+			var v = new PINode
+			{
+				InternalNode = i
+			};
+
+			return v;
+		}
 	}
 }

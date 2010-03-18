@@ -31,13 +31,19 @@ namespace jsc.meta.Library.Templates
 				if (i > 0)
 					w.Append(", ");
 
-				w.Append("'");
+				w.Append("\"");
 
-				var t = ((string)args[i]).Replace("'", @"\'");
 
-				w.Append(t);
+				var n = ((string)args[i]);
 
-				w.Append("'");
+				n = n.Replace("\"", "\\\"");
+				n = n.Replace("\r", "\\r");
+				n = n.Replace("\n", "\\n");
+				n = n.Replace("\t", "\\t");
+
+				w.Append(n);
+
+				w.Append("\"");
 			}
 			w.Append(")");
 

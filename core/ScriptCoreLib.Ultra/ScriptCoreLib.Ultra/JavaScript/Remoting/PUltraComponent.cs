@@ -32,6 +32,8 @@ namespace ScriptCoreLib.JavaScript.Remoting
 			}
 		}
 
+	
+
 		internal void InternalMarkReady()
 		{
 			var a = InternalWhenReady;
@@ -61,4 +63,6 @@ namespace ScriptCoreLib.JavaScript.Remoting
 
 		}
 	}
+
+	
 }

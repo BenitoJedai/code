@@ -52,13 +52,46 @@ namespace jsc.meta.Library.Templates
 				if (i > 0)
 					w.Append(", ");
 
-				w.Append("'");
+				/*
 
-				var t = ((string)args[i]).Replace("'", @"\'");
+				 http://www.devx.com/webdev/Article/30339/1954
+				 * 
+				 * Gotchas
+				 * 
+				 * As always, there are a few additional things to consider when you begin to 
+				 * make heavy use of a new technological capability. 
+				 * Mike Chambers, Adobe Flash Platform Developer Relations
+				 * guru and a leading force behind the evolution of 
+				 * ExternalInterface, recently pointed out that passing 
+				 * the newline character (\n) through ExternalInterface 
+				 * will cause it to fail. Thanks to the outreach of
+				 * Mike's developer-centric blog and the generosity of
+				 * the Flash community, comments from readers point out
+				 * additional characters that cause problems.
 
-				w.Append(t);
 
-				w.Append("'");
+				 * Fortunately, most characters can still be passed through
+				 * ExternalInterface
+				 * if they are escaped first (\\n). More information, as
+				 * well as potential other issues to be aware of can be
+				 * found in Mike's blog entry, cited in the Additional 
+				 * Resources of this article.
+				 
+				 
+				 */
+				w.Append("\"");
+
+
+				var n = ((string)args[i]);
+
+				n = n.Replace("\"", "\\\"");
+				n = n.Replace("\r", "\\r");
+				n = n.Replace("\n", "\\n");
+				n = n.Replace("\t", "\\t");
+
+				w.Append(n);
+
+				w.Append("\"");
 			}
 			w.Append(")");
 
