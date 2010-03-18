@@ -1,0 +1,3 @@
+﻿Use case:
+
+Flash or java is creating a remoting version of the HTML document in the browser.

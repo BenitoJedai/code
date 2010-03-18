@@ -286,6 +286,7 @@
     <Compile Include="Library\Templates\Avalon\AvalonNamedImage.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\NamedAudio.cs" />
     <Compile Include="Library\Templates\JavaScript\Named\NamedImage.cs" />
+    <Compile Include="Library\Templates\JavaScript\Named\Remoting\NamedImage.cs" />
     <Compile Include="Library\Templates\Java\InternalElementProxy.cs" />
     <Compile Include="Library\Templates\JavaScript\InternalJavaToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
@@ -340,6 +341,7 @@
     <Content Include="Documents\__TemplateIcon.ico" />
     <EmbeddedResource Include="Documents\__TemplateIcon_CS_JSC.ico" />
     <Content Include="Library\comment.txt" />
+    <Content Include="Library\Templates\JavaScript\Named\Remoting\comments.txt" />
     <Content Include="Library\Templates\WebService\comment.txt" />
     <EmbeddedResource Include="Tools\ant\GoogleAppEngine\build.xml" />
   </ItemGroup>

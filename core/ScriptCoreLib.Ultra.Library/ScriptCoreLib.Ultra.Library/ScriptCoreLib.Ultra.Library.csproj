@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="Extensions\CryptographyExtensions.cs" />

@@ -11,19 +11,24 @@ namespace ScriptCoreLib.JavaScript.Remoting
 	{
 		public object Tag { get; set; }
 
-		public virtual PHTMLDocument Document
+
+		internal PHTMLElement InternalElement;
+		internal PHTMLDocument InternalDocument;
+
+
+		public PHTMLElement Container
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return this.InternalElement;
 			}
 		}
 
-		public virtual PHTMLElement Container
+		public PHTMLDocument Document
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return this.InternalDocument;
 			}
 		}
 

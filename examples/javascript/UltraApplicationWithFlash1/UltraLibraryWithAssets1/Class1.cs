@@ -9,11 +9,28 @@ namespace UltraLibraryWithAssets1
 {
 	public class Class1 : Assets
 	{
-		public Class1(PHTMLDocument doc) : base(doc)
+		public Class1(PHTMLDocument doc)
+			: base(doc)
 		{
 			WhenReady(
 				delegate
 				{
+					this.WorldSpan.onmouseover +=
+						e =>
+						{
+							// can we have a "look ahead" Interface .style generated?
+
+							this.WorldSpan.setAttribute("style", "color:red;");
+						};
+
+					this.WorldSpan.onmouseout +=
+						e =>
+						{
+							// can we have a "look ahead" Interface .style generated?
+
+							this.WorldSpan.setAttribute("style", "");
+						};
+
 					this.OK.onclick +=
 						e =>
 						{
@@ -21,6 +38,7 @@ namespace UltraLibraryWithAssets1
 
 							this.OK.innerText = "thanks!";
 						};
+
 				}
 			);
 		}

@@ -50,6 +50,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				var __InternalMarkReady = new Func<PUltraComponent, Action>(doc => doc.InternalMarkReady).ToReferencedMethod();
 				var __get_Container = new Func<PUltraComponent, PHTMLElement>(doc => doc.Container).ToReferencedMethod();
 				var __get_Document = new Func<PUltraComponent, PHTMLDocument>(doc => doc.Document).ToReferencedMethod();
+				var __InternalDocument = new Func<PUltraComponent, PHTMLDocument>(doc => doc.InternalDocument).ToReferencedField();
+				var __InternalElement = new Func<PUltraComponent, PHTMLElement>(doc => doc.InternalElement).ToReferencedField();
+
 
 				var Page = a.Module.DefineType(
 					PageFullName,
@@ -68,25 +71,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 
-				Action<FieldBuilder> Define_get_Document =
-					__Field =>
-					{
-						var get_ = Page.DefineMethod(__get_Document.Name,
-							MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Public,
-							typeof(PHTMLDocument),
-							null
-						);
+		
 
-						var il = get_.GetILGenerator();
 
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, __Field);
-						il.Emit(OpCodes.Ret);
-					};
-
-				var Page_InternalDocument = Page.DefineField("InternalDocument", typeof(PHTMLDocument), FieldAttributes.InitOnly);
-
-				Define_get_Document(Page_InternalDocument);
 
 				#region special
 				{
@@ -94,13 +81,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					il.Emit(OpCodes.Ldarg_0);
 					il.Emit(OpCodes.Ldarg_1);
-					il.Emit(OpCodes.Stfld, Page_InternalDocument);
+					il.Emit(OpCodes.Stfld, __InternalDocument);
 				}
 				#endregion
 
 
 				var CurrentIndex = -1;
 
+				#region DefineInitializeTextNode
 				Func<FieldBuilder, MethodBuilder> DefineInitializeTextNode =
 					(__ParentField) =>
 					{
@@ -123,7 +111,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						return InternalInitialize;
 					};
+				#endregion
 
+				#region DefineProperty
 				Action<string, FieldBuilder> DefineProperty =
 					(PropertyName, Field) =>
 					{
@@ -150,7 +140,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							ElementProperty.SetGetMethod(get_ElementField);
 						}
 					};
+				#endregion
 
+				#region DefineInitializeElement
 				var DefineInitializeElement = default(Action<XElement, ILGenerator, FieldBuilder, Action<FieldBuilder, ILGenerator>>);
 
 				DefineInitializeElement =
@@ -177,7 +169,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 							il.Emit(OpCodes.Ldarg_0);
-							il.Emit(OpCodes.Ldfld, Page_InternalDocument);
+							il.Emit(OpCodes.Ldfld, __InternalDocument);
 							il.Emit(OpCodes.Ldstr, CurrentElement.Name.LocalName);
 							il.Emit(OpCodes.Ldarg_0);
 							il.Emit(OpCodes.Ldftn, InternalInitialize);
@@ -223,7 +215,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 									var InitializeTextNode = DefineInitializeTextNode(__Field);
 
 									il.Emit(OpCodes.Ldarg_0);
-									il.Emit(OpCodes.Ldfld, Page_InternalDocument);
+									il.Emit(OpCodes.Ldfld, __InternalDocument);
 									il.Emit(OpCodes.Ldstr, ((XText)item).Value);
 
 									il.Emit(OpCodes.Ldarg_0);
@@ -248,30 +240,18 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						}
 
 					};
-
-				Action<FieldBuilder> Define_get_Container =
-					__Field =>
-					{
-						var get_ = Page.DefineMethod(__get_Container.Name,
-							MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Public,
-							typeof(PHTMLElement),
-							null
-						);
-
-						var il = get_.GetILGenerator();
-
-						il.Emit(OpCodes.Ldarg_0);
-						il.Emit(OpCodes.Ldfld, __Field);
-						il.Emit(OpCodes.Ret);
-					};
-
+				#endregion
 
 
 
 				DefineInitializeElement(this.BodyElement, Page_ctor.GetILGenerator(), null,
 					(__Field, il) =>
 					{
-						Define_get_Container(__Field);
+						il.Emit(OpCodes.Ldarg_0);
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Ldfld, __Field);
+						il.Emit(OpCodes.Stfld, __InternalElement);
 
 						il.Emit(OpCodes.Ldarg_0);
 						il.Emit(OpCodes.Call, __InternalMarkReady);

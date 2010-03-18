@@ -40,18 +40,9 @@ namespace UltraApplicationWithFlash1
 		{
 			var c1 = new Class1(doc);
 
-			c1.WhenReady(
-				delegate
-				{
-					doc.get_body(
-						body =>
-						{
-							c1.Container.AttachTo(body);
-						}
-					);
-				}
-			);
+			c1.AttachToDocument(doc);
 
+		
 			AppendLine("BuildPage2");
 			doc.createElement("div",
 				div1 =>
