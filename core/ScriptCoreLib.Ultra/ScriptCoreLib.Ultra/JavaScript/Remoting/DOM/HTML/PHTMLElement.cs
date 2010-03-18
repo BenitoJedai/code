@@ -63,5 +63,10 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 
 			return v;
 		}
+
+		public static implicit operator IHTMLElement(PIHTMLElement i)
+		{
+			return i.InternalElement;
+		}
 	}
 }
