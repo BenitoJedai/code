@@ -2,14 +2,15 @@ using System;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
 using ScriptCoreLib.JavaScript.Remoting.Extensions;
+using System.ComponentModel;
 
 namespace UltraApplicationWithFlash
 {
 
-	//[Description("UltraApplicationWithFlash. Write javascript, flash and java applets within a C# project.")]
-
+	[Description("UltraApplicationWithFlash. Write javascript, flash and java applets within a C# project.")]
 	public sealed partial class Application
 	{
 		public Application(IHTMLElement e)
@@ -70,6 +71,7 @@ namespace UltraApplicationWithFlash
 			}
 			#endregion
 
+			#region UltraSprite
 			var x = new IHTMLButton("create UltraSprite ");
 
 			x.AttachToDocument();
@@ -83,34 +85,25 @@ namespace UltraApplicationWithFlash
 
 					o.AttachSpriteToDocument();
 
-					
+					o.EnhanceLogo =
+						i =>
+						{
+							IHTMLElement j = ((PIHTMLElement)i);
+
+							j.style.SetMatrixTransform(
+								2, 0,
+								0, 2,
+								0, 0
+							);
+						};
+
 					// we are sending a proxy of HTML element to flash!
 					o.BuildPage(o.ToHTMLElement().ToProxy());
 				};
+			#endregion
 		}
 
 
-	}
-
-
-
-
-
-	public sealed partial class UltraWebService
-	{
-		public void GetTime(string prefix, GetTimeResult result)
-		{
-			result(prefix + ": " + DateTime.Now);
-		}
-	}
-
-
-
-	public delegate void GetTimeResult(string e);
-
-
-	partial class Application
-	{
 		private static void AddButtonForGetTime()
 		{
 			var GetTime = new IHTMLButton { innerText = "GetTime" }.AttachToDocument();
