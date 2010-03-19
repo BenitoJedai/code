@@ -220,6 +220,8 @@ namespace jsc.meta.Commands.Rewrite
 					a.DefineAttribute<ObfuscationAttribute>(ka);
 				}
 
+			var TypeDefinitionCacheToSourceType = new Dictionary<Type, Type>();
+
 			var TypeDefinitionCache = new VirtualDictionary<Type, Type>();
 			var TypeCache = new VirtualDictionary<Type, Type>();
 			var TypeRenameCache = new VirtualDictionary<Type, string>();
@@ -688,6 +690,7 @@ namespace jsc.meta.Commands.Rewrite
 			TypeDefinitionCache.Resolve +=
 				(SourceType) =>
 				{
+
 					if (SourceType.IsGenericParameter)
 					{
 						TypeDefinitionCache[SourceType] = SourceType;
@@ -750,6 +753,7 @@ namespace jsc.meta.Commands.Rewrite
 								).ToArray()
 							) : SourceType;
 					}
+
 				};
 			#endregion
 
@@ -944,6 +948,13 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (tb != null)
 				{
+					if (item.IsEnum)
+					{
+						// enums cannot be left partial... we need to implement them
+						var __Enum = TypeCache[item];
+
+					}
+
 					tb.CreateType();
 
 					TypeCache[item] = tb;
@@ -986,7 +997,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			// http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
 
-			
+
 
 
 			if (OutputUndefined)
@@ -1010,7 +1021,7 @@ namespace jsc.meta.Commands.Rewrite
 			Product.Refresh();
 		}
 
-	
+
 
 
 
