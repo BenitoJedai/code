@@ -12,8 +12,7 @@ namespace UltraApplicationWithFlash
 
 	public sealed partial class Application
 	{
-
-		public void  OLDApplication(IHTMLElement e)
+		public Application(IHTMLElement e)
 		{
 			Native.Document.title = "UltraApplicationWithFlash";
 
@@ -51,8 +50,9 @@ namespace UltraApplicationWithFlash
 			}.AttachTo(c);
 
 
+			#region GetTime
 			{
-				var btn = new IHTMLButton { innerText = "UltraWebService" }.AttachTo(c);
+				var btn = new IHTMLButton { innerText = "UltraWebService.GetTime" }.AttachTo(c);
 
 				btn.onclick +=
 					delegate
@@ -68,21 +68,8 @@ namespace UltraApplicationWithFlash
 
 					};
 			}
+			#endregion
 
-			// do we jave mxmlc configured? 
-			this.CreateSprite();
-		}
-
-
-	}
-
-
-	
-
-	public static class UltraSpriteIntegration
-	{
-		public static void CreateSprite(this Application a)
-		{
 			var x = new IHTMLButton("create UltraSprite ");
 
 			x.AttachToDocument();
@@ -92,55 +79,22 @@ namespace UltraApplicationWithFlash
 				{
 					var o = new UltraSprite();
 
+					o.ToTransparentSprite();
+
 					o.AttachSpriteToDocument();
 
-					var  cc = new IHTMLButton
-					{
-						innerText = "Continue 1"
-					};
-
-					cc.AttachToDocument();
-
-					cc.onclick +=
-						delegate
-						{
-							var p = new JavaScriptPingPong
-								{
-									AtMethod1 =
-										delegate
-										{
-											Native.Document.body.appendChild(new IHTMLDiv("AtMethod1"));
-										}
-								};
-
-							o.PingPongService(p,
-								y =>
-								{
-									//if (y == p)
-									//{
-									//    Native.Document.body.appendChild(new IHTMLDiv("ok"));
-									//}
-									//else
-									//{
-									//    Native.Document.body.appendChild(new IHTMLDiv("fault"));
-									//}
-									y.Method1();
-								}
-							);
-
-							//Native.Document.body.appendChild(new IHTMLDiv("BuildPage"));
-							//o.BuildPage((IHTMLBuilderImplementation)Native.Document.body);
-							//Native.Document.body.appendChild(new IHTMLDiv("BuildPage2"));
-							//o.BuildPage2(Native.Document.ToProxy());
-
-						};
+					
+					// we are sending a proxy of HTML element to flash!
+					o.BuildPage(o.ToHTMLElement().ToProxy());
 				};
-
 		}
+
+
 	}
 
 
-	public delegate void StringAction(string e);
+
+
 
 	public sealed partial class UltraWebService
 	{
@@ -150,17 +104,7 @@ namespace UltraApplicationWithFlash
 		}
 	}
 
-	public interface IAlphaWebService
-	{
-		void DownloadData(string url, DownloadDataResult result);
-		void GetTime(string prefix, GetTimeResult result);
-	}
 
-	public interface IWebServiceEnabled
-	{
-		// primitives not yet supporter
-		string IsEnabled { get; }
-	}
 
 	public delegate void GetTimeResult(string e);
 

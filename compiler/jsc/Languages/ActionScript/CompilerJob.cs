@@ -113,8 +113,8 @@ namespace jsc.Languages
                 // Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, j.AssamblyInfo);
             }
 
-            if (!Debugger.IsAttached)
-            {
+			//if (!Debugger.IsAttached)
+			//{
                 StreamWriter SVW = new StreamWriter(SourceVersion.OpenWrite());
 
                 SVW.WriteLine("ConstantCompilerBuildDate: " + CompilerBase.ConstantCompilerBuildDate);
@@ -122,7 +122,7 @@ namespace jsc.Languages
                 SVW.WriteLine("SourceVersion.LastWriteTime: " + SourceVersion.LastWriteTime);
 
                 SVW.Close();
-            }
+			//}
         }
 
     }

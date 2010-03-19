@@ -18,6 +18,8 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 		string innerText { set; }
 
 		void get_style(PStyleAction e);
+
+		void get_ownerDocument(PHTMLDocumentAction doc);
 	}
 
 	public delegate void PHTMLElementAction(PHTMLElement e);
@@ -51,7 +53,16 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 			);
 		}
 
-	
+		public void get_ownerDocument(PHTMLDocumentAction y)
+		{
+			// type safety out the window..
+			var doc = (IHTMLDocument)(object)this.InternalElement.ownerDocument;
+
+			y(
+				(PIHTMLDocument)doc
+			);
+		}
+
 
 		public static implicit operator PIHTMLElement(IHTMLElement i)
 		{

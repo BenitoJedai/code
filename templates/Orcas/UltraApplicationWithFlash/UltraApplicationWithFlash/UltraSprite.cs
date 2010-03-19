@@ -10,316 +10,117 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
 using ScriptCoreLib.JavaScript.Remoting.Extensions;
 using ScriptCoreLib.JavaScript.Remoting.DOM;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace UltraApplicationWithFlash
 {
 	public sealed partial class UltraSprite : Sprite
 	{
+		public const int DefaultWidth = 400;
+		public const int DefaultHeight = 200;
 
-		public void UltraSprite2()
+		
+
+		public UltraSprite()
 		{
-			// creating the flash object 
-			// + stratus
-			// + alchemy
-
-			// funny :) i have forgotten how to write anything
-			// on flash API ... too much WPF API?
-			var r = new Sprite();
-
-			Console.WriteLine("UltraSprite.ctor");
-
-			r.graphics.beginFill(0x7000);
-			r.graphics.drawRect(8, 8, 64, 64);
+			{
+				var r = new Sprite();
 
 
-			r.AttachTo(this);
+				r.graphics.beginFill(0x7000);
+				r.graphics.drawRect(8, 8, 64, 32);
+
+				r.AttachTo(this);
+
+				ClearTarget = r;
+			}
+
+			{
+				var r = new Sprite();
+
+				var fillType = GradientType.LINEAR;
+				var colors = new uint[] { 0xFF0000, 0xFF0000 };
+				var alphas = new double[] { 1, 0 };
+				var ratios = new int[] { 0x00, 0xFF };
+				var matr = new Matrix();
+				matr.createGradientBox(DefaultWidth / 2, DefaultHeight, 0, 0, 0);
+				var spreadMethod = SpreadMethod.PAD;
+				this.graphics.beginGradientFill(fillType, colors, alphas, ratios, matr, spreadMethod);
+				this.graphics.drawRect(0, 0, DefaultWidth / 2, DefaultHeight);
+
+				r.AttachTo(this);
+			}
 		}
 
-		public void BuildPage2(PHTMLDocument doc)
+
+		public void BuildPage(PHTMLElement that)
 		{
-			AppendLine("BuildPage2");
-			doc.createElement("div",
-				div1 =>
+			that.get_style(
+				style =>
 				{
-					AppendLine("BuildPage2 div1");
+					style.border = "1px solid blue";
+				}
+			);
 
-					div1.innerText = "Click PHTMLElement";
-					div1.setAttribute("style", "color: blue;");
-
-					div1.onclick +=
-						e =>
+			that.get_ownerDocument(
+				doc =>
+				{
+					Action<string> CreateColorButton =
+						Color =>
 						{
-							div1.setAttribute("style", "color: red;");
+							doc.createElement("button",
+								button =>
+								{
+									button.AttachToDocument(doc);
+
+									button.innerText = "BackgroundColor: " + Color;
+									button.setAttribute("onclick", "void(document.body.style.backgroundColor = '" + Color + "');");
+								}
+							);
 						};
 
-					doc.get_body(
-						body =>
-						{
-							AppendLine("BuildPage2 body");
+					// js known colors
+					CreateColorButton("yellow");
+					CreateColorButton("white");
+					CreateColorButton("cyan");
+					CreateColorButton("gray");
 
-							div1.AttachTo(body);
+				
+					// could we do a redirect here knowing we are in flash world?
+					// new IHTMLButton ?
+					doc.createElement("button",
+						button1 =>
+						{
+							button1.innerText = "Hello from Flash!";
+
+							button1.get_style(
+								style =>
+								{
+									style.color = "red";
+								}
+							);
+
+							button1.AttachToDocument(doc);
+
+							int i = 0;
+
+							button1.onclick +=
+								delegate
+								{
+									i++;
+									button1.innerText = "Click #" + i;
+								};
 						}
 					);
 				}
 			);
 		}
 
-		public void BuildPage(IHTMLBuilder body)
+		Sprite ClearTarget;
+		public void Clear()
 		{
-			Console.WriteLine("UltraSprite.BuildPage");
-
-
-			Action Continue =
-				delegate
-				{
-					body.CreateAttachedElement("div",
-						div =>
-						{
-							div.SetContent(div, div, "test");
-
-							div.innerText = "hello";
-
-							div.CreateAttachedElement("span",
-								span =>
-								{
-									span.innerText = "Click buttons!";
-									span.setAttribute("style", "color: red;");
-
-									div.CreateAttachedElement("button",
-										button1 =>
-										{
-											button1.innerText = "Button 1";
-
-											button1.onclick +=
-												delegate
-												{
-													span.innerText = "Button 1";
-													span.setAttribute("style", "color: blue;");
-
-													{
-														var r = new Sprite();
-
-														r.graphics.beginFill(0xff0000);
-														r.graphics.drawRect(8, 8, 64, 64);
-
-														r.AttachTo(this);
-													}
-												};
-
-
-										}
-									);
-
-									div.CreateAttachedElement("button",
-										button1 =>
-										{
-											button1.innerText = "Button 2";
-
-											button1.onclick +=
-												delegate
-												{
-													span.innerText = "Button 2";
-													span.setAttribute("style", "color: green;");
-
-													{
-														var r = new Sprite();
-
-														r.graphics.beginFill(0xffff00);
-														r.graphics.drawRect(8, 8, 64, 64);
-
-														r.AttachTo(this);
-													}
-												};
-
-
-										}
-									);
-								}
-							);
-						}
-					);
-				};
-
-
-			{
-				var r = new Sprite();
-
-				r.graphics.beginFill(0xff);
-				r.graphics.drawRect(8, 8, 64, 64);
-
-				r.AttachTo(this);
-
-				r.click +=
-					delegate
-					{
-						r.Orphanize();
-
-						Continue();
-					};
-			}
-			//broken for ie again!
-
-			//Console.WriteLine("ex: " + ScriptCoreLib.ActionScript.flash.external.ExternalInterface.available);
-
-			//ScriptCoreLib.ActionScript.flash.external.ExternalInterface.call("(function () { alert('hi'); } )()");
-			//ScriptCoreLib.ActionScript.flash.external.ExternalInterface.call("alert", "yay");
-		}
-
-		public void PingPongService(IPingPong e, Action<IPingPong> y)
-		{
-			y(e);
-		}
-
-		public void PingPongServiceBase(IPingPong e, Action<IPingPongBase> y)
-		{
-			y(e);
+			ClearTarget.Orphanize();
 		}
 	}
 
-	public class JavaScriptPingPong : IPingPong
-	{
-		public Action AtMethod1;
-
-		public void Method1()
-		{
-			AtMethod1();
-		}
-
-		public void Method2()
-		{
-			AtMethod1();
-		}
-	}
-
-	public interface IPingPongBase
-	{
-		void Method2();
-	}
-
-	public interface IPingPong : IPingPongBase
-	{
-		void Method1();
-	}
-
-	public delegate void IHTMLBuilderAction(IHTMLBuilder e);
-
-	public interface IHTMLBuilder
-	{
-		void CreateElement(string name, IHTMLBuilderAction yield);
-		void CreateAttachedElement(string name, IHTMLBuilderAction yield);
-
-		void Add(IHTMLBuilder child);
-
-		event Action onclick;
-
-		string innerText { set; }
-
-		void setAttribute(string key, string value);
-
-		void SetContent(IHTMLBuilder a, IHTMLBuilder b, string e);
-	}
-
-	public static class IHTMLBuilderExtensions
-	{
-		public static IHTMLBuilder AttachTo(this IHTMLBuilder e, IHTMLBuilder c)
-		{
-			e.Add(c);
-
-			return e;
-		}
-	}
-
-	public class IHTMLBuilderImplementation : IHTMLBuilder
-	{
-		public IHTMLElement InternalElement;
-
-		public void SetContent(IHTMLBuilder a, IHTMLBuilder b, string e)
-		{
-			this.innerText = e;
-
-			//Debugger.Break();
-
-			a.innerText = e;
-			b.innerText = e;
-		}
-
-		#region IHTMLBuilder Members
-
-		public void CreateElement(string name, IHTMLBuilderAction yield)
-		{
-			//Native.Document.body.appendChild(new IHTMLDiv("IHTMLBuilderImplementation.CreateElement"));
-
-			yield(
-				(IHTMLBuilderImplementation)InternalElement.ownerDocument.createElement(name)
-			);
-		}
-
-		public void CreateAttachedElement(string name, IHTMLBuilderAction yield)
-		{
-			//Native.Document.body.appendChild(new IHTMLDiv("IHTMLBuilderImplementation.CreateElement"));
-
-			var v = (IHTMLBuilderImplementation)InternalElement.ownerDocument.createElement(name);
-
-
-			this.Add(v);
-
-			yield(
-				v
-			);
-		}
-
-		public void Add(IHTMLBuilder child)
-		{
-			//Native.Document.body.appendChild(new IHTMLDiv("IHTMLBuilderImplementation.Add"));
-
-			var o = (object)child;
-			var i = child as IHTMLBuilderImplementation;
-
-			if (i != null)
-				InternalElement.Add(i.InternalElement);
-			else
-				Native.Document.body.appendChild(new IHTMLDiv("IHTMLBuilderImplementation.Add child is null?"));
-		}
-
-		public event Action onclick
-		{
-			add
-			{
-				//Native.Document.body.appendChild(new IHTMLDiv("IHTMLBuilderImplementation.add_onclick"));
-				this.InternalElement.onclick +=
-					delegate
-					{
-						value();
-					};
-			}
-
-			remove
-			{
-
-			}
-		}
-
-		public string innerText
-		{
-			set
-			{
-				//Native.Document.body.appendChild(new IHTMLDiv("IHTMLBuilderImplementation.set_innerText"));
-
-				this.InternalElement.innerText = value;
-			}
-		}
-
-		public void setAttribute(string key, string value)
-		{
-			this.InternalElement.setAttribute(key, value);
-		}
-
-		#endregion
-
-		public static implicit operator IHTMLBuilderImplementation(IHTMLElement e)
-		{
-			return new IHTMLBuilderImplementation { InternalElement = e };
-		}
-
-	}
 }
