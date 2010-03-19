@@ -317,6 +317,7 @@ namespace jsc.meta.Commands.Rewrite
 					}
 					else
 					{
+						
 						t = _DeclaringType.DefineNestedType(
 
 							_NestedTypeName,

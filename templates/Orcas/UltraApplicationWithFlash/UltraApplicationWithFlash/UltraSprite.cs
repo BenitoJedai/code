@@ -52,7 +52,6 @@ namespace UltraApplicationWithFlash
 			}
 		}
 
-		public Action<PHTMLElement> EnhanceLogo { get; set; }
 
 		public void BuildPage(PHTMLElement that)
 		{

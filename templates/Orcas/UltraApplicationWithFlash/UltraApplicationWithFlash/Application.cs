@@ -85,17 +85,8 @@ namespace UltraApplicationWithFlash
 
 					o.AttachSpriteToDocument();
 
-					o.EnhanceLogo =
-						i =>
-						{
-							IHTMLElement j = ((PIHTMLElement)i);
+					o.Implement();
 
-							j.style.SetMatrixTransform(
-								2, 0,
-								0, 2,
-								0, 0
-							);
-						};
 
 					// we are sending a proxy of HTML element to flash!
 					o.BuildPage(o.ToHTMLElement().ToProxy());
