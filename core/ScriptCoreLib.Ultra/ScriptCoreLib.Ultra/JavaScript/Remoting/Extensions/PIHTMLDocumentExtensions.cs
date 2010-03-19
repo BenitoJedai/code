@@ -11,7 +11,12 @@ namespace ScriptCoreLib.JavaScript.Remoting.Extensions
 	{
 		public static PHTMLDocument ToProxy(this IHTMLDocument e)
 		{
-			return new PIHTMLDocument { InternalDocument = e };
+			return (PIHTMLDocument)e;
+		}
+
+		public static PHTMLElement ToProxy(this IHTMLElement e)
+		{
+			return (PIHTMLElement)e;
 		}
 	}
 }

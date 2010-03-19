@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 {
 	public interface PHTMLDocument
 	{
+		// API should be linked to Silverlight.Browser API
+
 		// to be used from flash or java applet
 		// to be defined as async API
 
@@ -17,6 +19,8 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 		void get_documentElement(PHTMLElementAction e);
 		void get_body(PHTMLElementAction e);
 	}
+
+	public delegate void PHTMLDocumentAction(PHTMLDocument doc);
 
 	public class PIHTMLDocument : PHTMLDocument
 	{
@@ -56,6 +60,11 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 			PIHTMLElement i = this.InternalDocument.body;
 
 			e(i);
+		}
+
+		public static implicit operator PIHTMLDocument(IHTMLDocument e)
+		{
+			return new PIHTMLDocument { InternalDocument = e };
 		}
 	}
 }

@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using java.applet;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
@@ -16,12 +17,19 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return e.AttachSpriteTo(Native.Document.body);
 		}
 
-		public static IHTMLElement AttachSpriteTo(this Sprite e, INode parent)
+		public static IHTMLElement ToHTMLElement(this Sprite e)
 		{
 			// at the moment the .castclass opcode will be translated only within
 			//  rewriteable assemblies
 
 			var i = (IHTMLElement)(object)e;
+
+			return i;
+		}
+
+		public static IHTMLElement AttachSpriteTo(this Sprite e, INode parent)
+		{
+			var i = e.ToHTMLElement();
 
 			parent.appendChild(i);
 
@@ -30,9 +38,20 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 		public static void ToTransparentSprite(this Sprite s)
 		{
-			var x = (IHTMLEmbed)(object)s;
+			var x = s.ToHTMLElement();
+
+			var p = x.parentNode;
+			if (p != null)
+			{
+				// if we continue, element will be reloaded!
+				return;
+			}
 
 			x.setAttribute("wmode", "transparent");
+
+			
 		}
+
+	
 	}
 }

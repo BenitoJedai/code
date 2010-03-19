@@ -54,5 +54,7 @@ namespace ScriptCoreLib.JavaScript.Remoting.Extensions
 				}
 			);
 		}
+
+	
 	}
 }
