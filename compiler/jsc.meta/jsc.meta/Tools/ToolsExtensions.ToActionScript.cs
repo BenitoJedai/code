@@ -23,7 +23,9 @@ namespace jsc.meta.Tools
 			FileInfo FusionAssembly,
 			string ProductName,
 
-			Action<string> RaiseProccessStatusChanged
+			Action<string> RaiseProccessStatusChanged,
+
+			bool CreateNoWindow
 			)
 		{
 			if (mxmlc == null)
@@ -99,7 +101,7 @@ namespace jsc.meta.Tools
 						UseShellExecute = false,
 
 						// http://blogs.msdn.com/jmstall/archive/2006/09/28/CreateNoWindow.aspx
-						CreateNoWindow = true,
+						CreateNoWindow = CreateNoWindow,
 
 						WorkingDirectory = obj_web
 					}
