@@ -31,14 +31,13 @@ namespace UltraApplicationWithAssets1
 					Width = 256,
 					Height = 256,
 
-					X1 = 200,
-					Y1 = 100,
+					X3 = 100, /* */ X1 = 250,
+					Y3 = 100, /* */ Y1 = 150,
 
 					X2 = 100,
-					Y2 = 200,
+					Y2 = 150,
 
-					X3 = 100,
-					Y3 = 100
+				
 				}
 			);
 
