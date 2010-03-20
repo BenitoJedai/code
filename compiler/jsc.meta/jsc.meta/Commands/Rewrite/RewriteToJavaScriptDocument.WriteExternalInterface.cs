@@ -1031,14 +1031,7 @@ namespace jsc.meta.Commands.Rewrite
 				#endregion
 
 
-				#region checking...
-				{
-					var Duplicates = ExternalCallback.GroupBy(k => k.Method.Name).Where(k => k.Count() > 1).ToArray();
-
-					if (Duplicates.Any())
-						throw new NotSupportedException();
-				}
-				#endregion
+			
 
 				InvokeLater.Action();
 			}

@@ -571,11 +571,22 @@ namespace jsc.Languages.Java
 				Action<Action> EmitTryCast =
 					expression =>
 					{
+						// http://forums.sun.com/thread.jspa?threadID=5336141
+						// Angle.class.isAssignableFrom(p.getUnit().getClass())
+						// http://bugs.sun.com/view_bug.do?bug_id=6548436
+
 						// expression is type ? (type)expression : (type)null
 						Write("(");
 
 						Write("(");
+
+						Write("(");
+						Write("(");
+						WriteDecoratedTypeName(typeof(object));
+						Write(")");
 						expression();
+						Write(")");
+
 
 						WriteSpace();
 						WriteKeywordSpace(Keywords._instanceof);
@@ -598,7 +609,16 @@ namespace jsc.Languages.Java
 							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 						);
 						Write(")");
+
+
+						Write("(");
+						Write("(");
+						WriteDecoratedTypeName(typeof(object));
+						Write(")");
+
 						expression();
+						Write(")");
+
 						WriteSpace();
 						Write(":");
 						WriteSpace();

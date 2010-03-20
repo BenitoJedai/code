@@ -75,6 +75,8 @@ namespace jsc.meta.Tools
 					)
 				{
 					UseShellExecute = false,
+					
+					//CreateNoWindow = true,
 
 					WorkingDirectory = obj_web
 				}
@@ -102,6 +104,7 @@ namespace jsc.meta.Tools
 					)
 					{
 						UseShellExecute = false,
+						CreateNoWindow = true,
 
 						WorkingDirectory = obj_web,
 

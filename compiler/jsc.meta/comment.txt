@@ -1,1 +1,3 @@
 lib section
+
+Ultra libraries can reference non mergeable script assemblies.
