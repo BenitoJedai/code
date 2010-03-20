@@ -216,11 +216,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 
-							EmitParentField(il);
+							if (EmitParentField != null)
+							{
+								EmitParentField(il);
 
-							EmitLoadElement(il);
+								EmitLoadElement(il);
 
-							il.Emit(OpCodes.Callvirt, __appendChild);
+								il.Emit(OpCodes.Callvirt, __appendChild);
+							}
 
 							if (done != null)
 								done(EmitLoadElement, il);

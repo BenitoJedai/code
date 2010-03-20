@@ -1058,7 +1058,14 @@ namespace jsc.meta.Commands.Rewrite
 					#region jsc backend
 					if (k.IsJava)
 					{
-						r.Output.ToJava(this.javapath, null, null, k.TargetType.FullName + ".jar", k.TargetType);
+						r.Output.ToJava(
+							this.javapath, 
+							null, 
+							null, 
+							k.TargetType.FullName + ".jar", 
+							k.TargetType,
+							this.InternalCreateNoWindow
+						);
 					}
 
 					if (k.IsWebServiceJava)
@@ -1078,9 +1085,14 @@ namespace jsc.meta.Commands.Rewrite
 
 					if (k.IsActionScript)
 					{
-						r.Output.ToActionScript(this.mxmlc, this.flashplayer, k.TargetType, null,
+						r.Output.ToActionScript(
+							this.mxmlc, 
+							this.flashplayer, 
+							k.TargetType, 
+							null,
 							k.TargetType.FullName + ".swf",
-							RaiseProccessStatusChanged
+							RaiseProccessStatusChanged,
+							InternalCreateNoWindow
 						);
 					}
 

@@ -18,10 +18,17 @@ namespace jsc.meta.Tools
 
 		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly, string jarname)
 		{
-			ToJava(TargetAssembly, javapath, assembly_metaentrypoint, FusionAssembly, jarname, null);
+			ToJava(TargetAssembly, javapath, assembly_metaentrypoint, FusionAssembly, jarname, null, true);
 		}
 
-		public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly, string jarname, Type TargetType)
+		public static void ToJava(
+			this FileInfo TargetAssembly, 
+			DirectoryInfo javapath, 
+			MethodInfo assembly_metaentrypoint, 
+			FileInfo FusionAssembly, 
+			string jarname, 
+			Type TargetType,
+			bool CreateNoWindow)
 		{
 
 			// we should run jsc in another appdomain actually
@@ -75,8 +82,8 @@ namespace jsc.meta.Tools
 					)
 				{
 					UseShellExecute = false,
-					
-					//CreateNoWindow = true,
+
+					CreateNoWindow = CreateNoWindow,
 
 					WorkingDirectory = obj_web
 				}

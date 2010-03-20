@@ -48,8 +48,11 @@ namespace jsc.meta
 
 			ShowLogo();
 
-			jsc.meta.Library.CostumAttributeBuilderExtensions.TestFeature();
-			jsc.meta.Commands.Rewrite.Templates.InternalToTypeTestConcept.TestConcept();
+			if (Debugger.IsAttached)
+			{
+				jsc.meta.Library.CostumAttributeBuilderExtensions.TestFeature();
+				jsc.meta.Commands.Rewrite.Templates.InternalToTypeTestConcept.TestConcept();
+			}
 
 			args.AsParametersTo(
 				new ExtendToWindowsFormsEverywhere().Invoke,

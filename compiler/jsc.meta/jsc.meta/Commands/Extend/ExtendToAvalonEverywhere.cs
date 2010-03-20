@@ -380,7 +380,7 @@ namespace jsc.meta.Commands.Extend
 					Product.ToJavaScript(null);
 
 				if (this.context.mxmlc != null)
-					Product.ToActionScript(this.context.mxmlc, this.context.flashplayer, ActionScriptEntryPoint, null, null, null);
+					Product.ToActionScript(this.context.mxmlc, this.context.flashplayer, ActionScriptEntryPoint, null, null, null, true);
 			}
 
 

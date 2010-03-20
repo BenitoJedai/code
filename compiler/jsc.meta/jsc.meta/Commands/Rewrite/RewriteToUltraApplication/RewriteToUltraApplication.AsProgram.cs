@@ -67,7 +67,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 					DisableWebServiceJava = true,
 					DisableWebServicePHP = true,
-					DisableWebServiceTypeMerge = true
+					DisableWebServiceTypeMerge = true,
+					InternalCreateNoWindow = true
 					//IsRewriteOnly = true
 				};
 
@@ -83,7 +84,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				r.ProccessStatusChanged +=
 					e =>
 					{
-						Console.Write(".");
+						//Console.Write(".");
 					};
 
 				r.Invoke();
