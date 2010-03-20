@@ -88,6 +88,7 @@
   <ItemGroup>
     <Content Include="My.UltraSource\Assets.htm" />
     <Content Include="My.UltraSource\Black1x256.png" />
+    <Content Include="My.UltraSource\Shadow1x256.png" />
     <Content Include="My.UltraSource\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

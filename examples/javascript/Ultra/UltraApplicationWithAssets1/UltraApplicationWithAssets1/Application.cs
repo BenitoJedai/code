@@ -19,27 +19,57 @@ namespace UltraApplicationWithAssets1
 		{
 			Native.Document.title = "Ultra Application";
 
+			Action<AffineTransformBase> C = a =>
+			{
+				var x = new Shadow1x256();
 
-			var x = new Black1x256();
+				x.style.SetLocation(0, 0);
+				x.AttachToDocument();
 
-			x.style.SetLocation(0, 0);
-			x.AttachToDocument();
+				x.style.SetMatrixTransform(
+					a
+				);
+			};
 
-			x.style.SetMatrixTransform(
+			C(
 				new AffineTransformBase
 				{
 					Width = 256,
 					Height = 256,
 
-					X3 = 100, /* */ X1 = 250,
-					Y3 = 100, /* */ Y1 = 150,
+			
+					X1 = 250,
+					Y1 = 150,
 
 					X2 = 100,
 					Y2 = 150,
 
-				
+					X3 = 100,
+					Y3 = 100, 
+
 				}
 			);
+
+
+			//C(
+			//        new AffineTransformBase
+			//        {
+			//            Width = 256,
+			//            Height = 256,
+
+
+
+			//            X1 = 250,
+			//            Y1 = 150,
+
+			//            X2 = 100,
+			//            Y2 = 100,
+
+			//            X3 = 100,
+			//            Y3 = 500, 
+
+			//        }
+			//    );
 
 		}
 
