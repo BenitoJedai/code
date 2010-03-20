@@ -1,19 +1,19 @@
-﻿using System;
-using System.ComponentModel;
-using OrcasUltraApplication.Advanced;
-using ScriptCoreLib.JavaScript;
+using System;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript;
 
-namespace OrcasUltraApplication
+namespace UltraApplicationWithApplet
 {
-	[Description("OrcasUltraApplication. Write javascript, flash and java applets within a C# project.")]
+
+	//[Description("UltraApplicationWithApplet. Write javascript, flash and java applets within a C# project.")]
+
 	public sealed partial class Application
 	{
 
 		public Application(IHTMLElement e)
 		{
-			Native.Document.title = "OrcasUltraApplication";
+			Native.Document.title = "UltraApplicationWithApplet";
 
 			var c = new IHTMLDiv
 			{
@@ -67,11 +67,12 @@ namespace OrcasUltraApplication
 					};
 			}
 
-
+			this.CreateApplet();
 		}
 
 
 	}
+
 
 
 }
