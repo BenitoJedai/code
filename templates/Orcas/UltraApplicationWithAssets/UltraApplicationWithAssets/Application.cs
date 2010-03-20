@@ -15,7 +15,7 @@ namespace UltraApplicationWithAssets
 
 		public Application(IHTMLElement e)
 		{
-			Native.Document.title = "Ultra Application";
+			Native.Document.title = "UltraApplicationWithAssets";
 
 
 			//var logo2 = new global::UltraLibraryWithAssets.HTML.Images.FromAssets.jsc();
