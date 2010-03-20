@@ -102,14 +102,14 @@ namespace UltraApplicationWithFlash
 						Width = 96,
 						Height = 96,
 
-						X1 = 100,
+						X1 = 100 + 96 * 2,
 						Y1 = 100,
 
 						X2 = 100,
-						Y2 = 100 + 96,
+						Y2 = 100 + 96 * 2,
 
-						X3 = 100 + 96,
-						Y3 = 100 + 96,
+						X3 = 100,
+						Y3 = 100,
 
 					};
 
