@@ -419,3 +419,5 @@ version history:
 	as: safe names are now used for namespaces
 08.03.2010
 	java: safe names are now used for namespaces 
+20.03.2010
+	java: fixed as operator due to javac bug

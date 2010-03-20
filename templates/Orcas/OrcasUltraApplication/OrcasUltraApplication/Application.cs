@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using OrcasUltraApplication.Advanced;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
@@ -10,7 +9,6 @@ namespace OrcasUltraApplication
 	[Description("OrcasUltraApplication. Write javascript, flash and java applets within a C# project.")]
 	public sealed partial class Application
 	{
-
 		public Application(IHTMLElement e)
 		{
 			Native.Document.title = "OrcasUltraApplication";

@@ -18,12 +18,20 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return e.AttachAppletTo(Native.Document.body);
 		}
 
-		public static IHTMLElement AttachAppletTo(this Applet e, INode parent)
+		public static IHTMLElement ToHTMLElement(this Applet e)
 		{
 			// at the moment the .castclass opcode will be translated only within
 			//  rewriteable assemblies
 
 			var i = (IHTMLElement)(object)e;
+
+			return i;
+		}
+
+
+		public static IHTMLElement AttachAppletTo(this Applet e, INode parent)
+		{
+			var i = e.ToHTMLElement();
 
 			parent.appendChild(i);
 

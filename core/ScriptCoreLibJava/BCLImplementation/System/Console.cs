@@ -48,7 +48,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4153167
 
 
-			var u = java.lang.JavaSystem.getProperty("file.encoding");
+			var u = default(string);
+
+			try
+			{
+				// we cannot do this in applet?
+				u = java.lang.JavaSystem.getProperty("file.encoding");
+			}
+			catch
+			{
+
+			}
 
 			// default:
 			if (string.IsNullOrEmpty(u))
@@ -72,14 +82,18 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 				try
 				{
 					if (InternalOutCache == null)
-						InternalOutCache = new java.io.PrintStream(java.lang.JavaSystem.@out, true,
-							InternalGetEnvironmentEncoding()
-						);
+					{
+						var _stream = java.lang.JavaSystem.@out;
+						var _encoding = InternalGetEnvironmentEncoding();
+
+						InternalOutCache = new java.io.PrintStream(_stream, true, _encoding);
+					}
 				}
-				catch
+				catch (csharp.ThrowableException ex)
 				{
-					throw new InvalidOperationException();
+					throw new InvalidOperationException(ex.Message);
 				}
+
 
 				return InternalOutCache;
 			}
@@ -113,6 +127,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public static void WriteLine(string e)
 		{
+			// java applet behaves somewhat different?
+
+			var InternalOut = default(java.io.PrintStream);
+
+			InternalOut = __Console.InternalOut;
+
 			InternalOut.println(e);
 		}
 
