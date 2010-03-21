@@ -10,7 +10,12 @@ using System.Xml.XPath;
 using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Reflection;
-
+using ScriptCoreLib.Documentation;
+using jsc.meta.Library;
+using System.Reflection.Emit;
+using jsc.Languages.IL;
+using jsc.Languages;
+using jsc.Script;
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
 	partial class ReferenceUltraSource
@@ -26,6 +31,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 			public void Define()
 			{
+				var DefaultNamespace = this.DefaultNamespace.TakeUntilLastIfAny(".Documentation");
+
 				var Assemblies = Enumerable.ToArray(
 					from a in this.BodyElement.XPathSelectElements("//a")
 
@@ -62,44 +69,210 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					//let AssemblyName = AssemblyEntry.FileName.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
 
-					group new { ArchiveTitle, AssemblyName, DocumentationOrDefault, Assembly } by new { ArchiveTitle, AssemblyName }
+					select new { ArchiveTitle, AssemblyName, DocumentationOrDefault, Assembly }
 				);
 
+				// http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=define:+compilation
+				// something that is compiled (as into a single book or file) 
+				var CompilationBuilder = this.r.RewriteArguments.Module.DefineType(
+					this.DefaultNamespace + ".Documentation.Compilation", TypeAttributes.Public,
+					typeof(CompilationBase)
+				);
+
+				var CompilationBuilder_ctor = CompilationBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
+
 				{
-					// http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=define:+compilation
-					// something that is compiled (as into a single book or file) 
-					var t = this.r.RewriteArguments.Module.DefineType(
-						this.DefaultNamespace + ".Documentation.Compilation", TypeAttributes.Public
+					var il = CompilationBuilder_ctor.GetILGenerator();
+
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, typeof(CompilationBase).GetConstructors().Single());
+				}
+
+				var ArchiveBuilderRedirects = new List<Action>();
+
+				// define a method like it over here and give me a duplicater
+
+				#region default view
+				foreach (var Archive in from k in Assemblies group k by k.ArchiveTitle)
+				{
+					var ArchiveBuilder = this.r.RewriteArguments.Module.DefineType(
+						this.DefaultNamespace + ".Documentation.Compilation" + Archive.Key + "Archive",
+						TypeAttributes.Public,
+						typeof(CompilationArchiveBase)
 					);
 
-					t.CreateType();
-				}
-
-				foreach (var aa in Assemblies)
-				{
-					var a = aa.First();
+					var ArchiveBuilder_ctor = ArchiveBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
 
 					{
-						var t = this.r.RewriteArguments.Module.DefineType(
-							this.DefaultNamespace + ".Documentation." + a.ArchiveTitle + "." + a.AssemblyName + ".Assembly"
+						var il = ArchiveBuilder_ctor.GetILGenerator();
+
+						il.Emit(OpCodes.Ldarg_0);
+						il.Emit(OpCodes.Call, typeof(CompilationArchiveBase).GetConstructors().Single());
+					}
+
+					{
+						var InternalGetNameMethod = ((Func<CompilationArchiveBase, Func<string>>)(k => k.InternalGetName)).ToReferencedMethod();
+						var InternalGetName = ArchiveBuilder.DefineMethod(
+							InternalGetNameMethod.Name,
+							MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.FamORAssem,
+							InternalGetNameMethod.CallingConvention,
+							InternalGetNameMethod.ReturnType,
+							InternalGetNameMethod.GetParameterTypes()
 						);
 
-						t.CreateType();
+						var il = InternalGetName.GetILGenerator();
+
+						il.Emit(OpCodes.Ldstr, Archive.Key);
+						il.Emit(OpCodes.Ret);
 					}
 
 
-					foreach (var at in a.Assembly.GetExportedTypes())
+					var AssemblyBuilderRedirects = new List<Action>();
+
+
+					#region Archive
+					foreach (var Assembly in from k in Archive group k by k.AssemblyName)
 					{
+						var AssemblyNameHint = CompilerBase.GetSafeLiteral(Assembly.Key, null);
+
+						var AssemblyBuilder = this.r.RewriteArguments.Module.DefineType(
+							this.DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssembly",
+							TypeAttributes.Public,
+							typeof(CompilationAssemblyBase)
+						);
+						var AssemblyBuilder_ctor = AssemblyBuilder.DefineDefaultConstructor(MethodAttributes.Public);
+
 						{
-							var t = this.r.RewriteArguments.Module.DefineType(
-								this.DefaultNamespace + ".Documentation." + a.ArchiveTitle + "." + a.AssemblyName + "." + at.FullName.SkipUntilIfAny(a.AssemblyName + ".")
+							var InternalGetNameMethod = ((Func<CompilationAssemblyBase, Func<string>>)(k => k.InternalGetName)).ToReferencedMethod();
+							var InternalGetName = AssemblyBuilder.DefineMethod(
+								InternalGetNameMethod.Name,
+								MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.FamORAssem,
+								InternalGetNameMethod.CallingConvention,
+								InternalGetNameMethod.ReturnType,
+								InternalGetNameMethod.GetParameterTypes()
 							);
 
-							t.CreateType();
+							var il = InternalGetName.GetILGenerator();
+
+							il.Emit(OpCodes.Ldstr, Assembly.Key);
+							il.Emit(OpCodes.Ret);
 						}
+
+						// if we have multiple copies in the archive we select the first
+
+						var First = Assembly.First();
+
+						foreach (var ExportedType in First.Assembly.GetExportedTypes())
+						{
+							var TypeBuilder = this.r.RewriteArguments.Module.DefineType(
+								this.DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + "." + ExportedType.FullName.SkipUntilIfAny(Assembly.Key + "."),
+								TypeAttributes.NotPublic,
+								typeof(CompilationTypeBase)
+							);
+
+							TypeBuilder.CreateType();
+						}
+
+						AssemblyBuilder.CreateType();
+
+						AssemblyBuilderRedirects.Add(
+							delegate
+							{
+								this.r.RewriteArguments.context.MemberRenameCache[
+									((Func<CompilationArchiveBaseTemplate, CompilationAssemblyBase>)(k => k.InternalAssemblies1)).ToReferencedField()
+								] = "Internal_" + AssemblyNameHint;
+
+								this.r.RewriteArguments.context.MemberRenameCache[
+									((Func<CompilationArchiveBaseTemplate, Func<CompilationAssemblyBase>>)(k => k.AddInternalAssemblies1)).ToReferencedMethod()
+								] = "InternalAdd_" + AssemblyNameHint;
+
+								this.r.RewriteArguments.context.TypeCache[typeof(CompilationAssemblyBaseTemplate)] = ArchiveBuilder;
+								this.r.RewriteArguments.context.ConstructorCache[
+									typeof(CompilationAssemblyBaseTemplate).GetConstructors().Single()
+								] = AssemblyBuilder_ctor;
+
+								this.r.RewriteArguments.context.TypeCache[typeof(CompilationArchiveBaseTemplate)] = ArchiveBuilder;
+
+							}
+						);
+
 					}
+					#endregion
+
+					DuplicateWriter(
+						((Action<CompilationArchiveBaseTemplate>)(k => k.InitializeAssemblies())).ToReferencedMethod(),
+						ArchiveBuilder_ctor.GetILGenerator(),
+						ArchiveBuilder,
+						AssemblyBuilderRedirects
+					);
+
+					ArchiveBuilder_ctor.GetILGenerator().Emit(OpCodes.Ret);
+					ArchiveBuilder.CreateType();
+
+					ArchiveBuilderRedirects.Add(
+						delegate
+						{
+							this.r.RewriteArguments.context.MemberRenameCache[
+								((Func<CompilationBaseTemplate, CompilationArchiveBase>)(k => k.InternalArchive1)).ToReferencedField()
+							] = "Internal_" + ArchiveBuilder.Name;
+
+							this.r.RewriteArguments.context.MemberRenameCache[
+								((Func<CompilationBaseTemplate, Func<CompilationArchiveBase>>)(k => k.AddArchive1)).ToReferencedMethod()
+							] = "InternalAdd_" + ArchiveBuilder.Name;
+
+							this.r.RewriteArguments.context.TypeCache[typeof(CompilationArchiveBaseTemplate)] = ArchiveBuilder;
+							this.r.RewriteArguments.context.ConstructorCache[
+								typeof(CompilationArchiveBaseTemplate).GetConstructors().Single()
+							] = ArchiveBuilder_ctor;
+
+							this.r.RewriteArguments.context.TypeCache[typeof(CompilationBaseTemplate)] = CompilationBuilder;
+
+						}
+					);
 				}
+				#endregion
+
+
+				DuplicateWriter(
+					((Action<CompilationBaseTemplate>)(k => k.InitializeArchives())).ToReferencedMethod(),
+					CompilationBuilder_ctor.GetILGenerator(),
+					CompilationBuilder,
+					ArchiveBuilderRedirects
+				);
+
+				CompilationBuilder_ctor.GetILGenerator().Emit(OpCodes.Ret);
+				CompilationBuilder.CreateType();
+
 			}
+
+			public void DuplicateWriter(MethodInfo Template, ILGenerator il, TypeBuilder DeclaringType, IEnumerable<Action> Redirections)
+			{
+				foreach (var item in Redirections)
+					using (this.r.RewriteArguments.context.ToTransientTransaction())
+					{
+						var il_a = new ILTranslationExtensions.EmitToArguments
+						{
+							TranslateTargetType = this.r.RewriteArguments.context.TypeCache,
+							TranslateTargetField = this.r.RewriteArguments.context.FieldCache,
+							TranslateTargetMethod = this.r.RewriteArguments.context.MethodCache,
+							TranslateTargetConstructor = this.r.RewriteArguments.context.ConstructorCache,
+						};
+
+						il_a[OpCodes.Ret] =
+							delegate
+							{
+
+							};
+
+						item();
+
+						Template.EmitTo(il, il_a);
+					}
+
+			}
+
 		}
 	}
+
+
 }

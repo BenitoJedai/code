@@ -42,7 +42,7 @@ namespace jsc.meta.Commands.Rewrite
 			var MethodName =
 				//(source == this._assembly.EntryPoint) ||
 				(source.GetMethodBody() == null || (source.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
-				source.Name : NameObfuscation[source.Name];
+				source.Name : NameObfuscation[context.MemberRenameCache[source] ?? source.Name];
 
 			// !! fixme
 			// How to: Define a Generic Method with Reflection Emit
@@ -247,7 +247,7 @@ namespace jsc.meta.Commands.Rewrite
 					},
 
 				// we need to redirect any typerefs and methodrefs!
-				
+
 
 
 				TranslateTargetType = context.TypeCache,

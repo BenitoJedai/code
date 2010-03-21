@@ -225,6 +225,7 @@ namespace jsc.meta.Commands.Rewrite
 			var TypeDefinitionCache = new VirtualDictionary<Type, Type>();
 			var TypeCache = new VirtualDictionary<Type, Type>();
 			var TypeRenameCache = new VirtualDictionary<Type, string>();
+			var MemberRenameCache = new VirtualDictionary<MemberInfo, string>();
 			var FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>();
 
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
@@ -240,7 +241,7 @@ namespace jsc.meta.Commands.Rewrite
 				context =
 					new ILTranslationContext
 					{
-
+						MemberRenameCache = MemberRenameCache,
 						ConstructorCache = ConstructorCache,
 						MethodCache = MethodCache,
 						TypeDefinitionCache = TypeDefinitionCache,
@@ -377,6 +378,17 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
+			#region MemberRenameCache
+			MemberRenameCache.Resolve +=
+				SourceMember =>
+				{
+					if (MemberRenameCache.BaseDictionary.ContainsKey(SourceMember))
+						return;
+
+					MemberRenameCache[SourceMember] = default(string);
+				};
+			#endregion
+
 			#region TypeRenameCache
 			TypeRenameCache.Resolve +=
 				SourceType =>
@@ -463,7 +475,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 					#region ShouldCopyType - CopyMethod
-					if (ShouldCopyType(msource.DeclaringType))
+					if (TypeCache[msource.DeclaringType] is TypeBuilder /*|| ShouldCopyType(msource.DeclaringType)*/)
 					{
 						var tb_source = (TypeBuilder)TypeCache[msource.DeclaringType.IsGenericType ? msource.DeclaringType.GetGenericTypeDefinition() : msource.DeclaringType];
 
@@ -648,7 +660,7 @@ namespace jsc.meta.Commands.Rewrite
 					if (DeclaringType_ is TypeBuilder)
 					{
 						var DeclaringType = (TypeBuilder)DeclaringType_;
-						var FieldName = NameObfuscation[SourceField.Name];
+						var FieldName = NameObfuscation[MemberRenameCache[SourceField] ?? SourceField.Name];
 
 						if (SourceField.FieldType.IsInitializedDataFieldType())
 						{
@@ -660,7 +672,8 @@ namespace jsc.meta.Commands.Rewrite
 						}
 						else
 						{
-							var ff = DeclaringType.DefineField(FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
+							var ff = DeclaringType.DefineField(
+								 FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
 
 							if (SourceField.IsLiteral)
 							{
