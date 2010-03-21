@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
+    <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />
     <Compile Include="Disposable.cs" />

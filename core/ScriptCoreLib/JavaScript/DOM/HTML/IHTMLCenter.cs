@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
 	[Script(InternalConstructor = true)]
-	internal class IHTMLCenter : IHTMLElement
+	public class IHTMLCenter : IHTMLElement
 	{
 
 
