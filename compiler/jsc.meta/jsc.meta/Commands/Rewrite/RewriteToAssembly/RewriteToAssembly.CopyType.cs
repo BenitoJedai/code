@@ -329,8 +329,18 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				else
 				{
+					var DefineTypeName = FullNameFixup(TypeName);
+
+					if (SourceType.IsAnonymousType())
+					{
+						while (this.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Any(k => k.FullName == DefineTypeName))
+						{
+							DefineTypeName += "´";
+						}
+					}
+
 					t = m.DefineType(
-						FullNameFixup(TypeName),
+						DefineTypeName,
 						TypeAttributes,
 						BaseType,
 						_Interfaces
