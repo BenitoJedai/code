@@ -330,6 +330,18 @@ namespace jsc.meta.Commands.Reference
 									ElementTypes = ElementTypes
 								}.Define();
 
+
+								new DefineDocumentation
+								{
+
+									DefaultNamespace = DefaultNamespace,
+									BodyElement = BodyElement,
+									r = r,
+									GetLocalResource = item.GetLocalResource,
+
+								}.Define();
+
+
 								var VariationsForPages = new Dictionary<string, Dictionary<string, Type>>
 								{
 									{"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromWeb)},

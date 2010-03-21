@@ -7,8 +7,8 @@ using ScriptCoreLib;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Ultra Application With Avalon")]
-[assembly: AssemblyDescription("Ultra Application With Avalon. Design pages in HTML then use pages in c# code. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
+[assembly: AssemblyTitle("Ultra Application With Assets")]
+[assembly: AssemblyDescription("Ultra Application With Assets. Design pages in HTML then use pages in c# code. Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("jsc-solutions.net")]
 [assembly: AssemblyProduct("UltraApplication")]
