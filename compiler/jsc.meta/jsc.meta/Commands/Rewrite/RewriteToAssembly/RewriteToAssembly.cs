@@ -230,6 +230,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
 			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
+			var MethodAttributesCache = new VirtualDictionary<MethodInfo, MethodAttributes>();
 			var PropertyCache = new VirtualDictionary<PropertyInfo, PropertyInfo>();
 
 
@@ -241,6 +242,7 @@ namespace jsc.meta.Commands.Rewrite
 				context =
 					new ILTranslationContext
 					{
+						MethodAttributesCache = MethodAttributesCache,
 						MemberRenameCache = MemberRenameCache,
 						ConstructorCache = ConstructorCache,
 						MethodCache = MethodCache,
@@ -378,6 +380,17 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
+			#region MethodAttributesCache
+			MethodAttributesCache.Resolve +=
+				SourceMember =>
+				{
+					if (MethodAttributesCache.BaseDictionary.ContainsKey(SourceMember))
+						return;
+
+					MethodAttributesCache[SourceMember] = SourceMember.Attributes;
+				};
+			#endregion
+
 			#region MemberRenameCache
 			MemberRenameCache.Resolve +=
 				SourceMember =>
@@ -403,86 +416,94 @@ namespace jsc.meta.Commands.Rewrite
 
 			#region MethodCache
 			MethodCache.Resolve +=
-				msource =>
+				SourceMethod =>
 				{
 					//Console.WriteLine("MethodCache: " + msource.ToString());
 
 					// This unit was resolved for us...
-					if (ExternalContext.MethodCache[msource] != msource)
+					if (ExternalContext.MethodCache[SourceMethod] != SourceMethod)
 					{
-						MethodCache[msource] = ExternalContext.MethodCache[msource];
+						MethodCache[SourceMethod] = ExternalContext.MethodCache[SourceMethod];
 						return;
 					}
 
-					var source = msource.DeclaringType;
+					// http://msdn.microsoft.com/en-us/library/system.reflection.memberinfo.declaringtype.aspx
+					// If the MemberInfo object is a global member, (that is, it was obtained from Module.GetMethods,
+					// which returns global methods on a module), then the returned DeclaringType will be a 
+					// null reference (Nothing in Visual Basic).
+
+					var SourceType = SourceMethod.DeclaringType;
 					var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
+					if (SourceType != null)
+						if (SourceType.IsGenericType)
+							if (!SourceType.IsGenericTypeDefinition)
+							{
+								var Def = SourceType.GetGenericTypeDefinition().GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
 
-					if (source.IsGenericType)
-						if (!source.IsGenericTypeDefinition)
+								// Define it in the TypeBuilder
+								var Def1 = MethodCache[Def];
+
+								var ResolvedType1 = TypeDefinitionCache[SourceType.GetGenericTypeDefinition()];
+
+								var ResolvedType2 = ResolvedType1.MakeGenericType(
+									TypeDefinitionCache[SourceType.GetGenericArguments()]
+								);
+
+								// http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
+								// http://msdn.microsoft.com/en-us/library/ms145835.aspx
+
+								//var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+
+
+								// The specified method must be declared on the generic type definition of the specified type.
+								// Parameter name: type
+								var Def2 = default(MethodInfo);
+
+								// ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
+								try
+								{
+									Def2 = TypeBuilder.GetMethod(ResolvedType2, Def1);
+								}
+								catch
+								{
+									Def2 = ResolvedType2.GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
+								}
+
+								var Def3 = Def2;
+
+								if (SourceMethod.IsGenericMethod)
+									Def3 = Def2.MakeGenericMethod(
+									 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
+									 );
+
+								MethodCache[SourceMethod] = Def3;
+								return;
+							}
+
+					if (SourceMethod.IsGenericMethod)
+						if (!SourceMethod.IsGenericMethodDefinition)
 						{
-							var Def = source.GetGenericTypeDefinition().GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
-
-							// Define it in the TypeBuilder
-							var Def1 = MethodCache[Def];
-
-							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
-
-							var ResolvedType2 = ResolvedType1.MakeGenericType(
-								TypeDefinitionCache[source.GetGenericArguments()]
+							MethodCache[SourceMethod] = MethodCache[SourceMethod.GetGenericMethodDefinition()].MakeGenericMethod(
+								 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
 							);
 
-							// http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
-							// http://msdn.microsoft.com/en-us/library/ms145835.aspx
-
-							//var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
-
-
-							// The specified method must be declared on the generic type definition of the specified type.
-							// Parameter name: type
-							var Def2 = default(MethodInfo);
-
-							// ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
-							try
-							{
-								Def2 = TypeBuilder.GetMethod(ResolvedType2, Def1);
-							}
-							catch
-							{
-								Def2 = ResolvedType2.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
-							}
-
-							var Def3 = Def2;
-
-							if (msource.IsGenericMethod)
-								Def3 = Def2.MakeGenericMethod(
-								 TypeDefinitionCache[msource.GetGenericArguments()]
-								 );
-
-							MethodCache[msource] = Def3;
 							return;
 						}
 
-					if (msource.IsGenericMethod)
-						if (!msource.IsGenericMethodDefinition)
-						{
-							MethodCache[msource] = MethodCache[msource.GetGenericMethodDefinition()].MakeGenericMethod(
-								 TypeDefinitionCache[msource.GetGenericArguments()]
-							);
-
-							return;
-						}
 
 
 					#region ShouldCopyType - CopyMethod
-					if (TypeCache[msource.DeclaringType] is TypeBuilder /*|| ShouldCopyType(msource.DeclaringType)*/)
+					if (ShouldCopyAssembly(SourceMethod.Module.Assembly) || TypeCache[SourceType] is TypeBuilder)
 					{
-						var tb_source = (TypeBuilder)TypeCache[msource.DeclaringType.IsGenericType ? msource.DeclaringType.GetGenericTypeDefinition() : msource.DeclaringType];
+						var tb_source = (TypeBuilder)(
+							SourceType == null ? null :
+							TypeCache[SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition() : SourceType]);
 
 						CopyMethod(
 							a,
 							m,
-							msource,
+							SourceMethod,
 							tb_source,
 							NameObfuscation,
 							_assembly,
@@ -490,13 +511,13 @@ namespace jsc.meta.Commands.Rewrite
 							this.codeinjectonparams,
 							this.AtILOverride,
 
-							(SourceMethod, Method, GetILGenerator) =>
+							(SourceMethod_, Method, GetILGenerator) =>
 							{
 								if (this.BeforeInstructions != null)
 									this.BeforeInstructions(
 										 new BeforeInstructionsArguments
 										 {
-											 SourceType = msource.DeclaringType,
+											 SourceType = SourceType,
 											 Type = tb_source,
 											 Assembly = a,
 											 Module = m,
@@ -516,25 +537,25 @@ namespace jsc.meta.Commands.Rewrite
 					#endregion
 
 
-					if (!msource.IsGenericMethodDefinition)
+					if (!SourceMethod.IsGenericMethodDefinition)
 					{
 						// do we need to redirect the type also?
-						if (source.GetGenericArguments().Any(k => k != TypeCache[k]))
+						if (SourceType.GetGenericArguments().Any(k => k != TypeCache[k]))
 						{
 							//var msource_gp = msource.GetGenericMethodDefinition().GetParameterTypes();
 
 
-							var GenericArguments = TypeDefinitionCache[source.GetGenericArguments()];
+							var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
 
 
-							var GenericTypeDefinition = source.GetGenericTypeDefinition();
+							var GenericTypeDefinition = SourceType.GetGenericTypeDefinition();
 							var GenericTypeDefinition_GetGenericArguments = GenericTypeDefinition.GetGenericArguments();
 
 							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
 							var ParameterTypes =
 
 
-							msource.IsGenericMethod ? msource.GetGenericMethodDefinition().GetParameterTypes().Select(
+							SourceMethod.IsGenericMethod ? SourceMethod.GetGenericMethodDefinition().GetParameterTypes().Select(
 								k =>
 								{
 									if (k.IsGenericTypeDefinition)
@@ -542,7 +563,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									return TypeCache[k];
 								}
-								).ToArray() : TypeDefinitionCache[msource.GetParameterTypes()];
+								).ToArray() : TypeDefinitionCache[SourceMethod.GetParameterTypes()];
 
 							ParameterTypes = ParameterTypes.Select(k =>
 							{
@@ -561,32 +582,32 @@ namespace jsc.meta.Commands.Rewrite
 							}).ToArray();
 							// Type must be a type provided by the runtime.
 							// Parameter name: types
-							var GenericTypeDefinitionMethod = GenericTypeDefinition.GetMethod(msource.Name, Flags, null, ParameterTypes, null);
+							var GenericTypeDefinitionMethod = GenericTypeDefinition.GetMethod(SourceMethod.Name, Flags, null, ParameterTypes, null);
 
 							var GenericTypeMethod = TypeBuilder.GetMethod(GenericType, GenericTypeDefinitionMethod);
 
-							var GenericTypeMethod__ = msource.IsGenericMethod ? GenericTypeMethod.MakeGenericMethod(
-								 TypeDefinitionCache[msource.GetGenericArguments()]
+							var GenericTypeMethod__ = SourceMethod.IsGenericMethod ? GenericTypeMethod.MakeGenericMethod(
+								 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
 								 ) : GenericTypeMethod;
 
-							MethodCache[msource] = GenericTypeMethod__;
+							MethodCache[SourceMethod] = GenericTypeMethod__;
 						}
 						else
 						{
-							MethodCache[msource] =
-								msource.IsGenericMethod ?
+							MethodCache[SourceMethod] =
+								SourceMethod.IsGenericMethod ?
 
-								MethodCache[msource.GetGenericMethodDefinition()]
+								MethodCache[SourceMethod.GetGenericMethodDefinition()]
 
 								.MakeGenericMethod(
-									TypeDefinitionCache[msource.GetGenericArguments()]
-								) : msource;
+									TypeDefinitionCache[SourceMethod.GetGenericArguments()]
+								) : SourceMethod;
 						}
 
 						return;
 					}
 
-					MethodCache[msource] = msource;
+					MethodCache[SourceMethod] = SourceMethod;
 				};
 			#endregion
 
@@ -947,6 +968,18 @@ namespace jsc.meta.Commands.Rewrite
 			Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
 			Console.WriteLine("");
 
+			var HiddenEntryPoints = Enumerable.ToArray(
+				from t in PrimaryTypes
+				from tm in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+				where tm.DeclaringType.Assembly.EntryPoint == tm
+				select tm
+			);
+
+			foreach (var item in HiddenEntryPoints)
+			{
+				MethodAttributesCache[item] = item.Attributes | MethodAttributes.Family;
+			}
+
 			// ask for our primary types to be copied
 			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
 
@@ -992,6 +1025,8 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
+	
+			DefineHiddenEntryPointsType(m, HiddenEntryPoints);
 
 
 			#region maybe the rewriter wants to add some types at this point?
@@ -1011,8 +1046,9 @@ namespace jsc.meta.Commands.Rewrite
 			// http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
 
 
+			m.CreateGlobalFunctions();
 
-
+			// The type definition of the global function is not completed.
 			if (OutputUndefined)
 			{
 				a.Save(
@@ -1026,12 +1062,47 @@ namespace jsc.meta.Commands.Rewrite
 					"~" + Product.Name
 				);
 
+				var Temp = Path.Combine(Product.Directory.FullName, "~" + Product.Name);
+
 				new FileInfo(
-					Path.Combine(Product.Directory.FullName, "~" + Product.Name)
+					Temp	
 				).CopyTo(this.Output.FullName, true);
+
+				File.Delete(Temp);
 			}
 
 			Product.Refresh();
+		}
+
+		private void DefineHiddenEntryPointsType(ModuleBuilder m, MethodInfo[] HiddenEntryPoints)
+		{
+
+			var HiddenEntryPointsType = m.DefineType("HiddenEntryPointsType", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+
+			var EntryPointIndex = 0;
+
+			foreach (var HiddenEntryPoint in HiddenEntryPoints)
+			{
+				var EntryPointMethod = HiddenEntryPointsType.DefineMethod(
+					"EntryPoint" + EntryPointIndex,
+					MethodAttributes.Public | MethodAttributes.Static,
+					HiddenEntryPoint.CallingConvention,
+					HiddenEntryPoint.ReturnType,
+					HiddenEntryPoint.GetParameterTypes()
+				);
+
+				var il = EntryPointMethod.GetILGenerator();
+
+				foreach (var item in HiddenEntryPoint.GetParameters())
+				{
+					il.Emit(OpCodes.Ldarg, (short)item.Position);
+				}
+				il.Emit(OpCodes.Call, this.RewriteArguments.context.MethodCache[HiddenEntryPoint]);
+				il.Emit(OpCodes.Ret);
+
+			}
+
+			HiddenEntryPointsType.CreateType();
 		}
 
 

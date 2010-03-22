@@ -742,12 +742,15 @@ namespace jsc
 				{
 					_cached_loop.Dirty = true;
 
+					if (this.OpCode.OperandType == OperandType.InlineSwitch)
+						return null;
+
 					// loop start
 					// loop continue
 					// loop break
 
 
-
+					
 					if (this.OpCode.FlowControl == FlowControl.Branch)
 					{
 						ILInstruction x = this.TargetInstruction;
@@ -769,15 +772,18 @@ namespace jsc
 						// break
 						if (x.Prev.OpCode.FlowControl == FlowControl.Cond_Branch)
 						{
-							ILInstruction branch = x.Prev.TargetInstruction.Prev;
-							ILLoopConstruct loop = branch.InlineLoopConstruct;
-
-							if (loop != null && loop.Join == x)
+							if (x.Prev.BranchTargets.Length == 1)
 							{
-								if (this.Offset < loop.Branch.Offset || this.Offset > loop.Join.Offset)
-									return null;
+								ILInstruction branch = x.Prev.TargetInstruction.Prev;
+								ILLoopConstruct loop = branch.InlineLoopConstruct;
 
-								return _cached_loop.Value = loop;
+								if (loop != null && loop.Join == x)
+								{
+									if (this.Offset < loop.Branch.Offset || this.Offset > loop.Join.Offset)
+										return null;
+
+									return _cached_loop.Value = loop;
+								}
 							}
 						}
 					}
@@ -907,12 +913,20 @@ namespace jsc
 					{
 						ILInstruction t = this.TargetInstruction;
 
+						if (t.Prev == null)
+							return null;
+
 						bool ret_alias = false;
 
-						if (
-							t.Prev.OpCode.FlowControl == FlowControl.Branch
-							&&
-							t.Prev.TargetFlow.Branch == OpCodes.Ret)
+						var IsBranch = t.Prev.OpCode.FlowControl == FlowControl.Branch;
+
+						// why is it null?
+						if (t.Prev.TargetFlow == null)
+							return null;
+
+						var IsRet = t.Prev.TargetFlow.Branch == OpCodes.Ret;
+
+						if (IsBranch && IsRet)
 						{
 							if (t.Prev.TargetFlow.Branch.StackPopCount == 1)
 							{
@@ -1495,7 +1509,7 @@ namespace jsc
 			{
 				if (BranchTargets.Length == 1)
 					return BranchTargets[0];
-				else throw new InvalidOperationException();
+				else throw new InvalidOperationException(this.Location);
 			}
 		}
 
@@ -1593,6 +1607,8 @@ namespace jsc
 					// OwnerMethod.Module.Assembly.ModuleResolve += new ModuleResolveEventHandler(Assembly_ModuleResolve);
 
 					MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32,
+
+						OwnerMethod.DeclaringType == null ? null :
 						OwnerMethod.DeclaringType.GetGenericArguments(),
 						ma);
 
@@ -1644,7 +1660,12 @@ namespace jsc
 
 				try
 				{
-					MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32, OwnerMethod.DeclaringType.GetGenericArguments(), ma);
+					MethodBase x = OwnerMethod.Module.ResolveMethod(OpParamAsInt32,
+
+						OwnerMethod.DeclaringType == null ? null :
+						OwnerMethod.DeclaringType.GetGenericArguments(),
+						ma
+					);
 
 					if (x is ConstructorInfo)
 						return (ConstructorInfo)x;
@@ -2146,7 +2167,10 @@ namespace jsc
 
 					if (x == null) x = TargetConstructor;
 
-					Console.Write(x.DeclaringType.FullName + "::" + x.Name);
+					Console.Write(
+						(x.DeclaringType == null ? "" :
+						x.DeclaringType.FullName)
+						+ "::" + x.Name);
 					Console.Write("(");
 
 					ParameterInfo[] pi = x.GetParameters();

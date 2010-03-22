@@ -16,6 +16,13 @@ namespace jsc.meta.Commands.Rewrite
 	{
 		public event Action<AtShouldCopyTypeTuple> AtShouldCopyType;
 
+		private bool ShouldCopyAssembly(Assembly ContextAssembly)
+		{
+			return PrimaryTypes.Any(k => k.Assembly == ContextAssembly)
+				||
+				this.merge.Any(k => k.name == ContextAssembly.GetName().Name);
+		}
+
 		private bool ShouldCopyType(Type ContextType)
 		{
 			if (ContextType.IsGenericType)
@@ -42,9 +49,7 @@ namespace jsc.meta.Commands.Rewrite
 			if (t.DisableCopyType)
 				return false;
 
-			return PrimaryTypes.Any(k => k.Assembly == ContextType.Assembly)
-				||
-				this.merge.Any(k => k.name == ContextType.Assembly.GetName().Name)
+			return ShouldCopyAssembly(ContextType.Assembly)
 				|| (!DisableIsMarkedForMerge && IsMarkedForMerge(ContextType));
 		}
 

@@ -76,7 +76,7 @@ namespace jsc.Languages.IL
 				Stloc_.ForEach((OpCode, n) => this[OpCode] = e => Stloc(e, TranslateLocalIndex(n)));
 
 				this[OpCodes.Stloc_S] = e => Stloc(e, TranslateLocalIndex(e.i.OpParamAsInt8));
-				this[OpCodes.Stloc] = e => Stloc(e, TranslateLocalIndex(e.i.OpParamAsInt32));
+				this[OpCodes.Stloc] = e => Stloc(e, TranslateLocalIndex(e.i.OpParamAsInt16));
 				#endregion
 
 
@@ -110,7 +110,7 @@ namespace jsc.Languages.IL
 				Ldloc_.ForEach((OpCode, n) => this[OpCode] = e => Ldloc(e, TranslateLocalIndex(n)));
 
 				this[OpCodes.Ldloc_S] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsInt8));
-				this[OpCodes.Ldloc] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsInt32));
+				this[OpCodes.Ldloc] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsInt16));
 				#endregion
 
 				this[OpCodes.Newobj] = e => e.il.Emit(OpCodes.Newobj, this.TranslateTargetConstructor(e.i.TargetConstructor));
@@ -254,7 +254,10 @@ namespace jsc.Languages.IL
 					OpCodes.Bne_Un_S,
 					OpCodes.Bge_S,
 					OpCodes.Bge,
+					OpCodes.Ble,
 					OpCodes.Blt,
+					OpCodes.Blt_Un,
+					OpCodes.Blt_Un_S,
 					OpCodes.Blt_S,
 					OpCodes.Ble_S,
 					OpCodes.Bgt,
@@ -262,6 +265,8 @@ namespace jsc.Languages.IL
 					OpCodes.Br,
 					OpCodes.Brtrue,
 					OpCodes.Brfalse,
+					OpCodes.Bne_Un,
+					OpCodes.Bne_Un_S,
 					OpCodes.Beq,
 					OpCodes.Beq_S
 					
@@ -335,12 +340,14 @@ namespace jsc.Languages.IL
 					OpCodes.Conv_U1,
 					OpCodes.Conv_U2,
 					OpCodes.Conv_U4,
+					OpCodes.Conv_U8,
 					OpCodes.Conv_I8,
 					OpCodes.Conv_I2,
 					OpCodes.Conv_R4,
 					OpCodes.Conv_R8,
 					OpCodes.Conv_Ovf_I,
 					OpCodes.Conv_Ovf_I_Un,
+					OpCodes.Conv_Ovf_U4,
 
 					OpCodes.Ldlen,
 					OpCodes.Throw,
@@ -367,6 +374,7 @@ namespace jsc.Languages.IL
 					OpCodes.Div,
 					OpCodes.Mul,
 					OpCodes.Neg,
+					OpCodes.Break,
 
 					OpCodes.Volatile,
 

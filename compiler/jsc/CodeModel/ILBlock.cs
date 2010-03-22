@@ -303,8 +303,8 @@ namespace jsc
 
 		public ILBlock(MethodBase c)
 		{
-			using (new Task("ilblock from base", c.DeclaringType.FullName + "." + c.Name))
-			{
+			//using (new Task("ilblock from base", c.DeclaringType.FullName + "." + c.Name))
+			//{
 				ScriptAttribute sa = ScriptAttribute.Of(c);
 
 				OwnerMethod = c;
@@ -353,7 +353,7 @@ namespace jsc
 						this.ToConsole();
 				}
 
-			}
+			//}
 		}
 
 		VariableInfo[] _VariableInfoArray;
