@@ -72,6 +72,10 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					select new { ArchiveTitle, AssemblyName, DocumentationOrDefault, Assembly }
 				);
 
+				// currently we only support one page referencing the compilation archives...
+				if (!Assemblies.Any())
+					return;
+
 				// http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=define:+compilation
 				// something that is compiled (as into a single book or file) 
 				var CompilationBuilder = this.r.RewriteArguments.Module.DefineType(

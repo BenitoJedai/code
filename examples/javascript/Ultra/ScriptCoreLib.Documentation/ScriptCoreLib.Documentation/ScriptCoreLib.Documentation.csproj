@@ -91,6 +91,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="My.UltraSource\20100321_jsc.zip" />
+    <Content Include="My.UltraSource\Assembly.png" />
+    <Content Include="My.UltraSource\Lorem.htm" />
+    <Content Include="My.UltraSource\Namespace.png" />
+    <Content Include="My.UltraSource\PublicClass.png" />
+    <Content Include="My.UltraSource\PublicDelegate.png" />
+    <Content Include="My.UltraSource\PublicEnum.png" />
+    <Content Include="My.UltraSource\PublicInterface.png" />
+    <Content Include="My.UltraSource\References.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
