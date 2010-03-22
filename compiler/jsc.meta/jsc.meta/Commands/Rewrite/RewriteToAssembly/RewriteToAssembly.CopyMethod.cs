@@ -16,8 +16,8 @@ namespace jsc.meta.Commands.Rewrite
 		internal static void CopyMethod(
 			AssemblyBuilder a,
 			ModuleBuilder m,
-			MethodInfo source,
-			TypeBuilder t,
+			MethodInfo SourceMethod,
+			TypeBuilder DeclaringType,
 			VirtualDictionary<string, string> NameObfuscation,
 			Assembly PrimarySourceAssembly,
 			Delegate codeinjecton,
@@ -32,7 +32,7 @@ namespace jsc.meta.Commands.Rewrite
 		{
 			// sanity check!
 
-			if (context.MethodCache.BaseDictionary.ContainsKey(source))
+			if (context.MethodCache.BaseDictionary.ContainsKey(SourceMethod))
 				return;
 
 			// Unknown runtime implemented delegate method
@@ -41,33 +41,48 @@ namespace jsc.meta.Commands.Rewrite
 
 			var MethodName =
 				//(source == this._assembly.EntryPoint) ||
-				(source.GetMethodBody() == null || (source.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
-				source.Name : NameObfuscation[context.MemberRenameCache[source] ?? source.Name];
+				(SourceMethod.GetMethodBody() == null || (SourceMethod.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
+				SourceMethod.Name : NameObfuscation[context.MemberRenameCache[SourceMethod] ?? SourceMethod.Name];
 
 			// !! fixme
 			// How to: Define a Generic Method with Reflection Emit
 			// http://msdn.microsoft.com/en-us/library/ms228971.aspx
 			var Parameters =
-				 context.TypeCache[source.GetParameterTypes()];
+				 context.TypeCache[SourceMethod.GetParameterTypes()];
 
 			if (Parameters.Contains(null))
 				throw new InvalidOperationException();
 
+			var km = default(MethodBuilder);
 
-			var km = t.DefineMethod(
-				MethodName, source.Attributes, source.CallingConvention,
-				context.TypeCache[source.ReturnType],
-				Parameters
+			var MethodAttributes__ = context.MethodAttributesCache[SourceMethod];
 
-			);
+			if (DeclaringType == null)
+			{
+				km = m.DefineGlobalMethod(
+						MethodName, MethodAttributes__, SourceMethod.CallingConvention,
+					context.TypeCache[SourceMethod.ReturnType],
+					Parameters
+				);
+			}
+			else
+			{
 
-			context.MethodCache[source] = km;
+				km = DeclaringType.DefineMethod(
+					MethodName, MethodAttributes__, SourceMethod.CallingConvention,
+					context.TypeCache[SourceMethod.ReturnType],
+					Parameters
+
+				);
+			}
+
+			context.MethodCache[SourceMethod] = km;
 
 			//Console.WriteLine("Method: " + km.Name);
 
-			if (source.IsGenericMethodDefinition)
+			if (SourceMethod.IsGenericMethodDefinition)
 			{
-				var ga = source.GetGenericArguments();
+				var ga = SourceMethod.GetGenericArguments();
 				var gp = km.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
 
 			}
@@ -75,17 +90,17 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			// synchronized?
-			km.SetImplementationFlags(source.GetMethodImplementationFlags());
+			km.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());
 
-			source.GetParameters().CopyTo(km);
+			SourceMethod.GetParameters().CopyTo(km);
 
 			// should we copy attributes? should they be opt-out?
-			foreach (var item in source.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+			foreach (var item in SourceMethod.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
 			{
 				km.SetCustomAttribute(item(context));
 			}
 
-			var MethodBody = source.GetMethodBody();
+			var MethodBody = SourceMethod.GetMethodBody();
 
 			if (MethodBody == null)
 				return;
@@ -94,13 +109,13 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-			MethodBase mb = source;
+			MethodBase mb = SourceMethod;
 
 			var kmil = km.GetILGenerator();
 			var kmil_Dirty = false;
 
 			if (BeforeInstructions != null)
-				BeforeInstructions(source, km,
+				BeforeInstructions(SourceMethod, km,
 					delegate
 					{
 						kmil_Dirty = true;
@@ -114,13 +129,13 @@ namespace jsc.meta.Commands.Rewrite
 				return;
 
 			if (PrimarySourceAssembly != null)
-				if (source == PrimarySourceAssembly.EntryPoint)
+				if (SourceMethod == PrimarySourceAssembly.EntryPoint)
 				{
 					// we found the entrypoint
 					if (codeinjecton != null)
 					{
 						WriteEntryPointCodeInjection(
-							a, m, kmil, t
+							a, m, kmil, DeclaringType
 							, context.TypeCache,
 							context.ConstructorCache,
 							context.MethodCache,
@@ -136,7 +151,7 @@ namespace jsc.meta.Commands.Rewrite
 				}
 
 			var x = CreateMethodBaseEmitToArguments(
-				source,
+				SourceMethod,
 
 				NameObfuscation,
 				ILOverride,
@@ -166,7 +181,35 @@ namespace jsc.meta.Commands.Rewrite
 				BeforeInstruction =
 					e =>
 					{
+						#region ExceptionHandlingClauses
+						foreach (var ex in ExceptionHandlingClauses)
+						{
 
+
+							if ((ex.Flags & ExceptionHandlingClauseOptions.Finally) == ExceptionHandlingClauseOptions.Finally)
+							{
+
+								if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
+								{
+
+									//Console.WriteLine(".endfinally");
+									e.il.EndExceptionBlock();
+								}
+							}
+							else
+							{
+
+								if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
+								{
+									//Console.WriteLine(".endcatch");
+									e.il.EndExceptionBlock();
+
+								}
+							}
+						}
+						#endregion
+
+						#region ExceptionHandlingClauses
 						foreach (var ex in ExceptionHandlingClauses)
 						{
 							if (ex.TryOffset == e.i.Offset)
@@ -183,6 +226,9 @@ namespace jsc.meta.Commands.Rewrite
 								if (ex.Flags == ExceptionHandlingClauseOptions.Finally)
 								{
 									//Console.WriteLine(".finally");
+
+									// http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.beginfinallyblock.aspx
+									// Label multiply defined ?
 									e.il.BeginFinallyBlock();
 
 
@@ -209,32 +255,8 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							}
 						}
+						#endregion
 
-						foreach (var ex in ExceptionHandlingClauses)
-						{
-
-
-							if ((ex.Flags & ExceptionHandlingClauseOptions.Finally) == ExceptionHandlingClauseOptions.Finally)
-							{
-
-								if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
-								{
-
-									//Console.WriteLine(".endfinally");
-									e.il.EndExceptionBlock();
-								}
-							}
-							else
-							{
-
-								if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
-								{
-									//Console.WriteLine(".endcatch");
-									e.il.EndExceptionBlock();
-
-								}
-							}
-						}
 					},
 				#endregion
 
