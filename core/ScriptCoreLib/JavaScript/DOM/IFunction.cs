@@ -79,6 +79,11 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
         #endregion
 
+		public static IFunction Of(object target, string name)
+		{
+			return Expando.Of(target).GetMember<IFunction>(name);
+		}
+
         public static IFunction Of(string name)
         {
             return Expando.Of(Native.Window).GetMember<IFunction>(name);

@@ -750,7 +750,7 @@ namespace jsc
 					// loop break
 
 
-					
+
 					if (this.OpCode.FlowControl == FlowControl.Branch)
 					{
 						ILInstruction x = this.TargetInstruction;
@@ -772,18 +772,16 @@ namespace jsc
 						// break
 						if (x.Prev.OpCode.FlowControl == FlowControl.Cond_Branch)
 						{
-							if (x.Prev.BranchTargets.Length == 1)
+
+							ILInstruction branch = x.Prev.TargetInstruction.Prev;
+							ILLoopConstruct loop = branch.InlineLoopConstruct;
+
+							if (loop != null && loop.Join == x)
 							{
-								ILInstruction branch = x.Prev.TargetInstruction.Prev;
-								ILLoopConstruct loop = branch.InlineLoopConstruct;
+								if (this.Offset < loop.Branch.Offset || this.Offset > loop.Join.Offset)
+									return null;
 
-								if (loop != null && loop.Join == x)
-								{
-									if (this.Offset < loop.Branch.Offset || this.Offset > loop.Join.Offset)
-										return null;
-
-									return _cached_loop.Value = loop;
-								}
+								return _cached_loop.Value = loop;
 							}
 						}
 					}
@@ -913,20 +911,15 @@ namespace jsc
 					{
 						ILInstruction t = this.TargetInstruction;
 
-						if (t.Prev == null)
-							return null;
+
 
 						bool ret_alias = false;
 
-						var IsBranch = t.Prev.OpCode.FlowControl == FlowControl.Branch;
 
-						// why is it null?
-						if (t.Prev.TargetFlow == null)
-							return null;
-
-						var IsRet = t.Prev.TargetFlow.Branch == OpCodes.Ret;
-
-						if (IsBranch && IsRet)
+						if (
+							t.Prev.OpCode.FlowControl == FlowControl.Branch
+							&&
+							t.Prev.TargetFlow.Branch == OpCodes.Ret)
 						{
 							if (t.Prev.TargetFlow.Branch.StackPopCount == 1)
 							{
