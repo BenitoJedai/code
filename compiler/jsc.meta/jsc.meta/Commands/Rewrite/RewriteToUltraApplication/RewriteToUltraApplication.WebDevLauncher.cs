@@ -178,7 +178,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 							n.ContextMenuStrip.Items.Add(
 								new ToolStripMenuItem(
-									"Close " + Text,
+									"&Close " + Text,
 									null,
 									delegate
 									{
@@ -191,7 +191,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 							n.ContextMenuStrip.Items.Add(
 								new ToolStripMenuItem(
-									"Open in Explorer",
+									"Open in Windows &Explorer",
 									null,
 									delegate
 									{
@@ -203,23 +203,23 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 								}
 							);
 
-							n.ContextMenuStrip.Items.Add(
-							new ToolStripMenuItem(
-								"Browse to Diagnostics",
-								null,
-								delegate
-								{
-									Process.Start(url + "/jsc");
-								}
-								)
-								{
-									ToolTipText = url
-								}
-							);
+							//n.ContextMenuStrip.Items.Add(
+							//new ToolStripMenuItem(
+							//    "Browse to Diagnostics",
+							//    null,
+							//    delegate
+							//    {
+							//        Process.Start(url + "/jsc");
+							//    }
+							//    )
+							//    {
+							//        ToolTipText = url
+							//    }
+							//);
 
 							n.ContextMenuStrip.Items.Add(
 								new ToolStripMenuItem(
-									"Browse to " + Text,
+									"&Browse to " + Text,
 									null,
 									delegate
 									{
@@ -227,7 +227,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 									}
 								)
 								{
-									ToolTipText = url
+									ToolTipText = url,
+									Font = new Font(SystemFonts.DialogFont, FontStyle.Bold)
 								}
 							);
 							n.DoubleClick +=
