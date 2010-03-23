@@ -50,7 +50,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			jsc.meta.Loader.LoaderStrategy.Hints.Add(this.assembly.Directory);
 
-			Console.WriteLine("RewriteToJavaScriptDocument: " + this.assembly.FullName);
+			Console.WriteLine("RewriteToUltraApplication: " + this.assembly.FullName);
 
 			// This assembly is built by a runtime newer than the currently loaded runtime and cannot be loaded. (Exception from HRESULT: 0x8013101B)
 			var assembly = Assembly.LoadFile(this.assembly.FullName);

@@ -17,7 +17,7 @@ namespace jsc.meta.Commands.Rewrite
 {
 	public partial class RewriteToAssembly
 	{
-
+		public event Action<Assembly> AssemblyMergeLoadHint;
 
 		public void Invoke()
 		{
@@ -140,8 +140,15 @@ namespace jsc.meta.Commands.Rewrite
 
 						var shadow_assembly = Assembly.LoadFile(shadow);
 
+						if (this.AssemblyMergeLoadHint != null)
+							this.AssemblyMergeLoadHint(shadow_assembly);
+
+
 						if (!loaded)
+						{
 							shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(Path.GetDirectoryName(k.name)));
+
+						}
 
 						InvokeLater +=
 							(__a, __m) =>
@@ -214,12 +221,6 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-			if (assembly != null)
-				foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
-				{
-					a.DefineAttribute<ObfuscationAttribute>(ka);
-				}
-
 			var TypeDefinitionCacheToSourceType = new Dictionary<Type, Type>();
 
 			var TypeDefinitionCache = new VirtualDictionary<Type, Type>();
@@ -253,6 +254,10 @@ namespace jsc.meta.Commands.Rewrite
 						PropertyCache = PropertyCache
 					}
 			};
+
+
+
+
 
 			#region PropertyCache
 			PropertyCache.Resolve +=
@@ -492,13 +497,16 @@ namespace jsc.meta.Commands.Rewrite
 						}
 
 
+					var DeclaringType = (
+						SourceType == null ? null : TypeCache[SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition() : SourceType]
+					) as TypeBuilder;
+
+					var IsGlobalMethodAndSholdCopy = (SourceType == null && ShouldCopyAssembly(SourceMethod.Module.Assembly));
 
 					#region ShouldCopyType - CopyMethod
-					if (ShouldCopyAssembly(SourceMethod.Module.Assembly) || TypeCache[SourceType] is TypeBuilder)
+					if (IsGlobalMethodAndSholdCopy || DeclaringType != null)
 					{
-						var tb_source = (TypeBuilder)(
-							SourceType == null ? null :
-							TypeCache[SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition() : SourceType]);
+						var tb_source = DeclaringType;
 
 						CopyMethod(
 							a,
@@ -956,6 +964,14 @@ namespace jsc.meta.Commands.Rewrite
 				};
 			#endregion
 
+			if (assembly != null)
+				foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
+				{
+					a.SetCustomAttribute(
+						ka.ToCustomAttributeBuilder()(this.RewriteArguments.context)
+					);
+				}
+
 			if (PreAssemblyRewrite != null)
 				PreAssemblyRewrite(
 					RewriteArguments
@@ -1025,7 +1041,7 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 
-	
+
 			DefineHiddenEntryPointsType(m, HiddenEntryPoints);
 
 
@@ -1065,7 +1081,7 @@ namespace jsc.meta.Commands.Rewrite
 				var Temp = Path.Combine(Product.Directory.FullName, "~" + Product.Name);
 
 				new FileInfo(
-					Temp	
+					Temp
 				).CopyTo(this.Output.FullName, true);
 
 				File.Delete(Temp);

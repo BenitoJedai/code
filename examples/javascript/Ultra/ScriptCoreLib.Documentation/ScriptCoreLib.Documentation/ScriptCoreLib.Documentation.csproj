@@ -126,7 +126,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
+    <PostBuildEvent>if $(ConfigurationName)==Assets (
+  c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
+  rem  copy "$(TargetDir)$(TargetName).exe" "c:\util\jsc\bin" /y
+)
+
+if $(ConfigurationName)==Debug (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (

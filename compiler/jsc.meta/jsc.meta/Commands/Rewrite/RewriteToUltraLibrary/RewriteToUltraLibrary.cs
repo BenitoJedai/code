@@ -49,6 +49,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 				}
 			}
 
+			var CurrentEntryPoint = default(MethodInfo);
 
 			var r = new RewriteToAssembly
 			{
@@ -82,8 +83,21 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 								a.Assembly.SetEntryPoint(a.context.MethodCache[m], System.Reflection.Emit.PEFileKinds.WindowApplication);
 							}
 						}
+						else
+						{
+							if (CurrentEntryPoint != null)
+							{
+								a.Assembly.SetEntryPoint(a.context.MethodCache[CurrentEntryPoint]);
+							}
+						}
 					}
 			};
+
+			r.AssemblyMergeLoadHint +=
+				s =>
+				{
+					CurrentEntryPoint = CurrentEntryPoint ?? s.EntryPoint;
+				};
 
 			r.Invoke();
 
