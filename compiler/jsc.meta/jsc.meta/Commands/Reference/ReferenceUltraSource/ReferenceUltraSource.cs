@@ -30,6 +30,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 		// step 3 do not event filter by folder just import everything
 		public const string UltraSource = "UltraSource";
 
+		// todo: to be phased out once moved to ReferenceUltraSource
+		const string WebSource_HTML = "WebSource.HTML";
 
 		public override void Invoke()
 		{
