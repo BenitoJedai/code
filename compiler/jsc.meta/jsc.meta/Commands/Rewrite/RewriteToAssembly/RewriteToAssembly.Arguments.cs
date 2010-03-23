@@ -55,20 +55,7 @@ namespace jsc.meta.Commands.Rewrite
 			}
 		}
 
-		/// <summary>
-		/// If any name is given, all other types shall be marked internal.
-		/// </summary>
-		public ExportedTypesInfo[] ExportedTypes = new ExportedTypesInfo[0];
 
-		public class ExportedTypesInfo
-		{
-			public string name;
-
-			public static implicit operator ExportedTypesInfo(string e)
-			{
-				return new ExportedTypesInfo { name = e };
-			}
-		}
 
 		public FileInfo assembly;
 
