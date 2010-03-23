@@ -67,6 +67,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					let AssemblyName = Assembly.GetName().Name
 
+
+					// Visual Studio generated assembly.
+					where !AssemblyName.EndsWith(".vshost")
+
+					// Chicken and egg. :) We would be documenting a previous version...
+					where AssemblyName != DefaultNamespace
+
+
 					//let AssemblyName = AssemblyEntry.FileName.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
 
 					select new { ArchiveTitle, AssemblyName, DocumentationOrDefault, Assembly }

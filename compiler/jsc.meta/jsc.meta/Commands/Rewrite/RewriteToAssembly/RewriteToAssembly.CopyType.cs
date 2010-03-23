@@ -59,7 +59,7 @@ namespace jsc.meta.Commands.Rewrite
 			var t = (TypeBuilder)context.TypeDefinitionCache[SourceType]; ;
 			context.TypeCache[SourceType] = t;
 
-			foreach (var item in 
+			foreach (var item in
 				from kk in SourceType.GetCustomAttributes(false)
 				let aa = kk.ToCustomAttributeBuilder()(context)
 				where aa != null
@@ -317,7 +317,7 @@ namespace jsc.meta.Commands.Rewrite
 					}
 					else
 					{
-						
+
 						t = _DeclaringType.DefineNestedType(
 
 							_NestedTypeName,
@@ -331,14 +331,38 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					var DefineTypeName = FullNameFixup(TypeName);
 
-					if (SourceType.IsAnonymousType())
+					Func<IEnumerable<Type>> GetDuplicates =
+						() => this.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(k => k.FullName == DefineTypeName);
+
+
+					while (GetDuplicates().Any())
 					{
-						while (this.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Any(k => k.FullName == DefineTypeName))
+
+						if (SourceType.IsAnonymousType())
 						{
 							DefineTypeName += "´";
 						}
+						else
+						{
+							// have been merging types twice ?
+
+							// C = A + B
+							// D = C + B
+
+							var Conflicts = GetDuplicates().Concat(new[] { SourceType }).Select(k => k.Assembly.ToString()).ToArray();
+
+
+							throw new InvalidOperationException(
+								"Duplicate type name within an assembly.  "
+								+ "Multiple projects shall reference one version of a component.  "
+								+ SourceType.ToString()
+								+ " at "
+								+ string.Join(", ", Conflicts)
+							);
+						}
 					}
 
+					// Duplicate type name within an assembly.
 					t = m.DefineType(
 						DefineTypeName,
 						TypeAttributes,

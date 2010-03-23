@@ -94,7 +94,12 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				if (Native.Document.location.hash == "#/source")
+				if (Native.Document.location.hash.StartsWith("#/docs"))
+				{
+					var view = new ScriptCoreLib.Documentation.Application(e);
+
+				}
+				else if (Native.Document.location.hash == "#/source")
 				{
 					new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);
 					var n = new TextEditor(MyPagesInternal);
