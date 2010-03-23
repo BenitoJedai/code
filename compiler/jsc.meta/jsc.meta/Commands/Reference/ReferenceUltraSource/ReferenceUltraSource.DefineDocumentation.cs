@@ -71,8 +71,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					// Visual Studio generated assembly.
 					where !AssemblyName.EndsWith(".vshost")
 
-					// Chicken and egg. :) We would be documenting a previous version...
-					where AssemblyName != DefaultNamespace
+					// ? Chicken and egg. :) We would be documenting a previous version...
+					where AssemblyName + "." + UltraSource != DefaultNamespace
 
 
 					//let AssemblyName = AssemblyEntry.FileName.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")

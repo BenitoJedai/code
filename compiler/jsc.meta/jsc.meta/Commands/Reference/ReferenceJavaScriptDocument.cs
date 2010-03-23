@@ -62,6 +62,7 @@ namespace jsc.meta.Commands.Reference
 			var nsPropertyGroup = ns + "PropertyGroup";
 			var nsNone = ns + "None";
 			var nsContent = ns + "Content";
+			var nsLink = ns + "Link";
 			var nsDependentUpon = ns + "DependentUpon";
 			var nsReference = ns + "Reference";
 			var nsHintPath = ns + "HintPath";
@@ -131,17 +132,33 @@ namespace jsc.meta.Commands.Reference
 			var Targets =
 			  from ItemGroup in csproj.Root.Elements(nsItemGroup)
 			  from None in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent))
+
+			  let Link = None.Element(nsLink)
+
 			  let Include = None.Attribute("Include").Value
-			  let Directory = Path.GetDirectoryName(Include)
 
+			  // Directory In Project
+			  let Directory = Path.GetDirectoryName(Link != null ? Link.Value : Include).Replace("\\", "/")
 
+			  // The project direcotry is .UltraSource
 			  where DirectoryNeedsConversion(Directory)
 
 			  let TargetName = DefaultNamespace + "." + Directory.Replace("/", ".").Replace("\\", ".")
+
 			  let Target = new FileInfo(Path.Combine(Staging.FullName, TargetName.Substring(DefaultNamespace.Length + 1) + ".dll"))
 
-			  let File = new FileInfo(Path.Combine(ProjectFileName.Directory.FullName, Include))
-			  group new { ItemGroup, None, Include, File, Directory, TargetName, Target } by Directory;
+			  let File = new FileInfo(Link != null ? Include : Path.Combine(ProjectFileName.Directory.FullName, Include))
+
+			  group new
+			  {
+				  ItemGroup,
+				  None,
+				  Include = Link != null ? Link.Value : Include,
+				  File,
+				  Directory,
+				  TargetName,
+				  //Target
+			  } by Directory;
 
 
 
@@ -161,6 +178,12 @@ namespace jsc.meta.Commands.Reference
 
 			var LocalSources = Enumerable.ToArray(
 				from k in Targets
+				
+				let kWithChildren = 
+					from c in Targets
+					where c.Key == k.Key || c.Key.StartsWith(k.Key + "/")
+					select c
+
 				from f in k
 				where f.File.Name.EndsWith(".htm")
 				select new SourceFile
@@ -170,7 +193,8 @@ namespace jsc.meta.Commands.Reference
 					GetLocalResource =
 						n =>
 						{
-							var r = k.SingleOrDefault(kk => kk.File.Name == n);
+
+							var r = kWithChildren.SelectMany(kk => kk).SingleOrDefault(kk => kk.Include.Replace("\\", "/").EndsWith("/" + n));
 
 							if (r == null) return null;
 
@@ -360,7 +384,7 @@ namespace jsc.meta.Commands.Reference
 
 								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
-									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key, 
+									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key,
 										CurrentVariationForPage.Value,
 										RemotingVariationsForPages[CurrentVariationForPage.Key]
 									);
@@ -405,17 +429,6 @@ namespace jsc.meta.Commands.Reference
 
 			if (csproj_dirty)
 				csproj.Save(this.ProjectFileName.FullName);
-		}
-
-		private static bool DirectoryNeedsConversion(string Directory)
-		{
-			if (Directory == WebSource_HTML || Directory.EndsWith("." + WebSource_HTML) || Directory.EndsWith("\\" + WebSource_HTML))
-				return true;
-
-			if (Directory == UltraSource || Directory.EndsWith("." + UltraSource) || Directory.EndsWith("\\" + UltraSource))
-				return true;
-
-			return false;
 		}
 
 

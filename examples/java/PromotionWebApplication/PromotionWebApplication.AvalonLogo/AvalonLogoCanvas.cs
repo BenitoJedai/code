@@ -350,7 +350,10 @@ namespace PromotionWebApplication.AvalonLogo
 				)
 				{
 					ApartmentState = ApartmentState.STA,
-					IsBackground = true
+					IsBackground = true,
+
+					// our animation runs only for a while
+					Priority = ThreadPriority.BelowNormal
 				};
 
 				t.Start();

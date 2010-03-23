@@ -52,6 +52,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				// http://www.theregister.co.uk/2007/04/23/vista_program_naming_oddness/
 
 				var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
+				var name2_zip = "latest_jsc.zip";
 				var name = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
 				var name_zip = name + ".zip";
 
@@ -139,11 +140,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 
 				File.WriteAllBytes(
+					Path.Combine(jsc.FullName, name1_zip),
+					zip.ToBytes()
+				);
 
-					Path.Combine(jsc.FullName,
-						name1_zip
-					),
-
+				File.WriteAllBytes(
+					Path.Combine(jsc.FullName, name2_zip),
 					zip.ToBytes()
 				);
 

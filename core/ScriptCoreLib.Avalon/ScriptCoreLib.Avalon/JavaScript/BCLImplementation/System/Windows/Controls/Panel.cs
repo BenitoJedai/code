@@ -74,6 +74,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			InternalSprite.style.left = "0px";
 			InternalSprite.style.top = "0px";
 
+			// do we create any new havoc?
+			InternalSprite.style.zIndex = 0;
+
 
 			InternalSprite.appendChild(InternalContent);
 

@@ -63,8 +63,6 @@ namespace jsc.meta.Commands.Reference
 		// images should be downloaded and packaged as assets
 
 		 
-		// todo: to be phased out once moved to ReferenceUltraSource
-		const string WebSource_HTML = "WebSource.HTML";
 
 	
 		// The new way to reference web resources would be within the HTML documents.
