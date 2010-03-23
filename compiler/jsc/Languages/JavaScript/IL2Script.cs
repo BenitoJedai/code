@@ -555,6 +555,8 @@ namespace jsc
 				{
 					ILInstruction _base = b.PrestatementCommands[0].Instruction;
 
+					// the IL is not calling base.ctor() ? :)
+
 					bool _ctor = i.IsInstanceConstructor();
 					bool _ctor_objbase = _ctor && _base == OpCodes.Call && _base.TargetConstructor.DeclaringType == typeof(object);
 

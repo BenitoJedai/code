@@ -8,6 +8,8 @@ using ScriptCoreLib.Documentation.Documentation;
 using System.Linq;
 using ScriptCoreLib.Documentation.HTML.Pages.FromAssets;
 using PromotionWebApplication.AvalonLogo;
+using ScriptCoreLib.Shared.Lambda;
+using System.Collections.Generic;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -25,8 +27,8 @@ namespace ScriptCoreLib.Documentation
 
 			hs.Container.AttachToDocument();
 
-		
-		
+
+
 			Action<double> AddGradient =
 				gw =>
 				{
@@ -43,7 +45,7 @@ namespace ScriptCoreLib.Documentation
 			{
 				AddGradient(2.0 - i * 0.1);
 			}
-			
+
 
 			var infocontent = new Lorem();
 
@@ -68,7 +70,7 @@ namespace ScriptCoreLib.Documentation
 
 			hsArea.Abort.style.Opacity = 0.05;
 
-	
+
 			var dragmode = false;
 
 			hsArea.Target.onmousedown +=
@@ -271,6 +273,19 @@ namespace ScriptCoreLib.Documentation
 						s.style.color = JSColor.System.WindowText;
 					};
 
+				var NamespaceLookup = new Dictionary<string, IHTMLDiv>();
+
+				Func<IHTMLDiv, CompilationTypeBase, IHTMLDiv> GetNamespaceContainer =
+					(Container, SourceType) =>
+					{
+						if (!NamespaceLookup.ContainsKey(SourceType.Namespace))
+						{
+							NamespaceLookup[SourceType.Namespace] = AddNamespace(Container, SourceType.Namespace, UpdateLocation);
+						}
+
+						return NamespaceLookup[SourceType.Namespace];
+					};
+
 				onclick =
 					delegate
 					{
@@ -278,7 +293,18 @@ namespace ScriptCoreLib.Documentation
 
 						children.style.paddingLeft = "2em";
 
-						AddDummyType(children, UpdateLocation);
+						item.GetTypes().ForEach(
+							(Current, Next) =>
+							{
+								AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+
+								ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+									50,
+									Next
+								);
+							}
+						);
+
 
 						var NextClickHide = default(Action);
 						var NextClickShow = default(Action);
@@ -305,7 +331,7 @@ namespace ScriptCoreLib.Documentation
 			}
 		}
 
-		private static void AddDummyType(IHTMLDiv parent, Action<string> UpdateLocation)
+		private static IHTMLDiv AddNamespace(IHTMLDiv parent, string Namespace, Action<string> UpdateLocation)
 		{
 			var div = new IHTMLDiv().AttachTo(parent);
 
@@ -314,12 +340,12 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicClass().AttachTo(div);
+			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.Namespace().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
 
-			var s = new IHTMLAnchor { innerText = "Class1" }.AttachTo(div);
+			var s = new IHTMLAnchor { innerText = Namespace }.AttachTo(div);
 
 
 			s.href = "#";
@@ -338,7 +364,92 @@ namespace ScriptCoreLib.Documentation
 
 					s.focus();
 
-					UpdateLocation("Class1");
+					UpdateLocation(Namespace);
+
+					onclick();
+				};
+
+			s.onfocus +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.System.Highlight;
+					s.style.color = JSColor.System.HighlightText;
+				};
+
+			s.onblur +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.None;
+					s.style.color = JSColor.System.WindowText;
+				};
+
+			var children = new IHTMLDiv().AttachTo(div);
+
+			children.style.paddingLeft = "2em";
+			children.Hide();
+
+
+			var NextClickHide = default(Action);
+			var NextClickShow = default(Action);
+
+			NextClickHide =
+				delegate
+				{
+					children.Hide();
+
+					onclick = NextClickShow;
+				};
+
+			NextClickShow =
+				delegate
+				{
+					children.Show();
+
+					onclick = NextClickHide;
+				};
+
+
+			onclick = NextClickShow;
+
+			return children;
+		}
+
+		private static void AddType(IHTMLDiv parent, CompilationTypeBase type, Action<string> UpdateLocation)
+		{
+			var div = new IHTMLDiv().AttachTo(parent);
+
+			div.style.marginTop = "0.1em";
+			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+
+
+			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicClass().AttachTo(div);
+
+			i.style.verticalAlign = "middle";
+			i.style.marginRight = "0.5em";
+
+			var s = new IHTMLAnchor { innerText = type.Name, title = "" + type.MetadataToken }.AttachTo(div);
+
+
+			s.href = "#";
+			s.style.textDecoration = "none";
+			s.style.color = JSColor.System.WindowText;
+
+			Action onclick = delegate
+			{
+
+			};
+
+			s.onclick +=
+				e =>
+				{
+					e.PreventDefault();
+
+					s.focus();
+
+					UpdateLocation(type.FullName);
 
 					onclick();
 				};

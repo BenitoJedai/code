@@ -64,7 +64,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 						new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName },
 
-						from k in UltraSourceReferences 
+						from k in UltraSourceReferences
 						select (RewriteToAssembly.AssemblyMergeInstruction)k
 					)
 				),
@@ -103,8 +103,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 			foreach (var item in UltraSourceReferences)
 			{
-				Console.WriteLine("removing " + item);
-				File.Delete(item);
+				if (this.Output.Directory == new FileInfo(item).Directory)
+				{
+					Console.WriteLine("removing " + item);
+					File.Delete(item);
+				}
 			}
 		}
 	}
