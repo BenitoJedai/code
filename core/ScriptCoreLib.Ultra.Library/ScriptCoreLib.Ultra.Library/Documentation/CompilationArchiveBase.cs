@@ -5,20 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.Documentation
 {
-	public abstract class CompilationArchiveBase
+	public abstract class CompilationArchiveBase 
 	{
-		public string Name
-		{
-			get
-			{
-				return InternalGetName();
-			}
-		}
-
-		internal protected virtual string InternalGetName()
-		{
-			return default(string);
-		}
+		public string Name { get; set; }
 
 		public CompilationBase DeclaringCompilation { get; set; }
 

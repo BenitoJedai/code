@@ -20,6 +20,11 @@ namespace ScriptCoreLib.Documentation
 			//    {
 			//        Console.WriteLine("  " + item2.Name);
 
+			//        foreach (var item3 in item2.GetTypes())
+			//        {
+			//            Console.WriteLine("    " + item3.FullName);
+
+			//        }
 			//    }
 			//}
 

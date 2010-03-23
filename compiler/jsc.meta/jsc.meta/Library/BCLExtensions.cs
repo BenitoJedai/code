@@ -10,6 +10,28 @@ namespace jsc.meta.Library
 {
 	public static class BCLExtensions
 	{
+		public static void EmitStoreFields(this ILGenerator il, PropertyInfo[] fields, object e)
+		{
+			foreach (var item in
+				from p in e.GetProperties()
+				let f = fields.Single(k => k.Name == p.Key)
+				select new { f, p.Value }
+				)
+			{
+				il.Emit(OpCodes.Ldarg_0);
+				if (item.Value is string)
+				{
+					il.Emit(OpCodes.Ldstr, (string)item.Value);
+				}
+				else if (item.Value is int)
+				{
+					il.Emit(OpCodes.Ldc_I4, (int)item.Value);
+				}
+				else throw new NotImplementedException();
+				il.Emit(OpCodes.Call, item.f.GetSetMethod());
+			}
+		}
+
 		public static FieldInfo ToReferencedField(this Delegate t)
 		{
 			var xb = new ILBlock(t.Method);

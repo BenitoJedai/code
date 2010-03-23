@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using System.Xml.Linq;
-using jsc.meta.Commands.Rewrite;
 using System.IO;
-using System.Xml.XPath;
-using ScriptCoreLib.Archive.ZIP;
-using ScriptCoreLib.Ultra.Library.Extensions;
+using System.Linq;
 using System.Reflection;
-using ScriptCoreLib.Documentation;
-using jsc.meta.Library;
 using System.Reflection.Emit;
-using jsc.Languages.IL;
+using System.Text;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using jsc.Languages;
+using jsc.Languages.IL;
+using jsc.meta.Commands.Rewrite;
+using jsc.meta.Library;
 using jsc.Script;
+using ScriptCoreLib.Archive.ZIP;
+using ScriptCoreLib.Documentation;
+using ScriptCoreLib.Ultra.Library.Extensions;
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
 	partial class ReferenceUltraSource
@@ -72,7 +72,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					where !AssemblyName.EndsWith(".vshost")
 
 					// ? Chicken and egg. :) We would be documenting a previous version...
-					where AssemblyName + "." + UltraSource != DefaultNamespace
+					where AssemblyName != this.DefaultNamespace
 
 
 					//let AssemblyName = AssemblyEntry.FileName.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
@@ -105,11 +105,11 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				// define a method like it over here and give me a duplicater
 
 				#region default view
-				foreach (var Archive in from k in Assemblies group k by k.ArchiveTitle)
+				foreach (var Archive in (from k in Assemblies group k by k.ArchiveTitle))
 				{
 					var ArchiveBuilder = this.r.RewriteArguments.Module.DefineType(
 						this.DefaultNamespace + ".Documentation.Compilation" + Archive.Key + "Archive",
-						TypeAttributes.Public,
+						TypeAttributes.NotPublic,
 						typeof(CompilationArchiveBase)
 					);
 
@@ -120,22 +120,18 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						il.Emit(OpCodes.Ldarg_0);
 						il.Emit(OpCodes.Call, typeof(CompilationArchiveBase).GetConstructors().Single());
-					}
 
-					{
-						var InternalGetNameMethod = ((Func<CompilationArchiveBase, Func<string>>)(k => k.InternalGetName)).ToReferencedMethod();
-						var InternalGetName = ArchiveBuilder.DefineMethod(
-							InternalGetNameMethod.Name,
-							MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.FamORAssem,
-							InternalGetNameMethod.CallingConvention,
-							InternalGetNameMethod.ReturnType,
-							InternalGetNameMethod.GetParameterTypes()
+						il.EmitStoreFields(
+							this.r.RewriteArguments.context.PropertyCache[
+								typeof(CompilationArchiveBase).GetProperties(
+									BindingFlags.Instance | BindingFlags.Public | BindingFlags.Instance
+								)
+							],
+							new
+							{
+								Name = Archive.Key,
+							}
 						);
-
-						var il = InternalGetName.GetILGenerator();
-
-						il.Emit(OpCodes.Ldstr, Archive.Key);
-						il.Emit(OpCodes.Ret);
 					}
 
 
@@ -143,36 +139,42 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 					#region Archive
-					foreach (var Assembly in from k in Archive group k by k.AssemblyName)
+					foreach (var Assembly in (from k in Archive group k by k.AssemblyName))
 					{
 						var AssemblyNameHint = CompilerBase.GetSafeLiteral(Assembly.Key, null);
 
 						var AssemblyBuilder = this.r.RewriteArguments.Module.DefineType(
 							this.DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssembly",
-							TypeAttributes.Public,
+							TypeAttributes.NotPublic,
 							typeof(CompilationAssemblyBase)
 						);
-						var AssemblyBuilder_ctor = AssemblyBuilder.DefineDefaultConstructor(MethodAttributes.Public);
+						var AssemblyBuilder_ctor = AssemblyBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
+
+						var First = Assembly.First();
 
 						{
-							var InternalGetNameMethod = ((Func<CompilationAssemblyBase, Func<string>>)(k => k.InternalGetName)).ToReferencedMethod();
-							var InternalGetName = AssemblyBuilder.DefineMethod(
-								InternalGetNameMethod.Name,
-								MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.FamORAssem,
-								InternalGetNameMethod.CallingConvention,
-								InternalGetNameMethod.ReturnType,
-								InternalGetNameMethod.GetParameterTypes()
+							var il = AssemblyBuilder_ctor.GetILGenerator();
+
+							il.Emit(OpCodes.Ldarg_0);
+							il.Emit(OpCodes.Call, typeof(CompilationAssemblyBase).GetConstructors().Single());
+
+							il.EmitStoreFields(
+								this.r.RewriteArguments.context.PropertyCache[
+									typeof(CompilationAssemblyBase).GetProperties(
+										BindingFlags.Instance | BindingFlags.Public | BindingFlags.Instance
+									)
+								],
+								new
+								{
+									First.Assembly.GetName().Name,
+									First.Assembly.ManifestModule.MetadataToken
+								}
 							);
-
-							var il = InternalGetName.GetILGenerator();
-
-							il.Emit(OpCodes.Ldstr, Assembly.Key);
-							il.Emit(OpCodes.Ret);
 						}
 
 						// if we have multiple copies in the archive we select the first
 
-						var First = Assembly.First();
+						var TypeBuilderRedirects = new List<Action>();
 
 						foreach (var ExportedType in First.Assembly.GetExportedTypes())
 						{
@@ -182,9 +184,69 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 								typeof(CompilationTypeBase)
 							);
 
+							var TypeBuilder_ctor = TypeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.HasThis, null);
+
+							{
+								var il = TypeBuilder_ctor.GetILGenerator();
+
+								il.Emit(OpCodes.Ldarg_0);
+								il.Emit(OpCodes.Call, typeof(CompilationTypeBase).GetConstructors().Single());
+
+								il.EmitStoreFields(
+									this.r.RewriteArguments.context.PropertyCache[
+										typeof(CompilationTypeBase).GetProperties(
+											BindingFlags.Instance | BindingFlags.Public | BindingFlags.Instance
+										)
+									],
+									new
+									{
+										ExportedType.FullName,
+										ExportedType.MetadataToken
+									}
+								);
+
+							}
+
+							// do members here
+
+							{
+								var il = TypeBuilder_ctor.GetILGenerator();
+								il.Emit(OpCodes.Ret);
+
+							}
+
 							TypeBuilder.CreateType();
+
+							TypeBuilderRedirects.Add(
+								delegate
+								{
+									this.r.RewriteArguments.context.MemberRenameCache[
+										((Func<CompilationAssemblyBaseTemplate, CompilationTypeBase>)(k => k.Internal)).ToReferencedField()
+									] = "Internal_" + TypeBuilder.FullName;
+
+									this.r.RewriteArguments.context.MemberRenameCache[
+										((Func<CompilationAssemblyBaseTemplate, Func<CompilationTypeBase>>)(k => k.Add)).ToReferencedMethod()
+									] = "InternalAdd_" + TypeBuilder.FullName;
+
+									this.r.RewriteArguments.context.TypeCache[typeof(CompilationAssemblyBaseTemplate)] = AssemblyBuilder;
+									this.r.RewriteArguments.context.ConstructorCache[
+										typeof(CompilationTypeBaseTemplate).GetConstructors().Single()
+									] = TypeBuilder_ctor;
+
+									this.r.RewriteArguments.context.TypeCache[typeof(CompilationAssemblyBaseTemplate)] = AssemblyBuilder;
+
+								}
+							);
 						}
 
+						DuplicateWriter(
+							((Action<CompilationAssemblyBaseTemplate>)(k => k.InitializeTypes())).ToReferencedMethod(),
+							AssemblyBuilder_ctor.GetILGenerator(),
+							AssemblyBuilder,
+							TypeBuilderRedirects
+						);
+
+						AssemblyBuilder_ctor.GetILGenerator().Emit(OpCodes.Ret);
 						AssemblyBuilder.CreateType();
 
 						AssemblyBuilderRedirects.Add(
