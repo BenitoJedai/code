@@ -20,153 +20,108 @@ namespace ScriptCoreLib.Documentation
 		{
 			Native.Document.title = "ScriptCoreLib.Documentation";
 
-			var info = new IHTMLDiv();
-
-			info.style.width = "65%";
-			info.style.height = "100%";
-			info.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			info.style.left = "35%";
-			info.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
-
-			info.AttachToDocument();
-			info.style.backgroundColor = JSColor.System.InfoBackground;
-			info.style.color = JSColor.System.InfoText;
-			info.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+			var hs = new HorizontalSplit();
 
 
+			hs.Container.AttachToDocument();
 
-			var infoscrollable = new IHTMLDiv().AttachTo(info);
+		
+		
+			Action<double> AddGradient =
+				gw =>
+				{
+					var infodraggradient0 = new IHTMLDiv().AttachTo(hs.Splitter);
 
-			infoscrollable.style.width = "100%";
-			infoscrollable.style.height = "100%";
-			infoscrollable.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			infoscrollable.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
+					infodraggradient0.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					infodraggradient0.style.width = gw + "em";
+					infodraggradient0.style.height = "100%";
+					infodraggradient0.style.backgroundColor = JSColor.White;
+					infodraggradient0.style.Opacity = 0.2;
+				};
 
-			var infodrag = new IHTMLDiv().AttachTo(info);
-
-			infodrag.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			infodrag.style.backgroundColor = JSColor.White;
-			infodrag.style.Opacity = 0.4;
-			infodrag.style.borderLeft = "1px solid gray";
-			infodrag.style.width = "2em";
-			infodrag.style.height = "100%";
-			infodrag.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.move;
-
-
-			var infopadding = new IHTMLDiv().AttachTo(infoscrollable);
-			infopadding.style.margin = "1em";
-			infopadding.style.marginLeft = "3em";
+			for (int i = 0; i < 20; i += 2)
+			{
+				AddGradient(2.0 - i * 0.1);
+			}
+			
 
 			var infocontent = new Lorem();
 
-			infocontent.Container.AttachTo(infopadding);
+			infocontent.Container.AttachTo(hs.RightContainer);
 
 
 			AttachLogoAnimation(infocontent);
 
 
-			var tree = new IHTMLDiv();
-
-			tree.style.width = "35%";
-			tree.style.height = "100%";
-			tree.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			tree.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.auto;
 
 
 			var c = new Compilation();
 
-			var treepadding = new IHTMLDiv().AttachTo(tree);
-
-			treepadding.style.margin = "1em";
-
-			RenderArchives(c, treepadding,
+			RenderArchives(c, hs.LeftContainer,
 
 				n => infocontent.Location.innerText = n
 
 			);
 
-			tree.AttachToDocument();
 
-			var dragarea = new IHTMLDiv();
+			var hsArea = new HorizontalSplitArea();
 
-			dragarea.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.move;
-			dragarea.style.width = "100%";
-			dragarea.style.height = "100%";
-			dragarea.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			hsArea.Abort.style.Opacity = 0.05;
 
-			var dragareaabort = new IHTMLDiv().AttachTo(dragarea);
-
-			dragareaabort.style.width = "100%";
-			dragareaabort.style.height = "100%";
-
-			dragareaabort.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-
-			dragareaabort.style.backgroundColor = JSColor.Black;
-			dragareaabort.style.Opacity = 0.05;
-
-
-			var dragtarget = new IHTMLDiv().AttachTo(dragarea);
-
-			dragtarget.style.borderLeft = "1px solid gray";
-			dragtarget.style.borderRight = "1px solid gray";
-			dragtarget.style.width = "2em";
-			dragtarget.style.height = "100%";
-			dragtarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			dragtarget.style.left = "35%";
-
+	
 			var dragmode = false;
 
-			dragtarget.onmousedown +=
+			hsArea.Target.onmousedown +=
 				ee =>
 				{
-					dragtarget.style.backgroundColor = JSColor.System.Highlight;
+					hsArea.Target.style.backgroundColor = JSColor.System.Highlight;
 					dragmode = true;
 
 					ee.PreventDefault();
-					dragareaabort.style.Opacity = 0.05;
+					hsArea.Abort.style.Opacity = 0.05;
 				};
 
-			dragarea.onmousemove +=
+			hsArea.Container.onmousemove +=
 				ee =>
 				{
 					if (!dragmode)
 						return;
 
-					var p = System.Convert.ToInt32(ee.CursorX * 100 / dragarea.offsetWidth);
+					var p = System.Convert.ToInt32(ee.CursorX * 100 / hsArea.Container.offsetWidth);
 
 					if (p < 20)
 						p = 20;
 					if (p > 80)
 						p = 80;
 
-					dragtarget.style.left = p + "%";
+					hsArea.Target.style.left = p + "%";
 				};
 
-			dragarea.onmouseup +=
+			hsArea.Container.onmouseup +=
 				ee =>
 				{
 					if (!dragmode)
 						return;
 
 					dragmode = false;
-					var p = System.Convert.ToInt32(ee.CursorX * 100 / dragarea.offsetWidth);
+					var p = System.Convert.ToInt32(ee.CursorX * 100 / hsArea.Container.offsetWidth);
 
 					if (p < 20)
 						p = 20;
 					if (p > 80)
 						p = 80;
 
-					dragtarget.style.left = p + "%";
-					info.style.left = p + "%";
-					info.style.width = (100 - p) + "%";
-					tree.style.width = p + "%";
+					hsArea.Target.style.left = p + "%";
+					hs.Right.style.left = p + "%";
+					hs.Right.style.width = (100 - p) + "%";
+					hs.Left.style.width = p + "%";
 
-					dragareaabort.style.Opacity = 0;
-					dragtarget.style.backgroundColor = JSColor.None;
+					hsArea.Abort.style.Opacity = 0;
+					hsArea.Target.style.backgroundColor = JSColor.None;
 
 				};
 
-			dragareaabort.onmousemove +=
+			hsArea.Abort.onmousemove +=
 				ee =>
 				{
 					if (dragmode)
@@ -174,15 +129,16 @@ namespace ScriptCoreLib.Documentation
 						return;
 					}
 
-					dragtarget.style.backgroundColor = JSColor.None;
-					dragarea.Orphanize();
+					hsArea.Target.style.backgroundColor = JSColor.None;
+					hsArea.Container.Orphanize();
 				};
 
-			infodrag.onmouseover +=
+			hs.Splitter.onmouseover +=
 				delegate
 				{
-					dragareaabort.style.Opacity = 0.05;
-					dragarea.AttachToDocument();
+					hsArea.Abort.style.Opacity = 0.05;
+
+					hsArea.Container.AttachTo(hs.Container);
 				};
 
 

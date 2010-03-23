@@ -6,7 +6,7 @@ using ScriptCoreLib.Documentation.Documentation;
 
 namespace ScriptCoreLib.Documentation
 {
-	public static class Program
+	internal static class Program
 	{
 		public static void Main(string[] args)
 		{
