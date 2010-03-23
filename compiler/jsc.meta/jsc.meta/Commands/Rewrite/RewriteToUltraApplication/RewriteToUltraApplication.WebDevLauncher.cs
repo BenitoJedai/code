@@ -176,20 +176,60 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 							};
 
-							n.ContextMenuStrip.Items.Add(
+							var Tools =
 								new ToolStripMenuItem(
-									"&Close " + Text,
+									"Developer Tools"
+								);
+
+							#region we need the originals
+							Tools.DropDownItems.Add(
+								new ToolStripMenuItem(
+									"Convert to Google App Engine",
 									null,
 									delegate
 									{
-										Application.Exit();
+
 									}
 								)
+								{
+									Enabled = false
+								}
 							);
 
-	
+							Tools.DropDownItems.Add(
+								new ToolStripMenuItem(
+									"Convert to PHP",
+									null,
+									delegate
+									{
 
-							n.ContextMenuStrip.Items.Add(
+									}
+								)
+								{
+									Enabled = false
+								}
+							);
+
+							Tools.DropDownItems.Add(
+								new ToolStripMenuItem(
+									"Convert to ASP.NET",
+									null,
+									delegate
+									{
+
+									}
+								)
+								{
+									Enabled = false
+								}
+							);
+
+							Tools.DropDownItems.Add(new ToolStripSeparator());
+
+							#endregion
+
+
+							Tools.DropDownItems.Add(
 								new ToolStripMenuItem(
 									"Open in Windows &Explorer",
 									null,
@@ -202,6 +242,37 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 									ToolTipText = dir
 								}
 							);
+
+
+							Tools.DropDownItems.Add(
+								new ToolStripMenuItem(
+									"Browse to Diagnostics",
+									null,
+									delegate
+									{
+										Process.Start(url + "/jsc");
+									}
+								)
+
+							);
+
+							n.ContextMenuStrip.Items.Add(Tools);
+							n.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+
+
+							n.ContextMenuStrip.Items.Add(
+								new ToolStripMenuItem(
+									"&Close " + Text,
+									null,
+									delegate
+									{
+										Application.Exit();
+									}
+								)
+							);
+
+
+
 
 							//n.ContextMenuStrip.Items.Add(
 							//new ToolStripMenuItem(
@@ -238,7 +309,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 								};
 
 
-							
+
 							n.Text = Text;
 							n.ShowBalloonTip(300, Text, "Loading...", ToolTipIcon.None);
 

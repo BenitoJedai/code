@@ -32,6 +32,8 @@ namespace PromotionWebApplication.AvalonLogo
 
 		public AvalonLogoCanvas()
 		{
+			this.CloseOnClick = true;
+
 			this.Container = new Canvas
 			{
 				Width = DefaultWidth,
@@ -225,17 +227,17 @@ namespace PromotionWebApplication.AvalonLogo
 					if (AtLogoClick != null)
 						AtLogoClick();
 					//new Uri("http://www.jsc-solutions.net").NavigateTo(this.Container);
-					Close();
-					logo_hit.Orphanize();
+
+					if (CloseOnClick)
+					{
+						Close();
+						logo_hit.Orphanize();
+					}
 				};
 
-			this.Close =
+			this.HideSattelites =
 				delegate
 				{
-					WaitAndAppear(1, 0.12, n => logo.Opacity = 1 - n);
-
-				
-
 					AtAnimation =
 						t =>
 						{
@@ -255,7 +257,17 @@ namespace PromotionWebApplication.AvalonLogo
 						WaitAndAppear(1 + 1000.Random(), 0.12, n => item.Opacity = 1 - n);
 					}
 				};
+
+			this.Close =
+				delegate
+				{
+					WaitAndAppear(1, 0.12, n => logo.Opacity = 1 - n);
+
+					HideSattelites();
+				};
 		}
+
+		public bool CloseOnClick { get; set; }
 
 		private static void ShowSattelites(List<XImage> images, Action<int, double, Action<double>> WaitAndAppear)
 		{
@@ -277,6 +289,7 @@ namespace PromotionWebApplication.AvalonLogo
 
 		public event Action AtClose;
 
+		public readonly Action HideSattelites;
 		public readonly Action Close;
 
 

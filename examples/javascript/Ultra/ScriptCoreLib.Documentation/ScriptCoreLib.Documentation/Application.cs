@@ -7,6 +7,7 @@ using System.ComponentModel;
 using ScriptCoreLib.Documentation.Documentation;
 using System.Linq;
 using ScriptCoreLib.Documentation.HTML.Pages.FromAssets;
+using PromotionWebApplication.AvalonLogo;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -25,11 +26,14 @@ namespace ScriptCoreLib.Documentation
 			info.style.height = "100%";
 			info.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 			info.style.left = "35%";
+			info.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
 
 			info.AttachToDocument();
 			info.style.backgroundColor = JSColor.System.InfoBackground;
 			info.style.color = JSColor.System.InfoText;
 			info.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+
+
 
 			var infoscrollable = new IHTMLDiv().AttachTo(info);
 
@@ -56,6 +60,10 @@ namespace ScriptCoreLib.Documentation
 			var infocontent = new Lorem();
 
 			infocontent.Container.AttachTo(infopadding);
+
+
+			AttachLogoAnimation(infocontent);
+
 
 			var tree = new IHTMLDiv();
 
@@ -176,6 +184,48 @@ namespace ScriptCoreLib.Documentation
 					dragareaabort.style.Opacity = 0.05;
 					dragarea.AttachToDocument();
 				};
+
+
+		}
+
+		private static void AttachLogoAnimation(Lorem infocontent)
+		{
+			#region manual precache
+			new PromotionWebApplication.AvalonLogo.Avalon.Images.Apple_Safari();
+			new PromotionWebApplication.AvalonLogo.Avalon.Images.Firefox_3();
+			new PromotionWebApplication.AvalonLogo.Avalon.Images.Google_Chrome();
+			new PromotionWebApplication.AvalonLogo.Avalon.Images.Internet_Explorer_7_Logo();
+			new PromotionWebApplication.AvalonLogo.Avalon.Images.jsc();
+			new PromotionWebApplication.AvalonLogo.Avalon.Images.Opera();
+			#endregion
+
+			ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+				4000,
+				delegate
+				{
+					var logo = new AvalonLogoCanvas
+					{
+						CloseOnClick = false
+					};
+
+
+					ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(10000,
+						() =>
+						{
+							logo.HideSattelites();
+						}
+					);
+
+					infocontent.LogoContainer.removeChildren();
+
+					var logoc = new IHTMLDiv().AttachTo(infocontent.LogoContainer);
+
+					logoc.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					logoc.style.SetLocation((AvalonLogoCanvas.DefaultWidth - 96) / -2, (AvalonLogoCanvas.DefaultHeight - 96) / -2);
+
+					logo.Container.AttachToContainer(logoc);
+				}
+				);
 		}
 
 		private static void RenderArchives(Compilation c, IHTMLElement parent, Action<string> UpdateLocation)
