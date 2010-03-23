@@ -1076,33 +1076,35 @@ namespace jsc.meta.Commands.Rewrite
 
 		private void DefineHiddenEntryPointsType(ModuleBuilder m, MethodInfo[] HiddenEntryPoints)
 		{
-
-			var HiddenEntryPointsType = m.DefineType("HiddenEntryPointsType", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
-
-			var EntryPointIndex = 0;
-
-			foreach (var HiddenEntryPoint in HiddenEntryPoints)
+			if (HiddenEntryPoints.Any())
 			{
-				var EntryPointMethod = HiddenEntryPointsType.DefineMethod(
-					"EntryPoint" + EntryPointIndex,
-					MethodAttributes.Public | MethodAttributes.Static,
-					HiddenEntryPoint.CallingConvention,
-					HiddenEntryPoint.ReturnType,
-					HiddenEntryPoint.GetParameterTypes()
-				);
+				var HiddenEntryPointsType = m.DefineType("HiddenEntryPointsType", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
 
-				var il = EntryPointMethod.GetILGenerator();
+				var EntryPointIndex = 0;
 
-				foreach (var item in HiddenEntryPoint.GetParameters())
+				foreach (var HiddenEntryPoint in HiddenEntryPoints)
 				{
-					il.Emit(OpCodes.Ldarg, (short)item.Position);
+					var EntryPointMethod = HiddenEntryPointsType.DefineMethod(
+						"EntryPoint" + EntryPointIndex,
+						MethodAttributes.Public | MethodAttributes.Static,
+						HiddenEntryPoint.CallingConvention,
+						HiddenEntryPoint.ReturnType,
+						HiddenEntryPoint.GetParameterTypes()
+					);
+
+					var il = EntryPointMethod.GetILGenerator();
+
+					foreach (var item in HiddenEntryPoint.GetParameters())
+					{
+						il.Emit(OpCodes.Ldarg, (short)item.Position);
+					}
+					il.Emit(OpCodes.Call, this.RewriteArguments.context.MethodCache[HiddenEntryPoint]);
+					il.Emit(OpCodes.Ret);
+
 				}
-				il.Emit(OpCodes.Call, this.RewriteArguments.context.MethodCache[HiddenEntryPoint]);
-				il.Emit(OpCodes.Ret);
 
+				HiddenEntryPointsType.CreateType();
 			}
-
-			HiddenEntryPointsType.CreateType();
 		}
 
 
