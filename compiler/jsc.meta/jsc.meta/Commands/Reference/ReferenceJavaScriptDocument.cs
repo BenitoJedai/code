@@ -365,6 +365,17 @@ namespace jsc.meta.Commands.Reference
 
 								}.Define();
 
+								new DefineXDocuments
+								{
+
+									DefaultNamespace = DefaultNamespace,
+									BodyElement = BodyElement,
+									r = r,
+									GetLocalResource = item.GetLocalResource,
+
+								}.Define();
+
+
 
 								var VariationsForPages = new Dictionary<string, Dictionary<string, Type>>
 								{

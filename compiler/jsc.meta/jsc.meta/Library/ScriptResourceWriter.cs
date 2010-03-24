@@ -30,6 +30,13 @@ namespace jsc.meta.Library
 			return Add(name, Encoding.UTF8.GetBytes(value.ToString()));
 		}
 
+		/// <summary>
+		/// Long paths are not good. ASP.NET will fault.
+		/// <example> var AssetPath = "assets/" + DefaultNamespace + "/" + name + Extension;</example>
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public string Add(string name, byte[] value)
 		{
 			var ScriptResources = name.Substring(0, name.LastIndexOf("/"));

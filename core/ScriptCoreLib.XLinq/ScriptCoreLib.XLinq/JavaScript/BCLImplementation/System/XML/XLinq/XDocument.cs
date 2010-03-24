@@ -11,13 +11,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 	[Script(Implements = typeof(XDocument))]
 	internal class __XDocument : __XContainer
 	{
-		IXMLDocument InternalDocument;
+		internal IXMLDocument InternalDocument;
 
 		public static __XDocument Parse(string text)
 		{
 			var InternalValue = IXMLDocument.Parse(text);
 
-			return new __XDocument { InternalDocument = InternalValue, InternalValue = InternalValue };
+			return InternalValue;
 		}
 
 		__XElement _Root;
@@ -33,6 +33,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 				return _Root;
 			}
+		}
+
+		public static implicit operator __XDocument(IXMLDocument InternalValue)
+		{
+			return new __XDocument
+			{
+				InternalDocument = InternalValue,
+				InternalValue = InternalValue
+			};
+		}
+
+		public static implicit operator XDocument(__XDocument doc)
+		{
+			return (XDocument)(object)(__XDocument)doc;
 		}
 	}
 }
