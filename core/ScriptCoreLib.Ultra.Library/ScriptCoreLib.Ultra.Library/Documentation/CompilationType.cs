@@ -17,8 +17,14 @@ namespace ScriptCoreLib.Documentation
 
 		public int MetadataToken { get; set; }
 
+		readonly XElement Data;
+
+
+
 		public CompilationType(CompilationAssembly Context, XElement Data)
 		{
+			this.Data = Data;
+
 			this.FullName = Data.Element("FullName").Value;
 			this.MetadataToken = Convert.ToInt32(Data.Element("MetadataToken").Value);
 		}
@@ -37,6 +43,16 @@ namespace ScriptCoreLib.Documentation
 			{
 				return FullName.SkipUntilLastIfAny(".");
 			}
+		}
+
+		public IEnumerable<CompilationMethod> GetMethods()
+		{
+			return this.Data.Elements(CompilationMethod.__Method).Select(k => new CompilationMethod(this, k));
+		}
+
+		public IEnumerable<CompilationField> GetFields()
+		{
+			return this.Data.Elements(CompilationField._Field).Select(k => new CompilationField(this, k));
 		}
 	}
 

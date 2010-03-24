@@ -92,11 +92,21 @@ namespace PromotionWebApplication1
 
 			var hash = Native.Document.location.hash;
 
+			Action<string> Analytics = delegate { };
+ 
 			#region logo
 			{
 				if (Native.Document.location.hash.StartsWith("#/docs"))
 				{
 					var view = new ScriptCoreLib.Documentation.Application(e);
+
+					view.TouchTypeSelected +=
+						type =>
+						{
+							Native.Document.location.hash = "#/docs/" + type.FullName;
+
+							Analytics("#/docs/" + type.FullName);
+						};
 
 				}
 				else if (Native.Document.location.hash == "#/source")
@@ -486,6 +496,15 @@ namespace PromotionWebApplication1
 				{
 					pageTracker._setDomainName(".jsc-solutions.net");
 					pageTracker._trackPageview(gapageview);
+
+					Analytics =
+						__hash =>
+						{
+							var __gahash = Native.Window.escape(__hash);
+							var __gapageview = gapathname + gasearch + __gahash;
+
+							pageTracker._trackPageview(__gapageview);
+						};
 				}
 			);
 

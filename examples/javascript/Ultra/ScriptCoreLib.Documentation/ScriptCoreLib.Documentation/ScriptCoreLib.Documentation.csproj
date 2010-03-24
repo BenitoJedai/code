@@ -117,6 +117,8 @@
     <Content Include="My.UltraSource\HorizontalSplitArea.htm" />
     <Content Include="My.UltraSource\HorizontalSplit.htm" />
     <Content Include="My.UltraSource\Icons\Assembly.png" />
+    <Content Include="My.UltraSource\Icons\PublicField.png" />
+    <Content Include="My.UltraSource\Icons\PublicMethod.png" />
     <Content Include="My.UltraSource\Lorem.htm" />
     <Content Include="My.UltraSource\Icons\Namespace.png" />
     <Content Include="My.UltraSource\Icons\PublicClass.png" />
