@@ -67,6 +67,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XName.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XNode.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XObject.cs" />
+    <Compile Include="JavaScript\Extensions\XLinqExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\XLinq\IAssemblyReferenceToken.cs" />
   </ItemGroup>

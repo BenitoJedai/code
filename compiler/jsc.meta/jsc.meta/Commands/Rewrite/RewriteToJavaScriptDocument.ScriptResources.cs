@@ -31,7 +31,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				this.ManifestResourceNames = SourceAssembly.GetManifestResourceNames();
 
-				this.Folders = this.SourceAssembly.GetCustomAttributes<ScriptResourcesAttribute>();
+				this.Folders = this.SourceAssembly.GetCustomAttributes<ScriptResourcesAttribute>().OrderByDescending(k => k.Value.Length).ToArray();
 
 				var Name = SourceAssembly.GetName().Name;
 

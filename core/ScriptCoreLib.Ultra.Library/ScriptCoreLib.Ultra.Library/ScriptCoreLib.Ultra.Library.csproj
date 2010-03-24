@@ -54,9 +54,10 @@
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Documentation\CompilationArchiveBase.cs" />
+    <Compile Include="Documentation\CompilationAssembly.cs" />
     <Compile Include="Documentation\CompilationAssemblyBase.cs" />
     <Compile Include="Documentation\CompilationBase.cs" />
-    <Compile Include="Documentation\CompilationTypeBase.cs" />
+    <Compile Include="Documentation\CompilationType.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />

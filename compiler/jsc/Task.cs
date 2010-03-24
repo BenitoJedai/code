@@ -76,8 +76,8 @@ namespace jsc
 
             if (Debugger.IsAttached)
                 Debugger.Break();
-            else
-                Process.GetCurrentProcess().Kill();
+
+			throw new InvalidOperationException();
         }
 
         public Task(string name, string desc)

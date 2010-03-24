@@ -27,8 +27,14 @@ namespace jsc.meta.Library
 				{
 					il.Emit(OpCodes.Ldc_I4, (int)item.Value);
 				}
+				else if (item.Value is MethodInfo)
+				{
+					il.Emit(OpCodes.Ldnull);
+					il.Emit(OpCodes.Ldftn, ((MethodInfo)item.Value));
+					il.Emit(OpCodes.Newobj, item.f.PropertyType.GetConstructors().Single());
+				}
 				else throw new NotImplementedException();
-				il.Emit(OpCodes.Call, item.f.GetSetMethod());
+				il.Emit(OpCodes.Call, item.f.GetSetMethod(true));
 			}
 		}
 

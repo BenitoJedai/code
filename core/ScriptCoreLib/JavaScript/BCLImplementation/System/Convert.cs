@@ -83,5 +83,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 			return 0;
 		}
+
+		public static int ToInt32(string value)
+		{
+			return int.Parse(value);
+		}
     }
 }

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Documentation
 {
-	public abstract class CompilationAssemblyBase 
+	public abstract class CompilationAssemblyBase
 	{
 		public string Name { get; set; }
 
@@ -14,36 +15,35 @@ namespace ScriptCoreLib.Documentation
 		public CompilationArchiveBase DeclaringArchive { get; set; }
 
 
-		internal protected readonly List<Func<CompilationTypeBase>> InternalTypes = new List<Func<CompilationTypeBase>>();
-
-		public IEnumerable<CompilationTypeBase> GetTypes()
-		{
-			return InternalTypes.Select(k => k());
-		}
-
+	
 		public CompilationAssemblyBase()
 		{
 
+		}
+
+		internal protected Action<Action<XElement>> LoadImplementation { get; set; }
+
+		CompilationAssembly LoadCache;
+		public void WhenReady(Action<CompilationAssembly> yield)
+		{
+			if (LoadCache != null)
+			{
+				yield(LoadCache);
+				return;
+			}
+
+			LoadImplementation(
+				r =>
+				{
+					LoadCache = new CompilationAssembly(this, r);
+					yield(LoadCache);
+				}
+			);
 		}
 	}
 
 	internal class CompilationAssemblyBaseTemplate : CompilationAssemblyBase
 	{
-		internal protected void InitializeTypes()
-		{
-			InternalTypes.Add(Add);
-		}
-
-		internal protected CompilationTypeBase Internal;
-
-		internal protected CompilationTypeBase Add()
-		{
-			if (Internal == null)
-			{
-				Internal = new CompilationTypeBaseTemplate { DeclaringAssembly = this };
-			}
-
-			return Internal;
-		}
+	
 	}
 }

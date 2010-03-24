@@ -19,6 +19,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 				return e;
 			}
 		}
+
+		public XElement Element(XName name)
+		{
+			return Elements(name).Single();
+		}
+
 		public IEnumerable<XElement> Elements(XName name)
 		{
 			var e = InternalElement;

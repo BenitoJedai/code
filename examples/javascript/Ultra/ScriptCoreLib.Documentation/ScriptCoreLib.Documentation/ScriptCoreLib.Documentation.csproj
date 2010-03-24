@@ -75,6 +75,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.XLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -91,6 +95,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="ScriptCoreLib.Documentation.UltraSource">
       <HintPath>bin\staging.UltraSource\ScriptCoreLib.Documentation.UltraSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -118,6 +125,7 @@
     <Content Include="My.UltraSource\Icons\PublicInterface.png" />
     <Content Include="My.UltraSource\Icons\References.png" />
     <Content Include="My.UltraSource\Styles\View1.css" />
+    <Content Include="My.UltraSource\XMLFile1.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\util\jsc\latest_jsc.zip">
@@ -142,7 +150,7 @@ if $(ConfigurationName)==Debug (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:true
 )</PostBuildEvent>
     <PreBuildEvent>if not $(ConfigurationName)==Assets goto :eof
 C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:true</PreBuildEvent>

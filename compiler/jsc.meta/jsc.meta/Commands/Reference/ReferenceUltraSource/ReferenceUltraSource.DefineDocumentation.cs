@@ -84,10 +84,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				if (!Assemblies.Any())
 					return;
 
+				// rationale:
+				// Creating one too many types is a problem.
+				// It is slow to compile and it creates a big downloadable.
+
 				// http://www.google.com/search?sourceid=chrome&ie=UTF-8&q=define:+compilation
 				// something that is compiled (as into a single book or file) 
 				var CompilationBuilder = this.r.RewriteArguments.Module.DefineType(
-					this.DefaultNamespace + ".Documentation.Compilation", TypeAttributes.Public,
+					DefaultNamespace + ".Documentation.Compilation", TypeAttributes.Public,
 					typeof(CompilationBase)
 				);
 
@@ -108,7 +112,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				foreach (var Archive in (from k in Assemblies group k by k.ArchiveTitle))
 				{
 					var ArchiveBuilder = this.r.RewriteArguments.Module.DefineType(
-						this.DefaultNamespace + ".Documentation.Compilation" + Archive.Key + "Archive",
+						DefaultNamespace + ".Documentation.Compilation" + Archive.Key + "Archive",
 						TypeAttributes.NotPublic,
 						typeof(CompilationArchiveBase)
 					);
@@ -144,13 +148,31 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						var AssemblyNameHint = CompilerBase.GetSafeLiteral(Assembly.Key, null);
 
 						var AssemblyBuilder = this.r.RewriteArguments.Module.DefineType(
-							this.DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssembly",
+							DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssembly",
 							TypeAttributes.NotPublic,
 							typeof(CompilationAssemblyBase)
 						);
 						var AssemblyBuilder_ctor = AssemblyBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
 
 						var First = Assembly.First();
+
+						var LoadImplementation = DefineXDocuments.DefineNamedXDocument(
+							"assets/" + this.DefaultNamespace + "/Data/" + AssemblyNameHint + ".xml",
+							r,
+							DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssemblyData",
+							true,
+							new XDocument(
+								new XElement("Assembly",
+										from SourceType in First.Assembly.GetExportedTypes()
+										select new XElement("Type",
+											new XElement("FullName", SourceType.FullName),
+											new XElement("MetadataToken", SourceType.MetadataToken)
+										)
+								)
+							)
+
+						);
+
 
 						{
 							var il = AssemblyBuilder_ctor.GetILGenerator();
@@ -161,90 +183,23 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							il.EmitStoreFields(
 								this.r.RewriteArguments.context.PropertyCache[
 									typeof(CompilationAssemblyBase).GetProperties(
-										BindingFlags.Instance | BindingFlags.Public | BindingFlags.Instance
+										BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
 									)
 								],
 								new
 								{
 									First.Assembly.GetName().Name,
-									First.Assembly.ManifestModule.MetadataToken
+									First.Assembly.ManifestModule.MetadataToken,
+									LoadImplementation
 								}
 							);
 						}
 
 						// if we have multiple copies in the archive we select the first
 
-						var TypeBuilderRedirects = new List<Action>();
 
-						foreach (var ExportedType in First.Assembly.GetExportedTypes())
-						{
-							var TypeBuilder = this.r.RewriteArguments.Module.DefineType(
-								this.DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + "." + ExportedType.FullName.SkipUntilIfAny(Assembly.Key + "."),
-								TypeAttributes.NotPublic,
-								typeof(CompilationTypeBase)
-							);
 
-							var TypeBuilder_ctor = TypeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.HasThis, null);
 
-							{
-								var il = TypeBuilder_ctor.GetILGenerator();
-
-								il.Emit(OpCodes.Ldarg_0);
-								il.Emit(OpCodes.Call, typeof(CompilationTypeBase).GetConstructors().Single());
-
-								il.EmitStoreFields(
-									this.r.RewriteArguments.context.PropertyCache[
-										typeof(CompilationTypeBase).GetProperties(
-											BindingFlags.Instance | BindingFlags.Public | BindingFlags.Instance
-										)
-									],
-									new
-									{
-										ExportedType.FullName,
-										ExportedType.MetadataToken
-									}
-								);
-
-							}
-
-							// do members here
-
-							{
-								var il = TypeBuilder_ctor.GetILGenerator();
-								il.Emit(OpCodes.Ret);
-
-							}
-
-							TypeBuilder.CreateType();
-
-							TypeBuilderRedirects.Add(
-								delegate
-								{
-									this.r.RewriteArguments.context.MemberRenameCache[
-										((Func<CompilationAssemblyBaseTemplate, CompilationTypeBase>)(k => k.Internal)).ToReferencedField()
-									] = "Internal_" + TypeBuilder.FullName;
-
-									this.r.RewriteArguments.context.MemberRenameCache[
-										((Func<CompilationAssemblyBaseTemplate, Func<CompilationTypeBase>>)(k => k.Add)).ToReferencedMethod()
-									] = "InternalAdd_" + TypeBuilder.FullName;
-
-									this.r.RewriteArguments.context.TypeCache[typeof(CompilationAssemblyBaseTemplate)] = AssemblyBuilder;
-									this.r.RewriteArguments.context.ConstructorCache[
-										typeof(CompilationTypeBaseTemplate).GetConstructors().Single()
-									] = TypeBuilder_ctor;
-
-									this.r.RewriteArguments.context.TypeCache[typeof(CompilationAssemblyBaseTemplate)] = AssemblyBuilder;
-
-								}
-							);
-						}
-
-						DuplicateWriter(
-							((Action<CompilationAssemblyBaseTemplate>)(k => k.InitializeTypes())).ToReferencedMethod(),
-							AssemblyBuilder_ctor.GetILGenerator(),
-							AssemblyBuilder,
-							TypeBuilderRedirects
-						);
 
 						AssemblyBuilder_ctor.GetILGenerator().Emit(OpCodes.Ret);
 						AssemblyBuilder.CreateType();

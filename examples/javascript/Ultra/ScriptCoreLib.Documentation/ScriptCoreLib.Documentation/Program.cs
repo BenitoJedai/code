@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Documentation.Documentation;
+using ScriptCoreLib.Documentation;
 
 namespace ScriptCoreLib.Documentation
 {

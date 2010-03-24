@@ -4,7 +4,6 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.ComponentModel;
-using ScriptCoreLib.Documentation.Documentation;
 using System.Linq;
 using ScriptCoreLib.Documentation.HTML.Pages.FromAssets;
 using PromotionWebApplication.AvalonLogo;
@@ -55,7 +54,7 @@ namespace ScriptCoreLib.Documentation
 			AttachLogoAnimation(infocontent);
 
 
-
+		
 
 			var c = new Compilation();
 
@@ -275,7 +274,7 @@ namespace ScriptCoreLib.Documentation
 
 				var NamespaceLookup = new Dictionary<string, IHTMLDiv>();
 
-				Func<IHTMLDiv, CompilationTypeBase, IHTMLDiv> GetNamespaceContainer =
+				Func<IHTMLDiv, CompilationType, IHTMLDiv> GetNamespaceContainer =
 					(Container, SourceType) =>
 					{
 						if (!NamespaceLookup.ContainsKey(SourceType.Namespace))
@@ -293,14 +292,19 @@ namespace ScriptCoreLib.Documentation
 
 						children.style.paddingLeft = "2em";
 
-						item.GetTypes().ForEach(
-							(Current, Next) =>
+						item.WhenReady(
+							a =>
 							{
-								AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+								a.GetTypes().ForEach(
+									(Current, Next) =>
+									{
+										AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
 
-								ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-									50,
-									Next
+										ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+											50,
+											Next
+										);
+									}
 								);
 							}
 						);
@@ -416,7 +420,7 @@ namespace ScriptCoreLib.Documentation
 			return children;
 		}
 
-		private static void AddType(IHTMLDiv parent, CompilationTypeBase type, Action<string> UpdateLocation)
+		private static void AddType(IHTMLDiv parent, CompilationType type, Action<string> UpdateLocation)
 		{
 			var div = new IHTMLDiv().AttachTo(parent);
 
