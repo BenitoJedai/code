@@ -63,6 +63,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\lib\ScriptCoreLib.Archive.ZIP.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.XLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
@@ -91,6 +95,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
+    <Compile Include="JavaScript\DOM\XML\XDocumentExtensions.cs" />
     <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLElement.Events.cs" />
     <Compile Include="JavaScript\Remoting\DOM\PNode.cs" />
     <Compile Include="JavaScript\Remoting\DOM\PEvent.cs" />
