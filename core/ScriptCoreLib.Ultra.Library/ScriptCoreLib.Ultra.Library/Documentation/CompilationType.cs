@@ -45,9 +45,15 @@ namespace ScriptCoreLib.Documentation
 			}
 		}
 
+		public IEnumerable<CompilationConstructor> GetConstructors()
+		{
+			return this.Data.Elements(CompilationConstructor.__Element).Select(k => new CompilationConstructor(this, k));
+		}
+
+
 		public IEnumerable<CompilationMethod> GetMethods()
 		{
-			return this.Data.Elements(CompilationMethod.__Method).Select(k => new CompilationMethod(this, k));
+			return this.Data.Elements(CompilationMethod.__Element).Select(k => new CompilationMethod(this, k));
 		}
 
 		public IEnumerable<CompilationField> GetFields()

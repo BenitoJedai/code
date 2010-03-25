@@ -93,7 +93,7 @@ namespace PromotionWebApplication1
 			var hash = Native.Document.location.hash;
 
 			Action<string> Analytics = delegate { };
- 
+
 			#region logo
 			{
 				if (Native.Document.location.hash.StartsWith("#/docs"))
@@ -490,23 +490,25 @@ namespace PromotionWebApplication1
 			#endregion
 
 
-
-			"UA-13087448-1".ToGoogleAnalyticsTracker(
-				pageTracker =>
+			Analytics =
+				__hash =>
 				{
-					pageTracker._setDomainName(".jsc-solutions.net");
-					pageTracker._trackPageview(gapageview);
+					var __gahash = Native.Window.escape(__hash);
+					var __gapageview = gapathname + gasearch + __gahash;
 
-					Analytics =
-						__hash =>
+
+					"UA-13087448-1".ToGoogleAnalyticsTracker(
+						pageTracker =>
 						{
-							var __gahash = Native.Window.escape(__hash);
-							var __gapageview = gapathname + gasearch + __gahash;
-
+							pageTracker._setDomainName(".jsc-solutions.net");
 							pageTracker._trackPageview(__gapageview);
-						};
-				}
-			);
+
+
+						}
+					);
+				};
+
+			Analytics(Native.Document.location.hash);
 
 
 		}

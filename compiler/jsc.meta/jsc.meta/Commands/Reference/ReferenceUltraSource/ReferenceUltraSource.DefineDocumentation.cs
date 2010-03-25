@@ -166,14 +166,37 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 										from SourceType in First.Assembly.GetTypes()
 										select new XElement("Type",
 
-											new [] {
+											new[] {
 												new XElement("FullName", SourceType.FullName),
 												new XElement("MetadataToken", SourceType.MetadataToken),
 											}.Concat(
 												from SourceMethod in SourceType.GetMethods(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
-												select new XElement(CompilationMethod.__Method,
-													new XElement(CompilationMethod.__Name, SourceMethod.Name)
+												select new XElement(CompilationMethod.__Element,
+
+													new[] 
+													{
+														new XElement(CompilationMethod.__Name, SourceMethod.Name)
+													}.Concat(
+														from SourceParameter in SourceMethod.GetParameters()
+														select
+															new XElement(CompilationMethodParameter.__Element,
+																new XElement(CompilationMethodParameter.__Name, SourceParameter.Name)
+															)
+													)
 												)
+											).Concat(
+													from SourceMethod in SourceType.GetConstructors(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
+													select new XElement(CompilationConstructor.__Element,
+													new XElement[] 
+													{
+													}.Concat(
+															from SourceParameter in SourceMethod.GetParameters()
+															select
+																new XElement(CompilationMethodParameter.__Element,
+																	new XElement(CompilationMethodParameter.__Name, SourceParameter.Name)
+																)
+														)
+													)
 											).Concat(
 												from SourceMethod in SourceType.GetFields()
 												select new XElement(CompilationField._Field,
