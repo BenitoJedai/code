@@ -163,7 +163,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							true,
 							new XDocument(
 								new XElement("Assembly",
-										from SourceType in First.Assembly.GetExportedTypes()
+										from SourceType in First.Assembly.GetTypes()
 										select new XElement("Type",
 
 											new [] {
