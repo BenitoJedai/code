@@ -47,6 +47,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -266,6 +267,8 @@
     <Compile Include="ActionScript\mx\controls\SWFLoader.cs" />
     <Compile Include="ActionScript\mx\core\UIComponent.cs" />
     <Compile Include="ActionScript\mx\core\FlexSprite.cs" />
+    <Compile Include="JavaScript\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Conversions.cs" />
+    <Compile Include="JavaScript\BCLImplementation\Microsoft\VisualBasic\CompilerServices\ProjectData.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Char.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Queue.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Stack.cs" />

@@ -66,8 +66,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			//Console.WriteLine(ProjectTemplates);
 			//Console.WriteLine(ProjectTemplates);
 
+			// http://msdn.microsoft.com/en-us/library/5we0w25d(VS.100).aspx
 			var ProjectType = default(string);
-
+			//
 			if (this.ProjectFileName.Extension == ".csproj")
 			{
 				ProjectType = "CSharp";
@@ -79,6 +80,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 				ProjectType = "FSharp";
 				ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual F#");
 				SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual F#");
+			}
+			else if (this.ProjectFileName.Extension == ".vbproj")
+			{
+				ProjectType = "VisualBasic";
+				ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual Basic");
+				SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual Basic");
 			}
 			else
 				throw new NotSupportedException();
