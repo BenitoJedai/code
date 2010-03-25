@@ -9,6 +9,7 @@ using ScriptCoreLib.Documentation.HTML.Pages.FromAssets;
 using PromotionWebApplication.AvalonLogo;
 using ScriptCoreLib.Shared.Lambda;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -185,7 +186,7 @@ namespace ScriptCoreLib.Documentation
 				);
 		}
 
-		private  void RenderArchives(Compilation c, IHTMLElement parent, Action<string> UpdateLocation)
+		private void RenderArchives(Compilation c, IHTMLElement parent, Action<string> UpdateLocation)
 		{
 			foreach (var item in c.GetArchives())
 			{
@@ -210,7 +211,7 @@ namespace ScriptCoreLib.Documentation
 			}
 		}
 
-		private  void RenderAssemblies(CompilationArchiveBase archive, IHTMLElement parent, Action<string> UpdateLocation)
+		private void RenderAssemblies(CompilationArchiveBase archive, IHTMLElement parent, Action<string> UpdateLocation)
 		{
 			foreach (var item2 in
 				from a in archive.GetAssemblies()
@@ -488,7 +489,20 @@ namespace ScriptCoreLib.Documentation
 					children.style.paddingLeft = "1em";
 
 					var _fields = new IHTMLDiv().AttachTo(children);
+					var _constructors = new IHTMLDiv().AttachTo(children);
 					var _methods = new IHTMLDiv().AttachTo(children);
+
+					type.GetConstructors().ForEach(
+						(Current, Next) =>
+						{
+							AddTypeConstructor(_constructors, Current, UpdateLocation);
+
+							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+								50,
+								Next
+							);
+						}
+					);
 
 					type.GetMethods().ForEach(
 						(Current, Next) =>
@@ -501,6 +515,7 @@ namespace ScriptCoreLib.Documentation
 							);
 						}
 					);
+
 
 					type.GetFields().ForEach(
 						(Current, Next) =>
@@ -637,6 +652,124 @@ namespace ScriptCoreLib.Documentation
 				};
 		}
 
+		private static void AddTypeConstructor(IHTMLDiv parent, CompilationConstructor type, Action<string> UpdateLocation)
+		{
+			var div = new IHTMLDiv().AttachTo(parent);
+
+			div.style.marginTop = "0.1em";
+			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+
+
+			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicMethod().AttachTo(div);
+
+			i.style.verticalAlign = "middle";
+			i.style.marginRight = "0.5em";
+
+			var w = new StringBuilder();
+
+			w.Append(type.DeclaringType.Name);
+
+			w.Append("(");
+
+			type.GetParameters().ForEach(
+				(p, pi) =>
+				{
+					if (pi > 0)
+						w.Append(", ");
+
+					w.Append(p.Name);
+				}
+			);
+
+			w.Append(")");
+
+
+			var s = new IHTMLAnchor { innerText = w.ToString() }.AttachTo(div);
+
+
+			s.href = "#";
+			s.style.textDecoration = "none";
+			s.style.color = JSColor.System.WindowText;
+
+			Action onclick = delegate
+			{
+
+			};
+
+			s.onclick +=
+				e =>
+				{
+					e.PreventDefault();
+
+					s.focus();
+
+					UpdateLocation(type.DeclaringType.Name + ".ctor");
+
+					onclick();
+				};
+
+			s.onfocus +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.System.Highlight;
+					s.style.color = JSColor.System.HighlightText;
+				};
+
+			s.onblur +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.None;
+					s.style.color = JSColor.System.WindowText;
+				};
+
+
+			onclick =
+				delegate
+				{
+					//var children = new IHTMLDiv().AttachTo(div);
+
+					//children.style.paddingLeft = "2em";
+
+					//a.GetTypes().ForEach(
+					//    (Current, Next) =>
+					//    {
+					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+
+					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+					//            50,
+					//            Next
+					//        );
+					//    }
+					//);
+
+
+					var NextClickHide = default(Action);
+					var NextClickShow = default(Action);
+
+					NextClickHide =
+						delegate
+						{
+							//children.Hide();
+
+							onclick = NextClickShow;
+						};
+
+					NextClickShow =
+						delegate
+						{
+							//children.Show();
+
+							onclick = NextClickHide;
+						};
+
+
+					onclick = NextClickHide;
+				};
+		}
+
 		private static void AddTypeMethod(IHTMLDiv parent, CompilationMethod type, Action<string> UpdateLocation)
 		{
 			var div = new IHTMLDiv().AttachTo(parent);
@@ -651,7 +784,26 @@ namespace ScriptCoreLib.Documentation
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
 
-			var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
+			var w = new StringBuilder();
+
+			w.Append(type.Name);
+
+			w.Append("(");
+
+			type.GetParameters().ForEach(
+				(p, pi) =>
+				{
+					if (pi > 0)
+						w.Append(", ");
+
+					w.Append(p.Name);
+				}
+			);
+
+			w.Append(")");
+
+
+			var s = new IHTMLAnchor { innerText = w.ToString() }.AttachTo(div);
 
 
 			s.href = "#";
