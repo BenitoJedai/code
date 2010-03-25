@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraApplicationWithAssets3", "UltraApplicationWithAssets3\UltraApplicationWithAssets3.csproj", "{15DD782E-6307-4E2D-B058-EF68C3DC632F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Audio|Any CPU = Audio|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Audio|Any CPU.ActiveCfg = Audio|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Audio|Any CPU.Build.0 = Audio|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15DD782E-6307-4E2D-B058-EF68C3DC632F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
