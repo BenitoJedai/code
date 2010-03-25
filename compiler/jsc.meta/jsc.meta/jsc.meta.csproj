@@ -278,6 +278,8 @@
     <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline.cs" />
+    <Compile Include="Library\Mashups\UltraApplicationWithInlineTier.cs" />
+    <Compile Include="Library\Mashups\UltraApplicationWithTier.cs" />
     <Compile Include="Library\Mashups\UltraSecondary.cs" />
     <Compile Include="Library\Mashups\UltraDocument.cs" />
     <Compile Include="Library\Mashups\UltraStaticSpriteApplet.cs" />

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraWebApplicationWithAssets", "UltraWebApplicationWithAssets\UltraWebApplicationWithAssets.csproj", "{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDE1A99B-5AA4-4008-B5CF-D0A08EBE43EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

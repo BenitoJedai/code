@@ -146,7 +146,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 		{
 			// implementing interfaces on native types
 			// requres DefineAsStatic
-			
+
 			// invoking explicit interface methods
 			// is not currently supported
 
@@ -186,6 +186,15 @@ namespace ScriptCoreLib.JavaScript.DOM
 			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
 
 			this.appendChild(e);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public void Add(string e)
+		{
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+			this.appendChild(new ITextNode(e));
 		}
 	}
 }
