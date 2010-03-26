@@ -596,6 +596,18 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						// how slow will it be if we run this method for each instruction? :)
 
+						x.BeforeInstructions +=
+							e =>
+							{
+								if (e.SourceMethod.Name == "__ENCAddToList")
+								{
+									// gee, thanks vbc... 
+									// lets omit the implementation!
+									e.il.Emit(OpCodes.Ret);
+									e.Complete();
+								}
+							};
+
 						x.BeforeInstruction +=
 							e =>
 							{

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Reference Include="jsc.meta">
       <HintPath>c:\util\jsc\bin\jsc.meta.exe</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="ScriptCoreLib">
