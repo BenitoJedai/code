@@ -25,6 +25,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -375,6 +376,14 @@ namespace jsc.meta.Commands.Reference
 
 								}.Define();
 
+								new SpriteSheet
+								{
+									DefaultNamespace = DefaultNamespace,
+									BodyElement = BodyElement,
+									r = r,
+									GetLocalResource = item.GetLocalResource,
+
+								}.Define();
 
 
 								var VariationsForPages = new Dictionary<string, Dictionary<string, Type>>

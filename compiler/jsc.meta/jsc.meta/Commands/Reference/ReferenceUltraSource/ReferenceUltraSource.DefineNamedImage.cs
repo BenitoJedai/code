@@ -27,7 +27,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 	{
 
 
-		private static Type DefineNamedImage(
+		public static Type DefineNamedImage(
 			RewriteToAssembly.AssemblyRewriteArguments a,
 			RewriteToAssembly r,
 			string ImageFullName,

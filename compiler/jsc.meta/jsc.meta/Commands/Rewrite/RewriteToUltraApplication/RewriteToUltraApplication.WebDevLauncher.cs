@@ -231,7 +231,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 							Tools.DropDownItems.Add(
 								new ToolStripMenuItem(
-									"Open in Windows &Explorer",
+									//"Open in Windows &Explorer",
+									"Open file location",
 									null,
 									delegate
 									{
