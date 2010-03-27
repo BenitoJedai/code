@@ -299,16 +299,12 @@ namespace ScriptCoreLib.Documentation
 								a.GetTypes().ForEach(
 									(Current, Next) =>
 									{
-										var TypeContainer = default(IHTMLDiv);
-
-										if (Current.DeclaringType != null)
+										if (!Current.IsNested)
 										{
-											return;
+											var TypeContainer = GetNamespaceContainer(children, Current);
+
+											AddType(TypeContainer, Current, UpdateLocation);
 										}
-
-										TypeContainer = GetNamespaceContainer(children, Current);
-
-										AddType(TypeContainer, Current, UpdateLocation);
 
 										ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 											50,
@@ -451,7 +447,7 @@ namespace ScriptCoreLib.Documentation
 			{
 				i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicClass();
 			}
-			
+
 			i.AttachTo(div);
 
 			i.style.verticalAlign = "middle";
@@ -500,7 +496,7 @@ namespace ScriptCoreLib.Documentation
 					s.style.color = JSColor.System.WindowText;
 				};
 
-	
+
 
 			onclick =
 				delegate
