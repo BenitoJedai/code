@@ -20,6 +20,7 @@ using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using jsc.meta.Library.Templates.JavaScript.Named;
+using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
@@ -84,7 +85,13 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				foreach (var CurrentElement in Images_value)
 				{
 					var ElementType = ElementTypes[CurrentElement.Name.LocalName];
-					var Namespace = "Images";
+					
+					var Namespace = default(string);
+
+					if (ElementType == typeof(IHTMLImage))
+					{
+						Namespace = "Images";
+					}
 
 					if (ElementType == typeof(IHTMLAudio))
 						Namespace = "Audio";
@@ -400,7 +407,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			}
 		}
 
-		private static Type DefineAvalonNamedImage(
+		public static Type DefineAvalonNamedImage(
 			RewriteToAssembly.AssemblyRewriteArguments a,
 			RewriteToAssembly r,
 			string ImageFullName,

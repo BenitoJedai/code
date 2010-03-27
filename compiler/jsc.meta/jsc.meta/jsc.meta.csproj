@@ -40,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\jsc.meta.xml</DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -234,6 +235,7 @@
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
+    <Compile Include="Commands\Reference\ReferenceUltraSource\Plugins\SpriteSheet.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DefineXDocuments.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DirectoryNeedsConversion.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DefineDocumentation.cs" />

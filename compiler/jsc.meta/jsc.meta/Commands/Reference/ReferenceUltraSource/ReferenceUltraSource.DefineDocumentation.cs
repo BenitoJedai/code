@@ -168,7 +168,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 											new[] {
 												new XElement("FullName", SourceType.FullName),
-												new XElement("MetadataToken", SourceType.MetadataToken),
+												new XElement(CompilationType.__MetadataToken, SourceType.MetadataToken),
+												new XElement(CompilationType.__IsInterface, SourceType.IsInterface),
+												new XElement(CompilationType.__DeclaringType, SourceType.DeclaringType == null ? 0 : SourceType.DeclaringType.MetadataToken),
 											}.Concat(
 												from SourceMethod in SourceType.GetMethods(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
 												select new XElement(CompilationMethod.__Element,
@@ -202,6 +204,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 												select new XElement(CompilationField._Field,
 													new XElement(CompilationField.__Name, SourceMethod.Name)
 												)
+											).Concat(
+												from SourceNestedType in SourceType.GetNestedTypes()
+												select new XElement(CompilationType.__NestedType, SourceNestedType.MetadataToken)
 											)
 										)
 								)

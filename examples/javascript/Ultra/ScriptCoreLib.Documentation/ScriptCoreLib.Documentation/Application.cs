@@ -299,7 +299,16 @@ namespace ScriptCoreLib.Documentation
 								a.GetTypes().ForEach(
 									(Current, Next) =>
 									{
-										AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+										var TypeContainer = default(IHTMLDiv);
+
+										if (Current.DeclaringType != null)
+										{
+											return;
+										}
+
+										TypeContainer = GetNamespaceContainer(children, Current);
+
+										AddType(TypeContainer, Current, UpdateLocation);
 
 										ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 											50,
@@ -432,7 +441,18 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicClass().AttachTo(div);
+			var i = default(IHTMLImage);
+
+			if (type.IsInterface)
+			{
+				i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicInterface();
+			}
+			else
+			{
+				i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicClass();
+			}
+			
+			i.AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -480,17 +500,33 @@ namespace ScriptCoreLib.Documentation
 					s.style.color = JSColor.System.WindowText;
 				};
 
+	
 
 			onclick =
 				delegate
 				{
+
 					var children = new IHTMLDiv().AttachTo(div);
 
 					children.style.paddingLeft = "1em";
 
+					var _nested = new IHTMLDiv().AttachTo(children);
 					var _fields = new IHTMLDiv().AttachTo(children);
 					var _constructors = new IHTMLDiv().AttachTo(children);
 					var _methods = new IHTMLDiv().AttachTo(children);
+
+
+					type.GetNestedTypes().ForEach(
+						(Current, Next) =>
+						{
+							AddType(_nested, Current, UpdateLocation);
+
+							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+								50,
+								Next
+							);
+						}
+					);
 
 					type.GetConstructors().ForEach(
 						(Current, Next) =>
