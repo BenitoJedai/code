@@ -475,7 +475,7 @@ namespace ScriptCoreLib.Documentation
 					if (TouchTypeSelected != null)
 						TouchTypeSelected(type);
 
-					UpdateLocation(type.FullName);
+					UpdateLocation(type.FullName + " - " + type.Summary);
 
 					onclick();
 				};

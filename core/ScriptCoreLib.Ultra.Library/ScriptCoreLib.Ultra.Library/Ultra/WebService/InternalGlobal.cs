@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace jsc.meta.Library.Templates.WebService
+namespace ScriptCoreLib.Ultra.WebService
 {
 	public abstract class InternalGlobal : HttpApplication
 	{
@@ -38,6 +38,8 @@ namespace jsc.meta.Library.Templates.WebService
 		public abstract void Invoke(InternalWebMethodInfo e);
 
 		public abstract InternalScriptApplication[] GetScriptApplications();
+
+		public abstract void Serve(WebServiceHandler h);
 	}
 
 }

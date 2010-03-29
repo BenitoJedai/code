@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.Ultra.WebService;
 
 namespace UltraApplicationWithAssets
 {
@@ -13,5 +14,24 @@ namespace UltraApplicationWithAssets
 		{
 			result(x + DateTime.Now);
 		}
+
+		public void Serve(WebServiceHandler h)
+		{
+			if (h.Context.Request.Path == "/serve")
+			{
+				h.Context.Response.Write("hello");
+				h.CompleteRequest();
+			}
+		}
+
+		public void Serve2(WebServiceHandler h)
+		{
+			if (h.Context.Request.Path == "/serve2")
+			{
+				// we could select an application here
+				h.Default();
+			}
+		}
+
 	}
 }

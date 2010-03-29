@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace jsc.meta.Library.Templates.WebService
+namespace ScriptCoreLib.Ultra.WebService
 {
 
 	public class InternalWebMethodWorker

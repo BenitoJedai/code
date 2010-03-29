@@ -20,7 +20,6 @@ using jsc.meta.Library;
 using jsc.meta.Library.Templates;
 using jsc.meta.Library.Templates.Java;
 using jsc.meta.Library.Templates.JavaScript;
-using jsc.meta.Library.Templates.WebService;
 using jsc.meta.Library.VolumeFunctions;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
@@ -31,6 +30,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Ultra.WebService;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -185,6 +185,33 @@ namespace jsc.meta.Commands.Rewrite
 				);
 				#endregion
 
+				var Global_Serve = Global.DefineMethod("Serve",
+					MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard,
+					null,
+					new[] { TypeCache[typeof(WebServiceHandler)] }
+				);
+
+				{
+					var il = Global_Serve.GetILGenerator();
+
+					foreach (var item in from m in SourceType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+										 let p = m.GetSignatureTypes()
+										 where p.SequenceEqual(
+											new[] {
+												typeof(WebServiceHandler),
+												typeof(void)
+											}
+										 )
+										 select MethodCache[m])
+					{
+						il.Emit(OpCodes.Newobj, ConstructorCache[SourceType.GetConstructors().Single()]);
+						il.Emit(OpCodes.Ldarg_1);
+						il.Emit(OpCodes.Call, item);
+					}
+
+					il.Emit(OpCodes.Ret);
+				}
+
 				#region GetScriptApplications
 				var GetScriptApplications = Global.DefineMethod("GetScriptApplications",
 					MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard,
@@ -245,7 +272,12 @@ namespace jsc.meta.Commands.Rewrite
 					var loc0 = il.DeclareInitializedLocal(TypeCache[SourceType], ConstructorCache[SourceType.GetConstructor()]);
 					var loc1 = il.DeclareLocal(typeof(bool));
 
-					foreach (var item in SourceType.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance))
+					foreach (var item in from m in SourceType.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
+										 let s = m.GetSignatureTypes()
+										 where s.All(
+											p => p.IsDelegate() || p == typeof(void) || p == typeof(string)
+										 )
+										 select m)
 					{
 						il.Emit(OpCodes.Ldarg_1);
 						il.Emit(OpCodes.Ldfld, FieldCache[typeof(InternalWebMethodInfo).GetField("MetadataToken")]);
@@ -684,7 +716,8 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 						Interfaces
 				);
 
-				r.ExternalContext.TypeCache[SourceType] = DeclaringType;
+				r.RewriteArguments.context.TypeDefinitionCache[SourceType] = DeclaringType;
+				r.RewriteArguments.context.TypeCache[SourceType] = DeclaringType;
 
 
 				foreach (var item in SourceType.GetNestedTypes())
@@ -699,7 +732,12 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 
 
-				foreach (var item in SourceType.GetMethods())
+				foreach (var item in from m in SourceType.GetMethods()
+									 let s = m.GetSignatureTypes()
+									 where s.All(
+										p => p.IsDelegate() || p == typeof(void) || p == typeof(string)
+									 )
+									 select m)
 				{
 					var k = r.RewriteArguments.context.MethodCache[item];
 				}
