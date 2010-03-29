@@ -301,14 +301,7 @@
     <Compile Include="Library\Templates\InternalLookupProvider.cs" />
     <Compile Include="Library\Templates\Java\InternalHttpServlet.cs" />
     <Compile Include="Library\Templates\NamedImageInformation.cs" />
-    <Compile Include="Library\Templates\WebService\InternalFileInfo.cs" />
-    <Compile Include="Library\Templates\WebService\InternalGlobal.cs" />
-    <Compile Include="Library\Templates\WebService\InternalGlobalExtensions.cs" />
-    <Compile Include="Library\Templates\WebService\InternalScriptApplication.cs" />
-    <Compile Include="Library\Templates\WebService\InternalWebMethodInfo.cs" />
-    <Compile Include="Library\Templates\WebService\InternalWebMethodParameterInfo.cs" />
     <Compile Include="Library\Templates\JavaScript\InternalWebMethodRequest.cs" />
-    <Compile Include="Library\Templates\WebService\InternalWebMethodWorker.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsExtensions.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsProvider.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
@@ -351,7 +344,6 @@
     <EmbeddedResource Include="Documents\__TemplateIcon_CS_JSC.ico" />
     <Content Include="Library\comment.txt" />
     <Content Include="Library\Templates\JavaScript\Named\Remoting\comments.txt" />
-    <Content Include="Library\Templates\WebService\comment.txt" />
     <EmbeddedResource Include="Tools\ant\GoogleAppEngine\build.xml" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Web;
 
-namespace jsc.meta.Library.Templates.WebService
+namespace ScriptCoreLib.Ultra.WebService
 {
 	public class InternalWebMethodInfo
 	{

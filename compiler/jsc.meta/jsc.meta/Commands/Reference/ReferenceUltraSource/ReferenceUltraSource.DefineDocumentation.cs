@@ -57,8 +57,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					let IsLibrary = AssemblyEntry.FileName.ToLower().EndsWith(".dll")
 					where IsApplication || IsLibrary
 
-					let AssemblyDocumentationFile = AssemblyEntry.FileName.SkipUntilLastIfAny(".") + ".xml"
-					let AssemblyDocumentation = zip.Entries.FirstOrDefault(k => k.FileName.ToLower() == AssemblyDocumentationFile)
+					let AssemblyDocumentationFile = AssemblyEntry.FileName.TakeUntilLastIfAny(".") + ".xml"
+					let AssemblyDocumentation = zip.Entries.FirstOrDefault(k => k.FileName.ToLower() == AssemblyDocumentationFile.ToLower())
 
 
 					let DocumentationOrDefault = AssemblyDocumentation == null ? null : XDocument.Parse(AssemblyDocumentation.Text)
@@ -164,10 +164,21 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							new XDocument(
 								new XElement("Assembly",
 										from SourceType in First.Assembly.GetTypes()
-										select new XElement("Type",
+
+										let Summary = from Documentation in new[] { First.DocumentationOrDefault }
+													  where Documentation != null
+													  from members in Documentation.Root.Elements("members")
+													  from member in members.Elements("member")
+													  let name = member.Attribute("name")
+													  where name != null
+													  where name.Value == "T:" + SourceType.FullName
+													  select member.Element("summary").Value
+
+										select new XElement(CompilationType.__Element,
 
 											new[] {
-												new XElement("FullName", SourceType.FullName),
+												new XElement(CompilationType.__Summary,  Summary.FirstOrDefault() ?? ""),
+												new XElement(CompilationType.__FullName, SourceType.FullName),
 												new XElement(CompilationType.__MetadataToken, SourceType.MetadataToken),
 												new XElement(CompilationType.__IsInterface, SourceType.IsInterface),
 												new XElement(CompilationType.__DeclaringType, SourceType.DeclaringType == null ? 0 : SourceType.DeclaringType.MetadataToken),
@@ -200,7 +211,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 														)
 													)
 											).Concat(
-												from SourceMethod in SourceType.GetFields()
+												from SourceMethod in SourceType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Public)
 												select new XElement(CompilationField._Field,
 													new XElement(CompilationField.__Name, SourceMethod.Name)
 												)

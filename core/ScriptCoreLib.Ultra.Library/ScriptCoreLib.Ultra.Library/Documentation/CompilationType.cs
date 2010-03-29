@@ -9,6 +9,10 @@ namespace ScriptCoreLib.Documentation
 {
 	public class CompilationType
 	{
+		internal const string __Element = "Type";
+
+		internal const string __Summary = "Summary";
+		internal const string __FullName = "FullName";
 		internal const string __NestedType = "NestedType";
 		internal const string __DeclaringType = "DeclaringType";
 		internal const string __MetadataToken = "MetadataToken";
@@ -22,6 +26,14 @@ namespace ScriptCoreLib.Documentation
 		public int MetadataToken { get; set; }
 
 		readonly XElement Data;
+
+		public string Summary
+		{
+			get
+			{
+				return Data.Element(__Summary).Value;
+			}
+		}
 
 		public bool IsInterface
 		{

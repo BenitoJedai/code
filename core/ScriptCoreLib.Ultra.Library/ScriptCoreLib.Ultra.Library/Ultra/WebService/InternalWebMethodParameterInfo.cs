@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+namespace ScriptCoreLib.Ultra.WebService
 
-namespace jsc.meta.Library.Templates.WebService
 {
 	public class InternalWebMethodParameterInfo
 	{

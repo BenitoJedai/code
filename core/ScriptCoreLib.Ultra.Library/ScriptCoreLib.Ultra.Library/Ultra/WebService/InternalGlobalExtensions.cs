@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using System.Web.Profile;
 
-namespace jsc.meta.Library.Templates.WebService
+namespace ScriptCoreLib.Ultra.WebService
 {
 	public static class InternalGlobalExtensions
 	{
@@ -103,27 +103,67 @@ namespace jsc.meta.Library.Templates.WebService
 
 			}
 
-			if (that.Request.Path == "/jsc")
+			var IsComplete = false;
+
+			var h = new WebServiceHandler
 			{
-				that.Response.ContentType = "text/html";
-				WriteDiagnostics(g, Write, WebMethods);
-				that.CompleteRequest();
-				return;
-			}
+				Context = that.Context,
 
-			if (IsDefaultPath(that.Request.Path))
+				CompleteRequest = delegate
+				{
+					IsComplete = true;
+
+					that.CompleteRequest();
+				},
+
+				Default = delegate
+				{
+					IsComplete = true;
+					that.Response.ContentType = "text/html";
+
+					var app = g.GetScriptApplications()[0];
+
+					WriteScriptApplication(Write, app);
+
+					that.CompleteRequest();
+				},
+
+				Diagnostics = delegate
+				{
+					that.Response.ContentType = "text/html";
+					WriteDiagnostics(g, Write, WebMethods);
+					IsComplete = true;
+					that.CompleteRequest();
+				},
+
+				Redirect = delegate
+				{
+					that.Response.Redirect("/#" + that.Request.Path);
+					IsComplete = true;
+				}
+			};
+
+	
+			g.Serve(h);
+
+			if (!IsComplete)
 			{
-				that.Response.ContentType = "text/html";
+				if (that.Request.Path == "/jsc")
+				{
+					h.Diagnostics();
+					return;
+				}
 
-				var app = g.GetScriptApplications()[0];
+				if (IsDefaultPath(that.Request.Path))
+				{
+					h.Default();
+					return;
+				}
 
-				WriteScriptApplication(Write, app);
 
-				that.CompleteRequest();
-				return;
+				// we could invoke web service handler now?
+				h.Redirect();
 			}
-			// we could invoke web service handler now?
-			that.Response.Redirect("/#" + that.Request.Path);
 		}
 
 		private static void WriteScriptApplication(StringAction Write, InternalScriptApplication app)

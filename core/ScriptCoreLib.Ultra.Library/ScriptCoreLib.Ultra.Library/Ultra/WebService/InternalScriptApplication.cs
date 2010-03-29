@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-namespace jsc.meta.Library.Templates.WebService
+namespace ScriptCoreLib.Ultra.WebService
 {
 	public class InternalScriptApplication
 	{
