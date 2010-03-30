@@ -1,0 +1,1 @@
+﻿ScriptCoreLib.Ultra namespace shall define types which are intended to run on multiple platforms.

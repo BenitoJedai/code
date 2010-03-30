@@ -10,6 +10,8 @@ using PromotionWebApplication.AvalonLogo;
 using ScriptCoreLib.Shared.Lambda;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Documentation.HTML.Images.SpriteSheet.FromAssets;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -27,29 +29,26 @@ namespace ScriptCoreLib.Documentation
 
 			hs.Container.AttachToDocument();
 
+			var hsa = new DragAreaImage();
 
+			var hsm = new IHTMLDiv();
+			hsm.AttachTo(hs.Splitter);
+			hsm.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			hsm.style.left = "1px";
+			hsm.style.top = "50%";
+			hsm.style.marginTop = (-DragAreaImage.ImageDefaultHeight) + "px";
 
-			Action<double> AddGradient =
-				gw =>
-				{
-					var infodraggradient0 = new IHTMLDiv().AttachTo(hs.Splitter);
+			hsa.AttachTo(hsm);
 
-					infodraggradient0.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-					infodraggradient0.style.width = gw + "em";
-					infodraggradient0.style.height = "100%";
-					infodraggradient0.style.backgroundColor = JSColor.White;
-					infodraggradient0.style.Opacity = 0.2;
-				};
-
-			for (int i = 0; i < 20; i += 2)
-			{
-				AddGradient(2.0 - i * 0.1);
-			}
+		
 
 
 			var infocontent = new Lorem();
-
 			infocontent.Container.AttachTo(hs.RightContainer);
+
+			
+			BindToggleConcept(infocontent.Header1, infocontent.Content1);
+			BindToggleConcept(infocontent.Header2, infocontent.Content2);
 
 
 			AttachLogoAnimation(infocontent);
@@ -146,6 +145,67 @@ namespace ScriptCoreLib.Documentation
 
 		}
 
+		private static void BindToggleConcept(IHTMLDiv Header, IHTMLDiv Content)
+		{
+			var Header1Icon = new IHTMLSpan();
+
+			Header.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.pointer;
+
+			var Expand = new TreeExpandImage().AttachTo(Header1Icon);
+
+			Expand.Hide();
+
+			var Collapse = new TreeCollapseImage().AttachTo(Header1Icon);
+			var Header1Text = new IHTMLSpan().AttachTo(Header1Icon);
+
+			foreach (var item in Header.childNodes)
+			{
+				item.AttachTo(Header1Text);
+			}
+
+			Header1Icon.AttachTo(Header);
+
+
+			Action onclick = delegate { };
+
+			Header.onclick +=
+				delegate
+				{
+					onclick();
+				};
+
+			var NextClickHide = default(Action);
+			var NextClickShow = default(Action);
+
+			NextClickHide =
+				delegate
+				{
+					Content.Hide();
+					Expand.Show();
+					Collapse.Hide();
+
+					onclick = NextClickShow;
+				};
+
+			NextClickShow =
+				delegate
+				{
+					Content.Show();
+					Expand.Hide();
+					Collapse.Show();
+
+					onclick = NextClickHide;
+				};
+
+
+			onclick = NextClickHide;
+		}
+
+		private void Hide()
+		{
+			throw new NotImplementedException();
+		}
+
 		private static void AttachLogoAnimation(Lorem infocontent)
 		{
 			#region manual precache
@@ -188,7 +248,55 @@ namespace ScriptCoreLib.Documentation
 
 		private void RenderArchives(Compilation c, IHTMLElement parent, Action<string> UpdateLocation)
 		{
-			foreach (var item in c.GetArchives())
+			var AllTypes = default(IHTMLDiv);
+
+			var AllTypesNamespaceLookup = new Dictionary<string, IHTMLDiv>();
+
+			var GetAllTypesNamespaceContainer = default(Func<string, IHTMLDiv>);
+
+			GetAllTypesNamespaceContainer =
+				(Namespace) =>
+				{
+					var ParentNamespace = Namespace.TakeUntilLastIfAny(".");
+
+					var ParentContainer = AllTypes;
+
+					if (ParentNamespace != Namespace)
+					{
+						ParentContainer = GetAllTypesNamespaceContainer(ParentNamespace);
+					}
+
+					if (!AllTypesNamespaceLookup.ContainsKey(Namespace))
+					{
+						AllTypesNamespaceLookup[Namespace] = AddNamespace(ParentContainer, Namespace.SkipUntilLastIfAny("."), UpdateLocation);
+					}
+
+					return AllTypesNamespaceLookup[Namespace];
+				};
+
+			{
+				var div = new IHTMLDiv().AttachTo(parent);
+
+				div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+
+
+				var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.References().AttachTo(div);
+
+				i.style.verticalAlign = "middle";
+				i.style.marginRight = "0.5em";
+
+				new IHTMLSpan { innerText = "All Types" }.AttachTo(div);
+
+				var children = new IHTMLDiv().AttachTo(parent);
+
+				children.style.paddingLeft = "1em";
+
+				AllTypes = children;
+			}
+
+			var LoadActionList = new List<Action<Action>>();
+
+			foreach (var item in c.GetArchives().ToArray())
 			{
 				var div = new IHTMLDiv().AttachTo(parent);
 
@@ -207,11 +315,24 @@ namespace ScriptCoreLib.Documentation
 				children.style.paddingLeft = "1em";
 
 
-				RenderAssemblies(item, children, UpdateLocation);
+				RenderAssemblies(item, children, GetAllTypesNamespaceContainer, UpdateLocation, LoadActionList.Add);
 			}
+
+
+			LoadActionList.ForEach(
+				(Current, Next) =>
+				{
+					Current(Next);
+				}
+			);
 		}
 
-		private void RenderAssemblies(CompilationArchiveBase archive, IHTMLElement parent, Action<string> UpdateLocation)
+		private void RenderAssemblies(
+			CompilationArchiveBase archive,
+			IHTMLElement parent,
+			Func<string, IHTMLDiv> AllTypes,
+			Action<string> UpdateLocation,
+			Action<Action<Action>> YieldLoadAction)
 		{
 			foreach (var item2 in
 				from a in archive.GetAssemblies()
@@ -235,10 +356,11 @@ namespace ScriptCoreLib.Documentation
 
 				var s = new IHTMLAnchor { innerText = item2.Name }.AttachTo(div);
 
+				//s.style.color = JSColor.Gray;
 
 				s.href = "#";
 				s.style.textDecoration = "none";
-				s.style.color = JSColor.System.WindowText;
+				s.style.color = JSColor.System.GrayText;
 
 				Action onclick = delegate
 				{
@@ -286,58 +408,90 @@ namespace ScriptCoreLib.Documentation
 						return NamespaceLookup[SourceType.Namespace];
 					};
 
-				onclick =
-					delegate
-					{
-						var children = new IHTMLDiv().AttachTo(div);
 
-						children.style.paddingLeft = "1em";
+				var children = new IHTMLDiv().AttachTo(div);
+
+				children.style.paddingLeft = "1em";
+				Action<Action> LoadAction =
+					done =>
+					{
+						s.style.color = JSColor.System.Highlight;
+
+						Action done_ = delegate
+						{
+							done();
+						};
+
+
 
 						item.WhenReady(
 							a =>
 							{
+								s.style.color = JSColor.System.WindowText;
+
+
 								a.GetTypes().ForEach(
-									(Current, Next) =>
+									(Current, Index, Next) =>
 									{
 										if (!Current.IsNested)
 										{
 											var TypeContainer = GetNamespaceContainer(children, Current);
 
-											AddType(TypeContainer, Current, UpdateLocation);
+											AddType(
+												TypeContainer,
+												Current,
+												UpdateLocation
+											);
+
+											AddType(
+												AllTypes(Current.Namespace),
+												Current,
+												UpdateLocation
+											);
 										}
 
-										ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-											50,
-											Next
-										);
+
+										if (Index % 16 == 0)
+										{
+											ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+												7,
+												Next
+											);
+										}
+										else
+										{
+											Next();
+										}
 									}
-								);
+								)(done_);
 							}
 						);
+					};
+
+				YieldLoadAction(LoadAction);
 
 
-						var NextClickHide = default(Action);
-						var NextClickShow = default(Action);
+				var NextClickHide = default(Action);
+				var NextClickShow = default(Action);
 
-						NextClickHide =
-							delegate
-							{
-								children.Hide();
+				NextClickHide =
+					delegate
+					{
+						children.Hide();
 
-								onclick = NextClickShow;
-							};
+						onclick = NextClickShow;
+					};
 
-						NextClickShow =
-							delegate
-							{
-								children.Show();
-
-								onclick = NextClickHide;
-							};
-
+				NextClickShow =
+					delegate
+					{
+						children.Show();
 
 						onclick = NextClickHide;
 					};
+
+
+				NextClickHide();
 			}
 		}
 
@@ -354,6 +508,9 @@ namespace ScriptCoreLib.Documentation
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
+
+			if (Namespace == "")
+				Namespace = "<Module>";
 
 			var s = new IHTMLAnchor { innerText = Namespace }.AttachTo(div);
 

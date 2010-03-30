@@ -126,6 +126,10 @@
     <Content Include="My.UltraSource\Icons\PublicEnum.png" />
     <Content Include="My.UltraSource\Icons\PublicInterface.png" />
     <Content Include="My.UltraSource\Icons\References.png" />
+    <Content Include="My.UltraSource\Sprites\LibC.gif" />
+    <Content Include="My.UltraSource\Sprites\LibC.htm" />
+    <Content Include="My.UltraSource\Sprites\LibC.png" />
+    <Content Include="My.UltraSource\Sprites\SpriteSheetSelection.png" />
     <Content Include="My.UltraSource\Styles\View1.css" />
     <Content Include="My.UltraSource\XMLFile1.xml" />
   </ItemGroup>
