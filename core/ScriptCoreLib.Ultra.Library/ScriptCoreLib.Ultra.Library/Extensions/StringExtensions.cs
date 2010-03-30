@@ -48,6 +48,16 @@ namespace ScriptCoreLib.Ultra.Library.Extensions
 		}
 
 
+		public static string TakeUntilLastOrEmpty(this string e, string u)
+		{
+			var i = e.LastIndexOf(u);
+
+			if (i < 0)
+				return "";
+
+			return e.Substring(0, i);
+		}
+
 		public static string ToHexString(this byte[] e)
 		{
 			var w = new StringBuilder();

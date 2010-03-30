@@ -85,7 +85,7 @@ namespace ScriptCoreLib.Documentation
 		{
 			get
 			{
-				return FullName.TakeUntilLastIfAny(".");
+				return FullName.TakeUntilLastOrEmpty(".");
 			}
 		}
 
