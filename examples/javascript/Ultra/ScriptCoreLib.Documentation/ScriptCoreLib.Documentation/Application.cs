@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Ultra.Components.HTML.Pages.FromWeb;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -41,24 +42,39 @@ namespace ScriptCoreLib.Documentation
 
 			hsa.AttachTo(hsm);
 
-		
+
 
 
 			var infocontent = new Lorem();
 			infocontent.Container.AttachTo(hs.RightContainer);
 
-			
-			BindToggleConcept(infocontent.Header1, infocontent.Content1);
-			BindToggleConcept(infocontent.Header2, infocontent.Content2);
-
-			var Section1 = new Section
 			{
+				var Section1 = new Section
+				{
 
-			}.ToSectionConcept();
+				}.ToSectionConcept("Summary");
 
+				Section1.Target.Container.AttachTo(infocontent.Sections);
+			}
 
-			Section1.Target.Container.AttachTo(infocontent.Sections);
-			
+			{
+				var Section1 = new Section
+				{
+
+				}.ToSectionConcept("Syntax");
+
+				Section1.Target.Container.AttachTo(infocontent.Sections);
+			}
+
+			{
+				var Section1 = new Section
+				{
+
+				}.ToSectionConcept("Remarks");
+
+				Section1.Target.Container.AttachTo(infocontent.Sections);
+			}
+
 
 			AttachLogoAnimation(infocontent);
 
@@ -152,62 +168,6 @@ namespace ScriptCoreLib.Documentation
 				};
 
 
-		}
-
-		private static void BindToggleConcept(IHTMLDiv Header, IHTMLDiv Content)
-		{
-			var Header1Icon = new IHTMLSpan();
-
-			Header.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.pointer;
-
-			var Expand = new TreeExpandImage().AttachTo(Header1Icon);
-
-			Expand.Hide();
-
-			var Collapse = new TreeCollapseImage().AttachTo(Header1Icon);
-			var Header1Text = new IHTMLSpan().AttachTo(Header1Icon);
-
-			foreach (var item in Header.childNodes)
-			{
-				item.AttachTo(Header1Text);
-			}
-
-			Header1Icon.AttachTo(Header);
-
-
-			Action onclick = delegate { };
-
-			Header.onclick +=
-				delegate
-				{
-					onclick();
-				};
-
-			var NextClickHide = default(Action);
-			var NextClickShow = default(Action);
-
-			NextClickHide =
-				delegate
-				{
-					Content.Hide();
-					Expand.Show();
-					Collapse.Hide();
-
-					onclick = NextClickShow;
-				};
-
-			NextClickShow =
-				delegate
-				{
-					Content.Show();
-					Expand.Hide();
-					Collapse.Show();
-
-					onclick = NextClickHide;
-				};
-
-
-			onclick = NextClickHide;
 		}
 
 		private void Hide()

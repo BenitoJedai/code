@@ -79,3 +79,5 @@
 	- Fixed RewriteToAssembly generic support for nonrewritten types for Type<T>.Method<M>
 2010.03.26
 	- The implementation for __ENCAddToList is ommited by RewriteToJavaScriptDocument
+2010.03.31
+	- Preliminary generic parameter constraint support

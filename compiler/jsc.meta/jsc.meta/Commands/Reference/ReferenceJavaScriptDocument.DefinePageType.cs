@@ -59,7 +59,7 @@ namespace jsc.meta.Commands.Reference
 			var PageFullName = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName;
 			Console.WriteLine(PageFullName);
 
-			var PageInterfaces =ImplementConcept.GetInterfaces(BodyElement, ElementTypes, Concepts).ToArray();
+			var PageInterfaces =ImplementConcept.GetInterfaces(BodyElement, ElementTypes).ToArray();
 
 			var Page = a.Module.DefineType(
 				PageFullName,

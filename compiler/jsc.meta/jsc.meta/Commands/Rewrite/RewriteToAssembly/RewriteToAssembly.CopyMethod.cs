@@ -39,6 +39,9 @@ namespace jsc.meta.Commands.Rewrite
 			// Operation could destabilize the runtime.
 			// http://www.fuzzydev.com/blogs/dotnet/archive/2006/06/10/Operation_could_destabilize_the_runtime.aspx
 
+
+			// GenericArguments[0], 'T', on 'ScriptCoreLib.JavaScript.Concepts.SectionConcept`1[T]' violates the constraint of type parameter 'T'.
+
 			var MethodName =
 				//(source == this._assembly.EntryPoint) ||
 				(SourceMethod.GetMethodBody() == null || (SourceMethod.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
@@ -80,14 +83,26 @@ namespace jsc.meta.Commands.Rewrite
 
 			//Console.WriteLine("Method: " + km.Name);
 
+
 			if (SourceMethod.IsGenericMethodDefinition)
 			{
 				var ga = SourceMethod.GetGenericArguments();
+
 				var gp = km.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
 
+				for (int i = 0; i < gp.Length; i++)
+				{
+					// http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
+
+					foreach (var item in ga[i].GetGenericParameterConstraints())
+					{
+						if (item.IsInterface)
+							gp[i].SetInterfaceConstraints(context.TypeDefinitionCache[item]);
+						else
+							gp[i].SetBaseTypeConstraint(context.TypeDefinitionCache[item]);
+					}
+				}
 			}
-
-
 
 			// synchronized?
 			km.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());

@@ -179,30 +179,44 @@ namespace jsc.meta.Commands.Rewrite
 						TypeCreated(t);
 				};
 
-			if (SourceType.IsNested && SourceType.IsClass && !(context.TypeCache.Flags.ContainsKey(SourceType.DeclaringType)))
+
+			var AtTypeCreatedFilter = new List<Type>();
+			
+			if (SourceType.IsNested && SourceType.IsClass)
 			{
 				//Diagnostics("Delayed:  " + SourceType.FullName);
 
-
-				r.TypeCreated +=
-					tt =>
-					{
-						if (tt.SourceType != SourceType.DeclaringType)
-							return;
-
-						//Diagnostics("Delayed CreateType:  " + SourceType.FullName);
-
-						AtTypeCreated();
-					};
-
-
-				return;
+				AtTypeCreatedFilter.Add(SourceType.DeclaringType);
 			}
+
+			if (SourceType.IsGenericTypeDefinition)
+				AtTypeCreatedFilter.AddRange(SourceType.GetGenericArguments().SelectMany(k => k.GetGenericParameterConstraints()));
+
 
 
 			//Diagnostics("CreateType:  " + SourceType.FullName);
 
-			AtTypeCreated();
+			if (AtTypeCreatedFilter.Any(k => !(context.TypeCache.Flags.ContainsKey(k))))
+			{
+				r.TypeCreated +=
+					tt =>
+					{
+						if (AtTypeCreatedFilter == null)
+							return;
+
+						if (AtTypeCreatedFilter.Any(k => !(context.TypeCache.Flags.ContainsKey(k))))
+							return;
+
+						//Diagnostics("Delayed CreateType:  " + SourceType.FullName);
+
+						AtTypeCreatedFilter = null;
+						AtTypeCreated();
+					};
+			}
+			else
+			{
+				AtTypeCreated();
+			}
 
 		}
 
@@ -332,7 +346,7 @@ namespace jsc.meta.Commands.Rewrite
 					var DefineTypeName = FullNameFixup(TypeName);
 
 					Func<IEnumerable<Type>> GetDuplicates =
-						() => this.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(k => k.FullName == DefineTypeName);
+						() => this.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(k => (k.Namespace + "." + k.Name) == DefineTypeName);
 
 
 					while (GetDuplicates().Any())
@@ -362,6 +376,9 @@ namespace jsc.meta.Commands.Rewrite
 						}
 					}
 
+					// "Object reference not set to an instance of an object."
+					//    at System.Reflection.Emit.SignatureHelper.AddOneArgTypeHelperWorker(Type clsArgument, Boolean lastWasGenericInst)
+
 					// Duplicate type name within an assembly.
 					t = m.DefineType(
 						DefineTypeName,
@@ -375,14 +392,28 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
+				TypeDefinitionCache[SourceType] = t;
+
 				if (SourceType.IsGenericTypeDefinition)
 				{
 					var ga = SourceType.GetGenericArguments();
+
 					var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
 
+					for (int i = 0; i < gp.Length; i++)
+					{
+						// http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
+
+						foreach (var item in ga[i].GetGenericParameterConstraints())
+						{
+							if (item.IsInterface)
+								gp[i].SetInterfaceConstraints(this.TypeDefinitionCache[item]);
+							else
+								gp[i].SetBaseTypeConstraint(this.TypeDefinitionCache[item]);
+						}
+					}
 				}
 
-				TypeDefinitionCache[SourceType] = t;
 
 				//Diagnostics("TypeDefinitionCache: " + TypeName);
 
