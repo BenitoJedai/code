@@ -33,5 +33,21 @@ namespace ScriptCoreLib.Shared.Lambda
 		{
 			return (f, a) => s(c(f), a);
 		}
+
+		public static Func<T> ToCachedFunc<T>(this Func<T> u)
+		{
+			var f = default(Func<T>);
+
+			f = delegate
+			{
+				var r = u();
+
+				f = () => r;
+
+				return r;
+			};
+
+			return () => f();
+		}
 	}
 }

@@ -22,6 +22,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -37,7 +38,11 @@ namespace jsc.meta.Commands.Reference
 
 			string VariationName,
 			Dictionary<string, Type> NamedElements,
-			Dictionary<string, Type> RemotingNamedElements
+			Dictionary<string, Type> RemotingNamedElements,
+
+			ImplementConcept ImplementConcept,
+
+			string[] Concepts
 		)
 		{
 			new DefineRemotingPages
@@ -54,10 +59,16 @@ namespace jsc.meta.Commands.Reference
 			var PageFullName = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName;
 			Console.WriteLine(PageFullName);
 
+			var PageInterfaces =ImplementConcept.GetInterfaces(BodyElement, ElementTypes, Concepts).ToArray();
+
 			var Page = a.Module.DefineType(
-				PageFullName, 
-				TypeAttributes.Public, 
-				typeof(UltraComponent)
+				PageFullName,
+				TypeAttributes.Public,
+				typeof(UltraComponent),
+
+				// whom shall we implement?
+
+				PageInterfaces
 			);
 
 			//{
@@ -117,13 +128,13 @@ namespace jsc.meta.Commands.Reference
 				// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
 				var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
 
-				var Images_value = 
-					
+				var Images_value =
+
 					BodyElement.XPathSelectElements("//img").Concat(
 					BodyElement.XPathSelectElements("//IMG")
 					).ToArray();
 
-				var Anchors_value = 
+				var Anchors_value =
 					BodyElement.XPathSelectElements("//a").Concat(
 					BodyElement.XPathSelectElements("//A")
 				).ToArray();
@@ -131,15 +142,17 @@ namespace jsc.meta.Commands.Reference
 				DefineStaticImages(a, Static, Images_value);
 
 
+				var StaticElementProperties =
+					from CurrentElement in BodyElement.XPathSelectElements("/*[@id]")
+					let id = CurrentElement.Attribute("id").Value
+					let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
+					select new { CurrentElement, id, e_Type };
 
-				foreach (var CurrentElement in BodyElement.XPathSelectElements("/*[@id]"))
+				foreach (var k in StaticElementProperties)
 				{
-					var id = CurrentElement.Attribute("id").Value;
 
-					var e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement);
-
-					var e = Elements.DefineProperty(id, PropertyAttributes.None, e_Type, null);
-					var get_e = Elements.DefineMethod("get_" + id, MethodAttributes.Static | MethodAttributes.Public, e_Type, null);
+					var e = Elements.DefineProperty(k.id, PropertyAttributes.None, k.e_Type, null);
+					var get_e = Elements.DefineMethod("get_" + k.id, MethodAttributes.Static | MethodAttributes.Public, k.e_Type, null);
 
 					Func<IHTMLElement> get_e_template =
 						delegate
@@ -155,13 +168,13 @@ namespace jsc.meta.Commands.Reference
 						il_a[OpCodes.Ldstr] =
 							x =>
 							{
-								x.il.Emit(OpCodes.Ldstr, id);
+								x.il.Emit(OpCodes.Ldstr, k.id);
 							};
 
 						il_a[OpCodes.Ret] =
 							x =>
 							{
-								x.il.Emit(OpCodes.Castclass, e_Type);
+								x.il.Emit(OpCodes.Castclass, k.e_Type);
 								x.il.Emit(OpCodes.Ret);
 							};
 
@@ -193,7 +206,7 @@ namespace jsc.meta.Commands.Reference
 				}
 
 
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup }, 
+				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup },
 					NamedElements,
 					ElementTypes
 				);

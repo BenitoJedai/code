@@ -1,17 +1,18 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using PromotionWebApplication.AvalonLogo;
+using ScriptCoreLib.Documentation.HTML.Images.SpriteSheet.FromAssets;
+using ScriptCoreLib.Documentation.HTML.Pages.FromAssets;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
-using System.ComponentModel;
-using System.Linq;
-using ScriptCoreLib.Documentation.HTML.Pages.FromAssets;
-using PromotionWebApplication.AvalonLogo;
+using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.Shared.Lambda;
-using System.Collections.Generic;
-using System.Text;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using ScriptCoreLib.Documentation.HTML.Images.SpriteSheet.FromAssets;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -50,6 +51,14 @@ namespace ScriptCoreLib.Documentation
 			BindToggleConcept(infocontent.Header1, infocontent.Content1);
 			BindToggleConcept(infocontent.Header2, infocontent.Content2);
 
+			var Section1 = new Section
+			{
+
+			}.ToSectionConcept();
+
+
+			Section1.Target.Container.AttachTo(infocontent.Sections);
+			
 
 			AttachLogoAnimation(infocontent);
 
