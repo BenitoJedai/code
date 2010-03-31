@@ -79,8 +79,11 @@ namespace jsc.meta.Commands.Reference
 
 			var DefaultNamespace = Enumerable.First(
 				 from PropertyGroup in csproj.Root.Elements(nsPropertyGroup)
-				 from RootNamespace in PropertyGroup.Elements(nsRootNamespace)
-				 select RootNamespace.Value
+				 //from RootNamespace in PropertyGroup.Elements(nsRootNamespace)
+				 //select RootNamespace.Value
+
+				 from __AssemblyName in PropertyGroup.Elements(nsAssemblyName)
+				 select __AssemblyName.Value
 			);
 
 			// bin is assumed to being ignored by svn
@@ -185,7 +188,11 @@ namespace jsc.meta.Commands.Reference
 					
 					where ExportedType.IsInterface
 					where !ExportedType.IsGenericTypeDefinition
-					where ExportedType.Name.EndsWith(ImplementConcept.Concept)
+					
+					let Properties = ExportedType.GetProperties()
+					where Properties.Any()
+
+					where Properties.All(k => typeof(IHTMLElement).IsAssignableFrom(k.PropertyType))
 
 					select ExportedType;
 
@@ -193,7 +200,7 @@ namespace jsc.meta.Commands.Reference
 			};
 
 
-			var ImplementConcept = new ImplementConcept
+			var ImplementConcept__ = new ImplementConcept
 			{
 				ReferencedConcepts = ReferencedConcepts.ToCachedFunc()
 			};
@@ -447,7 +454,7 @@ namespace jsc.meta.Commands.Reference
 									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key,
 										CurrentVariationForPage.Value,
 										RemotingVariationsForPages[CurrentVariationForPage.Key],
-										ImplementConcept,
+										ImplementConcept__,
 										Concepts
 									);
 
@@ -462,7 +469,7 @@ namespace jsc.meta.Commands.Reference
 
 											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
 											RemotingVariationsForPages[CurrentVariationForPage.Key],
-											ImplementConcept,
+											ImplementConcept__,
 											Concepts
 
 										);
@@ -477,7 +484,7 @@ namespace jsc.meta.Commands.Reference
 
 											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
 											RemotingVariationsForPages[CurrentVariationForPage.Key],
-											ImplementConcept,
+											ImplementConcept__,
 											Concepts
 										);
 									}

@@ -754,12 +754,14 @@ namespace jsc.meta.Commands.Rewrite
 					if (SourceType.IsGenericType)
 						if (!SourceType.IsGenericTypeDefinition)
 						{
+							var GenericTypeDefinition__ = SourceType.GetGenericTypeDefinition();
+
+							var GenericTypeDefinition = TypeDefinitionCache[GenericTypeDefinition__];
+							var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
+
 							TypeDefinitionCache[SourceType] =
-								TypeDefinitionCache[SourceType.GetGenericTypeDefinition()].MakeGenericType(
-									SourceType.GetGenericArguments().Select(
-										k => TypeDefinitionCache[k]
-									).ToArray()
-								);
+								GenericTypeDefinition.MakeGenericType(GenericArguments);
+
 							return;
 						}
 

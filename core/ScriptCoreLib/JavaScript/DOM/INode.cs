@@ -189,6 +189,18 @@ namespace ScriptCoreLib.JavaScript.DOM
 		}
 
 		[Script(DefineAsStatic = true)]
+		public void Add(INode[] e)
+		{
+			// Implementing Collection Initializers
+			// http://msdn.microsoft.com/en-us/library/bb384062.aspx
+
+			foreach (var item in e)
+			{
+				this.appendChild(item);
+			}
+		}
+
+		[Script(DefineAsStatic = true)]
 		public void Add(string e)
 		{
 			// Implementing Collection Initializers

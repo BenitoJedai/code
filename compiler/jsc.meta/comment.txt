@@ -1,3 +1,8 @@
 lib section
 
 Ultra libraries can reference non mergeable script assemblies.
+
+We cannot reference assemblies that were build using jsc.meta.
+- ScriptCoreLib.Ultra.Components
+
+We could however accept it as a parameter
