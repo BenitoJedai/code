@@ -169,8 +169,18 @@ namespace jsc.meta.Commands.Reference
 							var ElementProperty = Page.DefineProperty(
 								ElementPropertyName, PropertyAttributes.None, DefaultElementType, null);
 
+
 							{
-								var get_ElementField = Page.DefineMethod("get_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, DefaultElementType, null);
+								var get_MethodName = "get_" + ElementPropertyName;
+								var get_MethodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig;
+
+								if (Page.GetInterfaces().SelectMany(k => k.GetMethods()).Where(k => k.Name == get_MethodName).Any())
+									get_MethodAttributes |= MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final;
+
+
+								var get_ElementField = Page.DefineMethod(
+									get_MethodName,
+									get_MethodAttributes, CallingConventions.Standard, DefaultElementType, null);
 
 								var get_ElementField_il = get_ElementField.GetILGenerator();
 
@@ -182,7 +192,15 @@ namespace jsc.meta.Commands.Reference
 							}
 
 							{
-								var set_ElementField = Page.DefineMethod("set_" + ElementPropertyName, MethodAttributes.Public, CallingConventions.Standard, null, new[] { DefaultElementType });
+								var set_MethodName = "set_" + ElementPropertyName;
+								var set_MethodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig;
+
+								if (Page.GetInterfaces().SelectMany(k => k.GetMethods()).Where(k => k.Name == set_MethodName).Any())
+									set_MethodAttributes |= MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final;
+
+								var set_ElementField = Page.DefineMethod(
+									set_MethodName,
+									set_MethodAttributes, CallingConventions.Standard, null, new[] { DefaultElementType });
 
 								var set_ElementField_il = set_ElementField.GetILGenerator();
 

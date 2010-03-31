@@ -26,6 +26,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -68,6 +69,7 @@ namespace jsc.meta.Commands.Reference
 			var nsReference = ns + "Reference";
 			var nsHintPath = ns + "HintPath";
 			var nsAssemblyName = ns + "AssemblyName";
+			//var nsInclude = ns + "Include";
 
 			var SourceAssemblyName = Enumerable.First(
 				 from PropertyGroup in csproj.Root.Elements(nsPropertyGroup)
@@ -161,7 +163,42 @@ namespace jsc.meta.Commands.Reference
 				  //Target
 			  } by Directory;
 
+			// F# lazy?
+			Func<Type[]> ReferencedConcepts = delegate
+			{
+				// this method shall run once...
 
+				var ReferencedInterfaces =
+					from PropertyGroup in csproj.Root.Elements(nsItemGroup)
+					from Reference in PropertyGroup.Elements(nsReference)
+					let Include = Reference.Attribute("Include").Value
+
+					// we are not loading a previous version of the generated assembly.
+					where !Include.EndsWith("." + UltraSource)
+
+					let HintPaths = Reference.Elements(nsHintPath).Select(k => new FileInfo(k.Value))
+
+
+					let Assembly = HintPaths.Any() ? Assembly.LoadFile(HintPaths.First().FullName) : Assembly.LoadWithPartialName(Include)
+
+					from ExportedType in Assembly.GetExportedTypes()
+					
+					where ExportedType.IsInterface
+					where !ExportedType.IsGenericTypeDefinition
+					where ExportedType.Name.EndsWith(ImplementConcept.Concept)
+
+					select ExportedType;
+
+				return ReferencedInterfaces.ToArray();
+			};
+
+
+			var ImplementConcept = new ImplementConcept
+			{
+				ReferencedConcepts = ReferencedConcepts.ToCachedFunc()
+			};
+
+			// Now lets load our referenced assemblies.
 
 
 			var References = Enumerable.Distinct(
@@ -179,8 +216,8 @@ namespace jsc.meta.Commands.Reference
 
 			var LocalSources = Enumerable.ToArray(
 				from k in Targets
-				
-				let kWithChildren = 
+
+				let kWithChildren =
 					from c in Targets
 					where c.Key == k.Key || c.Key.StartsWith(k.Key + "/")
 					select c
@@ -324,6 +361,9 @@ namespace jsc.meta.Commands.Reference
 
 								// For body and each class element
 								var TitleElement = xml.XPathSelectElement("/html/head/title");
+
+								var Concepts = xml.XPathSelectElements("/html/head/meta[@name='concept']").Select(k => k.Attribute("content").Value).ToArray();
+
 								var BodyElement = xml.XPathSelectElement("/html/body");
 
 								var TitleValue = TitleElement == null || string.IsNullOrEmpty(TitleElement.Value) ?
@@ -406,7 +446,9 @@ namespace jsc.meta.Commands.Reference
 								{
 									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key,
 										CurrentVariationForPage.Value,
-										RemotingVariationsForPages[CurrentVariationForPage.Key]
+										RemotingVariationsForPages[CurrentVariationForPage.Key],
+										ImplementConcept,
+										Concepts
 									);
 
 
@@ -419,7 +461,10 @@ namespace jsc.meta.Commands.Reference
 											CompilerBase.GetSafeLiteral(k.id, null)
 
 											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
-											RemotingVariationsForPages[CurrentVariationForPage.Key]
+											RemotingVariationsForPages[CurrentVariationForPage.Key],
+											ImplementConcept,
+											Concepts
+
 										);
 									}
 
@@ -431,7 +476,9 @@ namespace jsc.meta.Commands.Reference
 											CompilerBase.GetSafeLiteral(k.@class, null)
 
 											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
-											RemotingVariationsForPages[CurrentVariationForPage.Key]
+											RemotingVariationsForPages[CurrentVariationForPage.Key],
+											ImplementConcept,
+											Concepts
 										);
 									}
 								}
