@@ -6,13 +6,21 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.Documentation
 {
-	public abstract class CompilationMethodBase
+	public abstract class CompilationMethodBase : CompilationMember
 	{
-		protected XElement Data { get; set; }
+		public int MetadataToken { get; set; }
 
 		public IEnumerable<CompilationMethodParameter> GetParameters()
 		{
 			return this.Data.Elements(CompilationMethodParameter.__Element).Select(k => new CompilationMethodParameter(this, k));
+		}
+
+
+
+		public CompilationMethodBase(CompilationType Context, XElement Data)
+			: base(Context, Data)
+		{
+			this.MetadataToken = Convert.ToInt32(Data.Element(CompilationXNames.MetadataToken).Value);
 		}
 	}
 }

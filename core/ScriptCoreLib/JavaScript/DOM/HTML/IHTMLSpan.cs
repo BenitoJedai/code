@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		static IHTMLSpan InternalConstructor()
 		{
-			return (IHTMLSpan)Native.Document.createElement(IHTMLElement.HTMLElementEnum.span);
+			return (IHTMLSpan)(object)new IHTMLElement(HTMLElementEnum.span);
 		}
 
 		static IHTMLSpan InternalConstructor(string e)

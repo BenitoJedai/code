@@ -17,6 +17,8 @@ namespace ScriptCoreLib.Documentation
 		internal const string __DeclaringType = "DeclaringType";
 		internal const string __MetadataToken = "MetadataToken";
 		internal const string __IsInterface = "IsInterface";
+		internal const string __HTMLElement = "HTMLElement";
+		internal const string __GenericArgument = "GenericArgument";
 
 
 		public CompilationAssembly DeclaringAssembly { get; set; }
@@ -95,10 +97,33 @@ namespace ScriptCoreLib.Documentation
 			{
 				var n = FullName.SkipUntilLastIfAny(".");
 
-				if (IsNested)
-					return n.SkipUntilIfAny("+");
 
-				return n;
+				if (IsNested)
+					n = n.SkipUntilIfAny("+");
+
+				var w = new StringBuilder();
+
+				w.Append(n.TakeUntilIfAny("`"));
+
+				if (GetGenericArguments().Any())
+				{
+					w.Append("<");
+
+					var i = 0;
+					foreach (var item in GetGenericArguments().ToArray())
+					{
+						if (i > 0)
+							w.Append(",");
+
+						w.Append(item);
+						i++;
+					}
+
+
+					w.Append(">");
+				}
+
+				return w.ToString();
 			}
 		}
 
@@ -108,9 +133,14 @@ namespace ScriptCoreLib.Documentation
 		}
 
 
+		IEnumerable<CompilationMethod> InternalMethods;
+
 		public IEnumerable<CompilationMethod> GetMethods()
 		{
-			return this.Data.Elements(CompilationMethod.__Element).Select(k => new CompilationMethod(this, k));
+			if (InternalMethods == null)
+				InternalMethods = this.Data.Elements(CompilationMethod.__Element).Select(k => new CompilationMethod(this, k));
+
+			return InternalMethods;
 		}
 
 		public IEnumerable<CompilationField> GetFields()
@@ -136,6 +166,30 @@ namespace ScriptCoreLib.Documentation
 		{
 			return this.Data.Elements(CompilationProperty.__Element).Select(k => new CompilationProperty(this, k));
 		}
+
+		/// <summary>
+		/// Some types in ScriptCoreLib are wrappers for HTML elements. This property has the name of that
+		/// HTML element.
+		/// </summary>
+		public string HTMLElement
+		{
+			get
+			{
+				var h = this.Data.Elements(__HTMLElement).Select(k => k.Value).FirstOrDefault();
+
+				if (h == null)
+					return "";
+
+				return h;
+			}
+		}
+
+		public IEnumerable<string> GetGenericArguments()
+		{
+			return this.Data.Elements(CompilationType.__GenericArgument).Select(k => k.Value);
+		}
+
+
 	}
 
 

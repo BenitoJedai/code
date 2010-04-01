@@ -17,6 +17,30 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 		Dictionary<string, Type> InternalElementTypes;
 
+		public static IEnumerable<KeyValuePair<string, Type>> GetElementTypes(IEnumerable<Type> Types)
+		{
+			return from t in Types
+				   let m = t.GetMethod("InternalConstructor", BindingFlags.Static | BindingFlags.NonPublic, null, new Type[0], null)
+				   where m != null
+				   let i = new ILBlock(m)
+				   from si in i.Instructrions
+
+				   from parameter in
+					   (si.OpCode == OpCodes.Newobj ? si.TargetConstructor.GetParameters() :
+						si.OpCode == OpCodes.Call ? si.TargetMethod.GetParameters() :
+						new ParameterInfo[0]
+					   )
+
+				   where parameter.ParameterType.IsEnum
+
+				   // can we read out what param is being used?
+				   let si_ldc = si.StackBeforeStrict[parameter.Position]
+				   let iname = si_ldc.SingleStackInstruction.TargetInteger
+				   where iname != null
+				   let name = Enum.GetName(parameter.ParameterType, iname.Value)
+				   select new KeyValuePair<string, Type>(name, t);
+		}
+
 		public Dictionary<string, Type> ElementTypes
 		{
 			get
@@ -24,33 +48,13 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 				if (InternalElementTypes == null)
 				{
-					var q =
-						from t in typeof(IHTMLElement).GetSubTypesFromAssembly()
-						let m = t.GetMethod("InternalConstructor", BindingFlags.Static | BindingFlags.NonPublic, null, new Type[0], null)
-						where m != null
-						let i = new ILBlock(m)
-						from si in i.Instructrions
 
-						from parameter in
-							(si.OpCode == OpCodes.Newobj ? si.TargetConstructor.GetParameters() :
-							 si.OpCode == OpCodes.Call ? si.TargetMethod.GetParameters() :
-							 new ParameterInfo[0]
-							)
-
-						where parameter.ParameterType == typeof(IHTMLElement.HTMLElementEnum)
-
-						// can we read out what param is being used?
-						let si_ldc = si.StackBeforeStrict[parameter.Position]
-						let iname = si_ldc.SingleStackInstruction.TargetInteger
-						where iname != null
-						let name = ((IHTMLElement.HTMLElementEnum)iname.Value).ToString()
-						select new { t, name };
 
 					InternalElementTypes = new Dictionary<string, Type>();
-					foreach (var item in q)
+					foreach (var item in GetElementTypes(typeof(IHTMLElement).GetSubTypesFromAssembly()))
 					{
 						// duplicates? probably a mistake at ScriptCoreLib!
-						InternalElementTypes.Add(item.name, item.t);
+						InternalElementTypes.Add(item.Key, item.Value);
 					}
 
 				}
@@ -59,6 +63,6 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 			}
 		}
-		
+
 	}
 }

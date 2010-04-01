@@ -118,7 +118,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static IHTMLTableBody InternalConstructor()
         {
-            return (IHTMLTableBody)Native.Document.createElement(IHTMLElement.HTMLElementEnum.tbody);
+			return (IHTMLTableBody)(object)new IHTMLElement(HTMLElementEnum.tbody);
         }
 
         #endregion

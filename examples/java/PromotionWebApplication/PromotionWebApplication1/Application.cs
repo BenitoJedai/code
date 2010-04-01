@@ -113,7 +113,10 @@ namespace PromotionWebApplication1
 				}
 				else if (Native.Document.location.hash == "#/source")
 				{
-					new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);
+					new SourceEditorHeader().Container.AttachTo(MyPagesInternal);
+
+					//new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);
+
 					var n = new TextEditor(MyPagesInternal);
 
 					n.Width = 600;
@@ -127,12 +130,40 @@ namespace PromotionWebApplication1
 					var m1 = new SimpleCodeView();
 
 					m1.Container.AttachTo(MyPagesInternal);
-					m1.SelectType.onchange +=
-						delegate
-						{
-							m1.TypeName.innerText = m1.SelectType.value;
-						};
+					//m1.SelectType.onchange +=
+					//    delegate
+					//    {
+					//        m1.TypeName.innerText = m1.SelectType.value;
+					//    };
 
+					//m1.RunJavaScript.onclick +=
+					//    delegate
+					//    {
+					//        m1.RunJavaScript.style.color = JSColor.Blue;
+
+					//        try
+					//        {
+					//            Native.Window.eval(m1.Code1.value);
+
+					//            1000.AtDelay(
+					//                delegate
+					//                {
+					//                    m1.RunJavaScript.style.color = JSColor.None;
+					//                }
+					//            );
+					//        }
+					//        catch
+					//        {
+					//            m1.RunJavaScript.style.color = JSColor.Red;
+
+					//            1000.AtDelay(
+					//                delegate
+					//                {
+					//                    m1.RunJavaScript.style.color = JSColor.None;
+					//                }
+					//            );
+					//        }
+					//    };
 					new Compilation().GetArchives().SelectMany(k => k.GetAssemblies()).First(k => k.Name == "ScriptCoreLib").WhenReady(
 						ScriptCoreLib =>
 						{
@@ -141,6 +172,7 @@ namespace PromotionWebApplication1
 							m1.SelectEvent.Clear();
 
 							var Element = ScriptCoreLib.GetTypes().Single(k => k.FullName == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
+							//var Element = ScriptCoreLib.GetTypes().Single(k => k.HTMLElement == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
 
 							Action<CompilationEvent> Add =
 								SourceEvent =>

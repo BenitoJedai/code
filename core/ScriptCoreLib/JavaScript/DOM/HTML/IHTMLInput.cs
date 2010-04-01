@@ -60,7 +60,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         internal static IHTMLInput InternalConstructor()
         {
-            return (IHTMLInput)Native.Document.createElement(HTMLElementEnum.input);
+			return (IHTMLInput)(object)new IHTMLElement(HTMLElementEnum.input);
         }
 
 

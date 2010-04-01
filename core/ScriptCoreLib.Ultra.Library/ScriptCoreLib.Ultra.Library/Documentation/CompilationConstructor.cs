@@ -12,13 +12,11 @@ namespace ScriptCoreLib.Documentation
 		internal const string __Name = "Name";
 
 
-		public CompilationType DeclaringType { get; private set; }
 
 		public CompilationConstructor(CompilationType Context, XElement Data)
+			: base(Context, Data)
 		{
-			this.Data = Data;
 
-			this.DeclaringType = Context;
 		}
 
 		public IEnumerable<CompilationMethodParameter> GetParameters()

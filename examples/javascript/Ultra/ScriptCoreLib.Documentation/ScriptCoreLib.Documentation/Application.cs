@@ -14,6 +14,7 @@ using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.Components.HTML.Pages.FromWeb;
+using ScriptCoreLib.Shared.Drawing;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -237,7 +238,7 @@ namespace ScriptCoreLib.Documentation
 
 					if (!AllTypesNamespaceLookup.ContainsKey(Namespace))
 					{
-						AllTypesNamespaceLookup[Namespace] = AddNamespace(ParentContainer, Namespace.SkipUntilLastIfAny("."), UpdateLocation);
+						AllTypesNamespaceLookup[Namespace] = AddNamespace(ParentContainer, null, Namespace.SkipUntilLastIfAny("."), UpdateLocation);
 					}
 
 					return AllTypesNamespaceLookup[Namespace];
@@ -371,7 +372,13 @@ namespace ScriptCoreLib.Documentation
 					{
 						if (!NamespaceLookup.ContainsKey(SourceType.Namespace))
 						{
-							NamespaceLookup[SourceType.Namespace] = AddNamespace(Container, SourceType.Namespace, UpdateLocation);
+							NamespaceLookup[SourceType.Namespace] = null;
+
+							var NextNamespaceOrDefault = default(IHTMLDiv);
+
+							//var NextNamespaceOrDefault = NamespaceLookup.Keys.OrderBy(k => k).SkipWhile(k => k == SourceType.Namespace).Select(k => NamespaceLookup[k]).FirstOrDefault();
+
+							NamespaceLookup[SourceType.Namespace] = AddNamespace(Container, NextNamespaceOrDefault, SourceType.Namespace, UpdateLocation);
 						}
 
 						return NamespaceLookup[SourceType.Namespace];
@@ -399,15 +406,13 @@ namespace ScriptCoreLib.Documentation
 								s.style.color = JSColor.System.WindowText;
 
 
-								a.GetTypes().ForEach(
+								a.GetTypes().OrderBy(k => k.Name).ForEach(
 									(Current, Index, Next) =>
 									{
 										if (!Current.IsNested)
 										{
-											var TypeContainer = GetNamespaceContainer(children, Current);
-
 											AddType(
-												TypeContainer,
+												GetNamespaceContainer(children, Current),
 												Current,
 												UpdateLocation
 											);
@@ -420,7 +425,7 @@ namespace ScriptCoreLib.Documentation
 										}
 
 
-										if (Index % 16 == 0)
+										if (Index % 8 == 0)
 										{
 											ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 												7,
@@ -464,9 +469,14 @@ namespace ScriptCoreLib.Documentation
 			}
 		}
 
-		private static IHTMLDiv AddNamespace(IHTMLDiv parent, string Namespace, Action<string> UpdateLocation)
+		private static IHTMLDiv AddNamespace(IHTMLDiv parent, IHTMLDiv NextNamespaceOrDefault, string Namespace, Action<string> UpdateLocation)
 		{
-			var div = new IHTMLDiv().AttachTo(parent);
+			var div = new IHTMLDiv();
+
+			if (NextNamespaceOrDefault == null)
+				div.AttachTo(parent);
+			else
+				NextNamespaceOrDefault.insertPreviousSibling(div);
 
 			div.style.marginTop = "0.1em";
 			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
@@ -581,6 +591,29 @@ namespace ScriptCoreLib.Documentation
 
 			var s = new IHTMLAnchor { innerText = type.Name, title = "" + type.MetadataToken }.AttachTo(div);
 
+			if (!string.IsNullOrEmpty(type.HTMLElement))
+			{
+				var c = new IHTMLCode();
+
+				Action<string, JSColor> Write =
+					(Text, Color) =>
+					{
+						var cs = new IHTMLSpan { innerText = Text };
+
+						cs.style.color = Color;
+
+						cs.AttachTo(c);
+					};
+
+				Write("<", JSColor.Blue);
+				Write(type.HTMLElement, JSColor.FromRGB(0xa0, 0, 0));
+				Write("/>", JSColor.Blue);
+
+				//c.style.marginLeft = "1em";
+				c.style.Float = ScriptCoreLib.JavaScript.DOM.IStyle.FloatEnum.right;
+
+				c.AttachTo(s);
+			}
 
 			s.href = "#";
 			s.style.textDecoration = "none";
@@ -601,7 +634,7 @@ namespace ScriptCoreLib.Documentation
 					if (TouchTypeSelected != null)
 						TouchTypeSelected(type);
 
-					UpdateLocation(type.FullName + " - " + type.Summary);
+					UpdateLocation(type.FullName + " - " + type.Summary + " - HTML:" + type.HTMLElement);
 
 					onclick();
 				};
@@ -643,7 +676,7 @@ namespace ScriptCoreLib.Documentation
 						Fields = Group(),
 						Properties = Group(),
 					};
-				
+
 
 					type.GetNestedTypes().ForEach(
 						(Current, Next) =>
@@ -669,17 +702,73 @@ namespace ScriptCoreLib.Documentation
 						}
 					);
 
-					type.GetMethods().ForEach(
+					var HiddenMethods = new List<int>();
+
+					Action<CompilationMethod> AddIfAny =
+						SourceMethod =>
+						{
+							if (SourceMethod == null)
+								return;
+
+							HiddenMethods.Add(SourceMethod.MetadataToken);
+						};
+
+					Action AfterEvents = delegate
+					{
+
+						type.GetMethods().ForEach(
+							(Current, Next) =>
+							{
+								if (!HiddenMethods.Contains(Current.MetadataToken))
+								{
+									AddTypeMethod(Groups.Methods, Current, UpdateLocation);
+								}
+
+								ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+									50,
+									Next
+								);
+							}
+						);
+
+					};
+
+					Action AfterProperties = delegate
+					{
+						type.GetEvents().ForEach(
+							(Current, Next) =>
+							{
+								AddIfAny(Current.GetAddMethod());
+								AddIfAny(Current.GetRemoveMethod());
+
+								AddTypeEvent(Groups.Events, Current, UpdateLocation);
+
+								ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+									50,
+									Next
+								);
+							}
+						)(AfterEvents);
+					};
+
+					type.GetProperties().ForEach(
 						(Current, Next) =>
 						{
-							AddTypeMethod(Groups.Methods, Current, UpdateLocation);
+							AddIfAny(Current.GetSetMethod());
+							AddIfAny(Current.GetGetMethod());
+
+							AddTypeProperty(Groups.Properties, Current, UpdateLocation);
 
 							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 								50,
 								Next
 							);
 						}
-					);
+					)(AfterProperties);
+
+			
+
+
 
 
 					type.GetFields().ForEach(
@@ -694,29 +783,9 @@ namespace ScriptCoreLib.Documentation
 						}
 					);
 
-					type.GetEvents().ForEach(
-						(Current, Next) =>
-						{
-							AddTypeEvent(Groups.Events, Current, UpdateLocation);
 
-							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-								50,
-								Next
-							);
-						}
-					);
 
-					type.GetProperties().ForEach(
-						(Current, Next) =>
-						{
-							AddTypeProperty(Groups.Properties, Current, UpdateLocation);
-
-							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-								50,
-								Next
-							);
-						}
-					);
+				
 					var NextClickHide = default(Action);
 					var NextClickShow = default(Action);
 
@@ -742,8 +811,8 @@ namespace ScriptCoreLib.Documentation
 		}
 
 		private static void AddTypeField(
-			IHTMLDiv parent, 
-			CompilationField type, 
+			IHTMLDiv parent,
+			CompilationField type,
 			Action<string> UpdateLocation
 			)
 		{
@@ -906,21 +975,13 @@ namespace ScriptCoreLib.Documentation
 			onclick =
 				delegate
 				{
-					//var children = new IHTMLDiv().AttachTo(div);
+					var children = new IHTMLDiv().AttachTo(div);
 
-					//children.style.paddingLeft = "2em";
+					children.style.paddingLeft = "2em";
 
-					//a.GetTypes().ForEach(
-					//    (Current, Next) =>
-					//    {
-					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+					AddTypeMethod(children, type.GetAddMethod(), UpdateLocation);
+					AddTypeMethod(children, type.GetRemoveMethod(), UpdateLocation);
 
-					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
-					//            50,
-					//            Next
-					//        );
-					//    }
-					//);
 
 
 					var NextClickHide = default(Action);
@@ -929,7 +990,7 @@ namespace ScriptCoreLib.Documentation
 					NextClickHide =
 						delegate
 						{
-							//children.Hide();
+							children.Hide();
 
 							onclick = NextClickShow;
 						};
@@ -937,7 +998,7 @@ namespace ScriptCoreLib.Documentation
 					NextClickShow =
 						delegate
 						{
-							//children.Show();
+							children.Show();
 
 							onclick = NextClickHide;
 						};
@@ -1010,9 +1071,13 @@ namespace ScriptCoreLib.Documentation
 			onclick =
 				delegate
 				{
-					//var children = new IHTMLDiv().AttachTo(div);
+					var children = new IHTMLDiv().AttachTo(div);
 
-					//children.style.paddingLeft = "2em";
+					children.style.paddingLeft = "2em";
+
+					AddTypeMethod(children, type.GetGetMethod(), UpdateLocation);
+					AddTypeMethod(children, type.GetSetMethod(), UpdateLocation);
+
 
 					//a.GetTypes().ForEach(
 					//    (Current, Next) =>
@@ -1033,7 +1098,7 @@ namespace ScriptCoreLib.Documentation
 					NextClickHide =
 						delegate
 						{
-							//children.Hide();
+							children.Hide();
 
 							onclick = NextClickShow;
 						};
@@ -1041,7 +1106,7 @@ namespace ScriptCoreLib.Documentation
 					NextClickShow =
 						delegate
 						{
-							//children.Show();
+							children.Show();
 
 							onclick = NextClickHide;
 						};
@@ -1059,7 +1124,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicMethod().AttachTo(div);
+			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicConstructor().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -1170,6 +1235,9 @@ namespace ScriptCoreLib.Documentation
 
 		private static void AddTypeMethod(IHTMLDiv parent, CompilationMethod type, Action<string> UpdateLocation)
 		{
+			if (type == null)
+				return;
+
 			var div = new IHTMLDiv().AttachTo(parent);
 
 			div.style.marginTop = "0.1em";
