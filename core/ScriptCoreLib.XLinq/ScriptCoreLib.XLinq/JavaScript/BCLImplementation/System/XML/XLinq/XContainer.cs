@@ -7,9 +7,9 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 {
-    [Script(Implements = typeof(XContainer))]
-    internal class __XContainer : __XNode
-    {
+	[Script(Implements = typeof(XContainer))]
+	internal class __XContainer : __XNode
+	{
 
 		public IXMLElement InternalElement
 		{
@@ -22,8 +22,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 		public XElement Element(XName name)
 		{
-			return Elements(name).Single();
+			return Elements(name).FirstOrDefault();
 		}
+
 
 		public IEnumerable<XElement> Elements(XName name)
 		{
@@ -41,6 +42,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			}
 
 			return a;
+
 		}
-    }
+	}
 }

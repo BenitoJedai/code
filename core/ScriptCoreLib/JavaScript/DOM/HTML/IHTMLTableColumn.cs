@@ -27,7 +27,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static IHTMLTableColumn InternalConstructor()
         {
-            return (IHTMLTableColumn)Native.Document.createElement(IHTMLElement.HTMLElementEnum.td);
+			return (IHTMLTableColumn)(object)new IHTMLElement(HTMLElementEnum.td);
         }
 
         static IHTMLTableColumn InternalConstructor(params INode[] e)

@@ -405,6 +405,7 @@ namespace jsc.meta.Commands.Reference
 
 								new DefineDocumentation
 								{
+									Context = this,
 
 									DefaultNamespace = DefaultNamespace,
 									BodyElement = BodyElement,

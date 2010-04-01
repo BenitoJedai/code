@@ -14,9 +14,8 @@ namespace ScriptCoreLib.Documentation
 		public string Name { get; set; }
 
 
-		public CompilationMethod(CompilationType Context, XElement Data)
+		public CompilationMethod(CompilationType Context, XElement Data) : base(Context, Data)
 		{
-			this.Data = Data;
 
 			this.Name = Data.Element(__Name).Value;
 

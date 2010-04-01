@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static IHTMLTable InternalConstructor()
         {
-            return (IHTMLTable)Native.Document.createElement(IHTMLElement.HTMLElementEnum.table);
+			return (IHTMLTable)(object)new IHTMLElement(HTMLElementEnum.table);
         }
 
 

@@ -23,6 +23,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 		[Description("Convert assemblies (.dll, .xml) from zip files into documentation.")]
 		public class DefineDocumentation
 		{
+			public ReferenceUltraSource Context;
+
 			public string DefaultNamespace;
 			public XElement BodyElement;
 			public RewriteToAssembly r;
@@ -188,7 +190,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 													new[] 
 													{
-														new XElement(CompilationMethod.__Name, SourceMethod.Name)
+														new XElement(CompilationMethod.__Name, SourceMethod.Name),
+														new XElement(CompilationXNames.MetadataToken, SourceMethod.MetadataToken)
 													}.Concat(
 														from SourceParameter in SourceMethod.GetParameters()
 														select
@@ -202,6 +205,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 													select new XElement(CompilationConstructor.__Element,
 													new XElement[] 
 													{
+														new XElement(CompilationXNames.MetadataToken, SourceMethod.MetadataToken)
+
 													}.Concat(
 															from SourceParameter in SourceMethod.GetParameters()
 															select
@@ -221,14 +226,35 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 											).Concat(
 												from SourceProperty in SourceType.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
 												select new XElement(CompilationProperty.__Element,
-													new XElement(CompilationProperty.__Name, SourceProperty.Name)
+
+													new  [] { 
+														new XElement(CompilationProperty.__Name, SourceProperty.Name)
+													}.Concat(
+														from SourcePropertyMethod in new [] {
+															new { Name = CompilationXNames.Set, Method = SourceProperty.GetSetMethod() },
+															new { Name = CompilationXNames.Get, Method = SourceProperty.GetGetMethod() }
+														} 
+														where SourcePropertyMethod.Method != null
+														select new XElement(SourcePropertyMethod.Name, SourcePropertyMethod.Method.MetadataToken)
+													)
 												)
 											).Concat(
 												from SourceEvent in SourceType.GetEvents(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
 												select new XElement(CompilationEvent.__Element,
-													new XElement(CompilationEvent.__Name, SourceEvent.Name)
+													new XElement(CompilationEvent.__Name, SourceEvent.Name),
+													new XElement(CompilationXNames.Add, SourceEvent.GetAddMethod().MetadataToken),
+													new XElement(CompilationXNames.Remove, SourceEvent.GetRemoveMethod().MetadataToken)
 												)
+											).Concat(
+												from ElementType in ReferenceJavaScriptDocument.GetElementTypes(new [] { SourceType })
+												select new XElement(CompilationType.__HTMLElement, ElementType.Key)
+											).Concat(
+												from SourceType__ in new [] { SourceType }
+												where SourceType__.IsGenericTypeDefinition
+												from GenericArgument in SourceType__.GetGenericArguments()
+												select new XElement(CompilationType.__GenericArgument, GenericArgument)
 											)
+
 
 										)
 								)

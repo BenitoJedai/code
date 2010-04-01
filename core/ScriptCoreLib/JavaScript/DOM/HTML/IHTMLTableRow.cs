@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         static IHTMLTableRow InternalConstructor()
         {
-            return (IHTMLTableRow)Native.Document.createElement(IHTMLElement.HTMLElementEnum.tr);
+			return (IHTMLTableRow)(object)new IHTMLElement(HTMLElementEnum.tr);
         }
 
         static IHTMLTableRow InternalConstructor(params INode[] e)

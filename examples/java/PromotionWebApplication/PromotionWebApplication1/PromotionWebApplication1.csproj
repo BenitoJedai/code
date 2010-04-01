@@ -134,6 +134,7 @@
     <Content Include="Audio.UltraSource\SoundCloudTrack.htm" />
     <Content Include="Design.UltraSource\About.css" />
     <Content Include="Design.UltraSource\About.htm" />
+    <Content Include="Design.UltraSource\SourceEditorHeader.htm" />
     <Content Include="Design.UltraSource\DefaultPage1.htm" />
     <Content Include="Design.UltraSource\SimpleCodeView.htm" />
     <Content Include="Design.UltraSource\UltraApplicationWithAssets.htm" />
@@ -145,6 +146,9 @@
     <Content Include="Design.UltraSource\references.txt" />
     <Content Include="Future.UltraSource\NamedTuples.htm" />
     <Content Include="Future.UltraSource\Tuple1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Design.UltraSource\Placeholders\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
