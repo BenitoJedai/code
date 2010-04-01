@@ -126,6 +126,16 @@ namespace ScriptCoreLib.Documentation
 				)
 				.Select(k => this.DeclaringAssembly.GetTypes().Single(kk => kk.MetadataToken == k));
 		}
+
+		public IEnumerable<CompilationEvent> GetEvents()
+		{
+			return this.Data.Elements(CompilationEvent.__Element).Select(k => new CompilationEvent(this, k));
+		}
+
+		public IEnumerable<CompilationProperty> GetProperties()
+		{
+			return this.Data.Elements(CompilationProperty.__Element).Select(k => new CompilationProperty(this, k));
+		}
 	}
 
 

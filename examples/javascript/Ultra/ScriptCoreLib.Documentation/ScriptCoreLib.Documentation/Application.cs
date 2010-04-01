@@ -632,16 +632,23 @@ namespace ScriptCoreLib.Documentation
 
 					children.style.paddingLeft = "1em";
 
-					var _nested = new IHTMLDiv().AttachTo(children);
-					var _fields = new IHTMLDiv().AttachTo(children);
-					var _constructors = new IHTMLDiv().AttachTo(children);
-					var _methods = new IHTMLDiv().AttachTo(children);
+					Func<IHTMLDiv> Group = () => new IHTMLDiv().AttachTo(children);
 
+					var Groups = new
+					{
+						Nested = Group(),
+						Constructors = Group(),
+						Methods = Group(),
+						Events = Group(),
+						Fields = Group(),
+						Properties = Group(),
+					};
+				
 
 					type.GetNestedTypes().ForEach(
 						(Current, Next) =>
 						{
-							AddType(_nested, Current, UpdateLocation);
+							AddType(Groups.Nested, Current, UpdateLocation);
 
 							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 								50,
@@ -653,7 +660,7 @@ namespace ScriptCoreLib.Documentation
 					type.GetConstructors().ForEach(
 						(Current, Next) =>
 						{
-							AddTypeConstructor(_constructors, Current, UpdateLocation);
+							AddTypeConstructor(Groups.Constructors, Current, UpdateLocation);
 
 							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 								50,
@@ -665,7 +672,7 @@ namespace ScriptCoreLib.Documentation
 					type.GetMethods().ForEach(
 						(Current, Next) =>
 						{
-							AddTypeMethod(_methods, Current, UpdateLocation);
+							AddTypeMethod(Groups.Methods, Current, UpdateLocation);
 
 							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 								50,
@@ -678,7 +685,7 @@ namespace ScriptCoreLib.Documentation
 					type.GetFields().ForEach(
 						(Current, Next) =>
 						{
-							AddTypeField(_fields, Current, UpdateLocation);
+							AddTypeField(Groups.Fields, Current, UpdateLocation);
 
 							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
 								50,
@@ -687,6 +694,29 @@ namespace ScriptCoreLib.Documentation
 						}
 					);
 
+					type.GetEvents().ForEach(
+						(Current, Next) =>
+						{
+							AddTypeEvent(Groups.Events, Current, UpdateLocation);
+
+							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+								50,
+								Next
+							);
+						}
+					);
+
+					type.GetProperties().ForEach(
+						(Current, Next) =>
+						{
+							AddTypeProperty(Groups.Properties, Current, UpdateLocation);
+
+							ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+								50,
+								Next
+							);
+						}
+					);
 					var NextClickHide = default(Action);
 					var NextClickShow = default(Action);
 
@@ -711,7 +741,11 @@ namespace ScriptCoreLib.Documentation
 				};
 		}
 
-		private static void AddTypeField(IHTMLDiv parent, CompilationField type, Action<string> UpdateLocation)
+		private static void AddTypeField(
+			IHTMLDiv parent, 
+			CompilationField type, 
+			Action<string> UpdateLocation
+			)
 		{
 			var div = new IHTMLDiv().AttachTo(parent);
 
@@ -810,6 +844,212 @@ namespace ScriptCoreLib.Documentation
 				};
 		}
 
+		private static void AddTypeEvent(
+		IHTMLDiv parent,
+		CompilationEvent type,
+		Action<string> UpdateLocation
+		)
+		{
+			var div = new IHTMLDiv().AttachTo(parent);
+
+			div.style.marginTop = "0.1em";
+			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+
+
+			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicEvent().AttachTo(div);
+
+			i.style.verticalAlign = "middle";
+			i.style.marginRight = "0.5em";
+
+			var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
+
+
+			s.href = "#";
+			s.style.textDecoration = "none";
+			s.style.color = JSColor.System.WindowText;
+
+			Action onclick = delegate
+			{
+
+			};
+
+			s.onclick +=
+				e =>
+				{
+					e.PreventDefault();
+
+					s.focus();
+
+					UpdateLocation(type.Name);
+
+					onclick();
+				};
+
+			s.onfocus +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.System.Highlight;
+					s.style.color = JSColor.System.HighlightText;
+				};
+
+			s.onblur +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.None;
+					s.style.color = JSColor.System.WindowText;
+				};
+
+
+			onclick =
+				delegate
+				{
+					//var children = new IHTMLDiv().AttachTo(div);
+
+					//children.style.paddingLeft = "2em";
+
+					//a.GetTypes().ForEach(
+					//    (Current, Next) =>
+					//    {
+					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+
+					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+					//            50,
+					//            Next
+					//        );
+					//    }
+					//);
+
+
+					var NextClickHide = default(Action);
+					var NextClickShow = default(Action);
+
+					NextClickHide =
+						delegate
+						{
+							//children.Hide();
+
+							onclick = NextClickShow;
+						};
+
+					NextClickShow =
+						delegate
+						{
+							//children.Show();
+
+							onclick = NextClickHide;
+						};
+
+
+					onclick = NextClickHide;
+				};
+		}
+
+
+		private static void AddTypeProperty(
+	IHTMLDiv parent,
+	CompilationProperty type,
+	Action<string> UpdateLocation
+	)
+		{
+			var div = new IHTMLDiv().AttachTo(parent);
+
+			div.style.marginTop = "0.1em";
+			div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
+			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
+
+
+			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicProperty().AttachTo(div);
+
+			i.style.verticalAlign = "middle";
+			i.style.marginRight = "0.5em";
+
+			var s = new IHTMLAnchor { innerText = type.Name }.AttachTo(div);
+
+
+			s.href = "#";
+			s.style.textDecoration = "none";
+			s.style.color = JSColor.System.WindowText;
+
+			Action onclick = delegate
+			{
+
+			};
+
+			s.onclick +=
+				e =>
+				{
+					e.PreventDefault();
+
+					s.focus();
+
+					UpdateLocation(type.Name);
+
+					onclick();
+				};
+
+			s.onfocus +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.System.Highlight;
+					s.style.color = JSColor.System.HighlightText;
+				};
+
+			s.onblur +=
+				delegate
+				{
+
+					s.style.backgroundColor = JSColor.None;
+					s.style.color = JSColor.System.WindowText;
+				};
+
+
+			onclick =
+				delegate
+				{
+					//var children = new IHTMLDiv().AttachTo(div);
+
+					//children.style.paddingLeft = "2em";
+
+					//a.GetTypes().ForEach(
+					//    (Current, Next) =>
+					//    {
+					//        AddType(GetNamespaceContainer(children, Current), Current, UpdateLocation);
+
+					//        ScriptCoreLib.Shared.Avalon.Extensions.AvalonSharedExtensions.AtDelay(
+					//            50,
+					//            Next
+					//        );
+					//    }
+					//);
+
+
+					var NextClickHide = default(Action);
+					var NextClickShow = default(Action);
+
+					NextClickHide =
+						delegate
+						{
+							//children.Hide();
+
+							onclick = NextClickShow;
+						};
+
+					NextClickShow =
+						delegate
+						{
+							//children.Show();
+
+							onclick = NextClickHide;
+						};
+
+
+					onclick = NextClickHide;
+				};
+		}
 		private static void AddTypeConstructor(IHTMLDiv parent, CompilationConstructor type, Action<string> UpdateLocation)
 		{
 			var div = new IHTMLDiv().AttachTo(parent);

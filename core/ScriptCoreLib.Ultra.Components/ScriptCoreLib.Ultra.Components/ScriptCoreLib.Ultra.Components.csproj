@@ -12,7 +12,8 @@
     <AssemblyName>ScriptCoreLib.Ultra.Components</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject></StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -87,6 +88,8 @@
     <Compile Include="UltraWebService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="My.UltraSource\HorizontalSplit.htm" />
+    <Content Include="My.UltraSource\HorizontalSplitArea.htm" />
     <Content Include="My.UltraSource\Section.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.png" />

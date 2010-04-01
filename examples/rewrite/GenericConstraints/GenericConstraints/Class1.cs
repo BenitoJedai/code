@@ -5,6 +5,12 @@ using System.Text;
 
 namespace GenericConstraints
 {
+	public interface Y<T>
+		where T : DllNotFoundException
+		{
+			void X(T t);
+		}
+
 	public interface I<T>
 		where T : Class1
 	{

@@ -20,14 +20,16 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using PromotionWebApplication.AvalonLogo;
 using ScriptCoreLib.JavaScript.Controls;
+using ScriptCoreLib.Documentation;
 //using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace PromotionWebApplication1
 {
 
 	public delegate string AtInstaller(string e);
 
-	public sealed class UltraApplication
+	public sealed class Application
 	{
 		public class AudioLink
 		{
@@ -42,7 +44,7 @@ namespace PromotionWebApplication1
 
 		}
 
-		public UltraApplication(IHTMLElement e)
+		public Application(IHTMLElement e)
 		{
 			var DefaultTitle = "jsc solutions";
 
@@ -130,6 +132,29 @@ namespace PromotionWebApplication1
 						{
 							m1.TypeName.innerText = m1.SelectType.value;
 						};
+
+					new Compilation().GetArchives().SelectMany(k => k.GetAssemblies()).First(k => k.Name == "ScriptCoreLib").WhenReady(
+						ScriptCoreLib =>
+						{
+							// we do not have reflection in place for native wrappers :/
+
+							m1.SelectEvent.Clear();
+
+							var Element = ScriptCoreLib.GetTypes().Single(k => k.FullName == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
+
+							Action<CompilationEvent> Add =
+								SourceEvent =>
+								{
+									m1.SelectEvent.Add(
+										new IHTMLOption { innerText = SourceEvent.Name }
+									);
+								};
+
+							Element.GetEvents().ForEach(Add);
+
+						}
+					);
+
 
 					m1.SelectEvent.onchange +=
 						delegate
