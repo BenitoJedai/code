@@ -1076,6 +1076,8 @@ namespace jsc.meta.Commands.Rewrite
 			else
 			{
 				// we probably loaded that assembly and now are trying to write to it...
+				// Type 'ScriptCoreLib.Shared.Avalon.Extensions.AnimatedOpacity`1' was not completed.
+
 				a.Save(
 					"~" + Product.Name
 				);

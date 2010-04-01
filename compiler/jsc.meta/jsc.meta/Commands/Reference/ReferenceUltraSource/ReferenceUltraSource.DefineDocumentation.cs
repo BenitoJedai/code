@@ -211,14 +211,25 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 														)
 													)
 											).Concat(
-												from SourceMethod in SourceType.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Public)
+												from SourceMethod in SourceType.GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
 												select new XElement(CompilationField._Field,
 													new XElement(CompilationField.__Name, SourceMethod.Name)
 												)
 											).Concat(
 												from SourceNestedType in SourceType.GetNestedTypes()
 												select new XElement(CompilationType.__NestedType, SourceNestedType.MetadataToken)
+											).Concat(
+												from SourceProperty in SourceType.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
+												select new XElement(CompilationProperty.__Element,
+													new XElement(CompilationProperty.__Name, SourceProperty.Name)
+												)
+											).Concat(
+												from SourceEvent in SourceType.GetEvents(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
+												select new XElement(CompilationEvent.__Element,
+													new XElement(CompilationEvent.__Name, SourceEvent.Name)
+												)
 											)
+
 										)
 								)
 							)

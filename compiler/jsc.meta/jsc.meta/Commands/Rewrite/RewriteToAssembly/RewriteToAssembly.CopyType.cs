@@ -190,7 +190,9 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			if (SourceType.IsGenericTypeDefinition)
-				AtTypeCreatedFilter.AddRange(SourceType.GetGenericArguments().SelectMany(k => k.GetGenericParameterConstraints()));
+				AtTypeCreatedFilter.AddRange(
+					SourceType.GetGenericArguments().SelectMany(k => k.GetGenericParameterConstraints()).Where(ShouldCopyType)
+				);
 
 
 
