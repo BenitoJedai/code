@@ -164,7 +164,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 							DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssemblyData",
 							true,
 							new XDocument(
-								new XElement("Assembly",
+								new XElement(CompilationXNames.Assembly,
 										from SourceType in First.Assembly.GetTypes()
 
 										let Summary = from Documentation in new[] { First.DocumentationOrDefault }
@@ -179,7 +179,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 										select new XElement(CompilationType.__Element,
 
 											new[] {
-												new XElement(CompilationType.__Summary,  Summary.FirstOrDefault() ?? ""),
+												new XElement(CompilationXNames.Summary,  Summary.FirstOrDefault() ?? ""),
 												new XElement(CompilationType.__FullName, SourceType.FullName),
 												new XElement(CompilationType.__MetadataToken, SourceType.MetadataToken),
 												new XElement(CompilationType.__IsInterface, SourceType.IsInterface),

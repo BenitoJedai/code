@@ -5,6 +5,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using UltraApplicationWithAssets.HTML.Audio.FromAssets;
 using System.ComponentModel;
+using UltraApplicationWithAssets.HTML.Pages;
 
 namespace UltraApplicationWithAssets
 {
@@ -12,19 +13,9 @@ namespace UltraApplicationWithAssets
 	[Description("UltraApplicationWithAssets. Write javascript, flash and java applets within a C# project.")]
 	public sealed partial class Application
 	{
-
-		public Application(IHTMLElement e)
+		public void Application_ctor(IAboutJSC a)
 		{
 			Native.Document.title = "UltraApplicationWithAssets";
-
-
-			//var logo2 = new global::UltraLibraryWithAssets.HTML.Images.FromAssets.jsc();
-
-			var a = new HTML.Pages.FromAssets.AboutJSC();
-
-			//a.Logo1 = logo2;
-
-			a.Container.AttachToDocument();
 
 			a.WebService_GetTime.onclick +=
 				delegate
@@ -64,8 +55,14 @@ namespace UltraApplicationWithAssets
 						}
 					).StartTimeout(1000);
 				};
+		}
 
-		
+		public Application(IHTMLElement e)
+		{
+			var a = new HTML.Pages.FromAssets.AboutJSC();
+
+			a.Container.AttachToDocument();
+			Application_ctor(a);
 		}
 
 

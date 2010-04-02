@@ -35,7 +35,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			public string PageName;
 
 			public string VariationName;
-			public Dictionary<string, Type> RemotingNamedElements;
+			public Dictionary<string, TypeVariationsTuple> RemotingNamedElements;
 
 			public void Invoke()
 			{
@@ -248,7 +248,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						var __src = CurrentElement.Attribute("src");
 						if (__src != null && RemotingNamedElements.ContainsKey(__src.Value))
-							NamedComponent = RemotingNamedElements[__src.Value];
+							NamedComponent = RemotingNamedElements[__src.Value].Type;
 
 						Action<Action<ILGenerator>, ILGenerator> BeforeDone =
 							(EmitField, il) =>

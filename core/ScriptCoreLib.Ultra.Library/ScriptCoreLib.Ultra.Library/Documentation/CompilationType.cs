@@ -11,7 +11,6 @@ namespace ScriptCoreLib.Documentation
 	{
 		internal const string __Element = "Type";
 
-		internal const string __Summary = "Summary";
 		internal const string __FullName = "FullName";
 		internal const string __NestedType = "NestedType";
 		internal const string __DeclaringType = "DeclaringType";
@@ -33,7 +32,7 @@ namespace ScriptCoreLib.Documentation
 		{
 			get
 			{
-				return Data.Element(__Summary).Value;
+				return Data.Element(CompilationXNames.Summary).Value;
 			}
 		}
 

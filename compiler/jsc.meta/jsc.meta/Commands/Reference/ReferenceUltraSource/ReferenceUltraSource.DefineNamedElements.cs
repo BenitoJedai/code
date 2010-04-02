@@ -26,13 +26,22 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
 	partial class ReferenceUltraSource
 	{
+		public class TypeVariationsTuple
+		{
+			public Type Type;
+			public string Source;
+		}
+
 		public class TypeVariations
 		{
+			public string FromAssetsSource;
 			public Type FromAssets;
 
+			public string FromWebSource;
 			public Type FromWeb;
 			public bool FromWebNotAvailable;
 
+			public string FromBase64Source;
 			public Type FromBase64;
 			public bool FromBase64NotAvailable;
 
@@ -43,12 +52,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				{
 					Variations.FromBase64NotAvailable = true;
 					Variations.FromBase64 = Variations.FromAssets;
+					Variations.FromBase64Source = Variations.FromAssetsSource;
 				}
 
 				if (Variations.FromWeb == null)
 				{
 					Variations.FromWebNotAvailable = true;
 					Variations.FromWeb = Variations.FromAssets;
+					Variations.FromWebSource = Variations.FromAssetsSource;
 				}
 			}
 		}
@@ -75,14 +86,13 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					GetLocalResource = e => null;
 
 
-				var Images_value = BodyElement.XPathSelectElements("//img")
-					.Concat(
-					BodyElement.XPathSelectElements("//audio")
-					)
+				var ElementsWithSource = new [] 
+				{
+					BodyElement.XPathSelectElements(".//img[@src]"),
+					BodyElement.XPathSelectElements(".//audio[@src]")
+				}.SelectMany(k => k).ToArray();
 
-				.ToArray();
-
-				foreach (var CurrentElement in Images_value)
+				foreach (var CurrentElement in ElementsWithSource)
 				{
 					var ElementType = ElementTypes[CurrentElement.Name.LocalName];
 					
@@ -241,22 +251,24 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 						if (LocalResource == null)
 						{
+							Variations.FromWebSource = src.Value; 
 							DefineNamedElement(ElementType, Namespace, name, Variations, RemotingVariations, src.Value, "FromWeb");
 						}
 
 						//var AssetPath = "assets/" + DefaultNamespace + "/UltraSource/FromAssets/" + name + Extension;
 						// Long paths are not good. ASP.NET will fault.
-						var AssetPath = "assets/" + DefaultNamespace + "/" + name + Extension;
+						Variations.FromAssetsSource = "assets/" + DefaultNamespace + "/" + name + Extension;
 
-						a.ScriptResourceWriter.Add(AssetPath, Resource);
+						a.ScriptResourceWriter.Add(Variations.FromAssetsSource, Resource);
 
 
-						DefineNamedElement(ElementType, Namespace, name, Variations, RemotingVariations, AssetPath, "FromAssets");
+
+						DefineNamedElement(ElementType, Namespace, name, Variations, RemotingVariations, Variations.FromAssetsSource, "FromAssets");
 
 						if (ElementType == typeof(IHTMLImage))
 						{
 							DefineAvalonNamedImage(a, r,
-								DefaultNamespace + ".Avalon.Images." + name, AssetPath, null
+								DefaultNamespace + ".Avalon.Images." + name, Variations.FromAssetsSource, null
 							);
 						}
 
@@ -270,7 +282,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 							var ResourceBase64 = Convert.ToBase64String(Resource);
 
-							var Source = "data:" + EmbedMimeTypes.Resolve(Extension) + ";base64," + ResourceBase64;
+							Variations.FromBase64Source = "data:" + EmbedMimeTypes.Resolve(Extension) + ";base64," + ResourceBase64;
+							
 
 							{
 								var Base64Lookup = a.Module.DefineType(DefaultNamespace + ".Data.Base64Lookup._" + Resource.ToMD5Bytes().ToHexString(), TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract, null);
@@ -281,7 +294,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 								m.GetILGenerator().Apply(
 									il =>
 									{
-										il.Emit(OpCodes.Ldstr, Source);
+										il.Emit(OpCodes.Ldstr, Variations.FromBase64Source);
 										il.Emit(OpCodes.Ret);
 									}
 								);

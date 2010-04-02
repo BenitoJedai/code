@@ -38,7 +38,7 @@ namespace jsc.meta.Commands.Reference
 			ILGenerator il,
 			OpCode parent,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Dictionary<string, Type> NamedElements,
+			Dictionary<string, TypeVariationsTuple> NamedElements,
 			Dictionary<string, Type> ElementTypes
 		)
 		{
@@ -90,7 +90,7 @@ namespace jsc.meta.Commands.Reference
 			Counter Counter,
 			Dictionary<XElement, FieldBuilder>[] lookup,
 
-			Dictionary<string, Type> NamedElements,
+			Dictionary<string, TypeVariationsTuple> NamedElements,
 			Dictionary<string, Type> ElementTypes
 
 			)
@@ -121,7 +121,7 @@ namespace jsc.meta.Commands.Reference
 
 					if (NamedElements.ContainsKey(src_value))
 					{
-						ElementType = NamedElements[src_value];
+						ElementType = NamedElements[src_value].Type;
 					}
 				}
 			);

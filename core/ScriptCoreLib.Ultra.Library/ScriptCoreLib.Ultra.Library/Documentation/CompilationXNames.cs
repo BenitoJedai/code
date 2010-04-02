@@ -13,6 +13,8 @@ namespace ScriptCoreLib.Documentation
 			Remove = "Remove",
 			Get = "Get",
 			Set = "Set",
-			MetadataToken = "MetadataToken";
+			MetadataToken = "MetadataToken",
+			Summary = "Summary",
+			Assembly = "Assrmbly";
 	}
 }
