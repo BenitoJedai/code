@@ -26,6 +26,8 @@ namespace jsc.Languages.IL
 
 		/// <summary>
 		/// Changes to the context shall be disposed after using it.
+		/// 
+		/// Be careful using this method! Any referenced types which are not meant to be transient shall be prefetched.
 		/// </summary>
 		/// <returns></returns>
 		public IDisposable ToTransientTransaction()

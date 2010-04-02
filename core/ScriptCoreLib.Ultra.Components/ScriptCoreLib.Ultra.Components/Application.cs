@@ -13,9 +13,9 @@ namespace ScriptCoreLib.Ultra.Components
 	[Description("ScriptCoreLib.Ultra.Components. Write javascript, flash and java applets within a C# project.")]
 	internal sealed partial class Application
 	{
-		public Application(IHTMLElement e)
+		public Application(IApplicationLoader p)
 		{
-			var p = new ApplicationLoader.FromDocument();
+			p.LoadingAnimation.FadeOut();
 
 			p.Content.Add("hello world");
 			

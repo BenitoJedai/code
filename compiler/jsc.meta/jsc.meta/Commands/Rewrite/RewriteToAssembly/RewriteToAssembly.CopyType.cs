@@ -250,17 +250,26 @@ namespace jsc.meta.Commands.Rewrite
 					Diagnostics =
 					e =>
 					{
-						Debug.WriteLine(e);
-
-						Console.WriteLine(e);
+						if (Debugger.IsAttached)
+						{
+							Debug.WriteLine(e);
+						}
+						else
+						{
+							Console.WriteLine(e);
+						}
 					};
 
-				Diagnostics("CopyTypeDefinition: " +
-					SourceType.FullName
-				);
+				//Diagnostics("CopyTypeDefinition: " +
+				//    SourceType.FullName
+				//);
 
 				// we should not reenter here!
 				context.TypeDefinitionCache[SourceType] = null;
+
+				Diagnostics("CopyTypeDefinition: " +
+					SourceType.FullName + " @ " + context.TypeDefinitionCache.BaseDictionary.Keys.Count.ToString("x8")
+				);
 
 
 				var _DeclaringType = (context.OverrideDeclaringType[SourceType] ?? (

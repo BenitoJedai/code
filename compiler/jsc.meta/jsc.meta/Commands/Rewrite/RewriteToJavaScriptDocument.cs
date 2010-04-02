@@ -74,7 +74,17 @@ namespace jsc.meta.Commands.Rewrite
 				// what about Forms/Avalon ?
 				let IsActionScript = typeof(Sprite).IsAssignableFrom(TargetType)
 				let IsJava = typeof(Applet).IsAssignableFrom(TargetType)
-				let IsJavaScript = TargetType.GetConstructor(typeof(IHTMLElement)) != null
+
+
+				let JavaScriptConstructorArgument = (
+					from ctor in TargetType.GetConstructors()
+					let ctor_p = ctor.GetParameters()
+					where ctor_p.Length == 1
+					let ctor_a = ctor_p.Single().ParameterType
+					where ctor_a == typeof(IHTMLElement) || typeof(IUltraComponent).IsAssignableFrom(ctor_a)
+					select ctor_a).FirstOrDefault()
+
+				let IsJavaScript = JavaScriptConstructorArgument != null
 
 
 
@@ -103,7 +113,10 @@ namespace jsc.meta.Commands.Rewrite
 					IsWebServicePHP,
 					IsWebServiceJava,
 					StagingFolder,
-					Product
+					Product,
+
+					JavaScriptConstructorArgument
+
 				}
 
 			);
@@ -123,7 +136,8 @@ namespace jsc.meta.Commands.Rewrite
 							k.IsWebServicePHP,
 							k.IsWebServiceJava,
 							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.net/bin"),
-							k.Product
+							k.Product,
+							k.JavaScriptConstructorArgument
 						},
 						this.DisableWebServicePHP ? null :
 
@@ -137,7 +151,8 @@ namespace jsc.meta.Commands.Rewrite
 							IsWebServicePHP = true,
 							k.IsWebServiceJava,
 							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.php"),
-							k.Product
+							k.Product,
+							k.JavaScriptConstructorArgument
 						},
 
 						this.DisableWebServiceJava ? null :
@@ -151,7 +166,8 @@ namespace jsc.meta.Commands.Rewrite
 							k.IsWebServicePHP,
 							IsWebServiceJava = true,
 							StagingFolder  = k.StagingFolder.CreateSubdirectory("staging.java"),
-							k.Product
+							k.Product,
+							k.JavaScriptConstructorArgument
 						},
 					}
 				:
@@ -291,7 +307,7 @@ namespace jsc.meta.Commands.Rewrite
 									{
 										// look, we are injecting IL code :)
 										// to bad jsc backend had to do this the ugly way in the past...
-										InjectJavaScriptBootstrap(a);
+										InjectJavaScriptBootstrap(a, k.JavaScriptConstructorArgument);
 									}
 
 
@@ -351,8 +367,8 @@ namespace jsc.meta.Commands.Rewrite
 
 								a.Module.DefineType(
 									k.TargetType.Namespace + ".ImplementationDetails.BCLImplementationReferences",
-									TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract, 
-									null, 
+									TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract,
+									null,
 									r.RewriteArguments.context.TypeCache[ScriptLibraries.ToArray()]
 								).CreateType();
 
@@ -387,8 +403,8 @@ namespace jsc.meta.Commands.Rewrite
 								var __js = targets.Single(kk => kk.IsJavaScript);
 
 								WriteGlobalApplication(
-									r, 
-									a, 
+									r,
+									a,
 									k.TargetType,
 									k.StagingFolder,
 									__js.StagingFolder,
@@ -1071,10 +1087,10 @@ namespace jsc.meta.Commands.Rewrite
 					if (k.IsJava)
 					{
 						r.Output.ToJava(
-							this.javapath, 
-							null, 
-							null, 
-							k.TargetType.FullName + ".jar", 
+							this.javapath,
+							null,
+							null,
+							k.TargetType.FullName + ".jar",
 							k.TargetType,
 							this.InternalCreateNoWindow
 						);
@@ -1098,9 +1114,9 @@ namespace jsc.meta.Commands.Rewrite
 					if (k.IsActionScript)
 					{
 						r.Output.ToActionScript(
-							this.mxmlc, 
-							this.flashplayer, 
-							k.TargetType, 
+							this.mxmlc,
+							this.flashplayer,
+							k.TargetType,
 							null,
 							k.TargetType.FullName + ".swf",
 							RaiseProccessStatusChanged,
@@ -1153,7 +1169,14 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				// we should infer only from sealed types...
 
-				if (TargetType.GetConstructor(typeof(IHTMLElement)) != null && !TargetType.IsNested)
+				var IsPage = (from ctor in TargetType.GetConstructors()
+							  let ctor_p = ctor.GetParameters()
+							  where ctor_p.Length == 1
+							  let ctor_a = ctor_p.Single().ParameterType
+							  where ctor_a == typeof(IHTMLElement) || typeof(IUltraComponent).IsAssignableFrom(ctor_a)
+							  select ctor_a).Any();
+
+				if (IsPage || (TargetType.GetConstructor(typeof(IHTMLElement)) != null && !TargetType.IsNested))
 				{
 					return new ScriptApplicationEntryPointAttribute();
 				}
