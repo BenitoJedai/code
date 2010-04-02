@@ -10,6 +10,31 @@ namespace jsc.meta.Library
 {
 	public static class BCLExtensions
 	{
+		public static T GetValue<K, T>(this IDictionary<K, T> e, K k, Func<T> f)
+		{
+			if (!e.ContainsKey(k))
+				e[k] = f();
+
+			return e[k];
+
+		}
+
+		public static TypeBuilder DefineInterface(this ModuleBuilder m, string FullName, IEnumerable<Type> Interfaces)
+		{
+			var p = m.DefineType(
+				FullName, TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Public,
+			   null,
+			   Interfaces.ToArray()
+			);
+
+			return p;
+		}
+
+		public static TypeBuilder DefineStaticType(this ModuleBuilder m, string FullName)
+		{
+			return m.DefineType(FullName, TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract);
+		}
+
 		public static void EmitStoreFields(this ILGenerator il, PropertyInfo[] fields, object e)
 		{
 			foreach (var item in

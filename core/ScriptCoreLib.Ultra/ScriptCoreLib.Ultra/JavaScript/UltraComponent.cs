@@ -10,7 +10,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript
 {
-	public abstract class UltraComponent 
+	public abstract class UltraComponent : IUltraComponent
 	{
 		// Should we inherit ComponentModel.Component?
 

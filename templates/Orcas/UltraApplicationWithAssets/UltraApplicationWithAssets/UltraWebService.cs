@@ -26,10 +26,18 @@ namespace UltraApplicationWithAssets
 
 		public void Serve2(WebServiceHandler h)
 		{
+			//if (h.Context.Request.Url.Query == "?serve2")
 			if (h.Context.Request.Path == "/serve2")
 			{
 				// we could select an application here
-				h.Default();
+				//h.Default();
+
+				h.Context.Response.ContentType = "text/html";
+				h.Context.Response.Write(
+					UltraApplicationWithAssets.HTML.Pages.FromAssets.AboutJSCSource.Source
+				);
+
+				h.CompleteRequest();
 			}
 		}
 

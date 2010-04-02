@@ -32,7 +32,7 @@ namespace jsc.meta.Commands.Reference
 			XElement CurrentElement,
 			TypeBuilder Page,
 			Dictionary<XElement, FieldBuilder>[] lookup,
-			Dictionary<string, Type> NamedElements,
+			Dictionary<string, TypeVariationsTuple> NamedElements,
 			Dictionary<string, Type> ElementTypes
 		)
 		{

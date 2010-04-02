@@ -185,10 +185,10 @@ namespace jsc.meta.Commands.Reference
 					let Assembly = HintPaths.Any() ? Assembly.LoadFile(HintPaths.First().FullName) : Assembly.LoadWithPartialName(Include)
 
 					from ExportedType in Assembly.GetExportedTypes()
-					
+
 					where ExportedType.IsInterface
 					where !ExportedType.IsGenericTypeDefinition
-					
+
 					let Properties = ExportedType.GetProperties()
 					where Properties.Any()
 
@@ -434,32 +434,37 @@ namespace jsc.meta.Commands.Reference
 								}.Define();
 
 
-								var VariationsForPages = new Dictionary<string, Dictionary<string, Type>>
+								var VariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
 								{
-									{"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromWeb)},
-									{"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromAssets)},
-									{"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => k.Value.FromBase64)},
+									{"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromWeb, Source = k.Value.FromWebSource })},
+									{"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource})},
+									{"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromBase64, Source = k.Value.FromBase64Source })},
 								};
 
 
-								var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, Type>>
+								var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
 								{
-									{"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key, k => k.Value.FromWeb)},
-									{"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key, k => k.Value.FromAssets)},
-									{"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k => k.Value.FromBase64)},
+									{"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type =  k.Value.FromWeb, Source = k.Value.FromWebSource })},
+									{"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource })},
+									{"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
 								};
 
-
+								var IPageLookup = new Dictionary<string, Type>();
 								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
-									DefinePageType(DefaultNamespace, a, content, BodyElement, PageName, CurrentVariationForPage.Key,
+									DefinePageType(
+										DefaultNamespace, a, content,
+										BodyElement,
+										PageName,
+										CurrentVariationForPage.Key,
 										CurrentVariationForPage.Value,
 										RemotingVariationsForPages[CurrentVariationForPage.Key],
 										ImplementConcept__,
-										Concepts
+										Concepts,
+										IPageLookup
 									);
 
-
+									/* One feature too many?
 									var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
 
 									foreach (var k in __id)
@@ -489,6 +494,7 @@ namespace jsc.meta.Commands.Reference
 											Concepts
 										);
 									}
+									*/
 								}
 							}
 
