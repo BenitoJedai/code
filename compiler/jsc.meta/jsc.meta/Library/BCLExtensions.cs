@@ -30,6 +30,12 @@ namespace jsc.meta.Library
 			return p;
 		}
 
+		public static TypeBuilder DefineStaticType(this TypeBuilder m, string FullName)
+		{
+			return m.DefineNestedType(FullName, TypeAttributes.NestedPublic | TypeAttributes.Sealed | TypeAttributes.Abstract);
+		}
+
+
 		public static TypeBuilder DefineStaticType(this ModuleBuilder m, string FullName)
 		{
 			return m.DefineType(FullName, TypeAttributes.Public | TypeAttributes.Sealed | TypeAttributes.Abstract);
