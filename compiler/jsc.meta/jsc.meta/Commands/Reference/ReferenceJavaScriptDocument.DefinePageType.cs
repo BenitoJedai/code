@@ -23,6 +23,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -37,7 +38,7 @@ namespace jsc.meta.Commands.Reference
 			string PageName,
 
 			string VariationName,
-			
+
 			Dictionary<string, TypeVariationsTuple> NamedElements,
 
 			Dictionary<string, TypeVariationsTuple> RemotingNamedElements,
@@ -62,17 +63,20 @@ namespace jsc.meta.Commands.Reference
 
 			var FullName = new
 			{
-				Page = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName,
+				VariationPage = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName,
 
 				// who is going to use the interface?
 				// plugins/webserver?
 				// should we enumerate concepts available?
 				// shold we promote string properties and onclick events?
 				IPage = DefaultNamespace + ".HTML.Pages.I" + PageName,
-				//IPage = DefaultNamespace + ".HTML.Pages.I" + PageName,
 
+				Page = DefaultNamespace + ".HTML.Pages." + PageName,
+				PageBase = DefaultNamespace + ".HTML.Pages." + PageName + "Base",
 
-				PageSource = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName + "Source",
+				PageVariations = DefaultNamespace + ".HTML.Pages." + PageName + "+Variations",
+
+				PageSource = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName + "+Source",
 
 				// XElement implementation?
 				XPageSource = DefaultNamespace + ".XPages." + VariationName + ".X" + PageName
@@ -80,7 +84,7 @@ namespace jsc.meta.Commands.Reference
 				// As XML asset?
 			};
 
-			Console.WriteLine(FullName.Page);
+			Console.WriteLine(FullName.VariationPage);
 
 			var PageInterfaces = ImplementConcept.GetInterfaces(BodyElement, ElementTypes).ToArray();
 
@@ -116,47 +120,120 @@ namespace jsc.meta.Commands.Reference
 			);
 			#endregion
 
-
-			var PageSource = a.Module.DefineStaticType(FullName.PageSource);
-
-			#region Page_HTML
-			{
-				var Page_HTML = PageSource.DefineProperty("Source", PropertyAttributes.None, typeof(string), null);
-
-				var Page_HTML_get = PageSource.DefineMethod("get_Source", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
-
+			#region Page
+			var PageBase = IPageLookup.GetValue(
+				FullName.PageBase,
+				delegate
 				{
-					var il = Page_HTML_get.GetILGenerator();
 
-					var MyBodyElement = new XElement(BodyElement);
+					// create only once, as we do implement variations...
+					var p = a.Module.DefineType(
+						FullName.PageBase,
+						TypeAttributes.NotPublic | TypeAttributes.Abstract,
+						typeof(UltraComponent),
+						new[] { IPage }
+					);
 
-					var ElementsWithSource = new[] 
+					p.CreateType();
+
+					return p;
+				}
+			);
+
+			var Page = IPageLookup.GetValue(
+				FullName.Page,
+				delegate
+				{
+
+					// create only once, as we do implement variations...
+					var p = a.Module.DefineType(
+						FullName.Page,
+						TypeAttributes.Public | TypeAttributes.Abstract,
+						PageBase
+					);
+
+					var StaticElementProperties =
+						from CurrentElement in BodyElement.XPathSelectElements(".//*[@id]")
+						let id = CurrentElement.Attribute("id").Value
+						let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
+						select new { CurrentElement, id, e_Type };
+
+					//foreach (var k in StaticElementProperties)
+					//{
+					//    var e = p.DefineProperty(k.id, PropertyAttributes.None, k.e_Type, null);
+
+					//    e.SetGetMethod(p.DefineMethod("get_" + k.id, MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public, k.e_Type, null));
+					//    e.SetSetMethod(p.DefineMethod("set_" + k.id, MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public, null, new[] { k.e_Type }));
+					//}
+
+					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic | TypeAttributes.Abstract, PageBase);
+
+				
+
+					var ctor = p.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
+
+					ctor.GetILGenerator().Emit(OpCodes.Ret);
+					var ctor_Variation = p.DefineConstructor(MethodAttributes.Family, CallingConventions.Standard, new[] { typeof(object) });
+					ctor_Variation.GetILGenerator().Emit(OpCodes.Ret);
+
+					#region PageSource
+					var PageSource = p.DefineStaticType(FullName.PageSource.SkipUntilLastIfAny("+"));
+
+					#region Page_HTML
+					{
+						var Page_HTML = PageSource.DefineProperty("Text", PropertyAttributes.None, typeof(string), null);
+
+						var Page_HTML_get = PageSource.DefineMethod("get_Text", MethodAttributes.Static | MethodAttributes.Public, typeof(string), null);
+
+						{
+							var il = Page_HTML_get.GetILGenerator();
+
+							var MyBodyElement = new XElement(BodyElement);
+
+							var ElementsWithSource = new[] 
 					{
 						MyBodyElement.XPathSelectElements(".//img[@src]"),
 						MyBodyElement.XPathSelectElements(".//audio[@src]")
 					}.SelectMany(k => k).ToArray();
 
-					foreach (var ElementWithSource in ElementsWithSource)
-					{
-						ElementWithSource.Attribute("src").Value = NamedElements[ElementWithSource.Attribute("src").Value].Source;
+							foreach (var ElementWithSource in ElementsWithSource)
+							{
+								ElementWithSource.Attribute("src").Value = NamedElements[ElementWithSource.Attribute("src").Value].Source;
+							}
+
+							// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
+							var body_innerXML = MyBodyElement.Nodes().Aggregate("", (b, node) => b += node.ToString());
+
+							il.Emit(OpCodes.Ldstr, body_innerXML);
+							il.Emit(OpCodes.Ret);
+						}
+
+						Page_HTML.SetGetMethod(Page_HTML_get);
 					}
+					#endregion
 
-					// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
-					var body_innerXML = MyBodyElement.Nodes().Aggregate("", (b, node) => b += node.ToString());
+					PageSource.CreateType();
+					#endregion
 
-					il.Emit(OpCodes.Ldstr, body_innerXML);
-					il.Emit(OpCodes.Ret);
+					p.CreateType();
+
+					FromDocument.DefineDefaultConstructor(MethodAttributes.Public);
+
+
+					// The invoked member is not supported in a dynamic module.
+					FromDocument.CreateType();
+					return p;
 				}
-
-				Page_HTML.SetGetMethod(Page_HTML_get);
-			}
+			);
 			#endregion
 
-			PageSource.CreateType();
 
 
-			var Page = a.Module.DefineType(
-				FullName.Page,
+		
+
+
+			var VariationPage = a.Module.DefineType(
+				FullName.VariationPage,
 				TypeAttributes.Public,
 				typeof(UltraComponent),
 
@@ -165,7 +242,7 @@ namespace jsc.meta.Commands.Reference
 				new[] { IPage }
 			);
 
-			
+
 
 			// we need to use unified HTML DOM...
 			if (!this.IsGeneric)
@@ -254,19 +331,19 @@ namespace jsc.meta.Commands.Reference
 				}
 
 
-				DefinePageConstructor(BodyElement, Page, new[] { Images_lookup, Anchors_lookup },
+				DefinePageConstructor(BodyElement, VariationPage, new[] { Images_lookup, Anchors_lookup },
 					NamedElements,
 					ElementTypes
 				);
 
 				// and html5 videos and sounds!
-				DefineInstanceImages(a, Page, Images_lookup);
-				DefineInstanceLinks(a, Page, Anchors_lookup);
+				DefineInstanceImages(a, VariationPage, Images_lookup);
+				DefineInstanceLinks(a, VariationPage, Anchors_lookup);
 
 			}
 
 			//Static.CreateType();
-			Page.CreateType();
+			VariationPage.CreateType();
 		}
 
 

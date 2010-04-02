@@ -34,7 +34,7 @@ namespace UltraApplicationWithAssets
 
 				h.Context.Response.ContentType = "text/html";
 				h.Context.Response.Write(
-					UltraApplicationWithAssets.HTML.Pages.FromAssets.AboutJSCSource.Source
+					UltraApplicationWithAssets.HTML.Pages.AboutJSC.Source.Text
 				);
 
 				h.CompleteRequest();
