@@ -453,7 +453,9 @@ namespace jsc.meta.Commands.Reference
 								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
 									DefinePageType(
-										DefaultNamespace, a, content,
+										DefaultNamespace,
+										r,
+										a, content,
 										BodyElement,
 										PageName,
 										CurrentVariationForPage.Key,

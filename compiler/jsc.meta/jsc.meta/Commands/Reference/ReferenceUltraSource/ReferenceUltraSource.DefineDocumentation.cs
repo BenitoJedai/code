@@ -161,6 +161,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 						var LoadImplementation = DefineXDocuments.DefineNamedXDocument(
 							"assets/" + this.DefaultNamespace + "/Data/" + AssemblyNameHint + ".xml",
 							r,
+							null,
 							DefaultNamespace + ".Documentation." + Archive.Key + "." + Assembly.Key + ".CompilationAssemblyData",
 							true,
 							new XDocument(

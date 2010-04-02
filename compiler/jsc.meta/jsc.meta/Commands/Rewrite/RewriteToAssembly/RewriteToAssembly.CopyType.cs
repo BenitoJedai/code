@@ -156,6 +156,10 @@ namespace jsc.meta.Commands.Rewrite
 						let map = SourceType.GetInterfaceMap(i)
 						from j in Enumerable.Range(0, map.InterfaceMethods.Length)
 						let TargetMethod = map.TargetMethods[j]
+						
+						// abstract class with interfaces?
+						where TargetMethod != null
+
 						let InterfaceMethod = map.InterfaceMethods[j]
 						where TargetMethod.DeclaringType == SourceType
 						where !TargetMethod.IsPublic || TargetMethod.Name != InterfaceMethod.Name
@@ -181,7 +185,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			var AtTypeCreatedFilter = new List<Type>();
-			
+
 			if (SourceType.IsNested && SourceType.IsClass)
 			{
 				//Diagnostics("Delayed:  " + SourceType.FullName);
@@ -224,12 +228,12 @@ namespace jsc.meta.Commands.Rewrite
 
 		public class CopyTypeDefinition
 		{
-			public VirtualDictionary<Type, Type> TypeDefinitionCache;
-			public VirtualDictionary<Type, string> TypeRenameCache;
+			public ILTranslationContext context;
+
 			public Type SourceType;
 			public ModuleBuilder m;
 			//public VirtualDictionary<Type, Type> TypeCache;
-			public TypeBuilder OverrideDeclaringType;
+			//public TypeBuilder OverrideDeclaringType;
 			public VirtualDictionary<string, string> NameObfuscation;
 			public Func<Type, bool> ShouldCopyType;
 			public Func<string, string> FullNameFixup;
@@ -251,27 +255,36 @@ namespace jsc.meta.Commands.Rewrite
 						Console.WriteLine(e);
 					};
 
+				Diagnostics("CopyTypeDefinition: " +
+					SourceType.FullName
+				);
+
+				// we should not reenter here!
+				context.TypeDefinitionCache[SourceType] = null;
+
+
+				var _DeclaringType = (context.OverrideDeclaringType[SourceType] ?? (
+					SourceType.DeclaringType == null ? null :
+						(TypeBuilder)context.TypeDefinitionCache[SourceType.DeclaringType]
+
+					)
+				);
+
 				var TypeName =
-					SourceType.IsNested ?
-					TypeRenameCache[SourceType] ?? SourceType.Name :
+					_DeclaringType != null ?
+					context.TypeRenameCache[SourceType] ?? SourceType.Name :
 
 					// http://msdn.microsoft.com/en-us/library/system.type.fullname.aspx
 					// a null reference (Nothing in Visual Basic) if the current instance represents a 
 					// generic type parameter, an array type, pointer type, or byref type based on a 
 					// type parameter, or a generic type that is not a generic type definition
 					// but contains unresolved type parameters.
-					TypeRenameCache[SourceType] ?? SourceType.FullName;
+					context.TypeRenameCache[SourceType] ?? SourceType.FullName;
 
 
-				Diagnostics("CopyTypeDefinition: " +
-					SourceType.FullName
-				);
-
-				// we should not reenter here!
-				TypeDefinitionCache[SourceType] = null;
 
 				// interfaces dont have base types!
-				var BaseType = SourceType.BaseType == null ? null : TypeDefinitionCache[SourceType.BaseType];
+				var BaseType = SourceType.BaseType == null ? null : context.TypeDefinitionCache[SourceType.BaseType];
 
 				//var DeclaringTypeContinuation = default(Action);
 
@@ -283,12 +296,8 @@ namespace jsc.meta.Commands.Rewrite
 				// We beed a separate TypeDeclarationCache for this to work:
 				// Type { NestedType, Delegate1(NestedType) }
 
-				var _DeclaringType = (OverrideDeclaringType ?? (
-					SourceType.DeclaringType == null ? null :
-						(TypeBuilder)TypeDefinitionCache[SourceType.DeclaringType]
 
-					)
-				);
+
 
 				var t = default(TypeBuilder);
 
@@ -299,7 +308,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					where ShouldCopyType(k) || k.IsPublic
 
-					select TypeDefinitionCache[k]
+					select context.TypeDefinitionCache[k]
 				).ToArray();
 
 
@@ -315,11 +324,14 @@ namespace jsc.meta.Commands.Rewrite
 
 				// we might define as a nested type instead!
 				#region DefineType
-				if (SourceType.IsNested)
+				if (_DeclaringType != null)
 				{
 
 					var _NestedTypeName = NameObfuscation[TypeName];
 
+
+					//TypeAttributes = ReplaceTypeAttributes(TypeAttributes, TypeAttributes.NotPublic, TypeAttributes.NestedFamORAssem);
+					TypeAttributes = ReplaceTypeAttributes(TypeAttributes, TypeAttributes.Public, TypeAttributes.NestedPublic);
 
 
 					if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
@@ -348,7 +360,7 @@ namespace jsc.meta.Commands.Rewrite
 					var DefineTypeName = FullNameFixup(TypeName);
 
 					Func<IEnumerable<Type>> GetDuplicates =
-						() => this.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(k => (k.Namespace + "." + k.Name) == DefineTypeName);
+						() => context.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(k => (k.Namespace + "." + k.Name) == DefineTypeName);
 
 
 					while (GetDuplicates().Any())
@@ -394,7 +406,7 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
-				TypeDefinitionCache[SourceType] = t;
+				context.TypeDefinitionCache[SourceType] = t;
 
 				if (SourceType.IsGenericTypeDefinition)
 				{
@@ -409,9 +421,9 @@ namespace jsc.meta.Commands.Rewrite
 						foreach (var item in ga[i].GetGenericParameterConstraints())
 						{
 							if (item.IsInterface)
-								gp[i].SetInterfaceConstraints(this.TypeDefinitionCache[item]);
+								gp[i].SetInterfaceConstraints(context.TypeDefinitionCache[item]);
 							else
-								gp[i].SetBaseTypeConstraint(this.TypeDefinitionCache[item]);
+								gp[i].SetBaseTypeConstraint(context.TypeDefinitionCache[item]);
 						}
 					}
 				}
@@ -421,6 +433,13 @@ namespace jsc.meta.Commands.Rewrite
 
 				return t;
 
+			}
+
+			private static TypeAttributes ReplaceTypeAttributes(TypeAttributes TypeAttributes, TypeAttributes _From, TypeAttributes _To)
+			{
+				if ((TypeAttributes & _From) == _From)
+					TypeAttributes = (TypeAttributes & ~_From) | _To;
+				return TypeAttributes;
 			}
 
 		}

@@ -221,7 +221,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-			var TypeDefinitionCacheToSourceType = new Dictionary<Type, Type>();
+			var OverrideDeclaringType = new VirtualDictionary<Type, TypeBuilder>();
 
 			var TypeDefinitionCache = new VirtualDictionary<Type, Type>();
 			var TypeCache = new VirtualDictionary<Type, Type>();
@@ -243,6 +243,7 @@ namespace jsc.meta.Commands.Rewrite
 				context =
 					new ILTranslationContext
 					{
+						OverrideDeclaringType = OverrideDeclaringType,
 						MethodAttributesCache = MethodAttributesCache,
 						MemberRenameCache = MemberRenameCache,
 						ConstructorCache = ConstructorCache,
@@ -415,6 +416,17 @@ namespace jsc.meta.Commands.Rewrite
 						return;
 
 					TypeRenameCache[SourceType] = default(string);
+				};
+			#endregion
+
+			#region OverrideDeclaringType
+			OverrideDeclaringType.Resolve +=
+				SourceType =>
+				{
+					if (OverrideDeclaringType.BaseDictionary.ContainsKey(SourceType))
+						return;
+
+					OverrideDeclaringType[SourceType] = default(TypeBuilder);
 				};
 			#endregion
 
@@ -770,12 +782,12 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						var ttt = new CopyTypeDefinition
 						{
-							TypeDefinitionCache = TypeDefinitionCache,
-							TypeRenameCache = TypeRenameCache,
+							context = this.RewriteArguments.context,
+
 							SourceType = SourceType,
 							m = m,
 
-							OverrideDeclaringType = null,
+							//OverrideDeclaringType = null,
 							NameObfuscation = NameObfuscation,
 							ShouldCopyType = ShouldCopyType,
 							FullNameFixup = FullNameFixup,
@@ -1004,20 +1016,39 @@ namespace jsc.meta.Commands.Rewrite
 			// did we define any type declarations which we did not actually create yet?
 			// fixme: maybe we shold just close the unclosed TypeBuilders?
 
-			#region close unclosed definitions
-			foreach (var item in TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys))
-			{
+			var ClosePartialDefinitions = new VirtualDictionary<Type, object>();
+			var ClosePartialDefinitionsFilter =
+				TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys).Select(
+					item =>
+					new
+					{
+						item,
+						tb = TypeDefinitionCache[item] as TypeBuilder
+					}
+				).Where(k => k.tb != null).ToArray();
 
-				var tb = TypeDefinitionCache[item] as TypeBuilder;
-
-				if (tb != null)
+			ClosePartialDefinitions.Resolve +=
+				item =>
 				{
+					// ask us only once! :)
+					ClosePartialDefinitions[item] = new object();
+
+
+					var tb = ClosePartialDefinitionsFilter.Where(k => k.item == item).Select(k => k.tb).FirstOrDefault();
+
+					if (tb == null)
+						return;
+
+
+
 					if (item.IsEnum)
 					{
 						// enums cannot be left partial... we need to implement them
 						var __Enum = TypeCache[item];
 
 					}
+
+					var SignatureTypes = new[] { item.BaseType }.Concat(item.GetInterfaces()).Where(k => k != null).Select(k => ClosePartialDefinitions[k]).ToArray();
 
 					tb.CreateType();
 
@@ -1037,10 +1068,13 @@ namespace jsc.meta.Commands.Rewrite
 								context = this.RewriteArguments.context
 							}
 						);
-				}
 
+				};
+
+			foreach (var item in ClosePartialDefinitionsFilter)
+			{
+				var _ = ClosePartialDefinitions[item.item];
 			}
-			#endregion
 
 
 

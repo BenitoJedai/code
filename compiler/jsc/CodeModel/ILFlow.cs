@@ -461,8 +461,8 @@ namespace jsc
                 return;
             }
 
-            using (new Task("stack fixup", p.ToString()))
-            {
+			//using (new Task("stack fixup", p.ToString()))
+			//{
 
                 
 
@@ -484,7 +484,7 @@ namespace jsc
                 //}
 
                 p.StackAfter = Stack.Clone();
-            }
+			//}
         }
 
         public ILInstruction NextInstructionBranch()

@@ -76,17 +76,18 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			{
 				var TypeFullName = DefaultNamespace + ".Data." + Title;
 
-				DefineNamedXDocument(AssetPath, r, TypeFullName, false, Bytes);
+				DefineNamedXDocument(AssetPath, r, null, TypeFullName, false, Bytes);
 			}
 
-			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, string TypeFullName, bool IsInternal, XDocument Bytes)
+			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, XDocument Bytes)
 			{
-				return DefineNamedXDocument(AssetPath, r, TypeFullName, false,
+				return DefineNamedXDocument(AssetPath, r, DeclaringType
+					, TypeFullName, false,
 					Encoding.UTF8.GetBytes(Bytes.ToString())
 				);
 			}
 
-			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, string TypeFullName, bool IsInternal, byte[] Bytes)
+			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, byte[] Bytes)
 			{
 				var __Create = default(MethodInfo);
 				r.RewriteArguments.ScriptResourceWriter.Add(AssetPath, Bytes);
@@ -96,6 +97,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 				using (r.RewriteArguments.context.ToTransientTransaction())
 				{
+
 					r.AtILOverride +=
 						(m, il_a) =>
 						{
@@ -120,7 +122,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					r.RewriteArguments.context.TypeRenameCache[TemplateType] = TypeFullName;
 
-
+					r.RewriteArguments.context.OverrideDeclaringType[TemplateType] = DeclaringType;
 
 					//var MyType = r.RewriteArguments.context.TypeCache[TemplateType];
 
