@@ -34,7 +34,7 @@ do ()
         fun (e) ->
             let t = 
                 new Timer(
-                    fun (t) -> 
+                    fun t -> 
                         do a.Inline1.style.color <- ""
                 )
 
@@ -42,7 +42,7 @@ do ()
     )
 
     a.Inline1.add_onclick(
-        fun (e) ->
+        fun e ->
             try 
                 let r = new rooster()
 
@@ -52,11 +52,11 @@ do ()
     )
 
     a.WebService_GetTime.add_onclick(
-        fun (e) -> 
+        fun e -> 
             let w = new UltraWebService()
      
             do w.WebMethod1("client fsharp. ",
-                fun (y) ->
+                fun y ->
                     let news = new IHTMLDiv("FSharp: server: " + y)
                     do a.WebServiceContainer.Add(
                            news
