@@ -23,6 +23,7 @@ using ScriptCoreLib.Shared.Drawing;
 //using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Ultra.Components.HTML.Pages;
 
 namespace PromotionWebApplication1
 {
@@ -44,8 +45,10 @@ namespace PromotionWebApplication1
 
 		}
 
-		public Application(IHTMLElement e)
+		public Application(IApplicationLoader app)
 		{
+			app.LoadingAnimation.FadeOut();
+
 			var DefaultTitle = "jsc solutions";
 
 
@@ -100,7 +103,7 @@ namespace PromotionWebApplication1
 			{
 				if (Native.Document.location.hash.StartsWith("#/docs"))
 				{
-					var view = new ScriptCoreLib.Documentation.Application(e);
+					var view = new CompilationViewer();
 
 					view.TouchTypeSelected +=
 						type =>

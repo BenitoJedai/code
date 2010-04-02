@@ -1,4 +1,4 @@
-namespace UltraApplicationWithJavaScript
+namespace UltraApplicationWithAssets
 
 
 open global.System
