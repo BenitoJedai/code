@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{c27f82ed-109f-4f9e-a39d-cdd57f18e42a}</ProjectGuid>
+    <ProjectGuid>{04f397f6-c391-4542-a0ce-c6f8a1916b7e}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>UltraApplicationWithJavaScript</RootNamespace>
-    <AssemblyName>UltraApplicationWithJavaScript</AssemblyName>
+    <RootNamespace>UltraApplicationWithAssets</RootNamespace>
+    <AssemblyName>UltraApplicationWithAssets</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>UltraApplicationWithJavaScript</Name>
+    <Name>UltraApplicationWithAssets</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,8 +20,18 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\UltraApplicationWithJavaScript.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\UltraApplicationWithAssets.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>bin\Assets\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Assets\UltraApplicationWithAssets.XML</DocumentationFile>
+  </PropertyGroup>  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
@@ -29,50 +39,71 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\UltraApplicationWithJavaScript.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\UltraApplicationWithAssets.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="My.UltraSource\About JSC.htm" />
+    <Content Include="My.UltraSource\Audio.htm" />
+    <Content Include="My.UltraSource\jsc.png" />
+    <Content Include="My.UltraSource\rooster.mp3" />
+  </ItemGroup>  
+  <ItemGroup>
     <Reference Include="jsc.meta">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\jsc.meta.exe</HintPath>
+      <HintPath>c:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="ScriptCoreLib">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Components">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Library">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+
+    <Reference Include="UltraApplicationWithAssets.UltraSource">
+      <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets.UltraSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UltraWebService.fs" />
     <Compile Include="Application.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
+
+
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
-) else (
-c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true /Splash:"c:\util\jsc\bin\jsc.splash.exe"
-)</PostBuildEvent>
+    <PostBuildEvent>
+      if $(ConfigurationName)==Debug (
+      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:false
+      )
+      if $(ConfigurationName)==Release (
+      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:false
+      )
+    </PostBuildEvent>
+    <PreBuildEvent>
+      if not $(ConfigurationName)==Assets goto :eof
+      C:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:false
+    </PreBuildEvent>
   </PropertyGroup>
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.
 	<Target Name="BeforeBuild">

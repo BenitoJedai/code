@@ -9,6 +9,7 @@ open global.ScriptCoreLib.JavaScript.DOM
 open global.ScriptCoreLib.JavaScript.DOM.HTML
 open global.ScriptCoreLib.JavaScript
 open global.ScriptCoreLib.JavaScript.Extensions
+open global.ScriptCoreLib.Ultra.Components.HTML.Pages
 open global.System
 open global.System.Reflection
 
@@ -19,8 +20,10 @@ open global.System.Reflection
 do ()
    
 [<Sealed>]
- type Application(e : IHTMLElement) = do
+ type Application(app : IApplicationLoader) = do
     
+    app.LoadingAnimation.FadeOut() |> ignore
+
     Native.Document.title <- "UltraApplicationWithJavaScript"
 
     let ApplicationView = Extensions.Extensions.AttachToDocument( new IHTMLDiv())

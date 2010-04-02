@@ -22,6 +22,8 @@ using jsc.meta.Commands.Rewrite.Templates;
 using jsc.meta.Library.Templates.Java;
 using System.Xml.Linq;
 using System.Diagnostics;
+using jsc.Languages;
+using jsc.Script;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -61,6 +63,10 @@ namespace jsc.meta.Commands.Rewrite
 
 				// we want sealed types
 				where !TargetType.IsAbstract && TargetType.IsSealed
+
+				let SafeName = CompilerBase.GetSafeLiteral(TargetType.Name, null)
+
+				where SafeName == TargetType.Name
 
 				// how do we detect ad hoc web services? a suffix will do for now...
 				// if it defines some cool fields we will need to populate them later
