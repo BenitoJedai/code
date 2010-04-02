@@ -757,19 +757,23 @@ namespace jsc
 
 					BeforeOnce();
 
-					w.WriteIdent();
+					// abstract classes implementing interfaces...
+					if (z.TargetMethods[ix] != null)
+					{
+						w.WriteIdent();
 
-					w.Write("i");
-					w.Helper.WriteAccessor();
-					w.WriteDecoratedMethodName(z.InterfaceMethods[ix]);
+						w.Write("i");
+						w.Helper.WriteAccessor();
+						w.WriteDecoratedMethodName(z.InterfaceMethods[ix]);
 
-					w.Helper.WriteAssignment();
+						w.Helper.WriteAssignment();
 
-					w.Write("i");
-					w.Helper.WriteAccessor();
-					w.WriteDecoratedMethodName(z.TargetMethods[ix]);
-					w.Helper.WriteTerminator();
-					w.WriteLine();
+						w.Write("i");
+						w.Helper.WriteAccessor();
+						w.WriteDecoratedMethodName(z.TargetMethods[ix]);
+						w.Helper.WriteTerminator();
+						w.WriteLine();
+					}
 
 					//w.Helper.DOMCopyMember(owner, z.InterfaceMethods[ix], z.TargetMethods[ix]);
 

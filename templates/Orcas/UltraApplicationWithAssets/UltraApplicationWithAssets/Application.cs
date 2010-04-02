@@ -13,8 +13,16 @@ namespace UltraApplicationWithAssets
 	[Description("UltraApplicationWithAssets. Write javascript, flash and java applets within a C# project.")]
 	public sealed partial class Application
 	{
+
 		public void Application_ctor(IAboutJSC a)
 		{
+			Audio.XMLSource.CreateAsElement(
+				xaudio =>
+				{
+					new IHTMLPre { innerText = xaudio.ToString() }.AttachToDocument();
+				}
+			);
+
 			Native.Document.title = "UltraApplicationWithAssets";
 
 			a.WebService_GetTime.onclick +=

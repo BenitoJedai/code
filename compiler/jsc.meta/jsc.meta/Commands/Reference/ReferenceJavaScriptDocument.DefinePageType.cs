@@ -33,6 +33,7 @@ namespace jsc.meta.Commands.Reference
 	{
 		private void DefinePageType(
 			string DefaultNamespace,
+			RewriteToAssembly r,
 			RewriteToAssembly.AssemblyRewriteArguments a,
 			string content,
 			XElement BodyElement,
@@ -75,12 +76,11 @@ namespace jsc.meta.Commands.Reference
 				Page = DefaultNamespace + ".HTML.Pages." + PageName,
 				PageBase = DefaultNamespace + ".HTML.Pages." + PageName + "Base",
 
-				PageVariations = DefaultNamespace + ".HTML.Pages." + PageName + "+Variations",
 
-				PageSource = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName + "+Source",
-
-				// XElement implementation?
-				XPageSource = DefaultNamespace + ".XPages." + VariationName + ".X" + PageName
+				PageSource = DefaultNamespace + ".HTML.Pages." + PageName + "+Source",
+				
+				// clientside lazy load
+				PageXElement = DefaultNamespace + ".HTML.Pages." + PageName + "+XMLSource",
 
 				// As XML asset?
 			};
@@ -160,6 +160,13 @@ namespace jsc.meta.Commands.Reference
 						select new { CurrentElement, id, e_Type };
 
 
+					// This source can be downloaded from assets
+					DefineXDocuments.DefineNamedXDocument(
+						"assets/" + DefaultNamespace + "/Pages/" + PageName + ".htm.xml", r,
+						p,
+						FullName.PageXElement.SkipUntilLastIfAny("+"), false,
+						new XDocument(BodyElement)
+					);
 
 					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic, PageBase);
 
@@ -206,6 +213,9 @@ namespace jsc.meta.Commands.Reference
 
 					PageSource.CreateType();
 					#endregion
+
+
+				
 
 					p.CreateType();
 
@@ -278,7 +288,7 @@ namespace jsc.meta.Commands.Reference
 									x.il.Emit(OpCodes.Ldstr, k.id);
 								};
 
-						
+
 
 							set_e_template.Method.EmitTo(il, il_a);
 
