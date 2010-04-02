@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.WebService;
+using ScriptCoreLib.Ultra.Library.Delegates;
 
 namespace UltraApplicationWithAssets
 {
-	public delegate void StringAction(string e);
-
 	public sealed class UltraWebService
 	{
 		public void GetTime(string x, StringAction result)
@@ -34,7 +33,7 @@ namespace UltraApplicationWithAssets
 
 				h.Context.Response.ContentType = "text/html";
 				h.Context.Response.Write(
-					UltraApplicationWithAssets.HTML.Pages.AboutJSC.Source.Text
+					UltraApplicationWithAssets.HTML.Pages.AudioSource.Text
 				);
 
 				h.CompleteRequest();
