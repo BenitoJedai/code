@@ -449,7 +449,8 @@ namespace jsc.meta.Commands.Reference
 									{"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
 								};
 
-								var IPageLookup = new Dictionary<string, Type>();
+								var IPageLookup = new Dictionary<string, TypeBuilder>();
+								var Continuation = new List<Action>();
 								foreach (var CurrentVariationForPage in VariationsForPages)
 								{
 									DefinePageType(
@@ -463,7 +464,9 @@ namespace jsc.meta.Commands.Reference
 										RemotingVariationsForPages[CurrentVariationForPage.Key],
 										ImplementConcept__,
 										Concepts,
-										IPageLookup
+										IPageLookup,
+										Continuation.Add,
+										"FromAssets"
 									);
 
 									/* One feature too many?
@@ -498,6 +501,8 @@ namespace jsc.meta.Commands.Reference
 									}
 									*/
 								}
+
+								Continuation.Invoke();
 							}
 
 

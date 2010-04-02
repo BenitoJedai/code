@@ -152,18 +152,18 @@ namespace jsc.meta.Commands.Rewrite
 					else
 					{
 						var __explicit =
-						from i in SourceType.GetInterfaces()
-						let map = SourceType.GetInterfaceMap(i)
-						from j in Enumerable.Range(0, map.InterfaceMethods.Length)
-						let TargetMethod = map.TargetMethods[j]
-						
-						// abstract class with interfaces?
-						where TargetMethod != null
+							from i in SourceType.GetInterfaces()
+							let map = SourceType.GetInterfaceMap(i)
+							from j in Enumerable.Range(0, map.InterfaceMethods.Length)
+							let TargetMethod = map.TargetMethods[j]
+							
+							// abstract class with interfaces?
+							where TargetMethod != null
 
-						let InterfaceMethod = map.InterfaceMethods[j]
-						where TargetMethod.DeclaringType == SourceType
-						where !TargetMethod.IsPublic || TargetMethod.Name != InterfaceMethod.Name
-						select new { TargetMethod, InterfaceMethod };
+							let InterfaceMethod = map.InterfaceMethods[j]
+							where TargetMethod.DeclaringType == SourceType
+							where !TargetMethod.IsPublic || TargetMethod.Name != InterfaceMethod.Name
+							select new { TargetMethod, InterfaceMethod };
 
 
 						foreach (var item in __explicit)

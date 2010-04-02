@@ -49,7 +49,12 @@ namespace jsc.meta.Commands.Reference
 
 			string[] Concepts,
 
-			Dictionary<string, Type> IPageLookup
+			Dictionary<string, TypeBuilder> IPageLookup,
+
+
+			Action<Action> AddContinuation,
+
+			string DefaultVariation
 		)
 		{
 			new DefineRemotingPages
@@ -65,7 +70,6 @@ namespace jsc.meta.Commands.Reference
 
 			var FullName = new
 			{
-				VariationPage = DefaultNamespace + ".HTML.Pages." + VariationName + "." + PageName,
 
 				// who is going to use the interface?
 				// plugins/webserver?
@@ -78,14 +82,14 @@ namespace jsc.meta.Commands.Reference
 
 
 				PageSource = DefaultNamespace + ".HTML.Pages." + PageName + "+Source",
-				
+
 				// clientside lazy load
 				PageXElement = DefaultNamespace + ".HTML.Pages." + PageName + "+XMLSource",
 
 				// As XML asset?
 			};
 
-			Console.WriteLine(FullName.VariationPage);
+			
 
 			var PageInterfaces = ImplementConcept.GetInterfaces(BodyElement, ElementTypes).ToArray();
 
@@ -149,18 +153,16 @@ namespace jsc.meta.Commands.Reference
 					// create only once, as we do implement variations...
 					var p = a.Module.DefineType(
 						FullName.Page,
-						TypeAttributes.Public | TypeAttributes.Abstract,
+						TypeAttributes.Public,
 						PageBase
 					);
 
-					var StaticElementProperties =
-						from CurrentElement in BodyElement.XPathSelectElements(".//*[@id]")
-						let id = CurrentElement.Attribute("id").Value
-						let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
-						select new { CurrentElement, id, e_Type };
+
+					Console.WriteLine(FullName.Page);
 
 
 					// This source can be downloaded from assets
+					#region XMLSource
 					DefineXDocuments.DefineNamedXDocument(
 						"assets/" + DefaultNamespace + "/Pages/" + PageName + ".htm.xml", r,
 						p,
@@ -168,11 +170,7 @@ namespace jsc.meta.Commands.Reference
 						new XDocument(BodyElement)
 					);
 
-					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic, PageBase);
-
-
-
-					p.DefineDefaultConstructor(MethodAttributes.Public);
+					#endregion
 
 
 					#region PageSource
@@ -215,9 +213,14 @@ namespace jsc.meta.Commands.Reference
 					#endregion
 
 
-				
+					#region FromDocument
+					var StaticElementProperties =
+	from CurrentElement in BodyElement.XPathSelectElements(".//*[@id]")
+	let id = CurrentElement.Attribute("id").Value
+	let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
+	select new { CurrentElement, id, e_Type };
 
-					p.CreateType();
+					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic, PageBase);
 
 					FromDocument.DefineDefaultConstructor(MethodAttributes.Public);
 
@@ -302,6 +305,12 @@ namespace jsc.meta.Commands.Reference
 
 					// The invoked member is not supported in a dynamic module.
 					FromDocument.CreateType();
+					#endregion
+
+					AddContinuation(
+						() => p.CreateType()
+					);
+
 					return p;
 				}
 			);
@@ -312,9 +321,9 @@ namespace jsc.meta.Commands.Reference
 
 
 
-			var VariationPage = a.Module.DefineType(
-				FullName.VariationPage,
-				TypeAttributes.Public,
+			var VariationPage = VariationName == DefaultVariation ? Page : Page.DefineNestedType(
+				VariationName,
+				TypeAttributes.NestedPublic,
 				PageBase,
 
 				// whom shall we implement?
@@ -325,51 +334,51 @@ namespace jsc.meta.Commands.Reference
 
 
 			// we need to use unified HTML DOM...
-			if (!this.IsGeneric)
+
+			// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
+
+			var Images_value =
+				BodyElement.XPathSelectElements("//img").Concat(
+				BodyElement.XPathSelectElements("//IMG")
+			).ToArray();
+
+			var Anchors_value =
+				BodyElement.XPathSelectElements("//a").Concat(
+				BodyElement.XPathSelectElements("//A")
+			).ToArray();
+
+			// not all elements should have a field
+			// it would be pure overkill
+
+			var Images_lookup = new Dictionary<XElement, FieldBuilder>();
+
+			foreach (var i in Images_value)
 			{
-				// http://www.exampledepot.com/egs/org.w3c.dom/xpath_GetElemByAttr.html
-
-				var Images_value =
-					BodyElement.XPathSelectElements("//img").Concat(
-					BodyElement.XPathSelectElements("//IMG")
-				).ToArray();
-
-				var Anchors_value =
-					BodyElement.XPathSelectElements("//a").Concat(
-					BodyElement.XPathSelectElements("//A")
-				).ToArray();
-
-				// not all elements should have a field
-				// it would be pure overkill
-
-				var Images_lookup = new Dictionary<XElement, FieldBuilder>();
-
-				foreach (var i in Images_value)
-				{
-					Images_lookup[i] = null;
-				}
-
-				var Anchors_lookup = new Dictionary<XElement, FieldBuilder>();
-
-				foreach (var i in Anchors_value)
-				{
-					Anchors_lookup[i] = null;
-				}
-
-
-				DefinePageConstructor(BodyElement, VariationPage, new[] { Images_lookup, Anchors_lookup },
-					NamedElements,
-					ElementTypes
-				);
-
-				// and html5 videos and sounds!
-				DefineInstanceImages(a, VariationPage, Images_lookup);
-				DefineInstanceLinks(a, VariationPage, Anchors_lookup);
-
+				Images_lookup[i] = null;
 			}
 
+			var Anchors_lookup = new Dictionary<XElement, FieldBuilder>();
+
+			foreach (var i in Anchors_value)
+			{
+				Anchors_lookup[i] = null;
+			}
+
+
+			DefinePageConstructor(BodyElement, VariationPage, new[] { Images_lookup, Anchors_lookup },
+				NamedElements,
+				ElementTypes
+			);
+
+			// and html5 videos and sounds!
+			DefineInstanceImages(a, VariationPage, Images_lookup);
+			DefineInstanceLinks(a, VariationPage, Anchors_lookup);
+
+
 			//Static.CreateType();
-			VariationPage.CreateType();
+
+			if (VariationName != DefaultVariation)
+				VariationPage.CreateType();
 		}
 
 

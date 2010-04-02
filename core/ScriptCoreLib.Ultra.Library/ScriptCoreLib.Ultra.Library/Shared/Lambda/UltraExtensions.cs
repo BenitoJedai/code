@@ -49,5 +49,13 @@ namespace ScriptCoreLib.Shared.Lambda
 
 			return () => f();
 		}
+
+		public static void Invoke(this IEnumerable<Action> e)
+		{
+			foreach (var item in e)
+			{
+				item();
+			}
+		}
 	}
 }
