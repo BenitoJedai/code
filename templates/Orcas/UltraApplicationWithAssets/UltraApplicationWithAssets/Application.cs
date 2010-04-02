@@ -67,7 +67,7 @@ namespace UltraApplicationWithAssets
 
 		public Application(IHTMLElement e)
 		{
-			var a = new HTML.Pages.FromAssets.AboutJSC();
+			var a = new HTML.Pages.AboutJSC();
 
 			a.Container.AttachToDocument();
 			Application_ctor(a);

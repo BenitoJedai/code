@@ -70,12 +70,7 @@ namespace jsc.meta.Commands.Reference
 
 		public FileInfo ProjectFileName;
 
-		/// <summary>
-		/// This assembly is to be used outside javascript context. 
-		/// 
-		/// Note: IsMerge provides a way to define types which will be erased at rewrite...
-		/// </summary>
-		public bool IsGeneric;
+
 
 		/// <summary>
 		/// This assembly is to be merged and rewritten.

@@ -1027,11 +1027,13 @@ namespace jsc.meta.Commands.Rewrite
 					}
 				).Where(k => k.tb != null).ToArray();
 
+			var PartialDefinition = new { Visited = new object(), IsPartial = new object() };
+
 			ClosePartialDefinitions.Resolve +=
 				item =>
 				{
 					// ask us only once! :)
-					ClosePartialDefinitions[item] = new object();
+					ClosePartialDefinitions[item] = PartialDefinition.Visited;
 
 
 					var tb = ClosePartialDefinitionsFilter.Where(k => k.item == item).Select(k => k.tb).FirstOrDefault();
@@ -1050,6 +1052,40 @@ namespace jsc.meta.Commands.Rewrite
 
 					var SignatureTypes = new[] { item.BaseType }.Concat(item.GetInterfaces()).Where(k => k != null).Select(k => ClosePartialDefinitions[k]).ToArray();
 
+					ClosePartialDefinitions[item] = PartialDefinition.IsPartial;
+
+					if (tb.IsClass && !tb.IsAbstract)
+					{
+						// we need dummy implementation now because we cannot go back in time and make us abstract
+
+						var __explicit =
+							from i in item.GetInterfaces()
+							let map = item.GetInterfaceMap(i)
+							from j in Enumerable.Range(0, map.InterfaceMethods.Length)
+							let TargetMethod = map.TargetMethods[j]
+
+							// abstract class with interfaces?
+							where TargetMethod != null
+
+							let InterfaceMethod = map.InterfaceMethods[j]
+							where TargetMethod.DeclaringType == item
+							select new { TargetMethod, InterfaceMethod };
+
+						foreach (var VirtualMethod_ in __explicit)
+						{
+							var VirtualMethod = VirtualMethod_.TargetMethod;
+
+							tb.DefineMethod(
+								VirtualMethod.Name,
+								VirtualMethod.Attributes,
+								VirtualMethod.CallingConvention,
+								VirtualMethod.ReturnType,
+								VirtualMethod.GetParameterTypes()
+							).NotImplemented();
+						}
+					}
+
+					// do we need to implement some methods?
 					tb.CreateType();
 
 					TypeCache[item] = tb;
