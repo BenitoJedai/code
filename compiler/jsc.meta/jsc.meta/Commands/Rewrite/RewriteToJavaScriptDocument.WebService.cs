@@ -212,8 +212,11 @@ namespace jsc.meta.Commands.Rewrite
 					il.Emit(OpCodes.Ret);
 				}
 
+				var GetScriptApplicationsName = (new Func<InternalGlobal, WebServiceScriptApplication[]>(k => k.GetScriptApplications())).ToReferencedMethod().Name;
+
+
 				#region GetScriptApplications
-				var GetScriptApplications = Global.DefineMethod("GetScriptApplications",
+				var GetScriptApplications = Global.DefineMethod(GetScriptApplicationsName,
 					MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard,
 					TypeCache[typeof(WebServiceScriptApplication[])],
 					null
@@ -243,6 +246,21 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						TypeName = js_TargetType.Name,
 						TypeFullName = js_TargetType.FullName,
+						PageSource = 
+							(
+							from ctor in js_TargetType.GetConstructors()
+							let ctor_p = ctor.GetParameters()
+							where ctor_p.Length == 1
+							let ctor_a = ctor_p[0].ParameterType
+							where typeof(IUltraComponent).IsAssignableFrom(ctor_a)
+							from t in ctor_a.Assembly.GetTypes()
+							where t.IsClass
+							where t.FullName == ctor_a.Namespace + "." + ctor_a.Name.Substring(1) + "Source"
+							let get_Text = t.GetMethod("get_Text")
+							let xl = new ILBlock(get_Text).Instructrions.First(k => k.OpCode == OpCodes.Ldstr).TargetLiteral
+							select xl
+							).FirstOrDefault(),
+
 						References = References.Select(k =>
 							new WebServiceScriptApplication.Reference 
 							{

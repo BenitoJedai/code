@@ -17,6 +17,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
 		public Reference[] References;
 
+		public string PageSource;
+
 		public void WriteTo(StringAction Write)
 		{
 			var app = this;
@@ -39,10 +41,34 @@ namespace ScriptCoreLib.Ultra.WebService
 			//WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"" />");
 			WriteLine(@"<title>Loading...</title>");
 
-			WriteLine("<meta name='google-site-verification' content='uMipBZ74jD_65lTkiAVKRHM1HSJRo_NAgpk6NChQuOA' />");
+			//WriteLine("<meta name='google-site-verification' content='uMipBZ74jD_65lTkiAVKRHM1HSJRo_NAgpk6NChQuOA' />");
 
 			//WriteLine(@"<script></script>");
 			WriteLine(@"</head>");
+
+			if (string.IsNullOrEmpty(this.PageSource))
+			{
+				WriteDefaultPageSource(WriteLine);
+			}
+			else
+			{
+				Write(this.PageSource);
+			}
+
+
+			WriteLine(@"<script type='text/xml' class='" + app.TypeName + "'></script>");
+
+			foreach (var item in app.References)
+			{
+				Write(@"<script type='text/javascript' src='" + item.AssemblyFile + @".js'></script>");
+
+			}
+
+			WriteLine(@"</html>");
+		}
+
+		private static void WriteDefaultPageSource(StringAction WriteLine)
+		{
 			WriteLine(@"<body style='margin: 0; overflow: hidden;'><noscript>ScriptApplication cannot run without JavaScript!</noscript>");
 
 			// should we display custom logo?
@@ -56,17 +82,9 @@ namespace ScriptCoreLib.Ultra.WebService
 			WriteLine(@"<img class='LoadingAnimation' src='/assets/ScriptCoreLib/loading.gif' title='loading...'  style='border-style: none; margin-left: -16px; margin-top: -16px; ' /> ");
 			WriteLine(@"</div>");
 
-			WriteLine(@"<script type='text/xml' class='" + app.TypeName + "'></script>");
 
-
-			foreach (var item in app.References)
-			{
-				Write(@"<script type='text/javascript' src='" + item.AssemblyFile + @".js'></script>");
-
-			}
 
 			WriteLine(@"</body>");
-			WriteLine(@"</html>");
 		}
 
 

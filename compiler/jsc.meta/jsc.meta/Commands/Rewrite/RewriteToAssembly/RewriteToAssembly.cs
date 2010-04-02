@@ -362,7 +362,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-					if (ShouldCopyType(SourceConstructor.DeclaringType))
+					if (ShouldCopyType(SourceConstructor.DeclaringType) && TypeCache[SourceConstructor.DeclaringType] is TypeBuilder)
 					{
 						var DeclaringType = (TypeBuilder)TypeCache[SourceConstructor.DeclaringType];
 
@@ -890,7 +890,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					var ContextType = source;
 
-					if (ShouldCopyType(ContextType))
+					if (ShouldCopyType(ContextType) && TypeDefinitionCache[source] is TypeBuilder)
 					{
 						CopyType(
 							source, a, m,
@@ -1054,6 +1054,7 @@ namespace jsc.meta.Commands.Rewrite
 
 					ClosePartialDefinitions[item] = PartialDefinition.IsPartial;
 
+					#region GetInterfaceMap
 					if (tb.IsClass && !tb.IsAbstract)
 					{
 						// we need dummy implementation now because we cannot go back in time and make us abstract
@@ -1084,6 +1085,7 @@ namespace jsc.meta.Commands.Rewrite
 							).NotImplemented();
 						}
 					}
+					#endregion
 
 					// do we need to implement some methods?
 					tb.CreateType();

@@ -13,8 +13,7 @@ namespace UltraApplicationWithAssets
 	[Description("UltraApplicationWithAssets. Write javascript, flash and java applets within a C# project.")]
 	public sealed partial class Application
 	{
-
-		public void Application_ctor(IAboutJSC a)
+		public Application(IAboutJSC a)
 		{
 			Audio.XMLSource.CreateAsElement(
 				xaudio =>
@@ -64,15 +63,6 @@ namespace UltraApplicationWithAssets
 					).StartTimeout(1000);
 				};
 		}
-
-		public Application(IHTMLElement e)
-		{
-			var a = new HTML.Pages.AboutJSC();
-
-			a.Container.AttachToDocument();
-			Application_ctor(a);
-		}
-
 
 	}
 

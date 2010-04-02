@@ -14,6 +14,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using jsc.Languages.IL;
 using System.Reflection.Emit;
+using jsc.meta.Commands.Rewrite.Templates;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -44,9 +46,49 @@ namespace jsc.meta.Commands.Rewrite
 			}
 		}
 
-		private void InjectJavaScriptBootstrap(RewriteToAssembly.TypeRewriteArguments a)
+		private void InjectJavaScriptBootstrap(RewriteToAssembly.TypeRewriteArguments a, Type arg)
 		{
 			// would be nice to have simpler copy API!:D
+
+			if (typeof(IUltraComponent).IsAssignableFrom(arg))
+			{
+				var FromDocument =
+								(
+							from t in arg.Assembly.GetTypes()
+							where t.IsNested
+							where t.IsClass
+							where t.Name == "FromDocument"
+							where arg.IsAssignableFrom(t)
+							select t
+						).Single();
+
+				var FromDocument__ = a.context.TypeCache[FromDocument];
+
+				using (a.context.ToTransientTransaction())
+				{
+					a.context.TypeDefinitionCache[typeof(InternalApplication)] = a.Type;
+					a.context.TypeCache[typeof(InternalApplication)] = a.Type;
+					a.context.ConstructorCache[typeof(InternalApplication).GetConstructor(typeof(InternalIPage))] = a.context.ConstructorCache[a.SourceType.GetConstructor(arg)];
+
+					a.context.TypeDefinitionCache[typeof(InternalIPage)] = arg;
+					a.context.TypeCache[typeof(InternalIPage)] = arg;
+
+
+
+					
+
+					a.context.TypeDefinitionCache[typeof(InternalPageFromDocument)] = a.context.TypeDefinitionCache[FromDocument];
+					a.context.TypeCache[typeof(InternalPageFromDocument)] = a.context.TypeCache[FromDocument];
+					a.context.ConstructorCache[typeof(InternalPageFromDocument).GetConstructor()] = a.context.ConstructorCache[FromDocument.GetConstructor()];
+
+					a.context.TypeRenameCache[typeof(InternalApplicationBootstrap)] = a.Type.FullName + "Bootstrap";
+
+
+					var Bootstrap = a.context.TypeCache[typeof(InternalApplicationBootstrap)];
+				}
+
+				return;
+			}
 
 			Action Implementation2 = Implementation1.Implementation2;
 			Action<IHTMLElement> Implementation4 = Implementation1.Implementation4;
@@ -89,5 +131,51 @@ namespace jsc.meta.Commands.Rewrite
 			#endregion
 
 		}
+
+
+	}
+
+	namespace Templates
+	{
+		[Obfuscation(Feature = "invalidmerge")]
+		internal class InternalApplication
+		{
+			public InternalApplication(InternalIPage i)
+			{
+
+			}
+
+
+		}
+
+		internal static class InternalApplicationBootstrap
+		{
+			static InternalApplicationBootstrap()
+			{
+				Native.Window.onload +=
+					delegate
+					{
+						var p = new InternalPageFromDocument();
+						var x = new InternalApplication(p);
+					};
+
+			}
+		}
+
+		[Obfuscation(Feature = "invalidmerge")]
+		internal class InternalIPage
+		{
+		}
+
+		[Obfuscation(Feature = "invalidmerge")]
+		internal class InternalPageFromDocument : InternalIPage
+		{
+			public InternalPageFromDocument()
+			{
+
+			}
+		}
+
+
 	}
 }
