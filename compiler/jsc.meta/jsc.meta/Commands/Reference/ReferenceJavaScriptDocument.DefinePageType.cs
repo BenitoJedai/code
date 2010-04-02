@@ -75,21 +75,23 @@ namespace jsc.meta.Commands.Reference
 				// plugins/webserver?
 				// should we enumerate concepts available?
 				// shold we promote string properties and onclick events?
+				// clientside lazy load
+				// As XML asset?
+
+				//PageBase = DefaultNamespace + ".HTML.Pages." + PageName + "Base",
+
 				IPage = DefaultNamespace + ".HTML.Pages.I" + PageName,
 
 				Page = DefaultNamespace + ".HTML.Pages." + PageName,
-				PageBase = DefaultNamespace + ".HTML.Pages." + PageName + "Base",
-
 
 				PageSource = DefaultNamespace + ".HTML.Pages." + PageName + "+Source",
 
-				// clientside lazy load
 				PageXElement = DefaultNamespace + ".HTML.Pages." + PageName + "+XMLSource",
 
-				// As XML asset?
+
 			};
 
-			
+
 
 			var PageInterfaces = ImplementConcept.GetInterfaces(BodyElement, ElementTypes).ToArray();
 
@@ -104,6 +106,7 @@ namespace jsc.meta.Commands.Reference
 						FullName.IPage,
 					   PageInterfaces.Concat(new[] { typeof(IUltraComponent) })
 					);
+
 
 					var StaticElementProperties =
 						from CurrentElement in BodyElement.XPathSelectElements(".//*[@id]")
@@ -120,30 +123,14 @@ namespace jsc.meta.Commands.Reference
 					}
 
 					p.CreateType();
+
 					return p;
 				}
 			);
 			#endregion
 
 			#region Page
-			var PageBase = IPageLookup.GetValue(
-				FullName.PageBase,
-				delegate
-				{
-
-					// create only once, as we do implement variations...
-					var p = a.Module.DefineType(
-						FullName.PageBase,
-						TypeAttributes.NotPublic | TypeAttributes.Abstract,
-						typeof(UltraComponent),
-						new[] { IPage }
-					);
-
-					p.CreateType();
-
-					return p;
-				}
-			);
+		
 
 			var Page = IPageLookup.GetValue(
 				FullName.Page,
@@ -154,7 +141,8 @@ namespace jsc.meta.Commands.Reference
 					var p = a.Module.DefineType(
 						FullName.Page,
 						TypeAttributes.Public,
-						PageBase
+						typeof(UltraComponent),
+						new[] { IPage }
 					);
 
 
@@ -220,9 +208,16 @@ namespace jsc.meta.Commands.Reference
 	let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
 	select new { CurrentElement, id, e_Type };
 
-					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic, PageBase);
+					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic,
+						null,
+						// typeof(UltraComponent),
+						new[] { IPage }
+					);
 
 					FromDocument.DefineDefaultConstructor(MethodAttributes.Public);
+
+					var _Images_lookup = new Dictionary<XElement, MethodBuilder>();
+					var _Anchors_lookup = new Dictionary<XElement, MethodBuilder>();
 
 					foreach (var k in StaticElementProperties)
 					{
@@ -263,6 +258,11 @@ namespace jsc.meta.Commands.Reference
 
 						e.SetGetMethod(get_e);
 
+						if (k.CurrentElement.Name.LocalName.ToLower() == "a")
+							_Anchors_lookup[k.CurrentElement] = get_e;
+						if (k.CurrentElement.Name.LocalName.ToLower() == "img")
+							_Images_lookup[k.CurrentElement] = get_e;
+
 						var set_e = FromDocument.DefineMethod("set_" + k.id, MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Public, null, new[] { k.e_Type });
 
 						#region set
@@ -302,6 +302,10 @@ namespace jsc.meta.Commands.Reference
 						e.SetSetMethod(set_e);
 					}
 
+					DefineInstanceImages(a, FromDocument, _Images_lookup, MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Public);
+					DefineInstanceLinks(a, FromDocument, _Anchors_lookup, MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Public);
+
+
 
 					// The invoked member is not supported in a dynamic module.
 					FromDocument.CreateType();
@@ -324,11 +328,8 @@ namespace jsc.meta.Commands.Reference
 			var VariationPage = VariationName == DefaultVariation ? Page : Page.DefineNestedType(
 				VariationName,
 				TypeAttributes.NestedPublic,
-				PageBase,
-
-				// whom shall we implement?
-
-				null
+				typeof(UltraComponent),
+				new[] { IPage }
 			);
 
 
@@ -350,14 +351,14 @@ namespace jsc.meta.Commands.Reference
 			// not all elements should have a field
 			// it would be pure overkill
 
-			var Images_lookup = new Dictionary<XElement, FieldBuilder>();
+			var Images_lookup = new Dictionary<XElement, MethodBuilder>();
 
 			foreach (var i in Images_value)
 			{
 				Images_lookup[i] = null;
 			}
 
-			var Anchors_lookup = new Dictionary<XElement, FieldBuilder>();
+			var Anchors_lookup = new Dictionary<XElement, MethodBuilder>();
 
 			foreach (var i in Anchors_value)
 			{
@@ -365,14 +366,17 @@ namespace jsc.meta.Commands.Reference
 			}
 
 
-			DefinePageConstructor(BodyElement, VariationPage, new[] { Images_lookup, Anchors_lookup },
+			DefinePageConstructor(
+				BodyElement,
+				VariationPage,
+				new[] { Images_lookup, Anchors_lookup },
 				NamedElements,
 				ElementTypes
 			);
 
 			// and html5 videos and sounds!
-			DefineInstanceImages(a, VariationPage, Images_lookup);
-			DefineInstanceLinks(a, VariationPage, Anchors_lookup);
+			DefineInstanceImages(a, VariationPage, Images_lookup, MethodAttributes.Public | MethodAttributes.Virtual);
+			DefineInstanceLinks(a, VariationPage, Anchors_lookup, MethodAttributes.Public | MethodAttributes.Virtual);
 
 
 			//Static.CreateType();

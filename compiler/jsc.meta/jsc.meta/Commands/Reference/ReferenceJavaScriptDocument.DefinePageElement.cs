@@ -37,7 +37,7 @@ namespace jsc.meta.Commands.Reference
 			Counter Counter,
 			ILGenerator il,
 			OpCode parent,
-			Dictionary<XElement, FieldBuilder>[] lookup,
+			Dictionary<XElement, MethodBuilder>[] lookup,
 			Dictionary<string, TypeVariationsTuple> NamedElements,
 			Dictionary<string, Type> ElementTypes
 		)
@@ -88,7 +88,7 @@ namespace jsc.meta.Commands.Reference
 			ILGenerator il,
 			TypeBuilder Page,
 			Counter Counter,
-			Dictionary<XElement, FieldBuilder>[] lookup,
+			Dictionary<XElement, MethodBuilder>[] lookup,
 
 			Dictionary<string, TypeVariationsTuple> NamedElements,
 			Dictionary<string, Type> ElementTypes
@@ -146,14 +146,7 @@ namespace jsc.meta.Commands.Reference
 
 						var ElementField = Page.DefineField("_" + (Element__id == null ? "" + Counter.Value++ : Element__id.Value), ElementType, FieldAttributes.Private);
 
-						foreach (var k in
-							from k0 in lookup
-							where k0.ContainsKey(CurrentElement)
-							select k0
-							)
-						{
-							k[CurrentElement] = ElementField;
-						}
+			
 
 						il.Emit(OpCodes.Ldarg_0);
 						il.Emit(OpCodes.Ldloc_0);
@@ -188,6 +181,15 @@ namespace jsc.meta.Commands.Reference
 								get_ElementField_il.Emit(OpCodes.Ret);
 
 								ElementProperty.SetGetMethod(get_ElementField);
+
+								foreach (var k in
+									from k0 in lookup
+									where k0.ContainsKey(CurrentElement)
+									select k0
+									)
+								{
+									k[CurrentElement] = get_ElementField;
+								}
 							}
 
 							{

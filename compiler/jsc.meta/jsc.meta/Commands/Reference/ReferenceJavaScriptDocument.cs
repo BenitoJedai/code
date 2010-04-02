@@ -189,10 +189,23 @@ namespace jsc.meta.Commands.Reference
 					where ExportedType.IsInterface
 					where !ExportedType.IsGenericTypeDefinition
 
-					let Properties = ExportedType.GetProperties()
-					where Properties.Any()
+					let GetValidInterfaces = new Func<IEnumerable<Type>, IEnumerable<Type>>(
+						Interfaces =>
+							from Interface in Interfaces
+							where Interface.IsInterface
+							where !Interface.IsGenericTypeDefinition
 
-					where Properties.All(k => typeof(IHTMLElement).IsAssignableFrom(k.PropertyType))
+							// what if that interface extends other interfaces?
+							let Properties = Interface.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
+
+							where Properties.Any()
+							where Properties.All(k => typeof(IHTMLElement).IsAssignableFrom(k.PropertyType))
+							select Interface
+					)
+
+					let AllInterfaces = ExportedType.GetInterfaces().Except(new[] { typeof(IUltraComponent) }).Concat(new[] { ExportedType })
+
+					where AllInterfaces.SequenceEqual(GetValidInterfaces(AllInterfaces))
 
 					select ExportedType;
 

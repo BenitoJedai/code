@@ -13,13 +13,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 	[Description("A Concept is an autoimplemented interface for generated types.")]
 	public class ImplementConcept
 	{
-		/*
-		 * usage:
-<head>
-    <title>Section</title>
-    <meta name="concept" content="ScriptCoreLib.JavaScript.Concepts.ISection`2" />
-</head>		 
-		 */
+
 
 		public const string Concept = "Concept";
 

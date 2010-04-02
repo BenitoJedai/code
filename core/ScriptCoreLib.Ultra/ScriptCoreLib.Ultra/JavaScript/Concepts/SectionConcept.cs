@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace ScriptCoreLib.JavaScript.Concepts
 {
 	[Description("An interface whose all properties are IHTMLElement are considered.")]
-	public interface ISectionConcept
+	public interface ISectionConcept : IUltraComponent
 	{
 		IHTMLDiv Header { get; }
 		IHTMLDiv Content { get; }
@@ -24,24 +24,6 @@ namespace ScriptCoreLib.JavaScript.Concepts
 		}
 
 
-	}
-
-	internal class SectionConcept : ISectionConcept
-	{
-
-		#region ISectionConcept Members
-
-		public IHTMLDiv Header
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		public IHTMLDiv Content
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		#endregion
 	}
 
 	public sealed class SectionConcept<T>

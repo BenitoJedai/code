@@ -31,7 +31,7 @@ namespace jsc.meta.Commands.Reference
 		private static void DefinePageConstructor(
 			XElement CurrentElement,
 			TypeBuilder Page,
-			Dictionary<XElement, FieldBuilder>[] lookup,
+			Dictionary<XElement, MethodBuilder>[] lookup,
 			Dictionary<string, TypeVariationsTuple> NamedElements,
 			Dictionary<string, Type> ElementTypes
 		)
@@ -81,7 +81,12 @@ namespace jsc.meta.Commands.Reference
 				var il = ctor.GetILGenerator();
 
 				DefinePageElement(
-					CurrentElement, Page, Counter, il, OpCodes.Ldnull, lookup, 
+					CurrentElement, 
+					Page, 
+					Counter, 
+					il, 
+					OpCodes.Ldnull, 
+					lookup, 
 					NamedElements,
 					ElementTypes
 				);

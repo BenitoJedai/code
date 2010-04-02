@@ -4,8 +4,8 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.ComponentModel;
-using ScriptCoreLib.Ultra.Components.HTML.Pages.FromAssets;
 using ScriptCoreLib.JavaScript.Concepts;
+using ScriptCoreLib.Ultra.Components.HTML.Pages;
 
 namespace ScriptCoreLib.Ultra.Components
 {
