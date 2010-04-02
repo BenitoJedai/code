@@ -29,12 +29,14 @@ namespace jsc.meta.Commands.Reference
 	partial class ReferenceJavaScriptDocument
 	{
 
-		private void DefineInstanceImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, Dictionary<XElement, FieldBuilder> lookup)
+		private void DefineInstanceImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, Dictionary<XElement, MethodBuilder> lookup, MethodAttributes Attributes)
 		{
 			#region References
 			var References = Page.DefineProperty("Images", PropertyAttributes.None, typeof(IHTMLImage[]), null);
 
-			var References_get = Page.DefineMethod("get_Images", MethodAttributes.Public | MethodAttributes.Virtual, typeof(IHTMLImage[]), null);
+			var References_get = Page.DefineMethod("get_Images", 
+				Attributes, typeof(IHTMLImage[]), null
+			);
 
 			References.SetGetMethod(References_get);
 
@@ -64,7 +66,7 @@ namespace jsc.meta.Commands.Reference
 							il.Emit(OpCodes.Ldloc_0);
 							il.Emit(OpCodes.Ldc_I4, item.index);
 							il.Emit(OpCodes.Ldarg_0);
-							il.Emit(OpCodes.Ldfld, item.k.Value);
+							il.Emit(OpCodes.Call, item.k.Value);
 							il.Emit(OpCodes.Stelem_Ref);
 
 
