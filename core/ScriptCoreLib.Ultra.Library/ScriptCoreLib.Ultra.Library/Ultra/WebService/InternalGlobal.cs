@@ -37,7 +37,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 		public abstract void Invoke(InternalWebMethodInfo e);
 
-		public abstract InternalScriptApplication[] GetScriptApplications();
+		public abstract WebServiceScriptApplication[] GetScriptApplications();
 
 		public abstract void Serve(WebServiceHandler h);
 	}

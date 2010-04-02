@@ -85,7 +85,7 @@
     <Compile Include="Ultra\WebService\InternalFileInfo.cs" />
     <Compile Include="Ultra\WebService\InternalGlobal.cs" />
     <Compile Include="Ultra\WebService\InternalGlobalExtensions.cs" />
-    <Compile Include="Ultra\WebService\InternalScriptApplication.cs" />
+    <Compile Include="Ultra\WebService\WebServiceScriptApplication.cs" />
     <Compile Include="Ultra\WebService\InternalWebMethodInfo.cs" />
     <Compile Include="Ultra\WebService\InternalWebMethodParameterInfo.cs" />
     <Compile Include="Ultra\WebService\InternalWebMethodWorker.cs" />

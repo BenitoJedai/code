@@ -101,6 +101,9 @@ namespace jsc.meta.Commands.Reference
 
 			var ElementType = DefaultElementType;
 
+			if (ElementType == typeof(IHTMLBody))
+				ElementType = typeof(IHTMLDiv);
+
 			CurrentElement.Attribute("src").Apply(
 				src =>
 				{
