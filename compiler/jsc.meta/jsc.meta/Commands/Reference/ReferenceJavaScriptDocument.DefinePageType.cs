@@ -24,6 +24,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -158,23 +159,14 @@ namespace jsc.meta.Commands.Reference
 						let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
 						select new { CurrentElement, id, e_Type };
 
-					//foreach (var k in StaticElementProperties)
-					//{
-					//    var e = p.DefineProperty(k.id, PropertyAttributes.None, k.e_Type, null);
 
-					//    e.SetGetMethod(p.DefineMethod("get_" + k.id, MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public, k.e_Type, null));
-					//    e.SetSetMethod(p.DefineMethod("set_" + k.id, MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public, null, new[] { k.e_Type }));
-					//}
 
-					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic | TypeAttributes.Abstract, PageBase);
+					var FromDocument = p.DefineNestedType("FromDocument", TypeAttributes.NestedPublic, PageBase);
 
-				
 
-					var ctor = p.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
 
-					ctor.GetILGenerator().Emit(OpCodes.Ret);
-					var ctor_Variation = p.DefineConstructor(MethodAttributes.Family, CallingConventions.Standard, new[] { typeof(object) });
-					ctor_Variation.GetILGenerator().Emit(OpCodes.Ret);
+					p.DefineDefaultConstructor(MethodAttributes.Public);
+
 
 					#region PageSource
 					var PageSource = p.DefineStaticType(FullName.PageSource.SkipUntilLastIfAny("+"));
@@ -219,6 +211,84 @@ namespace jsc.meta.Commands.Reference
 
 					FromDocument.DefineDefaultConstructor(MethodAttributes.Public);
 
+					foreach (var k in StaticElementProperties)
+					{
+						var e = FromDocument.DefineProperty(k.id, PropertyAttributes.None, k.e_Type, null);
+
+						var get_e = FromDocument.DefineMethod("get_" + k.id, MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Public, k.e_Type, null);
+
+						#region get
+						Func<IHTMLElement> get_e_template =
+							delegate
+							{
+								return Native.Document.getElementById("id");
+							};
+
+						{
+							var il = get_e.GetILGenerator();
+
+							var il_a = new ILTranslationExtensions.EmitToArguments();
+
+							il_a[OpCodes.Ldstr] =
+								x =>
+								{
+									x.il.Emit(OpCodes.Ldstr, k.id);
+								};
+
+							il_a[OpCodes.Ret] =
+								x =>
+								{
+									x.il.Emit(OpCodes.Castclass, k.e_Type);
+									x.il.Emit(OpCodes.Ret);
+								};
+
+							get_e_template.Method.EmitTo(il, il_a);
+
+
+						}
+						#endregion
+
+						e.SetGetMethod(get_e);
+
+						var set_e = FromDocument.DefineMethod("set_" + k.id, MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Public, null, new[] { k.e_Type });
+
+						#region set
+						Action<IHTMLElement, IHTMLElement> set_e_template =
+							(c, value) =>
+							{
+								c.ReplaceWith(value);
+							};
+
+						{
+							var il = set_e.GetILGenerator();
+
+							var il_a = new ILTranslationExtensions.EmitToArguments();
+
+							il_a[OpCodes.Ldarg_0] =
+								x =>
+								{
+									x.il.Emit(OpCodes.Ldarg_0);
+									x.il.Emit(OpCodes.Call, get_e);
+
+								};
+
+							il_a[OpCodes.Ldstr] =
+								x =>
+								{
+									x.il.Emit(OpCodes.Ldstr, k.id);
+								};
+
+						
+
+							set_e_template.Method.EmitTo(il, il_a);
+
+
+						}
+						#endregion
+
+						e.SetSetMethod(set_e);
+					}
+
 
 					// The invoked member is not supported in a dynamic module.
 					FromDocument.CreateType();
@@ -229,17 +299,17 @@ namespace jsc.meta.Commands.Reference
 
 
 
-		
+
 
 
 			var VariationPage = a.Module.DefineType(
 				FullName.VariationPage,
 				TypeAttributes.Public,
-				typeof(UltraComponent),
+				PageBase,
 
 				// whom shall we implement?
 
-				new[] { IPage }
+				null
 			);
 
 
@@ -259,60 +329,6 @@ namespace jsc.meta.Commands.Reference
 					BodyElement.XPathSelectElements("//A")
 				).ToArray();
 
-#if false
-				var Elements = Static.DefineNestedType("Elements", TypeAttributes.NestedPublic);
-
-			
-
-				DefineStaticImages(a, Static, Images_value);
-
-
-				var StaticElementProperties =
-					from CurrentElement in BodyElement.XPathSelectElements("/*[@id]")
-					let id = CurrentElement.Attribute("id").Value
-					let e_Type = ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement)
-					select new { CurrentElement, id, e_Type };
-
-				foreach (var k in StaticElementProperties)
-				{
-
-					var e = Elements.DefineProperty(k.id, PropertyAttributes.None, k.e_Type, null);
-					var get_e = Elements.DefineMethod("get_" + k.id, MethodAttributes.Static | MethodAttributes.Public, k.e_Type, null);
-
-					Func<IHTMLElement> get_e_template =
-						delegate
-						{
-							return Native.Document.getElementById("id");
-						};
-
-					{
-						var il = get_e.GetILGenerator();
-
-						var il_a = new ILTranslationExtensions.EmitToArguments();
-
-						il_a[OpCodes.Ldstr] =
-							x =>
-							{
-								x.il.Emit(OpCodes.Ldstr, k.id);
-							};
-
-						il_a[OpCodes.Ret] =
-							x =>
-							{
-								x.il.Emit(OpCodes.Castclass, k.e_Type);
-								x.il.Emit(OpCodes.Ret);
-							};
-
-						get_e_template.Method.EmitTo(il, il_a);
-
-
-					}
-
-					e.SetGetMethod(get_e);
-				}
-
-				Elements.CreateType();
-#endif
 				// not all elements should have a field
 				// it would be pure overkill
 
