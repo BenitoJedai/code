@@ -84,7 +84,7 @@ namespace jsc.meta.Commands.Reference
 
 				Page = DefaultNamespace + ".HTML.Pages." + PageName,
 
-				PageSource = DefaultNamespace + ".HTML.Pages." + PageName + "+Source",
+				PageSource = DefaultNamespace + ".HTML.Pages." + PageName + "Source",
 
 				PageXElement = DefaultNamespace + ".HTML.Pages." + PageName + "+XMLSource",
 
@@ -162,7 +162,7 @@ namespace jsc.meta.Commands.Reference
 
 
 					#region PageSource
-					var PageSource = p.DefineStaticType(FullName.PageSource.SkipUntilLastIfAny("+"));
+					var PageSource = r.RewriteArguments.Module.DefineStaticType(FullName.PageSource);
 
 					#region Page_HTML
 					{
@@ -176,10 +176,10 @@ namespace jsc.meta.Commands.Reference
 							var MyBodyElement = new XElement(BodyElement);
 
 							var ElementsWithSource = new[] 
-					{
-						MyBodyElement.XPathSelectElements(".//img[@src]"),
-						MyBodyElement.XPathSelectElements(".//audio[@src]")
-					}.SelectMany(k => k).ToArray();
+							{
+								MyBodyElement.XPathSelectElements(".//img[@src]"),
+								MyBodyElement.XPathSelectElements(".//audio[@src]")
+							}.SelectMany(k => k).ToArray();
 
 							foreach (var ElementWithSource in ElementsWithSource)
 							{
@@ -187,9 +187,9 @@ namespace jsc.meta.Commands.Reference
 							}
 
 							// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
-							var body_innerXML = MyBodyElement.Nodes().Aggregate("", (b, node) => b += node.ToString());
+							//var body_innerXML = MyBodyElement.Nodes().Aggregate("", (b, node) => b += node.ToString());
 
-							il.Emit(OpCodes.Ldstr, body_innerXML);
+							il.Emit(OpCodes.Ldstr, MyBodyElement.ToString());
 							il.Emit(OpCodes.Ret);
 						}
 
@@ -199,6 +199,7 @@ namespace jsc.meta.Commands.Reference
 
 					PageSource.CreateType();
 					#endregion
+
 
 
 					#region FromDocument
@@ -213,6 +214,8 @@ namespace jsc.meta.Commands.Reference
 						// typeof(UltraComponent),
 						new[] { IPage }
 					);
+
+					FromDocument.DefineField("InternalHint", p, FieldAttributes.Static | FieldAttributes.Private);
 
 					FromDocument.DefineDefaultConstructor(MethodAttributes.Public);
 

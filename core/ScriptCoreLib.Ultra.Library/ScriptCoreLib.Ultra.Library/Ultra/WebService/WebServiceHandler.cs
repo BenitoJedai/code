@@ -16,5 +16,32 @@ namespace ScriptCoreLib.Ultra.WebService
 		public Action Diagnostics;
 		public Action Default;
 		public Action Redirect;
+
+		public WebServiceScriptApplication[] Applications;
+
+		public bool IsDefaultPath
+		{
+			get
+			{
+				var e = this.Context.Request.Path;
+
+				return InternalIsDefaultPath(e);
+			}
+		}
+
+		internal static bool InternalIsDefaultPath(string e)
+		{
+			if (e == "/")
+				return true;
+
+			if (e == "/default.htm")
+				return true;
+
+			if (e == "/default.aspx")
+				return true;
+
+			return false;
+		}
+
 	}
 }

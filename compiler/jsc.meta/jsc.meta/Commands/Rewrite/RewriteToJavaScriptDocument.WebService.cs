@@ -215,7 +215,7 @@ namespace jsc.meta.Commands.Rewrite
 				#region GetScriptApplications
 				var GetScriptApplications = Global.DefineMethod("GetScriptApplications",
 					MethodAttributes.Virtual | MethodAttributes.Public, CallingConventions.Standard,
-					TypeCache[typeof(InternalScriptApplication[])],
+					TypeCache[typeof(WebServiceScriptApplication[])],
 					null
 				);
 
@@ -239,12 +239,12 @@ namespace jsc.meta.Commands.Rewrite
 					// each ScriptApplication could define a path from which it should run 
 					// for now we assume single application and should show it in default path
 
-					new InternalScriptApplication
+					new WebServiceScriptApplication
 					{
 						TypeName = js_TargetType.Name,
 						TypeFullName = js_TargetType.FullName,
 						References = References.Select(k =>
-							new InternalScriptApplication.Reference 
+							new WebServiceScriptApplication.Reference 
 							{
 								AssemblyFile = k
 								// so what libraries are referenced in the IsJavascript product assembly?

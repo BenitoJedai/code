@@ -13,25 +13,28 @@ namespace ScriptCoreLib.Ultra.Components
 	[Description("ScriptCoreLib.Ultra.Components. Write javascript, flash and java applets within a C# project.")]
 	internal sealed partial class Application
 	{
-
 		public Application(IHTMLElement e)
 		{
-			Native.Document.title = "ScriptCoreLib.Ultra.Components";
+			var p = new ApplicationLoader.FromDocument();
+
+			p.Content.Add("hello world");
+			
+			Native.Document.title = "Hi!";
 
 			{
 				var s = new Section().ToSectionConcept();
 
-				s.Header = "Syntax";
+				s.Header = "Syntax1";
 
-				s.Target.Container.AttachToDocument();
+				s.Target.Container.AttachTo(p.Content);
 			}
 
 			{
 				var s = new Section().ToSectionConcept();
 
-				s.Header = "Methods";
+				s.Header = "Methods2";
 
-				s.Target.Container.AttachToDocument();
+				s.Target.Container.AttachTo(p.Content);
 			}
 		}
 

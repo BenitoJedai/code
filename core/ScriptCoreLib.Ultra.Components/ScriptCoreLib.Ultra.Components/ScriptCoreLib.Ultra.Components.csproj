@@ -90,6 +90,8 @@
   <ItemGroup>
     <Content Include="My.UltraSource\HorizontalSplit.htm" />
     <Content Include="My.UltraSource\HorizontalSplitArea.htm" />
+    <Content Include="My.UltraSource\Images\loading.gif" />
+    <Content Include="My.UltraSource\ApplicationLoader.htm" />
     <Content Include="My.UltraSource\Section.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.png" />
