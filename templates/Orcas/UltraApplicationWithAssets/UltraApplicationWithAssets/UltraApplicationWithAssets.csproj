@@ -99,6 +99,9 @@
     <Content Include="My.UltraSource\jsc.png" />
     <Content Include="My.UltraSource\rooster.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="My.UltraSource\XMLSchema1.xsd" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

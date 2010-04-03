@@ -30,52 +30,6 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 		public RewriteToAssembly r;
 		public Func<string, FileInfo> GetLocalResource;
 
-		static void DrawPixel(WriteableBitmap w, int X, int Y)
-		{
-			int column = (int)X;
-			int row = (int)Y;
-
-			// Reserve the back buffer for updates.
-			w.Lock();
-
-			unsafe
-			{
-				// Get a pointer to the back buffer.
-				int pBackBuffer = (int)w.BackBuffer;
-
-				// Find the address of the pixel to draw.
-				pBackBuffer += row * w.BackBufferStride;
-				pBackBuffer += column * 4;
-
-				// Compute the pixel's color.
-				int color_data = 255 << 16; // R
-				color_data |= 128 << 8;   // G
-				color_data |= 255 << 0;   // B
-
-				// Assign the color data to the pixel.
-				*((int*)pBackBuffer) = color_data;
-			}
-
-			// Specify the area of the bitmap that changed.
-			w.AddDirtyRect(new Int32Rect(column, row, 1, 1));
-
-			// Release the back buffer and make it available for display.
-			w.Unlock();
-		}
-
-		static void ErasePixel(WriteableBitmap w, int X, int Y)
-		{
-			byte[] ColorData = { 0xFF, 0, 0, 0xFF }; // B G R A
-
-			var rect = new Int32Rect(
-					(int)(X),
-					(int)(Y),
-					1,
-					1);
-
-			w.WritePixels(rect, ColorData, 4, 0);
-		}
-
 		public void Define()
 		{
 			var a = r.RewriteArguments;
