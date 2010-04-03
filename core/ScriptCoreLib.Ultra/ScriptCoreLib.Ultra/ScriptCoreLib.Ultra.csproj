@@ -96,6 +96,7 @@
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
+    <Compile Include="JavaScript\Concepts\TreeNodeConcept.cs" />
     <Compile Include="JavaScript\DOM\XML\XDocumentExtensions.cs" />
     <Compile Include="JavaScript\IUltraComponent.cs" />
     <Compile Include="JavaScript\Remoting\DOM\HTML\PHTMLElement.Events.cs" />
