@@ -355,7 +355,9 @@ namespace ScriptCoreLib.JavaScript.DOM
         public TextAlignEnum textAlign;
         #endregion
 
-        public string textDecoration;
+		// http://www.quirksmode.org/css/textshadow.html
+		public string textShadow;
+		public string textDecoration;
 
         [Script(IsStringEnum = true)]
         public enum TextTransformEnum
