@@ -22,6 +22,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Assets\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -29,30 +38,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_Ultra1T1|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug_Ultra1T1\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_VBUltra1|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug_VBUltra1\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_UltraTutorial|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Debug_UltraTutorial\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ScriptCoreLib, Version=3.0.3737.19187, Culture=neutral, processorArchitecture=MSIL">
@@ -69,15 +54,15 @@
     </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Drawing.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.Windows.Forms.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.Windows.Forms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -95,6 +80,7 @@
   <ItemGroup>
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
+    <Compile Include="JavaScript\Concepts\CountDownGadgetConcept.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
     <Compile Include="JavaScript\Concepts\TreeNodeConcept.cs" />
     <Compile Include="JavaScript\DOM\XML\XDocumentExtensions.cs" />
@@ -119,13 +105,13 @@
     <Compile Include="Shared\RemotingToken.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Ultra\comments.txt" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj">
       <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
       <Name>ScriptCoreLib.Ultra.Library</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Ultra\comments.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

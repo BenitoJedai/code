@@ -173,6 +173,8 @@ namespace jsc.meta.Commands.Reference
 
 				var ReferencedInterfaces =
 					from PropertyGroup in csproj.Root.Elements(nsItemGroup)
+
+					// what about ProjectReference ?
 					from Reference in PropertyGroup.Elements(nsReference)
 					let Include = Reference.Attribute("Include").Value
 

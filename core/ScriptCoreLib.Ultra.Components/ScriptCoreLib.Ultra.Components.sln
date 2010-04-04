@@ -2,6 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components", "ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.csproj", "{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F5446A88-7C9E-49BA-86DD-C38BBD22D84E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,8 +26,24 @@ Global
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{132EB43F-19B4-42AC-8025-3249B129867A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{132EB43F-19B4-42AC-8025-3249B129867A} = {F5446A88-7C9E-49BA-86DD-C38BBD22D84E}
+		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {F5446A88-7C9E-49BA-86DD-C38BBD22D84E}
 	EndGlobalSection
 EndGlobal

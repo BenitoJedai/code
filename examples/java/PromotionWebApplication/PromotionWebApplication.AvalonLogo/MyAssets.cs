@@ -6,7 +6,7 @@ using ScriptCoreLib.JavaScript;
 
 namespace PromotionWebApplication.AvalonLogo
 {
-	public class MyAssets : HTML.Pages.FromAssets.Assets
+	public class MyAssets : HTML.Pages.Assets
 	{
 		// Note: 
 		// in Assets build configuration post build event

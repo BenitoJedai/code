@@ -37,6 +37,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             Value.setFullYear(year);
             Value.setMonth(month - 1);
             Value.setDate(day);
+			Value.setHours(0);
+			Value.setMinutes(0);
+			Value.setSeconds(0);
         }
 
 
