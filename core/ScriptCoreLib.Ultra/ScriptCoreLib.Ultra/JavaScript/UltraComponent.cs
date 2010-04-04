@@ -20,7 +20,7 @@ namespace ScriptCoreLib.JavaScript
 
 		public object Tag { get; set; }
 
-		public virtual IHTMLElement Container
+		public virtual IHTMLDiv Container
 		{
 			get
 			{
@@ -28,7 +28,7 @@ namespace ScriptCoreLib.JavaScript
 			}
 		}
 
-		public static implicit operator IHTMLElement(UltraComponent e)
+		public static implicit operator IHTMLDiv(UltraComponent e)
 		{
 			// this operator shall help building nested layouts
 			return e.Container;

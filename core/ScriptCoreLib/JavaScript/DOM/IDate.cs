@@ -20,7 +20,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public void setFullYear(int i) {}
         public void setMonth(int i) {}
-        public void setDate(int i) {}
+		public void setDate(int i) { }
+		public void setHours(int i) { }
+		public void setMinutes(int i) { }
+		public void setSeconds(int i) { }
 
         public int getMilliseconds() { return default(int); }
         public int getSeconds() { return default(int); }

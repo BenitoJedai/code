@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using PromotionWebApplication.AvalonLogo;
-using ScriptCoreLib.Documentation.HTML.Images.SpriteSheet.FromAssets;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
@@ -15,6 +14,8 @@ using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Documentation.HTML.Pages;
+using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
+using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 
 namespace ScriptCoreLib.Documentation
 {
@@ -239,12 +240,18 @@ namespace ScriptCoreLib.Documentation
 				};
 
 			{
+				var tr = new TreeNode(() => new VistaTreeNodePage());
+
+				tr.Text = "Class Viewer";
+				tr.Element.ClosedImage = new ClassViewer();
+				tr.Container.AttachTo(parent);
+
 				var div = new IHTMLDiv().AttachTo(parent);
 
 				div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
 
 
-				var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.References().AttachTo(div);
+				var i = new References().AttachTo(div);
 
 				i.style.verticalAlign = "middle";
 				i.style.marginRight = "0.5em";
@@ -267,7 +274,7 @@ namespace ScriptCoreLib.Documentation
 				div.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Verdana;
 
 
-				var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.References().AttachTo(div);
+				var i = new References().AttachTo(div);
 
 				i.style.verticalAlign = "middle";
 				i.style.marginRight = "0.5em";
@@ -313,7 +320,7 @@ namespace ScriptCoreLib.Documentation
 				div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-				var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.Assembly().AttachTo(div);
+				var i = new Assembly().AttachTo(div);
 
 				i.style.verticalAlign = "middle";
 				i.style.marginRight = "0.5em";
@@ -477,7 +484,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.Namespace().AttachTo(div);
+			var i = new Namespace().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -571,11 +578,11 @@ namespace ScriptCoreLib.Documentation
 
 			if (type.IsInterface)
 			{
-				i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicInterface();
+				i = new PublicInterface();
 			}
 			else
 			{
-				i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicClass();
+				i = new PublicClass();
 			}
 
 			i.AttachTo(div);
@@ -817,7 +824,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicField().AttachTo(div);
+			var i = new PublicField().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -920,7 +927,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicEvent().AttachTo(div);
+			var i = new PublicEvent().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -1016,7 +1023,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicProperty().AttachTo(div);
+			var i = new PublicProperty().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -1118,7 +1125,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicConstructor().AttachTo(div);
+			var i = new PublicConstructor().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";
@@ -1239,7 +1246,7 @@ namespace ScriptCoreLib.Documentation
 			div.style.whiteSpace = ScriptCoreLib.JavaScript.DOM.IStyle.WhiteSpaceEnum.nowrap;
 
 
-			var i = new ScriptCoreLib.Documentation.HTML.Images.FromAssets.PublicMethod().AttachTo(div);
+			var i = new PublicMethod().AttachTo(div);
 
 			i.style.verticalAlign = "middle";
 			i.style.marginRight = "0.5em";

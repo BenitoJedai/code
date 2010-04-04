@@ -10,7 +10,6 @@ using PromotionWebApplication1.Library;
 using PromotionWebApplication1.Services;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
-//using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Documentation;
 using ScriptCoreLib.JavaScript;
@@ -20,10 +19,11 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
-//using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
+using ScriptCoreLib.JavaScript.Concepts;
 
 namespace PromotionWebApplication1
 {
@@ -116,6 +116,77 @@ namespace PromotionWebApplication1
 				}
 				else if (Native.Document.location.hash == "#/source")
 				{
+
+					var sln = new TreeNode(() => new VistaTreeNodePage());
+
+					sln.Text = "Solution";
+					sln.IsExpanded = true;
+
+					Action<TreeNode> AddReferences =
+						p =>
+						{
+							var r = p.Add("References", new References());
+
+							r.Add("System", new Assembly());
+							r.Add("System.Core", new Assembly());
+							r.Add("ScriptCoreLib", new Assembly());
+							r.Add("ScriptCoreLib.Ultra", new Assembly());
+							r.Add("ScriptCoreLib.Ultra.Library", new Assembly());
+							r.Add("ScriptCoreLib.Ultra.Controls", new Assembly());
+							r.Add("ScriptCoreLibJava", new Assembly());
+							r.Add("jsc.meta", new Assembly());
+						};
+
+					Action<TreeNode> AddUltraSource =
+						p =>
+						{
+							var my = p.Add("My.UltraSource");
+							my.Add("Default.htm", new HTMLDocument());
+							my.Add("jsc.png", new ImageFile());
+
+						};
+
+					{
+						var p = sln.Add("Visual C# Project", new VisualCSharpProject());
+
+
+						AddReferences(p);
+						AddUltraSource(p);
+
+
+
+						p.Add("Application.cs", new VisualCSharpCode());
+						p.Add("WebService.cs", new VisualCSharpCode());
+						p.Add("Program.cs", new VisualCSharpCode());
+					}
+
+					{
+						var p = sln.Add("Visual Basic Project", new VisualBasicProject());
+
+						AddReferences(p);
+						AddUltraSource(p);
+
+						p.Add("Application.vb", new VisualBasicCode());
+						p.Add("WebService.vb", new VisualBasicCode());
+						p.Add("Program.vb", new VisualBasicCode());
+					}
+
+
+					{
+						var p = sln.Add("Visual F# Project", new VisualFSharpProject());
+
+						AddReferences(p);
+						AddUltraSource(p);
+
+
+						p.Add("Application.fs", new VisualFSharpCode());
+						p.Add("WebService.fs", new VisualFSharpCode());
+						p.Add("Program.fs", new VisualFSharpCode());
+					}
+
+					sln.Container.style.Float = IStyle.FloatEnum.right;
+					sln.Container.AttachTo(MyPagesInternal);
+
 					new SourceEditorHeader().Container.AttachTo(MyPagesInternal);
 
 					//new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);

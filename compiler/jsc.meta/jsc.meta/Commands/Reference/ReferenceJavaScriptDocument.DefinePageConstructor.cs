@@ -39,12 +39,26 @@ namespace jsc.meta.Commands.Reference
 			// what happens in design mode in .net ? :)
 
 			var ctor = Page.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
-			
+
 			var DefaultElementType =
 				// ScriptCoreLib ElementType Lookup...
 				(ElementTypes.ContainsKey(CurrentElement.Name.LocalName) ? ElementTypes[CurrentElement.Name.LocalName] : typeof(IHTMLElement));
 
 			var ElementType = DefaultElementType;
+
+			if (ElementType == typeof(IHTMLBody))
+				ElementType = typeof(IHTMLDiv);
+
+			var PageCreate = Page.DefineMethod("Create", MethodAttributes.Public | MethodAttributes.Static, CallingConventions.Standard,
+				Page, null);
+
+			{
+				var il = PageCreate.GetILGenerator();
+
+				il.Emit(OpCodes.Newobj, ctor);
+				il.Emit(OpCodes.Ret);
+			}
+
 
 			var FieldContainer = Page.DefineField("_Container", ElementType, FieldAttributes.Private | FieldAttributes.InitOnly);
 
@@ -63,7 +77,7 @@ namespace jsc.meta.Commands.Reference
 			}
 
 			{
-				var GetContainer = Page.DefineMethod("GetContainer", MethodAttributes.Public | MethodAttributes.Virtual, typeof(IHTMLElement), null);
+				var GetContainer = Page.DefineMethod("GetContainer", MethodAttributes.Public | MethodAttributes.Virtual, typeof(IHTMLDiv), null);
 
 
 				var get_ElementField_il = GetContainer.GetILGenerator();
@@ -81,12 +95,12 @@ namespace jsc.meta.Commands.Reference
 				var il = ctor.GetILGenerator();
 
 				DefinePageElement(
-					CurrentElement, 
-					Page, 
-					Counter, 
-					il, 
-					OpCodes.Ldnull, 
-					lookup, 
+					CurrentElement,
+					Page,
+					Counter,
+					il,
+					OpCodes.Ldnull,
+					lookup,
 					NamedElements,
 					ElementTypes
 				);

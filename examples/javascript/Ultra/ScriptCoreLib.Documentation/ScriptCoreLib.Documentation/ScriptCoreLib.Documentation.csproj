@@ -115,27 +115,11 @@
     <Compile Include="UltraWebService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="My.UltraSource\References.htm" />
+    <Content Include="My.UltraSource\SDKReference.htm" />
     <Content Include="My.UltraSource\jsc.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="My.UltraSource\Icons\Assembly.png" />
-    <Content Include="My.UltraSource\Icons\PublicConstructor.png" />
-    <Content Include="My.UltraSource\Icons\PublicEvent.png" />
-    <Content Include="My.UltraSource\Icons\PublicField.png" />
-    <Content Include="My.UltraSource\Icons\PublicMethod.png" />
-    <Content Include="My.UltraSource\Icons\PublicProperty.png" />
     <Content Include="My.UltraSource\Lorem.htm" />
-    <Content Include="My.UltraSource\Icons\Namespace.png" />
-    <Content Include="My.UltraSource\Icons\PublicClass.png" />
-    <Content Include="My.UltraSource\Icons\PublicDelegate.png" />
-    <Content Include="My.UltraSource\Icons\PublicEnum.png" />
-    <Content Include="My.UltraSource\Icons\PublicInterface.png" />
-    <Content Include="My.UltraSource\Icons\References.png" />
-    <Content Include="My.UltraSource\Sprites\LibC.gif" />
-    <Content Include="My.UltraSource\Sprites\LibC.htm" />
-    <Content Include="My.UltraSource\Sprites\LibC.png" />
-    <Content Include="My.UltraSource\Sprites\SpriteSheetSelection.png" />
     <Content Include="My.UltraSource\Styles\View1.css" />
     <Content Include="My.UltraSource\XMLFile1.xml" />
   </ItemGroup>

@@ -22,73 +22,55 @@ namespace ScriptCoreLib.Ultra.Components
 
 			Native.Document.title = "Hi!";
 
-			DemoTree(p);
-
+			p.Content.style.margin = "2em";
 
 			{
 				var s = new Section().ToSectionConcept();
 
 				s.Header = "Syntax1";
 
+				s.Content = DemoTree().Container;
+				s.Content.style.border = "1px solid gray";
+
+
 				s.Target.Container.AttachTo(p.Content);
 			}
 
 			{
 				var s = new Section().ToSectionConcept();
 
-				s.Header = "Methods2";
+				s.Header = "Countdown";
+
+				s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
+				{
+					Event = new DateTime(2010, 5, 24),
+					AutoUpdate = true
+				};
+
+				//s.Content = x.Container;
 
 				s.Target.Container.AttachTo(p.Content);
 			}
 
 			{
-				var r = new VistaTreeNodePage();
+				var s = new Section().ToSectionConcept();
 
-			
-				var g = r.ChildContainer.cloneNode(true).AttachTo(r.ChildArea);
+				s.Header = "Countdown Days";
 
-				r.ChildContainer.Orphanize();
-
+				s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
 				{
-					var n = new VistaTreeNodePage();
+					ShowOnlyDays = true,
+					Event = new DateTime(2010, 5, 24),
+					
+				};
 
-					n.OpenImage = new VisualCSharpProject();
-					n.ClosedImage = new VisualCSharpProject();
+				//s.Content = x.Container;
 
-
-					n.Container.AttachTo(g);
-				}
-
-				{
-					var n = new VistaTreeNodePage();
-
-
-					n.OpenImage = new VisualBasicProject();
-					n.ClosedImage = new VisualBasicProject();
-
-
-					n.Container.AttachTo(g);
-				}
-				{
-					var n = new VistaTreeNodePage();
-
-					n.OpenImage = new VisualFSharpProject();
-					n.ClosedImage = new VisualFSharpProject();
-
-
-					n.Container.AttachTo(g);
-
-				
-				}
-
-				r.Container.AttachTo(p.Content);
-
-
-				
+				s.Target.Container.AttachTo(p.Content);
 			}
 		}
 
-		private static void DemoTree(IApplicationLoader a)
+		private static TreeNode DemoTree()
 		{
 			var sln = new TreeNode(() => new VistaTreeNodePage());
 
@@ -114,13 +96,23 @@ namespace ScriptCoreLib.Ultra.Components
 				p =>
 				{
 					var my = p.Add("My.UltraSource");
+					my.Add("Control1.htm", new HTMLDocument());
 					my.Add("Default.htm", new HTMLDocument());
 					my.Add("jsc.png", new ImageFile());
 
 				};
 
 			{
-				var p = sln.Add("Visual C# Project", new VisualCSharpProject());
+				var p = sln.Add("UltraApplication1.Concepts", new VisualCSharpProject());
+
+				AddReferences(p);
+
+				p.Add("Control1Concept.cs", new VisualCSharpCode());
+			}
+
+
+			{
+				var p = sln.Add("UltraApplication1", new VisualCSharpProject());
 
 
 				AddReferences(p);
@@ -134,7 +126,7 @@ namespace ScriptCoreLib.Ultra.Components
 			}
 
 			{
-				var p = sln.Add("Visual Basic Project", new VisualBasicProject());
+				var p = sln.Add("UltraApplication1", new VisualBasicProject());
 
 				AddReferences(p);
 				AddUltraSource(p);
@@ -146,7 +138,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 
 			{
-				var p = sln.Add("Visual F# Project", new VisualFSharpProject());
+				var p = sln.Add("UltraApplication1", new VisualFSharpProject());
 
 				AddReferences(p);
 				AddUltraSource(p);
@@ -157,7 +149,7 @@ namespace ScriptCoreLib.Ultra.Components
 				p.Add("Program.fs", new VisualFSharpCode());
 			}
 
-			sln.Container.AttachTo(a.Content);
+			return sln;
 		}
 
 
