@@ -42,7 +42,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			Value.setSeconds(0);
         }
 
-
+		public __DateTime(int year, int month, int day, int hours, int minutes, int seconds)
+		{
+			Value = new IDate();
+			Value.setFullYear(year);
+			Value.setMonth(month - 1);
+			Value.setDate(day);
+			Value.setHours(hours);
+			Value.setMinutes(minutes);
+			Value.setSeconds(seconds);
+		}
 
 
 
