@@ -43,7 +43,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 				s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
 				{
-					Event = new DateTime(2010, 5, 24),
+					Event = new DateTime(2010, 5, 24, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
 					AutoUpdate = true
 				};
 

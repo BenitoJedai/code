@@ -579,11 +579,12 @@ namespace PromotionWebApplication1
 							ccc.style.top = "15%";
 
 
+							var Now = DateTime.Now;
 
 							var CountDown = new CountDownGadgetConcept(CountDownGadget.Create)
 							{
 								ShowOnlyDays = true,
-								Event = new DateTime(2010, 5, 24),
+								Event = new DateTime(2010, 5, 24, 23, 59, 50),
 
 							};
 
