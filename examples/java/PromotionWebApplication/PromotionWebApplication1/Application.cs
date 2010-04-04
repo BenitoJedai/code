@@ -569,35 +569,65 @@ namespace PromotionWebApplication1
 
 						//if (IsAvalon)
 						//{
-						var ccc = new IHTMLDiv();
 
-						ccc.style.position = IStyle.PositionEnum.absolute;
-						ccc.style.left = "50%";
-						ccc.style.top = "50%";
-						ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
-						ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
-
-						ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
-
-						ccc.AttachToDocument();
-
-						if (IsAvalonActionScript)
 						{
-							var alof = new UltraSprite();
-							alof.ToTransparentSprite();
-							alof.AttachSpriteTo(ccc);
+							var ccc = new IHTMLDiv();
+
+							ccc.style.position = IStyle.PositionEnum.absolute;
+							ccc.style.left = "15%";
+							ccc.style.right = "15%";
+							ccc.style.top = "15%";
+
+
+
+							var CountDown = new CountDownGadgetConcept(CountDownGadget.Create)
+							{
+								ShowOnlyDays = true,
+								Event = new DateTime(2010, 5, 24),
+
+							};
+
+							CountDown.Element.GadgetContainer.style.color = "#808080";
+							CountDown.Element.GadgetContainer.style.textShadow = "#E0E0E0 1px 1px 1px";
+
+
+							CountDown.Element.GadgetContainer.AttachTo(ccc);
+							CountDown.Element.GadgetContainer.FadeIn(3000, 2000, null);
+
+							ccc.AttachToDocument();
 						}
-						else
+
 						{
-							var alo = new AvalonLogoCanvas();
-							alo.Container.AttachToContainer(ccc);
+							var ccc = new IHTMLDiv();
 
-							alo.AtLogoClick +=
-								delegate
-								{
-									Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
-								};
+							ccc.style.position = IStyle.PositionEnum.absolute;
+							ccc.style.left = "50%";
+							ccc.style.top = "50%";
+							ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
+							ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
 
+							ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
+
+							ccc.AttachToDocument();
+
+							if (IsAvalonActionScript)
+							{
+								var alof = new UltraSprite();
+								alof.ToTransparentSprite();
+								alof.AttachSpriteTo(ccc);
+							}
+							else
+							{
+								var alo = new AvalonLogoCanvas();
+								alo.Container.AttachToContainer(ccc);
+
+								alo.AtLogoClick +=
+									delegate
+									{
+										Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
+									};
+
+							}
 						}
 						//}
 						//else
