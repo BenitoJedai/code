@@ -46,7 +46,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					let LinkSource = href.Value
 
-					let xml = new[] { ".xml", ".xaml" }
+					// actually we should always define referenced assets...
+					// server side should be using I/O instead of code embedding
+					let xml = new[] { ".xml", ".xaml", ".svg" }
 
 					where xml.Any(k => LinkSource.EndsWith(k))
 
