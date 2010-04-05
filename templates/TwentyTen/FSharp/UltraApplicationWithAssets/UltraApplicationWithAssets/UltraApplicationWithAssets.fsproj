@@ -43,6 +43,13 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	     Other similar extension points exist, see Microsoft.Common.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
   <PropertyGroup>
     <PostBuildEvent>
       if $(ConfigurationName)==Debug (
@@ -53,19 +60,15 @@
       )
     </PostBuildEvent>
     <PreBuildEvent>
-      if not $(ConfigurationName)==Assets goto :eof
-      C:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:false
+      C:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false
     </PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="My.UltraSource\About JSC.htm" />
     <Content Include="My.UltraSource\Audio.htm" />
+    <Content Include="My.UltraSource\Data\XMLFile1.xml" />
     <Content Include="My.UltraSource\jsc.png" />
     <Content Include="My.UltraSource\rooster.mp3" />
-    <Content Include="My.UltraSource\XMLFile1.xml" />
-  </ItemGroup>
-  <ItemGroup>
-
     <Compile Include="UltraWebService.fs" />
     <Compile Include="Application.fs" />
     <Compile Include="Program.fs" />
@@ -105,11 +108,4 @@
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-	     Other similar extension points exist, see Microsoft.Common.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
 </Project>
