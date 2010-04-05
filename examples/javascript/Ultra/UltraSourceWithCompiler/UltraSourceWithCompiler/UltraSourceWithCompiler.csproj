@@ -5,14 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}</ProjectGuid>
+    <ProjectGuid>{5DADBE74-D93C-4117-8778-2446FC0FA0B7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UltraApplicationWithAssets</RootNamespace>
-    <AssemblyName>UltraApplicationWithAssets</AssemblyName>
+    <RootNamespace>UltraSourceWithCompiler</RootNamespace>
+    <AssemblyName>UltraSourceWithCompiler</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject></StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -82,8 +83,8 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UltraApplicationWithAssets.UltraSource">
-      <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets.UltraSource.dll</HintPath>
+    <Reference Include="UltraSourceWithCompiler.UltraSource">
+      <HintPath>bin\staging.UltraSource\UltraSourceWithCompiler.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -95,8 +96,14 @@
   <ItemGroup>
     <Content Include="My.UltraSource\About JSC.htm" />
     <Content Include="My.UltraSource\Audio.htm" />
+    <Content Include="My.UltraSource\JavaScript\Definitions.js" />
+    <Content Include="My.UltraSource\Java\Definitions.java" />
     <Content Include="My.UltraSource\jsc.png" />
     <Content Include="My.UltraSource\rooster.mp3" />
+    <Content Include="My.UltraSource\VisualBasic\Definitions.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My.UltraSource\ActionScript\Definitions.as" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -108,11 +115,12 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:false
 )</PostBuildEvent>
-    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false</PreBuildEvent>
+    <PreBuildEvent>if not $(ConfigurationName)==Assets goto :eof
+C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:true</PreBuildEvent>
   </PropertyGroup>
 </Project>

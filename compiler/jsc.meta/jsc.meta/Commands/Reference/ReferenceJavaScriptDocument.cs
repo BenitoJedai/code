@@ -14,6 +14,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using jsc.Languages.IL;
 using jsc.Library;
+using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
 using jsc.meta.Library.Templates.JavaScript;
@@ -24,9 +25,8 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.Ultra.Library.Extensions;
-using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -64,6 +64,7 @@ namespace jsc.meta.Commands.Reference
 			var nsPropertyGroup = ns + "PropertyGroup";
 			var nsNone = ns + "None";
 			var nsContent = ns + "Content";
+			var nsPage = ns + "Page";
 			var nsLink = ns + "Link";
 			var nsDependentUpon = ns + "DependentUpon";
 			var nsReference = ns + "Reference";
@@ -93,6 +94,20 @@ namespace jsc.meta.Commands.Reference
 			// fixme: no caching as of yet
 			//var Cache = Staging.CreateSubdirectory("cache");
 
+			Func<FileInfo, bool> HasReference =
+				AssemblyFile =>
+				{
+					var TargetHintPath = AssemblyFile.FullName.Substring(ProjectFileName.Directory.FullName.Length + 1);
+
+					return Enumerable.Any(
+						 from ItemGroup in csproj.Root.Elements(nsItemGroup)
+						 from Reference in ItemGroup.Elements(nsReference)
+						 from HintPath in Reference.Elements(nsHintPath)
+						 where TargetHintPath == HintPath.Value
+						 select new { HintPath, Reference, ItemGroup }
+					);
+				};
+
 			#region AddReference
 			Action<FileInfo, AssemblyName> AddReference =
 				(AssemblyFile, Name) =>
@@ -107,13 +122,7 @@ namespace jsc.meta.Commands.Reference
 
 					var TargetHintPath = AssemblyFile.FullName.Substring(ProjectFileName.Directory.FullName.Length + 1);
 
-					if (!Enumerable.Any(
-						 from ItemGroup in csproj.Root.Elements(nsItemGroup)
-						 from Reference in ItemGroup.Elements(nsReference)
-						 from HintPath in Reference.Elements(nsHintPath)
-						 where TargetHintPath == HintPath.Value
-						 select new { HintPath, Reference, ItemGroup }
-						))
+					if (!HasReference(AssemblyFile))
 					{
 						var TargetItemGroup = Enumerable.First(
 							from ItemGroup in csproj.Root.Elements(nsItemGroup)
@@ -137,7 +146,8 @@ namespace jsc.meta.Commands.Reference
 
 			var Targets =
 			  from ItemGroup in csproj.Root.Elements(nsItemGroup)
-			  from None in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent))
+
+			  from None in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent)).Concat(ItemGroup.Elements(nsPage))
 
 			  let Link = None.Element(nsLink)
 
@@ -167,6 +177,7 @@ namespace jsc.meta.Commands.Reference
 			  } by Directory;
 
 			// F# lazy?
+			#region ReferencedConcepts
 			Func<Type[]> ReferencedConcepts = delegate
 			{
 				// this method shall run once...
@@ -213,28 +224,9 @@ namespace jsc.meta.Commands.Reference
 
 				return ReferencedInterfaces.ToArray();
 			};
+			#endregion
 
 
-			var ImplementConcept__ = new ImplementConcept
-			{
-				ReferencedConcepts = ReferencedConcepts.ToCachedFunc()
-			};
-
-			// Now lets load our referenced assemblies.
-
-
-			var References = Enumerable.Distinct(
-				from k in Targets
-				from f in k
-				// should we restrict us to single file or allow multiple files to
-				// enable grouping?
-				where
-					f.File.Name == __References
-				from r in File.ReadAllLines(f.File.FullName)
-				where !string.IsNullOrEmpty(r)
-				where !r.StartsWith("#")
-				select r
-			);
 
 			var LocalSources = Enumerable.ToArray(
 				from k in Targets
@@ -248,6 +240,8 @@ namespace jsc.meta.Commands.Reference
 				where f.File.Name.EndsWith(".htm")
 				select new SourceFile
 				{
+					TargetFile = f.File,
+
 					Content = File.ReadAllText(f.File.FullName),
 					Reference = f.File.FullName,
 					GetLocalResource =
@@ -263,193 +257,235 @@ namespace jsc.meta.Commands.Reference
 				}
 			);
 
-			// http://support.microsoft.com/kb/304655
-			var Sources = DownloadWebSource(References).Concat(LocalSources).ToArray();
+			var Output = new FileInfo(Path.Combine(Staging.FullName, DefaultNamespace + "." + UltraSource + ".dll"));
 
+			if (!(
+				!Output.Exists
+				|| !HasReference(Output)
+				|| this.Configuration.BuildAlways
+				|| LocalSources.Any(k => k.TargetFile.LastWriteTimeUtc > Output.LastWriteTimeUtc)))
 			{
-				var Product = DefaultNamespace + "." + UltraSource;
+				Console.WriteLine("A version of UltraSource already exists. Use Assets build configuration to rebuild.");
+			}
+			else
+			{
 
-				// at this time we are not actually merging anything...
-				var r = default(RewriteToAssembly);
+				#region preparation
 
-				r = new RewriteToAssembly
+
+				var ImplementConcept__ = new ImplementConcept
 				{
-					staging = Staging,
-					product = Product,
+					ReferencedConcepts = ReferencedConcepts.ToCachedFunc()
+				};
 
-					#region if we are going to inject code from jsc we need to copy it
-					rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
+				// Now lets load our referenced assemblies.
+
+
+				var References = Enumerable.Distinct(
+					from k in Targets
+					from f in k
+					// should we restrict us to single file or allow multiple files to
+					// enable grouping?
+					where
+						f.File.Name == __References
+					from r in File.ReadAllLines(f.File.FullName)
+					where !string.IsNullOrEmpty(r)
+					where !r.StartsWith("#")
+					select r
+				);
+
+
+
+				// http://support.microsoft.com/kb/304655
+				var Sources = DownloadWebSource(References).Concat(LocalSources).ToArray();
+
+				#endregion
+
+
+				{
+					// at this time we are not actually merging anything...
+					var r = default(RewriteToAssembly);
+
+					#region RewriteToAssembly
+					r = new RewriteToAssembly
+					{
+						Output = Output,
+						//staging = Staging,
+						//product = Product,
+
+						#region if we are going to inject code from jsc we need to copy it
+						rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
 					    "jsc.meta->" +  DefaultNamespace,
 					    "jsc->" +  DefaultNamespace,
 					},
 
-					merge = new RewriteToAssembly.MergeInstruction[] {
+						merge = new RewriteToAssembly.MergeInstruction[] {
 					    "jsc.meta",
 					    "jsc"
 					},
-					#endregion
+						#endregion
 
-					// we do not want to merge ScriptCoreLib.Ultra
-					DisableIsMarkedForMerge = true,
+						// we do not want to merge ScriptCoreLib.Ultra
+						DisableIsMarkedForMerge = true,
 
-					PostAssemblyRewrite =
-						a =>
-						{
-							// at this point we are free to add any additional code here
-							// maybe we should infer some cool classes?
-
-
-							a.Assembly.DefineAttribute<ObfuscationAttribute>(
-								new
-								{
-									Feature =
-										this.IsMerge ? "merge" : "script"
-								}
-							);
-
-							// Nested types do not play well with type erasure...
-
-							//var Pages = a.Module.DefineType(DefaultNamespace + ".Pages", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
-
-							// http://www.w3schools.com/tags/ref_entities.asp
-							// http://www.w3schools.com/HTML/html_entities.asp
-							// http://stackoverflow.com/questions/281682/reference-to-undeclared-entity-exception-while-working-with-xml
-
-
-							var TypeVariations = new Dictionary<string, TypeVariations>();
-							var RemotingTypeVariations = new Dictionary<string, TypeVariations>();
-
-
-							foreach (var item in Sources)
+						PostAssemblyRewrite =
+							a =>
 							{
-								// http://stackoverflow.com/questions/1039476/reference-to-undeclared-entity-nbsp-why
-								// http://forums.asp.net/t/1219076.aspx
-
-								// dirty fix..
-								var content = item.Content;
-
-								// http://blogs.pingpoet.com/overflow/archive/2005/07/20/6607.aspx
-								// http://msdn.microsoft.com/en-us/library/bb356942.aspx
-								// fixme: XmlReader + DTD
-
-								// yet another fix
-								const string doctype_ok = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">";
-								const string doctype_vs = @"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0 Transitional//EN"">";
-
-								if (content.StartsWith(doctype_vs))
-									content = doctype_ok + content.Substring(doctype_vs.Length);
-
-								content = HTMLEntities.Aggregate(content,
-										 (i, k) => i.Replace(k.Key, k.Value)
-								 );
+								// at this point we are free to add any additional code here
+								// maybe we should infer some cool classes?
 
 
-								// really dirty fix...
+								a.Assembly.DefineAttribute<ObfuscationAttribute>(
+									new
+									{
+										Feature =
+											this.IsMerge ? "merge" : "script"
+									}
+								);
 
-								// wordpress, why are you making the day harder than it needs to be? :)
-								content = content.Replace(" xmlns=\"http://www.w3.org/1999/xhtml\"", " ");
-								content = content.Replace(" xmlns=\"http://www.google.com/ns/jotspot\" ", " ");
+								// Nested types do not play well with type erasure...
 
-								// should we use html tidy?
-								// is the google sites printing view public?
-								// google sites, why aren't attributes qouted? :|
-								content = content.Replace(" cellpadding=1 cellspacing=1>", " cellpadding='1' cellspacing='1'>");
-								content = content.Replace(" target=_top>", " target='_top'>");
+								//var Pages = a.Module.DefineType(DefaultNamespace + ".Pages", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
 
-								// http://stackoverflow.com/questions/66837/when-is-a-cdata-section-necessary-within-a-script-tag
-								content = content.Replace("<script type=\"text/javascript\">", "<script type=\"text/javascript\"><![CDATA[");
-								content = content.Replace("<script type=\"text/javascript\" charset=\"utf-8\">", "<script type=\"text/javascript\" charset=\"utf-8\"><![CDATA[");
-
-
-								content = content.Replace("<meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\">", "");
-								content = content.Replace("/* <![CDATA[ */", "");
-								content = content.Replace("/* ]]> */", "");
-
-								content = content.Replace("<script>", "<script><![CDATA[");
-								content = content.Replace("</script>", "]]></script>");
-								content = content.Replace(">]]></script>", "></script>");
-
-								//var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { ProhibitDtd = false });
-								//var xml = XDocument.Load(reader);
-								////var nameTable = reader.NameTable;
-								//var namespaceManager = new XmlNamespaceManager(nameTable);
-								//namespaceManager.AddNamespace("", "http://www.w3.org/1999/xhtml");
-
-								var xml = XDocument.Parse(content);
-								// http://stackoverflow.com/questions/477962/how-to-create-xelement-with-default-namespace-for-children-without-using-xnamespa
-								// http://www.experts-exchange.com/Programming/Languages/C_Sharp/Q_24536293.html
-
-								XNamespace xhtml = "http://www.w3.org/1999/xhtml";
-
-								// For body and each class element
-								var TitleElement = xml.XPathSelectElement("/html/head/title");
-
-								var Concepts = xml.XPathSelectElements("/html/head/meta[@name='concept']").Select(k => k.Attribute("content").Value).ToArray();
-
-								var BodyElement = xml.XPathSelectElement("/html/body");
-
-								var TitleValue = TitleElement == null || string.IsNullOrEmpty(TitleElement.Value) ?
-									item.Reference.TakeUntilIfAny("?").SkipUntilLastIfAny("/").TakeUntilIfAny(".") :
-									TitleElement.Value;
-
-								// should we make CamelCaseing optional?
-								var PageName = CompilerBase.GetSafeLiteral(TitleValue, null).ToCamelCase();
-
-								// we need to make the title/page name
-								// C# compatible :)
-
-								// The web application could opt in for dynamic CMS updates... RSS ? :) Download HTML on the server and push updates?
+								// http://www.w3schools.com/tags/ref_entities.asp
+								// http://www.w3schools.com/HTML/html_entities.asp
+								// http://stackoverflow.com/questions/281682/reference-to-undeclared-entity-exception-while-working-with-xml
 
 
-								new DefineNamedElements
+								var TypeVariations = new Dictionary<string, TypeVariations>();
+								var RemotingTypeVariations = new Dictionary<string, TypeVariations>();
+
+
+								foreach (var item in Sources)
 								{
+									// http://stackoverflow.com/questions/1039476/reference-to-undeclared-entity-nbsp-why
+									// http://forums.asp.net/t/1219076.aspx
 
-									DefaultNamespace = DefaultNamespace,
-									a = a,
-									BodyElement = BodyElement,
-									r = r,
-									GetLocalResource = item.GetLocalResource,
+									// dirty fix..
+									var content = item.Content;
 
-									TypeVariations = TypeVariations,
-									RemotingTypeVariations = RemotingTypeVariations,
+									// http://blogs.pingpoet.com/overflow/archive/2005/07/20/6607.aspx
+									// http://msdn.microsoft.com/en-us/library/bb356942.aspx
+									// fixme: XmlReader + DTD
 
-									PageName = PageName,
-									ElementTypes = ElementTypes
-								}.Define();
+									// yet another fix
+									const string doctype_ok = @"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">";
+									const string doctype_vs = @"<!DOCTYPE HTML PUBLIC ""-//W3C//DTD HTML 4.0 Transitional//EN"">";
 
+									if (content.StartsWith(doctype_vs))
+										content = doctype_ok + content.Substring(doctype_vs.Length);
 
-								new DefineDocumentation
-								{
-									Context = this,
-
-									DefaultNamespace = DefaultNamespace,
-									BodyElement = BodyElement,
-									r = r,
-									GetLocalResource = item.GetLocalResource,
-
-								}.Define();
-
-								new DefineXDocuments
-								{
-
-									DefaultNamespace = DefaultNamespace,
-									BodyElement = BodyElement,
-									r = r,
-									GetLocalResource = item.GetLocalResource,
-
-								}.Define();
-
-								new SpriteSheet
-								{
-									DefaultNamespace = DefaultNamespace,
-									BodyElement = BodyElement,
-									r = r,
-									GetLocalResource = item.GetLocalResource,
-
-								}.Define();
+									content = HTMLEntities.Aggregate(content,
+											 (i, k) => i.Replace(k.Key, k.Value)
+									 );
 
 
-								var VariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
+									// really dirty fix...
+
+									// wordpress, why are you making the day harder than it needs to be? :)
+									content = content.Replace(" xmlns=\"http://www.w3.org/1999/xhtml\"", " ");
+									content = content.Replace(" xmlns=\"http://www.google.com/ns/jotspot\" ", " ");
+
+									// should we use html tidy?
+									// is the google sites printing view public?
+									// google sites, why aren't attributes qouted? :|
+									content = content.Replace(" cellpadding=1 cellspacing=1>", " cellpadding='1' cellspacing='1'>");
+									content = content.Replace(" target=_top>", " target='_top'>");
+
+									// http://stackoverflow.com/questions/66837/when-is-a-cdata-section-necessary-within-a-script-tag
+									content = content.Replace("<script type=\"text/javascript\">", "<script type=\"text/javascript\"><![CDATA[");
+									content = content.Replace("<script type=\"text/javascript\" charset=\"utf-8\">", "<script type=\"text/javascript\" charset=\"utf-8\"><![CDATA[");
+
+
+									content = content.Replace("<meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\">", "");
+									content = content.Replace("/* <![CDATA[ */", "");
+									content = content.Replace("/* ]]> */", "");
+
+									content = content.Replace("<script>", "<script><![CDATA[");
+									content = content.Replace("</script>", "]]></script>");
+									content = content.Replace(">]]></script>", "></script>");
+
+									//var reader = XmlReader.Create(new StringReader(content), new XmlReaderSettings { ProhibitDtd = false });
+									//var xml = XDocument.Load(reader);
+									////var nameTable = reader.NameTable;
+									//var namespaceManager = new XmlNamespaceManager(nameTable);
+									//namespaceManager.AddNamespace("", "http://www.w3.org/1999/xhtml");
+
+									var xml = XDocument.Parse(content);
+									// http://stackoverflow.com/questions/477962/how-to-create-xelement-with-default-namespace-for-children-without-using-xnamespa
+									// http://www.experts-exchange.com/Programming/Languages/C_Sharp/Q_24536293.html
+
+									XNamespace xhtml = "http://www.w3.org/1999/xhtml";
+
+									// For body and each class element
+									var TitleElement = xml.XPathSelectElement("/html/head/title");
+
+									var Concepts = xml.XPathSelectElements("/html/head/meta[@name='concept']").Select(k => k.Attribute("content").Value).ToArray();
+
+									var BodyElement = xml.XPathSelectElement("/html/body");
+
+									var TitleValue = TitleElement == null || string.IsNullOrEmpty(TitleElement.Value) ?
+										item.Reference.TakeUntilIfAny("?").SkipUntilLastIfAny("/").TakeUntilIfAny(".") :
+										TitleElement.Value;
+
+									// should we make CamelCaseing optional?
+									var PageName = CompilerBase.GetSafeLiteral(TitleValue, null).ToCamelCase();
+
+									// we need to make the title/page name
+									// C# compatible :)
+
+									// The web application could opt in for dynamic CMS updates... RSS ? :) Download HTML on the server and push updates?
+
+
+									new DefineNamedElements
+									{
+
+										DefaultNamespace = DefaultNamespace,
+										a = a,
+										BodyElement = BodyElement,
+										r = r,
+										GetLocalResource = item.GetLocalResource,
+
+										TypeVariations = TypeVariations,
+										RemotingTypeVariations = RemotingTypeVariations,
+
+										PageName = PageName,
+										ElementTypes = ElementTypes
+									}.Define();
+
+
+									new DefineDocumentation
+									{
+										Context = this,
+
+										DefaultNamespace = DefaultNamespace,
+										BodyElement = BodyElement,
+										r = r,
+										GetLocalResource = item.GetLocalResource,
+
+									}.Define();
+
+									new DefineXDocuments
+									{
+
+										DefaultNamespace = DefaultNamespace,
+										BodyElement = BodyElement,
+										r = r,
+										GetLocalResource = item.GetLocalResource,
+
+									}.Define();
+
+									new SpriteSheet
+									{
+										DefaultNamespace = DefaultNamespace,
+										BodyElement = BodyElement,
+										r = r,
+										GetLocalResource = item.GetLocalResource,
+
+									}.Define();
+
+
+									var VariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
 								{
 									{"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource})},
 									{"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromWeb, Source = k.Value.FromWebSource })},
@@ -457,77 +493,79 @@ namespace jsc.meta.Commands.Reference
 								};
 
 
-								var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
+									var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
 								{
 									{"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource })},
 									{"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type =  k.Value.FromWeb, Source = k.Value.FromWebSource })},
 									{"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
 								};
 
-								var IPageLookup = new Dictionary<string, TypeBuilder>();
-								var Continuation = new List<Action>();
-								foreach (var CurrentVariationForPage in VariationsForPages)
-								{
-									DefinePageType(
-										DefaultNamespace,
-										r,
-										a, content,
-										BodyElement,
-										PageName,
-										CurrentVariationForPage.Key,
-										CurrentVariationForPage.Value,
-										RemotingVariationsForPages[CurrentVariationForPage.Key],
-										ImplementConcept__,
-										Concepts,
-										IPageLookup,
-										Continuation.Add,
-										"FromAssets"
-									);
-
-									/* One feature too many?
-									var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
-
-									foreach (var k in __id)
+									var IPageLookup = new Dictionary<string, TypeBuilder>();
+									var Continuation = new List<Action>();
+									foreach (var CurrentVariationForPage in VariationsForPages)
 									{
-										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" +
-
-											CompilerBase.GetSafeLiteral(k.id, null)
-
-											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
+										DefinePageType(
+											DefaultNamespace,
+											r,
+											a, content,
+											BodyElement,
+											PageName,
+											CurrentVariationForPage.Key,
+											CurrentVariationForPage.Value,
 											RemotingVariationsForPages[CurrentVariationForPage.Key],
 											ImplementConcept__,
-											Concepts
-
+											Concepts,
+											IPageLookup,
+											Continuation.Add,
+											"FromAssets"
 										);
+
+										/* One feature too many?
+										var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
+
+										foreach (var k in __id)
+										{
+											DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" +
+
+												CompilerBase.GetSafeLiteral(k.id, null)
+
+												, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
+												RemotingVariationsForPages[CurrentVariationForPage.Key],
+												ImplementConcept__,
+												Concepts
+
+											);
+										}
+
+										var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
+
+										foreach (var k in __class)
+										{
+											DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" +
+												CompilerBase.GetSafeLiteral(k.@class, null)
+
+												, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
+												RemotingVariationsForPages[CurrentVariationForPage.Key],
+												ImplementConcept__,
+												Concepts
+											);
+										}
+										*/
 									}
 
-									var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
-
-									foreach (var k in __class)
-									{
-										DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" +
-											CompilerBase.GetSafeLiteral(k.@class, null)
-
-											, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
-											RemotingVariationsForPages[CurrentVariationForPage.Key],
-											ImplementConcept__,
-											Concepts
-										);
-									}
-									*/
+									Continuation.Invoke();
 								}
 
-								Continuation.Invoke();
+
+								//Pages.CreateType();
 							}
+					};
 
+					r.Invoke();
+					#endregion
 
-							//Pages.CreateType();
-						}
-				};
-
-				r.Invoke();
-
-				AddReference(r.Output, new AssemblyName(Product));
+					AddReference(r.Output, new AssemblyName(Path.GetFileNameWithoutExtension(Output.FullName)));
+				}
 			}
 
 			if (csproj_dirty)
@@ -627,6 +665,8 @@ namespace jsc.meta.Commands.Reference
 
 		public class SourceFile
 		{
+			public FileInfo TargetFile;
+
 			public string Reference;
 			public string Content;
 

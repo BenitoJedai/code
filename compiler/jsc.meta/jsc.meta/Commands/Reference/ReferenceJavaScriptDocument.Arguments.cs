@@ -77,8 +77,10 @@ namespace jsc.meta.Commands.Reference
 		/// 
 		/// This will be always the case. :) Then we can generate more than needed. And the user chooses
 		/// from what has been made available.
+		/// 
+		/// Should always be on!
 		/// </summary>
-		public bool IsMerge;
+		public bool IsMerge = true;
 
 		public bool AttachDebugger;
 
