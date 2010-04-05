@@ -45,13 +45,16 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 					let LinkSource = href.Value
-					where LinkSource.EndsWith(".xml")
+
+					let xml = new[] { ".xml", ".xaml" }
+
+					where xml.Any(k => LinkSource.EndsWith(k))
 
 					let LinkTitleAttribute = a.Attribute("title")
 
 					let LinkName = LinkSource.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".")
 
-					let LinkTitle = LinkTitleAttribute == null ? LinkName : LinkTitleAttribute.Value
+					let LinkTitle = (LinkTitleAttribute == null ? LinkName : LinkTitleAttribute.Value).ToCamelCase()
 
 					let LocalResource = GetLocalResource(LinkSource)
 
@@ -90,10 +93,14 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, byte[] Bytes)
 			{
 				var __Create = default(MethodInfo);
+
 				r.RewriteArguments.ScriptResourceWriter.Add(AssetPath, Bytes);
 
-
-				var TemplateType = typeof(NamedXDocument);
+				var Templates = new
+				{
+					Document = typeof(NamedXDocument),
+					DocumentSource = typeof(NamedXDocumentSource),
+				};
 
 				using (r.RewriteArguments.context.ToTransientTransaction())
 				{
@@ -101,37 +108,50 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					r.AtILOverride +=
 						(m, il_a) =>
 						{
-							if (m.DeclaringType != TemplateType)
+							if (Templates == null)
 								return;
 
 							il_a[OpCodes.Ldstr] =
 								(e) =>
 								{
-									if (e.i.TargetLiteral != NamedXDocument.DefaultSource)
+									if (e.i.TargetLiteral == NamedXDocument.DefaultSource)
 									{
-										e.Default();
+										e.il.Emit(OpCodes.Ldstr, AssetPath);
 										return;
 									}
 
-									e.il.Emit(OpCodes.Ldstr, AssetPath);
+									if (e.i.TargetLiteral == NamedXDocumentSource.NamedXDocumentSource_Text)
+									{
+										e.il.Emit(OpCodes.Ldstr, Encoding.UTF8.GetString(Bytes));
+										return;
+									}
+
+									if (e.i.TargetLiteral == NamedXDocumentSource.NamedXDocumentSource_Name)
+									{
+										e.il.Emit(OpCodes.Ldstr, TypeFullName.SkipUntilLastIfAny("."));
+										return;
+									}
+
+									e.Default();
 									return;
 								};
 						};
 
 
 
-					r.RewriteArguments.context.TypeRenameCache[TemplateType] = TypeFullName;
+					r.RewriteArguments.context.TypeRenameCache[Templates.Document] = TypeFullName;
+					r.RewriteArguments.context.OverrideDeclaringType[Templates.Document] = DeclaringType;
 
-					r.RewriteArguments.context.OverrideDeclaringType[TemplateType] = DeclaringType;
-
-					//var MyType = r.RewriteArguments.context.TypeCache[TemplateType];
+					r.RewriteArguments.context.TypeRenameCache[Templates.DocumentSource] = TypeFullName + "Source";
+					r.RewriteArguments.context.OverrideDeclaringType[Templates.DocumentSource] = DeclaringType;
 
 					__Create = r.RewriteArguments.context.MethodCache[
 						((Action<Action<XElement>>)NamedXDocument.CreateAsElement).Method
 					];
 
-					TemplateType = null;
+					var __DocumentSource = r.RewriteArguments.context.TypeCache[Templates.DocumentSource];
 
+					Templates = null;
 				}
 
 				return __Create;
@@ -145,6 +165,35 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 	namespace Templates
 	{
+		[Description("XDocument embedded in code as string.")]
+		public class NamedXDocumentSource
+		{
+			// http://msdn.microsoft.com/en-us/library/ms752346.aspx
+
+			internal const string NamedXDocumentSource_Text = "NamedXDocumentSource_Text";
+			internal const string NamedXDocumentSource_Name = "NamedXDocumentSource_Name";
+
+			public string Name
+			{
+				get
+				{
+					return NamedXDocumentSource_Name;
+				}
+			}
+
+			public string Text
+			{
+				get
+				{
+					return NamedXDocumentSource_Text;
+				}
+			}
+
+			public object Tag { get; set; }
+
+		}
+
+		[Description("XDocument added to assets to be used in javascript.")]
 		public class NamedXDocument
 		{
 			internal const string DefaultSource = "DefaultSource";
