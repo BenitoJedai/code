@@ -15,7 +15,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return new __XName { InternalValue = this.InternalElement.nodeName };
 			}
 			set
 			{
@@ -90,7 +90,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			return null;
 		}
 
-
+		//public IEnumerable<XAttribute> Attributes()
+		//{
+		//    this.InternalElement.att
+		//}
 
 	}
 }
