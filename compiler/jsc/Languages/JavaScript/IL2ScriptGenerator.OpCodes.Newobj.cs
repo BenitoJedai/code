@@ -82,10 +82,20 @@ namespace jsc
 		{
 			MethodBase m = i.TargetConstructor;
 
+			if (m.DeclaringType == typeof(object))
+			{
+				w.Write("{}");
+
+				return;
+			}
+
+
 			if (ScriptAttribute.IsAnonymousType(m.DeclaringType))
 			{
 				goto TryDefault;
 			}
+
+
 
 			//if (ScriptAttribute.IsCompilerGenerated(m.DeclaringType))
 			if (ScriptAttribute.OfProvider(m.DeclaringType) == null

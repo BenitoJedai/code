@@ -6,6 +6,8 @@ using ScriptCoreLib.JavaScript.Runtime;
 using UltraApplicationWithAssets.HTML.Audio.FromAssets;
 using System.ComponentModel;
 using UltraApplicationWithAssets.HTML.Pages;
+using System.Linq;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace UltraApplicationWithAssets
 {
@@ -15,6 +17,19 @@ namespace UltraApplicationWithAssets
 	{
 		public Application(IAboutJSC a)
 		{
+			Data.MyDocument.CreateAsElement(
+				Document =>
+				{
+					var q = Enumerable.ToArray(
+						from x in Document.Elements("Data")
+						let Color = x.Element("Color").Value
+						let Text = x.Element("Text").Value
+						let div = new IHTMLDiv { innerText = Text }.Apply(k => k.style.color = Color)
+						select div.AttachToDocument()
+					);
+				}
+			);
+
 			Audio.XMLSource.CreateAsElement(
 				xaudio =>
 				{

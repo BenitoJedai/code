@@ -421,3 +421,6 @@ version history:
 	java: safe names are now used for namespaces 
 20.03.2010
 	java: fixed as operator due to javac bug
+11.04.2010
+	js: fixed new object
+	js: fixed as string operator

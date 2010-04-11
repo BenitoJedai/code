@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreatingXElements", "CreatingXElements\CreatingXElements.csproj", "{B853041D-CDF9-466F-92CF-197B1B776C4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B853041D-CDF9-466F-92CF-197B1B776C4A}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{B853041D-CDF9-466F-92CF-197B1B776C4A}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{B853041D-CDF9-466F-92CF-197B1B776C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B853041D-CDF9-466F-92CF-197B1B776C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B853041D-CDF9-466F-92CF-197B1B776C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B853041D-CDF9-466F-92CF-197B1B776C4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
