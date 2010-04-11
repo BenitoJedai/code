@@ -3,20 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>
-    </SchemaVersion>
-    <ProjectGuid>{5731B965-B38A-4934-B13B-CA78E00BA4D9}</ProjectGuid>
+    <ProductVersion></ProductVersion>
+    <SchemaVersion></SchemaVersion>
+    <ProjectGuid>{FE271A57-3B79-4CA0-AAA6-D02DE9E5226F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>UltraApplicationWithAssets.Program</StartupObject>
-    <RootNamespace>UltraApplicationWithAssets</RootNamespace>
-    <AssemblyName>UltraApplicationWithAssets</AssemblyName>
+    <StartupObject>CreatingXElementsWithVisualBasic.Program</StartupObject>
+    <RootNamespace>CreatingXElementsWithVisualBasic</RootNamespace>
+    <AssemblyName>CreatingXElementsWithVisualBasic</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -25,7 +22,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>UltraApplicationWithAssets.xml</DocumentationFile>
+    <DocumentationFile>CreatingXElementsWithVisualBasic.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -35,7 +32,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>UltraApplicationWithAssets.xml</DocumentationFile>
+    <DocumentationFile>CreatingXElementsWithVisualBasic.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -55,11 +52,11 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\x86\Assets\</OutputPath>
-    <DocumentationFile>UltraApplicationWithAssets.xml</DocumentationFile>
+    <DocumentationFile>CreatingXElementsWithVisualBasic.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Debug\UltraApplicationWithAssets.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Debug\CreatingXElementsWithVisualBasic.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -74,7 +71,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
-      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+      <HintPath>c:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -112,8 +109,8 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="WindowsBase" />
-    <Reference Include="UltraApplicationWithAssets.UltraSource">
-      <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets.UltraSource.dll</HintPath>
+    <Reference Include="CreatingXElementsWithVisualBasic.UltraSource">
+      <HintPath>bin\staging.UltraSource\CreatingXElementsWithVisualBasic.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -146,8 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="My.UltraSource\About JSC.htm" />
-    <Content Include="My.UltraSource\Audio.htm" />
-    <Content Include="My.UltraSource\Audio\rooster.mp3" />
     <Content Include="My.UltraSource\jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
@@ -161,7 +156,7 @@
   <PropertyGroup>
     <PostBuildEvent>
       if $(ConfigurationName)==Debug (
-      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
+      rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
       ) else (
       c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
       )

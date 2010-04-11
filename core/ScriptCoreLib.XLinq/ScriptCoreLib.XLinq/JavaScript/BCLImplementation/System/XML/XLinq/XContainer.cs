@@ -25,8 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			return Elements(name).FirstOrDefault();
 		}
 
-
-		public IEnumerable<XElement> Elements(XName name)
+		public IEnumerable<XElement> Elements()
 		{
 			var e = InternalElement;
 			var a = new List<XElement>();
@@ -34,14 +33,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			foreach (var item in e.childNodes)
 			{
 				if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
-					if (item.nodeName == name.LocalName)
-						a.Add(
-							(XElement)(object)new __XElement { InternalValue = item }
-						);
+					a.Add(
+						(XElement)(object)new __XElement { InternalValue = item }
+					);
 
 			}
 
 			return a;
+
+		}
+
+		public IEnumerable<XElement> Elements(XName name)
+		{
+			return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
 
 		}
 

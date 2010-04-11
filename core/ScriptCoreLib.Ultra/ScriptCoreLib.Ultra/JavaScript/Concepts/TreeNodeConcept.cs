@@ -23,6 +23,8 @@ namespace ScriptCoreLib.JavaScript.Concepts
 
 		IHTMLAnchor SelectionArea { get; set; }
 
+		IHTMLSpan IconArea { get; set; }
+
 		IHTMLImage OpenImage { get; set; }
 		IHTMLImage ClosedImage { get; set; }
 
@@ -132,7 +134,7 @@ namespace ScriptCoreLib.JavaScript.Concepts
 
 					InternalUpdate();
 
-	
+
 				};
 
 			InternalUpdate();
