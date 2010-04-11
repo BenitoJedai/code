@@ -16,6 +16,7 @@ NotInheritable Class Application
         Native.Document.title = "CreatingXElementsWithVisualBasic"
 
         ' http://msdn.microsoft.com/en-us/library/bb384832.aspx
+        ' http://research.microsoft.com/en-us/um/people/emeijer/papers/xlinq%20xml%20programming%20refactored%20(the%20return%20of%20the%20monoids).htm
 
 
         Dim test1 =
@@ -46,11 +47,6 @@ NotInheritable Class Application
         button007 = e.HTMLVisualizer.ownerDocument.getElementById("button007")
 
     End Sub
-
-
-
-
-
 
 
     Private Sub button007_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent) Handles button007.onclick
