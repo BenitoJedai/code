@@ -6,6 +6,7 @@ Imports ScriptCoreLib.JavaScript.Runtime
 Imports CreatingXElementsWithVisualBasic.HTML.Pages
 Imports ScriptCoreLib.JavaScript.Concepts
 Imports ScriptCoreLib.Ultra.Components.HTML.Pages
+Imports ScriptCoreLib.Shared.Lambda
 
 NotInheritable Class Application
 
@@ -21,14 +22,32 @@ NotInheritable Class Application
 
         Dim test1 =
             <div foo='bar'>
-                <h1>Header!</h1>
-                <p>hello</p>
-                <p>world</p>
+                <div>
+                    <h1>Header!</h1>
+                    <p>hello</p>
+                    <p>world</p>
+                </div>
+
+                <div>
+                    <h1>Header!</h1>
+                    <p>hello</p>
+                    <p>world</p>
+                </div>
+
                 <button id='button007'>Yes!</button>
                 <span style='color: red;'>hello world</span>
             </div>
 
-        test1.Element("h1").Value = "Xml Literals in Visual Basic"
+
+
+
+
+        test1.<div>.<h1>(0).Value = "Xml Literals in Visual Basic"
+        test1.<div>.<h1>(1).Value = "Thanks!"
+
+        'test1.<div>.<h1>.ForEach(Sub(k As XElement) k.Value = "Xml Literals in Visual Basic")
+
+
 
 
 
