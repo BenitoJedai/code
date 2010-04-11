@@ -13,6 +13,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         [Script(DefineAsStatic = true)]
         public new void appendChild<T>(T e)
         {
+			// what if we redirected this to root element instead? :)
+
             throw new global::System.Exception("IDocument.appendChild is forbidden");
         }
 
@@ -26,6 +28,28 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(bool);
         }
 
+		// https://developer.mozilla.org/En/DOM/document.importNode
+		// http://www.alistapart.com/articles/crossbrowserscripting/
+		public INode importNode(INode externalNode, bool deep)
+		{
+			// Internet Explorer does not understand the DOM Level 2 method importNode().
+			// joy.
+
+			return default(INode);
+		}
+
+		// https://developer.mozilla.org/en/DOM/document.adoptNode
+		public INode adoptNode(INode externalNode)
+		{
+			return default(INode);
+
+		}
+
+		// http://reference.sitepoint.com/javascript/Document/createAttribute
+		public object createAttribute(string name)
+		{
+			return default(object);
+		}
     }
 
 	

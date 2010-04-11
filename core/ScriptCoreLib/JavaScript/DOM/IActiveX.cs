@@ -24,12 +24,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         #region constructors
 
+
         [Script(HasNoPrototype = true, ExternalTarget = "ActiveXObject")]
         class InternalIActiveX : ISink
         {
             public InternalIActiveX(string c)
             {
-
+				// see: http://msdn.microsoft.com/en-us/library/ms753804(VS.85).aspx
             }
         }
 
@@ -42,17 +43,13 @@ namespace ScriptCoreLib.JavaScript.DOM
         //    }
         //}
 
-        public IActiveX(params string[] e)
-        {
-
-        }
-
-        static public IActiveX TryCreate(string z)
+  
+        static public object TryCreate(string z)
         {
             try
             {
 
-                return (IActiveX)((object)new InternalIActiveX(z));
+				return new InternalIActiveX(z);
             }
             catch
             {
@@ -72,21 +69,26 @@ namespace ScriptCoreLib.JavaScript.DOM
             return null;
         }
 
-        static public IActiveX InternalConstructor(params string[] e)
-        {
-            IActiveX r = null;
+		public IActiveX(params string[] e)
+		{
 
-            foreach (string z in e)
-            {
-                r = TryCreate(z);
+		}
 
-                if (r != null)
-                    break;
-     
-            }
+		static public IActiveX InternalConstructor(params string[] e)
+		{
+			IActiveX r = null;
 
-            return r;
-        }
+			foreach (string z in e)
+			{
+				r = (IActiveX)TryCreate(z);
+
+				if (r != null)
+					break;
+
+			}
+
+			return r;
+		}
         #endregion
 
     }

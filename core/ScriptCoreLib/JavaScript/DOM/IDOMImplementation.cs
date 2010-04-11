@@ -8,6 +8,11 @@ namespace ScriptCoreLib.JavaScript.DOM
     [Script(HasNoPrototype = true)]
     public class IDOMImplementation
     {
+		public IDocument createDocument(string namespaceURI, string qualifiedName, object doctype)
+		{
+			return default(IDocument);
+		}
+
         public bool hasFeature(string feature, string version)
         {
             return default(bool);

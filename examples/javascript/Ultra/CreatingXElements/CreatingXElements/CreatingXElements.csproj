@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}</ProjectGuid>
+    <ProjectGuid>{B853041D-CDF9-466F-92CF-197B1B776C4A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UltraApplicationWithAssets</RootNamespace>
-    <AssemblyName>UltraApplicationWithAssets</AssemblyName>
+    <RootNamespace>CreatingXElements</RootNamespace>
+    <AssemblyName>CreatingXElements</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -83,11 +83,12 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UltraApplicationWithAssets.UltraSource">
-      <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets.UltraSource.dll</HintPath>
+    <Reference Include="CreatingXElements.UltraSource">
+      <HintPath>bin\staging.UltraSource\CreatingXElements.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Application.cs" />
@@ -95,11 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="My.UltraSource\About JSC.htm" />
-    <Content Include="My.UltraSource\Audio.htm" />
-    <Content Include="My.UltraSource\Data\!References.htm" />
     <Content Include="My.UltraSource\jsc.png" />
-    <Content Include="My.UltraSource\rooster.mp3" />
-    <Content Include="My.UltraSource\Data\MyDocument.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -111,7 +108,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
 ) 
 if $(ConfigurationName)==Release (
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:false

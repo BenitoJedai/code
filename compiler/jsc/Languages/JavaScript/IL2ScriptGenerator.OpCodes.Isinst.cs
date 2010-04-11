@@ -56,15 +56,33 @@ namespace jsc
 			Action<Action> Write =
 				expression =>
 				{
+
+
 					w.Write("(");
-					expression();
 
-					w.WriteSpace();
-					w.Write("instanceof");
-					// http://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Operators/Special_Operators/instanceof_Operator
-					w.WriteSpace();
+					if (i.TargetType == typeof(string))
+					{
+						w.Write("typeof");
+						w.WriteSpace();
+						expression();
+						w.WriteSpace();
+						w.Write("==");
+						w.WriteSpace();
+						w.Write("typeof");
+						w.WriteSpace();
+						w.WriteLiteral("");
 
-					w.WriteDecoratedType(w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType, false);
+					}
+					else
+					{
+						expression();
+						w.WriteSpace();
+						w.Write("instanceof");
+						// http://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Operators/Special_Operators/instanceof_Operator
+						w.WriteSpace();
+
+						w.WriteDecoratedType(w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType, false);
+					}
 
 					w.WriteSpace();
 					w.Write("?");
@@ -73,7 +91,7 @@ namespace jsc
 					// this should be a variable
 
 					expression();
-					
+
 
 					w.WriteSpace();
 					w.Write(":");
@@ -102,7 +120,7 @@ namespace jsc
 				var f = "c$" + i.Offset;
 
 				w.Write("( function () { ");
-				
+
 				w.Write("var ");
 				w.Write(f);
 				w.Helper.WriteAssignment();
