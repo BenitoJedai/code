@@ -40,5 +40,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         public void removeAttribute(string name)
         {
         }
+
+		// https://developer.mozilla.org/En/DOM/Node.attributes
+		public IAttr[] attributes;
     }
 }

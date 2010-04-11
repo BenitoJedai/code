@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.JavaScript.Concepts
 {
@@ -304,4 +305,80 @@ namespace ScriptCoreLib.JavaScript.Concepts
 	}
 
 
+	public static class TreeNodeExtensionsForXElement
+	{
+		public static TreeNode Visualize(this TreeNode t, XElement doc)
+		{
+			ApplyLocalName(t, doc);
+
+			ApplyChildren(doc, t);
+
+			return t;
+		}
+
+		private static XElement ApplyChildren(XElement doc, TreeNode t)
+		{
+			var q = Enumerable.ToArray(
+				from n in doc.Elements()
+				let nt = ApplyLocalName(t.Add(), n)
+				let cc = ApplyChildren(n, nt)
+				select nt
+			);
+
+			return doc;
+		}
+
+		private static TreeNode ApplyLocalName(TreeNode t, XElement cc)
+		{
+			t.IsExpanded = true;
+			t.Element.TextArea.Clear();
+			var c = new IHTMLCode();
+			t.Element.TextArea.Add(c);
+
+			t.Element.ButtonArea.Hide();
+			t.Element.IconArea.Hide();
+
+			Action<string, JSColor> Write =
+				(Text, Color) =>
+				{
+					var cs = new IHTMLSpan { innerText = Text };
+
+					cs.style.color = Color;
+
+					cs.AttachTo(c);
+				};
+
+			Write("<", JSColor.Blue);
+			Write(cc.Name.LocalName, JSColor.FromRGB(0xa0, 0, 0));
+
+			foreach (var item in cc.Attributes().ToArray())
+			{
+				Write(" ", JSColor.None);
+
+				Write("foo", JSColor.Red);
+				Write("='", JSColor.Blue);
+				Write(item.Value, JSColor.Blue);
+				Write("'", JSColor.Blue);
+			}
+
+			if (!cc.Elements().Any())
+			{
+				Write(">", JSColor.Blue);
+
+				Write(cc.Value, JSColor.None);
+
+				Write("</", JSColor.Blue);
+				Write(cc.Name.LocalName, JSColor.FromRGB(0xa0, 0, 0));
+				Write(">", JSColor.Blue);
+
+			}
+			else
+			{
+				Write("/>", JSColor.Blue);
+			}
+
+			return t;
+		}
+
+	}
 }

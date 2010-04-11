@@ -36,5 +36,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			this.InternalValue = value as string;
 
 		}
+
+		public static implicit operator XAttribute(__XAttribute a)
+		{
+			return (XAttribute)(object)a;
+		}
 	}
 }

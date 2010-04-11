@@ -90,10 +90,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			return null;
 		}
 
-		//public IEnumerable<XAttribute> Attributes()
-		//{
-		//    this.InternalElement.att
-		//}
+		public IEnumerable<XAttribute> Attributes()
+		{
+			return this.InternalElement.attributes.Select(
+				k =>
+				{
+					return (XAttribute)new __XAttribute(k.name, null)
+					{
+						InternalElement = this
+					};
+				}
+			);
+		}
 
 	}
 }

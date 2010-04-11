@@ -567,6 +567,7 @@
     <Compile Include="JavaScript\DOM\HTML\IHTMLIFrame.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBreak.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLTableBody.cs" />
+    <Compile Include="JavaScript\DOM\IAttr.cs" />
     <Compile Include="JavaScript\DOM\IDOMImplementation.cs" />
     <Compile Include="JavaScript\DOM\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\DOM\XML\IXMLSerializer.cs" />
