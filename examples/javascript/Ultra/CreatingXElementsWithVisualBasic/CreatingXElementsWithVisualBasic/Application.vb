@@ -38,21 +38,10 @@ NotInheritable Class Application
                 <span style='color: red;'>hello world</span>
             </div>
 
-
-
-
-
         test1.<div>.<h1>(0).Value = "Xml Literals in Visual Basic"
         test1.<div>.<h1>(1).Value = "Thanks!"
 
-        'test1.<div>.<h1>.ForEach(Sub(k As XElement) k.Value = "Xml Literals in Visual Basic")
-
-
-
-
-
         e.XMLSource.innerText = test1.ToString
-
 
         Dim t As New TreeNode(AddressOf VistaTreeNodePage.Create)
 
