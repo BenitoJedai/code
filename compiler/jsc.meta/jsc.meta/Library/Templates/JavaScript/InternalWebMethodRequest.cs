@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Library.Templates.JavaScript
 {
@@ -27,14 +28,24 @@ namespace jsc.meta.Library.Templates.JavaScript
 				that.Data += "&";
 			}
 
-			that.Data += "_" + that.MetadataToken + "_" + name + "=" + Native.Window.escape(value);
+			// http://stackoverflow.com/questions/81991/a-potentially-dangerous-request-form-value-was-detected-from-the-client
+			var __value = value.ToXMLString();
+
+			that.Data += "_" + that.MetadataToken + "_" + name + "=" + Native.Window.escape(__value);
 		}
 
 		public static void Invoke(InternalWebMethodRequest that)
 		{
 			var x = new IXMLHttpRequest();
 
-			x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, "/xml?WebMethod=" + that.MetadataToken);
+			// we are using
+			// "xml" as path
+			// "WebMethod" as method selector
+			// we could hide those details into post.
+
+			var Target = "/xml?WebMethod=" + that.MetadataToken;
+
+			x.open(ScriptCoreLib.Shared.HTTPMethodEnum.POST, Target);
 			x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
 			x.send(that.Data);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using System.Web.Profile;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
@@ -27,7 +28,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 		public static string escapeXML(string s)
 		{
-			return s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;");
+			return s.ToXMLString();
 		}
 
 		public static void InternalApplication_BeginRequest(InternalGlobal g)

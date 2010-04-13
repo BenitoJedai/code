@@ -3,62 +3,75 @@ Imports ScriptCoreLib.JavaScript.DOM
 Imports ScriptCoreLib.JavaScript
 Imports ScriptCoreLib.JavaScript.Extensions
 
-Imports UltraApplicationWithAssets.HTML.Pages.FromAssets
+Imports UltraApplicationWithAssets.HTML.Pages
 Imports UltraApplicationWithAssets.HTML.Audio.FromAssets
 Imports ScriptCoreLib.JavaScript.Runtime
+Imports ScriptCoreLib.JavaScript.Concepts
+Imports ScriptCoreLib.Ultra.Components.HTML.Pages
 
-NotInheritable Class Application
+Partial NotInheritable Class Application
 
-    Dim a As New AboutJSC
+    Public Sub New(ByVal a As IAboutJSC)
 
-    Dim WithEvents WebService_GetTime As IHTMLButton
-    Dim WithEvents Inline1 As IHTMLButton
-
-
-    Public Sub New(ByVal e As IHTMLElement)
         Native.Document.title = "UltraApplicationWithAssets"
-        a.Container.AttachToDocument()
-
-        WebService_GetTime = a.WebService_GetTime
-        Inline1 = a.Inline1
 
 
-        'AddHandler a.WebService_GetTime.onclick, AddressOf WebService_GetTime_onclick
-        'AddHandler a.Inline1.onclick, AddressOf Inline1_onclick
+
+        AddHandler a.WebService_GetTime.onclick,
+            Sub()
+                Dim w As New UltraWebService()
+
+                w.GetTime("time: ",
+                    Sub(Result As String)
+                        Dim p As New IHTMLPre With {
+                            .innerText = Result
+                        }
+
+                        p.AttachTo(a.WebServiceContainer)
+                    End Sub
+                )
+
+                w.GetData(
+                    <Dynamic>
+                        <Action>Hello World</Action>
+                        <Action>Foo bar</Action>
+                    </Dynamic>,
+                    Sub(doc)
+                        Dim t As New TreeNode(AddressOf VistaTreeNodePage.Create)
+
+                        t.Visualize(doc)
+
+                        t.Container.AttachTo(a.WebServiceContainer)
+                    End Sub
+                )
+            End Sub
+
+
+        AddHandler a.Inline1.onclick,
+            Sub()
+
+                Dim t As New Timer(
+                    Sub()
+                        a.Inline1.style.color = ""
+
+                    End Sub
+                )
+
+                t.StartTimeout(1000)
+
+
+                Try
+                    Dim r As New rooster()
+
+                    r.play()
+                Catch
+                End Try
+
+                MsgBox("You should hear a rooster.")
+
+            End Sub
 
     End Sub
-
-    Sub WebService_GetTime_onclick(ByVal e As IEvent) Handles WebService_GetTime.onclick
-        Dim w As New UltraWebService()
-
-        w.GetTime("time: ", AddressOf GetTimeHandler)
-    End Sub
-
-    Sub GetTimeHandler(ByVal result As String)
-        Dim p As New IHTMLPre With {
-                .innerText = result
-            }
-
-        p.AttachTo(a.WebServiceContainer)
-    End Sub
-
-    Sub TimerHandler()
-        a.Inline1.style.color = ""
-    End Sub
-    Sub Inline1_onclick(ByVal e As IEvent) Handles Inline1.onclick
-        Dim t As New Timer(AddressOf TimerHandler)
-
-        t.StartTimeout(1000)
-
-        Try
-            Dim r As New rooster()
-
-            r.play()
-        Catch
-        End Try
-    End Sub
-
-
 
 
 

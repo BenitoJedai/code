@@ -274,7 +274,6 @@
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.cs" />
-    <Compile Include="Commands\Rewrite\RewriteToUltraDocumentation\RewriteToUltraDocumentation.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
     <Compile Include="Library\BCLExtensions.cs" />

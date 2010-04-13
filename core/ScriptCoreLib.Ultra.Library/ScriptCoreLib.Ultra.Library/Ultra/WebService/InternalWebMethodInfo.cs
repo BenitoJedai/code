@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Web;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
@@ -113,7 +114,7 @@ namespace ScriptCoreLib.Ultra.WebService
 
 					//Console.WriteLine("LoadParameters: value: " + value);
 
-					Parameter.Value = value;
+					Parameter.Value = value.FromXMLString();
 				}
 			}
 		}
