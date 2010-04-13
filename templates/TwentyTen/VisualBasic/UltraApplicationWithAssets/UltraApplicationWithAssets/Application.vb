@@ -15,6 +15,16 @@ Partial NotInheritable Class Application
 
         Native.Document.title = "UltraApplicationWithAssets"
 
+        Dim ww As New UltraWebService
+
+        ww.GetHTML(Sub(html As XElement) a.WebServiceContainer.Add(html))
+
+
+
+        'does not work yet
+        'ww.GetHTML(AddressOf a.WebServiceContainer.Add)
+        'a.WebServiceContainer.Add(AddressOf ww.GetHTML)
+
 
 
         AddHandler a.WebService_GetTime.onclick,

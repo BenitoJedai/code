@@ -27,6 +27,11 @@ Partial Public NotInheritable Class UltraWebService
 
 
     Public Sub GetHTML(ByVal f As XElementAction)
-
+        f(
+            <div style='border-left: 2em solid gray; padding-left: 1em; margin-left: 1em;'>
+                <h3>Hello world</h3>
+                <p>Foo bar</p>
+            </div>
+        )
     End Sub
 End Class
