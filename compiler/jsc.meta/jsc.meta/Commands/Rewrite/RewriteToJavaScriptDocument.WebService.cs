@@ -293,7 +293,11 @@ namespace jsc.meta.Commands.Rewrite
 					foreach (var item in from m in SourceType.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
 										 let s = m.GetSignatureTypes()
 										 where s.All(
-											p => p.IsDelegate() || p == typeof(void) || p == typeof(string)
+											p => 
+												p.IsDelegate() 
+												|| p == typeof(void) 
+												|| p == typeof(string)
+												|| p == typeof(XElement)
 										 )
 										 select m)
 					{
@@ -346,6 +350,12 @@ namespace jsc.meta.Commands.Rewrite
 									AddResult_il.Emit(OpCodes.Ldloc, (short)(loc3.LocalIndex));
 									AddResult_il.Emit(OpCodes.Ldstr, p_InvokeParameter.Name);
 									AddResult_il.Emit(OpCodes.Ldarg, (short)(p_InvokeParameter.Position + 1));
+
+									if (p_InvokeParameter.ParameterType == typeof(XElement))
+									{
+										AddResult_il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
+									}
+
 									AddResult_il.Emit(OpCodes.Call,
 										MethodCache[
 											(
@@ -375,6 +385,11 @@ namespace jsc.meta.Commands.Rewrite
 									((Func<InternalWebMethodInfo, string, string>)InternalWebMethodInfo.GetParameterValue).Method
 									]
 								);
+
+								if (p.ParameterType == typeof(XElement))
+								{
+									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
+								}
 							}
 						}
 
@@ -753,7 +768,11 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				foreach (var item in from m in SourceType.GetMethods()
 									 let s = m.GetSignatureTypes()
 									 where s.All(
-										p => p.IsDelegate() || p == typeof(void) || p == typeof(string)
+										p =>
+											p.IsDelegate()
+											|| p == typeof(void)
+											|| p == typeof(string)
+											|| p == typeof(XElement)
 									 )
 									 select m)
 				{
@@ -848,9 +867,17 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 							foreach (var pp in p.ParameterType.GetMethod("Invoke").GetParameters())
 							{
+
 								il.Emit(OpCodes.Ldarg_2);
 								il.Emit(OpCodes.Ldstr, pp.Name);
 								il.Emit(OpCodes.Call, MethodCache[typeof(InternalWebMethodRequest.ParameterLookup).GetMethod("Invoke")]);
+
+								if (pp.ParameterType == typeof(XElement))
+								{
+									// yay. server to javascript works.
+									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
+								}
+
 							}
 
 							il.Emit(OpCodes.Call, MethodCache[p.ParameterType.GetMethod("Invoke")]);
@@ -882,14 +909,20 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 							il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
 							il.Emit(OpCodes.Stfld, request_delegates[p]);
 						}
+
 						else
 						{
 							il.Emit(OpCodes.Ldloc, (short)(loc0.LocalIndex));
 							il.Emit(OpCodes.Ldstr, p.Name);
 							il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
+
+							if (p.ParameterType == typeof(XElement))
+							{
+								il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
+							}
+
 							il.Emit(OpCodes.Call,
 								MethodCache[((Action<InternalWebMethodRequest, string, string>)InternalWebMethodRequest.AddParameter).Method]
-
 							);
 						}
 					}

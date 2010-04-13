@@ -45,6 +45,19 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			return "" + value;
 		}
 
+		public static string ToString(object value)
+		{
+			if (value == null)
+				return null;
+
+			var s = value as string;
+			if (s != null)
+				return s;
+
+			return value.ToString();
+		}
+
+
 		public static string ToString(bool value)
 		{
 			if (value)

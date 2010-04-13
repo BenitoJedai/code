@@ -84,6 +84,10 @@
     <Reference Include="ScriptCoreLib.Avalon">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.3743.24529, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
@@ -137,7 +141,6 @@
     <Compile Include="UltraWebService.vb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
