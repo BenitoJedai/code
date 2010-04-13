@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM;
+using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class INodeExtensions
 	{
+	
+
 		public static void Clear(this INode e)
 		{
 			var p = e.firstChild;
@@ -29,4 +33,6 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			e.parentNode.replaceChild(value, e);
 		}
 	}
+
+	
 }
