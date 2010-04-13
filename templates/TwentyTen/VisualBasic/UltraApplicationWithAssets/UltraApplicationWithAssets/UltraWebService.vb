@@ -24,4 +24,9 @@ Partial Public NotInheritable Class UltraWebService
 
 
     End Sub
+
+
+    Public Sub GetHTML(ByVal f As XElementAction)
+
+    End Sub
 End Class
