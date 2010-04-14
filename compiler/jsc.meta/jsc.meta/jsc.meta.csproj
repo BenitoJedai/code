@@ -397,6 +397,10 @@
       <Project>{132EB43F-19B4-42AC-8025-3249B129867A}</Project>
       <Name>ScriptCoreLib.Ultra.Library</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\core\ScriptCoreLib.Ultra.VisualBasic\ScriptCoreLib.Ultra.VisualBasic.vbproj">
+      <Project>{9CF379F4-DC30-4793-B379-653AF2E2F0FA}</Project>
+      <Name>ScriptCoreLib.Ultra.VisualBasic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj">
       <Project>{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}</Project>
       <Name>ScriptCoreLib.Ultra</Name>

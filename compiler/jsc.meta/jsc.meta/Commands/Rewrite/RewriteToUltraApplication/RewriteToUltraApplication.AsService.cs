@@ -188,12 +188,14 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 							// todo: add a post build event to prebuild and package this loader...
 
 
+
 							Context.Response.Write("<meta http-equiv='refresh' content='9' />");
 							Context.Response.Write("<title>Loading...</title>");
 
-							Context.Response.Write("<div style='margin-left:4em; margin-bottom:1em;'>");
+							Context.Response.Write(WebElements.PageShadowContainer.ToString());
+
+							Context.Response.Write("<body style='margin: 0; padding: 0;'>");
 							Context.Response.Write("<p><a href='http://jsc-solutions.net'><img style='border: 0;' src='http://www.jsc-solutions.net/assets/ScriptCoreLib/jsc.png' /></a></p>");
-							Context.Response.Write("</div>");
 
 							Context.Response.Write("<div style='border-left: 96px solid #efefef; padding-left: 4em; margin-left: 4em;'>");
 
@@ -210,7 +212,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 							//Context.Response.Write("<p></p>");
 							//Context.Response.Write("<p></p>");
 							//Context.Response.Write("<p><small>* Additional development is required by our end</small></p>");
-							Context.Response.Write("</div>");
+							Context.Response.Write("</body>");
 
 
 							Context.CompleteRequest();
