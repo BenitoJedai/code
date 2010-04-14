@@ -1,6 +1,5 @@
 ﻿Imports ScriptCoreLib.Ultra.Library.Delegates
 
-Public Delegate Sub EnumerateAction(ByVal Key As String, ByVal Field1 As String)
 
 
 
@@ -41,11 +40,16 @@ Public NotInheritable Class UltraWebService
 
 
 
-    Public Sub Enumerate(ByVal yield As EnumerateAction)
+    Public Sub Enumerate(ByVal yield As XElementAction)
         Using ctx As DataClasses1DataContext = New DataClasses1DataContext
             Dim item As Table1
             For Each item In ctx.Table1s
-                yield.Invoke((item.ID), item.Text1)
+                yield(
+                    <Data>
+                        <ID><%= "" & item.ID %></ID>
+                        <Text1><%= "" & item.Text1 %></Text1>
+                    </Data>
+                )
             Next
         End Using
     End Sub

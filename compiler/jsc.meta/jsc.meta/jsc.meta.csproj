@@ -190,6 +190,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava.XLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.XLinq.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibNative, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibNative.dll</HintPath>

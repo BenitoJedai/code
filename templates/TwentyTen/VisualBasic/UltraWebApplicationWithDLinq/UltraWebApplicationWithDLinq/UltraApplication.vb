@@ -2,16 +2,19 @@
 Imports ScriptCoreLib.JavaScript.Extensions
 Imports ScriptCoreLib.JavaScript
 
-Imports UltraWebApplicationWithDLinq.HTML.Pages.FromAssets
+Imports UltraWebApplicationWithDLinq.HTML.Pages
 
 Public NotInheritable Class UltraApplication
 
-    Dim a As New HTMLPage1
+    Dim a As IHTMLPage1
 
     Dim WithEvents button1 As New IHTMLButton
     Dim WithEvents button2 As New IHTMLButton
 
-    Public Sub New(ByVal e As IHTMLElement)
+    Public Sub New(ByVal a As IHTMLPage1)
+
+        Me.a = a
+
 
         Native.Document.title = "UltraWebApplicationWithDLinq"
 
@@ -21,7 +24,6 @@ Public NotInheritable Class UltraApplication
         a.Button1.innerText = "Add"
         a.Button2.innerText = "Enumerate"
 
-        a.Container.AttachToDocument()
     End Sub
 
 
@@ -46,12 +48,25 @@ Public NotInheritable Class UltraApplication
     End Sub
 
     Sub Enumerate(ByVal dummy As String)
-        a.Content.removeChildren()
+        a.Content.Clear()
 
         Dim w As New UltraWebService
         button2.style.color = ""
 
-        w.Enumerate(AddressOf YieldEnumerate)
+        w.Enumerate(
+            Sub(Data As XElement)
+
+                a.Content.Add(
+                    <div>
+                        <code>
+                            <span>#</span><span><%= Data.<ID>(0).Value %></span>
+                            <span> - </span>
+                            <span><%= Data.<Text1>(0).Value %></span>
+                        </code>
+                    </div>
+                )
+            End Sub
+        )
 
     End Sub
     Private Sub button2_onclick(ByVal e As ScriptCoreLib.JavaScript.DOM.IEvent) Handles button2.onclick

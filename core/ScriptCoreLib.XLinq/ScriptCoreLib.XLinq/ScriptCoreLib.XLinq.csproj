@@ -66,6 +66,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XDocument.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XElement.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XName.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XNamespace.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XNode.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XObject.cs" />
     <Compile Include="JavaScript\Extensions\XLinqExtensions.cs" />

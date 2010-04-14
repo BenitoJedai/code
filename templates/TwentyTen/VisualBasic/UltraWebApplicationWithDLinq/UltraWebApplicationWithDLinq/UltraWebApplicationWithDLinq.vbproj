@@ -65,30 +65,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\jsc.meta.exe</HintPath>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ScriptCoreLib">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Library">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.XLinq">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
