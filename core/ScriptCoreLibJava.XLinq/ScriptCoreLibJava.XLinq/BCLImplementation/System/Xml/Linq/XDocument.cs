@@ -42,7 +42,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 				var doc = b.parse(s);
 
-				r = new __XDocument { InternalDocument = doc };
+				r = new __XDocument
+				{
+					InternalDocument = doc,
+					InternalNode = doc
+				};
 
 			}
 			catch

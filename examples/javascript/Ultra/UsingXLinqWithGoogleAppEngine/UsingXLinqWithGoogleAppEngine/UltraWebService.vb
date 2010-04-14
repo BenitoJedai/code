@@ -11,7 +11,7 @@ Partial Public NotInheritable Class UltraWebService
     End Sub
     Public Sub GetHTML(ByVal f As XElementAction)
 
-        Dim xml = XElement.Parse("<div>Google App Engine XElement</div>")
+        Dim xml = XElement.Parse("<div style='color: blue;'>Google App Engine XElement</div>")
 
         f(xml)
 
