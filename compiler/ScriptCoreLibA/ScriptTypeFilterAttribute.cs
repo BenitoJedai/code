@@ -23,15 +23,23 @@ namespace ScriptCoreLib
 			}
 		}
 
-		public readonly ScriptType Type;
-		public readonly string Filter;
+		public ScriptType Type;
+		public string Filter;
 
-		public ScriptTypeFilterAttribute(ScriptType e)
-			: this(e, "*")
+		public ScriptTypeFilterAttribute()
 		{
+			Type = ScriptType.Unknown;
 		}
 
-		public ScriptTypeFilterAttribute(ScriptType e, Type f) : this(e, f.Namespace)
+
+		public ScriptTypeFilterAttribute(ScriptType e)
+		{
+			Type = e;
+			Filter = "*";
+		}
+
+		public ScriptTypeFilterAttribute(ScriptType e, Type f)
+			: this(e, f.Namespace)
 		{
 
 		}

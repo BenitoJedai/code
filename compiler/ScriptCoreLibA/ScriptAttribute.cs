@@ -413,7 +413,12 @@ namespace ScriptCoreLib
 						return null;
 
 					if (ts.IsScriptLibrary)
-						x = new ScriptAttribute();
+					{
+						// we should not be overriding the script attribute if it already exists.
+
+						if (x == null)
+							x = new ScriptAttribute();
+					}
 
 				}
 

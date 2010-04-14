@@ -202,6 +202,7 @@ namespace jsc.Languages
 			return _ns;
 		}
 
+		[Obsolete]
 		public static void InvokeEntryPoints(DirectoryInfo dir, Assembly a)
 		{
 			foreach (Type v in a.GetTypes())

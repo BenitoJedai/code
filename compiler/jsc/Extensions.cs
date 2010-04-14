@@ -439,6 +439,8 @@ namespace jsc //.Extensions
 		public static T[] GetCustomAttributes<T>(this Assembly e)
 			where T : System.Attribute
 		{
+			// "Could not load type
+
 			return (T[])Attribute.GetCustomAttributes(e, typeof(T), false);
 		}
 

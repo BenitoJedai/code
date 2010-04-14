@@ -87,7 +87,10 @@ namespace jsc.meta.Commands.Rewrite
 					let ctor_p = ctor.GetParameters()
 					where ctor_p.Length == 1
 					let ctor_a = ctor_p.Single().ParameterType
+
+					// note that the IUltraComponent style is now the preferred way
 					where ctor_a == typeof(IHTMLElement) || typeof(IUltraComponent).IsAssignableFrom(ctor_a)
+
 					select ctor_a).FirstOrDefault()
 
 				let IsJavaScript = JavaScriptConstructorArgument != null
@@ -231,16 +234,36 @@ namespace jsc.meta.Commands.Rewrite
 
 				if (k.IsWebServiceJava)
 				{
+					ScriptLibraries.AddRange(
+						new[]
+						{
+							typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+							typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
+							typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
+						}
+					);
+
 					k.StagingFolder.DefinesTypes(
 						typeof(ScriptCoreLib.ScriptAttribute),
 						typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.XLinq.IAssemblyReferenceToken),
 						typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
 						typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken)
 					);
 
 				}
 
+				var ScriptCoreLib_Query = typeof(global::ScriptCoreLib.Shared.Query.IAssemblyReferenceToken);
+				var System_Core = typeof(global::System.Linq.Enumerable).Assembly;
 
+				var ScriptCoreLib_XLinq = typeof(global::ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken);
+				var ScriptCoreLibJava_XLinq = typeof(global::ScriptCoreLibJava.XLinq.IAssemblyReferenceToken);
+				var System_XLinq = typeof(global::System.Xml.Linq.XElement).Assembly;
+
+
+
+
+				#region RewriteToAssembly
 				r = new RewriteToAssembly
 				{
 					assembly = this.assembly,
@@ -361,23 +384,29 @@ namespace jsc.meta.Commands.Rewrite
 					PostAssemblyRewrite =
 						a =>
 						{
-							if (k.IsJavaScript || k.IsActionScript || k.IsJava)
+							if (k.IsJavaScript || k.IsActionScript || k.IsJava || k.IsWebServiceJava)
 							{
 								a.Assembly.DefineAttribute(
-								   new ObfuscationAttribute
+								   new ScriptAttribute
 								   {
-									   Feature = "script",
+									   IsScriptLibrary = true,
+									   ScriptLibraries = ScriptLibraries.ToArray()
 								   },
-								   typeof(ObfuscationAttribute)
+								   typeof(ScriptAttribute)
 								);
 
-								a.Module.DefineType(
-									k.TargetType.Namespace + ".ImplementationDetails.BCLImplementationReferences",
-									TypeAttributes.Public | TypeAttributes.Interface | TypeAttributes.Abstract,
-									null,
-									r.RewriteArguments.context.TypeCache[ScriptLibraries.ToArray()]
-								).CreateType();
+								// IsScriptLibrary still needs to know which languages are being used...
+								a.Assembly.DefineAttribute(
+									new ScriptTypeFilterAttribute(
+										k.IsJavaScript ? ScriptType.JavaScript :
+										k.IsActionScript ? ScriptType.ActionScript :
+										ScriptType.Java
+									),
+								   
+									typeof(ScriptTypeFilterAttribute)
+								);
 
+							
 							}
 
 							if (k.IsJavaScript)
@@ -424,45 +453,7 @@ namespace jsc.meta.Commands.Rewrite
 
 								if (k.IsWebServiceJava)
 								{
-									#region yay attributes
-									var ScriptAttribute = typeof(ScriptCoreLib.ScriptAttribute);
 
-									var ScriptTypeFilterAttribute = default(Func<ScriptType, ScriptTypeFilterAttribute>).ToConstructorInfo();
-
-
-									var AssemblyScriptAttribute = new ScriptAttribute
-									{
-										IsScriptLibrary = true,
-										ScriptLibraries = new[] {
-											typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
-											typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
-											typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
-										},
-
-										// at this point we should not have NonScriptTypes anymore...
-
-										//NonScriptTypes = assembly.GetTypes().Where(
-										//    k =>
-										//        k.Namespace.EndsWith(".My") ||
-										//        k.Namespace.EndsWith(".My.Resources")
-										//).ToArray()
-									};
-
-									a.Assembly.DefineScriptAttribute(
-										new
-										{
-											AssemblyScriptAttribute.IsScriptLibrary,
-											AssemblyScriptAttribute.ScriptLibraries,
-											AssemblyScriptAttribute.NonScriptTypes
-										}
-									);
-
-									a.Assembly.SetCustomAttribute(
-										new CustomAttributeBuilder(
-											ScriptTypeFilterAttribute, new object[] { ScriptType.Java }
-										)
-									);
-									#endregion
 
 									var xmlns = new
 									{
@@ -522,6 +513,9 @@ namespace jsc.meta.Commands.Rewrite
 						}
 					#endregion
 				};
+				#endregion
+
+
 
 				if (k.IsJava || k.IsActionScript || k.IsWebService)
 				{
@@ -536,12 +530,23 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							}
 
+
 						};
 
 					#region TypeCache
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
+							if (k.IsJava || k.IsWebServiceJava)
+							{
+								// java applet and google app engine servlets using XLinq.
+
+								if (ScriptCoreLibJava_XLinq != null && SourceType.Assembly == System_XLinq)
+								{
+									ScriptLibraries.Add(ScriptCoreLibJava_XLinq);
+									ScriptCoreLibJava_XLinq = null;
+								}
+							}
 
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
 
@@ -613,6 +618,7 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
+				#region AtILOverride copy assets
 				r.AtILOverride +=
 					(context, x) =>
 					{
@@ -644,6 +650,8 @@ namespace jsc.meta.Commands.Rewrite
 								}
 							};
 					};
+				#endregion
+
 
 				#region IsJavaScript IL patching
 				if (k.IsJavaScript)
@@ -680,12 +688,6 @@ namespace jsc.meta.Commands.Rewrite
 						};
 					#endregion
 
-
-					var ScriptCoreLib_Query = typeof(global::ScriptCoreLib.Shared.Query.IAssemblyReferenceToken);
-					var System_Core = typeof(global::System.Linq.Enumerable).Assembly;
-
-					var ScriptCoreLib_XLinq = typeof(global::ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken);
-					var System_XLinq = typeof(global::System.Xml.Linq.XElement).Assembly;
 
 
 					#region TypeCache
