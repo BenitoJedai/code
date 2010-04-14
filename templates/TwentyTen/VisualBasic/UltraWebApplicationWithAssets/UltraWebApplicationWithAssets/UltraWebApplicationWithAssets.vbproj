@@ -3,8 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion></ProductVersion>
-    <SchemaVersion></SchemaVersion>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
     <ProjectGuid>{F818EAAE-6F3E-48CF-BC55-90FB66635833}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -63,30 +65,30 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\jsc.meta.exe</HintPath>
+      <HintPath>c:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ScriptCoreLib">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Library">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.XLinq">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -224,8 +226,7 @@
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UltraApplication.vb" />
-    <Compile Include="UltraWebService.vb" />
+    <Compile Include="Application.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -261,10 +262,12 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2011</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl></IISUrl>
+          <IISUrl>
+          </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl></CustomServerUrl>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
@@ -286,8 +289,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-      if not $(ConfigurationName)==Assets goto :eof
-      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /IsMerge:true /AttachDebugger:false
+      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"  /Configuration:"$(ConfigurationName)" /AttachDebugger:false
     </PreBuildEvent>
   </PropertyGroup>
 </Project>

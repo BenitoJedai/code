@@ -12,7 +12,7 @@ Public Class Global_asax
         ' Fires when the session is started
     End Sub
     Protected Sub Application_BeginRequest(ByVal sender As Object, ByVal e As EventArgs)
-        AsService.BeginRequest(Me, GetType(UltraApplication))
+        AsService.BeginRequest(Me, GetType(Application))
     End Sub
 
 

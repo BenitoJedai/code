@@ -17,6 +17,10 @@ Partial NotInheritable Class Application
 
         Dim ww As New UltraWebService
 
+        a.WebServiceContainer.Add(
+            <div style='border: 1px solid gray; padding: 2em;'>Hello world</div>
+        )
+
         ww.GetHTML(Sub(html As XElement) a.WebServiceContainer.Add(html))
 
 

@@ -29,6 +29,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			}
 		}
 
+	
+
 		public static void Add(this INode e, Action<XElementAction> factory)
 		{
 			factory(e.Add);
