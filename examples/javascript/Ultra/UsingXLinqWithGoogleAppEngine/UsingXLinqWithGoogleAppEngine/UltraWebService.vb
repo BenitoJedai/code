@@ -4,12 +4,17 @@ Imports ScriptCoreLib.Ultra.Library.Delegates
 Partial Public NotInheritable Class UltraWebService
 
     ' Step 1. Google App Engine Java needs to resolve XElement type.
+    ' Step 2. Implement Parse and ToSting for XElement
 
     Public Sub TransformHTML(ByVal x As XElement, ByVal f As XElementAction)
 
     End Sub
     Public Sub GetHTML(ByVal f As XElementAction)
-        '  Dim dummy As XElement = Nothing
+
+        Dim xml = XElement.Parse("<div>Hello World</div>")
+
+        f(xml)
+
 
 
 
