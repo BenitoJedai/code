@@ -358,6 +358,17 @@
     <Compile Include="javax\swing\UIDefaults.cs" />
     <Compile Include="javax\swing\UIManager.cs" />
     <Compile Include="javax\swing\undo\UndoableEdit.cs" />
+    <Compile Include="javax\xml\transform\dom\DOMSource.cs" />
+    <Compile Include="javax\xml\transform\ErrorListener.cs" />
+    <Compile Include="javax\xml\transform\Result.cs" />
+    <Compile Include="javax\xml\transform\Source.cs" />
+    <Compile Include="javax\xml\transform\SourceLocator.cs" />
+    <Compile Include="javax\xml\transform\stream\StreamResult.cs" />
+    <Compile Include="javax\xml\transform\Templates.cs" />
+    <Compile Include="javax\xml\transform\Transformer.cs" />
+    <Compile Include="javax\xml\transform\TransformerException.cs" />
+    <Compile Include="javax\xml\transform\TransformerFactory.cs" />
+    <Compile Include="javax\xml\transform\URIResolver.cs" />
     <Compile Include="java\awt\Adjustable.cs" />
     <Compile Include="java\awt\AWTEvent.cs">
       <SubType>Code</SubType>
@@ -570,6 +581,7 @@
     <Compile Include="java\io\ObjectOutput.cs" />
     <Compile Include="java\io\Serializable.cs" />
     <Compile Include="java\io\StringReader.cs" />
+    <Compile Include="java\io\StringWriter.cs" />
     <Compile Include="java\lang\Character.cs" />
     <Compile Include="java\lang\Number.cs" />
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
