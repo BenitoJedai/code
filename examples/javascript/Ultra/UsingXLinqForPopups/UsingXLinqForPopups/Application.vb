@@ -25,8 +25,14 @@ Partial NotInheritable Class Application
 
         AddHandler a.NewWindow.onclick,
             Sub()
-                Dim w1 = Native.Window.open("about:blank", "_blank", 600, 300, False)
+                Dim WindowTarget = "_blank"
 
+                If (a.Docked.checked) Then
+                    a.Dock1.name = "_Dock1"
+                    WindowTarget = a.Dock1.name
+                End If
+
+                Dim w1 = Native.Window.open("about:blank", WindowTarget, 600, 300, False)
 
 
 
@@ -62,6 +68,11 @@ Partial NotInheritable Class Application
                 )
                 w1.document.close()
 
+                If (a.Editable.checked) Then
+                    w1.document.DesignMode = True
+
+                End If
+
                 w1.document.body.Add(
                   <div>Hello World</div>
               )
@@ -87,23 +98,29 @@ Partial NotInheritable Class Application
 
                     End Sub
 
+                'AddHandler w1.onbeforeunload,
+                '    Sub()
+                '        w1.document.DesignMode = False
+
+                '    End Sub
+
                 AddHandler Native.Window.onbeforeunload,
                     Sub()
                         w1.close()
 
                     End Sub
 
-                AddHandler Native.Window.onfocus,
-                    Sub()
-                        w1.document.body.style.backgroundColor = JSColor.White
+                'AddHandler Native.Window.onfocus,
+                '    Sub()
+                '        w1.document.body.style.backgroundColor = JSColor.White
 
-                    End Sub
+                '    End Sub
 
-                AddHandler Native.Window.onblur,
-                    Sub()
-                        w1.document.body.style.backgroundColor = JSColor.None
+                'AddHandler Native.Window.onblur,
+                '    Sub()
+                '        w1.document.body.style.backgroundColor = JSColor.None
 
-                    End Sub
+                '    End Sub
             End Sub
 
 

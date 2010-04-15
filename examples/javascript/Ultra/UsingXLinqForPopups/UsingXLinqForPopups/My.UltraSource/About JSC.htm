@@ -8,13 +8,21 @@
         <div style='border: 1px solid #909090;'>
             <div style='background: #efefef; border-bottom: 1px solid gray;'>
                 <img src="jsc.png" id="Logo1" />
-
-                <input id='Docked' type='checkbox' />
-                <button id='NewWindow'>New Window</button>
-                
+                <p>
+                    <label id='DockedLabel'>
+                        Docked</label>
+                    <input id='Docked' type='checkbox' />
+                </p>
+                <p>
+                    <label id='EditableLabel'>
+                        Editable</label>
+                    <input id='Editable' type='checkbox' />
+                </p>
+                <button id='NewWindow'>
+                    New Window</button>
+                <iframe id='Dock1'></iframe>
             </div>
             <div style='padding: 1em;'>
-
                 <b>Ultra Application With Assets</b>. Write javascript, flash and java applets within
                 a C# project.
                 <br />
@@ -46,7 +54,7 @@
                     <iframe style='width: 40%; height: 360px;' frameborder="0" src='http://www.jsc-solutions.net/UsingXLinqForPopups'>
                     </iframe>
                     <button id='Inline1' onclick='javascript: this.style.color = "red"' style='text-align: left;
-                        position: absolute; left: 41%; width: 59%; height:360px;'>
+                        position: absolute; left: 41%; width: 59%; height: 360px;'>
                         <div>
                             Click to run inline javascript seen below. (onclick attribute)
                         </div>

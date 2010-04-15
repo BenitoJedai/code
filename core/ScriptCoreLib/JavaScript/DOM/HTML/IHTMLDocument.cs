@@ -313,6 +313,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         internal string designMode;
 
+		/// <summary>
+		/// http://code.google.com/p/doctype/wiki/DocumentDesignModeProperty
+		/// 
+		/// http://stackoverflow.com/questions/443033/editable-div-element
+		/// </summary>
         public bool DesignMode
         {
             [Script(DefineAsStatic = true)]
