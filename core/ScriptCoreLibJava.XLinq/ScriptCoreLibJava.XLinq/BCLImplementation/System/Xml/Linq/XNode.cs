@@ -13,7 +13,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 	[Script(Implements = typeof(global::System.Xml.Linq.XNode))]
 	internal class __XNode : __XObject
 	{
-		public org.w3c.dom.Node InternalNode;
+		public org.w3c.dom.Node InternalValue;
 
 		public override string ToString()
 		{
@@ -22,7 +22,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 			try
 			{
-				Source source = new DOMSource(this.InternalNode);
+				Source source = new DOMSource(this.InternalValue);
 				StringWriter stringWriter = new StringWriter();
 				Result result = new StreamResult(stringWriter);
 				TransformerFactory factory = TransformerFactory.newInstance();

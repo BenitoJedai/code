@@ -73,7 +73,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 				}
 			}
 
-			#region XElement
+			#region XAttribute
 			{
 				var e = (__XAttribute)(object)(content as XAttribute);
 				if (e != null)

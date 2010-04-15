@@ -742,6 +742,7 @@
     <Compile Include="java\util\Set.cs" />
     <Compile Include="org\w3c\dom\Attr.cs" />
     <Compile Include="org\w3c\dom\CDATASection.cs" />
+    <Compile Include="org\w3c\dom\CharacterData.cs" />
     <Compile Include="org\w3c\dom\Comment.cs" />
     <Compile Include="org\w3c\dom\DOMImplementation.cs" />
     <Compile Include="org\w3c\dom\DocumentType.cs" />
