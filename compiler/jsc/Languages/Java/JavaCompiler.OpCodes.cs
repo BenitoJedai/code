@@ -536,7 +536,7 @@ namespace jsc.Languages.Java
 					var _TargetType = MySession.ResolveImplementation(e.i.TargetType) ?? e.i.TargetType;
 
 					// typeof(System.__String) or typeof(java.lang.String)
-					
+
 					_TargetType = _TargetType.ToScriptAttributeOrDefault().ImplementationType ?? _TargetType;
 
 					#region _RuntimeTypeHandle_From_Class
@@ -593,7 +593,7 @@ namespace jsc.Languages.Java
 						WriteSpace();
 
 						WriteDecoratedTypeNameOrImplementationTypeName(
-							e.i.TargetType, false, false
+							e.i.TargetType, false, true
 							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 						);
 
@@ -605,7 +605,7 @@ namespace jsc.Languages.Java
 
 						Write("(");
 						WriteDecoratedTypeNameOrImplementationTypeName(
-							e.i.TargetType, false, false
+							e.i.TargetType, false, true
 							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 						);
 						Write(")");
@@ -625,7 +625,7 @@ namespace jsc.Languages.Java
 
 						Write("(");
 						WriteDecoratedTypeNameOrImplementationTypeName(
-							e.i.TargetType, false, false
+							e.i.TargetType, false, true
 							//IsFullyQualifiedNamesRequired(e.Method.DeclaringType, e.i.TargetType)
 						);
 						Write(")");
@@ -1492,7 +1492,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Ret] =
 				e =>
 				{
-					
+
 
 					WriteReturn(e.p, e.i);
 				};
@@ -1627,7 +1627,7 @@ namespace jsc.Languages.Java
 					}
 
 					// what if we are storing a call to byte as an int?
-					
+
 					Emit(e.p, e.FirstOnStack, e.i.TargetVariable.LocalType);
 				};
 			#endregion

@@ -21,7 +21,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				return (XElement)(object)
 					new __XElement
 					{
-						InternalNode = InternalDocument.getDocumentElement(),
+						InternalValue = InternalDocument.getDocumentElement(),
 
 					};
 			}
@@ -40,12 +40,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 				var s = new InputSource(new StringReader(text));
 
+				
 				var doc = b.parse(s);
 
 				r = new __XDocument
 				{
 					InternalDocument = doc,
-					InternalNode = doc
+					InternalValue = doc
 				};
 
 			}

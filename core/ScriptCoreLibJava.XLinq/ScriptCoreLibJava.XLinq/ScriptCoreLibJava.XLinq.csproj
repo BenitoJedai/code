@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BCLImplementation\System\Xml\Linq\XNamespace.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XDocument.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\Extensions.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XAttribute.cs" />

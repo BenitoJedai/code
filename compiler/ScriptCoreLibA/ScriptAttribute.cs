@@ -171,7 +171,7 @@ namespace ScriptCoreLib
 		public string ExternalTarget;
 
 		/// <summary>
-		/// provides a way to redirect emthods
+		/// Supports redirecting BCLImplementation.
 		/// </summary>
 		public Type Implements;
 
