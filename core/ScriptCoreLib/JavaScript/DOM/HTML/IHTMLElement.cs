@@ -129,11 +129,12 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			//throw new System.NotImplementedException();
 		}
 		public IHTMLElement(HTMLElementEnum tag) { }
+		public IHTMLElement(HTMLElementEnum tag, IHTMLDocument doc) { }
 		public IHTMLElement(HTMLElementEnum tag, string text) { }
 		public IHTMLElement(params INode[] children) { }
 		public IHTMLElement(HTMLElementEnum tag, params INode[] children) { }
 
-		private static IHTMLElement InternalConstructor()
+		internal static IHTMLElement InternalConstructor()
 		{
 			return InternalConstructor(null, null, null);
 		}
@@ -153,14 +154,21 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			return InternalConstructor(tag, text, null);
 		}
 
-
-
-		private static IHTMLElement InternalConstructor(HTMLElementEnum tag, string text, IHTMLDocument doc)
+		internal static IHTMLElement InternalConstructor(HTMLElementEnum tag, IHTMLDocument  doc)
 		{
-			IHTMLDocument d = (doc == null ? Native.Document : doc);
+			if (doc == null)
+				doc = Native.Document;
+
+			// jsc should really support enum.ToString!
+			IHTMLElement c = (IHTMLElement)doc.createElement(tag);
 
 
-			IHTMLElement c = d.createElement(tag);
+			return c;
+		}
+
+		internal static IHTMLElement InternalConstructor(HTMLElementEnum tag, string text, IHTMLDocument doc)
+		{
+			IHTMLElement c = InternalConstructor(tag, doc);
 
 			if (text != null)
 				c.appendChild(new ITextNode(text));
@@ -168,7 +176,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			return c;
 		}
 
-		private static IHTMLElement InternalConstructor(params INode[] children)
+		internal static IHTMLElement InternalConstructor(params INode[] children)
 		{
 			return InternalConstructor(HTMLElementEnum.div, children);
 		}
@@ -209,7 +217,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 				if (this.childNodes.Length == 0)
 				{
-					n = new ITextNode();
+					n = new ITextNode(this.ownerDocument);
 
 					this.appendChild(n);
 				}
@@ -223,7 +231,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 					{
 						this.removeChildren();
 
-						n = new ITextNode();
+						n = new ITextNode(this.ownerDocument);
 
 						this.appendChild(n);
 					}
@@ -232,7 +240,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 				{
 					this.removeChildren();
 
-					n = new ITextNode();
+					n = new ITextNode(this.ownerDocument);
 
 					this.appendChild(n);
 				}

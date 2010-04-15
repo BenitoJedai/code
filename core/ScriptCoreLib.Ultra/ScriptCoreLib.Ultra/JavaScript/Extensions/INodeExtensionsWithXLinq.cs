@@ -21,15 +21,23 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		/// <param name="value"></param>
 		public static void Add(this INode e, XElement value)
 		{
-			var c = new IHTMLDiv { innerHTML = value.ToString() };
+			var c = default(IHTMLDiv);
 
-			foreach (var item in c.childNodes)
+			if (e.ownerDocument != null)
 			{
-				e.appendChild(item);
+				c = (IHTMLDiv)e.ownerDocument.createElement("div");
 			}
+			else
+			{
+				c = new IHTMLDiv();
+			}
+
+			c.innerHTML = value.ToString();
+
+			e.appendChild(c.firstChild);
 		}
 
-	
+
 
 		public static void Add(this INode e, Action<XElementAction> factory)
 		{

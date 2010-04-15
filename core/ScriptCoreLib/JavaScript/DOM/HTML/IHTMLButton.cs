@@ -4,53 +4,63 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    [Script(InternalConstructor=true)]
-    public class IHTMLButton : IHTMLElement
-    {
-        public bool disabled;
+	[Script(InternalConstructor = true)]
+	public class IHTMLButton : IHTMLElement
+	{
+		public bool disabled;
 
-        #region Constructor
-        
-            public IHTMLButton()
-            {
-                // InternalConstructor
-            }
-            
-            static IHTMLButton InternalConstructor()
-            {
-                return (IHTMLButton)((object)new IHTMLElement(HTMLElementEnum.button));
-            }
-        
-        #endregion
+		#region Constructor
 
-        
-        #region Constructor
-        
-            public IHTMLButton(string e)
-            {
-                // InternalConstructor
-            }
-            
-            static IHTMLButton InternalConstructor(string e)
-            {
-                IHTMLButton b = new IHTMLButton();
+		public IHTMLButton()
+		{
+			// InternalConstructor
+		}
 
-                b.appendChild(e);
+		public IHTMLButton(IHTMLDocument doc)
+		{
+			// InternalConstructor
+		}
 
-                return b;
-            }
-        
-        #endregion
+		static IHTMLButton InternalConstructor()
+		{
+			return (IHTMLButton)((object)new IHTMLElement(HTMLElementEnum.button));
+		}
+
+		static IHTMLButton InternalConstructor(IHTMLDocument doc)
+		{
+			return (IHTMLButton)((object)new IHTMLElement(HTMLElementEnum.button, doc));
+		}
+
+		#endregion
 
 
-        public static IHTMLButton Create(string p, EventHandler h)
-        {
-            var b = new IHTMLButton(p);
+		#region Constructor
 
-            b.onclick += ( e) => Helper.Invoke(h);
-            b.AttachToDocument();
+		public IHTMLButton(string e)
+		{
+			// InternalConstructor
+		}
 
-            return b;
-        }
-    }
+		static IHTMLButton InternalConstructor(string e)
+		{
+			IHTMLButton b = new IHTMLButton();
+
+			b.appendChild(e);
+
+			return b;
+		}
+
+		#endregion
+
+
+		public static IHTMLButton Create(string p, EventHandler h)
+		{
+			var b = new IHTMLButton(p);
+
+			b.onclick += (e) => Helper.Invoke(h);
+			b.AttachToDocument();
+
+			return b;
+		}
+	}
 }

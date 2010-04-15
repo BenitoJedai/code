@@ -16,6 +16,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 		}
 
+		public ITextNode(IDocument doc)
+		{
+
+		}
+
 		public ITextNode(IDocument doc, string e)
 		{
 
@@ -34,6 +39,14 @@ namespace ScriptCoreLib.JavaScript.DOM
 		internal static ITextNode InternalConstructor(IDocument doc, string e)
 		{
 			return doc.createTextNode(e);
+		}
+
+		internal static ITextNode InternalConstructor(IDocument doc)
+		{
+			if (doc == null)
+				doc = Native.Document;
+
+			return doc.createTextNode("");
 		}
 	}
 }
