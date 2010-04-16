@@ -550,6 +550,7 @@ namespace jsc
 
 					p = p + "/" + nn;
 
+					// http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_21554390.html
 					Win32File.CreateDirectory(p);
 				}
 			}

@@ -37,7 +37,9 @@ Partial Public NotInheritable Class UltraWebService
     ' this method should not be called from javascript.
     Public Sub DownloadArchive(ByVal e As WebServiceHandler)
 
-        If (e.Context.Request.Path = "/archive.zip") Then
+        Dim IsArchive = e.Context.Request.Path = "/archive.zip"
+
+        If (IsArchive) Then
 
             'http://msdn.microsoft.com/en-us/library/dd293617.aspx
             Dim z As New ZIPFile From {

@@ -24,6 +24,7 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using jsc.Languages;
 using jsc.Script;
+using jsc.meta.Library.VolumeFunctions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -1106,17 +1107,20 @@ namespace jsc.meta.Commands.Rewrite
 
 					if (k.IsWebServiceJava)
 					{
-						jsc.Program.TypedMain(
-							new jsc.CompileSessionInfo
-							{
-								Options = new jsc.CommandLineOptions
+						using (var __r_Output = r.Output.ToVirtualDrive())
+						{
+							jsc.Program.TypedMain(
+								new jsc.CompileSessionInfo
 								{
-									TargetAssembly = r.Output,
-									IsJava = true,
-									IsNoLogo = true
+									Options = new jsc.CommandLineOptions
+									{
+										TargetAssembly = __r_Output.VirtualFile,
+										IsJava = true,
+										IsNoLogo = true
+									}
 								}
-							}
-						);
+							);
+						}
 					}
 
 					if (k.IsActionScript)

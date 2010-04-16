@@ -63,15 +63,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 		}
 
-		NetworkStream InternalOutputStream;
+		public NetworkStream InternalOutputStream;
 		public Stream OutputStream
 		{
 			get
 			{
-				InternalOutputStream = (NetworkStream)(object)new __NetworkStream
-				{
-					InternalOutputStream = this.InternalContext.getOutputStream()
-				};
+				if (InternalOutputStream == null)
+					try
+					{
+						InternalOutputStream = (NetworkStream)(object)new __NetworkStream
+						{
+							InternalOutputStream = this.InternalContext.getOutputStream()
+						};
+
+					}
+					catch
+					{
+						throw new NotSupportedException();
+					}
 
 				return InternalOutputStream;
 			}
