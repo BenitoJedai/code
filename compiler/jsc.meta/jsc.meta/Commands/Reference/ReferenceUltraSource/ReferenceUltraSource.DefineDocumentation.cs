@@ -53,6 +53,10 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
 					let res = GetLocalResource(Archive)
+
+					// we may link to a file which we do not explicitly have in the project
+					where res != null
+
 					let zip = res.ToZIPFile()
 					from AssemblyEntry in zip.Entries
 					let IsApplication = AssemblyEntry.FileName.ToLower().EndsWith(".exe")

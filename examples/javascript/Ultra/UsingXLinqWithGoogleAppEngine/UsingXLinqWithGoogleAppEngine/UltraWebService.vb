@@ -1,4 +1,7 @@
 Imports ScriptCoreLib.Ultra.Library.Delegates
+Imports ScriptCoreLib.Ultra.WebService
+Imports ScriptCoreLib.Archive.ZIP
+Imports System.IO
 
 
 Partial Public NotInheritable Class UltraWebService
@@ -29,5 +32,33 @@ Partial Public NotInheritable Class UltraWebService
                 <b>Google App Engine Application</b><span> XElement written in </span><b>Visual Basic</b>
             </div>
         )
+    End Sub
+
+    ' this method should not be called from javascript.
+    Public Sub DownloadArchive(ByVal e As WebServiceHandler)
+
+        If (e.Context.Request.Path = "/archive.zip") Then
+
+            'http://msdn.microsoft.com/en-us/library/dd293617.aspx
+            Dim z As New ZIPFile From {
+                {
+                    "Content.xml",
+                    <Document>
+                        <Text>Hello World</Text>
+                        <Description>XLinq in java on google app engine written in visual basic</Description>
+                    </Document>
+                }
+            }
+
+            e.Context.Response.ContentType = ZIPFile.ContentType
+
+            Dim bytes = z.ToBytes()
+
+            e.Context.Response.OutputStream.Write(bytes, 0, bytes.Length)
+
+            e.CompleteRequest()
+
+        End If
+
     End Sub
 End Class

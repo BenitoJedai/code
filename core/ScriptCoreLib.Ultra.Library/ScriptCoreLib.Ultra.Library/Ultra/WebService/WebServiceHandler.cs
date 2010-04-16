@@ -6,6 +6,9 @@ using System.Web;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
+	/// <summary>
+	/// This type is used to serve custom content from the web server.
+	/// </summary>
 	public class WebServiceHandler
 	{
 		public HttpContext Context;

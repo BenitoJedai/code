@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using System.IO;
+using ScriptCoreLibJava.BCLImplementation.System.IO;
+using ScriptCoreLibJava.BCLImplementation.System.Net.Sockets;
+using System.Net.Sockets;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Web
 {
@@ -56,6 +60,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			catch
 			{
 				throw new InvalidOperationException();
+			}
+		}
+
+		NetworkStream InternalOutputStream;
+		public Stream OutputStream
+		{
+			get
+			{
+				InternalOutputStream = (NetworkStream)(object)new __NetworkStream
+				{
+					InternalOutputStream = this.InternalContext.getOutputStream()
+				};
+
+				return InternalOutputStream;
 			}
 		}
 

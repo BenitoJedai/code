@@ -11,7 +11,9 @@ using ScriptCoreLib.Ultra.Library.Delegates;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
-
+	/// <summary>
+	/// Using these extensions will inject XLinq libraries into the compilation.
+	/// </summary>
 	public static class INodeExtensionsWithXLinq
 	{
 		/// <summary>

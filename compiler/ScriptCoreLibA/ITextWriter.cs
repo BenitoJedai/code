@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ScriptCoreLib
 {
+	[Obsolete]
     public interface ITextWriter
     {
         void Write(string e);
