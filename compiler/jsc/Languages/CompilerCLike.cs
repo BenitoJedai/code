@@ -685,7 +685,7 @@ namespace jsc.Script
 					}
 
 				}
-				else Break("invalid if block");
+				else Break("invalid if block at " + p.Instruction.Location);
 			}
 
 			Write(")");

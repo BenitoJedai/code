@@ -28,9 +28,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
 		public void CompleteRequest()
 		{
+			// http://www.velocityreviews.com/forums/t302389-getoutputstream-and-getwriter-in-servlet.html
+
+			var Response = (__HttpResponse)(object)this.Response;
+
+			if (Response.InternalOutputStream != null)
+				return;
+
 			try
 			{
-				((__HttpResponse)(object)this.Response).InternalContext.getWriter().flush();
+				Response.InternalContext.getWriter().flush();
 			}
 			catch
 			{
