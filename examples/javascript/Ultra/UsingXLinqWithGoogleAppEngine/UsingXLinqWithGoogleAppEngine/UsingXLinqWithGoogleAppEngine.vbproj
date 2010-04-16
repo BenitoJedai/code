@@ -96,6 +96,9 @@
     <Reference Include="ScriptCoreLib">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Archive.ZIP">
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Archive.ZIP.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
@@ -125,6 +128,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />

@@ -531,9 +531,10 @@ namespace jsc
 
 		public static void WriteSingleScriptFile(string ScriptFileExtension, DirectoryInfo SourceDir, CompilerBase c, Type x)
 		{
+			//  System.IO.PathTooLongException
+			// yay, thanks BCL.
 
-
-			DirectoryInfo p = SourceDir;
+			string p = SourceDir.FullName;
 
 			string _ns = c.NamespaceFixup(x.Namespace, x);
 
@@ -547,8 +548,9 @@ namespace jsc
 				{
 					var nn = CompilerBase.GetSafeLiteral(n[i], null);
 
-					p = new DirectoryInfo(Path.Combine(p.FullName, nn));
-					Win32File.CreateDirectory(p.FullName);
+					p = p + "/" + nn;
+
+					Win32File.CreateDirectory(p);
 				}
 			}
 
@@ -556,7 +558,7 @@ namespace jsc
 
 
 
-			content.WriteToFile(p.FullName + "/" + c.GetTypeNameForFilename(x) + "." + ScriptFileExtension);
+			content.WriteToFile(p + "/" + c.GetTypeNameForFilename(x) + "." + ScriptFileExtension);
 
 		}
 

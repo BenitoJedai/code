@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace jsc.Languages
 {
+	// in the long run this type will not be needed
     static class DelegateHint
     {
         static IEnumerable<KeyValuePair<ScriptCoreLib.ScriptDelegateDataHintAttribute, FieldInfo>> ToArray(Type e)
