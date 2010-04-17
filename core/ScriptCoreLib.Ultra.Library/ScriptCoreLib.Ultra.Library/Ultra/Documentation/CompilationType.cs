@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.Documentation
+namespace ScriptCoreLib.Ultra.Documentation
 {
 	public class CompilationType
 	{

@@ -22,6 +22,7 @@ call :build compiler\jsc\jsc.sln
 
 :: java
 call :build core\ScriptCoreLibJava\ScriptCoreLibJava.sln
+call :build core\ScriptCoreLibJava.XLinq\ScriptCoreLibJava.XLinq.sln
 call :build core\ScriptCoreLibJava.Web\ScriptCoreLibJava.Web.sln
 call :build core\ScriptCoreLibJava.Web.Services\ScriptCoreLibJava.Web.Services.sln
 call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
@@ -46,18 +47,24 @@ call :build core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.sln
 call :build core\ScriptCoreLib.RayCaster\ScriptCoreLib.RayCaster.sln
 call :build core\ScriptCoreLib.Maze\ScriptCoreLib.Maze.sln
 
+call :build core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.sln
+call :build core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.sln
+
 
 :: build some tools
+:: do we use this ? :)
 call :build javascript\Tools\ConvertASToCS\CreateNetworkProxy\CreateNetworkProxy.csproj
 
 
 :: rebuild controls
 call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
+:: to be obsoleted?
 call :build javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.sln
 
-
 call :build compiler\jsc.meta\jsc.meta.sln
+
+call :build core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.sln
 
 :: rebuild Ultra templates
 call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
@@ -67,10 +74,9 @@ call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sl
 
 call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln
 call :build40 templates\TwentyTen\UltraWebApplication\UltraWebApplication.sln
-::call :build40 templates\TwentyTen\UltraApplicationWithAssets\UltraApplicationWithAssets.sln
 call :build40 templates\TwentyTen\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
-
 call :build40 templates\TwentyTen\FSharp\UltraApplication\UltraApplication.sln
+
 
 
 :: rebuild templates
@@ -82,9 +88,19 @@ call :build templates\OrcasWebApplication\OrcasWebApplication.sln
 call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
 call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
 
+call :template40 UltraApplicationWithAssets
+::call :template40 UltraWebApplicationWithAssets
 ::call :build templates\OrcasWebSite\OrcasWebSite.sln
 
+popd
+call rebuild.installer.bat
+pushd ..
 
+call :build core\ScriptCoreLib.Ultra.Documentation\ScriptCoreLib.Ultra.Documentation.sln
+
+popd
+call rebuild.installer.bat
+pushd ..
 
 :: rebuild examples
 :: call :build javascript\Examples\ButterFly\ButterFly.sln
@@ -125,10 +141,19 @@ set SplashMethod=ShowDialogSplash
 set SplashAssembly=W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication.AvalonLogo\bin\Assets\PromotionWebApplication.AvalonLogo.dll
 
 :: we need to pre build that assembly in "Assets" configuration
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash.SplashType:%SplashType% /Splash.SplashMethod:%SplashMethod% /Splash.SplashAssembly:%SplashAssembly%
+::call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash.SplashType:%SplashType% /Splash.SplashMethod:%SplashMethod% /Splash.SplashAssembly:%SplashAssembly%
 
 popd
 endlocal
+goto :eof
+
+:template40
+echo - template: %1
+
+call :build40 templates\TwentyTen\%1\%1.sln
+call :build40 templates\TwentyTen\VisualBasic\%1\%1.sln
+call :build40 templates\TwentyTen\FSharp\%1\%1.sln
+
 goto :eof
 
 :build

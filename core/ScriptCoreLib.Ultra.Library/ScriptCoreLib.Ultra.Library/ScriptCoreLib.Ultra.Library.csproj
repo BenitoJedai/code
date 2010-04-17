@@ -64,20 +64,21 @@
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Delegates\Async.cs" />
-    <Compile Include="Documentation\CompilationArchiveBase.cs" />
-    <Compile Include="Documentation\CompilationAssembly.cs" />
-    <Compile Include="Documentation\CompilationAssemblyBase.cs" />
-    <Compile Include="Documentation\CompilationBase.cs" />
-    <Compile Include="Documentation\CompilationConstructor.cs" />
-    <Compile Include="Documentation\CompilationXNames.cs" />
-    <Compile Include="Documentation\CompilationField.cs" />
-    <Compile Include="Documentation\CompilationMethod.cs" />
-    <Compile Include="Documentation\CompilationMethodBase.cs" />
-    <Compile Include="Documentation\CompilationMethodParameter.cs" />
-    <Compile Include="Documentation\CompilationProperty.cs" />
-    <Compile Include="Documentation\CompilationType.cs" />
-    <Compile Include="Documentation\CompilationEvent.cs" />
-    <Compile Include="Documentation\CompilationMember.cs" />
+    <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
+    <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
+    <Compile Include="Ultra\Documentation\CompilationAssemblyBase.cs" />
+    <Compile Include="Ultra\Documentation\CompilationBase.cs" />
+    <Compile Include="Ultra\Documentation\CompilationConstructor.cs" />
+    <Compile Include="Ultra\Documentation\CompilationXNames.cs" />
+    <Compile Include="Ultra\Documentation\CompilationField.cs" />
+    <Compile Include="Ultra\Documentation\CompilationMethod.cs" />
+    <Compile Include="Ultra\Documentation\CompilationMethodBase.cs" />
+    <Compile Include="Ultra\Documentation\CompilationMethodParameter.cs" />
+    <Compile Include="Ultra\Documentation\CompilationProperty.cs" />
+    <Compile Include="Ultra\Documentation\CompilationType.cs" />
+    <Compile Include="Ultra\Documentation\CompilationEvent.cs" />
+    <Compile Include="Ultra\Documentation\CompilationMember.cs" />
+    <Compile Include="Extensions\UltraLambdaExtensions.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />
@@ -105,6 +106,9 @@
     <Content Include="Extensions\comments.txt" />
     <Content Include="Ultra\comments.txt" />
     <Content Include="Ultra\WebService\comment.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Documentation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
