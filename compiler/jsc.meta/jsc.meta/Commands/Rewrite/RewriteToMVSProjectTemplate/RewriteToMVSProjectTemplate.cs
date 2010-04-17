@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using System.Reflection;
-using System.IO;
-using System.Xml.Linq;
-using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Xml.Linq;
 using jsc.meta.Library;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 {
@@ -112,13 +112,17 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			var nsReference = ns + "Reference";
 			var nsHintPath = ns + "HintPath";
 			var nsAssemblyName = ns + "AssemblyName";
+			var nsEmbeddedResource = ns + "EmbeddedResource";
 
 			#endregion
 
 
 			var ProjectFiles =
 			  from ItemGroup in csproj.Root.Elements(nsItemGroup)
-			  from Item in ItemGroup.Elements(nsNone).Concat(ItemGroup.Elements(nsContent)).Concat(ItemGroup.Elements(nsCompile))
+			  from Item in ItemGroup.Elements(nsNone)
+			  .Concat(ItemGroup.Elements(nsContent))
+			  .Concat(ItemGroup.Elements(nsCompile))
+			  .Concat(ItemGroup.Elements(nsEmbeddedResource))
 			  let Include = Item.Attribute("Include").Value
 			  let Directory = Path.GetDirectoryName(Include)
 
