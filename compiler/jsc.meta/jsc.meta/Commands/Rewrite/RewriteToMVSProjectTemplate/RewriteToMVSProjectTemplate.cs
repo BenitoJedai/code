@@ -120,9 +120,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			var ProjectFiles =
 			  from ItemGroup in csproj.Root.Elements(nsItemGroup)
 			  from Item in ItemGroup.Elements(nsNone)
-			  .Concat(ItemGroup.Elements(nsContent))
-			  .Concat(ItemGroup.Elements(nsCompile))
-			  .Concat(ItemGroup.Elements(nsEmbeddedResource))
+				  .Concat(ItemGroup.Elements(nsContent))
+				  .Concat(ItemGroup.Elements(nsCompile))
+				  .Concat(ItemGroup.Elements(nsEmbeddedResource))
 			  let Include = Item.Attribute("Include").Value
 			  let Directory = Path.GetDirectoryName(Include)
 
