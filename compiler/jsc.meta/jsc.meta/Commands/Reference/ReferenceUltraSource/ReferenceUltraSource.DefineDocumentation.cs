@@ -14,7 +14,7 @@ using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
 using jsc.Script;
 using ScriptCoreLib.Archive.ZIP;
-using ScriptCoreLib.Documentation;
+using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Extensions;
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
@@ -66,8 +66,24 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					let AssemblyDocumentationFile = AssemblyEntry.FileName.TakeUntilLastIfAny(".") + ".xml"
 					let AssemblyDocumentation = zip.Entries.FirstOrDefault(k => k.FileName.ToLower() == AssemblyDocumentationFile.ToLower())
 
+					let TryParse = new Func<XDocument>(
+						() =>
+						{
+							if (AssemblyDocumentation != null)
 
-					let DocumentationOrDefault = AssemblyDocumentation == null ? null : XDocument.Parse(AssemblyDocumentation.Text)
+								try
+								{
+									return XDocument.Parse(AssemblyDocumentation.Text);
+								}
+								catch
+								{
+									// Visual Basic generates odd xml?
+								}
+							return null;
+						}
+					)
+
+					let DocumentationOrDefault = TryParse()
 
 					let Assembly = Assembly.Load(AssemblyEntry.Bytes)
 
@@ -232,13 +248,13 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 												from SourceProperty in SourceType.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public)
 												select new XElement(CompilationProperty.__Element,
 
-													new  [] { 
+													new[] { 
 														new XElement(CompilationProperty.__Name, SourceProperty.Name)
 													}.Concat(
-														from SourcePropertyMethod in new [] {
+														from SourcePropertyMethod in new[] {
 															new { Name = CompilationXNames.Set, Method = SourceProperty.GetSetMethod() },
 															new { Name = CompilationXNames.Get, Method = SourceProperty.GetGetMethod() }
-														} 
+														}
 														where SourcePropertyMethod.Method != null
 														select new XElement(SourcePropertyMethod.Name, SourcePropertyMethod.Method.MetadataToken)
 													)
@@ -251,10 +267,10 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 													new XElement(CompilationXNames.Remove, SourceEvent.GetRemoveMethod().MetadataToken)
 												)
 											).Concat(
-												from ElementType in ReferenceJavaScriptDocument.GetElementTypes(new [] { SourceType })
+												from ElementType in ReferenceJavaScriptDocument.GetElementTypes(new[] { SourceType })
 												select new XElement(CompilationType.__HTMLElement, ElementType.Key)
 											).Concat(
-												from SourceType__ in new [] { SourceType }
+												from SourceType__ in new[] { SourceType }
 												where SourceType__.IsGenericTypeDefinition
 												from GenericArgument in SourceType__.GetGenericArguments()
 												select new XElement(CompilationType.__GenericArgument, GenericArgument)
@@ -263,7 +279,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 										)
 								)
-							)
+							),
+							true
 
 						);
 

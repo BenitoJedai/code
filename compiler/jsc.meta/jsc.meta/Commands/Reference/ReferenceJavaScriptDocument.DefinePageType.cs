@@ -155,7 +155,8 @@ namespace jsc.meta.Commands.Reference
 						"assets/" + DefaultNamespace + "/Pages/" + PageName + ".htm.xml", r,
 						p,
 						FullName.PageXElement.SkipUntilLastIfAny("+"), false,
-						new XDocument(BodyElement)
+						new XDocument(BodyElement),
+						false
 					);
 
 					#endregion

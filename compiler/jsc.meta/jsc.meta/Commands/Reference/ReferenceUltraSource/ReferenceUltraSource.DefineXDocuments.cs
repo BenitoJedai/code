@@ -14,7 +14,7 @@ using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
 using jsc.Script;
 using ScriptCoreLib.Archive.ZIP;
-using ScriptCoreLib.Documentation;
+using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.DOM;
@@ -81,18 +81,26 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 			{
 				var TypeFullName = DefaultNamespace + ".Data." + Title;
 
-				DefineNamedXDocument(AssetPath, r, null, TypeFullName, false, Bytes);
+				DefineNamedXDocument(AssetPath, r, null, TypeFullName, false, Bytes, false);
 			}
 
-			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, XDocument Bytes)
+			public static MethodInfo DefineNamedXDocument(
+				string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, XDocument Bytes,
+
+				bool DisableEmbeddedSource
+				)
 			{
 				return DefineNamedXDocument(AssetPath, r, DeclaringType
 					, TypeFullName, false,
-					Encoding.UTF8.GetBytes(Bytes.ToString())
+					Encoding.UTF8.GetBytes(Bytes.ToString()),
+					DisableEmbeddedSource
 				);
 			}
 
-			public static MethodInfo DefineNamedXDocument(string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, byte[] Bytes)
+			public static MethodInfo DefineNamedXDocument(
+				string AssetPath, RewriteToAssembly r, TypeBuilder DeclaringType, string TypeFullName, bool IsInternal, byte[] Bytes,
+
+				bool DisableEmbeddedSource)
 			{
 				var __Create = default(MethodInfo);
 
@@ -144,14 +152,20 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					r.RewriteArguments.context.TypeRenameCache[Templates.Document] = TypeFullName;
 					r.RewriteArguments.context.OverrideDeclaringType[Templates.Document] = DeclaringType;
 
-					r.RewriteArguments.context.TypeRenameCache[Templates.DocumentSource] = TypeFullName + "Source";
-					r.RewriteArguments.context.OverrideDeclaringType[Templates.DocumentSource] = DeclaringType;
+					if (!DisableEmbeddedSource)
+					{
+						r.RewriteArguments.context.TypeRenameCache[Templates.DocumentSource] = TypeFullName + "Source";
+						r.RewriteArguments.context.OverrideDeclaringType[Templates.DocumentSource] = DeclaringType;
+					}
 
 					__Create = r.RewriteArguments.context.MethodCache[
 						((Action<Action<XElement>>)NamedXDocument.CreateAsElement).Method
 					];
 
-					var __DocumentSource = r.RewriteArguments.context.TypeCache[Templates.DocumentSource];
+					if (!DisableEmbeddedSource)
+					{
+						var __DocumentSource = r.RewriteArguments.context.TypeCache[Templates.DocumentSource];
+					}
 
 					Templates = null;
 				}
