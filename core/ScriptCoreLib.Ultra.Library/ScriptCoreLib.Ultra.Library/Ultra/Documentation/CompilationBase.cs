@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.Documentation
+namespace ScriptCoreLib.Ultra.Documentation
 {
 	public abstract class CompilationBase
 	{

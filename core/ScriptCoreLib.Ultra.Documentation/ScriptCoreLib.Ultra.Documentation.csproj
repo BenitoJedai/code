@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}</ProjectGuid>
+    <ProjectGuid>{33A18621-93BC-4111-B025-219BD99437C0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScriptCoreLib</RootNamespace>
-    <AssemblyName>ScriptCoreLib.Ultra.Components</AssemblyName>
+    <AssemblyName>ScriptCoreLib.Ultra.Documentation</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -65,15 +65,15 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.XLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -90,67 +90,30 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="ScriptCoreLib.Ultra.Components.UltraSource">
-      <HintPath>bin\staging.UltraSource\ScriptCoreLib.Ultra.Components.UltraSource.dll</HintPath>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Documentation.UltraSource">
+      <HintPath>bin\staging.UltraSource\ScriptCoreLib.Ultra.Documentation.UltraSource.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
+    <Compile Include="JavaScript\Controls\DocumentationCompilationViewer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="UltraWebService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="My.UltraSource\Gadgets\CountDownGadget.htm" />
-    <Content Include="My.UltraSource\Images\Common\CommonImages.htm" />
-    <Content Include="My.UltraSource\Images\Common\jsc.png" />
-    <Content Include="My.UltraSource\Images\Reflection\HTMLDocument.png" />
-    <Content Include="My.UltraSource\Images\Reflection\ImageFile.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodePage.htm" />
-    <Content Include="My.UltraSource\HorizontalSplit.htm" />
-    <Content Include="My.UltraSource\HorizontalSplitArea.htm" />
-    <Content Include="My.UltraSource\Images\Backgrounds\!References.htm" />
-    <Content Include="My.UltraSource\Images\Backgrounds\TwentyTenWorkspace.png" />
-    <Content Include="My.UltraSource\Images\loading.gif" />
-    <Content Include="My.UltraSource\ApplicationLoader.htm" />
-    <Content Include="My.UltraSource\Images\Reflection\Assembly.png" />
-    <Content Include="My.UltraSource\Images\Reflection\ClassViewer.png" />
-    <Content Include="My.UltraSource\Images\Reflection\FolderClosed.png" />
-    <Content Include="My.UltraSource\Images\Reflection\FolderOpen.png" />
-    <Content Include="My.UltraSource\Images\Reflection\Namespace.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicClass.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicConstructor.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicDelegate.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicEnum.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicEvent.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicField.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicInterface.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicMethod.png" />
-    <Content Include="My.UltraSource\Images\Reflection\PublicProperty.png" />
-    <Content Include="My.UltraSource\Images\Reflection\!References.htm" />
-    <Content Include="My.UltraSource\Images\Reflection\References.png" />
-    <Content Include="My.UltraSource\Images\Reflection\SolutionExplorer.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodeClosed.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodeClosedActive.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodeOpen.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodeOpenActive.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VisualBasicCode.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VisualBasicProject.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VisualCSharpCode.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VisualCSharpProject.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VisualFSharpCode.png" />
-    <Content Include="My.UltraSource\Images\Reflection\VisualFSharpProject.png" />
-    <Content Include="My.UltraSource\Section.htm" />
-    <Content Include="My.UltraSource\Sprites\LibC.htm" />
-    <Content Include="My.UltraSource\Sprites\LibC.png" />
-    <Content Include="My.UltraSource\Sprites\SpriteSheetSelection.png" />
+    <Content Include="My.UltraSource\About.htm" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Ultra\Components\" />
+    <None Include="C:\util\jsc\latest_jsc.zip">
+      <Link>My.UltraSource\latest_jsc.zip</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -161,13 +124,14 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
+    <PostBuildEvent>
+
+      c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
 
 
-
-if $(ConfigurationName)==Release (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:true
-)</PostBuildEvent>
+      if $(ConfigurationName)==Release (
+      c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:true /DisableWebServiceJava:false
+      )</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false</PreBuildEvent>
   </PropertyGroup>
 </Project>

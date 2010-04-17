@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.Documentation
+namespace ScriptCoreLib.Ultra.Documentation
 {
 	public class CompilationProperty : CompilationMember
 	{
