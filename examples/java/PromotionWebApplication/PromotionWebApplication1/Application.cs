@@ -4,14 +4,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using java.applet;
-using PromotionWebApplication.AvalonLogo;
 using PromotionWebApplication1.HTML.Pages;
 using PromotionWebApplication1.Library;
 using PromotionWebApplication1.Services;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.Documentation;
+using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
@@ -22,6 +21,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.Avalon;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.JavaScript.Concepts;
 
@@ -103,7 +103,7 @@ namespace PromotionWebApplication1
 			{
 				if (Native.Document.location.hash.StartsWith("#/docs"))
 				{
-					var view = new CompilationViewer();
+					var view = new DocumentationCompilationViewer();
 
 					view.TouchTypeSelected +=
 						type =>
@@ -604,10 +604,10 @@ namespace PromotionWebApplication1
 							ccc.style.position = IStyle.PositionEnum.absolute;
 							ccc.style.left = "50%";
 							ccc.style.top = "50%";
-							ccc.style.marginLeft = (-AvalonLogoCanvas.DefaultWidth / 2) + "px";
-							ccc.style.marginTop = (-AvalonLogoCanvas.DefaultHeight / 2) + "px";
+							ccc.style.marginLeft = (-JSCSolutionsNETCarouselCanvas.DefaultWidth / 2) + "px";
+							ccc.style.marginTop = (-JSCSolutionsNETCarouselCanvas.DefaultHeight / 2) + "px";
 
-							ccc.style.SetSize(AvalonLogoCanvas.DefaultWidth, AvalonLogoCanvas.DefaultHeight);
+							ccc.style.SetSize(JSCSolutionsNETCarouselCanvas.DefaultWidth, JSCSolutionsNETCarouselCanvas.DefaultHeight);
 
 							ccc.AttachToDocument();
 
@@ -619,7 +619,7 @@ namespace PromotionWebApplication1
 							}
 							else
 							{
-								var alo = new AvalonLogoCanvas();
+								var alo = new JSCSolutionsNETCarouselCanvas();
 								alo.Container.AttachToContainer(ccc);
 
 								alo.AtLogoClick +=
