@@ -203,7 +203,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 			{
 				if (f.Item.Name == nsCompile ||
 
-					f.Item.Name == nsContent && f.ItemFile.Extension == ".htm")
+					f.Item.Name == nsContent &&
+						new [] { ".aspx", ".asax", ".htm" }.Contains(f.ItemFile.Extension)
+					)
 				{
 					var Content = File.ReadAllText(f.ItemFile.FullName);
 
