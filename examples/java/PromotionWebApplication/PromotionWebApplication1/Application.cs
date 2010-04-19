@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using java.applet;
 using PromotionWebApplication1.HTML.Pages;
@@ -10,8 +11,10 @@ using PromotionWebApplication1.Services;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.Ultra.Documentation;
+using ScriptCoreLib.Archive.ZIP;
+using ScriptCoreLib.Avalon;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
@@ -19,14 +22,14 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Ultra.Library.Delegates;
-using ScriptCoreLib.Ultra.Components.HTML.Pages;
-using ScriptCoreLib.Avalon;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
-using ScriptCoreLib.JavaScript.Concepts;
+using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.Ultra.Documentation;
+using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
-using System.Net;
-using ScriptCoreLib.Archive.ZIP;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace PromotionWebApplication1
 {
@@ -115,6 +118,29 @@ namespace PromotionWebApplication1
 
 							Analytics("#/docs/" + type.FullName);
 						};
+
+				}
+				else if (Native.Document.location.hash.StartsWith("#/warehouse"))
+				{
+					new UltraWebService().ThreeDWarehouse(
+						y =>
+						{
+							Func<string, IHTMLAnchor> Build =
+								mid =>
+								{
+									var a = new IHTMLAnchor { href = "http://sketchup.google.com/3dwarehouse/details?ct=hppm&mid=" + mid }.AttachTo(MyPagesInternal);
+									var img = new IHTMLImage { src = "http://sketchup.google.com/3dwarehouse/download?rtyp=st&ctyp=other&mid=" + mid }.AttachTo(a);
+
+									return a;
+								};
+
+							var imgs = Enumerable.ToArray(
+								from k in y.Elements()
+								select Build(k.Value)
+
+							);
+						}
+					);
 
 				}
 				else if (Native.Document.location.hash == "#/source")
@@ -725,6 +751,11 @@ namespace PromotionWebApplication1
 
 			// should we add timing information if we use Thread.Sleep to the results?
 
+		}
+
+		public void ThreeDWarehouse(XElementAction y)
+		{
+			y(new ThreeDWarehouse().ToXElement());
 		}
 
 		/*ISoundCloudTracksDownload. not supported yet ? */
