@@ -86,5 +86,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			}
 		}
 
+		public void AddHeader(string name, string value)
+		{
+			this.InternalContext.addHeader(name, value);
+		}
+
 	}
 }

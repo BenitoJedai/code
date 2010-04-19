@@ -41,6 +41,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bulldog.Server.CodeGenerators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\code.google\zproxygames\Bulldog\Bulldog.Server.CodeGenerators\bin\Debug\Bulldog.Server.CodeGenerators.dll</HintPath>
+    </Reference>
     <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
@@ -105,6 +109,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="PromotionWebApplication1.UltraSource">
       <HintPath>bin\staging.UltraSource\PromotionWebApplication1.UltraSource.dll</HintPath>

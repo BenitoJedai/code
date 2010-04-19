@@ -24,6 +24,9 @@ using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Avalon;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.JavaScript.Concepts;
+using ScriptCoreLib.Ultra.WebService;
+using System.Net;
+using ScriptCoreLib.Archive.ZIP;
 
 namespace PromotionWebApplication1
 {
@@ -625,7 +628,8 @@ namespace PromotionWebApplication1
 								alo.AtLogoClick +=
 									delegate
 									{
-										Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
+										//Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
+										Native.Window.open("/download", "_blank");
 									};
 
 							}
@@ -727,6 +731,88 @@ namespace PromotionWebApplication1
 		public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
 		{
 			new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
+		}
+
+		public void CodeGenerator(WebServiceHandler h)
+		{
+			const string _download = "/download";
+
+			if (h.Context.Request.Path == _download)
+			{
+				h.Context.Response.Redirect("http://sourceforge.net/projects/jsc/");
+				h.CompleteRequest();
+
+				return;
+			}
+
+			const string _java = "/java/";
+			const string _java_zip = "/java.zip/";
+
+			if (h.Context.Request.Path.StartsWith(_java_zip))
+			{
+				var TypesList = h.Context.Request.Path.Substring(_java_zip.Length);
+
+				DownloadJavaZip(h, TypesList);
+			}
+
+			if (h.Context.Request.Path.StartsWith(_java))
+			{
+				var Type = h.Context.Request.Path.Substring(_java.Length);
+
+				var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
+					Type,
+					new WebClient().DownloadString
+				)
+				{
+					Server = "www.jsc-solutions.net"
+				};
+
+				h.Context.Response.ContentType = "text/plain";
+				h.Context.Response.Write(p.GetString());
+				h.CompleteRequest();
+			}
+		}
+
+		private static void DownloadJavaZip(WebServiceHandler h, string TypesList)
+		{
+			var Types = TypesList.Split(',');
+			var zip = new ZIPFile();
+
+			foreach (var item in Types)
+			{
+				var w = new StringBuilder();
+
+
+
+				var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
+					item,
+					new WebClient().DownloadString
+				)
+				{
+					Server = "www.jsc-solutions.net"
+				};
+
+				zip.Add(
+					item.Replace(".", "/") + ".cs",
+					p.GetString()
+				);
+			}
+
+			// http://www.ietf.org/rfc/rfc2183.txt
+
+			h.Context.Response.ContentType = ZIPFile.ContentType;
+
+			h.Context.Response.AddHeader(
+				"Content-Disposition",
+				"attachment; filename=" + TypesList + ".zip"
+			);
+
+
+			var bytes = zip.ToBytes();
+
+			h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+
+			h.CompleteRequest();
 		}
 	}
 }
