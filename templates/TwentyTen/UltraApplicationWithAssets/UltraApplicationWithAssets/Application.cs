@@ -4,6 +4,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using UltraApplicationWithAssets.HTML.Audio.FromAssets;
+using UltraApplicationWithAssets.HTML.Pages;
 using System.ComponentModel;
 
 namespace UltraApplicationWithAssets
@@ -13,18 +14,16 @@ namespace UltraApplicationWithAssets
 	public sealed partial class Application
 	{
 
-		public Application(IHTMLElement e)
+		public Application(IAbout a)
 		{
 			Native.Document.title = "UltraApplicationWithAssets";
 
 
 			//var logo2 = new global::UltraLibraryWithAssets.HTML.Images.FromAssets.jsc();
 
-			var a = new HTML.Pages.FromAssets.AboutJSC();
 
 			//a.Logo1 = logo2;
 
-			a.Container.AttachToDocument();
 
 			a.WebService_GetTime.onclick +=
 				delegate
