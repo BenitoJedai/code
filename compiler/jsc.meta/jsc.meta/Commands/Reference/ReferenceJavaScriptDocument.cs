@@ -196,6 +196,9 @@ namespace jsc.meta.Commands.Reference
 
 
 					let Assembly = HintPaths.Any() ? Assembly.LoadFile(HintPaths.First().FullName) : Assembly.LoadWithPartialName(Include)
+					
+					// why do we get null?
+					where Assembly != null
 
 					from ExportedType in Assembly.GetExportedTypes()
 
