@@ -16,7 +16,7 @@ using ScriptCoreLib.ActionScript.RayCaster;
 using System.Collections.Specialized;
 using ScriptCoreLib.ActionScript.Extensions.flash.display;
 
-
+using Vector = global::ScriptCoreLib.ActionScript.RayCaster.Vector;
 
 
 namespace RayCaster6.ActionScript
@@ -46,8 +46,8 @@ namespace RayCaster6.ActionScript
 		// http://www.digital-ist-besser.de/
 		// http://www.fredheintz.com/sitefred/main.html
 
-		const int DefaultControlWidth = DefaultWidth * DefaultScale;
-		const int DefaultControlHeight = DefaultHeight * DefaultScale;
+		public const int DefaultControlWidth = DefaultWidth * DefaultScale;
+		public const int DefaultControlHeight = DefaultHeight * DefaultScale;
 
 		// 120x90
 		// 160x120
@@ -60,6 +60,11 @@ namespace RayCaster6.ActionScript
 
 
 		public RayCaster6()
+		{
+			this.InvokeWhenStageIsReady(Initialize);
+		}
+
+		private void Initialize()
 		{
 			txtMain = new TextField
 			{
@@ -498,8 +503,7 @@ namespace RayCaster6.ActionScript
 													   scaleY = DefaultScale
 												   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
 
-												   Assets.SoundFiles.treasure.ToSoundAsset().play();
-
+												   InternalGotGold();
 												   Later += () => EgoView.Sprites.Remove(Item_Sprite);
 											   }
 										   }
@@ -512,7 +516,7 @@ namespace RayCaster6.ActionScript
 
 
 						   }
-						); 
+						);
 						#endregion
 
 						#region ammo
@@ -568,7 +572,9 @@ namespace RayCaster6.ActionScript
 													   scaleY = DefaultScale
 												   }.AttachTo(this).FadeOutAndOrphanize(1000 / 24, 0.2);
 
-												   Assets.SoundFiles.ammo.ToSoundAsset().play();
+
+												   InternalGotAmmo();
+												   
 
 												   Later += () => EgoView.Sprites.Remove(Item_Sprite);
 											   }
@@ -638,35 +644,35 @@ namespace RayCaster6.ActionScript
 						var counter = 0;
 
 						stage.enterFrame += e =>
+						{
+							counter++;
+
+							if (UpdatePortals)
 							{
-								counter++;
+								// updateing it too often causes framerate to drop
 
-								if (UpdatePortals)
+								foreach (var Portal in Portals)
 								{
-									// updateing it too often causes framerate to drop
-
-									foreach (var Portal in Portals)
-									{
-										Portal.Update();
-									}
-
-									DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(counter * 8 % 256));
-									var m = new Matrix();
-
-									// to center
-									m.translate(0, 10);
-									// m.scale(0.3, 0.3);
-
-									CameraView.RenderScene();
-
-									DynamicTextureBitmap.bitmapData.draw(CameraView.Image.bitmapData, m);
-									DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
-
-									DynamicTexture.Update();
+									Portal.Update();
 								}
 
-								EgoView.RenderScene();
-							};
+								DynamicTextureBitmap.bitmapData.fillRect(DynamicTextureBitmap.bitmapData.rect, (uint)(counter * 8 % 256));
+								var m = new Matrix();
+
+								// to center
+								m.translate(0, 10);
+								// m.scale(0.3, 0.3);
+
+								CameraView.RenderScene();
+
+								DynamicTextureBitmap.bitmapData.draw(CameraView.Image.bitmapData, m);
+								DynamicTextureBitmap.bitmapData.draw(MirrorFrame.bitmapData);
+
+								DynamicTexture.Update();
+							}
+
+							EgoView.RenderScene();
+						};
 
 
 
@@ -677,8 +683,27 @@ namespace RayCaster6.ActionScript
 				);
 
 			AttachMovementInput(EgoView);
+		}
 
 
+		public event Action InternalAtGotAmmo;
+
+		private void InternalGotAmmo()
+		{
+			Assets.SoundFiles.ammo.ToSoundAsset().play();
+
+			if (InternalAtGotAmmo != null)
+				InternalAtGotAmmo();
+		}
+
+		public event Action InternalAtGotGold;
+
+		private void InternalGotGold()
+		{
+			Assets.SoundFiles.treasure.ToSoundAsset().play();
+
+			if (InternalAtGotGold != null)
+				InternalAtGotGold();
 		}
 
 		private void AddFullscreenMenu()

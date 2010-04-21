@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraRaycast6", "UltraRaycast6\UltraRaycast6.csproj", "{92A25855-12E1-41B7-89EE-4E84A70B2394}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayCaster6", "..\..\..\actionscript\RayCaster6\RayCaster6\RayCaster6.csproj", "{DCCE8932-F958-4A73-8CEB-06B041EBB885}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92A25855-12E1-41B7-89EE-4E84A70B2394}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{92A25855-12E1-41B7-89EE-4E84A70B2394}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{92A25855-12E1-41B7-89EE-4E84A70B2394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A25855-12E1-41B7-89EE-4E84A70B2394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A25855-12E1-41B7-89EE-4E84A70B2394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A25855-12E1-41B7-89EE-4E84A70B2394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCCE8932-F958-4A73-8CEB-06B041EBB885}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{DCCE8932-F958-4A73-8CEB-06B041EBB885}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{DCCE8932-F958-4A73-8CEB-06B041EBB885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCCE8932-F958-4A73-8CEB-06B041EBB885}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCCE8932-F958-4A73-8CEB-06B041EBB885}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCCE8932-F958-4A73-8CEB-06B041EBB885}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
