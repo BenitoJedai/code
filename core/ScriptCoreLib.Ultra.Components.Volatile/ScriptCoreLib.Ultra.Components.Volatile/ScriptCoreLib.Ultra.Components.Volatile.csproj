@@ -120,11 +120,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
 
-      c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
-
-      c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"c:\util\jsc\bin\$(TargetName).dll" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false
+      c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"c:\util\jsc\bin\$(TargetName).dll" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false /merge:ScriptCoreLib.Ultra.Components /merge:ScriptCoreLib.Ultra.Components.Volatile  /AttachDebugger:true
 
 
       if $(ConfigurationName)==Release (

@@ -91,6 +91,9 @@ namespace jsc
 
 				if (p.Instruction.IsLoadInstruction)
 				{
+					// 		p.Instruction.Flow.OwnerBlock.ToConsole()	Expression has been evaluated and has no value	void
+
+
 					CompilerBase.BreakToDebugger("a load instruction was selected as prestatement. this is a bug within jsc. " + p.Instruction.Location + " " + p.Instruction.ToString());
 
 					//w.WriteCommentLine("skipped: " + p.Instruction.ToString());

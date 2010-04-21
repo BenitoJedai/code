@@ -28,8 +28,11 @@ Partial NotInheritable Class Application
                 Dim WindowTarget = "_blank"
 
                 If (a.Docked.checked) Then
-                    a.Dock1.name = "_Dock1"
-                    WindowTarget = a.Dock1.name
+                    WindowTarget = "Dock1"
+
+                    a.Dock1.name = WindowTarget
+                    a.Dock1.frameborder = "0"
+
                 End If
 
                 Dim w1 = Native.Window.open("about:blank", WindowTarget, 600, 300, False)
