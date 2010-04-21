@@ -52,16 +52,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 			var CurrentEntryPoint = default(MethodInfo);
 
-			var AssemblyMerge = Enumerable.ToArray(
+			var AssemblyMerge =
 				Enumerable.Concat(
-
-
 					new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName },
 
 					from k in UltraSourceReferences
 					select (RewriteToAssembly.AssemblyMergeInstruction)k
-				)
-			);
+
+
+					// the idea is that when we want to merge our UltraSource or Primary with EntryPoint
+					// then we omit unreferenced types. this does not work yet.
+				).Where(k => !this.merge.Any(kk => Path.GetFileNameWithoutExtension(k.name) == kk.name)).ToArray();
+
 
 			var r = new RewriteToAssembly
 			{
@@ -102,7 +104,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 					CurrentEntryPoint = CurrentEntryPoint ?? s.EntryPoint;
 				};
 
+		
 
+			#region on demand code with resources
 			r.merge = this.merge;
 
 			var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
@@ -134,6 +138,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 							}
 						};
 				};
+			#endregion
 			#endregion
 
 			r.Invoke();

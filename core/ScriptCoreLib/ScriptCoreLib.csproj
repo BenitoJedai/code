@@ -573,6 +573,7 @@
     <Compile Include="JavaScript\DOM\IXMLHttpRequest.cs" />
     <Compile Include="JavaScript\DOM\XML\IXMLSerializer.cs" />
     <Compile Include="JavaScript\Extensions\Extensions.cs" />
+    <Compile Include="JavaScript\Extensions\IEventExtensions.cs" />
     <Compile Include="JavaScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="JavaScript\Runtime\TimeFilter.cs" />
     <Compile Include="JavaScript\Runtime\TweenData.cs" />

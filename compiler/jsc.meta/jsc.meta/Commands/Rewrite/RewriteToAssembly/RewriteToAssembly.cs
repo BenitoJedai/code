@@ -106,7 +106,9 @@ namespace jsc.meta.Commands.Rewrite
 			// load the rest of the references
 			// maybe we shouldnt load those references which will be merged?
 			if (assembly != null)
+			{
 				assembly.LoadReferencesAt(staging, this.assembly.Directory);
+			}
 
 			// AssemblyMerge will copy resources too... getting crowded!
 			Action<AssemblyBuilder, ModuleBuilder> InvokeLater = delegate { };

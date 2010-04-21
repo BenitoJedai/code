@@ -7,6 +7,8 @@ using System.ComponentModel;
 using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
 
 namespace ScriptCoreLib.Ultra.Components
 {
@@ -18,7 +20,7 @@ namespace ScriptCoreLib.Ultra.Components
 		{
 			p.LoadingAnimation.FadeOut();
 
-			p.Content.Add("hello world");
+			p.Content.Add("ScriptCoreLib.Ultra.Components");
 
 			Native.Document.title = "Hi!";
 
@@ -28,6 +30,130 @@ namespace ScriptCoreLib.Ultra.Components
 			AddSection2(p);
 
 			AddSection3(p);
+			AddSection4(p);
+		}
+
+		private static void AddSection4(IApplicationLoader pp)
+		{
+			var s = new Section().ToSectionConcept();
+
+			s.Header = "Horizontal split";
+			var Content = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.border = "1px solid gray";
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+					k.style.width = "100%";
+					k.style.height = "10em";
+				}
+			);
+
+			{
+				var hs = new HorizontalSplit();
+
+
+				hs.Container.AttachTo(Content);
+
+				var hsa = new DragAreaImage();
+
+				var hsm = new IHTMLDiv();
+				hsm.AttachTo(hs.Splitter);
+				hsm.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+				hsm.style.left = "1px";
+				hsm.style.top = "50%";
+				hsm.style.marginTop = (-DragAreaImage.ImageDefaultHeight) + "px";
+
+				hsa.AttachTo(hsm);
+
+				var hsArea = new HorizontalSplitArea();
+
+				hsArea.Abort.style.Opacity = 0.05;
+
+
+				var dragmode = false;
+
+				hsArea.Target.onmousedown +=
+					ee =>
+					{
+						hsArea.Target.style.backgroundColor = JSColor.System.Highlight;
+						dragmode = true;
+
+						ee.PreventDefault();
+						hsArea.Abort.style.Opacity = 0.05;
+					};
+
+				hsArea.Container.onmousemove +=
+					ee =>
+					{
+						var OffsetX = ee.GetOffsetX(hsArea.Container);
+
+						s.Header = new { OffsetX }.ToString();
+
+						if (!dragmode)
+							return;
+
+						var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.Container.offsetWidth);
+
+						if (p < 20)
+							p = 20;
+						if (p > 80)
+							p = 80;
+
+						hsArea.Target.style.left = p + "%";
+					};
+
+				hsArea.Container.onmouseup +=
+					ee =>
+					{
+						if (!dragmode)
+							return;
+
+						var OffsetX = ee.GetOffsetX(hsArea.Container);
+
+						dragmode = false;
+						var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.Container.offsetWidth);
+
+						if (p < 20)
+							p = 20;
+						if (p > 80)
+							p = 80;
+
+						hsArea.Target.style.left = p + "%";
+						hs.Right.style.left = p + "%";
+						hs.Right.style.width = (100 - p) + "%";
+						hs.Left.style.width = p + "%";
+
+						hsArea.Abort.style.Opacity = 0;
+						hsArea.Target.style.backgroundColor = JSColor.None;
+
+					};
+
+				hsArea.Abort.onmousemove +=
+					ee =>
+					{
+						if (dragmode)
+						{
+							return;
+						}
+
+						hsArea.Target.style.backgroundColor = JSColor.None;
+						hsArea.Container.Orphanize();
+					};
+
+				hs.Splitter.onmouseover +=
+					delegate
+					{
+						hsArea.Abort.style.Opacity = 0.05;
+
+						hsArea.Container.AttachTo(hs.Container);
+					};
+			}
+
+
+			s.Content = Content;
+
+			s.IsExpanded = false;
+			s.Target.Container.AttachTo(pp.Content);
 		}
 
 		private static void AddSection3(IApplicationLoader p)
@@ -45,6 +171,8 @@ namespace ScriptCoreLib.Ultra.Components
 
 			//s.Content = x.Container;
 
+			s.IsExpanded = false;
+			s.Target.Container.style.backgroundColor = "#efefef";
 			s.Target.Container.AttachTo(p.Content);
 		}
 
@@ -65,6 +193,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 			//s.Content = x.Container;
 
+			s.IsExpanded = false;
 			s.Target.Container.AttachTo(p.Content);
 		}
 
@@ -78,6 +207,8 @@ namespace ScriptCoreLib.Ultra.Components
 			s.Content.style.border = "1px solid gray";
 
 
+			s.IsExpanded = false;
+			s.Target.Container.style.backgroundColor = "#efefef";
 			s.Target.Container.AttachTo(p.Content);
 		}
 

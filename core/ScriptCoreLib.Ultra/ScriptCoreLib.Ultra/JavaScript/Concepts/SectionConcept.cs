@@ -106,12 +106,12 @@ namespace ScriptCoreLib.JavaScript.Concepts
 					onclick();
 				};
 
-			var NextClickHide = default(Action);
-			var NextClickShow = default(Action);
-
-			NextClickHide =
+		
+			this.NextClickHide =
 				delegate
 				{
+					InternalIsExpanded = false;
+
 					Target.Content.Hide();
 					TreeExpand.Show();
 					TreeCollapse.Hide();
@@ -119,9 +119,11 @@ namespace ScriptCoreLib.JavaScript.Concepts
 					onclick = NextClickShow;
 				};
 
-			NextClickShow =
+			this.NextClickShow =
 				delegate
 				{
+					InternalIsExpanded = true;
+
 					Target.Content.Show();
 					TreeExpand.Hide();
 					TreeCollapse.Show();
@@ -133,5 +135,24 @@ namespace ScriptCoreLib.JavaScript.Concepts
 			onclick = NextClickHide;
 		}
 
+		Action NextClickHide;
+		Action NextClickShow;
+
+
+		bool InternalIsExpanded;
+		public bool IsExpanded
+		{
+			get
+			{
+				return InternalIsExpanded;
+			}
+			set
+			{
+				if (value)
+					this.NextClickShow();
+				else
+					this.NextClickHide();
+			}
+		}
 	}
 }
