@@ -150,8 +150,8 @@ namespace ScriptCoreLib.CSharp.Extensions
 			}
 
 			// did you embed the resource?
-
-			var result = a.Where(k => k.PrefixlessResourceName == request).SingleOrDefault();
+			// we may have multiple resources with the same name?
+			var result = a.Where(k => k.PrefixlessResourceName == request).FirstOrDefault();
 
 			if (result == null)
 				throw new ArgumentOutOfRangeException(request);

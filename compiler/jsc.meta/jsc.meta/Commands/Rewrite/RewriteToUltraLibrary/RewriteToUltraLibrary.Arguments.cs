@@ -51,5 +51,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 		}
 
 		public EntryPointInfo EntryPoint;
+
+		public RewriteToAssembly.MergeInstruction[] merge = new RewriteToAssembly.MergeInstruction[0];
 	}
 }

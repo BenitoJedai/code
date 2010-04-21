@@ -619,6 +619,8 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				#endregion
 
+
+
 				#region AtILOverride copy assets
 				r.AtILOverride +=
 					(context, x) =>

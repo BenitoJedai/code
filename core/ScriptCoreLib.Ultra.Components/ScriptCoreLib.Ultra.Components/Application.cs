@@ -23,51 +23,62 @@ namespace ScriptCoreLib.Ultra.Components
 			Native.Document.title = "Hi!";
 
 			p.Content.style.margin = "2em";
+			AddSection1(p);
 
+			AddSection2(p);
+
+			AddSection3(p);
+		}
+
+		private static void AddSection3(IApplicationLoader p)
+		{
+			var s = new Section().ToSectionConcept();
+
+			s.Header = "Countdown Days";
+
+			s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
 			{
-				var s = new Section().ToSectionConcept();
+				ShowOnlyDays = true,
+				Event = new DateTime(2010, 5, 24),
 
-				s.Header = "Syntax1";
+			};
 
-				s.Content = DemoTree().Container;
-				s.Content.style.border = "1px solid gray";
+			//s.Content = x.Container;
 
+			s.Target.Container.AttachTo(p.Content);
+		}
 
-				s.Target.Container.AttachTo(p.Content);
-			}
+		private static void AddSection2(IApplicationLoader p)
+		{
+			var s = new Section().ToSectionConcept();
 
+			s.Header = "Countdown";
+
+			var Now = DateTime.Now;
+			var Event = new DateTime(2010, 5, 24, Now.Hour, Now.Minute, Now.Second);
+
+			s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
 			{
-				var s = new Section().ToSectionConcept();
+				Event = Event,
+				AutoUpdate = true
+			};
 
-				s.Header = "Countdown";
+			//s.Content = x.Container;
 
-				s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
-				{
-					Event = new DateTime(2010, 5, 24, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
-					AutoUpdate = true
-				};
+			s.Target.Container.AttachTo(p.Content);
+		}
 
-				//s.Content = x.Container;
+		private static void AddSection1(IApplicationLoader p)
+		{
+			var s = new Section().ToSectionConcept();
 
-				s.Target.Container.AttachTo(p.Content);
-			}
+			s.Header = "Syntax1";
 
-			{
-				var s = new Section().ToSectionConcept();
+			s.Content = DemoTree().Container;
+			s.Content.style.border = "1px solid gray";
 
-				s.Header = "Countdown Days";
 
-				s.Content = new CountDownGadgetConcept(CountDownGadget.Create)
-				{
-					ShowOnlyDays = true,
-					Event = new DateTime(2010, 5, 24),
-					
-				};
-
-				//s.Content = x.Container;
-
-				s.Target.Container.AttachTo(p.Content);
-			}
+			s.Target.Container.AttachTo(p.Content);
 		}
 
 		private static TreeNode DemoTree()

@@ -22,38 +22,57 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 			public static void Launch(Type PrimaryApplication)
 			{
-				var Splash = Assembly.LoadFile(@"c:\util\jsc\bin\jsc.splash.exe");
+				new AsProgram { PrimaryApplication = PrimaryApplication }.Launch();
+			}
 
-				Action<Action> ShowDialogSplash = InternalSplashScreen.ShowDialogSplash;
+			public bool DisableSplash;
+			public Type PrimaryApplication;
 
-				var ImplementationForShowDialogSplash = Enumerable.First(
-					from i in new ILBlock(Splash.EntryPoint).Instructrions
-					where i.OpCode == OpCodes.Call
-					let m = i.TargetMethod
-					where m.GetSignatureTypes().SequenceEqual(ShowDialogSplash.Method.GetSignatureTypes())
-					select m
-				);
-
-				ShowDialogSplash = (Action<Action>)Delegate.CreateDelegate(typeof(Action<Action>), ImplementationForShowDialogSplash);
+			public void Launch()
+			{
+				var SplashTemplate = new FileInfo(@"c:\util\jsc\bin\jsc.splash.exe");
 				var WebDevLauncher = default(FileInfo);
 
+				if (!DisableSplash && SplashTemplate.Exists)
+				{
+					var Splash = Assembly.LoadFile(SplashTemplate.FullName);
 
-				ShowDialogSplash(
-					delegate
-					{
-						//System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.AppStarting; 
+					Action<Action> ShowDialogSplash = InternalSplashScreen.ShowDialogSplash;
 
-						WebDevLauncher = Compile(PrimaryApplication, WebDevLauncher);
+					var ImplementationForShowDialogSplash = Enumerable.First(
+						from i in new ILBlock(Splash.EntryPoint).Instructrions
+						where i.OpCode == OpCodes.Call
+						let m = i.TargetMethod
+						where m.GetSignatureTypes().SequenceEqual(ShowDialogSplash.Method.GetSignatureTypes())
+						select m
+					);
 
-						var WebDevLauncherAssembly = Assembly.LoadFile(WebDevLauncher.FullName);
+					ShowDialogSplash = (Action<Action>)Delegate.CreateDelegate(typeof(Action<Action>), ImplementationForShowDialogSplash);
 
-						//System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.Default; 
 
-						WebDevLauncherAssembly.EntryPoint.Invoke(null, new object[] { new string[0] });
+					ShowDialogSplash(
+						delegate
+						{
+							WebDevLauncher = CompileAndLaunch(PrimaryApplication, WebDevLauncher);
+						}
+					);
+				}
+				else
+				{
+					WebDevLauncher = CompileAndLaunch(PrimaryApplication, WebDevLauncher);
+				}
 
-					}
-				);
 
+			}
+
+			private static FileInfo CompileAndLaunch(Type PrimaryApplication, FileInfo WebDevLauncher)
+			{
+				WebDevLauncher = Compile(PrimaryApplication, WebDevLauncher);
+
+				var WebDevLauncherAssembly = Assembly.LoadFile(WebDevLauncher.FullName);
+
+				WebDevLauncherAssembly.EntryPoint.Invoke(null, new object[] { new string[0] });
+				return WebDevLauncher;
 			}
 
 			private static FileInfo Compile(Type PrimaryApplication, FileInfo WebDevLauncher)

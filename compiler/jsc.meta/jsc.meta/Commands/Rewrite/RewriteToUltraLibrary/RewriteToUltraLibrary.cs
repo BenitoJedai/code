@@ -7,6 +7,7 @@ using jsc.meta.Library;
 using System.Reflection;
 using jsc.meta.Commands.Reference.ReferenceUltraSource;
 using System.Diagnostics;
+using System.Reflection.Emit;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 {
@@ -51,23 +52,25 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 			var CurrentEntryPoint = default(MethodInfo);
 
+			var AssemblyMerge = Enumerable.ToArray(
+				Enumerable.Concat(
+
+
+					new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName },
+
+					from k in UltraSourceReferences
+					select (RewriteToAssembly.AssemblyMergeInstruction)k
+				)
+			);
+
 			var r = new RewriteToAssembly
 			{
-
 				DisableIsMarkedForMerge = true,
 
 				obfuscate = this.Obfuscate,
 
-				AssemblyMerge = Enumerable.ToArray(
-					Enumerable.Concat(
 
-
-						new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName },
-
-						from k in UltraSourceReferences
-						select (RewriteToAssembly.AssemblyMergeInstruction)k
-					)
-				),
+				AssemblyMerge = AssemblyMerge,
 
 				Output = this.Output,
 
@@ -98,6 +101,40 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 				{
 					CurrentEntryPoint = CurrentEntryPoint ?? s.EntryPoint;
 				};
+
+
+			r.merge = this.merge;
+
+			var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
+
+			#region AtILOverride copy assets
+			r.AtILOverride +=
+				(context, x) =>
+				{
+
+					x.BeforeInstruction +=
+						e =>
+						{
+							if (e.i.OpCode == OpCodes.Ldstr)
+							{
+								// if it is a websource we need to copy it.
+								var Assembly = e.i.OwnerMethod.DeclaringType.Assembly;
+
+								if (r.AssemblyMerge.Any(k => Path.GetFileNameWithoutExtension(k.name) == Assembly.GetName().Name))
+								{
+									// already handled as all resources were copied!
+								}
+								else
+								{
+									CurrentScriptResources.Cache[Assembly].AddWhenResource(
+										r.RewriteArguments.ScriptResourceWriter,
+										e.i.TargetLiteral
+									);
+								}
+							}
+						};
+				};
+			#endregion
 
 			r.Invoke();
 
