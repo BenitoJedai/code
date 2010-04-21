@@ -104,7 +104,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                return Expando.GetMemberOf<int>(this, "layerX", "offsetX", 0);
+                var x = Expando.GetMemberOf<int>(this, "layerX", "offsetX", 0);
+
+				return x;
             }
         }
 
@@ -113,7 +115,9 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             get
             {
-                return Expando.GetMemberOf<int>(this, "layerY", "offsetY", 0);
+                var y = Expando.GetMemberOf<int>(this, "layerY", "offsetY", 0);
+
+				return y;
             }
         }
 
