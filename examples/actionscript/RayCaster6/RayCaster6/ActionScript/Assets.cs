@@ -5,8 +5,10 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Shared;
 
 [assembly: ScriptResources(RayCaster6.ActionScript.Assets.SoundFiles.Path)]
+[assembly: ScriptResources(RayCaster6.ActionScript.Assets.ZipFiles.Path)]
 
 namespace RayCaster6.ActionScript
 {

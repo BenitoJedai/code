@@ -54,6 +54,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 				hs.Container.AttachTo(Content);
 
+				
 				var hsa = new DragAreaImage();
 
 				var hsm = new IHTMLDiv();
