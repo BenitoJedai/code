@@ -9,6 +9,8 @@ using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
+using ScriptCoreLib.JavaScript.Components;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.Components
 {
@@ -31,6 +33,75 @@ namespace ScriptCoreLib.Ultra.Components
 
 			AddSection3(p);
 			AddSection4(p);
+			AddSection5(p);
+		}
+
+		private static void AddSection5(IApplicationLoader pp)
+		{
+			var s = new Section().ToSectionConcept();
+
+			s.Header = "Horizontal split with tree";
+			var Content = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.border = "1px solid gray";
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+					k.style.width = "100%";
+					k.style.height = "6em";
+				}
+			);
+
+
+
+			var hh = new HorizontalSplit
+			{
+				Minimum = 0.05,
+				Maximum = 0.95,
+				Value = 0.7,
+				RightContainer = DemoTree().Container,
+			};
+
+			hh.Split.LeftScrollable = new IHTMLDiv();
+
+			hh.Split.LeftScrollable.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			hh.Split.LeftScrollable.style.width = "100%";
+			hh.Split.LeftScrollable.style.height = "100%";
+
+			var edit = new IHTMLIFrame { src = "about:blank" }.AttachTo(hh.Split.LeftScrollable);
+
+			edit.style.width = "100%";
+			edit.style.height = "100%";
+			edit.style.border = "0";
+			edit.style.margin = "0";
+			edit.style.padding = "0";
+			edit.frameborder = "0";
+			edit.border = "0";
+
+			new Timer(
+				t =>
+				{
+					if (edit.contentWindow.document == null)
+						return;
+
+					t.Stop();
+
+
+					edit.contentWindow.document.WithContent(
+						new XElement("style", "span { color: red; }"),
+						new XElement("span", "hello world")
+					);
+
+					edit.contentWindow.document.DesignMode = true;
+				}
+			).StartInterval(15);
+
+
+			hh.Container.AttachTo(Content);
+
+			s.Content = Content;
+
+			s.IsExpanded = false;
+			s.Target.Container.AttachTo(pp.Content);
 		}
 
 		private static void AddSection4(IApplicationLoader pp)
@@ -44,112 +115,18 @@ namespace ScriptCoreLib.Ultra.Components
 					k.style.border = "1px solid gray";
 					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
 					k.style.width = "100%";
-					k.style.height = "10em";
+					k.style.height = "4em";
 				}
 			);
 
+			var hh = new HorizontalSplit
 			{
-				var hs = new HorizontalSplit();
+				Minimum = 0.05,
+				Maximum = 0.95,
+				Value = 0.7
+			};
 
-
-				hs.Container.AttachTo(Content);
-
-				
-				var hsa = new DragAreaImage();
-
-				var hsm = new IHTMLDiv();
-				hsm.AttachTo(hs.Splitter);
-				hsm.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-				hsm.style.left = "1px";
-				hsm.style.top = "50%";
-				hsm.style.marginTop = (-DragAreaImage.ImageDefaultHeight) + "px";
-
-				hsa.AttachTo(hsm);
-
-				var hsArea = new HorizontalSplitArea();
-
-				hsArea.Abort.style.Opacity = 0.05;
-
-
-				var dragmode = false;
-
-				hsArea.Target.onmousedown +=
-					ee =>
-					{
-						hsArea.Target.style.backgroundColor = JSColor.System.Highlight;
-						dragmode = true;
-
-						ee.PreventDefault();
-						hsArea.Abort.style.Opacity = 0.05;
-					};
-
-				hsArea.Container.onmousemove +=
-					ee =>
-					{
-						var OffsetX = ee.GetOffsetX(hsArea.Container);
-
-						s.Header = new { OffsetX }.ToString();
-
-						if (!dragmode)
-							return;
-
-						var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.Container.offsetWidth);
-
-						if (p < 20)
-							p = 20;
-						if (p > 80)
-							p = 80;
-
-						hsArea.Target.style.left = p + "%";
-					};
-
-				hsArea.Container.onmouseup +=
-					ee =>
-					{
-						if (!dragmode)
-							return;
-
-						var OffsetX = ee.GetOffsetX(hsArea.Container);
-
-						dragmode = false;
-						var p = System.Convert.ToInt32(OffsetX * 100 / hsArea.Container.offsetWidth);
-
-						if (p < 20)
-							p = 20;
-						if (p > 80)
-							p = 80;
-
-						hsArea.Target.style.left = p + "%";
-						hs.Right.style.left = p + "%";
-						hs.Right.style.width = (100 - p) + "%";
-						hs.Left.style.width = p + "%";
-
-						hsArea.Abort.style.Opacity = 0;
-						hsArea.Target.style.backgroundColor = JSColor.None;
-
-					};
-
-				hsArea.Abort.onmousemove +=
-					ee =>
-					{
-						if (dragmode)
-						{
-							return;
-						}
-
-						hsArea.Target.style.backgroundColor = JSColor.None;
-						hsArea.Container.Orphanize();
-					};
-
-				hs.Splitter.onmouseover +=
-					delegate
-					{
-						hsArea.Abort.style.Opacity = 0.05;
-
-						hsArea.Container.AttachTo(hs.Container);
-					};
-			}
-
+			hh.Container.AttachTo(Content);
 
 			s.Content = Content;
 

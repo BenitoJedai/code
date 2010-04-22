@@ -11,6 +11,7 @@ using jsc.meta.Library;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Reflection.Emit;
 using jsc.meta.Commands.Rewrite.RewriteToSplashScreen.Templates;
+using jsc.meta.Tools;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
@@ -27,6 +28,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 			public bool DisableSplash;
 			public Type PrimaryApplication;
+
+			public FileInfo mxmlc = ToolsExtensions.Defaults.mxmlc;
+			public FileInfo flashplayer = ToolsExtensions.Defaults.flashplayer;
+
+			public bool Verbose;
 
 			public void Launch()
 			{
@@ -65,7 +71,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 			}
 
-			private static FileInfo CompileAndLaunch(Type PrimaryApplication, FileInfo WebDevLauncher)
+			private FileInfo CompileAndLaunch(Type PrimaryApplication, FileInfo WebDevLauncher)
 			{
 				WebDevLauncher = Compile(PrimaryApplication, WebDevLauncher);
 
@@ -75,7 +81,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				return WebDevLauncher;
 			}
 
-			private static FileInfo Compile(Type PrimaryApplication, FileInfo WebDevLauncher)
+			private FileInfo Compile(Type PrimaryApplication, FileInfo WebDevLauncher)
 			{
 				var r = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument
 				{
@@ -86,8 +92,14 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 					DisableWebServiceJava = true,
 					DisableWebServicePHP = true,
 					DisableWebServiceTypeMerge = true,
-					InternalCreateNoWindow = true
+
+					InternalCreateNoWindow = Verbose ? false : true,
 					//IsRewriteOnly = true
+
+
+					mxmlc = this.mxmlc,
+					flashplayer = this.flashplayer
+
 				};
 
 
