@@ -51,6 +51,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 		public __XName InternalElementName;
 
+		public void Add(params object[] content)
+		{
+			foreach (var item in content)
+			{
+				this.Add(item);
+			}
+		}
+
 		public void Add(object content)
 		{
 			if (this.InternalValue == null)

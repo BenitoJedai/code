@@ -135,28 +135,31 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			return new Point { x = e.x, y = e.y };
 		}
 
-		[Script]
-		class IFill_Dispose : IDisposable
-		{
-			public IFill e;
-			public Graphics target;
+		//[Script]
+		//class IFill_Dispose : IDisposable
+		//{
+		//    public IFill e;
+		//    public Graphics target;
 
-			public void Dispose()
-			{
-				e.end(target);
-			}
+		//    public void Dispose()
+		//    {
+		//        e.end(target);
+		//    }
 
-		}
+		//}
 
+		[Obsolete("Breaking API changes in flex4", true)]
 		public static IDisposable Fill(this IFill e, Graphics target, Rectangle r)
 		{
-			e.begin(target, r);
+			throw new NotImplementedException();
 
-			return new IFill_Dispose
-			{
-				e = e,
-				target = target
-			};
+			//e.begin(target, r);
+
+			//return new IFill_Dispose
+			//{
+			//    e = e,
+			//    target = target
+			//};
 		}
 
 		[Script(OptimizedCode = "return new c();")]

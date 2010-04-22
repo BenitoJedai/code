@@ -12,7 +12,8 @@
     <AssemblyName>ScriptCoreLib.Ultra.Components</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject></StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -89,6 +90,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -97,6 +101,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,8 +115,8 @@
     <Content Include="My.UltraSource\Images\Reflection\HTMLDocument.png" />
     <Content Include="My.UltraSource\Images\Reflection\ImageFile.png" />
     <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodePage.htm" />
-    <Content Include="My.UltraSource\HorizontalSplit.htm" />
-    <Content Include="My.UltraSource\HorizontalSplitArea.htm" />
+    <Content Include="My.UltraSource\HorizontalSplitPage.htm" />
+    <Content Include="My.UltraSource\HorizontalSplitAreaPage.htm" />
     <Content Include="My.UltraSource\Images\Backgrounds\!References.htm" />
     <Content Include="My.UltraSource\Images\Backgrounds\TwentyTenWorkspace.png" />
     <Content Include="My.UltraSource\Images\loading.gif" />

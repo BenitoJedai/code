@@ -42,10 +42,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 		public __XElement(XName name, params object[] c)
 		{
 			InternalElementName = (__XName)(object)name;
-			foreach (var item in c)
-			{
-				this.Add(item);
-			}
+			this.Add(c);
 		}
 
 

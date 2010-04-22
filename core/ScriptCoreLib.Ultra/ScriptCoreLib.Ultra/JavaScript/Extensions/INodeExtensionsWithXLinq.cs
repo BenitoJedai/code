@@ -45,5 +45,21 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		{
 			factory(e.Add);
 		}
+
+		public static IHTMLDocument WithContent(this IHTMLDocument document, params object[] content)
+		{
+			document.open("text/html", "replace");
+
+			var doc = new XElement("body");
+
+			doc.Add(new XAttribute("style", "border: 0; margin: 0; padding: 0;"));
+
+			doc.Add(content);
+
+			document.write(doc.ToString());
+			document.close();
+
+			return document; 
+		}
 	}
 }

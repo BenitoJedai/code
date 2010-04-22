@@ -169,7 +169,9 @@ namespace ScriptCoreLib.JavaScript.Concepts
 			var n = Add(Text);
 
 			n.Element.OpenImage = Image;
+			n.Element.OpenImage.border = 0;
 			n.Element.ClosedImage = (IHTMLImage)Image.cloneNode(true);
+			n.Element.ClosedImage.border = 0;
 			n.InternalUpdate();
 
 			return n;

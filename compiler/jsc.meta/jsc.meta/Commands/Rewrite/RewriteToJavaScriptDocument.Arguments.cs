@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.IO;
+using jsc.meta.Tools;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -33,12 +34,8 @@ namespace jsc.meta.Commands.Rewrite
 		public FileInfo ant = new FileInfo(@"C:\util\apache-ant-1.7.1\bin\ant.bat");
 		public DirectoryInfo appengine = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.0");
 
-
-
-
-
-		public FileInfo mxmlc = new FileInfo(@"C:\util\flex33\bin\mxmlc.exe");
-		public FileInfo flashplayer = new FileInfo(@"C:\util\flex33\runtimes\player\win\FlashPlayer.exe");
+		public FileInfo mxmlc = ToolsExtensions.Defaults.mxmlc;
+		public FileInfo flashplayer = ToolsExtensions.Defaults.flashplayer;
 
 
 		public bool AttachDebugger;

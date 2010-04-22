@@ -13,12 +13,29 @@ namespace jsc.meta.Tools
 {
 	static partial class ToolsExtensions
 	{
+		public class DefaultsTuple
+		{
 
+			public FileInfo mxmlc = new FileInfo(@"C:\util\flex4\bin\mxmlc.exe");
+			public FileInfo flashplayer = new FileInfo(@"C:\util\flex4\runtimes\player\10\win\FlashPlayer.exe");
+
+
+		}
+
+		public static DefaultsTuple Defaults
+		{
+			get
+			{
+				return new DefaultsTuple();
+			}
+		}
 
 		public static void ToActionScript(
 			this FileInfo TargetAssembly_,
+
 			FileInfo mxmlc,
 			FileInfo flashplayer,
+
 			Type sprite,
 			FileInfo FusionAssembly,
 			string ProductName,
@@ -90,15 +107,22 @@ namespace jsc.meta.Tools
 				// see: http://www.docsultant.com/site2/articles/flex_cmd.html
 				// see: http://www.rblab.com/blog/2009/09/target-flash-player-10-from-mxmlc-flex-sdk-compiler/
 
+				if (Debugger.IsAttached)
+					Debugger.Break();
+
+				var UseShellExecute = false;
+
 				var proccess_mxmlc = Process.Start(
 					new ProcessStartInfo(
 						mxmlc.FullName,
-						"-sp=. -verbose-stacktraces --target-player=10.0.0 -strict -output=\"" +
+					//  groups.google.com/group/projectsprouts/browse_thread/thread/8ae82f8f861aff4e/591a98d6637ac49a?show_docid=591a98d6637ac49a&fwc=1
+
+						"-static-link-runtime-shared-libraries=true -sp=. -verbose-stacktraces --target-player=10.0.0 -strict -output=\"" +
 							obj_web_swf + "\" "
 							+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
 						)
 					{
-						UseShellExecute = false,
+						UseShellExecute = UseShellExecute,
 
 						// http://blogs.msdn.com/jmstall/archive/2006/09/28/CreateNoWindow.aspx
 						CreateNoWindow = CreateNoWindow,
