@@ -23,7 +23,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 		public DocumentationCompilationViewer()
 		{
 
-			var hs = new HorizontalSplit();
+			var hs = new HorizontalSplitPage();
 
 
 			hs.Container.AttachToDocument();
@@ -87,7 +87,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 			);
 
 
-			var hsArea = new HorizontalSplitArea();
+			var hsArea = new HorizontalSplitAreaPage();
 
 			hsArea.Abort.style.Opacity = 0.05;
 

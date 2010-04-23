@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Controls;
 using System;
 using System.Collections.Generic;
+using TextEditorDemo2.HTML.Pages;
 
 
 namespace TextEditorDemo2.js
@@ -17,7 +18,7 @@ namespace TextEditorDemo2.js
 	{
 		public TextEditorDemo2()
 		{
-			var n = new Pages.MyEditor();
+			var n = new MyEditor();
 
 			n.Container.AttachToDocument();
 
@@ -44,9 +45,9 @@ namespace TextEditorDemo2.js
 
 			var text = new TextEditor(Control);
 
-	
-						text.InnerHTML = "Drag images to this frame!<hr />";
-		
+
+			text.InnerHTML = "Drag images to this frame!<hr />";
+
 			// IE error
 
 			text.Height = 200;
@@ -89,34 +90,36 @@ namespace TextEditorDemo2.js
 			n.Nasa.onclick +=
 				delegate
 				{
-					text.InnerHTML = Pages.Nasa.Static.HTML;
-				};
-
-
-			n.Houses.onclick +=
-				delegate
-				{
-					text.InnerHTML = Pages.Houses.Static.HTML;
+					text.InnerHTML = new Nasa.XMLSourceSource().Text; 
 
 				};
+
+
+			//n.Houses.onclick +=
+			//    delegate
+			//    {
+			//        text.InnerHTML = Pages.Houses.Static.HTML;
+
+			//    };
 
 			n.CnC.onclick +=
 				delegate
 				{
-					text.InnerHTML = Pages.CnC.Static.HTML;
+					text.InnerHTML = new CnC.XMLSourceSource().Text; 
 
 				};
 
 			n.Ships.onclick +=
 			delegate
 			{
-				text.InnerHTML = Pages.Ships.Static.HTML;
+				text.InnerHTML = new Ships.XMLSourceSource().Text;
 			};
 
-			ToPreview(Pages.Ships.Static.Images, n.Ships);
-			ToPreview(Pages.CnC.Static.Images, n.CnC);
-			ToPreview(Pages.Houses.Static.Images, n.Houses);
-			ToPreview(Pages.Nasa.Static.Images, n.Nasa);
+			//ToPreview(Ships..Images, n.Ships);
+			//ToPreview(CnC.Static.Images, n.CnC);
+			////ToPreview(Houses.Static.Images, n.Houses);
+			//ToPreview(Nasa.Static.Images, n.Nasa);
+
 
 			//i.AttachToDocument();
 			n.OK.onclick +=
@@ -129,7 +132,7 @@ namespace TextEditorDemo2.js
 					var clones = text.Document.GetClonedImages();
 					foreach (IHTMLImage iii in clones)
 					{
-					
+
 
 						var w = iii.AttachTo(n.ContainerForImages).ToGoogleThreeDWarehouseImage();
 

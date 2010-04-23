@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
+    <Compile Include="JavaScript\Components\VisualStudioView.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,6 +149,11 @@
     <Content Include="My.UltraSource\Images\Reflection\VisualCSharpProject.png" />
     <Content Include="My.UltraSource\Images\Reflection\VisualFSharpCode.png" />
     <Content Include="My.UltraSource\Images\Reflection\VisualFSharpProject.png" />
+    <Content Include="My.UltraSource\Images\ToolboxIcons\!References.htm" />
+    <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLButton.gif" />
+    <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLTextarea.gif" />
+    <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLInputCheckbox.gif" />
+    <Content Include="My.UltraSource\Images\ToolboxIcons\ToolboxIconsIHTMLInputText.gif" />
     <Content Include="My.UltraSource\Section.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.png" />
