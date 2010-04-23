@@ -13,7 +13,7 @@ namespace ScriptCoreLib.JavaScript.Components
 		// to enable vertical split? :)
 
 		public readonly IHorizontalSplitConcept Split;
-		readonly IHorizontalSplitAreaConcept SplitArea;
+		public readonly IHorizontalSplitAreaConcept SplitArea;
 
 		public class Arguments
 		{
@@ -28,6 +28,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 		public double Minimum = 0.2;
 		public double Maximum = 0.8;
+
+		public readonly IHTMLDiv SplitImageContainer;
 
 		double InternalValue;
 		public double Value
@@ -68,6 +70,10 @@ namespace ScriptCoreLib.JavaScript.Components
 			}
 		}
 
+		public ScriptCoreLib.JavaScript.Runtime.JSColor SelectionColor 
+			= ScriptCoreLib.JavaScript.Runtime.JSColor.System.Highlight;
+
+		public double SelectionBackgroundOpacity = 0.05;
 
 		public HorizontalSplitBase(Arguments args)
 		{
@@ -79,14 +85,14 @@ namespace ScriptCoreLib.JavaScript.Components
 
 			var hsa = args.SplitImage;
 
-			var hsm = new IHTMLDiv();
-			hsm.AttachTo(hs.Splitter);
-			hsm.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
-			hsm.style.left = "1px";
-			hsm.style.top = "50%";
-			hsm.style.marginTop = (-args.SplitImageHeight / 2) + "px";
+			this.SplitImageContainer = new IHTMLDiv();
+			SplitImageContainer.AttachTo(hs.Splitter);
+			SplitImageContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			SplitImageContainer.style.left = "1px";
+			SplitImageContainer.style.top = "50%";
+			SplitImageContainer.style.marginTop = (-args.SplitImageHeight / 2) + "px";
 
-			hsa.AttachTo(hsm);
+			hsa.AttachTo(SplitImageContainer);
 
 
 			hsArea.Abort.style.Opacity = 0.05;
@@ -97,11 +103,11 @@ namespace ScriptCoreLib.JavaScript.Components
 			hsArea.Target.onmousedown +=
 				ee =>
 				{
-					hsArea.Target.style.backgroundColor = ScriptCoreLib.JavaScript.Runtime.JSColor.System.Highlight;
+					hsArea.Target.style.backgroundColor = SelectionColor;
 					dragmode = true;
 
 					ee.PreventDefault();
-					hsArea.Abort.style.Opacity = 0.05;
+					hsArea.Abort.style.Opacity = SelectionBackgroundOpacity;
 				};
 
 			hsArea.PageContainer.onmousemove +=
