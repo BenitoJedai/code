@@ -13,6 +13,13 @@ Public NotInheritable Class UltraApplication
 
     Public Sub New(ByVal a As IHTMLPage1)
 
+        a.Foo.Add(
+            <div>Cool stuff
+                <span style='color: green;'>Hi Carlo!</span>
+            </div>
+        )
+
+
         Me.a = a
 
 

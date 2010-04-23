@@ -50,6 +50,11 @@ namespace UltraRaycast6
 
 		public Application(IAbout a)
 		{
+			a.CoolImage.onclick +=
+				delegate
+				{
+					a.CoolImage.Orphanize();
+				};
 
 			a.Ammo.Hide();
 			a.Gold.Hide();
