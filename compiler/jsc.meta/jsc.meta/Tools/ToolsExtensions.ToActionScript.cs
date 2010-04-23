@@ -107,8 +107,8 @@ namespace jsc.meta.Tools
 				// see: http://www.docsultant.com/site2/articles/flex_cmd.html
 				// see: http://www.rblab.com/blog/2009/09/target-flash-player-10-from-mxmlc-flex-sdk-compiler/
 
-				if (Debugger.IsAttached)
-					Debugger.Break();
+				//if (Debugger.IsAttached)
+				//    Debugger.Break();
 
 				var UseShellExecute = false;
 

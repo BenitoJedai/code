@@ -37,7 +37,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Controls.TextEditor, Version=1.0.3414.23517, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Controls.TextEditor.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Controls.TextEditor.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -53,8 +53,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TextEditorDemo2.WebSource.HTML">
-      <HintPath>bin\WebSource.HTML.staging\TextEditorDemo2.WebSource.HTML.dll</HintPath>
+    <Reference Include="TextEditorDemo2.UltraSource">
+      <HintPath>bin\staging.UltraSource\TextEditorDemo2.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -68,11 +68,10 @@
     <Content Include="docs\about.txt" />
     <Content Include="docs\browser.txt" />
     <Content Include="docs\description.txt" />
-    <Content Include="js\WebSource.HTML\CnC.htm" />
-    <Content Include="js\WebSource.HTML\Houses.htm" />
-    <Content Include="js\WebSource.HTML\MyEditor.htm" />
-    <Content Include="js\WebSource.HTML\Nasa.htm" />
-    <Content Include="js\WebSource.HTML\Ships.htm" />
+    <Content Include="js\WebSource.UltraSource\CnC.htm" />
+    <Content Include="js\WebSource.UltraSource\MyEditor.htm" />
+    <Content Include="js\WebSource.UltraSource\Nasa.htm" />
+    <Content Include="js\WebSource.UltraSource\Ships.htm" />
     <EmbeddedResource Include="web\assets\TextEditorDemo2\Preview.png" />
     <EmbeddedResource Include="web\assets\TextEditorDemo2\cal.png" />
   </ItemGroup>

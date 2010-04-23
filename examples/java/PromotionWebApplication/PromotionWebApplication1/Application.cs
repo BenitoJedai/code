@@ -30,6 +30,7 @@ using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.Components;
 
 namespace PromotionWebApplication1
 {
@@ -107,7 +108,14 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				if (Native.Document.location.hash.StartsWith("#/docs"))
+				if (Native.Document.location.hash.StartsWith("#/studio"))
+				{
+					var view = new VisualStudioView();
+
+					view.Container.AttachToDocument();
+
+				}
+				else if (Native.Document.location.hash.StartsWith("#/docs"))
 				{
 					var view = new DocumentationCompilationViewer();
 
