@@ -17,6 +17,18 @@ namespace XElementEverywhere
 {
 	public sealed class XLinqSprite : Sprite
 	{
+		Action<XElement> InternalSetContent;
+
+		public void SetContent(XElement e)
+		{
+			e.Add(
+					new XElement("ActionScript", new object[] { "Zing!" })
+				);
+
+
+			InternalSetContent(e);
+		}
+
 		public XLinqSprite()
 		{
 			this.InvokeWhenStageIsReady(
@@ -54,9 +66,14 @@ namespace XElementEverywhere
 						})
 					);
 
-					t.Text = doc.Root.ToString();
 
+					InternalSetContent =
+						x =>
+						{
+							t.Text = x.ToString();
+						};
 
+					SetContent(doc.Root);
 				}
 			);
 		}
@@ -87,6 +104,20 @@ namespace XElementEverywhere
 
 			s.AttachSpriteTo(a.Foo);
 
+
+			a.Bar.onclick +=
+				delegate
+				{
+					var x = XElement.Parse(a.Bar.innerHTML);
+
+					x.Add(
+						new XElement("JavaScript", new object[] { "Yay" })
+					);
+
+					s.SetContent(
+						x
+					);
+				};
 		}
 
 	}

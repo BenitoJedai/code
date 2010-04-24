@@ -15,6 +15,7 @@ using jsc.Languages.IL;
 using ScriptCoreLib.JavaScript;
 using jsc.meta.Commands.Rewrite.Templates;
 using ScriptCoreLib.Shared;
+using System.Xml.Linq;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -131,6 +132,9 @@ namespace jsc.meta.Commands.Rewrite
 				return true;
 
 			if (t == typeof(string))
+				return true;
+
+			if (t == typeof(XElement))
 				return true;
 
 			// supporting primitives are we?
@@ -421,7 +425,7 @@ namespace jsc.meta.Commands.Rewrite
 											e.il.Emit(OpCodes.Ldarg_0);
 											e.il.Emit(OpCodes.Ldfld, this.Context.__proxy_lookup[ki]);
 
-											e.il.Emit(OpCodes.Call, MethodCache[ ((Action<InternalLookup, InternalLookup>)InternalLookup.AddBaseInterface).Method]);
+											e.il.Emit(OpCodes.Call, MethodCache[((Action<InternalLookup, InternalLookup>)InternalLookup.AddBaseInterface).Method]);
 											// now add this lookup...
 										}
 
@@ -429,7 +433,7 @@ namespace jsc.meta.Commands.Rewrite
 
 									e.il.Emit(OpCodes.Ldarg_0);
 									e.il.Emit(OpCodes.Ldfld, this.Context.__proxy_lookup[item.k]);
-									e.il.Emit(OpCodes.Call, MethodCache[ ((Action<InternalLookup>)InternalLookup.FreezeBaseInterfaces).Method]);
+									e.il.Emit(OpCodes.Call, MethodCache[((Action<InternalLookup>)InternalLookup.FreezeBaseInterfaces).Method]);
 
 									return;
 								}
@@ -587,6 +591,15 @@ namespace jsc.meta.Commands.Rewrite
 					{
 						il.Emit(OpCodes.Call, this.__proxy_FromType[p.ParameterType]);
 					}
+					else if (p.ParameterType == typeof(XElement))
+					{
+						il.Emit(
+							OpCodes.Callvirt,
+							((Func<XNode, string>)(n => n.ToString())).ToReferencedMethod()
+						);
+
+					}
+
 				}
 				#endregion
 
@@ -941,17 +954,28 @@ namespace jsc.meta.Commands.Rewrite
 						var TranslatedParameters = Enumerable.ToArray(
 							from p in ParameterTypes
 							let ldarg = new Action(() => il.Emit(OpCodes.Ldarg, (short)(p.i + 1)))
-							let RequiresToType = p.k.IsDelegate() || p.k.IsInterface
+							let RequiresToType = p.k.IsDelegate() || p.k.IsInterface || p.k == typeof(XElement)
 
 							let ldloc = new Func<Action>(
 								delegate
 								{
 									var loc = il.DeclareLocal(TypeCache[p.k]);
 
-									il.Emit(OpCodes.Ldarg_0);
-									ldarg();
-									il.Emit(OpCodes.Call, __proxy_ToType[p.k]);
+									if (p.k == typeof(XElement))
+									{
+										ldarg();
+										il.Emit(OpCodes.Call,
+											MethodCache[((Func<string, XElement>)XElement.Parse).Method]
+										);
+									}
+									else
+									{
 
+										il.Emit(OpCodes.Ldarg_0);
+										ldarg();
+										il.Emit(OpCodes.Call, __proxy_ToType[p.k]);
+
+									}
 									il.Emit(OpCodes.Stloc, (short)loc.LocalIndex);
 
 
@@ -1031,7 +1055,7 @@ namespace jsc.meta.Commands.Rewrite
 				#endregion
 
 
-			
+
 
 				InvokeLater.Action();
 			}
