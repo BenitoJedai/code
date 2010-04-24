@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.ActionScript.Components
 {
@@ -69,6 +70,11 @@ namespace ScriptCoreLib.ActionScript.Components
 
 
 		ZIPFile zip = new ZIPFile();
+
+		public void Add(string name, XElement data)
+		{
+			zip.Add(name, data.ToString());
+		}
 
 		public void Add(string name, string data)
 		{

@@ -6,156 +6,156 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    [Script(InternalConstructor = true)]
-    public partial class IStyleSheetRule
-    {
-        public string selectorText;
-        public IStyle style;
+	[Script(InternalConstructor = true)]
+	public partial class IStyleSheetRule
+	{
+		public string selectorText;
+		public IStyle style;
 
-    }
+	}
 
-    [Script(InternalConstructor = true)]
-    public partial class IStyleSheet
-    {
-        static IStyleSheet _Default;
+	[Script(InternalConstructor = true)]
+	public partial class IStyleSheet
+	{
+		static IStyleSheet _Default;
 
-        public static IStyleSheet Default
-        {
-            get
-            {
-                if (_Default == null)
-                    _Default = new IStyleSheet();
-
-                
-                return _Default;
-            }
-        }
-
-        public readonly string media;
-        public bool disabled;
-
-        internal IStyleSheetRule[] rules;
-        internal IStyleSheetRule[] cssRules;
-
-        public IStyleSheetRule[] Rules
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
+		public static IStyleSheet Default
+		{
+			get
+			{
+				if (_Default == null)
+					_Default = new IStyleSheet();
 
 
-                if (Expando.InternalIsMember(this, "cssRules"))
-                    return this.cssRules;
+				return _Default;
+			}
+		}
 
-                if (Expando.InternalIsMember(this, "rules"))
-                    return this.rules;
+		public readonly string media;
+		public bool disabled;
 
-                throw new System.Exception("member IStyleSheet.Rules not found");
-            }
-        }
+		internal IStyleSheetRule[] rules;
+		internal IStyleSheetRule[] cssRules;
 
-
-        #region Constructor
-
-        public IStyleSheet()
-        {
-            // InternalConstructor
-        }
-
-        static IStyleSheet InternalConstructor()
-        {
-            HTML.IHTMLStyle s = new HTML.IHTMLStyle();
-
-            // http://phrogz.net/JS/AddCSS_test.html
-
-            var h = Native.Document.getElementsByTagName("head");
-
-            if (h.Length > 0)
-                h[0].appendChild(s);
-            else
-                s.AttachToDocument();
-
-            return s.StyleSheet;
-        }
-
-        #endregion
+		public IStyleSheetRule[] Rules
+		{
+			[Script(DefineAsStatic = true)]
+			get
+			{
 
 
-        internal object addRule(string s, string d, int i)
-        {
-            return null;
-        }
+				if (Expando.InternalIsMember(this, "cssRules"))
+					return this.cssRules;
 
-        internal object insertRule(string r, int i)
-        {
-            return null;
-        }
+				if (Expando.InternalIsMember(this, "rules"))
+					return this.rules;
 
-
-        // http://www.susaaland.dk/sharedoc/kdelibs-devel-3/khtml/html/classDOM_1_1CSSStyleSheet.html#a9
-        // http://www.javascriptkit.com/domref/stylesheet.shtml
-        [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector, string declaration, int index)
-        {
-            if (Expando.InternalIsMember(this, "insertRule"))
-                this.insertRule(selector + "{" + declaration + "}", index);
-            else if (Expando.InternalIsMember(this, "addRule"))
-                this.addRule(selector, declaration, index);
-            else
-                throw new System.Exception("fault at IStyleSheetRule.AddRule");
+				throw new System.Exception("member IStyleSheet.Rules not found");
+			}
+		}
 
 
-            return this.Rules[index];
-        }
+		#region Constructor
 
-        [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector)
-        {
-            return AddRule(selector, "/**/", this.Rules.Length);
-        }
+		public IStyleSheet()
+		{
+			// InternalConstructor
+		}
 
-        [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(global::System.Collections.Generic.KeyValuePair<string, System.Action<IStyleSheetRule>> r)
-        {
+		static IStyleSheet InternalConstructor()
+		{
+			HTML.IHTMLStyle s = new HTML.IHTMLStyle();
 
-            return this.AddRule(r.Key, r.Value);
+			// http://phrogz.net/JS/AddCSS_test.html
 
-        }
+			var h = Native.Document.getElementsByTagName("head");
 
-        [Script(DefineAsStatic = true)]
-        public IStyleSheetRule AddRule(string selector, System.Action<IStyleSheetRule> r)
-        {
-            var x = AddRule(selector);
+			if (h.Length > 0)
+				h[0].appendChild(s);
+			else
+				s.AttachToDocument();
 
-            r(x);
+			return s.StyleSheet;
+		}
 
-            return x;
-        }
+		#endregion
 
 
+		internal object addRule(string s, string d, int i)
+		{
+			return null;
+		}
 
-        internal DOM.HTML.IHTMLStyle owningElement;
-        internal DOM.HTML.IHTMLStyle ownerNode;
+		internal object insertRule(string r, int i)
+		{
+			return null;
+		}
 
-        public DOM.HTML.IHTMLStyle Owner
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                if (Expando.InternalIsMember(this, "ownerNode"))
-                    return this.ownerNode;
 
-                if (Expando.InternalIsMember(this, "owningElement"))
-                    return this.owningElement;
+		// http://www.susaaland.dk/sharedoc/kdelibs-devel-3/khtml/html/classDOM_1_1CSSStyleSheet.html#a9
+		// http://www.javascriptkit.com/domref/stylesheet.shtml
+		[Script(DefineAsStatic = true)]
+		public IStyleSheetRule AddRule(string selector, string declaration, int index)
+		{
+			if (Expando.InternalIsMember(this, "insertRule"))
+				this.insertRule(selector + "{" + declaration + "}", index);
+			else if (Expando.InternalIsMember(this, "addRule"))
+				this.addRule(selector, declaration, index);
+			else
+				throw new System.Exception("fault at IStyleSheetRule.AddRule");
 
-                throw new System.Exception("fault at IStyleSheet.Owner");
-            }
-        }
-    }
 
-    [Script(HasNoPrototype = true)]
-    public partial class IStyle
-    {
+			return this.Rules[index];
+		}
+
+		[Script(DefineAsStatic = true)]
+		public IStyleSheetRule AddRule(string selector)
+		{
+			return AddRule(selector, "/**/", this.Rules.Length);
+		}
+
+		[Script(DefineAsStatic = true)]
+		public IStyleSheetRule AddRule(global::System.Collections.Generic.KeyValuePair<string, System.Action<IStyleSheetRule>> r)
+		{
+
+			return this.AddRule(r.Key, r.Value);
+
+		}
+
+		[Script(DefineAsStatic = true)]
+		public IStyleSheetRule AddRule(string selector, System.Action<IStyleSheetRule> r)
+		{
+			var x = AddRule(selector);
+
+			r(x);
+
+			return x;
+		}
+
+
+
+		internal DOM.HTML.IHTMLStyle owningElement;
+		internal DOM.HTML.IHTMLStyle ownerNode;
+
+		public DOM.HTML.IHTMLStyle Owner
+		{
+			[Script(DefineAsStatic = true)]
+			get
+			{
+				if (Expando.InternalIsMember(this, "ownerNode"))
+					return this.ownerNode;
+
+				if (Expando.InternalIsMember(this, "owningElement"))
+					return this.owningElement;
+
+				throw new System.Exception("fault at IStyleSheet.Owner");
+			}
+		}
+	}
+
+	[Script(HasNoPrototype = true)]
+	public partial class IStyle
+	{
 		// todo:
 		// http://samples.msdn.microsoft.com/workshop/samples/author/dhtml/filters/matrix.htm
 		// http://msdn.microsoft.com/en-us/library/ms533014%28VS.85%29.aspx
@@ -167,146 +167,150 @@ namespace ScriptCoreLib.JavaScript.DOM
 		/// </summary>
 		public string appleDashboardRegion;
 
-        public string lineHeight;
+		public string lineHeight;
 
 		// http://www.w3schools.com/CSS/pr_pos_clip.asp
-        public string clip;
-        public string clear;
+		public string clip;
+		public string clear;
 
-        #region white-space
+		#region white-space
 
-        public WhiteSpaceEnum whiteSpace;
+		public WhiteSpaceEnum whiteSpace;
 
-        [Script(IsStringEnum = true)]
-        public enum WhiteSpaceEnum
-        {
-            /// <summary>
-            /// White-space is ignored by the browser
-            /// </summary>
-            normal,
-            /// <summary>
-            /// White-space is preserved by the browser. Acts like the <pre> tag in HTML
-            /// </summary>
+		[Script(IsStringEnum = true)]
+		public enum WhiteSpaceEnum
+		{
+			/// <summary>
+			/// White-space is ignored by the browser
+			/// </summary>
+			normal,
+			/// <summary>
+			/// White-space is preserved by the browser. Acts like the <pre> tag in HTML
+			/// </summary>
 
-            pre,
-            /// <summary>
-            /// The text will never wrap, it continues on the same line until a <br> tag is encountered
-            /// </summary>
-            nowrap
-        }
-        #endregion
-
-
-        #region cursor
-        // TODO support per member values in enum
-        [Script(IsStringEnum = true)]
-        public enum CursorEnum
-        {
-            @default, auto, crosshair, pointer, move, text, wait, help
-
-        }
-
-        /// <summary>
-        /// <see>http://www.w3schools.com/css/pr_class_cursor.asp</see>
-        /// </summary>
-        public CursorEnum cursor;
-        #endregion
-
-        // http://www.w3schools.com/css/css_background.asp
-        public string background;
-        public string backgroundImage;
-        public string backgroundColor;
-        //public string backgroundLeft;
-        //public string backgroundTop;
-        public string backgroundRepeat;
-        public string backgroundPosition;
-
-        #region display
-
-        /// <summary>
-        /// http://www.w3schools.com/css/pr_class_display.asp
-        /// </summary>
-        [Script(IsStringEnum = true)]
-        public enum DisplayEnum
-        {
-            none,
-            block,
-            inline,
-            [Script(ExternalTarget = "")]
-            empty
-
-        }
-        public DisplayEnum display;
-        #endregion
-
-        #region visibility
-        [Script(IsStringEnum = true)]
-        public enum VisibilityEnum
-        {
-            visible,
-            hidden,
-            collapse
-        }
-        public VisibilityEnum visibility;
-        #endregion
+			pre,
+			/// <summary>
+			/// The text will never wrap, it continues on the same line until a <br> tag is encountered
+			/// </summary>
+			nowrap
+		}
+		#endregion
 
 
-        #region padding
-        public string padding;
-        public string paddingTop;
-        public string paddingBottom;
-        public string paddingLeft;
-        public string paddingRight;
-        #endregion
+		#region cursor
+		// TODO support per member values in enum
+		[Script(IsStringEnum = true)]
+		public enum CursorEnum
+		{
+			@default, auto, crosshair, pointer, move, text, wait, help
 
-        #region fontFamily
-        [Script(IsStringEnum = true)]
-        public enum FontFamilyEnum
-        {
-            Times, Helvetica, /*Zapf-Chancery,*/ Western,
-            [Script(ExternalTarget = "Consolas, Courier New, Courier")]
-            Consolas,
-            Courier, Verdana, Tahoma, Arial,
-            Fixedsys
-        }
-        public FontFamilyEnum fontFamily;
+		}
 
-        //[Script(ExternalTarget = "fontFamily")]
-        //public string fontFamilyValue;
-        #endregion
+		/// <summary>
+		/// <see>http://www.w3schools.com/css/pr_class_cursor.asp</see>
+		/// </summary>
+		public CursorEnum cursor;
+		#endregion
+
+		// http://www.w3schools.com/css/css_background.asp
+		public string background;
+		public string backgroundImage;
+		public string backgroundColor;
+		//public string backgroundLeft;
+		//public string backgroundTop;
+		public string backgroundRepeat;
+		public string backgroundPosition;
+
+		#region display
+
+		/// <summary>
+		/// http://www.w3schools.com/css/pr_class_display.asp
+		/// </summary>
+		[Script(IsStringEnum = true)]
+		public enum DisplayEnum
+		{
+			none,
+			block,
+			inline,
+			[Script(ExternalTarget = "")]
+			empty,
 
 
-        public string fontWeight;
-        public string fontSize;
-        public string font;
+			[Script(ExternalTarget = "inline-block")]
+			inline_block
 
-        public string margin;
-        public string marginLeft;
-        public string marginTop;
-        public string marginRight;
-        public string marginBottom;
+		}
+		public DisplayEnum display;
+		#endregion
 
-        #region border
-        public string border;
-        public string borderStyle;
+		#region visibility
+		[Script(IsStringEnum = true)]
+		public enum VisibilityEnum
+		{
+			visible,
+			hidden,
+			collapse
+		}
+		public VisibilityEnum visibility;
+		#endregion
 
-        public string borderRight;
-        public string borderRightColor;
 
-        public string borderLeft;
-        public string borderLeftColor;
+		#region padding
+		public string padding;
+		public string paddingTop;
+		public string paddingBottom;
+		public string paddingLeft;
+		public string paddingRight;
+		#endregion
 
-        public string borderTop;
-        public string borderTopColor;
+		#region fontFamily
+		[Script(IsStringEnum = true)]
+		public enum FontFamilyEnum
+		{
+			Times, Helvetica, /*Zapf-Chancery,*/ Western,
+			[Script(ExternalTarget = "Consolas, Courier New, Courier")]
+			Consolas,
+			Courier, Verdana, Tahoma, Arial,
+			Fixedsys
+		}
+		public FontFamilyEnum fontFamily;
 
-        public string borderBottom;
-        public string borderBottomColor;
+		//[Script(ExternalTarget = "fontFamily")]
+		//public string fontFamilyValue;
+		#endregion
 
-        public string borderWidth;
-        public string borderColor;
-        #endregion
 
-        public string color;
+		public string fontWeight;
+		public string fontSize;
+		public string font;
+
+		public string margin;
+		public string marginLeft;
+		public string marginTop;
+		public string marginRight;
+		public string marginBottom;
+
+		#region border
+		public string border;
+		public string borderStyle;
+
+		public string borderRight;
+		public string borderRightColor;
+
+		public string borderLeft;
+		public string borderLeftColor;
+
+		public string borderTop;
+		public string borderTopColor;
+
+		public string borderBottom;
+		public string borderBottomColor;
+
+		public string borderWidth;
+		public string borderColor;
+		#endregion
+
+		public string color;
 
 
 
@@ -316,75 +320,75 @@ namespace ScriptCoreLib.JavaScript.DOM
 		// http://dolfo.org/2008/07/disable-safaris-textarea-grip/
 		public string resize;
 		public string right;
-        public string bottom;
-        public string left;
-        public string top;
-        public string width;
-        public string height;
+		public string bottom;
+		public string left;
+		public string top;
+		public string width;
+		public string height;
 
-        #region position
-        [Script(IsStringEnum = true)]
-        public enum PositionEnum
-        {
-            @static,
-            absolute,
-            relative
-        }
+		#region position
+		[Script(IsStringEnum = true)]
+		public enum PositionEnum
+		{
+			@static,
+			absolute,
+			relative
+		}
 
-        public PositionEnum position;
-        #endregion
-
-
-        #region overflow
-        [Script(IsStringEnum = true)]
-        public enum OverflowEnum
-        {
-            visible, hidden, scroll, auto
-        }
-
-        public OverflowEnum overflow;
-
-        #endregion
-
-        public string outline;
+		public PositionEnum position;
+		#endregion
 
 
-        #region textAlgin
-        [Script(IsStringEnum = true)]
-        public enum TextAlignEnum { left, right, center, justify }
-        public TextAlignEnum textAlign;
-        #endregion
+		#region overflow
+		[Script(IsStringEnum = true)]
+		public enum OverflowEnum
+		{
+			visible, hidden, scroll, auto
+		}
+
+		public OverflowEnum overflow;
+
+		#endregion
+
+		public string outline;
+
+
+		#region textAlgin
+		[Script(IsStringEnum = true)]
+		public enum TextAlignEnum { left, right, center, justify }
+		public TextAlignEnum textAlign;
+		#endregion
 
 		// http://www.quirksmode.org/css/textshadow.html
 		public string textShadow;
 		public string textDecoration;
 
-        [Script(IsStringEnum = true)]
-        public enum TextTransformEnum
-        {
-            /// <summary>
-            /// Default. Defines normal text, with lower case letters and capital letters
-            /// </summary>
-            none,
-            /// <summary>
-            /// Each word in a text starts with a capital letter
-            /// </summary>
-            capitalize,
-            /// <summary>
-            /// Defines only capital letters
-            /// </summary>
-            uppercase
-                ,
-            /// <summary>
-            /// Defines no capital letters, only lower case letters
-            /// </summary>
-            lowercase
-        }
-        public TextTransformEnum textTransform;
+		[Script(IsStringEnum = true)]
+		public enum TextTransformEnum
+		{
+			/// <summary>
+			/// Default. Defines normal text, with lower case letters and capital letters
+			/// </summary>
+			none,
+			/// <summary>
+			/// Each word in a text starts with a capital letter
+			/// </summary>
+			capitalize,
+			/// <summary>
+			/// Defines only capital letters
+			/// </summary>
+			uppercase
+				,
+			/// <summary>
+			/// Defines no capital letters, only lower case letters
+			/// </summary>
+			lowercase
+		}
+		public TextTransformEnum textTransform;
 
-        public string verticalAlign;
+		public string verticalAlign;
 
-        public int zIndex;
+		public int zIndex;
 
-    }
+	}
 }
