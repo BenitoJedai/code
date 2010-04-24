@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
+using jsc.meta.Library.VolumeFunctions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
@@ -156,171 +157,181 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 					Text = Text.Substring(0, Text.Length - Launcher.Length);
 
 				var url = "http://localhost:" + port;
-				var dir = new FileInfo(typeof(WebDevLauncer).Assembly.Location).Directory.FullName;
+				var dir__ = new FileInfo(typeof(WebDevLauncer).Assembly.Location).Directory;
 				// what about long paths? :)
+				// thanks for 414
 
+				using (var dir = dir__.Parent.ToVirtualDrive())
+				{
+					InternalLaunch(port, Text, url, dir.VirtualDirectory.CreateSubdirectory(dir__.Name).FullName);
+				}
+
+			}
+
+			private static void InternalLaunch(int port, string Text, string url, string dir)
+			{
 				var t = new Thread(
-					delegate()
-					{
-						Application.EnableVisualStyles();
-						Application.SetCompatibleTextRenderingDefault(false);
+								delegate()
+								{
+									Application.EnableVisualStyles();
+									Application.SetCompatibleTextRenderingDefault(false);
 
 
-						using (var n = new NotifyIcon())
-						{
-
-							//n.Icon = new Icon(
-							n.Icon = new Icon(typeof(WebDevLauncer).Assembly.GetManifestResourceStream("App.ico"));
-							n.Visible = true;
-							n.ContextMenuStrip = new ContextMenuStrip
-							{
-
-							};
-
-							var Tools =
-								new ToolStripMenuItem(
-									"Developer Tools"
-								);
-
-							#region we need the originals
-							Tools.DropDownItems.Add(
-								new ToolStripMenuItem(
-									"Convert to Google App Engine",
-									null,
-									delegate
+									using (var n = new NotifyIcon())
 									{
 
+										//n.Icon = new Icon(
+										n.Icon = new Icon(typeof(WebDevLauncer).Assembly.GetManifestResourceStream("App.ico"));
+										n.Visible = true;
+										n.ContextMenuStrip = new ContextMenuStrip
+										{
+
+										};
+
+										var Tools =
+											new ToolStripMenuItem(
+												"Developer Tools"
+											);
+
+										#region we need the originals
+										Tools.DropDownItems.Add(
+											new ToolStripMenuItem(
+												"Convert to Google App Engine",
+												null,
+												delegate
+												{
+
+												}
+											)
+											{
+												Enabled = false
+											}
+										);
+
+										Tools.DropDownItems.Add(
+											new ToolStripMenuItem(
+												"Convert to PHP",
+												null,
+												delegate
+												{
+
+												}
+											)
+											{
+												Enabled = false
+											}
+										);
+
+										Tools.DropDownItems.Add(
+											new ToolStripMenuItem(
+												"Convert to ASP.NET",
+												null,
+												delegate
+												{
+
+												}
+											)
+											{
+												Enabled = false
+											}
+										);
+
+										Tools.DropDownItems.Add(new ToolStripSeparator());
+
+										#endregion
+
+
+										Tools.DropDownItems.Add(
+											new ToolStripMenuItem(
+											//"Open in Windows &Explorer",
+												"Open file location",
+												null,
+												delegate
+												{
+													Process.Start(dir);
+												}
+											)
+											{
+												ToolTipText = dir
+											}
+										);
+
+
+										Tools.DropDownItems.Add(
+											new ToolStripMenuItem(
+												"Browse to Diagnostics",
+												null,
+												delegate
+												{
+													Process.Start(url + "/jsc");
+												}
+											)
+
+										);
+
+										n.ContextMenuStrip.Items.Add(Tools);
+										n.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+
+
+										n.ContextMenuStrip.Items.Add(
+											new ToolStripMenuItem(
+												"&Close " + Text,
+												null,
+												delegate
+												{
+													Application.Exit();
+												}
+											)
+										);
+
+
+
+
+										//n.ContextMenuStrip.Items.Add(
+										//new ToolStripMenuItem(
+										//    "Browse to Diagnostics",
+										//    null,
+										//    delegate
+										//    {
+										//        Process.Start(url + "/jsc");
+										//    }
+										//    )
+										//    {
+										//        ToolTipText = url
+										//    }
+										//);
+
+										n.ContextMenuStrip.Items.Add(
+											new ToolStripMenuItem(
+												"&Browse to " + Text,
+												null,
+												delegate
+												{
+													Process.Start(url);
+												}
+											)
+											{
+												ToolTipText = url,
+												Font = new Font(SystemFonts.DialogFont, FontStyle.Bold)
+											}
+										);
+										n.DoubleClick +=
+											delegate
+											{
+												Process.Start(url);
+											};
+
+
+
+										n.Text = Text;
+										n.ShowBalloonTip(300, Text, "Loading...", ToolTipIcon.None);
+
+
+										Application.Run();
 									}
-								)
-								{
-									Enabled = false
+
 								}
-							);
-
-							Tools.DropDownItems.Add(
-								new ToolStripMenuItem(
-									"Convert to PHP",
-									null,
-									delegate
-									{
-
-									}
-								)
-								{
-									Enabled = false
-								}
-							);
-
-							Tools.DropDownItems.Add(
-								new ToolStripMenuItem(
-									"Convert to ASP.NET",
-									null,
-									delegate
-									{
-
-									}
-								)
-								{
-									Enabled = false
-								}
-							);
-
-							Tools.DropDownItems.Add(new ToolStripSeparator());
-
-							#endregion
-
-
-							Tools.DropDownItems.Add(
-								new ToolStripMenuItem(
-									//"Open in Windows &Explorer",
-									"Open file location",
-									null,
-									delegate
-									{
-										Process.Start(dir);
-									}
-								)
-								{
-									ToolTipText = dir
-								}
-							);
-
-
-							Tools.DropDownItems.Add(
-								new ToolStripMenuItem(
-									"Browse to Diagnostics",
-									null,
-									delegate
-									{
-										Process.Start(url + "/jsc");
-									}
-								)
-
-							);
-
-							n.ContextMenuStrip.Items.Add(Tools);
-							n.ContextMenuStrip.Items.Add(new ToolStripSeparator());
-
-
-							n.ContextMenuStrip.Items.Add(
-								new ToolStripMenuItem(
-									"&Close " + Text,
-									null,
-									delegate
-									{
-										Application.Exit();
-									}
-								)
-							);
-
-
-
-
-							//n.ContextMenuStrip.Items.Add(
-							//new ToolStripMenuItem(
-							//    "Browse to Diagnostics",
-							//    null,
-							//    delegate
-							//    {
-							//        Process.Start(url + "/jsc");
-							//    }
-							//    )
-							//    {
-							//        ToolTipText = url
-							//    }
-							//);
-
-							n.ContextMenuStrip.Items.Add(
-								new ToolStripMenuItem(
-									"&Browse to " + Text,
-									null,
-									delegate
-									{
-										Process.Start(url);
-									}
-								)
-								{
-									ToolTipText = url,
-									Font = new Font(SystemFonts.DialogFont, FontStyle.Bold)
-								}
-							);
-							n.DoubleClick +=
-								delegate
-								{
-									Process.Start(url);
-								};
-
-
-
-							n.Text = Text;
-							n.ShowBalloonTip(300, Text, "Loading...", ToolTipIcon.None);
-
-
-							Application.Run();
-						}
-
-					}
-				) { ApartmentState = ApartmentState.STA, IsBackground = true };
+							) { ApartmentState = ApartmentState.STA, IsBackground = true };
 
 				t.Start();
 
