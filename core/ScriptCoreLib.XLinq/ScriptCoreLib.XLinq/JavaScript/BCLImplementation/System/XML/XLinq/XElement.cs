@@ -101,7 +101,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 		}
 
 
-		public static __XElement Parse(string text)
+		public static XElement Parse(string text)
 		{
 			var x = __XDocument.Parse(text);
 

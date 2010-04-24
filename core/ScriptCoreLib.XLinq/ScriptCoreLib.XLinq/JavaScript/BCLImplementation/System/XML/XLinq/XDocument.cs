@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 		__XElement _Root;
 
-		public __XElement Root
+		public XElement Root
 		{
 			get
 			{
@@ -31,7 +31,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 					_Root = new __XElement { InternalValue = InternalDocument.documentElement };
 				}
 
-				return _Root;
+				return (XElement)(object)_Root;
 			}
 		}
 

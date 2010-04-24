@@ -15,7 +15,7 @@ namespace UltraApplicationWithAssets
 	[Description("UltraApplicationWithAssets. Write javascript, flash and java applets within a C# project.")]
 	public sealed partial class Application
 	{
-		public Application(IAboutJSC a)
+		public Application(IAbout a)
 		{
 			Data.MyDocument.CreateAsElement(
 				Document =>

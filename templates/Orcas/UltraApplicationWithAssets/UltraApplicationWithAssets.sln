@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraApplicationWithAssets", "UltraApplicationWithAssets\UltraApplicationWithAssets.csproj", "{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltraLibraryWithAssets", "..\UltraLibraryWithAssets\UltraLibraryWithAssets\UltraLibraryWithAssets.csproj", "{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -18,12 +16,6 @@ Global
 		{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE38C83D-77CA-4EC3-AA5A-07E58D8E89CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}.Assets|Any CPU.Build.0 = Assets|Any CPU
-		{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDF9E183-D2A8-45E4-85E0-5CBAC43A16E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

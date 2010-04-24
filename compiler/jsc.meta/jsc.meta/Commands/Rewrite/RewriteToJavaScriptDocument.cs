@@ -403,11 +403,11 @@ namespace jsc.meta.Commands.Rewrite
 										k.IsActionScript ? ScriptType.ActionScript :
 										ScriptType.Java
 									),
-								   
+
 									typeof(ScriptTypeFilterAttribute)
 								);
 
-							
+
 							}
 
 							if (k.IsJavaScript)
@@ -538,6 +538,21 @@ namespace jsc.meta.Commands.Rewrite
 					r.ExternalContext.TypeCache.Resolve +=
 						SourceType =>
 						{
+							if (k.IsActionScript)
+							{
+								if (ScriptCoreLib_Query != null && SourceType.Assembly == System_Core)
+								{
+									ScriptLibraries.Add(ScriptCoreLib_Query);
+									ScriptCoreLib_Query = null;
+								}
+
+								if (ScriptCoreLib_XLinq != null && SourceType.Assembly == System_XLinq)
+								{
+									ScriptLibraries.Add(ScriptCoreLib_XLinq);
+									ScriptCoreLib_XLinq = null;
+								}
+							}
+
 							if (k.IsJava || k.IsWebServiceJava)
 							{
 								// java applet and google app engine servlets using XLinq.
@@ -913,7 +928,8 @@ namespace jsc.meta.Commands.Rewrite
 										BindingFlags.DeclaredOnly |
 										BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
 									{
-										var km = r.ExternalContext.ConstructorCache[kk];
+										//var km = r.ExternalContext.ConstructorCache[kk];
+										var km = r.RewriteArguments.context.ConstructorCache[kk];
 									}
 									#endregion
 
@@ -1020,6 +1036,9 @@ namespace jsc.meta.Commands.Rewrite
 					r.ExternalContext.ConstructorCache.Resolve +=
 						source =>
 						{
+
+							var DeclaringType__ = r.RewriteArguments.context.TypeCache[source.DeclaringType];
+
 							if (r.ExternalContext.ConstructorCache.BaseDictionary.ContainsKey(source))
 								if (r.ExternalContext.ConstructorCache.BaseDictionary[source] != source)
 									return;
@@ -1032,13 +1051,15 @@ namespace jsc.meta.Commands.Rewrite
 									if (c.IsActionScript || c.IsJava)
 									{
 										#region WriteInitialization_*InternalElement
-										var DeclaringType = (TypeBuilder)r.ExternalContext.TypeCache[source.DeclaringType];
+										var DeclaringType = (TypeBuilder)DeclaringType__;
 
 										// we need an instance :)
 
 										var __InternalElement = r.RewriteArguments.context.FieldCache[__InternalElementProxy.GetField("__InternalElement")];
 
+										// Unable to change after type has been created.
 										var ctor = DeclaringType.DefineConstructor(source.Attributes, source.CallingConvention, source.GetParameterTypes());
+										r.ExternalContext.ConstructorCache[source] = ctor;
 
 										var il = ctor.GetILGenerator();
 
@@ -1075,7 +1096,6 @@ namespace jsc.meta.Commands.Rewrite
 											);
 										}
 
-										r.ExternalContext.ConstructorCache[source] = ctor;
 										#endregion
 									}
 							}
