@@ -28,7 +28,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 			{
 				if (_Root == null)
 				{
-					_Root = new __XElement { InternalValue = InternalValue.elements()[0] };
+					_Root = new __XElement { InternalValue = InternalValue };
 				}
 
 				return (XElement)(object)_Root;
