@@ -7,6 +7,11 @@ using System.IO;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Ultra.Components.Avalon.Images;
+using System.Windows.Controls;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace ScriptCoreLib.ActionScript.Components
 {
@@ -18,14 +23,30 @@ namespace ScriptCoreLib.ActionScript.Components
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
-					var s = new Sprite();
 
-					s.graphics.beginFill(0xff);
-					s.graphics.drawRect(0, 0, 100, 100);
+					var c = new Canvas
+					{
+						Width = RTA_save.ImageDefaultWidth,
+						Height = RTA_save.ImageDefaultHeight,
 
-					s.AttachTo(this);
+					};
 
-					s.click +=
+					new Rectangle
+					{
+						Width = 24,
+						Height = 24,
+						Fill = Brushes.White,
+						Opacity = 0
+					}.AttachTo(c);
+
+					new RTA_save().AttachTo(c).MoveTo(
+						(24 - RTA_save.ImageDefaultWidth ) / 2,	
+						(24 - RTA_save.ImageDefaultHeight ) / 2
+					);
+
+					c.AttachToContainer(this);
+
+					c.MouseLeftButtonUp +=
 						delegate
 						{
 							var f = new global::ScriptCoreLib.CSharp.Avalon.Controls.FileDialog();

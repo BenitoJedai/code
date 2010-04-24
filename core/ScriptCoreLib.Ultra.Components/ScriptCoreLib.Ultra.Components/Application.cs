@@ -178,20 +178,21 @@ namespace ScriptCoreLib.Ultra.Components
 
 			ToolbarContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
 
+			Action<IHTMLElement> ApplyToolbarButtonStyle =
+				k =>
+				{
+					k.style.padding = "0";
+					k.style.margin = "0";
+					k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+					k.style.SetSize(24, 24);
+
+					VisualStudioView.ApplyMouseHoverStyle(k, Color.Transparent);
+				};
+
 			Func<IHTMLImage, IHTMLButton> AddButtonDummy =
 				(img) =>
 				{
-					return new IHTMLButton { img.WithinContainer() }.With(
-						k =>
-						{
-							k.style.padding = "0";
-							k.style.margin = "0";
-							k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
-							k.style.SetSize(24, 24);
-
-							VisualStudioView.ApplyMouseHoverStyle(k, Color.Transparent);
-						}
-					).AttachTo(ToolbarContent);
+					return new IHTMLButton { img.WithinContainer() }.With(k => ApplyToolbarButtonStyle(k)).AttachTo(ToolbarContent);
 				};
 
 			Func<IHTMLImage, Action, IHTMLButton> AddButtonAction =
@@ -221,11 +222,16 @@ namespace ScriptCoreLib.Ultra.Components
 				};
 
 
-			AddButtonDummy(new RTA_save());
+			//AddButtonDummy(new RTA_save());
+
+			var SaveContainer = new IHTMLDiv().With(k => ApplyToolbarButtonStyle(k)).AttachTo(ToolbarContent);
+
+			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline;
 
 			var Save = new SaveActionSprite();
-			
-			Save.AttachSpriteTo(ToolbarContent);
+
+			Save.ToTransparentSprite();
+			Save.AttachSpriteTo(SaveContainer);
 
 			Save.WhenReady(
 				i =>
