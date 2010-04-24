@@ -36,11 +36,23 @@ namespace XElementEverywhere
 					c.AttachToContainer(this);
 
 					var doc = XDocument.Parse(
-						Text	
+						Text
 					);
 
 					doc.Root.Add("hello world");
 					doc.Root.Add("hello world");
+
+					doc.Root.Add(
+						"Foo",
+						"bar",
+						new XElement("Bar", new object[] { 
+							"foo",
+							
+							new XElement("Bar", new object[] { "foo" }),
+							new XElement("Bar", new object[] { "foo" })
+						
+						})
+					);
 
 					t.Text = doc.Root.ToString();
 
@@ -70,7 +82,7 @@ namespace XElementEverywhere
 			);
 
 			var s = new XLinqSprite();
-			
+
 
 
 			s.AttachSpriteTo(a.Foo);

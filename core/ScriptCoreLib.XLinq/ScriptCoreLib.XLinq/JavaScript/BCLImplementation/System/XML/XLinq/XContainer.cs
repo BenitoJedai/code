@@ -34,7 +34,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			{
 				if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
 					a.Add(
-						(XElement)(object)new __XElement { InternalValue = item }
+						(XElement)(object)new __XElement(null, null) { InternalValue = item }
 					);
 
 			}

@@ -24,25 +24,34 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 		}
 
 		public __XElement()
-			: this(null)
+			: this("item", null, null)
 		{
 		}
 
 		public __XElement(XName name)
+			: this(name, null, null)
 		{
-			InternalElementName = (__XName)(object)name;
 		}
 
 		public __XElement(XName name, object item)
+			: this(name, item, null)
 		{
-			InternalElementName = (__XName)(object)name;
-			this.Add(item);
 		}
 
 		public __XElement(XName name, params object[] c)
+			: this(name, null, c)
+		{
+		}
+
+		public __XElement(XName name, object c0, object[] c)
 		{
 			InternalElementName = (__XName)(object)name;
-			this.Add(c);
+
+			if (c0 != null)
+				this.Add(c0);
+
+			if (c != null)
+				this.Add(c);
 		}
 
 

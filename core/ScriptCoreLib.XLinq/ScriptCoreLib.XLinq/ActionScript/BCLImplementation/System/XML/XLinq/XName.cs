@@ -13,18 +13,29 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
     [Script(Implements = typeof(XName))]
     internal class __XName
     {
-        internal AS3_QName InternalValue;
+		public string InternalValue;
 
         public string LocalName
         {
             get
             {
-                return InternalValue.localName;
+				return InternalValue;
             }
+	
         }
         public override string ToString()
         {
             return LocalName;
         }
+
+		public static implicit operator __XName(string e)
+		{
+			return new __XName { InternalValue = e };
+		}
+
+		public static XName Get(string localName, string namespaceName)
+		{
+			return (XName)(object)new __XName { InternalValue = localName };
+		}
     }
 }

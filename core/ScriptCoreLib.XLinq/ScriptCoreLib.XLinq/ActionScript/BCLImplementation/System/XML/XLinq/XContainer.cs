@@ -13,6 +13,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 	[Script(Implements = typeof(XContainer))]
 	internal class __XContainer : __XNode
 	{
+		public __XName InternalElementName;
+
 		public IEnumerable<XElement> Elements()
 		{
 			var e = this.InternalValue;
@@ -24,7 +26,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 			for (int i = 0; i < length; i++)
 			{
 				var item = elements[i];
-		
+
 				a.Add(
 					(XElement)(object)new __XElement { InternalValue = item }
 				);
@@ -35,11 +37,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 
 		}
 
+		public void Add(params object[] content)
+		{
+			foreach (var item in content)
+			{
+				this.Add(item);
+			}
+		}
+
 		public void Add(object content)
 		{
 			if (this.InternalValue == null)
 			{
-				throw new NotImplementedException();
+				this.InternalValue = __createElement();
+				this.InternalValue.setLocalName(this.InternalElementName.LocalName);
 			}
 
 			{
@@ -54,8 +65,33 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 				}
 			}
 
+			#region XElement
+			{
+				var e = (__XElement)(object)(content as XElement);
+				if (e != null)
+				{
+					if (e.InternalValue == null)
+					{
+						e.InternalValue = __createElement();
+						e.InternalValue.setLocalName(e.InternalElementName.LocalName);
+					}
+
+					this.InternalValue.appendChild(e.InternalValue);
+
+					return;
+				}
+			}
+			#endregion
+
 			throw new NotImplementedException();
 
 		}
+
+		[Script(OptimizedCode = "return <item />;")]
+		internal static AS3_XML __createElement()
+		{
+			return default(AS3_XML);
+		}
+
 	}
 }
