@@ -226,18 +226,37 @@ namespace ScriptCoreLib.Ultra.Components
 
 			var SaveContainer = new IHTMLDiv().With(k => ApplyToolbarButtonStyle(k)).AttachTo(ToolbarContent);
 
-			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline;
+			
+			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
 
 			var Save = new SaveActionSprite();
 
 			Save.ToTransparentSprite();
 			Save.AttachSpriteTo(SaveContainer);
 
+
+			var s = new { VisualStudioTemplates.VisualCSharpProject };
+
+			EditorFrame.WhenContentReady(
+				body =>
+				{
+					var t = (IHTMLTextArea)EditorFrame.contentWindow.document.createElement("textarea");
+
+					t.AttachTo(body);
+
+					t.value = s.ToString();
+
+				}
+			);
+
 			Save.WhenReady(
 				i =>
 				{
 					i.FileName = "Project1.zip";
-					i.Add("Project1.csproj", "");
+
+
+					i.Add("Project1.txt", "x");
+					i.Add("Project1.csproj", s.VisualCSharpProject);
 				}
 			);
 

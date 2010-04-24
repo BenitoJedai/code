@@ -1035,7 +1035,13 @@ namespace jsc.meta.Commands.Rewrite
 
 							il.Emit(OpCodes.Ldarg, (short)(p.Position + 2));
 
-							if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
+							if (p.ParameterType == typeof(XElement))
+							{
+								il.Emit(OpCodes.Call,
+									MethodCache[((Func<string, XElement>)XElement.Parse).Method]
+								);
+							}
+							else if (p.ParameterType.IsDelegate() || p.ParameterType.IsInterface)
 							{
 								il.Emit(OpCodes.Call, __proxy_ToType[p.ParameterType]);
 							}
