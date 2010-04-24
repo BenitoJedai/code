@@ -52,7 +52,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 				this.Add(c);
 		}
 
-		public XElement Parse(string e)
+		public static XElement Parse(string e)
 		{
 			var doc = __XDocument.Parse(e);
 

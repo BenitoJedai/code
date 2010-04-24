@@ -834,6 +834,8 @@ namespace jsc.meta.Commands.Rewrite
 
 												if (c.IsJava)
 												{
+													// why is java using IHTMLElementCoTypes?
+
 													var DeclaringTypeCoType = IHTMLElementCoTypes.First(kk => kk.Key == DeclaringType).Value;
 
 
