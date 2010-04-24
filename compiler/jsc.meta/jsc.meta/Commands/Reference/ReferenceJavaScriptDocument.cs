@@ -234,9 +234,12 @@ namespace jsc.meta.Commands.Reference
 			var LocalSources = Enumerable.ToArray(
 				from k in Targets
 
+				let IsRoot = k.Key == ""
+
 				let kWithChildren =
 					from c in Targets
-					where c.Key == k.Key || c.Key.StartsWith(k.Key + "/")
+					
+					where IsRoot || c.Key == k.Key || c.Key.StartsWith(k.Key + "/")
 					select c
 
 				from f in k
@@ -251,7 +254,13 @@ namespace jsc.meta.Commands.Reference
 						n =>
 						{
 
-							var r = kWithChildren.SelectMany(kk => kk).SingleOrDefault(kk => kk.Include.Replace("\\", "/").EndsWith("/" + n));
+							var r = kWithChildren.SelectMany(kk => kk).SingleOrDefault(kk => 
+								
+								IsRoot ?
+								kk.Include.Replace("\\", "/") == n :
+								kk.Include.Replace("\\", "/").EndsWith("/" + n)
+								
+							);
 
 							if (r == null) return null;
 

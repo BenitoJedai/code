@@ -192,10 +192,7 @@ namespace ScriptCoreLib.JavaScript.Components
 							else
 								backgroundColor = Color.FromGray(0xf0);
 
-							div.style.backgroundColor = backgroundColor;
-							div.style.borderWidth = "1px";
-							div.style.borderStyle = "solid";
-							div.style.borderColor = backgroundColor;
+			
 
 							//div.style.height = "90px";
 							div.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
@@ -216,19 +213,7 @@ namespace ScriptCoreLib.JavaScript.Components
 
 							ToolboxContainer.Add(div);
 
-							div.onmouseover +=
-								delegate
-								{
-									div.style.backgroundColor = Color.FromRGB(0xFF, 0xEF, 0xBB);
-									div.style.borderColor = Color.FromRGB(0xE5, 0xC3, 0x65);
-								};
-
-							div.onmouseout +=
-								delegate
-								{
-									div.style.backgroundColor = backgroundColor;
-									div.style.borderColor = backgroundColor;
-								};
+							ApplyMouseHoverStyle(div, backgroundColor);
 						}
 					);
 				};
@@ -239,6 +224,28 @@ namespace ScriptCoreLib.JavaScript.Components
 			Add(new ToolboxIconsIHTMLInputText());
 			Add(new ToolboxIconsIHTMLTextarea());
 
+		}
+
+		internal static void ApplyMouseHoverStyle(IHTMLElement div, Color backgroundColor)
+		{
+			div.style.backgroundColor = backgroundColor;
+			div.style.borderWidth = "1px";
+			div.style.borderStyle = "solid";
+			div.style.borderColor = backgroundColor;
+
+			div.onmouseover +=
+				delegate
+				{
+					div.style.backgroundColor = Color.FromRGB(0xFF, 0xEF, 0xBB);
+					div.style.borderColor = Color.FromRGB(0xE5, 0xC3, 0x65);
+				};
+
+			div.onmouseout +=
+				delegate
+				{
+					div.style.backgroundColor = backgroundColor;
+					div.style.borderColor = backgroundColor;
+				};
 		}
 
 		internal static TreeNode DemoTree()
@@ -336,7 +343,7 @@ namespace ScriptCoreLib.JavaScript.Components
 			edit.frameborder = "0";
 			edit.border = "0";
 
-			edit.WhenReady(
+			edit.WhenDocumentReady(
 				document =>
 				{
 

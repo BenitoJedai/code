@@ -21,11 +21,46 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return x;
 		}
 
-		public static IHTMLIFrame WhenReady(this IHTMLIFrame that, Action<IHTMLDocument> y)
+		public static IHTMLIFrame WhenContentReady(this IHTMLIFrame that, Action<IHTMLBody> y)
+		{
+			return that.WhenDocumentReady(
+				doc =>
+				{
+					WhenContentReady(doc, y);
+				}
+			);
+		}
+
+		public static void WhenContentReady(this IHTMLDocument doc, Action<IHTMLBody> y)
+		{
+			if (doc.body != null)
+			{
+				y(doc.body);
+			}
+			else
+			{
+				new Timer(
+					t =>
+					{
+						if (doc.body == null)
+							return;
+
+						t.Stop();
+
+						y(doc.body);
+					}
+				).StartInterval(15);
+			}
+		}
+
+		public static IHTMLIFrame WhenDocumentReady(this IHTMLIFrame that, Action<IHTMLDocument> y)
 		{
 			new Timer(
 				t =>
 				{
+					if (that.contentWindow == null)
+						return;
+
 					if (that.contentWindow.document == null)
 						return;
 

@@ -332,6 +332,46 @@ namespace jsc.meta.Commands.Rewrite
 
 
 				// we might define as a nested type instead!
+				try
+				{
+					DefineType(_DeclaringType, TypeName, BaseType, ref t, _Interfaces, ref TypeAttributes);
+				}
+				catch (Exception ex)
+				{
+					throw new InvalidOperationException(TypeName, ex);
+				}
+
+				context.TypeDefinitionCache[SourceType] = t;
+
+				if (SourceType.IsGenericTypeDefinition)
+				{
+					var ga = SourceType.GetGenericArguments();
+
+					var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
+
+					for (int i = 0; i < gp.Length; i++)
+					{
+						// http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
+
+						foreach (var item in ga[i].GetGenericParameterConstraints())
+						{
+							if (item.IsInterface)
+								gp[i].SetInterfaceConstraints(context.TypeDefinitionCache[item]);
+							else
+								gp[i].SetBaseTypeConstraint(context.TypeDefinitionCache[item]);
+						}
+					}
+				}
+
+
+				//Diagnostics("TypeDefinitionCache: " + TypeName);
+
+				return t;
+
+			}
+
+			private void DefineType(TypeBuilder _DeclaringType, string TypeName, Type BaseType, ref TypeBuilder t, Type[] _Interfaces, ref TypeAttributes TypeAttributes)
+			{
 				#region DefineType
 				if (_DeclaringType != null)
 				{
@@ -414,34 +454,6 @@ namespace jsc.meta.Commands.Rewrite
 
 				}
 				#endregion
-
-				context.TypeDefinitionCache[SourceType] = t;
-
-				if (SourceType.IsGenericTypeDefinition)
-				{
-					var ga = SourceType.GetGenericArguments();
-
-					var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
-
-					for (int i = 0; i < gp.Length; i++)
-					{
-						// http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
-
-						foreach (var item in ga[i].GetGenericParameterConstraints())
-						{
-							if (item.IsInterface)
-								gp[i].SetInterfaceConstraints(context.TypeDefinitionCache[item]);
-							else
-								gp[i].SetBaseTypeConstraint(context.TypeDefinitionCache[item]);
-						}
-					}
-				}
-
-
-				//Diagnostics("TypeDefinitionCache: " + TypeName);
-
-				return t;
-
 			}
 
 			private static TypeAttributes ReplaceTypeAttributes(TypeAttributes TypeAttributes, TypeAttributes _From, TypeAttributes _To)

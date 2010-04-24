@@ -11,8 +11,11 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
 	partial class ReferenceUltraSource
 	{
-		protected static bool DirectoryNeedsConversion(string Directory)
+		protected bool DirectoryNeedsConversion(string Directory)
 		{
+			if (this.SelectAll)
+				return true;
+
 			Directory = Directory.Replace("\\", "/");
 
 			if (Directory.Contains("." + UltraSource + "/"))

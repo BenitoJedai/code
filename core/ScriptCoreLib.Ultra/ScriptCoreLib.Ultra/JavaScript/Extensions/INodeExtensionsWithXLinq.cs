@@ -46,6 +46,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			factory(e.Add);
 		}
 
+		public static void WithContent(this IHTMLIFrame that, Action<IHTMLBody> y)
+		{
+			that.WhenDocumentReady(
+				d =>
+				{
+					d.WithContent();
+					d.WhenContentReady(y);
+				}
+			);
+		}
+
 		public static IHTMLDocument WithContent(this IHTMLDocument document, params object[] content)
 		{
 			document.open("text/html", "replace");

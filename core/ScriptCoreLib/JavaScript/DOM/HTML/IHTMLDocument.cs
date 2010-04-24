@@ -74,7 +74,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public readonly string referrer;
         public readonly string domain;
         public readonly string URL;
-        public IHTMLElement body;
+        public IHTMLBody body;
         //  readonly attribute HTMLCollection  images;
         //  readonly attribute HTMLCollection  applets;
         //  readonly attribute HTMLCollection  links;

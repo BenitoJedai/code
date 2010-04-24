@@ -121,7 +121,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					if (alt != null && !string.IsNullOrEmpty(alt.Value))
 						name1 = alt.Value.TakeUntilLastIfAny(".");
 
-					var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilIfAny(".");
+					var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilLastIfAny(".");
 					var name = CompilerBase.GetSafeLiteral(name0, null);
 
 
@@ -145,8 +145,17 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					if (LocalResource == null)
 					{
-						Console.WriteLine("Downloading: " + src_value);
-						Resource = (__WebClient = new WebClient()).DownloadData(new Uri(src_value));
+						if (src_value.StartsWith("http://") || src_value.StartsWith("https://"))
+						{
+							Console.WriteLine("Downloading: " + src_value);
+							Resource = (__WebClient = new WebClient()).DownloadData(new Uri(src_value));
+						}
+						else
+						{
+							throw new InvalidOperationException(
+								"Referenced asset not found in the project and not linked to http:// uri."
+							);
+						}
 					}
 					else
 						Resource = File.ReadAllBytes(LocalResource.FullName);

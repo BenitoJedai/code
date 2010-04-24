@@ -378,5 +378,12 @@ namespace ScriptCoreLib.JavaScript.DOM
                 return InternalWidth(this);
             }
         }
+
+		/// <summary>
+		/// DatabaseName, DatabaseVersion, DisplayName, EstimatedSize
+		/// 
+		/// see: http://creativepark.net/blog/entry/id/1191
+		/// </summary>
+		public IFunction openDatabase;
     }
 }
