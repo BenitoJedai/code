@@ -59,7 +59,470 @@ namespace ScriptCoreLib.Ultra.Components
 			AddSection6(AddSection);
 			AddSection7(AddSection);
 			AddSection8(AddSection);
+			AddSection9(AddSection);
+			AddSection10(AddSection);
+			AddSection11(AddSection);
 
+		}
+
+		private static void AddSection11(Action<string, IHTMLDiv> AddSection)
+		{
+
+			var Content = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.border = "1px solid gray";
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+					k.style.width = "100%";
+					k.style.height = "20em";
+				}
+			);
+
+			new TwentyTenWorkspace().ToBackground(Content.style, true);
+
+			var ToolbarContainerBackground = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = "2em";
+
+					k.style.backgroundColor = Color.White;
+					k.style.Opacity = 0.5;
+				}
+			).AttachTo(Content);
+
+			var ToolbarContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = "2em";
+
+
+				}
+			).AttachTo(Content);
+
+			var PreviewContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "2em";
+					k.style.bottom = "0px";
+				}
+			).AttachTo(Content);
+
+
+			var PreviewFrame = new IHTMLIFrame { src = "about:blank" };
+
+			PreviewFrame.style.width = "100%";
+			PreviewFrame.style.height = "100%";
+			PreviewFrame.style.border = "0";
+			PreviewFrame.style.margin = "0";
+			PreviewFrame.style.padding = "0";
+			PreviewFrame.frameborder = "0";
+			PreviewFrame.border = "0";
+
+			PreviewFrame.AttachTo(PreviewContainer);
+
+			PreviewContainer.Hide();
+
+			var EditorContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "2em";
+					k.style.bottom = "0px";
+				}
+			).AttachTo(Content);
+
+			var EditorFrame = VisualStudioView.CreateEditor().AttachTo(EditorContainer);
+
+			PreviewFrame.allowTransparency = true;
+			EditorFrame.allowTransparency = true;
+
+			EditorFrame.WhenContentReady(
+				body =>
+				{
+					body.style.backgroundColor = Color.Transparent;
+
+					new IHTMLDiv
+					{
+						"Hello world :)"
+					}.With(
+						div =>
+						{
+							div.style.backgroundColor = Color.White;
+							div.style.borderColor = Color.Gray;
+							div.style.borderStyle = "solid";
+							div.style.borderWidth = "1px";
+
+							div.style.margin = "2em";
+							div.style.padding = "2em";
+						}
+					).AttachTo(body);
+
+				}
+			);
+
+			var ToolbarContent = new IHTMLDiv().AttachTo(ToolbarContainer);
+
+			ToolbarContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+
+			Func<IHTMLImage, IHTMLButton> AddButtonDummy =
+				(img) =>
+				{
+					return new IHTMLButton { img.WithinContainer() }.With(
+						k =>
+						{
+							k.style.padding = "0";
+							k.style.margin = "0";
+							k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+							k.style.SetSize(24, 24);
+
+							VisualStudioView.ApplyMouseHoverStyle(k, Color.Transparent);
+						}
+					).AttachTo(ToolbarContent);
+				};
+
+			Func<IHTMLImage, Action, IHTMLButton> AddButtonAction =
+				(img, command) =>
+				{
+					return AddButtonDummy(img).With(
+						k =>
+						{
+							k.onclick +=
+								delegate
+								{
+									command();
+								};
+
+						}
+					);
+				};
+
+			Func<IHTMLImage, string, IHTMLButton> AddButton =
+				(img, command) =>
+				{
+					return AddButtonAction(img, () =>
+						EditorFrame.contentWindow.document.execCommand(
+							command, false, null
+						)
+					);
+				};
+
+
+			AddButtonDummy(new RTA_save());
+
+			ToolbarContent.Add(new RTA_separator_horizontal());
+
+
+			AddButton(new RTA_bold(), "Bold");
+			AddButton(new RTA_underline(), "Underline");
+			AddButton(new RTA_strikethrough(), "Strikethrough");
+			AddButton(new RTA_italic(), "Italic");
+
+			ToolbarContent.Add(new RTA_separator_horizontal());
+
+			AddButton(new RTA_justifyleft(), "JustifyLeft");
+			AddButton(new RTA_justifycenter(), "JustifyCenter");
+			AddButton(new RTA_justifyright(), "JustifyRight");
+			AddButton(new RTA_justifyfull(), "JustifyFull");
+
+			ToolbarContent.Add(new RTA_separator_horizontal());
+
+			var ButtonDesign = default(IHTMLButton);
+			var ButtonHTML = default(IHTMLButton);
+
+			ButtonDesign = AddButtonAction(new RTA_mode_design(),
+				delegate
+				{
+					ButtonDesign.Hide();
+					ButtonHTML.Show();
+
+					EditorContainer.Show();
+					PreviewContainer.Hide();
+				}
+			);
+
+			ButtonHTML = AddButtonAction(new RTA_mode_html(),
+				delegate
+				{
+					ButtonHTML.Hide();
+
+
+					PreviewFrame.WithContent(
+						body =>
+						{
+							body.style.backgroundColor = Color.Transparent;
+							body.innerHTML = EditorFrame.contentWindow.document.body.innerHTML;
+
+							EditorContainer.Hide();
+							PreviewContainer.Show();
+							ButtonDesign.Show();
+						}
+					);
+				}
+			);
+
+			ButtonDesign.Hide();
+
+			AddSection(
+				"Editor with toolbar with background and preview",
+				Content
+			);
+		}
+
+
+
+		private static void AddSection10(Action<string, IHTMLDiv> AddSection)
+		{
+
+			var Content = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.border = "1px solid gray";
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+					k.style.width = "100%";
+					k.style.height = "20em";
+				}
+			);
+
+			new TwentyTenWorkspace().ToBackground(Content.style, true);
+
+			var ToolbarContainerBackground = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = "2em";
+
+					k.style.backgroundColor = Color.White;
+					k.style.Opacity = 0.5;
+				}
+			).AttachTo(Content);
+
+			var ToolbarContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = "2em";
+
+
+				}
+			).AttachTo(Content);
+
+			var EditorContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "2em";
+					k.style.bottom = "0px";
+				}
+			).AttachTo(Content);
+
+			var Editor = VisualStudioView.CreateEditor().AttachTo(EditorContainer);
+
+			Editor.allowTransparency = true;
+
+			Editor.WhenContentReady(
+				body =>
+				{
+					body.style.backgroundColor = Color.Transparent;
+
+					new IHTMLDiv
+					{
+						"Hello world :)"
+					}.With(
+						div =>
+						{
+							div.style.backgroundColor = Color.White;
+							div.style.borderColor = Color.Gray;
+							div.style.borderStyle = "solid";
+							div.style.borderWidth = "1px";
+
+							div.style.margin = "2em";
+							div.style.padding = "2em";
+						}
+					).AttachTo(body);
+
+				}
+			);
+
+			var ToolbarContent = new IHTMLDiv().AttachTo(ToolbarContainer);
+
+			ToolbarContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+
+			Func<IHTMLImage, IHTMLButton> AddButtonDummy =
+				(img) =>
+				{
+					return new IHTMLButton { img.WithinContainer() }.With(
+						k =>
+						{
+							k.style.padding = "0";
+							k.style.margin = "0";
+							k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+							k.style.SetSize(24, 24);
+
+							VisualStudioView.ApplyMouseHoverStyle(k, Color.Transparent);
+						}
+					).AttachTo(ToolbarContent);
+				};
+
+			Func<IHTMLImage, string, IHTMLButton> AddButton =
+				(img, command) =>
+				{
+					return AddButtonDummy(img).With(
+						k =>
+						{
+							k.onclick +=
+								delegate
+								{
+									Editor.contentWindow.document.execCommand(
+										command, false, null
+									);
+								};
+
+						}
+					);
+				};
+
+
+			AddButtonDummy(new RTA_save());
+
+			ToolbarContent.Add(new RTA_separator_horizontal());
+
+
+			AddButton(new RTA_bold(), "Bold");
+			AddButton(new RTA_underline(), "Underline");
+			AddButton(new RTA_strikethrough(), "Strikethrough");
+			AddButton(new RTA_italic(), "Italic");
+
+			ToolbarContent.Add(new RTA_separator_horizontal());
+
+			AddButton(new RTA_justifyleft(), "JustifyLeft");
+			AddButton(new RTA_justifycenter(), "JustifyCenter");
+			AddButton(new RTA_justifyright(), "JustifyRight");
+			AddButton(new RTA_justifyfull(), "JustifyFull");
+
+			AddSection(
+				"Editor with toolbar with background",
+				Content
+			);
+		}
+
+
+		private static void AddSection9(Action<string, IHTMLDiv> AddSection)
+		{
+
+			var Content = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.border = "1px solid gray";
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+					k.style.width = "100%";
+					k.style.height = "20em";
+				}
+			);
+
+			var ToolbarContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = "2em";
+				}
+			).AttachTo(Content);
+
+			var EditorContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "2em";
+					k.style.bottom = "0px";
+				}
+			).AttachTo(Content);
+
+			var Editor = VisualStudioView.CreateEditor().AttachTo(EditorContainer);
+
+
+
+
+			Func<IHTMLImage, IHTMLButton> AddButtonDummy =
+				(img) =>
+				{
+					return new IHTMLButton { img }.With(
+						k =>
+						{
+							k.style.padding = "0";
+							k.style.margin = "0";
+							k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+							k.style.SetSize(24, 24);
+
+							VisualStudioView.ApplyMouseHoverStyle(k, Color.FromGray(0xf0));
+						}
+					).AttachTo(ToolbarContainer);
+				};
+
+			Func<IHTMLImage, string, IHTMLButton> AddButton =
+				(img, command) =>
+				{
+					return AddButtonDummy(img).With(
+						k =>
+						{
+							k.onclick +=
+								delegate
+								{
+									Editor.contentWindow.document.execCommand(
+										command, false, null
+									);
+								};
+
+						}
+					);
+				};
+
+
+			AddButtonDummy(new RTA_save());
+
+			ToolbarContainer.Add(new RTA_separator_horizontal());
+
+
+			AddButton(new RTA_bold(), "Bold");
+			AddButton(new RTA_underline(), "Underline");
+			AddButton(new RTA_strikethrough(), "Strikethrough");
+			AddButton(new RTA_italic(), "Italic");
+
+			ToolbarContainer.Add(new RTA_separator_horizontal());
+
+			AddButton(new RTA_justifyleft(), "JustifyLeft");
+			AddButton(new RTA_justifycenter(), "JustifyCenter");
+			AddButton(new RTA_justifyright(), "JustifyRight");
+			AddButton(new RTA_justifyfull(), "JustifyFull");
+
+			AddSection(
+				"Editor with toolbar",
+				Content
+			);
 		}
 
 		private static void AddSection8(Action<string, IHTMLDiv> AddSection)
@@ -154,7 +617,7 @@ namespace ScriptCoreLib.Ultra.Components
 			);
 		}
 
-	
+
 		private static void AddSection6(Action<string, IHTMLDiv> AddSection)
 		{
 
