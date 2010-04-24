@@ -13,6 +13,7 @@ using ScriptCoreLib.JavaScript.Components;
 using System.Xml.Linq;
 using ScriptCoreLib.Shared.Drawing;
 using System.Collections.Generic;
+using ScriptCoreLib.ActionScript.Components;
 
 namespace ScriptCoreLib.Ultra.Components
 {
@@ -221,6 +222,18 @@ namespace ScriptCoreLib.Ultra.Components
 
 
 			AddButtonDummy(new RTA_save());
+
+			var Save = new SaveActionSprite();
+			
+			Save.AttachSpriteTo(ToolbarContent);
+
+			Save.WhenReady(
+				i =>
+				{
+					i.FileName = "Project1.zip";
+					i.Add("Project1.csproj", "");
+				}
+			);
 
 			ToolbarContent.Add(new RTA_separator_horizontal());
 

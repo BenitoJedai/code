@@ -157,6 +157,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 				var url = "http://localhost:" + port;
 				var dir = new FileInfo(typeof(WebDevLauncer).Assembly.Location).Directory.FullName;
+				// what about long paths? :)
 
 				var t = new Thread(
 					delegate()
