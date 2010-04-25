@@ -68,6 +68,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 		private static void AddSection11(Action<string, IHTMLDiv> AddSection)
 		{
+			var ToolbarHeight = "24px";
 
 			var Content = new IHTMLDiv().With(
 				k =>
@@ -88,7 +89,7 @@ namespace ScriptCoreLib.Ultra.Components
 					k.style.left = "0px";
 					k.style.right = "0px";
 					k.style.top = "0px";
-					k.style.height = "2em";
+					k.style.height = ToolbarHeight;
 
 					k.style.backgroundColor = Color.White;
 					k.style.Opacity = 0.5;
@@ -102,7 +103,7 @@ namespace ScriptCoreLib.Ultra.Components
 					k.style.left = "0px";
 					k.style.right = "0px";
 					k.style.top = "0px";
-					k.style.height = "2em";
+					k.style.height = ToolbarHeight;
 
 
 				}
@@ -114,7 +115,7 @@ namespace ScriptCoreLib.Ultra.Components
 					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 					k.style.left = "0px";
 					k.style.right = "0px";
-					k.style.top = "2em";
+					k.style.top = ToolbarHeight;
 					k.style.bottom = "0px";
 				}
 			).AttachTo(Content);
@@ -140,7 +141,7 @@ namespace ScriptCoreLib.Ultra.Components
 					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 					k.style.left = "0px";
 					k.style.right = "0px";
-					k.style.top = "2em";
+					k.style.top = ToolbarHeight;
 					k.style.bottom = "0px";
 				}
 			).AttachTo(Content);
@@ -181,6 +182,8 @@ namespace ScriptCoreLib.Ultra.Components
 			Action<IHTMLElement> ApplyToolbarButtonStyle =
 				k =>
 				{
+					k.style.verticalAlign = "top";
+
 					k.style.padding = "0";
 					k.style.margin = "0";
 					k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
