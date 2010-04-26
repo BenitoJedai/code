@@ -1,19 +1,21 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Xml.Linq;
+using ScriptCoreLib.ActionScript.Components;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
-using System.ComponentModel;
-using ScriptCoreLib.JavaScript.Concepts;
-using ScriptCoreLib.Ultra.Components.HTML.Pages;
-using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
-using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
-using ScriptCoreLib.JavaScript.Components;
-using System.Xml.Linq;
 using ScriptCoreLib.Shared.Drawing;
-using System.Collections.Generic;
-using ScriptCoreLib.ActionScript.Components;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
+using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
+using ScriptCoreLib.Ultra.Components.HTML.Pages;
 
 namespace ScriptCoreLib.Ultra.Components
 {
@@ -229,7 +231,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 			var SaveContainer = new IHTMLDiv().With(k => ApplyToolbarButtonStyle(k)).AttachTo(ToolbarContent);
 
-			
+
 			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
 
 			var Save = new SaveActionSprite();
@@ -265,20 +267,34 @@ namespace ScriptCoreLib.Ultra.Components
 
 			ToolbarContent.Add(new RTA_separator_horizontal());
 
+			var RTAButtons = new Dictionary<string, IHTMLImage>
+			{
+				// http://trac.symfony-project.org/browser/plugins/dmCkEditorPlugin/web/js/ckeditor/_source/plugins?rev=27455
 
-			AddButton(new RTA_bold(), "Bold");
-			AddButton(new RTA_underline(), "Underline");
-			AddButton(new RTA_strikethrough(), "Strikethrough");
-			AddButton(new RTA_italic(), "Italic");
+				{"Bold", new RTA_bold()},
+				{"Underline", new RTA_underline()},
+				{"Strikethrough", new RTA_strikethrough()},
+				{"Italic", new RTA_italic()},
+				{"JustifyLeft", new RTA_justifyleft()},
+				{"JustifyCenter", new RTA_justifycenter()},
+				{"JustifyRight", new RTA_justifyright()},
+				{"JustifyFull", new RTA_justifyfull()},
+				{"Indent", new RTA_indent()},
+				{"Outdent", new RTA_outdent()},
+				{"Superscript", new RTA_superscript()},
+				{"Subscript", new RTA_sub()},
+				{"Removeformat", new RTA_removeformat()},
+				{"InsertOrderedList", new RTA_numberedlist()},
+				{"InsertUnorderedList", new RTA_numberedlist()},
+				{"undo", new RTA_undo()},
+				{"redo", new RTA_redo()},
+			}.ToDictionary(
+				k => k.Key,	
+				k => AddButton(k.Value, k.Key)
+			);
 
-			ToolbarContent.Add(new RTA_separator_horizontal());
+			
 
-			AddButton(new RTA_justifyleft(), "JustifyLeft");
-			AddButton(new RTA_justifycenter(), "JustifyCenter");
-			AddButton(new RTA_justifyright(), "JustifyRight");
-			AddButton(new RTA_justifyfull(), "JustifyFull");
-
-			ToolbarContent.Add(new RTA_separator_horizontal());
 
 			var ButtonDesign = default(IHTMLButton);
 			var ButtonHTML = default(IHTMLButton);
