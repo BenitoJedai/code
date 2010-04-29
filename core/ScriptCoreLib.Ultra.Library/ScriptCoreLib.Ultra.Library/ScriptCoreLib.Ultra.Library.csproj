@@ -89,6 +89,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Shared\Lambda\UltraExtensions.cs" />
+    <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
+    <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
+    <Compile Include="Ultra\Studio\MSVSProjectFile.cs" />
+    <Compile Include="Ultra\Studio\MVSSolutionFile.cs" />
     <Compile Include="Ultra\Tier.cs" />
     <Compile Include="Ultra\TierAttribute.cs" />
     <Compile Include="Ultra\TierEnum.cs" />
