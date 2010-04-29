@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XElementAsSerializer", "XElementAsSerializer\XElementAsSerializer.csproj", "{A1B5DEAD-751C-4E80-9061-420B39F4079D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1B5DEAD-751C-4E80-9061-420B39F4079D}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{A1B5DEAD-751C-4E80-9061-420B39F4079D}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{A1B5DEAD-751C-4E80-9061-420B39F4079D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B5DEAD-751C-4E80-9061-420B39F4079D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B5DEAD-751C-4E80-9061-420B39F4079D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B5DEAD-751C-4E80-9061-420B39F4079D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
