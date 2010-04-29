@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Document>
+  <Data>
+    <Color>red</Color>
+    <Text>Hello world</Text>
+  </Data>
+  <Data>
+    <Color>blue</Color>
+    <Text>XML is awesome!</Text>
+  </Data>
+</Document>
