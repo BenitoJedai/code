@@ -293,8 +293,6 @@
     <Compile Include="Library\Mashups\UltraWebService.cs" />
     <Compile Include="Library\Mashups\UltraWebServiceWithDelayedDOM.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
-    <Compile Include="Library\MSVS\MSVSProjectFile.cs" />
-    <Compile Include="Library\MSVS\MVSSolutionFile.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />
     <Compile Include="Library\Templates\Avalon\AvalonNamedImage.cs" />
@@ -424,6 +422,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Library\Analytics\" />
+    <Folder Include="Library\MSVS\" />
     <Folder Include="Library\Reference\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

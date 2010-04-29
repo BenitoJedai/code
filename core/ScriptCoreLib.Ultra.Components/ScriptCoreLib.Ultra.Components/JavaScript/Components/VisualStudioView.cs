@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Xml.Linq;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
-using System.ComponentModel;
-using ScriptCoreLib.JavaScript.Concepts;
-using ScriptCoreLib.Ultra.Components.HTML.Pages;
-using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
-using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
-using ScriptCoreLib.JavaScript.Components;
-using System.Xml.Linq;
 using ScriptCoreLib.Shared.Drawing;
-using System.Collections.Generic;
+using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
+using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
+using ScriptCoreLib.Ultra.Components.HTML.Pages;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
@@ -25,6 +26,9 @@ namespace ScriptCoreLib.JavaScript.Components
 
 		public VisualStudioView()
 		{
+			var ToolbarHeight = "24px";
+
+
 			var Content = new IHTMLDiv();
 
 			this.Container = Content;
@@ -34,6 +38,110 @@ namespace ScriptCoreLib.JavaScript.Components
 
 			new TwentyTenWorkspace().ToBackground(Content.style, true);
 
+			var EditorFrame = VisualStudioView.CreateEditor();
+
+			var ToolbarContainerBackground = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = ToolbarHeight;
+
+					k.style.backgroundColor = Color.White;
+					//k.style.Opacity = 0.5;
+				}
+			).AttachTo(Content);
+
+			var ToolbarContainer = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+					k.style.left = "0px";
+					k.style.right = "0px";
+					k.style.top = "0px";
+					k.style.height = ToolbarHeight;
+
+
+				}
+			).AttachTo(Content);
+
+			var ToolbarContent = new IHTMLDiv().AttachTo(ToolbarContainer);
+
+			ToolbarContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+
+			Action<IHTMLElement> ApplyToolbarButtonStyle =
+				k =>
+				{
+					k.style.verticalAlign = "top";
+
+					k.style.padding = "0";
+					k.style.margin = "0";
+					k.style.overflow = ScriptCoreLib.JavaScript.DOM.IStyle.OverflowEnum.hidden;
+					k.style.SetSize(24, 24);
+
+					VisualStudioView.ApplyMouseHoverStyle(k, Color.Transparent);
+				};
+
+			Func<IHTMLImage, IHTMLButton> AddButtonDummy =
+				(img) =>
+				{
+					return new IHTMLButton { img.WithinContainer() }.With(k => ApplyToolbarButtonStyle(k)).AttachTo(ToolbarContent);
+				};
+
+			Func<IHTMLImage, Action, IHTMLButton> AddButtonAction =
+				(img, command) =>
+				{
+					return AddButtonDummy(img).With(
+						k =>
+						{
+							k.onclick +=
+								delegate
+								{
+									command();
+								};
+
+						}
+					);
+				};
+
+			Func<IHTMLImage, string, IHTMLButton> AddButton =
+				(img, command) =>
+				{
+					return AddButtonAction(img, () =>
+						EditorFrame.contentWindow.document.execCommand(
+							command, false, null
+						)
+					);
+				};
+
+			var RTAButtons = new Dictionary<string, IHTMLImage>
+			{
+				// http://trac.symfony-project.org/browser/plugins/dmCkEditorPlugin/web/js/ckeditor/_source/plugins?rev=27455
+
+				{"Bold", new RTA_bold()},
+				{"Underline", new RTA_underline()},
+				{"Strikethrough", new RTA_strikethrough()},
+				{"Italic", new RTA_italic()},
+				{"JustifyLeft", new RTA_justifyleft()},
+				{"JustifyCenter", new RTA_justifycenter()},
+				{"JustifyRight", new RTA_justifyright()},
+				{"JustifyFull", new RTA_justifyfull()},
+				{"Indent", new RTA_indent()},
+				{"Outdent", new RTA_outdent()},
+				{"Superscript", new RTA_superscript()},
+				{"Subscript", new RTA_sub()},
+				{"Removeformat", new RTA_removeformat()},
+				{"InsertOrderedList", new RTA_numberedlist()},
+				{"InsertUnorderedList", new RTA_numberedlist()},
+				{"undo", new RTA_undo()},
+				{"redo", new RTA_redo()},
+			}.ToDictionary(
+				k => k.Key,
+				k => AddButton(k.Value, k.Key)
+			);
+
 			var Workspace = new IHTMLDiv().With(
 				div =>
 				{
@@ -41,7 +149,7 @@ namespace ScriptCoreLib.JavaScript.Components
 					div.style.left = "6px";
 					div.style.right = "6px";
 					div.style.bottom = "6px";
-					div.style.top = "6px";
+					div.style.top = "30px";
 				}
 			).AttachTo(Content);
 
@@ -107,7 +215,7 @@ namespace ScriptCoreLib.JavaScript.Components
 
 			EditorTreeSplit.Split.Splitter.style.backgroundColor = Color.None;
 
-			var EditorContainer = new IHTMLDiv { VisualStudioView.CreateEditor() };
+			var EditorContainer = new IHTMLDiv { EditorFrame };
 
 			EditorContainer.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
 			EditorContainer.style.top = "1.3em";

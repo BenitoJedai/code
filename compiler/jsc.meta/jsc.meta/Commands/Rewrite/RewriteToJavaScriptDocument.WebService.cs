@@ -31,6 +31,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Ultra.WebService;
+using ScriptCoreLib.Ultra.Reflection;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -293,11 +294,12 @@ namespace jsc.meta.Commands.Rewrite
 					foreach (var item in from m in SourceType.GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance)
 										 let s = m.GetSignatureTypes()
 										 where s.All(
-											p => 
-												p.IsDelegate() 
-												|| p == typeof(void) 
+											p =>
+												p.IsDelegate()
+												|| p == typeof(void)
 												|| p == typeof(string)
 												|| p == typeof(XElement)
+												|| new XElementConversionPattern(p).IsValid
 										 )
 										 select m)
 					{
@@ -351,7 +353,15 @@ namespace jsc.meta.Commands.Rewrite
 									AddResult_il.Emit(OpCodes.Ldstr, p_InvokeParameter.Name);
 									AddResult_il.Emit(OpCodes.Ldarg, (short)(p_InvokeParameter.Position + 1));
 
-									if (p_InvokeParameter.ParameterType == typeof(XElement))
+									if (new XElementConversionPattern(p_InvokeParameter.ParameterType).IsValid)
+									{
+										AddResult_il.Emit(OpCodes.Call,
+											MethodCache[new XElementConversionPattern(p_InvokeParameter.ParameterType).ToXElement]
+										);
+
+										AddResult_il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
+									}
+									else if (p_InvokeParameter.ParameterType == typeof(XElement))
 									{
 										AddResult_il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
 									}
@@ -386,7 +396,15 @@ namespace jsc.meta.Commands.Rewrite
 									]
 								);
 
-								if (p.ParameterType == typeof(XElement))
+
+								if (new XElementConversionPattern(p.ParameterType).IsValid)
+								{
+									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
+									il.Emit(OpCodes.Call,
+										MethodCache[new XElementConversionPattern(p.ParameterType).FromXElement]
+									);
+								}
+								else if (p.ParameterType == typeof(XElement))
 								{
 									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
 								}
@@ -773,6 +791,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 											|| p == typeof(void)
 											|| p == typeof(string)
 											|| p == typeof(XElement)
+											|| new XElementConversionPattern(p).IsValid
 									 )
 									 select m)
 				{
@@ -872,7 +891,14 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 								il.Emit(OpCodes.Ldstr, pp.Name);
 								il.Emit(OpCodes.Call, MethodCache[typeof(InternalWebMethodRequest.ParameterLookup).GetMethod("Invoke")]);
 
-								if (pp.ParameterType == typeof(XElement))
+								if (new XElementConversionPattern(pp.ParameterType).IsValid)
+								{
+									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
+									il.Emit(OpCodes.Call, 
+										MethodCache[new XElementConversionPattern(pp.ParameterType).FromXElement]
+									);
+								}
+								else if (pp.ParameterType == typeof(XElement))
 								{
 									// yay. server to javascript works.
 									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
@@ -916,7 +942,14 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 							il.Emit(OpCodes.Ldstr, p.Name);
 							il.Emit(OpCodes.Ldarg, (short)(p.Position + 1));
 
-							if (p.ParameterType == typeof(XElement))
+							if (new XElementConversionPattern(p.ParameterType).IsValid)
+							{
+								il.Emit(OpCodes.Call, 
+									MethodCache[ new XElementConversionPattern(p.ParameterType).ToXElement]
+								);
+								il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
+							}
+							else if (p.ParameterType == typeof(XElement))
 							{
 								il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
 							}
