@@ -96,10 +96,12 @@ namespace jsc.meta.Commands.Rewrite
 
 					foreach (var item in ga[i].GetGenericParameterConstraints())
 					{
+						// any issues if circular referencing?
+
 						if (item.IsInterface)
-							gp[i].SetInterfaceConstraints(context.TypeDefinitionCache[item]);
+							gp[i].SetInterfaceConstraints(context.TypeCache[item]);
 						else
-							gp[i].SetBaseTypeConstraint(context.TypeDefinitionCache[item]);
+							gp[i].SetBaseTypeConstraint(context.TypeCache[item]);
 					}
 				}
 			}

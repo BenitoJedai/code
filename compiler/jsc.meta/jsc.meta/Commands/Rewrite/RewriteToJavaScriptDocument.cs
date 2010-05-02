@@ -983,12 +983,19 @@ namespace jsc.meta.Commands.Rewrite
 									return;
 								}
 
-							if (typeof(Sprite).IsAssignableFrom(SourceType) ||
-								typeof(Applet).IsAssignableFrom(SourceType))
+							if (SourceType.IsGenericParameter)
 							{
-								// erase
-								r.ExternalContext.TypeCache[SourceType] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
-								return;
+								// we should not be replacing T!
+							}
+							else
+							{
+								if (typeof(Sprite).IsAssignableFrom(SourceType) ||
+									typeof(Applet).IsAssignableFrom(SourceType))
+								{
+									// erase
+									r.ExternalContext.TypeCache[SourceType] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
+									return;
+								}
 							}
 
 							// keep it

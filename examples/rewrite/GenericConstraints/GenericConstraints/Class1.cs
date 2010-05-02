@@ -33,4 +33,38 @@ namespace GenericConstraints
 	{
 
 	}
+
+	public class SaveContainerTuple<T>
+	{
+		
+	}
+
+	public class VisualStudioView
+	{
+
+	}
+
+	public class Sprite
+	{
+
+	}
+
+	public interface ISaveAction
+	{
+	}
+
+	public interface ISaveActionWhenReady
+	{
+	}
+
+	public static class Extensions
+	{
+		public static SaveContainerTuple<T> AddSaveTo<T>(this T Save, VisualStudioView vsv, Action<ISaveAction> y)
+			where T : Sprite, ISaveActionWhenReady
+		{
+			return null;
+		}
+	}
+
+	
 }
