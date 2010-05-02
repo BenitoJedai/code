@@ -20,7 +20,24 @@ namespace XElementAsSerializer
 	{
 		public Application(IAbout a)
 		{
-			var v = new Class1 { Foo = "Hello", Bar = "World" };
+			var v = new Class1
+			{
+				Foo = "Hello",
+				Bar = "World",
+				Zen = new[] {
+					new Class1
+					{
+						Foo = "Child Hello",
+						Bar = "Child World"
+					},
+					new Class1
+					{
+						Foo = "Child Hello",
+						Bar = "Child World"
+					}
+
+				}
+			};
 
 			a.Content.Add(
 				new IHTMLTextArea { innerText = ((XElement)v).ToString() }

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingComponents", "UsingComponents\UsingComponents.csproj", "{A9479107-D8F4-45C2-96CE-1672D112EFFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9479107-D8F4-45C2-96CE-1672D112EFFB}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{A9479107-D8F4-45C2-96CE-1672D112EFFB}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{A9479107-D8F4-45C2-96CE-1672D112EFFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9479107-D8F4-45C2-96CE-1672D112EFFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9479107-D8F4-45C2-96CE-1672D112EFFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9479107-D8F4-45C2-96CE-1672D112EFFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

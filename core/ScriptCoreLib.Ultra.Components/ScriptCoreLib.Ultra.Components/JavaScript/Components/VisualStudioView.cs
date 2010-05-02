@@ -24,6 +24,11 @@ namespace ScriptCoreLib.JavaScript.Components
 	{
 		public IHTMLDiv Container { get; private set; }
 
+		public IHTMLSpan PriorityButtons { get; private set; }
+
+
+		public Action<IHTMLElement> ApplyToolbarButtonStyle { get; private set; }
+
 		public VisualStudioView()
 		{
 			var ToolbarHeight = "24px";
@@ -71,7 +76,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 			ToolbarContent.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
 
-			Action<IHTMLElement> ApplyToolbarButtonStyle =
+			this.PriorityButtons = new IHTMLSpan().AttachTo(ToolbarContent);
+			this.ApplyToolbarButtonStyle =
 				k =>
 				{
 					k.style.verticalAlign = "top";

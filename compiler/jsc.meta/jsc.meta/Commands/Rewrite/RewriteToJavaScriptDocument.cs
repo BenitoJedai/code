@@ -706,6 +706,14 @@ namespace jsc.meta.Commands.Rewrite
 						};
 					#endregion
 
+					// because we currently do not support overriding TypeDefinitionCache
+					// we must prefetch these binding to enable constraints
+					//r.PreAssemblyRewrite +=
+					//    delegate
+					//    {
+					//        r.RewriteArguments.context.TypeCache[typeof(Sprite)] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
+					//        r.RewriteArguments.context.TypeCache[typeof(Applet)] = r.RewriteArguments.context.TypeCache[__InternalElementProxy];
+					//    };
 
 
 					#region TypeCache
@@ -964,6 +972,9 @@ namespace jsc.meta.Commands.Rewrite
 									}
 									else
 									{
+										// Could not load type 'PromotionWebApplication1.Library.Templates.__InternalElementProxy' from 
+										// assembly 'PromotionWebApplication1.Application, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
+
 										DeclaringType.CreateType();
 										Consumer.NestedTypesCreated();
 									}

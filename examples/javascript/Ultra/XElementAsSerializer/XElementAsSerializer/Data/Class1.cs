@@ -10,9 +10,12 @@ namespace XElementAsSerializer.Data
 
 	public class Class1
 	{
-		public string Foo;
-		public string Bar;
+		public Class1[] Zen { get; set; }
 
+		public string Foo { get; set; }
+		public string Bar { get; set; }
+
+		#region manual labor
 		public static implicit operator XElement(Class1 that)
 		{
 			return new XElement("Class1",
@@ -29,5 +32,7 @@ namespace XElementAsSerializer.Data
 				Bar = e.Element("Bar").Value,
 			};
 		}
+		#endregion
+		
 	}
 }
