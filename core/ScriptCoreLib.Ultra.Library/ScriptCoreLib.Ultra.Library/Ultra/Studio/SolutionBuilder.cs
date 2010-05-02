@@ -75,6 +75,9 @@ namespace ScriptCoreLib.Ultra.Studio
 				).ToString()
 			);
 
+			// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
+
+			AddProjectFile("Properties/AssemblyInfo" + this.Language.CodeFileExtension, "// hello");
 			AddProjectFile("Application" + this.Language.CodeFileExtension, "// hello");
 			AddProjectFile("Program" + this.Language.CodeFileExtension, "// hello");
 			AddProjectFile("ApplicationWebService" + this.Language.CodeFileExtension, "// hello");
