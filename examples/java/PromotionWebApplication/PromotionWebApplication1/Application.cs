@@ -10,10 +10,13 @@ using PromotionWebApplication1.Library;
 using PromotionWebApplication1.Services;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.ActionScript.Components;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Avalon;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.Concepts;
 using ScriptCoreLib.JavaScript.Controls;
 using ScriptCoreLib.JavaScript.DOM;
@@ -27,10 +30,7 @@ using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.WebService;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.JavaScript.Components;
 
 namespace PromotionWebApplication1
 {
@@ -111,6 +111,20 @@ namespace PromotionWebApplication1
 				if (Native.Document.location.hash.StartsWith("#/studio"))
 				{
 					var view = new VisualStudioView();
+
+					var Save = new SaveActionSprite().AddSaveTo(view,
+						i =>
+						{
+							i.FileName = "Project1.zip";
+
+							var VisualCSharpProject = VisualStudioTemplates.VisualCSharpProject;
+
+							i.Add("Program.cs", "// hello wordl");
+							i.Add("Project1.csproj", VisualCSharpProject);
+
+						}
+					);
+
 
 					view.Container.AttachToDocument();
 
@@ -305,59 +319,9 @@ namespace PromotionWebApplication1
 							m1.EventName.innerText = m1.SelectEvent.value;
 						};
 
-					var download = new IHTMLButton
-					 {
-						 //disabled = true
-					 };
-
-					download.style.margin = "1em";
-
-					var download_text = new IHTMLSpan("I am ready to save this template").AttachTo(download);
-
-					download_text.style.margin = "1em";
-
-					download.AttachTo(MyPagesInternal);
-
-					var ss = new SaveFileAction();
 
 
-					//ss.ToTransparentSprite();
-					ss.AttachSpriteTo(MyPagesInternal);
 
-					ss.AfterSave +=
-						delegate
-						{
-							download_text.innerText = "I am ready to save this template";
-						};
-
-					ss.WhenReady(
-						delegate
-						{
-							download_text.style.color = "blue";
-
-							//download.disabled = false;
-
-
-							download.onclick +=
-								delegate
-								{
-									download_text.innerText = "Save by clicking here -> ";
-
-									//var url = "data:text/html;base64," + ScriptCoreLib.JavaScript.Runtime.Convert.ToBase64String(n.InnerHTML);
-
-									////data:image/gif;base64,R0lGODlhDwAPAKECAAAAzMzM
-									//Native.Window.open(url, "_blank");
-
-									ss.Add(n.InnerHTML, "Project1.csproj");
-									ss.Add(n.InnerHTML, "My.UltraSource/Default.htm");
-
-									// codebehind :)
-									ss.Add(m1.Code1.value, "My.UltraSource/Default.htm.cs");
-
-									ss.SaveFile("Project1");
-								};
-						}
-					);
 				}
 				else if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
 				{

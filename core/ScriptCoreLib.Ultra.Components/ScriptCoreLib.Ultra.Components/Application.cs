@@ -65,6 +65,7 @@ namespace ScriptCoreLib.Ultra.Components
 			AddSection9(AddSection);
 			AddSection10(AddSection);
 			AddSection11(AddSection);
+			AddSection12(AddSection);
 
 		}
 
@@ -234,7 +235,7 @@ namespace ScriptCoreLib.Ultra.Components
 
 			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
 
-			var Save = new SaveActionSprite();
+			var Save = new InternalSaveActionSprite();
 
 			Save.ToTransparentSprite();
 			Save.AttachSpriteTo(SaveContainer);
@@ -582,6 +583,43 @@ namespace ScriptCoreLib.Ultra.Components
 			);
 		}
 
+		private static void AddSection12(Action<string, IHTMLDiv> AddSection)
+		{
+
+			var Content = new IHTMLDiv().With(
+				k =>
+				{
+					k.style.border = "1px solid gray";
+					k.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+					k.style.width = "100%";
+					k.style.height = "25em";
+				}
+			);
+
+			var vsv = new VisualStudioView();
+
+			vsv.Container.AttachTo(Content);
+
+			var Save = new InternalSaveActionSprite().AddSaveTo(vsv,
+				i =>
+				{
+					i.FileName = "Project1.zip";
+
+					var s = new { VisualStudioTemplates.VisualCSharpProject };
+
+					i.Add("Program.cs", "// hello wordl");
+					i.Add("Project1.csproj", s.VisualCSharpProject);
+
+				}
+			);
+
+			AddSection(
+				"TwentyTen Design With Save",
+				Content
+			);
+
+
+		}
 		private static void AddSection8(Action<string, IHTMLDiv> AddSection)
 		{
 

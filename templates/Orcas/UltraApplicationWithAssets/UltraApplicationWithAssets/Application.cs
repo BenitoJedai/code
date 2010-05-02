@@ -43,7 +43,7 @@ namespace UltraApplicationWithAssets
 				delegate
 				{
 
-					new UltraWebService().GetTime("time: ",
+					new ApplicationWebService().GetTime("time: ",
 						result =>
 						{
 							new IHTMLPre { innerText = result }.AttachTo(a.WebServiceContainer);

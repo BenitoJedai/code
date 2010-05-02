@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace UltraApplicationWithAssets
+namespace UsingComponents
 {
-	internal static class Program
+	public static class Program
 	{
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
 			global::jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(
 				typeof(Application)

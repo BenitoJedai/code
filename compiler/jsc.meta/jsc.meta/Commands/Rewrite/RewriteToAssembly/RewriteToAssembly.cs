@@ -223,40 +223,23 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-			var OverrideDeclaringType = new VirtualDictionary<Type, TypeBuilder>();
+			var OverrideDeclaringType = this.RewriteArguments.context.OverrideDeclaringType;
 
-			var TypeDefinitionCache = new VirtualDictionary<Type, Type>();
-			var TypeCache = new VirtualDictionary<Type, Type>();
-			var TypeRenameCache = new VirtualDictionary<Type, string>();
-			var MemberRenameCache = new VirtualDictionary<MemberInfo, string>();
-			var FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>();
+			var TypeDefinitionCache = this.RewriteArguments.context.TypeDefinitionCache;
+			var TypeCache = this.RewriteArguments.context.TypeCache;
+			var TypeRenameCache = this.RewriteArguments.context.TypeRenameCache;
+			var MemberRenameCache = this.RewriteArguments.context.MemberRenameCache;
+			var FieldCache = this.RewriteArguments.context.FieldCache;
 
-			var ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();
-			var MethodCache = new VirtualDictionary<MethodInfo, MethodInfo>();
-			var MethodAttributesCache = new VirtualDictionary<MethodInfo, MethodAttributes>();
-			var PropertyCache = new VirtualDictionary<PropertyInfo, PropertyInfo>();
+			var ConstructorCache = this.RewriteArguments.context.ConstructorCache;
+			var MethodCache = this.RewriteArguments.context.MethodCache;
+			var MethodAttributesCache = this.RewriteArguments.context.MethodAttributesCache;
+			var PropertyCache = this.RewriteArguments.context.PropertyCache;
 
 
-			this.RewriteArguments = new AssemblyRewriteArguments
-			{
-				Assembly = a,
-				Module = m,
+			this.RewriteArguments.Assembly = a;
+			this.RewriteArguments.Module = m;
 
-				context =
-					new ILTranslationContext
-					{
-						OverrideDeclaringType = OverrideDeclaringType,
-						MethodAttributesCache = MethodAttributesCache,
-						MemberRenameCache = MemberRenameCache,
-						ConstructorCache = ConstructorCache,
-						MethodCache = MethodCache,
-						TypeDefinitionCache = TypeDefinitionCache,
-						TypeCache = TypeCache,
-						FieldCache = FieldCache,
-						TypeRenameCache = TypeRenameCache,
-						PropertyCache = PropertyCache
-					}
-			};
 
 
 
@@ -746,6 +729,12 @@ namespace jsc.meta.Commands.Rewrite
 			TypeDefinitionCache.Resolve +=
 				(SourceType) =>
 				{
+					if (TypeCache.BaseDictionary.ContainsKey(SourceType))
+					{
+						// somebody wrote the type before us?
+						TypeDefinitionCache[SourceType] = TypeCache.BaseDictionary[SourceType];
+						return;
+					}
 
 					if (SourceType.IsGenericParameter)
 					{
@@ -1212,6 +1201,10 @@ namespace jsc.meta.Commands.Rewrite
 		}
 
 
+		public RewriteToAssembly()
+		{
+			this.RewriteArguments = new AssemblyRewriteArguments { context = new ILTranslationContext() };
+		}
 
 		public AssemblyRewriteArguments RewriteArguments { get; private set; }
 

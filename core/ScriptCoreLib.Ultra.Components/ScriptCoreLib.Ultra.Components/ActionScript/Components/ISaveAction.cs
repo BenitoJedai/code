@@ -8,4 +8,9 @@ namespace ScriptCoreLib.ActionScript.Components
 		void Add(string name, XElement data);
 		string FileName { get; set; }
 	}
+
+	public interface ISaveActionWhenReady
+	{
+		void WhenReady(Action<ISaveAction> y);
+	}
 }

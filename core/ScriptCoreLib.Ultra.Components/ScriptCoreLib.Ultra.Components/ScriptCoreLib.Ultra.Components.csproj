@@ -113,6 +113,7 @@
     <Compile Include="ActionScript\Components\SaveAction.cs" />
     <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
     <Compile Include="JavaScript\Components\VisualStudioView.cs" />
+    <Compile Include="JavaScript\Components\VisualStudioViewExtensions.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

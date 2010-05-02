@@ -96,6 +96,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -129,7 +133,7 @@
     <Compile Include="Design\About.cs" />
     <Compile Include="Design\Licensing.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="SaveFileAction.cs" />
+    <Compile Include="SaveActionSprite.cs" />
     <Compile Include="Library\GoogleAnalytics.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Library\MyFader.cs" />

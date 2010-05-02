@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.ActionScript.flash.display;
-using System.IO;
-using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.Archive.ZIP;
-using ScriptCoreLib.Ultra.Library.Extensions;
-using ScriptCoreLib.Ultra.Components.Avalon.Images;
 using System.Windows.Controls;
-using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.Archive.ZIP;
+using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Ultra.Components.Avalon.Images;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace ScriptCoreLib.ActionScript.Components
 {
@@ -21,6 +21,8 @@ namespace ScriptCoreLib.ActionScript.Components
 
 		public SaveAction()
 		{
+			this.FileName = "project1.zip";
+
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
@@ -41,8 +43,8 @@ namespace ScriptCoreLib.ActionScript.Components
 					}.AttachTo(c);
 
 					new RTA_save().AttachTo(c).MoveTo(
-						(24 - RTA_save.ImageDefaultWidth ) / 2,	
-						(24 - RTA_save.ImageDefaultHeight ) / 2
+						(22 - RTA_save.ImageDefaultWidth ) / 2,	
+						(22 - RTA_save.ImageDefaultHeight ) / 2
 					);
 
 					c.AttachToContainer(this);
@@ -61,7 +63,7 @@ namespace ScriptCoreLib.ActionScript.Components
 
 
 
-							zip = new ZIPFile();
+							//zip = new ZIPFile();
 						};
 				}
 			);
@@ -86,14 +88,15 @@ namespace ScriptCoreLib.ActionScript.Components
 
 	}
 
-	internal sealed class SaveActionSprite : SaveAction
+
+	internal sealed class InternalSaveActionSprite : SaveAction, ISaveActionWhenReady
 	{
 		// this sprite is internal currently because non-internal ultra applications
 		// cannot use it.
 		// when simplifier is implemented this problem fades away.
 
-		public const int DefaultWidth = 24;
-		public const int DefaultHeight = 24;
+		public const int DefaultWidth = 24 - 2;
+		public const int DefaultHeight = 24 - 2;
 
 
 		public void WhenReady(Action<ISaveAction> y)

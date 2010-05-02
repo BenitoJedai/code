@@ -71,7 +71,8 @@
     <Content Include="My.UltraSource\rooster.mp3" />
     <Compile Include="UltraWebService.fs" />
     <Compile Include="Application.fs" />
-    <Compile Include="Program.fs" />
+    <Compile Include="Program.fs">
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -103,6 +104,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="UltraApplicationWithAssets.UltraSource">
       <HintPath>bin\staging.UltraSource\UltraApplicationWithAssets.UltraSource.dll</HintPath>
     </Reference>
