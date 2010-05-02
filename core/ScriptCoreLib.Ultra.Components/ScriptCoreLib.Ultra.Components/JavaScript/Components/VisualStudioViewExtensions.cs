@@ -25,8 +25,15 @@ namespace ScriptCoreLib.JavaScript.Components
 			where T : Sprite, ISaveActionWhenReady
 		{
 			var x = vsv.AddSave(Save);
-			
-			x.Save.WhenReady(y);
+
+			x.Container.style.backgroundColor = Color.Gray;
+			x.Save.WhenReady(
+				i =>
+				{
+					x.Container.style.backgroundColor = Color.None;
+					y(i);	
+				}
+			);
 
 			return x;
 		}
@@ -35,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.Components
 		{
 			var SaveContainer = new IHTMLDiv().With(k => vsv.ApplyToolbarButtonStyle(k)).AttachTo(vsv.PriorityButtons);
 
-			SaveContainer.style.backgroundColor = Color.Gray;
+
 			SaveContainer.style.SetSize(
 				InternalSaveActionSprite.DefaultWidth,
 				InternalSaveActionSprite.DefaultHeight

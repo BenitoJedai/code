@@ -290,11 +290,11 @@ namespace ScriptCoreLib.Ultra.Components
 				{"undo", new RTA_undo()},
 				{"redo", new RTA_redo()},
 			}.ToDictionary(
-				k => k.Key,	
+				k => k.Key,
 				k => AddButton(k.Value, k.Key)
 			);
 
-			
+
 
 
 			var ButtonDesign = default(IHTMLButton);
@@ -605,10 +605,10 @@ namespace ScriptCoreLib.Ultra.Components
 				{
 					i.FileName = "Project1.zip";
 
-					var s = new { VisualStudioTemplates.VisualCSharpProject };
+					var s = VisualStudioTemplates.VisualCSharpProject;
 
-					i.Add("Program.cs", "// hello wordl");
-					i.Add("Project1.csproj", s.VisualCSharpProject);
+					i.Add("Program.cs", "// hello world");
+					i.Add("Project1.csproj", s);
 
 				}
 			);

@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Lambda;
 using UsingComponents.HTML.Pages;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.ActionScript.Components;
+using ScriptCoreLib;
 
 namespace UsingComponents
 {
@@ -41,7 +42,12 @@ namespace UsingComponents
 			var Save = new InternalSaveActionSprite().AddSaveTo(vsv,
 				i =>
 				{
-				
+					i.FileName = "Project1.zip";
+
+					var s = VisualStudioTemplates.VisualCSharpProject;
+
+					i.Add("Program.cs", "// hello world");
+					i.Add("Project1.csproj", s);
 
 				}
 			);
