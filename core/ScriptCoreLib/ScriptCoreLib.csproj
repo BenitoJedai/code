@@ -281,7 +281,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Configuration\SettingsBase.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Converter.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Byte.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Diagnostics\Stopwatch.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Guid.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryReader.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\BinaryWriter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IO\MemoryStream.cs" />

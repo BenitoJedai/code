@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace jsc.meta.Library
 {
@@ -84,42 +85,12 @@ namespace jsc.meta.Library
 
 		public override string ToString()
 		{
-			var w = new StringBuilder();
+			var Projects = this.Projects.ToArray();
 
-			w.AppendLine();
-			w.AppendLine("Microsoft Visual Studio Solution File, Format Version 10.00");
-			w.AppendLine("# Visual Studio 2008");
-
-			foreach (var item in this.Projects)
-			{
-				w.AppendLine("Project(\"" + item.Kind + "\") = \"" + item.Name + "\", \"" + item.ProjectFile + "\", \"" + item.Identifier + "\"");
-				w.AppendLine("EndProject");
-			}
-
-			w.AppendLine("Global");
-
-			w.AppendLine("	GlobalSection(SolutionConfigurationPlatforms) = preSolution");
-			w.AppendLine("		Debug|Any CPU = Debug|Any CPU");
-			w.AppendLine("		Release|Any CPU = Release|Any CPU");
-			w.AppendLine("	EndGlobalSection");
-			w.AppendLine("	GlobalSection(ProjectConfigurationPlatforms) = postSolution");
-
-			foreach (var item in this.Projects)
-			{
-				w.AppendLine("		" + item.Identifier + ".Debug|Any CPU.ActiveCfg = Debug|Any CPU");
-				w.AppendLine("		" + item.Identifier + ".Debug|Any CPU.Build.0 = Debug|Any CPU");
-				w.AppendLine("		" + item.Identifier + ".Release|Any CPU.ActiveCfg = Release|Any CPU");
-				w.AppendLine("		" + item.Identifier + ".Release|Any CPU.Build.0 = Release|Any CPU");
-			}
-
-			w.AppendLine("	EndGlobalSection");
-			w.AppendLine("	GlobalSection(SolutionProperties) = preSolution");
-			w.AppendLine("		HideSolutionNode = FALSE");
-			w.AppendLine("	EndGlobalSection");
-
-			w.AppendLine("EndGlobal");
+			var w = Projects.ToSolutionFile();
 
 			return w.ToString();
 		}
+
 	}
 }

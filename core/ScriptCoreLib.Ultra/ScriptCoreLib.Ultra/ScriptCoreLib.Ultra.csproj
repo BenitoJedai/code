@@ -126,6 +126,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\RemotingToken.cs" />
+    <Compile Include="Ultra\Studio\SolutionBuilderWithFile.cs" />
+    <Compile Include="Ultra\Studio\SolutionBuilderWithZIPFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ultra\comments.txt" />

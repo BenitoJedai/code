@@ -36,6 +36,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 			return this;
 		}
 
+		public __StringBuilder Append(byte e)
+		{
+			_Value += e;
+
+			return this;
+		}
+
 		public __StringBuilder Append(int e)
 		{
 			_Value += e;
