@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericConstraints", "GenericConstraints\GenericConstraints.csproj", "{0092239A-26F9-4843-9C06-8D4C8F65E17B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{71058E72-77AD-4AEF-ABED-FAD3112BEC56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{0092239A-26F9-4843-9C06-8D4C8F65E17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0092239A-26F9-4843-9C06-8D4C8F65E17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0092239A-26F9-4843-9C06-8D4C8F65E17B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71058E72-77AD-4AEF-ABED-FAD3112BEC56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71058E72-77AD-4AEF-ABED-FAD3112BEC56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71058E72-77AD-4AEF-ABED-FAD3112BEC56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71058E72-77AD-4AEF-ABED-FAD3112BEC56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
