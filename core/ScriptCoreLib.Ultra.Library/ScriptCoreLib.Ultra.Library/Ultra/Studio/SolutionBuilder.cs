@@ -49,31 +49,39 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public void WriteTo(Action<string, string> AddFile)
 		{
+			var guid = Guid.NewGuid();
+
 			var proj = new jsc.meta.Library.MVSSolutionFile.ProjectElement
 			{
 				ProjectFile = SolutionProjectFileNameRelativeToSolution,
 				Name = Name,
 				Kind = this.Language.Kind,
-				Identifier = "{" + Guid.NewGuid().ToString() + "}"
+				Identifier = "{" + guid.ToString() + "}"
 			};
 
-			AddFile(SolutionFileName, new[] { proj }.ToSolutionFile().ToString());
+			var projects = new[] { proj };
+
+			AddFile(SolutionFileName, projects.ToSolutionFile().ToString());
 
 			AddFile(SolutionProjectFileName,
 				VisualStudioTemplates.VisualCSharpProject.ToString()
 			);
 
 			Action<string, string> AddProjectFile =
-				(f, t) => AddFile(Name + "/" + Name + "/" + f, t);
+				(f, t) =>
+				{
+					AddFile(Name + "/" + Name + "/" + f, t);
+				};
 
-			AddProjectFile("Design/ApplicationPage.htm",
+			var ApplicationPage =
 				new XElement("html",
 					new XElement("head",
 						new XElement("title", "ApplicationPage")
 					),
 					this.ApplicationPage
-				).ToString()
-			);
+				);
+
+			AddProjectFile("Design/ApplicationPage.htm", ApplicationPage.ToString());
 
 			// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
 

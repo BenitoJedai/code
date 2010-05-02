@@ -9,9 +9,11 @@ namespace UsingComponents
 	{
 		public static void Main(string[] args)
 		{
-			global::jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(
-				typeof(Application)
-			);
+			new global::jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram
+			{
+				PrimaryApplication = typeof(Application),
+				Verbose = true
+			}.Launch();
 		}
 	}
 }

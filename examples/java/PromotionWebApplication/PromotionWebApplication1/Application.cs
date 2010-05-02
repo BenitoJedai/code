@@ -31,6 +31,7 @@ using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace PromotionWebApplication1
 {
@@ -117,10 +118,12 @@ namespace PromotionWebApplication1
 						{
 							i.FileName = "Project1.zip";
 
-							var VisualCSharpProject = VisualStudioTemplates.VisualCSharpProject;
+							new SolutionBuilder().WriteTo(i.Add);
 
-							i.Add("Program.cs", "// hello wordl");
-							i.Add("Project1.csproj", VisualCSharpProject);
+							//var VisualCSharpProject = VisualStudioTemplates.VisualCSharpProject;
+
+							//i.Add("Program.cs", "// hello wordl");
+							//i.Add("Project1.csproj", VisualCSharpProject);
 
 						}
 					);
