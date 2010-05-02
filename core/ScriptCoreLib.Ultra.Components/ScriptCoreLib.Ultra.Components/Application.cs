@@ -16,6 +16,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Ultra.Components.HTML.Images.SpriteSheet.FromAssets;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace ScriptCoreLib.Ultra.Components
 {
@@ -605,10 +606,8 @@ namespace ScriptCoreLib.Ultra.Components
 				{
 					i.FileName = "Project1.zip";
 
-					var s = VisualStudioTemplates.VisualCSharpProject;
 
-					i.Add("Program.cs", "// hello world");
-					i.Add("Project1.csproj", s);
+					new SolutionBuilder().WriteTo(i.Add);
 
 				}
 			);

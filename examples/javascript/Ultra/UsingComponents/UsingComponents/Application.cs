@@ -10,6 +10,7 @@ using UsingComponents.HTML.Pages;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.ActionScript.Components;
 using ScriptCoreLib;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace UsingComponents
 {
@@ -44,10 +45,11 @@ namespace UsingComponents
 				{
 					i.FileName = "Project1.zip";
 
-					var s = VisualStudioTemplates.VisualCSharpProject;
 
-					i.Add("Program.cs", "// hello world");
-					i.Add("Project1.csproj", s);
+					new SolutionBuilder
+					{
+						Name = "VisualCSharpProjectX1"
+					}.WriteTo(i.Add);
 
 				}
 			);
