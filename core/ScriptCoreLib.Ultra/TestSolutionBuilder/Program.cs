@@ -14,7 +14,7 @@ namespace TestSolutionBuilder
 			new SolutionBuilder
 			{
 				Name = "VisualCSharpProject1"
-			}.WriteToArchiveFile();
+			}.WriteToConsole();
 		}
 	}
 }
