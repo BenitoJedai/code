@@ -91,9 +91,12 @@
     <Compile Include="Shared\Lambda\UltraExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageExtensions.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.cs" />
     <Compile Include="Ultra\Studio\MSVSProjectFile.cs" />
     <Compile Include="Ultra\Studio\MVSSolutionFile.cs" />
+    <Compile Include="Ultra\Studio\SolutionFile.cs" />
+    <Compile Include="Ultra\Studio\SolutionFileTextFragment.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguage.cs" />
     <Compile Include="Ultra\Studio\SolutionBuilder.cs" />
     <Compile Include="Ultra\Studio\SolutionFileExtensions.cs" />

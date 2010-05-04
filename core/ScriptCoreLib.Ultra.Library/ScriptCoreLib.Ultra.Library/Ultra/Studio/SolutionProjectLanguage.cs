@@ -11,5 +11,11 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public string CodeFileExtension { get; }
 
 		abstract public string Kind { get; }
+
+		abstract public void WriteCommentLine(SolutionFile File, string Text);
+		abstract public void WriteXMLCommentLine(SolutionFile File, string Text);
+
+		abstract public void WriteIndent(SolutionFile File);
+
 	}
 }

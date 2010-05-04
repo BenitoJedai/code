@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -49,6 +50,11 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public void WriteTo(Action<string, string> AddFile)
 		{
+			WriteTo(k => AddFile(k.Name, k.Content));
+		}
+
+		public void WriteTo(Action<SolutionFile> AddFile)
+		{
 			var guid = Guid.NewGuid();
 
 			var proj = new jsc.meta.Library.MVSSolutionFile.ProjectElement
@@ -61,34 +67,163 @@ namespace ScriptCoreLib.Ultra.Studio
 
 			var projects = new[] { proj };
 
-			AddFile(SolutionFileName, projects.ToSolutionFile().ToString());
-
-			AddFile(SolutionProjectFileName,
-				VisualStudioTemplates.VisualCSharpProject.ToString()
+			AddFile(
+				new SolutionFile
+				{
+					Name = SolutionFileName,
+					Content = projects.ToSolutionFile().ToString(),
+					Context = this
+				}
 			);
 
-			Action<string, string> AddProjectFile =
-				(f, t) =>
+			AddFile(
+				new SolutionFile
 				{
-					AddFile(Name + "/" + Name + "/" + f, t);
-				};
+					Name = SolutionProjectFileName,
+					Content = VisualStudioTemplates.VisualCSharpProject.ToString(),
+					Context = this
+				}
+			);
 
-			var ApplicationPage =
-				new XElement("html",
-					new XElement("head",
-						new XElement("title", "ApplicationPage")
-					),
-					this.ApplicationPage
+			// new operator is the new call opcode? :)
+			new UltraApplicationBuilder(AddFile, this);
+		}
+
+		class UltraApplicationBuilder
+		{
+			public UltraApplicationBuilder(Action<SolutionFile> AddFile, SolutionBuilder Context)
+			{
+				Func<string, string> ToProjectFile =
+					f => Context.Name + "/" + Context.Name + "/" + f;
+
+				Func<string, string, SolutionFile> AddProjectFile =
+					(f, t) =>
+					{
+						var r = new SolutionFile
+						{
+							Name = ToProjectFile(f),
+							Content = t,
+							Context = Context
+						};
+
+						AddFile(
+							r
+						);
+
+						return r;
+					};
+
+
+				var ApplicationPage =
+					new XElement("html",
+						new XElement("head",
+							new XElement("title", "ApplicationPage")
+						),
+						Context.ApplicationPage
+					);
+
+
+				AddProjectFile("Design/ApplicationPage.htm", ApplicationPage.ToString());
+
+				// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
+
+				AddFile(
+					new SolutionFile
+					{
+						Name = ToProjectFile("ApplicationWebService" + Context.Language.CodeFileExtension),
+
+					}.With(
+						ApplicationWebService =>
+						{
+							// can we do XML comments? :)
+							Context.Language.WriteCommentLine(ApplicationWebService, " hello world");
+
+							#region using namespaces
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "using");
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, " System;");
+
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "using");
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, " System.Linq;");
+							#endregion
+
+							ApplicationWebService.WriteLine();
+
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "namespace");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, Context.Name);
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "");
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
+							ApplicationWebService.CurrentIndent++;
+
+
+							Context.Language.WriteComment(
+								ApplicationWebService,
+								"hello world"
+							);
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "public");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "class");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.Type, "ApplicationWebService");
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "");
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
+							ApplicationWebService.CurrentIndent++;
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "public");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "void");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "AtServerMethod1");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "(");
+
+							ApplicationWebService.Write(SolutionFileTextFragment.Type, "XElement");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "e");
+
+							ApplicationWebService.Write(SolutionFileTextFragment.None, ", ");
+
+							ApplicationWebService.Write(SolutionFileTextFragment.Type, "Action");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "<");
+							ApplicationWebService.Write(SolutionFileTextFragment.Type, "XElement");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, ">");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "y");
+
+
+							ApplicationWebService.Write(SolutionFileTextFragment.None, ")");
+							ApplicationWebService.WriteLine();
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
+							ApplicationWebService.CurrentIndent++;
+
+
+							ApplicationWebService.CurrentIndent--;
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "}");
+
+							ApplicationWebService.CurrentIndent--;
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "}");
+
+							ApplicationWebService.CurrentIndent--;
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "}");
+						}
+					)
 				);
 
-			AddProjectFile("Design/ApplicationPage.htm", ApplicationPage.ToString());
+				AddProjectFile("Application" + Context.Language.CodeFileExtension, "// hello");
 
-			// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
+				// -->
 
-			AddProjectFile("Properties/AssemblyInfo" + this.Language.CodeFileExtension, "// hello");
-			AddProjectFile("Application" + this.Language.CodeFileExtension, "// hello");
-			AddProjectFile("Program" + this.Language.CodeFileExtension, "// hello");
-			AddProjectFile("ApplicationWebService" + this.Language.CodeFileExtension, "// hello");
+				AddProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension, "// hello");
+				AddProjectFile("Program" + Context.Language.CodeFileExtension, "// hello");
+			}
 		}
 	}
 }

@@ -1,9 +1,10 @@
-namespace UltraApplicationWithAssets
 
 
 open global.System
 open global.System.Reflection
 open global.ScriptCoreLib.Ultra.WebService
+
+namespace UltraApplicationWithAssets
 
 [<Sealed>]
  type UltraWebService() =
