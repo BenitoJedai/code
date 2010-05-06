@@ -1,19 +1,23 @@
+namespace UltraApplicationWithAssets
 
 
 open global.System
 open global.System.Reflection
 open global.ScriptCoreLib.Ultra.WebService
 
-namespace UltraApplicationWithAssets
-
 [<Sealed>]
  type UltraWebService() =
-    member 
-        this.WebMethod1(x : string,  yieldreturn : Action<string>) =
+    /// <summary>Hello <see>UltraWebService</see></summary>
+    member this.WebMethod2(x : string) =
+//        let y = x + "1"
+        ()
+
+    member this.WebMethod1(x : string,  yieldreturn : Action<string>) =
      
      let y = x + DateTime.Now.ToString()
      
      do yieldreturn.Invoke(y)
+     ()
 
     member 
         this.Serve1( x : WebServiceHandler) =
