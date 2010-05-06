@@ -7,6 +7,8 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public class SolutionFile
 	{
+		public SolutionFile DependsOn;
+
 		public string Name;
 
 		StringBuilder InternalContent = new StringBuilder();

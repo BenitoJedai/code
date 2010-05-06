@@ -91,10 +91,8 @@
     <Compile Include="Shared\Lambda\UltraExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
-    <Compile Include="Ultra\Studio\SolutionBuilder.Main.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoConstantExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpression.cs" />
-    <Compile Include="Ultra\Studio\SolutionBuilder.WebMethod2.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageCode.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageArgument.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageType.cs" />
@@ -108,6 +106,9 @@
     <Compile Include="Ultra\Studio\SolutionBuilder.cs" />
     <Compile Include="Ultra\Studio\SolutionFileExtensions.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageMethod.cs" />
+    <Compile Include="Ultra\Studio\StockMethods\StockMethodApplication.cs" />
+    <Compile Include="Ultra\Studio\StockMethods\StockMethodWebMethod.cs" />
+    <Compile Include="Ultra\Studio\StockMethods\StockMethodMain.cs" />
     <Compile Include="Ultra\Tier.cs" />
     <Compile Include="Ultra\TierAttribute.cs" />
     <Compile Include="Ultra\TierEnum.cs" />

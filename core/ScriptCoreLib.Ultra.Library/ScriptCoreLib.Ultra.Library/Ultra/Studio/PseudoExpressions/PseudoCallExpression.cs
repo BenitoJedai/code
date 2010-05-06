@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 	{
 		public object Object;
 
-		public string Method;
+		public SolutionProjectLanguageMethod Method;
 
 		public object[] Parameters;
 	}
