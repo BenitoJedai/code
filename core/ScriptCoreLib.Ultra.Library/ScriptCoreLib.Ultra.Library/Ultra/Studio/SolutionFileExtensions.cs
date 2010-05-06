@@ -12,8 +12,8 @@ namespace ScriptCoreLib.Ultra.Studio
 			var w = new StringBuilder();
 
 			w.AppendLine();
-			w.AppendLine("Microsoft Visual Studio Solution File, Format Version 10.00");
-			w.AppendLine("# Visual Studio 2008");
+			w.AppendLine("Microsoft Visual Studio Solution File, Format Version 11.00");
+			w.AppendLine("# Visual Studio 2010");
 
 			foreach (var item in Projects)
 			{

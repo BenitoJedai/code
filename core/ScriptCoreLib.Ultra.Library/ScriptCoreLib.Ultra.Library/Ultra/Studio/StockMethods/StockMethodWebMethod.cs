@@ -25,25 +25,28 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 				Summary = "A parameter from javascript"
 			};
 
+
+			var _y_Type =  new SolutionProjectLanguageType
+			{
+				Name = "Action",
+			}.With(
+				k =>
+				{
+					k.Arguments.Add(
+						new SolutionProjectLanguageArgument
+						{
+							Type = new SolutionProjectLanguageType
+							{
+								Name = "XElement"
+							}
+						}
+					);
+				}
+			);
+
 			var _y = new SolutionProjectLanguageArgument
 			{
-				Type = new SolutionProjectLanguageType
-				{
-					Name = "Action",
-				}.With(
-					k =>
-					{
-						k.Arguments.Add(
-							new SolutionProjectLanguageArgument
-							{
-								Type = new SolutionProjectLanguageType
-								{
-									Name = "XElement"
-								}
-							}
-						);
-					}
-				),
+				Type = _y_Type,
 
 				Name = "y",
 				Summary = "A callback to javascript"
@@ -54,40 +57,40 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			this.Summary = "Method " + Name + " is a javascript callable method.";
 
 			this.Code = new SolutionProjectLanguageCode
+			{
+				"Prepare the yield value for " + Name,
+				new PseudoCallExpression
 				{
-					"Prepare the yield value for " + Name,
-					new PseudoCallExpression
+					Object = new PseudoCallExpression
 					{
-						Object = new PseudoCallExpression
-						{
-							Object = _e.Name,
+						Object = _e.Name,
 
-							Method =  new SolutionProjectLanguageMethod { Name = "Element" },
-
-							Parameters = new [] {
-								new PseudoConstantExpression { Value = "Data" }
-							}
-						},
-
-						Method =  new SolutionProjectLanguageMethod { Name = "ReplaceWith" },
+						Method =  new SolutionProjectLanguageMethod { Name = "Element" },
 
 						Parameters = new [] {
-							new PseudoConstantExpression { Value = "Method " + Name + " from the web server" }
+							new PseudoConstantExpression { Value = "Data" }
 						}
 					},
 
-					"Send it to the caller.",
-					new PseudoCallExpression
-					{
-						Object = _y.Name,
+					Method =  new SolutionProjectLanguageMethod { Name = "ReplaceWith" },
 
-						Method =  new SolutionProjectLanguageMethod { Name = "Invoke" },
-
-						Parameters = new [] {
-							_e.Name
-						}
+					Parameters = new [] {
+						new PseudoConstantExpression { Value = "Method " + Name + " from the web server" }
 					}
-				};
+				},
+
+				"Send it to the caller.",
+				new PseudoCallExpression
+				{
+					Object = _y.Name,
+
+					Method =  new SolutionProjectLanguageMethod { Name = "Invoke" },
+
+					Parameters = new [] {
+						_e.Name
+					}
+				}
+			};
 
 
 			this.Parameters.Add(_e);

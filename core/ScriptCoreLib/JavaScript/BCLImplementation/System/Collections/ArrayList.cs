@@ -51,5 +51,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections
 		//{
 		//}
 
+
+		public object[] ToArray()
+		{
+			return (object[])(object)this.InternalList.slice(0);
+		}
+
 	}
 }

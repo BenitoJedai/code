@@ -1,7 +1,7 @@
 ﻿Public Module VisualStudioTemplates
 
     Public VisualCSharpProject As XElement = _
-    <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Project ToolsVersion="3.5" DefaultTargets="Build">
         <PropertyGroup>
             <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
             <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -98,22 +98,12 @@
             <Reference Include="WindowsBase">
                 <RequiredTargetFramework>3.0</RequiredTargetFramework>
             </Reference>
-            <Reference Include="XElementEverywhere.UltraSource">
-                <HintPath>bin\staging.UltraSource\XElementEverywhere.UltraSource.dll</HintPath>
-            </Reference>
+
         </ItemGroup>
         <ItemGroup>
             <Compile Include="Program.cs"/>
-            <Compile Include="Properties\AssemblyInfo.cs"/>
-            <Compile Include="Application.cs"/>
-            <Compile Include="UltraWebService.cs"/>
         </ItemGroup>
-        <ItemGroup>
-            <Content Include="Design\About.htm"/>
-            <Content Include="Design\Data\!References.htm"/>
-            <Content Include="Design\jsc.png"/>
-            <Content Include="Design\Data\MyDocument.xml"/>
-        </ItemGroup>
+
         <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets"/>
 
         <PropertyGroup>
