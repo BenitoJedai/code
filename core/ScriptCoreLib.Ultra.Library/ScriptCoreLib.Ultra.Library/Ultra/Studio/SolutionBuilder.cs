@@ -7,7 +7,11 @@ using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
-	public class SolutionBuilder
+	/// <summary>
+	/// The SolutionBuilder type will build a project in languages like
+	/// CSharp, FSharp and Visual Basic
+	/// </summary>
+	public partial class SolutionBuilder
 	{
 		public string Name { get; set; }
 
@@ -173,12 +177,27 @@ namespace ScriptCoreLib.Ultra.Studio
 							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
 							ApplicationWebService.CurrentIndent++;
 
+							Context.Language.WriteMethod(
+								ApplicationWebService,
+
+								WebMethod2()
+							);
+
+							ApplicationWebService.WriteLine();
+
+
+							Context.Language.WriteComment(
+								ApplicationWebService,
+								"The WebMethod1 can be called from javascript but is actually running at the server. A web method can only return void."
+							);
+
+
 							Context.Language.WriteIndent(ApplicationWebService);
 							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "public");
 							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
 							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "void");
 							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "AtServerMethod1");
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "WebMethod1");
 							ApplicationWebService.Write(SolutionFileTextFragment.None, "(");
 
 							ApplicationWebService.Write(SolutionFileTextFragment.Type, "XElement");
@@ -202,6 +221,21 @@ namespace ScriptCoreLib.Ultra.Studio
 							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
 							ApplicationWebService.CurrentIndent++;
 
+							Context.Language.WriteIndent(ApplicationWebService);
+							Context.Language.WriteCommentLine(ApplicationWebService, "Prepare the yield value.");
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "e.Element(\"Data\").Value = ");
+							ApplicationWebService.Write(SolutionFileTextFragment.String, "\"From the web server\"");
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, ";");
+
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							Context.Language.WriteCommentLine(ApplicationWebService, "Send it to the caller.");
+
+							Context.Language.WriteIndent(ApplicationWebService);
+							ApplicationWebService.Write(SolutionFileTextFragment.None, "y(e)");
+							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, ";");
 
 							ApplicationWebService.CurrentIndent--;
 							Context.Language.WriteIndent(ApplicationWebService);
@@ -224,6 +258,7 @@ namespace ScriptCoreLib.Ultra.Studio
 				AddProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension, "// hello");
 				AddProjectFile("Program" + Context.Language.CodeFileExtension, "// hello");
 			}
+
 		}
 	}
 }

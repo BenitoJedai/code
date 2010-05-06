@@ -91,6 +91,9 @@
     <Compile Include="Shared\Lambda\UltraExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageCode.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageArgument.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageType.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageExtensions.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.cs" />
     <Compile Include="Ultra\Studio\MSVSProjectFile.cs" />
@@ -100,6 +103,7 @@
     <Compile Include="Ultra\Studio\SolutionProjectLanguage.cs" />
     <Compile Include="Ultra\Studio\SolutionBuilder.cs" />
     <Compile Include="Ultra\Studio\SolutionFileExtensions.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageMethod.cs" />
     <Compile Include="Ultra\Tier.cs" />
     <Compile Include="Ultra\TierAttribute.cs" />
     <Compile Include="Ultra\TierEnum.cs" />
