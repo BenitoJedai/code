@@ -131,132 +131,92 @@ namespace ScriptCoreLib.Ultra.Studio
 
 				// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
 
-				AddFile(
+				var ApplicationWebService =
 					new SolutionFile
 					{
 						Name = ToProjectFile("ApplicationWebService" + Context.Language.CodeFileExtension),
-
-					}.With(
-						ApplicationWebService =>
-						{
-							// can we do XML comments? :)
-							Context.Language.WriteCommentLine(ApplicationWebService, " hello world");
-
-							#region using namespaces
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "using");
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, " System;");
-
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "using");
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, " System.Linq;");
-							#endregion
-
-							ApplicationWebService.WriteLine();
-
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "namespace");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, Context.Name);
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "");
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
-							ApplicationWebService.CurrentIndent++;
+					};
 
 
-							Context.Language.WriteComment(
-								ApplicationWebService,
-								"hello world"
-							);
+				{
+					var ApplicationWebServiceType = new SolutionProjectLanguageType
+					{
+						Namespace = Context.Name,
+						Name = "ApplicationWebService",
+						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
+						Comment = "Visit http://studio.jsc-solutions.net for more information!"
+					};
 
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "public");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "class");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.Type, "ApplicationWebService");
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "");
+					ApplicationWebServiceType.UsingNamespaces.Add("System");
+					ApplicationWebServiceType.UsingNamespaces.Add("System.Linq");
+					ApplicationWebServiceType.UsingNamespaces.Add("ScriptCoreLib");
+					ApplicationWebServiceType.Methods.Add(WebMethod2("WebMethod2"));
+					ApplicationWebServiceType.Methods.Add(WebMethod2("WebMethod3"));
 
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
-							ApplicationWebService.CurrentIndent++;
+					Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType);
+				}
 
-							Context.Language.WriteMethod(
-								ApplicationWebService,
-
-								WebMethod2()
-							);
-
-							ApplicationWebService.WriteLine();
+				AddFile(ApplicationWebService);
 
 
-							Context.Language.WriteComment(
-								ApplicationWebService,
-								"The WebMethod1 can be called from javascript but is actually running at the server. A web method can only return void."
-							);
+				var Application =
+					new SolutionFile
+					{
+						Name = ToProjectFile("Application" + Context.Language.CodeFileExtension),
+					};
 
 
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "public");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.Keyword, "void");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "WebMethod1");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "(");
+				{
+					var ApplicationType = new SolutionProjectLanguageType
+					{
+						Namespace = Context.Name,
+						Name = "Application",
+						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
+						Comment = "Visit http://studio.jsc-solutions.net for more information!"
+					};
 
-							ApplicationWebService.Write(SolutionFileTextFragment.Type, "XElement");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "e");
+					ApplicationType.UsingNamespaces.Add("System");
+					ApplicationType.UsingNamespaces.Add("System.Linq");
+					ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
+					//ApplicationType.Methods.Add(WebMethod2("WebMethod2"));
+					//ApplicationType.Methods.Add(WebMethod2("WebMethod3"));
 
-							ApplicationWebService.Write(SolutionFileTextFragment.None, ", ");
+					Context.Language.WriteType(Application, ApplicationType);
+				}
 
-							ApplicationWebService.Write(SolutionFileTextFragment.Type, "Action");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "<");
-							ApplicationWebService.Write(SolutionFileTextFragment.Type, "XElement");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, ">");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, " ");
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "y");
+				AddFile(Application);
 
-
-							ApplicationWebService.Write(SolutionFileTextFragment.None, ")");
-							ApplicationWebService.WriteLine();
-
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "{");
-							ApplicationWebService.CurrentIndent++;
-
-							Context.Language.WriteIndent(ApplicationWebService);
-							Context.Language.WriteCommentLine(ApplicationWebService, "Prepare the yield value.");
-
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "e.Element(\"Data\").Value = ");
-							ApplicationWebService.Write(SolutionFileTextFragment.String, "\"From the web server\"");
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, ";");
-
-
-							Context.Language.WriteIndent(ApplicationWebService);
-							Context.Language.WriteCommentLine(ApplicationWebService, "Send it to the caller.");
-
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.Write(SolutionFileTextFragment.None, "y(e)");
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, ";");
-
-							ApplicationWebService.CurrentIndent--;
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "}");
-
-							ApplicationWebService.CurrentIndent--;
-							Context.Language.WriteIndent(ApplicationWebService);
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "}");
-
-							ApplicationWebService.CurrentIndent--;
-							ApplicationWebService.WriteLine(SolutionFileTextFragment.None, "}");
-						}
-					)
-				);
-
-				AddProjectFile("Application" + Context.Language.CodeFileExtension, "// hello");
-
-				// -->
 
 				AddProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension, "// hello");
-				AddProjectFile("Program" + Context.Language.CodeFileExtension, "// hello");
+
+				#region Program
+				var Program =
+					new SolutionFile
+					{
+						Name = ToProjectFile("Program" + Context.Language.CodeFileExtension),
+						DependsOn = ApplicationWebService
+					};
+
+
+				{
+					var ProgramType = new SolutionProjectLanguageType
+					{
+						IsStatic = true,
+						Namespace = Context.Name,
+						Name = "Program",
+						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
+						Comment = "Visit http://studio.jsc-solutions.net for more information!"
+					};
+
+					ProgramType.UsingNamespaces.Add("System");
+					ProgramType.Methods.Add(CreateMain());
+
+					Context.Language.WriteType(Program, ProgramType);
+				}
+
+				AddFile(Program);
+				#endregion
+
 			}
 
 		}
