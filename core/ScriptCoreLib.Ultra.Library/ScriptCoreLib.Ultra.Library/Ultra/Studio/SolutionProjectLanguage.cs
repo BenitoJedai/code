@@ -19,6 +19,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		abstract public void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method);
 		abstract public void WriteCode(SolutionFile File, SolutionProjectLanguageCode Code);
+		abstract public void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type);
 		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type);
 
 	}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio.StockMethods;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -150,15 +151,15 @@ namespace ScriptCoreLib.Ultra.Studio
 					ApplicationWebServiceType.UsingNamespaces.Add("System");
 					ApplicationWebServiceType.UsingNamespaces.Add("System.Linq");
 					ApplicationWebServiceType.UsingNamespaces.Add("ScriptCoreLib");
-					ApplicationWebServiceType.Methods.Add(WebMethod2("WebMethod2"));
-					ApplicationWebServiceType.Methods.Add(WebMethod2("WebMethod3"));
+					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod2"));
+					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod3"));
 
 					Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType);
 				}
 
 				AddFile(ApplicationWebService);
 
-
+				#region
 				var Application =
 					new SolutionFile
 					{
@@ -166,26 +167,31 @@ namespace ScriptCoreLib.Ultra.Studio
 					};
 
 
+				var ApplicationType = new SolutionProjectLanguageType
 				{
-					var ApplicationType = new SolutionProjectLanguageType
-					{
-						Namespace = Context.Name,
-						Name = "Application",
-						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-						Comment = "Visit http://studio.jsc-solutions.net for more information!"
-					};
+					IsSealed = true,
 
-					ApplicationType.UsingNamespaces.Add("System");
-					ApplicationType.UsingNamespaces.Add("System.Linq");
-					ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
-					//ApplicationType.Methods.Add(WebMethod2("WebMethod2"));
-					//ApplicationType.Methods.Add(WebMethod2("WebMethod3"));
+					Namespace = Context.Name,
+					Name = "Application",
+					Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
+					Comment = "Visit http://studio.jsc-solutions.net for more information!"
+				};
 
-					Context.Language.WriteType(Application, ApplicationType);
-				}
+				ApplicationType.UsingNamespaces.Add("System");
+				ApplicationType.UsingNamespaces.Add("System.Linq");
+				ApplicationType.UsingNamespaces.Add("System.Xml.Linq");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+
+				ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType));
+
+				Context.Language.WriteType(Application, ApplicationType);
 
 				AddFile(Application);
-
+				#endregion
 
 				AddProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension, "// hello");
 
@@ -209,7 +215,8 @@ namespace ScriptCoreLib.Ultra.Studio
 					};
 
 					ProgramType.UsingNamespaces.Add("System");
-					ProgramType.Methods.Add(CreateMain());
+					ProgramType.UsingNamespaces.Add("jsc.meta");
+					ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
 
 					Context.Language.WriteType(Program, ProgramType);
 				}

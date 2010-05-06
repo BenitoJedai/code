@@ -61,9 +61,17 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				File.Write(SolutionFileTextFragment.None, " ");
 			}
 
-			File.Write(SolutionFileTextFragment.Keyword, "void");
-			File.Write(SolutionFileTextFragment.None, " ");
-			File.Write(SolutionFileTextFragment.None, m.Name);
+			if (m.IsConstructor)
+			{
+				WriteTypeName(File, m.DeclaringType);
+			}
+			else
+			{
+				File.Write(SolutionFileTextFragment.Keyword, "void");
+				File.Write(SolutionFileTextFragment.None, " ");
+				File.Write(SolutionFileTextFragment.None, m.Name);
+			}
+
 			File.Write(SolutionFileTextFragment.None, "(");
 
 			var Parameters = m.Parameters.ToArray();
@@ -123,17 +131,23 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		private void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
 		{
+			if (Lambda.Method.IsStatic)
+			{
+				WriteTypeName(File, Lambda.Method.DeclaringType);
+			}
+			else
+			{
+				WritePseudoExpression(File, Lambda.Object);
+			}
 
-			WritePseudoExpression(File, Lambda.Object);
-
-			if (Lambda.Method == "Invoke")
+			if (Lambda.Method.Name == "Invoke")
 			{
 				// in c# we can omit the .Invoke on a delegate
 			}
 			else
 			{
 				File.Write(SolutionFileTextFragment.None, ".");
-				File.Write(SolutionFileTextFragment.None, Lambda.Method);
+				File.Write(SolutionFileTextFragment.None, Lambda.Method.Name);
 			}
 			File.Write(SolutionFileTextFragment.None, "(");
 
@@ -180,6 +194,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			if (Call != null)
 			{
 				WritePseudoCallExpression(File, Call);
+				return;
+			}
+
+			var Type = Parameter as SolutionProjectLanguageType;
+			if (Type != null)
+			{
+				File.Write(SolutionFileTextFragment.Keyword, "typeof");
+				File.Write(SolutionFileTextFragment.None, "(");
+				WriteTypeName(File, Type);
+				File.Write(SolutionFileTextFragment.None, ")");
 				return;
 			}
 
@@ -257,6 +281,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			if (Type.IsStatic)
 			{
 				File.Write(SolutionFileTextFragment.Keyword, "static");
+				File.Write(SolutionFileTextFragment.None, " ");
+			}
+
+			if (Type.IsSealed)
+			{
+				File.Write(SolutionFileTextFragment.Keyword, "sealed");
 				File.Write(SolutionFileTextFragment.None, " ");
 			}
 

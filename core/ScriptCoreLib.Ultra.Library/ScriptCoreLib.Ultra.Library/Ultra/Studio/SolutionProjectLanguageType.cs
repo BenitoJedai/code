@@ -8,6 +8,7 @@ namespace ScriptCoreLib.Ultra.Studio
 	public class SolutionProjectLanguageType
 	{
 		public bool IsStatic;
+		public bool IsSealed;
 
 		public string Namespace;
 

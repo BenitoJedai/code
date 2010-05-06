@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml.Linq;
-using ScriptCoreLib.Extensions;
-using System.Linq.Expressions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Extensions;
 
-namespace ScriptCoreLib.Ultra.Studio
+namespace ScriptCoreLib.Ultra.Studio.StockMethods
 {
-	partial class SolutionBuilder
+	public class StockMethodWebMethod : SolutionProjectLanguageMethod
 	{
-		private static SolutionProjectLanguageMethod WebMethod2(string Name)
+		public StockMethodWebMethod(string Name)
 		{
 			// note: this method will run under javascript
 
@@ -52,12 +50,10 @@ namespace ScriptCoreLib.Ultra.Studio
 			};
 			#endregion
 
-			return new SolutionProjectLanguageMethod
-			{
-				Name = Name,
-				Summary = "Method " + Name + " is a javascript callable method.",
+			this.Name = Name;
+			this.Summary = "Method " + Name + " is a javascript callable method.";
 
-				Code = new SolutionProjectLanguageCode
+			this.Code = new SolutionProjectLanguageCode
 				{
 					"Prepare the yield value for " + Name,
 					new PseudoCallExpression
@@ -66,14 +62,14 @@ namespace ScriptCoreLib.Ultra.Studio
 						{
 							Object = _e.Name,
 
-							Method = "Element",
+							Method =  new SolutionProjectLanguageMethod { Name = "Element" },
 
 							Parameters = new [] {
 								new PseudoConstantExpression { Value = "Data" }
 							}
 						},
 
-						Method = "ReplaceWith",
+						Method =  new SolutionProjectLanguageMethod { Name = "ReplaceWith" },
 
 						Parameters = new [] {
 							new PseudoConstantExpression { Value = "Method " + Name + " from the web server" }
@@ -85,24 +81,19 @@ namespace ScriptCoreLib.Ultra.Studio
 					{
 						Object = _y.Name,
 
-						Method = "Invoke",
+						Method =  new SolutionProjectLanguageMethod { Name = "Invoke" },
 
 						Parameters = new [] {
 							_e.Name
 						}
 					}
-				}
+				};
 
-			}.With(
-				Method =>
-				{
-					Method.Parameters.Add(_e);
 
-					Method.Parameters.Add(_y);
-				}
-			);
+			this.Parameters.Add(_e);
+
+			this.Parameters.Add(_y);
 		}
-
 
 	}
 }

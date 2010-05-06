@@ -5,8 +5,20 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
-	public sealed class SolutionProjectLanguageMethod
+	public class SolutionProjectLanguageMethod
 	{
+		public const string ConstructorName = ".ctor";
+
+		public bool IsConstructor
+		{
+			get
+			{
+				return this.Name == ConstructorName;
+			}
+		}
+
+		public bool IsStatic;
+
 		public string Name;
 
 		public string Summary;
@@ -14,5 +26,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		public readonly List<SolutionProjectLanguageArgument> Parameters = new List<SolutionProjectLanguageArgument>();
 
 		public SolutionProjectLanguageCode Code;
+
+		public SolutionProjectLanguageType DeclaringType;
 	}
 }
