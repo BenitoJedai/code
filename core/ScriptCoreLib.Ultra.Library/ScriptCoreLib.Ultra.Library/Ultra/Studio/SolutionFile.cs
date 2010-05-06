@@ -32,6 +32,8 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			public SolutionFileTextFragment Fragment;
 			public string Text;
+
+			public object Tag;
 		}
 
 		// does our java output support generics already?
@@ -54,6 +56,13 @@ namespace ScriptCoreLib.Ultra.Studio
 			);
 
 			InternalContent.Append(Text);
+		}
+
+		public void Write(WriteArguments a)
+		{
+			WriteHistory.Add(a);
+
+			InternalContent.Append(a.Text);
 		}
 
 		public void WriteLine()

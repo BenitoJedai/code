@@ -64,6 +64,7 @@
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Delegates\Async.cs" />
+    <Compile Include="Extensions\XLinqExtensions.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssemblyBase.cs" />

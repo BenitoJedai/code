@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Archive.ZIP;
+using System.IO;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -31,18 +32,21 @@ namespace ScriptCoreLib.Ultra.Studio
 				{
 					Console.WriteLine(SolutionFile.Name);
 
-					if (SolutionFile.WriteHistory.Count > 1)
-						foreach (var item in SolutionFile.WriteHistory)
-						{
-							Console.ForegroundColor = Lookup[item.Fragment];
-							Console.Write(item.Text);
+					//if (SolutionFile.WriteHistory.Count > 1)
+					foreach (var item in SolutionFile.WriteHistory)
+					{
+						Console.ForegroundColor = Lookup[item.Fragment];
+						Console.Write(item.Text);
 
-						}
+					}
 
 					Console.WriteLine();
+
+					zip.Add(SolutionFile.Name, SolutionFile.Content);
 				}
 			);
 
+			File.WriteAllBytes(new FileInfo(that.Name).FullName + ".zip", zip.ToBytes());
 		}
 	}
 }

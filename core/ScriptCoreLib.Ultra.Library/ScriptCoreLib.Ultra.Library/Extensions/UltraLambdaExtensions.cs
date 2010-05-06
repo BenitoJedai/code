@@ -14,5 +14,19 @@ namespace ScriptCoreLib.Extensions
 			return e;
 		}
 
+		public static IEnumerable<T> WithEach<T>(this IEnumerable<T> collection, Action<T> h) where T : class
+		{
+			InternalWithEach<T>(collection, h);
+
+			return collection;
+		}
+
+		private static void InternalWithEach<T>(IEnumerable<T> collection, Action<T> h) where T : class
+		{
+			foreach (var item in collection)
+			{
+				h(item);
+			}
+		}
 	}
 }

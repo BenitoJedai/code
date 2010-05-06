@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			{
 				Type = new SolutionProjectLanguageType
 				{
-					Name = "IApplicationPage"
+					Name = "IDefaultPage"
 				},
 
 				Name = "page",
@@ -31,7 +31,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			this.Code = new SolutionProjectLanguageCode
 			{
 				"Hello world",
-			
+				"Native.Document.Title = new WebService().GetTitle()",
 			};
 			this.DeclaringType = DeclaringType;
 			this.Parameters.Add(_page);

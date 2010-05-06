@@ -45,7 +45,7 @@ namespace ScriptCoreLib.Ultra.Studio
 			that.WriteComment(File, summary, null);
 		}
 
-		public static void WriteComment(this SolutionProjectLanguage that, SolutionFile File, string summary, Dictionary<string, string> @params)
+		public static void WriteComment(this SolutionProjectLanguage that, SolutionFile File, string summary, SolutionProjectLanguageArgument[] @params)
 		{
 			var c = new List<XElement>();
 
@@ -56,8 +56,8 @@ namespace ScriptCoreLib.Ultra.Studio
 				{
 					c.Add(
 						new XElement("param",
-							new XAttribute("name", item.Key),
-							item.Value
+							new XAttribute("name", item.Name),
+							item.Summary
 						)
 					);
 				}

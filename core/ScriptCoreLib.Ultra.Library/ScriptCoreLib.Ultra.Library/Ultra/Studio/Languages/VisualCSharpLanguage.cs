@@ -43,12 +43,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m)
 		{
-			var @params = m.Parameters.ToDictionary(
-				k => k.Name,
-				k => k.Summary
-			);
-
-			this.WriteComment(File, m.Summary, @params);
+			
+			this.WriteComment(File, m.Summary, m.Parameters.ToArray());
 
 			this.WriteIndent(File);
 
@@ -84,7 +80,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				}
 
 				this.WriteTypeName(File, Parameters[i].Type);
-
+				
 				File.Write(SolutionFileTextFragment.None, " ");
 				File.Write(SolutionFileTextFragment.None, Parameters[i].Name);
 			}
@@ -147,7 +143,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			else
 			{
 				File.Write(SolutionFileTextFragment.None, ".");
-				File.Write(SolutionFileTextFragment.None, Lambda.Method.Name);
+				File.Write(
+					new SolutionFile.WriteArguments
+					{
+						Fragment = SolutionFileTextFragment.None,
+						Text = Lambda.Method.Name,
+						Tag = Lambda.Method
+					}
+				);
 			}
 			File.Write(SolutionFileTextFragment.None, "(");
 
@@ -213,6 +216,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
 		{
+			if (Type.DeclaringType != null)
+			{
+				WriteTypeName(File, Type.DeclaringType);
+				File.Write(SolutionFileTextFragment.None, ".");
+			}
+
 			if (Type.ElementType != null)
 			{
 				WriteTypeName(File, Type.ElementType);
@@ -221,7 +230,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
-			File.Write(SolutionFileTextFragment.Type, Type.Name);
+			File.Write(
+				new SolutionFile.WriteArguments
+				{
+					Fragment = SolutionFileTextFragment.Type,
+					Tag = Type,
+					Text = Type.Name
+				}
+			);
 
 			if (Type.Arguments.Count > 0)
 			{
@@ -305,6 +321,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File,
 					item
 				);
+
+				File.WriteLine();
 			}
 
 

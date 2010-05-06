@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.StockMethods;
-
+using ScriptCoreLib.Ultra.Studio.StockPages;
 namespace ScriptCoreLib.Ultra.Studio
 {
 	/// <summary>
@@ -22,8 +22,8 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public SolutionBuilder()
 		{
-			this.Name = "UltraApplication1";
-			this.ApplicationPage = new XElement("body", "hello world");
+			this.ApplicationPage = StockPageDefault.Element;
+			this.Name = "VisualCSharpProject1";
 			this.Language = new Languages.VisualCSharpLanguage();
 		}
 
@@ -61,13 +61,14 @@ namespace ScriptCoreLib.Ultra.Studio
 		public void WriteTo(Action<SolutionFile> AddFile)
 		{
 			var guid = Guid.NewGuid();
+			var proj_Identifier = "{" + guid.ToString() + "}";
 
 			var proj = new jsc.meta.Library.MVSSolutionFile.ProjectElement
 			{
 				ProjectFile = SolutionProjectFileNameRelativeToSolution,
 				Name = Name,
 				Kind = this.Language.Kind,
-				Identifier = "{" + guid.ToString() + "}"
+				Identifier = proj_Identifier
 			};
 
 			var projects = new[] { proj };
@@ -81,22 +82,70 @@ namespace ScriptCoreLib.Ultra.Studio
 				}
 			);
 
+			#region first project in current solution
+			var proj_Content = VisualStudioTemplates.VisualCSharpProject;
+
+
+
+
+			proj_Content.Elements("PropertyGroup").Elements("ProjectGuid").ReplaceContentWith(proj_Identifier);
+			proj_Content.Elements("PropertyGroup").Elements("RootNamespace").ReplaceContentWith(Name);
+			proj_Content.Elements("PropertyGroup").Elements("AssemblyName").ReplaceContentWith(Name);
+
+			proj_Content.Elements("ItemGroup").Where(k => k.Elements("Reference").Any()).Add(
+				new XElement("Reference",
+					new XAttribute("Include", Name + ".UltraSource"),
+					new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".UltraSource.dll")
+				)
+			);
+
+			var ItemGroupForCompile = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Compile").Any()).Single();
+			
+
+			ItemGroupForCompile.RemoveAll();
+
+			// new operator is the new call opcode? :)
+			new UltraApplicationBuilder(AddFile, this, ItemGroupForCompile);
+
+
+			// The default XML namespace of the project must be the MSBuild XML namespace. 
+			// If the project is authored in the MSBuild 2003 format, 
+			// please add xmlns="http://schemas.microsoft.com/developer/msbuild/2003" 
+			// to the <Project> element. 
+			// If the project has been authored in the old 1.0 or 1.2 format, 
+			// please convert it to MSBuild 2003 format.
+
+			
+
+		
 			AddFile(
 				new SolutionFile
 				{
 					Name = SolutionProjectFileName,
-					Content = VisualStudioTemplates.VisualCSharpProject.ToString(),
+					
+
+					Content = proj_Content.ToString().Replace(
+					// dirty little hack
+					// http://stackoverflow.com/questions/461251/add-xml-namespace-attribute-to-3rd-party-xml
+
+						"<Project ToolsVersion=\"3.5\" DefaultTargets=\"Build\">",
+						"<Project ToolsVersion=\"4.0\" DefaultTargets=\"Build\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" >"
+					),
 					Context = this
 				}
 			);
 
-			// new operator is the new call opcode? :)
-			new UltraApplicationBuilder(AddFile, this);
+
+			#endregion
+
 		}
 
 		class UltraApplicationBuilder
 		{
-			public UltraApplicationBuilder(Action<SolutionFile> AddFile, SolutionBuilder Context)
+			public UltraApplicationBuilder(
+				Action<SolutionFile> AddFile,
+				SolutionBuilder Context,
+				XElement ItemGroupForCompile)
 			{
 				Func<string, string> ToProjectFile =
 					f => Context.Name + "/" + Context.Name + "/" + f;
@@ -122,26 +171,35 @@ namespace ScriptCoreLib.Ultra.Studio
 				var ApplicationPage =
 					new XElement("html",
 						new XElement("head",
-							new XElement("title", "ApplicationPage")
+							new XElement("title", "DefaultPage")
 						),
 						Context.ApplicationPage
 					);
 
 
-				AddProjectFile("Design/ApplicationPage.htm", ApplicationPage.ToString());
+				AddProjectFile("Design/Default.htm", ApplicationPage.ToString());
+
+				ItemGroupForCompile.Add(
+					new XElement("Content",
+						new XAttribute("Include",
+							@"Design\Default.htm"
+						)
+					)
+				);
 
 				// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
 
+				#region ApplicationWebService
 				var ApplicationWebService =
 					new SolutionFile
 					{
 						Name = ToProjectFile("ApplicationWebService" + Context.Language.CodeFileExtension),
 					};
 
-
 				{
 					var ApplicationWebServiceType = new SolutionProjectLanguageType
 					{
+						IsSealed = true,
 						Namespace = Context.Name,
 						Name = "ApplicationWebService",
 						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
@@ -150,6 +208,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 					ApplicationWebServiceType.UsingNamespaces.Add("System");
 					ApplicationWebServiceType.UsingNamespaces.Add("System.Linq");
+					ApplicationWebServiceType.UsingNamespaces.Add("System.Xml.Linq");
 					ApplicationWebServiceType.UsingNamespaces.Add("ScriptCoreLib");
 					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod2"));
 					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod3"));
@@ -157,9 +216,18 @@ namespace ScriptCoreLib.Ultra.Studio
 					Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType);
 				}
 
-				AddFile(ApplicationWebService);
+				ItemGroupForCompile.Add(
+					new XElement("Compile",
+						new XAttribute("Include",
+							"ApplicationWebService" + Context.Language.CodeFileExtension
+						)
+					)
+				);
 
-				#region
+				AddFile(ApplicationWebService);
+				#endregion
+
+				#region Application
 				var Application =
 					new SolutionFile
 					{
@@ -185,10 +253,21 @@ namespace ScriptCoreLib.Ultra.Studio
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+				ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
+
 
 				ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType));
 
 				Context.Language.WriteType(Application, ApplicationType);
+
+				ItemGroupForCompile.Add(
+					new XElement("Compile",
+						new XAttribute("Include",
+							"Application" + Context.Language.CodeFileExtension
+						)
+					)
+				);
+
 
 				AddFile(Application);
 				#endregion
@@ -215,11 +294,21 @@ namespace ScriptCoreLib.Ultra.Studio
 					};
 
 					ProgramType.UsingNamespaces.Add("System");
-					ProgramType.UsingNamespaces.Add("jsc.meta");
+					ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
 					ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
 
 					Context.Language.WriteType(Program, ProgramType);
 				}
+
+				ItemGroupForCompile.Add(
+					new XElement("Compile",
+						new XAttribute("Include",
+							"Program" + Context.Language.CodeFileExtension
+						),
+						new XElement("DependentUpon", "Application" + Context.Language.CodeFileExtension)
+					)
+				);
+
 
 				AddFile(Program);
 				#endregion

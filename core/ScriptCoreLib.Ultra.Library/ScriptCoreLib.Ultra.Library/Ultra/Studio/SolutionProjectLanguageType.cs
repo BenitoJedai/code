@@ -19,11 +19,30 @@ namespace ScriptCoreLib.Ultra.Studio
 		public string Comment;
 
 		public SolutionProjectLanguageType ElementType;
+		public SolutionProjectLanguageType DeclaringType;
 
 		public readonly List<string> UsingNamespaces = new List<string>();
 
 		public readonly List<SolutionProjectLanguageArgument> Arguments = new List<SolutionProjectLanguageArgument>();
 
 		public readonly List<SolutionProjectLanguageMethod> Methods = new List<SolutionProjectLanguageMethod>();
+
+		public string FullName
+		{
+			get
+			{
+				var w = new StringBuilder();
+
+				if (!string.IsNullOrEmpty(Namespace))
+				{
+					w.Append(Namespace);
+					w.Append(".");
+				}
+
+				w.Append(Name);
+
+				return w.ToString();
+			}
+		}
 	}
 }

@@ -38,9 +38,15 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 				new PseudoCallExpression
 				{
 
-					Method = new SolutionProjectLanguageMethod {
-						DeclaringType = new SolutionProjectLanguageType { 
-							Namespace = "jsc.meta",
+					Method = new SolutionProjectLanguageMethod
+					{
+						DeclaringType = new SolutionProjectLanguageType 
+						{ 
+							DeclaringType = new SolutionProjectLanguageType 
+							{ 
+								Namespace = "jsc.meta.Commands.Rewrite.RewriteToUltraApplication",
+								Name = "RewriteToUltraApplication"
+							},
 							Name = "AsProgram"
 						},
 						IsStatic = true,
