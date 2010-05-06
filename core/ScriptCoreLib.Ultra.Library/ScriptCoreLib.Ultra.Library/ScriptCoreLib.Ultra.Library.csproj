@@ -91,6 +91,10 @@
     <Compile Include="Shared\Lambda\UltraExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
+    <Compile Include="Ultra\Studio\SolutionBuilder.Main.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoConstantExpression.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpression.cs" />
+    <Compile Include="Ultra\Studio\SolutionBuilder.WebMethod2.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageCode.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageArgument.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageType.cs" />

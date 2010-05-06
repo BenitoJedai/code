@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Linq.Expressions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -18,6 +20,12 @@ namespace ScriptCoreLib.Ultra.Studio
 			this.History.Add(Comment);
 		}
 
+		public void Add(PseudoCallExpression e)
+		{
+			// no DLR yet. we use our lite version instead.
+			History.Add(e);
+		}
+	
 		#region IEnumerable Members
 
 		public IEnumerator GetEnumerator()

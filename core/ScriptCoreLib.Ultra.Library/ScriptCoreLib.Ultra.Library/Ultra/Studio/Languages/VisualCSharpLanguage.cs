@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Documentation;
+using System.Linq.Expressions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -18,7 +20,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteCommentLine(SolutionFile File, string Text)
 		{
-			File.WriteLine(SolutionFileTextFragment.Comment, "//" + Text);
+			File.WriteLine(SolutionFileTextFragment.Comment, "// " + Text);
 		}
 
 		public override void WriteXMLCommentLine(SolutionFile File, string Text)
@@ -52,6 +54,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			File.Write(SolutionFileTextFragment.Keyword, "public");
 			File.Write(SolutionFileTextFragment.None, " ");
+
+			if (m.IsStatic)
+			{
+				File.Write(SolutionFileTextFragment.Keyword, "static");
+				File.Write(SolutionFileTextFragment.None, " ");
+			}
+
 			File.Write(SolutionFileTextFragment.Keyword, "void");
 			File.Write(SolutionFileTextFragment.None, " ");
 			File.Write(SolutionFileTextFragment.None, m.Name);
@@ -66,7 +75,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.Write(SolutionFileTextFragment.None, ", ");
 				}
 
-				this.WriteType(File, Parameters[i].Type);
+				this.WriteTypeName(File, Parameters[i].Type);
 
 				File.Write(SolutionFileTextFragment.None, " ");
 				File.Write(SolutionFileTextFragment.None, Parameters[i].Name);
@@ -96,6 +105,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					this.WriteIndent(File);
 					this.WriteCommentLine(File, Comment);
 				}
+
+				var Lambda = item as PseudoCallExpression;
+
+				if (Lambda != null)
+				{
+					this.WriteIndent(File);
+					WritePseudoCallExpression(File, Lambda);
+					File.WriteLine(SolutionFileTextFragment.None, ";");
+				}
 			}
 
 			File.CurrentIndent--;
@@ -103,8 +121,82 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine(SolutionFileTextFragment.None, "}");
 		}
 
-		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type)
+		private void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
 		{
+
+			WritePseudoExpression(File, Lambda.Object);
+
+			if (Lambda.Method == "Invoke")
+			{
+				// in c# we can omit the .Invoke on a delegate
+			}
+			else
+			{
+				File.Write(SolutionFileTextFragment.None, ".");
+				File.Write(SolutionFileTextFragment.None, Lambda.Method);
+			}
+			File.Write(SolutionFileTextFragment.None, "(");
+
+			var Parameters = Lambda.Parameters.ToArray();
+
+			for (int i = 0; i < Parameters.Length; i++)
+			{
+				if (i > 0)
+				{
+					File.Write(SolutionFileTextFragment.None, ", ");
+				}
+
+				var Parameter = Parameters[i];
+
+				WritePseudoExpression(File, Parameter);
+			}
+
+			File.Write(SolutionFileTextFragment.None, ")");
+
+
+		}
+
+		private void WritePseudoExpression(SolutionFile File, object Parameter)
+		{
+			var Code = Parameter as string;
+			if (Code != null)
+			{
+				File.Write(SolutionFileTextFragment.None, Code);
+				return;
+			}
+
+			var Constant = Parameter as PseudoConstantExpression;
+			if (Constant != null)
+			{
+				var Value = (string)Constant.Value;
+				File.Write(SolutionFileTextFragment.String,
+					// jsc escape string
+					"@\"" + Value.Replace("\"", "\"\"") + "\""
+				);
+				return;
+			}
+
+			var Call = Parameter as PseudoCallExpression;
+			if (Call != null)
+			{
+				WritePseudoCallExpression(File, Call);
+				return;
+			}
+
+		}
+
+
+
+		public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
+		{
+			if (Type.ElementType != null)
+			{
+				WriteTypeName(File, Type.ElementType);
+				File.Write(SolutionFileTextFragment.None, "[]");
+
+				return;
+			}
+
 			File.Write(SolutionFileTextFragment.Type, Type.Name);
 
 			if (Type.Arguments.Count > 0)
@@ -120,12 +212,82 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						File.Write(SolutionFileTextFragment.None, ", ");
 					}
 
-					this.WriteType(File, Arguments[i].Type);
+					this.WriteTypeName(File, Arguments[i].Type);
 				}
 
 				File.Write(SolutionFileTextFragment.None, ">");
 
 			}
 		}
+
+		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type)
+		{
+			this.WriteCommentLine(File, Type.Comment);
+
+			// should the namespaces be clickable?
+
+			foreach (var item in Type.UsingNamespaces.ToArray())
+			{
+				File.Write(SolutionFileTextFragment.Keyword, "using");
+				File.Write(SolutionFileTextFragment.None, " ");
+				File.Write(SolutionFileTextFragment.None, item);
+				File.WriteLine(SolutionFileTextFragment.None, ";");
+
+			}
+
+			File.WriteLine();
+
+			File.Write(SolutionFileTextFragment.Keyword, "namespace");
+			File.Write(SolutionFileTextFragment.None, " ");
+			File.Write(SolutionFileTextFragment.None, Type.Namespace);
+			File.WriteLine(SolutionFileTextFragment.None, "");
+			File.WriteLine(SolutionFileTextFragment.None, "{");
+			File.CurrentIndent++;
+
+
+			this.WriteComment(
+				File,
+				Type.Summary
+			);
+
+			this.WriteIndent(File);
+			File.Write(SolutionFileTextFragment.Keyword, "public");
+			File.Write(SolutionFileTextFragment.None, " ");
+
+			if (Type.IsStatic)
+			{
+				File.Write(SolutionFileTextFragment.Keyword, "static");
+				File.Write(SolutionFileTextFragment.None, " ");
+			}
+
+			File.Write(SolutionFileTextFragment.Keyword, "class");
+			File.Write(SolutionFileTextFragment.None, " ");
+			File.Write(SolutionFileTextFragment.Type, Type.Name);
+			File.WriteLine(SolutionFileTextFragment.None, "");
+
+			this.WriteIndent(File);
+			File.WriteLine(SolutionFileTextFragment.None, "{");
+			File.CurrentIndent++;
+
+			foreach (var item in Type.Methods.ToArray())
+			{
+				this.WriteMethod(
+					File,
+					item
+				);
+			}
+
+
+
+			File.WriteLine();
+
+			File.CurrentIndent--;
+			this.WriteIndent(File);
+			File.WriteLine(SolutionFileTextFragment.None, "}");
+
+			File.CurrentIndent--;
+			File.WriteLine(SolutionFileTextFragment.None, "}");
+		}
+
 	}
 }
