@@ -58,6 +58,15 @@ namespace ScriptCoreLib.Ultra.Studio
 			WriteTo(k => AddFile(k.Name, k.Content));
 		}
 
+		public IEnumerable<SolutionFile> ToFiles()
+		{
+			var a = new List<SolutionFile>();
+
+			WriteTo(a.Add);
+
+			return a;
+		}
+
 		public void WriteTo(Action<SolutionFile> AddFile)
 		{
 			var guid = Guid.NewGuid();
