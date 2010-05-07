@@ -87,13 +87,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 		{
 			var e = InternalElement;
 
-			if (e.hasAttribute(name.LocalName))
-			{
-				return (XAttribute)(object)new __XAttribute(name, null) { InternalElement = this };
+			if (null == e.getAttribute(name.LocalName))
+				return null;
 
-			}
+			// http://msdn.microsoft.com/en-us/library/ms757048(VS.85).aspx
+			// there is no hasAttribute method in IE
 
-			return null;
+			//if (e.hasAttribute(name.LocalName))
+			return (XAttribute)(object)new __XAttribute(name, null) { InternalElement = this };
 		}
 
 		public IEnumerable<XAttribute> Attributes()

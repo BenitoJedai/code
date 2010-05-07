@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.Concepts
 {
@@ -259,57 +260,57 @@ namespace ScriptCoreLib.JavaScript.Concepts
 
 		private void InternalExpanded()
 		{
-			this.Element.ClosedImage.Hide();
-			this.Element.OpenImage.Show();
-			this.Element.ChildArea.Show();
+			this.Element.ClosedImage.style.display = IStyle.DisplayEnum.none;
+			this.Element.OpenImage.style.display = IStyle.DisplayEnum.empty;
+			this.Element.ChildArea.style.display = IStyle.DisplayEnum.empty;
 
 			if (IsActive)
 			{
 				InternalPlaceholderOrButton(this.Element.ButtonOpenActive);
-				this.Element.ButtonOpen.Hide();
+				this.Element.ButtonOpen.style.display = IStyle.DisplayEnum.none;
 			}
 			else
 			{
-				this.Element.ButtonOpenActive.Hide();
+				this.Element.ButtonOpenActive.style.display = IStyle.DisplayEnum.none;
 				InternalPlaceholderOrButton(this.Element.ButtonOpen);
 			}
 
-			this.Element.ButtonClosedActive.Hide();
-			this.Element.ButtonClosed.Hide();
+			this.Element.ButtonClosedActive.style.display = IStyle.DisplayEnum.none;
+			this.Element.ButtonClosed.style.display = IStyle.DisplayEnum.none;
 		}
 
 		private void InternalCollapsed()
 		{
-			this.Element.ClosedImage.Show();
-			this.Element.OpenImage.Hide();
-			this.Element.ChildArea.Hide();
+			this.Element.ClosedImage.style.display = IStyle.DisplayEnum.empty;
+			this.Element.OpenImage.style.display = IStyle.DisplayEnum.none;
+			this.Element.ChildArea.style.display = IStyle.DisplayEnum.none;
 
 			if (IsActive)
 			{
 				InternalPlaceholderOrButton(this.Element.ButtonClosedActive);
-				this.Element.ButtonClosed.Hide();
+				this.Element.ButtonClosed.style.display = IStyle.DisplayEnum.none;
 			}
 			else
 			{
-				this.Element.ButtonClosedActive.Hide();
+				this.Element.ButtonClosedActive.style.display = IStyle.DisplayEnum.none;
 				InternalPlaceholderOrButton(this.Element.ButtonClosed);
 			}
 
-			this.Element.ButtonOpenActive.Hide();
-			this.Element.ButtonOpen.Hide();
+			this.Element.ButtonOpenActive.style.display = IStyle.DisplayEnum.none;
+			this.Element.ButtonOpen.style.display = IStyle.DisplayEnum.none;
 		}
 
 		private void InternalPlaceholderOrButton(IHTMLImage x)
 		{
 			if (this.InternalChildren.Any())
 			{
-				x.Show();
+				x.style.display = IStyle.DisplayEnum.empty;
 				this.Element.ButtonChildless.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.none;
 			}
 			else
 			{
 
-				x.Hide();
+				x.style.display = IStyle.DisplayEnum.none;
 				this.Element.ButtonChildless.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
 			}
 		}
@@ -317,7 +318,9 @@ namespace ScriptCoreLib.JavaScript.Concepts
 		public void WithIcon(Func<IHTMLImage> img)
 		{
 			this.Element.OpenImage = img();
+			this.Element.OpenImage.border = 0;
 			this.Element.ClosedImage = img();
+			this.Element.ClosedImage.border = 0;
 
 			InternalUpdate();
 		}
