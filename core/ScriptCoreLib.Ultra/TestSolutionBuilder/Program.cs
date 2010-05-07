@@ -11,10 +11,12 @@ namespace TestSolutionBuilder
 	{
 		static void Main(string[] args)
 		{
-			new SolutionBuilder
+			var sln = new SolutionBuilder
 			{
 				Name = "VisualCSharpProject1"
-			}.WriteToConsole();
+			};
+			
+			sln.WriteToConsole();
 		}
 	}
 }

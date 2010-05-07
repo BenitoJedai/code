@@ -1,4 +1,66 @@
 ﻿Public Module VisualStudioTemplates
+    Public VisualCSharpProjectReferences As XElement = _
+    <ItemGroup>
+        <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+        </Reference>
+        <Reference Include="PresentationCore">
+            <RequiredTargetFramework>3.0</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="PresentationFramework">
+            <RequiredTargetFramework>3.0</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Ultra, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Ultra.Components, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Ultra.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Ultra.VisualBasic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+        </Reference>
+        <Reference Include="System"/>
+        <Reference Include="System.Core">
+            <RequiredTargetFramework>3.5</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Web"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="System.Xml.Linq">
+            <RequiredTargetFramework>3.5</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="WindowsBase">
+            <RequiredTargetFramework>3.0</RequiredTargetFramework>
+        </Reference>
+    </ItemGroup>
 
     Public VisualCSharpProject As XElement = _
     <Project ToolsVersion="3.5" DefaultTargets="Build">
@@ -43,62 +105,7 @@
             <ErrorReport>prompt</ErrorReport>
         </PropertyGroup>
         <ItemGroup>
-            <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
-            </Reference>
-            <Reference Include="PresentationCore">
-                <RequiredTargetFramework>3.0</RequiredTargetFramework>
-            </Reference>
-            <Reference Include="PresentationFramework">
-                <RequiredTargetFramework>3.0</RequiredTargetFramework>
-            </Reference>
-            <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLib.Ultra, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLib.Ultra.Components, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLib.Ultra.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLibA, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
-            </Reference>
-            <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
-                <SpecificVersion>False</SpecificVersion>
-                <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
-            </Reference>
             <Reference Include="System"/>
-            <Reference Include="System.Core">
-                <RequiredTargetFramework>3.5</RequiredTargetFramework>
-            </Reference>
-            <Reference Include="System.Data"/>
-            <Reference Include="System.Web"/>
-            <Reference Include="System.Xml"/>
-            <Reference Include="System.Xml.Linq">
-                <RequiredTargetFramework>3.5</RequiredTargetFramework>
-            </Reference>
-            <Reference Include="WindowsBase">
-                <RequiredTargetFramework>3.0</RequiredTargetFramework>
-            </Reference>
-
         </ItemGroup>
         <ItemGroup>
             <Compile Include="Program.cs"/>

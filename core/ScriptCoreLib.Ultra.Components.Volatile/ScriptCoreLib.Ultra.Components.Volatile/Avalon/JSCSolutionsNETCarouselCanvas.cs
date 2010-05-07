@@ -19,7 +19,7 @@ namespace ScriptCoreLib.Avalon
 						Add(new Apple_Safari());
 						Add(new Google_Chrome());
 						Add(new Internet_Explorer_7_Logo());
-						Add(new Firefox_3());
+						Add(new Firefox_3_5_logo());
 						Add(new Opera());
 					};
 

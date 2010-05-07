@@ -126,6 +126,8 @@
     <Content Include="My.UltraSource\Images\Common\jsc.png" />
     <Content Include="My.UltraSource\Images\Reflection\HTMLDocument.png" />
     <Content Include="My.UltraSource\Images\Reflection\ImageFile.png" />
+    <Content Include="My.UltraSource\Images\Reflection\SolutionProjectDependentUpon.png" />
+    <Content Include="My.UltraSource\Images\Reflection\SolutionProjectProperties.png" />
     <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodePage.htm" />
     <Content Include="My.UltraSource\HorizontalSplitPage.htm" />
     <Content Include="My.UltraSource\HorizontalSplitAreaPage.htm" />

@@ -67,6 +67,26 @@ namespace ScriptCoreLib.Ultra.Studio
 			return a;
 		}
 
+		public IEnumerable<XElement> References
+		{
+			get
+			{
+				var a = new List<XElement>();
+
+				VisualStudioTemplates.VisualCSharpProjectReferences.Elements().WithEach(a.Add);
+
+				var Reference =
+					new XElement("Reference",
+						new XAttribute("Include", Name + ".UltraSource"),
+						new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".UltraSource.dll")
+					);
+
+				a.Add(Reference);
+
+				return a;
+			}
+		}
+
 		public void WriteTo(Action<SolutionFile> AddFile)
 		{
 			var guid = Guid.NewGuid();
@@ -101,15 +121,16 @@ namespace ScriptCoreLib.Ultra.Studio
 			proj_Content.Elements("PropertyGroup").Elements("RootNamespace").ReplaceContentWith(Name);
 			proj_Content.Elements("PropertyGroup").Elements("AssemblyName").ReplaceContentWith(Name);
 
-			proj_Content.Elements("ItemGroup").Where(k => k.Elements("Reference").Any()).Add(
-				new XElement("Reference",
-					new XAttribute("Include", Name + ".UltraSource"),
-					new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".UltraSource.dll")
-				)
-			);
+			var ItemGroupReferenes = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Reference").Any()).Single();
+
+
+			ItemGroupReferenes.RemoveAll();
+
+			this.References.WithEach(ItemGroupReferenes.Add);
+
 
 			var ItemGroupForCompile = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Compile").Any()).Single();
-			
+
 
 			ItemGroupForCompile.RemoveAll();
 
@@ -124,18 +145,18 @@ namespace ScriptCoreLib.Ultra.Studio
 			// If the project has been authored in the old 1.0 or 1.2 format, 
 			// please convert it to MSBuild 2003 format.
 
-			
 
-		
+
+
 			AddFile(
 				new SolutionFile
 				{
 					Name = SolutionProjectFileName,
-					
+
 
 					Content = proj_Content.ToString().Replace(
-					// dirty little hack
-					// http://stackoverflow.com/questions/461251/add-xml-namespace-attribute-to-3rd-party-xml
+						// dirty little hack
+						// http://stackoverflow.com/questions/461251/add-xml-namespace-attribute-to-3rd-party-xml
 
 						"<Project ToolsVersion=\"3.5\" DefaultTargets=\"Build\">",
 						"<Project ToolsVersion=\"4.0\" DefaultTargets=\"Build\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\" >"
@@ -281,14 +302,39 @@ namespace ScriptCoreLib.Ultra.Studio
 				AddFile(Application);
 				#endregion
 
-				AddProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension, "// hello");
+				#region AssemblyInfo
+				var AssemblyInfo =
+					new SolutionFile
+					{
+						Name = ToProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension),
+					};
+
+
+				{
+					
+					Context.Language.WriteCommentLine(AssemblyInfo, "Visit http://studio.jsc-solutions.net for more information!");
+
+				}
+
+				ItemGroupForCompile.Add(
+					new XElement("Compile",
+						new XAttribute("Include",
+							@"Properties\AssemblyInfo" + Context.Language.CodeFileExtension
+						)
+					)
+				);
+
+
+				AddFile(AssemblyInfo);
+				#endregion
+
 
 				#region Program
 				var Program =
 					new SolutionFile
 					{
 						Name = ToProjectFile("Program" + Context.Language.CodeFileExtension),
-						DependsOn = ApplicationWebService
+						DependentUpon = Application
 					};
 
 
