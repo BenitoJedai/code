@@ -44,6 +44,10 @@ namespace TestSolutionBuilderWithTreeView
 			var _Project = _Solution.Add(sln.Name);
 			_Project.IsExpanded = true;
 
+			var _References = _Project.Add("References");
+			_References.IsExpanded = true;
+			_References.Element.OpenImage = new References();
+
 			h.LeftContainer = v.Container;
 			h.RightContainer = _Solution.Container;
 
@@ -52,9 +56,35 @@ namespace TestSolutionBuilderWithTreeView
 			files.WithEach(
 				(SolutionFile f) =>
 				{
-					var n = _Project.Add(f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/"));
+					var n = default(TreeNode);
 
 					var Extension = "." + f.Name.SkipUntilLastIfAny(".");
+
+					if (Extension == ".sln")
+					{
+						n = _Solution;
+					}
+					else if (Extension == sln.Language.ProjectFileExtension)
+					{
+						n = _Project;
+
+						n.Element.TextArea.style.fontWeight = "bold";
+					}
+					else
+					{
+						var ProjectInclude = f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/");
+
+						var Folder = ProjectInclude.TakeUntilLastOrEmpty("/");
+
+						var Parent = _Project;
+
+						if (!string.IsNullOrEmpty(Folder))
+						{
+							Parent = _Project.Add(Folder);
+						}
+
+						n = Parent.Add(ProjectInclude.SkipUntilLastIfAny("/"));
+					}
 
 					if (Extension == ".cs")
 						n.Element.OpenImage = new VisualCSharpCode();
