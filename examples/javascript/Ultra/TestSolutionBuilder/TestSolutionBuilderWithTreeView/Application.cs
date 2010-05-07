@@ -13,6 +13,8 @@ using ScriptCoreLib.Ultra.Studio;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib;
+using System.Collections.Generic;
 
 namespace TestSolutionBuilderWithTreeView
 {
@@ -44,14 +46,51 @@ namespace TestSolutionBuilderWithTreeView
 			var _Project = _Solution.Add(sln.Name);
 			_Project.IsExpanded = true;
 
+
+			var _Properties = _Project.Add("Properties");
+			_Properties.IsExpanded = true;
+			_Properties.WithIcon(() => new SolutionProjectProperties());
+
 			var _References = _Project.Add("References");
-			_References.IsExpanded = true;
-			_References.Element.OpenImage = new References();
+			_References.IsExpanded = false;
+			_References.WithIcon(() => new References());
+
+			VisualStudioTemplates.VisualCSharpProjectReferences.Elements().WithEach(
+				k =>
+				{
+					var _Reference = _References.Add(k.Attribute("Include").Value.TakeUntilIfAny(","));
+					_Reference.IsExpanded = true;
+					_Reference.Element.OpenImage = new Assembly();
+
+				}
+			);
+
+			var FolderLookup = new Dictionary<string, TreeNode>();
+			var FileLookup = new Dictionary<SolutionFile, TreeNode>();
+
+			FolderLookup[_Properties.Text] = _Properties;
+
 
 			h.LeftContainer = v.Container;
 			h.RightContainer = _Solution.Container;
 
+
 			var files = sln.ToFiles();
+
+			files.WithEach(
+				f =>
+				{
+					var ProjectInclude = f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/");
+
+					var Folder = ProjectInclude.TakeUntilLastOrEmpty("/");
+
+					if (!string.IsNullOrEmpty(Folder))
+					{
+						if (!FolderLookup.ContainsKey(Folder))
+							FolderLookup[Folder] = _Project.Add(Folder);
+					}
+				}
+			);
 
 			files.WithEach(
 				(SolutionFile f) =>
@@ -80,19 +119,30 @@ namespace TestSolutionBuilderWithTreeView
 
 						if (!string.IsNullOrEmpty(Folder))
 						{
-							Parent = _Project.Add(Folder);
+							Parent = FolderLookup[Folder];
+						}
+
+						if (f.DependentUpon != null)
+						{
+							Parent = FileLookup[f.DependentUpon];
 						}
 
 						n = Parent.Add(ProjectInclude.SkipUntilLastIfAny("/"));
+
+						FileLookup[f] = n;
 					}
 
 					if (Extension == ".cs")
-						n.Element.OpenImage = new VisualCSharpCode();
+						n.WithIcon(() => new VisualCSharpCode());
 					if (Extension == ".csproj")
-						n.Element.OpenImage = new VisualCSharpProject();
+						n.WithIcon(() => new VisualCSharpProject());
 					if (Extension == ".htm")
-						n.Element.OpenImage = new HTMLDocument();
+						n.WithIcon(() => new HTMLDocument());
 
+					if (f.DependentUpon != null)
+					{
+						n.WithIcon(() => new SolutionProjectDependentUpon());
+					}
 
 					n.IsExpanded = true;
 

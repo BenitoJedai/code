@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public class SolutionFile
 	{
-		public SolutionFile DependsOn;
+		public SolutionFile DependentUpon;
 
 		public string Name;
 

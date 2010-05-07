@@ -21,6 +21,7 @@ namespace ScriptCoreLib.JavaScript.Concepts
 		IHTMLImage ButtonClosedActive { get; set; }
 		IHTMLImage ButtonOpen { get; set; }
 		IHTMLImage ButtonClosed { get; set; }
+		IHTMLSpan ButtonChildless { get; set; }
 
 		IHTMLAnchor SelectionArea { get; set; }
 
@@ -303,10 +304,22 @@ namespace ScriptCoreLib.JavaScript.Concepts
 			if (this.InternalChildren.Any())
 			{
 				x.Show();
-				x.style.visibility = ScriptCoreLib.JavaScript.DOM.IStyle.VisibilityEnum.visible;
+				this.Element.ButtonChildless.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.none;
 			}
 			else
-				x.style.visibility = ScriptCoreLib.JavaScript.DOM.IStyle.VisibilityEnum.hidden;
+			{
+
+				x.Hide();
+				this.Element.ButtonChildless.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
+			}
+		}
+
+		public void WithIcon(Func<IHTMLImage> img)
+		{
+			this.Element.OpenImage = img();
+			this.Element.ClosedImage = img();
+
+			InternalUpdate();
 		}
 	}
 
