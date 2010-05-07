@@ -104,6 +104,9 @@ namespace ScriptCoreLib.JavaScript.Concepts
 
 					e.PreventDefault();
 
+					if (this.Click != null)
+						this.Click();
+
 					if (!this.IsExpanded)
 						this.IsExpanded = true;
 				};
@@ -202,6 +205,7 @@ namespace ScriptCoreLib.JavaScript.Concepts
 
 		// http://msdn.microsoft.com/en-us/library/system.windows.controls.treeviewitem.isexpanded.aspx
 
+		public event Action Click;
 		public event Action Collapsed;
 		public event Action Expanded;
 
