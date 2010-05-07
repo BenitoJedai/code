@@ -23,18 +23,6 @@ namespace TestSolutionBuilder
 	{
 		public Application(IAbout a)
 		{
-			var Lookup = new Dictionary<SolutionFileTextFragment, Color>
-			{
-				{ SolutionFileTextFragment.Comment, Color.FromRGB(0, 0x80, 0) },
-				{ SolutionFileTextFragment.Keyword, Color.Blue },
-
-				{ SolutionFileTextFragment.None, Color.None},
-
-				{ SolutionFileTextFragment.String, Color.FromRGB(0x80, 0, 0) },
-				{ SolutionFileTextFragment.Type, Color.FromRGB(43, 145, 175) },
-
-			};
-
 			new SolutionBuilder
 			{
 
