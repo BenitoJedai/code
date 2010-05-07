@@ -116,14 +116,13 @@ namespace PromotionWebApplication1
 					var Save = new SaveActionSprite().AddSaveTo(view,
 						i =>
 						{
-							i.FileName = "Project1.zip";
+							var sln = new SolutionBuilder();
+
+							i.FileName = sln.Name + ".zip";
 
 							new SolutionBuilder().WriteTo(i.Add);
 
-							//var VisualCSharpProject = VisualStudioTemplates.VisualCSharpProject;
-
-							//i.Add("Program.cs", "// hello wordl");
-							//i.Add("Project1.csproj", VisualCSharpProject);
+							
 
 						}
 					);

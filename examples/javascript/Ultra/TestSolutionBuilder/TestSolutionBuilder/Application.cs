@@ -1,0 +1,225 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.Ultra.Studio;
+using TestSolutionBuilder.HTML.Pages;
+using ScriptCoreLib.JavaScript.Concepts;
+using ScriptCoreLib.Ultra.Library.Extensions;
+namespace TestSolutionBuilder
+{
+
+	[Description("TestSolutionBuilder. Write javascript, flash and java applets within a C# project.")]
+	public sealed partial class Application
+	{
+		public Application(IAbout a)
+		{
+			var Lookup = new Dictionary<SolutionFileTextFragment, Color>
+			{
+				{ SolutionFileTextFragment.Comment, Color.FromRGB(0, 0x80, 0) },
+				{ SolutionFileTextFragment.Keyword, Color.Blue },
+
+				{ SolutionFileTextFragment.None, Color.None},
+
+				{ SolutionFileTextFragment.String, Color.FromRGB(0x80, 0, 0) },
+				{ SolutionFileTextFragment.Type, Color.FromRGB(43, 145, 175) },
+
+			};
+
+			new SolutionBuilder
+			{
+
+			}.WriteTo(
+				(SolutionFile f) =>
+				{
+					var s = new Section().ToSectionConcept();
+
+					s.Header = f.Name;
+					s.Header.style.fontFamily = ScriptCoreLib.JavaScript.DOM.IStyle.FontFamilyEnum.Courier;
+					//s.Header.style.backgroundColor = Color.Gray;
+
+					var View = new IHTMLPre().AttachTo(a.Content);
+
+					View.style.margin = "0";
+
+					//View.style.fontSize = "1em";
+					//View.style.fontFamily = IStyle.FontFamilyEnum.Courier;
+
+					s.Content = View.WithinContainer();
+					s.Content.style.border = "1px solid gray";
+					s.Content.style.overflow = IStyle.OverflowEnum.auto;
+					s.Content.style.height = "10em";
+
+					//s.Content = x.Container;
+
+					s.IsExpanded = false;
+					s.Target.Container.AttachTo(a.Content);
+
+
+
+
+
+					RenderWriteHistory(Lookup, f, View);
+				}
+			);
+		}
+
+		private static void RenderWriteHistory(Dictionary<SolutionFileTextFragment, Color> Lookup, SolutionFile f, IHTMLElement Container)
+		{
+			var Content = new IHTMLDiv().AttachTo(Container);
+
+
+			Content.style.position = IStyle.PositionEnum.relative;
+
+			var ViewBackground = new IHTMLDiv().AttachTo(Content);
+
+			ViewBackground.style.position = IStyle.PositionEnum.absolute;
+			ViewBackground.style.left = "0px";
+			ViewBackground.style.top = "0px";
+			ViewBackground.style.width = "4em";
+			ViewBackground.style.borderRight = "1px dotted gray";
+			ViewBackground.style.paddingRight = "0.5em";
+
+			var ViewTrap = new IHTMLDiv().AttachTo(Content);
+
+			ViewTrap.style.position = IStyle.PositionEnum.absolute;
+			ViewTrap.style.left = "0px";
+			ViewTrap.style.top = "0px";
+			ViewTrap.style.right = "0px";
+			ViewTrap.style.bottom = "0px";
+			//ViewTrap.style.backgroundColor = Color.White;
+
+			var ViewTrapContainer = new IHTMLDiv().AttachTo(ViewTrap);
+
+			ViewTrapContainer.style.cursor = IStyle.CursorEnum.text;
+			ViewTrapContainer.style.position = IStyle.PositionEnum.relative;
+			ViewTrapContainer.style.paddingLeft = "5em";
+
+			var View = new IHTMLDiv().AttachTo(ViewTrapContainer);
+
+
+
+			var ContentHeightDummy = new IHTMLDiv().AttachTo(Content);
+
+			var Lines = new List<IHTMLDiv>();
+
+			var CurrentLineDirty = false;
+			var CurrentLine = default(IHTMLDiv);
+			var CurrentLineContent = default(IHTMLDiv);
+
+			Action NextLine = delegate
+			{
+				CurrentLineDirty = false;
+
+				var c = new IHTMLDiv();
+				var cc = new IHTMLDiv();
+				var cb = new IHTMLDiv();
+
+				CurrentLine = c.AttachTo(View);
+				CurrentLineContent = cc.AttachTo(c);
+
+				CurrentLine.onmouseover +=
+					delegate
+					{
+						cc.style.backgroundColor = Color.FromGray(0xef);
+						cb.style.backgroundColor = Color.FromGray(0xef);
+					};
+
+				CurrentLine.onmouseout +=
+					delegate
+					{
+						cc.style.backgroundColor = Color.None;
+						cb.style.backgroundColor = Color.None;
+					};
+
+
+				Lines.Add(CurrentLine);
+				//CurrentLineContent.style.marginLeft = "5em";
+
+				var BCurrentLine = cb.AttachTo(ViewBackground);
+
+				BCurrentLine.style.textAlign = IStyle.TextAlignEnum.right;
+
+				var span = new IHTMLCode { innerText = "" + Lines.Count };
+				span.style.color = Lookup[SolutionFileTextFragment.Type];
+				span.AttachTo(BCurrentLine);
+
+				//Content.style.height = Lines.Count + "em";
+
+				new IHTMLDiv { new IHTMLCode { innerText = Environment.NewLine } }.AttachTo(ContentHeightDummy);
+			};
+
+
+
+			foreach (var item in f.WriteHistory.ToArray())
+			{
+				if (CurrentLine == null)
+					NextLine();
+
+				var innerText = item.Text;
+				innerText = innerText.TakeUntilLastIfAny(Environment.NewLine);
+
+				if (!string.IsNullOrEmpty(innerText))
+				{
+					var span = new IHTMLCode { innerText = innerText };
+					span.style.color = Lookup[item.Fragment];
+
+					CurrentLineDirty = true;
+					span.AttachTo(CurrentLineContent);
+
+					if (item.Tag != null)
+					{
+						span.style.cursor = ScriptCoreLib.JavaScript.DOM.IStyle.CursorEnum.pointer;
+						span.onmouseover +=
+							delegate
+							{
+								span.style.textDecoration = "underline";
+							};
+
+						span.onmouseout +=
+							delegate
+							{
+								span.style.textDecoration = "";
+							};
+
+
+
+						var Type = item.Tag as SolutionProjectLanguageType;
+						if (Type != null)
+						{
+							span.title = Type.FullName;
+						}
+
+						var Method = item.Tag as SolutionProjectLanguageMethod;
+						if (Method != null)
+						{
+							span.title = Method.Name;
+						}
+					}
+				}
+
+				if (item.Text.EndsWith(Environment.NewLine))
+				{
+					if (!CurrentLineDirty)
+					{
+						var span = new IHTMLCode { innerText = " " };
+						span.AttachTo(CurrentLineContent);
+					}
+
+					CurrentLine = null;
+				}
+			}
+		}
+
+	}
+
+
+}
