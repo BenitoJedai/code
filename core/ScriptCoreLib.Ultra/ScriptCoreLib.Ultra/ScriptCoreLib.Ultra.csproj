@@ -101,6 +101,7 @@
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Avalon\ImageCarouselCanvas.cs" />
     <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
+    <Compile Include="JavaScript\Components\SolutionFileView.cs" />
     <Compile Include="JavaScript\Concepts\CountDownGadgetConcept.cs" />
     <Compile Include="JavaScript\Concepts\HorizontalSplitConcept.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
