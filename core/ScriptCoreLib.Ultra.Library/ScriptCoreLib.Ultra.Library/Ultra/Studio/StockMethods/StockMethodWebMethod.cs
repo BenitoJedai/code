@@ -11,23 +11,27 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 	{
 		public StockMethodWebMethod(string Name)
 		{
+			var _XElement = new SolutionProjectLanguageType
+			{
+				Namespace = "System.Xml.Linq",
+				Name = "XElement"
+			};
+
 			// note: this method will run under javascript
 
 			#region Parameters e y
 			var _e = new SolutionProjectLanguageArgument
 			{
-				Type = new SolutionProjectLanguageType
-				{
-					Name = "XElement"
-				},
+				Type = _XElement,
 
 				Name = "e",
 				Summary = "A parameter from javascript"
 			};
 
 
-			var _y_Type =  new SolutionProjectLanguageType
+			var _y_Type = new SolutionProjectLanguageType
 			{
+				Namespace = "System",
 				Name = "Action",
 			}.With(
 				k =>
@@ -35,10 +39,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 					k.Arguments.Add(
 						new SolutionProjectLanguageArgument
 						{
-							Type = new SolutionProjectLanguageType
-							{
-								Name = "XElement"
-							}
+							Type = _XElement
 						}
 					);
 				}
@@ -65,14 +66,19 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 					{
 						Object = _e.Name,
 
-						Method =  new SolutionProjectLanguageMethod { Name = "Element" },
+						Method =  new SolutionProjectLanguageMethod { 
+							DeclaringType = _XElement,
+							Name = "Element" 
+						},
 
 						Parameters = new [] {
 							new PseudoConstantExpression { Value = "Data" }
 						}
 					},
 
-					Method =  new SolutionProjectLanguageMethod { Name = "ReplaceWith" },
+					Method =  new SolutionProjectLanguageMethod { 
+						DeclaringType = _XElement,
+						Name = "ReplaceWith" },
 
 					Parameters = new [] {
 						new PseudoConstantExpression { Value = "Method " + Name + " from the web server" }

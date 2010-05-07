@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -41,7 +42,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public int CurrentIndent { get; set; }
 
-	
+
 
 		public void WriteLine(SolutionFileTextFragment Fragment, string Text)
 		{
@@ -51,15 +52,36 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public void Write(SolutionFileTextFragment Fragment, string Text)
 		{
-			WriteHistory.Add(
+			this.Write(
 				new WriteArguments { Fragment = Fragment, Text = Text }
 			);
-
-			InternalContent.Append(Text);
 		}
 
 		public void Write(WriteArguments a)
 		{
+			if (a.Text != Environment.NewLine)
+			{
+				var r = a.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+				if (r.Length > 1)
+				{
+					for (int i = 0; i < r.Length; i++)
+					{
+						Write(
+							new WriteArguments
+							{
+								Fragment = a.Fragment,
+								Text = r[i],
+								Tag = a.Tag
+							}
+						);
+
+						Write(SolutionFileTextFragment.None, Environment.NewLine);
+
+					}
+					return;
+				}
+			}
+
 			WriteHistory.Add(a);
 
 			InternalContent.Append(a.Text);
