@@ -55,13 +55,13 @@ namespace TestSolutionBuilderWithTreeView
 			_References.IsExpanded = false;
 			_References.WithIcon(() => new References());
 
-			VisualStudioTemplates.VisualCSharpProjectReferences.Elements().WithEach(
+		
+			sln.References.WithEach(
 				k =>
 				{
 					var _Reference = _References.Add(k.Attribute("Include").Value.TakeUntilIfAny(","));
 					_Reference.IsExpanded = true;
-					_Reference.Element.OpenImage = new Assembly();
-
+					_Reference.WithIcon(() => new Assembly());
 				}
 			);
 

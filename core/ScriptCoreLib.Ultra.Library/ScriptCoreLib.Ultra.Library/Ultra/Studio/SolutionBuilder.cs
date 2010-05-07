@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.StockMethods;
 using ScriptCoreLib.Ultra.Studio.StockPages;
+using System.Diagnostics;
 namespace ScriptCoreLib.Ultra.Studio
 {
 	/// <summary>
@@ -124,9 +125,7 @@ namespace ScriptCoreLib.Ultra.Studio
 			var ItemGroupReferenes = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Reference").Any()).Single();
 
 
-			ItemGroupReferenes.RemoveAll();
-
-			this.References.WithEach(ItemGroupReferenes.Add);
+			UpdateReferences(ItemGroupReferenes);
 
 
 			var ItemGroupForCompile = proj_Content.Elements("ItemGroup").Where(k => k.Elements("Compile").Any()).Single();
@@ -168,6 +167,14 @@ namespace ScriptCoreLib.Ultra.Studio
 
 			#endregion
 
+		}
+
+		private void UpdateReferences(XElement ItemGroupReferenes)
+		{
+			ItemGroupReferenes.RemoveAll();
+			var _R = this.References.ToArray();
+			Debugger.Break();
+			ItemGroupReferenes.Add(_R);
 		}
 
 		class UltraApplicationBuilder
