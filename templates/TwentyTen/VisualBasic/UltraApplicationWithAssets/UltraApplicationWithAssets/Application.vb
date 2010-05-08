@@ -9,6 +9,10 @@ Imports ScriptCoreLib.JavaScript.Runtime
 Imports ScriptCoreLib.JavaScript.Concepts
 Imports ScriptCoreLib.Ultra.Components.HTML.Pages
 
+''' <summary>
+''' Hello
+''' </summary>
+''' <remarks></remarks>
 Partial NotInheritable Class Application
 
     Public Sub New(ByVal a As IAboutJSC)

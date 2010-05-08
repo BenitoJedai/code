@@ -6,6 +6,7 @@ using ScriptCoreLib.Library;
 
 namespace ScriptCoreLib.CSharp.Extensions
 {
+	[Obsolete("see ScriptCoreLib.Ultra.Studio.Languages")]
 	public static class CodeWriterExtensions
 	{
 		public static void Using(this CodeWriter w, string u)

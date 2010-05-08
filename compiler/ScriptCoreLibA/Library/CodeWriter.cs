@@ -6,6 +6,7 @@ using System.IO;
 
 namespace ScriptCoreLib.Library
 {
+	[Obsolete("see ScriptCoreLib.Ultra.Studio.Languages")]
 	public class CodeWriter : IDisposable
 	{
 		readonly StreamWriter InternalWriter;

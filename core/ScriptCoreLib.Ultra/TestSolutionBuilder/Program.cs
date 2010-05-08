@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Studio;
 using System.IO;
+using ScriptCoreLib.Ultra.Studio.Languages;
 
 namespace TestSolutionBuilder
 {
@@ -13,7 +14,8 @@ namespace TestSolutionBuilder
 		{
 			var sln = new SolutionBuilder
 			{
-				Name = "VisualCSharpProject1"
+				Name = "VisualCSharpProject1",
+				Language = new VisualBasicLanguage()
 			};
 			
 			sln.WriteToConsole();

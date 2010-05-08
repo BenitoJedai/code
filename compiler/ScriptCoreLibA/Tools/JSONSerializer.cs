@@ -75,9 +75,11 @@ namespace ScriptCoreLib.Tools
         {
             return e.Value;
         }
-    }
+	}
 
-    public static class JSONSerializer
+
+	[Obsolete("To be reimplemented in ScriptCoreLib.Ultra")]
+	public static class JSONSerializer
     {
         class ArrayBuilder
         {
