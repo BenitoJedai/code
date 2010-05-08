@@ -28,5 +28,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		public SolutionProjectLanguageCode Code;
 
 		public SolutionProjectLanguageType DeclaringType;
+
+		public bool IsProperty;
 	}
 }

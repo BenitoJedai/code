@@ -579,7 +579,10 @@ namespace jsc
 			}
 			catch (Exception exc)
 			{
-				Script.CompilerBase.BreakToDebugger("emmiting failed : " + exc.Message + " at " + exc.StackTrace);
+				Script.CompilerBase.BreakToDebugger(
+					"Method: " + i.Name + ", Type: " + i.DeclaringType.FullName + "; " +
+					"emmiting failed : " + exc.Message + " at " + exc.StackTrace
+				);
 			}
 		}
 

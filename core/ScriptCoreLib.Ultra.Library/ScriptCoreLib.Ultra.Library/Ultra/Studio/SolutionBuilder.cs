@@ -7,6 +7,8 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.StockMethods;
 using ScriptCoreLib.Ultra.Studio.StockPages;
 using System.Diagnostics;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Ultra.Studio.StockAttributes;
 namespace ScriptCoreLib.Ultra.Studio
 {
 	/// <summary>
@@ -173,7 +175,6 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			ItemGroupReferenes.RemoveAll();
 			var _R = this.References.ToArray();
-			Debugger.Break();
 			ItemGroupReferenes.Add(_R);
 		}
 
@@ -318,8 +319,37 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 				{
-					
+
 					Context.Language.WriteCommentLine(AssemblyInfo, "Visit http://studio.jsc-solutions.net for more information!");
+
+					AssemblyInfo.WriteLine();
+
+					// language write assembly attribute
+
+					Action<string, string> WriteGeneralInformation =
+						(TypeName, Constant) =>
+						{
+							Context.Language.WriteAssemblyAttribute(
+								AssemblyInfo,
+								new StockAttributeGeneralInformation(
+									new SolutionProjectLanguageType { Name = TypeName, Namespace = "System.Reflection" },
+									Constant
+								)
+							);
+						};
+
+					WriteGeneralInformation("AssemblyTitle", Context.Name);
+					WriteGeneralInformation("AssemblyDescription", "Hello!");
+					WriteGeneralInformation("AssemblyCompany", "ACME");
+					WriteGeneralInformation("AssemblyProduct", Context.Name);
+					WriteGeneralInformation("AssemblyCopyright", "Copyright 2010");
+					WriteGeneralInformation("AssemblyVersion", "1.0.0.0");
+					WriteGeneralInformation("AssemblyFileVersion", "1.0.0.0");
+
+					Context.Language.WriteAssemblyAttribute(
+						AssemblyInfo,
+						new StockAttributeObfuscation()
+					);
 
 				}
 

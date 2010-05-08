@@ -29,20 +29,19 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public SolutionBuilder Context;
 
-		public class WriteArguments
-		{
-			public SolutionFileTextFragment Fragment;
-			public string Text;
 
-			public object Tag;
-		}
 
 		// does our java output support generics already?
-		public readonly List<WriteArguments> WriteHistory = new List<WriteArguments>();
+		public readonly List<SolutionFileWriteArguments> WriteHistory = new List<SolutionFileWriteArguments>();
 
 		public int CurrentIndent { get; set; }
 
 
+
+		public void Write(string Text)
+		{
+			this.Write(SolutionFileTextFragment.None, Text);
+		}
 
 		public void WriteLine(SolutionFileTextFragment Fragment, string Text)
 		{
@@ -53,11 +52,11 @@ namespace ScriptCoreLib.Ultra.Studio
 		public void Write(SolutionFileTextFragment Fragment, string Text)
 		{
 			this.Write(
-				new WriteArguments { Fragment = Fragment, Text = Text }
+				new SolutionFileWriteArguments { Fragment = Fragment, Text = Text }
 			);
 		}
 
-		public void Write(WriteArguments a)
+		public void Write(SolutionFileWriteArguments a)
 		{
 			if (a.Text != Environment.NewLine)
 			{
@@ -67,7 +66,7 @@ namespace ScriptCoreLib.Ultra.Studio
 					for (int i = 0; i < r.Length; i++)
 					{
 						Write(
-							new WriteArguments
+							new SolutionFileWriteArguments
 							{
 								Fragment = a.Fragment,
 								Text = r[i],
@@ -85,6 +84,12 @@ namespace ScriptCoreLib.Ultra.Studio
 			WriteHistory.Add(a);
 
 			InternalContent.Append(a.Text);
+		}
+
+		public void WriteLine(string Text)
+		{
+			Write(Text);
+			WriteLine();
 		}
 
 		public void WriteLine()
