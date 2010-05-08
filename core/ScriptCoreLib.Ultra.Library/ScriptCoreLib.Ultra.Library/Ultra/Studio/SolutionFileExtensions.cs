@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.Ultra.Library;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
 	public static class SolutionFileExtensions
 	{
+		public static void Region(this SolutionFile File, Action y)
+		{
+			File.Write(new SolutionFileWriteArguments.BeginRegion());
+
+			y();
+
+			File.Write(new SolutionFileWriteArguments.EndRegion());
+		}
+
 		public static StringBuilder ToSolutionFile(this jsc.meta.Library.MVSSolutionFile.ProjectElement[] Projects)
 		{
 			var w = new StringBuilder();

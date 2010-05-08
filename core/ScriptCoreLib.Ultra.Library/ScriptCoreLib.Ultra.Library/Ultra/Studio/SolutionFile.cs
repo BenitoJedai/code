@@ -96,5 +96,10 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			WriteLine(SolutionFileTextFragment.None, "");
 		}
+
+		public void WriteSpace()
+		{
+			Write(" ");
+		}
 	}
 }

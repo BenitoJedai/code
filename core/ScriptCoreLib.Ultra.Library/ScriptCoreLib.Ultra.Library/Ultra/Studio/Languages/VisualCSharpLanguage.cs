@@ -20,6 +20,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			get { return "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"; }
 		}
 
+		public override void WriteLinkCommentLine(SolutionFile File, Uri Link)
+		{
+			File.Write(SolutionFileTextFragment.Comment, "' ");
+			File.Write(Link);
+			File.WriteLine();
+		}
+
 		public override void WriteCommentLine(SolutionFile File, string Text)
 		{
 			File.WriteLine(SolutionFileTextFragment.Comment, "// " + Text);
@@ -45,18 +52,17 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m)
 		{
-
 			this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
 
 			this.WriteIndent(File);
 
 			File.Write(Keywords.@public);
-			File.Write(" ");
+			File.WriteSpace();
 
 			if (m.IsStatic)
 			{
 				File.Write(Keywords.@static);
-				File.Write(" ");
+				File.WriteSpace();
 			}
 
 			if (m.IsConstructor)
@@ -66,7 +72,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			else
 			{
 				File.Write(Keywords.@void);
-				File.Write(" ");
+				File.WriteSpace();
 				File.Write(m.Name);
 			}
 
@@ -78,22 +84,23 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			{
 				if (i > 0)
 				{
-					File.Write(", ");
+					File.Write(",");
+					File.WriteSpace();
 				}
 
 				this.WriteTypeName(File, Parameters[i].Type);
 
-				File.Write(" ");
+				File.WriteSpace();
 				File.Write(Parameters[i].Name);
 			}
 
 			File.Write(")");
 			File.WriteLine();
 
-			this.WriteCode(File, m.Code);
+			this.WriteMethodBody(File, m.Code);
 		}
 
-		public override void WriteCode(SolutionFile File, SolutionProjectLanguageCode Code)
+		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code)
 		{
 			// should this be an extension method to all languages?
 
@@ -104,12 +111,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			// ? :)
 			foreach (var item in Code.History.ToArray())
 			{
-				var Comment = item as string;
-
-				if (Comment != null)
 				{
-					this.WriteIndent(File);
-					this.WriteCommentLine(File, Comment);
+					var Comment = item as string;
+					if (Comment != null)
+					{
+						this.WriteIndent(File);
+						this.WriteCommentLine(File, Comment);
+					}
+				}
+
+				{
+					var Comment = item as SolutionFileComment;
+					if (Comment != null)
+					{
+						Comment.WriteTo(File, this);
+						return;
+					}
 				}
 
 				var Lambda = item as PseudoCallExpression;
@@ -127,7 +144,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine("}");
 		}
 
-		private void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
+		public override void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
 		{
 			var Objectless = true;
 
@@ -180,7 +197,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			if (Lambda.Method.IsProperty)
 			{
-				File.Write(" = ");
+				File.WriteSpace();
+				File.Write("=");
+				File.WriteSpace();
 				WritePseudoExpression(File, Lambda.Parameters[0]);
 
 			}
@@ -195,7 +214,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				{
 					if (i > 0)
 					{
-						File.Write(", ");
+						File.Write(",");
+						File.WriteSpace();
 					}
 
 					var Parameter = Parameters[i];
@@ -209,7 +229,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		}
 
-		private void WritePseudoExpression(SolutionFile File, object Parameter)
+		public override void WritePseudoExpression(SolutionFile File, object Parameter)
 		{
 			var Code = Parameter as string;
 			if (Code != null)
@@ -228,6 +248,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				);
 				return;
 			}
+
+		
 
 			var Call = Parameter as PseudoCallExpression;
 			if (Call != null)
@@ -266,14 +288,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
-			File.Write(
-				new SolutionFileWriteArguments
-				{
-					Fragment = SolutionFileTextFragment.Type,
-					Tag = Type,
-					Text = Type.Name
-				}
-			);
+			File.Write(Type);
 
 			if (Type.Arguments.Count > 0)
 			{
@@ -285,7 +300,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				{
 					if (i > 0)
 					{
-						File.Write(", ");
+						File.Write(",");
+						File.WriteSpace();
 					}
 
 					this.WriteTypeName(File, Arguments[i].Type);
@@ -298,7 +314,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type)
 		{
-			this.WriteCommentLine(File, Type.Comment);
+			Type.Header.WriteTo(File, this);
 
 			// should the namespaces be clickable?
 
@@ -310,7 +326,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine();
 
 			File.Write(Keywords.@namespace);
-			File.Write(" ");
+			File.WriteSpace();
 			File.Write(Type.Namespace);
 			File.WriteLine();
 			File.WriteLine("{");
@@ -325,23 +341,23 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			this.WriteIndent(File);
 			File.Write(Keywords.@public);
-			File.Write(" ");
+			File.WriteSpace();
 
 			if (Type.IsStatic)
 			{
 				File.Write(Keywords.@static);
-				File.Write(" ");
+				File.WriteSpace();
 			}
 
 			if (Type.IsSealed)
 			{
 				File.Write(Keywords.@sealed);
-				File.Write(" ");
+				File.WriteSpace();
 			}
 
 			File.Write(Keywords.@class);
-			File.Write(" ");
-			File.Write(SolutionFileTextFragment.Type, Type.Name);
+			File.WriteSpace();
+			File.Write(Type);
 			File.WriteLine();
 
 			this.WriteIndent(File);
@@ -374,7 +390,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		{
 			this.WriteIndent(File);
 			File.Write(Keywords.@using);
-			File.Write(" ");
+			File.WriteSpace();
 			File.Write(item);
 			File.WriteLine(";");
 		}
@@ -390,33 +406,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			var args = new List<Action>();
 
-			InternalAddAttributeParameters(File, Attribute, args);
-
-
-			Action Separator = delegate
-			{
-				File.Write(", ");
-			};
-
-			InternalInvokeWithSeparator(args, Separator);
-
-
-			File.Write(")");
-			File.Write("]");
-
-			File.WriteLine();
-		}
-
-		private static void InternalInvokeWithSeparator(List<Action> args, Action Separator)
-		{
-			var BeforeSeparator = args.ToArray();
-			var AfterSeparator = BeforeSeparator.SelectWithSeparator(Separator).ToArray();
-
-			AfterSeparator.Invoke();
-		}
-
-		private void InternalAddAttributeParameters(SolutionFile File, SolutionProjectLanguageAttribute Attribute, List<Action> args)
-		{
 			if (Attribute.Parameters != null)
 			{
 				args.AddRange(
@@ -448,6 +437,25 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				);
 
 			}
+
+			Action Separator = delegate
+			{
+				File.Write(", ");
+			};
+
+			var BeforeSeparator = args.ToArray();
+			var AfterSeparator = BeforeSeparator.SelectWithSeparator(Separator).ToArray();
+
+			AfterSeparator.Invoke();
+
+			File.Write(")");
+			File.Write("]");
+
+			File.WriteLine();
 		}
+
+
+
+	
 	}
 }

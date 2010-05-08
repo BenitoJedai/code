@@ -12,5 +12,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 		public SolutionProjectLanguageMethod Method;
 
 		public object[] Parameters;
+
+		public bool IsAttributeContext;
 	}
 }

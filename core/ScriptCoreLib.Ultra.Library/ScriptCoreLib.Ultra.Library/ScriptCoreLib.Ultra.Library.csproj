@@ -135,8 +135,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ultra\Studio\Languages\VisualFSharpLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.cs" />
+    <Compile Include="Ultra\Studio\Languages\VisualFSharpLanguage.cs" />
+    <Compile Include="Ultra\Studio\SolutionFileComment.cs" />
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageKeyword.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.Keywords.cs" />

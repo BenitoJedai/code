@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -15,18 +16,23 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		abstract public string Kind { get; }
 
+		abstract public void WriteLinkCommentLine(SolutionFile File, Uri Link);
 		abstract public void WriteCommentLine(SolutionFile File, string Text);
 		abstract public void WriteXMLCommentLine(SolutionFile File, string Text);
 
 		abstract public void WriteIndent(SolutionFile File);
 
 		abstract public void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method);
-		abstract public void WriteCode(SolutionFile File, SolutionProjectLanguageCode Code);
+		abstract public void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code);
 		abstract public void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type);
 		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type);
 
 		abstract public void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute);
 		abstract public void WriteUsingNamespace(SolutionFile File, string item);
+
+		abstract public void WritePseudoExpression(SolutionFile File, object Parameter);
+		abstract public void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda);
+
 
 		public class Keyword : SolutionFileWriteArguments
 		{
