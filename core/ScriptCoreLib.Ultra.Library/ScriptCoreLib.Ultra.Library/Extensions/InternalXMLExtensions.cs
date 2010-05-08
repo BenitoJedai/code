@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.Ultra.Library.Extensions
+namespace ScriptCoreLib.Extensions
 {
 	internal static class InternalXMLExtensions
 	{
+		// once all platforms implement xml then we may
+		// skip these methods...
+
 		public static string ToXMLString(this string xml)
 		{
 			return xml

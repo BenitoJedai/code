@@ -324,6 +324,10 @@ namespace ScriptCoreLib.Ultra.Studio
 
 					AssemblyInfo.WriteLine();
 
+					Context.Language.WriteUsingNamespace(AssemblyInfo, "System.Reflection");
+
+					AssemblyInfo.WriteLine();
+
 					// language write assembly attribute
 
 					Action<string, string> WriteGeneralInformation =
@@ -337,6 +341,12 @@ namespace ScriptCoreLib.Ultra.Studio
 								)
 							);
 						};
+
+					Context.Language.WriteSummary(AssemblyInfo,
+@"General Information about an assembly is controlled through the following 
+set of attributes. Change these attribute values to modify the information
+associated with an assembly."
+					);
 
 					WriteGeneralInformation("AssemblyTitle", Context.Name);
 					WriteGeneralInformation("AssemblyDescription", "Hello!");

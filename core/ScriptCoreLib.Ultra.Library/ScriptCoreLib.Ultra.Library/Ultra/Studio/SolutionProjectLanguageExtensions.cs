@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using System.IO;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -40,12 +41,21 @@ namespace ScriptCoreLib.Ultra.Studio
 			}
 		}
 
-		public static void WriteComment(this SolutionProjectLanguage that, SolutionFile File, string summary)
+		public static void WriteIndentedComment(this SolutionProjectLanguage that, SolutionFile File, string summary)
 		{
-			that.WriteComment(File, summary, null);
+			foreach (var item in summary.ToLines())
+			{
+				that.WriteIndent(File);
+				that.WriteCommentLine(File, item); 
+			}
 		}
 
-		public static void WriteComment(this SolutionProjectLanguage that, SolutionFile File, string summary, SolutionProjectLanguageArgument[] @params)
+		public static void WriteSummary(this SolutionProjectLanguage that, SolutionFile File, string summary)
+		{
+			that.WriteSummary(File, summary, null);
+		}
+
+		public static void WriteSummary(this SolutionProjectLanguage that, SolutionFile File, string summary, SolutionProjectLanguageArgument[] @params)
 		{
 			var c = new List<XElement>();
 

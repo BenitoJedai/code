@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Xml.Linq;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Documentation
 {

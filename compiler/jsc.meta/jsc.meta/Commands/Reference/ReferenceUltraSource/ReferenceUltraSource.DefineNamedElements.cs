@@ -21,6 +21,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using jsc.meta.Library.Templates.JavaScript.Named;
 using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {

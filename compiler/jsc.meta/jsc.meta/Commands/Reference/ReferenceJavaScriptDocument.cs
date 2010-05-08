@@ -27,6 +27,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {

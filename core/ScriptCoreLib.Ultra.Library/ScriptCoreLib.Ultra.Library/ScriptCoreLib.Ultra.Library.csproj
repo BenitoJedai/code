@@ -89,7 +89,6 @@
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Shared\Lambda\UltraExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoConstantExpression.cs" />
@@ -136,14 +135,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.Keywords.cs" />
+    <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.cs" />
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageKeyword.cs" />
-    <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguageKeywords.cs" />
+    <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />
+    <Folder Include="Shared\Lambda\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

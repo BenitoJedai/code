@@ -14,6 +14,7 @@ using jsc.meta.Library.Templates;
 using System.Reflection.Emit;
 using System.Windows;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 {

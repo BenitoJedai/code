@@ -20,6 +20,7 @@ using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
 using jsc.meta.Commands.Reference.ReferenceUltraSource.Templates;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {

@@ -12,6 +12,7 @@ using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
 using jsc.meta.Library;
 using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {

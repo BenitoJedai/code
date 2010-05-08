@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.Ultra.Library.Extensions
+namespace ScriptCoreLib.Extensions
 {
 	public static class StringExtensions
 	{
+		public static string[] ToLines(this string e)
+		{
+			return e.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+		}
+
 		public static string SkipUntilLastIfAny(this string e, string u)
 		{
 			var i = e.LastIndexOf(u);
