@@ -8,8 +8,29 @@ namespace ScriptCoreLib.Ultra.Studio
 	public class SolutionFileWriteArguments
 	{
 		public SolutionFileTextFragment Fragment;
-		public string Text;
+		public string Text = "";
 
 		public object Tag;
+
+
+		public static implicit operator SolutionFileWriteArguments(Uri u)
+		{
+			return new SolutionFileWriteArguments
+			{
+				Fragment = SolutionFileTextFragment.Keyword,
+				Tag = u,
+				Text = u.ToString()
+			};
+		}
+
+		public class BeginRegion : SolutionFileWriteArguments
+		{
+
+		}
+
+		public class EndRegion : SolutionFileWriteArguments
+		{
+
+		}
 	}
 }

@@ -205,6 +205,11 @@ namespace ScriptCoreLib.Ultra.Studio
 						return r;
 					};
 
+				var FileHeader = new SolutionFileComment
+				{
+					Comment = "For more information visit:",
+					Link = new Uri("http://studio.jsc-solutions.net")
+				};
 
 				var ApplicationPage =
 					new XElement("html",
@@ -241,7 +246,7 @@ namespace ScriptCoreLib.Ultra.Studio
 						Namespace = Context.Name,
 						Name = "ApplicationWebService",
 						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-						Comment = "Visit http://studio.jsc-solutions.net for more information!"
+						Header = FileHeader
 					};
 
 					ApplicationWebServiceType.UsingNamespaces.Add("System");
@@ -280,7 +285,7 @@ namespace ScriptCoreLib.Ultra.Studio
 					Namespace = Context.Name,
 					Name = "Application",
 					Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-					Comment = "Visit http://studio.jsc-solutions.net for more information!"
+					Header = FileHeader
 				};
 
 				ApplicationType.UsingNamespaces.Add("System");
@@ -319,8 +324,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 				{
-
-					Context.Language.WriteCommentLine(AssemblyInfo, "Visit http://studio.jsc-solutions.net for more information!");
+					FileHeader.WriteTo(AssemblyInfo, Context.Language);
 
 					AssemblyInfo.WriteLine();
 
@@ -392,7 +396,7 @@ associated with an assembly."
 						Namespace = Context.Name,
 						Name = "Program",
 						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-						Comment = "Visit http://studio.jsc-solutions.net for more information!"
+						Header = FileHeader
 					};
 
 					ProgramType.UsingNamespaces.Add("System");

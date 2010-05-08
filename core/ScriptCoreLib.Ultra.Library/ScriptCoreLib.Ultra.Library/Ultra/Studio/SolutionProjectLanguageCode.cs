@@ -20,6 +20,11 @@ namespace ScriptCoreLib.Ultra.Studio
 			this.History.Add(Comment);
 		}
 
+		public void Add(SolutionFileComment Comment)
+		{
+			this.History.Add(Comment);
+		}
+
 		public void Add(PseudoCallExpression e)
 		{
 			// no DLR yet. we use our lite version instead.

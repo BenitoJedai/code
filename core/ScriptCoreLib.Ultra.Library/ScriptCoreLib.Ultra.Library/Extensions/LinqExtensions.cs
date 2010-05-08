@@ -66,6 +66,17 @@ namespace ScriptCoreLib.Extensions
 			return source;
 		}
 
+		public static IEnumerable<Action<T>> Invoke<T>(this IEnumerable<Action<T>> source, T arg1)
+		{
+			foreach (var item in source.ToArray())
+			{
+				if (item != null)
+					item(arg1);
+			}
+
+			return source;
+		}
+
 		public class AnonymousContainer<T>
 		{
 			public T Default;

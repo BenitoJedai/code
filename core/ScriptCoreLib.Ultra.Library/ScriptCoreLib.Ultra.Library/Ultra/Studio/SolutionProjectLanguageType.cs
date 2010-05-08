@@ -16,7 +16,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public string Summary;
 
-		public string Comment;
+		public SolutionFileComment Header;
 
 		public SolutionProjectLanguageType ElementType;
 		public SolutionProjectLanguageType DeclaringType;
@@ -43,6 +43,16 @@ namespace ScriptCoreLib.Ultra.Studio
 
 				return w.ToString();
 			}
+		}
+
+		public static implicit operator SolutionFileWriteArguments(SolutionProjectLanguageType Type)
+		{
+			return new SolutionFileWriteArguments
+			{
+				Fragment = SolutionFileTextFragment.Type,
+				Tag = Type,
+				Text = Type.Name
+			};
 		}
 	}
 }

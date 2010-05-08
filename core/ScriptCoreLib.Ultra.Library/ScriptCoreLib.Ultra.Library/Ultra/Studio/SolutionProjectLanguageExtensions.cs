@@ -46,7 +46,7 @@ namespace ScriptCoreLib.Ultra.Studio
 			foreach (var item in summary.ToLines())
 			{
 				that.WriteIndent(File);
-				that.WriteCommentLine(File, item); 
+				that.WriteCommentLine(File, item);
 			}
 		}
 
