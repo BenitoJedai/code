@@ -114,7 +114,6 @@ namespace jsc.Languages.IL
 				#endregion
 
 				this[OpCodes.Newobj] = e => e.il.Emit(OpCodes.Newobj, this.TranslateTargetConstructor(e.i.TargetConstructor));
-				this[OpCodes.Stelem_Ref] = e => e.il.Emit(OpCodes.Stelem_Ref);
 
 
 				// somebody said string encryption?
@@ -211,7 +210,10 @@ namespace jsc.Languages.IL
 					OpCodes.Constrained,
 					OpCodes.Initobj,
 					OpCodes.Ldobj,
-					OpCodes.Stobj
+					OpCodes.Stobj,
+					OpCodes.Stelem,
+					OpCodes.Ldelem,
+					OpCodes.Ldelema
 				};
 
 				this[i => this.TranslateTargetField(i.TargetField)] = new[] {
@@ -319,8 +321,6 @@ namespace jsc.Languages.IL
 					OpCodes.Ldelem_I4,
 					OpCodes.Ldelem_I8,
 					OpCodes.Ldelem_R8,
-					OpCodes.Ldelema,
-					OpCodes.Ldelem,
 					
 					OpCodes.Stelem_Ref,
 					OpCodes.Stelem_I1,
@@ -328,7 +328,6 @@ namespace jsc.Languages.IL
 					OpCodes.Stelem_I4,
 					OpCodes.Stelem_I8,
 					OpCodes.Stelem_R8,
-					OpCodes.Stelem,
 
 					OpCodes.Ldnull,
 					OpCodes.Pop,	

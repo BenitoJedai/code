@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using ScriptCoreLib;
-
-[assembly: Obfuscation(Feature = "script")]
 
 namespace TestArrayInitializer
 {
-	interface IAssemblyReferenceToken : ScriptCoreLib.Shared.IAssemblyReferenceToken,
-		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken
-	{
-	}
-
 	//[CompilerGenerated]
 	sealed class __c__DisplayClass4<T>
 	{
@@ -38,6 +30,6 @@ namespace TestArrayInitializer
 		}
 	}
 
-	
+
 
 }
