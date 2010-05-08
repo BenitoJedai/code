@@ -9,8 +9,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 	{
 		public static class Keywords
 		{
-			public static Keyword 
+			public static Keyword
 				@End = "End",
+				@Imports = "Imports",
+				@Assembly = "Assembly",
 			
 				@Namespace = "Namespace"
 			;

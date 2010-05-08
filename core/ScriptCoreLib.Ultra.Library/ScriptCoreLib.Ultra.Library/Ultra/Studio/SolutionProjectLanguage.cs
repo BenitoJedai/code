@@ -10,6 +10,9 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public string ProjectFileExtension { get; }
 		abstract public string CodeFileExtension { get; }
 
+		// http://msdn.microsoft.com/en-us/library/envdte.project.kind(VS.80).aspx
+		// http://www.mztools.com/articles/2008/MZ2008017.aspx
+
 		abstract public string Kind { get; }
 
 		abstract public void WriteCommentLine(SolutionFile File, string Text);
