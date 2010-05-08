@@ -22,5 +22,18 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type);
 		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type);
 
+		abstract public void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute);
+
+		public class Keyword : SolutionFileWriteArguments
+		{
+			public static implicit operator Keyword(string Text)
+			{
+				return new Keyword
+				{
+					Fragment = SolutionFileTextFragment.Keyword,
+					Text = Text
+				};
+			}
+		}
 	}
 }

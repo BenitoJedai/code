@@ -5,10 +5,12 @@ using System.Text;
 using ScriptCoreLib.Ultra.Documentation;
 using System.Linq.Expressions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
-	public class VisualCSharpLanguage : SolutionProjectLanguage
+	public partial class VisualCSharpLanguage : SolutionProjectLanguage
 	{
 		public override string ProjectFileExtension { get { return ".csproj"; } }
 		public override string CodeFileExtension { get { return ".cs"; } }
@@ -43,18 +45,18 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m)
 		{
-			
+
 			this.WriteComment(File, m.Summary, m.Parameters.ToArray());
 
 			this.WriteIndent(File);
 
-			File.Write(SolutionFileTextFragment.Keyword, "public");
-			File.Write(SolutionFileTextFragment.None, " ");
+			File.Write(Keywords.@public);
+			File.Write(" ");
 
 			if (m.IsStatic)
 			{
-				File.Write(SolutionFileTextFragment.Keyword, "static");
-				File.Write(SolutionFileTextFragment.None, " ");
+				File.Write(Keywords.@static);
+				File.Write(" ");
 			}
 
 			if (m.IsConstructor)
@@ -63,12 +65,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 			else
 			{
-				File.Write(SolutionFileTextFragment.Keyword, "void");
-				File.Write(SolutionFileTextFragment.None, " ");
-				File.Write(SolutionFileTextFragment.None, m.Name);
+				File.Write(Keywords.@void);
+				File.Write(" ");
+				File.Write(m.Name);
 			}
 
-			File.Write(SolutionFileTextFragment.None, "(");
+			File.Write("(");
 
 			var Parameters = m.Parameters.ToArray();
 
@@ -76,16 +78,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			{
 				if (i > 0)
 				{
-					File.Write(SolutionFileTextFragment.None, ", ");
+					File.Write(", ");
 				}
 
 				this.WriteTypeName(File, Parameters[i].Type);
-				
-				File.Write(SolutionFileTextFragment.None, " ");
-				File.Write(SolutionFileTextFragment.None, Parameters[i].Name);
+
+				File.Write(" ");
+				File.Write(Parameters[i].Name);
 			}
 
-			File.Write(SolutionFileTextFragment.None, ")");
+			File.Write(")");
 			File.WriteLine();
 
 			this.WriteCode(File, m.Code);
@@ -96,7 +98,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			// should this be an extension method to all languages?
 
 			this.WriteIndent(File);
-			File.WriteLine(SolutionFileTextFragment.None, "{");
+			File.WriteLine("{");
 			File.CurrentIndent++;
 
 			// ? :)
@@ -116,25 +118,36 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				{
 					this.WriteIndent(File);
 					WritePseudoCallExpression(File, Lambda);
-					File.WriteLine(SolutionFileTextFragment.None, ";");
+					File.WriteLine(";");
 				}
 			}
 
 			File.CurrentIndent--;
 			this.WriteIndent(File);
-			File.WriteLine(SolutionFileTextFragment.None, "}");
+			File.WriteLine("}");
 		}
 
 		private void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
 		{
+			var Objectless = true;
+
 			if (Lambda.Method.IsStatic)
 			{
-				WriteTypeName(File, Lambda.Method.DeclaringType);
+				if (Lambda.Method.DeclaringType != null)
+				{
+					WriteTypeName(File, Lambda.Method.DeclaringType);
+					Objectless = false;
+				}
 			}
 			else
 			{
-				WritePseudoExpression(File, Lambda.Object);
+				if (Lambda.Object != null)
+				{
+					WritePseudoExpression(File, Lambda.Object);
+					Objectless = false;
+				}
 			}
+
 
 			if (Lambda.Method.Name == "Invoke")
 			{
@@ -142,33 +155,56 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 			else
 			{
-				File.Write(SolutionFileTextFragment.None, ".");
+				var Target = Lambda.Method.Name;
+
+				if (Lambda.Method.IsProperty)
+				{
+					Target = Target.SkipUntilIfAny("set_").SkipUntilIfAny("get_");
+
+				}
+
+				if (!Objectless)
+				{
+					File.Write(".");
+				}
+
 				File.Write(
-					new SolutionFile.WriteArguments
+					new SolutionFileWriteArguments
 					{
 						Fragment = SolutionFileTextFragment.None,
-						Text = Lambda.Method.Name,
+						Text = Target,
 						Tag = Lambda.Method
 					}
 				);
 			}
-			File.Write(SolutionFileTextFragment.None, "(");
 
-			var Parameters = Lambda.Parameters.ToArray();
-
-			for (int i = 0; i < Parameters.Length; i++)
+			if (Lambda.Method.IsProperty)
 			{
-				if (i > 0)
+				File.Write(" = ");
+				WritePseudoExpression(File, Lambda.Parameters[0]);
+
+			}
+			else
+			{
+
+				File.Write("(");
+
+				var Parameters = Lambda.Parameters.ToArray();
+
+				for (int i = 0; i < Parameters.Length; i++)
 				{
-					File.Write(SolutionFileTextFragment.None, ", ");
+					if (i > 0)
+					{
+						File.Write(", ");
+					}
+
+					var Parameter = Parameters[i];
+
+					WritePseudoExpression(File, Parameter);
 				}
 
-				var Parameter = Parameters[i];
-
-				WritePseudoExpression(File, Parameter);
+				File.Write(")");
 			}
-
-			File.Write(SolutionFileTextFragment.None, ")");
 
 
 		}
@@ -178,7 +214,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			var Code = Parameter as string;
 			if (Code != null)
 			{
-				File.Write(SolutionFileTextFragment.None, Code);
+				File.Write(Code);
 				return;
 			}
 
@@ -203,10 +239,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			var Type = Parameter as SolutionProjectLanguageType;
 			if (Type != null)
 			{
-				File.Write(SolutionFileTextFragment.Keyword, "typeof");
-				File.Write(SolutionFileTextFragment.None, "(");
+				File.Write(Keywords.@typeof);
+				File.Write("(");
 				WriteTypeName(File, Type);
-				File.Write(SolutionFileTextFragment.None, ")");
+				File.Write(")");
 				return;
 			}
 
@@ -219,19 +255,19 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			if (Type.DeclaringType != null)
 			{
 				WriteTypeName(File, Type.DeclaringType);
-				File.Write(SolutionFileTextFragment.None, ".");
+				File.Write(".");
 			}
 
 			if (Type.ElementType != null)
 			{
 				WriteTypeName(File, Type.ElementType);
-				File.Write(SolutionFileTextFragment.None, "[]");
+				File.Write("[]");
 
 				return;
 			}
 
 			File.Write(
-				new SolutionFile.WriteArguments
+				new SolutionFileWriteArguments
 				{
 					Fragment = SolutionFileTextFragment.Type,
 					Tag = Type,
@@ -241,7 +277,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			if (Type.Arguments.Count > 0)
 			{
-				File.Write(SolutionFileTextFragment.None, "<");
+				File.Write("<");
 
 				var Arguments = Type.Arguments.ToArray();
 
@@ -249,13 +285,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				{
 					if (i > 0)
 					{
-						File.Write(SolutionFileTextFragment.None, ", ");
+						File.Write(", ");
 					}
 
 					this.WriteTypeName(File, Arguments[i].Type);
 				}
 
-				File.Write(SolutionFileTextFragment.None, ">");
+				File.Write(">");
 
 			}
 		}
@@ -268,20 +304,20 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			foreach (var item in Type.UsingNamespaces.ToArray())
 			{
-				File.Write(SolutionFileTextFragment.Keyword, "using");
-				File.Write(SolutionFileTextFragment.None, " ");
-				File.Write(SolutionFileTextFragment.None, item);
-				File.WriteLine(SolutionFileTextFragment.None, ";");
+				File.Write(Keywords.@using);
+				File.Write(" ");
+				File.Write(item);
+				File.WriteLine(";");
 
 			}
 
 			File.WriteLine();
 
-			File.Write(SolutionFileTextFragment.Keyword, "namespace");
-			File.Write(SolutionFileTextFragment.None, " ");
-			File.Write(SolutionFileTextFragment.None, Type.Namespace);
-			File.WriteLine(SolutionFileTextFragment.None, "");
-			File.WriteLine(SolutionFileTextFragment.None, "{");
+			File.Write(Keywords.@namespace);
+			File.Write(" ");
+			File.Write(Type.Namespace);
+			File.WriteLine();
+			File.WriteLine("{");
 			File.CurrentIndent++;
 
 
@@ -291,28 +327,28 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			);
 
 			this.WriteIndent(File);
-			File.Write(SolutionFileTextFragment.Keyword, "public");
-			File.Write(SolutionFileTextFragment.None, " ");
+			File.Write(Keywords.@public);
+			File.Write(" ");
 
 			if (Type.IsStatic)
 			{
-				File.Write(SolutionFileTextFragment.Keyword, "static");
-				File.Write(SolutionFileTextFragment.None, " ");
+				File.Write(Keywords.@static);
+				File.Write(" ");
 			}
 
 			if (Type.IsSealed)
 			{
-				File.Write(SolutionFileTextFragment.Keyword, "sealed");
-				File.Write(SolutionFileTextFragment.None, " ");
+				File.Write(Keywords.@sealed);
+				File.Write(" ");
 			}
 
-			File.Write(SolutionFileTextFragment.Keyword, "class");
-			File.Write(SolutionFileTextFragment.None, " ");
+			File.Write(Keywords.@class);
+			File.Write(" ");
 			File.Write(SolutionFileTextFragment.Type, Type.Name);
-			File.WriteLine(SolutionFileTextFragment.None, "");
+			File.WriteLine();
 
 			this.WriteIndent(File);
-			File.WriteLine(SolutionFileTextFragment.None, "{");
+			File.WriteLine("{");
 			File.CurrentIndent++;
 
 			foreach (var item in Type.Methods.ToArray())
@@ -331,11 +367,81 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			File.CurrentIndent--;
 			this.WriteIndent(File);
-			File.WriteLine(SolutionFileTextFragment.None, "}");
+			File.WriteLine("}");
 
 			File.CurrentIndent--;
-			File.WriteLine(SolutionFileTextFragment.None, "}");
+			File.WriteLine("}");
 		}
 
+		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute)
+		{
+			File.Write("[");
+			File.Write(Keywords.assembly);
+			File.Write(": ");
+
+			this.WriteTypeName(File, Attribute.Type);
+			File.Write("(");
+
+			var args = new List<Action>();
+
+			InternalAddAttributeParameters(File, Attribute, args);
+
+
+			Action Separator = delegate
+			{
+				File.Write(", ");
+			};
+
+			InternalInvokeWithSeparator(args, Separator);
+
+
+			File.Write(")");
+			File.Write("]");
+
+			File.WriteLine();
+		}
+
+		private static void InternalInvokeWithSeparator(List<Action> args, Action Separator)
+		{
+			var BeforeSeparator = args.ToArray();
+			var AfterSeparator = BeforeSeparator.SelectWithSeparator(Separator).ToArray();
+
+			AfterSeparator.Invoke();
+		}
+
+		private void InternalAddAttributeParameters(SolutionFile File, SolutionProjectLanguageAttribute Attribute, List<Action> args)
+		{
+			if (Attribute.Parameters != null)
+			{
+				args.AddRange(
+					from item in Attribute.Parameters
+					select (Action)delegate
+					{
+						this.WritePseudoExpression(File, item);
+					}
+				);
+			}
+
+
+			if (Attribute.Properties != null)
+			{
+				args.AddRange(
+					from item in Attribute.Properties.ToArray()
+					select (Action)delegate
+					{
+						this.WritePseudoCallExpression(File,
+							new PseudoCallExpression
+							{
+								Method = item.Key,
+								Parameters = new[] {
+										item.Value
+									}
+							}
+						);
+					}
+				);
+
+			}
+		}
 	}
 }

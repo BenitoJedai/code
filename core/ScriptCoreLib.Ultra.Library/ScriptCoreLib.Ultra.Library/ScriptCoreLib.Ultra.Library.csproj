@@ -79,7 +79,7 @@
     <Compile Include="Ultra\Documentation\CompilationType.cs" />
     <Compile Include="Ultra\Documentation\CompilationEvent.cs" />
     <Compile Include="Ultra\Documentation\CompilationMember.cs" />
-    <Compile Include="Extensions\UltraLambdaExtensions.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />
@@ -94,6 +94,7 @@
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoConstantExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpression.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageAttribute.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageCode.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageArgument.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageType.cs" />
@@ -133,6 +134,13 @@
       <Project>{9CF379F4-DC30-4793-B379-653AF2E2F0FA}</Project>
       <Name>ScriptCoreLib.Ultra.VisualBasic</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageKeyword.cs" />
+    <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguageKeywords.cs" />
+    <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
+    <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />
