@@ -8,6 +8,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Ultra.Studio;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.JavaScript.Components
 {

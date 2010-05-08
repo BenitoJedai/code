@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Web;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.WebService
 {

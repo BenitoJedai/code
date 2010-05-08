@@ -46,7 +46,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m)
 		{
 
-			this.WriteComment(File, m.Summary, m.Parameters.ToArray());
+			this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
 
 			this.WriteIndent(File);
 
@@ -304,11 +304,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			foreach (var item in Type.UsingNamespaces.ToArray())
 			{
-				File.Write(Keywords.@using);
-				File.Write(" ");
-				File.Write(item);
-				File.WriteLine(";");
-
+				WriteUsingNamespace(File, item);
 			}
 
 			File.WriteLine();
@@ -321,8 +317,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.CurrentIndent++;
 
 
-			this.WriteComment(
+			this.WriteSummary(
 				File,
+
 				Type.Summary
 			);
 
@@ -371,6 +368,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			File.CurrentIndent--;
 			File.WriteLine("}");
+		}
+
+		public override void WriteUsingNamespace(SolutionFile File, string item)
+		{
+			this.WriteIndent(File);
+			File.Write(Keywords.@using);
+			File.Write(" ");
+			File.Write(item);
+			File.WriteLine(";");
 		}
 
 		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute)

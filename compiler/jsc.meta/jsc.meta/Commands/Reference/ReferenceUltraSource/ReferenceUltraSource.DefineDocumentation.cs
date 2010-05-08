@@ -16,6 +16,8 @@ using jsc.Script;
 using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
+
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
 	partial class ReferenceUltraSource

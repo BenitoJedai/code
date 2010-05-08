@@ -12,7 +12,7 @@ namespace TestSolutionBuilderWithSave
 	{
 		public void DebugBreak(string x)
 		{
-			Debugger.Break();
+			//Debugger.Break();
 		}
 	}
 }

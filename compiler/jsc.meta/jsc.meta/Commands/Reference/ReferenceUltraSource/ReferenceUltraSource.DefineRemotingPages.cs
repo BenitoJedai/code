@@ -21,6 +21,7 @@ using jsc.meta.Library.Templates.Avalon;
 using jsc.meta.Library.Templates;
 using ScriptCoreLib.JavaScript.Remoting;
 using ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {

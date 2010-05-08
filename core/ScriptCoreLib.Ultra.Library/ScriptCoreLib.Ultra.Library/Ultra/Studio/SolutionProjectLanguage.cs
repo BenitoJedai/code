@@ -23,6 +23,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type);
 
 		abstract public void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute);
+		abstract public void WriteUsingNamespace(SolutionFile File, string item);
 
 		public class Keyword : SolutionFileWriteArguments
 		{
