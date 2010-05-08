@@ -57,7 +57,9 @@ namespace ScriptCoreLib.JavaScript.Components
 			}
 		}
 
-		private static void RenderWriteHistory(Dictionary<SolutionFileTextFragment, Color> Lookup, SolutionFile f, IHTMLElement Container)
+		public event Action<Uri> LinkCommentClick;
+
+		private void RenderWriteHistory(Dictionary<SolutionFileTextFragment, Color> Lookup, SolutionFile f, IHTMLElement Container)
 		{
 			var Content = new IHTMLDiv().AttachTo(Container);
 
@@ -94,6 +96,10 @@ namespace ScriptCoreLib.JavaScript.Components
 
 			var ContentHeightDummy = new IHTMLDiv().AttachTo(Content);
 
+			var RegionStack = new Stack<List<Action<bool>>>();
+			var RegionGlobal = new List<Action<bool>>();
+			RegionStack.Push(RegionGlobal);
+
 			var Lines = new List<IHTMLDiv>();
 
 			var CurrentLineDirty = false;
@@ -111,9 +117,37 @@ namespace ScriptCoreLib.JavaScript.Components
 				CurrentLine = c.AttachTo(View);
 				CurrentLineContent = cc.AttachTo(c);
 
+				var CurrentRegion = RegionStack.Peek();
+
+				RegionStack.WithEach(
+					k =>
+					{
+						k.Add(
+							IsActive =>
+							{
+								// should we react when in a global region
+								if (k == RegionGlobal)
+									return;
+
+								if (IsActive)
+								{
+									cc.style.backgroundColor = Color.FromGray(0xf7);
+									cb.style.backgroundColor = Color.FromGray(0xf7);
+								}
+								else
+								{
+									cc.style.backgroundColor = Color.None;
+									cb.style.backgroundColor = Color.None;
+								}
+							}
+						);
+					}
+				);
+
 				CurrentLine.onmouseover +=
 					delegate
 					{
+						CurrentRegion.Invoke(true);
 						cc.style.backgroundColor = Color.FromGray(0xef);
 						cb.style.backgroundColor = Color.FromGray(0xef);
 					};
@@ -121,6 +155,7 @@ namespace ScriptCoreLib.JavaScript.Components
 				CurrentLine.onmouseout +=
 					delegate
 					{
+						CurrentRegion.Invoke(false);
 						cc.style.backgroundColor = Color.None;
 						cb.style.backgroundColor = Color.None;
 					};
@@ -146,8 +181,20 @@ namespace ScriptCoreLib.JavaScript.Components
 
 			foreach (var item in f.WriteHistory.ToArray())
 			{
+				if (item is SolutionFileWriteArguments.BeginRegion)
+				{
+					RegionStack.Push(new List<Action<bool>>());
+				}
+
+				if (item is SolutionFileWriteArguments.EndRegion)
+				{
+					RegionStack.Pop();
+				}
+
 				if (CurrentLine == null)
 					NextLine();
+
+
 
 				var innerText = item.Text;
 				innerText = innerText.TakeUntilLastIfAny(Environment.NewLine);
@@ -187,6 +234,28 @@ namespace ScriptCoreLib.JavaScript.Components
 						if (Method != null)
 						{
 							span.title = Method.Name;
+						}
+
+
+						var Uri = item.Tag as Uri;
+						if (Uri != null)
+						{
+							var a = new IHTMLAnchor();
+							a.style.color = Lookup[item.Fragment];
+
+							a.href = Uri.ToString();
+							a.target = "_blank";
+							a.Add(span);
+							a.AttachTo(CurrentLineContent);
+
+							a.onclick +=
+								e =>
+								{
+									e.PreventDefault();
+
+									if (LinkCommentClick != null)
+										LinkCommentClick(Uri);
+								};
 						}
 					}
 				}

@@ -21,6 +21,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 		public string PathAndQuery { get; set; }
 
 		public string Host { get; set; }
+		public string Fragment { get; set; }
 
 		public string Query { get; set; }
 		public string AbsolutePath { get; set; }
@@ -54,6 +55,19 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
 			}
 
 			this.PathAndQuery = uriString.Substring(path_i);
+
+			{
+				var FragmentIndex = this.PathAndQuery.IndexOf("#");
+
+				if (FragmentIndex > 0)
+				{
+					Fragment = this.PathAndQuery.Substring(FragmentIndex + 1);
+				}
+				else
+				{
+					Fragment = "";
+				}
+			}
 
 			var query_i = this.PathAndQuery.IndexOf("?");
 

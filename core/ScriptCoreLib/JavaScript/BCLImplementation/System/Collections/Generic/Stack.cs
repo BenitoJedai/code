@@ -9,22 +9,27 @@ using ScriptCoreLib.Shared.Query;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
-    [Script(Implements = typeof(Stack<>))]
-    internal class __Stack<T> : IEnumerable<T>
-    {
+	[Script(Implements = typeof(Stack<>))]
+	internal class __Stack<T> : IEnumerable<T>
+	{
 		readonly IArray<T> items = new IArray<T>();
 
-        public T Pop()
-        {
-            return (T)items.pop();
-        }
+		public T Peek()
+		{
+			return (T)items[items.length - 1];
+		}
 
-        public void Push(T item)
-        {
-            items.push(item);
-        }
+		public T Pop()
+		{
+			return (T)items.pop();
+		}
 
-        public int Count { get { return (int)items.length; } }
+		public void Push(T item)
+		{
+			items.push(item);
+		}
+
+		public int Count { get { return (int)items.length; } }
 
 
 		public void Clear()
