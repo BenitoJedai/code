@@ -15,6 +15,7 @@ using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib;
 using System.Collections.Generic;
+using ScriptCoreLib.Ultra.Studio.Languages;
 
 namespace TestSolutionBuilderWithTreeView
 {
@@ -32,8 +33,19 @@ namespace TestSolutionBuilderWithTreeView
 			};
 
 			h.Container.AttachTo(a.Content);
-			var sln = new SolutionBuilder();
+			var sln = new SolutionBuilder
+			{
+				Name = "VisualBasicProject1",
+				Language = new VisualBasicLanguage()
+			};
+
 			var v = new SolutionFileView();
+
+			v.LinkCommentClick +=
+				uri =>
+				{
+					Native.Document.location.hash = uri.Fragment;
+				};
 
 			v.Container.style.height = "100%";
 
@@ -136,6 +148,10 @@ namespace TestSolutionBuilderWithTreeView
 						n.WithIcon(() => new VisualCSharpCode());
 					if (Extension == ".csproj")
 						n.WithIcon(() => new VisualCSharpProject());
+					if (Extension == ".vb")
+						n.WithIcon(() => new VisualBasicCode());
+					if (Extension == ".vbproj")
+						n.WithIcon(() => new VisualBasicProject());
 					if (Extension == ".htm")
 						n.WithIcon(() => new HTMLDocument());
 
