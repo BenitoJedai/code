@@ -42,10 +42,54 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
+			this.WriteSummary(File, Method.Summary, Method.Parameters.ToArray());
+
+
+			WriteIndent(File);
+			File.Write(Keywords.member);
+			File.WriteSpace();
+			File.Write("this");
+			File.Write(".");
+			File.Write(Method.Name);
+			File.Write("(");
+
+			var Parameters = Method.Parameters.ToArray();
+
+			for (int i = 0; i < Parameters.Length; i++)
+			{
+				if (i > 0)
+				{
+					File.Write(",");
+					File.WriteSpace();
+				}
+
+				File.Write(Parameters[i].Name);
+
+				File.WriteSpace();
+				File.Write(":");
+				File.WriteSpace();
+
+				this.WriteTypeName(File, Parameters[i].Type);
+			}
+
+			File.Write(")");
+			File.WriteSpace();
+			File.Write("=");
+			File.WriteLine();
+
+			WriteMethodBody(File, Method.Code, Context);
 		}
 
 		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context)
 		{
+			File.Indent(this,
+				delegate
+				{
+					WriteIndent(File);
+					File.Write("()");
+					File.WriteLine();
+				}
+			);
 		}
 
 		public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
@@ -106,20 +150,58 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						delegate
 						{
 							File.WriteUsingNamespaceList(this, Type);
-							
+
 							File.WriteLine();
 
+							this.WriteSummary(
+								File,
+								Type.Summary
+							);
+
 							WriteIndent(File);
-							File.Write(Keywords.type);
-							File.WriteSpace();
-							WriteTypeName(File, Type);
-							File.Write("(");
-							File.Write(")");
-							File.WriteSpace();
-							File.Write("=");
-							File.WriteSpace();
-							File.Write(Keywords.@do);
+
+							if (Type.IsStatic)
+							{
+								File.Write(Keywords.@module);
+								File.WriteSpace();
+								WriteTypeName(File, Type);
+								File.WriteSpace();
+								File.Write("=");
+							}
+							else
+							{
+								File.Write(Keywords.type);
+								File.WriteSpace();
+								WriteTypeName(File, Type);
+								File.Write("(");
+								File.Write(")");
+								File.WriteSpace();
+								File.Write("=");
+								File.WriteSpace();
+								File.Write(Keywords.@do);
+							}
 							File.WriteLine();
+
+							// .ctor !
+
+							File.Indent(this,
+								delegate
+								{
+									foreach (var item in (from m in Type.Methods where !m.IsConstructor select m).ToArray())
+									{
+										this.WriteMethod(
+											File,
+											item,
+											Context
+										);
+
+										File.WriteLine();
+									}
+
+
+
+								}
+							);
 						}
 					);
 				}
