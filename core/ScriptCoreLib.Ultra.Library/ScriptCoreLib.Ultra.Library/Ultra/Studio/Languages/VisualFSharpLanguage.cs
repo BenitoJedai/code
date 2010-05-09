@@ -158,48 +158,53 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								Type.Summary
 							);
 
-							WriteIndent(File);
-
-							if (Type.IsStatic)
-							{
-								File.Write(Keywords.@module);
-								File.WriteSpace();
-								WriteTypeName(File, Type);
-								File.WriteSpace();
-								File.Write("=");
-							}
-							else
-							{
-								File.Write(Keywords.type);
-								File.WriteSpace();
-								WriteTypeName(File, Type);
-								File.Write("(");
-								File.Write(")");
-								File.WriteSpace();
-								File.Write("=");
-								File.WriteSpace();
-								File.Write(Keywords.@do);
-							}
-							File.WriteLine();
-
-							// .ctor !
-
-							File.Indent(this,
+							File.Region(
 								delegate
 								{
-									foreach (var item in (from m in Type.Methods where !m.IsConstructor select m).ToArray())
+									WriteIndent(File);
+
+									if (Type.IsStatic)
 									{
-										this.WriteMethod(
-											File,
-											item,
-											Context
-										);
-
-										File.WriteLine();
+										File.Write(Keywords.@module);
+										File.WriteSpace();
+										WriteTypeName(File, Type);
+										File.WriteSpace();
+										File.Write("=");
 									}
+									else
+									{
+										File.Write(Keywords.type);
+										File.WriteSpace();
+										WriteTypeName(File, Type);
+										File.Write("(");
+										File.Write(")");
+										File.WriteSpace();
+										File.Write("=");
+										File.WriteSpace();
+										File.Write(Keywords.@do);
+									}
+									File.WriteLine();
+
+									// .ctor !
+
+									File.Indent(this,
+										delegate
+										{
+											foreach (var item in (from m in Type.Methods where !m.IsConstructor select m).ToArray())
+											{
+												this.WriteMethod(
+													File,
+													item,
+													Context
+												);
+
+												File.WriteLine();
+											}
 
 
 
+										}
+									);
 								}
 							);
 						}

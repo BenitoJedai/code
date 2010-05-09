@@ -135,6 +135,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationToDocumentTitleExpression.cs" />
+    <Compile Include="Ultra\Studio\InteractiveExpressions\WebMethod2Expression.cs" />
+    <Compile Include="Ultra\Studio\InteractiveExpressions\InteractiveComment.cs" />
     <Compile Include="Ultra\Studio\Languages\KnownLanguages.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualFSharpLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.Keywords.cs" />

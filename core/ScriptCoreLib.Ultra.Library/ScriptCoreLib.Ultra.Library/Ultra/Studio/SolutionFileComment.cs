@@ -34,5 +34,10 @@ namespace ScriptCoreLib.Ultra.Studio
 		public int MarginBottom;
 
 		public Func<SolutionBuilder, bool> IsActiveFilter;
+
+		public static implicit operator Uri(SolutionFileComment that)
+		{
+			return that.Link;
+		}
 	}
 }

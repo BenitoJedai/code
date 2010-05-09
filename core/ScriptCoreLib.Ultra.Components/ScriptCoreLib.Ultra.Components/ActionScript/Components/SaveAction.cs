@@ -13,6 +13,7 @@ using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Ultra.Components.Avalon.Images;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.ActionScript.Components
 {
