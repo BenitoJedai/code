@@ -11,6 +11,13 @@ namespace ScriptCoreLib.Ultra.Studio
 		Comment,
 		Keyword,
 		Type,
-		String
+		String,
+
+		XMLKeyword,
+		XMLElement,
+		XMLAttributeName,
+		XMLAttributeValue,
+		XMLText,
+		XMLComment
 	}
 }

@@ -81,6 +81,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 				}
 			}
 
+			{
+				var e = content as XComment;
+
+				if (e != null)
+				{
+					this.InternalValue.appendChild(
+						this.InternalValue.ownerDocument.createComment(e.Value)
+					);
+					return;
+				}
+			}
+
 			#region XAttribute
 			{
 				var e = (__XAttribute)(object)(content as XAttribute);
@@ -117,6 +129,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			}
 			#endregion
 
+		
 
 			throw new NotImplementedException();
 		}
@@ -137,6 +150,26 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 				}
 			}
+		}
+
+		public IEnumerable<XNode> Nodes()
+		{
+			return this.InternalElement.childNodes.Select(
+				item =>
+				{
+					if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.ElementNode)
+						return (XNode)(object)new __XElement(null, null) { InternalValue = item };
+
+					if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.TextNode)
+						return (XNode)(object)new __XText() { InternalValue = item };
+
+					if (item.nodeType == ScriptCoreLib.JavaScript.DOM.INode.NodeTypeEnum.CommentNode)
+						return (XNode)(object)new __XComment(null) { InternalValue = item };
+
+					// ?
+					return null;
+				}
+			).Where(k => k != null);
 		}
 	}
 }

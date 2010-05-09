@@ -8,6 +8,12 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public class SolutionFile
 	{
+		public SolutionFile()
+		{
+			this.Indent = new Stack<Action>();
+			this.Indent.Push(delegate { });
+		}
+
 		public SolutionFile DependentUpon;
 
 		public string Name;
@@ -34,8 +40,10 @@ namespace ScriptCoreLib.Ultra.Studio
 		// does our java output support generics already?
 		public readonly List<SolutionFileWriteArguments> WriteHistory = new List<SolutionFileWriteArguments>();
 
+		[Obsolete]
 		public int CurrentIndent { get; set; }
 
+		public readonly Stack<Action> Indent;
 
 
 		public void Write(string Text)
@@ -101,5 +109,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			Write(" ");
 		}
+
+
 	}
 }

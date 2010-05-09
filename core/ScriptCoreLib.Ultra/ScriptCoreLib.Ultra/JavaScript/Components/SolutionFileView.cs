@@ -32,6 +32,13 @@ namespace ScriptCoreLib.JavaScript.Components
 				{ SolutionFileTextFragment.String, Color.FromRGB(0x80, 0, 0) },
 				{ SolutionFileTextFragment.Type, Color.FromRGB(43, 145, 175) },
 
+				{ SolutionFileTextFragment.XMLKeyword, Color.FromRGB(0, 0, 0xff) },
+				{ SolutionFileTextFragment.XMLElement, Color.FromRGB(0x80, 0, 0) },
+				{ SolutionFileTextFragment.XMLAttributeName, Color.FromRGB(0xff, 0, 0) },
+				{ SolutionFileTextFragment.XMLAttributeValue, Color.FromRGB(0, 0, 0xff) },
+				{ SolutionFileTextFragment.XMLComment, Color.FromRGB(0, 0x80, 0) },
+				{ SolutionFileTextFragment.XMLText, Color.None},
+
 			};
 
 			this.Container = new IHTMLDiv();
@@ -61,6 +68,15 @@ namespace ScriptCoreLib.JavaScript.Components
 
 		private void RenderWriteHistory(Dictionary<SolutionFileTextFragment, Color> Lookup, SolutionFile f, IHTMLElement Container)
 		{
+			Func<SolutionFileTextFragment, Color> LookupOrDefault =
+				ff =>
+				{
+					if (this.Colors.ContainsKey(ff))
+						return this.Colors[ff];
+
+					return this.Colors[SolutionFileTextFragment.None];
+				};
+
 			var Content = new IHTMLDiv().AttachTo(Container);
 
 
@@ -131,8 +147,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 								if (IsActive)
 								{
-									cc.style.backgroundColor = Color.FromGray(0xf7);
-									cb.style.backgroundColor = Color.FromGray(0xf7);
+									cc.style.backgroundColor = Color.FromGray(0xfc);
+									cb.style.backgroundColor = Color.FromGray(0xfc);
 								}
 								else
 								{
@@ -148,8 +164,8 @@ namespace ScriptCoreLib.JavaScript.Components
 					delegate
 					{
 						CurrentRegion.Invoke(true);
-						cc.style.backgroundColor = Color.FromGray(0xef);
-						cb.style.backgroundColor = Color.FromGray(0xef);
+						cc.style.backgroundColor = Color.FromGray(0xf7);
+						cb.style.backgroundColor = Color.FromGray(0xf7);
 					};
 
 				CurrentLine.onmouseout +=
@@ -202,7 +218,16 @@ namespace ScriptCoreLib.JavaScript.Components
 				if (!string.IsNullOrEmpty(innerText))
 				{
 					var span = new IHTMLCode { innerText = innerText };
-					span.style.color = Lookup[item.Fragment];
+
+					if (innerText == "\t")
+					{
+						span.innerText = " ";
+						span.style.width = "2em";
+						span.style.display = IStyle.DisplayEnum.inline_block;
+					}
+
+
+					span.style.color = LookupOrDefault(item.Fragment);
 
 					CurrentLineDirty = true;
 					span.AttachTo(CurrentLineContent);
@@ -241,7 +266,7 @@ namespace ScriptCoreLib.JavaScript.Components
 						if (Uri != null)
 						{
 							var a = new IHTMLAnchor();
-							a.style.color = Lookup[item.Fragment];
+							a.style.color = LookupOrDefault(item.Fragment);
 
 							a.href = Uri.ToString();
 							a.target = "_blank";
