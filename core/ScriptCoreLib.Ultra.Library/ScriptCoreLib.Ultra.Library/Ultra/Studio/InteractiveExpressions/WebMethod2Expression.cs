@@ -70,7 +70,27 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 				},
 
 				ParameterExpressions = new[] {
-					new PseudoConstantExpression { Value = "Data" }
+					new PseudoCallExpression {
+						
+						Method = new SolutionProjectLanguageMethod
+						{
+							DeclaringType = new SolutionProjectLanguageType
+							{
+								Namespace = "System.Xml.Linq",
+								Name = "XName"
+							},
+							IsStatic = true,
+							Name = SolutionProjectLanguageMethod.op_Implicit
+						},
+						ParameterExpressions = new []
+						{
+							new PseudoConstantExpression { 
+								Value = 
+									"Data" 
+							}
+						}
+					}
+					
 				}
 			};
 

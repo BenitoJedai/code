@@ -405,6 +405,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
 		{
+			if (Lambda.Method.Name == SolutionProjectLanguageMethod.op_Implicit)
+			{
+				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
+				return;
+			}
+
 			var Objectless = true;
 
 			if (Lambda.Method.IsExtensionMethod)

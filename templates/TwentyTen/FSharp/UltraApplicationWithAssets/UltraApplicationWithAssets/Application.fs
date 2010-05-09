@@ -15,20 +15,25 @@ open global.System.Reflection
 open global.UltraApplicationWithAssets.HTML.Pages
 open global.UltraApplicationWithAssets.HTML.Audio.FromAssets
 open global.ScriptCoreLib.JavaScript.Runtime
+open global.ScriptCoreLib.Extensions
 
 
 // http://stackoverflow.com/questions/2269625/using-assembly-attributes-in-f
-[<assembly: AssemblyTitleAttribute("Ultra Application With Assets")>] 
+[<assembly: AssemblyTitleAttribute("Ultra Application With Assets")>] do()
 [<assembly: AssemblyDescriptionAttribute("Ultra Application With Assets. Write javascript, flash and java applets within a F# project. http://jsc-solutions.net")>] 
 [<assembly: AssemblyCompanyAttribute("jsc-solutions.net")>] 
+[<assembly: ObfuscationAttribute(Feature = "merge")>] 
 do ()
    
    // http://lorgonblog.spaces.live.com/blog/cns!701679AD17B6D310!725.entry
 
 [<Sealed>]
  type Application(a : IAboutJSC) = do
-    
-    Native.Document.title <- "UltraApplicationWithAssets"
+    // Update document title
+    // http://do.jsc-solutions.net/Update-document-title
+
+    do "VisualFSharpProject1".ToDocumentTitle() |> ignore
+    ()
 
     a.Inline1.add_onclick(
         fun (e) ->

@@ -24,6 +24,11 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 				{
 					Namespace = "ScriptCoreLib.JavaScript.Extensions",
 					Name = "JavaScriptStringExtensions"
+				},
+				ReturnType = new SolutionProjectLanguageType
+				{
+					Namespace = "System",
+					Name = "String"
 				}
 			};
 

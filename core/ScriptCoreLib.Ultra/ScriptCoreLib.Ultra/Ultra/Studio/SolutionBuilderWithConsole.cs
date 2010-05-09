@@ -35,7 +35,10 @@ namespace ScriptCoreLib.Ultra.Studio
 					//if (SolutionFile.WriteHistory.Count > 1)
 					foreach (var item in SolutionFile.WriteHistory)
 					{
-						Console.ForegroundColor = Lookup[item.Fragment];
+						if (Lookup.ContainsKey(item.Fragment))
+							Console.ForegroundColor = Lookup[item.Fragment];
+						else
+							Console.ForegroundColor = ConsoleColor.Gray;
 						Console.Write(item.Text);
 
 					}

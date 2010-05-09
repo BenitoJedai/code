@@ -351,7 +351,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 				{
-					FileHeader.WriteTo(AssemblyInfo, Context.Language, Context);
+					AssemblyInfo.Write(Context.Language, Context, FileComments);
 
 					AssemblyInfo.WriteLine();
 

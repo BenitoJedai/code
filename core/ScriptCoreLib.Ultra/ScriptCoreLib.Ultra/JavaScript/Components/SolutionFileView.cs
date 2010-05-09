@@ -147,8 +147,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 								if (IsActive)
 								{
-									cc.style.backgroundColor = Color.FromGray(0xfa);
-									cb.style.backgroundColor = Color.FromGray(0xfa);
+									cc.style.backgroundColor = Color.FromGray(0xf9);
+									cb.style.backgroundColor = Color.FromGray(0xf9);
 								}
 								else
 								{
@@ -164,8 +164,8 @@ namespace ScriptCoreLib.JavaScript.Components
 					delegate
 					{
 						CurrentRegion.Invoke(true);
-						cc.style.backgroundColor = Color.FromGray(0xf7);
-						cb.style.backgroundColor = Color.FromGray(0xf7);
+						cc.style.backgroundColor = Color.FromGray(0xf0);
+						cb.style.backgroundColor = Color.FromGray(0xf0);
 					};
 
 				CurrentLine.onmouseout +=
@@ -225,7 +225,7 @@ namespace ScriptCoreLib.JavaScript.Components
 						span.style.display = IStyle.DisplayEnum.inline_block;
 
 						if (CurrentLineDirty)
-							span.style.borderLeft = "1px dotted #efefef";
+							span.style.borderLeft = "1px dotted #7f7f7f";
 					}
 
 
