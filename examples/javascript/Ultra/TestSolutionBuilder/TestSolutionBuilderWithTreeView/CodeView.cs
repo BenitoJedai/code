@@ -44,11 +44,11 @@ namespace TestSolutionBuilderWithTreeView
 			// phase 1 has only one project at once.
 
 			var _Solution = new TreeNode(VistaTreeNodePage.Create);
-			_Solution.Text = "Solution '" + sln.Name + "' (1 project)";
-			_Solution.IsExpanded = true;
 
-			var _Project = _Solution.Add(sln.Name);
-			_Project.IsExpanded = true;
+
+			var _Project = _Solution.Add();
+
+
 
 
 
@@ -86,6 +86,7 @@ namespace TestSolutionBuilderWithTreeView
 				delegate
 				{
 					sln.Language = new VisualCSharpLanguage();
+					sln.Name = "VisualCSharpProject1";
 					Update();
 				}
 			);
@@ -94,6 +95,7 @@ namespace TestSolutionBuilderWithTreeView
 				delegate
 				{
 					sln.Language = new VisualBasicLanguage();
+					sln.Name = "VisualBasicProject1";
 					Update();
 				}
 			);
@@ -103,6 +105,7 @@ namespace TestSolutionBuilderWithTreeView
 				delegate
 				{
 					sln.Language = new VisualFSharpLanguage();
+					sln.Name = "VisualFSharpProject1";
 					Update();
 				}
 			);
@@ -167,6 +170,14 @@ namespace TestSolutionBuilderWithTreeView
 
 		private static void UpdateTree(SolutionBuilder sln, SolutionFileView v, TreeNode _Solution, TreeNode _Project)
 		{
+			_Solution.Text = "Solution '" + sln.Name + "' (1 project)";
+			_Solution.IsExpanded = true;
+
+			_Solution.WithIcon(() => new SolutionTwentyTen());
+
+			_Project.Text = sln.Name;
+			_Project.IsExpanded = true;
+
 			// Or my project?
 			var _Properties = _Project.Add("Properties");
 			_Properties.IsExpanded = true;
@@ -288,7 +299,7 @@ namespace TestSolutionBuilderWithTreeView
 					else
 					{
 						// we may not care about the file extensions, will we see a glitch? :)
-						if (v.File.Name.TakeUntilLastIfAny(".") == f.Name.TakeUntilLastIfAny("."))
+						if (v.File.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") == f.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny("."))
 							v.File = f;
 					}
 				}

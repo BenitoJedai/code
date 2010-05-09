@@ -9,10 +9,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 	{
 		public static class Keywords
 		{
+			// keywords vs operators? :)
+			// http://msdn.microsoft.com/en-us/library/ee353754.aspx
+
 			public static Keyword
 					@global = "global",
 					@open = "open",
 					@type = "type",
+					@typeof = "typeof",
 					@do = "do",
 					@member = "member",
 					@assembly = "assembly",

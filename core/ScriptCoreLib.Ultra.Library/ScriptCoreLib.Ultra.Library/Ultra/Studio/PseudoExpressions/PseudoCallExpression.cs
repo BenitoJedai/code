@@ -7,6 +7,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 {
 	public class PseudoCallExpression
 	{
+
 		public SolutionFileComment Comment;
 
 		public object Object;

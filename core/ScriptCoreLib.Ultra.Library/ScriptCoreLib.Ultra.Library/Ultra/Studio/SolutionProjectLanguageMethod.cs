@@ -7,6 +7,8 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public class SolutionProjectLanguageMethod
 	{
+		public const string op_Implicit = "op_Implicit";
+
 		public const string ConstructorName = ".ctor";
 
 		public bool IsConstructor
@@ -31,5 +33,11 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public bool IsProperty;
 		public bool IsExtensionMethod;
+
+		/// <summary>
+		/// In FSharp we may need to use "|> ignore" operator
+		/// </summary>
+		public SolutionProjectLanguageType ReturnType;
+
 	}
 }

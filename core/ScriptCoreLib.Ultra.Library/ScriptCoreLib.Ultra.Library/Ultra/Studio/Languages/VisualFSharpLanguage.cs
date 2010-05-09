@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -54,6 +55,23 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.Write("(");
 
 			var Parameters = Method.Parameters.ToArray();
+			InternalWriteParameters(File, Parameters);
+
+			File.Write(")");
+			File.WriteSpace();
+			File.Write("=");
+			File.WriteLine();
+
+			File.Indent(this,
+				delegate
+				{
+					WriteMethodBody(File, Method.Code, Context);
+				}
+			);
+		}
+
+		private void InternalWriteParameters(SolutionFile File, SolutionProjectLanguageArgument[] Parameters)
+		{
 
 			for (int i = 0; i < Parameters.Length; i++)
 			{
@@ -71,25 +89,59 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 				this.WriteTypeName(File, Parameters[i].Type);
 			}
-
-			File.Write(")");
-			File.WriteSpace();
-			File.Write("=");
-			File.WriteLine();
-
-			WriteMethodBody(File, Method.Code, Context);
 		}
 
 		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context)
 		{
-			File.Indent(this,
-				delegate
+
+			// ? :)
+			foreach (var item in Code.History.ToArray())
+			{
 				{
-					WriteIndent(File);
-					File.Write("()");
+					var Comment = item as string;
+					if (Comment != null)
+					{
+						this.WriteIndent(File);
+						this.WriteCommentLine(File, Comment);
+					}
+				}
+
+				{
+					var Comment = item as SolutionFileComment;
+					if (Comment != null)
+					{
+						Comment.WriteTo(File, this, Context);
+						return;
+					}
+				}
+
+				var Lambda = item as PseudoCallExpression;
+
+				if (Lambda != null)
+				{
+					if (Lambda.Comment != null)
+						Lambda.Comment.WriteTo(File, this, Context);
+
+					this.WriteIndent(File);
+					File.Write(Keywords.@do);
+					File.WriteSpace();
+					WritePseudoCallExpression(File, Lambda);
+					if (Lambda.Method.ReturnType != null)
+					{
+						File.WriteSpace();
+						File.Write("|>");
+						File.WriteSpace();
+						File.Write("ignore");
+					}
+
 					File.WriteLine();
 				}
-			);
+			}
+
+			WriteIndent(File);
+			File.Write("()");
+			File.WriteLine();
+
 		}
 
 		public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
@@ -163,6 +215,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								{
 									WriteIndent(File);
 
+									var Constructor = Type.Methods.SingleOrDefault(k => k.IsConstructor);
+
+
 									if (Type.IsStatic)
 									{
 										File.Write(Keywords.@module);
@@ -170,6 +225,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 										WriteTypeName(File, Type);
 										File.WriteSpace();
 										File.Write("=");
+
+										File.WriteLine();
+
 									}
 									else
 									{
@@ -177,19 +235,39 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 										File.WriteSpace();
 										WriteTypeName(File, Type);
 										File.Write("(");
+
+										if (Constructor != null)
+											this.InternalWriteParameters(File, Constructor.Parameters.ToArray());
+
 										File.Write(")");
 										File.WriteSpace();
 										File.Write("=");
 										File.WriteSpace();
 										File.Write(Keywords.@do);
+
+										File.WriteLine();
+
+										
 									}
-									File.WriteLine();
 
 									// .ctor !
 
 									File.Indent(this,
 										delegate
 										{
+											if (!Type.IsStatic)
+											{
+
+												if (Constructor != null)
+												{
+													this.WriteMethodBody(
+														File, Constructor.Code, Context
+													);
+												}
+
+												File.WriteLine();
+											}
+
 											foreach (var item in (from m in Type.Methods where !m.IsConstructor select m).ToArray())
 											{
 												this.WriteMethod(
@@ -216,6 +294,68 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute)
 		{
+			// http://msdn.microsoft.com/en-us/library/dd233179.aspx
+
+			File.Write("<");
+			File.Write(Keywords.assembly);
+			File.Write(": ");
+
+			this.WriteTypeName(File, Attribute.Type);
+			File.Write("(");
+
+			var args = new List<Action>();
+
+			if (Attribute.Parameters != null)
+			{
+				args.AddRange(
+					from item in Attribute.Parameters
+					select (Action)delegate
+					{
+						this.WritePseudoExpression(File, item);
+					}
+				);
+			}
+
+
+			if (Attribute.Properties != null)
+			{
+				args.AddRange(
+					from item in Attribute.Properties.ToArray()
+					select (Action)delegate
+					{
+						this.WritePseudoCallExpression(File,
+							new PseudoCallExpression
+							{
+								Method = item.Key,
+								ParameterExpressions = new[] {
+										item.Value
+									}
+							}
+						);
+					}
+				);
+
+			}
+
+			Action Separator = delegate
+			{
+				File.Write(",");
+				File.WriteSpace();
+			};
+
+			var BeforeSeparator = args.ToArray();
+			var AfterSeparator = BeforeSeparator.SelectWithSeparator(Separator).ToArray();
+
+			AfterSeparator.Invoke();
+
+			File.Write(")");
+			File.Write(">");
+
+			File.WriteSpace();
+			File.Write(Keywords.@do);
+			File.Write("()");
+
+			File.WriteLine();
 		}
 
 		public override void WriteUsingNamespace(SolutionFile File, string item)
@@ -231,10 +371,132 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WritePseudoExpression(SolutionFile File, object Parameter)
 		{
+			var Code = Parameter as string;
+			if (Code != null)
+			{
+				File.Write(Code);
+				return;
+			}
+
+			var Constant = Parameter as PseudoConstantExpression;
+			if (Constant != null)
+			{
+				var Value = (string)Constant.Value;
+				File.Write(SolutionFileTextFragment.String,
+					// jsc escape string
+					"\"" + Value.Replace("\"", "\"\"") + "\""
+				);
+				return;
+			}
+
+
+
+			var Call = Parameter as PseudoCallExpression;
+			if (Call != null)
+			{
+				WritePseudoCallExpression(File, Call);
+				return;
+			}
+
+			var Type = Parameter as SolutionProjectLanguageType;
+			if (Type != null)
+			{
+				File.Write(Keywords.@typeof);
+				File.Write("<");
+				WriteTypeName(File, Type);
+				File.Write(">");
+				return;
+			}
 		}
 
 		public override void WritePseudoCallExpression(SolutionFile File, ScriptCoreLib.Ultra.Studio.PseudoExpressions.PseudoCallExpression Lambda)
 		{
+			var Objectless = true;
+
+			if (Lambda.Method.IsExtensionMethod)
+			{
+				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
+				Objectless = false;
+			}
+			else
+			{
+				if (Lambda.Method.IsStatic)
+				{
+					if (Lambda.Method.DeclaringType != null)
+					{
+						WriteTypeName(File, Lambda.Method.DeclaringType);
+						Objectless = false;
+					}
+				}
+				else
+				{
+					if (Lambda.Object != null)
+					{
+						WritePseudoExpression(File, Lambda.Object);
+						Objectless = false;
+					}
+				}
+			}
+
+
+
+			var Target = Lambda.Method.Name;
+
+			if (Lambda.Method.IsProperty)
+			{
+				Target = Target.SkipUntilIfAny("set_").SkipUntilIfAny("get_");
+
+			}
+
+			if (!Objectless)
+			{
+				File.Write(".");
+			}
+
+			File.Write(
+				new SolutionFileWriteArguments
+				{
+					Fragment = SolutionFileTextFragment.None,
+					Text = Target,
+					Tag = Lambda.Method
+				}
+			);
+
+			if (Lambda.Method.IsProperty)
+			{
+				File.WriteSpace();
+				File.Write("=");
+				File.WriteSpace();
+				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
+
+			}
+			else
+			{
+
+				File.Write("(");
+
+				var Parameters = Lambda.ParameterExpressions.ToArray();
+
+				var FirstParameter = 0;
+
+				if (Lambda.Method.IsExtensionMethod)
+					FirstParameter = 1;
+
+				for (int i = FirstParameter; i < Parameters.Length; i++)
+				{
+					if (i > 0)
+					{
+						File.Write(",");
+						File.WriteSpace();
+					}
+
+					var Parameter = Parameters[i];
+
+					WritePseudoExpression(File, Parameter);
+				}
+
+				File.Write(")");
+			}
 		}
 	}
 }

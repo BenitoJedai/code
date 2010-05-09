@@ -10,7 +10,11 @@ namespace ScriptCoreLib.Ultra.Studio.StockAttributes
 	{
 		public StockAttributeObfuscation()
 		{
-			Type = new SolutionProjectLanguageType { Name = "Obfuscation" };
+			Type = new SolutionProjectLanguageType
+			{
+				Namespace = "System",
+				Name = "Obfuscation"
+			};
 
 			var set_Feature = new SolutionProjectLanguageMethod
 			{

@@ -1,9 +1,13 @@
 namespace UltraApplicationWithAssets
 
+open jsc.meta.Commands.Rewrite.RewriteToUltraApplication
+ 
 module Program =
     [<Microsoft.FSharp.Core.EntryPoint>]
-    let Main args =
-        let PrimaryApplication = typeof<UltraApplicationWithAssets.Application>
-        do global.jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(PrimaryApplication) 
-        0
+    Program.Main args =
+        // Prepare the yield value for
+        do RewriteToUltraApplication.AsProgram.Launch(typeof<Application>)
+        ()
+
+        
 
