@@ -95,6 +95,7 @@
     <Compile Include="ApplicationWebService.GetTime.cs">
       <DependentUpon>ApplicationWebService.cs</DependentUpon>
     </Compile>
+    <Compile Include="CodeView.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>

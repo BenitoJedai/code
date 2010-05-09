@@ -109,7 +109,11 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				if (Native.Document.location.hash.StartsWith("#/studio"))
+				if (Native.Document.location.hash.StartsWith("#/studio1"))
+				{
+					TestSolutionBuilderWithTreeView.CodeView.CreateView().Container.AttachToDocument();
+				}
+				else if (Native.Document.location.hash.StartsWith("#/studio"))
 				{
 					var view = new VisualStudioView();
 
@@ -122,7 +126,7 @@ namespace PromotionWebApplication1
 
 							new SolutionBuilder().WriteTo(i.Add);
 
-							
+
 
 						}
 					);
@@ -167,6 +171,7 @@ namespace PromotionWebApplication1
 					);
 
 				}
+
 				else if (Native.Document.location.hash == "#/source")
 				{
 

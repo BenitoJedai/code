@@ -16,5 +16,13 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 		public object[] ParameterExpressions;
 
 		public bool IsAttributeContext;
+
+		public static implicit operator Uri(PseudoCallExpression that)
+		{
+			if (that.Comment == null)
+				return null;
+
+			return that.Comment.Link;
+		}
 	}
 }

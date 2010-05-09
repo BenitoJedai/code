@@ -5,11 +5,13 @@ using System.Text;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using ScriptCoreLib.Extensions;
 
-namespace ScriptCoreLib.Ultra.Studio.StockMethods
+namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
-	public class StockMethodWebMethod : SolutionProjectLanguageMethod
+	public class WebMethod2Expression : PseudoCallExpression
 	{
-		public StockMethodWebMethod(SolutionBuilderInteractive Interactive)
+		public PseudoConstantExpression Title { get; private set; }
+
+		public WebMethod2Expression()
 		{
 			var _XElement = new SolutionProjectLanguageType
 			{
@@ -54,31 +56,36 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			};
 			#endregion
 
-			this.Name = "WebMethod2";
-			this.Summary = "This Method is a javascript callable method.";
 
-			this.Code = new SolutionProjectLanguageCode
+			this.Comment = (InteractiveComment)"Send something back from WebMethod2";
+
+			this.Object = new PseudoCallExpression
 			{
-				Interactive.WebMethod2,
+				Object = _e.Name,
 
-				"Send it to the caller.",
-				new PseudoCallExpression
+				Method = new SolutionProjectLanguageMethod
 				{
-					Object = _y.Name,
+					DeclaringType = _XElement,
+					Name = "Element"
+				},
 
-					Method =  new SolutionProjectLanguageMethod { Name = "Invoke" },
-
-					ParameterExpressions = new [] {
-						_e.Name
-					}
+				ParameterExpressions = new[] {
+					new PseudoConstantExpression { Value = "Data" }
 				}
 			};
 
+			this.Method = new SolutionProjectLanguageMethod
+			{
+				DeclaringType = _XElement,
+				Name = "ReplaceWith"
+			};
 
-			this.Parameters.Add(_e);
+			this.Title = new PseudoConstantExpression { Value = "Data from the web server" };
 
-			this.Parameters.Add(_y);
+			ParameterExpressions = new[] {
+				this.Title
+			};
 		}
-
 	}
+
 }

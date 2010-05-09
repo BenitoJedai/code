@@ -280,8 +280,7 @@ namespace ScriptCoreLib.Ultra.Studio
 					ApplicationWebServiceType.UsingNamespaces.Add("System.Linq");
 					ApplicationWebServiceType.UsingNamespaces.Add("System.Xml.Linq");
 					ApplicationWebServiceType.UsingNamespaces.Add("ScriptCoreLib");
-					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod2"));
-					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod3"));
+					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod(Context.Interactive));
 
 					Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType, Context);
 				}

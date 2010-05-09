@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Library.Templates.JavaScript
 {

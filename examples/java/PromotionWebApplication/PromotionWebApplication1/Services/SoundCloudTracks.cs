@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace PromotionWebApplication1.Services
 {

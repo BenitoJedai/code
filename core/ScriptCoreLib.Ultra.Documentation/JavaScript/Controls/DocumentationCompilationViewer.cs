@@ -14,6 +14,7 @@ using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript.Components;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.JavaScript.Controls
 {

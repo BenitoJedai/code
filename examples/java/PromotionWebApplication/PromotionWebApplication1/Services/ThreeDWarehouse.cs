@@ -6,6 +6,7 @@ using System.Net;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using System.Collections;
 using System.Xml.Linq;
+using ScriptCoreLib.Extensions;
 
 namespace PromotionWebApplication1.Services
 {
