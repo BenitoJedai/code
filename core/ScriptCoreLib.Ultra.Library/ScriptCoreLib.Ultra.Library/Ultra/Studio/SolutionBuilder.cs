@@ -23,8 +23,11 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public SolutionProjectLanguage Language { get; set; }
 
+		public SolutionBuilderInteractive Interactive { get; set; }
+
 		public SolutionBuilder()
 		{
+			this.Interactive = new SolutionBuilderInteractive();
 			this.ApplicationPage = StockPageDefault.Element;
 			this.Name = "VisualCSharpProject1";
 			this.Language = new Languages.VisualCSharpLanguage();
@@ -76,7 +79,9 @@ namespace ScriptCoreLib.Ultra.Studio
 			{
 				var a = new List<XElement>();
 
-				VisualStudioTemplates.VisualCSharpProjectReferences.Elements().WithEach(a.Add);
+				a.AddRange(
+					VisualStudioTemplates.VisualCSharpProjectReferences.Elements()
+				);
 
 				var Reference =
 					new XElement("Reference",
@@ -268,7 +273,7 @@ namespace ScriptCoreLib.Ultra.Studio
 					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod2"));
 					ApplicationWebServiceType.Methods.Add(new StockMethodWebMethod("WebMethod3"));
 
-					Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType);
+					Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType, Context);
 				}
 
 				ItemGroupForCompile.Add(
@@ -311,9 +316,9 @@ namespace ScriptCoreLib.Ultra.Studio
 				ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
 
 
-				ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType));
+				ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType, Context.Interactive));
 
-				Context.Language.WriteType(Application, ApplicationType);
+				Context.Language.WriteType(Application, ApplicationType, Context);
 
 				ItemGroupForCompile.Add(
 					new XElement("Compile",
@@ -336,7 +341,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 				{
-					FileHeader.WriteTo(AssemblyInfo, Context.Language);
+					FileHeader.WriteTo(AssemblyInfo, Context.Language, Context);
 
 					AssemblyInfo.WriteLine();
 
@@ -415,7 +420,7 @@ associated with an assembly."
 					ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
 					ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
 
-					Context.Language.WriteType(Program, ProgramType);
+					Context.Language.WriteType(Program, ProgramType, Context);
 				}
 
 				ItemGroupForCompile.Add(

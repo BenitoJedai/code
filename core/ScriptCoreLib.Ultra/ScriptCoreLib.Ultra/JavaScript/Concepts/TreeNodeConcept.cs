@@ -197,6 +197,16 @@ namespace ScriptCoreLib.JavaScript.Concepts
 			return c;
 		}
 
+		public void Clear()
+		{
+			this.Element.ChildContainer.Clear();
+
+			InternalChildren.Clear();
+
+			InternalUpdate();
+		}
+
+
 		public IHTMLDiv Container
 		{
 			get

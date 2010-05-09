@@ -42,12 +42,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			throw new NotImplementedException();
 		}
 
-		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method)
+		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
 			throw new NotImplementedException();
 		}
 
-		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code)
+		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context)
 		{
 			throw new NotImplementedException();
 		}
@@ -57,7 +57,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			throw new NotImplementedException();
 		}
 
-		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type)
+		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context)
 		{
 			throw new NotImplementedException();
 		}

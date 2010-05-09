@@ -7,6 +7,16 @@ namespace ScriptCoreLib.Extensions
 {
 	public static class LinqExtensions
 	{
+		public static int Times(this int e, Action y)
+		{
+			for (int i = 0; i < e; i++)
+			{
+				y();
+			}
+
+			return e;
+		}
+
 		public static T With<T>(this T e, Action<T> h) where T : class
 		{
 			h(e);
