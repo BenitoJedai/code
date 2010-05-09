@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 {
 	public class StockMethodApplication : SolutionProjectLanguageMethod
 	{
-		public StockMethodApplication(SolutionProjectLanguageType DeclaringType)
+		public StockMethodApplication(SolutionProjectLanguageType DeclaringType, SolutionBuilderInteractive Interactive)
 		{
 			// note: this method will run under javascript
 
@@ -28,33 +28,15 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 			this.Name = SolutionProjectLanguageMethod.ConstructorName;
 			this.Summary = "This is a javascript application.";
+
+		
+
 			this.Code = new SolutionProjectLanguageCode
 			{
-				new SolutionFileComment
-				{
-					Comment = "Change the title",
-					Link = new Uri("http://do.jsc-solutions.net/#Change-the-title")
-				},
+				Interactive.ApplicationToDocumentTitle,
 
-				"Native.Document.title = \"Hello world\";",
-
-					new SolutionFileComment
-				{
-					Comment = "Undo: Change the title",
-					Link = new Uri("http://do.jsc-solutions.net/#Undo-Change-the-title")
-				},
-
-
-				new SolutionFileComment
-				{
-					Comment = "Add HTML via XElement",
-					Link = new Uri("http://do.jsc-solutions.net/#Add-HTML-via-XElement")
-				},
-
-
-				"Hello world",
-				"Native.Document.Title = new WebService().GetTitle()",
 			};
+
 			this.DeclaringType = DeclaringType;
 			this.Parameters.Add(_page);
 		}

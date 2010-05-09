@@ -53,7 +53,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 						Name = "Launch" 
 					},
 
-					Parameters = new [] {
+					ParameterExpressions = new [] {
 						ApplicationType
 					}
 				},

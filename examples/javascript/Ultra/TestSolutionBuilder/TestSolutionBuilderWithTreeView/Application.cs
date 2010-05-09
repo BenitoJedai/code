@@ -41,11 +41,7 @@ namespace TestSolutionBuilderWithTreeView
 
 			var v = new SolutionFileView();
 
-			v.LinkCommentClick +=
-				uri =>
-				{
-					Native.Document.location.hash = uri.Fragment;
-				};
+
 
 			v.Container.style.height = "100%";
 
@@ -59,6 +55,56 @@ namespace TestSolutionBuilderWithTreeView
 			_Project.IsExpanded = true;
 
 
+
+			h.LeftContainer = v.Container;
+			h.RightContainer = _Solution.Container;
+
+
+			v.LinkCommentClick +=
+				uri =>
+				{
+					if (uri == sln.Interactive.ToVisualCSharpLanguage.Link)
+					{
+						sln.Language = new VisualCSharpLanguage();
+
+						_Project.Clear();
+						UpdateTree(sln, v, _Solution, _Project);
+						return;
+					}
+
+					if (uri == sln.Interactive.ToVisualBasicLanguage.Link)
+					{
+						sln.Language = new VisualBasicLanguage();
+
+						_Project.Clear();
+						UpdateTree(sln, v, _Solution, _Project);
+						return;
+					}
+
+					if (uri == sln.Interactive.ApplicationToDocumentTitle.Comment.Link)
+					{
+
+						var Now = DateTime.Now;
+
+						sln.Interactive.ApplicationToDocumentTitle.Title.Value =
+							"Dynamic at " + Now.ToString();
+
+						_Project.Clear();
+						UpdateTree(sln, v, _Solution, _Project);
+						return;
+					}
+
+
+					Native.Document.location.hash = uri.Fragment;
+				};
+
+
+			UpdateTree(sln, v, _Solution, _Project);
+		}
+
+		private static void UpdateTree(SolutionBuilder sln, SolutionFileView v, TreeNode _Solution, TreeNode _Project)
+		{
+			// Or my project?
 			var _Properties = _Project.Add("Properties");
 			_Properties.IsExpanded = true;
 			_Properties.WithIcon(() => new SolutionProjectProperties());
@@ -67,15 +113,14 @@ namespace TestSolutionBuilderWithTreeView
 			_References.IsExpanded = false;
 			_References.WithIcon(() => new References());
 
-		
-			sln.References.WithEach(
-				k =>
-				{
-					var _Reference = _References.Add(k.Attribute("Include").Value.TakeUntilIfAny(","));
-					_Reference.IsExpanded = true;
-					_Reference.WithIcon(() => new Assembly());
-				}
-			);
+
+			foreach (var item in sln.References.ToArray())
+			{
+				var _Reference = _References.Add(item.Attribute("Include").Value.TakeUntilIfAny(","));
+				_Reference.IsExpanded = true;
+				_Reference.WithIcon(() => new Assembly());
+			}
+
 
 			var FolderLookup = new Dictionary<string, TreeNode>();
 			var FileLookup = new Dictionary<SolutionFile, TreeNode>();
@@ -83,8 +128,6 @@ namespace TestSolutionBuilderWithTreeView
 			FolderLookup[_Properties.Text] = _Properties;
 
 
-			h.LeftContainer = v.Container;
-			h.RightContainer = _Solution.Container;
 
 
 			var files = sln.ToFiles();
@@ -137,6 +180,7 @@ namespace TestSolutionBuilderWithTreeView
 						if (f.DependentUpon != null)
 						{
 							Parent = FileLookup[f.DependentUpon];
+							Parent.IsExpanded = false;
 						}
 
 						n = Parent.Add(ProjectInclude.SkipUntilLastIfAny("/"));
@@ -167,6 +211,19 @@ namespace TestSolutionBuilderWithTreeView
 						{
 							v.File = f;
 						};
+
+					// somebody refreshed the solution.
+					if (v.File == null)
+					{
+						if (f.Name.TakeUntilLastIfAny(".") == "Application")
+							v.File = f;
+					}
+					else
+					{
+						// we may not care about the file extensions, will we see a glitch? :)
+						if (v.File.Name.TakeUntilLastIfAny(".") == f.Name.TakeUntilLastIfAny("."))
+							v.File = f;
+					}
 				}
 			);
 		}

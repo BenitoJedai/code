@@ -36,16 +36,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteIndent(SolutionFile File)
 		{
-			File.Write(SolutionFileTextFragment.None,
-				"".PadLeft(
-					File.CurrentIndent,
-				// F# will use 4x spaces
-					'\t'
-				)
+			File.CurrentIndent.Times(
+				delegate
+				{
+					File.Write("\t");
+				}
 			);
+		
 		}
 
-		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method)
+		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
 			var m = Method;
 
@@ -121,13 +121,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.Write(")");
 					File.WriteLine();
 
-					this.WriteMethodBody(File, m.Code);
+					this.WriteMethodBody(File, m.Code, Context);
 
 				}
 			);
 		}
 
-		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code)
+		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context)
 		{
 			// should this be an extension method to all languages?
 
@@ -149,7 +149,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					var Comment = item as SolutionFileComment;
 					if (Comment != null)
 					{
-						Comment.WriteTo(File, this);
+						Comment.WriteTo(File, this, Context);
 						return;
 					}
 				}
@@ -158,6 +158,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 				if (Lambda != null)
 				{
+					if (Lambda.Comment != null)
+						Lambda.Comment.WriteTo(File, this, Context);
+
+
 					this.WriteIndent(File);
 					WritePseudoCallExpression(File, Lambda);
 					File.WriteLine();
@@ -222,9 +226,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 		}
 
-		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type)
+		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type,  SolutionBuilder Context)
 		{
-			Type.Header.WriteTo(File, this);
+			Type.Header.WriteTo(File, this, Context);
+
+			File.WriteLine();
+
 
 			// should the namespaces be clickable?
 
@@ -288,12 +295,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 							File.CurrentIndent++;
 
+
+							Context.Interactive.ToVisualBasicLanguage.WriteTo(
+								File, this, Context
+							);
+
+							Context.Interactive.ToVisualCSharpLanguage.WriteTo(
+								File, this, Context
+							);
+
 							foreach (var item in Type.Methods.ToArray())
 							{
 
 								this.WriteMethod(
 									File,
-									item
+									item,
+									Context	
 								);
 
 
@@ -364,7 +381,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							{
 								IsAttributeContext = true,
 								Method = item.Key,
-								Parameters = new[] {
+								ParameterExpressions = new[] {
 										item.Value
 									}
 							}
@@ -403,20 +420,28 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		{
 			var Objectless = true;
 
-			if (Lambda.Method.IsStatic)
+			if (Lambda.Method.IsExtensionMethod)
 			{
-				if (Lambda.Method.DeclaringType != null)
-				{
-					WriteTypeName(File, Lambda.Method.DeclaringType);
-					Objectless = false;
-				}
+				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
+				Objectless = false;
 			}
 			else
 			{
-				if (Lambda.Object != null)
+				if (Lambda.Method.IsStatic)
 				{
-					WritePseudoExpression(File, Lambda.Object);
-					Objectless = false;
+					if (Lambda.Method.DeclaringType != null)
+					{
+						WriteTypeName(File, Lambda.Method.DeclaringType);
+						Objectless = false;
+					}
+				}
+				else
+				{
+					if (Lambda.Object != null)
+					{
+						WritePseudoExpression(File, Lambda.Object);
+						Objectless = false;
+					}
 				}
 			}
 
@@ -464,7 +489,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				}
 
 				File.WriteSpace();
-				WritePseudoExpression(File, Lambda.Parameters[0]);
+				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
 
 			}
 			else
@@ -472,11 +497,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 				File.Write("(");
 
-				var Parameters = Lambda.Parameters.ToArray();
+				var Parameters = Lambda.ParameterExpressions.ToArray();
 
-				for (int i = 0; i < Parameters.Length; i++)
+				var FirstParameter = 0;
+
+				if (Lambda.Method.IsExtensionMethod)
+					FirstParameter = 1;
+
+				for (int i = FirstParameter; i < Parameters.Length; i++)
 				{
-					if (i > 0)
+					if (i > FirstParameter)
 					{
 						File.Write(", ");
 					}

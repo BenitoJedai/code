@@ -147,8 +147,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 								if (IsActive)
 								{
-									cc.style.backgroundColor = Color.FromGray(0xfc);
-									cb.style.backgroundColor = Color.FromGray(0xfc);
+									cc.style.backgroundColor = Color.FromGray(0xfa);
+									cb.style.backgroundColor = Color.FromGray(0xfa);
 								}
 								else
 								{
@@ -221,9 +221,11 @@ namespace ScriptCoreLib.JavaScript.Components
 
 					if (innerText == "\t")
 					{
-						span.innerText = " ";
 						span.style.width = "2em";
 						span.style.display = IStyle.DisplayEnum.inline_block;
+
+						if (CurrentLineDirty)
+							span.style.borderLeft = "1px dotted #efefef";
 					}
 
 

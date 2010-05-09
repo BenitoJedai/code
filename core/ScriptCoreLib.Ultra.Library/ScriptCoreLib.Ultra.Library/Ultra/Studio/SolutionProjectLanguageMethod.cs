@@ -30,5 +30,6 @@ namespace ScriptCoreLib.Ultra.Studio
 		public SolutionProjectLanguageType DeclaringType;
 
 		public bool IsProperty;
+		public bool IsExtensionMethod;
 	}
 }

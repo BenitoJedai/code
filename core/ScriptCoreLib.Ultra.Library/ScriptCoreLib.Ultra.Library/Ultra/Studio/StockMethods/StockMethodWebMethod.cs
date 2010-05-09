@@ -71,7 +71,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 							Name = "Element" 
 						},
 
-						Parameters = new [] {
+						ParameterExpressions = new [] {
 							new PseudoConstantExpression { Value = "Data" }
 						}
 					},
@@ -80,7 +80,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 						DeclaringType = _XElement,
 						Name = "ReplaceWith" },
 
-					Parameters = new [] {
+					ParameterExpressions = new [] {
 						new PseudoConstantExpression { Value = "Method " + Name + " from the web server" }
 					}
 				},
@@ -92,7 +92,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 					Method =  new SolutionProjectLanguageMethod { Name = "Invoke" },
 
-					Parameters = new [] {
+					ParameterExpressions = new [] {
 						_e.Name
 					}
 				}

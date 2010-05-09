@@ -22,10 +22,10 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		abstract public void WriteIndent(SolutionFile File);
 
-		abstract public void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method);
-		abstract public void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code);
+		abstract public void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context);
+		abstract public void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context);
 		abstract public void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type);
-		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type);
+		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context);
 
 		abstract public void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute);
 		abstract public void WriteUsingNamespace(SolutionFile File, string item);
