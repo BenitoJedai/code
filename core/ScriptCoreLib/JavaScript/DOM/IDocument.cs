@@ -5,28 +5,42 @@ using ScriptCoreLib.JavaScript;
 namespace ScriptCoreLib.JavaScript.DOM
 {
 
-    [Script(HasNoPrototype = true)]
-    public class IDocument : INode
-    {
-        readonly internal IDOMImplementation implementation;
+	// http://www.w3schools.com/dom/dom_document.asp
+	[Script(HasNoPrototype = true)]
+	public class IDocument : INode
+	{
+		readonly internal IDOMImplementation implementation;
 
-        [Script(DefineAsStatic = true)]
-        public new void appendChild<T>(T e)
-        {
+		[Script(DefineAsStatic = true)]
+		public new void appendChild<T>(T e)
+		{
 			// what if we redirected this to root element instead? :)
 
-            throw new global::System.Exception("IDocument.appendChild is forbidden");
-        }
+			throw new global::System.Exception("IDocument.appendChild is forbidden");
+		}
 
-        public ITextNode createTextNode(string text)
-        {
-            return default(ITextNode);
-        }
+		/// <summary>
+		/// The createComment() method creates a comment node.
+		/// This method returns a Comment object.
+		/// </summary>
+		/// <param name="data">A string that specifies the data for the node</param>
+		/// <returns></returns>
+		public ICommentNode createComment(string data)
+		{
+			// http://msdn.microsoft.com/en-us/library/ms536383(VS.85).aspx
 
-        public bool hasChildNodes()
-        {
-            return default(bool);
-        }
+			return default(ICommentNode);
+		}
+
+		public ITextNode createTextNode(string text)
+		{
+			return default(ITextNode);
+		}
+
+		public bool hasChildNodes()
+		{
+			return default(bool);
+		}
 
 		// https://developer.mozilla.org/En/DOM/document.importNode
 		// http://www.alistapart.com/articles/crossbrowserscripting/
@@ -50,37 +64,37 @@ namespace ScriptCoreLib.JavaScript.DOM
 		{
 			return default(object);
 		}
-    }
-
-	
-    [Script(HasNoPrototype = true)]
-    public class IDocument<DOMElement> : IDocument
-        where DOMElement : IElement
-    {
-        internal DOMElement createElementNS(string ns, string tag)
-        {
-            return default(DOMElement);
-        }
-
-        public DOMElement createElement(string tagName)
-        {
-            return default(DOMElement);
-        }
+	}
 
 
+	[Script(HasNoPrototype = true)]
+	public class IDocument<DOMElement> : IDocument
+		where DOMElement : IElement
+	{
+		internal DOMElement createElementNS(string ns, string tag)
+		{
+			return default(DOMElement);
+		}
 
-        public DOMElement[] getElementsByTagName(string tag)
-        {
-            return default(DOMElement[]);
-        }
-
-        public DOMElement getElementById(string e)
-        {
-            return default(DOMElement);
-        }
+		public DOMElement createElement(string tagName)
+		{
+			return default(DOMElement);
+		}
 
 
-        public DOMElement documentElement;
 
-    }
+		public DOMElement[] getElementsByTagName(string tag)
+		{
+			return default(DOMElement[]);
+		}
+
+		public DOMElement getElementById(string e)
+		{
+			return default(DOMElement);
+		}
+
+
+		public DOMElement documentElement;
+
+	}
 }

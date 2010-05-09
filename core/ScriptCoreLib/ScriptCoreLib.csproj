@@ -549,6 +549,7 @@
     <Compile Include="JavaScript\Controls\DragHelper.cs" />
     <Compile Include="JavaScript\Controls\Effects\OpacityTween.cs" />
     <Compile Include="JavaScript\Controls\SpawnControlBase.cs" />
+    <Compile Include="JavaScript\DOM\ICommentNode.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLCenter.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLBody.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLMedia.cs" />

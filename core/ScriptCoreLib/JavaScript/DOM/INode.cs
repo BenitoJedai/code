@@ -54,11 +54,17 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 		/// <summary>
 		/// http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/nodetype.asp
+		/// 
+		/// http://www.w3schools.com/dom/dom_nodetype.asp
+		/// 
+		/// to be replace with  System.Xml.XmlNodeType ?
 		/// </summary>
 		public enum NodeTypeEnum
 		{
+			None = 0,
 			ElementNode = 1,
-			TextNode = 3
+			TextNode = 3,
+			CommentNode = 8
 		}
 
 		public NodeTypeEnum nodeType;

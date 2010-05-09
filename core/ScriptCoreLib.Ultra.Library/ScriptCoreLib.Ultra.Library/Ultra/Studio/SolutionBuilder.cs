@@ -211,7 +211,8 @@ namespace ScriptCoreLib.Ultra.Studio
 					Link = new Uri("http://studio.jsc-solutions.net")
 				};
 
-				var ApplicationPage =
+				#region DefaultPage
+				var DefaultPageElement =
 					new XElement("html",
 						new XElement("head",
 							new XElement("title", "DefaultPage")
@@ -219,8 +220,14 @@ namespace ScriptCoreLib.Ultra.Studio
 						Context.ApplicationPage
 					);
 
+				var DefaultPage =
+					new SolutionFile
+					{
+						Name = ToProjectFile("Design/Default.htm"),
+					};
 
-				AddProjectFile("Design/Default.htm", ApplicationPage.ToString());
+				DefaultPage.Write(DefaultPageElement);
+				
 
 				ItemGroupForCompile.Add(
 					new XElement("Content",
@@ -229,6 +236,11 @@ namespace ScriptCoreLib.Ultra.Studio
 						)
 					)
 				);
+
+				AddFile(DefaultPage);
+
+				#endregion
+
 
 				// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
 
