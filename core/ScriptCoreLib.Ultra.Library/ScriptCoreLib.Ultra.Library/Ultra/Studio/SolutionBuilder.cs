@@ -213,8 +213,18 @@ namespace ScriptCoreLib.Ultra.Studio
 				var FileHeader = new SolutionFileComment
 				{
 					Comment = "For more information visit:",
-					Link = new Uri("http://studio.jsc-solutions.net")
+					Link = new Uri("http://studio.jsc-solutions.net"),
+					MarginBottom = 1
 				};
+
+				var FileComments =
+					new[]
+					{
+						FileHeader,
+						Context.Interactive.ToVisualBasicLanguage,
+						Context.Interactive.ToVisualCSharpLanguage,
+						Context.Interactive.ToVisualFSharpLanguage
+					};
 
 				#region DefaultPage
 				var DefaultPageElement =
@@ -232,7 +242,7 @@ namespace ScriptCoreLib.Ultra.Studio
 					};
 
 				DefaultPage.Write(DefaultPageElement);
-				
+
 
 				ItemGroupForCompile.Add(
 					new XElement("Content",
@@ -263,7 +273,7 @@ namespace ScriptCoreLib.Ultra.Studio
 						Namespace = Context.Name,
 						Name = "ApplicationWebService",
 						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-						Header = FileHeader
+						Comments = FileComments
 					};
 
 					ApplicationWebServiceType.UsingNamespaces.Add("System");
@@ -302,7 +312,7 @@ namespace ScriptCoreLib.Ultra.Studio
 					Namespace = Context.Name,
 					Name = "Application",
 					Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-					Header = FileHeader
+					Comments = FileComments
 				};
 
 				ApplicationType.UsingNamespaces.Add("System");
@@ -317,6 +327,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 				ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType, Context.Interactive));
+
 
 				Context.Language.WriteType(Application, ApplicationType, Context);
 
@@ -413,7 +424,7 @@ associated with an assembly."
 						Namespace = Context.Name,
 						Name = "Program",
 						Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-						Header = FileHeader
+						Comments = FileComments
 					};
 
 					ProgramType.UsingNamespaces.Add("System");

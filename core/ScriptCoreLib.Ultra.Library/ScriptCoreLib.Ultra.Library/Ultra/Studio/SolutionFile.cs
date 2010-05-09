@@ -10,8 +10,8 @@ namespace ScriptCoreLib.Ultra.Studio
 	{
 		public SolutionFile()
 		{
-			this.Indent = new Stack<Action>();
-			this.Indent.Push(delegate { });
+			this.IndentStack = new Stack<Action>();
+			this.IndentStack.Push(delegate { });
 		}
 
 		public SolutionFile DependentUpon;
@@ -43,7 +43,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		[Obsolete]
 		public int CurrentIndent { get; set; }
 
-		public readonly Stack<Action> Indent;
+		public readonly Stack<Action> IndentStack;
 
 
 		public void Write(string Text)

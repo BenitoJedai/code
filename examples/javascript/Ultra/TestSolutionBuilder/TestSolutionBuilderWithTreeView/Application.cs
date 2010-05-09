@@ -81,6 +81,16 @@ namespace TestSolutionBuilderWithTreeView
 						return;
 					}
 
+					if (uri == sln.Interactive.ToVisualFSharpLanguage.Link)
+					{
+						sln.Language = new VisualFSharpLanguage();
+
+						_Project.Clear();
+						UpdateTree(sln, v, _Solution, _Project);
+						return;
+					}
+
+
 					if (uri == sln.Interactive.ApplicationToDocumentTitle.Comment.Link)
 					{
 
@@ -190,13 +200,17 @@ namespace TestSolutionBuilderWithTreeView
 
 					if (Extension == ".cs")
 						n.WithIcon(() => new VisualCSharpCode());
-					if (Extension == ".csproj")
+					else if (Extension == ".csproj")
 						n.WithIcon(() => new VisualCSharpProject());
-					if (Extension == ".vb")
+					else if (Extension == ".vb")
 						n.WithIcon(() => new VisualBasicCode());
-					if (Extension == ".vbproj")
+					else if (Extension == ".vbproj")
 						n.WithIcon(() => new VisualBasicProject());
-					if (Extension == ".htm")
+					else if (Extension == ".fs")
+						n.WithIcon(() => new VisualFSharpCode());
+					else if (Extension == ".fsproj")
+						n.WithIcon(() => new VisualFSharpProject());
+					else if (Extension == ".htm")
 						n.WithIcon(() => new HTMLDocument());
 
 					if (f.DependentUpon != null)
@@ -215,7 +229,7 @@ namespace TestSolutionBuilderWithTreeView
 					// somebody refreshed the solution.
 					if (v.File == null)
 					{
-						if (f.Name.TakeUntilLastIfAny(".") == "Application")
+						if (f.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") == "Application")
 							v.File = f;
 					}
 					else
