@@ -44,7 +44,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.CurrentIndent.Times(
 				delegate
 				{
-					File.Write("\t");
+					File.Write(SolutionFileTextFragment.Indent, "\t");
 				}
 			);
 		}
@@ -337,7 +337,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.Write(this, Context, Type.Comments);
 
 			File.WriteUsingNamespaceList(this, Type);
-		
+
 
 			File.WriteLine();
 
@@ -358,58 +358,57 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						Type.Summary
 					);
 
-					this.WriteIndent(File);
-					File.Write(Keywords.@public);
-					File.WriteSpace();
+					File.Region(
+						delegate
+						{
+							this.WriteIndent(File);
+							File.Write(Keywords.@public);
+							File.WriteSpace();
 
-					if (Type.IsStatic)
-					{
-						File.Write(Keywords.@static);
-						File.WriteSpace();
-					}
+							if (Type.IsStatic)
+							{
+								File.Write(Keywords.@static);
+								File.WriteSpace();
+							}
 
-					if (Type.IsSealed)
-					{
-						File.Write(Keywords.@sealed);
-						File.WriteSpace();
-					}
+							if (Type.IsSealed)
+							{
+								File.Write(Keywords.@sealed);
+								File.WriteSpace();
+							}
 
-					File.Write(Keywords.@class);
-					File.WriteSpace();
-					File.Write(Type);
-					File.WriteLine();
+							File.Write(Keywords.@class);
+							File.WriteSpace();
+							File.Write(Type);
+							File.WriteLine();
 
-					this.WriteIndent(File);
-					File.WriteLine("{");
-					File.CurrentIndent++;
+							this.WriteIndent(File);
+							File.WriteLine("{");
+							File.CurrentIndent++;
 
 
-					Context.Interactive.ToVisualBasicLanguage.WriteTo(
-						File, this, Context
+
+
+							foreach (var item in Type.Methods.ToArray())
+							{
+								this.WriteMethod(
+									File,
+									item,
+									Context
+								);
+
+								File.WriteLine();
+							}
+
+
+
+							File.WriteLine();
+
+							File.CurrentIndent--;
+							this.WriteIndent(File);
+							File.WriteLine("}");
+						}
 					);
-
-					Context.Interactive.ToVisualCSharpLanguage.WriteTo(
-						File, this, Context
-					);
-
-					foreach (var item in Type.Methods.ToArray())
-					{
-						this.WriteMethod(
-							File,
-							item,
-							Context
-						);
-
-						File.WriteLine();
-					}
-
-
-
-					File.WriteLine();
-
-					File.CurrentIndent--;
-					this.WriteIndent(File);
-					File.WriteLine("}");
 				}
 			);
 

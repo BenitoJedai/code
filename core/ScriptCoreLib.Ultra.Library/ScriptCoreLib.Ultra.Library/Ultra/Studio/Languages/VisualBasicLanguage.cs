@@ -39,7 +39,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.CurrentIndent.Times(
 				delegate
 				{
-					File.Write("\t");
+					File.Write(SolutionFileTextFragment.Indent, "\t");
 				}
 			);
 

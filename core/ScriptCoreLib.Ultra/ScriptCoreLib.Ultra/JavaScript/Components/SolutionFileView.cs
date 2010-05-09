@@ -219,7 +219,7 @@ namespace ScriptCoreLib.JavaScript.Components
 				{
 					var span = new IHTMLCode { innerText = innerText };
 
-					if (innerText == "\t")
+					if (item.Fragment == SolutionFileTextFragment.Indent)
 					{
 						span.style.width = "2em";
 						span.style.display = IStyle.DisplayEnum.inline_block;

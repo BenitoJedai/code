@@ -14,7 +14,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					@open = "open",
 					@type = "type",
 					@do = "do",
+					@member = "member",
 					@assembly = "assembly",
+					@module = "module",
 					@namespace = "namespace"
 				;
 		}

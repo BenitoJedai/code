@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Ultra.Studio
 		XMLAttributeName,
 		XMLAttributeValue,
 		XMLText,
-		XMLComment
+		XMLComment,
+
+		Indent
 	}
 }

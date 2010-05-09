@@ -148,9 +148,7 @@ namespace ScriptCoreLib.Ultra.Studio
 			File.IndentStack.Push(
 				delegate
 				{
-					if (Depth > 1)
-						File.Write(SolutionFileTextFragment.Indent, "    ");
-
+					File.Write(SolutionFileTextFragment.Indent, "    ");
 				}
 			);
 
