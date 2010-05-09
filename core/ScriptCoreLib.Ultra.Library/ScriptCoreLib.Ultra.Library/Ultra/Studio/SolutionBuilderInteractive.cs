@@ -13,8 +13,9 @@ namespace ScriptCoreLib.Ultra.Studio
 			new ApplicationToDocumentTitleExpression();
 
 		public InteractiveComment
-			ToVisualBasicLanguage = "Convert to Visual Basic project",
-			ToVisualCSharpLanguage = "Convert to Visual CSharp project";
+			ToVisualBasicLanguage = "View as Visual Basic project",
+			ToVisualCSharpLanguage = "View as Visual CSharp project",
+			ToVisualFSharpLanguage = "View as Visual FSharp project";
 
 		public SolutionBuilderInteractive()
 		{
@@ -29,6 +30,12 @@ namespace ScriptCoreLib.Ultra.Studio
 				{
 					return !(Context.Language is VisualCSharpLanguage);
 				};
+
+			ToVisualFSharpLanguage.IsActiveFilter =
+				Context =>
+				{
+					return !(Context.Language is VisualFSharpLanguage);
+				};
 		}
 
 		public class InteractiveComment : SolutionFileComment
@@ -38,7 +45,9 @@ namespace ScriptCoreLib.Ultra.Studio
 				return new InteractiveComment
 				{
 					Comment = Comment,
-					Link = new Uri("http://do.jsc-solutions.net/#" + Comment.Replace(" ", "-")),
+					// we should redirec to wiki from there if the user
+					// actually navigates there :)
+					Link = new Uri("http://do.jsc-solutions.net/" + Comment.Replace(" ", "-")),
 					MarginBottom = 1
 				};
 			}

@@ -5,8 +5,10 @@ open global.System
 open global.System.Reflection
 open global.ScriptCoreLib.Ultra.WebService
 
+
+/// <summary>Hello <b>UltraWebService</b></summary>
 [<Sealed>]
- type UltraWebService() =
+type UltraWebService() =
     /// <summary>Hello <see>UltraWebService</see></summary>
     member this.WebMethod2(x : string) =
 //        let y = x + "1"

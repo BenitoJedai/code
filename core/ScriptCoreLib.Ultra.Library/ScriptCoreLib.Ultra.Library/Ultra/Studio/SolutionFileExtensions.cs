@@ -10,6 +10,38 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public static class SolutionFileExtensions
 	{
+
+		public static void WriteUsingNamespaceList(this SolutionFile File, SolutionProjectLanguage Language, SolutionProjectLanguageType Type)
+		{
+			File.Region(
+				delegate
+				{
+					foreach (var item in Type.UsingNamespaces.ToArray())
+					{
+						Language.WriteUsingNamespace(File, item);
+					}
+				}
+			);
+		}
+
+		public static void Write(this SolutionFile File, SolutionProjectLanguage Language, SolutionBuilder Context, SolutionFileComment[] Comments)
+		{
+			if (Comments != null)
+			{
+				File.Region(
+					delegate
+					{
+						foreach (var item in Comments)
+						{
+							item.WriteTo(File, Language, Context);
+
+						}
+					}
+				);
+			}
+		}
+
+
 		public static void Write(this SolutionFile File, XElement Content)
 		{
 			Action<XElement> WriteXElement = null;
@@ -17,15 +49,15 @@ namespace ScriptCoreLib.Ultra.Studio
 			Action Indent =
 				delegate
 				{
-					File.Indent.Invoke();
+					File.IndentStack.Invoke();
 				};
 
 			WriteXElement =
 				e =>
 				{
-					var Depth = File.Indent.Count;
+					var Depth = File.IndentStack.Count;
 
-					File.Indent.Push(
+					File.IndentStack.Push(
 						delegate
 						{
 							if (Depth > 1)
@@ -78,7 +110,7 @@ namespace ScriptCoreLib.Ultra.Studio
 								var _XComment = item as XComment;
 								if (_XComment != null)
 								{
-									File.Indent.Invoke();
+									File.IndentStack.Invoke();
 									File.Write(SolutionFileTextFragment.XMLKeyword, "<!--");
 									File.Write(SolutionFileTextFragment.XMLComment, _XComment.Value);
 									File.Write(SolutionFileTextFragment.XMLKeyword, "-->");
@@ -102,10 +134,29 @@ namespace ScriptCoreLib.Ultra.Studio
 						}
 					);
 
-					File.Indent.Pop();
+					File.IndentStack.Pop();
 				};
 
 			WriteXElement(Content);
+		}
+
+		public static void Indent(this SolutionFile File, SolutionProjectLanguage Language, Action y)
+		{
+			var Depth = File.IndentStack.Count;
+
+
+			File.IndentStack.Push(
+				delegate
+				{
+					if (Depth > 1)
+						File.Write(SolutionFileTextFragment.Indent, "    ");
+
+				}
+			);
+
+			y();
+
+			File.IndentStack.Pop();
 		}
 
 		public static void Region(this SolutionFile File, Action y)

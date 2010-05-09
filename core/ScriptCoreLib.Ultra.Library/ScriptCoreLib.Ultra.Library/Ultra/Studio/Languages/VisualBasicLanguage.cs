@@ -42,7 +42,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.Write("\t");
 				}
 			);
-		
+
 		}
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
@@ -226,25 +226,17 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 		}
 
-		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type,  SolutionBuilder Context)
+		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context)
 		{
-			Type.Header.WriteTo(File, this, Context);
+			File.Write(this, Context, Type.Comments);
+	
 
-			File.WriteLine();
 
 
 			// should the namespaces be clickable?
 
 
-			File.Region(
-				delegate
-				{
-					foreach (var item in Type.UsingNamespaces.ToArray())
-					{
-						WriteUsingNamespace(File, item);
-					}
-				}
-			);
+			File.WriteUsingNamespaceList(this, Type);
 
 			File.WriteLine();
 
@@ -268,7 +260,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.Region(
 						delegate
 						{
-						
+
 							this.WriteIndent(File);
 							File.Write(Keywords.Public);
 							File.WriteSpace();
@@ -296,13 +288,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							File.CurrentIndent++;
 
 
-							Context.Interactive.ToVisualBasicLanguage.WriteTo(
-								File, this, Context
-							);
-
-							Context.Interactive.ToVisualCSharpLanguage.WriteTo(
-								File, this, Context
-							);
 
 							foreach (var item in Type.Methods.ToArray())
 							{
@@ -310,7 +295,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								this.WriteMethod(
 									File,
 									item,
-									Context	
+									Context
 								);
 
 
@@ -346,6 +331,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine();
 
 		}
+
+		
 
 		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute)
 		{

@@ -5,7 +5,7 @@ namespace UltraApplicationWithAssets
 
 
 // http://en.wikibooks.org/wiki/F_Sharp_Programming/Modules_and_Namespaces
-open global.ScriptCoreLib.JavaScript.DOM
+open ScriptCoreLib.JavaScript.DOM
 open global.ScriptCoreLib.JavaScript.DOM.HTML
 open global.ScriptCoreLib.JavaScript
 open global.ScriptCoreLib.JavaScript.Extensions

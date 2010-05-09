@@ -10,6 +10,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		public static class Keywords
 		{
 			public static Keyword
+					@global = "global",
+					@open = "open",
+					@type = "type",
+					@do = "do",
 					@assembly = "assembly",
 					@namespace = "namespace"
 				;

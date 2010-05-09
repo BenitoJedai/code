@@ -53,50 +53,55 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		{
 			this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
 
-			this.WriteIndent(File);
-
-			File.Write(Keywords.@public);
-			File.WriteSpace();
-
-			if (m.IsStatic)
-			{
-				File.Write(Keywords.@static);
-				File.WriteSpace();
-			}
-
-			if (m.IsConstructor)
-			{
-				WriteTypeName(File, m.DeclaringType);
-			}
-			else
-			{
-				File.Write(Keywords.@void);
-				File.WriteSpace();
-				File.Write(m.Name);
-			}
-
-			File.Write("(");
-
-			var Parameters = m.Parameters.ToArray();
-
-			for (int i = 0; i < Parameters.Length; i++)
-			{
-				if (i > 0)
+			File.Region(
+				delegate
 				{
-					File.Write(",");
+					this.WriteIndent(File);
+
+					File.Write(Keywords.@public);
 					File.WriteSpace();
+
+					if (m.IsStatic)
+					{
+						File.Write(Keywords.@static);
+						File.WriteSpace();
+					}
+
+					if (m.IsConstructor)
+					{
+						WriteTypeName(File, m.DeclaringType);
+					}
+					else
+					{
+						File.Write(Keywords.@void);
+						File.WriteSpace();
+						File.Write(m.Name);
+					}
+
+					File.Write("(");
+
+					var Parameters = m.Parameters.ToArray();
+
+					for (int i = 0; i < Parameters.Length; i++)
+					{
+						if (i > 0)
+						{
+							File.Write(",");
+							File.WriteSpace();
+						}
+
+						this.WriteTypeName(File, Parameters[i].Type);
+
+						File.WriteSpace();
+						File.Write(Parameters[i].Name);
+					}
+
+					File.Write(")");
+					File.WriteLine();
+
+					this.WriteMethodBody(File, m.Code, Context);
 				}
-
-				this.WriteTypeName(File, Parameters[i].Type);
-
-				File.WriteSpace();
-				File.Write(Parameters[i].Name);
-			}
-
-			File.Write(")");
-			File.WriteLine();
-
-			this.WriteMethodBody(File, m.Code, Context);
+			);
 		}
 
 		public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context)
@@ -264,7 +269,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
-		
+
 
 			var Call = Parameter as PseudoCallExpression;
 			if (Call != null)
@@ -329,89 +334,89 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context)
 		{
-			Type.Header.WriteTo(File, this, Context);
+			File.Write(this, Context, Type.Comments);
+
+			File.WriteUsingNamespaceList(this, Type);
+		
 
 			File.WriteLine();
 
-			// should the namespaces be clickable?
-
-			foreach (var item in Type.UsingNamespaces.ToArray())
-			{
-				WriteUsingNamespace(File, item);
-			}
-
-			File.WriteLine();
-
-			File.Write(Keywords.@namespace);
-			File.WriteSpace();
-			File.Write(Type.Namespace);
-			File.WriteLine();
-			File.WriteLine("{");
-			File.CurrentIndent++;
+			File.Region(
+				delegate
+				{
+					File.Write(Keywords.@namespace);
+					File.WriteSpace();
+					File.Write(Type.Namespace);
+					File.WriteLine();
+					File.WriteLine("{");
+					File.CurrentIndent++;
 
 
-			this.WriteSummary(
-				File,
+					this.WriteSummary(
+						File,
 
-				Type.Summary
+						Type.Summary
+					);
+
+					this.WriteIndent(File);
+					File.Write(Keywords.@public);
+					File.WriteSpace();
+
+					if (Type.IsStatic)
+					{
+						File.Write(Keywords.@static);
+						File.WriteSpace();
+					}
+
+					if (Type.IsSealed)
+					{
+						File.Write(Keywords.@sealed);
+						File.WriteSpace();
+					}
+
+					File.Write(Keywords.@class);
+					File.WriteSpace();
+					File.Write(Type);
+					File.WriteLine();
+
+					this.WriteIndent(File);
+					File.WriteLine("{");
+					File.CurrentIndent++;
+
+
+					Context.Interactive.ToVisualBasicLanguage.WriteTo(
+						File, this, Context
+					);
+
+					Context.Interactive.ToVisualCSharpLanguage.WriteTo(
+						File, this, Context
+					);
+
+					foreach (var item in Type.Methods.ToArray())
+					{
+						this.WriteMethod(
+							File,
+							item,
+							Context
+						);
+
+						File.WriteLine();
+					}
+
+
+
+					File.WriteLine();
+
+					File.CurrentIndent--;
+					this.WriteIndent(File);
+					File.WriteLine("}");
+				}
 			);
-
-			this.WriteIndent(File);
-			File.Write(Keywords.@public);
-			File.WriteSpace();
-
-			if (Type.IsStatic)
-			{
-				File.Write(Keywords.@static);
-				File.WriteSpace();
-			}
-
-			if (Type.IsSealed)
-			{
-				File.Write(Keywords.@sealed);
-				File.WriteSpace();
-			}
-
-			File.Write(Keywords.@class);
-			File.WriteSpace();
-			File.Write(Type);
-			File.WriteLine();
-
-			this.WriteIndent(File);
-			File.WriteLine("{");
-			File.CurrentIndent++;
-
-
-			Context.Interactive.ToVisualBasicLanguage.WriteTo(
-				File, this, Context
-			);
-
-			Context.Interactive.ToVisualCSharpLanguage.WriteTo(
-				File, this, Context
-			);
-
-			foreach (var item in Type.Methods.ToArray())
-			{
-				this.WriteMethod(
-					File,
-					item,
-					Context
-				);
-
-				File.WriteLine();
-			}
-
-
-
-			File.WriteLine();
-
-			File.CurrentIndent--;
-			this.WriteIndent(File);
-			File.WriteLine("}");
 
 			File.CurrentIndent--;
 			File.WriteLine("}");
 		}
+
 
 		public override void WriteUsingNamespace(SolutionFile File, string item)
 		{
@@ -483,6 +488,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 
 
-	
+
 	}
 }

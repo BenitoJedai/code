@@ -16,7 +16,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public string Summary;
 
-		public SolutionFileComment Header;
+		public SolutionFileComment[] Comments;
 
 		public SolutionProjectLanguageType ElementType;
 		public SolutionProjectLanguageType DeclaringType;
