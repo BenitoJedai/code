@@ -59,10 +59,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
 
-		public void WriteTo(Action<string, string> AddFile)
-		{
-			WriteTo(k => AddFile(k.Name, k.Content));
-		}
+	
 
 		public IEnumerable<SolutionFile> ToFiles()
 		{
@@ -73,7 +70,7 @@ namespace ScriptCoreLib.Ultra.Studio
 			return a;
 		}
 
-		public IEnumerable<XElement> References
+		public XElement[] References
 		{
 			get
 			{
@@ -91,7 +88,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 				a.Add(Reference);
 
-				return a;
+				return a.ToArray();
 			}
 		}
 
@@ -178,9 +175,9 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		private void UpdateReferences(XElement ItemGroupReferenes)
 		{
-			ItemGroupReferenes.RemoveAll();
-			var _R = this.References.ToArray();
-			ItemGroupReferenes.Add(_R);
+			ItemGroupReferenes.ReplaceAll(
+				this.References
+			);
 		}
 
 		class UltraApplicationBuilder

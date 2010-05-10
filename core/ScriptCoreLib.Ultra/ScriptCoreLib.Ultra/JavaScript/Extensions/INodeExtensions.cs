@@ -93,6 +93,12 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 			e.parentNode.replaceChild(value, e);
 		}
+
+		public static void ReplaceContentWith(this INode parent, INode value)
+		{
+			parent.Clear();
+			parent.Add(value);
+		}
 	}
 
 

@@ -12,7 +12,9 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			var zip = new ZIPFile();
 
-			that.WriteTo(zip.Add);
+			that.WriteTo(
+				f => zip.Add(f.Name, f.Content)
+			);
 
 			return zip;
 		}

@@ -19,6 +19,7 @@ using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.JavaScript.Components;
 
 namespace TestSolutionBuilderChrome
 {
@@ -46,51 +47,46 @@ namespace TestSolutionBuilderChrome
 
 			var c = new IHTMLDiv().AttachTo(bg);
 
-			c.style.left = "0px";
-			c.style.right = "0px";
-			c.style.bottom = "0px";
-			c.style.top = "0px";
+			c.style.left = "4px";
+			c.style.right = "4px";
+			c.style.bottom = "4px";
+			c.style.top = "4px";
 			c.style.position = IStyle.PositionEnum.absolute;
 
 			new TwentyTenWorkspace().ToBackground(
 				bg.style
 			);
 
-			var dv = new SolutionDocumentViewerPage();
 
-			dv.TabContainer.Clear();
-			dv.Container.AttachTo(c);
+			var dv = new SolutionDocumentViewer
+			{
+				"Default.htm",
+				"Application.cs",
+				"ApplicationWebService.cs",
+				"XX XXX XX XXX XX XXX XXX XXx XXX XXX",
+				
+			};
 
-
-			Action<string> Add =
-				Text =>
+			dv.Add(
+				new SolutionDocumentViewerTab
 				{
-					var Current = new IHTMLDiv().AttachTo(dv.TabContainer);
+					Text = "Program.cs"
+				}.With(
+					k =>
+					{
+						k.Activated +=
+							delegate
+							{
+								dv.Content.innerHTML = "hello world";
+							};
 
-					Current.style.display = IStyle.DisplayEnum.inline_block;
+					}
+				)
+			);
 
-					var Prototype = new SolutionDocumentViewerPage();
+			dv.Container.AttachTo(c);
+			dv.Last().Activate();
 
-					var ActiveTab = Prototype.ActiveTab;
-					var CandidateTab = Prototype.ActiveTab;
-					var InactiveTab = Prototype.ActiveTab.AttachTo(Current);
-
-					Current.onmouseover +=
-						delegate
-						{
-							InactiveTab.ReplaceWith(CandidateTab);
-						};
-
-					Current.onmouseout +=
-						delegate
-						{
-							InactiveTab.ReplaceWith(CandidateTab);
-						};
-				};
-
-
-			Add("Default.htm");
-			Add("Application.cs");
 
 			#endregion
 
@@ -99,7 +95,7 @@ namespace TestSolutionBuilderChrome
 			);
 
 
-		
+
 		}
 
 

@@ -340,6 +340,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 		#region overflow
+		// http://msdn.microsoft.com/en-us/library/ms530826(VS.85).aspx
+		// http://www.brunildo.org/test/Overflowxy2.html
+
 		[Script(IsStringEnum = true)]
 		public enum OverflowEnum
 		{
@@ -347,6 +350,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 		}
 
 		public OverflowEnum overflow;
+		public OverflowEnum overflowX;
+		public OverflowEnum overflowY;
 
 		#endregion
 

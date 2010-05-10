@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
-	class KnownLanguages
+	public static class KnownLanguages
 	{
 		public static readonly VisualBasicLanguage VisualBasic = new VisualBasicLanguage();
 		public static readonly VisualCSharpLanguage VisualCSharp = new VisualCSharpLanguage();
