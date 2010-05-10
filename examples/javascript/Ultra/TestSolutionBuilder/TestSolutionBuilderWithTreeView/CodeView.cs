@@ -44,8 +44,6 @@ namespace TestSolutionBuilderWithTreeView
 			// phase 1 has only one project at once.
 
 			var _Solution = new TreeNode(VistaTreeNodePage.Create);
-
-
 			var _Project = _Solution.Add();
 
 

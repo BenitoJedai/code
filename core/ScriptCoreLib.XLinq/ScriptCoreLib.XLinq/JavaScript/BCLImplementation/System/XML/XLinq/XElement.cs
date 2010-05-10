@@ -54,6 +54,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 				this.Add(c);
 		}
 
+		public __XElement(XElement other)
+		{
+			this.InternalValue = ((__XElement)(object)other).InternalElement.cloneNode(true);
+		}
 
 		public string Value
 		{

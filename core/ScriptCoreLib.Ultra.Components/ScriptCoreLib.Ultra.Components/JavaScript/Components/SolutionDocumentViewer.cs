@@ -55,8 +55,6 @@ namespace ScriptCoreLib.JavaScript.Components
 			dv.TabContainer.onmouseover +=
 				delegate
 				{
-					dv.TabContainer.style.height = "3em";
-					dv.TabContainer.style.overflowY = IStyle.OverflowEnum.hidden;
 					dv.TabContainer.style.overflowX = IStyle.OverflowEnum.auto;
 
 				};
@@ -64,8 +62,6 @@ namespace ScriptCoreLib.JavaScript.Components
 			dv.TabContainer.onmouseout +=
 				delegate
 				{
-					dv.TabContainer.style.height = "";
-					dv.TabContainer.style.overflowY = IStyle.OverflowEnum.visible;
 					dv.TabContainer.style.overflowX = IStyle.OverflowEnum.hidden;
 				};
 
@@ -73,12 +69,12 @@ namespace ScriptCoreLib.JavaScript.Components
 			this.Tabs = new BindingList<SolutionDocumentViewerTab>().WithEvents(
 				NewTab =>
 				{
-					var Text = NewTab.Text;
 
 					#region create
 
 					var Current = new IHTMLDiv().AttachTo(dv.TabContainer);
 
+					NewTab.TabElement = Current;
 					Current.style.display = IStyle.DisplayEnum.inline_block;
 
 					var Prototype = new SolutionDocumentViewerPage();
@@ -90,9 +86,17 @@ namespace ScriptCoreLib.JavaScript.Components
 					ActiveTab.style.display = IStyle.DisplayEnum.none;
 					CandidateTab.style.display = IStyle.DisplayEnum.none;
 
-					Prototype.ActiveTabText.innerText = Text;
-					Prototype.CandidateTabText.innerText = Text;
-					Prototype.InactiveTabText.innerText = Text;
+					Action TextChanged =
+						delegate
+						{
+							Prototype.ActiveTabText.innerText = NewTab.Text;
+							Prototype.CandidateTabText.innerText = NewTab.Text;
+							Prototype.InactiveTabText.innerText = NewTab.Text;
+						};
+
+					TextChanged();
+
+					NewTab.Changed += TextChanged;
 
 					var IsActive = false;
 

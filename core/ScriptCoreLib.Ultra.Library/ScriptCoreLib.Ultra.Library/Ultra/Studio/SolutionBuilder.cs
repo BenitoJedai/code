@@ -77,7 +77,7 @@ namespace ScriptCoreLib.Ultra.Studio
 				var a = new List<XElement>();
 
 				a.AddRange(
-					VisualStudioTemplates.VisualCSharpProjectReferences.Elements()
+					VisualStudioTemplates.VisualCSharpProjectReferences.Elements().Select(k => new XElement(k))
 				);
 
 				var Reference =
@@ -312,11 +312,14 @@ namespace ScriptCoreLib.Ultra.Studio
 				};
 
 				ApplicationType.UsingNamespaces.Add("System");
+				ApplicationType.UsingNamespaces.Add("System.Text");
 				ApplicationType.UsingNamespaces.Add("System.Linq");
 				ApplicationType.UsingNamespaces.Add("System.Xml.Linq");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM.HTML");
+				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Components");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
 				ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
 				ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");

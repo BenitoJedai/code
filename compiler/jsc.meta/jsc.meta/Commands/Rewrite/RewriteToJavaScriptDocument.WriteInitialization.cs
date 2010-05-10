@@ -19,6 +19,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Remoting;
 
 namespace jsc.meta.Commands.Rewrite
 {

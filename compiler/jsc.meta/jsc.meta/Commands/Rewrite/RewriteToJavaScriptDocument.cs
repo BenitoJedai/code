@@ -25,6 +25,7 @@ using System.Diagnostics;
 using jsc.Languages;
 using jsc.Script;
 using jsc.meta.Library.VolumeFunctions;
+using ScriptCoreLib.JavaScript.Remoting;
 
 namespace jsc.meta.Commands.Rewrite
 {

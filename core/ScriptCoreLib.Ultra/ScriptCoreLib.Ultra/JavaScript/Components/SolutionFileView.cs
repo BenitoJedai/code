@@ -49,6 +49,7 @@ namespace ScriptCoreLib.JavaScript.Components
 			this.Container.style.overflow = IStyle.OverflowEnum.auto;
 		}
 
+		public event Action FileChanged;
 		SolutionFile InternalFile;
 		public SolutionFile File
 		{
@@ -57,6 +58,9 @@ namespace ScriptCoreLib.JavaScript.Components
 				InternalFile = value;
 				this.View.Clear();
 				RenderWriteHistory(this.Colors, value, this.View);
+
+				if (FileChanged != null)
+					FileChanged();
 			}
 			get
 			{
