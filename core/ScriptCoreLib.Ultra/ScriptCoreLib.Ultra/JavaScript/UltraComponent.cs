@@ -20,6 +20,7 @@ namespace ScriptCoreLib.JavaScript
 
 		public object Tag { get; set; }
 
+		[Obsolete("to be changed to IHTMLElement because it can be a div or a body")]
 		public virtual IHTMLDiv Container
 		{
 			get
