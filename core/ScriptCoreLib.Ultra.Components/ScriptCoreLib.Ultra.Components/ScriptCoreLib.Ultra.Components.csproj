@@ -117,6 +117,8 @@
     <Compile Include="ActionScript\Components\ISaveAction.cs" />
     <Compile Include="ActionScript\Components\SaveAction.cs" />
     <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
+    <Compile Include="JavaScript\Components\SolutionDocumentViewer.cs" />
+    <Compile Include="JavaScript\Components\SolutionDocumentViewerTab.cs" />
     <Compile Include="JavaScript\Components\VisualStudioView.cs" />
     <Compile Include="JavaScript\Components\VisualStudioViewExtensions.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />

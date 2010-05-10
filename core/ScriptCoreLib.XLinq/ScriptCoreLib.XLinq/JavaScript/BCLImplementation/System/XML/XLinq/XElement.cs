@@ -117,5 +117,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 			return x.Root;
 		}
+
+		public void ReplaceAll(params object[] content)
+		{
+			this.RemoveAll();
+			this.Add(content);
+		}
 	}
 }

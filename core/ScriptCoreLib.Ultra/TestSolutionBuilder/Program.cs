@@ -17,7 +17,14 @@ namespace TestSolutionBuilder
 				Name = "VisualCSharpProject1",
 				Language = new VisualBasicLanguage()
 			};
-			
+
+			sln.WriteTo(
+				delegate
+				{
+				}
+			);
+
+			sln.Language = KnownLanguages.VisualCSharp;
 			sln.WriteToConsole();
 		}
 	}
