@@ -236,10 +236,10 @@ namespace ScriptCoreLib.Ultra.Components
 
 			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
 
-			var Save = new InternalSaveActionSprite();
+			//var Save = new InternalSaveActionSprite();
 
-			Save.ToTransparentSprite();
-			Save.AttachSpriteTo(SaveContainer);
+			//Save.ToTransparentSprite();
+			//Save.AttachSpriteTo(SaveContainer);
 
 
 			var s = new { VisualStudioTemplates.VisualCSharpProject };
@@ -256,16 +256,16 @@ namespace ScriptCoreLib.Ultra.Components
 				}
 			);
 
-			Save.WhenReady(
-				i =>
-				{
-					i.FileName = "Project1.zip";
+			//Save.WhenReady(
+			//    i =>
+			//    {
+			//        i.FileName = "Project1.zip";
 
 
-					i.Add("Project1.txt", "x");
-					i.Add("Project1.csproj", s.VisualCSharpProject);
-				}
-			);
+			//        i.Add("Project1.txt", "x");
+			//        i.Add("Project1.csproj", s.VisualCSharpProject);
+			//    }
+			//);
 
 			ToolbarContent.Add(new RTA_separator_horizontal());
 
@@ -601,16 +601,16 @@ namespace ScriptCoreLib.Ultra.Components
 
 			vsv.Container.AttachTo(Content);
 
-			var Save = new InternalSaveActionSprite().AddSaveTo(vsv,
-				i =>
-				{
-					i.FileName = "Project1.zip";
+			//var Save = new InternalSaveActionSprite().AddSaveTo(vsv,
+			//    i =>
+			//    {
+			//        i.FileName = "Project1.zip";
 
 
-					new SolutionBuilder().WriteTo(i.Add);
+			//        new SolutionBuilder().WriteTo(i.Add);
 
-				}
-			);
+			//    }
+			//);
 
 			AddSection(
 				"TwentyTen Design With Save",

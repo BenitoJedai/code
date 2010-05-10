@@ -95,19 +95,19 @@ namespace ScriptCoreLib.ActionScript.Components
 	}
 
 
-	internal sealed class InternalSaveActionSprite : SaveAction, ISaveActionWhenReady
-	{
-		// this sprite is internal currently because non-internal ultra applications
-		// cannot use it.
-		// when simplifier is implemented this problem fades away.
+	//internal sealed class InternalSaveActionSprite : SaveAction, ISaveActionWhenReady
+	//{
+	//    // this sprite is internal currently because non-internal ultra applications
+	//    // cannot use it.
+	//    // when simplifier is implemented this problem fades away.
 
-		public const int DefaultWidth = 24 - 2;
-		public const int DefaultHeight = 24 - 2;
+	//    public const int DefaultWidth = 24 - 2;
+	//    public const int DefaultHeight = 24 - 2;
 
 
-		public void WhenReady(Action<ISaveAction> y)
-		{
-			y(this);
-		}
-	}
+	//    public void WhenReady(Action<ISaveAction> y)
+	//    {
+	//        y(this);
+	//    }
+	//}
 }
