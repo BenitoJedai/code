@@ -188,6 +188,10 @@ namespace jsc.meta.Commands.Rewrite
 
 			var RewriteOutput = targets.ToDictionary(k => k, k => default(FileInfo));
 
+			var __InternalElementProxy = typeof(__InternalElementProxy);
+			var __InternalElementProxyToElement = __InternalElementProxy.GetImplicitOperators(null, typeof(IHTMLElement)).Single();
+
+
 			var ki = -1;
 			foreach (var k in targets_variations)
 			{
@@ -214,9 +218,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				// lets do a rewrite and inject neccesary bootstrap and proxy code
 
-				var __InternalElementProxy = typeof(__InternalElementProxy);
-				var __InternalElementProxyToElement = __InternalElementProxy.GetImplicitOperators(null, typeof(IHTMLElement)).Single();
-
+			
 				// in flash we need to export our functions...
 				var __ExternalCallback = new List<MethodBuilderInfo>();
 				var __WebServiceForJavaScript = default(WebServiceForJavaScript);
@@ -756,6 +758,9 @@ namespace jsc.meta.Commands.Rewrite
 								else if (c.IsActionScript || c.IsJava)
 								{
 									// we have to generate a proxy!
+									var __TypeCache_InternalElementProxy = r.RewriteArguments.context.TypeCache[
+											__InternalElementProxy
+									];
 
 									var Interfaces = Enumerable.ToArray(
 
@@ -777,7 +782,7 @@ namespace jsc.meta.Commands.Rewrite
 										((TypeBuilder)r.RewriteArguments.context.TypeCache[SourceType.DeclaringType]).DefineNestedType(
 											SourceType.Name,
 											SourceType.Attributes,
-											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
+											__TypeCache_InternalElementProxy,
 											Interfaces
 										)
 
@@ -785,7 +790,7 @@ namespace jsc.meta.Commands.Rewrite
 										: r.RewriteArguments.Module.DefineType(
 											SourceType.FullName,
 											SourceType.Attributes,
-											r.RewriteArguments.context.TypeCache[__InternalElementProxy],
+											__TypeCache_InternalElementProxy,
 											Interfaces
 									);
 

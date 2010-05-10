@@ -729,6 +729,13 @@ namespace jsc.meta.Commands.Rewrite
 			TypeDefinitionCache.Resolve +=
 				(SourceType) =>
 				{
+					if (SourceType.Assembly is AssemblyBuilder)
+					{
+						// not going to merge already merged type.
+						TypeDefinitionCache[SourceType] = SourceType;
+						return;
+					}
+
 					if (TypeCache.BaseDictionary.ContainsKey(SourceType))
 					{
 						// somebody wrote the type before us?
@@ -809,6 +816,13 @@ namespace jsc.meta.Commands.Rewrite
 			TypeCache.Resolve +=
 				(source) =>
 				{
+					if (source.Assembly is AssemblyBuilder)
+					{
+						// not going to merge already merged type.
+						TypeCache[source] = source;
+						return;
+					}
+
 					// This unit was resolved for us...
 					if (ExternalContext.TypeCache[source] != source)
 					{
