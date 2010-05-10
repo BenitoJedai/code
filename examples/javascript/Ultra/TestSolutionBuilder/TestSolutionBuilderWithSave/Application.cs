@@ -9,6 +9,8 @@ using System.Linq;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.ActionScript.Components;
 using ScriptCoreLib.Ultra.Studio;
+using TestSolutionBuilderWithSave.Forms;
+using ScriptCoreLib.JavaScript.Windows.Forms;
 
 namespace TestSolutionBuilderWithSave
 {
@@ -21,7 +23,7 @@ namespace TestSolutionBuilderWithSave
 		public const int DefaultWidth = 24 - 2;
 		public const int DefaultHeight = 24 - 2;
 
-		
+
 		public IApplicationWebService WebService { get; set; }
 
 		public void WhenReady(Action<ISaveAction> y)
@@ -43,23 +45,49 @@ namespace TestSolutionBuilderWithSave
 
 			s.WebService = new ApplicationWebService();
 
+			var pp = new ProjectNameInput();
+
+			pp.AttachControlTo(a.Content);
+
+			var Files = new IHTMLDiv().AttachTo(a.Content);
+
 			s.WhenReady(
 				i =>
 				{
-					var sln = new SolutionBuilder
+					Action Update = delegate
 					{
+						var sln = new SolutionBuilder
+						{
+							Name = pp.ProjectName.Text
+						};
 
+						i.FileName = sln.Name + ".zip";
+						i.Clear();
+
+						Files.Clear();
+
+						sln.WriteTo(
+							(SolutionFile f) =>
+							{
+								new IHTMLPre { innerText = f.Name }.AttachTo(Files);
+
+								i.Add(f.Name, f.Content);
+							}
+						);
 					};
 
-					i.FileName = sln.Name + ".zip";
-					sln.WriteTo(
-						(SolutionFile f) =>
+					pp.UpdateButton.TextChanged +=
+						delegate
 						{
-							new IHTMLDiv { innerText = f.Name }.AttachTo(a.Content);
+						};
 
-							i.Add(f.Name, f.Content);
-						}
-					);
+					pp.UpdateButton.Click +=
+						delegate
+						{
+							Update();
+						};
+
+					Update();
 				}
 			);
 		}

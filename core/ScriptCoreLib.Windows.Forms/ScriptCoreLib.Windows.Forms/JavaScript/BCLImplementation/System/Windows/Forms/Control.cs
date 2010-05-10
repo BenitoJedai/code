@@ -605,12 +605,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         #endregion
 
-        Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
         Handler<MouseEventHandler, DOMHandler> _MouseDown = new Handler<MouseEventHandler, DOMHandler>();
         Handler<MouseEventHandler, DOMHandler> _MouseUp = new Handler<MouseEventHandler, DOMHandler>();
 
         #region MouseMove
-
+		Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
         public event MouseEventHandler MouseMove
         {
             add
@@ -618,10 +617,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _MouseMove.Event += value;
                 if (_MouseMove)
                 {
-                    _MouseMove.EventInternal = i =>
-                                                   {
-                                                       this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
-                                                   };
+                    _MouseMove.EventInternal = 
+						i =>
+                       {
+                           this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
+                       };
 
                     this.HTMLTargetRef.onmousemove += _MouseMove.EventInternal;
                 }
@@ -637,11 +637,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
             }
         }
-
         #endregion
 
+		public event EventHandler TextChanged;
 
-
+		internal void InternalRaiseTextChanged()
+		{
+			if (TextChanged != null)
+				TextChanged(this, new EventArgs());
+		}
 
         DOM.HTML.IHTMLDocument OwnerDocument
         {

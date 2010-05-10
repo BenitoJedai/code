@@ -225,7 +225,7 @@ namespace ScriptCoreLib.JavaScript.Components
 						span.style.display = IStyle.DisplayEnum.inline_block;
 
 						if (CurrentLineDirty)
-							span.style.borderLeft = "1px dotted #7f7f7f";
+							span.style.borderLeft = "1px dotted #afafaf";
 					}
 
 

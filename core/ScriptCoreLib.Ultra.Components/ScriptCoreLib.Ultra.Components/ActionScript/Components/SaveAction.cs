@@ -44,8 +44,8 @@ namespace ScriptCoreLib.ActionScript.Components
 					}.AttachTo(c);
 
 					new RTA_save().AttachTo(c).MoveTo(
-						(22 - RTA_save.ImageDefaultWidth ) / 2,	
-						(22 - RTA_save.ImageDefaultHeight ) / 2
+						(22 - RTA_save.ImageDefaultWidth) / 2,
+						(22 - RTA_save.ImageDefaultHeight) / 2
 					);
 
 					c.AttachToContainer(this);
@@ -73,6 +73,11 @@ namespace ScriptCoreLib.ActionScript.Components
 
 
 		ZIPFile zip = new ZIPFile();
+
+		public void Clear()
+		{
+			this.zip = new ZIPFile();
+		}
 
 		public void Add(string name, XElement data)
 		{

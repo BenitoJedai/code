@@ -29,6 +29,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             HTMLTarget = new IHTMLDiv();
 
+			// Are we being inserted to HTML?
+			HTMLTarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.relative;
+
             //HTMLTarget.style.border = "1px dotted gray";
 
             this.Size = new global::System.Drawing.Size(150, 150);
