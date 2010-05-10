@@ -31,6 +31,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 			// http://www.electrictoolbox.com/disable-textarea-resizing-safari-chrome/
 			HTMLTarget.style.resize = "none";
+			HTMLTarget.onchange +=
+				delegate
+				{
+					this.InternalRaiseTextChanged();
+				};
 
             this.Size = new global::System.Drawing.Size(100, 20);
 			

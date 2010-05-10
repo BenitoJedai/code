@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderWithSave
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderWithTreeView", "TestSolutionBuilderWithTreeView\TestSolutionBuilderWithTreeView.csproj", "{5C199F89-85A6-401F-9349-35523DB187A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderChrome", "TestSolutionBuilderChrome\TestSolutionBuilderChrome.csproj", "{C348C8C7-C144-EE96-FE0D-4E543D556268}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -32,6 +34,12 @@ Global
 		{5C199F89-85A6-401F-9349-35523DB187A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C199F89-85A6-401F-9349-35523DB187A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C199F89-85A6-401F-9349-35523DB187A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C348C8C7-C144-EE96-FE0D-4E543D556268}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{C348C8C7-C144-EE96-FE0D-4E543D556268}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{C348C8C7-C144-EE96-FE0D-4E543D556268}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C348C8C7-C144-EE96-FE0D-4E543D556268}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C348C8C7-C144-EE96-FE0D-4E543D556268}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C348C8C7-C144-EE96-FE0D-4E543D556268}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -79,6 +79,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.XLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
@@ -97,6 +101,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -127,6 +132,7 @@
     <Content Include="My.UltraSource\Images\Reflection\HTMLDocument.png" />
     <Content Include="My.UltraSource\Images\Reflection\ImageFile.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionProjectDependentUpon.png" />
+    <Content Include="My.UltraSource\Images\Reflection\SolutionProjectFormsControl.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionProjectProperties.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionTwentyTen.png" />
     <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodePage.htm" />

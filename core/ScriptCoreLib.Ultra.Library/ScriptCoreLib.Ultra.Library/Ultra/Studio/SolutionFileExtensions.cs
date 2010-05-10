@@ -61,7 +61,7 @@ namespace ScriptCoreLib.Ultra.Studio
 						delegate
 						{
 							if (Depth > 1)
-								File.Write("\t");
+								File.Write(SolutionFileTextFragment.Indent, "\t");
 						}
 					);
 
