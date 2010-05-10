@@ -27,6 +27,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return i;
 		}
 
+	
+
 		public static IHTMLElement AttachSpriteTo(this Sprite e, INode parent)
 		{
 			var i = e.ToHTMLElement();

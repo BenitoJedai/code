@@ -16,6 +16,7 @@ using ScriptCoreLib.JavaScript;
 using jsc.meta.Commands.Rewrite.Templates;
 using ScriptCoreLib.Shared;
 using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.Remoting;
 
 namespace jsc.meta.Commands.Rewrite
 {

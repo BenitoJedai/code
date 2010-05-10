@@ -338,6 +338,7 @@ namespace jsc.meta.Commands.Rewrite
 				}
 				catch (Exception ex)
 				{
+					// TestSolutionBuilderWithViewer.Library.Templates.__InternalElementProxy
 					throw new InvalidOperationException(TypeName, ex);
 				}
 

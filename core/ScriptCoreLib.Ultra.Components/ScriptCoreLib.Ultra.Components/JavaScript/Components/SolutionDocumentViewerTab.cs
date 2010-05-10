@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
@@ -17,8 +19,8 @@ namespace ScriptCoreLib.JavaScript.Components
 			set
 			{
 				InternalText = value;
-				if (TextChanged != null)
-					TextChanged();
+				if (Changed != null)
+					Changed();
 			}
 		}
 
@@ -29,13 +31,16 @@ namespace ScriptCoreLib.JavaScript.Components
 				Activated();
 		}
 
-		public event Action TextChanged;
+		public event Action Changed;
 		public static implicit operator SolutionDocumentViewerTab(string Text)
 		{
 			return new SolutionDocumentViewerTab { Text = Text };
 		}
 
 		public Action Activate;
+
+
+		public IHTMLElement TabElement;
 	}
 
 }

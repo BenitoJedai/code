@@ -1,4 +1,7 @@
 ﻿Public Module VisualStudioTemplates
+
+    ' http://www.simple-talk.com/dotnet/.net-tools/extending-msbuild/
+
     Public VisualCSharpProjectReferences As XElement = _
     <ItemGroup>
         <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
