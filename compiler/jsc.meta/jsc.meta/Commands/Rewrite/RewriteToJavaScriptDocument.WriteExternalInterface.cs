@@ -1157,16 +1157,28 @@ namespace jsc.meta.Commands.Rewrite
 
 				this.OutgoingInterfaceType = this.DeclaringType.DefineNestedType(
 					RewriteToJavaScriptDocument.__out_Method + "InterfaceType",
-					TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Interface, null);
+					TypeAttributes.NestedPublic | TypeAttributes.Abstract | TypeAttributes.Interface,
+					null
+				);
 
-				this.OutgoingDelayedType = this.DeclaringType.DefineNestedType(RewriteToJavaScriptDocument.__out_Method + "DelayedType", TypeAttributes.NestedPublic | TypeAttributes.Sealed, null, new Type[] { 
-					this.OutgoingInterfaceType 
-				});
-				//this.OutgoingDelayedType.AddInterfaceImplementation(this.OutgoingInterfaceType);
-				this.OutgoingDirectType = this.DeclaringType.DefineNestedType(RewriteToJavaScriptDocument.__out_Method + "DirectType", TypeAttributes.NestedPublic | TypeAttributes.Sealed, null, new Type[] { 
-					this.OutgoingInterfaceType 
-				});
-				//this.OutgoingDirectType.AddInterfaceImplementation(this.OutgoingInterfaceType);
+				this.OutgoingDelayedType = this.DeclaringType.DefineNestedType(
+					RewriteToJavaScriptDocument.__out_Method + "DelayedType",
+					TypeAttributes.NestedPublic | TypeAttributes.Sealed, 
+					null,
+					
+					new [] { 
+						this.OutgoingInterfaceType
+					}
+				);
+
+				this.OutgoingDirectType = this.DeclaringType.DefineNestedType(
+					RewriteToJavaScriptDocument.__out_Method + "DirectType",
+					TypeAttributes.NestedPublic | TypeAttributes.Sealed, null,
+
+					new[] { 
+						this.OutgoingInterfaceType
+					}
+				);
 
 				var OutgoingDelayedTypeConstructor = this.OutgoingDelayedType.DefineDefaultConstructor(MethodAttributes.Public);
 				var OutgoingDirectTypeConstructor = this.OutgoingDirectType.DefineDefaultConstructor(MethodAttributes.Public);
@@ -1564,7 +1576,10 @@ namespace jsc.meta.Commands.Rewrite
 					if (item.k.ReturnType == typeof(void))
 					{
 						#region Closure
-						var Closure = this.OutgoingDelayedType.DefineNestedType(RewriteToJavaScriptDocument.__out_MethodClosure + item.i,
+						var Closure = this.OutgoingDelayedType.DefineNestedType(
+
+							RewriteToJavaScriptDocument.__out_MethodClosure + item.i,
+
 							TypeAttributes.NestedPublic, null
 						);
 
@@ -1619,6 +1634,8 @@ namespace jsc.meta.Commands.Rewrite
 
 						il.Emit(OpCodes.Call, MethodCache[((Action<__InternalElementProxy, Action>)__InternalElementProxy.__AfterElementLoaded).Method]);
 						il.Emit(OpCodes.Ret);
+
+						// Enclosing type(s) not found for type '__out_MethodClosure0' in assembly 'PromotionWebApplication1.Application, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
 
 						Closure.CreateType();
 						#endregion

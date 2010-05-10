@@ -128,6 +128,7 @@
     <Compile Include="UltraWebService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\SolutionDockWindow.htm" />
     <Content Include="Design\SolutionDocumentViewer.htm" />
     <Content Include="My.UltraSource\Gadgets\CountDownGadget.htm" />
     <Content Include="My.UltraSource\Images\Common\CommonImages.htm" />
