@@ -9,6 +9,7 @@ using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.Ultra.Components.Avalon.Images;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
@@ -44,8 +45,8 @@ namespace ScriptCoreLib.JavaScript.Components
 
 
 			SaveContainer.style.SetSize(
-				InternalSaveActionSprite.DefaultWidth,
-				InternalSaveActionSprite.DefaultHeight
+				22,
+				22
 			);
 
 			SaveContainer.style.display = ScriptCoreLib.JavaScript.DOM.IStyle.DisplayEnum.inline_block;
