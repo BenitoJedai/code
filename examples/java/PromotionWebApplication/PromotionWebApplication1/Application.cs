@@ -32,6 +32,7 @@ using ScriptCoreLib.Ultra.Library.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Studio;
+using TestSolutionBuilderWithViewer.Views;
 
 namespace PromotionWebApplication1
 {
@@ -51,6 +52,15 @@ namespace PromotionWebApplication1
 		public void Button1_click(IEvent e)
 		{
 
+		}
+
+		private void AddSaveButton(IHTMLElement C, Action<ISaveAction> y)
+		{
+			//var ss = new SaveActionSprite();
+
+			//ss.AttachSpriteTo(C);
+
+			//ss.WhenReady(y);
 		}
 
 		public Application(IApplicationLoader app)
@@ -109,30 +119,10 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				if (Native.Document.location.hash.StartsWith("#/studio1"))
+				if (Native.Document.location.hash.StartsWith("#/studio"))
 				{
-					TestSolutionBuilderWithTreeView.CodeView.CreateView().Container.AttachToDocument();
-				}
-				else if (Native.Document.location.hash.StartsWith("#/studio"))
-				{
-					var view = new VisualStudioView();
+					new StudioView(AddSaveButton).Content.AttachToDocument();
 
-					var Save = new SaveActionSprite().AddSaveTo(view,
-						i =>
-						{
-							var sln = new SolutionBuilder();
-
-							i.FileName = sln.Name + ".zip";
-
-							new SolutionBuilder().WriteTo(i.Add);
-
-
-
-						}
-					);
-
-
-					view.Container.AttachToDocument();
 
 				}
 				else if (Native.Document.location.hash.StartsWith("#/docs"))
