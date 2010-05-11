@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					@type = "type",
 					@typeof = "typeof",
 					@do = "do",
+					@new = "new",
+					@fun = "fun",
 					@member = "member",
 					@assembly = "assembly",
 					@module = "module",
