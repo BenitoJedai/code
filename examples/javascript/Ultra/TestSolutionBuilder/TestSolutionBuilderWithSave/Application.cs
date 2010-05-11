@@ -30,7 +30,7 @@ namespace TestSolutionBuilderWithSave
 		{
 			WebService.DebugBreak("i am ready!");
 
-			y(this);
+			y(this.Implementation);
 		}
 	}
 

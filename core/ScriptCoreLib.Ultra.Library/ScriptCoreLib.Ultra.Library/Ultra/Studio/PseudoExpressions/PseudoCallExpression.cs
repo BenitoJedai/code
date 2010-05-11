@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 {
@@ -25,5 +26,11 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 
 			return that.Comment.Link;
 		}
+
+		/// <summary>
+		/// Visual Basic can inline xml. When this field is set, 
+		/// this expression is equal to the XLinq field.
+		/// </summary>
+		public XElement XLinq;
 	}
 }

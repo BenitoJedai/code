@@ -126,6 +126,7 @@
   <ItemGroup>
     <Content Include="Extensions\comments.txt" />
     <Content Include="Ultra\comments.txt" />
+    <Content Include="Ultra\Studio\Languages\comments.txt" />
     <Content Include="Ultra\WebService\comment.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +136,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationCallWebMethodExpression.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationToDocumentTitleExpression.cs" />
+    <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationYieldToDocumentTitleExpression.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\WebMethod2Expression.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\InteractiveComment.cs" />
     <Compile Include="Ultra\Studio\Languages\KnownLanguages.cs" />
@@ -143,6 +146,11 @@
     <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualBasicLanguage.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualFSharpLanguage.cs" />
+    <Compile Include="Ultra\Studio\Languages\WritePseudoCallExpression\VisualBasicLanguage.WritePseudoCallExpression.cs" />
+    <Compile Include="Ultra\Studio\Languages\WritePseudoCallExpression\VisualCSharpLanguage.WritePseudoCallExpression.cs" />
+    <Compile Include="Ultra\Studio\Languages\WritePseudoCallExpression\VisualFSharpLanguage.WritePseudoCallExpression.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoArrayExpression.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpressionExtensions.cs" />
     <Compile Include="Ultra\Studio\SolutionBuilderInteractive.cs" />
     <Compile Include="Ultra\Studio\SolutionFileComment.cs" />
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
@@ -150,6 +158,9 @@
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\StockUltraApplicationBuilder.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockApplicationWebServiceType.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />

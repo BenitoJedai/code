@@ -34,7 +34,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			this.Code = new SolutionProjectLanguageCode
 			{
 				Interactive.ApplicationToDocumentTitle,
-
+				Interactive.ApplicationCallWebMethod
 			};
 
 			this.DeclaringType = DeclaringType;

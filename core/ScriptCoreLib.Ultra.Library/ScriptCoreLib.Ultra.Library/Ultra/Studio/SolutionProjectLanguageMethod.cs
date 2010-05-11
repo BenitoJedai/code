@@ -19,6 +19,14 @@ namespace ScriptCoreLib.Ultra.Studio
 			}
 		}
 
+		public bool IsLambda
+		{
+			get
+			{
+				return this.Name == null;
+			}
+		}
+
 		public bool IsStatic;
 
 		public string Name;

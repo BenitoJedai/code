@@ -56,11 +56,11 @@ namespace TestSolutionBuilderWithViewer
 
 		private void AddSaveButton(IHTMLElement C, Action<ISaveAction> y)
 		{
-			var ss = new SaveActionSprite();
+			//var ss = new SaveActionSprite();
 
-			ss.AttachSpriteTo(C);
+			//ss.AttachSpriteTo(C);
 
-			ss.WhenReady(y);
+			//ss.WhenReady(y);
 		}
 
 	}

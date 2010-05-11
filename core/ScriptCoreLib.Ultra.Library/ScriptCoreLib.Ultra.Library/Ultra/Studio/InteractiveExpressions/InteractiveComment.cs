@@ -7,6 +7,14 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
 	public class InteractiveComment : SolutionFileComment
 	{
+		public event Action Click;
+
+		public void RaiseClick()
+		{
+			if (Click != null)
+				Click();
+		}
+
 		public static implicit operator InteractiveComment(string Comment)
 		{
 			return new InteractiveComment

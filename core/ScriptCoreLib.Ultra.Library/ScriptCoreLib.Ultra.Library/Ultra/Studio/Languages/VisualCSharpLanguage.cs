@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ScriptCoreLib.Ultra.Documentation;
 using System.Linq.Expressions;
-using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -51,31 +52,40 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m, SolutionBuilder Context)
 		{
-			this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
+			if (!m.IsLambda)
+				this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
 
 			File.Region(
 				delegate
 				{
-					this.WriteIndent(File);
 
-					File.Write(Keywords.@public);
-					File.WriteSpace();
-
-					if (m.IsStatic)
+					if (m.IsLambda)
 					{
-						File.Write(Keywords.@static);
+						File.Write(Keywords.@delegate);
 						File.WriteSpace();
-					}
-
-					if (m.IsConstructor)
-					{
-						WriteTypeName(File, m.DeclaringType);
 					}
 					else
 					{
-						File.Write(Keywords.@void);
+						this.WriteIndent(File);
+						File.Write(Keywords.@public);
 						File.WriteSpace();
-						File.Write(m.Name);
+
+						if (m.IsStatic)
+						{
+							File.Write(Keywords.@static);
+							File.WriteSpace();
+						}
+
+						if (m.IsConstructor)
+						{
+							WriteTypeName(File, m.DeclaringType);
+						}
+						else
+						{
+							File.Write(Keywords.@void);
+							File.WriteSpace();
+							File.Write(m.Name);
+						}
 					}
 
 					File.Write("(");
@@ -100,6 +110,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.WriteLine();
 
 					this.WriteMethodBody(File, m.Code, Context);
+
+					if (!m.IsLambda)
+					{
+						File.WriteLine();
+					}
 				}
 			);
 		}
@@ -141,126 +156,30 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						Lambda.Comment.WriteTo(File, this, Context);
 
 					this.WriteIndent(File);
-					WritePseudoCallExpression(File, Lambda);
+					WritePseudoCallExpression(File, Lambda, Context);
 					File.WriteLine(";");
 				}
 			}
 
 			File.CurrentIndent--;
 			this.WriteIndent(File);
-			File.WriteLine("}");
+			File.Write("}");
 		}
 
-		public override void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
-		{
-			if (Lambda.Method.Name == SolutionProjectLanguageMethod.op_Implicit)
-			{
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
-				return;
-			}
 
-			var Objectless = true;
-
-			if (Lambda.Method.IsExtensionMethod)
-			{
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
-				Objectless = false;
-			}
-			else
-			{
-				if (Lambda.Method.IsStatic)
-				{
-					if (Lambda.Method.DeclaringType != null)
-					{
-						WriteTypeName(File, Lambda.Method.DeclaringType);
-						Objectless = false;
-					}
-				}
-				else
-				{
-					if (Lambda.Object != null)
-					{
-						WritePseudoExpression(File, Lambda.Object);
-						Objectless = false;
-					}
-				}
-			}
-
-
-			if (Lambda.Method.Name == "Invoke")
-			{
-				// in c# we can omit the .Invoke on a delegate
-			}
-			else
-			{
-				var Target = Lambda.Method.Name;
-
-				if (Lambda.Method.IsProperty)
-				{
-					Target = Target.SkipUntilIfAny("set_").SkipUntilIfAny("get_");
-
-				}
-
-				if (!Objectless)
-				{
-					File.Write(".");
-				}
-
-				File.Write(
-					new SolutionFileWriteArguments
-					{
-						Fragment = SolutionFileTextFragment.None,
-						Text = Target,
-						Tag = Lambda.Method
-					}
-				);
-			}
-
-			if (Lambda.Method.IsProperty)
-			{
-				File.WriteSpace();
-				File.Write("=");
-				File.WriteSpace();
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
-
-			}
-			else
-			{
-
-				File.Write("(");
-
-				var Parameters = Lambda.ParameterExpressions.ToArray();
-
-				var FirstParameter = 0;
-
-				if (Lambda.Method.IsExtensionMethod)
-					FirstParameter = 1;
-
-				for (int i = FirstParameter; i < Parameters.Length; i++)
-				{
-					if (i > 0)
-					{
-						File.Write(",");
-						File.WriteSpace();
-					}
-
-					var Parameter = Parameters[i];
-
-					WritePseudoExpression(File, Parameter);
-				}
-
-				File.Write(")");
-			}
-
-
-		}
-
-		public override void WritePseudoExpression(SolutionFile File, object Parameter)
+		public override void WritePseudoExpression(SolutionFile File, object Parameter, SolutionBuilder Context)
 		{
 			var Code = Parameter as string;
 			if (Code != null)
 			{
 				File.Write(Code);
+				return;
+			}
+
+			var Argument = Parameter as SolutionProjectLanguageArgument;
+			if (Argument != null)
+			{
+				File.Write(Argument.Name);
 				return;
 			}
 
@@ -276,11 +195,56 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 
 
+			var Array = Parameter as PseudoArrayExpression;
+			if (Array != null)
+			{
+				File.CurrentIndent++;
+				File.WriteLine();
+				this.WriteIndent(File);
+
+				File.Write(Keywords.@new);
+				File.WriteSpace();
+
+				WriteTypeName(File, Array.ElementType);
+				File.Write("[]");
+
+				File.WriteSpace();
+				File.Write("{");
+
+				File.CurrentIndent++;
+				File.WriteLine();
+				this.WriteIndent(File);
+
+				Func<object, Action> AtWritePseudoExpression = k => () => WritePseudoExpression(File, k, Context);
+
+				Action WriteSeparator =
+					delegate
+					{
+						File.Write(",");
+						File.WriteLine();
+						this.WriteIndent(File);
+					};
+
+				Array.Items.ToArray().Select(AtWritePseudoExpression).SelectWithSeparator(WriteSeparator).Invoke();
+
+
+				File.CurrentIndent--;
+				File.WriteLine();
+				this.WriteIndent(File);
+
+				File.Write("}");
+
+				File.CurrentIndent--;
+				File.WriteLine();
+				this.WriteIndent(File);
+
+				return;
+			}
 
 			var Call = Parameter as PseudoCallExpression;
 			if (Call != null)
 			{
-				WritePseudoCallExpression(File, Call);
+				WritePseudoCallExpression(File, Call, Context);
 				return;
 			}
 
@@ -291,6 +255,20 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				File.Write("(");
 				WriteTypeName(File, Type);
 				File.Write(")");
+				return;
+			}
+
+			var XElement = Parameter as XElement;
+			if (XElement != null)
+			{
+				WritePseudoCallExpression(File, XElement.ToPseudoCallExpression(), Context);
+				return;
+			}
+
+			var Method = Parameter as SolutionProjectLanguageMethod;
+			if (Method != null)
+			{
+				WriteMethod(File, Method, Context);
 				return;
 			}
 
@@ -432,7 +410,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine(";");
 		}
 
-		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute)
+		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute, SolutionBuilder Context)
 		{
 			File.Write("[");
 			File.Write(Keywords.assembly);
@@ -449,7 +427,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					from item in Attribute.Parameters
 					select (Action)delegate
 					{
-						this.WritePseudoExpression(File, item);
+						this.WritePseudoExpression(File, item, Context);
 					}
 				);
 			}
@@ -468,7 +446,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								ParameterExpressions = new[] {
 										item.Value
 									}
-							}
+							}, Context
 						);
 					}
 				);

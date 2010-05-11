@@ -163,7 +163,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 
 					this.WriteIndent(File);
-					WritePseudoCallExpression(File, Lambda);
+					WritePseudoCallExpression(File, Lambda, Context);
 					File.WriteLine();
 				}
 			}
@@ -332,9 +332,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		}
 
-		
 
-		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute)
+
+		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute, SolutionBuilder Context)
 		{
 			File.Write("<");
 			File.Write(Keywords.Assembly);
@@ -351,7 +351,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					from item in Attribute.Parameters
 					select (Action)delegate
 					{
-						this.WritePseudoExpression(File, item);
+						this.WritePseudoExpression(File, item, Context);
 					}
 				);
 			}
@@ -371,7 +371,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								ParameterExpressions = new[] {
 										item.Value
 									}
-							}
+							}, Context
 						);
 					}
 				);
@@ -403,119 +403,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine();
 		}
 
-		public override void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda)
-		{
-			if (Lambda.Method.Name == SolutionProjectLanguageMethod.op_Implicit)
-			{
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
-				return;
-			}
 
-			var Objectless = true;
-
-			if (Lambda.Method.IsExtensionMethod)
-			{
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
-				Objectless = false;
-			}
-			else
-			{
-				if (Lambda.Method.IsStatic)
-				{
-					if (Lambda.Method.DeclaringType != null)
-					{
-						WriteTypeName(File, Lambda.Method.DeclaringType);
-						Objectless = false;
-					}
-				}
-				else
-				{
-					if (Lambda.Object != null)
-					{
-						WritePseudoExpression(File, Lambda.Object);
-						Objectless = false;
-					}
-				}
-			}
-
-
-			if (Lambda.Method.Name == "Invoke")
-			{
-				// in c# we can omit the .Invoke on a delegate
-			}
-			else
-			{
-				var Target = Lambda.Method.Name;
-
-				if (Lambda.Method.IsProperty)
-				{
-					Target = Target.SkipUntilIfAny("set_").SkipUntilIfAny("get_");
-
-				}
-
-				if (!Objectless)
-				{
-					File.Write(".");
-				}
-
-				File.Write(
-					new SolutionFileWriteArguments
-					{
-						Fragment = SolutionFileTextFragment.None,
-						Text = Target,
-						Tag = Lambda.Method
-					}
-				);
-			}
-
-			if (Lambda.Method.IsProperty)
-			{
-				File.WriteSpace();
-
-				if (Lambda.IsAttributeContext)
-				{
-					File.Write(":=");
-				}
-				else
-				{
-					File.Write("=");
-				}
-
-				File.WriteSpace();
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0]);
-
-			}
-			else
-			{
-
-				File.Write("(");
-
-				var Parameters = Lambda.ParameterExpressions.ToArray();
-
-				var FirstParameter = 0;
-
-				if (Lambda.Method.IsExtensionMethod)
-					FirstParameter = 1;
-
-				for (int i = FirstParameter; i < Parameters.Length; i++)
-				{
-					if (i > FirstParameter)
-					{
-						File.Write(", ");
-					}
-
-					var Parameter = Parameters[i];
-
-					WritePseudoExpression(File, Parameter);
-				}
-
-				File.Write(")");
-			}
-
-
-		}
-
-		public override void WritePseudoExpression(SolutionFile File, object Parameter)
+		public override void WritePseudoExpression(SolutionFile File, object Parameter, SolutionBuilder Context)
 		{
 			var Code = Parameter as string;
 			if (Code != null)
@@ -540,7 +429,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			var Call = Parameter as PseudoCallExpression;
 			if (Call != null)
 			{
-				WritePseudoCallExpression(File, Call);
+				WritePseudoCallExpression(File, Call, Context);
 				return;
 			}
 

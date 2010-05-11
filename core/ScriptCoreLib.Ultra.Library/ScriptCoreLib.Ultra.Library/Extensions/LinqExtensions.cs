@@ -39,6 +39,7 @@ namespace ScriptCoreLib.Extensions
 			}
 		}
 
+		
 		public static IEnumerable<T> SelectWithSeparator<T>(this IEnumerable<T> source, T f)
 		{
 			return source.SelectWithSeparator((p, c) => f);
