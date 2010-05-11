@@ -12,6 +12,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		{
 			var Objectless = true;
 
+			if (Lambda.Method.IsConstructor)
+			{
+				File.Write(Keywords.@new);
+				File.WriteSpace();
+				WriteTypeName(File, Lambda.Method.DeclaringType);
+				InternalWriteParameterList(File, Lambda, Context);
+				return;
+			}
+
+
 			if (Lambda.Method.IsExtensionMethod)
 			{
 				WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
@@ -63,38 +73,19 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			if (Lambda.Method.IsProperty)
 			{
-				File.WriteSpace();
-				File.Write("=");
-				File.WriteSpace();
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+				if (Lambda.ParameterExpressions.Length == 1)
+				{
+					File.WriteSpace();
+					File.Write("<-");
+					File.WriteSpace();
+					WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+				}
 
 			}
 			else
 			{
-
-				File.Write("(");
-
-				var Parameters = Lambda.ParameterExpressions.ToArray();
-
-				var FirstParameter = 0;
-
-				if (Lambda.Method.IsExtensionMethod)
-					FirstParameter = 1;
-
-				for (int i = FirstParameter; i < Parameters.Length; i++)
-				{
-					if (i > 0)
-					{
-						File.Write(",");
-						File.WriteSpace();
-					}
-
-					var Parameter = Parameters[i];
-
-					WritePseudoExpression(File, Parameter, Context);
-				}
-
-				File.Write(")");
+				InternalWriteParameterList(File, Lambda, Context);
+			;
 			}
 		}
 

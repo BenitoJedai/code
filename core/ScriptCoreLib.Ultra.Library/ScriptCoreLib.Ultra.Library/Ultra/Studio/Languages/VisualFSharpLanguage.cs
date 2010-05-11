@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -43,23 +44,31 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
-			this.WriteSummary(File, Method.Summary, Method.Parameters.ToArray());
+			if (Method.IsLambda)
+			{
+				File.Write(Keywords.fun);
+				File.Write("(");
+				InternalWriteParameters(File, Method.Parameters.ToArray());
+				File.Write(")");
+			}
+			else
+			{
+				this.WriteSummary(File, Method.Summary, Method.Parameters.ToArray());
 
 
-			WriteIndent(File);
-			File.Write(Keywords.member);
-			File.WriteSpace();
-			File.Write("this");
-			File.Write(".");
-			File.Write(Method.Name);
-			File.Write("(");
+				WriteIndent(File);
+				File.Write(Keywords.member);
+				File.WriteSpace();
+				File.Write("this");
+				File.Write(".");
+				File.Write(Method.Name);
+				File.Write("(");
+				InternalWriteParameters(File, Method.Parameters.ToArray());
+				File.Write(")");
+				File.WriteSpace();
+				File.Write("=");
+			}
 
-			var Parameters = Method.Parameters.ToArray();
-			InternalWriteParameters(File, Parameters);
-
-			File.Write(")");
-			File.WriteSpace();
-			File.Write("=");
 			File.WriteLine();
 
 			File.Indent(this,
@@ -247,7 +256,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 										File.WriteLine();
 
-										
+
 									}
 
 									// .ctor !
@@ -379,6 +388,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
+			var Argument = Parameter as SolutionProjectLanguageArgument;
+			if (Argument != null)
+			{
+				File.Write(Argument.Name);
+				return;
+			}
+
 			var Constant = Parameter as PseudoConstantExpression;
 			if (Constant != null)
 			{
@@ -408,11 +424,157 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				File.Write(">");
 				return;
 			}
+
+			var XElement = Parameter as XElement;
+			if (XElement != null)
+			{
+				WritePseudoCallExpression(File, XElement.ToPseudoCallExpression(), Context);
+				return;
+			}
+
+			var Method = Parameter as SolutionProjectLanguageMethod;
+			if (Method != null)
+			{
+				WriteMethod(File, Method, Context);
+				return;
+			}
+
+			var Array = Parameter as PseudoArrayExpression;
+			if (Array != null)
+			{
+				File.WriteLine();
+				File.Indent(this,
+					delegate
+					{
+						this.WriteIndent(File);
+
+						//File.Write(Keywords.@new);
+						//File.WriteSpace();
+
+						//WriteTypeName(File, Array.ElementType);
+						//File.Write("[]");
+
+						//File.WriteSpace();
+						File.Write("[");
+						File.WriteLine();
+
+						File.Indent(this,
+							delegate
+							{
+								this.WriteIndent(File);
+
+								Func<object, Action> AtWritePseudoExpression = k => () => WritePseudoExpression(File, k, Context);
+
+								Action WriteSeparator =
+									delegate
+									{
+										File.Write(",");
+										File.WriteLine();
+										this.WriteIndent(File);
+									};
+
+								Array.Items.ToArray().Select(AtWritePseudoExpression).SelectWithSeparator(WriteSeparator).Invoke();
+								
+							}
+						);
+
+						File.WriteLine();
+						this.WriteIndent(File);
+
+						File.Write("]");
+						
+					}
+				);
+
+				File.WriteLine();
+				this.WriteIndent(File);
+
+				return;
+			}
+
 		}
 
 		public override void WriteSingleIndent(SolutionFile File)
 		{
-			File.Write(SolutionFileTextFragment.Indent, "    "); 
+			File.Write(SolutionFileTextFragment.Indent, "    ");
+		}
+
+		private void InternalWriteParameterList(SolutionFile File, PseudoCallExpression Lambda, SolutionBuilder Context)
+		{
+			File.Write("(");
+
+			var HasComplexParameter = Lambda.ParameterExpressions.Any(
+				k =>
+				{
+					if (k is XElement)
+						return true;
+
+					var Call = k as PseudoCallExpression;
+					if (Call != null)
+					{
+						if (Call.XLinq != null)
+							return true;
+					}
+
+					return false;
+				}
+			);
+
+			Action Body =
+				delegate
+				{
+					var Parameters = Lambda.ParameterExpressions.ToArray();
+
+					var FirstParameter = 0;
+
+					if (Lambda.Method.IsExtensionMethod)
+						FirstParameter = 1;
+
+					for (int i = FirstParameter; i < Parameters.Length; i++)
+					{
+						if (i > 0)
+						{
+							if (HasComplexParameter)
+							{
+								File.Write(",");
+								File.WriteLine();
+								WriteIndent(File);
+							}
+							else
+							{
+								File.Write(",");
+								File.WriteSpace();
+							}
+						}
+
+						var Parameter = Parameters[i];
+
+						WritePseudoExpression(File, Parameter, Context);
+					}
+				};
+
+			if (HasComplexParameter)
+			{
+				File.WriteLine();
+				File.Indent(this,
+					delegate
+					{
+
+						WriteIndent(File);
+
+						Body();
+
+						File.WriteLine();
+					}
+				);
+				WriteIndent(File);
+			}
+			else
+			{
+				Body();
+			}
+
+			File.Write(")");
 		}
 	}
 }
