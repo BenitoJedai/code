@@ -1180,6 +1180,8 @@ namespace jsc.meta.Commands.Rewrite
 					}
 				);
 
+				Action OutgoingTypesCreated = delegate { };
+
 				var OutgoingDelayedTypeConstructor = this.OutgoingDelayedType.DefineDefaultConstructor(MethodAttributes.Public);
 				var OutgoingDirectTypeConstructor = this.OutgoingDirectType.DefineDefaultConstructor(MethodAttributes.Public);
 
@@ -1637,7 +1639,12 @@ namespace jsc.meta.Commands.Rewrite
 
 						// Enclosing type(s) not found for type '__out_MethodClosure0' in assembly 'PromotionWebApplication1.Application, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
 
-						Closure.CreateType();
+						OutgoingTypesCreated +=
+							delegate
+							{
+								Closure.CreateType();
+							};
+
 						#endregion
 
 					}
@@ -1689,6 +1696,8 @@ namespace jsc.meta.Commands.Rewrite
 						this.OutgoingInterfaceType.CreateType();
 						this.OutgoingDelayedType.CreateType();
 						this.OutgoingDirectType.CreateType();
+
+						OutgoingTypesCreated();
 					};
 
 
