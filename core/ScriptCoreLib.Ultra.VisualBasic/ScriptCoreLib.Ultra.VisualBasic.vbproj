@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ultra\Data\VisualStudioTemplates.vb" />
+    <Compile Include="Ultra\Studio\StockData\StockWebMethod2Data.vb" />
     <Compile Include="Ultra\Studio\StockPages\StockPageDefault.vb" />
     <Compile Include="Ultra\WebService\WebElements.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

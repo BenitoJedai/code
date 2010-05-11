@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.Ultra.Studio;
 using ScriptCoreLib.Ultra.Studio.Languages;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Ultra.Studio.InteractiveExpressions;
 
 namespace TestSolutionBuilderWithViewer.Interactive
 {
@@ -105,6 +106,22 @@ namespace TestSolutionBuilderWithViewer.Interactive
 
 					Update();
 				}
+			);
+
+			Action<InteractiveComment> AtInteractiveComment =
+				c =>
+				{
+					AtLink(c,
+						vv =>
+						{
+							c.RaiseClick();
+							Update();
+						}
+					);
+				};
+
+			AtInteractiveComment(
+				sln.Interactive.ApplicationYieldToDocumentTitle.InteractiveComment
 			);
 
 		}

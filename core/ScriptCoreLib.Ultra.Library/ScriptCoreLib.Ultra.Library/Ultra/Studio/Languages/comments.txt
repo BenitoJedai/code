@@ -1,0 +1,1 @@
+﻿We are experimenting with by feature grouping of partial types.

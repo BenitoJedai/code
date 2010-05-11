@@ -18,6 +18,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				@static = "static",
 				@typeof = "typeof",
 				@void = "void",
+				@new = "new",
+				@delegate = "delegate",
 				@namespace = "namespace"
 			;
 		}

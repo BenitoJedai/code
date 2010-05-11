@@ -6,7 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
 using TestSolutionBuilderWithViewer.HTML.Pages;
-using TestSolutionBuilderWithViewer.Flash;
+//using TestSolutionBuilderWithViewer.Flash;
 using TestSolutionBuilderWithViewer.Interactive;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
@@ -109,10 +109,26 @@ namespace TestSolutionBuilderWithViewer.Views
 			SolutionDocumentViewerTab File1 = "File1";
 			Viewer.Add(File1);
 
-			var v = new SolutionFileView();
+			var File1Content = new IHTMLDiv();
 
-			v.Container.style.height = "100%";
+			// location + design
 
+			File1Content.style.left = "0px";
+			File1Content.style.top = "1em";
+			File1Content.style.right = "0px";
+			File1Content.style.bottom = "1em";
+			File1Content.style.position = IStyle.PositionEnum.absolute;
+
+
+			var File1View = new SolutionFileView();
+
+			File1View.Container.style.left = "0px";
+			File1View.Container.style.top = "0px";
+			File1View.Container.style.right = "0px";
+			File1View.Container.style.bottom = "0px";
+			File1View.Container.style.position = IStyle.PositionEnum.absolute;
+
+			File1Content.ReplaceContentWith(File1View.Container);
 
 			var sln = new SolutionBuilder();
 
@@ -127,9 +143,9 @@ namespace TestSolutionBuilderWithViewer.Views
 				delegate
 				{
 
-					if (v.File != null)
+					if (File1View.File != null)
 					{
-						File1.Text = v.File.Name.SkipUntilIfAny("/");
+						File1.Text = File1View.File.Name.SkipUntilIfAny("/");
 					}
 					else
 					{
@@ -146,12 +162,25 @@ namespace TestSolutionBuilderWithViewer.Views
 					UpdateFile1Text();
 
 					_Project.Clear();
-					UpdateTree(sln, v, _Solution, _Project);
+					UpdateTree(sln, File1View, _Solution, _Project);
 				};
 
-			v.FileChanged +=
+			File1View.FileChanged +=
 				delegate
 				{
+					if (File1View.File.Name.EndsWith(".htm"))
+					{
+						File1Content.style.top = "0px";
+						File1Content.style.bottom = "1em";
+						// show the design/source buttons
+					}
+					else if (File1View.File.Name.EndsWith(sln.Language.CodeFileExtension))
+					{
+						File1Content.style.top = "1em";
+						File1Content.style.bottom = "0px";
+						// show type outline / member
+					}
+
 					UpdateFile1Text();
 
 					File1.Activate();
@@ -177,8 +206,10 @@ namespace TestSolutionBuilderWithViewer.Views
 			File1.Activated +=
 				delegate
 				{
+				
+
 					// our about page has dynamic size..
-					Viewer.Content.ReplaceContentWith(v.Container);
+					Viewer.Content.ReplaceContentWith(File1Content);
 				};
 
 			AboutTab.Activate();
@@ -203,7 +234,7 @@ namespace TestSolutionBuilderWithViewer.Views
 
 			Update();
 
-			new Rules(v, sln, Update);
+			new Rules(File1View, sln, Update);
 		}
 
 	
@@ -258,7 +289,11 @@ namespace TestSolutionBuilderWithViewer.Views
 					if (!string.IsNullOrEmpty(Folder))
 					{
 						if (!FolderLookup.ContainsKey(Folder))
-							FolderLookup[Folder] = _Project.Add(Folder);
+						{
+							var _Folder = _Project.Add(Folder);
+							FolderLookup[Folder] = _Folder;
+							_Folder.IsExpanded = true;
+						}
 					}
 				}
 			);
