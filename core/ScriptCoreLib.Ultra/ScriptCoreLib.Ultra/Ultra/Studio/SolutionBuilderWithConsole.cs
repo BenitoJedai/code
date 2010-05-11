@@ -21,6 +21,10 @@ namespace ScriptCoreLib.Ultra.Studio
 				{ SolutionFileTextFragment.None, ConsoleColor.Gray },
 
 				{ SolutionFileTextFragment.String, ConsoleColor.Red },
+				{ SolutionFileTextFragment.XMLAttributeName, ConsoleColor.Red },
+				{ SolutionFileTextFragment.XMLAttributeValue, ConsoleColor.Blue },
+				{ SolutionFileTextFragment.XMLComment, ConsoleColor.Green},
+				{ SolutionFileTextFragment.XMLKeyword, ConsoleColor.Blue},
 				{ SolutionFileTextFragment.Type, ConsoleColor.Yellow },
 
 			};
@@ -35,6 +39,13 @@ namespace ScriptCoreLib.Ultra.Studio
 					//if (SolutionFile.WriteHistory.Count > 1)
 					foreach (var item in SolutionFile.WriteHistory)
 					{
+						if (item.Fragment == SolutionFileTextFragment.Indent)
+							Console.BackgroundColor = ConsoleColor.DarkGray;
+						else if (item.Fragment == SolutionFileTextFragment.XMLText )
+							Console.BackgroundColor = ConsoleColor.DarkCyan;
+						else 
+							Console.BackgroundColor = ConsoleColor.Black;
+
 						if (Lookup.ContainsKey(item.Fragment))
 							Console.ForegroundColor = Lookup[item.Fragment];
 						else

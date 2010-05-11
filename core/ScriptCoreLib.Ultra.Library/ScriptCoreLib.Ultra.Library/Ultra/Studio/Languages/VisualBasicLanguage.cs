@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -36,64 +37,68 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteIndent(SolutionFile File)
 		{
-			File.CurrentIndent.Times(
-				delegate
-				{
-					File.Write(SolutionFileTextFragment.Indent, "\t");
-				}
-			);
-
+			File.IndentStack.Invoke();
 		}
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
 			var m = Method;
 
-			this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
+			if (!m.IsLambda)
+				this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
 
 
 			File.Region(
 				delegate
 				{
-					this.WriteIndent(File);
-
-					File.Write(Keywords.Public);
-					File.WriteSpace();
-
-					if (m.IsStatic)
+					if (m.IsLambda)
 					{
-						var IsModule = false;
+						File.Write(Keywords.Sub);
+						File.WriteSpace();
 
-						if (m.DeclaringType != null)
-						{
-							if (m.DeclaringType.IsStatic)
-							{
-								IsModule = true;
-							}
-						}
-
-						if (IsModule)
-						{
-						}
-						else
-						{
-							File.Write(Keywords.Shared);
-							File.WriteSpace();
-						}
-					}
-
-
-
-					File.Write(Keywords.Sub);
-					File.WriteSpace();
-
-					if (m.IsConstructor)
-					{
-						File.Write(Keywords.New);
 					}
 					else
 					{
-						File.Write(m.Name);
+						this.WriteIndent(File);
+
+						File.Write(Keywords.Public);
+						File.WriteSpace();
+
+						if (m.IsStatic)
+						{
+							var IsModule = false;
+
+							if (m.DeclaringType != null)
+							{
+								if (m.DeclaringType.IsStatic)
+								{
+									IsModule = true;
+								}
+							}
+
+							if (IsModule)
+							{
+							}
+							else
+							{
+								File.Write(Keywords.Shared);
+								File.WriteSpace();
+							}
+						}
+
+
+
+						File.Write(Keywords.Sub);
+						File.WriteSpace();
+
+						if (m.IsConstructor)
+						{
+							File.Write(Keywords.New);
+						}
+						else
+						{
+							File.Write(m.Name);
+						}
 					}
 
 					File.Write("(");
@@ -131,44 +136,48 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		{
 			// should this be an extension method to all languages?
 
-			File.CurrentIndent++;
-
-			// ? :)
-			foreach (var item in Code.History.ToArray())
-			{
+			File.Indent(this,
+				delegate
 				{
-					var Comment = item as string;
-					if (Comment != null)
+
+					// ? :)
+					foreach (var item in Code.History.ToArray())
 					{
-						this.WriteIndent(File);
-						this.WriteCommentLine(File, Comment);
+						{
+							var Comment = item as string;
+							if (Comment != null)
+							{
+								this.WriteIndent(File);
+								this.WriteCommentLine(File, Comment);
+							}
+						}
+
+						{
+							var Comment = item as SolutionFileComment;
+							if (Comment != null)
+							{
+								Comment.WriteTo(File, this, Context);
+								return;
+							}
+						}
+
+						var Lambda = item as PseudoCallExpression;
+
+						if (Lambda != null)
+						{
+							if (Lambda.Comment != null)
+								Lambda.Comment.WriteTo(File, this, Context);
+
+
+							this.WriteIndent(File);
+							WritePseudoCallExpression(File, Lambda, Context);
+							File.WriteLine();
+						}
 					}
+
 				}
+			);
 
-				{
-					var Comment = item as SolutionFileComment;
-					if (Comment != null)
-					{
-						Comment.WriteTo(File, this, Context);
-						return;
-					}
-				}
-
-				var Lambda = item as PseudoCallExpression;
-
-				if (Lambda != null)
-				{
-					if (Lambda.Comment != null)
-						Lambda.Comment.WriteTo(File, this, Context);
-
-
-					this.WriteIndent(File);
-					WritePseudoCallExpression(File, Lambda, Context);
-					File.WriteLine();
-				}
-			}
-
-			File.CurrentIndent--;
 			this.WriteIndent(File);
 
 			File.Write(Keywords.End);
@@ -229,7 +238,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context)
 		{
 			File.Write(this, Context, Type.Comments);
-	
+
 
 
 
@@ -247,82 +256,87 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.WriteSpace();
 					File.Write(Type.Namespace);
 					File.WriteLine();
-					File.CurrentIndent++;
 
-
-					this.WriteSummary(
-							File,
-
-							Type.Summary
-						);
-
-
-					File.Region(
+					File.Indent(this,
 						delegate
 						{
 
-							this.WriteIndent(File);
-							File.Write(Keywords.Public);
-							File.WriteSpace();
 
-
-							if (Type.IsSealed)
-							{
-								File.Write(Keywords.NotInheritable);
-								File.WriteSpace();
-							}
-
-							if (!Type.IsStatic)
-							{
-								File.Write(Keywords.Class);
-							}
-							else
-							{
-								File.Write(Keywords.Module);
-							}
-
-							File.WriteSpace();
-							File.Write(Type);
-							File.WriteLine();
-
-							File.CurrentIndent++;
-
-
-
-							foreach (var item in Type.Methods.ToArray())
-							{
-
-								this.WriteMethod(
+							this.WriteSummary(
 									File,
-									item,
-									Context
+
+									Type.Summary
 								);
 
 
-								File.WriteLine();
-							}
+							File.Region(
+								delegate
+								{
+
+									this.WriteIndent(File);
+									File.Write(Keywords.Public);
+									File.WriteSpace();
+
+
+									if (Type.IsSealed)
+									{
+										File.Write(Keywords.NotInheritable);
+										File.WriteSpace();
+									}
+
+									if (!Type.IsStatic)
+									{
+										File.Write(Keywords.Class);
+									}
+									else
+									{
+										File.Write(Keywords.Module);
+									}
+
+									File.WriteSpace();
+									File.Write(Type);
+									File.WriteLine();
+
+									File.Indent(this,
+										delegate
+										{
+											foreach (var item in Type.Methods.ToArray())
+											{
+
+												this.WriteMethod(
+													File,
+													item,
+													Context
+												);
+
+
+												File.WriteLine();
+											}
 
 
 
+											File.WriteLine();
+										}
+									);
+
+									this.WriteIndent(File);
+									File.Write(Keywords.End);
+									File.WriteSpace();
+									if (!Type.IsStatic)
+									{
+										File.Write(Keywords.Class);
+									}
+									else
+									{
+										File.Write(Keywords.Module);
+									}
+								}
+							);
 							File.WriteLine();
 
-							File.CurrentIndent--;
-							this.WriteIndent(File);
-							File.Write(Keywords.End);
-							File.WriteSpace();
-							if (!Type.IsStatic)
-							{
-								File.Write(Keywords.Class);
-							}
-							else
-							{
-								File.Write(Keywords.Module);
-							}
 						}
 					);
-					File.WriteLine();
 
-					File.CurrentIndent--;
 					File.Write(Keywords.End);
 					File.WriteSpace();
 					File.Write(Keywords.Namespace);
@@ -413,6 +427,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
+
+			var Argument = Parameter as SolutionProjectLanguageArgument;
+			if (Argument != null)
+			{
+				File.Write(Argument.Name);
+				return;
+			}
+
+
 			var Constant = Parameter as PseudoConstantExpression;
 			if (Constant != null)
 			{
@@ -443,9 +466,39 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
+			var XElement = Parameter as XElement;
+			if (XElement != null)
+			{
+				var x = File.IndentStack;
+
+				var xx = XElement.Nodes().Last() as XText;
+				if (xx != null)
+				{
+					var Padding = xx.Value.SkipUntilLastOrEmpty("\n");
+					File.Write(Padding);
+				}
+
+				File.IndentStack = new Stack<Action>();
+				File.Write(XElement);
+
+				File.IndentStack = x;
+				File.WriteLine();
+				WriteIndent(File);
+				return;
+			}
+
+			var Method = Parameter as SolutionProjectLanguageMethod;
+			if (Method != null)
+			{
+				WriteMethod(File, Method, Context);
+				return;
+			}
 		}
 
-
+		public override void WriteSingleIndent(SolutionFile File)
+		{
+			File.Write(SolutionFileTextFragment.Indent, "\t");
+		}
 
 	}
 }

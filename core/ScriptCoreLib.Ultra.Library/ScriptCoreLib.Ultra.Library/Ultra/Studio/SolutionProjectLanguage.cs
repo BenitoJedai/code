@@ -33,6 +33,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public void WritePseudoExpression(SolutionFile File, object Parameter, SolutionBuilder Context);
 		abstract public void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda, SolutionBuilder Context);
 
+		abstract public void WriteSingleIndent(SolutionFile File);
 
 		public class Keyword : SolutionFileWriteArguments
 		{

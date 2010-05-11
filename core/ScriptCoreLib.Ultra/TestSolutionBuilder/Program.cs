@@ -15,7 +15,7 @@ namespace TestSolutionBuilder
 			var sln = new SolutionBuilder
 			{
 				Name = "VisualCSharpProject1",
-				//Language = new VisualBasicLanguage()
+				Language = new VisualBasicLanguage()
 			};
 
 		
