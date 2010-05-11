@@ -18,10 +18,22 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 				Name = "XElement"
 			};
 
+			var XAttribute = new SolutionProjectLanguageType
+			{
+				Namespace = "System.Xml.Linq",
+				Name = "XAttribute"
+			};
+
 			var XName = new SolutionProjectLanguageType
 			{
 				Namespace = "System.Xml.Linq",
 				Name = "XName"
+			};
+
+			var XComment = new SolutionProjectLanguageType
+			{
+				Namespace = "System.Xml.Linq",
+				Name = "XComment"
 			};
 
 			#region XNameFromString
@@ -61,6 +73,32 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 
 					Content.ElementType = new SolutionProjectLanguageType { Name = "object" };
 
+					foreach (var item in ee.Attributes().ToArray())
+					{
+						Content.Items.Add(
+							new PseudoCallExpression
+							{
+
+								Method = new SolutionProjectLanguageMethod
+								{
+									Name = SolutionProjectLanguageMethod.ConstructorName,
+
+									DeclaringType = XAttribute,
+									ReturnType = XAttribute
+								},
+
+								ParameterExpressions = new object []
+								{
+									XNameFromString(item.Name.LocalName),
+									new PseudoConstantExpression
+									{
+										Value = item.Value
+									}
+								}
+							}
+						);
+					}
+
 					foreach (var item in ee.Nodes().ToArray())
 					{
 						var _XText = item as XText;
@@ -82,6 +120,34 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 							);
 						}
 
+
+						var _XComment = item as XComment;
+						if (_XComment != null)
+						{
+							Content.Items.Add(
+								new PseudoCallExpression
+								{
+
+									Method = new SolutionProjectLanguageMethod
+									{
+										Name = SolutionProjectLanguageMethod.ConstructorName,
+
+										DeclaringType = XComment,
+										ReturnType = XComment
+									},
+
+									ParameterExpressions = new object[]
+									{
+										new PseudoConstantExpression
+										{
+											Value = _XComment.Value
+										}
+									}
+								}
+							);
+						}
+
+						
 					}
 
 					NewParameters.Add(Content);

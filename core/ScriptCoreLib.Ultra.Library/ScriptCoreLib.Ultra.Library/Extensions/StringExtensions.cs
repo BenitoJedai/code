@@ -22,6 +22,17 @@ namespace ScriptCoreLib.Extensions
 			return e.Substring(i + u.Length);
 		}
 
+
+		public static string SkipUntilLastOrEmpty(this string e, string u)
+		{
+			var i = e.LastIndexOf(u);
+
+			if (i < 0)
+				return "";
+
+			return e.Substring(i + u.Length);
+		}
+
 		public static string SkipUntilIfAny(this string e, string u)
 		{
 			var i = e.IndexOf(u);

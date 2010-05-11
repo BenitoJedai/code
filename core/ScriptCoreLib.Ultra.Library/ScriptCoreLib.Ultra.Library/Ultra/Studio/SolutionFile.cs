@@ -43,7 +43,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		[Obsolete]
 		public int CurrentIndent { get; set; }
 
-		public readonly Stack<Action> IndentStack;
+		public Stack<Action> IndentStack;
 
 
 		public void Write(string Text)

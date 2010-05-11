@@ -410,5 +410,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 		}
 
+		public override void WriteSingleIndent(SolutionFile File)
+		{
+			File.Write(SolutionFileTextFragment.Indent, "    "); 
+		}
 	}
 }

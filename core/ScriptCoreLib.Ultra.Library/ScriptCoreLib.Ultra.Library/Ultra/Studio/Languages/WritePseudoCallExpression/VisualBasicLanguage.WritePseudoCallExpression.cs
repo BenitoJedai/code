@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using ScriptCoreLib.Extensions;
+using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -14,6 +15,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			if (Lambda.Method.Name == SolutionProjectLanguageMethod.op_Implicit)
 			{
 				WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+				return;
+			}
+
+			if (Lambda.Method.IsConstructor)
+			{
+				File.Write(Keywords.New);
+				File.WriteSpace();
+				WriteTypeName(File, Lambda.Method.DeclaringType);
+				InternalWriteParameterList(File, Lambda, Context);
 				return;
 			}
 
@@ -76,50 +86,118 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			if (Lambda.Method.IsProperty)
 			{
-				File.WriteSpace();
 
-				if (Lambda.IsAttributeContext)
+				if (Lambda.ParameterExpressions.Length == 1)
 				{
-					File.Write(":=");
-				}
-				else
-				{
-					File.Write("=");
-				}
+					File.WriteSpace();
 
-				File.WriteSpace();
-				WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+					if (Lambda.IsAttributeContext)
+					{
+						File.Write(":=");
+					}
+					else
+					{
+						File.Write("=");
+					}
+
+					File.WriteSpace();
+					WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+				}
 
 			}
 			else
 			{
 
-				File.Write("(");
-
-				var Parameters = Lambda.ParameterExpressions.ToArray();
-
-				var FirstParameter = 0;
-
-				if (Lambda.Method.IsExtensionMethod)
-					FirstParameter = 1;
-
-				for (int i = FirstParameter; i < Parameters.Length; i++)
-				{
-					if (i > FirstParameter)
-					{
-						File.Write(", ");
-					}
-
-					var Parameter = Parameters[i];
-
-					WritePseudoExpression(File, Parameter, Context);
-				}
-
-				File.Write(")");
+				InternalWriteParameterList(File, Lambda, Context);
 			}
 
 
 		}
+
+		private void InternalWriteParameterList(SolutionFile File, PseudoCallExpression Lambda, SolutionBuilder Context)
+		{
+			File.Write("(");
+
+			var HasComplexParameter = Lambda.ParameterExpressions.Any(
+				k =>
+				{
+					if (k is XElement)
+						return true;
+
+					var Call = k as PseudoCallExpression;
+					if (Call != null)
+					{
+						if (Call.XLinq != null)
+							return true;
+					}
+
+					return false;
+				}
+			);
+
+			Action Body =
+				delegate
+				{
+					var Parameters = Lambda.ParameterExpressions.ToArray();
+
+					var FirstParameter = 0;
+
+					if (Lambda.Method.IsExtensionMethod)
+						FirstParameter = 1;
+
+					for (int i = FirstParameter; i < Parameters.Length; i++)
+					{
+						if (i > 0)
+						{
+							if (HasComplexParameter)
+							{
+								File.Write(",");
+								File.WriteLine();
+								WriteIndent(File);
+							}
+							else
+							{
+								File.Write(",");
+								File.WriteSpace();
+							}
+						}
+
+						var Parameter = Parameters[i];
+
+						WritePseudoExpression(File, Parameter, Context);
+					}
+				};
+
+			if (HasComplexParameter)
+			{
+				File.WriteLine();
+				File.Indent(this,
+					delegate
+					{
+						if (Lambda.ParameterExpressions.FirstOrDefault() is XElement)
+						{
+							// xlinq has no indent...
+						}
+						else
+						{
+							WriteIndent(File);
+						}
+
+						Body();
+
+						File.WriteLine();
+					}
+				);
+				WriteIndent(File);
+			}
+			else
+			{
+				Body();
+			}
+
+			File.Write(")");
+		}
+
 
 	}
 }
