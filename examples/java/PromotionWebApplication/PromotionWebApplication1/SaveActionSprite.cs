@@ -11,15 +11,15 @@ using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace PromotionWebApplication1
 {
-	//public sealed class SaveActionSprite : SaveAction, ISaveActionWhenReady
-	//{
-	//    public const int DefaultWidth = 24 - 2;
-	//    public const int DefaultHeight = 24 - 2;
+	public sealed class SaveActionSprite : SaveAction, ISaveActionWhenReady
+	{
+		public const int DefaultWidth = 24 - 2;
+		public const int DefaultHeight = 24 - 2;
 
 
-	//    public void WhenReady(Action<ISaveAction> y)
-	//    {
-	//        y(this);
-	//    }
-	//}
+		public void WhenReady(Action<ISaveAction> y)
+		{
+			y(this.Implementation);
+		}
+	}
 }

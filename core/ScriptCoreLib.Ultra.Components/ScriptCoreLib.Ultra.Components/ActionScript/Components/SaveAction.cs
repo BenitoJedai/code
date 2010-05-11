@@ -17,13 +17,39 @@ using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.ActionScript.Components
 {
-	public abstract class SaveAction : Sprite, ScriptCoreLib.ActionScript.Components.ISaveAction
+	public class SaveActionImplementation : ISaveAction
 	{
+		public ZIPFile zip = new ZIPFile();
+
+		public SaveActionImplementation()
+		{
+			this.FileName = "project1.zip";
+		}
+
+		public void Clear()
+		{
+			this.zip = new ZIPFile();
+		}
+
+		public void Add(string name, XElement data)
+		{
+			zip.Add(name, data.ToString());
+		}
+
+		public void Add(string name, string data)
+		{
+			zip.Add(name, data);
+		}
+
+		public string FileName { get; set; }	
+	}
+
+	public abstract class SaveAction : Sprite
+	{
+		public SaveActionImplementation Implementation = new SaveActionImplementation();
 
 		public SaveAction()
 		{
-			this.FileName = "project1.zip";
-
 			this.InvokeWhenStageIsReady(
 				delegate
 				{
@@ -60,7 +86,10 @@ namespace ScriptCoreLib.ActionScript.Components
 							// utf8?
 							//var m = new MemoryStream(Encoding.ASCII.GetBytes(data));
 
-							f.Save(zip, (((ISaveAction)this).FileName).SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") + ".zip");
+							f.Save(
+								Implementation.zip, 
+								(Implementation.FileName).SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") + ".zip"
+							);
 
 
 
@@ -72,24 +101,7 @@ namespace ScriptCoreLib.ActionScript.Components
 
 
 
-		ZIPFile zip = new ZIPFile();
-
-		public void Clear()
-		{
-			this.zip = new ZIPFile();
-		}
-
-		public void Add(string name, XElement data)
-		{
-			zip.Add(name, data.ToString());
-		}
-
-		public void Add(string name, string data)
-		{
-			zip.Add(name, data);
-		}
-
-		public string FileName { get; set; }
+	
 
 
 	}
