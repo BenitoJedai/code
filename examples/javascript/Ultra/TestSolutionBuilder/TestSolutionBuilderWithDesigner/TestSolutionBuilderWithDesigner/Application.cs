@@ -40,8 +40,8 @@ namespace TestSolutionBuilderWithDesigner
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IDefaultPage page)
 		{
-			new JSCSolutionsNETImage().ToBackground(page.Item1.style);
-			new JSCSolutionsNETImage().ToBackground(page.Item2.style);
+			new JSCSolutionsNETImage().ToBackground(page.Item1.style, false);
+			new JSCSolutionsNETImage().ToBackground(page.Item2.style, false);
 
 
 			// Update document title
@@ -59,25 +59,25 @@ namespace TestSolutionBuilderWithDesigner
 
 			v.File = f;
 
-			var Constraint = new IHTMLDiv();
+			var Container = new IHTMLDiv();
 
-			Constraint.style.position = IStyle.PositionEnum.relative;
-			Constraint.style.display = IStyle.DisplayEnum.inline_block;
-			Constraint.style.width = "600px";
-			Constraint.style.height = "400px";
-			Constraint.style.border = "1px solid gray";
+			Container.style.position = IStyle.PositionEnum.relative;
+			Container.style.display = IStyle.DisplayEnum.inline_block;
+			Container.style.width = "600px";
+			Container.style.height = "400px";
+			Container.style.border = "1px solid gray";
 
 			var ToolbarHeight = "1.3em";
-			var Container = new IHTMLDiv().AttachTo(Constraint);
+			var Content = new IHTMLDiv().AttachTo(Container);
 
-			Container.style.position = IStyle.PositionEnum.absolute;
-			Container.style.left = "0px";
-			Container.style.top = "0px";
-			Container.style.right = "0px";
-			Container.style.bottom = ToolbarHeight;
+			Content.style.position = IStyle.PositionEnum.absolute;
+			Content.style.left = "0px";
+			Content.style.top = "0px";
+			Content.style.right = "0px";
+			Content.style.bottom = ToolbarHeight;
 
 
-			var Toolbar = new IHTMLDiv().AttachTo(Constraint);
+			var Toolbar = new IHTMLDiv().AttachTo(Container);
 
 			Toolbar.style.backgroundColor = Color.FromGray(0xef);
 			Toolbar.style.position = IStyle.PositionEnum.absolute;
@@ -103,7 +103,7 @@ namespace TestSolutionBuilderWithDesigner
 					img.border = 0;
 					img.style.position = IStyle.PositionEnum.absolute;
 
-					a.style.backgroundColor = Color.FromGray(0xb0);
+					a.style.backgroundColor = Color.FromGray(0xef);
 					a.style.color = Color.Black;
 					a.style.textDecoration = "none";
 					a.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
@@ -127,7 +127,7 @@ namespace TestSolutionBuilderWithDesigner
 					a.onmouseout +=
 						delegate
 						{
-							a.style.backgroundColor = Color.FromGray(0xb0);
+							a.style.backgroundColor = Color.FromGray(0xef);
 						};
 
 					Toolbar.Add(a);
@@ -135,18 +135,18 @@ namespace TestSolutionBuilderWithDesigner
 
 
 			v.Container.style.height = "100%";
-			v.Container.AttachTo(Container);
+			v.Container.AttachTo(Content);
 
 
-			Container.Add(v.Container);
+			Content.Add(v.Container);
 
 			var i = CreateEditor();
 
-			i.AttachTo(Container);
+			i.AttachTo(Content);
 
 
 
-			var ii = new IHTMLPre().AttachTo(Container);
+			var ii = new IHTMLPre().AttachTo(Content);
 
 			ii.style.position = IStyle.PositionEnum.absolute;
 			ii.style.left = "0px";
@@ -214,7 +214,7 @@ namespace TestSolutionBuilderWithDesigner
 				}
 			);
 
-			page.PageContainer.Add(Constraint);
+			page.PageContainer.Add(Container);
 
 			new ApplicationWebService().WebMethod2(
 				new XElement(@"Document",

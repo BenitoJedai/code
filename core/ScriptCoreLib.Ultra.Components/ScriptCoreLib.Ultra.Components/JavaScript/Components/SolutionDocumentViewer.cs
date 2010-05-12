@@ -13,6 +13,9 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
+	/// <summary>
+	/// A HTML designed Visual Studio like tab strip.
+	/// </summary>
 	public class SolutionDocumentViewer : IEnumerable<SolutionDocumentViewerTab>
 	{
 		readonly SolutionDocumentViewerPage dv = new SolutionDocumentViewerPage();

@@ -46,6 +46,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 				if (Expando.InternalIsMember(x, "textContent"))
 					return x.textContent;
 
+				// why not only read this?
+				if (Expando.InternalIsMember(x, "nodeValue"))
+					return this.nodeValue;
+
 				throw new System.Exception(".text");
 			}
 
