@@ -84,6 +84,10 @@ namespace ScriptCoreLib.JavaScript.Components
 					a.onclick +=
 						delegate
 						{
+							(from k in this.Tabs.Source
+							 where k != NewTab
+							 select (Action)k.RaiseDeactivated).Invoke();
+
 							NewTab.RaiseActivated();
 						};
 					a.style.display = IStyle.DisplayEnum.inline_block;

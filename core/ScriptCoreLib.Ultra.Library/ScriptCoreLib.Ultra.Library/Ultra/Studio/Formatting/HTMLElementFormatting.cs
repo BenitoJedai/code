@@ -45,39 +45,51 @@ namespace ScriptCoreLib.Ultra.Studio.Formatting
 					{
 						// http://www.w3schools.com/css/css_syntax.asp
 
-						if (a.Value.Length > StyleDeclarationWarpTreshold)
-						{
-							var Declarations = a.Value.Split(
-								new[] { ";" },
-								StringSplitOptions.None
-							);
 
-							Declarations =
-								(from k in Declarations
-								 let t = k.Trim()
-								 where t.Length > 0
-								 select t + ";").ToArray();
+						var Declarations = a.Value.Split(
+							new[] { ";" },
+							StringSplitOptions.None
+						);
+
+						Declarations =
+							(from k in Declarations
+							 let t = k.Trim()
+							 where t.Length > 0
+							 select t + ";").ToArray();
 
 
-							File.Indent(null,
-								delegate
-								{
-									Func<string, Action> ToWriteDeclaration =
-										x => () => File.Write(SolutionFileTextFragment.XMLAttributeValue, x);
+						File.Indent(null,
+							delegate
+							{
+								Func<string, Action> ToWriteDeclaration =
+									x => () =>
+									{
+										// IE whats wrong with ya uppercasing HTML and CSS? :)
+										var DeclarationProperty = x.TakeUntilLastOrEmpty(":").Trim().ToLower();
+										var DeclarationValue = x.SkipUntilIfAny(":").Trim();
 
-									Action Separator =
-										delegate
+
+										File.Write(SolutionFileTextFragment.XMLAttributeValue, DeclarationProperty);
+										File.Write(SolutionFileTextFragment.XMLAttributeValue, ": ");
+										File.Write(SolutionFileTextFragment.XMLAttributeValue, DeclarationValue);
+									};
+
+								Action Separator =
+									delegate
+									{
+										if (a.Value.Length > StyleDeclarationWarpTreshold)
 										{
 											File.WriteLine();
 											File.IndentStack.Invoke();
-										};
+										}
+									};
 
-									Declarations.Select(ToWriteDeclaration).SelectWithSeparator(Separator).Invoke();
+								Declarations.Select(ToWriteDeclaration).SelectWithSeparator(Separator).Invoke();
 
-								}
-							);
+							}
+						);
 
-						}
+
 
 						return;
 					}

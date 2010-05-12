@@ -32,6 +32,15 @@ namespace ScriptCoreLib.JavaScript.Components
 				Activated();
 		}
 
+		public event Action Deactivated;
+		public void RaiseDeactivated()
+		{
+			if (Deactivated != null)
+				Deactivated();
+		}
+
+
+
 		public event Action Changed;
 
 		

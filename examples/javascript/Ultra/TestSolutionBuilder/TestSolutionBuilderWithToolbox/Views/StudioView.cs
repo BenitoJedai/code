@@ -13,6 +13,9 @@ using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Ultra.Studio.StockPages;
 using ScriptCoreLib.Ultra.Studio;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
+using ScriptCoreLib.Ultra.Studio.Languages;
+using TestSolutionBuilderWithToolbox.HTML.Pages;
 
 namespace TestSolutionBuilderWithToolbox.Views
 {
@@ -86,18 +89,18 @@ namespace TestSolutionBuilderWithToolbox.Views
 				t.SelectionColor = JSColor.Black;
 			};
 
-			var EditorTreeSplit = new HorizontalSplit
+			var Split = new HorizontalSplit
 			{
 				Minimum = 0,
 				Maximum = 1,
 				Value = 0.3,
 			};
 
-			EditorTreeSplit.With(ApplyStyle);
+			Split.With(ApplyStyle);
 
-			EditorTreeSplit.Split.Splitter.style.backgroundColor = Color.None;
+			Split.Split.Splitter.style.backgroundColor = Color.None;
 
-			EditorTreeSplit.Container.AttachTo(Workspace);
+			Split.Container.AttachTo(Workspace);
 
 
 
@@ -105,12 +108,13 @@ namespace TestSolutionBuilderWithToolbox.Views
 
 			SolutionToolbox.HeaderText.innerText = "Toolbox";
 			SolutionToolbox.Content.style.backgroundColor = Color.White;
-			SolutionToolbox.Content.style.padding = "2px";
 
-			//SolutionToolbox.Content.ReplaceContentWith();
+			SolutionToolbox.Content.ReplaceContentWith(
+				new ToolboxItemsPage().Container
+			);
 
 
-			EditorTreeSplit.Split.LeftContainer = SolutionToolbox.Container;
+			Split.Split.LeftContainer = SolutionToolbox.Container;
 
 
 
@@ -118,7 +122,7 @@ namespace TestSolutionBuilderWithToolbox.Views
 			SolutionDocumentViewerTab AboutTab = "About";
 			Viewer.Add(AboutTab);
 
-			var AboutDesigner = new SolutionFileDesigner();
+			var CurrentDesigner = new SolutionFileDesigner();
 
 			#region Design
 			var Design = new SolutionFileDesignerTab
@@ -145,93 +149,141 @@ namespace TestSolutionBuilderWithToolbox.Views
 			DesignContent.WhenDocumentReady(
 				document =>
 				{
-
 					document.WithContent(StockPageDefault.Element);
-
 					document.DesignMode = true;
 				}
 			);
 
 			DesignContent.style.display = IStyle.DisplayEnum.none;
-			DesignContent.AttachTo(AboutDesigner.Content);
+			DesignContent.AttachTo(CurrentDesigner.Content);
 
 			#endregion
 
 
-			#region source
-			var Source = new SolutionFileDesignerTab
+			#region HTMLSource
+			var HTMLSource = new SolutionFileDesignerTab
 			{
 				Text = "Source",
 				Image = new RTA_mode_html()
 			};
 
 
-			var v = new SolutionFileView();
+			var HTMLSourceView = new SolutionFileView();
+			var HTMLSourceFile = new SolutionFile();
 
-			var f = new SolutionFile();
-
-			f.WriteHTMLElement(StockPageDefault.Element);
-
-			v.File = f;
+		
 
 
+			HTMLSourceView.Container.style.position = IStyle.PositionEnum.absolute;
+			HTMLSourceView.Container.style.left = "0px";
+			HTMLSourceView.Container.style.right = "0px";
+			HTMLSourceView.Container.style.top = "0px";
+			HTMLSourceView.Container.style.bottom = "0px";
 
-			v.Container.style.position = IStyle.PositionEnum.absolute;
-			v.Container.style.left = "0px";
-			v.Container.style.right = "0px";
-			v.Container.style.top = "0px";
-			v.Container.style.bottom = "0px";
-
-			v.Container.style.display = IStyle.DisplayEnum.none;
-			v.Container.AttachTo(AboutDesigner.Content);
+			HTMLSourceView.Container.style.display = IStyle.DisplayEnum.none;
+			HTMLSourceView.Container.AttachTo(CurrentDesigner.Content);
 
 
 			#endregion
 
 
+			Design.Deactivated +=
+				delegate
+				{
+					DesignContent.style.display = IStyle.DisplayEnum.none;
+				};
 
 			Design.Activated +=
 				delegate
 				{
-					v.Container.style.display = IStyle.DisplayEnum.none;
 					DesignContent.style.display = IStyle.DisplayEnum.empty;
 				};
 
-			Source.Activated +=
+			HTMLSource.Deactivated +=
 				delegate
 				{
-					f.Clear();
+					HTMLSourceView.Container.style.display = IStyle.DisplayEnum.none;
+				};
+
+			HTMLSource.Activated +=
+				delegate
+				{
+					HTMLSourceFile.Clear();
 
 					DesignContent.WhenContentReady(
 						body =>
 						{
-							f.WriteHTMLElement(body.AsXElement());
+							HTMLSourceFile.WriteHTMLElement(body.AsXElement());
 
 							// update
-							v.File = f;
+							HTMLSourceView.File = HTMLSourceFile;
 
-							v.Container.style.display = IStyle.DisplayEnum.empty;
+							HTMLSourceView.Container.style.display = IStyle.DisplayEnum.empty;
 						}
 					);
 
 
-					DesignContent.style.display = IStyle.DisplayEnum.none;
 				};
 
-			AboutDesigner.Add(Design);
-			AboutDesigner.Add(Source);
+			HTMLSourceFile.WriteHTMLElement(StockPageDefault.Element);
+			HTMLSourceView.File = HTMLSourceFile;
 
-			AboutDesigner.First().RaiseActivated();
+
+			#region CodeSource
+			var CodeSourceTab =
+				new SolutionFileDesignerTab
+				{
+					Image = new ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets.ClassViewer(),
+					Text = "DefaultPage"
+				};
+
+			var CodeSourceView = new SolutionFileView();
+			var CodeSourceFile = new SolutionFile();
+
+			KnownLanguages.VisualCSharp.WriteType(CodeSourceFile, new StockXElementType(), null);
+
+			CodeSourceView.File = CodeSourceFile;
+
+			CodeSourceView.Container.style.position = IStyle.PositionEnum.absolute;
+			CodeSourceView.Container.style.left = "0px";
+			CodeSourceView.Container.style.right = "0px";
+			CodeSourceView.Container.style.top = "0px";
+			CodeSourceView.Container.style.bottom = "0px";
+
+			CodeSourceView.Container.style.display = IStyle.DisplayEnum.none;
+			CodeSourceView.Container.AttachTo(CurrentDesigner.Content);
+
+			CodeSourceTab.Deactivated +=
+				delegate
+				{
+					CodeSourceView.Container.style.display = IStyle.DisplayEnum.none;
+				};
+
+			CodeSourceTab.Activated +=
+				delegate
+				{
+					CodeSourceView.Container.style.display = IStyle.DisplayEnum.empty;
+				};
+
+
+			#endregion
+
+
+			CurrentDesigner.Add(Design);
+			CurrentDesigner.Add(HTMLSource);
+			CurrentDesigner.Add(CodeSourceTab);
+
+			CurrentDesigner.First().RaiseActivated();
 
 			AboutTab.Activated +=
 				delegate
 				{
-					Viewer.Content.ReplaceContentWith(AboutDesigner.Container);
+					Viewer.Content.ReplaceContentWith(CurrentDesigner.Container);
 				};
 
 			Viewer.First().Activate();
 
-			EditorTreeSplit.Split.RightContainer = Viewer.Container;
+			Split.Split.RightContainer = Viewer.Container;
 		}
 	}
 }
