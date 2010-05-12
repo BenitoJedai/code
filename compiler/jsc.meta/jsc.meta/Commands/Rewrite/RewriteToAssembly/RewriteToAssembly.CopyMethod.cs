@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using jsc.Languages.IL;
 using jsc.Library;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -35,6 +36,21 @@ namespace jsc.meta.Commands.Rewrite
 			if (context.MethodCache.BaseDictionary.ContainsKey(SourceMethod))
 				return;
 
+			context.MethodCache[SourceMethod] = null;
+
+			var DelayedTypeCacheList = new List<Action>();
+			Func<Type, Type> DelayedTypeCache = e =>
+				{
+					DelayedTypeCacheList.Add(
+						delegate
+						{
+							var _ = context.TypeCache[e];
+						}
+					);
+					return context.TypeDefinitionCache[e];
+				};
+
+
 			// Unknown runtime implemented delegate method
 			// Operation could destabilize the runtime.
 			// http://www.fuzzydev.com/blogs/dotnet/archive/2006/06/10/Operation_could_destabilize_the_runtime.aspx
@@ -51,7 +67,7 @@ namespace jsc.meta.Commands.Rewrite
 			// How to: Define a Generic Method with Reflection Emit
 			// http://msdn.microsoft.com/en-us/library/ms228971.aspx
 			var Parameters =
-				 context.TypeCache[SourceMethod.GetParameterTypes()];
+				 SourceMethod.GetParameterTypes().Select(DelayedTypeCache).ToArray();
 
 			if (Parameters.Contains(null))
 				throw new InvalidOperationException();
@@ -64,7 +80,7 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				km = m.DefineGlobalMethod(
 						MethodName, MethodAttributes__, SourceMethod.CallingConvention,
-					context.TypeCache[SourceMethod.ReturnType],
+					DelayedTypeCache(SourceMethod.ReturnType),
 					Parameters
 				);
 			}
@@ -73,13 +89,15 @@ namespace jsc.meta.Commands.Rewrite
 
 				km = DeclaringType.DefineMethod(
 					MethodName, MethodAttributes__, SourceMethod.CallingConvention,
-					context.TypeCache[SourceMethod.ReturnType],
+					DelayedTypeCache(SourceMethod.ReturnType),
 					Parameters
 
 				);
 			}
 
 			context.MethodCache[SourceMethod] = km;
+
+			DelayedTypeCacheList.Invoke();
 
 			//Console.WriteLine("Method: " + km.Name);
 

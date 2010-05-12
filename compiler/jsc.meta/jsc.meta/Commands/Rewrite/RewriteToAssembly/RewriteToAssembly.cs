@@ -1097,20 +1097,19 @@ namespace jsc.meta.Commands.Rewrite
 
 					TypeCache[item] = tb;
 					TypeCache.Flags[item] = new object();
-					Console.WriteLine("CreateType:  " + item.FullName);
 
-					if (TypeCreated != null)
-						TypeCreated(
-							new TypeRewriteArguments
-							{
-								SourceType = item,
-								Type = (TypeBuilder)TypeCache[item],
-								Assembly = a,
-								Module = m,
+					var TypeCreatedArguments =
+						new TypeRewriteArguments
+						{
+							SourceType = item,
+							Type = (TypeBuilder)TypeCache[item],
+							Assembly = a,
+							Module = m,
 
-								context = this.RewriteArguments.context
-							}
-						);
+							context = this.RewriteArguments.context
+						};
+
+					RaiseTypeCreated(TypeCreatedArguments);
 
 				};
 
@@ -1169,6 +1168,12 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			Product.Refresh();
+		}
+
+		public void RaiseTypeCreated(TypeRewriteArguments TypeCreatedArguments)
+		{
+			if (TypeCreated != null)
+				TypeCreated(TypeCreatedArguments);
 		}
 
 		private void DefineHiddenEntryPointsType(ModuleBuilder m, MethodInfo[] HiddenEntryPoints)
