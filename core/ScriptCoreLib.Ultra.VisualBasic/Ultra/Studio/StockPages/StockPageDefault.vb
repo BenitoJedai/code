@@ -5,7 +5,7 @@
             <body>
                 <div id='PageContainer'>
                     <h1 id='Header'>Hello world</h1>
-                    <p id='Content'>This project was composed in your browser!</p>
+                    <p id='Content' style='padding: 2em; color: blue;'>This project was composed in your browser!</p>
                 </div>
             </body>
 
