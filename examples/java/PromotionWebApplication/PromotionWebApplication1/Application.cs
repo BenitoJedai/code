@@ -119,7 +119,14 @@ namespace PromotionWebApplication1
 
 			#region logo
 			{
-				if (Native.Document.location.hash.StartsWith("#/studio"))
+				var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
+
+				if (Native.Document.location.host.StartsWith("studio."))
+				{
+					IsStudio = true;
+				}
+
+				if (IsStudio)
 				{
 					new StudioView(AddSaveButton).Content.AttachToDocument();
 

@@ -18,6 +18,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					@type = "type",
 					@typeof = "typeof",
 					@do = "do",
+					@ignore = "ignore",
 					@new = "new",
 					@fun = "fun",
 					@member = "member",

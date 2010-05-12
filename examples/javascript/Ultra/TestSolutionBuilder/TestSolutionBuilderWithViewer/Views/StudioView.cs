@@ -35,10 +35,12 @@ namespace TestSolutionBuilderWithViewer.Views
 
 			new TwentyTenWorkspace().ToBackground(Content.style, true);
 
+			var WorkspaceHeader = default(IHTMLSpan);
+
 			@"jsc-solutions.net studio".ToDocumentTitle().With(
 				title =>
 				{
-					var WorkspaceHeader = new IHTMLSpan { innerText = title };
+					WorkspaceHeader = new IHTMLSpan { innerText = title };
 
 					WorkspaceHeader.AttachTo(Content);
 					WorkspaceHeader.style.SetLocation(16, 8);
@@ -186,7 +188,7 @@ namespace TestSolutionBuilderWithViewer.Views
 					File1.Activate();
 				};
 
-			AddSaveButton(About.SaveContainer, i => Save = i);
+			AddSaveButton(WorkspaceHeader, i => Save = i);
 
 			About.ProjectName.value = sln.Name;
 			About.ProjectName.onchange +=

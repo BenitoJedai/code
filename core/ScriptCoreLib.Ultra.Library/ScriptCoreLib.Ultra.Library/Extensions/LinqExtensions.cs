@@ -33,7 +33,8 @@ namespace ScriptCoreLib.Extensions
 
 		private static void InternalWithEach<T>(IEnumerable<T> collection, Action<T> h) where T : class
 		{
-			foreach (var item in collection)
+			// fixme: jsc shall convert Array to IEnumerable<>
+			foreach (var item in collection.AsEnumerable())
 			{
 				h(item);
 			}

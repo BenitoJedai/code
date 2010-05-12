@@ -32,5 +32,6 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 		/// this expression is equal to the XLinq field.
 		/// </summary>
 		public XElement XLinq;
+
 	}
 }

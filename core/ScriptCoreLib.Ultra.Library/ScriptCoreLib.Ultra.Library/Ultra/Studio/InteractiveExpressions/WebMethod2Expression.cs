@@ -97,7 +97,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 			this.Method = new SolutionProjectLanguageMethod
 			{
 				DeclaringType = _XElement,
-				Name = "ReplaceWith"
+				Name = "ReplaceAll"
 			};
 
 			this.Title = new PseudoConstantExpression { Value = "Data from the web server" };
