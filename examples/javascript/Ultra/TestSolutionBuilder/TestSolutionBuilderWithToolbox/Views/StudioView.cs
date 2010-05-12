@@ -11,6 +11,8 @@ using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
+using ScriptCoreLib.Ultra.Studio.StockPages;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace TestSolutionBuilderWithToolbox.Views
 {
@@ -118,25 +120,116 @@ namespace TestSolutionBuilderWithToolbox.Views
 
 			var AboutDesigner = new SolutionFileDesigner();
 
-			AboutDesigner.AddToolbarButton(new RTA_mode_design(), "Design",
-				delegate
+			#region Design
+			var Design = new SolutionFileDesignerTab
+			{
+				Text = "Design",
+				Image = new RTA_mode_design()
+			};
+
+			var DesignContent = new IHTMLIFrame { src = "about:blank" };
+
+			DesignContent.style.position = IStyle.PositionEnum.absolute;
+			DesignContent.style.left = "0px";
+			DesignContent.style.width = "100%";
+			DesignContent.style.top = "0px";
+			DesignContent.style.height = "100%";
+
+			DesignContent.style.border = "0";
+			DesignContent.style.margin = "0";
+			DesignContent.style.padding = "0";
+
+			DesignContent.frameborder = "0";
+			DesignContent.border = "0";
+
+			DesignContent.WhenDocumentReady(
+				document =>
 				{
-					AboutDesigner.Content.style.backgroundColor = Color.Red;
+
+					document.WithContent(StockPageDefault.Element);
+
+					document.DesignMode = true;
 				}
 			);
 
-			AboutDesigner.AddToolbarButton(new RTA_mode_design(), "Source",
+			DesignContent.style.display = IStyle.DisplayEnum.none;
+			DesignContent.AttachTo(AboutDesigner.Content);
+
+			#endregion
+
+
+			#region source
+			var Source = new SolutionFileDesignerTab
+			{
+				Text = "Source",
+				Image = new RTA_mode_html()
+			};
+
+
+			var v = new SolutionFileView();
+
+			var f = new SolutionFile();
+
+			f.WriteHTMLElement(StockPageDefault.Element);
+
+			v.File = f;
+
+
+
+			v.Container.style.position = IStyle.PositionEnum.absolute;
+			v.Container.style.left = "0px";
+			v.Container.style.right = "0px";
+			v.Container.style.top = "0px";
+			v.Container.style.bottom = "0px";
+
+			v.Container.style.display = IStyle.DisplayEnum.none;
+			v.Container.AttachTo(AboutDesigner.Content);
+
+
+			#endregion
+
+
+
+			Design.Activated +=
 				delegate
 				{
-					AboutDesigner.Content.style.backgroundColor = Color.Yellow;
-				}
-			);
+					v.Container.style.display = IStyle.DisplayEnum.none;
+					DesignContent.style.display = IStyle.DisplayEnum.empty;
+				};
+
+			Source.Activated +=
+				delegate
+				{
+					f.Clear();
+
+					DesignContent.WhenContentReady(
+						body =>
+						{
+							f.WriteHTMLElement(body.AsXElement());
+
+							// update
+							v.File = f;
+
+							v.Container.style.display = IStyle.DisplayEnum.empty;
+						}
+					);
+
+
+					DesignContent.style.display = IStyle.DisplayEnum.none;
+				};
+
+			AboutDesigner.Add(Design);
+			AboutDesigner.Add(Source);
+
+			AboutDesigner.First().RaiseActivated();
 
 			AboutTab.Activated +=
 				delegate
 				{
 					Viewer.Content.ReplaceContentWith(AboutDesigner.Container);
 				};
+
+			Viewer.First().Activate();
 
 			EditorTreeSplit.Split.RightContainer = Viewer.Container;
 		}
