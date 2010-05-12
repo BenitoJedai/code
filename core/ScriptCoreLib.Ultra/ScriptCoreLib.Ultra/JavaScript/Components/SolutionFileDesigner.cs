@@ -7,6 +7,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
@@ -14,13 +16,14 @@ namespace ScriptCoreLib.JavaScript.Components
 	/// The Designer provides multiple views for a file. One of the views
 	/// can be a SolutionFileView and a HTML Designer.
 	/// </summary>
-	public class SolutionFileDesigner
+	public class SolutionFileDesigner : IEnumerable<SolutionFileDesignerTab>
 	{
 		public IHTMLDiv Container { get; private set; }
 
 		public IHTMLDiv Content { get; private set; }
 
-		public readonly Action<IHTMLImage, string, Action> AddToolbarButton;
+
+		public BindingListWithEvents<SolutionFileDesignerTab> Tabs { get; private set; }
 
 		public SolutionFileDesigner()
 		{
@@ -55,22 +58,22 @@ namespace ScriptCoreLib.JavaScript.Components
 			Toolbar.style.right = "0px";
 			Toolbar.style.bottom = "0px";
 
-			this.AddToolbarButton =
-				(img, text, handler) =>
+			this.Tabs = new BindingList<SolutionFileDesignerTab>().WithEvents(
+				NewTab =>
 				{
-					var span = new IHTMLSpan { innerText = text };
+					var span = new IHTMLSpan { innerText = NewTab.Text };
 
 					span.style.paddingLeft = "1.5em";
 					span.style.paddingRight = "0.3em";
 
 					var a = new IHTMLAnchor
 					{
-						img, span
+						NewTab.Image, span
 					};
 
-					img.style.verticalAlign = "middle";
-					img.border = 0;
-					img.style.position = IStyle.PositionEnum.absolute;
+					NewTab.Image.style.verticalAlign = "middle";
+					NewTab.Image.border = 0;
+					NewTab.Image.style.position = IStyle.PositionEnum.absolute;
 
 					a.style.backgroundColor = Color.FromGray(0xef);
 					a.style.color = Color.Black;
@@ -81,7 +84,7 @@ namespace ScriptCoreLib.JavaScript.Components
 					a.onclick +=
 						delegate
 						{
-							handler();
+							NewTab.RaiseActivated();
 						};
 					a.style.display = IStyle.DisplayEnum.inline_block;
 					a.style.height = "100%";
@@ -100,8 +103,37 @@ namespace ScriptCoreLib.JavaScript.Components
 						};
 
 					Toolbar.Add(a);
-				};
+
+					return delegate
+					{
+						a.Orphanize();
+					};
+				}
+			);
 
 		}
+
+		public void Add(SolutionFileDesignerTab item)
+		{
+			this.Tabs.Source.Add(item);
+		}
+
+		#region IEnumerable<SolutionFileDesignerTab> Members
+
+		public IEnumerator<SolutionFileDesignerTab> GetEnumerator()
+		{
+			return this.Tabs.Source.GetEnumerator();
+		}
+
+		#endregion
+
+		#region IEnumerable Members
+
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return this.Tabs.Source.GetEnumerator();
+		}
+
+		#endregion
 	}
 }
