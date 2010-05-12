@@ -103,7 +103,7 @@ namespace TestSolutionBuilderWithDesigner
 					img.border = 0;
 					img.style.position = IStyle.PositionEnum.absolute;
 
-					a.style.backgroundColor = Color.FromGray(0x90);
+					a.style.backgroundColor = Color.FromGray(0xb0);
 					a.style.color = Color.Black;
 					a.style.textDecoration = "none";
 					a.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
@@ -127,7 +127,7 @@ namespace TestSolutionBuilderWithDesigner
 					a.onmouseout +=
 						delegate
 						{
-							a.style.backgroundColor = Color.FromGray(0x90);
+							a.style.backgroundColor = Color.FromGray(0xb0);
 						};
 
 					Toolbar.Add(a);
