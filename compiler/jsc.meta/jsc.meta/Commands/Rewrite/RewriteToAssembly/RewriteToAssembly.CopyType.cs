@@ -105,16 +105,18 @@ namespace jsc.meta.Commands.Rewrite
 			if (PreTypeRewrite != null)
 				PreTypeRewrite(t);
 
-			// including other nested types?
-			// if we dont need these types we will waste them
-			// if we need them later we are doomed! :)
-
 			CopyTypeMembers(SourceType, NameObfuscation, t, context);
 
 
 
 			if (PostTypeRewrite != null)
 				PostTypeRewrite(t);
+
+
+			// including other nested types?
+			// if we dont need these types we will waste them
+			// if we need them later we are doomed! :)
+
 
 			// http://msdn.microsoft.com/en-us/library/system.reflection.emit.typebuilder.createtype.aspx
 
@@ -134,6 +136,8 @@ namespace jsc.meta.Commands.Rewrite
 			Action AtTypeCreated =
 				delegate
 				{
+
+
 					// seems like base types better be completed...
 					var BaseType = SourceType.BaseType == null ? null : context.TypeCache[SourceType.BaseType];
 
@@ -156,7 +160,7 @@ namespace jsc.meta.Commands.Rewrite
 							let map = SourceType.GetInterfaceMap(i)
 							from j in Enumerable.Range(0, map.InterfaceMethods.Length)
 							let TargetMethod = map.TargetMethods[j]
-							
+
 							// abstract class with interfaces?
 							where TargetMethod != null
 
@@ -176,6 +180,9 @@ namespace jsc.meta.Commands.Rewrite
 					// assembly '20100313_jsc.installer, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'
 					// does not have an implementation.
 
+					// do enums have to be created by now?
+
+					Console.WriteLine("CreateType: " + SourceType.FullName);
 					t.CreateType();
 					context.TypeCache.Flags[SourceType] = new object();
 
@@ -185,6 +192,9 @@ namespace jsc.meta.Commands.Rewrite
 
 
 			var AtTypeCreatedFilter = new List<Type>();
+
+			if (SourceType.IsClass && SourceType.BaseType != typeof(object) && ShouldCopyType(SourceType.BaseType))
+				AtTypeCreatedFilter.Add(SourceType.BaseType);
 
 			if (SourceType.IsNested && SourceType.IsClass)
 			{

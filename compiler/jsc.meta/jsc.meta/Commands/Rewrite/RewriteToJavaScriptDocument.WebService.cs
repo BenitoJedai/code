@@ -767,10 +767,12 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 						Interfaces
 				);
 
+				var TypeCache = r.RewriteArguments.context.TypeCache;
+
 				r.RewriteArguments.context.TypeDefinitionCache[SourceType] = DeclaringType;
-				r.RewriteArguments.context.TypeCache[SourceType] = DeclaringType;
+				TypeCache[SourceType] = DeclaringType;
 
-
+				#region members
 				foreach (var item in SourceType.GetNestedTypes())
 				{
 					var k = r.RewriteArguments.context.TypeCache[item];
@@ -797,7 +799,31 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				{
 					var k = r.RewriteArguments.context.MethodCache[item];
 				}
+				#endregion
 
+
+				Action AtEnclosingTypeCreated =
+					delegate
+					{
+						DeclaringType.CreateType();
+
+						TypeCache.Flags[SourceType] = new object();
+
+						var TypeCreatedArguments =
+							new RewriteToAssembly.TypeRewriteArguments
+							{
+								SourceType = SourceType,
+								Type = DeclaringType,
+								Assembly = r.RewriteArguments.Assembly,
+								Module = r.RewriteArguments.Module,
+
+								context = r.RewriteArguments.context
+							};
+
+						r.RaiseTypeCreated(TypeCreatedArguments);
+					};
+
+				#region when ready
 				if (SourceType.IsNested)
 				{
 					r.TypeCreated +=
@@ -806,15 +832,17 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 							if (e.SourceType == SourceType.DeclaringType)
 							{
-								DeclaringType.CreateType();
+								AtEnclosingTypeCreated();
 
 							}
 						};
 				}
 				else
 				{
-					DeclaringType.CreateType();
+					AtEnclosingTypeCreated();
 				}
+				#endregion
+
 			}
 
 
@@ -824,6 +852,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				var TypeCache = r.RewriteArguments.context.TypeCache;
 				var FieldCache = r.RewriteArguments.context.FieldCache;
 				var MethodCache = r.RewriteArguments.context.MethodCache;
+				var ConstructorCache = r.RewriteArguments.context.ConstructorCache;
 
 				if (SourceMethod.ReturnType != typeof(void))
 					throw new NotSupportedException();
@@ -838,12 +867,29 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 				r.ExternalContext.MethodCache[SourceMethod] = m;
 
+				var __InternalWebMethodRequest = TypeCache[typeof(InternalWebMethodRequest)];
+				var __InternalWebMethodRequest_ctor = ConstructorCache[
+					typeof(InternalWebMethodRequest).GetConstructor(new Type[0])
+				];
+
+
 				var request = this.DeclaringType.DefineNestedType("<>" + SourceMethod.MetadataToken.ToString("x8"),
 					TypeAttributes.NestedPublic,
-					TypeCache[typeof(InternalWebMethodRequest)]
+					__InternalWebMethodRequest
 				);
 
-				var request_ctor = request.DefineDefaultConstructor(MethodAttributes.Public);
+				// The invoked member is not supported in a dynamic module.
+				//var request_ctor = request.DefineDefaultConstructor(MethodAttributes.Public);
+				var request_ctor = request.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
+
+				{
+					var il = request_ctor.GetILGenerator();
+
+					il.Emit(OpCodes.Ldarg_0);
+					il.Emit(OpCodes.Call, __InternalWebMethodRequest_ctor);
+					il.Emit(OpCodes.Ret);
+				}
+
 
 
 				var request_delegates = Enumerable.ToDictionary(
@@ -894,7 +940,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 								if (new XElementConversionPattern(pp.ParameterType).IsValid)
 								{
 									il.Emit(OpCodes.Call, ((Func<string, XElement>)XElement.Parse).Method);
-									il.Emit(OpCodes.Call, 
+									il.Emit(OpCodes.Call,
 										MethodCache[new XElementConversionPattern(pp.ParameterType).FromXElement]
 									);
 								}
@@ -944,8 +990,8 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 							if (new XElementConversionPattern(p.ParameterType).IsValid)
 							{
-								il.Emit(OpCodes.Call, 
-									MethodCache[ new XElementConversionPattern(p.ParameterType).ToXElement]
+								il.Emit(OpCodes.Call,
+									MethodCache[new XElementConversionPattern(p.ParameterType).ToXElement]
 								);
 								il.Emit(OpCodes.Callvirt, ((Func<XElement, string>)(k => k.ToString())).ToReferencedMethod());
 							}
@@ -969,11 +1015,45 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 					il.Emit(OpCodes.Ret);
 				}
 
-				request.CreateType();
+
+				// Could not load type 'TestSolutionBuilderWithDesigner.Library.Templates.JavaScript.InternalWebMethodRequest' from assembly 'TestSolutionBuilderWithDesigner.Application, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
+
+				Action AtEnclosingTypeCreated =
+					delegate
+					{
+						request.CreateType();
+					};
+
+				var AtTypeCreatedFilter = new List<Type> { SourceType };
+
+				if (AtTypeCreatedFilter.Any(k => !(TypeCache.Flags.ContainsKey(k))))
+				{
+					r.TypeCreated +=
+						tt =>
+						{
+							if (AtTypeCreatedFilter == null)
+								return;
+
+							if (AtTypeCreatedFilter.Any(k => !(TypeCache.Flags.ContainsKey(k))))
+								return;
+
+							//Diagnostics("Delayed CreateType:  " + SourceType.FullName);
+
+							AtTypeCreatedFilter = null;
+							AtEnclosingTypeCreated();
+						};
+				}
+				else
+				{
+					AtEnclosingTypeCreated();
+
+
+
+				}
 			}
 		}
+
+
+
 	}
-
-
-
 }

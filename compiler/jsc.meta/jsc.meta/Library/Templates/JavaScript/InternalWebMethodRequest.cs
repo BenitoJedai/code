@@ -15,6 +15,11 @@ namespace jsc.meta.Library.Templates.JavaScript
 
 		public string Data;
 
+		public InternalWebMethodRequest()
+		{
+			// look, a ctor!
+		}
+
 		public static void AddParameter(InternalWebMethodRequest that, string name, string value)
 		{
 			if (null == value)

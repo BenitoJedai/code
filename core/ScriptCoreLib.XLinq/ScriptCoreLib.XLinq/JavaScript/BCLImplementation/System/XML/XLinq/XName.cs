@@ -34,7 +34,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			return (XName)(object)new __XName { InternalValue = localName };
 		}
 
+		public static bool operator ==(__XName left, __XName right)
+		{
+			return left.LocalName == right.LocalName;
+		}
 
+		public static bool operator !=(__XName left, __XName right)
+		{
+			return left.LocalName != right.LocalName;
+		}
 
 	}
 }
