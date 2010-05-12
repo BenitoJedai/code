@@ -109,6 +109,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.htm" />
+    <Content Include="Design\ToolboxItems.htm" />
+    <Content Include="Design\Transparent64.png" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
