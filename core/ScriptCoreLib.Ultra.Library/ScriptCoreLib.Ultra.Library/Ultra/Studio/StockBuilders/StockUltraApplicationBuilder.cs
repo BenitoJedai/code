@@ -66,7 +66,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 					Name = ToProjectFile("Design/Default.htm"),
 				};
 
-			DefaultPage.Write(DefaultPageElement);
+			DefaultPage.WriteHTMLElement(DefaultPageElement);
 
 
 			ItemGroupForCompile.Add(

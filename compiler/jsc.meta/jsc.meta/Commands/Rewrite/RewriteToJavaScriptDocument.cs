@@ -50,6 +50,22 @@ namespace jsc.meta.Commands.Rewrite
 			if (this.AttachDebugger)
 				Debugger.Launch();
 
+
+			var staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
+
+			using (var v = staging.ToVirtualDrive())
+			{
+				this.staging = v.VirtualDirectory;
+
+				InternalInvoke(v);
+			}
+		}
+
+		void InternalInvoke(VolumeFunctionsExtensions.ToVirtualDriveToDirectory v)
+		{
+			if (this.AttachDebugger)
+				Debugger.Launch();
+
 			this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
 			jsc.meta.Loader.LoaderStrategy.Hints.Add(this.assembly.Directory);
@@ -218,7 +234,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				// lets do a rewrite and inject neccesary bootstrap and proxy code
 
-			
+
 				// in flash we need to export our functions...
 				var __ExternalCallback = new List<MethodBuilderInfo>();
 				var __WebServiceForJavaScript = default(WebServiceForJavaScript);
@@ -452,7 +468,7 @@ namespace jsc.meta.Commands.Rewrite
 									k.IsWebServicePHP,
 									k.IsWebServiceJava,
 									InvokeAfterBackendCompiler.Add,
-									n => WebDevLauncher = n
+									n => WebDevLauncher = v.FromVirtual(n)
 								);
 
 								if (k.IsWebServiceJava)

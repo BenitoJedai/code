@@ -131,19 +131,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					if (Lambda.Comment != null)
 						Lambda.Comment.WriteTo(File, this, Context);
 
-					this.WriteIndent(File);
-					File.Write(Keywords.@do);
-					File.WriteSpace();
-					WritePseudoCallExpression(File, Lambda, Context);
-					if (Lambda.Method.ReturnType != null)
+					if (Lambda.Method != null)
 					{
+						this.WriteIndent(File);
+						File.Write(Keywords.@do);
 						File.WriteSpace();
-						File.Write("|>");
-						File.WriteSpace();
-						File.Write("ignore");
-					}
+						WritePseudoCallExpression(File, Lambda, Context);
+						if (Lambda.Method.ReturnType != null)
+						{
+							File.WriteSpace();
+							File.Write("|>");
+							File.WriteSpace();
+							File.Write(Keywords.ignore);
+						}
 
-					File.WriteLine();
+						File.WriteLine();
+					}
 				}
 			}
 

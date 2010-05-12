@@ -168,10 +168,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							if (Lambda.Comment != null)
 								Lambda.Comment.WriteTo(File, this, Context);
 
-
-							this.WriteIndent(File);
-							WritePseudoCallExpression(File, Lambda, Context);
-							File.WriteLine();
+							if (Lambda.Method != null)
+							{
+								this.WriteIndent(File);
+								WritePseudoCallExpression(File, Lambda, Context);
+								File.WriteLine();
+							}
 						}
 					}
 
@@ -479,7 +481,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				}
 
 				File.IndentStack = new Stack<Action>();
-				File.Write(XElement);
+				File.WriteXElement(XElement);
 
 				File.IndentStack = x;
 				File.WriteLine();

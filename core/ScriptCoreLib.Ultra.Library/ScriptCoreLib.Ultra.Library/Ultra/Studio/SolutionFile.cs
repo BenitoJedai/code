@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ScriptCoreLib.Ultra.Studio.Formatting;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
 	public class SolutionFile
 	{
+		public HTMLElementFormatting HTMLElementFormatting = new HTMLElementFormatting();
+		public XElementFormatting XElementFormatting = new XElementFormatting();
+
 		public SolutionFile()
 		{
 			this.IndentStack = new Stack<Action>();
@@ -27,10 +31,15 @@ namespace ScriptCoreLib.Ultra.Studio
 			}
 			set
 			{
-				this.InternalContent = new StringBuilder();
-				this.WriteHistory.Clear();
+				Clear();
 				this.Write(SolutionFileTextFragment.None, value);
 			}
+		}
+
+		public void Clear()
+		{
+			this.InternalContent = new StringBuilder();
+			this.WriteHistory.Clear();
 		}
 
 		public SolutionBuilder Context;

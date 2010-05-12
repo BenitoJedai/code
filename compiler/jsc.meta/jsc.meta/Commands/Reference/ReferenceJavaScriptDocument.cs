@@ -28,6 +28,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Lookup;
 
 namespace jsc.meta.Commands.Reference
 {
@@ -388,7 +389,7 @@ namespace jsc.meta.Commands.Reference
 									if (content.StartsWith(doctype_vs))
 										content = doctype_ok + content.Substring(doctype_vs.Length);
 
-									content = HTMLEntities.Aggregate(content,
+									content = HTMLEntitiesLookup.Lookup.Aggregate(content,
 											 (i, k) => i.Replace(k.Key, k.Value)
 									 );
 
@@ -718,14 +719,7 @@ namespace jsc.meta.Commands.Reference
 			}
 		}
 
-		// http://www.w3.org/TR/REC-html40/sgml/entities.html
-		public static readonly Dictionary<string, string> HTMLEntities = new Dictionary<string, string>
-							{
-								{"&nbsp;", "&#160;"},
-								{"&ndash;", "&#8211;"},
-								{"&laquo;", "&#171;"},
-								{"&raquo;", "&#187;"},
-							};
+	
 
 
 

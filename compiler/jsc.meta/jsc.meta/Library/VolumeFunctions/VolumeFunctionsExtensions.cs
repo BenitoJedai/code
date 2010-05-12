@@ -44,6 +44,19 @@ namespace jsc.meta.Library.VolumeFunctions
 			}
 
 			#endregion
+
+			/// <summary>
+			/// When Virtual path goes out of scope you may need a real path instead.
+			/// </summary>
+			/// <param name="n"></param>
+			/// <returns></returns>
+			public FileInfo FromVirtual(FileInfo n)
+			{
+				return new FileInfo(
+					this.SourceDirectory.FullName + "/" + n.FullName.Substring(this.VirtualDirectory.FullName.Length)
+				);
+
+			}
 		}
 
 		public class ToVirtualDriveToFile : ToVirtualDriveToDirectory
@@ -60,12 +73,12 @@ namespace jsc.meta.Library.VolumeFunctions
 
 				this.VirtualFile = new FileInfo(Path.Combine(VirtualDrive, SourceFile.Name));
 
-				
+
 
 				return this;
 			}
 
-		
+
 		}
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
@@ -113,6 +126,6 @@ namespace jsc.meta.Library.VolumeFunctions
 			return NextDrive;
 		}
 
-	
+
 	}
 }

@@ -10,6 +10,8 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
 	public class ApplicationCallWebMethodExpression : PseudoCallExpression
 	{
+		public readonly InteractiveComment InteractiveComment = "Send xml to server";
+
 		public ApplicationCallWebMethodExpression(SolutionBuilderInteractive Interactive)
 		{
 			var XElement = new SolutionProjectLanguageType
@@ -19,8 +21,22 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 			};
 
 
+			InteractiveComment.Click +=
+				delegate
+				{
+					if (this.Method == null)
+					{
+						this.Method = Interactive.ApplicationWebServiceType.WebMethod2;
+						this.InteractiveComment.Comment = "Send xml to server";
+					}
+					else
+					{
+						this.Method = null;
+						this.InteractiveComment.Comment = "You could send xml to server";
+					}
+				};
 
-			this.Comment = (InteractiveComment)"Send xml to server";
+			this.Comment = InteractiveComment;
 
 			this.Object = new PseudoCallExpression
 			{

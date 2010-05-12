@@ -136,6 +136,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ultra\Lookup\HTMLEntitiesLookup.cs" />
+    <Compile Include="Ultra\Studio\Formatting\HTMLElementFormatting.cs" />
+    <Compile Include="Ultra\Studio\Formatting\XElementFormatting.cs" />
+    <Compile Include="Ultra\Studio\SolutionFileExtensionsWithXElement.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationCallWebMethodExpression.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationToDocumentTitleExpression.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationYieldToDocumentTitleExpression.cs" />

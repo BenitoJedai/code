@@ -65,7 +65,17 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		}
 
-
+		public InteractiveComment[] Comments
+		{
+			get
+			{
+				return new InteractiveComment[]
+				{
+					this.ApplicationCallWebMethod.InteractiveComment,
+					this.ApplicationYieldToDocumentTitle.InteractiveComment
+				};
+			}
+		}
 
 	}
 }
