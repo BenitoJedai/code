@@ -116,11 +116,13 @@
   <ItemGroup>
     <Compile Include="ActionScript\Components\ISaveAction.cs" />
     <Compile Include="ActionScript\Components\SaveAction.cs" />
+    <Compile Include="JavaScript\Components\SolutionToolboxListViewTab.cs" />
     <Compile Include="JavaScript\Components\SolutionFileDesignerExtensions.cs" />
     <Compile Include="JavaScript\Components\SolutionFileDesignerHTMLElementTabs.cs" />
     <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
     <Compile Include="JavaScript\Components\SolutionDocumentViewer.cs" />
     <Compile Include="JavaScript\Components\SolutionDocumentViewerTab.cs" />
+    <Compile Include="JavaScript\Components\SolutionToolboxListView.cs" />
     <Compile Include="JavaScript\Components\VisualStudioView.cs" />
     <Compile Include="JavaScript\Components\VisualStudioViewExtensions.cs" />
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
@@ -220,6 +222,7 @@
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFlashSprite.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFlashSpriteAvalonCanvas.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFormsControl.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForHTMLDocument.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForJavaApplet.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForJavaAppletFormsControl.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageTransparent64.png" />
