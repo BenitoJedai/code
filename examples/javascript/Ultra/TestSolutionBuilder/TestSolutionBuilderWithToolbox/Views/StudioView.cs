@@ -16,6 +16,7 @@ using ScriptCoreLib.Ultra.Studio;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
 using ScriptCoreLib.Ultra.Studio.Languages;
 using TestSolutionBuilderWithToolbox.HTML.Pages;
+using ScriptCoreLib.JavaScript.Studio.StockToolboxTabs;
 
 namespace TestSolutionBuilderWithToolbox.Views
 {
@@ -116,77 +117,10 @@ namespace TestSolutionBuilderWithToolbox.Views
 			var vv = new SolutionToolboxListView();
 
 			vv.Container.AttachTo(SolutionToolbox.Content);
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForHTMLDocument(),
-					Name = "Page1",
-					Title = "HTML Document",
-					Text = "HTML Document"
-				}
-			);
 
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForFormsControl(),
-					Name = "UserControl1",
-					Title  = "Windows Forms UserControl",
-					Text = "UserControl"
-				}
-			);
+			var items = new StockToolboxTabsForHTMLDocument();
 
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForAvalonCanvas(),
-					Name = "Canvas1",
-					Title = "Windows Presentation Foundation Canvas",
-					Text = "Canvas"
-				}
-			);
-
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForJavaAppletFormsControl(),
-					Name = "AppletUserControl1",
-					Title = "Java Applet with Windows Forms UserControl",
-					Text = "Applet UserControl"
-				}
-			);
-
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForJavaApplet(),
-					Name = "Applet1",
-					Title = "Java Applet",
-					Text = "Applet"
-				}
-			);
-
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForFlashSpriteAvalonCanvas(),
-					Name = "SpriteCanvas1",
-					Title = "Flash Sprite with Windows Presentation Foundation Canvas",
-					Text = "Flash Canvas"
-				}
-			);
-
-
-			vv.Add(
-				new SolutionToolboxListViewTab
-				{
-					Icon = new StockToolboxImageForFlashSprite(),
-					Name = "Sprite1",
-					Title = "Flash Sprite",
-					Text = "Flash"
-				}
-			);
-
+			items.WithEach(vv.Add);
 
 
 			var Viewer = new SolutionDocumentViewer();

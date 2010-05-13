@@ -1,0 +1,1 @@
+﻿Studio namespace is just like Components but specific to the Studio feature.
