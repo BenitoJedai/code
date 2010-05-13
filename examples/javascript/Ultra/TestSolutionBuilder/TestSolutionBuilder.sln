@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderWithDesi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderWithToolbox", "TestSolutionBuilderWithToolbox\TestSolutionBuilderWithToolbox.csproj", "{83DFFBE0-EAE7-36D6-F758-E52C384CF52B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderV1", "TestSolutionBuilderV1\TestSolutionBuilderV1.csproj", "{A07DE0E4-E126-30A4-5F40-8F412172C72E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -64,6 +66,12 @@ Global
 		{83DFFBE0-EAE7-36D6-F758-E52C384CF52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83DFFBE0-EAE7-36D6-F758-E52C384CF52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83DFFBE0-EAE7-36D6-F758-E52C384CF52B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
