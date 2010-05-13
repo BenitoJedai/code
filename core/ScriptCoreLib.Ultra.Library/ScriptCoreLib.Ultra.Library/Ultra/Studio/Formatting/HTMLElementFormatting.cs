@@ -65,7 +65,7 @@ namespace ScriptCoreLib.Ultra.Studio.Formatting
 									x => () =>
 									{
 										// IE whats wrong with ya uppercasing HTML and CSS? :)
-										var DeclarationProperty = x.TakeUntilLastOrEmpty(":").Trim().ToLower();
+										var DeclarationProperty = x.TakeUntilOrEmpty(":").Trim().ToLower();
 										var DeclarationValue = x.SkipUntilIfAny(":").Trim();
 
 

@@ -77,12 +77,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		// fixme: rewrtie to extension methods
 
+		[System.Obsolete("To be moved to ScriptCoreLib.Ultra assembly as an extension method")]
 		[Script(DefineAsStatic = true)]
 		public void InvokeOnComplete(EventHandler<IHTMLImage> e)
 		{
 			InvokeOnComplete(e, 100);
 		}
 
+		[System.Obsolete("To be moved to ScriptCoreLib.Ultra assembly as an extension method")]
 		[Script(DefineAsStatic = true)]
 		public void InvokeOnComplete(EventHandler<IHTMLImage> e, int interval)
 		{
