@@ -215,8 +215,17 @@
     <Content Include="My.UltraSource\Sprites\LibC.htm" />
     <Content Include="My.UltraSource\Sprites\LibC.png" />
     <Content Include="My.UltraSource\Sprites\SpriteSheetSelection.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\!References.htm" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForAvalonCanvas.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFlashSprite.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFlashSpriteAvalonCanvas.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForFormsControl.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForJavaApplet.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForJavaAppletFormsControl.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageTransparent64.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Design\Studio\" />
     <Folder Include="Ultra\Components\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

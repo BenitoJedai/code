@@ -184,7 +184,8 @@ q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m
             SetLocation(size.Left, size.Top, size.Width, size.Height);
         }
 
-        [Script(DefineAsStatic = true)]
+		[System.Obsolete("To be moved to ScriptCoreLib.Ultra assembly as an extension method")]
+		[Script(DefineAsStatic = true)]
         public void SetBackground(string src, bool repeat)
         {
             this.backgroundImage = "url(" + src + ")";
