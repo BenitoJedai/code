@@ -46,6 +46,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			factory(e.Add);
 		}
 
+
 		public static void WithContent(this IHTMLIFrame that, Action<IHTMLBody> y)
 		{
 			that.WhenDocumentReady(
@@ -70,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			document.write(doc.ToString());
 			document.close();
 
-			return document; 
+			return document;
 		}
 	}
 }

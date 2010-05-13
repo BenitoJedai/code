@@ -160,6 +160,7 @@
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageKeyword.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.Keywords.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageProperty.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\StockUltraApplicationBuilder.cs" />

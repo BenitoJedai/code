@@ -9,6 +9,7 @@ namespace ScriptCoreLib.Ultra.Studio
 	{
 		public bool IsStatic;
 		public bool IsSealed;
+		public bool IsInterface;
 
 		public string Namespace;
 
@@ -25,6 +26,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public readonly List<SolutionProjectLanguageArgument> Arguments = new List<SolutionProjectLanguageArgument>();
 
+		public readonly List<SolutionProjectLanguageProperty> Properties = new List<SolutionProjectLanguageProperty>();
 		public readonly List<SolutionProjectLanguageMethod> Methods = new List<SolutionProjectLanguageMethod>();
 
 		public string FullName

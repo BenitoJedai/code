@@ -144,6 +144,18 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 			ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
 			ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
 
+			ApplicationType.Properties.Add(
+				new SolutionProjectLanguageProperty
+				{
+					Name = "Property1",
+					PropertyType = new SolutionProjectLanguageType
+					{
+						Name = "string"
+					},
+					GetMethod = new SolutionProjectLanguageMethod(),
+					SetMethod = new SolutionProjectLanguageMethod()
+				}
+			);
 
 			ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType, Context.Interactive));
 
