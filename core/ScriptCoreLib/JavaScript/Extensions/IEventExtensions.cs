@@ -79,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.Extensions
 					var x = 0;
 					var y = 0;
 
-					while (e.parentNode != Native.Document)
+					while (ShouldVisitParent(e))
 					{
 						x += e.offsetLeft;
 						y += e.offsetTop;
@@ -97,6 +97,14 @@ namespace ScriptCoreLib.JavaScript.Extensions
 					}
 
 					return a;
+				}
+
+				private static bool ShouldVisitParent(IHTMLElement e)
+				{
+					if (e.parentNode == null)
+						return false;
+
+					return e.parentNode != Native.Document;
 				}
 			}
 

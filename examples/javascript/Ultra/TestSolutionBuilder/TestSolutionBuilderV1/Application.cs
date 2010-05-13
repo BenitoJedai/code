@@ -19,6 +19,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Extensions;
 using TestSolutionBuilderV1.HTML.Pages;
+using TestSolutionBuilderV1.Views;
 
 namespace TestSolutionBuilderV1
 {
@@ -44,6 +45,9 @@ namespace TestSolutionBuilderV1
 			@"Hello world".ToDocumentTitle();
 			// Send xml to server
 			// http://do.jsc-solutions.net/Send-xml-to-server
+
+			page.Content = new StudioView(null).Content;
+
 
 			new ApplicationWebService().WebMethod2(
 				new XElement(@"Document", 
