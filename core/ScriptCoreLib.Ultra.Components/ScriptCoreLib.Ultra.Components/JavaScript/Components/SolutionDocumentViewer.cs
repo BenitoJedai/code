@@ -58,6 +58,7 @@ namespace ScriptCoreLib.JavaScript.Components
 			dv.TabContainer.onmouseover +=
 				delegate
 				{
+					dv.TabContainer.style.height = "3em";
 					dv.TabContainer.style.overflowX = IStyle.OverflowEnum.auto;
 
 				};
@@ -65,6 +66,7 @@ namespace ScriptCoreLib.JavaScript.Components
 			dv.TabContainer.onmouseout +=
 				delegate
 				{
+					dv.TabContainer.style.height = "2em";
 					dv.TabContainer.style.overflowX = IStyle.OverflowEnum.hidden;
 				};
 
