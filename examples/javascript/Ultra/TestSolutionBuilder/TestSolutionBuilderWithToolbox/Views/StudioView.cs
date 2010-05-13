@@ -108,6 +108,7 @@ namespace TestSolutionBuilderWithToolbox.Views
 
 			SolutionToolbox.HeaderText.innerText = "Toolbox";
 			SolutionToolbox.Content.style.backgroundColor = Color.White;
+			SolutionToolbox.Content.style.overflow = IStyle.OverflowEnum.auto;
 
 			SolutionToolbox.Content.ReplaceContentWith(
 				new ToolboxItemsPage().Container
@@ -124,125 +125,23 @@ namespace TestSolutionBuilderWithToolbox.Views
 
 			var CurrentDesigner = new SolutionFileDesigner();
 
-			#region Design
-			var Design = new SolutionFileDesignerTab
-			{
-				Text = "Design",
-				Image = new RTA_mode_design()
-			};
-
-			var DesignContent = new IHTMLIFrame { src = "about:blank" };
-
-			DesignContent.style.position = IStyle.PositionEnum.absolute;
-			DesignContent.style.left = "0px";
-			DesignContent.style.width = "100%";
-			DesignContent.style.top = "0px";
-			DesignContent.style.height = "100%";
-
-			DesignContent.style.border = "0";
-			DesignContent.style.margin = "0";
-			DesignContent.style.padding = "0";
-
-			DesignContent.frameborder = "0";
-			DesignContent.border = "0";
-
-			DesignContent.WhenDocumentReady(
-				document =>
-				{
-					document.WithContent(StockPageDefault.Element);
-					document.DesignMode = true;
-				}
-			);
-
-			DesignContent.style.display = IStyle.DisplayEnum.none;
-			DesignContent.AttachTo(CurrentDesigner.Content);
-
-			#endregion
 
 
-			#region HTMLSource
-			var HTMLSource = new SolutionFileDesignerTab
-			{
-				Text = "Source",
-				Image = new RTA_mode_html()
-			};
 
+			var HTMLDesigner = new SolutionFileDesignerHTMLElementTabs();
 
-			var HTMLSourceView = new SolutionFileView();
-			var HTMLSourceFile = new SolutionFile();
-
-		
-
-
-			HTMLSourceView.Container.style.position = IStyle.PositionEnum.absolute;
-			HTMLSourceView.Container.style.left = "0px";
-			HTMLSourceView.Container.style.right = "0px";
-			HTMLSourceView.Container.style.top = "0px";
-			HTMLSourceView.Container.style.bottom = "0px";
-
-			HTMLSourceView.Container.style.display = IStyle.DisplayEnum.none;
-			HTMLSourceView.Container.AttachTo(CurrentDesigner.Content);
-
-
-			#endregion
-
-
-			Design.Deactivated +=
-				delegate
-				{
-					DesignContent.style.display = IStyle.DisplayEnum.none;
-				};
-
-			Design.Activated +=
-				delegate
-				{
-					DesignContent.style.display = IStyle.DisplayEnum.empty;
-				};
-
-			HTMLSource.Deactivated +=
-				delegate
-				{
-					HTMLSourceView.Container.style.display = IStyle.DisplayEnum.none;
-				};
-
-			HTMLSource.Activated +=
-				delegate
-				{
-					HTMLSourceFile.Clear();
-
-					DesignContent.WhenContentReady(
-						body =>
-						{
-							HTMLSourceFile.WriteHTMLElement(body.AsXElement());
-
-							// update
-							HTMLSourceView.File = HTMLSourceFile;
-
-							HTMLSourceView.Container.style.display = IStyle.DisplayEnum.empty;
-						}
-					);
-
-
-				};
-
-			HTMLSourceFile.WriteHTMLElement(StockPageDefault.Element);
-			HTMLSourceView.File = HTMLSourceFile;
-
+			CurrentDesigner.Add(HTMLDesigner);
 
 			#region CodeSource
 			var CodeSourceTab =
 				new SolutionFileDesignerTab
 				{
 					Image = new ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets.ClassViewer(),
-					Text = "DefaultPage"
+					Text = "XDefaultPage"
 				};
 
 			var CodeSourceView = new SolutionFileView();
-			var CodeSourceFile = new SolutionFile();
 
-			KnownLanguages.VisualCSharp.WriteType(CodeSourceFile, new StockXElementType(), null);
-
-			CodeSourceView.File = CodeSourceFile;
 
 			CodeSourceView.Container.style.position = IStyle.PositionEnum.absolute;
 			CodeSourceView.Container.style.left = "0px";
@@ -262,16 +161,58 @@ namespace TestSolutionBuilderWithToolbox.Views
 			CodeSourceTab.Activated +=
 				delegate
 				{
-					CodeSourceView.Container.style.display = IStyle.DisplayEnum.empty;
+					HTMLDesigner.HTMLDesignerContent.WhenContentReady(
+						body =>
+						{
+							var CodeSourceFile = new SolutionFile();
+
+							var Type = new SolutionProjectLanguageType
+							{
+								Namespace = "HTML.Pages",
+								Name = "IDefaultPage",
+								IsInterface = true,
+							};
+
+							(from n in body.AsXElement().DescendantsAndSelf()
+							 let id = n.Attribute("id")
+							 where id != null
+							 select new { n, id }
+							).WithEach(
+								k =>
+								{
+									Type.Properties.Add(
+										new SolutionProjectLanguageProperty
+										{
+											Name = k.id.Value,
+											GetMethod = new SolutionProjectLanguageMethod(),
+											SetMethod = new SolutionProjectLanguageMethod(),
+											PropertyType = new SolutionProjectLanguageType
+											{
+												Namespace = "ScriptCoreLib.JavaScript.DOM.HTML",
+												Name = "IHTMLElement"
+											}
+										}
+									);
+								}
+							);
+
+							KnownLanguages.VisualCSharp.WriteType(CodeSourceFile, Type, null);
+
+							CodeSourceView.File = CodeSourceFile;
+
+							CodeSourceView.Container.style.display = IStyle.DisplayEnum.empty;
+						}
+					);
 				};
 
 
 			#endregion
 
 
-			CurrentDesigner.Add(Design);
-			CurrentDesigner.Add(HTMLSource);
 			CurrentDesigner.Add(CodeSourceTab);
+
+
+
 
 			CurrentDesigner.First().RaiseActivated();
 

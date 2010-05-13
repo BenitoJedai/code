@@ -133,5 +133,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			this.RemoveAll();
 			this.Add(content);
 		}
+
+		public IEnumerable<XElement> DescendantsAndSelf()
+		{
+			return Enumerable.Concat(
+				new[] { (XElement)(object)this },
+				this.Elements().SelectMany(k => k.DescendantsAndSelf())
+			);
+		}
 	}
 }

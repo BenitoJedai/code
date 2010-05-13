@@ -21,15 +21,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			return x;
 		}
 
+
 		public static IHTMLIFrame WhenContentReady(this IHTMLIFrame that, Action<IHTMLBody> y)
 		{
 			return that.WhenDocumentReady(
 				doc =>
 				{
-					WhenContentReady(doc, y);
+					doc.WhenContentReady(y);
 				}
 			);
 		}
+
 
 		public static void WhenContentReady(this IHTMLDocument doc, Action<IHTMLBody> y)
 		{

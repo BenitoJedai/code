@@ -53,7 +53,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m, SolutionBuilder Context)
 		{
 			if (!m.IsLambda)
-				this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
+				if (m.Summary != null)
+					this.WriteSummary(File, m.Summary, m.Parameters.ToArray());
 
 			File.Region(
 				delegate
@@ -107,13 +108,21 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					}
 
 					File.Write(")");
-					File.WriteLine();
-
-					this.WriteMethodBody(File, m.Code, Context);
-
-					if (!m.IsLambda)
+					if (m.Code == null)
+					{
+						File.Write(";");
+						File.WriteLine();
+					}
+					else
 					{
 						File.WriteLine();
+
+						this.WriteMethodBody(File, m.Code, Context);
+
+						if (!m.IsLambda)
+						{
+							File.WriteLine();
+						}
 					}
 				}
 			);
@@ -338,12 +347,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.WriteLine("{");
 					File.CurrentIndent++;
 
-
-					this.WriteSummary(
-						File,
-
-						Type.Summary
-					);
+					if (Type.Summary != null)
+						this.WriteSummary(
+							File,
+							Type.Summary
+						);
 
 					File.Region(
 						delegate
@@ -364,7 +372,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								File.WriteSpace();
 							}
 
-							File.Write(Keywords.@class);
+							if (Type.IsInterface)
+							{
+								File.Write(Keywords.@interface);
+							}
+							else
+							{
+								File.Write(Keywords.@class);
+							}
+
 							File.WriteSpace();
 							File.Write(Type);
 							File.WriteLine();
@@ -374,7 +390,66 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							File.CurrentIndent++;
 
 
+							foreach (var m in Type.Properties.ToArray())
+							{
+								this.WriteIndent(File);
 
+								if (Type.IsInterface)
+								{
+
+								}
+								else
+								{
+									File.Write(Keywords.@public);
+									File.WriteSpace();
+
+									if (m.IsStatic)
+									{
+										File.Write(Keywords.@static);
+										File.WriteSpace();
+									}
+								}
+
+								WriteTypeName(File, m.PropertyType);
+								File.WriteSpace();
+								File.Write(m.Name);
+								File.WriteLine();
+
+								this.WriteIndent(File);
+								File.WriteLine("{");
+								File.CurrentIndent++;
+
+								if (m.GetMethod != null)
+								{
+									this.WriteIndent(File);
+									File.Write(Keywords.@get);
+									if (m.GetMethod.Code == null)
+										File.WriteLine(";");
+									else
+									{
+										File.WriteLine();
+										this.WriteMethodBody(File, m.GetMethod.Code, Context);
+									}
+								}
+
+								if (m.SetMethod != null)
+								{
+									this.WriteIndent(File);
+									File.Write(Keywords.@set);
+									if (m.SetMethod.Code == null)
+										File.WriteLine(";");
+									else
+									{
+										File.WriteLine();
+										this.WriteMethodBody(File, m.SetMethod.Code, Context);
+									}
+								}
+
+
+								File.CurrentIndent--;
+								this.WriteIndent(File);
+								File.WriteLine("}");
+							}
 
 							foreach (var item in Type.Methods.ToArray())
 							{
@@ -386,10 +461,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 								File.WriteLine();
 							}
-
-
-
-							File.WriteLine();
 
 							File.CurrentIndent--;
 							this.WriteIndent(File);
@@ -476,7 +547,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteSingleIndent(SolutionFile File)
 		{
-			File.Write(SolutionFileTextFragment.Indent, "\t"); 
+			File.Write(SolutionFileTextFragment.Indent, "\t");
 		}
 	}
 }
