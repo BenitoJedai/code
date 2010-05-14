@@ -20,7 +20,6 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public void WriteCommentLine(SolutionFile File, string Text);
 		abstract public void WriteXMLCommentLine(SolutionFile File, string Text);
 
-		abstract public void WriteIndent(SolutionFile File);
 
 		abstract public void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context);
 		abstract public void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context);

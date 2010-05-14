@@ -35,11 +35,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine(SolutionFileTextFragment.Comment, "''' " + Text);
 		}
 
-		public override void WriteIndent(SolutionFile File)
-		{
-			File.IndentStack.Invoke();
-		}
-
+		
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
 			var m = Method;
@@ -59,7 +55,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					}
 					else
 					{
-						this.WriteIndent(File);
+						File.WriteIndent();
 
 						File.Write(Keywords.Public);
 						File.WriteSpace();
@@ -147,7 +143,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							var Comment = item as string;
 							if (Comment != null)
 							{
-								this.WriteIndent(File);
+								File.WriteIndent();
 								this.WriteCommentLine(File, Comment);
 							}
 						}
@@ -170,7 +166,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 							if (Lambda.Method != null)
 							{
-								this.WriteIndent(File);
+								File.WriteIndent();
 								WritePseudoCallExpression(File, Lambda, Context);
 								File.WriteLine();
 							}
@@ -180,7 +176,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				}
 			);
 
-			this.WriteIndent(File);
+			File.WriteIndent();
 
 			File.Write(Keywords.End);
 			File.WriteSpace();
@@ -275,7 +271,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								delegate
 								{
 
-									this.WriteIndent(File);
+									File.WriteIndent();
 									File.Write(Keywords.Public);
 									File.WriteSpace();
 
@@ -321,7 +317,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 										}
 									);
 
-									this.WriteIndent(File);
+									File.WriteIndent();
 									File.Write(Keywords.End);
 									File.WriteSpace();
 									if (!Type.IsStatic)
@@ -412,7 +408,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteUsingNamespace(SolutionFile File, string item)
 		{
-			this.WriteIndent(File);
+			File.WriteIndent();
 			File.Write(Keywords.@Imports);
 			File.WriteSpace();
 			File.Write(item);
@@ -485,7 +481,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 				File.IndentStack = x;
 				File.WriteLine();
-				WriteIndent(File);
+				File.WriteIndent();
 				return;
 			}
 

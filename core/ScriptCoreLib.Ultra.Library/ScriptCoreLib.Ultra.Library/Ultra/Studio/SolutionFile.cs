@@ -49,9 +49,6 @@ namespace ScriptCoreLib.Ultra.Studio
 		// does our java output support generics already?
 		public readonly List<SolutionFileWriteArguments> WriteHistory = new List<SolutionFileWriteArguments>();
 
-		[Obsolete]
-		public int CurrentIndent { get; set; }
-
 		public Stack<Action> IndentStack;
 
 

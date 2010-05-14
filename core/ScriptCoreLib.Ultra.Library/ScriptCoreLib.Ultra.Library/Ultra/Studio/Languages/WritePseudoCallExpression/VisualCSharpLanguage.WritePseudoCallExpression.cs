@@ -126,47 +126,57 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				}
 			);
 
-			if (HasComplexParameter)
+			Action Body = delegate
 			{
-				File.WriteLine();
-				File.CurrentIndent++;
-				WriteIndent(File);
-			}
 
-			var Parameters = Lambda.ParameterExpressions.ToArray();
+				var Parameters = Lambda.ParameterExpressions.ToArray();
 
-			var FirstParameter = 0;
+				var FirstParameter = 0;
 
-			if (Lambda.Method.IsExtensionMethod)
-				FirstParameter = 1;
+				if (Lambda.Method.IsExtensionMethod)
+					FirstParameter = 1;
 
-			for (int i = FirstParameter; i < Parameters.Length; i++)
-			{
-				if (i > 0)
+				for (int i = FirstParameter; i < Parameters.Length; i++)
 				{
-					if (HasComplexParameter)
+					if (i > 0)
 					{
-						File.Write(",");
-						File.WriteLine();
-						WriteIndent(File);
+						if (HasComplexParameter)
+						{
+							File.Write(",");
+							File.WriteLine();
+							File.WriteIndent();
+						}
+						else
+						{
+							File.Write(",");
+							File.WriteSpace();
+						}
 					}
-					else
-					{
-						File.Write(",");
-						File.WriteSpace();
-					}
+
+					var Parameter = Parameters[i];
+
+					WritePseudoExpression(File, Parameter, Context);
 				}
+			};
 
-				var Parameter = Parameters[i];
-
-				WritePseudoExpression(File, Parameter, Context);
-			}
 
 			if (HasComplexParameter)
 			{
 				File.WriteLine();
-				File.CurrentIndent--;
-				WriteIndent(File);
+				File.Indent(this,
+					delegate
+					{
+						File.WriteIndent();
+						Body();
+						File.WriteLine();
+					}
+				);
+				File.WriteIndent();
+			}
+			else
+			{
+				Body();
+
 			}
 
 			File.Write(")");

@@ -19,12 +19,12 @@ namespace ScriptCoreLib.Ultra.Studio
 
 			if (Comment != null)
 			{
-				Language.WriteIndent(File);
+				File.WriteIndent();
 				Language.WriteCommentLine(File, Comment);
 			}
 			if (Link != null)
 			{
-				Language.WriteIndent(File);
+				File.WriteIndent();
 				Language.WriteLinkCommentLine(File, Link);
 			}
 

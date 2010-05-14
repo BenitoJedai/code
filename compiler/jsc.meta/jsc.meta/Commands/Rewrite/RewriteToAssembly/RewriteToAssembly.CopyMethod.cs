@@ -88,7 +88,9 @@ namespace jsc.meta.Commands.Rewrite
 			{
 
 				km = DeclaringType.DefineMethod(
-					MethodName, MethodAttributes__, SourceMethod.CallingConvention,
+					MethodName, 
+					MethodAttributes__, 
+					SourceMethod.CallingConvention,
 					DelayedTypeCache(SourceMethod.ReturnType),
 					Parameters
 
@@ -97,7 +99,6 @@ namespace jsc.meta.Commands.Rewrite
 
 			context.MethodCache[SourceMethod] = km;
 
-			DelayedTypeCacheList.Invoke();
 
 			//Console.WriteLine("Method: " + km.Name);
 
@@ -105,8 +106,15 @@ namespace jsc.meta.Commands.Rewrite
 			if (SourceMethod.IsGenericMethodDefinition)
 			{
 				var ga = SourceMethod.GetGenericArguments();
+				
+				// Operation is not valid due to the current state of the object.
+				
+				// Calling the DefineGenericParameters method makes the current 
+				// method generic. There is no way to undo this change. Calling 
+				// this method a second time causes an InvalidOperationException.
+				var GenericNames = ga.Select(k => k.Name).ToArray();
 
-				var gp = km.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
+				var gp = km.DefineGenericParameters(GenericNames);
 
 				for (int i = 0; i < gp.Length; i++)
 				{
@@ -123,6 +131,9 @@ namespace jsc.meta.Commands.Rewrite
 					}
 				}
 			}
+
+			DelayedTypeCacheList.Invoke();
+
 
 			// synchronized?
 			km.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());

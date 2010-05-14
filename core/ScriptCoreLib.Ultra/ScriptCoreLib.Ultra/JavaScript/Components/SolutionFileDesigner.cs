@@ -70,6 +70,7 @@ namespace ScriptCoreLib.JavaScript.Components
 					{
 						NewTab.Image, span
 					};
+					NewTab.TabElement = a;
 
 					NewTab.Image.style.verticalAlign = "middle";
 					NewTab.Image.border = 0;
@@ -81,13 +82,18 @@ namespace ScriptCoreLib.JavaScript.Components
 					a.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
 
 					a.href = "javascript: void(0);";
-					a.onclick +=
+
+					NewTab.Activated +=
 						delegate
 						{
 							(from k in this.Tabs.Source
 							 where k != NewTab
 							 select (Action)k.RaiseDeactivated).Invoke();
+						};
 
+					a.onclick +=
+						delegate
+						{
 							NewTab.RaiseActivated();
 						};
 					a.style.display = IStyle.DisplayEnum.inline_block;

@@ -10,6 +10,11 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public static class SolutionProjectLanguageExtensions
 	{
+		public static void WriteIndent(this SolutionFile File)
+		{
+			File.IndentStack.Invoke();
+		}
+
 		/// <summary>
 		/// sadsad
 		/// </summary>
@@ -26,7 +31,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 			while (n != null)
 			{
-				that.WriteIndent(File);
+				File.WriteIndent();
 				that.WriteXMLCommentLine(File, n);
 
 				n = r.ReadLine();
@@ -45,7 +50,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			foreach (var item in summary.ToLines())
 			{
-				that.WriteIndent(File);
+				File.WriteIndent();
 				that.WriteCommentLine(File, item);
 			}
 		}

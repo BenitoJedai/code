@@ -37,10 +37,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine(SolutionFileTextFragment.Comment, "/// " + Text);
 		}
 
-		public override void WriteIndent(SolutionFile File)
-		{
-			File.IndentStack.Invoke();
-		}
+	
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
 		{
@@ -56,7 +53,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				this.WriteSummary(File, Method.Summary, Method.Parameters.ToArray());
 
 
-				WriteIndent(File);
+				File.WriteIndent();
 				File.Write(Keywords.member);
 				File.WriteSpace();
 				File.Write("this");
@@ -110,7 +107,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					var Comment = item as string;
 					if (Comment != null)
 					{
-						this.WriteIndent(File);
+						File.WriteIndent();
 						this.WriteCommentLine(File, Comment);
 					}
 				}
@@ -133,7 +130,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 					if (Lambda.Method != null)
 					{
-						this.WriteIndent(File);
+						File.WriteIndent();
 						File.Write(Keywords.@do);
 						File.WriteSpace();
 						WritePseudoCallExpression(File, Lambda, Context);
@@ -150,7 +147,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				}
 			}
 
-			WriteIndent(File);
+			File.WriteIndent();
 			File.Write("()");
 			File.WriteLine();
 
@@ -225,7 +222,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							File.Region(
 								delegate
 								{
-									WriteIndent(File);
+									File.WriteIndent();
 
 									var Constructor = Type.Methods.SingleOrDefault(k => k.IsConstructor);
 
@@ -373,7 +370,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteUsingNamespace(SolutionFile File, string item)
 		{
-			WriteIndent(File);
+			File.WriteIndent();
 
 			File.Write(Keywords.@open);
 			File.WriteSpace();
@@ -449,7 +446,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				File.Indent(this,
 					delegate
 					{
-						this.WriteIndent(File);
+						File.WriteIndent();
 
 						//File.Write(Keywords.@new);
 						//File.WriteSpace();
@@ -464,7 +461,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						File.Indent(this,
 							delegate
 							{
-								this.WriteIndent(File);
+								File.WriteIndent();
 
 								Func<object, Action> AtWritePseudoExpression = k => () => WritePseudoExpression(File, k, Context);
 
@@ -473,7 +470,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 									{
 										File.Write(",");
 										File.WriteLine();
-										this.WriteIndent(File);
+										File.WriteIndent();
 									};
 
 								Array.Items.ToArray().Select(AtWritePseudoExpression).SelectWithSeparator(WriteSeparator).Invoke();
@@ -482,7 +479,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						);
 
 						File.WriteLine();
-						this.WriteIndent(File);
+						File.WriteIndent();
 
 						File.Write("]");
 						
@@ -490,7 +487,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				);
 
 				File.WriteLine();
-				this.WriteIndent(File);
+				File.WriteIndent();
 
 				return;
 			}
@@ -541,7 +538,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							{
 								File.Write(",");
 								File.WriteLine();
-								WriteIndent(File);
+								File.WriteIndent();
 							}
 							else
 							{
@@ -563,14 +560,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					delegate
 					{
 
-						WriteIndent(File);
+						File.WriteIndent();
 
 						Body();
 
 						File.WriteLine();
 					}
 				);
-				WriteIndent(File);
+				File.WriteIndent();
 			}
 			else
 			{
