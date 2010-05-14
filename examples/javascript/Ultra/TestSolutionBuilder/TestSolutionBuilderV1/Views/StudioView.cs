@@ -52,6 +52,10 @@ namespace TestSolutionBuilderV1.Views
 				}
 			);
 
+
+			if (AddSaveButton != null)
+				AddSaveButton(WorkspaceHeader, i => Save = i);
+
 			// em + px :)
 			var Workspace0 = new IHTMLDiv().With(
 				div =>
@@ -160,24 +164,16 @@ namespace TestSolutionBuilderV1.Views
 			CurrentDesigner.Add(HTMLDesigner);
 
 
-			HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
-				delegate
-				{
-					"focus".ToDocumentTitle();
-				};
 
-			HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
-				delegate
-				{
-					"blur".ToDocumentTitle();
-				};
+
+
 
 			#region CodeSourceA
 			var CodeSourceATab =
 				new SolutionFileDesignerTab
 				{
-					Image = new ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets.ClassViewer(),
-					Text = "Code from Designer"
+					Image = new RTA_mode_html(),
+					Text = "Source [Generated]"
 				};
 
 			var CodeSourceAView = new SolutionFileView();
@@ -255,8 +251,8 @@ namespace TestSolutionBuilderV1.Views
 			var CodeSourceBTab =
 				new SolutionFileDesignerTab
 				{
-					Image = new ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets.ClassViewer(),
-					Text = "Code from Solution Explorer"
+					Image = new RTA_mode_html(),
+					Text = "Source"
 				};
 
 			var CodeSourceBView = new SolutionFileView();
@@ -354,19 +350,26 @@ namespace TestSolutionBuilderV1.Views
 					UpdateTree(sln, CodeSourceBView, _Solution, _Project);
 				};
 
-			HTMLDesigner.HTMLSourceTab.Activated +=
-				delegate
+			HTMLDesigner.HTMLDesignerContent.WhenContentReady(
+				body =>
 				{
-					HTMLDesigner.HTMLDesignerContent.WhenContentReady(
-						body =>
+					HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
+						delegate
 						{
-							"Designer updates solution".ToDocumentTitle();
+							"focus".ToDocumentTitle();
+						};
+
+					HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
+						delegate
+						{
+							"blur".ToDocumentTitle();
+
 
 							sln.ApplicationPage = new XElement(body.AsXElement());
 							Update();
-						}
-					);
-				};
+						};
+				}
+			);
 
 
 			CodeSourceBView.FileChanged +=
@@ -378,17 +381,27 @@ namespace TestSolutionBuilderV1.Views
 					{
 						// currently we only have one element :)
 
-						//HTMLDesigner.HTMLDesignerTab.RaiseActivated();
+						HTMLDesigner.HTMLDesignerTab.RaiseActivated();
+
+						HTMLDesigner.HTMLDesignerTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+						HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
+						CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+						CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+
 
 						// show the design/source buttons
 					}
 					else if (CodeSourceBView.File.Name.EndsWith(sln.Language.CodeFileExtension))
 					{
-
 						// show type outline / member
+						CodeSourceBTab.RaiseActivated();
+
+						HTMLDesigner.HTMLDesignerTab.TabElement.style.display = IStyle.DisplayEnum.none;
+						HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
+						CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.none;
+						CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
 					}
 
-					CodeSourceBTab.RaiseActivated();
 
 				};
 

@@ -32,7 +32,7 @@ using ScriptCoreLib.Ultra.Library.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Studio;
-using TestSolutionBuilderWithViewer.Views;
+using TestSolutionBuilderV1.Views;
 
 namespace PromotionWebApplication1
 {

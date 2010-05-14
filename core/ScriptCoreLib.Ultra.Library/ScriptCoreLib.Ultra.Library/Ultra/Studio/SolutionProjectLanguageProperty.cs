@@ -13,5 +13,25 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public SolutionProjectLanguageMethod GetMethod;
 		public SolutionProjectLanguageMethod SetMethod;
+
+		public bool IsAutoProperty
+		{
+			get
+			{
+				if (GetMethod == null)
+					return false;
+
+				if (GetMethod.Code != null)
+					return false;
+
+				if (SetMethod == null)
+					return false;
+
+				if (SetMethod.Code != null)
+					return false;
+
+				return true;
+			}
+		}
 	}
 }

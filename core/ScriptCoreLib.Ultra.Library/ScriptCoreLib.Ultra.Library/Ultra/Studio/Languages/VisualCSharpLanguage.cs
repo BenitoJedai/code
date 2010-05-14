@@ -40,15 +40,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.WriteLine(SolutionFileTextFragment.Comment, "/// " + Text);
 		}
 
-		public override void WriteIndent(SolutionFile File)
-		{
-			File.CurrentIndent.Times(
-				delegate
-				{
-					File.Write(SolutionFileTextFragment.Indent, "\t");
-				}
-			);
-		}
+
 
 		public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod m, SolutionBuilder Context)
 		{
@@ -67,7 +59,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					}
 					else
 					{
-						this.WriteIndent(File);
+						File.WriteIndent();
 						File.Write(Keywords.@public);
 						File.WriteSpace();
 
@@ -132,49 +124,52 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		{
 			// should this be an extension method to all languages?
 
-			this.WriteIndent(File);
+			File.WriteIndent();
 			File.WriteLine("{");
-			File.CurrentIndent++;
-
-			// ? :)
-			foreach (var item in Code.History.ToArray())
-			{
+			File.Indent(this,
+				delegate
 				{
-					var Comment = item as string;
-					if (Comment != null)
+
+					// ? :)
+					foreach (var item in Code.History.ToArray())
 					{
-						this.WriteIndent(File);
-						this.WriteCommentLine(File, Comment);
+						{
+							var Comment = item as string;
+							if (Comment != null)
+							{
+								File.WriteIndent();
+								this.WriteCommentLine(File, Comment);
+							}
+						}
+
+						{
+							var Comment = item as SolutionFileComment;
+							if (Comment != null)
+							{
+								Comment.WriteTo(File, this, Context);
+								return;
+							}
+						}
+
+						var Lambda = item as PseudoCallExpression;
+
+						if (Lambda != null)
+						{
+							if (Lambda.Comment != null)
+								Lambda.Comment.WriteTo(File, this, Context);
+
+							if (Lambda.Method != null)
+							{
+								File.WriteIndent();
+								WritePseudoCallExpression(File, Lambda, Context);
+								File.WriteLine(";");
+							}
+						}
 					}
 				}
+			);
 
-				{
-					var Comment = item as SolutionFileComment;
-					if (Comment != null)
-					{
-						Comment.WriteTo(File, this, Context);
-						return;
-					}
-				}
-
-				var Lambda = item as PseudoCallExpression;
-
-				if (Lambda != null)
-				{
-					if (Lambda.Comment != null)
-						Lambda.Comment.WriteTo(File, this, Context);
-
-					if (Lambda.Method != null)
-					{
-						this.WriteIndent(File);
-						WritePseudoCallExpression(File, Lambda, Context);
-						File.WriteLine(";");
-					}
-				}
-			}
-
-			File.CurrentIndent--;
-			this.WriteIndent(File);
+			File.WriteIndent();
 			File.Write("}");
 		}
 
@@ -210,45 +205,52 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			var Array = Parameter as PseudoArrayExpression;
 			if (Array != null)
 			{
-				File.CurrentIndent++;
-				File.WriteLine();
-				this.WriteIndent(File);
-
-				File.Write(Keywords.@new);
-				File.WriteSpace();
-
-				WriteTypeName(File, Array.ElementType);
-				File.Write("[]");
-
-				File.WriteSpace();
-				File.Write("{");
-
-				File.CurrentIndent++;
-				File.WriteLine();
-				this.WriteIndent(File);
-
-				Func<object, Action> AtWritePseudoExpression = k => () => WritePseudoExpression(File, k, Context);
-
-				Action WriteSeparator =
+				File.Indent(this,
 					delegate
 					{
-						File.Write(",");
 						File.WriteLine();
-						this.WriteIndent(File);
-					};
+						File.WriteIndent();
 
-				Array.Items.ToArray().Select(AtWritePseudoExpression).SelectWithSeparator(WriteSeparator).Invoke();
+						File.Write(Keywords.@new);
+						File.WriteSpace();
 
+						WriteTypeName(File, Array.ElementType);
+						File.Write("[]");
 
-				File.CurrentIndent--;
+						File.WriteSpace();
+						File.Write("{");
+
+						File.Indent(this,
+							delegate
+							{
+								File.WriteLine();
+								File.WriteIndent();
+
+								Func<object, Action> AtWritePseudoExpression = k => () => WritePseudoExpression(File, k, Context);
+
+								Action WriteSeparator =
+									delegate
+									{
+										File.Write(",");
+										File.WriteLine();
+										File.WriteIndent();
+									};
+
+								Array.Items.ToArray().Select(AtWritePseudoExpression).SelectWithSeparator(WriteSeparator).Invoke();
+
+							}
+						);
+
+						File.WriteLine();
+						File.WriteIndent();
+
+						File.Write("}");
+
+					}
+				);
+
 				File.WriteLine();
-				this.WriteIndent(File);
-
-				File.Write("}");
-
-				File.CurrentIndent--;
-				File.WriteLine();
-				this.WriteIndent(File);
+				File.WriteIndent();
 
 				return;
 			}
@@ -345,139 +347,183 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					File.Write(Type.Namespace);
 					File.WriteLine();
 					File.WriteLine("{");
-					File.CurrentIndent++;
-
-					if (Type.Summary != null)
-						this.WriteSummary(
-							File,
-							Type.Summary
-						);
-
-					File.Region(
+					File.Indent(this,
 						delegate
 						{
-							this.WriteIndent(File);
-							File.Write(Keywords.@public);
-							File.WriteSpace();
 
-							if (Type.IsStatic)
-							{
-								File.Write(Keywords.@static);
-								File.WriteSpace();
-							}
+							if (Type.Summary != null)
+								this.WriteSummary(
+									File,
+									Type.Summary
+								);
 
-							if (Type.IsSealed)
-							{
-								File.Write(Keywords.@sealed);
-								File.WriteSpace();
-							}
-
-							if (Type.IsInterface)
-							{
-								File.Write(Keywords.@interface);
-							}
-							else
-							{
-								File.Write(Keywords.@class);
-							}
-
-							File.WriteSpace();
-							File.Write(Type);
-							File.WriteLine();
-
-							this.WriteIndent(File);
-							File.WriteLine("{");
-							File.CurrentIndent++;
-
-
-							foreach (var m in Type.Properties.ToArray())
-							{
-								this.WriteIndent(File);
-
-								if (Type.IsInterface)
+							File.Region(
+								delegate
 								{
-
-								}
-								else
-								{
+									File.WriteIndent();
 									File.Write(Keywords.@public);
 									File.WriteSpace();
 
-									if (m.IsStatic)
+									if (Type.IsStatic)
 									{
 										File.Write(Keywords.@static);
 										File.WriteSpace();
 									}
-								}
 
-								WriteTypeName(File, m.PropertyType);
-								File.WriteSpace();
-								File.Write(m.Name);
-								File.WriteLine();
+									if (Type.IsSealed)
+									{
+										File.Write(Keywords.@sealed);
+										File.WriteSpace();
+									}
 
-								this.WriteIndent(File);
-								File.WriteLine("{");
-								File.CurrentIndent++;
-
-								if (m.GetMethod != null)
-								{
-									this.WriteIndent(File);
-									File.Write(Keywords.@get);
-									if (m.GetMethod.Code == null)
-										File.WriteLine(";");
+									if (Type.IsInterface)
+									{
+										File.Write(Keywords.@interface);
+									}
 									else
 									{
-										File.WriteLine();
-										this.WriteMethodBody(File, m.GetMethod.Code, Context);
+										File.Write(Keywords.@class);
 									}
+
+									File.WriteSpace();
+									File.Write(Type);
+									File.WriteLine();
+
+									File.WriteIndent();
+									File.WriteLine("{");
+									File.Indent(this,
+										delegate
+										{
+
+
+											foreach (var m in Type.Properties.ToArray())
+											{
+												File.WriteIndent();
+
+												if (Type.IsInterface)
+												{
+
+												}
+												else
+												{
+													File.Write(Keywords.@public);
+													File.WriteSpace();
+
+													if (m.IsStatic)
+													{
+														File.Write(Keywords.@static);
+														File.WriteSpace();
+													}
+												}
+
+												WriteTypeName(File, m.PropertyType);
+												File.WriteSpace();
+												File.Write(m.Name);
+
+												if (m.IsAutoProperty)
+												{
+													File.WriteSpace();
+													File.Write("{");
+												}
+												else
+												{
+													File.WriteLine();
+													File.WriteIndent();
+													File.WriteLine("{");
+												}
+
+
+												Action<SolutionProjectLanguageMethod, Keyword> Property = (mm, kk) =>
+												{
+													if (mm != null)
+													{
+														if (m.IsAutoProperty)
+														{
+															File.WriteSpace();
+														}
+														else
+														{
+															File.WriteIndent();
+														}
+														File.Write(kk);
+														if (mm.Code == null)
+														{
+															File.Write(";");
+															if (m.IsAutoProperty)
+															{
+															}
+															else
+															{
+																File.WriteLine();
+															}
+														}
+														else
+														{
+															File.WriteLine();
+															this.WriteMethodBody(File, mm.Code, Context);
+														}
+													}
+												};
+
+												Action PropertyBody = delegate
+												{
+													Property(m.GetMethod, Keywords.get);
+													Property(m.SetMethod, Keywords.set);
+												};
+
+												Action<Action> PropertyIndent = Body => File.Indent(this, Body);
+
+												if (m.IsAutoProperty)
+												{
+													PropertyBody();
+													File.WriteSpace();
+												}
+												else
+												{
+													File.Indent(this, PropertyBody);
+													File.WriteIndent();
+												}
+
+
+												File.WriteLine("}");
+											}
+
+											if (Type.Properties.Any())
+												File.WriteLine();
+
+											foreach (var item in Type.Methods.ToArray())
+											{
+												this.WriteMethod(
+													File,
+													item,
+													Context
+												);
+
+												File.WriteLine();
+											}
+
+
+										}
+									);
+
+									File.WriteIndent();
+									File.WriteLine("}");
 								}
-
-								if (m.SetMethod != null)
-								{
-									this.WriteIndent(File);
-									File.Write(Keywords.@set);
-									if (m.SetMethod.Code == null)
-										File.WriteLine(";");
-									else
-									{
-										File.WriteLine();
-										this.WriteMethodBody(File, m.SetMethod.Code, Context);
-									}
-								}
-
-
-								File.CurrentIndent--;
-								this.WriteIndent(File);
-								File.WriteLine("}");
-							}
-
-							foreach (var item in Type.Methods.ToArray())
-							{
-								this.WriteMethod(
-									File,
-									item,
-									Context
-								);
-
-								File.WriteLine();
-							}
-
-							File.CurrentIndent--;
-							this.WriteIndent(File);
-							File.WriteLine("}");
+							);
 						}
 					);
+
+
 				}
 			);
 
-			File.CurrentIndent--;
 			File.WriteLine("}");
 		}
 
 
 		public override void WriteUsingNamespace(SolutionFile File, string item)
 		{
-			this.WriteIndent(File);
+			File.WriteIndent();
 			File.Write(Keywords.@using);
 			File.WriteSpace();
 			File.Write(item);

@@ -153,7 +153,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							{
 								File.Write(",");
 								File.WriteLine();
-								WriteIndent(File);
+								File.WriteIndent();
 							}
 							else
 							{
@@ -180,7 +180,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						}
 						else
 						{
-							WriteIndent(File);
+							File.WriteIndent();
 						}
 
 						Body();
@@ -188,7 +188,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						File.WriteLine();
 					}
 				);
-				WriteIndent(File);
+				File.WriteIndent();
 			}
 			else
 			{
