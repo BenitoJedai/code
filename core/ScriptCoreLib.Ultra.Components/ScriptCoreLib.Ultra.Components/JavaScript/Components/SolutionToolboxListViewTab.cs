@@ -8,6 +8,8 @@ namespace ScriptCoreLib.JavaScript.Components
 {
 	public class SolutionToolboxListViewTab
 	{
+		public string DataType;
+
 		public IHTMLImage Icon;
  
 		string InternalText;

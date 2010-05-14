@@ -9,6 +9,7 @@ using System.ComponentModel;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
@@ -123,6 +124,9 @@ namespace ScriptCoreLib.JavaScript.Components
 					ItemImage.style.cursor = IStyle.CursorEnum.move;
 					ItemImage.title = NewTab.Title;
 					ItemImage.id = NewTab.Name;
+
+					// http://ejohn.org/blog/html-5-data-attributes/
+					ItemImage.setAttribute(SolutionBuilderInteractive.DataTypeAttribute, NewTab.DataType);
 
 					ItemBackground.ToBackground(ItemImage.style, false);
 

@@ -158,12 +158,14 @@
     <Compile Include="Ultra\Studio\SolutionBuilderInteractive.cs" />
     <Compile Include="Ultra\Studio\SolutionFileComment.cs" />
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectHTMLFile.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageKeyword.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.Keywords.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageProperty.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\StockUltraApplicationBuilder.cs" />
+    <Compile Include="Ultra\Studio\StockExpressions\StockReplaceWithNewPageExpression.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockApplicationWebServiceType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>

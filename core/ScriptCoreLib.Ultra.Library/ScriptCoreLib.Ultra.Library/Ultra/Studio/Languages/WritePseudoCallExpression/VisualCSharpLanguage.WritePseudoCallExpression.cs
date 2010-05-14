@@ -138,7 +138,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 				for (int i = FirstParameter; i < Parameters.Length; i++)
 				{
-					if (i > 0)
+					if (i > FirstParameter)
 					{
 						if (HasComplexParameter)
 						{

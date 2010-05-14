@@ -92,6 +92,11 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 				SpriteCanvas,
 				Sprite
 			};
+
+			foreach (var item in InternalArray)
+			{
+				item.DataType = item.Name;
+			}
 		}
 
 		readonly SolutionToolboxListViewTab[] InternalArray;
