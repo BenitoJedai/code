@@ -39,5 +39,10 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			return that.Link;
 		}
+
+		public static implicit operator SolutionFileComment(string that)
+		{
+			return new SolutionFileComment { Comment = that };
+		}
 	}
 }

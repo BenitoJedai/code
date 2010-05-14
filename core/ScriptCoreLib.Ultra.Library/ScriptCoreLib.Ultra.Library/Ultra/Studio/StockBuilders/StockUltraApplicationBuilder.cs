@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Studio.StockMethods;
 using ScriptCoreLib.Ultra.Studio.StockAttributes;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 {
@@ -81,6 +82,33 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 			#endregion
 
+			Context.Interactive.RaiseGenerateHTMLFiles(
+				item =>
+				{
+					var f =
+						new SolutionFile
+						{
+							Name = ToProjectFile(item.Name),
+							DependentUpon = DefaultPage
+						};
+
+					f.WriteHTMLElement(item.Content);
+
+					ItemGroupForCompile.Add(
+						new XElement("Content",
+							new XAttribute("Include",
+								item.Name.Replace("/", "\\")
+							),
+							new XElement("DependentUpon", DefaultPage.Name.SkipUntilLastIfAny("/"))
+
+						)
+					);
+
+					AddFile(f);
+
+				}
+			);
+
 
 			// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
 
@@ -93,7 +121,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 			{
 				var ApplicationWebServiceType = Context.Interactive.ApplicationWebServiceType;
-				
+
 				ApplicationWebServiceType.Namespace = Context.Name;
 				ApplicationWebServiceType.Comments = FileComments;
 
@@ -157,7 +185,9 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 				}
 			);
 
-			ApplicationType.Methods.Add(new StockMethodApplication(ApplicationType, Context.Interactive));
+			var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
+
+			ApplicationType.Methods.Add(ApplicationConstructor);
 
 
 			Context.Language.WriteType(Application, ApplicationType, Context);

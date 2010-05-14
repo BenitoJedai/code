@@ -39,6 +39,7 @@ namespace TestSolutionBuilderV1
 		/// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
 		public Application(IDefaultPage page)
 		{
+			
 			// Update document title
 			// http://do.jsc-solutions.net/Update-document-title
 

@@ -109,7 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\About.htm" />
-    <Content Include="Design\Default.htm" />
+    <Content Include="Design\Default.htm" >
+      <DependentUpon>About.htm</DependentUpon>
+    </Content>
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

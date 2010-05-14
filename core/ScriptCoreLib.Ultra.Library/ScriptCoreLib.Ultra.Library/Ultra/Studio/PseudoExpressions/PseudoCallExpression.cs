@@ -15,7 +15,8 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 
 		public SolutionProjectLanguageMethod Method;
 
-		public object[] ParameterExpressions;
+		public object[] ParameterExpressions = new object[0];
+
 
 		public bool IsAttributeContext;
 

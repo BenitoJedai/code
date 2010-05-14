@@ -31,11 +31,13 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 		
 
-			this.Code = new SolutionProjectLanguageCode
-			{
-				Interactive.ApplicationToDocumentTitle,
-				Interactive.ApplicationCallWebMethod
-			};
+			this.Code = new SolutionProjectLanguageCode();
+
+			Interactive.RaiseGenerateApplicationExpressions(this.Code.Add);
+
+
+			this.Code.Add(Interactive.ApplicationToDocumentTitle);
+			this.Code.Add(Interactive.ApplicationCallWebMethod);
 
 			this.DeclaringType = DeclaringType;
 			this.Parameters.Add(_page);

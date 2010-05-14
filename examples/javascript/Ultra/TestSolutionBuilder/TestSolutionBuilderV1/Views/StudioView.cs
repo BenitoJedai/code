@@ -18,6 +18,8 @@ using ScriptCoreLib.Ultra.Studio.Languages;
 using ScriptCoreLib.JavaScript.Concepts;
 using TestSolutionBuilderV1.HTML.Pages;
 using System.Xml.Linq;
+using ScriptCoreLib.Ultra.Studio.StockPages;
+using ScriptCoreLib.Ultra.Studio.StockExpressions;
 
 namespace TestSolutionBuilderV1.Views
 {
@@ -307,6 +309,61 @@ namespace TestSolutionBuilderV1.Views
 
 			var sln = new SolutionBuilder();
 
+	
+
+			sln.Interactive.GenerateApplicationExpressions +=
+				Add =>
+				{
+					var GetPages =
+						 from n in sln.ApplicationPage.DescendantsAndSelf()
+						 let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
+						 where type != null
+						 let id = n.Attribute("id")
+						 where id != null
+						 select n;
+
+					// page.PageContainer.ReplaceWith(
+					GetPages.WithEach(
+						k =>
+						{
+							var id = k.Attribute("id").Value;
+							Add(
+								new StockReplaceWithNewPageExpression(id)
+							);
+						}
+					);
+				};
+
+			sln.Interactive.GenerateHTMLFiles +=
+				Add =>
+				{
+					var GetPages =
+						 from n in sln.ApplicationPage.DescendantsAndSelf()
+						 let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
+						 where type != null
+						 let id = n.Attribute("id")
+						 where id != null
+						 select n;
+
+					GetPages.WithEach(
+						k =>
+						{
+							var __Content = new XElement(StockPageDefault.Page);
+
+							var id = k.Attribute("id").Value;
+
+							__Content.Element("head").Element("title").Value = id;
+
+							Add(
+								new SolutionProjectHTMLFile
+								{
+									Name = "Design/" + id + ".htm",
+									Content = __Content
+								}
+							);
+						}
+					 );
+				};
 
 			var _Solution = new TreeNode(VistaTreeNodePage.Create);
 
@@ -319,7 +376,7 @@ namespace TestSolutionBuilderV1.Views
 				delegate
 				{
 
-					if (CodeSourceAView.File != null)
+					if (CodeSourceBView.File != null)
 					{
 						File7Tab.Text = CodeSourceBView.File.Name.SkipUntilIfAny("/");
 					}
@@ -364,9 +421,18 @@ namespace TestSolutionBuilderV1.Views
 						{
 							"blur".ToDocumentTitle();
 
-
 							sln.ApplicationPage = new XElement(body.AsXElement());
-							Update();
+
+
+							// allow any blur causing action to complete first
+							// we get reselected for some odd reason, why?
+							new Timer(
+								delegate
+								{
+									"update".ToDocumentTitle();
+									Update();
+								}
+							).StartTimeout(700);
 						};
 				}
 			);
@@ -377,7 +443,10 @@ namespace TestSolutionBuilderV1.Views
 				{
 					UpdateFile1Text();
 
-					if (CodeSourceBView.File.Name.EndsWith(".htm"))
+					"FileChanged".ToDocumentTitle();
+
+					// hack :)
+					if (CodeSourceBView.File.Name.EndsWith("/Default.htm"))
 					{
 						// currently we only have one element :)
 
