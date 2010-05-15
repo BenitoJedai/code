@@ -22,6 +22,8 @@ call :build compiler\jsc\jsc.sln
 
 :: java
 call :build core\ScriptCoreLibJava\ScriptCoreLibJava.sln
+call :build core\ScriptCoreLibJava.Drawing\ScriptCoreLibJava.Drawing.sln
+call :build core\ScriptCoreLibJava.Windows.Forms\ScriptCoreLibJava.Windows.Forms.sln
 call :build core\ScriptCoreLibJava.XLinq\ScriptCoreLibJava.XLinq.sln
 call :build core\ScriptCoreLibJava.Web\ScriptCoreLibJava.Web.sln
 call :build core\ScriptCoreLibJava.Web.Services\ScriptCoreLibJava.Web.Services.sln

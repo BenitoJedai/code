@@ -185,7 +185,7 @@ namespace jsc.meta.Commands.Reference
 
 							foreach (var ElementWithSource in ElementsWithSource)
 							{
-								ElementWithSource.Attribute("src").Value = NamedElements[ElementWithSource.Attribute("src").Value].Source;
+								ElementWithSource.Attribute("src").Value = NamedElements[ElementWithSource.Attribute("src").Value.TakeUntilIfAny("?")].Source;
 							}
 
 							// http://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement

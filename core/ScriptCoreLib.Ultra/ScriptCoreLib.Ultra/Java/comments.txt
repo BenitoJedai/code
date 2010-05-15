@@ -1,0 +1,1 @@
+﻿Due to historical reasons Java namespace may be ScriptCoreLibJava.
