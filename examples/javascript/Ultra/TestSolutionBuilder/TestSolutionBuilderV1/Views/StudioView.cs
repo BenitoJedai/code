@@ -372,7 +372,7 @@ namespace TestSolutionBuilderV1.Views
 							if (id == "UserControl1")
 							{
 								Add(
-									new StockReplaceWithNewPageExpression(id)
+									new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", id)
 								);
 							}
 						}
