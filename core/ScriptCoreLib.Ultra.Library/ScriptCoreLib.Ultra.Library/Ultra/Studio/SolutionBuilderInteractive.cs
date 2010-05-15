@@ -93,6 +93,14 @@ namespace ScriptCoreLib.Ultra.Studio
 				this.GenerateHTMLFiles(e);
 		}
 
+		public event Action<Action<SolutionProjectLanguageType>> GenerateTypes;
+		public void RaiseGenerateTypes(Action<SolutionProjectLanguageType> e)
+		{
+			if (this.GenerateTypes != null)
+				this.GenerateTypes(e);
+		}
+
+
 		public event Action<Action<PseudoCallExpression>> GenerateApplicationExpressions;
 		public void RaiseGenerateApplicationExpressions(Action<PseudoCallExpression> e)
 		{

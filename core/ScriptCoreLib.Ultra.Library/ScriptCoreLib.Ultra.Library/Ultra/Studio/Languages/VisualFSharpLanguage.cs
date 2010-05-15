@@ -532,7 +532,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 					for (int i = FirstParameter; i < Parameters.Length; i++)
 					{
-						if (i > 0)
+						if (i > FirstParameter)
 						{
 							if (HasComplexParameter)
 							{
@@ -575,6 +575,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 
 			File.Write(")");
+		}
+
+		public override bool SupportsDependentUpon()
+		{
+			return false;
 		}
 	}
 }

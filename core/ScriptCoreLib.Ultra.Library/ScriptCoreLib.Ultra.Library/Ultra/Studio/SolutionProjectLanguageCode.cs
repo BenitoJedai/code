@@ -30,7 +30,14 @@ namespace ScriptCoreLib.Ultra.Studio
 			// no DLR yet. we use our lite version instead.
 			History.Add(e);
 		}
-	
+
+
+		public void Add(PseudoIfExpression e)
+		{
+			// no DLR yet. we use our lite version instead.
+			History.Add(e);
+		}
+
 		#region IEnumerable Members
 
 		public IEnumerator GetEnumerator()

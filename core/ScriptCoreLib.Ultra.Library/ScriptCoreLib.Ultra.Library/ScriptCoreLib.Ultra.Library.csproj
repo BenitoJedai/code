@@ -139,6 +139,9 @@
     <Compile Include="Ultra\Lookup\HTMLEntitiesLookup.cs" />
     <Compile Include="Ultra\Studio\Formatting\HTMLElementFormatting.cs" />
     <Compile Include="Ultra\Studio\Formatting\XElementFormatting.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoBaseExpression.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoIfExpression.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoThisExpression.cs" />
     <Compile Include="Ultra\Studio\SolutionFileExtensionsWithXElement.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationCallWebMethodExpression.cs" />
     <Compile Include="Ultra\Studio\InteractiveExpressions\ApplicationToDocumentTitleExpression.cs" />
@@ -159,14 +162,18 @@
     <Compile Include="Ultra\Studio\SolutionFileComment.cs" />
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectHTMLFile.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguageField.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageKeyword.cs" />
     <Compile Include="Ultra\Studio\Languages\VisualCSharpLanguage.Keywords.cs" />
+    <Compile Include="Ultra\Studio\SolutionProjectLanguagePartialType.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageProperty.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\StockUltraApplicationBuilder.cs" />
     <Compile Include="Ultra\Studio\StockExpressions\StockReplaceWithNewPageExpression.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockApplicationWebServiceType.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockSystemBooleanType.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>
   <ItemGroup>

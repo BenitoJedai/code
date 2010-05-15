@@ -27,6 +27,10 @@ namespace ScriptCoreLib.Ultra.Studio
 			}
 		}
 
+		public bool IsOverride;
+		public bool IsProtected;
+		public bool IsPrivate;
+
 		public bool IsStatic;
 
 		public string Name;

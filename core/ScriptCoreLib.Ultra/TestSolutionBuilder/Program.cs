@@ -9,6 +9,7 @@ using ScriptCoreLib.Ultra.Studio.StockPages;
 using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using ScriptCoreLib.Ultra.Studio.StockExpressions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace TestSolutionBuilder
 {
@@ -32,6 +33,17 @@ namespace TestSolutionBuilder
 						new StockReplaceWithNewPageExpression("Page1")
 					);
 
+				};
+
+			sln.Interactive.GenerateTypes +=
+				Add =>
+				{
+					var Namespace = sln.Name + ".Components";
+					var Name = "UserControl1";
+
+					Add(
+						new StockUserControlType(Namespace, Name)
+					);
 				};
 
 			sln.Interactive.GenerateHTMLFiles +=

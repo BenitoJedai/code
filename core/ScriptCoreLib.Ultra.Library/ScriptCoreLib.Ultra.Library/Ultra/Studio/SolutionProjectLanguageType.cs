@@ -11,6 +11,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		public bool IsSealed;
 		public bool IsInterface;
 
+		
 		public string Namespace;
 
 		public string Name;
@@ -56,5 +57,34 @@ namespace ScriptCoreLib.Ultra.Studio
 				Text = Type.Name
 			};
 		}
+
+		/// <summary>
+		/// Partial types. When a language like FSharp does not support this feature
+		/// it could simply pull the members.
+		/// 
+		/// http://stackoverflow.com/questions/793536/split-f-modules-across-multiple-files
+		/// </summary>
+		public SolutionProjectLanguagePartialType[] DependentPartialTypes = new SolutionProjectLanguagePartialType[0];
+
+
+		public SolutionProjectLanguageType DependentUpon;
+
+		public bool IsPartial
+		{
+			get
+			{
+				if (DependentPartialTypes.Any())
+					return true;
+
+				if (DependentUpon == null)
+					return false;
+
+				return DependentUpon.DependentPartialTypes.Any(k => k.Type == this);
+			}
+		}
+
+		public SolutionProjectLanguageType BaseType;
+
+		public readonly List<SolutionProjectLanguageField> Fields = new List<SolutionProjectLanguageField>();
 	}
 }

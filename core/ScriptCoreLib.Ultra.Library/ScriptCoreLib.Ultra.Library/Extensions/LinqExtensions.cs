@@ -26,7 +26,9 @@ namespace ScriptCoreLib.Extensions
 
 		public static IEnumerable<T> WithEach<T>(this IEnumerable<T> collection, Action<T> h) where T : class
 		{
-			InternalWithEach<T>(collection, h);
+			if (collection != null)
+				if (h != null)
+					InternalWithEach<T>(collection, h);
 
 			return collection;
 		}
@@ -40,7 +42,7 @@ namespace ScriptCoreLib.Extensions
 			}
 		}
 
-		
+
 		public static IEnumerable<T> SelectWithSeparator<T>(this IEnumerable<T> source, T f)
 		{
 			return source.SelectWithSeparator((p, c) => f);
@@ -132,6 +134,6 @@ namespace ScriptCoreLib.Extensions
 			return () => f();
 		}
 
-	
+
 	}
 }

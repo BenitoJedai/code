@@ -9,13 +9,27 @@
     </div>
 </body>
 
+        ''' <summary>
+        ''' This XElement is the template for Studio Toolbox HTML Document.
+        ''' </summary>
+        ''' <remarks></remarks>
         Public Page As XElement = _
 <html>
     <head>
         <title>Page</title>
     </head>
-    <body style='display: inline-block; width: 400px; height: 300px; border: 1px solid gray; padding: 1em;'>
-        <div id='PageContainer'>Hello world</div>
+    <body style='display: inline-block; width: 400px; height: 300px; border: 1px solid gray; position: relative;'>
+        <div id='PageContainer' style='
+            position: absolute; 
+            left: 0px;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            '>
+            <div id='Content' style='margin: 1em;'>
+                Hello world
+            </div>
+        </div>
     </body>
 </html>
 
