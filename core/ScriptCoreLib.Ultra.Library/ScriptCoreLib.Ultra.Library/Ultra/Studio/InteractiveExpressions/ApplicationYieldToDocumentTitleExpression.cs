@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 		{
 			this.Comment = InteractiveComment;
 
-			PseudoConstantExpression ElementName = new PseudoConstantExpression
+			PseudoStringConstantExpression ElementName = new PseudoStringConstantExpression
 			{
 				Value =
 					"Data"

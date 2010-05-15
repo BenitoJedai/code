@@ -37,7 +37,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 				DeclaringType = UserControl1DesignerType.Type,
 				Code = new SolutionProjectLanguageCode
 				{
-					"We do not have unmanaged resources.",
+					"Note: This jsc project does not support unmanaged resources.",
 					new PseudoCallExpression
 					{
 						Object = new PseudoBaseExpression(),
@@ -68,7 +68,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 					}
 				};
 
-			var set_name = new PseudoCallExpression
+			var set_Name = new PseudoCallExpression
 			{
 				Object = new PseudoThisExpression(),
 				Method = new SolutionProjectLanguageMethod
@@ -78,9 +78,39 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 				},
 				ParameterExpressions = new[]
 				{
-					new PseudoConstantExpression
+					new PseudoStringConstantExpression
 					{
 						Value = Name
+					}
+				}
+			};
+
+			var set_Size = new PseudoCallExpression
+			{
+				Object = new PseudoThisExpression(),
+				Method = new SolutionProjectLanguageMethod
+				{
+					IsProperty = true,
+					Name = "set_Size",
+				},
+				ParameterExpressions = new[]
+				{
+					new PseudoCallExpression
+					{
+						Method = new SolutionProjectLanguageMethod
+						{
+							DeclaringType = new SolutionProjectLanguageType
+							{
+								Namespace = "System.Drawing",
+								Name = "Size"
+							},
+							Name = SolutionProjectLanguageMethod.ConstructorName
+						},
+						ParameterExpressions = new []
+						{
+							(PseudoInt32ConstantExpression) 400,
+							(PseudoInt32ConstantExpression) 300,
+						}
 					}
 				}
 			};
@@ -96,7 +126,8 @@ the contents of this method with the code editor.",
 					Name = "InitializeComponent",
 					Code = new SolutionProjectLanguageCode
 					{
-						set_name
+						set_Name,
+						set_Size
 					}
 				};
 
@@ -131,15 +162,24 @@ the contents of this method with the code editor.",
 					UserControl1DesignerType
 				};
 
-		
 
+
+			UserControl1DesignerType.Type.UsingNamespaces.Add("System.ComponentModel");
+			UserControl1DesignerType.Type.UsingNamespaces.Add("System.Windows.Forms");
 			UserControl1DesignerType.Type.Fields.Add(components);
 
 			this.Methods.Add(UserControl1Constructor);
+			this.UsingNamespaces.Add("System.Collections.Generic");
 			this.UsingNamespaces.Add("System.ComponentModel");
+			this.UsingNamespaces.Add("System.Drawing");
+			this.UsingNamespaces.Add("System.Linq");
+			this.UsingNamespaces.Add("System.Text");
+			this.UsingNamespaces.Add("System.Windows.Forms");
 
-			UserControl1DesignerType.Type.Methods.Add(InitializeComponent);
+
+
 			UserControl1DesignerType.Type.Methods.Add(Dispose);
+			UserControl1DesignerType.Type.Methods.Add(InitializeComponent);
 
 		}
 	}

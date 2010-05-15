@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
 	public class WebMethod2Expression : PseudoCallExpression
 	{
-		public PseudoConstantExpression Title { get; private set; }
+		public PseudoStringConstantExpression Title { get; private set; }
 
 		public WebMethod2Expression()
 		{
@@ -84,7 +84,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 						},
 						ParameterExpressions = new []
 						{
-							new PseudoConstantExpression { 
+							new PseudoStringConstantExpression { 
 								Value = 
 									"Data" 
 							}
@@ -100,7 +100,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 				Name = "ReplaceAll"
 			};
 
-			this.Title = new PseudoConstantExpression { Value = "Data from the web server" };
+			this.Title = new PseudoStringConstantExpression { Value = "Data from the web server" };
 
 			ParameterExpressions = new[] {
 				this.Title

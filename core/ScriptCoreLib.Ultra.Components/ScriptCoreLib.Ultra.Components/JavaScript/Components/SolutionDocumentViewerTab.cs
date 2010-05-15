@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Ultra.Components;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
-	public class SolutionDocumentViewerTab
+	public class SolutionDocumentViewerTab : ISupportsActivation
 	{
 		string InternalText;
 		public string Text
@@ -30,6 +31,14 @@ namespace ScriptCoreLib.JavaScript.Components
 			if (Activated != null)
 				Activated();
 		}
+
+		public event Action Deactivated;
+		public void RaiseDeactivated()
+		{
+			if (Deactivated != null)
+				Deactivated();
+		}
+
 
 		public event Action Changed;
 		public static implicit operator SolutionDocumentViewerTab(string Text)

@@ -51,7 +51,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 						},
 						ParameterExpressions = new[]
 						{
-							new PseudoConstantExpression { 
+							new PseudoStringConstantExpression { 
 								Value = Name
 							}
 						}
@@ -90,7 +90,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 								ParameterExpressions = new object []
 								{
 									XNameFromString(item.Name.LocalName),
-									new PseudoConstantExpression
+									new PseudoStringConstantExpression
 									{
 										Value = item.Value
 									}
@@ -105,7 +105,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 						if (_XText != null)
 						{
 							Content.Items.Add(
-								new PseudoConstantExpression
+								new PseudoStringConstantExpression
 								{
 									Value = _XText.Value
 								}
@@ -138,7 +138,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 
 									ParameterExpressions = new object[]
 									{
-										new PseudoConstantExpression
+										new PseudoStringConstantExpression
 										{
 											Value = _XComment.Value
 										}

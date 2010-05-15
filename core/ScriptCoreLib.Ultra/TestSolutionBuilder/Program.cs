@@ -27,12 +27,15 @@ namespace TestSolutionBuilder
 			sln.Interactive.GenerateApplicationExpressions +=
 				Add =>
 				{
-					//page.PageContainer.ReplaceWith(
 
 					Add(
 						new StockReplaceWithNewPageExpression("Page1")
 					);
 
+
+					Add(
+						new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", "UserControl1")
+					);
 				};
 
 			sln.Interactive.GenerateTypes +=

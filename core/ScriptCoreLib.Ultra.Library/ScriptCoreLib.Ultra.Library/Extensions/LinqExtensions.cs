@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.Extensions
 {
@@ -17,13 +18,17 @@ namespace ScriptCoreLib.Extensions
 			return e;
 		}
 
+		[System.Diagnostics.DebuggerStepThrough]
 		public static T With<T>(this T e, Action<T> h) where T : class
 		{
-			h(e);
+			if (e != null)
+				if (h != null)
+					h(e);
 
 			return e;
 		}
 
+		[System.Diagnostics.DebuggerStepThrough]
 		public static IEnumerable<T> WithEach<T>(this IEnumerable<T> collection, Action<T> h) where T : class
 		{
 			if (collection != null)
@@ -33,12 +38,13 @@ namespace ScriptCoreLib.Extensions
 			return collection;
 		}
 
+		[System.Diagnostics.DebuggerStepThrough]
 		private static void InternalWithEach<T>(IEnumerable<T> collection, Action<T> h) where T : class
 		{
 			// fixme: jsc shall convert Array to IEnumerable<>
 			foreach (var item in collection.AsEnumerable())
 			{
-				h(item);
+				item.With(h);
 			}
 		}
 

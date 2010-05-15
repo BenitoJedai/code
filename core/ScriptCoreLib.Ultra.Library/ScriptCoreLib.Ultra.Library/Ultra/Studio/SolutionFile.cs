@@ -43,7 +43,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		}
 
 		public SolutionBuilder Context;
-
+		public SolutionProjectLanguageType ContextType;
 
 
 		// does our java output support generics already?

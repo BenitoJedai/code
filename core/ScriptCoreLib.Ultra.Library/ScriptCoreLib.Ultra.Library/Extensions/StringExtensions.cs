@@ -43,6 +43,17 @@ namespace ScriptCoreLib.Extensions
 			return e.Substring(i + u.Length);
 		}
 
+
+		public static string SkipUntilOrEmpty(this string e, string u)
+		{
+			var i = e.IndexOf(u);
+
+			if (i < 0)
+				return "";
+
+			return e.Substring(i + u.Length);
+		}
+
 		public static string TakeUntilIfAny(this string e, string u)
 		{
 			var i = e.IndexOf(u);

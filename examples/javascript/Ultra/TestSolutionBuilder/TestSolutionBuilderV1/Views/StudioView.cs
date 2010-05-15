@@ -20,6 +20,7 @@ using TestSolutionBuilderV1.HTML.Pages;
 using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Studio.StockPages;
 using ScriptCoreLib.Ultra.Studio.StockExpressions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace TestSolutionBuilderV1.Views
 {
@@ -150,6 +151,41 @@ namespace TestSolutionBuilderV1.Views
 			var Viewer = new SolutionDocumentViewer();
 			SolutionDocumentViewerTab File7Tab = "Design/Default.htm";
 			Viewer.Add(File7Tab);
+
+			#region OutputFile
+			var OutputFile = new SolutionFile();
+			var OutputFileViewer = new SolutionFileView();
+
+			// fullscreen! :)
+			OutputFileViewer.Container.style.height = "100%";
+
+			OutputFile.IndentStack.Push(
+				delegate
+				{
+					OutputFile.Write(SolutionFileTextFragment.Comment, "" + DateTime.Now);
+					OutputFile.WriteSpace();
+				}
+			);
+
+			Action<string> OutputWriteLine =
+				n =>
+				{
+					// Would we want to rewire System.Out? Console.WriteLine?
+					OutputFile.WriteIndent();
+					OutputFile.WriteLine(n);
+
+					// we could have a resume feature? now we just go and clear...
+					OutputFileViewer.File = OutputFile;
+				};
+
+
+			OutputWriteLine("studio.jsc-solutions.net ready!");
+			#endregion
+
+			SolutionDocumentViewerTab OutputTab = "Output";
+			Viewer.Add(OutputTab);
+			OutputTab.TabElement.style.Float = IStyle.FloatEnum.right;
+
 
 			SolutionDocumentViewerTab AboutTab = "About";
 			Viewer.Add(AboutTab);
@@ -292,13 +328,7 @@ namespace TestSolutionBuilderV1.Views
 
 
 
-			File7Tab.Activated +=
-				delegate
-				{
-					Viewer.Content.ReplaceContentWith(CurrentDesigner.Container);
-				};
 
-			Viewer.First().Activate();
 
 			Split.Split.LeftScrollable = SolutionToolbox.Container;
 			Split.Split.RightScrollable = Viewer.Container;
@@ -309,27 +339,42 @@ namespace TestSolutionBuilderV1.Views
 
 			var sln = new SolutionBuilder();
 
-	
+
+			#region dynamic content
+			Func<IEnumerable<XElement>> GetPages = delegate
+			{
+				return from n in sln.ApplicationPage.DescendantsAndSelf()
+					   let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
+					   where type != null
+					   let id = n.Attribute("id")
+					   where id != null
+					   select n;
+			};
 
 			sln.Interactive.GenerateApplicationExpressions +=
 				Add =>
 				{
-					var GetPages =
-						 from n in sln.ApplicationPage.DescendantsAndSelf()
-						 let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
-						 where type != null
-						 let id = n.Attribute("id")
-						 where id != null
-						 select n;
+
 
 					// page.PageContainer.ReplaceWith(
-					GetPages.WithEach(
+					GetPages().WithEach(
 						k =>
 						{
 							var id = k.Attribute("id").Value;
-							Add(
-								new StockReplaceWithNewPageExpression(id)
-							);
+
+							if (id == "Page1")
+							{
+								Add(
+									new StockReplaceWithNewPageExpression(id)
+								);
+							}
+
+							if (id == "UserControl1")
+							{
+								Add(
+									new StockReplaceWithNewPageExpression(id)
+								);
+							}
 						}
 					);
 				};
@@ -337,33 +382,50 @@ namespace TestSolutionBuilderV1.Views
 			sln.Interactive.GenerateHTMLFiles +=
 				Add =>
 				{
-					var GetPages =
-						 from n in sln.ApplicationPage.DescendantsAndSelf()
-						 let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
-						 where type != null
-						 let id = n.Attribute("id")
-						 where id != null
-						 select n;
 
-					GetPages.WithEach(
+					GetPages().WithEach(
 						k =>
 						{
-							var __Content = new XElement(StockPageDefault.Page);
-
 							var id = k.Attribute("id").Value;
 
-							__Content.Element("head").Element("title").Value = id;
+							if (id == "Page1")
+							{
+								var __Content = new XElement(StockPageDefault.Page);
 
-							Add(
-								new SolutionProjectHTMLFile
-								{
-									Name = "Design/" + id + ".htm",
-									Content = __Content
-								}
-							);
+
+								__Content.Element("head").Element("title").Value = id;
+
+								Add(
+									new SolutionProjectHTMLFile
+									{
+										Name = "Design/" + id + ".htm",
+										Content = __Content
+									}
+								);
+							}
 						}
 					 );
 				};
+
+			sln.Interactive.GenerateTypes +=
+				Add =>
+				{
+					GetPages().WithEach(
+						k =>
+						{
+							var id = k.Attribute("id").Value;
+
+							if (id == "UserControl1")
+							{
+								Add(
+									new StockUserControlType(sln.Name + ".Components", id)
+								);
+							}
+						}
+					 );
+				};
+			#endregion
+
 
 			var _Solution = new TreeNode(VistaTreeNodePage.Create);
 
@@ -388,12 +450,7 @@ namespace TestSolutionBuilderV1.Views
 
 				};
 
-			//HTMLDesigner.HTMLDesignerContent.WhenContentReady(
-			//    body =>
-			//    {
-			//        sln.ApplicationPage = body.AsXElement();
-			//    }
-			//);
+
 
 
 			Action Update =
@@ -407,32 +464,52 @@ namespace TestSolutionBuilderV1.Views
 					UpdateTree(sln, CodeSourceBView, _Solution, _Project);
 				};
 
+			var PreviousVersion = default(string);
+
 			HTMLDesigner.HTMLDesignerContent.WhenContentReady(
 				body =>
 				{
+					if (PreviousVersion == null)
+					{
+						var x = new XElement(body.AsXElement());
+						var y = x.ToString();
+						PreviousVersion = y;
+					}
+
 					HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
 						delegate
 						{
-							"focus".ToDocumentTitle();
+							OutputWriteLine("Designer activated.");
+							//"focus".ToDocumentTitle();
 						};
 
 					HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
 						delegate
 						{
-							"blur".ToDocumentTitle();
+							//"blur".ToDocumentTitle();
 
-							sln.ApplicationPage = new XElement(body.AsXElement());
+							var x = new XElement(body.AsXElement());
+							var y = x.ToString();
+
+							if (PreviousVersion != y)
+							{
+								PreviousVersion = y;
 
 
-							// allow any blur causing action to complete first
-							// we get reselected for some odd reason, why?
-							new Timer(
-								delegate
-								{
-									"update".ToDocumentTitle();
-									Update();
-								}
-							).StartTimeout(700);
+								sln.ApplicationPage = x;
+
+
+								// allow any blur causing action to complete first
+								// we get reselected for some odd reason, why?
+								new Timer(
+									delegate
+									{
+										OutputWriteLine("Designer has caused an update.");
+										Update();
+
+									}
+								).StartTimeout(700);
+							}
 						};
 				}
 			);
@@ -443,7 +520,8 @@ namespace TestSolutionBuilderV1.Views
 				{
 					UpdateFile1Text();
 
-					"FileChanged".ToDocumentTitle();
+
+					OutputWriteLine("Select: " + CodeSourceBView.File.Name);
 
 					// hack :)
 					if (CodeSourceBView.File.Name.EndsWith("/Default.htm"))
@@ -457,6 +535,12 @@ namespace TestSolutionBuilderV1.Views
 						CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
 						CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
 
+						HTMLDesigner.HTMLDesignerContent.WhenContentReady(
+							body =>
+							{
+								HTMLDesigner.HTMLDesignerContent.contentWindow.focus();
+							}
+						);
 
 						// show the design/source buttons
 					}
@@ -480,17 +564,24 @@ namespace TestSolutionBuilderV1.Views
 			About.ProjectName.onchange +=
 				delegate
 				{
+					OutputWriteLine("Project name has changed.");
 					Update();
 				};
 
 
-			AboutTab.Activated +=
-				delegate
-				{
-					// our about page has dynamic size..
-					Viewer.Content.ReplaceContentWith(About.Container);
-				};
 
+			Viewer.Content.Clear();
+			Viewer.Content.Add(About.Container);
+			Viewer.Content.Add(CurrentDesigner.Container);
+			Viewer.Content.Add(OutputFileViewer.Container);
+
+			AboutTab.WhenActivated(About.Container);
+			File7Tab.WhenActivated(CurrentDesigner.Container);
+			OutputTab.WhenActivated(OutputFileViewer.Container);
+
+
+
+			Viewer.First().Activate();
 
 			var SolutionExplorer = new SolutionDockWindowPage();
 
@@ -631,6 +722,15 @@ namespace TestSolutionBuilderV1.Views
 					else if (Extension == ".htm")
 						n.WithIcon(() => new HTMLDocument());
 
+					if (f.ContextType != null)
+					{
+						if (f.ContextType.BaseType != null)
+						{
+							if (f.ContextType.BaseType.Name == "UserControl")
+								n.WithIcon(() => new SolutionProjectFormsControl());
+						}
+					}
+
 					if (f.DependentUpon != null)
 					{
 						n.WithIcon(() => new SolutionProjectDependentUpon());
@@ -663,7 +763,7 @@ namespace TestSolutionBuilderV1.Views
 			if (this.Save != null)
 			{
 				this.Save.Clear();
-
+				this.Save.FileName = sln.Name + ".sln.zip";
 				files.WithEach(f => this.Save.Add(f.Name, f.Content));
 			}
 		}

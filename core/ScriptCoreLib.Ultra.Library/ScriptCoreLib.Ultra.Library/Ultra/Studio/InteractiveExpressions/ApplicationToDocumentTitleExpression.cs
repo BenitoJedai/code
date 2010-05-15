@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
 	public class ApplicationToDocumentTitleExpression : PseudoCallExpression
 	{
-		public PseudoConstantExpression Title { get; private set; }
+		public PseudoStringConstantExpression Title { get; private set; }
 
 		public ApplicationToDocumentTitleExpression()
 		{
@@ -32,7 +32,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 				}
 			};
 
-			this.Title = new PseudoConstantExpression { Value = "Hello world" };
+			this.Title = new PseudoStringConstantExpression { Value = "Hello world" };
 
 			this.ParameterExpressions = new[] {
 				this.Title

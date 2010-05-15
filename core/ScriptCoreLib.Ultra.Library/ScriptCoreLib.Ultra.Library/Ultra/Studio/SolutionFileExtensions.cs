@@ -5,18 +5,76 @@ using System.Text;
 using ScriptCoreLib.Ultra.Library;
 using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
 	public static class SolutionFileExtensions
 	{
+		public class GetUsingNamespaces
+		{
+			public readonly List<string> Current = new List<string>();
+			public readonly SolutionProjectLanguageType ContextType;
+			public GetUsingNamespaces(SolutionProjectLanguageType Type)
+			{
+				ContextType = Type;
+
+				Current.AddRange(Type.UsingNamespaces);
+
+				VisitType(Type);
+			}
+
+			void VisitCall(PseudoCallExpression Call)
+			{
+				VisitMethod(Call.Method);
+
+				Call.ParameterExpressions.WithEach(VisitExpression);
+			}
+
+			void VisitExpression(object s)
+			{
+				(s as PseudoExpressions.PseudoCallExpression).With(VisitCall);
+			}
+
+			void VisitCode(SolutionProjectLanguageCode Code)
+			{
+				Code.History.ToArray().WithEach(VisitExpression);
+			}
+
+			void VisitMethod(SolutionProjectLanguageMethod Method)
+			{
+				Method.DeclaringType.With(VisitType);
+				Method.Code.With(VisitCode);
+			}
+
+			readonly List<SolutionProjectLanguageType> VisitTypeHistory = new List<SolutionProjectLanguageType>();
+			void VisitType(SolutionProjectLanguageType Type)
+			{
+				if (VisitTypeHistory.Contains(Type))
+					return;
+				VisitTypeHistory.Add(Type);
+
+				if (Type != this.ContextType)
+				{
+					if (Type.Namespace != null)
+					{
+						this.Current.AddDistinct(Type.Namespace);
+					}
+				}
+				Type.Methods.WithEach(VisitMethod);
+			}
+		}
 
 		public static void WriteUsingNamespaceList(this SolutionFile File, SolutionProjectLanguage Language, SolutionProjectLanguageType Type)
 		{
+
+
+
+
 			File.Region(
 				delegate
 				{
-					foreach (var item in Type.UsingNamespaces.ToArray())
+					foreach (var item in new GetUsingNamespaces(Type).Current.ToArray())
 					{
 						Language.WriteUsingNamespace(File, item);
 					}

@@ -43,8 +43,8 @@ namespace ScriptCoreLib.JavaScript.Components
 			this.Tabs.Source.Add(e);
 		}
 
-		
-		
+
+
 
 		public SolutionDocumentViewer()
 		{
@@ -150,6 +150,12 @@ namespace ScriptCoreLib.JavaScript.Components
 						};
 
 					NewTab.Activate = Activate;
+
+					NewTab.Activated +=
+						delegate
+						{
+							(from kk in this where kk != NewTab select (Action)kk.RaiseDeactivated).Invoke();
+						};
 
 					Current.onclick +=
 						delegate

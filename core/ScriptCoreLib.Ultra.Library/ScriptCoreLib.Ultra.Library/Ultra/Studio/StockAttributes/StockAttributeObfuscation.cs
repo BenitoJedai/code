@@ -22,7 +22,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockAttributes
 				Name = "set_Feature",
 				DeclaringType = Type
 			};
-			var merge = new PseudoConstantExpression
+			var merge = new PseudoStringConstantExpression
 			{
 				Value = "merge"
 			};

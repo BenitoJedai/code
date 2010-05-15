@@ -117,12 +117,20 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 			Action<SolutionProjectLanguageType, string> AddTypeWithoutMerge =
 				(SourceType, IncludeName) =>
 				{
-					var Include = IncludeName + Context.Language.CodeFileExtension;
+					var Folder = SourceType.Namespace.SkipUntilIfAny(Context.Name + ".");
+					var Include = "";
+
+					if (Folder != "")
+						if (Folder != Context.Name)
+							Include += Folder.Replace(".", "/") + "/";
+
+					Include += IncludeName + Context.Language.CodeFileExtension;
 
 					var SourceFile =
 						new SolutionFile
 						{
 							Name = ToProjectFile(Include),
+							ContextType = SourceType
 						};
 
 					AddTypeFiles[SourceType] = SourceFile;
