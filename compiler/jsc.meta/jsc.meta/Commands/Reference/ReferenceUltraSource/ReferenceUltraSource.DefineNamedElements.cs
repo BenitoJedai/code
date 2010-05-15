@@ -122,7 +122,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					if (alt != null && !string.IsNullOrEmpty(alt.Value))
 						name1 = alt.Value.TakeUntilLastIfAny(".");
 
-					var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilLastIfAny(".");
+					var name0 = name1.Replace("\\", "/").SkipUntilLastIfAny("/").TakeUntilLastIfAny("?").TakeUntilLastIfAny(".");
 					var name = CompilerBase.GetSafeLiteral(name0, null);
 
 
@@ -131,7 +131,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					// if its not from the web, only in our project then this type cannot be made available can it.
 
-					var src_value = src.Value;
+					var src_value = src.Value.TakeUntilIfAny("?");
 					if (src_value.StartsWith("//"))
 						src_value = "http:" + src_value;
 

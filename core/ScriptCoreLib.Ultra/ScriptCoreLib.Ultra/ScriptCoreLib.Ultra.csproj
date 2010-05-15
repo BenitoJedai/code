@@ -87,6 +87,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -137,6 +138,7 @@
     <Compile Include="JavaScript\Remoting\PUltraComponent.cs" />
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
+    <Compile Include="Java\Extensions\WindowsFormsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\RemotingToken.cs" />
     <Compile Include="Ultra\Studio\SolutionBuilderWithConsole.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Ultra\Studio\SolutionBuilderWithZIPFile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Java\comments.txt" />
     <Content Include="Ultra\comments.txt" />
   </ItemGroup>
   <ItemGroup>
