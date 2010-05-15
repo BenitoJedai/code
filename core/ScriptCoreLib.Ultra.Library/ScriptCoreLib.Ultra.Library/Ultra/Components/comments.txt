@@ -1,0 +1,3 @@
+﻿ScriptCoreLib.Ultra.Components
+
+has Types which support Component Model and do not directly depend on any platform.

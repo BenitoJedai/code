@@ -226,7 +226,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
-			var Constant = Parameter as PseudoConstantExpression;
+			var Constant = Parameter as PseudoStringConstantExpression;
 			if (Constant != null)
 			{
 				var Value = (string)Constant.Value;
@@ -237,6 +237,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
+			var ConstantInt32 = Parameter as PseudoInt32ConstantExpression;
+			if (ConstantInt32 != null)
+			{
+				File.Write("" + ConstantInt32.Value);
+				return;
+			}
 
 			var Array = Parameter as PseudoArrayExpression;
 			if (Array != null)

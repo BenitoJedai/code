@@ -51,5 +51,9 @@ namespace ScriptCoreLib.Ultra.Studio
 		/// </summary>
 		public SolutionProjectLanguageType ReturnType;
 
+		public override string ToString()
+		{
+			return this.Name;
+		}
 	}
 }

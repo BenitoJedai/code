@@ -395,7 +395,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
-			var Constant = Parameter as PseudoConstantExpression;
+			var Constant = Parameter as PseudoStringConstantExpression;
 			if (Constant != null)
 			{
 				var Value = (string)Constant.Value;

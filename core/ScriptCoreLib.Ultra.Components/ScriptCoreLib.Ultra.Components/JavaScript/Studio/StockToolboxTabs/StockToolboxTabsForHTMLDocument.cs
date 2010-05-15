@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 {
@@ -95,6 +96,7 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 
 			foreach (var item in InternalArray)
 			{
+				
 				item.DataType = item.Name;
 			}
 		}

@@ -26,6 +26,14 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
         </Reference>
+        <Reference Include="ScriptCoreLib.Windows.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.XLinq, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+        </Reference>
         <Reference Include="ScriptCoreLib.Ultra, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
@@ -63,6 +71,8 @@
         <Reference Include="WindowsBase">
             <RequiredTargetFramework>3.0</RequiredTargetFramework>
         </Reference>
+        <Reference Include="System.Drawing"/>
+        <Reference Include="System.Windows.Forms"/>
     </ItemGroup>
 
     Public VisualCSharpProject As XElement = _

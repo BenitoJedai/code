@@ -116,6 +116,10 @@ namespace ScriptCoreLib.JavaScript.Components
 
 					var ItemImage = new StockToolboxImageTransparent64().AttachTo(ItemCenterImageContainer);
 
+					// safari seems to drag and drop only img.src
+					ItemImage.src += "?" + SolutionBuilderInteractive.DataTypeAttribute + "=" + NewTab.DataType;
+				
+
 					ItemImage.style.SetSize(400, 300);
 					ItemImage.style.borderWidth = "1px";
 					ItemImage.style.borderStyle = "solid";
@@ -128,7 +132,9 @@ namespace ScriptCoreLib.JavaScript.Components
 					// http://ejohn.org/blog/html-5-data-attributes/
 					ItemImage.setAttribute(SolutionBuilderInteractive.DataTypeAttribute, NewTab.DataType);
 
-					ItemBackground.ToBackground(ItemImage.style, false);
+					ItemBackground.ToBackground(ItemImage.style);
+
+					ItemImage.style.backgroundRepeat = "no-repeat";
 
 					return delegate
 					{

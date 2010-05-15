@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Ultra.Components;
 
 namespace ScriptCoreLib.JavaScript.Components
 {
-	public class SolutionFileDesignerTab
+	public class SolutionFileDesignerTab : ISupportsActivation
 	{
 		public IHTMLImage Image { get; set; }
 

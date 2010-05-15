@@ -8,7 +8,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockAttributes
 {
 	public class StockAttributeGeneralInformation : SolutionProjectLanguageAttribute
 	{
-		public StockAttributeGeneralInformation(SolutionProjectLanguageType Type, PseudoConstantExpression Constant)
+		public StockAttributeGeneralInformation(SolutionProjectLanguageType Type, PseudoStringConstantExpression Constant)
 		{
 			this.Type = Type;
 			this.Parameters = new[] { Constant };
