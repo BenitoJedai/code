@@ -34,16 +34,18 @@ namespace ScriptCoreLib.Ultra.Studio
 			that.WriteTo(
 				SolutionFile =>
 				{
-					Console.WriteLine(SolutionFile.Name);
+					Console.BackgroundColor = ConsoleColor.Blue;
+					Console.ForegroundColor = ConsoleColor.White;
+					Console.WriteLine(" " + SolutionFile.Name + " ");
 
 					//if (SolutionFile.WriteHistory.Count > 1)
 					foreach (var item in SolutionFile.WriteHistory)
 					{
 						if (item.Fragment == SolutionFileTextFragment.Indent)
 							Console.BackgroundColor = ConsoleColor.DarkGray;
-						else if (item.Fragment == SolutionFileTextFragment.XMLText )
+						else if (item.Fragment == SolutionFileTextFragment.XMLText)
 							Console.BackgroundColor = ConsoleColor.DarkCyan;
-						else 
+						else
 							Console.BackgroundColor = ConsoleColor.Black;
 
 						if (Lookup.ContainsKey(item.Fragment))

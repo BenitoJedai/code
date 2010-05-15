@@ -82,6 +82,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 			#endregion
 
+
+			#region RaiseGenerateHTMLFiles
 			Context.Interactive.RaiseGenerateHTMLFiles(
 				item =>
 				{
@@ -108,46 +110,92 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 				}
 			);
+			#endregion
+
+			var AddTypeFiles = new Dictionary<SolutionProjectLanguageType, SolutionFile>();
+
+			Action<SolutionProjectLanguageType, string> AddTypeWithoutMerge =
+				(SourceType, IncludeName) =>
+				{
+					var Include = IncludeName + Context.Language.CodeFileExtension;
+
+					var SourceFile =
+						new SolutionFile
+						{
+							Name = ToProjectFile(Include),
+						};
+
+					AddTypeFiles[SourceType] = SourceFile;
+
+					Context.Language.WriteType(SourceFile, SourceType, Context);
+
+					var Compile =
+						new XElement("Compile",
+							new XAttribute("Include",
+								Include.Replace("/", "\\")
+							)
+						);
+
+					if (SourceType.DependentUpon != null)
+					{
+						SourceFile.DependentUpon = AddTypeFiles[SourceType.DependentUpon];
+
+						if (Context.Language.SupportsDependentUpon())
+						{
+							// F# does not?
+
+							Compile.Add(
+								new XElement("DependentUpon", SourceFile.DependentUpon.Name.SkipUntilLastIfAny("/"))
+							);
+						}
+					}
+
+					ItemGroupForCompile.Add(Compile);
+					AddFile(SourceFile);
+				};
+
+			Action<SolutionProjectLanguageType> AddType =
+				SourceType =>
+				{
+					// if partial is not supported then
+					// we need to merge the types
+					// later we may need to have an identity object? :)
+
+					AddTypeWithoutMerge(
+						SourceType,
+						SourceType.Name
+					);
+
+					SourceType.DependentPartialTypes.WithEach(
+						PartialType =>
+						{
+							PartialType.Type.DependentUpon = SourceType;
+
+							AddTypeWithoutMerge(
+								PartialType.Type,
+								PartialType.Name
+							);
+						}
+					);
+				};
+
+			Context.Interactive.RaiseGenerateTypes(AddType);
 
 
 			// http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
 
 			#region ApplicationWebService
-			var ApplicationWebService =
-				new SolutionFile
-				{
-					Name = ToProjectFile("ApplicationWebService" + Context.Language.CodeFileExtension),
-				};
 
-			{
-				var ApplicationWebServiceType = Context.Interactive.ApplicationWebServiceType;
+			var ApplicationWebServiceType = Context.Interactive.ApplicationWebServiceType;
 
-				ApplicationWebServiceType.Namespace = Context.Name;
-				ApplicationWebServiceType.Comments = FileComments;
+			ApplicationWebServiceType.Namespace = Context.Name;
+			ApplicationWebServiceType.Comments = FileComments;
 
+			AddType(ApplicationWebServiceType);
 
-
-				Context.Language.WriteType(ApplicationWebService, ApplicationWebServiceType, Context);
-			}
-
-			ItemGroupForCompile.Add(
-				new XElement("Compile",
-					new XAttribute("Include",
-						"ApplicationWebService" + Context.Language.CodeFileExtension
-					)
-				)
-			);
-
-			AddFile(ApplicationWebService);
 			#endregion
 
 			#region Application
-			var Application =
-				new SolutionFile
-				{
-					Name = ToProjectFile("Application" + Context.Language.CodeFileExtension),
-				};
-
 
 			var ApplicationType = new SolutionProjectLanguageType
 			{
@@ -190,18 +238,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 			ApplicationType.Methods.Add(ApplicationConstructor);
 
 
-			Context.Language.WriteType(Application, ApplicationType, Context);
+			AddType(ApplicationType);
 
-			ItemGroupForCompile.Add(
-				new XElement("Compile",
-					new XAttribute("Include",
-						"Application" + Context.Language.CodeFileExtension
-					)
-				)
-			);
-
-
-			AddFile(Application);
 			#endregion
 
 			#region AssemblyInfo
@@ -272,42 +310,23 @@ associated with an assembly."
 
 
 			#region Program
-			var Program =
-				new SolutionFile
-				{
-					Name = ToProjectFile("Program" + Context.Language.CodeFileExtension),
-					DependentUpon = Application
-				};
 
-
+			var ProgramType = new SolutionProjectLanguageType
 			{
-				var ProgramType = new SolutionProjectLanguageType
-				{
-					IsStatic = true,
-					Namespace = Context.Name,
-					Name = "Program",
-					Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
-					Comments = FileComments
-				};
+				IsStatic = true,
+				Namespace = Context.Name,
+				Name = "Program",
+				Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
+				Comments = FileComments,
+				DependentUpon = ApplicationType
+			};
 
-				ProgramType.UsingNamespaces.Add("System");
-				ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
-				ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
+			ProgramType.UsingNamespaces.Add("System");
+			ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
+			ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
 
-				Context.Language.WriteType(Program, ProgramType, Context);
-			}
+			AddType(ProgramType);
 
-			ItemGroupForCompile.Add(
-				new XElement("Compile",
-					new XAttribute("Include",
-						"Program" + Context.Language.CodeFileExtension
-					),
-					new XElement("DependentUpon", "Application" + Context.Language.CodeFileExtension)
-				)
-			);
-
-
-			AddFile(Program);
 			#endregion
 
 		}

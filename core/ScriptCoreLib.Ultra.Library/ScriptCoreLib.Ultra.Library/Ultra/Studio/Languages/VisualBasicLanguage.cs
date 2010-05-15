@@ -498,5 +498,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.Write(SolutionFileTextFragment.Indent, "\t");
 		}
 
+		public override bool SupportsDependentUpon()
+		{
+			return true;
+		}
+
 	}
 }

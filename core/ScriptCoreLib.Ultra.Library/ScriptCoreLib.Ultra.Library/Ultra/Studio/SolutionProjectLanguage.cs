@@ -34,6 +34,8 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		abstract public void WriteSingleIndent(SolutionFile File);
 
+		abstract public bool SupportsDependentUpon();
+ 
 		public class Keyword : SolutionFileWriteArguments
 		{
 			public static implicit operator Keyword(string Text)

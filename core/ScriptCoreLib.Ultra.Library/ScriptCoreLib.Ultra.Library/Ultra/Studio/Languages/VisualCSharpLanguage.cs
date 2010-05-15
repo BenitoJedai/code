@@ -8,6 +8,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Documentation;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -60,8 +61,27 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					else
 					{
 						File.WriteIndent();
-						File.Write(Keywords.@public);
+
+						if (m.IsPrivate)
+						{
+							File.Write(Keywords.@private);
+						}
+						else if (m.IsProtected)
+						{
+							File.Write(Keywords.@protected);
+						}
+						else
+						{
+							File.Write(Keywords.@public);
+						}
 						File.WriteSpace();
+
+						if (m.IsOverride)
+						{
+							File.Write(Keywords.@override);
+							File.WriteSpace();
+						}
+
 
 						if (m.IsStatic)
 						{
@@ -149,6 +169,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								Comment.WriteTo(File, this, Context);
 								return;
 							}
+						}
+
+						var If = item as PseudoIfExpression;
+
+						if (If != null)
+						{
+							File.WriteIndent();
+							File.Write(Keywords.@if);
+							File.Write("(");
+							WritePseudoExpression(File, If.Expression, Context);
+							File.Write(")");
+							File.WriteLine();
+
+							WriteMethodBody(File, If.TrueCase, Context);
+							File.WriteLine();
+						
 						}
 
 						var Lambda = item as PseudoCallExpression;
@@ -262,6 +298,21 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				return;
 			}
 
+			var This = Parameter as PseudoThisExpression;
+			if (This != null)
+			{
+				File.Write(Keywords.@this);
+				return;
+			}
+
+			var Base = Parameter as PseudoBaseExpression;
+			if (Base != null)
+			{
+				File.Write(Keywords.@base);
+				return;
+			}
+
+
 			var Type = Parameter as SolutionProjectLanguageType;
 			if (Type != null)
 			{
@@ -292,6 +343,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 		public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
 		{
+			if (Type is StockSystemBooleanType)
+			{
+				File.Write(Keywords.@bool);
+				return;
+			}
+
 			if (Type.DeclaringType != null)
 			{
 				WriteTypeName(File, Type.DeclaringType);
@@ -370,11 +427,19 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 										File.WriteSpace();
 									}
 
+
 									if (Type.IsSealed)
 									{
 										File.Write(Keywords.@sealed);
 										File.WriteSpace();
 									}
+
+									if (Type.IsPartial)
+									{
+										File.Write(Keywords.@partial);
+										File.WriteSpace();
+									}
+
 
 									if (Type.IsInterface)
 									{
@@ -387,6 +452,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 									File.WriteSpace();
 									File.Write(Type);
+
+									if (Type.BaseType != null)
+									{
+										File.WriteSpace();
+										File.Write(":");
+										File.WriteSpace();
+										WriteTypeName(File, Type.BaseType);
+									}
+
 									File.WriteLine();
 
 									File.WriteIndent();
@@ -394,8 +468,31 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 									File.Indent(this,
 										delegate
 										{
+											foreach (var item in Type.Fields.ToArray())
+											{
+												this.WriteSummary(File, item.Summary);
 
+												File.WriteIndent();
 
+												if (item.IsPrivate)
+												{
+													File.Write(Keywords.@private);
+												}
+												else
+												{
+													File.Write(Keywords.@public);
+												}
+												File.WriteSpace();
+												WriteTypeName(File, item.FieldType);
+												File.WriteSpace();
+												File.Write(item.Name);
+												File.Write(";");
+												File.WriteLine();
+
+												File.WriteLine();
+											}
+
+											#region Properties
 											foreach (var m in Type.Properties.ToArray())
 											{
 												File.WriteIndent();
@@ -487,6 +584,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 												File.WriteLine("}");
 											}
+											#endregion
 
 											if (Type.Properties.Any())
 												File.WriteLine();
@@ -594,6 +692,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		public override void WriteSingleIndent(SolutionFile File)
 		{
 			File.Write(SolutionFileTextFragment.Indent, "\t");
+		}
+
+		public override bool SupportsDependentUpon()
+		{
+			return true;
 		}
 	}
 }
