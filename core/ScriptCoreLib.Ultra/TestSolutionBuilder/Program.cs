@@ -28,42 +28,43 @@ namespace TestSolutionBuilder
 				Add =>
 				{
 
-					Add(
-						new StockReplaceWithNewPageExpression("Page1")
-					);
+					//Add(
+					//    new StockReplaceWithNewPageExpression("Page1")
+					//);
 
 
-					Add(
-						new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", "UserControl1")
-					);
+					//Add(
+					//    new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", "UserControl1")
+					//);
 				};
 
 			sln.Interactive.GenerateTypes +=
 				Add =>
 				{
 					var Namespace = sln.Name + ".Components";
-					var Name = "UserControl1";
+					//var Name = "UserControl1";
+
 
 					Add(
-						new StockUserControlType(Namespace, Name)
+						new StockAppletType(Namespace, "Applet1")
 					);
 				};
 
-			sln.Interactive.GenerateHTMLFiles +=
-				Add =>
-				{
-					var Content = new XElement(StockPageDefault.Page);
+			//sln.Interactive.GenerateHTMLFiles +=
+			//    Add =>
+			//    {
+			//        var Content = new XElement(StockPageDefault.Page);
 
-					Content.Element("head").Element("title").Value = "Page1";
+			//        Content.Element("head").Element("title").Value = "Page1";
 
-					Add(
-						new SolutionProjectHTMLFile
-						{
-							Name = "Design/Page1.htm",
-							Content = Content
-						}
-					);
-				};
+			//        Add(
+			//            new SolutionProjectHTMLFile
+			//            {
+			//                Name = "Design/Page1.htm",
+			//                Content = Content
+			//            }
+			//        );
+			//    };
 
 			sln.WriteToConsole();
 		}

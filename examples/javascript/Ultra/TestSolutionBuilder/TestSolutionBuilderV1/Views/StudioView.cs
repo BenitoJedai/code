@@ -375,6 +375,13 @@ namespace TestSolutionBuilderV1.Views
 									new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", id)
 								);
 							}
+
+							if (id == "Applet1")
+							{
+								Add(
+									new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
+								);
+							}
 						}
 					);
 				};
@@ -419,6 +426,13 @@ namespace TestSolutionBuilderV1.Views
 							{
 								Add(
 									new StockUserControlType(sln.Name + ".Components", id)
+								);
+							}
+
+							if (id == "Applet1")
+							{
+								Add(
+									new StockAppletType(sln.Name + ".Components", id)
 								);
 							}
 						}
