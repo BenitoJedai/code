@@ -12,7 +12,10 @@ namespace ScriptCoreLib.JavaScript.Extensions
 	{
 		public static void ReplaceWith(this INode e, UserControl value)
 		{
-			e.ReplaceWith(value.GetHTMLTargetContainer());
+			var c = value.GetHTMLTargetContainer();
+			// should we do it here? :)
+			c.style.display = IStyle.DisplayEnum.inline_block;
+			e.ReplaceWith(c);
 		}
 	}
 }

@@ -27,7 +27,8 @@ namespace ScriptCoreLib.JavaScript.Components
 		public SolutionToolboxListView()
 		{
 			this.Container = new IHTMLDiv();
-
+			this.Container.style.minWidth = "12em";
+			
 			this.Tabs = new BindingList<SolutionToolboxListViewTab>().WithEvents(
 				NewTab =>
 				{

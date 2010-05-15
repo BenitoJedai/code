@@ -326,6 +326,10 @@ namespace ScriptCoreLib.JavaScript.DOM
 		public string width;
 		public string height;
 
+		// http://www.w3schools.com/css/pr_dim_min-width.asp
+		public string minWidth;
+		public string minHeight;
+
 		#region position
 		[Script(IsStringEnum = true)]
 		public enum PositionEnum
