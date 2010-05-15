@@ -61,6 +61,7 @@ namespace ScriptCoreLib.Ultra.Studio
 						this.Current.AddDistinct(Type.Namespace);
 					}
 				}
+				Type.BaseType.With(VisitType);
 				Type.Methods.WithEach(VisitMethod);
 			}
 		}
