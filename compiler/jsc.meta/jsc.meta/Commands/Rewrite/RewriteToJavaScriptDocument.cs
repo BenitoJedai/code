@@ -267,6 +267,8 @@ namespace jsc.meta.Commands.Rewrite
 						typeof(ScriptCoreLib.ScriptAttribute),
 						typeof(ScriptCoreLibJava.IAssemblyReferenceToken),
 						typeof(ScriptCoreLibJava.XLinq.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.Drawing.IAssemblyReferenceToken),
+						typeof(ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken),
 						typeof(ScriptCoreLibJava.Web.IAssemblyReferenceToken),
 						typeof(ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken)
 					);
@@ -277,8 +279,13 @@ namespace jsc.meta.Commands.Rewrite
 				var System_Core = typeof(global::System.Linq.Enumerable).Assembly;
 
 				var ScriptCoreLib_XLinq = typeof(global::ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken);
+				var ScriptCoreLib_Windows_Forms = typeof(global::ScriptCoreLib.Shared.Windows.Forms.IAssemblyReferenceToken);
 				var ScriptCoreLibJava_XLinq = typeof(global::ScriptCoreLibJava.XLinq.IAssemblyReferenceToken);
+				var ScriptCoreLibJava_Windows_Forms = typeof(global::ScriptCoreLibJava.Windows.Forms.IAssemblyReferenceToken);
 				var System_XLinq = typeof(global::System.Xml.Linq.XElement).Assembly;
+				
+				
+				var System_Windows_Forms = typeof(global::System.Windows.Forms.Control).Assembly;
 
 
 
@@ -581,6 +588,12 @@ namespace jsc.meta.Commands.Rewrite
 									ScriptLibraries.Add(ScriptCoreLibJava_XLinq);
 									ScriptCoreLibJava_XLinq = null;
 								}
+
+								if (ScriptCoreLibJava_Windows_Forms != null && SourceType.Assembly == System_Windows_Forms)
+								{
+									ScriptLibraries.Add(ScriptCoreLibJava_Windows_Forms);
+									ScriptCoreLibJava_Windows_Forms = null;
+								}
 							}
 
 							var c = targets.SingleOrDefault(kk => kk.TargetType == SourceType);
@@ -751,6 +764,11 @@ namespace jsc.meta.Commands.Rewrite
 								ScriptCoreLib_XLinq = null;
 							}
 
+							if (ScriptCoreLib_Windows_Forms != null && SourceType.Assembly == System_Windows_Forms)
+							{
+								ScriptLibraries.Add(ScriptCoreLib_Windows_Forms);
+								ScriptCoreLib_Windows_Forms = null;
+							}
 
 							if (r.ExternalContext.TypeCache.BaseDictionary.ContainsKey(SourceType))
 								if (r.ExternalContext.TypeCache.BaseDictionary[SourceType] != SourceType)

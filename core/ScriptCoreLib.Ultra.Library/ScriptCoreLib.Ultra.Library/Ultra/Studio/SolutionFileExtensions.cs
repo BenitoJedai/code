@@ -26,8 +26,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
 			void VisitCall(PseudoCallExpression Call)
 			{
-				VisitMethod(Call.Method);
-
+				Call.Method.With(VisitMethod);
 				Call.ParameterExpressions.WithEach(VisitExpression);
 			}
 

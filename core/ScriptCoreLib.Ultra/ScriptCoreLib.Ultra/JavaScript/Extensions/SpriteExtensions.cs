@@ -54,6 +54,13 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			
 		}
 
-	
+
+		public static void ReplaceWith(this INode e, Sprite value)
+		{
+			var c = value.ToHTMLElement();
+			// should we do it here? :)
+			c.style.display = IStyle.DisplayEnum.inline_block;
+			e.ReplaceWith(c);
+		}
 	}
 }
