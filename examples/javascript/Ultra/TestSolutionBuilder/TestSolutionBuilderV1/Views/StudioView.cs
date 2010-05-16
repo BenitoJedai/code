@@ -382,6 +382,20 @@ namespace TestSolutionBuilderV1.Views
 									new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
 								);
 							}
+
+							if (id == "Sprite1")
+							{
+								Add(
+									new StockReplaceWithNewSpriteExpression(sln.Name + ".Components", id)
+								);
+							}
+
+							if (id == "AppletUserControl1")
+							{
+								Add(
+									new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
+								);
+							}
 						}
 					);
 				};
@@ -433,6 +447,26 @@ namespace TestSolutionBuilderV1.Views
 							{
 								Add(
 									new StockAppletType(sln.Name + ".Components", id)
+								);
+							}
+
+							if (id == "Sprite1")
+							{
+								Add(
+									new StockSpriteType(sln.Name + ".Components", id)
+								);
+							}
+
+							if (id == "AppletUserControl1")
+							{
+								var UserControl2 = new StockUserControlType(sln.Name + ".Components", "UserControl2");
+
+								Add(
+									UserControl2
+								);
+
+								Add(
+									new StockUserControlAppletType(sln.Name + ".Components", id, UserControl2)
 								);
 							}
 						}

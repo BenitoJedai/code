@@ -182,5 +182,17 @@ the contents of this method with the code editor.",
 			UserControl1DesignerType.Type.Methods.Add(InitializeComponent);
 
 		}
+
+		internal PseudoCallExpression GetConstructorExpression()
+		{
+			return new PseudoCallExpression
+			{
+				Method = new SolutionProjectLanguageMethod
+				{
+					DeclaringType = this,
+					Name = SolutionProjectLanguageMethod.ConstructorName
+				}
+			};
+		}
 	}
 }

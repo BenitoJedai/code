@@ -24,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 
 		public readonly SolutionToolboxListViewTab Sprite;
 
+		public readonly SolutionToolboxListViewTab SpriteTransparent;
+
 		public StockToolboxTabsForHTMLDocument()
 		{
 			Page = new SolutionToolboxListViewTab
@@ -83,6 +85,14 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 				Text = "Flash"
 			};
 
+			SpriteTransparent = new SolutionToolboxListViewTab
+			{
+				Icon = new StockToolboxImageForFlashSprite(),
+				Name = "SpriteTransparent1",
+				Title = "Flash Sprite Transparent",
+				Text = "Flash Transparent"
+			};
+
 			InternalArray = new[]
 			{
 				Page,
@@ -91,7 +101,8 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 				AppletUserControl,
 				Applet,
 				SpriteCanvas,
-				Sprite
+				Sprite,
+				SpriteTransparent
 			};
 
 			foreach (var item in InternalArray)

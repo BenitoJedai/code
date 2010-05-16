@@ -174,12 +174,15 @@
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeGeneralInformation.cs" />
     <Compile Include="Ultra\Studio\StockAttributes\StockAttributeObfuscation.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\StockUltraApplicationBuilder.cs" />
+    <Compile Include="Ultra\Studio\StockExpressions\StockReplaceWithNewSpriteExpression.cs" />
     <Compile Include="Ultra\Studio\StockExpressions\StockReplaceWithNewAppletExpression.cs" />
     <Compile Include="Ultra\Studio\StockExpressions\StockReplaceWithNewPageExpression.cs" />
     <Compile Include="Ultra\Studio\StockExpressions\StockReplaceWithNewUserControlExpression.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockApplicationWebServiceType.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockSpriteType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockSystemBooleanType.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockUserControlAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>

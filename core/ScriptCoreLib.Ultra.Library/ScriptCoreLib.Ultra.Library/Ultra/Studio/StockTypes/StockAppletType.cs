@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 {
 	public class StockAppletType : SolutionProjectLanguageType
 	{
+		public readonly SolutionProjectLanguageMethod init;
+
 		public StockAppletType(string Namespace, string Name)
 		{
 			this.Namespace = Namespace;
@@ -21,7 +23,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
 			this.IsSealed = true;
 
-			var init = new SolutionProjectLanguageMethod
+			this.init = new SolutionProjectLanguageMethod
 			{
 				DeclaringType = this,
 				Name = "init",

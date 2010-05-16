@@ -51,6 +51,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			);
 		}
 
+		public void Close()
+		{
+			// http://mycodepage.blogspot.com/2006/09/how-to-close-swing-jframe-without.html
+			// http://mindprod.com/jgloss/close.html
+
+			this.InternalElement.dispose();
+		}
+
 		public void RaiseFormClosed(WindowEvent e)
 		{
 			if (this.FormClosed != null)

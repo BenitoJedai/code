@@ -46,6 +46,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 			HTMLTarget = new IHTMLDiv();
 			//HTMLTarget.style.backgroundColor = Shared.Drawing.Color.System.ThreeDFace;
 			HTMLTarget.style.position = ScriptCoreLib.JavaScript.DOM.IStyle.PositionEnum.absolute;
+			HTMLTarget.style.left = "0px";
+			HTMLTarget.style.top = "0px";
+
 			HTMLTarget.style.borderLeft = "1px solid #E0E0E0";
 			HTMLTarget.style.borderTop = "1px solid #E0E0E0";
 			HTMLTarget.style.borderBottom = "1px solid black";
@@ -125,11 +128,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 			CloseButton.onclick +=
 				delegate
 				{
-					// Orphanize
-					HTMLTarget.Dispose();
-
-					if (this.Closed != null)
-						this.Closed(this, new EventArgs());
+					Close();
 				};
 
 			HTMLTarget.appendChild(caption, icon, caption_foreground, container, CloseButton);
@@ -148,6 +147,15 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 				};
 
 			HTMLTarget.AttachToDocument();
+		}
+
+		public void Close()
+		{
+			// Orphanize
+			HTMLTarget.Dispose();
+
+			if (this.Closed != null)
+				this.Closed(this, new EventArgs());
 		}
 
 		protected override Size SizeFromClientSize(Size clientSize)
