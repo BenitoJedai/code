@@ -42,5 +42,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 		{
 			return __XDocument.Parse(text).Root;
 		}
+
+		public string Value
+		{
+			get
+			{
+				var w = new StringBuilder();
+
+				var f = this.InternalElement.getFirstChild();
+
+				// http://faq.javaranch.com/java/GetNodeValue
+				// http://java.sun.com/j2se/1.4.2/docs/api/constant-values.html#org.w3c.dom.Node.TEXT_NODE
+				if (f.getNodeType() == 3)
+				{
+					w.Append(f.getNodeValue());
+				}
+
+				return w.ToString();
+			}
+			set
+			{
+				this.RemoveNodes();
+				this.Add(Value);
+			}
+		}
 	}
 }

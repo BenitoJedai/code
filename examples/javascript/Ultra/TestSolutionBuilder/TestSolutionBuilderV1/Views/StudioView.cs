@@ -187,7 +187,7 @@ namespace TestSolutionBuilderV1.Views
 			OutputTab.TabElement.style.Float = IStyle.FloatEnum.right;
 
 
-			SolutionDocumentViewerTab AboutTab = "About";
+			SolutionDocumentViewerTab AboutTab = "Project";
 			Viewer.Add(AboutTab);
 			AboutTab.TabElement.style.Float = IStyle.FloatEnum.right;
 
@@ -488,7 +488,7 @@ namespace TestSolutionBuilderV1.Views
 
 					if (CodeSourceBView.File != null)
 					{
-						File7Tab.Text = CodeSourceBView.File.Name.SkipUntilIfAny("/");
+						File7Tab.Text = CodeSourceBView.File.Name.SkipUntilLastIfAny("/");
 					}
 					else
 					{
@@ -591,6 +591,10 @@ namespace TestSolutionBuilderV1.Views
 						);
 
 						// show the design/source buttons
+					}
+					else if (CodeSourceBView.File.Name.EndsWith(sln.Language.ProjectFileExtension))
+					{
+						AboutTab.Activate();
 					}
 					else if (CodeSourceBView.File.Name.EndsWith(sln.Language.CodeFileExtension))
 					{
