@@ -14,23 +14,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 		public void Add(object content)
 		{
-			if (this.InternalValue == null)
-			{
-				try
-				{
-					var f = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-					var b = f.newDocumentBuilder();
-
-					var doc = b.newDocument();
-
-
-					this.InternalValue = doc.createElement(this.InternalElementName.LocalName);
-				}
-				catch
-				{
-					throw new NotSupportedException();
-				}
-			}
+			InternalEnsureElement();
 
 			{
 				var e = content as string;
@@ -84,6 +68,52 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 			throw new NotImplementedException();
 		}
 
+		private void InternalEnsureElement()
+		{
+			if (this.InternalValue == null)
+			{
+				try
+				{
+					// us thus supposed to work under applet?
+					// http://forums.sun.com/thread.jspa?threadID=753378&tstart=3525
+					// http://stackoverflow.com/questions/2745365/java-applet-in-firefox
+
+
+					var f = InternalCreateFactory();
+
+					var b = f.newDocumentBuilder();
+
+					var doc = b.newDocument();
+
+					var name = this.InternalElementName.LocalName;
+
+					this.InternalValue = doc.createElement(name);
+				}
+				catch (csharp.ThrowableException exc)
+				{
+					((java.lang.Throwable)(object)exc).printStackTrace();
+
+					throw new NotSupportedException();
+				}
+			}
+		}
+
+		private static javax.xml.parsers.DocumentBuilderFactory InternalCreateFactory()
+		{
+			var f = default(javax.xml.parsers.DocumentBuilderFactory);
+			try
+			{
+				f = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+			}
+			catch (csharp.ThrowableException exc)
+			{
+				((java.lang.Throwable)(object)exc).printStackTrace();
+
+				throw new NotSupportedException();
+			}
+			return f;
+		}
+
 
 
 		public org.w3c.dom.Element InternalElement
@@ -116,6 +146,28 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				{
 
 				}
+			}
+		}
+
+		public XElement Element(XName name)
+		{
+			var e = new __XElement
+			{
+				InternalValue = this.InternalElement.getElementsByTagName(name.LocalName).item(0)
+			};
+
+			return (XElement)(object)e;
+		}
+
+		public void RemoveNodes()
+		{
+			var InternalElement = this.InternalElement;
+
+			var p = InternalElement.getFirstChild();
+			while (p != null)
+			{
+				InternalElement.removeChild(p);
+				p = InternalElement.getFirstChild();
 			}
 		}
 	}
