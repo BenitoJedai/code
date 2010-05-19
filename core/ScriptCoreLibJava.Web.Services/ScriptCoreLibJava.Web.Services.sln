@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJava.Web.Services", "ScriptCoreLibJava.Web.Services\ScriptCoreLibJava.Web.Services.csproj", "{A0F3A511-C0E0-49CD-94B1-86F4AD917975}"
 EndProject
 Global
