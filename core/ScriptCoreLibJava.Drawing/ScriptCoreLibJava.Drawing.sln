@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJava.Drawing", "ScriptCoreLibJava.Drawing\ScriptCoreLibJava.Drawing.csproj", "{060E6BDA-E78B-4FE1-879D-EF2F93EF6748}"
 EndProject
 Global

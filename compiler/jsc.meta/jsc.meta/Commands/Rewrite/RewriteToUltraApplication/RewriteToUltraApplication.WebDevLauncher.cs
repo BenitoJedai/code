@@ -59,10 +59,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 			};
 
-			// http://code.google.com/p/youwebit/issues/detail?id=1#c6
-
-			var _WebDev = Assembly.LoadFile(@"C:\Windows\assembly\GAC_32\WebDev.WebHost\9.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost.dll");
-			var _WebDev_Server = _WebDev.GetTypes().Single(k => k.Name == "Server");
+            var _WebDev_Server = GetWebDevServer();
 
 			r.ExternalContext.TypeCache.Resolve +=
 				SourceType =>
@@ -116,6 +113,25 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				this.Splash.Invoke();
 			}
 		}
+
+        private static Type GetWebDevServer()
+        {
+            // http://code.google.com/p/youwebit/issues/detail?id=1#c6
+
+            var _WebDevLocation = new[]
+            {
+                new FileInfo(@"C:\Windows\assembly\GAC_32\WebDev.WebHost\9.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost.dll"),
+                new FileInfo(@"C:\Windows\assembly\GAC_32\WebDev.WebHost20\10.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost20.dll")
+            }.Where(k => k.Exists).First();
+
+
+            Console.WriteLine("using " + _WebDevLocation.FullName);
+
+            var _WebDev = Assembly.LoadFile(_WebDevLocation.FullName);
+
+            var _WebDev_Server = _WebDev.GetTypes().Single(k => k.Name == "Server");
+            return _WebDev_Server;
+        }
 	}
 
 	namespace Templates
