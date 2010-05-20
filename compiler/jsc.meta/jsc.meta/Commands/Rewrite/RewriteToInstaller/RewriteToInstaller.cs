@@ -249,7 +249,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 				}
 				Console.WriteLine();
 
-				Console.WriteLine("Thank you for installing jsc!");
+                Console.WriteLine("Thank you for installing jsc!");
+                Console.WriteLine("Press any key to exit!");
 				Console.ReadKey(true);
 			}
 

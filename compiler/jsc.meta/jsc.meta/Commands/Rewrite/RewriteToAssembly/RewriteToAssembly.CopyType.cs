@@ -181,6 +181,9 @@ namespace jsc.meta.Commands.Rewrite
 					// does not have an implementation.
 
 					// do enums have to be created by now?
+                    
+                    // CLR 4/2?
+                    // An attempt was made to load a program with an incorrect format. (Exception from HRESULT: 0x8007000B)
 
 					Console.WriteLine("CreateType: " + SourceType.FullName);
 					t.CreateType();

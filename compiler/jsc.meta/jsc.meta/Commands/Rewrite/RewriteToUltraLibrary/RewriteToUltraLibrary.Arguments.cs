@@ -39,6 +39,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 		public bool Obfuscate;
 
+
+        /// <summary>
+        /// If we a library is being generated, then all types should be in it.
+        /// </summary>
+        public bool DisableIsMarkedForMerge = true;
+
 		public class EntryPointInfo
 		{
 			public string TypeName;

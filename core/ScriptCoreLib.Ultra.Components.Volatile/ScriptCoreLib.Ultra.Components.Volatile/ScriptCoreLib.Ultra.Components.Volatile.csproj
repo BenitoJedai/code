@@ -1,18 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8B8C61EA-D890-403D-9B40-3ACCB679BB20}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLib.Ultra.Components.Volatile</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>ScriptCoreLib.Ultra.Components.Volatile.Program</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -100,7 +120,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Avalon\Desktop\JSCSolutionsNETCarouselProgram.cs" />
     <Compile Include="Avalon\JSCSolutionsNETCarouselCanvas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,6 +129,23 @@
   <ItemGroup>
     <Content Include="My.UltraSource\About.htm" />
     <Content Include="My.UltraSource\WebBrowsers.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -122,7 +158,7 @@
   <PropertyGroup>
     <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
 
-      c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"c:\util\jsc\bin\$(TargetName).dll" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false /merge:ScriptCoreLib.Ultra.Components   /AttachDebugger:false
+
 
 
       if $(ConfigurationName)==Release (

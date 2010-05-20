@@ -21,6 +21,11 @@ namespace ScriptCoreLib.Reflection.Options
 			public Option Next;
 
 			public ObjectFunc GetArguments;
+
+            public override string ToString()
+            {
+                return Name;
+            }
 		}
 
 		Option Options;

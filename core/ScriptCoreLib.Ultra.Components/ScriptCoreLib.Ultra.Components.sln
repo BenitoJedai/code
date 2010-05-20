@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F5446A88-7C9E-49BA-86DD-C38BBD22D84E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components", "ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.csproj", "{30B59BB6-8C0C-4AC7-82AB-C5E3CB6954A0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
@@ -10,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library", "..\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.csproj", "{132EB43F-19B4-42AC-8025-3249B129867A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{F5446A88-7C9E-49BA-86DD-C38BBD22D84E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile", "..\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.csproj", "{8B8C61EA-D890-403D-9B40-3ACCB679BB20}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -64,8 +64,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{132EB43F-19B4-42AC-8025-3249B129867A} = {F5446A88-7C9E-49BA-86DD-C38BBD22D84E}
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {F5446A88-7C9E-49BA-86DD-C38BBD22D84E}
+		{132EB43F-19B4-42AC-8025-3249B129867A} = {F5446A88-7C9E-49BA-86DD-C38BBD22D84E}
 		{9CF379F4-DC30-4793-B379-653AF2E2F0FA} = {F5446A88-7C9E-49BA-86DD-C38BBD22D84E}
 	EndGlobalSection
 EndGlobal

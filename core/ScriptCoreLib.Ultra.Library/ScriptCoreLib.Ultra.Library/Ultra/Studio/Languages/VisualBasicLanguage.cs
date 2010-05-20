@@ -233,6 +233,20 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 		}
 
+        public override void WriteNamespace(SolutionFile File, string Namespace, Action Body)
+        {
+            File.Write(Keywords.Namespace);
+            File.WriteSpace();
+            File.Write(Namespace);
+            File.WriteLine();
+
+            File.Indent(this, Body);
+
+            File.Write(Keywords.End);
+            File.WriteSpace();
+            File.Write(Keywords.Namespace);
+        }
+
 		public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context)
 		{
 			File.Write(this, Context, Type.Comments);
@@ -250,12 +264,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			File.Region(
 				delegate
 				{
-					File.Write(Keywords.Namespace);
-					File.WriteSpace();
-					File.Write(Type.Namespace);
-					File.WriteLine();
 
-					File.Indent(this,
+
+                    WriteNamespace(File, Type.Namespace,
 						delegate
 						{
 
@@ -300,6 +311,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 										{
 											foreach (var item in Type.Methods.ToArray())
 											{
+                                                if (item.DeclaringType == null)
+                                                    item.DeclaringType = Type;
 
 												this.WriteMethod(
 													File,
@@ -335,9 +348,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 						}
 					);
 
-					File.Write(Keywords.End);
-					File.WriteSpace();
-					File.Write(Keywords.Namespace);
+		
 				}
 			);
 			File.WriteLine();

@@ -15,6 +15,7 @@ using jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate;
 using jsc.meta.Commands.Rewrite.RewriteToInstaller;
 using jsc.meta.Commands.Rewrite.RewriteToUltraLibrary;
 using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
+using jsc.meta.Commands.Configuration;
 
 namespace jsc.meta
 {
@@ -80,7 +81,9 @@ namespace jsc.meta
 				new RewriteToSplashScreen(),
 
 				new AnalyticsForStatCounter().Invoke,
-				new AnalyticsForFlagCounter().Invoke
+				new AnalyticsForFlagCounter().Invoke,
+
+                new ConfigurationCreateProjectTemplates()
 			);
 
 		}
