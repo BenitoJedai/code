@@ -46,7 +46,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 					"ScriptCoreLib.Avalon",
 					"ScriptCoreLib.Query",
 					"ScriptCoreLibA",
-					Path.GetFileNameWithoutExtension( this.PrimaryAssembly.Name)
+					Path.GetFileNameWithoutExtension( this.PrimaryAssembly.Name),
+					Path.GetFileNameWithoutExtension( this.Splash.Name)
 				}
 
 			};

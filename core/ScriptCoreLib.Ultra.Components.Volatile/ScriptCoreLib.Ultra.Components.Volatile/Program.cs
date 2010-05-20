@@ -9,6 +9,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile
 	{
 		public static void Main(string[] args)
 		{
+
 			global::jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(
 				typeof(Application)
 			);

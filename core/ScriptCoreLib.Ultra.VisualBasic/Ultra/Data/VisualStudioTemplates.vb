@@ -8,6 +8,9 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
         </Reference>
+        <Reference Include="FSharp.Core">
+            <RequiredTargetFramework>4.0</RequiredTargetFramework>
+        </Reference>
         <Reference Include="PresentationCore">
             <RequiredTargetFramework>3.0</RequiredTargetFramework>
         </Reference>
@@ -127,13 +130,77 @@
         <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets"/>
 
         <PropertyGroup>
-            <PostBuildEvent>if $(ConfigurationName)==Debug (
-rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
-) 
+            <PostBuildEvent>
 if $(ConfigurationName)==Release (
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
             <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
         </PropertyGroup>
     </Project>
+
+
+    Public VisualFSharpProject As XElement = _
+      <Project ToolsVersion="3.5" DefaultTargets="Build">
+          <PropertyGroup>
+              <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+              <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+              <ProductVersion>9.0.30729</ProductVersion>
+              <SchemaVersion>2.0</SchemaVersion>
+              <ProjectGuid>{0478BF11-A133-4914-BC29-B7F72E3B9535}</ProjectGuid>
+              <OutputType>Exe</OutputType>
+              <AppDesignerFolder>Properties</AppDesignerFolder>
+              <RootNamespace>XElementEverywhere</RootNamespace>
+              <AssemblyName>XElementEverywhere</AssemblyName>
+              <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+              <FileAlignment>512</FileAlignment>
+              <StartupObject>
+              </StartupObject>
+          </PropertyGroup>
+          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+              <DebugSymbols>true</DebugSymbols>
+              <DebugType>full</DebugType>
+              <Optimize>false</Optimize>
+              <Tailcalls>false</Tailcalls>
+              <OutputPath>bin\Debug\</OutputPath>
+              <DefineConstants>DEBUG;TRACE</DefineConstants>
+              <ErrorReport>prompt</ErrorReport>
+              <WarningLevel>4</WarningLevel>
+          </PropertyGroup>
+          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+              <DebugType>pdbonly</DebugType>
+              <Optimize>false</Optimize>
+              <Tailcalls>false</Tailcalls>
+              <OutputPath>bin\Release\</OutputPath>
+              <DefineConstants>TRACE</DefineConstants>
+              <ErrorReport>prompt</ErrorReport>
+              <WarningLevel>4</WarningLevel>
+          </PropertyGroup>
+          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+              <DebugSymbols>true</DebugSymbols>
+              <Optimize>false</Optimize>
+              <Tailcalls>false</Tailcalls>
+              <OutputPath>bin\Assets\</OutputPath>
+              <DefineConstants>DEBUG;TRACE</DefineConstants>
+              <DebugType>full</DebugType>
+              <PlatformTarget>AnyCPU</PlatformTarget>
+              <ErrorReport>prompt</ErrorReport>
+          </PropertyGroup>
+          <ItemGroup>
+              <Reference Include="System"/>
+          </ItemGroup>
+          <ItemGroup>
+              <Compile Include="Program.cs"/>
+          </ItemGroup>
+
+          <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')"/>
+          <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')"/>
+
+          <PropertyGroup>
+              <PostBuildEvent>
+if $(ConfigurationName)==Release (
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
+)</PostBuildEvent>
+              <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+          </PropertyGroup>
+      </Project>
 End Module

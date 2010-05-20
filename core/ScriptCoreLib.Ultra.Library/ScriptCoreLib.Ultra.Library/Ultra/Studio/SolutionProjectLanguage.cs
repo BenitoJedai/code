@@ -33,6 +33,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda, SolutionBuilder Context);
 
 		abstract public void WriteSingleIndent(SolutionFile File);
+        abstract public void WriteNamespace(SolutionFile File, string Namespace, Action Body);
 
 		abstract public bool SupportsDependentUpon();
  

@@ -69,7 +69,7 @@ namespace ScriptCoreLib.Ultra.Studio.Formatting
 										var DeclarationValue = x.SkipUntilIfAny(":").Trim();
 
 
-										File.Write(SolutionFileTextFragment.XMLAttributeValue, DeclarationProperty);
+										File.Write(SolutionFileTextFragment.XMLKeyword, DeclarationProperty);
 										File.Write(SolutionFileTextFragment.XMLAttributeValue, ": ");
 										File.Write(SolutionFileTextFragment.XMLAttributeValue, DeclarationValue);
 									};

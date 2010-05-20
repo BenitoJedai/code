@@ -29,13 +29,19 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
 		public DirectoryInfo SDKProjectTemplates;
 
-		public const string ProjectTemplatesTwentyTen = @"Visual Studio 10\Templates\ProjectTemplates";
+		public const string ProjectTemplatesTwentyTen = @"Visual Studio 2010\Templates\ProjectTemplates";
 		public const string ProjectTemplatesOrcas = @"Visual Studio 2008\Templates\ProjectTemplates";
 
 		public bool DefaultToOrcas;
 
+        public AssemblyAttributesType AssemblyAttributes = new AssemblyAttributesType();
 
-
+        public class AssemblyAttributesType
+        {
+            public string Description;
+            public string Title;
+            public string Company;
+        }
 
 	}
 }

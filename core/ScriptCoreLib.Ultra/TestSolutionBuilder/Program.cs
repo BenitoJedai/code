@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using ScriptCoreLib.Ultra.Studio.StockExpressions;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
+using System.Diagnostics;
 
 namespace TestSolutionBuilder
 {
@@ -67,6 +68,8 @@ namespace TestSolutionBuilder
 			//    };
 
 			sln.WriteToConsole();
+
+            Debugger.Break();
 		}
 	}
 }

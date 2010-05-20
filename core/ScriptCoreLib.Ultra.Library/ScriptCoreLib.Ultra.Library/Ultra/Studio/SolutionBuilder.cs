@@ -10,6 +10,7 @@ using ScriptCoreLib.Ultra.Studio.StockAttributes;
 using ScriptCoreLib.Ultra.Studio.StockMethods;
 using ScriptCoreLib.Ultra.Studio.StockPages;
 using ScriptCoreLib.Ultra.Studio.StockBuilders;
+using ScriptCoreLib.Ultra.Studio.Languages;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -19,7 +20,9 @@ namespace ScriptCoreLib.Ultra.Studio
 	/// </summary>
 	public partial class SolutionBuilder
 	{
-		public string Name { get; set; }
+        public string Description { get; set; }
+        public string Company { get; set; }
+        public string Name { get; set; }
 
 		public XElement ApplicationPage { get; set; }
 
@@ -33,6 +36,8 @@ namespace ScriptCoreLib.Ultra.Studio
 			this.ApplicationPage = StockPageDefault.Element;
 			this.Language = new Languages.VisualCSharpLanguage();
 			this.Name = "VisualCSharpProject1";
+            this.Description = "Write javascript, flash and java applets within a C# project. http://jsc-solutions.net";
+            this.Company = "jsc-solutions.net";
 		}
 
 		public string SolutionFileName
@@ -119,7 +124,17 @@ namespace ScriptCoreLib.Ultra.Studio
 			);
 
 			#region first project in current solution
-			var proj_Content = VisualStudioTemplates.VisualCSharpProject;
+            var proj_Content = default(XElement);
+
+            //if (this.Language is VisualCSharpLanguage)
+            {
+                proj_Content = VisualStudioTemplates.VisualCSharpProject;
+            }
+
+            if (this.Language is VisualFSharpLanguage)
+            {
+                proj_Content = VisualStudioTemplates.VisualFSharpProject;
+            }
 
 
 

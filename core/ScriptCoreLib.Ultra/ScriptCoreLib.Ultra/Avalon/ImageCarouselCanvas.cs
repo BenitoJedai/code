@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
-using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Controls;
-using System.Diagnostics;
-using System.Windows.Media;
-using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Avalon
@@ -37,8 +37,11 @@ namespace ScriptCoreLib.Avalon
 			public int ImageDefaultHeight;
 
 			public Func<Image> CreateCenterImage;
+
+            
 		}
 
+        
 		public ImageCarouselCanvas(Arguments args)
 		{
 			this.CloseOnClick = true;
@@ -92,11 +95,6 @@ namespace ScriptCoreLib.Avalon
 
 			args.AddImages(Add);
 
-
-			//Add(new Flash());
-			//Add(new Java());
-			//Add(new PHP());
-			//Add(new DotNet());
 
 			var size = 64;
 
@@ -244,8 +242,8 @@ namespace ScriptCoreLib.Avalon
 
 			this.HideSattelites =
 				delegate
-				{
-					AtAnimation =
+                {
+                    Action TriggerClose = () => AtAnimation =
 						t =>
 						{
 							if (images.Any(k => k.Opacity > 0))
@@ -257,12 +255,24 @@ namespace ScriptCoreLib.Avalon
 								AtClose();
 						};
 
-					foreach (var item__ in images)
-					{
-						var item = item__;
 
-						WaitAndAppear(1 + 1000.Random(), 0.12, n => item.Opacity = 1 - n);
-					}
+                    AtAnimation =
+                        t =>
+                        {
+                            if (images.Any(k => k.Opacity < 1))
+                                return;
+
+                            foreach (var item__ in images)
+                            {
+                                var item = item__;
+
+                                WaitAndAppear(1 + 1000.Random(), 0.12, n => item.Opacity = 1 - n);
+                            }
+
+                            TriggerClose();
+                        };
+
+                    
 				};
 
 			this.Close =

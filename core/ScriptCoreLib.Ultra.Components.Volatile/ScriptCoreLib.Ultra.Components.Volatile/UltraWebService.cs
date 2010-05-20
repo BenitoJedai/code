@@ -28,7 +28,6 @@ namespace ScriptCoreLib.Ultra.Components.Volatile
 		[Description("This method cannot be translated to java or php and is to be used only for feature discovery.")]
 		public void LaunchJSCSolutionsNETCarouselProgram()
 		{
-			ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram.Main(new string [0]);
 		}
 #endif
 
