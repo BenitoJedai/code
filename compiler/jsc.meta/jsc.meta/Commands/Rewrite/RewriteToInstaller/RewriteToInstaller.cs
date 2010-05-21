@@ -13,6 +13,7 @@ using jsc.meta.Library;
 using ScriptCoreLib.Archive.ZIP;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Extensions;
+using System.IO.Compression;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {
@@ -55,6 +56,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
                 var name2_zip = "latest_jsc.zip";
                 var name = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
+                var name2 = "latest_jsc.installer";
                 var name_zip = name + ".zip";
 
                 Console.WriteLine(name);
@@ -81,9 +83,16 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                         {
                             var AssetPath = "assets/jsc/" + name_zip;
 
+                            var Content = new MemoryStream(zip.ToBytes());
+                            var ContentCompressedMemory = new MemoryStream();
+                            var ContentCompressed = new GZipStream(ContentCompressedMemory, CompressionMode.Compress);
+
+                            Content.WriteTo(ContentCompressed);
+
+
                             a.Module.DefineManifestResource(
-                                jsc_installer_zip,
-                                new MemoryStream(zip.ToBytes()),
+                                InstallerArchive.ResourceName,
+                                ContentCompressedMemory,
                                 System.Reflection.ResourceAttributes.Public
                             );
 
@@ -125,6 +134,13 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     this.Splash.Invoke();
                 }
 
+                r.Output.CopyTo( 
+                    Path.Combine(
+                        jsc.FullName,
+                        name2 + ".exe"
+                    ), true
+                );
+
                 var exe_zip = new ZIPFile
 				{
 					{ r.Output.Name, File.ReadAllBytes(r.Output.FullName)}
@@ -158,6 +174,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
     namespace Templates
     {
+        public static class InstallerArchive
+        {
+            public const string ResourceName = RewriteToInstaller.jsc_installer_zip + ".gz";
+        }
+
         public class Installer
         {
             // shall be a commandline argument
@@ -168,7 +189,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
             {
                 get
                 {
-                    return typeof(Installer).Assembly.GetManifestResourceStream(RewriteToInstaller.jsc_installer_zip);
+                    var ContentCompressedMemory = typeof(Installer).Assembly.GetManifestResourceStream(InstallerArchive.ResourceName);
+
+                    var Content = new MemoryStream();
+
+                    var ContentCompressed = new GZipStream(Content, CompressionMode.Decompress);
+
+                    var buffer = new byte[ContentCompressedMemory.Length ];
+
+                    ContentCompressedMemory.Read(buffer, 0, buffer.Length);
+                    ContentCompressed.Write(buffer, 0, buffer.Length);
+
+                    return Content;
                 }
             }
 

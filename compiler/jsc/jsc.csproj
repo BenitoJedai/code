@@ -11,7 +11,7 @@
     <RootNamespace>jsc</RootNamespace>
     <AssemblyName>jsc</AssemblyName>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <ApplicationIcon>Resx\App.ico</ApplicationIcon>
+    <ApplicationIcon>Resx\jsc.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>neutronic.snk</AssemblyOriginatorKeyFile>
     <PublishUrl>http://localhost/jsc/</PublishUrl>
@@ -301,6 +301,7 @@
     <Content Include="docs\about.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resx\jsc.ico" />
     <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ScriptedLoading%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ClickOnce%24.js" />

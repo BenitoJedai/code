@@ -28,7 +28,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <StartupObject>jsc.meta.Loader.LoaderStrategy</StartupObject>
-    <ApplicationIcon>Documents\App.ico</ApplicationIcon>
+    <ApplicationIcon>Documents\jsc.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -348,6 +348,7 @@
     <EmbeddedResource Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
     <EmbeddedResource Include="Documents\jsc.png" />
+    <Content Include="Documents\jsc.ico" />
     <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
     <Content Include="Documents\__TemplateIcon.ico" />
@@ -358,6 +359,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="jsc.meta.v4.0.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="jsc.meta.v4.0.30128.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -439,7 +443,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
-copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.30128.exe" /y</PostBuildEvent>
+copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.30128.exe" /y
+copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.exe" /y</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
