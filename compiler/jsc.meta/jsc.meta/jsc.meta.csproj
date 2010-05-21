@@ -359,8 +359,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Documents\EULA.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="jsc.meta.v4.0.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="jsc.meta.v4.0.30128.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -444,7 +448,8 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
 copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.30128.exe" /y
-copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.exe" /y</PostBuildEvent>
+copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.exe" /y
+copy "$(TargetDir)Documents\*.rtf" "c:\util\jsc\bin\" /y</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
