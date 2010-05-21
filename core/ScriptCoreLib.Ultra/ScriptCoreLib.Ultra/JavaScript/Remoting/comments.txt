@@ -1,0 +1,3 @@
+﻿Remoting is experimental.
+
+The idea is to be able to talk to JavaScript DOM from flash or java or server.

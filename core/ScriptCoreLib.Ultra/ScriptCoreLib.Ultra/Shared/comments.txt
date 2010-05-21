@@ -1,0 +1,3 @@
+﻿Why do we need .Shared namespace?
+
+ScriptCoreLib.Ultra namespace shall define types which are intended to run on multiple platforms.

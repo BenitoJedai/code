@@ -644,6 +644,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             File.WriteLine(";");
         }
 
+        public override void WriteAssemblyAttributeNamespace(SolutionFile File, string Namespace, Action Body)
+        {
+            Body();
+        }
+
+
         public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute, SolutionBuilder Context)
         {
             File.Write("[");

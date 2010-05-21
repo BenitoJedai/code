@@ -51,7 +51,7 @@ namespace jsc.meta.Commands.Extend
 		public void Invoke()
 		{
 
-			jsc.meta.Loader.LoaderStrategy.Hints.Add(project.Directory.CreateSubdirectory("bin"));
+			jsc.meta.Loader.LoaderStrategyImplementation.Hints.Add(project.Directory.CreateSubdirectory("bin"));
 
 
 			#region staging.net

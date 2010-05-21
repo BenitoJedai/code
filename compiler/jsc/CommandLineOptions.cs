@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using ScriptCoreLib.Ultra.Library;
 
 
 namespace jsc
@@ -142,6 +143,8 @@ namespace jsc
 			if (ProccessStatusChanged != null)
 				ProccessStatusChanged(e);
 		}
+
+        public CachedFileGeneratorBase.Constructor CachedFileGeneratorConstructor = CachedFileGeneratorBase.Create;
     }
 
 }

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using jsc.meta.Library.VolumeFunctions;
 using jsc.meta.Library;
+using ScriptCoreLib.Ultra.Library;
 
 namespace jsc.meta.Tools
 {
@@ -37,7 +38,10 @@ namespace jsc.meta.Tools
 						{
 							TargetAssembly = TargetAssembly,
 							IsJavaScript = true,
-							IsNoLogo = true
+							IsNoLogo = true,
+
+                            CachedFileGeneratorConstructor = CachedFileGenerator.Create
+
 						}.Apply(
 							k =>
 							{

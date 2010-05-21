@@ -83,7 +83,10 @@ namespace jsc.meta
 				new AnalyticsForStatCounter().Invoke,
 				new AnalyticsForFlagCounter().Invoke,
 
-                new ConfigurationCreateProjectTemplates()
+                new ConfigurationCreateProjectTemplates(),
+
+                
+                new ConfigurationInitialize()
 			);
 
 		}

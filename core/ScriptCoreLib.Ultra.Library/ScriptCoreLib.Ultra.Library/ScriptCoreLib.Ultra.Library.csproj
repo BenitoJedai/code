@@ -47,6 +47,9 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -68,6 +71,7 @@
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Delegates\Async.cs" />
+    <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
@@ -87,7 +91,8 @@
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />
-    <Compile Include="Disposable.cs" />
+    <Compile Include="Ultra\Library\CachedFileGeneratorBase.cs" />
+    <Compile Include="Ultra\Library\Disposable.cs" />
     <Compile Include="Extensions\CryptographyExtensions.cs" />
     <Compile Include="Extensions\LoopExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />

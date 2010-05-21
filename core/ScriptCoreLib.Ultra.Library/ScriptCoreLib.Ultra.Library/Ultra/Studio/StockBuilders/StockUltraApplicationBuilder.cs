@@ -263,7 +263,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
                 AssemblyInfo.WriteLine();
 
-                Context.Language.WriteNamespace(AssemblyInfo, Context.Name,
+                Context.Language.WriteAssemblyAttributeNamespace(AssemblyInfo, Context.Name,
                     delegate
                     {
                         Context.Language.WriteUsingNamespace(AssemblyInfo, "System.Reflection");
@@ -286,9 +286,9 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                             };
 
                         Context.Language.WriteIndentedComment(AssemblyInfo,
-        @"General Information about an assembly is controlled through the following 
-        set of attributes. Change these attribute values to modify the information
-        associated with an assembly."
+@"General Information about an assembly is controlled through the following 
+set of attributes. Change these attribute values to modify the information
+associated with an assembly."
                         );
 
                         //[assembly: AssemblyTitle("Ultra Application")]
@@ -313,7 +313,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                             new StockAttributeObfuscation(),
                             Context
                         );
-                        }
+                    }
                 );
 
             }
