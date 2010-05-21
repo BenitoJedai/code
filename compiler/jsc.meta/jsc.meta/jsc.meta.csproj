@@ -226,6 +226,7 @@
     <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\Configuration\ConfigurationInitialize.cs" />
     <Compile Include="Commands\Configuration\ConfigurationCreateProjectTemplates.cs" />
     <Compile Include="Commands\Extend\ExtendToAvalonEverywhere.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebApplication.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Loader\LoaderStrategy.cs" />
     <Compile Include="Commands\Extend\ExtendToJavaConsole.cs" />
     <Compile Include="Library\MyExtensions.cs" />
+    <Compile Include="Loader\LoaderStrategyImplementation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ToolsExtensions.ToC.cs" />
@@ -357,9 +359,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="jsc.meta.v4.0.30128.exe.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="jsc.meta.installer.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

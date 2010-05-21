@@ -27,7 +27,9 @@ namespace ScriptCoreLib.Ultra.Studio
 		abstract public void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context);
 
 		abstract public void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute, SolutionBuilder Context);
-		abstract public void WriteUsingNamespace(SolutionFile File, string item);
+        abstract public void WriteAssemblyAttributeNamespace(SolutionFile File, string Namespace, Action Body);
+		
+        abstract public void WriteUsingNamespace(SolutionFile File, string item);
 
 		abstract public void WritePseudoExpression(SolutionFile File, object Parameter, SolutionBuilder Context);
 		abstract public void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda, SolutionBuilder Context);

@@ -356,6 +356,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 		}
 
 
+        public override void WriteAssemblyAttributeNamespace(SolutionFile File, string Namespace, Action Body)
+        {
+            Body();
+        }
 
 		public override void WriteAssemblyAttribute(SolutionFile File, SolutionProjectLanguageAttribute Attribute, SolutionBuilder Context)
 		{

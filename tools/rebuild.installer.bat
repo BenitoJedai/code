@@ -12,7 +12,7 @@ set target=C:\util\jsc\bin
 set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 
 :: we need to pre build that assembly in "Assets" configuration
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:true
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:false
 
 endlocal
 goto :eof

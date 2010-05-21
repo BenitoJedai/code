@@ -16,263 +16,287 @@ using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {
-	public partial class RewriteToInstaller : CommandBase
-	{
-		
+    public partial class RewriteToInstaller : CommandBase
+    {
 
 
-		public override void Invoke()
-		{
-			if (this.AttachDebugger)
-				Debugger.Launch();
 
-			if (Feature == null)
-			{
-				var jsc = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.Parent;
+        public override void Invoke()
+        {
+            if (this.AttachDebugger)
+                Debugger.Launch();
 
-				var zip = new ZIPFile();
+            if (Feature == null)
+            {
+                var jsc = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.Parent;
 
-				var bin = new DirectoryInfo(Path.Combine(jsc.FullName, "bin"));
-				foreach (var item in bin.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
-				{
-					zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
-				}
+                var zip = new ZIPFile();
 
-				var lib = new DirectoryInfo(Path.Combine(jsc.FullName, "lib"));
-				foreach (var item in lib.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
-				{
-					zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
-				}
+                var bin = new DirectoryInfo(Path.Combine(jsc.FullName, "bin"));
+                foreach (var item in bin.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
+                {
+                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                }
 
-				var templates = new DirectoryInfo(Path.Combine(jsc.FullName, "templates"));
-				foreach (var item in templates.GetAllFilesByPattern("*.zip"))
-				{
-					zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
-				}
+                var lib = new DirectoryInfo(Path.Combine(jsc.FullName, "lib"));
+                foreach (var item in lib.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
+                {
+                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                }
 
-				// http://www.theregister.co.uk/2007/04/23/vista_program_naming_oddness/
+                var templates = new DirectoryInfo(Path.Combine(jsc.FullName, "templates"));
+                foreach (var item in templates.GetAllFilesByPattern("*.zip"))
+                {
+                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                }
 
-				var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
-				var name2_zip = "latest_jsc.zip";
-				var name = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
-				var name_zip = name + ".zip";
+                // http://www.theregister.co.uk/2007/04/23/vista_program_naming_oddness/
 
-				Console.WriteLine(name);
+                var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
+                var name2_zip = "latest_jsc.zip";
+                var name = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
+                var name_zip = name + ".zip";
 
-
-				// create an installer now!
-
-				var r = default(RewriteToAssembly);
-
-				r = new RewriteToAssembly
-				{
-					staging = jsc,
-
-					product = name,
-					productExtension = ".exe",
-
-					// does it work? :)
-					obfuscate = Obfuscate,
-
-					merge = new RewriteToAssembly.MergeInstruction[] { "ScriptCoreLib.Archive.ZIP" },
-
-					PostAssemblyRewrite =
-						a =>
-						{
-							var AssetPath = "assets/jsc/" + name_zip;
-
-							a.Module.DefineManifestResource(
-								jsc_installer_zip,
-								new MemoryStream(zip.ToBytes()),
-								System.Reflection.ResourceAttributes.Public
-							);
+                Console.WriteLine(name);
 
 
-							a.Assembly.SetCustomAttribute(
-								typeof(AssemblyFileVersionAttribute).GetConstructors().Single(),
-								"1.0.0.0"
-							);
+                // create an installer now!
 
-							a.Assembly.SetEntryPoint(
-								a.context.MethodCache[((Action<string[]>)Installer.Install).Method]
-							);
-						}
+                var r = default(RewriteToAssembly);
+
+                r = new RewriteToAssembly
+                {
+                    staging = jsc,
+
+                    product = name,
+                    productExtension = ".exe",
+
+                    // does it work? :)
+                    obfuscate = Obfuscate,
+
+                    merge = new RewriteToAssembly.MergeInstruction[] { "ScriptCoreLib.Archive.ZIP" },
+
+                    PostAssemblyRewrite =
+                        a =>
+                        {
+                            var AssetPath = "assets/jsc/" + name_zip;
+
+                            a.Module.DefineManifestResource(
+                                jsc_installer_zip,
+                                new MemoryStream(zip.ToBytes()),
+                                System.Reflection.ResourceAttributes.Public
+                            );
 
 
-				};
+                            a.Assembly.SetCustomAttribute(
+                                typeof(AssemblyFileVersionAttribute).GetConstructors().Single(),
+                                "1.0.0.0"
+                            );
+
+                            a.Assembly.SetEntryPoint(
+                                a.context.MethodCache[((Action<string[]>)Installer.Install).Method]
+                            );
+                        }
 
 
-				//r.AtILOverride +=
-				//    (m, e) =>
-				//    {
-				//        if (((Func<byte[]>)Installer.GetArchive).Method == m)
-				//        {
-				//            e.BeforeInstructions +=
-				//                i =>
-				//                {
-				//                    i.il.Emit(OpCodes.Ldnull);
-				//                    i.il.Emit(OpCodes.Ret);
-				//                    i.Complete();
-				//                };
-				//        }
-				//    };
+                };
 
-				r.Invoke();
 
-				if (this.Splash != null)
-				{
-					this.Splash.PrimaryAssembly = r.Output;
-					this.Splash.Invoke();
-				}
+                //r.AtILOverride +=
+                //    (m, e) =>
+                //    {
+                //        if (((Func<byte[]>)Installer.GetArchive).Method == m)
+                //        {
+                //            e.BeforeInstructions +=
+                //                i =>
+                //                {
+                //                    i.il.Emit(OpCodes.Ldnull);
+                //                    i.il.Emit(OpCodes.Ret);
+                //                    i.Complete();
+                //                };
+                //        }
+                //    };
 
-				var exe_zip = new ZIPFile
+                r.Invoke();
+
+                if (this.Splash != null)
+                {
+                    this.Splash.PrimaryAssembly = r.Output;
+                    this.Splash.Invoke();
+                }
+
+                var exe_zip = new ZIPFile
 				{
 					{ r.Output.Name, File.ReadAllBytes(r.Output.FullName)}
 				};
 
-				File.WriteAllBytes(
+                File.WriteAllBytes(
 
-					Path.Combine(jsc.FullName,
-						name_zip
-					),
+                    Path.Combine(jsc.FullName,
+                        name_zip
+                    ),
 
-					exe_zip.ToBytes()
-				);
-
-
-				File.WriteAllBytes(
-					Path.Combine(jsc.FullName, name1_zip),
-					zip.ToBytes()
-				);
-
-				File.WriteAllBytes(
-					Path.Combine(jsc.FullName, name2_zip),
-					zip.ToBytes()
-				);
-
-			}
-		}
+                    exe_zip.ToBytes()
+                );
 
 
-	}
+                File.WriteAllBytes(
+                    Path.Combine(jsc.FullName, name1_zip),
+                    zip.ToBytes()
+                );
 
-	namespace Templates
-	{
-		public class Installer
-		{
-			// shall be a commandline argument
-			public DirectoryInfo SDK = new DirectoryInfo(@"c:\util\jsc");
+                File.WriteAllBytes(
+                    Path.Combine(jsc.FullName, name2_zip),
+                    zip.ToBytes()
+                );
 
-
-			public static ZIPFile Archive
-			{
-				get
-				{
-					return typeof(Installer).Assembly.GetManifestResourceStream(RewriteToInstaller.jsc_installer_zip);
-				}
-			}
+            }
+        }
 
 
-			public static void Install(string[] e)
-			{
-				new Installer().Invoke();
-			}
+    }
 
-			public void Invoke()
-			{
-				// http://notgartner.wordpress.com/2010/03/04/what-does-a-finished-product-look-like/
-
-				var zip = new FileInfo(Path.ChangeExtension(new FileInfo(typeof(Installer).Assembly.Location).FullName, ".zip"));
-
-				Console.Title = "http://jsc-solutions.net";
-				Console.WriteLine("Welcome to jsc installer!");
-				Console.WriteLine("For more information please visit http://jsc-solutions.net");
-
-				Console.WriteLine();
-				Console.WriteLine("The following files will be created:");
-				Console.WriteLine();
-
-				var files = new Dictionary<string, byte[]>();
-				var a = Archive;
-
-				files[zip.FullName] = a.ToBytes();
-
-				var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    namespace Templates
+    {
+        public class Installer
+        {
+            // shall be a commandline argument
+            public DirectoryInfo SDK = new DirectoryInfo(@"c:\util\jsc");
 
 
-				foreach (var bin in a.Entries.Where(k => k.FileName.StartsWith("bin/")))
-				{
-					files[Path.Combine(SDK.FullName, bin.FileName)] = bin.Bytes;
-				}
+            public static ZIPFile Archive
+            {
+                get
+                {
+                    return typeof(Installer).Assembly.GetManifestResourceStream(RewriteToInstaller.jsc_installer_zip);
+                }
+            }
 
-				// note lib is to be deprecated with ultra
-				foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
-				{
-					files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
-				}
 
-				foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))
-				{
-					files[Path.Combine(SDK.FullName, template.FileName)] = template.Bytes;
+            public static void Install(string[] e)
+            {
+                new Installer().Invoke();
+            }
 
-					var file = template.FileName.SkipUntilIfAny("/");
-					var mvs = file.TakeUntilIfAny("/");
+            public void Invoke()
+            {
+                // http://notgartner.wordpress.com/2010/03/04/what-does-a-finished-product-look-like/
 
-					var p = Path.Combine(MyDocuments, mvs);
-					if (Directory.Exists(p))
-					{
-						files[Path.Combine(MyDocuments, file)] = template.Bytes;
-					}
-				}
+                var zip = new FileInfo(Path.ChangeExtension(new FileInfo(typeof(Installer).Assembly.Location).FullName, ".zip"));
 
-				Display(files);
+                Console.Title = "http://jsc-solutions.net";
+                Console.WriteLine("Welcome to jsc installer!");
+                Console.WriteLine("For more information please visit http://jsc-solutions.net");
 
-				Console.WriteLine();
-				Console.WriteLine("Do you want to install jsc? [y/n]");
+                Console.WriteLine();
+                Console.WriteLine("The following files will be created:");
+                Console.WriteLine();
 
-				if (Console.ReadKey(true).KeyChar != 'y')
-					return;
+                var files = new Dictionary<string, byte[]>();
+                var a = Archive;
 
-				Continue(files);
-			}
+                files[zip.FullName] = a.ToBytes();
 
-			private static void Continue(Dictionary<string, byte[]> files)
-			{
-				Console.WriteLine();
-				foreach (var f in files)
-				{
-					Console.Write(".");
+                var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-					new FileInfo(f.Key).Directory.Create();
 
-					File.WriteAllBytes(f.Key, f.Value);
-				}
-				Console.WriteLine();
+                foreach (var bin in a.Entries.Where(k => k.FileName.StartsWith("bin/")))
+                {
+                    files[Path.Combine(SDK.FullName, bin.FileName)] = bin.Bytes;
+                }
+
+                // note lib is to be deprecated with ultra
+                foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
+                {
+                    files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
+                }
+
+                foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))
+                {
+                    files[Path.Combine(SDK.FullName, template.FileName)] = template.Bytes;
+
+                    var file = template.FileName.SkipUntilIfAny("/");
+                    var mvs = file.TakeUntilIfAny("/");
+
+                    var p = Path.Combine(MyDocuments, mvs);
+                    if (Directory.Exists(p))
+                    {
+                        files[Path.Combine(MyDocuments, file)] = template.Bytes;
+                    }
+                }
+
+                Display(files);
+
+                Console.WriteLine();
+                Console.WriteLine("Do you want to install jsc? [y/n]");
+
+                if (Console.ReadKey(true).KeyChar != 'y')
+                    return;
+
+                Continue(files);
+            }
+
+            private static void Continue(Dictionary<string, byte[]> files)
+            {
+                var Compiler = default(FileInfo);
+
+                Console.WriteLine();
+                foreach (var f in files)
+                {
+                    Console.Write(".");
+
+                    new FileInfo(f.Key).Directory.Create();
+
+                    File.WriteAllBytes(f.Key, f.Value);
+
+                    if (Path.GetFileName(f.Key) == CompilerName)
+                    {
+                        Compiler = new FileInfo(f.Key);
+                    }
+                }
+                Console.WriteLine();
+
+
+                jsc.meta.Loader.LoaderStrategyImplementation.Initialize();
+                jsc.meta.Loader.LoaderStrategyImplementation.Hints.Add(Compiler.Directory);
+
+                var CompilerAssembly = Assembly.LoadFile(Compiler.FullName);
+
+                
+                CompilerAssembly.EntryPoint.Invoke(null,
+                    new object[] {
+                        new string[] {    ConfigurationInitialize }
+                    }
+                );
 
                 Console.WriteLine("Thank you for installing jsc!");
+
                 Console.WriteLine("Press any key to exit!");
-				Console.ReadKey(true);
-			}
+                Console.ReadKey(true);
+            }
 
-			private static void Display(Dictionary<string, byte[]> files)
-			{
-				var q = from k in files
-						let f = new FileInfo(k.Key)
-						orderby f.Name
-						group new { f, k.Value } by f.Directory.FullName;
+            public const string CompilerName = "jsc.meta.exe";
+            public const string ConfigurationInitialize = "ConfigurationInitialize";
 
-				foreach (var g in q)
-				{
+            private static void Display(Dictionary<string, byte[]> files)
+            {
+                var q = from k in files
+                        let f = new FileInfo(k.Key)
+                        orderby f.Name
+                        group new { f, k.Value } by f.Directory.FullName;
 
-					Console.WriteLine();
-					Console.WriteLine(g.Key);
+                foreach (var g in q)
+                {
 
-					foreach (var gf in g)
-					{
-						Console.WriteLine("\t" + gf.f.Name);
-					}
-				}
-			}
-		}
-	}
+                    Console.WriteLine();
+                    Console.WriteLine(g.Key);
+
+                    foreach (var gf in g)
+                    {
+                        Console.WriteLine("\t" + gf.f.Name);
+                    }
+                }
+            }
+        }
+    }
 }

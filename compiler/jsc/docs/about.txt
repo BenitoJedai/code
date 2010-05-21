@@ -424,3 +424,5 @@ version history:
 11.04.2010
 	js: fixed new object
 	js: fixed as string operator
+21.05.2010
+	jsc: removed Dia2Lib reference while moving to Windows / .NET 4

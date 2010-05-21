@@ -68,7 +68,7 @@ namespace jsc.meta.Commands.Rewrite
 
 			this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
-			jsc.meta.Loader.LoaderStrategy.Hints.Add(this.assembly.Directory);
+			jsc.meta.Loader.LoaderStrategyImplementation.Hints.Add(this.assembly.Directory);
 
 			Console.WriteLine("RewriteToUltraApplication: " + this.assembly.FullName);
 

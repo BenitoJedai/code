@@ -9,6 +9,8 @@ using System.Text;
 using System.Xml.Linq;
 using jsc.meta.Library;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Ultra.Studio.Languages;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 {
@@ -75,19 +77,19 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
             // http://msdn.microsoft.com/en-us/library/5we0w25d(VS.100).aspx
             var ProjectType = default(string);
             //
-            if (this.ProjectFileName.Extension == ".csproj")
+            if (this.ProjectFileName.Extension == KnownLanguages.VisualCSharp.ProjectFileExtension)
             {
                 ProjectType = "CSharp";
                 ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual C#");
                 SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual C#");
             }
-            else if (this.ProjectFileName.Extension == ".fsproj")
+            else if (this.ProjectFileName.Extension == KnownLanguages.VisualFSharp.ProjectFileExtension)
             {
                 ProjectType = "FSharp";
                 ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual F#");
                 SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual F#");
             }
-            else if (this.ProjectFileName.Extension == ".vbproj")
+            else if (this.ProjectFileName.Extension == KnownLanguages.VisualBasic.ProjectFileExtension)
             {
                 ProjectType = "VisualBasic";
                 ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual Basic");
@@ -104,7 +106,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
             const string _safeprojectname = "$safeprojectname$";
 
-            var csproj = XDocument.Load(this.ProjectFileName.FullName);
+            var proj = XDocument.Load(this.ProjectFileName.FullName);
 
             #region ns
             XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
@@ -119,12 +121,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
             var nsHintPath = ns + "HintPath";
             var nsAssemblyName = ns + "AssemblyName";
             var nsEmbeddedResource = ns + "EmbeddedResource";
+            var nsTargetFrameworkVersion = ns + "TargetFrameworkVersion";
 
             #endregion
 
+            (
+                from pg in proj.Root.Elements(nsPropertyGroup)    
+                from f in pg.Elements(nsTargetFrameworkVersion)
+                select (Action)(() => f.Value = DefaultToOrcas ? "v3.5" : "v4.0")
+            ).Invoke();
 
             var ProjectFiles =
-              from ItemGroup in csproj.Root.Elements(nsItemGroup)
+              from ItemGroup in proj.Root.Elements(nsItemGroup)
               from Item in ItemGroup.Elements(nsNone)
                   .Concat(ItemGroup.Elements(nsContent))
                   .Concat(ItemGroup.Elements(nsCompile))
