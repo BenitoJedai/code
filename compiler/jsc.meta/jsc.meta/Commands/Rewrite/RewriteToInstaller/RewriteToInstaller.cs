@@ -34,7 +34,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 var zip = new ZIPFile();
 
                 var bin = new DirectoryInfo(Path.Combine(jsc.FullName, "bin"));
-                foreach (var item in bin.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
+                foreach (var item in bin.GetFilesByPattern("*.exe", "*.dll", "*.xml", "*.rtf"))
                 {
                     zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
                 }
@@ -134,7 +134,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     this.Splash.Invoke();
                 }
 
-                r.Output.CopyTo( 
+                r.Output.CopyTo(
                     Path.Combine(
                         jsc.FullName,
                         name2 + ".exe"
@@ -182,7 +182,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
         public class Installer
         {
             // shall be a commandline argument
-            public DirectoryInfo SDK = new DirectoryInfo(@"c:\util\jsc");
+            public static DirectoryInfo SDK = new DirectoryInfo(@"c:\util\jsc");
 
 
             public static ZIPFile Archive
@@ -193,12 +193,17 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
                     var Content = new MemoryStream();
 
-                    var ContentCompressed = new GZipStream(Content, CompressionMode.Decompress);
+                    var Decompress = new GZipStream(ContentCompressedMemory, CompressionMode.Decompress);
 
-                    var buffer = new byte[ContentCompressedMemory.Length ];
+                    //Copy the decompression stream into the output file.
+                    byte[] buffer = new byte[4096];
+                    int numRead;
+                    while ((numRead = Decompress.Read(buffer, 0, buffer.Length)) != 0)
+                    {
+                        Content.Write(buffer, 0, numRead);
+                    }
 
-                    ContentCompressedMemory.Read(buffer, 0, buffer.Length);
-                    ContentCompressed.Write(buffer, 0, buffer.Length);
+                    Content.Position = 0;
 
                     return Content;
                 }
@@ -207,57 +212,64 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
             public static void Install(string[] e)
             {
+                if (e == null)
+                    return;
+
                 new Installer().Invoke();
+            }
+
+            public class FileMonkey
+            {
+                public Dictionary<string, byte[]> files;
+
+                public FileMonkey()
+                {
+                    //var zip = new FileInfo(Path.ChangeExtension(new FileInfo(typeof(Installer).Assembly.Location).FullName, ".zip"));
+                    files = new Dictionary<string, byte[]>();
+                    var a = Archive;
+
+                    //files[zip.FullName] = a.ToBytes();
+
+                    var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+                    foreach (var bin in a.Entries.Where(k => k.FileName.StartsWith("bin/")))
+                    {
+                        files[Path.Combine(SDK.FullName, bin.FileName)] = bin.Bytes;
+                    }
+
+                    // note lib is to be deprecated with ultra
+                    foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
+                    {
+                        files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
+                    }
+
+                    foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))
+                    {
+                        files[Path.Combine(SDK.FullName, template.FileName)] = template.Bytes;
+
+                        var file = template.FileName.SkipUntilIfAny("/");
+                        var mvs = file.TakeUntilIfAny("/");
+
+                        var p = Path.Combine(MyDocuments, mvs);
+                        if (Directory.Exists(p))
+                        {
+                            files[Path.Combine(MyDocuments, file)] = template.Bytes;
+                        }
+                    }
+                }
             }
 
             public void Invoke()
             {
                 // http://notgartner.wordpress.com/2010/03/04/what-does-a-finished-product-look-like/
 
-                var zip = new FileInfo(Path.ChangeExtension(new FileInfo(typeof(Installer).Assembly.Location).FullName, ".zip"));
 
-                Console.Title = "http://jsc-solutions.net";
-                Console.WriteLine("Welcome to jsc installer!");
-                Console.WriteLine("For more information please visit http://jsc-solutions.net");
+                ShowHeaders();
 
-                Console.WriteLine();
-                Console.WriteLine("The following files will be created:");
-                Console.WriteLine();
+                var m = new FileMonkey();
 
-                var files = new Dictionary<string, byte[]>();
-                var a = Archive;
-
-                files[zip.FullName] = a.ToBytes();
-
-                var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-
-                foreach (var bin in a.Entries.Where(k => k.FileName.StartsWith("bin/")))
-                {
-                    files[Path.Combine(SDK.FullName, bin.FileName)] = bin.Bytes;
-                }
-
-                // note lib is to be deprecated with ultra
-                foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
-                {
-                    files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
-                }
-
-                foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))
-                {
-                    files[Path.Combine(SDK.FullName, template.FileName)] = template.Bytes;
-
-                    var file = template.FileName.SkipUntilIfAny("/");
-                    var mvs = file.TakeUntilIfAny("/");
-
-                    var p = Path.Combine(MyDocuments, mvs);
-                    if (Directory.Exists(p))
-                    {
-                        files[Path.Combine(MyDocuments, file)] = template.Bytes;
-                    }
-                }
-
-                Display(files);
+                Display(m.files);
 
                 Console.WriteLine();
                 Console.WriteLine("Do you want to install jsc? [y/n]");
@@ -265,17 +277,30 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 if (Console.ReadKey(true).KeyChar != 'y')
                     return;
 
-                Continue(files);
+                Continue(m.files, true);
             }
 
-            private static void Continue(Dictionary<string, byte[]> files)
+            private static void ShowHeaders()
+            {
+                Console.Title = "http://jsc-solutions.net";
+                Console.WriteLine("Welcome to jsc installer!");
+                Console.WriteLine("For more information please visit http://jsc-solutions.net");
+
+                Console.WriteLine();
+                Console.WriteLine("The following files will be created:");
+                Console.WriteLine();
+            }
+
+            public static void Continue(Dictionary<string, byte[]> files, bool IsVerbose)
             {
                 var Compiler = default(FileInfo);
 
-                Console.WriteLine();
+                if (IsVerbose)
+                    Console.WriteLine();
                 foreach (var f in files)
                 {
-                    Console.Write(".");
+                    if (IsVerbose)
+                        Console.Write(".");
 
                     new FileInfo(f.Key).Directory.Create();
 
@@ -286,25 +311,32 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                         Compiler = new FileInfo(f.Key);
                     }
                 }
-                Console.WriteLine();
+
+                if (IsVerbose)
+                    Console.WriteLine();
 
 
                 jsc.meta.Loader.LoaderStrategyImplementation.Initialize();
+
+                var bin = Compiler.Directory;
+
+                // lib
+
                 jsc.meta.Loader.LoaderStrategyImplementation.Hints.Add(Compiler.Directory);
 
                 var CompilerAssembly = Assembly.LoadFile(Compiler.FullName);
 
-                
+
                 CompilerAssembly.EntryPoint.Invoke(null,
                     new object[] {
                         new string[] {    ConfigurationInitialize }
                     }
                 );
 
-                Console.WriteLine("Thank you for installing jsc!");
-
-                Console.WriteLine("Press any key to exit!");
-                Console.ReadKey(true);
+                if (IsVerbose)
+                {
+                    Console.WriteLine("Thank you for installing jsc!");
+                }
             }
 
             public const string CompilerName = "jsc.meta.exe";
@@ -328,6 +360,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                         Console.WriteLine("\t" + gf.f.Name);
                     }
                 }
+            }
+
+            public static void AsService()
+            {
+
             }
         }
     }
