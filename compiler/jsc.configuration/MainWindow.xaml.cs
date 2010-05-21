@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
 using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
+using System.Threading;
 
 namespace jsc.configuration
 {
@@ -46,6 +47,13 @@ namespace jsc.configuration
                 };
 
             EULA();
+
+            new Thread(
+                  delegate()
+                  {
+                      Splash();
+                  }
+            ).Start();
             //Splash();
         }
 
@@ -60,7 +68,7 @@ namespace jsc.configuration
 
         private void Splash()
         {
-            typeof(Installer).Assembly.EntryPoint.Invoke(null, new object[] { default(string[])});
+            typeof(Installer).Assembly.EntryPoint.Invoke(null, new object[] { default(string[]) });
         }
 
 
@@ -83,9 +91,20 @@ namespace jsc.configuration
 
             var i = new Installer.FileMonkey();
 
-            Installer.Continue(i.files, false);
+            new Thread(
+                delegate()
+                {
+                    Installer.Continue(i.files, false);
 
-            MessageBox.Show("Installation complete!");
+                    this.Dispatcher.Invoke(
+                        new Action(
+                            () => MessageBox.Show("Installation complete!")
+                        )
+                    );
+                }
+            ).Start();
+
+
         }
     }
 }
