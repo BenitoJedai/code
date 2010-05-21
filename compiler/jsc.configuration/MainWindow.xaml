@@ -1,7 +1,7 @@
 ﻿<Window x:Class="jsc.configuration.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="jsc" Height="423" Width="633" Icon="/jsc.configuration;component/Documents/jsc.ico">
+        Title="jsc-solutions.net" Height="423" Width="633" Icon="/jsc.configuration;component/Documents/jsc.ico" Topmost="False" WindowStartupLocation="CenterScreen">
     <Grid>
         <Image Height="96" HorizontalAlignment="Right" Margin="0,0,12,49" Name="image1" Stretch="None" VerticalAlignment="Bottom" Width="96" Source="/jsc.configuration;component/Documents/jsc.png" />
         <Label Content="Thank you for choosing jsc!" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" />
@@ -10,7 +10,7 @@
         <TabControl Margin="12,50,126,49" Name="tabControl1">
             <TabItem Header="End User License Agreement" Name="tabItem1">
                 <Grid>
-                    <RichTextBox Margin="29,5,72,27" Name="richTextBox1" Height="221" Width="362" />
+                    <RichTextBox Margin="6,5,6,6" Name="richTextBox1" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" AllowDrop="False" />
                 </Grid>
             </TabItem>
         </TabControl>
