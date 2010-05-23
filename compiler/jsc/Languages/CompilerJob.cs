@@ -108,18 +108,7 @@ namespace jsc.Languages
 			}
 
 
-			// we support java only at this time
-
-			////bool _java = false;
-
-			////foreach (ScriptTypeFilterAttribute var in j.GetTypeFilterListByType(ScriptType.Java))
-			////{
-			////    _java = true;
-
-			////    sinfo.Logging.LogMessage(" * assambly contains '{0}'", var.FilterTypeName);
-			////}
-
-			// compile for language # java
+	
 
 			if (sinfo.Options.IsJava)
 				using (var c = new ScriptAttribute.ScriptLibraryContext(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName)))
@@ -144,10 +133,6 @@ namespace jsc.Languages
 		}
 
 
-		//private Type[] LoadTypes(ScriptType scriptType)
-		//{
-		//    return LoadTypes(scriptType, this.AssamblyInfo);
-		//}
 
 		public static Type[] LoadTypesFromReferencedAssemblies(ScriptType scriptType, Assembly context)
 		{

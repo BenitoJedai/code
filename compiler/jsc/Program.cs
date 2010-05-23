@@ -283,39 +283,6 @@ namespace jsc
 
 
 
-        //static Thread ConvertAssamblyThreaded(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
-        //{
-        //    Thread u = new Thread(
-        //        (ThreadStart)
-        //        delegate
-        //        {
-        //            ConvertAssamblySpawned(target_assambly, type, sinfo);
-        //        }
-        //        );
-
-        //    u.Priority = ThreadPriority.BelowNormal;
-        //    u.Name = "compiler: " + target_assambly + " type:" + Enum.GetName(typeof(ScriptType), type);
-
-        //    u.Start();
-
-
-        //    return u;
-        //}
-
-        //static void ConvertAssambly(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
-        //{
-        //    Thread u = ConvertAssamblyThreaded(target_assambly, type, sinfo);
-
-        //    if (Debugger.IsAttached)
-        //        u.Join();
-        //    else if (!u.Join(new TimeSpan(0, 0, 20)))
-        //    {
-        //        throw new NotSupportedException("*** operation is taking too long, aborting...");
-        //    }
-
-
-        //}
-
 
 
         static void ConvertAssamblySpawned(string target_assambly, ScriptType type, CompileSessionInfo sinfo)
@@ -465,13 +432,15 @@ namespace jsc
                 );
             }
 
-        corelib_protection:
 
             VersionLookup.WriteTokens();
 
             EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, _assambly_loaded);
 
             // to be removed at some point
+            // will we break anything yet? :)
+            // old examples maybe :)
+
             Languages.CompilerJob.InvokeEntryPoints(TargetDirectory, _assambly_loaded);
 
         }

@@ -315,28 +315,20 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 if (IsVerbose)
                     Console.WriteLine();
 
-
-                jsc.meta.Loader.LoaderStrategyImplementation.Initialize();
-
-                var bin = Compiler.Directory;
-
-                // lib
-
-                jsc.meta.Loader.LoaderStrategyImplementation.Hints.Add(Compiler.Directory);
-
-                var CompilerAssembly = Assembly.LoadFile(Compiler.FullName);
-
-
-                CompilerAssembly.EntryPoint.Invoke(null,
-                    new object[] {
-                        new string[] {    ConfigurationInitialize }
-                    }
-                );
-
                 if (IsVerbose)
                 {
                     Console.WriteLine("Thank you for installing jsc!");
                 }
+
+                var p = Process.Start(
+                    new ProcessStartInfo(Compiler.FullName, ConfigurationInitialize)
+                    {
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                    }
+                );
+
+                p.PriorityClass = ProcessPriorityClass.Idle;
             }
 
             public const string CompilerName = "jsc.meta.exe";

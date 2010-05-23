@@ -83,3 +83,5 @@
 	- Preliminary generic parameter constraint support
 2010.04.13
 	- Added XElement support for Application to WebService communication.
+2010.05.23
+	- Fixed IL rewrite for PInvoke preservesig

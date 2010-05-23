@@ -49,7 +49,7 @@ namespace ScriptCoreLib.Ultra.Library
 
         public static CachedFileGeneratorBase Create(Arguments Arguments)
         {
-            return new CachedFileGeneratorBase( Arguments);
+            return new CachedFileGeneratorBase(Arguments);
         }
 
         /// <summary>
@@ -111,9 +111,14 @@ namespace ScriptCoreLib.Ultra.Library
 
         public event Action AtWriteTokens;
 
- 
+
         public void WriteTokens()
         {
+            if (!DisableOutput)
+            {
+                WriteLocalFiles();
+            }
+
             WriteLocalTokens();
 
             // are we able to generate remote tokens?
@@ -126,18 +131,18 @@ namespace ScriptCoreLib.Ultra.Library
 
         public void WriteLocalTokens()
         {
-            if (!DisableOutput)
-            {
-                foreach (var item in this.Files)
-                {
-                    File.WriteAllText(item.FileName, item.Content);
-                }
-            }
-
             File.WriteAllText(
                 this.SourceVersion.FullName,
                 this.ConstructorArguments.AssamblyFile.LastAccessTimeUtc.ToUniversalTime().ToString()
             );
+        }
+
+        public void WriteLocalFiles()
+        {
+            foreach (var item in this.Files)
+            {
+                File.WriteAllText(item.FileName, item.Content);
+            }
         }
     }
 }
