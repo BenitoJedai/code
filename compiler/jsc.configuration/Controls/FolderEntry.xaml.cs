@@ -37,7 +37,9 @@ namespace jsc.configuration.Controls
             {
                 dlg.Description = Description;
                 dlg.SelectedPath = Text;
-                dlg.ShowNewFolderButton = true;
+                
+                dlg.ShowNewFolderButton = false;
+                
                 var result = dlg.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {

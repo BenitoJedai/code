@@ -194,10 +194,12 @@ namespace jsc.meta.Commands.Reference
 					// we are not loading a previous version of the generated assembly.
 					where !Include.EndsWith("." + UltraSource)
 
-					let HintPaths = Reference.Elements(nsHintPath).Select(k => new FileInfo(k.Value))
+                    let HintPaths = Reference.Elements(nsHintPath).Select(k => new FileInfo(k.Value)).Where(k => k.Exists)
 
 
-					let Assembly = HintPaths.Any() ? Assembly.LoadFile(HintPaths.First().FullName) : Assembly.LoadWithPartialName(Include)
+                    let HintPath = HintPaths.Any() ? HintPaths.First() : null
+
+                    let Assembly = HintPath != null ? Assembly.LoadFile(HintPath.FullName) : Assembly.LoadWithPartialName(Include)
 					
 					// why do we get null?
 					where Assembly != null

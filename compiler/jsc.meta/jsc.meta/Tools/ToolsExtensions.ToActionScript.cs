@@ -8,42 +8,44 @@ using System.Reflection;
 using System.Threading;
 using jsc.meta.Library.VolumeFunctions;
 using jsc.meta.Library;
+using jsc.meta.Configuration;
+using ScriptCoreLib.Ultra.Library;
 
 namespace jsc.meta.Tools
 {
-	static partial class ToolsExtensions
-	{
-		public class DefaultsTuple
-		{
+    static partial class ToolsExtensions
+    {
+        public class DefaultsTuple
+        {
 
-			public FileInfo mxmlc = new FileInfo(@"C:\util\flex4\bin\mxmlc.exe");
-			public FileInfo flashplayer = new FileInfo(@"C:\util\flex4\runtimes\player\10\win\FlashPlayer.exe");
+            public FileInfo mxmlc = SDKConfiguration.Default.FlexSDK_mxmlc;
+            public FileInfo flashplayer = SDKConfiguration.Default.FlexSDK_flashplayer;
 
 
-		}
+        }
 
-		public static DefaultsTuple Defaults
-		{
-			get
-			{
-				return new DefaultsTuple();
-			}
-		}
+        public static DefaultsTuple Defaults
+        {
+            get
+            {
+                return new DefaultsTuple();
+            }
+        }
 
-		public static void ToActionScript(
-			this FileInfo TargetAssembly_,
+        public static void ToActionScript(
+            this FileInfo TargetAssembly_,
 
-			FileInfo mxmlc,
-			FileInfo flashplayer,
+            FileInfo mxmlc,
+            FileInfo flashplayer,
 
-			Type sprite,
-			FileInfo FusionAssembly,
-			string ProductName,
+            Type sprite,
+            FileInfo FusionAssembly,
+            string ProductName,
 
-			Action<string> RaiseProccessStatusChanged,
+            Action<string> RaiseProccessStatusChanged,
 
-			bool CreateNoWindow
-			)
+            bool CreateNoWindow
+            )
 		{
 			if (mxmlc == null)
 				throw new ArgumentNullException();
@@ -65,6 +67,8 @@ namespace jsc.meta.Tools
 					{
 						Options = new jsc.CommandLineOptions
 						{
+                            CachedFileGeneratorConstructor = CachedFileGenerator.Create,
+
 							TargetAssembly = TargetAssembly,
 							IsActionScript = true,
 							IsNoLogo = true,
@@ -151,5 +155,5 @@ namespace jsc.meta.Tools
 			// call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 
 		}
-	}
+    }
 }

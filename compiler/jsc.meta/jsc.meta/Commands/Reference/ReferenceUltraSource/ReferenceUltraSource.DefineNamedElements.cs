@@ -131,14 +131,17 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 					// if its not from the web, only in our project then this type cannot be made available can it.
 
-					var src_value = src.Value.TakeUntilIfAny("?");
-					if (src_value.StartsWith("//"))
-						src_value = "http:" + src_value;
+					var src_value0 = src.Value;
+					if (src_value0.StartsWith("//"))
+						src_value0 = "http:" + src_value0;
+
+                    // yay "?" breaks our lookup!
+                    var src_value = src_value0.TakeUntilIfAny("?");
 
 					if (TypeVariations.ContainsKey(src_value))
 						continue;
 
-					var LocalResource = GetLocalResource(src_value);
+                    var LocalResource = GetLocalResource(src_value0);
 					var __WebClient = default(WebClient);
 
 					var Resource = default(byte[]);
@@ -148,13 +151,13 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 					{
 						if (src_value.StartsWith("http://") || src_value.StartsWith("https://"))
 						{
-							Console.WriteLine("Downloading: " + src_value);
-							Resource = (__WebClient = new WebClient()).DownloadData(new Uri(src_value));
+                            Console.WriteLine("Downloading: " + src_value0);
+                            Resource = (__WebClient = new WebClient()).DownloadData(new Uri(src_value0));
 						}
 						else
 						{
 							throw new InvalidOperationException(
-								"Referenced asset not found in the project and not linked to http:// uri."
+								"Referenced asset not found in the project and not linked to http:// uri. Did you include it?"
 							);
 						}
 					}

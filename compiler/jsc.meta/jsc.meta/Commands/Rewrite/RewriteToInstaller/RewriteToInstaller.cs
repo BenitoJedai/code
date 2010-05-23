@@ -51,6 +51,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
                 }
 
+                var cache = new DirectoryInfo(Path.Combine(jsc.FullName, "cache"));
+                foreach (var item in cache.GetAllFilesByPattern("*.zip"))
+                {
+                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                }
+
                 // http://www.theregister.co.uk/2007/04/23/vista_program_naming_oddness/
 
                 var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
@@ -231,6 +237,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     //files[zip.FullName] = a.ToBytes();
 
                     var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    var ApplicationData = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)).CreateSubdirectory("jsc");
 
 
                     foreach (var bin in a.Entries.Where(k => k.FileName.StartsWith("bin/")))
@@ -242,6 +249,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
                     {
                         files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
+                    }
+
+                    foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("cache/")))
+                    {
+                        files[Path.Combine(ApplicationData.FullName, lib.FileName)] = lib.Bytes;
                     }
 
                     foreach (var template in a.Entries.Where(k => k.FileName.StartsWith("templates/")))

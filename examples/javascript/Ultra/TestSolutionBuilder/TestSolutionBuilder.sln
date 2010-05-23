@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilder", "TestSolutionBuilder\TestSolutionBuilder.csproj", "{FB1141C7-9014-497D-B6AA-57428D0BBC35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderWithSave", "TestSolutionBuilderWithSave\TestSolutionBuilderWithSave.csproj", "{902E8E46-673B-4342-864C-407DA62B04C9}"

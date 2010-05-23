@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Ultra.Library
 {
     public class CachedFileGenerator : CachedFileGeneratorBase
     {
+        public DirectoryInfo SDK;
+
         public static new CachedFileGeneratorBase Create(CachedFileGeneratorBase.Arguments Arguments)
         {
             return new CachedFileGenerator(Arguments);
@@ -71,6 +73,9 @@ namespace ScriptCoreLib.Ultra.Library
                     {
                         if (this.SourceVersion.Exists)
                             this.SourceVersion.Delete();
+
+                        CacheFolder.Create();
+                        CacheFolder.Clear();
                     }
                 };
 
@@ -82,11 +87,14 @@ namespace ScriptCoreLib.Ultra.Library
                     if (Cache.Exists)
                         return;
 
+                    CacheFolder.Create();
+                    CacheFolder.Clear();
+
                     var zip = new ZIPFile();
 
                     foreach (var item in this.Files)
                     {
-                        var RelativeFileName = item.FileName.SkipUntilIfAny(this.ConstructorArguments.TargetDirectory.FullName + "/");
+                        var RelativeFileName = item.FileName.Replace("\\", "/").SkipUntilIfAny(this.ConstructorArguments.TargetDirectory.FullName.Replace("\\", "/") + "/");
 
                         zip.Add(RelativeFileName, item.Content);
                     }
@@ -95,16 +103,32 @@ namespace ScriptCoreLib.Ultra.Library
 
                     //Debugger.Launch();
 
-                    CacheFolder.Create();
-                    CacheFolder.Clear();
 
-                    try
+
+                    zip.WriteToFile(Cache);
+
+                    if (this.SDK != null)
                     {
-                        zip.WriteToFile(Cache);
-                    }
-                    catch (UnauthorizedAccessException ex)
-                    {
-                        Debugger.Break();
+                        var SDKCacheFolder = new DirectoryInfo(
+                              Path.Combine(
+                                  SDK.FullName,
+                                  "cache/" + this.ConstructorArguments.AssamblyFile.Name + "/" + this.ConstructorArguments.Language.ToString()
+                              )
+                          );
+
+
+                        SDKCacheFolder.Create();
+                        SDKCacheFolder.Clear();
+                        var SDKCache = new FileInfo(
+                            Path.Combine(
+                                SDKCacheFolder.FullName,
+                                Arguments.AssamblyFile.LastWriteTimeUtc.Ticks + ".zip"
+                            )
+                        );
+                  
+
+                        zip.WriteToFile(SDKCache);
+
                     }
                 };
 

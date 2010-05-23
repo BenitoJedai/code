@@ -228,6 +228,7 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\Configuration\ConfigurationInitialize.cs" />
     <Compile Include="Commands\Configuration\ConfigurationCreateProjectTemplates.cs" />
+    <Compile Include="Commands\Configuration\ConfigurationPrecompile.cs" />
     <Compile Include="Commands\Extend\ExtendToAvalonEverywhere.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebService.cs" />
@@ -286,6 +287,7 @@
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
+    <Compile Include="Configuration\SDKConfiguration.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\CostumAttributeBuilderExtensions.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
@@ -120,8 +121,20 @@ namespace jsc.Languages
 
                         c.MyWriter.Flush();
 
+                        var Namespace__ = string.Join(
+                            "/",
+                            
+                            new [] {
+                                SourceDir.FullName
+                            }.Concat(
+                                c.NamespaceFixup(xx.Namespace, xx).Split('.').Select(
+                                    k => c.GetSafeLiteral(k)
+                                )
+                            ).ToArray()
+                        );
+
                         VersionLookup.Add(
-                            SourceDir.FullName + "/" + c.GetTypeNameForFilename(xx) + ".java",
+                             Namespace__ + "/" + c.GetTypeNameForFilename(xx) + ".java",
                             c.MyWriter.ToString()
                         );
                     }

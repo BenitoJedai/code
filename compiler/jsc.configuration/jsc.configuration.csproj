@@ -33,7 +33,7 @@
     <SuiteName>jsc</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -98,6 +98,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="..\jsc.meta\jsc.meta\Configuration\SDKConfiguration.cs">
+      <Link>Configuration\SDKConfiguration.cs</Link>
+    </Compile>
     <Compile Include="Agreement.xaml.cs">
       <DependentUpon>Agreement.xaml</DependentUpon>
     </Compile>
@@ -185,9 +188,7 @@
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Library\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
