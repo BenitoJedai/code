@@ -102,11 +102,16 @@ namespace jsc.Languages
                                 c.NamespaceFixup(xx.Namespace, xx).Split('.').Select(
                                     k => c.GetSafeLiteral(k)
                                 )
-                            ).ToArray()
+                            ).Concat(
+                                new[]
+                                {
+                                    c.GetTypeNameForFilename(xx) + ".as"
+                                }
+                            ).Where(k => !string.IsNullOrEmpty(k)).ToArray()
                         );
 
                         VersionLookup.Add(
-                             Namespace__ + "/" + c.GetTypeNameForFilename(xx) + ".as",
+                             Namespace__,
                             c.MyWriter.ToString()
                         );
                     }

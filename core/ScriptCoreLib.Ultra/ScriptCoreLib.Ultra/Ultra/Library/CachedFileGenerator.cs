@@ -68,6 +68,7 @@ namespace ScriptCoreLib.Ultra.Library
                         }
 
                         this.WriteLocalTokens();
+                        this.WriteLocalFiles();
                     }
                     else
                     {
