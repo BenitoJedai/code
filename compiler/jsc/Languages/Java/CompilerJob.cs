@@ -130,11 +130,17 @@ namespace jsc.Languages
                                 c.NamespaceFixup(xx.Namespace, xx).Split('.').Select(
                                     k => c.GetSafeLiteral(k)
                                 )
+
+                            ).Concat(
+                                new[]
+                                {
+                                    c.GetTypeNameForFilename(xx) + ".java"
+                                }
                             ).ToArray()
                         );
 
                         VersionLookup.Add(
-                             Namespace__ + "/" + c.GetTypeNameForFilename(xx) + ".java",
+                             Namespace__,
                             c.MyWriter.ToString()
                         );
                     }

@@ -141,6 +141,8 @@ namespace ScriptCoreLib.Ultra.Library
         {
             foreach (var item in this.Files)
             {
+                new FileInfo(item.FileName).Directory.Create();
+
                 File.WriteAllText(item.FileName, item.Content);
             }
         }

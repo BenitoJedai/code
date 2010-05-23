@@ -79,6 +79,8 @@ namespace jsc.meta.Commands.Configuration
                          typeof(global::ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLibJava.jni.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLibJava.AppEngine.IAssemblyReferenceToken),
+
+                         //typeof(global::ScriptCoreLib.Shared.Archive.ZIP.),
                     }
                  },
 

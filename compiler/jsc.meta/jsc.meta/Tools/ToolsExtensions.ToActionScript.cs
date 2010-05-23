@@ -114,7 +114,9 @@ namespace jsc.meta.Tools
 				//if (Debugger.IsAttached)
 				//    Debugger.Break();
 
-				var UseShellExecute = false;
+				var UseShellExecute = true;
+                
+                // Blocked by internet? :)
 
 				var proccess_mxmlc = Process.Start(
 					new ProcessStartInfo(
