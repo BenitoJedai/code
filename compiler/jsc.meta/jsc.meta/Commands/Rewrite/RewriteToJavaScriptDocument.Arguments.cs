@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using jsc.meta.Tools;
+using jsc.meta.Configuration;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -27,12 +28,12 @@ namespace jsc.meta.Commands.Rewrite
 
 		// we should enable the use of settings files!
 
-		public DirectoryInfo javahome = new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_14");
+		public DirectoryInfo javahome = SDKConfiguration.Default.JavaSDK; // new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_14");
 		// we probably do not need both :)
-		public DirectoryInfo javapath = new DirectoryInfo(@"c:\Program Files\Java\jdk1.6.0_14\bin");
+        //public DirectoryInfo javapath = new DirectoryInfo(@"c:\Program Files\Java\jdk1.6.0_14\bin");
 
-		public FileInfo ant = new FileInfo(@"C:\util\apache-ant-1.7.1\bin\ant.bat");
-		public DirectoryInfo appengine = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.0");
+        public FileInfo ant = SDKConfiguration.Default.ApacheAntSDK_ant;
+		public DirectoryInfo appengine = SDKConfiguration.Default.GoogleAppEngineJavaSDK;
 
 		public FileInfo mxmlc = ToolsExtensions.Defaults.mxmlc;
 		public FileInfo flashplayer = ToolsExtensions.Defaults.flashplayer;

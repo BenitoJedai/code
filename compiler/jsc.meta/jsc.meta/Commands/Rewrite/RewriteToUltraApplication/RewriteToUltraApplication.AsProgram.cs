@@ -87,7 +87,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				{
 					assembly = new FileInfo(PrimaryApplication.Assembly.Location),
 
-					staging = new FileInfo(PrimaryApplication.Assembly.Location).Directory.CreateSubdirectory("staging.debug"),
+                    //staging = new FileInfo(PrimaryApplication.Assembly.Location).Directory.CreateSubdirectory("staging.debug"),
 
 					DisableWebServiceJava = true,
 					DisableWebServicePHP = true,

@@ -10,6 +10,7 @@ using System.Windows.Media.Effects;
 using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
 using System.Windows;
 using System.Threading;
+using jsc.meta.Configuration;
 
 namespace jsc.configuration
 {
@@ -38,6 +39,7 @@ namespace jsc.configuration
                 BitmapEffect = new OuterGlowBitmapEffect { GlowColor = Colors.White }
             }.AttachTo(c);
 
+
             a.richTextBox1.Selection.Load(
                Installer.Archive.Entries.Single(k => k.FileName.EndsWith("EULA.rtf")).Data
                ,
@@ -49,6 +51,8 @@ namespace jsc.configuration
                 {
                     a.button1.IsEnabled = (bool)a.checkBox1.IsChecked;
                 };
+
+            var cc = new JSCSolutionsNETCarouselCanvas();
 
             a.button1.Click +=
                 delegate
@@ -68,13 +72,38 @@ namespace jsc.configuration
                                 new Action(
                                     delegate
                                     {
-                                        //
+                                        var conf = new SDKConfiguration();
+
+                                        SDKConfiguration.Default = conf;
+
+                                        a.folderEntry1.Text = conf.JavaSDK.FullName;
+                                        a.folderEntry2.Text = conf.FlexSDK.FullName;
+                                        a.folderEntry3.Text = conf.GoogleAppEngineJavaSDK.FullName;
+                                        a.folderEntry4.Text = conf.ApacheAntSDK.FullName;
+
+                                        a.SaveButton.Click +=
+                                            delegate
+                                            {
+                                                // binding?
+                                                // validation?
+
+                                                conf.JavaSDK = new System.IO.DirectoryInfo(a.folderEntry1.Text);
+                                                conf.FlexSDK = new System.IO.DirectoryInfo(a.folderEntry2.Text);
+                                                conf.GoogleAppEngineJavaSDK = new System.IO.DirectoryInfo(a.folderEntry3.Text);
+                                                conf.ApacheAntSDK = new System.IO.DirectoryInfo(a.folderEntry4.Text);
+
+                                                SDKConfiguration.Default = conf;
+                                            };
+
                                         a.tabItem2.Show();
                                         a.tabItem2.IsSelected = true;
 
-                                        MessageBox.Show(
-                                            "Automatic configuration will continue in the background. \n\nYou may now change manual configuration or exit this installer.", "Installation complete!", MessageBoxButton.OK, MessageBoxImage.Information
-                                        );
+                                        a.checkBox1.Hide();
+                                        a.button1.Hide();
+
+                                        //MessageBox.Show(
+                                        //    "Automatic configuration will continue in the background. \n\nYou may now change manual configuration or exit this installer.", "Installation complete!", MessageBoxButton.OK, MessageBoxImage.Information
+                                        //);
                                     }
                                 )
                             );
@@ -83,7 +112,6 @@ namespace jsc.configuration
                 };
 
 
-            var cc = new JSCSolutionsNETCarouselCanvas();
             cc.CloseOnClick = false;
 
             // http://stackoverflow.com/questions/741956/wpf-pan-zoom-image

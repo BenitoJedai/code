@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication", "PromotionWebApplication\PromotionWebApplication.csproj", "{52F52DBC-1B23-4948-B5B6-E9A64684401C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
