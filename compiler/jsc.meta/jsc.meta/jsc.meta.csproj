@@ -348,7 +348,7 @@
     <EmbeddedResource Include="Documents\App.ico" />
     <Content Include="Documents\changelog.txt" />
     <EmbeddedResource Include="Documents\jsc.png" />
-    <Content Include="Documents\jsc.ico" />
+    <EmbeddedResource Include="Documents\jsc.ico" />
     <Content Include="Documents\license.txt" />
     <Content Include="Documents\unicorn.txt" />
     <Content Include="Documents\__TemplateIcon.ico" />

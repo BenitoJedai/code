@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Runtime.InteropServices;
-using System.Drawing;
+//using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Controls;
@@ -44,7 +44,7 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 		public static bool ExtendGlassFrame(this Window window)
 		{
-			return window.ExtendGlassFrame(new Thickness(-1));
+			return ExtendGlassFrame(window, new Thickness(-1));
 		}
 
 		public static void ExtendGlassFrame(this Window window, Control e)
@@ -100,7 +100,7 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 			x.SourceInitialized +=
 				delegate
 				{
-					x.ExtendGlassFrame();
+					ExtendGlassFrame(x);
 				};
 
 
@@ -112,7 +112,7 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 			x.SourceInitialized +=
 				delegate
 				{
-					x.ExtendGlassFrame();
+					ExtendGlassFrame(x);
 				};
 
 

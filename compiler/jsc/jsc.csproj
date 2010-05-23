@@ -301,6 +301,7 @@
     <Content Include="docs\about.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Documents\comments.txt" />
     <Content Include="Resx\jsc.ico" />
     <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ScriptedLoading%24.js" />

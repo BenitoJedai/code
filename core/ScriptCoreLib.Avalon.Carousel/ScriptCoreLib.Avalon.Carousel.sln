@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon.Carousel", "ScriptCoreLib.Avalon.Carousel\ScriptCoreLib.Avalon.Carousel.csproj", "{0B5B4B1A-B82F-464A-904E-11FEFAEFB18F}"
 EndProject
 Global

@@ -28,6 +28,7 @@ call :build core\ScriptCoreLibJava.XLinq\ScriptCoreLibJava.XLinq.sln
 call :build core\ScriptCoreLibJava.Web\ScriptCoreLibJava.Web.sln
 call :build core\ScriptCoreLibJava.Web.Services\ScriptCoreLibJava.Web.Services.sln
 call :build core\ScriptCoreLibJava.jni\ScriptCoreLibJava.jni.sln
+call :build core\ScriptCoreLibJava.AppEngine\ScriptCoreLibJava.Appengine.sln
 
 :: rebuild framework
 

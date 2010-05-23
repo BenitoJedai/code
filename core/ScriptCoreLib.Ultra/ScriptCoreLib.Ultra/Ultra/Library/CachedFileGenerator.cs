@@ -21,16 +21,16 @@ namespace ScriptCoreLib.Ultra.Library
         {
             // http://stackoverflow.com/questions/867485/c-getting-the-path-of-appdata
 
-            var CommonApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var CommonApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
             var CacheFolder = new DirectoryInfo(
                 Path.Combine(
-                    CommonApplicationData, 
+                    CommonApplicationData,
                     "jsc/cache/" + this.ConstructorArguments.AssamblyFile.Name + "/" + this.ConstructorArguments.Language.ToString()
                 )
             );
 
-            
+
 
             var Cache = new FileInfo(
                 Path.Combine(
@@ -67,6 +67,11 @@ namespace ScriptCoreLib.Ultra.Library
 
                         this.WriteLocalTokens();
                     }
+                    else
+                    {
+                        if (this.SourceVersion.Exists)
+                            this.SourceVersion.Delete();
+                    }
                 };
 
             this.AtWriteTokens +=
@@ -93,7 +98,14 @@ namespace ScriptCoreLib.Ultra.Library
                     CacheFolder.Create();
                     CacheFolder.Clear();
 
-                    zip.WriteToFile(Cache);
+                    try
+                    {
+                        zip.WriteToFile(Cache);
+                    }
+                    catch (UnauthorizedAccessException ex)
+                    {
+                        Debugger.Break();
+                    }
                 };
 
 
