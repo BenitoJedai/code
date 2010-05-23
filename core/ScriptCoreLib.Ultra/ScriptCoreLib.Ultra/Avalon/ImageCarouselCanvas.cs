@@ -262,7 +262,7 @@ namespace ScriptCoreLib.Avalon
                             if (images.Any(k => k.Opacity < 1))
                                 return;
 
-                            foreach (var item__ in images)
+                            foreach (var item__ in images.ToArray())
                             {
                                 var item = item__;
 
