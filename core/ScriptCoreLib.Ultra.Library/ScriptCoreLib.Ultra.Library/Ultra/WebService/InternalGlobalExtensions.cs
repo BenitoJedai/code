@@ -48,7 +48,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
 			if (Context.Request.Path == "/favicon.ico")
 			{
-				Context.Response.Redirect("http://jsc.sf.net/favicon.ico");
+                Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
+                
 				that.CompleteRequest();
 				return;
 			}

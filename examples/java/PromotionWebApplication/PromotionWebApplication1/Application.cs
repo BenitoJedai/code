@@ -64,7 +64,7 @@ namespace PromotionWebApplication1
             ss.WhenReady(y);
         }
 
-        PromotionWebApplicationAssets.Class1 __Assets;
+        PromotionWebApplicationAssets.Assets __Assets;
 
         public Application(IApplicationLoader app)
         {
@@ -746,61 +746,8 @@ namespace PromotionWebApplication1
 
         public void DownloadSDK(WebServiceHandler h)
         {
-            const string _download = "/download/";
-            const string a = @"assets/PromotionWebApplicationAssets";
+            DownloadSDKFunction.DownloadSDK(h);
 
-            var path = h.Context.Request.Path;
-
-            if (path == "/download")
-                path = "/download/publish.htm";
-
-            if (path == "/download/")
-                path = "/download/publish.htm";
-
-
-            if (path.StartsWith(_download))
-            {
-                var f = a + "/" + path.Substring(_download.Length).Replace(" ", "_");
-
-
-                if (File.Exists(f))
-                {
-
-                    var data = File.ReadAllBytes(f);
-
-
-                    var ext = "." + f.SkipUntilLastOrEmpty(".").ToLower();
-
-                    // http://en.wikipedia.org/wiki/Mime_type
-
-                    var ContentType = "application/octet-stream";
-
-                    if (ext == ".application")
-                    {
-                        ContentType = "application/x-ms-application";
-                    }
-                    else if (ext == ".htm")
-                    {
-                        ContentType = "text/html";
-                    }
-
-                    h.Context.Response.ContentType = ContentType;
-
-                    Console.WriteLine("length: " + data.Length + " " + ContentType + " " + f);
-
-                    h.Context.Response.OutputStream.Write(data, 0, data.Length);
-                }
-                else
-                {
-                    h.Context.Response.StatusCode = 404;
-                }
-
-
-                //h.Context.Response.Redirect(r);
-                h.CompleteRequest();
-
-                return;
-            }
         }
 
         public void CodeGenerator(WebServiceHandler h)
@@ -875,6 +822,77 @@ namespace PromotionWebApplication1
             h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
 
             h.CompleteRequest();
+        }
+    }
+
+    public static class DownloadSDKFunction
+    {
+        public static void DownloadSDK(WebServiceHandler h)
+        {
+            const string _download = "/download/";
+            const string a = @"assets/PromotionWebApplicationAssets";
+
+            var path = h.Context.Request.Path;
+
+            if (path == "/download")
+            {
+                h.Context.Response.Redirect("/download/jsc.configuration.application");
+                h.CompleteRequest();
+                return;
+            }
+
+            if (path == "/download/")
+                path = "/download/publish.htm";
+
+
+            if (path.StartsWith(_download))
+            {
+                var f = a + "/" + path.Substring(_download.Length).Replace(" ", "_");
+
+
+                if (File.Exists(f))
+                {
+
+
+
+                    var ext = "." + f.SkipUntilLastOrEmpty(".").ToLower();
+
+                    // http://en.wikipedia.org/wiki/Mime_type
+                    // http://msdn.microsoft.com/en-us/library/ms228998.aspx
+
+                    var ContentType = "application/octet-stream";
+
+                    if (ext == ".application")
+                    {
+                        ContentType = "application/x-ms-application";
+                    }
+                    else if (ext == ".manifest")
+                    {
+                        ContentType = "application/x-ms-manifest";
+                    }
+                    else if (ext == ".htm")
+                    {
+                        ContentType = "text/html";
+                    }
+
+                    h.Context.Response.ContentType = ContentType;
+
+                    //Console.WriteLine("length: " + data.Length + " " + ContentType + " " + f);
+
+                    
+                    h.Context.Response.WriteFile(f);
+                }
+                else
+                {
+                    h.Context.Response.StatusCode = 404;
+                }
+
+
+                //h.Context.Response.Redirect(r);
+                h.CompleteRequest();
+
+                return;
+            }
         }
     }
 }

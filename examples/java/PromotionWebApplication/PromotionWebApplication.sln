@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplicationAssets", "PromotionWebApplicationAssets\PromotionWebApplicationAssets.csproj", "{2134AA2E-374D-4BD9-A8E4-23D91A990D50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication2", "PromotionWebApplication2\PromotionWebApplication2.csproj", "{2FA540E0-9BA1-484A-8C92-5D9C760E2235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -39,6 +41,12 @@ Global
 		{2134AA2E-374D-4BD9-A8E4-23D91A990D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2134AA2E-374D-4BD9-A8E4-23D91A990D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2134AA2E-374D-4BD9-A8E4-23D91A990D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FA540E0-9BA1-484A-8C92-5D9C760E2235}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{2FA540E0-9BA1-484A-8C92-5D9C760E2235}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{2FA540E0-9BA1-484A-8C92-5D9C760E2235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA540E0-9BA1-484A-8C92-5D9C760E2235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA540E0-9BA1-484A-8C92-5D9C760E2235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA540E0-9BA1-484A-8C92-5D9C760E2235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

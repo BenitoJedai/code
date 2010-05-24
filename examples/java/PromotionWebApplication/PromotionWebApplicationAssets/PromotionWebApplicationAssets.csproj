@@ -45,21 +45,51 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\publish.htm" />
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\setup.exe" />
+    <EmbeddedResource Include="C:\util\jsc\publish\jsc.configuration.application">
+      <Link>web\assets\PromotionWebApplicationAssets\jsc.configuration.application</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\Documents\jsc.ico.deploy" />
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.application" />
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.exe.deploy" />
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.exe.manifest" />
-    <EmbeddedResource Include="web\assets\PromotionWebApplicationAssets\jsc.configuration.application" />
+    <EmbeddedResource Include="C:\util\jsc\publish\publish.htm">
+      <Link>web\assets\PromotionWebApplicationAssets\publish.htm</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\setup.exe">
+      <Link>web\assets\PromotionWebApplicationAssets\setup.exe</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_4\Documents\jsc.ico.deploy">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\Documents\jsc.ico.deploy</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.application">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.application</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.exe.deploy">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.exe.deploy</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.exe.manifest">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_4\jsc.configuration.exe.manifest</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_5\Documents\jsc.ico.deploy">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_5\Documents\jsc.ico.deploy</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_5\jsc.configuration.application">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_5\jsc.configuration.application</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_5\jsc.configuration.exe.deploy">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_5\jsc.configuration.exe.deploy</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="C:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_5\jsc.configuration.exe.manifest">
+      <Link>web\assets\PromotionWebApplicationAssets\Application Files\jsc.configuration_1_0_0_5\jsc.configuration.exe.manifest</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -js</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

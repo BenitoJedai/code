@@ -603,6 +603,8 @@ namespace jsc.meta.Commands.Rewrite
 
 						foreach (var item in __Files2)
 						{
+                            Console.WriteLine("google app engine java asset: " + item.Name1);
+
 							var TargetFolder = Path.Combine(web.FullName, item.Name1);
 
 							new FileInfo(Path.Combine(web.FullName, item.Name1)).Directory.Create();
@@ -635,47 +637,35 @@ namespace jsc.meta.Commands.Rewrite
 						ant_build_xml.Save(ant_build_xml_file);
 
 
-						var proccess_ant_info = new ProcessStartInfo(
-								this.ant.FullName,
-								"-f build.xml"
-								)
-						{
-							UseShellExecute = false,
+				
+                        InvokeAfterBackendCompiler(
+                            delegate
+                            {
+                                using (var ant_web = r_Output_web.ToVirtualDrive())
+                                {
+                                    var proccess_ant_info = new ProcessStartInfo(
+                                        this.ant.FullName,
+                                        "-f build.xml"
+                                        )
+                                    {
+                                        UseShellExecute = false,
 
-							WorkingDirectory = r_Output_web.FullName
-						};
+                                        WorkingDirectory = ant_web.VirtualDirectory.FullName
+                                    };
 
-						proccess_ant_info.EnvironmentVariables["JAVA_HOME"] = this.javahome.FullName;
+                                    proccess_ant_info.EnvironmentVariables["JAVA_HOME"] = this.javahome.FullName;
 
-						#region upload.bat
-						File.WriteAllText(
-							Path.Combine(r_Output_web.FullName, "build.bat"),
-							@"
-@echo off
-echo current path cannot be very long...
 
-set JAVA_HOME=" + this.javahome.FullName + @"
-subst b: " + r_Output_web.FullName + @" 
-b:
-call " + this.ant.FullName + @" -f build.xml
-subst b: /D
-"
-						);
-						#endregion
+                                    var proccess_ant = Process.Start(proccess_ant_info);
 
-						//InvokeAfterBackendCompiler(
-						//    delegate
-						//    {
-						//        var proccess_ant = Process.Start(proccess_ant_info);
-
-						//        proccess_ant.WaitForExit();
-						//    }
-						//);
+                                    proccess_ant.WaitForExit();
+                                }
+                            }
+                        );
 
 						#endregion
 
 
-						// ----
 
 						#region run.bat
 						var w = new StringWriter();
@@ -712,13 +702,7 @@ echo thanks! :)
 						);
 						#endregion
 
-						//                        File.WriteAllText(
-						//                            Path.Combine(r_Output_web.FullName, "build.run.bat"), @"
-						//@echo off
-						//call build.bat
-						//call run.bat
-						//"
-						//                        );
+		
 						#region upload.bat
 						File.WriteAllText(
 							Path.Combine(r_Output_web.FullName, "upload.bat"),

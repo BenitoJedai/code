@@ -15,26 +15,32 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 	{
 		public javax.servlet.http.HttpServletResponse InternalContext;
 
+        internal int InternalStatusCode;
+
 		public int StatusCode
 		{
 			get
 			{
-				return 200;
+                return InternalStatusCode;
 			}
 			set
 			{
+                InternalStatusCode = value;
+                this.InternalContext.setStatus(value);
 			}
 		}
 
+        internal string InternalContentType;
 		public string ContentType
 		{
 			get
 			{
-				return "";
+                return InternalContentType;
 			}
 
 			set
 			{
+                InternalContentType = value;
 				this.InternalContext.setContentType(value);
 			}
 		}
@@ -91,5 +97,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 			this.InternalContext.addHeader(name, value);
 		}
 
+        public void WriteFile(string filename)
+        {
+            var bytes = File.ReadAllBytes(filename);
+
+            this.OutputStream.Write(bytes, 0, bytes.Length);
+        }
 	}
 }

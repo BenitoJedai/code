@@ -227,7 +227,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebugger:false</PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebuggertrue</PostBuildEvent>
     <PreBuildEvent>
       
       C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false
