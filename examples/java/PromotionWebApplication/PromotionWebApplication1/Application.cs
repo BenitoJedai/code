@@ -33,689 +33,692 @@ using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Studio;
 using TestSolutionBuilderV1.Views;
+using System.IO;
 
 namespace PromotionWebApplication1
 {
 
-	public delegate string AtInstaller(string e);
+    public delegate string AtInstaller(string e);
 
-	public sealed class Application
-	{
-		public class AudioLink
-		{
-			public IHTMLAudio Audio;
+    public sealed class Application
+    {
+        public class AudioLink
+        {
+            public IHTMLAudio Audio;
 
-			public AudioLink Prev;
-			public AudioLink Next;
-		}
+            public AudioLink Prev;
+            public AudioLink Next;
+        }
 
-		public void Button1_click(IEvent e)
-		{
+        public void Button1_click(IEvent e)
+        {
 
-		}
+        }
 
-		private void AddSaveButton(IHTMLElement C, Action<ISaveAction> y)
-		{
-			var ss = new SaveActionSprite();
+        private void AddSaveButton(IHTMLElement C, Action<ISaveAction> y)
+        {
+            var ss = new SaveActionSprite();
 
-			ss.AttachSpriteTo(C);
+            ss.AttachSpriteTo(C);
 
-			ss.WhenReady(y);
-		}
+            ss.WhenReady(y);
+        }
 
-		public Application(IApplicationLoader app)
-		{
-			app.LoadingAnimation.FadeOut();
+        PromotionWebApplicationAssets.Class1 __Assets;
 
-			var DefaultTitle = "jsc solutions";
+        public Application(IApplicationLoader app)
+        {
+            app.LoadingAnimation.FadeOut();
 
+            var DefaultTitle = "jsc solutions";
 
-			Native.Document.title = DefaultTitle;
 
-			StringActionAction GetTitleFromServer = new UltraWebService().GetTitleFromServer;
+            Native.Document.title = DefaultTitle;
 
+            StringActionAction GetTitleFromServer = new UltraWebService().GetTitleFromServer;
 
 
-			GetTitleFromServer(
-				n => Native.Document.title = n
-			);
 
-			var MyPagesBackground = new IHTMLDiv
-			{
+            GetTitleFromServer(
+                n => Native.Document.title = n
+            );
 
-			};
+            var MyPagesBackground = new IHTMLDiv
+            {
 
-			MyPagesBackground.style.overflow = IStyle.OverflowEnum.hidden;
-			MyPagesBackground.style.position = IStyle.PositionEnum.absolute;
-			MyPagesBackground.style.width = "100%";
-			MyPagesBackground.style.height = "100%";
-			MyPagesBackground.AttachToDocument();
+            };
 
-			var MyPages = new IHTMLDiv
-			{
+            MyPagesBackground.style.overflow = IStyle.OverflowEnum.hidden;
+            MyPagesBackground.style.position = IStyle.PositionEnum.absolute;
+            MyPagesBackground.style.width = "100%";
+            MyPagesBackground.style.height = "100%";
+            MyPagesBackground.AttachToDocument();
 
-			};
+            var MyPages = new IHTMLDiv
+            {
 
-			MyPages.style.overflow = IStyle.OverflowEnum.auto;
-			MyPages.style.position = IStyle.PositionEnum.absolute;
-			MyPages.style.width = "100%";
-			MyPages.style.height = "100%";
-			MyPages.AttachToDocument();
+            };
 
-			var MyPagesInternal = new IHTMLDiv();
+            MyPages.style.overflow = IStyle.OverflowEnum.auto;
+            MyPages.style.position = IStyle.PositionEnum.absolute;
+            MyPages.style.width = "100%";
+            MyPages.style.height = "100%";
+            MyPages.AttachToDocument();
 
-			MyPagesInternal.style.margin = "4em";
-			MyPagesInternal.AttachTo(MyPages);
+            var MyPagesInternal = new IHTMLDiv();
 
-			// http://www.google.com/support/forum/p/Google+Analytics/thread?tid=486a963e463df665&hl=en
-			var gapathname = Native.Document.location.pathname;
-			var gasearch = Native.Document.location.search;
-			var gahash = Native.Window.escape(Native.Document.location.hash);
-			var gapageview = gapathname + gasearch + gahash;
+            MyPagesInternal.style.margin = "4em";
+            MyPagesInternal.AttachTo(MyPages);
 
-			var hash = Native.Document.location.hash;
+            // http://www.google.com/support/forum/p/Google+Analytics/thread?tid=486a963e463df665&hl=en
+            var gapathname = Native.Document.location.pathname;
+            var gasearch = Native.Document.location.search;
+            var gahash = Native.Window.escape(Native.Document.location.hash);
+            var gapageview = gapathname + gasearch + gahash;
 
-			Action<string> Analytics = delegate { };
+            var hash = Native.Document.location.hash;
 
-			#region logo
-			{
-				var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
+            Action<string> Analytics = delegate { };
 
-				if (Native.Document.location.host.StartsWith("studio."))
-				{
-					IsStudio = true;
-				}
+            #region logo
+            {
+                var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
 
-				if (IsStudio)
-				{
-					new StudioView(AddSaveButton).Content.AttachToDocument();
+                if (Native.Document.location.host.StartsWith("studio."))
+                {
+                    IsStudio = true;
+                }
 
+                if (IsStudio)
+                {
+                    new StudioView(AddSaveButton).Content.AttachToDocument();
 
-				}
-				else if (Native.Document.location.hash.StartsWith("#/docs"))
-				{
-					var view = new DocumentationCompilationViewer();
 
-					view.TouchTypeSelected +=
-						type =>
-						{
-							Native.Document.location.hash = "#/docs/" + type.FullName;
+                }
+                else if (Native.Document.location.hash.StartsWith("#/docs"))
+                {
+                    var view = new DocumentationCompilationViewer();
 
-							Analytics("#/docs/" + type.FullName);
-						};
+                    view.TouchTypeSelected +=
+                        type =>
+                        {
+                            Native.Document.location.hash = "#/docs/" + type.FullName;
 
-				}
-				else if (Native.Document.location.hash.StartsWith("#/warehouse"))
-				{
-					new UltraWebService().ThreeDWarehouse(
-						y =>
-						{
-							Func<string, IHTMLAnchor> Build =
-								mid =>
-								{
-									var a = new IHTMLAnchor { href = "http://sketchup.google.com/3dwarehouse/details?ct=hppm&mid=" + mid }.AttachTo(MyPagesInternal);
-									var img = new IHTMLImage { src = "http://sketchup.google.com/3dwarehouse/download?rtyp=st&ctyp=other&mid=" + mid }.AttachTo(a);
+                            Analytics("#/docs/" + type.FullName);
+                        };
 
-									return a;
-								};
+                }
+                else if (Native.Document.location.hash.StartsWith("#/warehouse"))
+                {
+                    new UltraWebService().ThreeDWarehouse(
+                        y =>
+                        {
+                            Func<string, IHTMLAnchor> Build =
+                                mid =>
+                                {
+                                    var a = new IHTMLAnchor { href = "http://sketchup.google.com/3dwarehouse/details?ct=hppm&mid=" + mid }.AttachTo(MyPagesInternal);
+                                    var img = new IHTMLImage { src = "http://sketchup.google.com/3dwarehouse/download?rtyp=st&ctyp=other&mid=" + mid }.AttachTo(a);
 
-							var imgs = Enumerable.ToArray(
-								from k in y.Elements()
-								select Build(k.Value)
+                                    return a;
+                                };
 
-							);
-						}
-					);
+                            var imgs = Enumerable.ToArray(
+                                from k in y.Elements()
+                                select Build(k.Value)
 
-				}
+                            );
+                        }
+                    );
 
-				else if (Native.Document.location.hash == "#/source")
-				{
+                }
 
-					var sln = new TreeNode(() => new VistaTreeNodePage());
+                else if (Native.Document.location.hash == "#/source")
+                {
 
-					sln.Text = "Solution";
-					sln.IsExpanded = true;
+                    var sln = new TreeNode(() => new VistaTreeNodePage());
 
-					Action<TreeNode> AddReferences =
-						p =>
-						{
-							var r = p.Add("References", new References());
+                    sln.Text = "Solution";
+                    sln.IsExpanded = true;
 
-							r.Add("System", new Assembly());
-							r.Add("System.Core", new Assembly());
-							r.Add("ScriptCoreLib", new Assembly());
-							r.Add("ScriptCoreLib.Ultra", new Assembly());
-							r.Add("ScriptCoreLib.Ultra.Library", new Assembly());
-							r.Add("ScriptCoreLib.Ultra.Controls", new Assembly());
-							r.Add("ScriptCoreLibJava", new Assembly());
-							r.Add("jsc.meta", new Assembly());
-						};
+                    Action<TreeNode> AddReferences =
+                        p =>
+                        {
+                            var r = p.Add("References", new References());
 
-					Action<TreeNode> AddUltraSource =
-						p =>
-						{
-							var my = p.Add("My.UltraSource");
-							my.Add("Default.htm", new HTMLDocument());
-							my.Add("jsc.png", new ImageFile());
+                            r.Add("System", new Assembly());
+                            r.Add("System.Core", new Assembly());
+                            r.Add("ScriptCoreLib", new Assembly());
+                            r.Add("ScriptCoreLib.Ultra", new Assembly());
+                            r.Add("ScriptCoreLib.Ultra.Library", new Assembly());
+                            r.Add("ScriptCoreLib.Ultra.Controls", new Assembly());
+                            r.Add("ScriptCoreLibJava", new Assembly());
+                            r.Add("jsc.meta", new Assembly());
+                        };
 
-						};
+                    Action<TreeNode> AddUltraSource =
+                        p =>
+                        {
+                            var my = p.Add("My.UltraSource");
+                            my.Add("Default.htm", new HTMLDocument());
+                            my.Add("jsc.png", new ImageFile());
 
-					{
-						var p = sln.Add("Visual C# Project", new VisualCSharpProject());
+                        };
 
+                    {
+                        var p = sln.Add("Visual C# Project", new VisualCSharpProject());
 
-						AddReferences(p);
-						AddUltraSource(p);
 
+                        AddReferences(p);
+                        AddUltraSource(p);
 
 
-						p.Add("Application.cs", new VisualCSharpCode());
-						p.Add("WebService.cs", new VisualCSharpCode());
-						p.Add("Program.cs", new VisualCSharpCode());
-					}
 
-					{
-						var p = sln.Add("Visual Basic Project", new VisualBasicProject());
+                        p.Add("Application.cs", new VisualCSharpCode());
+                        p.Add("WebService.cs", new VisualCSharpCode());
+                        p.Add("Program.cs", new VisualCSharpCode());
+                    }
 
-						AddReferences(p);
-						AddUltraSource(p);
+                    {
+                        var p = sln.Add("Visual Basic Project", new VisualBasicProject());
 
-						p.Add("Application.vb", new VisualBasicCode());
-						p.Add("WebService.vb", new VisualBasicCode());
-						p.Add("Program.vb", new VisualBasicCode());
-					}
+                        AddReferences(p);
+                        AddUltraSource(p);
 
+                        p.Add("Application.vb", new VisualBasicCode());
+                        p.Add("WebService.vb", new VisualBasicCode());
+                        p.Add("Program.vb", new VisualBasicCode());
+                    }
 
-					{
-						var p = sln.Add("Visual F# Project", new VisualFSharpProject());
 
-						AddReferences(p);
-						AddUltraSource(p);
+                    {
+                        var p = sln.Add("Visual F# Project", new VisualFSharpProject());
 
+                        AddReferences(p);
+                        AddUltraSource(p);
 
-						p.Add("Application.fs", new VisualFSharpCode());
-						p.Add("WebService.fs", new VisualFSharpCode());
-						p.Add("Program.fs", new VisualFSharpCode());
-					}
 
-					sln.Container.style.Float = IStyle.FloatEnum.right;
-					sln.Container.AttachTo(MyPagesInternal);
+                        p.Add("Application.fs", new VisualFSharpCode());
+                        p.Add("WebService.fs", new VisualFSharpCode());
+                        p.Add("Program.fs", new VisualFSharpCode());
+                    }
 
-					new SourceEditorHeader().Container.AttachTo(MyPagesInternal);
+                    sln.Container.style.Float = IStyle.FloatEnum.right;
+                    sln.Container.AttachTo(MyPagesInternal);
 
-					//new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);
+                    new SourceEditorHeader().Container.AttachTo(MyPagesInternal);
 
-					var n = new TextEditor(MyPagesInternal);
+                    //new IHTMLElement(IHTMLElement.HTMLElementEnum.h1, "Create your own Ultra Application project template").AttachTo(MyPagesInternal);
 
-					n.Width = 600;
-					n.Height = 400;
+                    var n = new TextEditor(MyPagesInternal);
 
-					//n.InnerHTML = "<p>Create your own <b>Ultra Application</b> Project Template</p>";
+                    n.Width = 600;
+                    n.Height = 400;
 
+                    //n.InnerHTML = "<p>Create your own <b>Ultra Application</b> Project Template</p>";
 
-					new DefaultPage1().Container.AttachTo(n.Document.body);
 
-					var m1 = new SimpleCodeView();
+                    new DefaultPage1().Container.AttachTo(n.Document.body);
 
-					m1.Container.AttachTo(MyPagesInternal);
-					//m1.SelectType.onchange +=
-					//    delegate
-					//    {
-					//        m1.TypeName.innerText = m1.SelectType.value;
-					//    };
+                    var m1 = new SimpleCodeView();
 
-					//m1.RunJavaScript.onclick +=
-					//    delegate
-					//    {
-					//        m1.RunJavaScript.style.color = JSColor.Blue;
+                    m1.Container.AttachTo(MyPagesInternal);
+                    //m1.SelectType.onchange +=
+                    //    delegate
+                    //    {
+                    //        m1.TypeName.innerText = m1.SelectType.value;
+                    //    };
 
-					//        try
-					//        {
-					//            Native.Window.eval(m1.Code1.value);
+                    //m1.RunJavaScript.onclick +=
+                    //    delegate
+                    //    {
+                    //        m1.RunJavaScript.style.color = JSColor.Blue;
 
-					//            1000.AtDelay(
-					//                delegate
-					//                {
-					//                    m1.RunJavaScript.style.color = JSColor.None;
-					//                }
-					//            );
-					//        }
-					//        catch
-					//        {
-					//            m1.RunJavaScript.style.color = JSColor.Red;
+                    //        try
+                    //        {
+                    //            Native.Window.eval(m1.Code1.value);
 
-					//            1000.AtDelay(
-					//                delegate
-					//                {
-					//                    m1.RunJavaScript.style.color = JSColor.None;
-					//                }
-					//            );
-					//        }
-					//    };
-					new Compilation().GetArchives().SelectMany(k => k.GetAssemblies()).First(k => k.Name == "ScriptCoreLib").WhenReady(
-						ScriptCoreLib =>
-						{
-							// we do not have reflection in place for native wrappers :/
+                    //            1000.AtDelay(
+                    //                delegate
+                    //                {
+                    //                    m1.RunJavaScript.style.color = JSColor.None;
+                    //                }
+                    //            );
+                    //        }
+                    //        catch
+                    //        {
+                    //            m1.RunJavaScript.style.color = JSColor.Red;
 
-							m1.SelectEvent.Clear();
+                    //            1000.AtDelay(
+                    //                delegate
+                    //                {
+                    //                    m1.RunJavaScript.style.color = JSColor.None;
+                    //                }
+                    //            );
+                    //        }
+                    //    };
+                    new Compilation().GetArchives().SelectMany(k => k.GetAssemblies()).First(k => k.Name == "ScriptCoreLib").WhenReady(
+                        ScriptCoreLib =>
+                        {
+                            // we do not have reflection in place for native wrappers :/
 
-							var Element = ScriptCoreLib.GetTypes().Single(k => k.FullName == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
-							//var Element = ScriptCoreLib.GetTypes().Single(k => k.HTMLElement == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
+                            m1.SelectEvent.Clear();
 
-							Action<CompilationEvent> Add =
-								SourceEvent =>
-								{
-									m1.SelectEvent.Add(
-										new IHTMLOption { innerText = SourceEvent.Name }
-									);
-								};
+                            var Element = ScriptCoreLib.GetTypes().Single(k => k.FullName == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
+                            //var Element = ScriptCoreLib.GetTypes().Single(k => k.HTMLElement == "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement");
 
-							Element.GetEvents().ForEach(Add);
+                            Action<CompilationEvent> Add =
+                                SourceEvent =>
+                                {
+                                    m1.SelectEvent.Add(
+                                        new IHTMLOption { innerText = SourceEvent.Name }
+                                    );
+                                };
 
-						}
-					);
+                            Element.GetEvents().ForEach(Add);
 
+                        }
+                    );
 
-					m1.SelectEvent.onchange +=
-						delegate
-						{
-							m1.EventName.innerText = m1.SelectEvent.value;
-						};
 
+                    m1.SelectEvent.onchange +=
+                        delegate
+                        {
+                            m1.EventName.innerText = m1.SelectEvent.value;
+                        };
 
 
 
-				}
-				else if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
-				{
-					new UltraApplicationWithAssets().Container.AttachToDocument();
-				}
-				else
-					if (Native.Document.location.hash == "#/audio")
-					{
-						Action AtTimer = delegate { };
 
-						(1000 / 15).AtInterval(
-							tt =>
-							{
-								AtTimer();
-							}
-						);
+                }
+                else if (Native.Document.location.hash == "#/UltraApplicationWithAssets")
+                {
+                    new UltraApplicationWithAssets().Container.AttachToDocument();
+                }
+                else
+                    if (Native.Document.location.hash == "#/audio")
+                    {
+                        Action AtTimer = delegate { };
 
-						new SoundCloudBackground().Container.AttachTo(MyPagesBackground);
-						new SoundCloudHeader().Container.AttachTo(MyPagesInternal);
+                        (1000 / 15).AtInterval(
+                            tt =>
+                            {
+                                AtTimer();
+                            }
+                        );
 
-						var page = 1;
+                        new SoundCloudBackground().Container.AttachTo(MyPagesBackground);
+                        new SoundCloudHeader().Container.AttachTo(MyPagesInternal);
 
-						var Tracks = new IHTMLDiv().AttachTo(MyPagesInternal);
-						Tracks.style.margin = "1em";
+                        var page = 1;
 
-						var More = new SoundCloudMore();
+                        var Tracks = new IHTMLDiv().AttachTo(MyPagesInternal);
+                        Tracks.style.margin = "1em";
 
-						var AudioLinks = default(AudioLink);
+                        var More = new SoundCloudMore();
 
-						var LoadCurrentPage = default(Action);
+                        var AudioLinks = default(AudioLink);
 
-						LoadCurrentPage = delegate
-						{
-							var loading = new SoundCloudLoading();
+                        var LoadCurrentPage = default(Action);
 
-							loading.Container.AttachTo(Tracks);
+                        LoadCurrentPage = delegate
+                        {
+                            var loading = new SoundCloudLoading();
 
+                            loading.Container.AttachTo(Tracks);
 
-							new UltraWebService().SoundCloudTracksDownload(
-								System.Convert.ToString(page),
-								ee =>
-								{
-									if (loading != null)
-									{
-										loading.Container.Orphanize();
-										loading = null;
-									}
 
-									var t = new SoundCloudTrack();
+                            new UltraWebService().SoundCloudTracksDownload(
+                                System.Convert.ToString(page),
+                                ee =>
+                                {
+                                    if (loading != null)
+                                    {
+                                        loading.Container.Orphanize();
+                                        loading = null;
+                                    }
 
-									t.Content.ApplyToggleConcept(t.HideContent, t.ShowContent).Hide();
+                                    var t = new SoundCloudTrack();
 
-									t.Title.innerHTML = ee.trackName;
-									t.Waveform.src = ee.waveformUrl;
+                                    t.Content.ApplyToggleConcept(t.HideContent, t.ShowContent).Hide();
 
-									t.Audio.src = ee.streamUrl;
-									t.Audio.autobuffer = true;
+                                    t.Title.innerHTML = ee.trackName;
+                                    t.Waveform.src = ee.waveformUrl;
 
+                                    t.Audio.src = ee.streamUrl;
+                                    t.Audio.autobuffer = true;
 
-									AudioLinks = new AudioLink
-									{
-										Audio = t.Audio,
-										Prev = AudioLinks
-									};
 
-									var _AudioLinks = AudioLinks;
+                                    AudioLinks = new AudioLink
+                                    {
+                                        Audio = t.Audio,
+                                        Prev = AudioLinks
+                                    };
 
-									if (AudioLinks.Prev != null)
-										AudioLinks.Prev.Next = AudioLinks;
-									else
-										// we are the first  :)
-										t.Audio.play();
+                                    var _AudioLinks = AudioLinks;
 
-									t.MoreButton.onclick +=
-										delegate
-										{
-											t.Audio.pause();
+                                    if (AudioLinks.Prev != null)
+                                        AudioLinks.Prev.Next = AudioLinks;
+                                    else
+                                        // we are the first  :)
+                                        t.Audio.play();
 
-											if (_AudioLinks.Next != null)
-											{
-												_AudioLinks.Next.Audio.currentTime = 0;
-												_AudioLinks.Next.Audio.play();
+                                    t.MoreButton.onclick +=
+                                        delegate
+                                        {
+                                            t.Audio.pause();
 
-												if (_AudioLinks.Next.Next == null)
-												{
-													page++;
-													LoadCurrentPage();
-												}
-											}
-										};
+                                            if (_AudioLinks.Next != null)
+                                            {
+                                                _AudioLinks.Next.Audio.currentTime = 0;
+                                                _AudioLinks.Next.Audio.play();
 
-									t.Audio.onended +=
-										delegate
-										{
-											if (_AudioLinks.Next != null)
-											{
-												_AudioLinks.Next.Audio.currentTime = 0;
-												_AudioLinks.Next.Audio.play();
+                                                if (_AudioLinks.Next.Next == null)
+                                                {
+                                                    page++;
+                                                    LoadCurrentPage();
+                                                }
+                                            }
+                                        };
 
-												if (_AudioLinks.Next.Next == null)
-												{
-													page++;
-													LoadCurrentPage();
-												}
-											}
-										};
+                                    t.Audio.onended +=
+                                        delegate
+                                        {
+                                            if (_AudioLinks.Next != null)
+                                            {
+                                                _AudioLinks.Next.Audio.currentTime = 0;
+                                                _AudioLinks.Next.Audio.play();
 
-									t.Identity.innerText = ee.uid;
+                                                if (_AudioLinks.Next.Next == null)
+                                                {
+                                                    page++;
+                                                    LoadCurrentPage();
+                                                }
+                                            }
+                                        };
 
-									t.Play.onclick += eee => { eee.PreventDefault(); t.Audio.play(); };
-									t.Pause.onclick += eee => { eee.PreventDefault(); t.Audio.pause(); };
+                                    t.Identity.innerText = ee.uid;
 
-									t.Title.style.cursor = IStyle.CursorEnum.pointer;
-									t.Title.onclick += eee =>
-										{
-											eee.PreventDefault();
+                                    t.Play.onclick += eee => { eee.PreventDefault(); t.Audio.play(); };
+                                    t.Pause.onclick += eee => { eee.PreventDefault(); t.Audio.pause(); };
 
-											var playing = true;
+                                    t.Title.style.cursor = IStyle.CursorEnum.pointer;
+                                    t.Title.onclick += eee =>
+                                        {
+                                            eee.PreventDefault();
 
-											if (t.Audio.paused)
-												playing = false;
+                                            var playing = true;
 
-											if (t.Audio.ended)
-												playing = false;
+                                            if (t.Audio.paused)
+                                                playing = false;
 
-											if (!playing)
-												t.Audio.play();
-											else
-												t.Audio.pause();
-										};
+                                            if (t.Audio.ended)
+                                                playing = false;
 
-									DoubleAction SetProgress1 = p =>
-									{
+                                            if (!playing)
+                                                t.Audio.play();
+                                            else
+                                                t.Audio.pause();
+                                        };
 
-										t.Gradient3.style.width = System.Convert.ToInt32(800 * p) + "px";
-										t.Gradient4.style.width = System.Convert.ToInt32(800 * p) + "px";
-									};
+                                    DoubleAction SetProgress1 = p =>
+                                    {
 
-									t.Gradient5.style.Opacity = 0.4;
-									t.Gradient6.style.Opacity = 0.4;
+                                        t.Gradient3.style.width = System.Convert.ToInt32(800 * p) + "px";
+                                        t.Gradient4.style.width = System.Convert.ToInt32(800 * p) + "px";
+                                    };
 
-									DoubleAction SetProgress2 = p =>
-									{
+                                    t.Gradient5.style.Opacity = 0.4;
+                                    t.Gradient6.style.Opacity = 0.4;
 
-										t.Gradient5.style.width = System.Convert.ToInt32(800 * p) + "px";
-										t.Gradient6.style.width = System.Convert.ToInt32(800 * p) + "px";
-									};
+                                    DoubleAction SetProgress2 = p =>
+                                    {
 
-									AtTimer +=
-										delegate
-										{
-											if (t.Audio.duration == 0)
-											{
-												t.Play.Hide();
-												t.Pause.Hide();
-												return;
-											}
-											else
-											{
+                                        t.Gradient5.style.width = System.Convert.ToInt32(800 * p) + "px";
+                                        t.Gradient6.style.width = System.Convert.ToInt32(800 * p) + "px";
+                                    };
 
-												var playing = true;
+                                    AtTimer +=
+                                        delegate
+                                        {
+                                            if (t.Audio.duration == 0)
+                                            {
+                                                t.Play.Hide();
+                                                t.Pause.Hide();
+                                                return;
+                                            }
+                                            else
+                                            {
 
-												if (t.Audio.paused)
-													playing = false;
+                                                var playing = true;
 
-												if (t.Audio.ended)
-													playing = false;
+                                                if (t.Audio.paused)
+                                                    playing = false;
 
-												if (!playing)
-													t.Title.style.color = Color.None;
-												else
-													t.Title.style.color = Color.Blue;
+                                                if (t.Audio.ended)
+                                                    playing = false;
 
-												t.Play.Show(!playing);
-												t.Pause.Show(playing);
-											}
+                                                if (!playing)
+                                                    t.Title.style.color = Color.None;
+                                                else
+                                                    t.Title.style.color = Color.Blue;
 
-											var p = t.Audio.currentTime / t.Audio.duration;
-											SetProgress1(p);
-										};
+                                                t.Play.Show(!playing);
+                                                t.Pause.Show(playing);
+                                            }
 
-									t.Waveform.onmouseout +=
-										delegate
-										{
-											SetProgress2(0);
-										};
+                                            var p = t.Audio.currentTime / t.Audio.duration;
+                                            SetProgress1(p);
+                                        };
 
-									t.Waveform.onmousemove +=
-										eee =>
-										{
-											SetProgress2(eee.OffsetX / 800.0);
-										};
+                                    t.Waveform.onmouseout +=
+                                        delegate
+                                        {
+                                            SetProgress2(0);
+                                        };
 
-									t.Waveform.onclick +=
-										eee =>
-										{
-											t.Audio.currentTime = t.Audio.duration * (eee.OffsetX / 800.0);
-											t.Audio.play();
-										};
+                                    t.Waveform.onmousemove +=
+                                        eee =>
+                                        {
+                                            SetProgress2(eee.OffsetX / 800.0);
+                                        };
 
-									t.Waveform.style.cursor = IStyle.CursorEnum.pointer;
+                                    t.Waveform.onclick +=
+                                        eee =>
+                                        {
+                                            t.Audio.currentTime = t.Audio.duration * (eee.OffsetX / 800.0);
+                                            t.Audio.play();
+                                        };
 
-									SetProgress1(0);
-									SetProgress2(0);
+                                    t.Waveform.style.cursor = IStyle.CursorEnum.pointer;
 
-									t.Container.AttachTo(Tracks);
-								}
-							);
+                                    SetProgress1(0);
+                                    SetProgress2(0);
 
+                                    t.Container.AttachTo(Tracks);
+                                }
+                            );
 
-							10000.AtDelay(
-								delegate
-								{
-									More.MoreButton.FadeIn(0, 1000, null);
-								}
-							);
-						};
 
+                            10000.AtDelay(
+                                delegate
+                                {
+                                    More.MoreButton.FadeIn(0, 1000, null);
+                                }
+                            );
+                        };
 
-						More.MoreButton.Hide();
-						More.Container.AttachTo(MyPagesInternal);
 
-						More.MoreButton.onclick += eee =>
-							{
-								eee.PreventDefault();
-								More.MoreButton.FadeOut(1, 300,
-									delegate
-									{
-										page++;
-										LoadCurrentPage();
-									}
-								);
-							};
+                        More.MoreButton.Hide();
+                        More.Container.AttachTo(MyPagesInternal);
 
-						LoadCurrentPage();
+                        More.MoreButton.onclick += eee =>
+                            {
+                                eee.PreventDefault();
+                                More.MoreButton.FadeOut(1, 300,
+                                    delegate
+                                    {
+                                        page++;
+                                        LoadCurrentPage();
+                                    }
+                                );
+                            };
 
-					}
-					else
-					{
-						//new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
-						//new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
+                        LoadCurrentPage();
 
-						var IsAvalonJavaScript = hash == "#/avalon.js";
-						var IsAvalonActionScript = hash == "#/avalon.as";
-						var IsAvalon = IsAvalonActionScript || IsAvalonJavaScript;
+                    }
+                    else
+                    {
+                        //new PromotionWebApplication1.HTML.Audio.FromAssets.Track1 { controls = true }.AttachToDocument();
+                        //new PromotionWebApplication1.HTML.Audio.FromWeb.Track1 { controls = true, autobuffer = true }.AttachToDocument();
 
-						//if (IsAvalon)
-						//{
+                        var IsAvalonJavaScript = hash == "#/avalon.js";
+                        var IsAvalonActionScript = hash == "#/avalon.as";
+                        var IsAvalon = IsAvalonActionScript || IsAvalonJavaScript;
 
-						{
-							var ccc = new IHTMLDiv();
+                        //if (IsAvalon)
+                        //{
 
-							ccc.style.position = IStyle.PositionEnum.absolute;
-							ccc.style.left = "15%";
-							ccc.style.right = "15%";
-							ccc.style.top = "15%";
+                        //{
+                        //    var ccc = new IHTMLDiv();
 
+                        //    ccc.style.position = IStyle.PositionEnum.absolute;
+                        //    ccc.style.left = "15%";
+                        //    ccc.style.right = "15%";
+                        //    ccc.style.top = "15%";
 
-							var Now = DateTime.Now;
 
-							var CountDown = new CountDownGadgetConcept(CountDownGadget.Create)
-							{
-								ShowOnlyDays = true,
-								Event = new DateTime(2010, 5, 24, 23, 59, 50),
+                        //    var Now = DateTime.Now;
 
-							};
+                        //    var CountDown = new CountDownGadgetConcept(CountDownGadget.Create)
+                        //    {
+                        //        ShowOnlyDays = true,
+                        //        Event = new DateTime(2010, 5, 24, 23, 59, 50),
 
-							CountDown.Element.GadgetContainer.style.color = "#808080";
-							CountDown.Element.GadgetContainer.style.textShadow = "#E0E0E0 1px 1px 1px";
+                        //    };
 
+                        //    CountDown.Element.GadgetContainer.style.color = "#808080";
+                        //    CountDown.Element.GadgetContainer.style.textShadow = "#E0E0E0 1px 1px 1px";
 
-							CountDown.Element.GadgetContainer.AttachTo(ccc);
-							CountDown.Element.GadgetContainer.FadeIn(3000, 2000, null);
 
-							ccc.AttachToDocument();
-						}
+                        //    CountDown.Element.GadgetContainer.AttachTo(ccc);
+                        //    CountDown.Element.GadgetContainer.FadeIn(3000, 2000, null);
 
-						{
-							var ccc = new IHTMLDiv();
+                        //    ccc.AttachToDocument();
+                        //}
 
-							ccc.style.position = IStyle.PositionEnum.absolute;
-							ccc.style.left = "50%";
-							ccc.style.top = "50%";
-							ccc.style.marginLeft = (-JSCSolutionsNETCarouselCanvas.DefaultWidth / 2) + "px";
-							ccc.style.marginTop = (-JSCSolutionsNETCarouselCanvas.DefaultHeight / 2) + "px";
+                        {
+                            var ccc = new IHTMLDiv();
 
-							ccc.style.SetSize(JSCSolutionsNETCarouselCanvas.DefaultWidth, JSCSolutionsNETCarouselCanvas.DefaultHeight);
+                            ccc.style.position = IStyle.PositionEnum.absolute;
+                            ccc.style.left = "50%";
+                            ccc.style.top = "50%";
+                            ccc.style.marginLeft = (-JSCSolutionsNETCarouselCanvas.DefaultWidth / 2) + "px";
+                            ccc.style.marginTop = (-JSCSolutionsNETCarouselCanvas.DefaultHeight / 2) + "px";
 
-							ccc.AttachToDocument();
+                            ccc.style.SetSize(JSCSolutionsNETCarouselCanvas.DefaultWidth, JSCSolutionsNETCarouselCanvas.DefaultHeight);
 
-							if (IsAvalonActionScript)
-							{
-								var alof = new UltraSprite();
-								alof.ToTransparentSprite();
-								alof.AttachSpriteTo(ccc);
-							}
-							else
-							{
-								var alo = new JSCSolutionsNETCarouselCanvas();
-								alo.Container.AttachToContainer(ccc);
+                            ccc.AttachToDocument();
 
-								alo.AtLogoClick +=
-									delegate
-									{
-										//Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
-										Native.Window.open("/download", "_blank");
-									};
+                            if (IsAvalonActionScript)
+                            {
+                                var alof = new UltraSprite();
+                                alof.ToTransparentSprite();
+                                alof.AttachSpriteTo(ccc);
+                            }
+                            else
+                            {
+                                var alo = new JSCSolutionsNETCarouselCanvas();
+                                alo.Container.AttachToContainer(ccc);
 
-							}
-						}
-						//}
-						//else
-						//{
-						//    var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
+                                alo.AtLogoClick +=
+                                    delegate
+                                    {
+                                        //Native.Window.open("http://sourceforge.net/projects/jsc/", "_blank");
+                                        Native.Window.open("/download", "_blank");
+                                    };
 
-						//    cc.Container.AttachToDocument();
+                            }
+                        }
+                        //}
+                        //else
+                        //{
+                        //    var cc = new HTML.Pages.FromAssets.Controls.Named.CenteredLogo_Kamma();
 
-						//    // see: http://en.wikipedia.org/wiki/Perl_control_structures
-						//    // "Unless" == "if not"  ;)
+                        //    cc.Container.AttachToDocument();
 
-						//    IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
-						//}
+                        //    // see: http://en.wikipedia.org/wiki/Perl_control_structures
+                        //    // "Unless" == "if not"  ;)
 
-						var aa = new About();
-						aa.Service.innerText = gapageview;
-						aa.Container.AttachToDocument();
+                        //    IsMicrosoftInternetExplorer.YetIfNotThen(cc.TheLogoImage.BeginPulseAnimation).ButIfSoThen(cc.TheLogoImage.HideNowButShowAtDelay);
+                        //}
 
-					}
-			}
-			#endregion
+                        var aa = new About();
+                        aa.Service.innerText = gapageview;
+                        aa.Container.AttachToDocument();
 
+                    }
+            }
+            #endregion
 
-			Analytics =
-				__hash =>
-				{
-					var __gahash = Native.Window.escape(__hash);
-					var __gapageview = gapathname + gasearch + __gahash;
 
+            Analytics =
+                __hash =>
+                {
+                    var __gahash = Native.Window.escape(__hash);
+                    var __gapageview = gapathname + gasearch + __gahash;
 
-					"UA-13087448-1".ToGoogleAnalyticsTracker(
-						pageTracker =>
-						{
-							pageTracker._setDomainName(".jsc-solutions.net");
-							pageTracker._trackPageview(__gapageview);
 
+                    "UA-13087448-1".ToGoogleAnalyticsTracker(
+                        pageTracker =>
+                        {
+                            pageTracker._setDomainName(".jsc-solutions.net");
+                            pageTracker._trackPageview(__gapageview);
 
-						}
-					);
-				};
 
-			Analytics(Native.Document.location.hash);
+                        }
+                    );
+                };
 
+            Analytics(Native.Document.location.hash);
 
-		}
 
+        }
 
 
-		/// <summary>
-		/// Microsoft Internet Explorer does not support using opacity on an image with an alpha layer.
-		/// </summary>
-		public static bool IsMicrosoftInternetExplorer
-		{
-			get
-			{
-				return (bool)new IFunction("/*@cc_on return true; @*/ return false;").apply(null);
-			}
-		}
 
+        /// <summary>
+        /// Microsoft Internet Explorer does not support using opacity on an image with an alpha layer.
+        /// </summary>
+        public static bool IsMicrosoftInternetExplorer
+        {
+            get
+            {
+                return (bool)new IFunction("/*@cc_on return true; @*/ return false;").apply(null);
+            }
+        }
 
 
-	}
 
+    }
 
-	public delegate void StringAction(string e);
-	public delegate void StringActionAction(StringAction e);
 
-	public sealed class UltraWebService : ISoundCloudTracksDownload
-	{
+    public delegate void StringAction(string e);
+    public delegate void StringActionAction(StringAction e);
 
-		public void Hello(string data, StringAction result)
-		{
-			result(data + " hello");
-			result(data + " world");
-		}
+    public sealed class UltraWebService : ISoundCloudTracksDownload
+    {
 
-		public void GetTitleFromServer(StringAction result)
-		{
-			var r = new Random();
+        public void Hello(string data, StringAction result)
+        {
+            result(data + " hello");
+            result(data + " world");
+        }
 
-			var Targets = new[]
+        public void GetTitleFromServer(StringAction result)
+        {
+            var r = new Random();
+
+            var Targets = new[]
 			{
 				"javascript",
 				"java",
@@ -723,103 +726,155 @@ namespace PromotionWebApplication1
 				"php"
 			};
 
-			result("jsc solutions - C# to " + Targets[r.Next(0, Targets.Length)]);
+            result("jsc solutions - C# to " + Targets[r.Next(0, Targets.Length)]);
 
-			// should we add timing information if we use Thread.Sleep to the results?
+            // should we add timing information if we use Thread.Sleep to the results?
 
-		}
+        }
 
-		public void ThreeDWarehouse(XElementAction y)
-		{
-			y(new ThreeDWarehouse().ToXElement());
-		}
+        public void ThreeDWarehouse(XElementAction y)
+        {
+            y(new ThreeDWarehouse().ToXElement());
+        }
 
-		/*ISoundCloudTracksDownload. not supported yet ? */
-		public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
-		{
-			new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
-		}
-
-		public void CodeGenerator(WebServiceHandler h)
-		{
-			const string _download = "/download";
-
-			if (h.Context.Request.Path == _download)
-			{
-				h.Context.Response.Redirect("http://sourceforge.net/projects/jsc/");
-				h.CompleteRequest();
-
-				return;
-			}
-
-			const string _java = "/java/";
-			const string _java_zip = "/java.zip/";
-
-			if (h.Context.Request.Path.StartsWith(_java_zip))
-			{
-				var TypesList = h.Context.Request.Path.Substring(_java_zip.Length);
-
-				DownloadJavaZip(h, TypesList);
-			}
-
-			if (h.Context.Request.Path.StartsWith(_java))
-			{
-				var Type = h.Context.Request.Path.Substring(_java.Length);
-
-				var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
-					Type,
-					new WebClient().DownloadString
-				)
-				{
-					Server = "www.jsc-solutions.net"
-				};
-
-				h.Context.Response.ContentType = "text/plain";
-				h.Context.Response.Write(p.GetString());
-				h.CompleteRequest();
-			}
-		}
-
-		private static void DownloadJavaZip(WebServiceHandler h, string TypesList)
-		{
-			var Types = TypesList.Split(',');
-			var zip = new ZIPFile();
-
-			foreach (var item in Types)
-			{
-				var w = new StringBuilder();
+        /*ISoundCloudTracksDownload. not supported yet ? */
+        public void SoundCloudTracksDownload(string page, Services.SoundCloudTrackFound yield)
+        {
+            new Services.SoundCloudTracks().SoundCloudTracksDownload(page, yield);
+        }
 
 
+        public void DownloadSDK(WebServiceHandler h)
+        {
+            const string _download = "/download/";
+            const string a = @"assets/PromotionWebApplicationAssets";
 
-				var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
-					item,
-					new WebClient().DownloadString
-				)
-				{
-					Server = "www.jsc-solutions.net"
-				};
+            var path = h.Context.Request.Path;
 
-				zip.Add(
-					item.Replace(".", "/") + ".cs",
-					p.GetString()
-				);
-			}
+            if (path == "/download")
+                path = "/download/publish.htm";
 
-			// http://www.ietf.org/rfc/rfc2183.txt
-
-			h.Context.Response.ContentType = ZIPFile.ContentType;
-
-			h.Context.Response.AddHeader(
-				"Content-Disposition",
-				"attachment; filename=" + TypesList + ".zip"
-			);
+            if (path == "/download/")
+                path = "/download/publish.htm";
 
 
-			var bytes = zip.ToBytes();
+            if (path.StartsWith(_download))
+            {
+                var f = a + "/" + path.Substring(_download.Length).Replace(" ", "_");
 
-			h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
 
-			h.CompleteRequest();
-		}
-	}
+                if (File.Exists(f))
+                {
+
+                    var data = File.ReadAllBytes(f);
+
+
+                    var ext = "." + f.SkipUntilLastOrEmpty(".").ToLower();
+
+                    // http://en.wikipedia.org/wiki/Mime_type
+
+                    var ContentType = "application/octet-stream";
+
+                    if (ext == ".application")
+                    {
+                        ContentType = "application/x-ms-application";
+                    }
+                    else if (ext == ".htm")
+                    {
+                        ContentType = "text/html";
+                    }
+
+                    h.Context.Response.ContentType = ContentType;
+
+                    Console.WriteLine("length: " + data.Length + " " + ContentType + " " + f);
+
+                    h.Context.Response.OutputStream.Write(data, 0, data.Length);
+                }
+                else
+                {
+                    h.Context.Response.StatusCode = 404;
+                }
+
+
+                //h.Context.Response.Redirect(r);
+                h.CompleteRequest();
+
+                return;
+            }
+        }
+
+        public void CodeGenerator(WebServiceHandler h)
+        {
+      
+
+            const string _java = "/java/";
+            const string _java_zip = "/java.zip/";
+
+            if (h.Context.Request.Path.StartsWith(_java_zip))
+            {
+                var TypesList = h.Context.Request.Path.Substring(_java_zip.Length);
+
+                DownloadJavaZip(h, TypesList);
+            }
+
+            if (h.Context.Request.Path.StartsWith(_java))
+            {
+                var Type = h.Context.Request.Path.Substring(_java.Length);
+
+                var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
+                    Type,
+                    new WebClient().DownloadString
+                )
+                {
+                    Server = "www.jsc-solutions.net"
+                };
+
+                h.Context.Response.ContentType = "text/plain";
+                h.Context.Response.Write(p.GetString());
+                h.CompleteRequest();
+            }
+        }
+
+        private static void DownloadJavaZip(WebServiceHandler h, string TypesList)
+        {
+            var Types = TypesList.Split(',');
+            var zip = new ZIPFile();
+
+            foreach (var item in Types)
+            {
+                var w = new StringBuilder();
+
+
+
+                var p = new global::Bulldog.Server.CodeGenerators.Java.DefinitionProvider(
+                    item,
+                    new WebClient().DownloadString
+                )
+                {
+                    Server = "www.jsc-solutions.net"
+                };
+
+                zip.Add(
+                    item.Replace(".", "/") + ".cs",
+                    p.GetString()
+                );
+            }
+
+            // http://www.ietf.org/rfc/rfc2183.txt
+
+            h.Context.Response.ContentType = ZIPFile.ContentType;
+
+            h.Context.Response.AddHeader(
+                "Content-Disposition",
+                "attachment; filename=" + TypesList + ".zip"
+            );
+
+
+            var bytes = zip.ToBytes();
+
+            h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+
+            h.CompleteRequest();
+        }
+    }
 }
