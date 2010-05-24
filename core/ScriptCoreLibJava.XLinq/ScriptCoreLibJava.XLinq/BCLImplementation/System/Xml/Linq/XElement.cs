@@ -66,5 +66,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				this.Add(Value);
 			}
 		}
+
+        public void ReplaceAll(object content)
+        {
+            //this.RemoveAttributes();
+            this.RemoveNodes();
+            this.Add(content);
+        }
 	}
 }
