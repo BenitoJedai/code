@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLinkedAssets", "TestLinkedAssets\TestLinkedAssets.csproj", "{15E97AE9-BD52-46ED-94D9-A417C6BB2975}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{15E97AE9-BD52-46ED-94D9-A417C6BB2975}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{15E97AE9-BD52-46ED-94D9-A417C6BB2975}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{15E97AE9-BD52-46ED-94D9-A417C6BB2975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15E97AE9-BD52-46ED-94D9-A417C6BB2975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15E97AE9-BD52-46ED-94D9-A417C6BB2975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15E97AE9-BD52-46ED-94D9-A417C6BB2975}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

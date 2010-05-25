@@ -78,6 +78,7 @@
     <Compile Include="BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
     <Compile Include="BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs" />
     <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
     <Compile Include="BCLImplementation\System\ComponentModel\ComponentCollection.cs" />

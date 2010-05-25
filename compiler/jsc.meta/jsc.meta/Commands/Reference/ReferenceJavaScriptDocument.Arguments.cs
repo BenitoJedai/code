@@ -80,6 +80,7 @@ namespace jsc.meta.Commands.Reference
 		/// 
 		/// Should always be on!
 		/// </summary>
+        [Obsolete("JSC will be generating multiple variations of types of which not all will be compiled into the final product.")]
 		public bool IsMerge = true;
 
 		public bool AttachDebugger;

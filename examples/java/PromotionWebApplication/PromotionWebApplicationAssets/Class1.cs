@@ -17,6 +17,14 @@ using System.IO;
     "assets/PromotionWebApplicationAssets/Application_Files/jsc.configuration_1_0_0_4/Documents")
 ]
 
+[assembly: global::ScriptCoreLib.Shared.ScriptResources(
+    "assets/PromotionWebApplicationAssets/Application_Files/jsc.configuration_1_0_0_5")
+]
+
+[assembly: global::ScriptCoreLib.Shared.ScriptResources(
+    "assets/PromotionWebApplicationAssets/Application_Files/jsc.configuration_1_0_0_5/Documents")
+]
+
 [assembly: ScriptCoreLib.Script]
 [assembly: ScriptCoreLib.ScriptTypeFilter(ScriptCoreLib.ScriptType.JavaScript)]
 

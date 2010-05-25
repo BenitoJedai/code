@@ -226,6 +226,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
             public class FileMonkey
             {
+                // The only way you could do it with a prerequisite msi is if the user uninstalled that as well as the ClickOnce application.
+                // http://social.msdn.microsoft.com/Forums/en-US/winformssetup/thread/a5985a03-77b0-4915-ac08-c70d4343f6d7
+
                 public Dictionary<string, byte[]> files;
 
                 public FileMonkey()

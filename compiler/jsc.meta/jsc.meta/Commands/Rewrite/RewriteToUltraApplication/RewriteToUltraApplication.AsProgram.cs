@@ -77,6 +77,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 				var WebDevLauncherAssembly = Assembly.LoadFile(WebDevLauncher.FullName);
 
+                // to enable relative file ops
+                Environment.CurrentDirectory = WebDevLauncher.Directory.FullName;
+
 				WebDevLauncherAssembly.EntryPoint.Invoke(null, new object[] { new string[0] });
 				return WebDevLauncher;
 			}

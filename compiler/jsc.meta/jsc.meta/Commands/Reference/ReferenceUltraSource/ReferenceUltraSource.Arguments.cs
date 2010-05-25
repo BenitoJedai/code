@@ -37,5 +37,20 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 				}
 			}
 		}
+
+        /// <summary>
+        /// The Browser Application may want to link some files as static assets
+        /// </summary>
+        public LinkedAssetInfo[] LinkedAssets = new LinkedAssetInfo[0];
+
+        public class LinkedAssetInfo
+        {
+            public string TargetRoot;
+
+            public static implicit operator LinkedAssetInfo(string Target)
+            {
+                return new LinkedAssetInfo { TargetRoot = Target };
+            }
+        }
 	}
 }

@@ -29,15 +29,17 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Lookup;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace jsc.meta.Commands.Reference
 {
-	[Description("Injecting javascript into HTML has never been that easy!")]
-	public partial class ReferenceJavaScriptDocument : ReferenceUltraSource.ReferenceUltraSource
-	{
+    [Description("Injecting javascript into HTML has never been that easy!")]
+    public partial class ReferenceJavaScriptDocument : ReferenceUltraSource.ReferenceUltraSource
+    {
 
 
-		public override void Invoke()
+        public override void Invoke()
 		{
 			if (this.AttachDebugger)
 				Debugger.Launch();
@@ -279,9 +281,18 @@ namespace jsc.meta.Commands.Reference
 				!Output.Exists
 				|| !HasReference(Output)
 				|| this.Configuration.BuildAlways
-				|| LocalSources.Any(k => k.TargetFile.LastWriteTimeUtc > Output.LastWriteTimeUtc)))
+				|| LocalSources.Any(k => k.TargetFile.LastWriteTimeUtc > Output.LastWriteTimeUtc)
+                || Enumerable.Any(
+                        from LinkedAsset in this.LinkedAssets 
+                        let dir = new DirectoryInfo(LinkedAsset.TargetRoot).WhenExists()
+                        where dir != null
+                        from file in dir.GetFiles("*", SearchOption.AllDirectories)
+                        where file.LastWriteTimeUtc > Output.LastWriteTimeUtc
+                        select file
+                   )
+                ))
 			{
-				Console.WriteLine("A version of UltraSource already exists. Use Assets build configuration to rebuild.");
+				Console.WriteLine("A version of UltraSource assembly already exists and no files seem need an update. Use 'Assets' build configuration to rebuild.");
 			}
 			else
 			{
@@ -358,6 +369,78 @@ namespace jsc.meta.Commands.Reference
 											this.IsMerge ? "merge" : "script"
 									}
 								);
+
+
+                                this.LinkedAssets.WithEach(
+                                    LinkedAsset =>
+                                    {
+                                        /*
+  c:\util\jsc\publish\jsc.configuration.application
+  c:\util\jsc\publish\publish.htm
+  c:\util\jsc\publish\setup.exe
+  c:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_6\jsc.configuration.application
+  c:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_6\jsc.configuration.exe.deploy
+  c:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_6\jsc.configuration.exe.manifest
+  c:\util\jsc\publish\Application Files\jsc.configuration_1_0_0_6\jsc.ico.deploy                                         
+                                         */
+
+                                        new DirectoryInfo(LinkedAsset.TargetRoot).WhenExists().With(
+                                            Directory => 
+                                            {
+                                                var files = new { AssetPath = default(string), Relative = default(string) }.ToEmptyList();
+
+                                                  Directory.GetFiles("*", SearchOption.AllDirectories).WithEach(
+                                                    file =>
+                                                    {
+                                                        var Relative = file.ToRelativePath(Directory);
+
+                                                        Console.WriteLine(Relative);
+
+                                                        var AssetPath = "assets/" + DefaultNamespace + "/" + Relative.Replace(@"\", "/").Replace(" ", "_");
+                                                        
+                                                        r.RewriteArguments.ScriptResourceWriter.Add(AssetPath, File.ReadAllBytes(file.FullName));
+
+                                                        files.Add(new { AssetPath, Relative }); 
+                                                    }
+                                                );
+
+                                                 files.WhenAny().With(
+                                                    delegate
+                                                    {
+                                                        var t = a.Module.DefineType(DefaultNamespace + ".Assets." + Directory.Name.ToCamelCase(), TypeAttributes.Public,
+                                                            typeof(StringDictionary)
+                                                        );
+
+                                                        var ctor = t.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
+
+                                                        var il = ctor.GetILGenerator();
+
+                                                        //  public virtual void Add(string key, string value);
+
+                                                        il.Emit(OpCodes.Ldarg_0);
+                                                        il.Emit(OpCodes.Call, typeof(StringDictionary).GetConstructor());
+
+                                                        var Add = new Action<StringDictionary>(k => k.Add(null, null)).ToReferencedMethod();
+
+                                                        foreach (var item in files)
+                                                        {
+                                                            il.Emit(OpCodes.Ldarg_0);
+                                                            il.Emit(OpCodes.Ldstr, item.Relative);
+                                                            il.Emit(OpCodes.Ldstr, item.AssetPath);
+                                                            il.Emit(OpCodes.Call, Add);
+                                                        }
+
+                                                        il.Emit(OpCodes.Ret);
+
+                                                        t.CreateType();
+                                                    }
+                                                );
+                                             }
+                                        );
+
+                                       
+                                    }
+                                );
 
 								// Nested types do not play well with type erasure...
 
@@ -536,37 +619,7 @@ namespace jsc.meta.Commands.Reference
 											"FromAssets"
 										);
 
-										/* One feature too many?
-										var __id = BodyElement.XPathSelectElements("//*[@id]").Select(k => new { CurrentElement = k, id = k.Attribute("id").Value });
-
-										foreach (var k in __id)
-										{
-											DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Named." + PageName + "_" +
-
-												CompilerBase.GetSafeLiteral(k.id, null)
-
-												, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
-												RemotingVariationsForPages[CurrentVariationForPage.Key],
-												ImplementConcept__,
-												Concepts
-
-											);
-										}
-
-										var __class = BodyElement.XPathSelectElements("//*[@class]").Except(BodyElement.XPathSelectElements("//*[@id]")).Select(k => new { CurrentElement = k, @class = k.Attribute("class").Value }).Where(k => !k.@class.Contains(" ")).GroupBy(k => k.@class).Where(k => k.Count() == 1).Select(k => k.Single());
-
-										foreach (var k in __class)
-										{
-											DefinePageType(DefaultNamespace, a, null, k.CurrentElement, "Controls.Anonymous." + PageName + "_" +
-												CompilerBase.GetSafeLiteral(k.@class, null)
-
-												, CurrentVariationForPage.Key, CurrentVariationForPage.Value,
-												RemotingVariationsForPages[CurrentVariationForPage.Key],
-												ImplementConcept__,
-												Concepts
-											);
-										}
-										*/
+										
 									}
 
 									Continuation.Invoke();
@@ -590,141 +643,75 @@ namespace jsc.meta.Commands.Reference
 
 
 
-		private void DefineStaticImages(RewriteToAssembly.AssemblyRewriteArguments a, TypeBuilder Page, XElement[] i)
-		{
-			if (i == null)
-				throw new ArgumentNullException("i");
-			//var Images = Page.DefineNestedType("Images", TypeAttributes.NestedPublic);
-
-			var References_value = i
-				.Where(k => k.Attribute("src") != null)
-				.Select(k => k.Attribute("src").Value)
-				.Where(k => !string.IsNullOrEmpty(k))
-				.Distinct()
-				.Select((k, index) => new { k, index })
-				.ToArray();
-
-			// we might want to return IHTMLImage references instead with or without id's...
-
-			#region References
-			var References = Page.DefineProperty("Images", PropertyAttributes.None, typeof(string[]), null);
-
-			var References_get = Page.DefineMethod("get_Images", MethodAttributes.Public | MethodAttributes.Static, typeof(string[]), null);
-
-			References.SetGetMethod(References_get);
-
-			{
-				var il = References_get.GetILGenerator();
-
-				Func<string[]> Implementation1 = () => new string[] { };
-
-				var il_a = new ILTranslationExtensions.EmitToArguments();
 
 
 
-				il_a[OpCodes.Ldc_I4_0] =
-					x =>
-					{
-						il.Emit(OpCodes.Ldc_I4, References_value.Length);
-					};
-
-				il_a[OpCodes.Stloc_0] =
-					x =>
-					{
-						il.Emit(OpCodes.Stloc_0);
-
-						foreach (var item in References_value)
-						{
-							il.Emit(OpCodes.Ldloc_0);
-							il.Emit(OpCodes.Ldc_I4, item.index);
-							il.Emit(OpCodes.Ldstr, item.k);
-							il.Emit(OpCodes.Stelem_Ref);
+        public class Counter
+        {
+            public int Value;
+        }
 
 
-							/*
-							L_0007: ldloc.1 
-							L_0008: ldc.i4.0 
-							L_0009: ldstr ""
-							L_000e: stelem.ref 
-							 */
-						}
-					};
+        static class TemplateHolder
+        {
+            public static IHTMLElement Initialize(IHTMLElement e)
+            {
+                return null;
+            }
 
 
-
-				Implementation1.Method.EmitTo(il, il_a);
-			}
-			#endregion
-
-		}
+            public static void Implementation()
+            {
+            }
+        }
 
 
-		public class Counter
-		{
-			public int Value;
-		}
+        public class SourceFile
+        {
+            public FileInfo TargetFile;
 
+            public string Reference;
+            public string Content;
 
-		static class TemplateHolder
-		{
-			public static IHTMLElement Initialize(IHTMLElement e)
-			{
-				return null;
-			}
+            public Func<string, FileInfo> GetLocalResource;
+        }
 
+        private static IEnumerable<SourceFile> DownloadWebSource(IEnumerable<string> References)
+        {
+            foreach (var Reference in References)
+            {
+                Console.WriteLine("downloading: " + Reference);
 
-			public static void Implementation()
-			{
-			}
-		}
+                var c = (HttpWebRequest)HttpWebRequest.Create(Reference);
 
+                // http://code.logos.com/blog/2009/06/using_if-modified-since_in_http_requests.html
+                // http://msdn.microsoft.com/en-us/library/system.net.httpwebrequest.ifmodifiedsince.aspx
+                // http://www.acmebinary.com/blog/archive/2006/09/05/252.aspx
 
-		public class SourceFile
-		{
-			public FileInfo TargetFile;
+                var r = (HttpWebResponse)c.GetResponse();
 
-			public string Reference;
-			public string Content;
+                try
+                {
+                    if (r.StatusCode == HttpStatusCode.OK)
+                    {
+                        var Content = new StreamReader(r.GetResponseStream()).ReadToEnd();
 
-			public Func<string, FileInfo> GetLocalResource;
-		}
+                        yield return new SourceFile { Content = Content, Reference = Reference };
+                    }
 
-		private static IEnumerable<SourceFile> DownloadWebSource(IEnumerable<string> References)
-		{
-			foreach (var Reference in References)
-			{
-				Console.WriteLine("downloading: " + Reference);
+                }
+                finally
+                {
+                    r.Close();
+                }
 
-				var c = (HttpWebRequest)HttpWebRequest.Create(Reference);
-
-				// http://code.logos.com/blog/2009/06/using_if-modified-since_in_http_requests.html
-				// http://msdn.microsoft.com/en-us/library/system.net.httpwebrequest.ifmodifiedsince.aspx
-				// http://www.acmebinary.com/blog/archive/2006/09/05/252.aspx
-
-				var r = (HttpWebResponse)c.GetResponse();
-
-				try
-				{
-					if (r.StatusCode == HttpStatusCode.OK)
-					{
-						var Content = new StreamReader(r.GetResponseStream()).ReadToEnd();
-
-						yield return new SourceFile { Content = Content, Reference = Reference };
-					}
-
-				}
-				finally
-				{
-					r.Close();
-				}
-
-			}
-		}
-
-	
+            }
+        }
 
 
 
 
-	}
+
+
+    }
 }
