@@ -34,6 +34,7 @@ using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Studio;
 using TestSolutionBuilderV1.Views;
 using System.IO;
+using PromotionWebApplication1.Assets;
 
 namespace PromotionWebApplication1
 {
@@ -64,7 +65,7 @@ namespace PromotionWebApplication1
             ss.WhenReady(y);
         }
 
-        PromotionWebApplicationAssets.Assets __Assets;
+        PromotionWebApplication1.Assets.Publish __Assets;
 
         public Application(IApplicationLoader app)
         {
@@ -752,7 +753,7 @@ namespace PromotionWebApplication1
 
         public void CodeGenerator(WebServiceHandler h)
         {
-      
+
 
             const string _java = "/java/";
             const string _java_zip = "/java.zip/";
@@ -845,54 +846,48 @@ namespace PromotionWebApplication1
                 path = "/download/publish.htm";
 
 
-            if (path.StartsWith(_download))
+            var publish = path.SkipUntilOrEmpty("/download/");
+            var p = new Publish();
+
+            if (p.ContainsKey(publish))
             {
-                var f = a + "/" + path.Substring(_download.Length).Replace(" ", "_");
+                var f = p[publish];
 
 
-                if (File.Exists(f))
+                var ext = "." + f.SkipUntilLastOrEmpty(".").ToLower();
+
+                // http://en.wikipedia.org/wiki/Mime_type
+                // http://msdn.microsoft.com/en-us/library/ms228998.aspx
+
+                var ContentType = "application/octet-stream";
+
+                if (ext == ".application")
                 {
-
-
-
-                    var ext = "." + f.SkipUntilLastOrEmpty(".").ToLower();
-
-                    // http://en.wikipedia.org/wiki/Mime_type
-                    // http://msdn.microsoft.com/en-us/library/ms228998.aspx
-
-                    var ContentType = "application/octet-stream";
-
-                    if (ext == ".application")
-                    {
-                        ContentType = "application/x-ms-application";
-                    }
-                    else if (ext == ".manifest")
-                    {
-                        ContentType = "application/x-ms-manifest";
-                    }
-                    else if (ext == ".htm")
-                    {
-                        ContentType = "text/html";
-                    }
-
-                    h.Context.Response.ContentType = ContentType;
-
-                    //Console.WriteLine("length: " + data.Length + " " + ContentType + " " + f);
-
-                    
-                    h.Context.Response.WriteFile(f);
+                    ContentType = "application/x-ms-application";
                 }
-                else
+                else if (ext == ".manifest")
                 {
-                    h.Context.Response.StatusCode = 404;
+                    ContentType = "application/x-ms-manifest";
+                }
+                else if (ext == ".htm")
+                {
+                    ContentType = "text/html";
                 }
 
+                h.Context.Response.ContentType = ContentType;
 
-                //h.Context.Response.Redirect(r);
+                //Console.WriteLine("length: " + data.Length + " " + ContentType + " " + f);
+
+
+                var bytes = File.ReadAllBytes(f);
+
+                h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
                 h.CompleteRequest();
 
-                return;
+          
             }
+
+            return;
         }
     }
 }

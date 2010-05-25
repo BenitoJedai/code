@@ -211,12 +211,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PromotionWebApplicationAssets\PromotionWebApplicationAssets.csproj">
-      <Project>{2134AA2E-374D-4BD9-A8E4-23D91A990D50}</Project>
-      <Name>PromotionWebApplicationAssets</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -227,10 +221,8 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebuggertrue</PostBuildEvent>
-    <PreBuildEvent>
-      
-      C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false
+start cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebuggertrue</PostBuildEvent>
+    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
 
 </PreBuildEvent>
   </PropertyGroup>
