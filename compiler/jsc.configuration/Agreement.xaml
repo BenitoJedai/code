@@ -7,7 +7,7 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="400" Width="600">
         <Image Height="96" HorizontalAlignment="Right" Margin="0,0,0,304" Name="image1" Source="/jsc.configuration;component/Documents/jsc.png" Stretch="None" VerticalAlignment="Bottom" Width="96" Visibility="Hidden" />
         <Button Content="Install" Height="23" HorizontalAlignment="Right" IsEnabled="False" Margin="0,0,12,9" Name="button1" VerticalAlignment="Bottom" Width="175" />
-        <CheckBox Content="I agree with the End User Agreement shown above" Height="16" HorizontalAlignment="Left" Margin="15,0,0,12" Name="checkBox1" VerticalAlignment="Bottom" FontWeight="Bold" />
+        <CheckBox Content="I agree with the End User Agreement shown above" Height="16" HorizontalAlignment="Left" Margin="10,0,0,12" Name="checkBox1" VerticalAlignment="Bottom" FontWeight="Bold" />
         <TabControl Margin="10,83,12,39" Name="tabControl1">
             <TabItem Header="End User License Agreement" Name="tabItem1">
                 <Grid>

@@ -11,6 +11,7 @@ using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
 using System.Windows;
 using System.Threading;
 using jsc.meta.Configuration;
+using System.Windows.Threading;
 
 namespace jsc.configuration
 {
@@ -39,7 +40,47 @@ namespace jsc.configuration
                 BitmapEffect = new OuterGlowBitmapEffect { GlowColor = Colors.White }
             }.AttachTo(c);
 
+            
 
+
+            InitializeWindowContent(a);
+
+
+            var cc = new JSCSolutionsNETCarouselCanvas();
+
+            cc.CloseOnClick = false;
+
+            // http://stackoverflow.com/questions/741956/wpf-pan-zoom-image
+            cc.Container.RenderTransform = new ScaleTransform(0.5, 0.5);
+            cc.MoveContainerTo(416, -60);
+            cc.AttachContainerTo(c);
+
+
+            var w = c.ToWindow();
+
+            w.Activated +=
+                delegate
+                {
+                    if (a == null)
+                        return;
+
+                    InitializeWindowContent(a);
+                    a = null;
+                };
+            w.Title = "jsc";
+            w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            w.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
+            w.ResizeMode = ResizeMode.CanMinimize;
+            w.Icon = a.image1.Source;
+
+            //w.ToTransparentWindow();
+
+            w.WithGlass();
+            w.ShowDialog();
+        }
+
+        private static void InitializeWindowContent(Agreement a)
+        {
             a.richTextBox1.Selection.Load(
                Installer.Archive.Entries.Single(k => k.FileName.EndsWith("EULA.rtf")).Data
                ,
@@ -52,7 +93,6 @@ namespace jsc.configuration
                     a.button1.IsEnabled = (bool)a.checkBox1.IsChecked;
                 };
 
-            var cc = new JSCSolutionsNETCarouselCanvas();
 
             a.button1.Click +=
                 delegate
@@ -110,28 +150,6 @@ namespace jsc.configuration
                         }
                     ).Start();
                 };
-
-
-            cc.CloseOnClick = false;
-
-            // http://stackoverflow.com/questions/741956/wpf-pan-zoom-image
-            cc.Container.RenderTransform = new ScaleTransform(0.5, 0.5);
-            cc.MoveContainerTo(416, -60);
-            cc.AttachContainerTo(c);
-
-
-            var w = c.ToWindow();
-
-            w.Title = "jsc";
-            w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            w.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
-            w.ResizeMode = ResizeMode.CanMinimize;
-            w.Icon = a.image1.Source;
-
-            //w.ToTransparentWindow();
-
-            w.WithGlass();
-            w.ShowDialog();
         }
 
         private static void InitializeDynamic()

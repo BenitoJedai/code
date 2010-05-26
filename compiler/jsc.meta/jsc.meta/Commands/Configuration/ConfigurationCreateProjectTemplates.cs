@@ -21,23 +21,42 @@ namespace jsc.meta.Commands.Configuration
 
         public override void Invoke()
         {
-            new[]
-            {
-                new SolutionBuilder
-                {
-                    // Ultra?
-                    Name =  "Browser Application",
-                }
-            }.WithEach(
-                sln => ( 
-                        from DefaultToOrcas in new [] { true, false }
+            Action<SolutionBuilder> Create =
+
+                sln => (
+                        from DefaultToOrcas in new[] { true, false }
                         from Language in KnownLanguages.GetLanguages()
 
                         // exclude F# from 2008
                         where !DefaultToOrcas || (DefaultToOrcas && Language != KnownLanguages.VisualFSharp)
 
                         select (Action)(() => RewriteToMVSProjectTemplate(sln, Language, DefaultToOrcas))
-                ).Invoke()
+                ).Invoke();
+
+
+            Create(
+                new SolutionBuilder
+                {
+                    // Ultra?
+                    Name = "Browser Application",
+                }
+            );
+
+            Create(
+                new SolutionBuilder
+                {
+                    // Ultra?
+                    Name = "Browser Application With Java Applet",
+                }.WithJavaApplet()
+            );
+
+            Create(
+                new SolutionBuilder
+                {
+                    // Ultra?
+                    
+                    Name = "Browser Application With Adobe Flash",
+                }.WithAdobeFlash()
             );
         }
 
