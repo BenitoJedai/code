@@ -100,6 +100,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
+    <Compile Include="Ultra\Studio\SolutionBuilderWithJavaApplet.cs" />
+    <Compile Include="Ultra\Studio\SolutionBuilderWithAdobeFlash.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoStringConstantExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpression.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageAttribute.cs" />
