@@ -31,6 +31,12 @@ namespace jsc.Languages
                    }
                );
 
+            // assets
+            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
+            {
+                EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
+            }
+
             if (VersionLookup.Validate())
             {
                 Console.WriteLine("this version is already built: " + VersionLookup.SourceVersion.Name);
@@ -60,15 +66,11 @@ namespace jsc.Languages
             //sinfo.Logging.LogMessage("found {0} types to be compiled", xw.Session.Types.Length);
 
 
-            // assets
-            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
-            {
-                EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
-            }
+        
 
 
 
-            Helper.WorkPool n = new Helper.WorkPool();
+            //Helper.WorkPool n = new Helper.WorkPool();
 
             //n.IsThreaded = !Debugger.IsAttached && !sinfo.Options.IsNoThreads;
             xw.Session.Types.WithEach(

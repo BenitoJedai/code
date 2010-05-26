@@ -335,6 +335,14 @@ namespace jsc
                 }
             );
 
+            //EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, _assambly_loaded);
+
+            // assets
+            foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
+            {
+                EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
+            }
+
             if (VersionLookup.Validate())
             {
                 Console.WriteLine("this version is already built: " + VersionLookup.SourceVersion.Name);
@@ -435,7 +443,6 @@ namespace jsc
 
             VersionLookup.WriteTokens();
 
-            EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, _assambly_loaded);
 
             // to be removed at some point
             // will we break anything yet? :)

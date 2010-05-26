@@ -39,7 +39,10 @@ namespace ScriptCoreLib.Ultra.WebService
 
 			// do we need this?
 			//WriteLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=UTF-8"" />");
-			WriteLine(@"<title>" + this.TypeFullName + "</title>");
+
+            // whats the title going to be? :)
+            WriteLine(@"<title>Loading...</title>");
+            //WriteLine(@"<title>" + this.TypeFullName + "</title>");
 
 			//WriteLine("<meta name='google-site-verification' content='uMipBZ74jD_65lTkiAVKRHM1HSJRo_NAgpk6NChQuOA' />");
 

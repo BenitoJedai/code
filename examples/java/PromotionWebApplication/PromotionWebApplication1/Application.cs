@@ -846,7 +846,8 @@ namespace PromotionWebApplication1
                 path = "/download/publish.htm";
 
 
-            var publish = path.SkipUntilOrEmpty("/download/");
+            // we will compare the win32 relative paths here...
+            var publish = path.SkipUntilOrEmpty("/download/").Replace("/", @"\");
             var p = new Publish();
 
             if (p.ContainsKey(publish))
@@ -879,15 +880,22 @@ namespace PromotionWebApplication1
                 //Console.WriteLine("length: " + data.Length + " " + ContentType + " " + f);
 
 
-                var bytes = File.ReadAllBytes(f);
-
-                h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
-                h.CompleteRequest();
+                DownloadSDKFile(h, f);
 
           
             }
 
             return;
+        }
+
+        private static void DownloadSDKFile(WebServiceHandler h, string f)
+        {
+            Console.WriteLine("download: " + f);
+
+            var bytes = File.ReadAllBytes(f);
+
+            h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+            h.CompleteRequest();
         }
     }
 }

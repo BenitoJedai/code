@@ -5,108 +5,110 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
-	[Script(Implements = typeof(global::System.IO.File))]
-	internal class __File
-	{
-		public static void Delete(string path)
-		{
-			new java.io.File(path).delete();
-		}
+    [Script(Implements = typeof(global::System.IO.File))]
+    internal class __File
+    {
+        public static void Delete(string path)
+        {
+            new java.io.File(path).delete();
+        }
 
-		public static bool Exists(string path)
-		{
-			return new java.io.File(path).exists();
-		}
+        public static bool Exists(string path)
+        {
+            return new java.io.File(path).exists();
+        }
 
-		public static string ReadAllText(string path)
-		{
-			return Encoding.ASCII.GetString(ReadAllBytes(path));
-		}
-
-
-		public static void WriteAllText(string path, string value)
-		{
-			WriteAllBytes(path, Encoding.ASCII.GetBytes(value));
-		}
-
-		public static void WriteAllBytes(string path, byte[] value)
-		{
-
-			try
-			{
-				var stream = new java.io.RandomAccessFile(path, "rw");
-
-				stream.setLength(0);
-				stream.write(InternalByteArrayToSByteArray(value));
-
-				stream.close();
-			}
-			catch
-			{
-				throw new csharp.RuntimeException();
-			}
-		}
-
-		public static byte[] ReadAllBytes(string path)
-		{
-			var x = getBytesFromFile(new java.io.File(path));
-
-			return InternalSByteArrayToByteArray(x);
-		}
-
-		[Script(OptimizedCode = @"return e;")]
-		public static byte[] InternalSByteArrayToByteArray(sbyte[] e)
-		{
-			return default(byte[]);
-		}
-
-		[Script(OptimizedCode = @"return e;")]
-		public static sbyte[] InternalByteArrayToSByteArray(byte[] e)
-		{
-			return default(sbyte[]);
-		}
-
-		// http://www.java-tips.org/java-se-tips/java.io/reading-a-file-into-a-byte-array.html
-		static sbyte[] getBytesFromFile(global::java.io.File file)
-		{
-			try
-			{
-
-				var istream = new global::java.io.FileInputStream(file);
-
-				// Get the size of the file
-				long length = file.length();
+        public static string ReadAllText(string path)
+        {
+            return Encoding.ASCII.GetString(ReadAllBytes(path));
+        }
 
 
+        public static void WriteAllText(string path, string value)
+        {
+            WriteAllBytes(path, Encoding.ASCII.GetBytes(value));
+        }
 
-				// Create the byte array to hold the data
-				var bytes = new sbyte[(int)length];
+        public static void WriteAllBytes(string path, byte[] value)
+        {
 
-				// Read in the bytes
-				int offset = 0;
-				int numRead = istream.read(bytes, offset, bytes.Length - offset);
+            try
+            {
+                var stream = new java.io.RandomAccessFile(path, "rw");
 
-				if (numRead >= 0)
-					while (offset < bytes.Length)
-					{
-						offset += numRead;
-						numRead = istream.read(bytes, offset, bytes.Length - offset);
+                stream.setLength(0);
+                stream.write(InternalByteArrayToSByteArray(value));
 
-						if (numRead < 0)
-							break;
-					}
+                stream.close();
+            }
+            catch
+            {
+                throw new csharp.RuntimeException();
+            }
+        }
+
+        public static byte[] ReadAllBytes(string path)
+        {
+            var x = getBytesFromFile(new java.io.File(path));
+
+            return InternalSByteArrayToByteArray(x);
+        }
+
+        [Script(OptimizedCode = @"return e;")]
+        public static byte[] InternalSByteArrayToByteArray(sbyte[] e)
+        {
+            return default(byte[]);
+        }
+
+        [Script(OptimizedCode = @"return e;")]
+        public static sbyte[] InternalByteArrayToSByteArray(byte[] e)
+        {
+            return default(sbyte[]);
+        }
+
+        // http://www.java-tips.org/java-se-tips/java.io/reading-a-file-into-a-byte-array.html
+        static sbyte[] getBytesFromFile(global::java.io.File file)
+        {
+            try
+            {
+
+                var istream = new global::java.io.FileInputStream(file);
+
+                // Get the size of the file
+                long length = file.length();
 
 
 
-				// Close the input stream and return bytes
-				istream.close();
-				return bytes;
-			}
-			catch
-			{
-				// exception mapping must be refactored
-				throw new csharp.RuntimeException();
-			}
-		}
-	}
+                // Create the byte array to hold the data
+                var bytes = new sbyte[(int)length];
+
+                // Read in the bytes
+                int offset = 0;
+                int numRead = istream.read(bytes, offset, bytes.Length - offset);
+
+                if (numRead >= 0)
+                    while (offset < bytes.Length)
+                    {
+                        offset += numRead;
+                        numRead = istream.read(bytes, offset, bytes.Length - offset);
+
+                        if (numRead < 0)
+                            break;
+                    }
+
+
+
+                // Close the input stream and return bytes
+                istream.close();
+                return bytes;
+            }
+            catch (Exception e)
+            {
+                ((java.lang.Throwable)(object)e).printStackTrace();
+
+                // exception mapping must be refactored
+                throw new csharp.RuntimeException("File: " + file.ToString() + "Message: " + e.Message);
+            }
+        }
+    }
 }
