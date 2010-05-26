@@ -164,15 +164,7 @@ namespace jsc.meta.Library
 			return loc0;
 		}
 
-		public static IEnumerable<FileInfo> GetAllFilesByPattern(this DirectoryInfo e, params string[] p)
-		{
-			return p.SelectMany(i => e.GetFiles(i, SearchOption.AllDirectories));
-		}
 
-		public static IEnumerable<FileInfo> GetFilesByPattern(this DirectoryInfo e, params string[] p)
-		{
-			return p.SelectMany(i => e.GetFiles(i));
-		}
 
 		public static bool IsEventMethod(this MethodInfo kk)
 		{

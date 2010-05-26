@@ -7,7 +7,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
-    [Script(InternalConstructor=true)]
+    [Script(InternalConstructor = true)]
     public class IHTMLIFrame : IHTMLElement
     {
         public string src;
@@ -20,17 +20,17 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #region Constructor
 
-            public IHTMLIFrame()
-            {
-                // InternalConstructor
-            }
-            
-            
-            static IHTMLElementTemplate InternalConstructor()
-            {
-                return (IHTMLElementTemplate)new IHTMLElement(IHTMLElement.HTMLElementEnum.iframe);
-            }
-        
+        public IHTMLIFrame()
+        {
+            // InternalConstructor
+        }
+
+
+        static IHTMLIFrame InternalConstructor()
+        {
+            return (IHTMLIFrame)new IHTMLElement(IHTMLElement.HTMLElementEnum.iframe);
+        }
+
         #endregion
 
 

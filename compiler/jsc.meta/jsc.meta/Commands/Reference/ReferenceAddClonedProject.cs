@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using jsc.meta.Library;
+using ScriptCoreLib.Extensions;
+
 
 namespace jsc.meta.Commands.Reference
 {

@@ -32,6 +32,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Reflection;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {

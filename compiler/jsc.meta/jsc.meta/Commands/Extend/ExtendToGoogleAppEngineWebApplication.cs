@@ -19,6 +19,7 @@ using jsc.meta.Library;
 using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.Web;
 using jsc.meta.Library.Templates.Java;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Extend
 {

@@ -40,11 +40,6 @@ namespace jsc.configuration
                 BitmapEffect = new OuterGlowBitmapEffect { GlowColor = Colors.White }
             }.AttachTo(c);
 
-            
-
-
-            InitializeWindowContent(a);
-
 
             var cc = new JSCSolutionsNETCarouselCanvas();
 
@@ -63,9 +58,9 @@ namespace jsc.configuration
                 {
                     if (a == null)
                         return;
-
-                    InitializeWindowContent(a);
+                    var x = a;
                     a = null;
+                    InitializeWindowContent(x);
                 };
             w.Title = "jsc";
             w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -81,6 +76,8 @@ namespace jsc.configuration
 
         private static void InitializeWindowContent(Agreement a)
         {
+
+
             a.richTextBox1.Selection.Load(
                Installer.Archive.Entries.Single(k => k.FileName.EndsWith("EULA.rtf")).Data
                ,
@@ -97,7 +94,7 @@ namespace jsc.configuration
             a.button1.Click +=
                 delegate
                 {
-
+                    //System.Diagnostics.Debug.WriteLine("before install");
                     a.button1.IsEnabled = false;
                     a.checkBox1.IsEnabled = false;
 
@@ -106,12 +103,23 @@ namespace jsc.configuration
                         {
                             var i = new Installer.FileMonkey();
 
-                            Installer.Continue(i.files, false);
+                            // The process cannot access the file 'c:\util\jsc\bin\jsc.meta.exe' because it is being used by another process.
+                            // The process cannot access the file 'C:\Users\Arvo\Documents\Visual Studio 10\Templates\ProjectTemplates\Visual F#\jsc-solutions.net\Ultra Application With Assets.zip' because it is being used by another process.
+
+                            try
+                            {
+                                Installer.Continue(i.files, false);
+                            }
+                            catch (Exception exc)
+                            {
+                                MessageBox.Show(exc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
 
                             a.Dispatcher.Invoke(
                                 new Action(
                                     delegate
                                     {
+                                        //System.Diagnostics.Debug.WriteLine("after install");
                                         var conf = SDKConfiguration.Default;
 
                                         SDKConfiguration.Default = conf;
