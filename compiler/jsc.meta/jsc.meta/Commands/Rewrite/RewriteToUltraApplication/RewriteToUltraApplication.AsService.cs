@@ -190,28 +190,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 
 							Context.Response.Write("<meta http-equiv='refresh' content='9' />");
-							Context.Response.Write("<title>Loading...</title>");
+							Context.Response.Write("<title>" + this.PrimaryApplication.FullName + "</title>");
 
 							Context.Response.Write(WebElements.PageShadowContainer.ToString());
 
 							Context.Response.Write("<body style='margin: 0; padding: 0;'>");
-							Context.Response.Write("<p><a href='http://jsc-solutions.net'><img style='border: 0;' src='http://www.jsc-solutions.net/assets/ScriptCoreLib/jsc.png' /></a></p>");
-
+							
 							Context.Response.Write("<div style='border-left: 96px solid #efefef; padding-left: 4em; margin-left: 4em;'>");
 
-							Context.Response.Write("<h2> Application is loading! Please wait...</h2>");
-							Context.Response.Write("<p>It may take several minutes... Feel free to go and get a coffee! <img style='border: 0;' src='http://www.jsc-solutions.net/assets/ScriptCoreLib/loading.gif' /></p>");
-							Context.Response.Write("<h3>What's it doing now?</h3>");
-							Context.Response.Write("<p>Converting <a href='http://en.wikipedia.org/wiki/Common_Intermediate_Language'>.NET Byte Code</a> to javascript and other languages...</p>");
+							Context.Response.Write("<h2>Loading...</h2>");
 							Context.Response.Write("<code>" + InternalGlobalExtensions.escapeXML(this.BuilderStatus) + "</code>");
-							Context.Response.Write("<h3>For how long has it been doing that?</h3>");
 							Context.Response.Write("<code>" + BuilderStopwatch.Elapsed.ToString() + "</code>");
-							//Context.Response.Write("<h4>Could it be faster?</h4>");
-							//Context.Response.Write("<p><strong>Yes! Contact <a href='info@jsc-solutions.net'>sales</a></strong> to purchase a faster version*</p>");
-							//Context.Response.Write("<p></p>");
-							//Context.Response.Write("<p></p>");
-							//Context.Response.Write("<p></p>");
-							//Context.Response.Write("<p><small>* Additional development is required by our end</small></p>");
+
 							Context.Response.Write("</body>");
 
 

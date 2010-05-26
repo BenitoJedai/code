@@ -16,7 +16,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 		public ApplicationYieldToDocumentTitleExpression(SolutionBuilderInteractive Interactive)
 		{
-			this.Comment = InteractiveComment;
+            //this.Comment = InteractiveComment;
 
 			PseudoStringConstantExpression ElementName = new PseudoStringConstantExpression
 			{

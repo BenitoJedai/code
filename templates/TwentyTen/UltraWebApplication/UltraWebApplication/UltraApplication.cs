@@ -25,6 +25,7 @@ namespace UltraWebApplication
 					delegate
 					{
 
+
 						new UltraWebService().GetTime("time: ",
 							result =>
 							{
@@ -66,70 +67,72 @@ namespace UltraWebApplication
 		}
 
 
-		public sealed class UltraApplet : Applet
-		{
-			public const int DefaultWidth = 500;
-			public const int DefaultHeight = 400;
-
-
-			public override void init()
-			{
-				base.resize(DefaultWidth, DefaultHeight);
-				// creating the java applet
-
-			}
-
-			static Color GetBlue(double b)
-			{
-				int u = (int)(0xff * b);
-
-				return new Color(u);
-			}
-
-			public override void paint(global::java.awt.Graphics g)
-			{
-				// old school gradient :)
-
-				var h = this.getHeight();
-				var w = this.getWidth();
-
-				for (int i = 0; i < h; i++)
-				{
-
-					g.setColor(GetBlue(1 - (double)i / (double)h));
-					g.drawLine(0, i, w, i);
-				}
-			}
-		}
-
-
-
-		public sealed class UltraSprite : Sprite
-		{
-			public const int DefaultWidth = 500;
-			public const int DefaultHeight = 400;
-
-			public UltraSprite()
-			{
-				// creating the flash object 
-				// + stratus
-				// + alchemy
-
-				// funny :) i have forgotten how to write anything
-				// on flash API ... too much WPF API?
-				var r = new Sprite();
-
-				r.graphics.beginFill(0x7070);
-				r.graphics.drawRect(8, 8, 64, 64);
-
-
-				r.AttachTo(this);
-			}
-
-
-		}
-
+		
 	}
+
+    public sealed class UltraApplet : Applet
+    {
+        public const int DefaultWidth = 500;
+        public const int DefaultHeight = 400;
+
+
+        public override void init()
+        {
+            base.resize(DefaultWidth, DefaultHeight);
+            // creating the java applet
+
+        }
+
+        static Color GetBlue(double b)
+        {
+            int u = (int)(0xff * b);
+
+            return new Color(u);
+        }
+
+        public override void paint(global::java.awt.Graphics g)
+        {
+            // old school gradient :)
+
+            var h = this.getHeight();
+            var w = this.getWidth();
+
+            for (int i = 0; i < h; i++)
+            {
+
+                g.setColor(GetBlue(1 - (double)i / (double)h));
+                g.drawLine(0, i, w, i);
+            }
+        }
+    }
+
+
+
+    public sealed class UltraSprite : Sprite
+    {
+        public const int DefaultWidth = 500;
+        public const int DefaultHeight = 400;
+
+        public UltraSprite()
+        {
+            // creating the flash object 
+            // + stratus
+            // + alchemy
+
+            // funny :) i have forgotten how to write anything
+            // on flash API ... too much WPF API?
+            var r = new Sprite();
+
+            r.graphics.beginFill(0x7070);
+            r.graphics.drawRect(8, 8, 64, 64);
+
+
+            r.AttachTo(this);
+        }
+
+
+    }
+
 
 	public delegate void StringAction(string e);
 

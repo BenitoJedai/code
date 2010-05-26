@@ -380,22 +380,22 @@ namespace jsc
                 // merge
 
 
-                using (new Task("join", z.ToString()))
-                {
+                //using (new Task("join", z.ToString()))
+                //{
                     z.Flow.Parents.Add(this);
                     BranchFlow.Add(z.Flow);
-                }
+                //}
             }
             else
             {
-                using (new Task("branch", z.ToString()))
-                {
+                //using (new Task("branch", z.ToString()))
+                //{
                     // Console.WriteLine("branch to {0:x4} : {1}", z.Offset, Branch.StackAfter.Count);
                     BranchFlow.Add(new ILFlow(this, z));
-                }
+                //}
             }
 
-            Console.ForegroundColor = ConsoleColor.Gray;
+            //Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         void FollowBranch()

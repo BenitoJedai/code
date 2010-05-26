@@ -72,7 +72,7 @@ namespace jsc.configuration
                                 new Action(
                                     delegate
                                     {
-                                        var conf = new SDKConfiguration();
+                                        var conf = SDKConfiguration.Default;
 
                                         SDKConfiguration.Default = conf;
 
