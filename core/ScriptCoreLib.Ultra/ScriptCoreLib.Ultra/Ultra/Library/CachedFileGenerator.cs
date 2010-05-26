@@ -33,11 +33,11 @@ namespace ScriptCoreLib.Ultra.Library
             );
 
 
-
+            // next new cache name
             var Cache = new FileInfo(
                 Path.Combine(
                     CacheFolder.FullName,
-                    Arguments.AssamblyFile.LastWriteTimeUtc.Ticks + ".zip"
+                   this.ConstructorArguments.AssamblyFile.Name + ".zip"
                 )
             );
 
@@ -46,6 +46,19 @@ namespace ScriptCoreLib.Ultra.Library
                 delegate
                 {
                     // time to extract the zip file if ready and emit the local token
+
+                    if (Cache.Exists)
+                    {
+                        // great. now compare the times
+
+                        if (this.ConstructorArguments.AssamblyFile.LastWriteTime > Cache.LastWriteTime)
+                        {
+                            // no dice. the target is newer than our cache.
+
+                            Cache.Delete();
+                            Cache.Refresh();
+                        }
+                    }
 
                     if (Cache.Exists)
                     {
@@ -83,7 +96,7 @@ namespace ScriptCoreLib.Ultra.Library
             this.AtWriteTokens +=
                 delegate
                 {
-                    // time to write the zip file
+                    // if the cache still exists it's time to write the zip file
 
                     if (Cache.Exists)
                         return;
@@ -108,6 +121,8 @@ namespace ScriptCoreLib.Ultra.Library
 
                     zip.WriteToFile(Cache);
 
+                    
+                    #region SDK
                     if (this.SDK != null)
                     {
                         var SDKCacheFolder = new DirectoryInfo(
@@ -123,7 +138,7 @@ namespace ScriptCoreLib.Ultra.Library
                         var SDKCache = new FileInfo(
                             Path.Combine(
                                 SDKCacheFolder.FullName,
-                                Arguments.AssamblyFile.LastWriteTimeUtc.Ticks + ".zip"
+                                this.ConstructorArguments.AssamblyFile.Name + ".zip"
                             )
                         );
                   
@@ -131,6 +146,7 @@ namespace ScriptCoreLib.Ultra.Library
                         zip.WriteToFile(SDKCache);
 
                     }
+                    #endregion
                 };
 
 
