@@ -46,10 +46,11 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             var FileComments =
                 new[]
 					{
-						FileHeader,
-						Context.Interactive.ToVisualBasicLanguage,
-						Context.Interactive.ToVisualCSharpLanguage,
-						Context.Interactive.ToVisualFSharpLanguage
+						FileHeader
+                        //,
+                        //Context.Interactive.ToVisualBasicLanguage,
+                        //Context.Interactive.ToVisualCSharpLanguage,
+                        //Context.Interactive.ToVisualFSharpLanguage
 					};
 
             #region DefaultPage
@@ -228,18 +229,18 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
 
-            ApplicationType.Properties.Add(
-                new SolutionProjectLanguageProperty
-                {
-                    Name = "Property1",
-                    PropertyType = new SolutionProjectLanguageType
-                    {
-                        Name = "string"
-                    },
-                    GetMethod = new SolutionProjectLanguageMethod(),
-                    SetMethod = new SolutionProjectLanguageMethod()
-                }
-            );
+            //ApplicationType.Properties.Add(
+            //    new SolutionProjectLanguageProperty
+            //    {
+            //        Name = "Property1",
+            //        PropertyType = new SolutionProjectLanguageType
+            //        {
+            //            Name = "string"
+            //        },
+            //        GetMethod = new SolutionProjectLanguageMethod(),
+            //        SetMethod = new SolutionProjectLanguageMethod()
+            //    }
+            //);
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
 

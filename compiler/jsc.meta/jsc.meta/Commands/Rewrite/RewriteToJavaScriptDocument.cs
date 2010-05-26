@@ -66,6 +66,8 @@ namespace jsc.meta.Commands.Rewrite
             if (this.AttachDebugger)
                 Debugger.Launch();
 
+
+
             this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
             jsc.meta.Loader.LoaderStrategyImplementation.Hints.Add(this.assembly.Directory);
@@ -1242,7 +1244,7 @@ namespace jsc.meta.Commands.Rewrite
                         this.AtWebServiceReady(
                             new AtWebServiceReadyArguments
                             {
-                                Assembly = r.Output,
+                                Assembly = v.FromVirtual(r.Output),
                                 GlobalType = k.TargetType.Namespace + ".Global",
                                 WebDevLauncher = WebDevLauncher
                             }

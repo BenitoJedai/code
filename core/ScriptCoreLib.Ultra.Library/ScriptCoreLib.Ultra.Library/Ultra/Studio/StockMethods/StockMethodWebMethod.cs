@@ -59,7 +59,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 			this.Code = new SolutionProjectLanguageCode
 			{
-				Interactive.WebMethod2,
+                //Interactive.WebMethod2,
 
 				"Send it to the caller.",
 				new PseudoCallExpression

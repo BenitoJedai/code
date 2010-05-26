@@ -12,7 +12,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 		public ApplicationToDocumentTitleExpression()
 		{
-			this.Comment = (InteractiveComment)"Update document title";
+            //this.Comment = (InteractiveComment)"Update document title";
 
 
 

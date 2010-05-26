@@ -36,7 +36,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 					}
 				};
 
-			this.Comment = InteractiveComment;
+            //this.Comment = InteractiveComment;
 
 			this.Object = new PseudoCallExpression
 			{
