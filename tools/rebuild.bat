@@ -2,8 +2,9 @@
 setlocal
 pushd ..
 
-set msbuild=%SystemRoot%\Microsoft.NET\Framework\v3.5\MSBuild.exe
-set msbuild40=%SystemRoot%\Microsoft.NET\Framework\v4.0.30128\MSBuild.exe
+::set msbuild=%SystemRoot%\Microsoft.NET\Framework\v3.5\MSBuild.exe
+set msbuild=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
+set msbuild40=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 
 set flags=/nologo /verbosity:q
 
@@ -70,40 +71,44 @@ call :build compiler\jsc.meta\jsc.meta.sln
 call :build core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.sln
 
 :: rebuild Ultra templates
-call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
-call :build templates\Orcas\UltraApplicationWithAssets\UltraApplicationWithAssets.sln
-call :build templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
-call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sln
+::call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
+::call :build templates\Orcas\UltraApplicationWithAssets\UltraApplicationWithAssets.sln
+::call :build templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
+::call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sln
 
-call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln
-call :build40 templates\TwentyTen\UltraWebApplication\UltraWebApplication.sln
-call :build40 templates\TwentyTen\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
-call :build40 templates\TwentyTen\FSharp\UltraApplication\UltraApplication.sln
+::call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln
+::call :build40 templates\TwentyTen\UltraWebApplication\UltraWebApplication.sln
+::call :build40 templates\TwentyTen\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
+::call :build40 templates\TwentyTen\FSharp\UltraApplication\UltraApplication.sln
 
 
 
 :: rebuild templates
-call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
-call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashApplication.sln
+::call :build templates\OrcasScriptApplication\OrcasScriptApplication.sln
+::call :build templates\OrcasFlashApplication\OrcasFlashApplication\OrcasFlashApplication.sln
 
-call :build templates\AppletTemplate\DemoApplet.sln
-call :build templates\OrcasWebApplication\OrcasWebApplication.sln
-call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
-call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
+::call :build templates\AppletTemplate\DemoApplet.sln
+::call :build templates\OrcasWebApplication\OrcasWebApplication.sln
+::call :build templates\OrcasVisualBasicFlashApplication\OrcasVisualBasicFlashApplication.sln
+::call :build templates\OrcasVisualBasicScriptApplication\OrcasVisualBasicScriptApplication.sln
 
-call :template40 UltraApplicationWithAssets
+::call :template40 UltraApplicationWithAssets
 ::call :template40 UltraWebApplicationWithAssets
 ::call :build templates\OrcasWebSite\OrcasWebSite.sln
 
-popd
-call rebuild.installer.bat
-pushd ..
 
 call :build core\ScriptCoreLib.Ultra.Documentation\ScriptCoreLib.Ultra.Documentation.sln
 
 popd
+::call rebuild.installer.bat
+pushd ..
+
+
+popd
 call rebuild.installer.bat
 pushd ..
+
+call :build compiler\jsc.configuration\jsc.configuration.sln
 
 :: rebuild examples
 :: call :build javascript\Examples\ButterFly\ButterFly.sln

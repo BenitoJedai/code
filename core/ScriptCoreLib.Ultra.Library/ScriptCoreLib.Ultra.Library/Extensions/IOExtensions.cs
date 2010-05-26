@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Extensions
 {
     public static class IOExtensions
     {
+
+
         public static string ToRelativePath(this FileInfo that, DirectoryInfo root)
         {
             return that.FullName.Replace("/", @"\").SkipUntilOrEmpty(root.FullName.Replace("/", @"\") + @"\");
