@@ -80,6 +80,8 @@ namespace jsc.meta.Commands.Configuration
                          typeof(global::ScriptCoreLibJava.jni.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLibJava.AppEngine.IAssemblyReferenceToken),
 
+                         typeof(global::ScriptCoreLib.Archive.ZIP.ZIPFile),
+
                          //typeof(global::ScriptCoreLib.Shared.Archive.ZIP.),
                     }
                  },
@@ -121,6 +123,8 @@ namespace jsc.meta.Commands.Configuration
                          typeof(global::ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken),
+
+                         typeof(global::ScriptCoreLib.Archive.ZIP.ZIPFile),
                     }
                  },
 

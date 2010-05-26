@@ -26,6 +26,7 @@ using jsc.Languages;
 using jsc.Script;
 using jsc.meta.Library.VolumeFunctions;
 using ScriptCoreLib.JavaScript.Remoting;
+using ScriptCoreLib.Ultra.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -1203,6 +1204,7 @@ namespace jsc.meta.Commands.Rewrite
                                 {
                                     Options = new jsc.CommandLineOptions
                                     {
+                                        CachedFileGeneratorConstructor = CachedFileGenerator.Create,
                                         TargetAssembly = __r_Output.VirtualFile,
                                         IsJava = true,
                                         IsNoLogo = true
