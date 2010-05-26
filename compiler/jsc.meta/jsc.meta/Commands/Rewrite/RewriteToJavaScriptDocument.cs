@@ -63,8 +63,8 @@ namespace jsc.meta.Commands.Rewrite
 
         void InternalInvoke(VolumeFunctionsExtensions.ToVirtualDriveToDirectory v)
         {
-            if (this.AttachDebugger)
-                Debugger.Launch();
+            //if (this.AttachDebugger)
+            //    Debugger.Launch();
 
 
 

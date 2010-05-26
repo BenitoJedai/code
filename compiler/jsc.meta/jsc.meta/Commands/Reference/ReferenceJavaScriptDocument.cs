@@ -292,7 +292,8 @@ namespace jsc.meta.Commands.Reference
                    )
                 ))
 			{
-				Console.WriteLine("A version of UltraSource assembly already exists and no files seem need an update. Use 'Assets' build configuration to rebuild.");
+                //Console.WriteLine("A version of UltraSource assembly already exists and no files seem need an update. Use 'Assets' build configuration to rebuild.");
+                Console.WriteLine("Use 'Assets' build configuration to force a rebuild for assets.");
 			}
 			else
 			{
