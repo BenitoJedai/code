@@ -37,6 +37,9 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public static implicit operator Uri(SolutionFileComment that)
 		{
+            if (that == null)
+                return null;
+
 			return that.Link;
 		}
 
