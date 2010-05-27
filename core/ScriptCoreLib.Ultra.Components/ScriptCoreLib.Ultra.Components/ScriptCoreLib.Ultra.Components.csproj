@@ -142,8 +142,11 @@
     <Content Include="Design\SolutionDocumentViewer.htm" />
     <Content Include="JavaScript\Studio\comments.txt" />
     <Content Include="My.UltraSource\Gadgets\CountDownGadget.htm" />
+    <Content Include="My.UltraSource\Images\Common\black192.png" />
     <Content Include="My.UltraSource\Images\Common\CommonImages.htm" />
     <Content Include="My.UltraSource\Images\Common\jsc.png" />
+    <Content Include="My.UltraSource\Images\Common\white-jsc.png" />
+    <Content Include="My.UltraSource\Images\Common\white192.png" />
     <Content Include="My.UltraSource\Images\Reflection\HTMLDocument.png" />
     <Content Include="My.UltraSource\Images\Reflection\ImageFile.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionProjectDependentUpon.png" />

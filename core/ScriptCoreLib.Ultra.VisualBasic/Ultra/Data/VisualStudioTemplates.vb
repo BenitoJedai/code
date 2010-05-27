@@ -138,6 +138,81 @@ c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFile
         </PropertyGroup>
     </Project>
 
+    Public VisualBasicProject As XElement = _
+<Project ToolsVersion="3.5" DefaultTargets="Build">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+        <ProductVersion>
+        </ProductVersion>
+        <SchemaVersion>
+        </SchemaVersion>
+        <ProjectGuid>{14311F94-F366-406F-91A0-F76F9CE6B7D6}</ProjectGuid>
+        <OutputType>Exe</OutputType>
+        <StartupObject>ConsoleApplication1.Module1</StartupObject>
+        <RootNamespace>ConsoleApplication1</RootNamespace>
+        <AssemblyName>ConsoleApplication1</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <MyType>Console</MyType>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DefineDebug>true</DefineDebug>
+        <DefineTrace>true</DefineTrace>
+        <OutputPath>bin\Debug\</OutputPath>
+        <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <DefineDebug>false</DefineDebug>
+        <DefineTrace>true</DefineTrace>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
+        <PlatformTarget>x86</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DefineDebug>true</DefineDebug>
+        <DefineTrace>true</DefineTrace>
+        <OutputPath>bin\Debug\</OutputPath>
+        <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OptionExplicit>On</OptionExplicit>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OptionCompare>Binary</OptionCompare>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OptionStrict>Off</OptionStrict>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OptionInfer>On</OptionInfer>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="System"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Module1.vb"/>
+    </ItemGroup>
+
+    <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets"/>
+
+    <PropertyGroup>
+        <PostBuildEvent>
+if $(ConfigurationName)==Release (
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+)</PostBuildEvent>
+        <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    </PropertyGroup>
+</Project>
+
 
     Public VisualFSharpProject As XElement = _
       <Project ToolsVersion="3.5" DefaultTargets="Build">

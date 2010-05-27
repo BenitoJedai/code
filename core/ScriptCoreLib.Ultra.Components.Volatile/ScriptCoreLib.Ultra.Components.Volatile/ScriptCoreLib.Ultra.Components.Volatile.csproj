@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Avalon\JSCSolutionsNETWhiteCarouselCanvas.cs" />
     <Compile Include="Avalon\JSCSolutionsNETCarouselCanvas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
