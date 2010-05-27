@@ -22,6 +22,8 @@ namespace PromotionWebApplicationHome.Components
         {
             var w = new JSCSolutionsNETWhiteCarouselCanvas();
 
+            w.CloseOnClick = false;
+
             page.LogoContainer.Clear();
 
             var we = w.Container.ToHTMLElement();
