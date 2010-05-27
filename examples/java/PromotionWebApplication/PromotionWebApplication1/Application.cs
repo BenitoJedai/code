@@ -67,9 +67,32 @@ namespace PromotionWebApplication1
 
         PromotionWebApplication1.Assets.Publish __Assets;
 
-        public Application(IApplicationLoader app)
+        public Application(PromotionWebApplicationHome.HTML.Pages.IDefaultPage app)
         {
-            app.LoadingAnimation.FadeOut();
+            "jsc".ToDocumentTitle();
+
+            var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
+
+            if (Native.Document.location.host.StartsWith("studio."))
+            {
+                IsStudio = true;
+            }
+
+            if (IsStudio)
+            {
+                app.PageContent.Clear();
+                new StudioView(AddSaveButton).Content.AttachToDocument();
+            }
+            else
+            {
+                PromotionWebApplicationHome.Components.DefaultPageExtensions.AnimateHomePage(app);
+            }
+        }
+
+#if false
+        public void __Application(IApplicationLoader app)
+        {
+            //app.LoadingAnimation.FadeOut();
 
             var DefaultTitle = "jsc solutions";
 
@@ -133,8 +156,6 @@ namespace PromotionWebApplication1
                 if (IsStudio)
                 {
                     new StudioView(AddSaveButton).Content.AttachToDocument();
-
-
                 }
                 else if (Native.Document.location.hash.StartsWith("#/docs"))
                 {
@@ -685,7 +706,7 @@ namespace PromotionWebApplication1
 
         }
 
-
+#endif
 
         /// <summary>
         /// Microsoft Internet Explorer does not support using opacity on an image with an alpha layer.

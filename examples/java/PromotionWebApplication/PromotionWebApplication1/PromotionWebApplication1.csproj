@@ -76,6 +76,9 @@
     <Reference Include="PresentationFramework">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PromotionWebApplicationHome.UltraSource">
+      <HintPath>..\PromotionWebApplicationHome\bin\staging.UltraSource\PromotionWebApplicationHome.UltraSource.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
@@ -210,6 +213,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PromotionWebApplicationHome\PromotionWebApplicationHome.csproj">
+      <Project>{52091756-B888-4CAF-BEA5-F1D539F6FB81}</Project>
+      <Name>PromotionWebApplicationHome</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
