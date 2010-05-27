@@ -37,6 +37,11 @@ namespace ScriptCoreLib.Avalon.Desktop
                 // primary task executes longer than splash
                 () => Thread.Sleep(7000)
             );
+
+            //JSCSolutionsNETCarouselProgram.ShowDialogSplash(
+            //        // primary task executes longer than splash
+            //    () => Thread.Sleep(7000)
+            //);
         }
 
         internal static void Main_Debug1(string[] args)
@@ -71,6 +76,7 @@ namespace ScriptCoreLib.Avalon.Desktop
 
         private static void InternalShowDialog(Action<Action> AnnounceCloseAction)
         {
+            //var c = new JSCSolutionsNETWhiteCarouselCanvas();
             var c = new JSCSolutionsNETCarouselCanvas();
 
             if (AnnounceCloseAction != null)

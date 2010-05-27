@@ -10,11 +10,18 @@ namespace ScriptCoreLib.JavaScript.Extensions
 	[Script]
 	public static class AvalonExtensions
 	{
+        public static IHTMLElement ToHTMLElement(this global::System.Windows.Controls.Panel e)
+        {
+            __Panel p = e;
+
+            return p.InternalSprite;
+        }
+
+ 
+
 		public static T AttachToContainer<T>(this T e, IHTMLElement c) where T : global::System.Windows.Controls.Panel
 		{
-			__Panel p = e;
-
-			c.appendChild(p.InternalSprite);
+			c.appendChild(e.ToHTMLElement());
 
 			return e;
 		}

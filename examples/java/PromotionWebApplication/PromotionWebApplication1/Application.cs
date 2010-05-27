@@ -71,6 +71,34 @@ namespace PromotionWebApplication1
         {
             "jsc".ToDocumentTitle();
 
+            // http://www.google.com/support/forum/p/Google+Analytics/thread?tid=486a963e463df665&hl=en
+            var gapathname = Native.Document.location.pathname;
+            var gasearch = Native.Document.location.search;
+            var gahash = Native.Window.escape(Native.Document.location.hash);
+            var gapageview = gapathname + gasearch + gahash;
+
+            var hash = Native.Document.location.hash;
+
+            Action<string> Analytics =
+                __hash =>
+                {
+                    var __gahash = Native.Window.escape(__hash);
+                    var __gapageview = gapathname + gasearch + __gahash;
+
+
+                    "UA-13087448-1".ToGoogleAnalyticsTracker(
+                        pageTracker =>
+                        {
+                            pageTracker._setDomainName(".jsc-solutions.net");
+                            pageTracker._trackPageview(__gapageview);
+
+
+                        }
+                    );
+                };
+
+            Analytics(Native.Document.location.hash);
+
             var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
 
             if (Native.Document.location.host.StartsWith("studio."))

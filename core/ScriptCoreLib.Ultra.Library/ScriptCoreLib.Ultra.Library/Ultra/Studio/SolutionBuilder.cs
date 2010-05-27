@@ -126,9 +126,14 @@ namespace ScriptCoreLib.Ultra.Studio
 			#region first project in current solution
             var proj_Content = default(XElement);
 
-            //if (this.Language is VisualCSharpLanguage)
+            if (this.Language is VisualCSharpLanguage)
             {
                 proj_Content = VisualStudioTemplates.VisualCSharpProject;
+            }
+
+            if (this.Language is VisualBasicLanguage)
+            {
+                proj_Content = VisualStudioTemplates.VisualBasicProject;
             }
 
             if (this.Language is VisualFSharpLanguage)

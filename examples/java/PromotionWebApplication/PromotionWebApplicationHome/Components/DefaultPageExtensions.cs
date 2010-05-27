@@ -12,6 +12,7 @@ using ScriptCoreLib.Extensions;
 using PromotionWebApplicationHome.HTML.Pages;
 using PromotionWebApplicationHome;
 using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Avalon;
 
 namespace PromotionWebApplicationHome.Components
 {
@@ -19,11 +20,21 @@ namespace PromotionWebApplicationHome.Components
     {
         public static void AnimateHomePage(this IDefaultPage page)
         {
+            var w = new JSCSolutionsNETWhiteCarouselCanvas();
+
+            page.LogoContainer.Clear();
+
+            var we = w.Container.ToHTMLElement();
+
+            we.style.SetLocation((400 - 96) / -2, (400 - 96) / -2);
+
+            page.LogoContainer.ReplaceContentWith(we);
+
             Action Deactivate = delegate { };
             Action Activate = null;
 
-            Action<IHTMLAnchor, IHTMLElement, IHTMLElement> Bind =
-                (Link, Header, Content) =>
+            Action<IHTMLAnchor, IHTMLElement> Bind =
+                (Link, Content) =>
                 {
                     Link.onmouseover +=
                        delegate
@@ -79,17 +90,16 @@ namespace PromotionWebApplicationHome.Components
 
                               e.PreventDefault();
 
-                              page.CurrentHeader.ReplaceContentWith(Header);
                               page.CurrentContent.ReplaceContentWith(Content);
                           };
                     }
                 };
 
-            Bind(page.HomeLink, page.HomeHeader, page.HomeContent);
-            Bind(page.AboutLink, page.AboutHeader, page.AboutContent);
-            Bind(page.VisionLink, page.VisionHeader, page.VisionContent);
-            Bind(page.ContactLink, page.ContactHeader, page.ContactContent);
-            Bind(page.DownloadLink, null, null);
+            Bind(page.HomeLink, page.HomeContent);
+            Bind(page.AboutLink, page.AboutContent);
+            Bind(page.VisionLink, page.VisionContent);
+            Bind(page.ContactLink, page.ContactContent);
+            Bind(page.DownloadLink, null);
         }
 
     }
