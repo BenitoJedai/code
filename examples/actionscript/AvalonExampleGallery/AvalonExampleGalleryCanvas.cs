@@ -18,8 +18,10 @@ namespace AvalonExampleGallery.Shared
 
 	public class AvalonExampleGalleryCanvas : Canvas
 	{
+        // HD? :)
+
 		public const int DefaultWidth = 800;
-		public const int DefaultHeight = 640;
+		public const int DefaultHeight = 720;
 
 		public class OptionPosition
 		{
