@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 
 namespace jsc.configuration.Controls
@@ -30,6 +31,13 @@ namespace jsc.configuration.Controls
         public string Description { get { return GetValue(DescriptionProperty) as string; } set { SetValue(DescriptionProperty, value); } }
 
         public FolderEntry() { InitializeComponent(); }
+
+        public Uri DownloadLocation { get; set; }
+
+        private void Download(object sender, RoutedEventArgs e)
+        {
+            Process.Start(DownloadLocation.ToString());
+        }
 
         private void BrowseFolder(object sender, RoutedEventArgs e)
         {
