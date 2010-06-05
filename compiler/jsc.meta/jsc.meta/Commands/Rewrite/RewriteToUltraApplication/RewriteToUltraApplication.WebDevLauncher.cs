@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
 using jsc.meta.Library.VolumeFunctions;
+using System.Net;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
@@ -44,7 +45,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                     {
 
                         a.Module.DefineManifestResource("App.ico",
-                            typeof(RewriteToUltraApplication).Assembly.GetManifestResourceStream("jsc.meta.Documents.App.ico"),
+                            typeof(RewriteToUltraApplication).Assembly.GetManifestResourceStream("jsc.meta.Documents.jsc.ico"),
                             ResourceAttributes.Public
                         );
 
@@ -257,11 +258,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                            #endregion
 
 
+
                            Tools.DropDownItems.Add(
                                new ToolStripMenuItem(
-                               //"Open in Windows &Explorer",
-                                   "Open file location",
-                                   null,
+                               // Visual Studio has this text
+                                    "Open Folder in Windows Explorer",
+                                    null,
                                    delegate
                                    {
                                        Process.Start(dir);
@@ -272,10 +274,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                                }
                            );
 
+                           Tools.DropDownItems.Add(new ToolStripSeparator());
 
                            Tools.DropDownItems.Add(
                                new ToolStripMenuItem(
-                                   "Browse to Diagnostics",
+                                   "Browse to Server Diagnostics",
                                    null,
                                    delegate
                                    {
@@ -284,6 +287,32 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                                )
 
                            );
+
+                           var jsc_configuration = @"http://download.jsc-solutions.net";
+
+                           n.ContextMenuStrip.Items.Add(
+                                new ToolStripMenuItem(
+                               // Visual Studio has this text
+                                     "Configuration...",
+                                     null,
+                                    delegate
+                                    {
+                                        var c = new WebClient();
+                                        var f = Path.Combine(
+                                            Path.GetTempPath(),
+                                            Path.GetRandomFileName() + ".jsc.configuration.application"
+                                        );
+
+                                        c.DownloadFile(jsc_configuration, f);
+
+                                        Process.Start(f);
+                                    }
+                                )
+                                {
+                                    ToolTipText = jsc_configuration
+                                }
+                            );
+
 
                            n.ContextMenuStrip.Items.Add(Tools);
                            n.ContextMenuStrip.Items.Add(new ToolStripSeparator());

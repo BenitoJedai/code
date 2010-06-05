@@ -119,15 +119,15 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon.Carousel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.Carousel.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Avalon.Carousel.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon.TextButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TextButton.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Avalon.TextButton.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon.TiledImageButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

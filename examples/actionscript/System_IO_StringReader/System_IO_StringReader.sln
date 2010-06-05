@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System_IO_StringReader", "System_IO_StringReader\System_IO_StringReader.csproj", "{1AF5CF47-9A49-4E75-8506-3F8EA3198D44}"
 EndProject
 Global
