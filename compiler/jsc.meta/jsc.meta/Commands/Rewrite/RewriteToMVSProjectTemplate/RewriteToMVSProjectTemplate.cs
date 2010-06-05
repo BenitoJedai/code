@@ -234,7 +234,30 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
             }
 
             zip["__TemplateIcon.ico"].Bytes = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.meta.Documents.__TemplateIcon_CS_JSC.ico").ToBytes();
-            zip["__PreviewImage.png"].Bytes = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.meta.Documents.jsc.png").ToBytes();
+
+            var PreviewFiles =
+                from ItemGroup in proj.Root.Elements(nsItemGroup)
+                from Item in ItemGroup.Elements(nsContent)
+                let Include = Item.Attribute("Include").Value
+                let Directory = Path.GetDirectoryName(Include)
+
+                let ItemFile = new FileInfo(Path.Combine(ProjectFileName.Directory.FullName, Include))
+
+                where ItemFile.Name == "Preview.png"
+
+                select new { ItemGroup, Item, Include, ItemFile, Directory } 
+              ;
+
+            var Preview = PreviewFiles.FirstOrDefault();
+
+            if (Preview == null)
+            {
+                zip["__PreviewImage.png"].Bytes = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("jsc.meta.Documents.jsc.png").ToBytes();
+            }
+            else
+            {
+                zip["__PreviewImage.png"].Bytes = File.ReadAllBytes(Preview.ItemFile.FullName);
+            }
 
             var ProjectTemplateFile = Path.Combine(ProjectTemplates.FullName, Attributes.Title + ".zip");
             Console.WriteLine(ProjectTemplateFile);
