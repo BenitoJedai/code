@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NumericTransmitter", "NumericTransmitter\NumericTransmitter.csproj", "{0DD8762A-74DC-45F8-92C1-8C9ED8CE90D8}"
 EndProject
 Global
