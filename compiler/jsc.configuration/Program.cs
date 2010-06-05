@@ -12,6 +12,7 @@ using System.Windows;
 using System.Threading;
 using jsc.meta.Configuration;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace jsc.configuration
 {
@@ -44,6 +45,11 @@ namespace jsc.configuration
             var cc = new JSCSolutionsNETCarouselCanvas();
 
             cc.CloseOnClick = false;
+            cc.AtLogoClick +=
+                delegate
+                {
+                    Process.Start("http://www.jsc-solutions.net");
+                };
 
             // http://stackoverflow.com/questions/741956/wpf-pan-zoom-image
             cc.Container.RenderTransform = new ScaleTransform(0.5, 0.5);
@@ -70,6 +76,7 @@ namespace jsc.configuration
 
             //w.ToTransparentWindow();
 
+            w.Background = Brushes.White;
             w.WithGlass();
             w.ShowDialog();
         }
