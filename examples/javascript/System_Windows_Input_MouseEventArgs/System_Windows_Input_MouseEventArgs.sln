@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System_Windows_Input_MouseEventArgs", "System_Windows_Input_MouseEventArgs\System_Windows_Input_MouseEventArgs.csproj", "{7D86C2F5-182D-48ED-B1FE-C3B868050C22}"
 EndProject
 Global

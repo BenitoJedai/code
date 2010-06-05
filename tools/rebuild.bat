@@ -52,6 +52,7 @@ call :build core\ScriptCoreLib.Avalon.Cursors\ScriptCoreLib.Avalon.Cursors.sln
 call :build core\ScriptCoreLib.Avalon.Carousel\ScriptCoreLib.Avalon.Carousel.sln
 call :build core\ScriptCoreLib.Avalon.TextButton\ScriptCoreLib.Avalon.TextButton.sln
 call :build core\ScriptCoreLib.Avalon.TiledImageButton\ScriptCoreLib.Avalon.TiledImageButton.sln
+call :build core\ScriptCoreLib.Avalon.TextSuggestions\ScriptCoreLib.Avalon.TextSuggestions.sln
 call :build core\ScriptCoreLib.RayCaster\ScriptCoreLib.RayCaster.sln
 call :build core\ScriptCoreLib.Maze\ScriptCoreLib.Maze.sln
 
