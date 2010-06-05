@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\Preview.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\17g.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\17.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformD\sand.png" />
