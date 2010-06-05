@@ -70,6 +70,11 @@ namespace AvalonExampleGallery.Shared
 						pages::InteractiveSketchupWarehouse.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::InteractiveSketchupWarehouse.Shared.InteractiveSketchupWarehouseCanvas) },
 
+                        		
+					{ 
+						pages::InteractiveMatrixTransform.Shared.KnownAssets.Path.Assets, 
+						typeof(pages::InteractiveMatrixTransform.Shared.OrcasAvalonApplicationCanvas) },
+
 				};
 			}
 		}

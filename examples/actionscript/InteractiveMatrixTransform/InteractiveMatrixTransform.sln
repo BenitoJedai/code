@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransform", "InteractiveMatrixTransform\InteractiveMatrixTransform.csproj", "{3EBF965F-4A07-44F7-A969-FF8E1CD60E4A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveMatrixTransformB", "InteractiveMatrixTransformB\InteractiveMatrixTransformB.csproj", "{CFF993B9-171C-4CBE-99E6-AEC91BC9F639}"
