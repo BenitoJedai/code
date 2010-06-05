@@ -82,6 +82,15 @@
       <HintPath>..\InteractiveMatrixTransform\InteractiveMatrixTransform\bin\Debug\InteractiveMatrixTransform.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
+    <Reference Include="InteractiveMatrixTransformD">
+      <HintPath>..\InteractiveMatrixTransform\InteractiveMatrixTransformD\bin\Debug\InteractiveMatrixTransformD.exe</HintPath>
+      <Private>True</Private>
+      <Aliases>pages</Aliases>
+    </Reference>
+    <Reference Include="InteractiveMatrixTransformF">
+      <HintPath>..\InteractiveMatrixTransform\InteractiveMatrixTransformF\bin\Debug\InteractiveMatrixTransformF.exe</HintPath>
+      <Aliases>pages</Aliases>
+    </Reference>
     <Reference Include="InteractiveOrdering, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\InteractiveOrdering\InteractiveOrdering\bin\Debug\InteractiveOrdering.exe</HintPath>

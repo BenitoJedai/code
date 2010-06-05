@@ -81,7 +81,7 @@ namespace InteractiveMatrixTransformG
 			//var sandcount = 9;
 			//var cubecount = 2;
 
-			10000.AtDelay(
+			1000.AtDelay(
 				delegate
 				{
 					CreateContent(15, 2, false);

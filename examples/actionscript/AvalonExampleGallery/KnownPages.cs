@@ -8,16 +8,16 @@ using ScriptCoreLib;
 
 namespace AvalonExampleGallery.Shared
 {
-	public static class KnownPages
-	{
-		// http://msdn.microsoft.com/en-us/library/ms173212.aspx
-		// Each extern alias declaration introduces an additional root-level namespace that parallels (but does not lie within) the global namespace. Thus types from each assembly can be referred to without ambiguity by using their fully qualified name, rooted in the appropriate namespace-alias.
+    public static class KnownPages
+    {
+        // http://msdn.microsoft.com/en-us/library/ms173212.aspx
+        // Each extern alias declaration introduces an additional root-level namespace that parallels (but does not lie within) the global namespace. Thus types from each assembly can be referred to without ambiguity by using their fully qualified name, rooted in the appropriate namespace-alias.
 
-		public static Dictionary<string, Type> Value
-		{
-			get
-			{
-				return new Dictionary<string, Type>
+        public static Dictionary<string, Type> Value
+        {
+            get
+            {
+                return new Dictionary<string, Type>
 				{
 					{ 
 						pages::NavigationButtons.Assets.Shared.KnownAssets.Path.Assets, 
@@ -75,8 +75,16 @@ namespace AvalonExampleGallery.Shared
 						pages::InteractiveMatrixTransform.Shared.KnownAssets.Path.Assets, 
 						typeof(pages::InteractiveMatrixTransform.Shared.OrcasAvalonApplicationCanvas) },
 
+                    { 
+				        pages::InteractiveMatrixTransformD.Shared.KnownAssets.Path.Assets, 
+				        typeof(pages::InteractiveMatrixTransformD.Shared.OrcasAvalonApplicationCanvas) },
+
+                    { 
+				        pages::InteractiveMatrixTransformF.KnownAssets.Path.Assets, 
+				        typeof(pages::InteractiveMatrixTransformF.OrcasMetaAvalonApplicationCanvas) },
+
 				};
-			}
-		}
-	}
+            }
+        }
+    }
 }

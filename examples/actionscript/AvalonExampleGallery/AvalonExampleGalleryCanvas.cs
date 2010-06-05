@@ -206,7 +206,7 @@ namespace AvalonExampleGallery.Shared
 					{
 						o.MoveTo(
 							48 + (180) * (i % 4),
-							48 + Convert.ToInt32(i / 4) * 140
+							36 + Convert.ToInt32(i / 4) * 128
 						);
 					}
 					else
