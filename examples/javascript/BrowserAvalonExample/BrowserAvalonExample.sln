@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonExample", "BrowserAvalonExample\BrowserAvalonExample.csproj", "{09F2E246-7ED5-41F5-AC86-F1531720C19F}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entrypoints", "Entrypoints", "{72C086DB-3610-4346-A85A-717C7B53DE6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonExample", "BrowserAvalonExample\BrowserAvalonExample.csproj", "{09F2E246-7ED5-41F5-AC86-F1531720C19F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonExample.Assets", "BrowserAvalonExample.Assets\BrowserAvalonExample.Assets.csproj", "{93500606-43DA-4E5A-9375-363270089721}"
 EndProject

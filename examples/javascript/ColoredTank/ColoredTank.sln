@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColoredTank", "ColoredTank\ColoredTank.csproj", "{54AD143E-27CB-4EE0-91EF-C59E151CF76A}"
 EndProject
 Global

@@ -48,6 +48,7 @@ call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
 call :build core\ScriptCoreLib.Archive.ZIP\ScriptCoreLib.Archive.ZIP.sln
 call :build core\ScriptCoreLib.Archive\ScriptCoreLib.Archive.sln
 call :build core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.sln
+call :build core\ScriptCoreLib.Avalon.Carousel\ScriptCoreLib.Avalon.Carousel.sln
 call :build core\ScriptCoreLib.RayCaster\ScriptCoreLib.RayCaster.sln
 call :build core\ScriptCoreLib.Maze\ScriptCoreLib.Maze.sln
 
