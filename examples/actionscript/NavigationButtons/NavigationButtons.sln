@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons", "NavigationButtons\NavigationButtons.csproj", "{9B848308-5AE8-4AF3-B718-DDE82F0EC57A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavigationButtons.XBAP", "NavigationButtons.XBAP\NavigationButtons.XBAP.csproj", "{AC4D12B2-A316-42B5-8772-5DBE8FACEBF4}"

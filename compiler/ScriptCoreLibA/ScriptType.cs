@@ -32,7 +32,13 @@ namespace ScriptCoreLib
 		// Lua would be cool, only if we had our own interpreter too
 		// there seems to be a lua2il compiler: http://www.lua.inf.puc-rio.br/luanet/lua2il/
 		// a newer version: http://www.lua.inf.puc-rio.br/luaclr
-		Lua
+		Lua,
+
+        /// <summary>
+        /// For the WebGL :) And WPF?
+        /// http://en.wikipedia.org/wiki/GLSL
+        /// </summary>
+        ShadingLanguage
 	}
 
 }

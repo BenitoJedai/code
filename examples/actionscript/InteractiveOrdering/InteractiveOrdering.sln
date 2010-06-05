@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveOrdering", "InteractiveOrdering\InteractiveOrdering.csproj", "{80C5FD42-FCF2-4E04-909A-519E8E562906}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractiveOrdering.XBAP2", "InteractiveOrdering.XBAP2\InteractiveOrdering.XBAP2.csproj", "{87F9161D-1841-4831-A3D5-32DA7F309DAD}"
