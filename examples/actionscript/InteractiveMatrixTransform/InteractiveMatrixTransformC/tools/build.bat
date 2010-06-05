@@ -25,7 +25,7 @@ goto :eof
 :jsc
 pushd ..\bin\%ConfigurationName%
 
-call c:\util\jsc\bin\jsc.exe %1.dll  -as
+start /WAIT c:\util\jsc\bin\jsc.exe %1.dll  -as
 
 
 popd
@@ -48,5 +48,5 @@ echo - %2
 :: http://www.adobe.com/products/flex/sdk/
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-call C:\util\flex33\bin\mxmlc.exe -target-player=10 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+start /WAIT C:\util\flex_sdk_4.0.0.14159\bin\mxmlc.exe -static-link-runtime-shared-libraries=true  -target-player=10 -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 goto :eof

@@ -10,6 +10,7 @@ using jsc.meta.Tools;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Diagnostics;
+using jsc.meta.Configuration;
 
 namespace jsc.meta.Commands.Extend
 {
@@ -21,7 +22,7 @@ namespace jsc.meta.Commands.Extend
 		//public string type;
 		public DirectoryInfo staging;
 		public FileInfo zip;
-		public FileInfo mxmlc;
+		public FileInfo mxmlc = SDKConfiguration.Default.FlexSDK_mxmlc;
 
 		/// <summary>
 		/// Setting this field to false disables javascript generation.
@@ -31,7 +32,7 @@ namespace jsc.meta.Commands.Extend
 		/// <summary>
 		/// The swf file shall be converted to an exe file.
 		/// </summary>
-		public FileInfo flashplayer;
+        public FileInfo flashplayer = SDKConfiguration.Default.FlexSDK_flashplayer;
 
 		public bool operawidget;
 

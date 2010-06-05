@@ -77,12 +77,14 @@
     <Compile Include="AffineEngine\AffineTransform.cs" />
     <Compile Include="AffineEngine\AffineVertex.cs" />
     <Compile Include="AffineEngine\AffineZoom.cs" />
+    <Compile Include="KnownAssets.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrcasMetaAvalonApplicationCanvas.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documents\description.txt" />
+    <EmbeddedResource Include="web\assets\InteractiveMatrixTransformF\Preview.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformF\19g.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformF\17g.png" />
     <EmbeddedResource Include="web\assets\InteractiveMatrixTransformF\17.png" />
@@ -102,7 +104,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-C:\util\jsc\bin\jsc.meta.exe ExtendToAvalonEverywhere /assembly:$(TargetPath) /mxmlc:"C:\util\flex33\bin\mxmlc.exe" /flashplayer:"C:\util\flex33\runtimes\player\10\win\FlashPlayer10.exe"
+C:\util\jsc\bin\jsc.meta.exe ExtendToAvalonEverywhere /assembly:$(TargetPath)
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
