@@ -68,9 +68,11 @@ namespace ScriptCoreLib.Extensions
 					i++;
 
 					if (i > 0)
-						return new[] { f(y, c), c };
+                        // FIXME: jsc shall convert Array to IEnumerable!
+                        return new[] { f(y, c), c }.AsEnumerable();
 
-					return new[] { c };
+                    // FIXME: jsc shall convert Array to IEnumerable!
+                    return new[] { c }.AsEnumerable();
 				}
 			);
 		}

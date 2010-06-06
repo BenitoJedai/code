@@ -15,1250 +15,1250 @@ using jsc.meta.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
-	public partial class RewriteToAssembly
-	{
-		public event Action<Assembly> AssemblyMergeLoadHint;
+    public partial class RewriteToAssembly
+    {
+        public event Action<Assembly> AssemblyMergeLoadHint;
 
-		public void Invoke()
-		{
-			if (this.AttachDebugger)
-				Debugger.Launch();
+        public void Invoke()
+        {
+            if (this.AttachDebugger)
+                Debugger.Launch();
 
-			#region ExternalContext defaults...
+            #region ExternalContext defaults...
 
 
-			this.ExternalContext.TypeCache.Resolve +=
-				source =>
-				{
-					if (this.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
-						return;
+            this.ExternalContext.TypeCache.Resolve +=
+                source =>
+                {
+                    if (this.ExternalContext.TypeCache.BaseDictionary.ContainsKey(source))
+                        return;
 
-					this.ExternalContext.TypeCache[source] = source;
-				};
+                    this.ExternalContext.TypeCache[source] = source;
+                };
 
-			this.ExternalContext.MethodCache.Resolve +=
-				source =>
-				{
-					if (this.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
-						return;
+            this.ExternalContext.MethodCache.Resolve +=
+                source =>
+                {
+                    if (this.ExternalContext.MethodCache.BaseDictionary.ContainsKey(source))
+                        return;
 
 
-					this.ExternalContext.MethodCache[source] = source;
-				};
+                    this.ExternalContext.MethodCache[source] = source;
+                };
 
-			this.ExternalContext.ConstructorCache.Resolve +=
-				source =>
-				{
-					if (this.ExternalContext.ConstructorCache.BaseDictionary.ContainsKey(source))
-						return;
+            this.ExternalContext.ConstructorCache.Resolve +=
+                source =>
+                {
+                    if (this.ExternalContext.ConstructorCache.BaseDictionary.ContainsKey(source))
+                        return;
 
 
-					this.ExternalContext.ConstructorCache[source] = source;
-				};
+                    this.ExternalContext.ConstructorCache[source] = source;
+                };
 
-			#endregion
+            #endregion
 
 
-			var NameObfuscationRandom = new Random();
+            var NameObfuscationRandom = new Random();
 
-			#region NameObfuscation
-			NameObfuscation.Resolve +=
-				n =>
-				{
-					if (!this.obfuscate)
-					{
-						NameObfuscation[n] = n;
+            #region NameObfuscation
+            NameObfuscation.Resolve +=
+                n =>
+                {
+                    if (!this.obfuscate)
+                    {
+                        NameObfuscation[n] = n;
 
-						return;
-					}
+                        return;
+                    }
 
-					// see: http://www.cumps.be/obfuscation-making-reverse-engineering-harder/
-					// see: http://www.codesqueeze.com/careless-obfuscation-can-lose-you-business/
+                    // see: http://www.cumps.be/obfuscation-making-reverse-engineering-harder/
+                    // see: http://www.codesqueeze.com/careless-obfuscation-can-lose-you-business/
 
-					// should we add salt?
-					var salt_length = NameObfuscationRandom.Next(7);
+                    // should we add salt?
+                    var salt_length = NameObfuscationRandom.Next(7);
 
-					var ObfuscatedName = new StringBuilder();
+                    var ObfuscatedName = new StringBuilder();
 
-					ObfuscatedName.Append((char)(0xFEFC - NameObfuscation.BaseDictionary.Count));
+                    ObfuscatedName.Append((char)(0xFEFC - NameObfuscation.BaseDictionary.Count));
 
-					for (int i = 0; i < salt_length; i++)
-					{
-						ObfuscatedName.Append((char)(0xFEFC - NameObfuscationRandom.Next(0x1000)));
-					}
+                    for (int i = 0; i < salt_length; i++)
+                    {
+                        ObfuscatedName.Append((char)(0xFEFC - NameObfuscationRandom.Next(0x1000)));
+                    }
 
-					NameObfuscation[n] = ObfuscatedName.ToString();
-				};
-			#endregion
+                    NameObfuscation[n] = ObfuscatedName.ToString();
+                };
+            #endregion
 
 
 
-			if (this.assembly == null)
-				this.staging = this.staging.CreateTemp();
-			else
-				this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
+            if (this.assembly == null)
+                this.staging = this.staging.CreateTemp();
+            else
+                this.staging = this.staging.Create(() => this.assembly.Directory.CreateSubdirectory("staging"));
 
 
-			var assembly = this.assembly == null ? null : Assembly.LoadFile(this.assembly.FullName);
-			//var assembly = this.assembly.LoadAssemblyAt(staging);
-			_assembly = assembly;
+            var assembly = this.assembly == null ? null : Assembly.LoadFile(this.assembly.FullName);
+            //var assembly = this.assembly.LoadAssemblyAt(staging);
+            _assembly = assembly;
 
-			// load the rest of the references
-			// maybe we shouldnt load those references which will be merged?
-			if (assembly != null)
-			{
-				assembly.LoadReferencesAt(staging, this.assembly.Directory);
-			}
+            // load the rest of the references
+            // maybe we shouldnt load those references which will be merged?
+            if (assembly != null)
+            {
+                assembly.LoadReferencesAt(staging, this.assembly.Directory);
+            }
 
-			// AssemblyMerge will copy resources too... getting crowded!
-			Action<AssemblyBuilder, ModuleBuilder> InvokeLater = delegate { };
+            // AssemblyMerge will copy resources too... getting crowded!
+            Action<AssemblyBuilder, ModuleBuilder> InvokeLater = delegate { };
 
-			if (this.Output != null)
-			{
-				this.product = Path.GetFileNameWithoutExtension(this.Output.Name);
-				this.productExtension = this.Output.Extension;
-			}
+            if (this.Output != null)
+            {
+                this.product = Path.GetFileNameWithoutExtension(this.Output.Name);
+                this.productExtension = this.Output.Extension;
+            }
 
-			var Product_Name = (string.IsNullOrEmpty(this.product) ?
-					this.assembly.Name + ".Rewrite" :
-					this.product);
+            var Product_Name = (string.IsNullOrEmpty(this.product) ?
+                    this.assembly.Name + ".Rewrite" :
+                    this.product);
 
 
 
-			if (this.PrimaryTypes.Length == 0)
-			{
-				this.PrimaryTypes = this.AssemblyMerge.SelectMany(
-					k =>
-					{
-						var shadow = Path.Combine(this.staging.FullName, Path.GetFileName(k.name));
+            if (this.PrimaryTypes.Length == 0)
+            {
+                this.PrimaryTypes = this.AssemblyMerge.SelectMany(
+                    k =>
+                    {
+                        var shadow = Path.Combine(this.staging.FullName, Path.GetFileName(k.name));
 
-						var loaded = File.Exists(shadow);
+                        var loaded = File.Exists(shadow);
 
-						if (!loaded)
-							File.Copy(
-								k.name,
-								shadow
-							);
+                        if (!loaded)
+                            File.Copy(
+                                k.name,
+                                shadow
+                            );
 
-						var shadow_assembly = Assembly.LoadFile(shadow);
+                        var shadow_assembly = Assembly.LoadFile(shadow);
 
-						if (this.AssemblyMergeLoadHint != null)
-							this.AssemblyMergeLoadHint(shadow_assembly);
+                        if (this.AssemblyMergeLoadHint != null)
+                            this.AssemblyMergeLoadHint(shadow_assembly);
 
 
-						if (!loaded)
-						{
-							shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(Path.GetDirectoryName(k.name)));
+                        if (!loaded)
+                        {
+                            shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(Path.GetDirectoryName(k.name)));
 
-						}
+                        }
 
-						InvokeLater +=
-							(__a, __m) =>
-							{
-								// should we copy attributes? should they be opt-out?
+                        InvokeLater +=
+                            (__a, __m) =>
+                            {
+                                // should we copy attributes? should they be opt-out?
 
-								foreach (var item in shadow_assembly.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
-								{
-									__a.SetCustomAttribute(item(this.RewriteArguments.context));
-								}
+                                foreach (var item in shadow_assembly.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+                                {
+                                    __a.SetCustomAttribute(item(this.RewriteArguments.context));
+                                }
 
 
-								foreach (var item in shadow_assembly.GetManifestResourceNames())
-								{
-									var n = item;
+                                foreach (var item in shadow_assembly.GetManifestResourceNames())
+                                {
+                                    var n = item;
 
-									if (n.StartsWith(shadow_assembly.GetName().Name))
-										n = Product_Name + n.Substring(shadow_assembly.GetName().Name.Length);
+                                    if (n.StartsWith(shadow_assembly.GetName().Name))
+                                        n = Product_Name + n.Substring(shadow_assembly.GetName().Name.Length);
 
-									__m.DefineManifestResource(
-										n,
-										shadow_assembly.GetManifestResourceStream(item), ResourceAttributes.Public
-									);
+                                    __m.DefineManifestResource(
+                                        n,
+                                        shadow_assembly.GetManifestResourceStream(item), ResourceAttributes.Public
+                                    );
 
-								}
-							};
+                                }
+                            };
 
 
-						return shadow_assembly.GetTypes();
-					}
-				).ToArray();
-			}
+                        return shadow_assembly.GetTypes();
+                    }
+                ).ToArray();
+            }
 
-			if (this.PrimaryTypes.Length == 0)
-				if (assembly != null)
-					this.PrimaryTypes =
-						(string.IsNullOrEmpty(this.type) ?
-							(assembly.EntryPoint == null ? assembly.GetTypes() : new[] { assembly.EntryPoint.DeclaringType }) :
-								new[] { assembly.GetType(this.type) }
-						);
+            if (this.PrimaryTypes.Length == 0)
+                if (assembly != null)
+                    this.PrimaryTypes =
+                        (string.IsNullOrEmpty(this.type) ?
+                            (assembly.EntryPoint == null ? assembly.GetTypes() : new[] { assembly.EntryPoint.DeclaringType }) :
+                                new[] { assembly.GetType(this.type) }
+                        );
 
 
 
-			var Product_Extension = this.assembly == null ? productExtension : this.assembly.Extension;
+            var Product_Extension = this.assembly == null ? productExtension : this.assembly.Extension;
 
-			var Product = new FileInfo(Path.Combine(staging.FullName, Product_Name + Product_Extension));
+            var Product = new FileInfo(Path.Combine(staging.FullName, Product_Name + Product_Extension));
 
-			// we might want to use temp path instead and later figure out if we are replacing input...
-			var OutputUndefined = this.Output == null;
+            // we might want to use temp path instead and later figure out if we are replacing input...
+            var OutputUndefined = this.Output == null;
 
-			if (OutputUndefined)
-				this.Output = Product;
+            if (OutputUndefined)
+                this.Output = Product;
 
-			var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
+            var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
 
-			if (OutputUndefined)
-			{
-				// we probably did not load the same file... and we can easly remove it!
-				if (Product.Exists)
-					Product.Delete();
-			}
+            if (OutputUndefined)
+            {
+                // we probably did not load the same file... and we can easly remove it!
+                if (Product.Exists)
+                    Product.Delete();
+            }
 
 
-			var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
-			var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
-				// Unable to add resource to transient module or transient assembly.
-				OutputUndefined ? Product.Name : "~" + Product.Name
+            var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
+            var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
+                // Unable to add resource to transient module or transient assembly.
+                OutputUndefined ? Product.Name : "~" + Product.Name
 
-			);
+            );
 
 
 
-			var OverrideDeclaringType = this.RewriteArguments.context.OverrideDeclaringType;
+            var OverrideDeclaringType = this.RewriteArguments.context.OverrideDeclaringType;
 
-			var TypeDefinitionCache = this.RewriteArguments.context.TypeDefinitionCache;
-			var TypeCache = this.RewriteArguments.context.TypeCache;
-			var TypeRenameCache = this.RewriteArguments.context.TypeRenameCache;
-			var MemberRenameCache = this.RewriteArguments.context.MemberRenameCache;
-			var FieldCache = this.RewriteArguments.context.FieldCache;
+            var TypeDefinitionCache = this.RewriteArguments.context.TypeDefinitionCache;
+            var TypeCache = this.RewriteArguments.context.TypeCache;
+            var TypeRenameCache = this.RewriteArguments.context.TypeRenameCache;
+            var MemberRenameCache = this.RewriteArguments.context.MemberRenameCache;
+            var FieldCache = this.RewriteArguments.context.FieldCache;
 
-			var ConstructorCache = this.RewriteArguments.context.ConstructorCache;
-			var MethodCache = this.RewriteArguments.context.MethodCache;
-			var MethodAttributesCache = this.RewriteArguments.context.MethodAttributesCache;
-			var PropertyCache = this.RewriteArguments.context.PropertyCache;
+            var ConstructorCache = this.RewriteArguments.context.ConstructorCache;
+            var MethodCache = this.RewriteArguments.context.MethodCache;
+            var MethodAttributesCache = this.RewriteArguments.context.MethodAttributesCache;
+            var PropertyCache = this.RewriteArguments.context.PropertyCache;
 
 
-			this.RewriteArguments.Assembly = a;
-			this.RewriteArguments.Module = m;
+            this.RewriteArguments.Assembly = a;
+            this.RewriteArguments.Module = m;
 
 
 
 
 
 
-			#region PropertyCache
-			PropertyCache.Resolve +=
-				SourceProperty =>
-				{
-					var Source = TypeCache[SourceProperty.DeclaringType];
+            #region PropertyCache
+            PropertyCache.Resolve +=
+                SourceProperty =>
+                {
+                    var Source = TypeCache[SourceProperty.DeclaringType];
 
-					if (Source is TypeBuilder)
-					{
-						var k = SourceProperty;
-						var t = Source as TypeBuilder;
+                    if (Source is TypeBuilder)
+                    {
+                        var k = SourceProperty;
+                        var t = Source as TypeBuilder;
 
-						var PropertyName = NameObfuscation[k.Name];
+                        var PropertyName = NameObfuscation[k.Name];
 
-						var _SetMethod = k.GetSetMethod(true);
-						var _GetMethod = k.GetGetMethod(true);
+                        var _SetMethod = k.GetSetMethod(true);
+                        var _GetMethod = k.GetGetMethod(true);
 
-						var kp = t.DefineProperty(PropertyName, k.Attributes, TypeCache[k.PropertyType], null);
+                        var kp = t.DefineProperty(PropertyName, k.Attributes, TypeCache[k.PropertyType], null);
 
-						if (_SetMethod != null)
-							kp.SetSetMethod((MethodBuilder)MethodCache[_SetMethod]);
+                        if (_SetMethod != null)
+                            kp.SetSetMethod((MethodBuilder)MethodCache[_SetMethod]);
 
-						if (_GetMethod != null)
-							kp.SetGetMethod((MethodBuilder)MethodCache[_GetMethod]);
+                        if (_GetMethod != null)
+                            kp.SetGetMethod((MethodBuilder)MethodCache[_GetMethod]);
 
-						PropertyCache[SourceProperty] = kp;
+                        PropertyCache[SourceProperty] = kp;
 
-						return;
-					}
+                        return;
+                    }
 
-					PropertyCache[SourceProperty] = Source.GetProperty(SourceProperty.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
-				};
-			#endregion
+                    PropertyCache[SourceProperty] = Source.GetProperty(SourceProperty.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance);
+                };
+            #endregion
 
-			#region ConstructorCache
-			ConstructorCache.Resolve +=
-				SourceConstructor =>
-				{
-					// This unit was resolved for us...
-					if (ExternalContext.ConstructorCache[SourceConstructor] != SourceConstructor)
-					{
-						ConstructorCache[SourceConstructor] = ExternalContext.ConstructorCache[SourceConstructor];
-						return;
-					}
+            #region ConstructorCache
+            ConstructorCache.Resolve +=
+                SourceConstructor =>
+                {
+                    // This unit was resolved for us...
+                    if (ExternalContext.ConstructorCache[SourceConstructor] != SourceConstructor)
+                    {
+                        ConstructorCache[SourceConstructor] = ExternalContext.ConstructorCache[SourceConstructor];
+                        return;
+                    }
 
-					//    L_0086: newobj instance void [System.Core]System.Func`2<class [ScriptCoreLib.Archive.ZIP]ScriptCoreLib.Archive.ZIP.ZIPFile/Entry, bool>::.ctor(object, native int)
+                    //    L_0086: newobj instance void [System.Core]System.Func`2<class [ScriptCoreLib.Archive.ZIP]ScriptCoreLib.Archive.ZIP.ZIPFile/Entry, bool>::.ctor(object, native int)
 
-					var source = SourceConstructor.DeclaringType;
-					var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+                    var source = SourceConstructor.DeclaringType;
+                    var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
 
-					if (source.IsGenericType)
-						if (!source.IsGenericTypeDefinition)
-						{
-							// are we rewriting any part of this generic type? if we are not we need just to pass it!
+                    if (source.IsGenericType)
+                        if (!source.IsGenericTypeDefinition)
+                        {
+                            // are we rewriting any part of this generic type? if we are not we need just to pass it!
 
-							if (!ShouldCopyType(source))
-							{
-								ConstructorCache[SourceConstructor] = SourceConstructor;
-								return;
-							}
+                            if (!ShouldCopyType(source))
+                            {
+                                ConstructorCache[SourceConstructor] = SourceConstructor;
+                                return;
+                            }
 
-							var Def = source.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
+                            var Def = source.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
 
-							// Define it in the TypeBuilder
-							var Def1 = ConstructorCache[Def];
+                            // Define it in the TypeBuilder
+                            var Def1 = ConstructorCache[Def];
 
-							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+                            var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
 
-							var ResolvedType2 = ResolvedType1.MakeGenericType(
-								TypeDefinitionCache[source.GetGenericArguments()]
-							);
+                            var ResolvedType2 = ResolvedType1.MakeGenericType(
+                                TypeDefinitionCache[source.GetGenericArguments()]
+                            );
 
-							// http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
-							// http://msdn.microsoft.com/en-us/library/ms145835.aspx
+                            // http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
+                            // http://msdn.microsoft.com/en-us/library/ms145835.aspx
 
-							//var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+                            //var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
 
 
-							// The specified method must be declared on the generic type definition of the specified type.
-							// Parameter name: type
-							var Def2 = default(ConstructorInfo);
+                            // The specified method must be declared on the generic type definition of the specified type.
+                            // Parameter name: type
+                            var Def2 = default(ConstructorInfo);
 
-							//ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
+                            //ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
 
-							try
-							{
-								Def2 = TypeBuilder.GetConstructor(ResolvedType2, Def1);
-							}
-							catch
-							{
-								Def2 = ResolvedType2.GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
-							}
+                            try
+                            {
+                                Def2 = TypeBuilder.GetConstructor(ResolvedType2, Def1);
+                            }
+                            catch
+                            {
+                                Def2 = ResolvedType2.GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
+                            }
 
 
 
-							ConstructorCache[SourceConstructor] = Def2;
-							return;
-						}
+                            ConstructorCache[SourceConstructor] = Def2;
+                            return;
+                        }
 
 
 
 
-					if (ShouldCopyType(SourceConstructor.DeclaringType) && TypeCache[SourceConstructor.DeclaringType] is TypeBuilder)
-					{
-						var DeclaringType = (TypeBuilder)TypeCache[SourceConstructor.DeclaringType];
+                    if (ShouldCopyType(SourceConstructor.DeclaringType) && TypeCache[SourceConstructor.DeclaringType] is TypeBuilder)
+                    {
+                        var DeclaringType = (TypeBuilder)TypeCache[SourceConstructor.DeclaringType];
 
-						if (ConstructorCache.BaseDictionary.ContainsKey(SourceConstructor))
-							return;
+                        if (ConstructorCache.BaseDictionary.ContainsKey(SourceConstructor))
+                            return;
 
-						CopyConstructor(
-							SourceConstructor,
-							DeclaringType,
-							NameObfuscation,
-							AtILOverride,
-							this.RewriteArguments.context
-						);
-						return;
-					}
+                        CopyConstructor(
+                            SourceConstructor,
+                            DeclaringType,
+                            NameObfuscation,
+                            AtILOverride,
+                            this.RewriteArguments.context
+                        );
+                        return;
+                    }
 
 
-					ConstructorCache[SourceConstructor] = SourceConstructor;
+                    ConstructorCache[SourceConstructor] = SourceConstructor;
 
-				};
-			#endregion
+                };
+            #endregion
 
 
-			#region MethodAttributesCache
-			MethodAttributesCache.Resolve +=
-				SourceMember =>
-				{
-					if (MethodAttributesCache.BaseDictionary.ContainsKey(SourceMember))
-						return;
+            #region MethodAttributesCache
+            MethodAttributesCache.Resolve +=
+                SourceMember =>
+                {
+                    if (MethodAttributesCache.BaseDictionary.ContainsKey(SourceMember))
+                        return;
 
-					MethodAttributesCache[SourceMember] = SourceMember.Attributes;
-				};
-			#endregion
+                    MethodAttributesCache[SourceMember] = SourceMember.Attributes;
+                };
+            #endregion
 
-			#region MemberRenameCache
-			MemberRenameCache.Resolve +=
-				SourceMember =>
-				{
-					if (MemberRenameCache.BaseDictionary.ContainsKey(SourceMember))
-						return;
+            #region MemberRenameCache
+            MemberRenameCache.Resolve +=
+                SourceMember =>
+                {
+                    if (MemberRenameCache.BaseDictionary.ContainsKey(SourceMember))
+                        return;
 
-					MemberRenameCache[SourceMember] = default(string);
-				};
-			#endregion
+                    MemberRenameCache[SourceMember] = default(string);
+                };
+            #endregion
 
-			#region TypeRenameCache
-			TypeRenameCache.Resolve +=
-				SourceType =>
-				{
-					if (TypeRenameCache.BaseDictionary.ContainsKey(SourceType))
-						return;
+            #region TypeRenameCache
+            TypeRenameCache.Resolve +=
+                SourceType =>
+                {
+                    if (TypeRenameCache.BaseDictionary.ContainsKey(SourceType))
+                        return;
 
-					TypeRenameCache[SourceType] = default(string);
-				};
-			#endregion
+                    TypeRenameCache[SourceType] = default(string);
+                };
+            #endregion
 
-			#region OverrideDeclaringType
-			OverrideDeclaringType.Resolve +=
-				SourceType =>
-				{
-					if (OverrideDeclaringType.BaseDictionary.ContainsKey(SourceType))
-						return;
+            #region OverrideDeclaringType
+            OverrideDeclaringType.Resolve +=
+                SourceType =>
+                {
+                    if (OverrideDeclaringType.BaseDictionary.ContainsKey(SourceType))
+                        return;
 
-					OverrideDeclaringType[SourceType] = default(TypeBuilder);
-				};
-			#endregion
+                    OverrideDeclaringType[SourceType] = default(TypeBuilder);
+                };
+            #endregion
 
 
-			#region MethodCache
-			MethodCache.Resolve +=
-				SourceMethod =>
-				{
-					//Console.WriteLine("MethodCache: " + msource.ToString());
+            #region MethodCache
+            MethodCache.Resolve +=
+                SourceMethod =>
+                {
+                    //Console.WriteLine("MethodCache: " + msource.ToString());
 
-					// This unit was resolved for us...
-					if (ExternalContext.MethodCache[SourceMethod] != SourceMethod)
-					{
-						MethodCache[SourceMethod] = ExternalContext.MethodCache[SourceMethod];
-						return;
-					}
+                    // This unit was resolved for us...
+                    if (ExternalContext.MethodCache[SourceMethod] != SourceMethod)
+                    {
+                        MethodCache[SourceMethod] = ExternalContext.MethodCache[SourceMethod];
+                        return;
+                    }
 
-					// http://msdn.microsoft.com/en-us/library/system.reflection.memberinfo.declaringtype.aspx
-					// If the MemberInfo object is a global member, (that is, it was obtained from Module.GetMethods,
-					// which returns global methods on a module), then the returned DeclaringType will be a 
-					// null reference (Nothing in Visual Basic).
+                    // http://msdn.microsoft.com/en-us/library/system.reflection.memberinfo.declaringtype.aspx
+                    // If the MemberInfo object is a global member, (that is, it was obtained from Module.GetMethods,
+                    // which returns global methods on a module), then the returned DeclaringType will be a 
+                    // null reference (Nothing in Visual Basic).
 
-					var SourceType = SourceMethod.DeclaringType;
-					var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+                    var SourceType = SourceMethod.DeclaringType;
+                    var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
-					if (SourceType != null)
-						if (SourceType.IsGenericType)
-							if (!SourceType.IsGenericTypeDefinition)
-							{
-								var Def = SourceType.GetGenericTypeDefinition().GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
+                    if (SourceType != null)
+                        if (SourceType.IsGenericType)
+                            if (!SourceType.IsGenericTypeDefinition)
+                            {
+                                var Def = SourceType.GetGenericTypeDefinition().GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
 
-								// Define it in the TypeBuilder
-								var Def1 = MethodCache[Def];
+                                // Define it in the TypeBuilder
+                                var Def1 = MethodCache[Def];
 
-								var ResolvedType1 = TypeDefinitionCache[SourceType.GetGenericTypeDefinition()];
+                                var ResolvedType1 = TypeDefinitionCache[SourceType.GetGenericTypeDefinition()];
 
-								var ResolvedType2 = ResolvedType1.MakeGenericType(
-									TypeDefinitionCache[SourceType.GetGenericArguments()]
-								);
+                                var ResolvedType2 = ResolvedType1.MakeGenericType(
+                                    TypeDefinitionCache[SourceType.GetGenericArguments()]
+                                );
 
-								// http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
-								// http://msdn.microsoft.com/en-us/library/ms145835.aspx
+                                // http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
+                                // http://msdn.microsoft.com/en-us/library/ms145835.aspx
 
-								//var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
+                                //var Def2 = ResolvedType.GetMethods(Flags).Single(k => k.MetadataToken == msource.MetadataToken);
 
 
-								// The specified method must be declared on the generic type definition of the specified type.
-								// Parameter name: type
-								var Def2 = default(MethodInfo);
+                                // The specified method must be declared on the generic type definition of the specified type.
+                                // Parameter name: type
+                                var Def2 = default(MethodInfo);
 
-								// ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
-								try
-								{
-									Def2 = TypeBuilder.GetMethod(ResolvedType2, Def1);
-								}
-								catch
-								{
-									Def2 = ResolvedType2.GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
-								}
+                                // ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
+                                try
+                                {
+                                    Def2 = TypeBuilder.GetMethod(ResolvedType2, Def1);
+                                }
+                                catch
+                                {
+                                    Def2 = ResolvedType2.GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
+                                }
 
-								var Def3 = Def2;
+                                var Def3 = Def2;
 
-								if (SourceMethod.IsGenericMethod)
-									Def3 = Def2.MakeGenericMethod(
-									 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
-									 );
+                                if (SourceMethod.IsGenericMethod)
+                                    Def3 = Def2.MakeGenericMethod(
+                                     TypeDefinitionCache[SourceMethod.GetGenericArguments()]
+                                     );
 
-								MethodCache[SourceMethod] = Def3;
-								return;
-							}
+                                MethodCache[SourceMethod] = Def3;
+                                return;
+                            }
 
-					if (SourceMethod.IsGenericMethod)
-						if (!SourceMethod.IsGenericMethodDefinition)
-						{
-							MethodCache[SourceMethod] = MethodCache[SourceMethod.GetGenericMethodDefinition()].MakeGenericMethod(
-								 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
-							);
+                    if (SourceMethod.IsGenericMethod)
+                        if (!SourceMethod.IsGenericMethodDefinition)
+                        {
+                            MethodCache[SourceMethod] = MethodCache[SourceMethod.GetGenericMethodDefinition()].MakeGenericMethod(
+                                 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
+                            );
 
-							return;
-						}
+                            return;
+                        }
 
 
-					var DeclaringType = (
-						SourceType == null ? null : TypeCache[SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition() : SourceType]
-					) as TypeBuilder;
+                    var DeclaringType = (
+                        SourceType == null ? null : TypeCache[SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition() : SourceType]
+                    ) as TypeBuilder;
 
-					var IsGlobalMethodAndSholdCopy = (SourceType == null && ShouldCopyAssembly(SourceMethod.Module.Assembly));
+                    var IsGlobalMethodAndSholdCopy = (SourceType == null && ShouldCopyAssembly(SourceMethod.Module.Assembly));
 
-					#region ShouldCopyType - CopyMethod
-					if (IsGlobalMethodAndSholdCopy || DeclaringType != null)
-					{
-						var tb_source = DeclaringType;
+                    #region ShouldCopyType - CopyMethod
+                    if (IsGlobalMethodAndSholdCopy || DeclaringType != null)
+                    {
+                        var tb_source = DeclaringType;
 
-						CopyMethod(
-							a,
-							m,
-							SourceMethod,
-							tb_source,
-							NameObfuscation,
-							_assembly,
-							this.codeinjecton,
-							this.codeinjectonparams,
-							this.AtILOverride,
+                        CopyMethod(
+                            a,
+                            m,
+                            SourceMethod,
+                            tb_source,
+                            NameObfuscation,
+                            _assembly,
+                            this.codeinjecton,
+                            this.codeinjectonparams,
+                            this.AtILOverride,
 
-							(SourceMethod_, Method, GetILGenerator) =>
-							{
-								if (this.BeforeInstructions != null)
-									this.BeforeInstructions(
-										 new BeforeInstructionsArguments
-										 {
-											 SourceType = SourceType,
-											 Type = tb_source,
-											 Assembly = a,
-											 Module = m,
+                            (SourceMethod_, Method, GetILGenerator) =>
+                            {
+                                if (this.BeforeInstructions != null)
+                                    this.BeforeInstructions(
+                                         new BeforeInstructionsArguments
+                                         {
+                                             SourceType = SourceType,
+                                             Type = tb_source,
+                                             Assembly = a,
+                                             Module = m,
 
-											 SourceMethod = SourceMethod,
-											 Method = Method,
-											 GetILGenerator = GetILGenerator,
+                                             SourceMethod = SourceMethod,
+                                             Method = Method,
+                                             GetILGenerator = GetILGenerator,
 
-											 context = this.RewriteArguments.context
-										 }
-									);
-							},
-							this.RewriteArguments.context
-						);
-						return;
-					}
-					#endregion
+                                             context = this.RewriteArguments.context
+                                         }
+                                    );
+                            },
+                            this.RewriteArguments.context
+                        );
+                        return;
+                    }
+                    #endregion
 
 
-					if (!SourceMethod.IsGenericMethodDefinition)
-					{
-						// do we need to redirect the type also?
-						if (SourceType.GetGenericArguments().Any(k => k != TypeCache[k]))
-						{
-							//var msource_gp = msource.GetGenericMethodDefinition().GetParameterTypes();
+                    if (!SourceMethod.IsGenericMethodDefinition)
+                    {
+                        // do we need to redirect the type also?
+                        if (SourceType.GetGenericArguments().Any(k => k != TypeCache[k]))
+                        {
+                            //var msource_gp = msource.GetGenericMethodDefinition().GetParameterTypes();
 
 
-							var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
+                            var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
 
 
-							var GenericTypeDefinition = SourceType.GetGenericTypeDefinition();
-							var GenericTypeDefinition_GetGenericArguments = GenericTypeDefinition.GetGenericArguments();
+                            var GenericTypeDefinition = SourceType.GetGenericTypeDefinition();
+                            var GenericTypeDefinition_GetGenericArguments = GenericTypeDefinition.GetGenericArguments();
 
-							var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
-							var ParameterTypes =
+                            var GenericType = GenericTypeDefinition.MakeGenericType(GenericArguments);
+                            var ParameterTypes =
 
 
-							SourceMethod.IsGenericMethod ? SourceMethod.GetGenericMethodDefinition().GetParameterTypes().Select(
-								k =>
-								{
-									if (k.IsGenericTypeDefinition)
-										return k;
+                            SourceMethod.IsGenericMethod ? SourceMethod.GetGenericMethodDefinition().GetParameterTypes().Select(
+                                k =>
+                                {
+                                    if (k.IsGenericTypeDefinition)
+                                        return k;
 
-									return TypeCache[k];
-								}
-								).ToArray() : TypeDefinitionCache[SourceMethod.GetParameterTypes()];
+                                    return TypeCache[k];
+                                }
+                                ).ToArray() : TypeDefinitionCache[SourceMethod.GetParameterTypes()];
 
-							ParameterTypes = ParameterTypes.Select(k =>
-							{
+                            ParameterTypes = ParameterTypes.Select(k =>
+                            {
 
-								#region resolve Type Generics
-								for (int iii = 0; iii < GenericArguments.Length; iii++)
-								{
-									if (GenericArguments[iii] == k)
-										return GenericTypeDefinition_GetGenericArguments[iii];
-								}
-								#endregion
+                                #region resolve Type Generics
+                                for (int iii = 0; iii < GenericArguments.Length; iii++)
+                                {
+                                    if (GenericArguments[iii] == k)
+                                        return GenericTypeDefinition_GetGenericArguments[iii];
+                                }
+                                #endregion
 
 
 
-								return k;
-							}).ToArray();
-							// Type must be a type provided by the runtime.
-							// Parameter name: types
-							var GenericTypeDefinitionMethod = GenericTypeDefinition.GetMethod(SourceMethod.Name, Flags, null, ParameterTypes, null);
+                                return k;
+                            }).ToArray();
+                            // Type must be a type provided by the runtime.
+                            // Parameter name: types
+                            var GenericTypeDefinitionMethod = GenericTypeDefinition.GetMethod(SourceMethod.Name, Flags, null, ParameterTypes, null);
 
-							var GenericTypeMethod = TypeBuilder.GetMethod(GenericType, GenericTypeDefinitionMethod);
+                            var GenericTypeMethod = TypeBuilder.GetMethod(GenericType, GenericTypeDefinitionMethod);
 
-							var GenericTypeMethod__ = SourceMethod.IsGenericMethod ? GenericTypeMethod.MakeGenericMethod(
-								 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
-								 ) : GenericTypeMethod;
+                            var GenericTypeMethod__ = SourceMethod.IsGenericMethod ? GenericTypeMethod.MakeGenericMethod(
+                                 TypeDefinitionCache[SourceMethod.GetGenericArguments()]
+                                 ) : GenericTypeMethod;
 
-							MethodCache[SourceMethod] = GenericTypeMethod__;
-						}
-						else
-						{
-							MethodCache[SourceMethod] =
-								SourceMethod.IsGenericMethod ?
+                            MethodCache[SourceMethod] = GenericTypeMethod__;
+                        }
+                        else
+                        {
+                            MethodCache[SourceMethod] =
+                                SourceMethod.IsGenericMethod ?
 
-								MethodCache[SourceMethod.GetGenericMethodDefinition()]
+                                MethodCache[SourceMethod.GetGenericMethodDefinition()]
 
-								.MakeGenericMethod(
-									TypeDefinitionCache[SourceMethod.GetGenericArguments()]
-								) : SourceMethod;
-						}
+                                .MakeGenericMethod(
+                                    TypeDefinitionCache[SourceMethod.GetGenericArguments()]
+                                ) : SourceMethod;
+                        }
 
-						return;
-					}
+                        return;
+                    }
 
-					MethodCache[SourceMethod] = SourceMethod;
-				};
-			#endregion
+                    MethodCache[SourceMethod] = SourceMethod;
+                };
+            #endregion
 
 
 
-			#region FieldCache
-			FieldCache.Resolve +=
-				SourceField =>
-				{
-					// if the datastruct is actually pointing to
-					// a initialized data in .sdata
-					// then we have to redefine it in our version
-					// for some reason we cannot just copy this bit in current API
+            #region FieldCache
+            FieldCache.Resolve +=
+                SourceField =>
+                {
+                    // if the datastruct is actually pointing to
+                    // a initialized data in .sdata
+                    // then we have to redefine it in our version
+                    // for some reason we cannot just copy this bit in current API
 
-					var DeclaringType_ = TypeCache[SourceField.DeclaringType];
+                    var DeclaringType_ = TypeCache[SourceField.DeclaringType];
 
-					// Things may have changed... abort?
-					if (FieldCache.BaseDictionary.ContainsKey(SourceField))
-						return;
+                    // Things may have changed... abort?
+                    if (FieldCache.BaseDictionary.ContainsKey(SourceField))
+                        return;
 
-					var source = SourceField.DeclaringType;
+                    var source = SourceField.DeclaringType;
 
-					if (source.IsGenericType)
-						if (!source.IsGenericTypeDefinition)
-						{
+                    if (source.IsGenericType)
+                        if (!source.IsGenericTypeDefinition)
+                        {
 
-							if (!ShouldCopyType(source))
-							{
-								FieldCache[SourceField] = SourceField;
-								return;
-							}
+                            if (!ShouldCopyType(source))
+                            {
+                                FieldCache[SourceField] = SourceField;
+                                return;
+                            }
 
 
-							var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+                            var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
 
-							var ResolvedType2 = ResolvedType1.MakeGenericType(
-								TypeDefinitionCache[source.GetGenericArguments()]
-							);
+                            var ResolvedType2 = ResolvedType1.MakeGenericType(
+                                TypeDefinitionCache[source.GetGenericArguments()]
+                            );
 
-							//var Def0 = ResolvedType1.GetField(
-							//    SourceField.Name,
-							//    BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
-							//);
+                            //var Def0 = ResolvedType1.GetField(
+                            //    SourceField.Name,
+                            //    BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+                            //);
 
 
-							var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[source.GetGenericTypeDefinition().GetField(
-								SourceField.Name,
-								BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
-								)]
-							);
+                            var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[source.GetGenericTypeDefinition().GetField(
+                                SourceField.Name,
+                                BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+                                )]
+                            );
 
-							//try
-							//{
-							// Message	"The specified field must be declared on the generic type definition 
-							// of the specified type.\r\nParameter name: type"	string
+                            //try
+                            //{
+                            // Message	"The specified field must be declared on the generic type definition 
+                            // of the specified type.\r\nParameter name: type"	string
 
-							// Message	"The specified Type must not be a generic type definition.\r\nParameter name: type"	string http://msdn.microsoft.com/en-us/library/ms145828(VS.95).aspx
+                            // Message	"The specified Type must not be a generic type definition.\r\nParameter name: type"	string http://msdn.microsoft.com/en-us/library/ms145828(VS.95).aspx
 
-							//Def1 = TypeBuilder.GetField(ResolvedType2, Def0);
-							//}
-							//catch
-							//{
-							//    Def1 = ResolvedType2.GetField(Def0.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-							//}
+                            //Def1 = TypeBuilder.GetField(ResolvedType2, Def0);
+                            //}
+                            //catch
+                            //{
+                            //    Def1 = ResolvedType2.GetField(Def0.Name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                            //}
 
-							FieldCache[SourceField] = Def1;
+                            FieldCache[SourceField] = Def1;
 
-							return;
-						}
+                            return;
+                        }
 
-					if (DeclaringType_ is TypeBuilder)
-					{
-						var DeclaringType = (TypeBuilder)DeclaringType_;
-						var FieldName = NameObfuscation[MemberRenameCache[SourceField] ?? SourceField.Name];
+                    if (DeclaringType_ is TypeBuilder)
+                    {
+                        var DeclaringType = (TypeBuilder)DeclaringType_;
+                        var FieldName = NameObfuscation[MemberRenameCache[SourceField] ?? SourceField.Name];
 
-						if (SourceField.FieldType.IsInitializedDataFieldType())
-						{
-							var value = SourceField.GetValue(null).StructAsByteArray();
+                        if (SourceField.FieldType.IsInitializedDataFieldType())
+                        {
+                            var value = SourceField.GetValue(null).StructAsByteArray();
 
-							var ff = DeclaringType.DefineInitializedData(FieldName, value, SourceField.Attributes);
+                            var ff = DeclaringType.DefineInitializedData(FieldName, value, SourceField.Attributes);
 
-							FieldCache[SourceField] = ff;
-						}
-						else
-						{
-							var ff = DeclaringType.DefineField(
-								 FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
+                            FieldCache[SourceField] = ff;
+                        }
+                        else
+                        {
+                            var ff = DeclaringType.DefineField(
+                                 FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
 
-							if (SourceField.IsLiteral)
-							{
-								// should we enable constant value override? :)
+                            if (SourceField.IsLiteral)
+                            {
+                                // should we enable constant value override? :)
 
-								ff.SetConstant(SourceField.GetRawConstantValue());
-							}
+                                ff.SetConstant(SourceField.GetRawConstantValue());
+                            }
 
 
-							FieldCache[SourceField] = ff;
-						}
-					}
-					else
-					{
-						// Specified method is not supported.
-						// http://msdn.microsoft.com/en-us/library/4ek9c21e.aspx
+                            FieldCache[SourceField] = ff;
+                        }
+                    }
+                    else
+                    {
+                        // Specified method is not supported.
+                        // http://msdn.microsoft.com/en-us/library/4ek9c21e.aspx
 
-						FieldCache[SourceField] = DeclaringType_.GetField(
-							SourceField.Name,
-							BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
-						);
-					}
-				};
-			#endregion
+                        FieldCache[SourceField] = DeclaringType_.GetField(
+                            SourceField.Name,
+                            BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
+                        );
+                    }
+                };
+            #endregion
 
-			#region TypeDefinitionCache
-			TypeDefinitionCache.Resolve +=
-				(SourceType) =>
-				{
-					if (SourceType.Assembly is AssemblyBuilder)
-					{
-						// not going to merge already merged type.
-						TypeDefinitionCache[SourceType] = SourceType;
-						return;
-					}
+            #region TypeDefinitionCache
+            TypeDefinitionCache.Resolve +=
+                (SourceType) =>
+                {
+                    if (SourceType.Assembly is AssemblyBuilder)
+                    {
+                        // not going to merge already merged type.
+                        TypeDefinitionCache[SourceType] = SourceType;
+                        return;
+                    }
 
-					if (TypeCache.BaseDictionary.ContainsKey(SourceType))
-					{
-						// somebody wrote the type before us?
-						TypeDefinitionCache[SourceType] = TypeCache.BaseDictionary[SourceType];
-						return;
-					}
+                    if (TypeCache.BaseDictionary.ContainsKey(SourceType))
+                    {
+                        // somebody wrote the type before us?
+                        TypeDefinitionCache[SourceType] = TypeCache.BaseDictionary[SourceType];
+                        return;
+                    }
 
-					if (SourceType.IsGenericParameter)
-					{
-						TypeDefinitionCache[SourceType] = SourceType;
-						return;
-					}
+                    if (SourceType.IsGenericParameter)
+                    {
+                        TypeDefinitionCache[SourceType] = SourceType;
+                        return;
+                    }
 
-					if (SourceType.IsByRef)
-					{
-						TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakeByRefType();
-						return;
-					}
+                    if (SourceType.IsByRef)
+                    {
+                        TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakeByRefType();
+                        return;
+                    }
 
-					if (SourceType.IsArray)
-					{
-						TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakeArrayType();
-						return;
-					}
+                    if (SourceType.IsArray)
+                    {
+                        TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakeArrayType();
+                        return;
+                    }
 
-					if (SourceType.IsGenericType)
-						if (!SourceType.IsGenericTypeDefinition)
-						{
-							var GenericTypeDefinition__ = SourceType.GetGenericTypeDefinition();
+                    if (SourceType.IsGenericType)
+                        if (!SourceType.IsGenericTypeDefinition)
+                        {
+                            var GenericTypeDefinition__ = SourceType.GetGenericTypeDefinition();
 
-							var GenericTypeDefinition = TypeDefinitionCache[GenericTypeDefinition__];
-							var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
+                            var GenericTypeDefinition = TypeDefinitionCache[GenericTypeDefinition__];
+                            var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
 
-							TypeDefinitionCache[SourceType] =
-								GenericTypeDefinition.MakeGenericType(GenericArguments);
+                            TypeDefinitionCache[SourceType] =
+                                GenericTypeDefinition.MakeGenericType(GenericArguments);
 
-							return;
-						}
+                            return;
+                        }
 
-					var ContextType = SourceType;
-					if (ShouldCopyType(ContextType))
-					{
-						var ttt = new CopyTypeDefinition
-						{
-							context = this.RewriteArguments.context,
+                    var ContextType = SourceType;
+                    if (ShouldCopyType(ContextType))
+                    {
+                        var ttt = new CopyTypeDefinition
+                        {
+                            context = this.RewriteArguments.context,
 
-							SourceType = SourceType,
-							m = m,
+                            SourceType = SourceType,
+                            m = m,
 
-							//OverrideDeclaringType = null,
-							NameObfuscation = NameObfuscation,
-							ShouldCopyType = ShouldCopyType,
-							FullNameFixup = FullNameFixup,
-							Diagnostics = null,
+                            //OverrideDeclaringType = null,
+                            NameObfuscation = NameObfuscation,
+                            ShouldCopyType = ShouldCopyType,
+                            FullNameFixup = FullNameFixup,
+                            Diagnostics = null,
 
-						};
+                        };
 
-						var t = ttt.Invoke();
+                        var t = ttt.Invoke();
 
-						TypeDefinitionCache[SourceType] = t;
-					}
-					else
-					{
-						TypeDefinitionCache[SourceType] =
+                        TypeDefinitionCache[SourceType] = t;
+                    }
+                    else
+                    {
+                        TypeDefinitionCache[SourceType] =
 
-							SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition().MakeGenericType(
-								SourceType.GetGenericArguments().Select(
-									k => TypeDefinitionCache[k]
-								).ToArray()
-							) : SourceType;
-					}
+                            SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition().MakeGenericType(
+                                SourceType.GetGenericArguments().Select(
+                                    k => TypeDefinitionCache[k]
+                                ).ToArray()
+                            ) : SourceType;
+                    }
 
-				};
-			#endregion
+                };
+            #endregion
 
 
-			#region TypeCache
-			TypeCache.Resolve +=
-				(source) =>
-				{
-					if (source.Assembly is AssemblyBuilder)
-					{
-						// not going to merge already merged type.
-						TypeCache[source] = source;
-						return;
-					}
+            #region TypeCache
+            TypeCache.Resolve +=
+                (source) =>
+                {
+                    if (source.Assembly is AssemblyBuilder)
+                    {
+                        // not going to merge already merged type.
+                        TypeCache[source] = source;
+                        return;
+                    }
 
-					// This unit was resolved for us...
-					if (ExternalContext.TypeCache[source] != source)
-					{
-						TypeCache[source] = ExternalContext.TypeCache[source];
+                    // This unit was resolved for us...
+                    if (ExternalContext.TypeCache[source] != source)
+                    {
+                        TypeCache[source] = ExternalContext.TypeCache[source];
 
-						// was continuation honored?
-						if (TypeCache[source] is TypeBuilder)
-						{
-							TypeCache.Flags[source] = new object();
-							Console.WriteLine("CreateType:  " + source.FullName);
+                        // was continuation honored?
+                        if (TypeCache[source] is TypeBuilder)
+                        {
+                            TypeCache.Flags[source] = new object();
+                            Console.WriteLine("CreateType:  " + source.FullName);
 
-							if (TypeCreated != null)
-								TypeCreated(
-									new TypeRewriteArguments
-									{
-										SourceType = source,
-										Type = (TypeBuilder)TypeCache[source],
-										Assembly = a,
-										Module = m,
+                            if (TypeCreated != null)
+                                TypeCreated(
+                                    new TypeRewriteArguments
+                                    {
+                                        SourceType = source,
+                                        Type = (TypeBuilder)TypeCache[source],
+                                        Assembly = a,
+                                        Module = m,
 
-										context = this.RewriteArguments.context
-									}
-								);
-						}
+                                        context = this.RewriteArguments.context
+                                    }
+                                );
+                        }
 
-						return;
-					}
+                        return;
+                    }
 
-					if (TypeCache.BaseDictionary.ContainsKey(source))
-					{
-						// seems like we are not supposed to resolve this type and use
-						// what has been inserted in the cache!
-						return;
-					}
-
-					if (source.IsGenericParameter)
-					{
-						TypeCache[source] = source;
-						return;
-					}
-
-
-					if (source.IsByRef)
-					{
-						TypeCache[source] = TypeCache[source.GetElementType()].MakeByRefType();
-						return;
-					}
-
-
-					if (source.IsArray)
-					{
-						TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
-						return;
-					}
-
-					if (source.IsGenericType)
-						if (!source.IsGenericTypeDefinition)
-						{
-							TypeCache[source] =
-								TypeCache[source.GetGenericTypeDefinition()].MakeGenericType(
-									source.GetGenericArguments().Select(
-										k => TypeCache[k]
-									).ToArray()
-								);
-							return;
-						}
-
-					// should we actually copy the field type?
-					// simple rule - same assembly equals must copy
-
-					var ContextType = source;
-
-					if (ShouldCopyType(ContextType) && TypeDefinitionCache[source] is TypeBuilder)
-					{
-						CopyType(
-							source, a, m,
-							null,
-							TypeRenameCache,
-							NameObfuscation,
-							ShouldCopyType,
-							FullNameFixup,
-
-							 t =>
-							 {
-								 #region PostTypeRewrite
-								 if (PostTypeRewrite != null)
-									 PostTypeRewrite(
-										 new TypeRewriteArguments
-										 {
-											 SourceType = source,
-											 Type = t,
-											 Assembly = a,
-											 Module = m,
-
-											 context = this.RewriteArguments.context
-										 }
-									 );
-								 #endregion
-							 }
-							,
-
-
-							 t =>
-							 {
-								 #region PreTypeRewrite
-								 if (PreTypeRewrite != null)
-									 PreTypeRewrite(
-										 new TypeRewriteArguments
-										 {
-											 SourceType = source,
-											 Type = t,
-											 Assembly = a,
-											 Module = m,
-
-											 context = this.RewriteArguments.context
-										 }
-									 );
-								 #endregion
-
-							 }
-							 ,
-
-							 t =>
-							 {
-								 #region TypeCreated
-								 if (TypeCreated != null)
-									 TypeCreated(
-										 new TypeRewriteArguments
-										 {
-											 SourceType = source,
-											 Type = t,
-											 Assembly = a,
-											 Module = m,
-
-											 context = this.RewriteArguments.context
-										 }
-									 );
-								 #endregion
-
-							 },
-							 this,
-							 this.RewriteArguments.context
-						);
-
-
-					}
-					else
-					{
-						TypeCache[source] =
-
-							source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
-								source.GetGenericArguments().Select(
-									k => TypeCache[k]
-								).ToArray()
-							) : source;
-					}
-
-				};
-			#endregion
-
-			if (assembly != null)
-				foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
-				{
-					a.SetCustomAttribute(
-						ka.ToCustomAttributeBuilder()(this.RewriteArguments.context)
-					);
-				}
-
-			if (PreAssemblyRewrite != null)
-				PreAssemblyRewrite(
-					RewriteArguments
-				);
-
-			// we cannot be rewriting initialized data types...
-			PrimaryTypes = PrimaryTypes.Where(k => !k.IsInitializedDataFieldType()).ToArray();
-
-			Console.WriteLine("");
-			Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
-			Console.WriteLine("");
-
-			var HiddenEntryPoints = Enumerable.ToArray(
-				from t in PrimaryTypes
-				from tm in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
-				where tm.DeclaringType.Assembly.EntryPoint == tm
-				select tm
-			);
-
-			foreach (var item in HiddenEntryPoints)
-			{
-				MethodAttributesCache[item] = item.Attributes | MethodAttributes.Family;
-			}
-
-			// ask for our primary types to be copied
-			var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
-
-			// did we define any type declarations which we did not actually create yet?
-			// fixme: maybe we shold just close the unclosed TypeBuilders?
-
-			var ClosePartialDefinitions = new VirtualDictionary<Type, object>();
-			var ClosePartialDefinitionsFilter =
-				TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys).Select(
-					item =>
-					new
-					{
-						item,
-						tb = TypeDefinitionCache[item] as TypeBuilder
-					}
-				).Where(k => k.tb != null).ToArray();
+                    if (TypeCache.BaseDictionary.ContainsKey(source))
+                    {
+                        // seems like we are not supposed to resolve this type and use
+                        // what has been inserted in the cache!
+                        return;
+                    }
+
+                    if (source.IsGenericParameter)
+                    {
+                        TypeCache[source] = source;
+                        return;
+                    }
+
+
+                    if (source.IsByRef)
+                    {
+                        TypeCache[source] = TypeCache[source.GetElementType()].MakeByRefType();
+                        return;
+                    }
+
+
+                    if (source.IsArray)
+                    {
+                        TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
+                        return;
+                    }
+
+                    if (source.IsGenericType)
+                        if (!source.IsGenericTypeDefinition)
+                        {
+                            TypeCache[source] =
+                                TypeCache[source.GetGenericTypeDefinition()].MakeGenericType(
+                                    source.GetGenericArguments().Select(
+                                        k => TypeCache[k]
+                                    ).ToArray()
+                                );
+                            return;
+                        }
+
+                    // should we actually copy the field type?
+                    // simple rule - same assembly equals must copy
+
+                    var ContextType = source;
+
+                    if (ShouldCopyType(ContextType) && TypeDefinitionCache[source] is TypeBuilder)
+                    {
+                        CopyType(
+                            source, a, m,
+                            null,
+                            TypeRenameCache,
+                            NameObfuscation,
+                            ShouldCopyType,
+                            FullNameFixup,
+
+                             t =>
+                             {
+                                 #region PostTypeRewrite
+                                 if (PostTypeRewrite != null)
+                                     PostTypeRewrite(
+                                         new TypeRewriteArguments
+                                         {
+                                             SourceType = source,
+                                             Type = t,
+                                             Assembly = a,
+                                             Module = m,
+
+                                             context = this.RewriteArguments.context
+                                         }
+                                     );
+                                 #endregion
+                             }
+                            ,
+
+
+                             t =>
+                             {
+                                 #region PreTypeRewrite
+                                 if (PreTypeRewrite != null)
+                                     PreTypeRewrite(
+                                         new TypeRewriteArguments
+                                         {
+                                             SourceType = source,
+                                             Type = t,
+                                             Assembly = a,
+                                             Module = m,
+
+                                             context = this.RewriteArguments.context
+                                         }
+                                     );
+                                 #endregion
+
+                             }
+                             ,
+
+                             t =>
+                             {
+                                 #region TypeCreated
+                                 if (TypeCreated != null)
+                                     TypeCreated(
+                                         new TypeRewriteArguments
+                                         {
+                                             SourceType = source,
+                                             Type = t,
+                                             Assembly = a,
+                                             Module = m,
+
+                                             context = this.RewriteArguments.context
+                                         }
+                                     );
+                                 #endregion
+
+                             },
+                             this,
+                             this.RewriteArguments.context
+                        );
+
+
+                    }
+                    else
+                    {
+                        TypeCache[source] =
+
+                            source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
+                                source.GetGenericArguments().Select(
+                                    k => TypeCache[k]
+                                ).ToArray()
+                            ) : source;
+                    }
+
+                };
+            #endregion
+
+            if (assembly != null)
+                foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
+                {
+                    a.SetCustomAttribute(
+                        ka.ToCustomAttributeBuilder()(this.RewriteArguments.context)
+                    );
+                }
+
+            if (PreAssemblyRewrite != null)
+                PreAssemblyRewrite(
+                    RewriteArguments
+                );
+
+            // we cannot be rewriting initialized data types...
+            PrimaryTypes = PrimaryTypes.Where(k => !k.IsInitializedDataFieldType()).ToArray();
+
+            Console.WriteLine("");
+            Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
+            Console.WriteLine("");
+
+            var HiddenEntryPoints = Enumerable.ToArray(
+                from t in PrimaryTypes
+                from tm in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+                where tm.DeclaringType.Assembly.EntryPoint == tm
+                select tm
+            );
+
+            foreach (var item in HiddenEntryPoints)
+            {
+                MethodAttributesCache[item] = item.Attributes | MethodAttributes.Family;
+            }
+
+            // ask for our primary types to be copied
+            var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
+
+            // did we define any type declarations which we did not actually create yet?
+            // fixme: maybe we shold just close the unclosed TypeBuilders?
+
+            var ClosePartialDefinitions = new VirtualDictionary<Type, object>();
+            var ClosePartialDefinitionsFilter =
+                TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys).Select(
+                    item =>
+                    new
+                    {
+                        item,
+                        tb = TypeDefinitionCache[item] as TypeBuilder
+                    }
+                ).Where(k => k.tb != null).ToArray();
 
-			var PartialDefinition = new { Visited = new object(), IsPartial = new object() };
+            var PartialDefinition = new { Visited = new object(), IsPartial = new object() };
 
-			ClosePartialDefinitions.Resolve +=
-				item =>
-				{
-					// ask us only once! :)
-					ClosePartialDefinitions[item] = PartialDefinition.Visited;
+            ClosePartialDefinitions.Resolve +=
+                item =>
+                {
+                    // ask us only once! :)
+                    ClosePartialDefinitions[item] = PartialDefinition.Visited;
 
 
-					var tb = ClosePartialDefinitionsFilter.Where(k => k.item == item).Select(k => k.tb).FirstOrDefault();
+                    var tb = ClosePartialDefinitionsFilter.Where(k => k.item == item).Select(k => k.tb).FirstOrDefault();
 
-					if (tb == null)
-						return;
+                    if (tb == null)
+                        return;
 
 
 
-					if (item.IsEnum)
-					{
-						// enums cannot be left partial... we need to implement them
-						var __Enum = TypeCache[item];
+                    if (item.IsEnum)
+                    {
+                        // enums cannot be left partial... we need to implement them
+                        var __Enum = TypeCache[item];
 
-					}
+                    }
 
-					var SignatureTypes = new[] { item.BaseType }.Concat(item.GetInterfaces()).Where(k => k != null).Select(k => ClosePartialDefinitions[k]).ToArray();
+                    var SignatureTypes = new[] { item.BaseType }.Concat(item.GetInterfaces()).Where(k => k != null).Select(k => ClosePartialDefinitions[k]).ToArray();
 
-					ClosePartialDefinitions[item] = PartialDefinition.IsPartial;
+                    ClosePartialDefinitions[item] = PartialDefinition.IsPartial;
 
-					#region GetInterfaceMap
-					if (tb.IsClass && !tb.IsAbstract)
-					{
-						// we need dummy implementation now because we cannot go back in time and make us abstract
+                    #region GetInterfaceMap
+                    if (tb.IsClass && !tb.IsAbstract)
+                    {
+                        // we need dummy implementation now because we cannot go back in time and make us abstract
 
-						var __explicit =
-							from i in item.GetInterfaces()
-							let map = item.GetInterfaceMap(i)
-							from j in Enumerable.Range(0, map.InterfaceMethods.Length)
-							let TargetMethod = map.TargetMethods[j]
+                        var __explicit =
+                            from i in item.GetInterfaces()
+                            let map = item.GetInterfaceMap(i)
+                            from j in Enumerable.Range(0, map.InterfaceMethods.Length)
+                            let TargetMethod = map.TargetMethods[j]
 
-							// abstract class with interfaces?
-							where TargetMethod != null
+                            // abstract class with interfaces?
+                            where TargetMethod != null
 
-							let InterfaceMethod = map.InterfaceMethods[j]
-							where TargetMethod.DeclaringType == item
-							select new { TargetMethod, InterfaceMethod };
+                            let InterfaceMethod = map.InterfaceMethods[j]
+                            where TargetMethod.DeclaringType == item
+                            select new { TargetMethod, InterfaceMethod };
 
-						foreach (var VirtualMethod_ in __explicit)
-						{
-							var VirtualMethod = VirtualMethod_.TargetMethod;
+                        foreach (var VirtualMethod_ in __explicit)
+                        {
+                            var VirtualMethod = VirtualMethod_.TargetMethod;
 
-							tb.DefineMethod(
-								VirtualMethod.Name,
-								VirtualMethod.Attributes,
-								VirtualMethod.CallingConvention,
-								VirtualMethod.ReturnType,
-								VirtualMethod.GetParameterTypes()
-							).NotImplemented();
-						}
-					}
-					#endregion
+                            tb.DefineMethod(
+                                VirtualMethod.Name,
+                                VirtualMethod.Attributes,
+                                VirtualMethod.CallingConvention,
+                                VirtualMethod.ReturnType,
+                                VirtualMethod.GetParameterTypes()
+                            ).NotImplemented();
+                        }
+                    }
+                    #endregion
 
-					// do we need to implement some methods?
-					tb.CreateType();
+                    // do we need to implement some methods?
+                    tb.CreateType();
 
-					TypeCache[item] = tb;
-					TypeCache.Flags[item] = new object();
+                    TypeCache[item] = tb;
+                    TypeCache.Flags[item] = new object();
 
-					var TypeCreatedArguments =
-						new TypeRewriteArguments
-						{
-							SourceType = item,
-							Type = (TypeBuilder)TypeCache[item],
-							Assembly = a,
-							Module = m,
+                    var TypeCreatedArguments =
+                        new TypeRewriteArguments
+                        {
+                            SourceType = item,
+                            Type = (TypeBuilder)TypeCache[item],
+                            Assembly = a,
+                            Module = m,
 
-							context = this.RewriteArguments.context
-						};
-
-					RaiseTypeCreated(TypeCreatedArguments);
+                            context = this.RewriteArguments.context
+                        };
+
+                    RaiseTypeCreated(TypeCreatedArguments);
 
-				};
+                };
 
-			foreach (var item in ClosePartialDefinitionsFilter)
-			{
-				var _ = ClosePartialDefinitions[item.item];
-			}
+            foreach (var item in ClosePartialDefinitionsFilter)
+            {
+                var _ = ClosePartialDefinitions[item.item];
+            }
 
 
 
-			DefineHiddenEntryPointsType(m, HiddenEntryPoints);
+            DefineHiddenEntryPointsType(m, HiddenEntryPoints);
 
 
-			#region maybe the rewriter wants to add some types at this point?
-			if (PostAssemblyRewrite != null)
-				PostAssemblyRewrite(
-					RewriteArguments
-				);
-			#endregion
+            #region maybe the rewriter wants to add some types at this point?
+            if (PostAssemblyRewrite != null)
+                PostAssemblyRewrite(
+                    RewriteArguments
+                );
+            #endregion
 
-			InvokeLater(a, m);
+            InvokeLater(a, m);
 
 
-			Console.WriteLine("");
-			Console.WriteLine("rewriting... done");
-			Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("rewriting... done");
+            Console.WriteLine("");
 
-			// http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
+            // http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
 
 
-			m.CreateGlobalFunctions();
+            m.CreateGlobalFunctions();
 
-			// The type definition of the global function is not completed.
-			if (OutputUndefined)
-			{
-				a.Save(
-					Product.Name
-				);
-			}
-			else
-			{
-				// we probably loaded that assembly and now are trying to write to it...
-				// Type 'ScriptCoreLib.Shared.Avalon.Extensions.AnimatedOpacity`1' was not completed.
+            // The type definition of the global function is not completed.
+            if (OutputUndefined)
+            {
+                a.Save(
+                    Product.Name
+                );
+            }
+            else
+            {
+                // we probably loaded that assembly and now are trying to write to it...
+                // Type 'ScriptCoreLib.Shared.Avalon.Extensions.AnimatedOpacity`1' was not completed.
 
-				a.Save(
-					"~" + Product.Name
-				);
+                a.Save(
+                    "~" + Product.Name
+                );
 
-				var Temp = Path.Combine(Product.Directory.FullName, "~" + Product.Name);
+                var Temp = Path.Combine(Product.Directory.FullName, "~" + Product.Name);
 
-				new FileInfo(
-					Temp
-				).CopyTo(this.Output.FullName, true);
+                new FileInfo(
+                    Temp
+                ).CopyTo(this.Output.FullName, true);
 
-				File.Delete(Temp);
-			}
+                File.Delete(Temp);
+            }
 
-			Product.Refresh();
-		}
+            Product.Refresh();
+        }
 
-		public void RaiseTypeCreated(TypeRewriteArguments TypeCreatedArguments)
-		{
-			if (TypeCreated != null)
-				TypeCreated(TypeCreatedArguments);
-		}
+        public void RaiseTypeCreated(TypeRewriteArguments TypeCreatedArguments)
+        {
+            if (TypeCreated != null)
+                TypeCreated(TypeCreatedArguments);
+        }
 
-		private void DefineHiddenEntryPointsType(ModuleBuilder m, MethodInfo[] HiddenEntryPoints)
-		{
-			if (HiddenEntryPoints.Any())
-			{
-				var HiddenEntryPointsType = m.DefineType("HiddenEntryPointsType", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
+        private void DefineHiddenEntryPointsType(ModuleBuilder m, MethodInfo[] HiddenEntryPoints)
+        {
+            if (HiddenEntryPoints.Any())
+            {
+                var HiddenEntryPointsType = m.DefineType("HiddenEntryPointsType", TypeAttributes.Abstract | TypeAttributes.Sealed | TypeAttributes.Public);
 
-				var EntryPointIndex = 0;
+                var EntryPointIndex = 0;
 
-				foreach (var HiddenEntryPoint in HiddenEntryPoints)
-				{
-					var EntryPointMethod = HiddenEntryPointsType.DefineMethod(
-						"EntryPoint" + EntryPointIndex,
-						MethodAttributes.Public | MethodAttributes.Static,
-						HiddenEntryPoint.CallingConvention,
-						HiddenEntryPoint.ReturnType,
-						HiddenEntryPoint.GetParameterTypes()
-					);
+                foreach (var HiddenEntryPoint in HiddenEntryPoints)
+                {
+                    var EntryPointMethod = HiddenEntryPointsType.DefineMethod(
+                        "EntryPoint" + EntryPointIndex,
+                        MethodAttributes.Public | MethodAttributes.Static,
+                        HiddenEntryPoint.CallingConvention,
+                        HiddenEntryPoint.ReturnType,
+                        HiddenEntryPoint.GetParameterTypes()
+                    );
 
-					var il = EntryPointMethod.GetILGenerator();
+                    var il = EntryPointMethod.GetILGenerator();
 
-					foreach (var item in HiddenEntryPoint.GetParameters())
-					{
-						il.Emit(OpCodes.Ldarg, (short)item.Position);
-					}
-					il.Emit(OpCodes.Call, this.RewriteArguments.context.MethodCache[HiddenEntryPoint]);
-					il.Emit(OpCodes.Ret);
+                    foreach (var item in HiddenEntryPoint.GetParameters())
+                    {
+                        il.Emit(OpCodes.Ldarg, (short)item.Position);
+                    }
+                    il.Emit(OpCodes.Call, this.RewriteArguments.context.MethodCache[HiddenEntryPoint]);
+                    il.Emit(OpCodes.Ret);
 
-				}
+                }
 
-				HiddenEntryPointsType.CreateType();
-			}
-		}
+                HiddenEntryPointsType.CreateType();
+            }
+        }
 
 
 
 
 
 
-		private static bool IsMarkedForMerge(Type t)
-		{
-			return t.Assembly.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "merge");
-		}
+        private static bool IsMarkedForMerge(Type t)
+        {
+            return t.Assembly.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "merge");
+        }
 
 
-		public RewriteToAssembly()
-		{
-			this.RewriteArguments = new AssemblyRewriteArguments { context = new ILTranslationContext() };
-		}
+        public RewriteToAssembly()
+        {
+            this.RewriteArguments = new AssemblyRewriteArguments { context = new ILTranslationContext() };
+        }
 
-		public AssemblyRewriteArguments RewriteArguments { get; private set; }
+        public AssemblyRewriteArguments RewriteArguments { get; private set; }
 
-		public class AtShouldCopyTypeTuple
-		{
-			public Type ContextType;
+        public class AtShouldCopyTypeTuple
+        {
+            public Type ContextType;
 
-			public bool DisableCopyType;
-		}
+            public bool DisableCopyType;
+        }
 
 
 
 
 
 
-		public string FullNameFixup(string n)
-		{
-			if (this.obfuscate)
-				return NameObfuscation[n];
+        public string FullNameFixup(string n)
+        {
+            if (this.obfuscate)
+                return NameObfuscation[n];
 
-			return InternalFullNameFixup(n);
-		}
+            return InternalFullNameFixup(n);
+        }
 
-		public string InternalFullNameFixup(string n)
-		{
+        public string InternalFullNameFixup(string n)
+        {
 
 
-			if (this.rename != null)
-				foreach (var k in this.rename)
-				{
-					if (n.StartsWith(k.From))
-						return k.To + n.Substring(k.From.Length);
-				}
+            if (this.rename != null)
+                foreach (var k in this.rename)
+                {
+                    if (n.StartsWith(k.From))
+                        return k.To + n.Substring(k.From.Length);
+                }
 
-			return n;
-		}
-	}
+            return n;
+        }
+    }
 }

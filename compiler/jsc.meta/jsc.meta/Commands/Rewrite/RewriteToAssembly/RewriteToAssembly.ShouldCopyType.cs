@@ -12,48 +12,59 @@ using jsc;
 
 namespace jsc.meta.Commands.Rewrite
 {
-	partial class RewriteToAssembly
-	{
-		public event Action<AtShouldCopyTypeTuple> AtShouldCopyType;
+    partial class RewriteToAssembly
+    {
+        public event Action<AtShouldCopyTypeTuple> AtShouldCopyType;
 
-		private bool ShouldCopyAssembly(Assembly ContextAssembly)
-		{
-			return PrimaryTypes.Any(k => k.Assembly == ContextAssembly)
-				||
-				this.merge.Any(k => k.name == ContextAssembly.GetName().Name);
-		}
+        private bool ShouldCopyAssembly(Assembly ContextAssembly)
+        {
+            return PrimaryTypes.Any(k => k.Assembly == ContextAssembly)
+                ||
+                this.merge.Any(k => k.name == ContextAssembly.GetName().Name);
+        }
 
-		private bool ShouldCopyType(Type ContextType)
-		{
-			if (ContextType.IsGenericType)
-				if (!ContextType.IsGenericTypeDefinition)
-				{
-					if (!ShouldCopyType(ContextType.GetGenericTypeDefinition()))
-					{
-						// the type itself is not copied. what about arguments passed in?
+        private bool ShouldCopyType(Type ContextType)
+        {
+            if (ContextType.IsGenericParameter)
+                return false;
 
-						if (!ContextType.GetGenericArguments().Any(ShouldCopyType))
-						{
-							return false;
-						}
-					}
+            if (ContextType.IsGenericType)
+                if (!ContextType.IsGenericTypeDefinition)
+                {
+                    if (ShouldCopyType(ContextType.GetGenericTypeDefinition()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        // the type itself is not copied. what about arguments passed in?
 
-					return true;
-				}
-
-			var t = new AtShouldCopyTypeTuple { ContextType = ContextType };
-
-			if (AtShouldCopyType != null)
-				AtShouldCopyType(t);
-
-			if (t.DisableCopyType)
-				return false;
-
-			return ShouldCopyAssembly(ContextType.Assembly)
-				|| (!DisableIsMarkedForMerge && IsMarkedForMerge(ContextType));
-		}
+                        if (ContextType.GetGenericArguments().Any(ShouldCopyType))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
 
 
+                }
 
-	}
+            var t = new AtShouldCopyTypeTuple { ContextType = ContextType };
+
+            if (AtShouldCopyType != null)
+                AtShouldCopyType(t);
+
+            if (t.DisableCopyType)
+                return false;
+
+            return ShouldCopyAssembly(ContextType.Assembly)
+                || (!DisableIsMarkedForMerge && IsMarkedForMerge(ContextType));
+        }
+
+
+
+    }
 }

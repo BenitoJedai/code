@@ -9,9 +9,12 @@ namespace InteractiveAffineCube
 {
     public static class Example
     {
-        public static void Yield(Action<Func<Image>, Func<Type>, Func<string>> y)
+        public static Action<Action<Func<Image>, Func<Type>, Func<string>>> Yield
         {
-            y(Preview, GetCanvasType, GetText);
+            get
+            {
+                return y => y(Preview, GetCanvasType, GetText);
+            }
         }
 
         static Image Preview()
