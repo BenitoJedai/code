@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListOfTuple3", "ListOfTuple3\ListOfTuple3.csproj", "{411510C4-505B-4AF3-A417-9219C2674473}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{411510C4-505B-4AF3-A417-9219C2674473}.Debug|x86.ActiveCfg = Debug|x86
+		{411510C4-505B-4AF3-A417-9219C2674473}.Debug|x86.Build.0 = Debug|x86
+		{411510C4-505B-4AF3-A417-9219C2674473}.Release|x86.ActiveCfg = Release|x86
+		{411510C4-505B-4AF3-A417-9219C2674473}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

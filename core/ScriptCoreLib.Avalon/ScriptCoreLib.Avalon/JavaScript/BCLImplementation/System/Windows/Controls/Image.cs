@@ -50,15 +50,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 			return InternalGetDisplayObject();
 		}
 
+        public ImageSource InternalSource;
+
 		public ImageSource Source
 		{
 			get
 			{
-				throw new NotImplementedException();
+                return this.InternalSource;
 			}
 			set
 			{
 
+                this.InternalSource = value;
 				__ImageSource v = value;
 
 				var alias = v.InternalManifestResourceAlias;

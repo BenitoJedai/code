@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8B30D90E-1A30-4DBF-ACD4-41E4243B2923}</ProjectGuid>
+    <ProjectGuid>{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InteractiveAffineCube</RootNamespace>
-    <AssemblyName>InteractiveAffineCube</AssemblyName>
+    <RootNamespace>ExampleGallery</RootNamespace>
+    <AssemblyName>ExampleGallery</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -58,6 +58,19 @@
     <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.Carousel">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Carousel.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.Examples.InteractiveAffineCube">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.InteractiveAffineCube.exe</HintPath>
+      <Aliases>examples</Aliases>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.TextButton">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.TextButton.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -110,50 +123,36 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="InteractiveAffineCube.UltraSource">
-      <HintPath>bin\staging.UltraSource\InteractiveAffineCube.UltraSource.dll</HintPath>
+    <Reference Include="ExampleGallery.UltraSource">
+      <HintPath>bin\staging.UltraSource\ExampleGallery.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Images\17.png" />
-    <Content Include="Design\Images\17g.png" />
-    <Content Include="Design\Images\19g.png" />
     <Content Include="Design\Assets.htm" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="AffineEngine\AffineExtensions.cs" />
-    <Compile Include="AffineEngine\AffineMesh.cs" />
-    <Compile Include="AffineEngine\AffinePoint.cs" />
-    <Compile Include="AffineEngine\AffineRotation.cs" />
-    <Compile Include="AffineEngine\AffineTransform.cs" />
-    <Compile Include="AffineEngine\AffineVertex.cs" />
-    <Compile Include="AffineEngine\AffineZoom.cs" />
     <Compile Include="ApplicationCanvas.cs" />
-    <Compile Include="Example.cs" />
+    <Compile Include="OptionWithShadow.cs" />
+    <Compile Include="OptionWithShadowAndType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\help.png" />
-    <Content Include="Design\Images\help_idle.png" />
+    <Content Include="Design\Images\bg.png" />
     <Content Include="Design\Images\jsc.png" />
     <Content Include="Design\Images\Preview.png" />
-    <Content Include="Design\Images\sand.png" />
+    <Content Include="Design\Images\PreviewSelection.png" />
+    <Content Include="Design\Images\PreviewShadow.png" />
     <Content Include="Design\white-jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
 c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
-c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.$(TargetFileName)"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
-
 )
 
 if $(ConfigurationName)==Release (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
-)
-
-</PostBuildEvent>
+)</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -75,6 +75,8 @@ namespace jsc.configuration
             w.Icon = a.image1.Source;
 
             //w.ToTransparentWindow();
+            //w.WindowStyle = WindowStyle.None;
+            //w.ResizeMode = ResizeMode.NoResize;
 
             w.Background = Brushes.White;
             w.WithGlass();

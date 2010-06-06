@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleGallery", "ExampleGallery\ExampleGallery.csproj", "{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -14,9 +14,12 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Shapes;
 using System.Windows;
 using InteractiveAffineCube.AffineEngine;
+using InteractiveAffineCube.Avalon.Images;
 
 namespace InteractiveAffineCube
 {
+
+
     public class ApplicationCanvas : Canvas
     {
         // http://code.google.com/p/kml-library/source/browse/#svn/trunk/KMLib/Abstract
@@ -270,4 +273,7 @@ namespace InteractiveAffineCube
 
 
     }
+
+
+
 }

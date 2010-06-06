@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="jsc.configuration.Configuration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="378" d:DesignWidth="787" xmlns:my="clr-namespace:jsc.configuration.Controls" >
+
+    <ScrollViewer  VerticalScrollBarVisibility="Auto">
+        <StackPanel >
+
+            <Expander Header="Software Development Kits"  IsExpanded="false" >
+                <StackPanel >
+                    <Label Content="Oracle Java Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="folderEntry1" VerticalAlignment="Top" Text="c:\util\java5\" DownloadLocation="http://java.sun.com/javase/downloads/index.jsp" />
+                    <Label Content="Adobe Flex Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="folderEntry2" VerticalAlignment="Top"  Text="c:\util\flex4\" DownloadLocation="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4" />
+                    <Label Content="Google App Engine Java Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="folderEntry3" Text="c:\util\flex4\" VerticalAlignment="Top"  DownloadLocation="http://code.google.com/intl/et-EE/appengine/downloads.html#Google_App_Engine_SDK_for_Java" />
+                    <Label Content="Apache Ant Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="folderEntry4" Text="c:\util\flex4\" VerticalAlignment="Top" DownloadLocation="http://ant.apache.org/bindownload.cgi" />
+                </StackPanel>
+            </Expander>
+
+            <Expander Header="Browsers"  IsExpanded="True" >
+                <StackPanel  >
+                    <Label Content="Google Chrome" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry  HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="GoogleChrome" VerticalAlignment="Top"  Text="" DownloadLocation="" />
+                    <Label Content="Safari" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="Safari" VerticalAlignment="Top"  Text="" DownloadLocation="" />
+                    <Label Content="Opera" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="Opera" VerticalAlignment="Top"  Text="" DownloadLocation="" />
+                    <Label Content="Firefox" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="Firefox" VerticalAlignment="Top"  Text="" DownloadLocation="" />
+                    <Label Content="Microsoft Internet Explorer" Height="28" HorizontalAlignment="Left" Margin="18,0,0,0"  VerticalAlignment="Top" />
+                    <my:FolderEntry HorizontalAlignment="Stretch" Margin="40,0,40,0" x:Name="MSIE" VerticalAlignment="Top"  Text="" DownloadLocation="" />
+
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
