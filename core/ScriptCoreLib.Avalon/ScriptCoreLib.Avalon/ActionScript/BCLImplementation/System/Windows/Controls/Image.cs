@@ -45,16 +45,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			return base.InternalGetOpacityTarget();
 		}
 
-		public ImageSource Source
+        public ImageSource InternalSource;
+        public ImageSource Source
 		{
 			get
 			{
-				throw new NotImplementedException();
+                return this.InternalSource;
 			}
 			set
 			{
 
-				__ImageSource v = value;
+                this.InternalSource = value;
+                __ImageSource v = value;
 
 
 				var alias = v.InternalManifestResourceAlias;
