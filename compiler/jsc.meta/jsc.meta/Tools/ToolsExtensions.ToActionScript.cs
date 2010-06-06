@@ -128,10 +128,10 @@ namespace jsc.meta.Tools
 							+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
 						)
 					{
-						UseShellExecute = UseShellExecute,
+						UseShellExecute = false,
 
 						// http://blogs.msdn.com/jmstall/archive/2006/09/28/CreateNoWindow.aspx
-						CreateNoWindow = CreateNoWindow,
+						CreateNoWindow = false,
 
 						WorkingDirectory = obj_web
 					}

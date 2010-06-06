@@ -122,6 +122,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Preview.png" />
     <Content Include="Design\white-jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

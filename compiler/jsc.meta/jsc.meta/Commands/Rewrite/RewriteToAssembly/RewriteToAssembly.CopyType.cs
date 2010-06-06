@@ -390,9 +390,9 @@ namespace jsc.meta.Commands.Rewrite
 			{
 				#region DefineType
 				if (_DeclaringType != null)
-				{
-
-					var _NestedTypeName = NameObfuscation[TypeName];
+                {
+                    #region nested
+                    var _NestedTypeName = NameObfuscation[TypeName];
 
 
 					//TypeAttributes = ReplaceTypeAttributes(TypeAttributes, TypeAttributes.NotPublic, TypeAttributes.NestedFamORAssem);
@@ -418,14 +418,20 @@ namespace jsc.meta.Commands.Rewrite
 							BaseType,
 							_Interfaces
 						);
-					}
-				}
+                    }
+                    #endregion
+
+                }
 				else
 				{
 					var DefineTypeName = FullNameFixup(TypeName);
 
 					Func<IEnumerable<Type>> GetDuplicates =
-						() => context.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(k => (k.Namespace + "." + k.Name) == DefineTypeName);
+						() => context.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(
+                            k => (
+                                (string.IsNullOrEmpty(k.Namespace) ? "" : k.Namespace + ".") + k.Name
+                        ) == DefineTypeName
+                    );
 
 
 					while (GetDuplicates().Any())
