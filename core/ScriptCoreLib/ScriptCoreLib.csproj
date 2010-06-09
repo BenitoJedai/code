@@ -80,6 +80,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
+    <Compile Include="JavaScript\DOM\HTML\IHTMLCanvas.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLListItem.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLUnorderedList.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLOrderedList.cs" />
