@@ -39,6 +39,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			body,
 			br,
 			button,
+            canvas,
 			caption,
 			center,
 			cite,

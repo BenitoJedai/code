@@ -1,0 +1,6 @@
+﻿Namespace ScriptCoreLib.Ultra.Library.IDL
+-----------------------------------------
+
+This namespace shall implement an IDL parser.
+
+The parser shall be designed to run on all web platforms.

@@ -48,7 +48,7 @@ namespace jsc.meta.Commands.Reference
 
 			ImplementConcept ImplementConcept,
 
-			string[] Concepts,
+            //string[] Concepts,
 
 			Dictionary<string, TypeBuilder> IPageLookup,
 

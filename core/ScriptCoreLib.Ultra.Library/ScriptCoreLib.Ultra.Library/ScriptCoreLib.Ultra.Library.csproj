@@ -92,6 +92,16 @@
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="InferAdditionalMembersAttribute.cs" />
     <Compile Include="Delegates\StringAction.cs" />
+    <Compile Include="Ultra\IDL\IDLMemberAttribute.cs" />
+    <Compile Include="Ultra\IDL\IDLMemberConstant.cs" />
+    <Compile Include="Ultra\IDL\IDLConstructor.cs" />
+    <Compile Include="Ultra\IDL\IDLInterface.cs" />
+    <Compile Include="Ultra\IDL\IDLMember.cs" />
+    <Compile Include="Ultra\IDL\IDLMemberMethod.cs" />
+    <Compile Include="Ultra\IDL\IDLModule.cs" />
+    <Compile Include="Ultra\IDL\IDLParser.cs" />
+    <Compile Include="Ultra\IDL\IDLParserToken.cs" />
+    <Compile Include="Ultra\IDL\IDLTypeDefinition.cs" />
     <Compile Include="Ultra\Library\CachedFileGeneratorBase.cs" />
     <Compile Include="Ultra\Library\Disposable.cs" />
     <Compile Include="Extensions\CryptographyExtensions.cs" />
@@ -138,6 +148,7 @@
   <ItemGroup>
     <Content Include="Extensions\comments.txt" />
     <Content Include="Ultra\comments.txt" />
+    <Content Include="Ultra\IDL\comments.txt" />
     <Content Include="Ultra\Components\comments.txt" />
     <Content Include="Ultra\Studio\Languages\comments.txt" />
     <Content Include="Ultra\WebService\comment.txt" />
