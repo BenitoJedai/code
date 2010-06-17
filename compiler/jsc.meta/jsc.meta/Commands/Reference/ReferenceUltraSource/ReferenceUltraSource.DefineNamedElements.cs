@@ -10,18 +10,18 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
 using jsc.meta.Library.Templates;
 using jsc.meta.Library.Templates.Avalon;
 using jsc.meta.Library.Templates.JavaScript;
+using jsc.meta.Library.Templates.JavaScript.Named;
 using jsc.Script;
 using ScriptCoreLib.ActionScript;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using jsc.meta.Library.Templates.JavaScript.Named;
-using jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins;
-using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {
@@ -285,6 +285,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
                             DefineAvalonNamedImage(a, r,
                                 DefaultNamespace + ".Avalon.Images." + name, Variations.FromAssetsSource, null
                             );
+
+                            
                         }
 
                         // lets define 

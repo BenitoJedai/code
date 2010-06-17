@@ -123,6 +123,7 @@
     <Compile Include="JavaScript\Concepts\SectionConcept.cs" />
     <Compile Include="JavaScript\Concepts\TreeNodeConcept.cs" />
     <Compile Include="JavaScript\DOM\XML\XDocumentExtensions.cs" />
+    <Compile Include="JavaScript\Extensions\IFunctionExtensions.cs" />
     <Compile Include="JavaScript\Extensions\INodeExtensionsWithForms.cs" />
     <Compile Include="JavaScript\Extensions\UltraComponentsExtensions.cs" />
     <Compile Include="JavaScript\Remoting\InternalElementProxy.cs" />

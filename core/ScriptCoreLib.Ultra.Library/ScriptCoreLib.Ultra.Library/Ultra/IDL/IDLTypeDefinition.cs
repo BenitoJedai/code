@@ -9,6 +9,15 @@ namespace ScriptCoreLib.Ultra.IDL
     {
         public IDLModule DeclaringModule;
 
-        // typedef events::Event Event;
+        public IDLParserToken Keyword;
+        public IDLTypeReference Type;
+        public IDLParserToken Name;
+
+        public IDLParserToken Terminator;
+
+        public override string ToString()
+        {
+            return "typedef "  + this.Type.ToString() + " " + this.Name.Text + ";";
+        }
     }
 }

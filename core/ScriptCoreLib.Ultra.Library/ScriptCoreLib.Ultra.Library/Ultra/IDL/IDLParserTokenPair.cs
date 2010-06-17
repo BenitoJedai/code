@@ -5,8 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.IDL
 {
-    public class IDLMember
+    public class IDLParserTokenPair
     {
-
+        public IDLParserToken Item1;
+        public IDLParserToken Item2;
     }
 }

@@ -160,7 +160,8 @@ namespace ExampleGallery
             var x = new []
             {
                 examples::InteractiveAffineCube.Example.Yield,
-                examples::InteractiveAffineWall.Example.Yield
+                examples::InteractiveAffineWall.Example.Yield,
+                examples::ColorTank.Example.Yield,
             }.WithEach(k => k(AllPages.Add));
 
 

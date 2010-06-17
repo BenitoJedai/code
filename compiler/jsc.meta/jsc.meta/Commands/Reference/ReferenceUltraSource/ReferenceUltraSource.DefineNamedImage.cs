@@ -15,11 +15,11 @@ using jsc.meta.Library;
 using jsc.meta.Library.Templates;
 using jsc.meta.Library.Templates.Avalon;
 using jsc.meta.Library.Templates.JavaScript;
+using jsc.meta.Library.Templates.JavaScript.Named;
 using jsc.Script;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using jsc.meta.Library.Templates.JavaScript.Named;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 {

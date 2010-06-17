@@ -18,6 +18,35 @@ namespace ScriptCoreLib.Extensions
 			return e;
 		}
 
+        /// <summary>
+        /// Calls the selector delegate until the returned type is the same given to the delegate.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="e"></param>
+        /// <param name="selector"></param>
+        /// <returns></returns>
+        [System.Diagnostics.DebuggerStepThrough]
+        public static T UntilSelected<T>(this T e, Func<T, T> selector) where T : class
+        {
+            var p = e;
+
+            if (e != null)
+                if (selector != null)
+                {
+                    var pp = e;
+                    p = selector(pp);
+
+                    while (p != pp)
+                    {
+                        var x = p;
+                        p = selector(p);
+                        pp = x;
+                    }
+                }
+
+            return p;
+        }
+
 		[System.Diagnostics.DebuggerStepThrough]
 		public static T With<T>(this T e, Action<T> h) where T : class
 		{

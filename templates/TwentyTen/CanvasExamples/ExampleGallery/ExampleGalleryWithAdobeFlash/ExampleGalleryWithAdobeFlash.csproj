@@ -59,6 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Avalon.Examples.ExampleGallery">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.ExampleGallery.exe</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -124,12 +127,6 @@
     </Compile>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\white-jsc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExampleGallery\ExampleGallery.csproj">
-      <Project>{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}</Project>
-      <Name>ExampleGallery</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

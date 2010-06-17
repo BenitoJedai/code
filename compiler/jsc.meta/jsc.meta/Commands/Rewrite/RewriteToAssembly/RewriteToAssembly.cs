@@ -148,7 +148,17 @@ namespace jsc.meta.Commands.Rewrite
 
                         if (!loaded)
                         {
-                            shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(Path.GetDirectoryName(k.name)));
+                            var FolderToLoadFrom = Path.GetDirectoryName(k.name);
+
+                            if (string.IsNullOrEmpty(FolderToLoadFrom))
+                            {
+                                FolderToLoadFrom = Path.GetDirectoryName(this.AssemblyMerge.First().name);
+                                // ????
+                            }
+                            else
+                            {
+                                shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(FolderToLoadFrom));
+                            }
 
                         }
 

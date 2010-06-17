@@ -3,10 +3,8 @@
 
 using System;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
-using ScriptCoreLib.Ultra.IDL;
-using System.IO;
 
-namespace ScriptCoreLib.Ultra.Components.IDL
+namespace PrettyGlowingLines
 {
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -19,13 +17,8 @@ namespace ScriptCoreLib.Ultra.Components.IDL
         /// <param name="args">Commandline arguments</param>
         public static void Main(string[] args)
         {
-#if DEBUG
-            { IDLModule m = File.ReadAllText("Design/IDLFiles/CanvasRenderingContext2D.idl"); }
-            { IDLModule m = File.ReadAllText("Design/IDLFiles/webgl.idl"); }
-#else
+            // Prepare the yield value for
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
-#endif
-
         }
 
     }

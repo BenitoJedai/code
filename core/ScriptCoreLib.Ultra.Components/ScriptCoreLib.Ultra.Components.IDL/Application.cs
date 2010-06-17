@@ -14,9 +14,15 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Components.IDL.HTML.Pages;
 using ScriptCoreLib.Ultra.Components.IDL;
+using ScriptCoreLib.JavaScript.WebGL;
 
 namespace ScriptCoreLib.Ultra.Components.IDL
 {
+    public class MyClass
+    {
+        public WebGLActiveInfo Info;
+    }
+
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
     /// </summary>

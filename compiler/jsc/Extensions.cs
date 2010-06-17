@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace jsc //.Extensions
 {

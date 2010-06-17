@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{295F01C8-6D1F-46A0-B1B8-DE544C0973EE}</ProjectGuid>
+    <ProjectGuid>{7F477206-5430-473E-BD8D-B6B82CA54DDB}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ExampleGallery</RootNamespace>
-    <AssemblyName>ExampleGallery</AssemblyName>
+    <RootNamespace>PrettyGlowingLines</RootNamespace>
+    <AssemblyName>PrettyGlowingLines</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -45,6 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -58,27 +61,6 @@
     <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.Carousel">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Carousel.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.Examples.ColorTank">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.ColorTank.exe</HintPath>
-      <Aliases>examples</Aliases>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.Examples.InteractiveAffineCube">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.InteractiveAffineCube.exe</HintPath>
-      <Aliases>examples</Aliases>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.Examples.InteractiveAffineWall">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.InteractiveAffineWall.exe</HintPath>
-      <Aliases>examples</Aliases>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TextButton">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.TextButton.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Avalon.TiledImageButton">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.TiledImageButton.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=1.0.2666.38864, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -131,38 +113,25 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="ExampleGallery.UltraSource">
-      <HintPath>bin\staging.UltraSource\ExampleGallery.UltraSource.dll</HintPath>
+    <Reference Include="PrettyGlowingLines.UltraSource">
+      <HintPath>bin\staging.UltraSource\PrettyGlowingLines.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Assets.htm" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="ApplicationCanvas.cs" />
-    <Compile Include="OptionWithShadow.cs" />
-    <Compile Include="OptionWithShadowAndType.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs">
-      <DependentUpon>ApplicationCanvas.cs</DependentUpon>
+      <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\bg.png" />
-    <Content Include="Design\Images\jsc.png" />
-    <Content Include="Design\Images\Preview.png" />
-    <Content Include="Design\Images\PreviewSelection.png" />
-    <Content Include="Design\Images\PreviewShadow.png" />
     <Content Include="Design\white-jsc.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /DefaultToOrcas:true
-c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.$(TargetFileName)"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
-
-)
-
+    <PostBuildEvent>
 if $(ConfigurationName)==Release (
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
   </PropertyGroup>
