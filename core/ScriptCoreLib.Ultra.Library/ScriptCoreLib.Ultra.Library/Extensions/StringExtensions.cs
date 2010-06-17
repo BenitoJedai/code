@@ -7,6 +7,8 @@ namespace ScriptCoreLib.Extensions
 {
 	public static class StringExtensions
 	{
+   
+
 		public static string[] ToLines(this string e)
 		{
 			return e.Split(new[] { Environment.NewLine }, StringSplitOptions.None);

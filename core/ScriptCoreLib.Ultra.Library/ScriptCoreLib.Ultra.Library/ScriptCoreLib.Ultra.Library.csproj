@@ -73,6 +73,7 @@
     <Compile Include="Delegates\Async.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\IOGenericExtensions.cs" />
+    <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
@@ -94,14 +95,18 @@
     <Compile Include="Delegates\StringAction.cs" />
     <Compile Include="Ultra\IDL\IDLMemberAttribute.cs" />
     <Compile Include="Ultra\IDL\IDLMemberConstant.cs" />
-    <Compile Include="Ultra\IDL\IDLConstructor.cs" />
     <Compile Include="Ultra\IDL\IDLInterface.cs" />
     <Compile Include="Ultra\IDL\IDLMember.cs" />
+    <Compile Include="Ultra\IDL\IDLMemberConstructor.cs" />
     <Compile Include="Ultra\IDL\IDLMemberMethod.cs" />
+    <Compile Include="Ultra\IDL\IDLNumericLiteral.cs" />
+    <Compile Include="Ultra\IDL\IDLParameter.cs" />
     <Compile Include="Ultra\IDL\IDLModule.cs" />
     <Compile Include="Ultra\IDL\IDLParser.cs" />
     <Compile Include="Ultra\IDL\IDLParserToken.cs" />
+    <Compile Include="Ultra\IDL\IDLParserTokenPair.cs" />
     <Compile Include="Ultra\IDL\IDLTypeDefinition.cs" />
+    <Compile Include="Ultra\IDL\IDLTypeReference.cs" />
     <Compile Include="Ultra\Library\CachedFileGeneratorBase.cs" />
     <Compile Include="Ultra\Library\Disposable.cs" />
     <Compile Include="Extensions\CryptographyExtensions.cs" />

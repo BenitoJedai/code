@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.IDL
 {
-    public class IDLParserToken
+    public class IDLParserToken : IEnumerable<IDLParserToken>
     {
         public readonly string Source;
         public int Position;
@@ -30,6 +30,9 @@ namespace ScriptCoreLib.Ultra.IDL
             {
                 if (InternalNext == null)
                 {
+                    if (Position + Length >= this.Source.Length)
+                        return null;
+
                     InternalNext = new IDLParserToken(Source)
                     {
                         Position = Position + Length,
@@ -46,6 +49,7 @@ namespace ScriptCoreLib.Ultra.IDL
         public bool IsComment;
         public bool IsWhiteSpace;
         public bool IsName;
+        public bool IsSymbol;
 
         public void Initialize()
         {
@@ -56,6 +60,7 @@ namespace ScriptCoreLib.Ultra.IDL
             // so who are we?
             // are we whitespace, comment, keyword, literal or just name?
 
+            #region IsComment
             if (this[0] == '/')
             {
                 // are we a box comment?
@@ -78,11 +83,27 @@ namespace ScriptCoreLib.Ultra.IDL
                     );
                     return;
                 }
-            }
 
+                if (this[1] == '/')
+                {
+                    this.IsComment = true;
+
+                    this.Length = ScanLength(3,
+                        i =>
+                        {
+                            return this[i - 1] == '\n';
+                        }
+                    );
+
+                    return;
+                }
+            }
+            #endregion
+
+            #region IsWhiteSpace
             if (char.IsWhiteSpace(this[0]))
             {
-                this.IsComment = true;
+                this.IsWhiteSpace = true;
                 this.Length = ScanLength(1,
                     i =>
                     {
@@ -94,13 +115,30 @@ namespace ScriptCoreLib.Ultra.IDL
                 );
                 return;
             }
+            #endregion
 
-            if (char.IsLetter(this[0]))
+            Func<char, bool> IsLetterOrUnderscore =
+                c =>
+                {
+                    if (char.IsLetter(c))
+                        return true;
+
+                    if (c == '_')
+                        return true;
+
+                    return false;
+                };
+
+            #region IsName
+            if (IsLetterOrUnderscore(this[0]))
             {
                 this.IsName = true;
                 this.Length = ScanLength(1,
                     i =>
                     {
+                        if (IsLetterOrUnderscore(this[i]))
+                            return false;
+
                         if (char.IsLetterOrDigit(this[i]))
                             return false;
 
@@ -109,8 +147,10 @@ namespace ScriptCoreLib.Ultra.IDL
                 );
                 return;
             }
+            #endregion
 
-            throw new NotImplementedException();
+            this.IsSymbol = true;
+            this.Length = 1;
         }
 
         public int ScanLength(int Length, Func<int, bool> f)
@@ -148,5 +188,71 @@ namespace ScriptCoreLib.Ultra.IDL
         {
             return Text;
         }
+
+        class InternalEnumerator : IEnumerator<IDLParserToken>
+        {
+            public IDLParserToken Current { get; set; }
+
+            public void Dispose()
+            {
+            }
+
+            object System.Collections.IEnumerator.Current
+            {
+                get { return this.Current; }
+            }
+
+            public bool MoveNext()
+            {
+                Current = Current.Next;
+
+                return Current != null;
+            }
+
+            public void Reset()
+            {
+            }
+        }
+
+        public IEnumerator<IDLParserToken> GetEnumerator()
+        {
+            return new InternalEnumerator { Current = this };
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public IDLParserToken CombineToSymbol(string e)
+        {
+            if (this.IsSymbol)
+            {
+                var f = default(Action);
+
+                f = delegate
+                    {
+                        var Next = this.Next;
+                        if (Next.IsSymbol)
+                        {
+                            if (e.StartsWith(this.Text + Next.Text))
+                            {
+                                this.Length += Next.Length;
+                                this.InternalNext = Next.Next;
+                                this.InternalNext.Previous = this;
+
+                                // tail call would be awesome? :)
+                                f();
+                            }
+                        }
+                    };
+
+                f();
+            }
+
+            return this;
+        }
+
+
     }
 }

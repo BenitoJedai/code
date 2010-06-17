@@ -19,6 +19,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 			if (this.AttachDebugger)
 				Debugger.Launch();
 
+
+            var ExplicitAssemblyMerge = new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName }.Concat(
+                this.AssemblyMerge
+            );
+
+
 			var UltraSourceReferences = Enumerable.ToArray(
 				from pp in new[] { PrimaryProject }
 				where pp != null
@@ -54,7 +60,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 			var AssemblyMerge =
 				Enumerable.Concat(
-					new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName },
+                    ExplicitAssemblyMerge,
 
 					from k in UltraSourceReferences
 					select (RewriteToAssembly.AssemblyMergeInstruction)k

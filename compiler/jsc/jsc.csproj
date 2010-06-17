@@ -11,7 +11,7 @@
     <RootNamespace>jsc</RootNamespace>
     <AssemblyName>jsc</AssemblyName>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <ApplicationIcon>Resx\jsc.ico</ApplicationIcon>
+    <ApplicationIcon>Documents\jsc.ico</ApplicationIcon>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>neutronic.snk</AssemblyOriginatorKeyFile>
     <PublishUrl>http://localhost/jsc/</PublishUrl>
@@ -302,7 +302,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Documents\comments.txt" />
-    <Content Include="Resx\jsc.ico" />
+    <Content Include="Documents\jsc.ico" />
     <EmbeddedResource Include="Languages\JavaScript\%24ctor%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ScriptedLoading%24.js" />
     <EmbeddedResource Include="Languages\JavaScript\%24ClickOnce%24.js" />
@@ -317,7 +317,6 @@
     <Content Include="Languages\CSharp2\comment.txt" />
     <Content Include="Languages\IL\comment.txt" />
     <Content Include="Library\comment.txt" />
-    <Content Include="Resx\App.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -334,10 +333,7 @@
       <Name>ScriptCoreLibA</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Profiler\" />
-    <Folder Include="tools\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.exe" "c:\util\jsc\bin" /y

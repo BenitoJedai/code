@@ -117,6 +117,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 			u,
 			ul,
 			@var,
+            video
 		}
 
 		#region constructors
