@@ -14,18 +14,18 @@ using System.Xml.XPath;
 using jsc.Languages.IL;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Library;
+using jsc.meta.Library.Templates.JavaScript;
+using jsc.meta.Library.Templates.JavaScript.Named;
 using jsc.meta.Tools;
 using jsc.Script;
 using Microsoft.CSharp;
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using jsc.meta.Library.Templates.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Ultra.Library.Extensions;
-using jsc.meta.Library.Templates.JavaScript.Named;
-using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Reference
 {

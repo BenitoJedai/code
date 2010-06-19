@@ -16,6 +16,7 @@ using jsc.meta.Commands.Rewrite.RewriteToInstaller;
 using jsc.meta.Commands.Rewrite.RewriteToUltraLibrary;
 using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
 using jsc.meta.Commands.Configuration;
+using jsc.meta.Commands.Test;
 
 namespace jsc.meta
 {
@@ -49,11 +50,11 @@ namespace jsc.meta
 
 			ShowLogo();
 
-			if (Debugger.IsAttached)
-			{
-				jsc.meta.Library.CostumAttributeBuilderExtensions.TestFeature();
-				jsc.meta.Commands.Rewrite.Templates.InternalToTypeTestConcept.TestConcept();
-			}
+            //if (Debugger.IsAttached)
+            //{
+            //    jsc.meta.Library.CostumAttributeBuilderExtensions.TestFeature();
+            //    jsc.meta.Commands.Rewrite.Templates.InternalToTypeTestConcept.TestConcept();
+            //}
 
 			args.AsParametersTo(
 				new ExtendToWindowsFormsEverywhere().Invoke,
@@ -85,7 +86,9 @@ namespace jsc.meta
 
                 new ConfigurationCreateProjectTemplates(),
                 new ConfigurationInitialize(),
-                new ConfigurationPrecompile()
+                new ConfigurationPrecompile(),
+
+                new TestChooser()
 			);
 
 		}

@@ -246,7 +246,8 @@
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.cs" />
     <Compile Include="Commands\Reference\ReferenceTextComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceTextualUserControl.cs" />
-    <Compile Include="Commands\Reference\ReferenceUltraSource\Plugins\AvalonImageTrianglePlugin.cs" />
+    <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.DefineAvalonNamedImage.cs" />
+    <Compile Include="Commands\Reference\ReferenceUltraSource\Plugins\AffineTriangles.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\Plugins\IDLCompiler.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.Arguments.cs" />
     <Compile Include="Commands\Reference\ReferenceUltraSource\Plugins\ImplementConcept.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Commands\Rewrite\RewriteToMVSProjectTemplate\RewriteToMVSProjectTemplate.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
+    <Compile Include="Commands\Test\TestChooser.cs" />
     <Compile Include="Configuration\SDKConfiguration.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\CostumAttributeBuilderExtensions.cs" />

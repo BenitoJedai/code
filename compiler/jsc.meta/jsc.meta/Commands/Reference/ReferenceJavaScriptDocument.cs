@@ -520,6 +520,7 @@ namespace jsc.meta.Commands.Reference
                                     // For body and each class element
                                     var TitleElement = xml.XPathSelectElement("/html/head/title");
 
+                                    Console.WriteLine("page: " + TitleElement.Value);
 
                                     var BodyElement = xml.XPathSelectElement("/html/body");
 

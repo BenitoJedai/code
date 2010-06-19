@@ -30,7 +30,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 		public XElement BodyElement;
 		public RewriteToAssembly r;
 		public Func<string, FileInfo> GetLocalResource;
-
+        
 		public void Define()
 		{
 			var a = r.RewriteArguments;
@@ -226,6 +226,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 						DefaultNamespace + ".Avalon.Images.SpriteSheet." + item.SpriteId,
 						AssetPath
 						, null
+
 					);
 				}
 			}

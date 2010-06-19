@@ -251,16 +251,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
                             };
 
 
-                        a.context.TypeRenameCache.Resolve +=
-                            SourceType =>
-                            {
-                                if (SourceType != TemplateType)
-                                    return;
-
-                                a.context.TypeRenameCache[SourceType] =
-                                    // ?
-                                    DefaultNamespace + ".Data." + Namespace + "." + name;
-                            };
+                        a.context.TypeRenameCache[TemplateType] = DefaultNamespace + ".Data." + Namespace + "." + name;
 
                         var MyType = a.context.TypeCache[TemplateType];
 
@@ -283,10 +274,27 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
                         if (ElementType == typeof(IHTMLImage))
                         {
                             DefineAvalonNamedImage(a, r,
-                                DefaultNamespace + ".Avalon.Images." + name, Variations.FromAssetsSource, null
+                                DefaultNamespace + ".Avalon.Images." + name, Variations.FromAssetsSource, null,
+
+                                DeclaringType =>
+                                {
+                                    if (Bitmap != null)
+                                        if (Bitmap.PixelWidth == Bitmap.PixelHeight)
+                                        {
+                                            new AffineTriangles
+                                            {
+                                                DefaultNamespace = DefaultNamespace,
+                                                Bitmap = Bitmap,
+                                                DeclaringType = DeclaringType,
+                                                r = r
+                                            }.Define();
+
+
+                                        }
+                                }
                             );
 
-                            
+
                         }
 
                         // lets define 
@@ -416,61 +424,6 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 
 
                                 e.il.Emit(OpCodes.Ldstr, ImageSource);
-                            };
-                    };
-
-                a.context.TypeRenameCache.Resolve +=
-                    SourceType =>
-                    {
-                        if (SourceType != TemplateType)
-                            return;
-
-                        a.context.TypeRenameCache[SourceType] =
-                            ImageFullName;
-                    };
-
-                var MyType = a.context.TypeCache[TemplateType];
-
-                TemplateType = null;
-
-                return MyType;
-            }
-        }
-
-        public static Type DefineAvalonNamedImage(
-            RewriteToAssembly.AssemblyRewriteArguments a,
-            RewriteToAssembly r,
-            string ImageFullName,
-            string ImageSource,
-            MethodInfo get_ImageSource
-            )
-        {
-            var TemplateType = typeof(AvalonNamedImage);
-
-            using (a.context.ToTransientTransaction())
-            {
-                r.AtILOverride +=
-                    (m, il_a) =>
-                    {
-                        if (m.DeclaringType != TemplateType)
-                            return;
-
-                        il_a[OpCodes.Ldstr] =
-                            (e) =>
-                            {
-                                if (e.i.TargetLiteral != AvalonNamedImage._src)
-                                {
-                                    e.Default();
-                                    return;
-                                }
-
-                                if (ImageSource != null)
-                                {
-                                    e.il.Emit(OpCodes.Ldstr, ImageSource);
-                                    return;
-                                }
-
-                                e.il.Emit(OpCodes.Call, get_ImageSource);
                             };
                     };
 

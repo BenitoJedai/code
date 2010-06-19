@@ -31,20 +31,20 @@ namespace PrettyGlowingLines
         {
             var canvas = new IHTMLCanvas().AttachTo(page.Content);
 
-            canvas.style.SetSize(400, 300);
+            canvas.style.SetSize(400, 400);
 
             var context = (CanvasRenderingContext2D)canvas.getContext("2d");
 
             Action DrawLogo = delegate { };
 
             new white_jsc().InvokeOnComplete(
-                img
+                img =>
                 {
                     DrawLogo = delegate
                     {
                         context.drawImage(
                             img,
-                            0, 0, 96, 96
+                            0, 0, 96, 48 // ??
                         );
                     };
                 }
@@ -79,6 +79,7 @@ namespace PrettyGlowingLines
                 context.shadowBlur = 10;
                 context.stroke();
                 context.restore();
+
             };
 
             line.AtInterval(50);
@@ -90,6 +91,7 @@ namespace PrettyGlowingLines
                 context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
                 DrawLogo();
+               
             };
 
             blank.AtInterval(40);
