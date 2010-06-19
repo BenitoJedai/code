@@ -52,6 +52,10 @@ namespace jsc.meta.Library.VolumeFunctions
 			/// <returns></returns>
 			public FileInfo FromVirtual(FileInfo n)
 			{
+                // The specified path, file name, or both are too long. 
+                // The fully qualified file name must be less than 260 characters, 
+                // and the directory name must be less than 248 characters.
+
 				return new FileInfo(
 					this.SourceDirectory.FullName + "/" + n.FullName.Substring(this.VirtualDirectory.FullName.Length)
 				);

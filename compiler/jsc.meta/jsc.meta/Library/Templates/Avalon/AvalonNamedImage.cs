@@ -45,4 +45,7 @@ namespace jsc.meta.Library.Templates.Avalon
 			}
 		}
 	}
+
+
+
 }
