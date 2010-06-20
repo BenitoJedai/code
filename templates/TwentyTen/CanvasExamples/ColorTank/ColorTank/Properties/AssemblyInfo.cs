@@ -9,7 +9,7 @@ using System.Reflection;
 // associated with an assembly.
 [assembly: AssemblyTitle(@"Color Tank")]
 [assembly: AssemblyDescription(@"Write a Windows Presentation Foundation Canvas within a C# project for JavaScript and Adobe Flash. http://jsc-solutions.net")]
-[assembly: AssemblyCompany(@"jsc-solutions.net\Avalon Examples")]
+[assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"ColorTank")]
 [assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyVersion(@"1.0.0.0")]

@@ -48,21 +48,24 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
             {
                 var Assembly = System.Reflection.Assembly.LoadFile(this.Assembly.FullName);
 
-                Attributes.Description =
-                    (
-                        Assembly.GetCustomAttributes<AssemblyDescriptionAttribute>().FirstOrDefault()
-                    )
-                    .Description;
+                if (Attributes.Description == null)
+                    Attributes.Description =
+                        (
+                            Assembly.GetCustomAttributes<AssemblyDescriptionAttribute>().FirstOrDefault()
+                        )
+                        .Description;
 
-                Attributes.Title =
-                    (
-                        Assembly.GetCustomAttributes<AssemblyTitleAttribute>().FirstOrDefault()
-                    ).Title;
+                if (Attributes.Title == null)
+                    Attributes.Title =
+                        (
+                            Assembly.GetCustomAttributes<AssemblyTitleAttribute>().FirstOrDefault()
+                        ).Title;
 
-                Attributes.Company =
-                    (
-                        Assembly.GetCustomAttributes<AssemblyCompanyAttribute>().FirstOrDefault()
-                    ).Company;
+                if (Attributes.Company == null)
+                    Attributes.Company =
+                        (
+                            Assembly.GetCustomAttributes<AssemblyCompanyAttribute>().FirstOrDefault()
+                        ).Company;
             }
 
             var MyDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -126,7 +129,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
             #endregion
 
             (
-                from pg in proj.Root.Elements(nsPropertyGroup)    
+                from pg in proj.Root.Elements(nsPropertyGroup)
                 from f in pg.Elements(nsTargetFrameworkVersion)
                 select (Action)(() => f.Value = DefaultToOrcas ? "v3.5" : "v4.0")
             ).Invoke();
@@ -247,7 +250,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
                 where ItemFile.Name == "Preview.png"
 
-                select new { ItemGroup, Item, Include, ItemFile, Directory } 
+                select new { ItemGroup, Item, Include, ItemFile, Directory }
               ;
 
             var Preview = PreviewFiles.FirstOrDefault();

@@ -103,6 +103,8 @@ namespace VectorExample.js
             var b3 = CreateButton(Test3, "vml (IE) hello world");
 			b3.disabled = !IVMLElementBase.Settings.IsSupported;
 
+            
+
 			CreateButton(
 				delegate
 				{

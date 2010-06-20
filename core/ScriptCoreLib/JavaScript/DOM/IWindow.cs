@@ -7,6 +7,10 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    [Script]
+    public delegate object IWindow_onbeforeunload(IEvent e);
+
+
     [Script(HasNoPrototype = true)]
     public class IWindow : ISink
     {
@@ -238,7 +242,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             add
             {
-                InternalFunc<IEvent, object> w =
+                IWindow_onbeforeunload w =
                     delegate(IEvent e)
                     {
                         var c = new Confirmation();

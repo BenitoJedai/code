@@ -15,11 +15,11 @@ using jsc.meta.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
-    public partial class RewriteToAssembly
+    public partial class RewriteToAssembly : CommandBase
     {
         public event Action<Assembly> AssemblyMergeLoadHint;
 
-        public void Invoke()
+        public override void Invoke()
         {
             if (this.AttachDebugger)
                 Debugger.Launch();
@@ -891,11 +891,17 @@ namespace jsc.meta.Commands.Rewrite
                     if (source.IsGenericType)
                         if (!source.IsGenericTypeDefinition)
                         {
+                            var GenericArguments =
+                              source.GetGenericArguments().Select(
+                                      k => TypeCache[k]
+                                  ).ToArray();
+
+                            var GenericTypeDefinition = TypeCache[source.GetGenericTypeDefinition()];
+              
+
                             TypeCache[source] =
-                                TypeCache[source.GetGenericTypeDefinition()].MakeGenericType(
-                                    source.GetGenericArguments().Select(
-                                        k => TypeCache[k]
-                                    ).ToArray()
+                                GenericTypeDefinition.MakeGenericType(
+                                    GenericArguments
                                 );
                             return;
                         }
@@ -1163,6 +1169,7 @@ namespace jsc.meta.Commands.Rewrite
             {
                 // we probably loaded that assembly and now are trying to write to it...
                 // Type 'ScriptCoreLib.Shared.Avalon.Extensions.AnimatedOpacity`1' was not completed.
+                // Type 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLDocument' was not completed.
 
                 a.Save(
                     "~" + Product.Name

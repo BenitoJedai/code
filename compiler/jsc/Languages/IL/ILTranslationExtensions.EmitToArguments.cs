@@ -178,11 +178,19 @@ namespace jsc.Languages.IL
 					{
 						e.il.Emit(OpCodes.Ldc_R4, (float)e.i.TargetFloat);
 					};
+
 				this[OpCodes.Ldc_R8] =
-				e =>
-				{
-					e.il.Emit(OpCodes.Ldc_R8, (double)e.i.TargetDouble);
-				};
+				    e =>
+				    {
+					    e.il.Emit(OpCodes.Ldc_R8, (double)e.i.TargetDouble);
+				    };
+
+                this[OpCodes.Ldc_I8] =
+                    e =>
+                    {
+                        e.il.Emit(OpCodes.Ldc_I8, (long)e.i.TargetLong);
+                    };
+
 
 				this[OpCodes.Ldtoken] =
 					e =>

@@ -11,6 +11,15 @@ namespace jsc.meta.Library
 	// todo: move to ScriptCoreLib.Ultra.Library
 	public static class BCLExtensions
 	{
+        public static Type TryGetGenericTypeDefinition(this Type t)
+        {
+            if (t.IsGenericType)
+                if (!t.IsGenericTypeDefinition)
+                    return t.GetGenericTypeDefinition();
+
+            return t;
+        }
+
 		public static T GetValue<K, T>(this IDictionary<K, T> e, K k, Func<T> f)
 		{
 			if (!e.ContainsKey(k))
