@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.XLinq", "ScriptCoreLib.XLinq\ScriptCoreLib.XLinq.csproj", "{BBB683B6-BBF0-453B-88CB-34E4E241F6CB}"
 EndProject
 Global

@@ -524,7 +524,7 @@ namespace jsc.meta.Commands.Reference
 
                                     var BodyElement = xml.XPathSelectElement("/html/body");
 
-                                    var TitleValue = TitleElement == null || string.IsNullOrEmpty(TitleElement.Value) ?
+                                    var TitleValue = TitleElement == null /*|| string.IsNullOrEmpty(TitleElement.Value)*/ ?
                                         item.Reference.TakeUntilIfAny("?").SkipUntilLastIfAny("/").TakeUntilIfAny(".") :
                                         TitleElement.Value;
 
@@ -592,47 +592,53 @@ namespace jsc.meta.Commands.Reference
                                         GetLocalResource = item.GetLocalResource,
                                     }.Define();
 
-                                    
 
-                                    var VariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
-								    {
-									    {"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource})},
-									    {"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromWeb, Source = k.Value.FromWebSource })},
-									    {"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromBase64, Source = k.Value.FromBase64Source })},
-								    };
-
-
-                                    var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
-								    {
-									    {"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource })},
-									    {"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type =  k.Value.FromWeb, Source = k.Value.FromWebSource })},
-									    {"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
-								    };
-
-                                    var IPageLookup = new Dictionary<string, TypeBuilder>();
-                                    var Continuation = new List<Action>();
-                                    foreach (var CurrentVariationForPage in VariationsForPages)
+                                    if (PageName == "")
                                     {
-                                        DefinePageType(
-                                            DefaultNamespace,
-                                            r,
-                                            a, content,
-                                            BodyElement,
-                                            PageName,
-                                            CurrentVariationForPage.Key,
-                                            CurrentVariationForPage.Value,
-                                            RemotingVariationsForPages[CurrentVariationForPage.Key],
-                                            ImplementConcept__,
-                                            //Concepts,
-                                            IPageLookup,
-                                            Continuation.Add,
-                                            "FromAssets"
-                                        );
-
-
+                                        // No dice!
                                     }
+                                    else
+                                    {
+                                        var VariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
+								        {
+									        {"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource})},
+									        {"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromWeb, Source = k.Value.FromWebSource })},
+									        {"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromBase64, Source = k.Value.FromBase64Source })},
+								        };
 
-                                    Continuation.Invoke();
+
+                                        var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
+								        {
+									        {"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource })},
+									        {"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type =  k.Value.FromWeb, Source = k.Value.FromWebSource })},
+									        {"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
+								        };
+
+                                        var IPageLookup = new Dictionary<string, TypeBuilder>();
+                                        var Continuation = new List<Action>();
+                                        foreach (var CurrentVariationForPage in VariationsForPages)
+                                        {
+                                            DefinePageType(
+                                                DefaultNamespace,
+                                                r,
+                                                a, content,
+                                                BodyElement,
+                                                PageName,
+                                                CurrentVariationForPage.Key,
+                                                CurrentVariationForPage.Value,
+                                                RemotingVariationsForPages[CurrentVariationForPage.Key],
+                                                ImplementConcept__,
+                                                //Concepts,
+                                                IPageLookup,
+                                                Continuation.Add,
+                                                "FromAssets"
+                                            );
+
+
+                                        }
+
+                                        Continuation.Invoke();
+                                    }
                                 }
 
 

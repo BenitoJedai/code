@@ -15,17 +15,13 @@ namespace ScriptCoreLib.Shared
     [Script]
     public delegate void InternalAction();
     
-	// use: ScriptCoreLib.Shared.Lambda.ParamsAction
-	//[Script]
-	//public delegate void ActionParams<T>(params T[] e);
+
 
     [Script]
     public delegate R FuncParams<T, R>(params T[] e);
 
 
 
-    [Script]
-    public delegate T InternalFunc<A, T>(A a);
 
     [Script]
     public delegate T InternalFunc<A, B, T>(A a, B b);
@@ -34,18 +30,7 @@ namespace ScriptCoreLib.Shared
 	public delegate T InternalFunc<A, B, C, T>(A a, B b, C c);
 
 	
-/*
-    [Script]
-    internal delegate T Func<T>();
 
-
-
-
-    [Script]
-    internal delegate T Func<A, B, C, T>(A a, B b, C c);
-
-
-    */
     //#if BLOAT
 
     [Script]

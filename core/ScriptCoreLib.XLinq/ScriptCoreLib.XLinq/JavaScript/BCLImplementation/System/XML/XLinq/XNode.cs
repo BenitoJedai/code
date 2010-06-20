@@ -16,10 +16,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
         public override string ToString()
         {
-			
+
             return IXMLDocument.ToXMLString(InternalValue);
         }
 
-
+        internal override XElement InternalGetParent()
+        {
+            return (XElement)(object)new __XElement
+            {
+                InternalValue = this.InternalValue.parentNode
+            };
+        }
     }
 }

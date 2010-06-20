@@ -15,6 +15,7 @@ using ScriptCoreLib.Extensions;
 using PrettyGlowingLines.HTML.Pages;
 using PrettyGlowingLines;
 using PrettyGlowingLines.HTML.Images.FromAssets;
+using ScriptCoreLib.Avalon;
 
 namespace PrettyGlowingLines
 {
@@ -30,6 +31,8 @@ namespace PrettyGlowingLines
         public Application(IDefaultPage page)
         {
             var canvas = new IHTMLCanvas().AttachTo(page.Content);
+
+            AddTransform(canvas);
 
             canvas.style.SetSize(400, 400);
 
@@ -95,6 +98,28 @@ namespace PrettyGlowingLines
             };
 
             blank.AtInterval(40);
+        }
+
+        private static void AddTransform(IHTMLCanvas canvas)
+        {
+            canvas.style.SetMatrixTransform(
+                new AffineTransformBase
+                {
+                    Left = 0,
+                    Top = 0,
+                    Width = 400,
+                    Height = 400,
+
+                    X1 = 400,
+                    Y1 = 100,
+
+                    X2 = 100,
+                    Y2 = 400,
+
+                    X3 = 0,
+                    Y3 = 0
+                }
+            );
         }
 
     }

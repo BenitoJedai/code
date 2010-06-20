@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8B30D90E-1A30-4DBF-ACD4-41E4243B2923}</ProjectGuid>
+    <ProjectGuid>{47753379-1F57-42F5-A563-F768B56758AE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InteractiveAffineCube</RootNamespace>
-    <AssemblyName>InteractiveAffineCube</AssemblyName>
+    <RootNamespace>AvalonTriangleTexture</RootNamespace>
+    <AssemblyName>AvalonTriangleTexture</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -110,50 +110,31 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="InteractiveAffineCube.UltraSource">
-      <HintPath>bin\staging.UltraSource\InteractiveAffineCube.UltraSource.dll</HintPath>
+    <Reference Include="AvalonTriangleTexture.UltraSource">
+      <HintPath>bin\staging.UltraSource\AvalonTriangleTexture.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Images\17.png" />
-    <Content Include="Design\Images\17g.png" />
-    <Content Include="Design\Images\19g.png" />
     <Content Include="Design\Assets.htm" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="AffineEngine\AffineExtensions.cs" />
-    <Compile Include="AffineEngine\AffineMesh.cs" />
-    <Compile Include="AffineEngine\AffinePoint.cs" />
-    <Compile Include="AffineEngine\AffineRotation.cs" />
-    <Compile Include="AffineEngine\AffineTransform.cs" />
-    <Compile Include="AffineEngine\AffineVertex.cs" />
-    <Compile Include="AffineEngine\AffineZoom.cs" />
     <Compile Include="ApplicationCanvas.cs" />
-    <Compile Include="Example.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\help.png" />
-    <Content Include="Design\Images\help_idle.png" />
-    <Content Include="Design\Images\jsc.png" />
-    <Content Include="Design\Images\Preview.png" />
-    <Content Include="Design\Images\sand.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Design\white-jsc.png" />
+    <Content Include="Design\_17.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /AssemblyAttributes.Company:"jsc-solutions.net/Examples/Avalon"
-
-c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.Avalon.Examples.$(TargetFileName)"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
-
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
 )
 
 if $(ConfigurationName)==Release (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
-)
-
-</PostBuildEvent>
+)</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
   </PropertyGroup>
 </Project>
