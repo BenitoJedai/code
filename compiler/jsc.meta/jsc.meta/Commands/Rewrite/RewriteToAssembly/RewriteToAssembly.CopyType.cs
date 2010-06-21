@@ -220,11 +220,13 @@ namespace jsc.meta.Commands.Rewrite
                     // at System.Reflection.Emit.TypeBuilder.CreateTypeNoLock()
                     // at System.Reflection.Emit.TypeBuilder.CreateType()
 
-                    t.CreateType();
                     // if the CreateType call fails, then we may have
                     // missed a dependency?
 
                     Console.WriteLine("CreateType: " + SourceType.FullName);
+
+                    t.CreateType();
+
                     context.TypeCache.Flags[SourceType] = new object();
 
                     if (TypeCreated != null)
