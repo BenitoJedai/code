@@ -15,6 +15,7 @@ namespace jsc.meta.Commands.Rewrite
     partial class RewriteToAssembly
     {
         // usage: c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)"
+        // usage: c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /CodeTrace:"$(TargetDir)$(TargetName).CodeTrace$(TargetExt)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)"
         // usage: RewriteToAssembly /assembly:"C:\work\jsc.svn\examples\javascript\OrcasUltraWebApplication2\Rewrite1\bin\Debug\Rewrite1.dll"
         // usage: RewriteToAssembly /Output:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.merged.dll" /AssemblyMerge:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.dll" /AssemblyMerge:"W:\jsc.svn\templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets\bin\Debug\UltraLibraryWithAssets.UltraSource.dll"
 
@@ -203,5 +204,7 @@ namespace jsc.meta.Commands.Rewrite
         /// </summary>
         public bool DisableIsMarkedForMerge;
 
+
+        public FileInfo CodeTrace;
     }
 }

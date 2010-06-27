@@ -295,8 +295,8 @@
     <Compile Include="Commands\Test\TestChooser.cs" />
     <Compile Include="Configuration\SDKConfiguration.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
+    <Compile Include="Library\CodeTrace\CodeTraceAction.cs" />
     <Compile Include="Library\CodeTrace\CodeTraceExtensions.cs" />
-    <Compile Include="Library\CodeTrace\ICodeTrace.cs" />
     <Compile Include="Library\CostumAttributeBuilderExtensions.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />

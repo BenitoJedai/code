@@ -13,9 +13,8 @@ namespace jsc.meta.Library.CodeTrace
 {
     public static class CodeTraceExtensions
     {
-        internal class InternalCodeTrace : Disposable, ICodeTrace
+        internal class InternalCodeTrace : Disposable
         {
-            public TypeBuilder Program;
 
             public ILGenerator il;
 
@@ -27,6 +26,8 @@ namespace jsc.meta.Library.CodeTrace
 
             public void Invoke(Action e)
             {
+                this.il.EmitWriteLine("CodeTrace continues at " + DateTime.Now);
+
                 InternalInvoke(e.Target, e.Method);
 
                 e();
@@ -47,20 +48,41 @@ namespace jsc.meta.Library.CodeTrace
                             a.BeforeInstructions =
                                 e =>
                                 {
+                                    var q = from f in m.DeclaringType.GetFields()
+                                            where f.FieldType.Assembly == m.DeclaringType.Assembly
+                                            let v = f.GetValue(t)
+                                            from ff in f.FieldType.GetFields()
+                                            where ff.FieldType.Assembly != m.DeclaringType.Assembly
+                                            let vv = ff.GetValue(v)
+                                            select new { ff, vv };
+
+                                    q = q.Concat(
+                                        from ff in m.DeclaringType.GetFields()
+                                        where ff.FieldType.Assembly != m.DeclaringType.Assembly
+                                        let vv = ff.GetValue(t)
+                                        select new { ff, vv }
+                                    );
+
                                     // initialize
-                                    foreach (var item in from f in m.DeclaringType.GetFields()
-                                                         where f.FieldType.Assembly == m.DeclaringType.Assembly
-                                                         let v = f.GetValue(t)
-                                                         from ff in f.FieldType.GetFields()
-                                                         where ff.FieldType.Assembly != m.DeclaringType.Assembly
-                                                         let vv = ff.GetValue(v)
-                                                         select new { ff, vv })
+                                    foreach (var item in from k in q
+                                                         select k)
                                     {
                                         if (item.ff.FieldType == typeof(string))
                                         {
                                             var value = (string)item.vv;
 
-                                            il.Emit(OpCodes.Ldstr, value);
+                                            if (value == null)
+                                                il.Emit(OpCodes.Ldnull);
+                                            else
+                                                il.Emit(OpCodes.Ldstr, value);
+                                            il.Emit(OpCodes.Stsfld, context.FieldCache[item.ff]);
+
+                                        }
+                                        else if (item.ff.FieldType == typeof(int) || item.ff.FieldType.IsEnum && Enum.GetUnderlyingType(item.ff.FieldType) == typeof(int))
+                                        {
+                                            var value = (int)item.vv;
+
+                                            il.Emit(OpCodes.Ldc_I4, value);
                                             il.Emit(OpCodes.Stsfld, context.FieldCache[item.ff]);
 
                                         }
@@ -137,8 +159,38 @@ namespace jsc.meta.Library.CodeTrace
             }
         }
 
-        public static ICodeTrace ToCodeTrace(this FileInfo target)
+        /// <summary>
+        /// Will build a strongly typed assembly which will replay the traced code. To be used for debugging and IL rewrite research.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="h"></param>
+        public static void ToCodeTrace(this FileInfo target, Action<CodeTraceAction> h)
         {
+            if (target == null)
+            {
+                h(y => y());
+
+                return;
+            }
+
+            using (var ct = InternalToCodeTrace(target))
+                try
+                {
+                    h(ct.Invoke);
+                }
+                catch (Exception ex)
+                {
+                    ct.il.EmitWriteLine("CodeTrace was aborted due to error: " + ex.ToString());
+
+                    throw;
+                }
+        }
+
+        internal static InternalCodeTrace InternalToCodeTrace(FileInfo target)
+        {
+            if (target.Exists)
+                target.Delete();
+
             var a = AppDomain.CurrentDomain.DefineDynamicAssembly(
                new AssemblyName(Path.GetFileNameWithoutExtension(target.Name)), AssemblyBuilderAccess.RunAndSave, target.Directory.FullName
             );
@@ -149,22 +201,28 @@ namespace jsc.meta.Library.CodeTrace
 
             var Main = Program.DefineMethod("Main", MethodAttributes.Static);
 
+            var il = Main.GetILGenerator();
 
+            il.EmitWriteLine("CodeTrace was used to record the steps to build a specific assembly.");
+            il.EmitWriteLine("CodeTrace started at " + DateTime.Now.ToString());
 
             var ct = new InternalCodeTrace
             {
-                Program = Program,
 
-                il = Main.GetILGenerator(),
+                il = il,
 
                 AtDispose = delegate
                 {
-                    Main.GetILGenerator().Emit(OpCodes.Ret);
+                    il.EmitWriteLine("CodeTrace ended at " + DateTime.Now.ToString());
+
+                    il.Emit(OpCodes.Ret);
 
                     Program.CreateType();
 
                     a.SetEntryPoint(Main, PEFileKinds.ConsoleApplication);
                     a.Save(target.Name);
+
+
                 }
             };
 

@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
+using jsc.meta.Library.CodeTrace;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -24,11 +25,10 @@ namespace jsc.meta.Commands.Rewrite
             if (this.AttachDebugger)
                 Debugger.Launch();
 
-
-            InternalInvoke();
+            this.CodeTrace.ToCodeTrace(InternalInvoke);
         }
 
-        public void InternalInvoke()
+        public void InternalInvoke(CodeTraceAction ct)
         {
 
             #region ExternalContext defaults...
@@ -223,7 +223,7 @@ namespace jsc.meta.Commands.Rewrite
             if (OutputUndefined)
                 this.Output = Product;
 
-           
+
 
             if (OutputUndefined)
             {
@@ -232,20 +232,34 @@ namespace jsc.meta.Commands.Rewrite
                     Product.Delete();
             }
 
-            this.WriteDiagnostics("DefineDynamicAssembly");
 
+            var a = default(AssemblyBuilder);
+            var m = default(ModuleBuilder);
 
-            
+            var __Product_Name = Product.Name;
+            var __staging_FullName = staging.FullName;
 
-            var a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name)), AssemblyBuilderAccess.RunAndSave, staging.FullName);
+            // ? Unable to add resource to transient module or transient assembly.
+            var __SaveName = OutputUndefined ? Product.Name : "~" + Product.Name;
 
-            this.WriteDiagnostics("DefineDynamicModule");
+            // metadata token/hashcode or GUID?
+            var _ct_TypeBuilderLookup = default(Dictionary<int, TypeBuilder>);
+            var _ct_TypeBuilderLookup_null = ((object)null).GetHashCodeOrDefault();
 
-            var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
-                // Unable to add resource to transient module or transient assembly.
-                OutputUndefined ? Product.Name : "~" + Product.Name
+            ct(
+                delegate
+                {
+                    _ct_TypeBuilderLookup = new Dictionary<int, TypeBuilder>();
+                    _ct_TypeBuilderLookup[_ct_TypeBuilderLookup_null] = null;
 
+                    a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(__Product_Name)), AssemblyBuilderAccess.RunAndSave, __staging_FullName);
+
+                    m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(__Product_Name), __SaveName);
+                }
             );
+
+
+
 
 
 
@@ -824,9 +838,38 @@ namespace jsc.meta.Commands.Rewrite
                             FullNameFixup = FullNameFixup,
                             Diagnostics = null,
 
+
+                            CodeTraceDefineType =
+                                (Type BaseType, TypeAttributes TypeAttributes, string DefineTypeName) =>
+                                {
+                                    var DeclaringType = default(TypeBuilder);
+
+                                    var _ct_TypeBuilderLookup_BaseType = BaseType.GetHashCodeOrDefault();
+                                    var _ct_TypeBuilderLookup_SourceType = SourceType.GetHashCode();
+
+                                    ct(
+                                        delegate
+                                        {
+                                            DeclaringType = m.DefineType(
+                                                DefineTypeName,
+                                                TypeAttributes,
+
+                                                // did we save it to the lookup? crash if not :)
+                                                _ct_TypeBuilderLookup[_ct_TypeBuilderLookup_BaseType],
+                                                
+                                                new Type[0]
+                                            );
+
+                                            _ct_TypeBuilderLookup[_ct_TypeBuilderLookup_SourceType] = DeclaringType;
+                                        }
+                                    );
+
+                                    return DeclaringType;
+                                }
                         };
 
                         var t = ttt.Invoke();
+
 
                         //TypeDefinitionCache[SourceType] = t;
                     }
@@ -1005,7 +1048,14 @@ namespace jsc.meta.Commands.Rewrite
 
                              },
                              this,
-                             this.RewriteArguments.context
+                             this.RewriteArguments.context,
+
+                             delegate
+                             {
+                                 var _ct_SourceType = SourceType.GetHashCode();
+
+                                 ct(() => _ct_TypeBuilderLookup[_ct_SourceType].CreateType());
+                             }
                         );
 
 
@@ -1196,24 +1246,25 @@ namespace jsc.meta.Commands.Rewrite
             // http://blogs.msdn.com/fxcop/archive/2007/04/27/correct-usage-of-the-compilergeneratedattribute-and-the-generatedcodeattribute.aspx
 
 
-            m.CreateGlobalFunctions();
+
+            ct(
+                delegate
+                {
+                    m.CreateGlobalFunctions();
+
+                    a.Save(__SaveName);
+                }
+            );
+
 
             // The type definition of the global function is not completed.
             if (OutputUndefined)
             {
-                a.Save(
-                    Product.Name
-                );
+
             }
             else
             {
                 // we probably loaded that assembly and now are trying to write to it...
-                // Type 'ScriptCoreLib.Shared.Avalon.Extensions.AnimatedOpacity`1' was not completed.
-                // Type 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLDocument' was not completed.
-
-                a.Save(
-                    "~" + Product.Name
-                );
 
                 var Temp = Path.Combine(Product.Directory.FullName, "~" + Product.Name);
 
