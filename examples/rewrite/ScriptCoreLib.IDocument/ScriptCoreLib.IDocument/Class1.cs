@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.IO;
 using jsc.meta.Library.CodeTrace;
+using System.Diagnostics;
 
 [assembly: Obfuscation(Feature = "merge")]
 
@@ -25,74 +26,100 @@ public class IXMLDocument : IDocument<object>
     }
 }
 
+class __IDocument
+{
+}
+
+class __IXMLDocument 
+{
+}
 public class Program
 {
-    static string Output = "z.exe";
 
     public static void Main()
     {
-        //var Output = "z.exe";
-
-        using (var ct = new FileInfo("x.exe").ToCodeTrace())
+        var Output = "z.exe";
+        try
         {
-            var a = default(AssemblyBuilder);
-            var m = default(ModuleBuilder);
-
-            ct.Invoke(
-                delegate
+            new FileInfo("z.CodeTrace.exe").ToCodeTrace(
+                ct =>
                 {
-                    var name = new AssemblyName(Path.GetFileNameWithoutExtension(Output));
+                    var a = default(AssemblyBuilder);
+                    var m = default(ModuleBuilder);
+                    var TypeCache = default(Dictionary<int, TypeBuilder>);
 
-                    a = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                       name, AssemblyBuilderAccess.RunAndSave
+                    var SourceType_IDocument = typeof(__IDocument).MetadataToken;
+                    var SourceType_IXMLDocument = typeof(__IXMLDocument).MetadataToken;
+
+                    ct.Invoke(
+                        delegate
+                        {
+                            TypeCache = new Dictionary<int, TypeBuilder>();
+
+                            var name = new AssemblyName(Path.GetFileNameWithoutExtension(Output));
+
+                            a = AppDomain.CurrentDomain.DefineDynamicAssembly(
+                               name, AssemblyBuilderAccess.RunAndSave
+                            );
+
+                            m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Output), Output);
+
+                        }
                     );
 
-                    m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Output), Output);
+                    ct.Invoke(
+                          delegate
+                          {
+                          j3: var IDocument = m.DefineType("IDocument`1");
+                              TypeCache[SourceType_IDocument] = IDocument;
+                          j4: IDocument.SetParent(typeof(object));
+                          j5: var TConstraint1 = IDocument.DefineGenericParameters("TConstraint1");
 
+
+                          j6: var IXMLDocument = m.DefineType("IXMLDocument");
+                              TypeCache[SourceType_IXMLDocument] = IXMLDocument;
+
+                              var IXMLDocumentParent = IDocument.MakeGenericType(typeof(object));
+                          j7: IXMLDocument.SetParent(IXMLDocumentParent);
+
+                          j8: var Method2 = IXMLDocument.DefineMethod("Method2", MethodAttributes.Public);
+
+
+
+                          j9: var TConstraint2 = Method2.DefineGenericParameters("TConstraint2")[0];
+
+                          j10: TConstraint2.SetInterfaceConstraints(typeof(ICloneable));
+
+                              Method2.SetParameters(TConstraint2);
+
+                              Method2.GetILGenerator().Emit(OpCodes.Ret);
+
+
+                          }
+                      );
+
+                    //throw new Exception();
+
+                    ct.Invoke(
+                        delegate
+                        {
+
+                            TypeCache[SourceType_IDocument].DefineField("__Type1", TypeCache[SourceType_IXMLDocument], FieldAttributes.Public);
+
+                            TypeCache[SourceType_IDocument].CreateType();
+                            TypeCache[SourceType_IXMLDocument].CreateType();
+
+                            //a.SetEntryPoint(null, PEFileKinds.ConsoleApplication);
+
+                            a.Save(Output);
+                        }
+                    );
                 }
             );
-
-            ct.Invoke(
-                  delegate
-                  {
-                  j3: var IDocument = m.DefineType("IDocument`1");
-                  j4: IDocument.SetParent(typeof(object));
-                  j5: var TConstraint1 = IDocument.DefineGenericParameters("TConstraint1");
-
-
-                  j6: var IXMLDocument = m.DefineType("IXMLDocument");
-
-
-                      var IXMLDocumentParent = IDocument.MakeGenericType(typeof(object));
-                  j7: IXMLDocument.SetParent(IXMLDocumentParent);
-
-                  j8: var Method2 = IXMLDocument.DefineMethod("Method2", MethodAttributes.Public);
-
-
-
-                  j9: var TConstraint2 = Method2.DefineGenericParameters("TConstraint2")[0];
-
-                  j10: TConstraint2.SetInterfaceConstraints(typeof(ICloneable));
-
-                      Method2.SetParameters(TConstraint2);
-
-                      Method2.GetILGenerator().Emit(OpCodes.Ret);
-
-                  j11: IDocument.DefineField("__Type1", IXMLDocument, FieldAttributes.Public);
-
-                  j12: IDocument.CreateType();
-                  j13: IXMLDocument.CreateType();
-                  }
-              );
-
-            ct.Invoke(
-                delegate
-                {
-                    //a.SetEntryPoint(null, PEFileKinds.ConsoleApplication);
-
-                    a.Save(Output);
-                }
-            );
+        }
+        catch
+        {
+            Debugger.Break();
         }
 
     }

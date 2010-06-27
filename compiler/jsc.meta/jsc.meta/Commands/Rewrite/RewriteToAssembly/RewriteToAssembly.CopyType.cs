@@ -32,7 +32,9 @@ namespace jsc.meta.Commands.Rewrite
 
                 RewriteToAssembly r,
 
-                ILTranslationContext context
+                ILTranslationContext context,
+
+                Action AtCodeTraceCreateType
             )
         {
 
@@ -56,7 +58,7 @@ namespace jsc.meta.Commands.Rewrite
             #endregion
 
 
-            var t = (TypeBuilder)context.TypeDefinitionCache[SourceType]; 
+            var t = (TypeBuilder)context.TypeDefinitionCache[SourceType];
             context.TypeCache[SourceType] = t;
 
             foreach (var item in
@@ -236,7 +238,8 @@ namespace jsc.meta.Commands.Rewrite
                     if (r != null)
                         r.WriteDiagnostics("CreateType " + t.Name);
 
-                    t.CreateType();
+                    AtCodeTraceCreateType();
+                    //t.CreateType();
 
                     context.TypeCache.Flags[SourceType] = new object();
 
@@ -423,7 +426,7 @@ namespace jsc.meta.Commands.Rewrite
                 try
                 {
                     Command.WriteDiagnostics("DefineType " + TypeName);
-                    DefineType(_DeclaringType, TypeName, null, ref t, new Type[0], ref TypeAttributes);
+                    t = DefineType(_DeclaringType, TypeName, null, TypeAttributes);
                 }
                 catch (Exception ex)
                 {
@@ -497,7 +500,7 @@ namespace jsc.meta.Commands.Rewrite
 
             }
 
-            private void DefineType(TypeBuilder _DeclaringType, string TypeName, Type BaseType, ref TypeBuilder t, Type[] _Interfaces, ref TypeAttributes TypeAttributes)
+            private TypeBuilder DefineType(TypeBuilder _DeclaringType, string TypeName, Type BaseType, TypeAttributes TypeAttributes)
             {
                 #region DefineType
                 if (_DeclaringType != null)
@@ -512,7 +515,7 @@ namespace jsc.meta.Commands.Rewrite
 
                     if (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0)
                     {
-                        t = _DeclaringType.DefineNestedType(
+                        return _DeclaringType.DefineNestedType(
                             _NestedTypeName,
                             TypeAttributes,
                              BaseType,
@@ -522,12 +525,12 @@ namespace jsc.meta.Commands.Rewrite
                     else
                     {
 
-                        t = _DeclaringType.DefineNestedType(
+                        return _DeclaringType.DefineNestedType(
 
                             _NestedTypeName,
                             TypeAttributes,
                             BaseType,
-                            _Interfaces
+                             new Type[0]
                         );
                     }
                     #endregion
@@ -586,13 +589,8 @@ namespace jsc.meta.Commands.Rewrite
                     //at System.Reflection.Emit.ModuleBuilder.DefineTypeNoLock(String name, TypeAttributes attr, Type parent, Type[] interfaces)
                     //at System.Reflection.Emit.ModuleBuilder.DefineType(String name, TypeAttributes attr, Type parent, Type[] interfaces)
 
-                  
-                    t = m.DefineType(
-                        DefineTypeName,
-                        TypeAttributes,
-                        BaseType,
-                        _Interfaces
-                    );
+
+                    return CodeTraceDefineType(BaseType, TypeAttributes, DefineTypeName);
 
 
 
@@ -600,6 +598,9 @@ namespace jsc.meta.Commands.Rewrite
                 }
                 #endregion
             }
+
+            public Func<Type, TypeAttributes, string, TypeBuilder> CodeTraceDefineType;
+
 
             private static TypeAttributes ReplaceTypeAttributes(TypeAttributes TypeAttributes, TypeAttributes _From, TypeAttributes _To)
             {

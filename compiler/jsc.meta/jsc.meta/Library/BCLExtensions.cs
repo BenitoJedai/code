@@ -11,6 +11,17 @@ namespace jsc.meta.Library
 	// todo: move to ScriptCoreLib.Ultra.Library
 	public static class BCLExtensions
 	{
+        public static int GetHashCodeOrDefault(this object e)
+        {
+            // The value zero is reserved as meaning "the hash code is not cached".
+            // http://stackoverflow.com/questions/2310498/why-doesnt-strings-hashcode-cache-0
+
+            if (e == null)
+                return 0;
+
+            return e.GetHashCode();
+        }
+
         public static Type TryGetGenericTypeDefinition(this Type t)
         {
             if (t.IsGenericType)
