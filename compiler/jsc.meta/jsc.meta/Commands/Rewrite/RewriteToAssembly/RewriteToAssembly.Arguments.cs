@@ -202,5 +202,6 @@ namespace jsc.meta.Commands.Rewrite
 		/// no longer get merged.
 		/// </summary>
 		public bool DisableIsMarkedForMerge;
+
 	}
 }

@@ -124,7 +124,7 @@ namespace jsc.meta.Commands.Rewrite
                     this.product);
 
 
-
+            #region PrimaryTypes AssemblyMerge
             if (this.PrimaryTypes.Length == 0)
             {
                 this.PrimaryTypes = this.AssemblyMerge.SelectMany(
@@ -193,6 +193,8 @@ namespace jsc.meta.Commands.Rewrite
                     }
                 ).ToArray();
             }
+            #endregion
+
 
             if (this.PrimaryTypes.Length == 0)
                 if (assembly != null)
@@ -223,8 +225,10 @@ namespace jsc.meta.Commands.Rewrite
                     Product.Delete();
             }
 
-
+            this.WriteDiagnostics("DefineDynamicAssembly");
             var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
+
+            this.WriteDiagnostics("DefineDynamicModule");
             var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
                 // Unable to add resource to transient module or transient assembly.
                 OutputUndefined ? Product.Name : "~" + Product.Name
@@ -301,30 +305,30 @@ namespace jsc.meta.Commands.Rewrite
 
                     //    L_0086: newobj instance void [System.Core]System.Func`2<class [ScriptCoreLib.Archive.ZIP]ScriptCoreLib.Archive.ZIP.ZIPFile/Entry, bool>::.ctor(object, native int)
 
-                    var source = SourceConstructor.DeclaringType;
+                    var SourceType = SourceConstructor.DeclaringType;
                     var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
 
-                    if (source.IsGenericType)
-                        if (!source.IsGenericTypeDefinition)
+                    if (SourceType.IsGenericType)
+                        if (!SourceType.IsGenericTypeDefinition)
                         {
                             // are we rewriting any part of this generic type? if we are not we need just to pass it!
 
-                            if (!ShouldCopyType(source))
+                            if (!ShouldCopyType(SourceType))
                             {
                                 ConstructorCache[SourceConstructor] = SourceConstructor;
                                 return;
                             }
 
-                            var Def = source.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
+                            var Def = SourceType.GetGenericTypeDefinition().GetConstructors(Flags).Single(k => k.MetadataToken == SourceConstructor.MetadataToken);
 
                             // Define it in the TypeBuilder
                             var Def1 = ConstructorCache[Def];
 
-                            var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+                            var ResolvedType1 = TypeDefinitionCache[SourceType.GetGenericTypeDefinition()];
 
                             var ResolvedType2 = ResolvedType1.MakeGenericType(
-                                TypeDefinitionCache[source.GetGenericArguments()]
+                                TypeDefinitionCache[SourceType.GetGenericArguments()]
                             );
 
                             // http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
@@ -357,9 +361,9 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-                    if (ShouldCopyType(SourceConstructor.DeclaringType) && TypeCache[SourceConstructor.DeclaringType] is TypeBuilder)
+                    if (ShouldCopyType(SourceType) && TypeCache[SourceType] is TypeBuilder)
                     {
-                        var DeclaringType = (TypeBuilder)TypeCache[SourceConstructor.DeclaringType];
+                        var DeclaringType = (TypeBuilder)TypeCache[SourceType];
 
                         if (ConstructorCache.BaseDictionary.ContainsKey(SourceConstructor))
                             return;
@@ -505,13 +509,13 @@ namespace jsc.meta.Commands.Rewrite
 
 
                     var DeclaringType = (
-                        SourceType == null ? null : TypeCache[SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition() : SourceType]
+                        SourceType == null ? null : TypeCache[SourceType.TryGetGenericTypeDefinition()]
                     ) as TypeBuilder;
 
-                    var IsGlobalMethodAndSholdCopy = (SourceType == null && ShouldCopyAssembly(SourceMethod.Module.Assembly));
+                    var IsGlobalMethodAndShouldCopy = (SourceType == null && ShouldCopyAssembly(SourceMethod.Module.Assembly));
 
                     #region ShouldCopyType - CopyMethod
-                    if (IsGlobalMethodAndSholdCopy || DeclaringType != null)
+                    if (IsGlobalMethodAndShouldCopy || DeclaringType != null)
                     {
                         var tb_source = DeclaringType;
 
@@ -545,7 +549,8 @@ namespace jsc.meta.Commands.Rewrite
                                          }
                                     );
                             },
-                            this.RewriteArguments.context
+                            this.RewriteArguments.context,
+                            this
                         );
                         return;
                     }
@@ -708,8 +713,12 @@ namespace jsc.meta.Commands.Rewrite
                         }
                         else
                         {
+                            var FieldType = TypeCache[SourceField.FieldType];
+
+                            this.WriteDiagnostics("DefineField " + FieldName);
+
                             var ff = DeclaringType.DefineField(
-                                 FieldName, TypeCache[SourceField.FieldType], SourceField.Attributes);
+                                 FieldName, FieldType, SourceField.Attributes);
 
                             if (SourceField.IsLiteral)
                             {
@@ -790,6 +799,8 @@ namespace jsc.meta.Commands.Rewrite
                     {
                         var ttt = new CopyTypeDefinition
                         {
+                            Command = this,
+
                             context = this.RewriteArguments.context,
 
                             SourceType = SourceType,
@@ -805,7 +816,7 @@ namespace jsc.meta.Commands.Rewrite
 
                         var t = ttt.Invoke();
 
-                        TypeDefinitionCache[SourceType] = t;
+                        //TypeDefinitionCache[SourceType] = t;
                     }
                     else
                     {
@@ -824,32 +835,32 @@ namespace jsc.meta.Commands.Rewrite
 
             #region TypeCache
             TypeCache.Resolve +=
-                (source) =>
+                (SourceType) =>
                 {
-                    if (source.Assembly is AssemblyBuilder)
+                    if (SourceType.Assembly is AssemblyBuilder)
                     {
                         // not going to merge already merged type.
-                        TypeCache[source] = source;
+                        TypeCache[SourceType] = SourceType;
                         return;
                     }
 
                     // This unit was resolved for us...
-                    if (ExternalContext.TypeCache[source] != source)
+                    if (ExternalContext.TypeCache[SourceType] != SourceType)
                     {
-                        TypeCache[source] = ExternalContext.TypeCache[source];
+                        TypeCache[SourceType] = ExternalContext.TypeCache[SourceType];
 
                         // was continuation honored?
-                        if (TypeCache[source] is TypeBuilder)
+                        if (TypeCache[SourceType] is TypeBuilder)
                         {
-                            TypeCache.Flags[source] = new object();
-                            Console.WriteLine("CreateType:  " + source.FullName);
+                            TypeCache.Flags[SourceType] = new object();
+                            Console.WriteLine("CreateType:  " + SourceType.FullName);
 
                             if (TypeCreated != null)
                                 TypeCreated(
                                     new TypeRewriteArguments
                                     {
-                                        SourceType = source,
-                                        Type = (TypeBuilder)TypeCache[source],
+                                        SourceType = SourceType,
+                                        Type = (TypeBuilder)TypeCache[SourceType],
                                         Assembly = a,
                                         Module = m,
 
@@ -861,60 +872,62 @@ namespace jsc.meta.Commands.Rewrite
                         return;
                     }
 
-                    if (TypeCache.BaseDictionary.ContainsKey(source))
+                    if (TypeCache.BaseDictionary.ContainsKey(SourceType))
                     {
                         // seems like we are not supposed to resolve this type and use
                         // what has been inserted in the cache!
                         return;
                     }
 
-                    if (source.IsGenericParameter)
+                    if (SourceType.IsGenericParameter)
                     {
-                        TypeCache[source] = source;
+                        TypeCache[SourceType] = SourceType;
                         return;
                     }
 
 
-                    if (source.IsByRef)
+                    if (SourceType.IsByRef)
                     {
-                        TypeCache[source] = TypeCache[source.GetElementType()].MakeByRefType();
+                        TypeCache[SourceType] = TypeCache[SourceType.GetElementType()].MakeByRefType();
                         return;
                     }
 
 
-                    if (source.IsArray)
+                    if (SourceType.IsArray)
                     {
-                        TypeCache[source] = TypeCache[source.GetElementType()].MakeArrayType();
+                        TypeCache[SourceType] = TypeCache[SourceType.GetElementType()].MakeArrayType();
                         return;
                     }
 
-                    if (source.IsGenericType)
-                        if (!source.IsGenericTypeDefinition)
+                    #region MakeGenericType
+                    if (SourceType.IsGenericType)
+                        if (!SourceType.IsGenericTypeDefinition)
                         {
                             var GenericArguments =
-                              source.GetGenericArguments().Select(
+                              SourceType.GetGenericArguments().Select(
                                       k => TypeCache[k]
                                   ).ToArray();
 
-                            var GenericTypeDefinition = TypeCache[source.GetGenericTypeDefinition()];
-              
+                            var GenericTypeDefinition = TypeCache[SourceType.GetGenericTypeDefinition()];
 
-                            TypeCache[source] =
+
+                            TypeCache[SourceType] =
                                 GenericTypeDefinition.MakeGenericType(
                                     GenericArguments
                                 );
                             return;
                         }
+                    #endregion
 
                     // should we actually copy the field type?
                     // simple rule - same assembly equals must copy
 
-                    var ContextType = source;
 
-                    if (ShouldCopyType(ContextType) && TypeDefinitionCache[source] is TypeBuilder)
+
+                    if (ShouldCopyType(SourceType) && TypeDefinitionCache[SourceType] is TypeBuilder)
                     {
                         CopyType(
-                            source, a, m,
+                            SourceType, a, m,
                             null,
                             TypeRenameCache,
                             NameObfuscation,
@@ -928,7 +941,7 @@ namespace jsc.meta.Commands.Rewrite
                                      PostTypeRewrite(
                                          new TypeRewriteArguments
                                          {
-                                             SourceType = source,
+                                             SourceType = SourceType,
                                              Type = t,
                                              Assembly = a,
                                              Module = m,
@@ -948,7 +961,7 @@ namespace jsc.meta.Commands.Rewrite
                                      PreTypeRewrite(
                                          new TypeRewriteArguments
                                          {
-                                             SourceType = source,
+                                             SourceType = SourceType,
                                              Type = t,
                                              Assembly = a,
                                              Module = m,
@@ -968,7 +981,7 @@ namespace jsc.meta.Commands.Rewrite
                                      TypeCreated(
                                          new TypeRewriteArguments
                                          {
-                                             SourceType = source,
+                                             SourceType = SourceType,
                                              Type = t,
                                              Assembly = a,
                                              Module = m,
@@ -987,13 +1000,11 @@ namespace jsc.meta.Commands.Rewrite
                     }
                     else
                     {
-                        TypeCache[source] =
+                        TypeCache[SourceType] =
 
-                            source.IsGenericType ? source.GetGenericTypeDefinition().MakeGenericType(
-                                source.GetGenericArguments().Select(
-                                    k => TypeCache[k]
-                                ).ToArray()
-                            ) : source;
+                            SourceType.IsGenericType ? SourceType.GetGenericTypeDefinition().MakeGenericType(
+                                TypeCache[SourceType.GetGenericArguments()]
+                            ) : SourceType;
                     }
 
                 };
@@ -1019,6 +1030,7 @@ namespace jsc.meta.Commands.Rewrite
             Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
             Console.WriteLine("");
 
+            #region HiddenEntryPoints
             var HiddenEntryPoints = Enumerable.ToArray(
                 from t in PrimaryTypes
                 from tm in t.GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
@@ -1030,9 +1042,10 @@ namespace jsc.meta.Commands.Rewrite
             {
                 MethodAttributesCache[item] = item.Attributes | MethodAttributes.Family;
             }
+            #endregion
 
             // ask for our primary types to be copied
-            var kt = PrimaryTypes.Select(k => TypeCache[k]).ToArray();
+            var kt = TypeCache[PrimaryTypes];
 
             // did we define any type declarations which we did not actually create yet?
             // fixme: maybe we shold just close the unclosed TypeBuilders?
@@ -1051,38 +1064,40 @@ namespace jsc.meta.Commands.Rewrite
             var PartialDefinition = new { Visited = new object(), IsPartial = new object() };
 
             ClosePartialDefinitions.Resolve +=
-                item =>
+                SourceType =>
                 {
                     // ask us only once! :)
-                    ClosePartialDefinitions[item] = PartialDefinition.Visited;
+                    ClosePartialDefinitions[SourceType] = PartialDefinition.Visited;
 
+                    if (TypeCache.BaseDictionary.ContainsKey(SourceType))
+                        return;
 
-                    var tb = ClosePartialDefinitionsFilter.Where(k => k.item == item).Select(k => k.tb).FirstOrDefault();
+                    var DeclaringType = ClosePartialDefinitionsFilter.Where(k => k.item == SourceType).Select(k => k.tb).FirstOrDefault();
 
-                    if (tb == null)
+                    if (DeclaringType == null)
                         return;
 
 
 
-                    if (item.IsEnum)
+                    if (SourceType.IsEnum)
                     {
                         // enums cannot be left partial... we need to implement them
-                        var __Enum = TypeCache[item];
+                        var __Enum = TypeCache[SourceType];
 
                     }
 
-                    var SignatureTypes = new[] { item.BaseType }.Concat(item.GetInterfaces()).Where(k => k != null).Select(k => ClosePartialDefinitions[k]).ToArray();
+                    var SignatureTypes = new[] { SourceType.BaseType }.Concat(SourceType.GetInterfaces()).Where(k => k != null).Select(k => ClosePartialDefinitions[k]).ToArray();
 
-                    ClosePartialDefinitions[item] = PartialDefinition.IsPartial;
+                    ClosePartialDefinitions[SourceType] = PartialDefinition.IsPartial;
 
                     #region GetInterfaceMap
-                    if (tb.IsClass && !tb.IsAbstract)
+                    if (DeclaringType.IsClass && !DeclaringType.IsAbstract)
                     {
                         // we need dummy implementation now because we cannot go back in time and make us abstract
 
                         var __explicit =
-                            from i in item.GetInterfaces()
-                            let map = item.GetInterfaceMap(i)
+                            from i in SourceType.GetInterfaces()
+                            let map = SourceType.GetInterfaceMap(i)
                             from j in Enumerable.Range(0, map.InterfaceMethods.Length)
                             let TargetMethod = map.TargetMethods[j]
 
@@ -1090,14 +1105,14 @@ namespace jsc.meta.Commands.Rewrite
                             where TargetMethod != null
 
                             let InterfaceMethod = map.InterfaceMethods[j]
-                            where TargetMethod.DeclaringType == item
+                            where TargetMethod.DeclaringType == SourceType
                             select new { TargetMethod, InterfaceMethod };
 
                         foreach (var VirtualMethod_ in __explicit)
                         {
                             var VirtualMethod = VirtualMethod_.TargetMethod;
 
-                            tb.DefineMethod(
+                            DeclaringType.DefineMethod(
                                 VirtualMethod.Name,
                                 VirtualMethod.Attributes,
                                 VirtualMethod.CallingConvention,
@@ -1108,17 +1123,26 @@ namespace jsc.meta.Commands.Rewrite
                     }
                     #endregion
 
-                    // do we need to implement some methods?
-                    tb.CreateType();
+                    TypeCache[SourceType] = DeclaringType;
 
-                    TypeCache[item] = tb;
-                    TypeCache.Flags[item] = new object();
+                    var SourceTypeDefaultConstructor = SourceType.GetConstructor(new Type[0]);
+
+                    if (SourceTypeDefaultConstructor != null)
+                    {
+                        ConstructorCache[SourceTypeDefaultConstructor] = DeclaringType.DefineDefaultConstructor(SourceTypeDefaultConstructor.Attributes);
+                    }
+
+                    // do we need to implement some methods?
+                    Console.WriteLine("Create Partial Type: " + DeclaringType.FullName); 
+                    DeclaringType.CreateType();
+
+                    TypeCache.Flags[SourceType] = new object();
 
                     var TypeCreatedArguments =
                         new TypeRewriteArguments
                         {
-                            SourceType = item,
-                            Type = (TypeBuilder)TypeCache[item],
+                            SourceType = SourceType,
+                            Type = (TypeBuilder)TypeCache[SourceType],
                             Assembly = a,
                             Module = m,
 
@@ -1128,6 +1152,10 @@ namespace jsc.meta.Commands.Rewrite
                     RaiseTypeCreated(TypeCreatedArguments);
 
                 };
+
+            // fixme: one partial type inherits another...
+
+            Console.WriteLine("Closing partial types...");
 
             foreach (var item in ClosePartialDefinitionsFilter)
             {

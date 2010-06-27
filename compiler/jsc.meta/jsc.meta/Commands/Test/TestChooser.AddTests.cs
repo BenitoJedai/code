@@ -60,13 +60,21 @@ namespace jsc.meta.Commands.Test
                 }
             );
 
-
+           
             new[]
             {
                 @"W:\jsc.svn\examples\rewrite\CircularGenericInterfaces\CircularGenericInterfaces\bin\Debug\CircularGenericInterfaces.dll",
                 @"c:\util\jsc\bin\ScriptCoreLib.dll",
                 @"W:\jsc.svn\examples\rewrite\NestedTypesWithExtensions\NestedTypesWithExtensions\bin\Debug\NestedTypesWithExtensions.dll"
             }.WithEach(k => AddRewriteToAssembly(new FileInfo(k)));
+
+            Add("ScriptCoreLib.exe IDocument", () =>
+                 new RewriteToAssembly
+                 {
+                     assembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\ScriptCoreLib.IDocument\ScriptCoreLib.IDocument\bin\Debug\ScriptCoreLib.IDocument.exe"),
+                     type = "IDocument`1"
+                 }
+             );
 
             var ScriptCoreLib = @"c:\util\jsc\bin\ScriptCoreLib.dll";
 

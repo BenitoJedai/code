@@ -29,7 +29,9 @@ namespace jsc.meta.Commands.Rewrite
             Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
 
             Action<MethodInfo, MethodBuilder, Func<ILGenerator>> BeforeInstructions,
-            ILTranslationContext context
+            ILTranslationContext context,
+
+            RewriteToAssembly Command
             )
         {
             // sanity check!
@@ -64,59 +66,58 @@ namespace jsc.meta.Commands.Rewrite
                 (SourceMethod.GetMethodBody() == null || (SourceMethod.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
                 SourceMethod.Name : NameObfuscation[context.MemberRenameCache[SourceMethod] ?? SourceMethod.Name];
 
-            // !! fixme
-            // How to: Define a Generic Method with Reflection Emit
-            // http://msdn.microsoft.com/en-us/library/ms228971.aspx
-            var Parameters =
-                 SourceMethod.GetParameterTypes().Select(DelayedTypeCache).ToArray();
 
-            if (Parameters.Contains(null))
-                throw new InvalidOperationException();
 
-            var km = default(MethodBuilder);
+            var DeclaringMethod = default(MethodBuilder);
 
             var MethodAttributes__ = context.MethodAttributesCache[SourceMethod];
             var DllImport__ = SourceMethod.GetCustomAttributes<DllImportAttribute>().SingleOrDefault();
 
             if (DeclaringType == null)
             {
-                km = m.DefineGlobalMethod(
+                #region DefineGlobalMethod
+                DeclaringMethod = m.DefineGlobalMethod(
                         MethodName, MethodAttributes__, SourceMethod.CallingConvention,
-                    DelayedTypeCache(SourceMethod.ReturnType),
-                    Parameters
+                    null,
+                    null
                 );
+                #endregion
+
+            }
+            else if (DllImport__ != null)
+            {
+                // http://msdn.microsoft.com/en-us/library/hb2et051.aspx
+
+                #region DefinePInvokeMethod
+                DeclaringMethod = DeclaringType.DefinePInvokeMethod(
+                    MethodName,
+                    DllImport__.Value,
+                    MethodAttributes__,
+                    SourceMethod.CallingConvention,
+                    null,
+                    null,
+                    DllImport__.CallingConvention,
+                    DllImport__.CharSet
+                );
+                #endregion
             }
             else
             {
-                if (DllImport__ != null)
-                {
-                    // http://msdn.microsoft.com/en-us/library/hb2et051.aspx
+                if (Command != null)
+                    Command.WriteDiagnostics("DefineMethod " + MethodName);
 
-                    km = DeclaringType.DefinePInvokeMethod(
-                        MethodName,
-                        DllImport__.Value,
-                        MethodAttributes__,
-                        SourceMethod.CallingConvention,
-                        DelayedTypeCache(SourceMethod.ReturnType),
-                        Parameters,
-                        DllImport__.CallingConvention,
-                        DllImport__.CharSet
-                    );
-                }
-                else
-                {
-                    km = DeclaringType.DefineMethod(
-                        MethodName,
-                        MethodAttributes__,
-                        SourceMethod.CallingConvention,
-                        DelayedTypeCache(SourceMethod.ReturnType),
-                        Parameters
-
-                    );
-                }
+                #region DefineMethod
+                DeclaringMethod = DeclaringType.DefineMethod(
+                    MethodName,
+                    MethodAttributes__,
+                    SourceMethod.CallingConvention,
+                    null,
+                    null
+                );
+                #endregion
             }
 
-            context.MethodCache[SourceMethod] = km;
+            context.MethodCache[SourceMethod] = DeclaringMethod;
 
 
             //Console.WriteLine("Method: " + km.Name);
@@ -133,37 +134,64 @@ namespace jsc.meta.Commands.Rewrite
                 // this method a second time causes an InvalidOperationException.
                 var GenericNames = ga.Select(k => k.Name).ToArray();
 
-                var gp = km.DefineGenericParameters(GenericNames);
+                if (Command != null)
+                    Command.WriteDiagnostics("DefineGenericParameters " + MethodName);
+
+                var gp = DeclaringMethod.DefineGenericParameters(GenericNames);
 
                 for (int i = 0; i < gp.Length; i++)
                 {
+                    context.TypeDefinitionCache[ga[i]] = gp[i];
+                    context.TypeCache[ga[i]] = gp[i];
+
                     // http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
 
                     foreach (var item in ga[i].GetGenericParameterConstraints())
                     {
+                        var GenericParameter = gp[i];
+
                         // any issues if circular referencing?
+                        var Constraint = DelayedTypeCache(item);
 
                         if (item.IsInterface)
-                            gp[i].SetInterfaceConstraints(context.TypeCache[item]);
+                        {
+                            if (Command != null)
+                                Command.WriteDiagnostics("SetInterfaceConstraints " + new { Constraint = Constraint.Name, Type = gp[i].Name });
+
+
+                            GenericParameter.SetInterfaceConstraints(typeof(IComparable));
+                        }
                         else
-                            gp[i].SetBaseTypeConstraint(context.TypeCache[item]);
+                            GenericParameter.SetBaseTypeConstraint(Constraint);
                     }
                 }
             }
+
+            // !! fixme
+            // How to: Define a Generic Method with Reflection Emit
+            // http://msdn.microsoft.com/en-us/library/ms228971.aspx
+            var Parameters =
+                 SourceMethod.GetParameterTypes().Select(DelayedTypeCache).ToArray();
+
+            if (Parameters.Contains(null))
+                throw new InvalidOperationException();
+
+            DeclaringMethod.SetParameters(Parameters);
+            DeclaringMethod.SetReturnType(DelayedTypeCache(SourceMethod.ReturnType));
 
             DelayedTypeCacheList.Invoke();
 
 
             // synchronized?
-            km.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());
+            DeclaringMethod.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());
 
-            SourceMethod.GetParameters().CopyTo(km);
+            SourceMethod.GetParameters().CopyTo(DeclaringMethod);
 
 
             // should we copy attributes? should they be opt-out?
-            foreach (var item in SourceMethod.GetCustomAttributes(false).Except(new [] {DllImport__}).Select(kk => kk.ToCustomAttributeBuilder()))
+            foreach (var item in SourceMethod.GetCustomAttributes(false).Except(new[] { DllImport__ }).Select(kk => kk.ToCustomAttributeBuilder()))
             {
-                km.SetCustomAttribute(item(context));
+                DeclaringMethod.SetCustomAttribute(item(context));
             }
 
             var MethodBody = SourceMethod.GetMethodBody();
@@ -177,11 +205,11 @@ namespace jsc.meta.Commands.Rewrite
 
             MethodBase mb = SourceMethod;
 
-            var kmil = km.GetILGenerator();
+            var kmil = DeclaringMethod.GetILGenerator();
             var kmil_Dirty = false;
 
             if (BeforeInstructions != null)
-                BeforeInstructions(SourceMethod, km,
+                BeforeInstructions(SourceMethod, DeclaringMethod,
                     delegate
                     {
                         kmil_Dirty = true;
@@ -213,7 +241,7 @@ namespace jsc.meta.Commands.Rewrite
                         // we have changed the IL offsets!
                     }
 
-                    a.SetEntryPoint(km);
+                    a.SetEntryPoint(DeclaringMethod);
                 }
 
             var x = CreateMethodBaseEmitToArguments(

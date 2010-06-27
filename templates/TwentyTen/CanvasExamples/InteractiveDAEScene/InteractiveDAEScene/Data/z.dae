@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<COLLADA version="1.4.1">
+  <asset>
+    <contributor>
+      <authoring_tool>Google SketchUp 7.1.6860</authoring_tool>
+    </contributor>
+    <created>2010-06-19T12:51:34Z</created>
+    <modified>2010-06-19T12:51:34Z</modified>
+    <unit meter="0.0254" name="inch" />
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_visual_scenes>
+    <visual_scene id="ID1">
+      <node name="SketchUp">
+        <instance_geometry url="#ID2" />
+        <instance_geometry url="#ID2x1" />
+        <instance_geometry url="#ID2x2" />
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <library_geometries>
+
+    <geometry id="ID2x2">
+      <mesh>
+        <source id="ID5x2">
+          <float_array id="ID8x2" count="12">40 40 40 0 0 0 0 40 40 40 0 0</float_array>
+          <technique_common>
+            <accessor count="4" source="#ID8x2" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID7x2">
+          <input semantic="POSITION" source="#ID5x2" />
+        </vertices>
+        <triangles count="2" material="Material2">
+          <input offset="0" semantic="VERTEX" source="#ID7x2" />
+          <p>0 1 2 1 0 3</p>
+        </triangles>
+      </mesh>
+    </geometry>
+
+    <geometry id="ID2x1">
+      <mesh>
+        <source id="ID5x1">
+          <float_array id="ID8x1" count="12">40 40 0 0 0 0 0 40 0 40 0 0</float_array>
+          <technique_common>
+            <accessor count="4" source="#ID8x1" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID7x1">
+          <input semantic="POSITION" source="#ID5x1" />
+        </vertices>
+        <triangles count="2" material="Material2">
+          <input offset="0" semantic="VERTEX" source="#ID7x1" />
+          <p>0 1 2 1 0 3</p>
+        </triangles>
+      </mesh>
+    </geometry>
+
+    <geometry id="ID2">
+      <mesh>
+        <source id="ID5">
+          <float_array id="ID8" count="12">40 40 40 0 0 40 0 40 40 40 0 40</float_array>
+          <technique_common>
+            <accessor count="4" source="#ID8" stride="3">
+              <param name="X" type="float" />
+              <param name="Y" type="float" />
+              <param name="Z" type="float" />
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="ID7">
+          <input semantic="POSITION" source="#ID5" />
+        </vertices>
+        <triangles count="2" material="Material2">
+          <input offset="0" semantic="VERTEX" source="#ID7" />
+          <p>0 1 2 1 0 3</p>
+        </triangles>
+      </mesh>
+    </geometry>
+
+  </library_geometries>
+  <library_materials>
+  </library_materials>
+  <library_effects>
+
+    <effect id="ID3">
+      <profile_COMMON>
+        <technique sid="COMMON">
+          <lambert>
+            <diffuse>
+              <color>1 1 1 1</color>
+            </diffuse>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <scene>
+    <instance_visual_scene url="#ID1" />
+  </scene>
+</COLLADA>

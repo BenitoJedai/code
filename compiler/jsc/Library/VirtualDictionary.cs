@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Library;
+using System.Diagnostics;
 
 namespace jsc.Library
 {
@@ -25,6 +26,7 @@ namespace jsc.Library
 
 		public TValue[] this[TKey[] k]
 		{
+            [method: DebuggerStepThrough]
 			get
 			{
 				return k.Select(kk => this[kk]).ToArray();
@@ -33,6 +35,7 @@ namespace jsc.Library
 
 		public TValue this[TKey k]
 		{
+            [method: DebuggerStepThrough]
 			get
 			{
 				if (!BaseDictionary.ContainsKey(k))

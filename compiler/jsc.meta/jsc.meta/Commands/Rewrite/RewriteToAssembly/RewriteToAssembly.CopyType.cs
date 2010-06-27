@@ -56,7 +56,7 @@ namespace jsc.meta.Commands.Rewrite
             #endregion
 
 
-            var t = (TypeBuilder)context.TypeDefinitionCache[SourceType]; ;
+            var t = (TypeBuilder)context.TypeDefinitionCache[SourceType]; 
             context.TypeCache[SourceType] = t;
 
             foreach (var item in
@@ -225,6 +225,17 @@ namespace jsc.meta.Commands.Rewrite
 
                     Console.WriteLine("CreateType: " + SourceType.FullName);
 
+                    // GenericArguments[0], 'ScriptCoreLib.JavaScript.DOM.XML.IXMLElement', 
+                    // on 'ScriptCoreLib.JavaScript.DOM.IDocument`1[T]' 
+                    // violates the constraint of type parameter 'T'.
+
+                    // ? http://rolfkvinge.blogspot.com/2007_04_01_archive.html
+                    // https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=324473&wa=wsignin1.0
+
+
+                    if (r != null)
+                        r.WriteDiagnostics("CreateType " + t.Name);
+
                     t.CreateType();
 
                     context.TypeCache.Flags[SourceType] = new object();
@@ -266,7 +277,7 @@ namespace jsc.meta.Commands.Rewrite
             }
 
             AtTypeCreatedFilter.AddRange(
-                 from mm in SourceType.GetMethods()
+                 from mm in SourceType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
                  where mm.IsGenericMethodDefinition
                  from aa in mm.GetGenericArguments()
                  from xx in aa.GetGenericParameterConstraints()
@@ -274,6 +285,12 @@ namespace jsc.meta.Commands.Rewrite
                  select xx
             );
 
+            // do we need this?
+            AtTypeCreatedFilter.AddRange(
+                from k in SourceType.GetFields(BindingFlags.NonPublic | BindingFlags.Static)
+                where k.Name.StartsWith("__InternalTypeReferenceHint__")
+                select k.FieldType
+            );
 
 
             //Diagnostics("CreateType:  " + SourceType.FullName);
@@ -305,6 +322,8 @@ namespace jsc.meta.Commands.Rewrite
 
         public class CopyTypeDefinition
         {
+            public RewriteToAssembly Command;
+
             public ILTranslationContext context;
 
             public Type SourceType;
@@ -403,6 +422,7 @@ namespace jsc.meta.Commands.Rewrite
                 // we might define as a nested type instead!
                 try
                 {
+                    Command.WriteDiagnostics("DefineType " + TypeName);
                     DefineType(_DeclaringType, TypeName, null, ref t, new Type[0], ref TypeAttributes);
                 }
                 catch (Exception ex)
@@ -416,8 +436,11 @@ namespace jsc.meta.Commands.Rewrite
                 // interfaces dont have base types!
                 var BaseType = SourceType.BaseType == null ? null : context.TypeDefinitionCache[SourceType.BaseType];
 
-
-                t.SetParent(BaseType);
+                if (BaseType != null)
+                {
+                    Command.WriteDiagnostics("SetParent " + BaseType.Name);
+                    t.SetParent(BaseType);
+                }
 
                 var _Interfaces = Enumerable.ToArray(
 
@@ -439,10 +462,15 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     var ga = SourceType.GetGenericArguments();
 
+                    this.Command.WriteDiagnostics("DefineGenericParameters");
                     var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
 
                     for (int i = 0; i < gp.Length; i++)
                     {
+                        context.TypeDefinitionCache[ga[i]] = gp[i];
+                        context.TypeCache[ga[i]] = gp[i];
+
+
                         // http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
 
 
@@ -558,6 +586,7 @@ namespace jsc.meta.Commands.Rewrite
                     //at System.Reflection.Emit.ModuleBuilder.DefineTypeNoLock(String name, TypeAttributes attr, Type parent, Type[] interfaces)
                     //at System.Reflection.Emit.ModuleBuilder.DefineType(String name, TypeAttributes attr, Type parent, Type[] interfaces)
 
+                  
                     t = m.DefineType(
                         DefineTypeName,
                         TypeAttributes,

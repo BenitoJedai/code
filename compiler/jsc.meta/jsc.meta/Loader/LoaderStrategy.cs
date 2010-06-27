@@ -11,7 +11,7 @@ namespace jsc.meta.Loader
 	class LoaderStrategy
 	{
 
-		public static void Main(string[] args)
+        public static void Main(string[] args)
 		{
 			// if this assembly does not embed the referenced
 			// assemblies we might need to tell where to look
