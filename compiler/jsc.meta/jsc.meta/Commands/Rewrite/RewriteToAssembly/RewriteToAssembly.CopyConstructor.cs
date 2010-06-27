@@ -58,7 +58,6 @@ namespace jsc.meta.Commands.Rewrite
 
             var x = CreateMethodBaseEmitToArguments(
                 SourceConstructor,
-                NameObfuscation,
                 ILOverride,
                 ExceptionHandlingClauses,
                 context

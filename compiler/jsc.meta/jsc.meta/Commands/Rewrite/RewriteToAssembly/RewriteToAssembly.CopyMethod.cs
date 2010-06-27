@@ -222,6 +222,7 @@ namespace jsc.meta.Commands.Rewrite
             if (kmil_Dirty)
                 return;
 
+            #region EntryPoint
             if (PrimarySourceAssembly != null)
                 if (SourceMethod == PrimarySourceAssembly.EntryPoint)
                 {
@@ -243,11 +244,11 @@ namespace jsc.meta.Commands.Rewrite
 
                     a.SetEntryPoint(DeclaringMethod);
                 }
+            #endregion
+
 
             var x = CreateMethodBaseEmitToArguments(
                 SourceMethod,
-
-                NameObfuscation,
                 ILOverride,
                 ExceptionHandlingClauses,
                 context
@@ -264,7 +265,7 @@ namespace jsc.meta.Commands.Rewrite
 
         public static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
             MethodBase SourceMethod,
-            VirtualDictionary<string, string> NameObfuscation,
+            //VirtualDictionary<string, string> NameObfuscation,
             Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
             ExceptionHandlingClause[] ExceptionHandlingClauses,
             ILTranslationContext context)

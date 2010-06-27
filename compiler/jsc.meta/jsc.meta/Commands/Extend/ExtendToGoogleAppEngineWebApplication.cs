@@ -570,8 +570,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 				e.SourceMethod.EmitTo(il,
 					RewriteToAssembly.CreateMethodBaseEmitToArguments(
 						e.SourceMethod,
-						null,
-						null,
+                        null,
 						e.SourceMethod.GetMethodBody().ExceptionHandlingClauses.ToArray(),
 						e.context
 					)
@@ -589,7 +588,6 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 
 				var il_a = RewriteToAssembly.CreateMethodBaseEmitToArguments(
 						e.SourceMethod,
-						null,
 						null,
 						e.SourceMethod.GetMethodBody().ExceptionHandlingClauses.ToArray(),
 						e.context

@@ -69,7 +69,7 @@ namespace jsc.Languages.IL
 			};
 
 			if (x.BeforeInstructions != null)
-				x.BeforeInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete, Labels = labels });
+				x.BeforeInstructions(new EmitToArguments.ILRewriteContext { SourceMethod = m, il = il, Complete = Complete, Labels = labels, Context = xb });
 
 			foreach (var i in xb.Instructrions)
 			{
