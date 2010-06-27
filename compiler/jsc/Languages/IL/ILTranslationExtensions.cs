@@ -30,6 +30,8 @@ namespace jsc.Languages.IL
 
 			var body = m.GetMethodBody();
 
+
+
 			if (body == null)
 				return;
 

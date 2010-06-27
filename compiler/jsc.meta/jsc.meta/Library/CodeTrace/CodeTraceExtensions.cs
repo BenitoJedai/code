@@ -26,7 +26,7 @@ namespace jsc.meta.Library.CodeTrace
 
             public void Invoke(Action e)
             {
-                this.il.EmitWriteLine("CodeTrace continues at " + DateTime.Now);
+                this.il.EmitWriteLine("CodeTrace #" + History.Count);
 
                 InternalInvoke(e.Target, e.Method);
 
@@ -63,8 +63,10 @@ namespace jsc.meta.Library.CodeTrace
                                         select new { ff, vv }
                                     );
 
+                                    // load+store --- we do not need to load if we only read it once?
                                     // initialize
                                     foreach (var item in from k in q
+                                                         where e.Context.Instructrions.Any(i => (i.OpCode == OpCodes.Ldfld || i.OpCode == OpCodes.Ldsfld) && i.TargetField == k.ff)
                                                          select k)
                                     {
                                         if (item.ff.FieldType == typeof(string))
@@ -85,6 +87,13 @@ namespace jsc.meta.Library.CodeTrace
                                             il.Emit(OpCodes.Ldc_I4, value);
                                             il.Emit(OpCodes.Stsfld, context.FieldCache[item.ff]);
 
+                                        }
+                                        if (item.ff.FieldType == typeof(OpCode))
+                                        {
+                                            var value = (OpCode)item.vv;
+
+                                            il.Emit(OpCodes.Ldsfld, typeof(OpCodes).GetFields(BindingFlags.Public | BindingFlags.Static).Single(k => (OpCode)k.GetValue(null) == value));
+                                            il.Emit(OpCodes.Stsfld, context.FieldCache[item.ff]);
                                         }
                                     }
                                 };

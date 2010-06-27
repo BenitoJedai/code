@@ -286,6 +286,7 @@ namespace jsc.meta.Library
                 null,
                 null, null, null, null,
                 new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache },
+                null,
                 null
             );
 
@@ -358,6 +359,7 @@ namespace jsc.meta.Library
                         null,
                         null,
                 new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache },
+                           null,
                            null
                     );
                 };

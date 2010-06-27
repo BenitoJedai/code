@@ -236,25 +236,35 @@ namespace jsc.meta.Commands.Rewrite
             var a = default(AssemblyBuilder);
             var m = default(ModuleBuilder);
 
-            var __Product_Name = Product.Name;
-            var __staging_FullName = staging.FullName;
+            // ct denotes CodeTrace prefix
+            var _ct_Product_Name = Product.Name;
+            var _ct_staging_FullName = staging.FullName;
 
             // ? Unable to add resource to transient module or transient assembly.
-            var __SaveName = OutputUndefined ? Product.Name : "~" + Product.Name;
+            var _ct_SaveName = OutputUndefined ? Product.Name : "~" + Product.Name;
 
             // metadata token/hashcode or GUID?
-            var _ct_TypeBuilderLookup = default(Dictionary<int, TypeBuilder>);
-            var _ct_TypeBuilderLookup_null = ((object)null).GetHashCodeOrDefault();
+            var _ct_MethodBuilderLookup = default(Dictionary<int, MethodBuilder>);
+            var _ct_ILGeneratorLookup = default(Dictionary<int, Func<ILGenerator>>);
+
+            // SourceType# to DeclaringType
+            var _ct_SourceTypeHashToTypeBuilderLookup = default(Dictionary<int, TypeBuilder>);
+            var _ct_DeclaringTypeHashToTypeBuilderLookup = default(Dictionary<int, TypeBuilder>);
+
+            // DeclaringType# to DeclaringType (for IL emitting)
 
             ct(
                 delegate
                 {
-                    _ct_TypeBuilderLookup = new Dictionary<int, TypeBuilder>();
-                    _ct_TypeBuilderLookup[_ct_TypeBuilderLookup_null] = null;
+                    // see: ObjectEqualityComparer<T>
+                    _ct_SourceTypeHashToTypeBuilderLookup = new Dictionary<int, TypeBuilder> { { 0, null } };
+                    _ct_DeclaringTypeHashToTypeBuilderLookup = new Dictionary<int, TypeBuilder> { { 0, null } };
+                    _ct_MethodBuilderLookup = new Dictionary<int, MethodBuilder> { { 0, null } };
+                    _ct_ILGeneratorLookup = new Dictionary<int, Func<ILGenerator>> { };
 
-                    a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(__Product_Name)), AssemblyBuilderAccess.RunAndSave, __staging_FullName);
+                    a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(_ct_Product_Name)), AssemblyBuilderAccess.RunAndSave, _ct_staging_FullName);
 
-                    m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(__Product_Name), __SaveName);
+                    m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(_ct_Product_Name), _ct_SaveName);
                 }
             );
 
@@ -477,6 +487,7 @@ namespace jsc.meta.Commands.Rewrite
                     var SourceType = SourceMethod.DeclaringType;
                     var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
 
+                    #region MakeGenericMethod
                     if (SourceType != null)
                         if (SourceType.IsGenericType)
                             if (!SourceType.IsGenericTypeDefinition)
@@ -522,6 +533,8 @@ namespace jsc.meta.Commands.Rewrite
                                 MethodCache[SourceMethod] = Def3;
                                 return;
                             }
+                    #endregion
+
 
                     if (SourceMethod.IsGenericMethod)
                         if (!SourceMethod.IsGenericMethodDefinition)
@@ -554,7 +567,32 @@ namespace jsc.meta.Commands.Rewrite
                             _assembly,
                             this.codeinjecton,
                             this.codeinjectonparams,
-                            this.AtILOverride,
+
+                            (MethodBase, e) =>
+                            {
+                                // we need to trace il emitting...
+                                e.AtCodeTrace_EmitOpCode =
+                                    (ilrc, _ct_OpCode) =>
+                                    {
+                                        // does Hash vary in time?
+                                        var _ct_SourceMethod = ilrc.SourceMethod.GetHashCode();
+
+
+                                        ct(
+                                            delegate
+                                            {
+                                                var _ct_il = _ct_ILGeneratorLookup[_ct_SourceMethod]();
+
+                                                _ct_il.Emit(_ct_OpCode);
+                                            }
+                                        );
+                                    };
+
+
+                                // enable further IL override
+                                if (this.AtILOverride != null)
+                                    this.AtILOverride(MethodBase, e);
+                            },
 
                             (SourceMethod_, Method, GetILGenerator) =>
                             {
@@ -576,7 +614,46 @@ namespace jsc.meta.Commands.Rewrite
                                     );
                             },
                             this.RewriteArguments.context,
-                            this
+                            this,
+
+                            (string MethodName, MethodAttributes MethodAttributes, CallingConventions CallingConvention) =>
+                            {
+                                var DeclaringMethod = default(MethodBuilder);
+
+                                // do we aleays get ther with A<> ?
+                                var _ct_SourceType = SourceMethod.DeclaringType.TryGetGenericTypeDefinition().GetHashCode();
+
+                                // is there a diference in A<T>.M or A<>.M ?
+                                var _ct_SourceMethod = SourceMethod.GetHashCode();
+
+                                ct(
+                                    delegate
+                                    {
+                                        DeclaringMethod = _ct_SourceTypeHashToTypeBuilderLookup[_ct_SourceType].DefineMethod(
+                                            MethodName,
+                                            MethodAttributes,
+                                            CallingConvention,
+                                            null,
+                                            null
+                                        );
+
+
+
+                                        _ct_MethodBuilderLookup[_ct_SourceMethod] = DeclaringMethod;
+                                    }
+                                );
+
+                                // do we need to prefetch it for all methods? what about abstract methods?
+                                ct(
+                                    delegate
+                                    {
+                                        _ct_ILGeneratorLookup[_ct_SourceMethod] = _ct_MethodBuilderLookup[_ct_SourceMethod].GetILGenerator;
+                                    }
+                                );
+
+
+                                return DeclaringMethod;
+                            }
                         );
                         return;
                     }
@@ -844,6 +921,7 @@ namespace jsc.meta.Commands.Rewrite
                                 {
                                     var DeclaringType = default(TypeBuilder);
 
+                                    // base type is always null here and will be set separatly
                                     var _ct_TypeBuilderLookup_BaseType = BaseType.GetHashCodeOrDefault();
                                     var _ct_TypeBuilderLookup_SourceType = SourceType.GetHashCode();
 
@@ -855,12 +933,12 @@ namespace jsc.meta.Commands.Rewrite
                                                 TypeAttributes,
 
                                                 // did we save it to the lookup? crash if not :)
-                                                _ct_TypeBuilderLookup[_ct_TypeBuilderLookup_BaseType],
-                                                
+                                                _ct_SourceTypeHashToTypeBuilderLookup[_ct_TypeBuilderLookup_BaseType],
+
                                                 new Type[0]
                                             );
 
-                                            _ct_TypeBuilderLookup[_ct_TypeBuilderLookup_SourceType] = DeclaringType;
+                                            _ct_SourceTypeHashToTypeBuilderLookup[_ct_TypeBuilderLookup_SourceType] = DeclaringType;
                                         }
                                     );
 
@@ -1054,7 +1132,7 @@ namespace jsc.meta.Commands.Rewrite
                              {
                                  var _ct_SourceType = SourceType.GetHashCode();
 
-                                 ct(() => _ct_TypeBuilderLookup[_ct_SourceType].CreateType());
+                                 ct(() => _ct_SourceTypeHashToTypeBuilderLookup[_ct_SourceType].CreateType());
                              }
                         );
 
@@ -1252,7 +1330,7 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     m.CreateGlobalFunctions();
 
-                    a.Save(__SaveName);
+                    a.Save(_ct_SaveName);
                 }
             );
 

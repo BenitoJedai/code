@@ -31,9 +31,19 @@ namespace jsc.meta.Commands.Rewrite
             Action<MethodInfo, MethodBuilder, Func<ILGenerator>> BeforeInstructions,
             ILTranslationContext context,
 
-            RewriteToAssembly Command
+            RewriteToAssembly Command,
+
+            Func<string, MethodAttributes, CallingConventions, MethodBuilder> AtCodeTraceDefineMethod
             )
         {
+            if (AtCodeTraceDefineMethod == null)
+                AtCodeTraceDefineMethod = (__MethodName, __MethodAttributes__, CallingConvention) => DeclaringType.DefineMethod(
+                                            __MethodName,
+                                            __MethodAttributes__,
+                                            CallingConvention,
+                                            null,
+                                            null
+                                        );
             // sanity check!
 
             if (context.MethodCache.BaseDictionary.ContainsKey(SourceMethod))
@@ -106,15 +116,13 @@ namespace jsc.meta.Commands.Rewrite
                 if (Command != null)
                     Command.WriteDiagnostics("DefineMethod " + MethodName);
 
-                #region DefineMethod
-                DeclaringMethod = DeclaringType.DefineMethod(
+ 
+
+                DeclaringMethod = AtCodeTraceDefineMethod(
                     MethodName,
                     MethodAttributes__,
-                    SourceMethod.CallingConvention,
-                    null,
-                    null
+                    SourceMethod.CallingConvention
                 );
-                #endregion
             }
 
             context.MethodCache[SourceMethod] = DeclaringMethod;
@@ -122,7 +130,7 @@ namespace jsc.meta.Commands.Rewrite
 
             //Console.WriteLine("Method: " + km.Name);
 
-
+            #region DefineGenericParameters
             if (SourceMethod.IsGenericMethodDefinition)
             {
                 var ga = SourceMethod.GetGenericArguments();
@@ -166,6 +174,7 @@ namespace jsc.meta.Commands.Rewrite
                     }
                 }
             }
+            #endregion
 
             // !! fixme
             // How to: Define a Generic Method with Reflection Emit
@@ -399,6 +408,7 @@ namespace jsc.meta.Commands.Rewrite
 
             if (ILOverride != null)
                 ILOverride(SourceMethod, x);
+
             return x;
         }
 
