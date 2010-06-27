@@ -24,6 +24,13 @@ namespace jsc.meta.Commands.Rewrite
             if (this.AttachDebugger)
                 Debugger.Launch();
 
+
+            InternalInvoke();
+        }
+
+        public void InternalInvoke()
+        {
+
             #region ExternalContext defaults...
 
 
@@ -216,7 +223,7 @@ namespace jsc.meta.Commands.Rewrite
             if (OutputUndefined)
                 this.Output = Product;
 
-            var name = new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name));
+           
 
             if (OutputUndefined)
             {
@@ -226,9 +233,14 @@ namespace jsc.meta.Commands.Rewrite
             }
 
             this.WriteDiagnostics("DefineDynamicAssembly");
-            var a = AppDomain.CurrentDomain.DefineDynamicAssembly(name, AssemblyBuilderAccess.RunAndSave, staging.FullName);
+
+
+            
+
+            var a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(Product.Name)), AssemblyBuilderAccess.RunAndSave, staging.FullName);
 
             this.WriteDiagnostics("DefineDynamicModule");
+
             var m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(Product.Name),
                 // Unable to add resource to transient module or transient assembly.
                 OutputUndefined ? Product.Name : "~" + Product.Name
@@ -1133,7 +1145,7 @@ namespace jsc.meta.Commands.Rewrite
                     }
 
                     // do we need to implement some methods?
-                    Console.WriteLine("Create Partial Type: " + DeclaringType.FullName); 
+                    Console.WriteLine("Create Partial Type: " + DeclaringType.FullName);
                     DeclaringType.CreateType();
 
                     TypeCache.Flags[SourceType] = new object();

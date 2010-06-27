@@ -441,6 +441,8 @@ namespace jsc.Languages.IL
 				public MethodBase SourceMethod;
 
 				public IDictionary<ILInstruction, Label> Labels;
+
+                public ILBlock Context;
 			}
 
 
@@ -467,7 +469,8 @@ namespace jsc.Languages.IL
 							i = e.i,
 							il = e.il,
 							Default = () => Default(e),
-							Labels = e.Labels
+							Labels = e.Labels,
+                            Complete = e.Complete
 						}
 					);
 				}

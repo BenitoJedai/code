@@ -295,6 +295,8 @@
     <Compile Include="Commands\Test\TestChooser.cs" />
     <Compile Include="Configuration\SDKConfiguration.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
+    <Compile Include="Library\CodeTrace\CodeTraceExtensions.cs" />
+    <Compile Include="Library\CodeTrace\ICodeTrace.cs" />
     <Compile Include="Library\CostumAttributeBuilderExtensions.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
@@ -440,11 +442,7 @@
       <Name>ScriptCoreLibA</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Library\Analytics\" />
-    <Folder Include="Library\MSVS\" />
-    <Folder Include="Library\Reference\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
