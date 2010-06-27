@@ -29,7 +29,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 
 
             if (Bitmap.Format.BitsPerPixel != 32)
-                throw new NotImplementedException();
+                return;
 
             var PixelWidth = Bitmap.PixelWidth;
 

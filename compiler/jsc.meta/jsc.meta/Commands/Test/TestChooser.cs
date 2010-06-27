@@ -11,6 +11,7 @@ using jsc.meta.Commands.Reference;
 using System.IO;
 using System.Media;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace jsc.meta.Commands.Test
 {
@@ -25,9 +26,10 @@ namespace jsc.meta.Commands.Test
             {
                 Width = 400,
                 Height = 300,
-                ShowInTaskbar = false,
+                ShowInTaskbar = true,
+                ShowIcon = false,
                 Text = "jsc - Test Chooser",
-                FormBorderStyle = FormBorderStyle.SizableToolWindow
+                FormBorderStyle = FormBorderStyle.Sizable
             };
 
             var p = new FlowLayoutPanel
@@ -53,11 +55,13 @@ namespace jsc.meta.Commands.Test
                         };
 
                     p1.Click +=
-                        delegate
+                        (sender, args) =>
                         {
                             var bw = new BackgroundWorker();
 
                             p.Enabled = false;
+
+
 
                             bw.DoWork +=
                                 delegate

@@ -11,53 +11,64 @@ using jsc.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
-	public partial class RewriteToAssembly
-	{
-		static void CopyConstructor(
-			ConstructorInfo SourceConstructor,
-			TypeBuilder t,
-			VirtualDictionary<string, string> NameObfuscation,
-			Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
-			ILTranslationContext context
+    public partial class RewriteToAssembly
+    {
+        static void CopyConstructor(
+            ConstructorInfo SourceConstructor,
+            TypeBuilder DeclaringType,
+            VirtualDictionary<string, string> NameObfuscation,
+            Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
+            ILTranslationContext context
+            )
+        {
 
-			)
-		{
-			var km = SourceConstructor.IsStatic ?
-				t.DefineTypeInitializer() :
+            var km = default(ConstructorBuilder);
 
-				t.DefineConstructor(
-				SourceConstructor.Attributes,
-				SourceConstructor.CallingConvention,
-				SourceConstructor.GetParameters().Select(kp => context.TypeCache[kp.ParameterType]).ToArray()
-			);
+            if (SourceConstructor.IsStatic)
+            {
+                km = DeclaringType.DefineTypeInitializer();
+            }
+            else
+            {
+                // +		$exception	{"Unable to change after type has been created."}	
+                // System.Exception {System.InvalidOperationException}
 
-			km.SetImplementationFlags(SourceConstructor.GetMethodImplementationFlags());
+                var ParameterTypes = context.TypeCache[SourceConstructor.GetParameterTypes()];
 
-			SourceConstructor.GetParameters().CopyTo(km);
+                km = DeclaringType.DefineConstructor(
+                    SourceConstructor.Attributes,
+                    SourceConstructor.CallingConvention,
+                    ParameterTypes
+                );
+            }
 
-			context.ConstructorCache[SourceConstructor] = km;
+            km.SetImplementationFlags(SourceConstructor.GetMethodImplementationFlags());
 
-			if (SourceConstructor.GetMethodBody() == null)
-				return;
+            SourceConstructor.GetParameters().CopyTo(km);
 
-			var MethodBody = SourceConstructor.GetMethodBody();
+            context.ConstructorCache[SourceConstructor] = km;
 
-			var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
+            if (SourceConstructor.GetMethodBody() == null)
+                return;
 
+            var MethodBody = SourceConstructor.GetMethodBody();
 
-			var x = CreateMethodBaseEmitToArguments(
-				SourceConstructor,
-				NameObfuscation,
-				ILOverride,
-				ExceptionHandlingClauses,
-				context
-			);
-
-
-			SourceConstructor.EmitTo(km.GetILGenerator(), x);
-
-		}
+            var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
 
 
-	}
+            var x = CreateMethodBaseEmitToArguments(
+                SourceConstructor,
+                NameObfuscation,
+                ILOverride,
+                ExceptionHandlingClauses,
+                context
+            );
+
+
+            SourceConstructor.EmitTo(km.GetILGenerator(), x);
+
+        }
+
+
+    }
 }

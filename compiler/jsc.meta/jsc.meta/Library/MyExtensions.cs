@@ -285,7 +285,8 @@ namespace jsc.meta.Library
                 NameObfuscation,
                 null,
                 null, null, null, null,
-                new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache }
+                new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache },
+                null
             );
 
             return (MethodBuilder)MethodCache[msource.Method];
@@ -356,8 +357,8 @@ namespace jsc.meta.Library
                         null,
                         null,
                         null,
-                new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache }
-
+                new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache },
+                           null
                     );
                 };
 

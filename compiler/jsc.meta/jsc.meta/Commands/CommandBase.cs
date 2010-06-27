@@ -97,5 +97,17 @@ namespace jsc.meta.Commands
             return close;
         }
 
+
+        int __WriteDiagnostics_i;
+
+        public void WriteDiagnostics(string e)
+        {
+            __WriteDiagnostics_i++;
+
+            var c = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("j" + __WriteDiagnostics_i + ": " + e);
+            Console.ForegroundColor = c;
+        }
 	}
 }

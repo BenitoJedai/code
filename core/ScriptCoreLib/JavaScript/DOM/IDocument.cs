@@ -13,7 +13,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         readonly internal IDOMImplementation implementation;
 
         [Script(DefineAsStatic = true)]
-        public new void appendChild<T>(T e)
+        public new void appendChild<TChild>(TChild e)
         {
             // what if we redirected this to root element instead? :)
 
@@ -97,12 +97,19 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public DOMElement documentElement;
 
-        internal static IHTMLElement __dummy_IHTMLElement;
+        //internal static void __dummy_IHTMLElement<TDummy>(TDummy e) where TDummy : IHTMLElement
+        //{
+
+        //}
+
         // Could not load type 'ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement' from assembly 
         // 'ScriptCoreLib, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
 
         // at System.Reflection.Emit.TypeBuilder._TermCreateClass(Int32 handle, Module module)
         // at System.Reflection.Emit.TypeBuilder.CreateTypeNoLock()
         // at System.Reflection.Emit.TypeBuilder.CreateType()
+
+        // JSC is still rewriting IHTMLElement but IDocument`1 needs it...
+        internal static IHTMLElement __InternalTypeReferenceHint__1;
     }
 }

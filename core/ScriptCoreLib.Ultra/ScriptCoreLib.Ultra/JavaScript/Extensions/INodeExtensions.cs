@@ -6,11 +6,17 @@ using ScriptCoreLib.JavaScript.DOM;
 using System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.Avalon;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class INodeExtensions
 	{
+        public static void SetMatrixTransform(this IHTMLElement c, AffineTransformBase matrix)
+        {
+            c.style.SetMatrixTransform(matrix);
+        }
+
 		public static IHTMLDiv WithinContainer(this INode e)
 		{
 			var x = new IHTMLDiv { e };
