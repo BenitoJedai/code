@@ -100,6 +100,7 @@ namespace jsc.meta.Commands
 
         int __WriteDiagnostics_i;
 
+        [Obsolete]
         public void WriteDiagnostics(string e)
         {
             __WriteDiagnostics_i++;

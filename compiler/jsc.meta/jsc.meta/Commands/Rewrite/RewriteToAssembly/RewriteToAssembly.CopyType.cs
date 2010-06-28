@@ -76,6 +76,9 @@ namespace jsc.meta.Commands.Rewrite
             // does everything still work after this change? :D
 
 
+            //var BaseType__ = context.TypeCache[SourceType.BaseType];
+
+
             foreach (var k in SourceType.GetNestedTypes(
                 BindingFlags.Public | BindingFlags.NonPublic
                 ))
@@ -165,9 +168,6 @@ namespace jsc.meta.Commands.Rewrite
                     var __NestedEnums = SourceType.GetNestedTypes().Where(k => k.IsEnum).ToArray();
                     var __NestedEnumsConverted = context.TypeCache[__NestedEnums];
 
-                    // seems like base types better be completed...
-                    var BaseType = SourceType.BaseType == null ? null : context.TypeCache[SourceType.BaseType];
-
                     var _Interfaces = Enumerable.ToArray(
                         from k in SourceType.GetInterfaces()
                         where ShouldCopyType(k) || k.IsPublic
@@ -235,11 +235,27 @@ namespace jsc.meta.Commands.Rewrite
                     // https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=324473&wa=wsignin1.0
 
 
-                    if (r != null)
-                        r.WriteDiagnostics("CreateType " + t.Name);
+                    //if (r != null)
+                    //    r.WriteDiagnostics("CreateType " + t.Name);
 
-                    AtCodeTraceCreateType();
-                    //t.CreateType();
+                    // Type 'CircularGenericInterfaces.INode' from assembly 'CircularGenericInterfaces, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' tried to override method 'System.Collections.IEnumerable.GetEnumerator' but does not implement or inherit that method.
+
+                    // http://connect.microsoft.com/VisualStudio/feedback/details/270717/reflection-emit-chokes-on-method-type-parameters#details
+
+                    // GenericArguments[0], 'System.Object', 
+                    // on 'IDocument`1[TConstraint2]' violates the constraint of type parameter 'TConstraint2'.
+
+                    // you better have CLR 4!
+
+                    // An attempt was made to load a program with an incorrect format. (Exception from HRESULT: 0x8007000B)
+                    
+                    // Method 'GetEnumerator' in type 'ScriptCoreLib.JavaScript.DOM.ICommentNode' 
+                    // from assembly 'ScriptCoreLib.dll.IDocument, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' 
+                    // does not have an implementation.
+
+                    // Access is denied: 'WhyIncorrectFormat.C'.
+                    t.CreateType();
+
 
                     context.TypeCache.Flags[SourceType] = new object();
 
@@ -425,7 +441,7 @@ namespace jsc.meta.Commands.Rewrite
                 // we might define as a nested type instead!
                 try
                 {
-                    Command.WriteDiagnostics("DefineType " + TypeName);
+                    //Command.WriteDiagnostics("DefineType " + TypeName);
                     t = DefineType(_DeclaringType, TypeName, null, TypeAttributes);
                 }
                 catch (Exception ex)
@@ -439,7 +455,10 @@ namespace jsc.meta.Commands.Rewrite
                 // interfaces dont have base types!
                 var BaseType = SourceType.BaseType == null ? null : context.TypeDefinitionCache[SourceType.BaseType];
 
-                AtCodeTraceSetParent();
+                if (BaseType != null)
+                    t.SetParent(BaseType);
+
+
 
                 #region Interfaces
                 var _Interfaces = Enumerable.ToArray(
@@ -448,6 +467,8 @@ namespace jsc.meta.Commands.Rewrite
 
                     where ShouldCopyType(k) || k.IsPublic
 
+                    where SourceType.BaseType == null || (SourceType.BaseType != null && !SourceType.BaseType.GetInterfaces().Contains(k))
+
                     select context.TypeDefinitionCache[k]
                 ).ToArray();
 
@@ -455,14 +476,42 @@ namespace jsc.meta.Commands.Rewrite
 
                 foreach (var item in _Interfaces)
                 {
+                    // oh really?
                     t.AddInterfaceImplementation(item);
                 }
                 #endregion
 
-                AtCodeTraceDefineGenericParameters();
+                if (SourceType.IsGenericTypeDefinition)
+                {
+                    var ga = SourceType.GetGenericArguments();
 
-          
+                    //this.Command.WriteDiagnostics("DefineGenericParameters");
+                    var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
 
+                    for (int i = 0; i < gp.Length; i++)
+                    {
+                        context.TypeDefinitionCache[ga[i]] = gp[i];
+                        context.TypeCache[ga[i]] = gp[i];
+
+
+                        // http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
+
+
+                        foreach (var item in ga[i].GetGenericParameterConstraints())
+                        {
+                            var Constraint = context.TypeDefinitionCache[item];
+
+
+                            // any issues if circular referencing?
+                            // Unable to change after type has been created.
+
+                            if (item.IsInterface)
+                                gp[i].SetInterfaceConstraints(Constraint);
+                            else
+                                gp[i].SetBaseTypeConstraint(Constraint);
+                        }
+                    }
+                }
 
                 //Diagnostics("TypeDefinitionCache: " + TypeName);
 

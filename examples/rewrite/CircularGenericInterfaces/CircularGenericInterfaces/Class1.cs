@@ -5,8 +5,17 @@ using System.Text;
 
 namespace CircularGenericInterfaces
 {
+    public class IElement : INode
+    {
+    }
+
     public class INode : IEnumerable<INode>
     {
+        IElement GetParent()
+        {
+            return null;
+        }
+
         public IEnumerator<INode> GetEnumerator()
         {
             throw new NotImplementedException();

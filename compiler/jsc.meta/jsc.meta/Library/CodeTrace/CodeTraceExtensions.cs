@@ -295,6 +295,13 @@ namespace jsc.meta.Library.CodeTrace
 
         /// <summary>
         /// Will build a strongly typed assembly which will replay the traced code. To be used for debugging and IL rewrite research.
+        /// 
+        /// See W:\jsc.svn\examples\rewrite\ScriptCoreLib.IDocument\ScriptCoreLib.IDocument\Class1.cs for example.
+        /// 
+        /// Fixme: TypeBuilder and MethodBuilder classes should be interned automatically for this to be 
+        /// useful in jsc.meta.
+        /// 
+        /// So when the boundaries between _ct_ is being crossed those types will be saved only to be reused later.
         /// </summary>
         /// <param name="target"></param>
         /// <param name="h"></param>

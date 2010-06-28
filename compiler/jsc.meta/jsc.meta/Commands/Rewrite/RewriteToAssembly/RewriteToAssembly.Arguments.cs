@@ -205,6 +205,6 @@ namespace jsc.meta.Commands.Rewrite
         public bool DisableIsMarkedForMerge;
 
 
-        public FileInfo CodeTrace;
+        //public FileInfo CodeTrace;
     }
 }

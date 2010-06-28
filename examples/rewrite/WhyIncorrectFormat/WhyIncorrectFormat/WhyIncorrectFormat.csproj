@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E2BC55D6-4A33-494D-8496-735FAFB67CE1}</ProjectGuid>
+    <ProjectGuid>{213E1051-F873-41A8-95D1-947B150A4D17}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestCodeTrace</RootNamespace>
-    <AssemblyName>TestCodeTrace</AssemblyName>
+    <RootNamespace>WhyIncorrectFormat</RootNamespace>
+    <AssemblyName>WhyIncorrectFormat</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,10 +46,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /type:"TestCodeTrace.IDocument`1" /CodeTrace:"$(TargetDir)$(TargetName).CodeTrace$(TargetExt)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /AttachDebugger:true
-call "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\PEVerify.exe" "$(TargetDir)$(TargetName).CodeTrace$(TargetExt)"
-::call "C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\ildasm.exe" "$(TargetDir)$(TargetName).CodeTrace$(TargetExt)" /out="$(TargetDir)$(TargetName).CodeTrace$(TargetExt).il"
-::call "C:\Windows\Microsoft.NET\Framework\v2.0.50727\ilasm.exe" "$(TargetDir)$(TargetName).CodeTrace$(TargetExt).il"</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /AttachDebugger:true</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -25,10 +25,10 @@ namespace jsc.meta.Commands.Rewrite
             if (this.AttachDebugger)
                 Debugger.Launch();
 
-            this.CodeTrace.ToCodeTrace(InternalInvoke);
+            InternalInvoke();
         }
 
-        public void InternalInvoke(CodeTraceAction ct)
+        public void InternalInvoke()
         {
 
             #region ExternalContext defaults...
@@ -243,29 +243,11 @@ namespace jsc.meta.Commands.Rewrite
             // ? Unable to add resource to transient module or transient assembly.
             var _ct_SaveName = OutputUndefined ? Product.Name : "~" + Product.Name;
 
-            // metadata token/hashcode or GUID?
-            var _ct_SourceMethodHashToMethodBuilderLookup = default(Dictionary<int, MethodBuilder>);
-            var _ct_SourceMethodHashToILGeneratorLookup = default(Dictionary<int, Func<ILGenerator>>);
 
- 
-            var _ct_SourceTypeHashToTypeLookup = default(Dictionary<int, Type>);
 
-            // DeclaringType# to DeclaringType (for IL emitting)
+            a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(_ct_Product_Name)), AssemblyBuilderAccess.RunAndSave, _ct_staging_FullName);
 
-            ct(
-                delegate
-                {
-                    // see: ObjectEqualityComparer<T>
-                    _ct_SourceTypeHashToTypeLookup = new Dictionary<int, Type> { { 0, null }, { typeof(object).GetHashCode(), typeof(object) } };
-
-                    _ct_SourceMethodHashToMethodBuilderLookup = new Dictionary<int, MethodBuilder> { { 0, null } };
-                    _ct_SourceMethodHashToILGeneratorLookup = new Dictionary<int, Func<ILGenerator>> { };
-
-                    a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(_ct_Product_Name)), AssemblyBuilderAccess.RunAndSave, _ct_staging_FullName);
-
-                    m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(_ct_Product_Name), _ct_SaveName);
-                }
-            );
+            m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(_ct_Product_Name), _ct_SaveName);
 
 
 
@@ -569,23 +551,7 @@ namespace jsc.meta.Commands.Rewrite
 
                             (MethodBase, e) =>
                             {
-                                // we need to trace il emitting...
-                                e.AtCodeTrace_EmitOpCode =
-                                    (ilrc, _ct_OpCode) =>
-                                    {
-                                        // does Hash vary in time?
-                                        var _ct_SourceMethod = ilrc.SourceMethod.GetHashCode();
 
-
-                                        ct(
-                                            delegate
-                                            {
-                                                var _ct_il = _ct_SourceMethodHashToILGeneratorLookup[_ct_SourceMethod]();
-
-                                                _ct_il.Emit(_ct_OpCode);
-                                            }
-                                        );
-                                    };
 
 
                                 // enable further IL override
@@ -619,39 +585,13 @@ namespace jsc.meta.Commands.Rewrite
                             {
                                 var DeclaringMethod = default(MethodBuilder);
 
-                                // do we aleays get ther with A<> ?
-                                var _ct_SourceType = SourceMethod.DeclaringType.TryGetGenericTypeDefinition().GetHashCode();
-
-                                // is there a diference in A<T>.M or A<>.M ?
-                                var _ct_SourceMethod = SourceMethod.GetHashCode();
-
-                                ct(
-                                    delegate
-                                    {
-                                        DeclaringMethod = (_ct_SourceTypeHashToTypeLookup[_ct_SourceType] as TypeBuilder).DefineMethod(
-                                            MethodName,
-                                            MethodAttributes,
-                                            CallingConvention,
-                                            null,
-                                            null
-                                        );
-
-
-
-                                        _ct_SourceMethodHashToMethodBuilderLookup[_ct_SourceMethod] = DeclaringMethod;
-                                    }
-                                );
-
-                                // do we need to prefetch it for all methods? what about abstract methods?
-                                ct(
-                                    delegate
-                                    {
-                                        _ct_SourceMethodHashToILGeneratorLookup[_ct_SourceMethod] = _ct_SourceMethodHashToMethodBuilderLookup[_ct_SourceMethod].GetILGenerator;
-                                    }
-                                );
-
 
                                 return DeclaringMethod;
+                            },
+
+                            (MethodBuilder DeclaringMethod) =>
+                            {
+                                
                             }
                         );
                         return;
@@ -802,7 +742,7 @@ namespace jsc.meta.Commands.Rewrite
                         else
                         {
 
-                            this.WriteDiagnostics("DefineField " + FieldName);
+                            //this.WriteDiagnostics("DefineField " + FieldName);
 
                             var FieldType = TypeCache[SourceField.FieldType];
 
@@ -810,18 +750,10 @@ namespace jsc.meta.Commands.Rewrite
 
                             var DeclaringField = default(FieldBuilder);
 
-                            var _ct_DeclaringType = SourceField.DeclaringType.GetHashCode();
-                            var _ct_FieldType = SourceField.FieldType.GetHashCode();
-
-                            ct(
-                                delegate
-                                {
-                                    DeclaringField = (_ct_SourceTypeHashToTypeLookup[_ct_DeclaringType] as TypeBuilder).DefineField(
-                                         FieldName,
-                                         _ct_SourceTypeHashToTypeLookup[_ct_FieldType],
-                                         FieldAttributes
-                                    );
-                                }
+                            DeclaringField = DeclaringType.DefineField(
+                                 FieldName,
+                                 FieldType,
+                                 FieldAttributes
                             );
 
 
@@ -888,36 +820,17 @@ namespace jsc.meta.Commands.Rewrite
                     if (SourceType.IsGenericType)
                         if (!SourceType.IsGenericTypeDefinition)
                         {
-                            {
-                                var GenericTypeDefinition__ = SourceType.GetGenericTypeDefinition();
-                                var GenericTypeDefinition = TypeDefinitionCache[GenericTypeDefinition__];
-                                var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
-                            }
 
-                            var _ct_GenericArguments = SourceType.GetGenericArguments().Select(k => TypeDefinitionCache[k].GetHashCode()).ToArray();
-                            var _ct_DeclaringType = default(Type);
-                            var _ct_SourceTypeGenericTypeDefinition = SourceType.GetGenericTypeDefinition().GetHashCode();
-                            var _ct_SourceType = SourceType.GetHashCode();
 
-                            ct(
-                                delegate
-                                {
-                                    var GenericArguments = new List<Type>();
+                            // Operation is not valid due to the current state of the object.
+                            var GenericTypeDefinition__ = SourceType.GetGenericTypeDefinition();
 
-                                    foreach (var item in _ct_GenericArguments)
-                                    {
-                                        GenericArguments.Add(_ct_SourceTypeHashToTypeLookup[item]);
-                                    }
+                            var GenericTypeDefinition = TypeDefinitionCache[GenericTypeDefinition__];
+                            var GenericArguments = TypeDefinitionCache[SourceType.GetGenericArguments()];
 
-                                    var SourceTypeGenericTypeDefinition = _ct_SourceTypeHashToTypeLookup[_ct_SourceTypeGenericTypeDefinition];
+                            TypeDefinitionCache[SourceType] =
+                                GenericTypeDefinition.MakeGenericType(GenericArguments);
 
-                                    _ct_DeclaringType = SourceTypeGenericTypeDefinition.MakeGenericType(GenericArguments.ToArray());
-
-                                    _ct_SourceTypeHashToTypeLookup[_ct_SourceType] = _ct_DeclaringType;
-
-                                }
-                            );
-                            TypeDefinitionCache[SourceType] = _ct_DeclaringType;
 
                             return;
                         }
@@ -947,96 +860,28 @@ namespace jsc.meta.Commands.Rewrite
                                     var DeclaringType = default(TypeBuilder);
 
                                     // base type is always null here and will be set separatly
-                                    var _ct_TypeBuilderLookup_BaseType = BaseType.GetHashCodeOrDefault();
-                                    var _ct_TypeBuilderLookup_SourceType = SourceType.GetHashCode();
 
-                                    ct(
-                                        delegate
-                                        {
-                                            Console.WriteLine("CodeTrace DefineType " + DefineTypeName);
+                                    DeclaringType = m.DefineType(
+                                        DefineTypeName,
+                                        TypeAttributes,
 
-                                            DeclaringType = m.DefineType(
-                                                DefineTypeName,
-                                                TypeAttributes,
+                                        null,
 
-                                                // did we save it to the lookup? crash if not :)
-                                                _ct_SourceTypeHashToTypeLookup[_ct_TypeBuilderLookup_BaseType],
-
-                                                new Type[0]
-                                            );
-
-                                            _ct_SourceTypeHashToTypeLookup[_ct_TypeBuilderLookup_SourceType] = DeclaringType;
-                                        }
+                                        new Type[0]
                                     );
+
+
 
                                     return DeclaringType;
                                 },
 
 
-                            AtCodeTraceSetParent =
-                                 () =>
-                                 {
-                                     // interfaces have not base types!
-                                     if (SourceType.BaseType == null)
-                                         return;
-
-                                     var _ct_BaseType = SourceType.BaseType.GetHashCodeOrDefault();
-                                     var _ct_SourceType = SourceType.GetHashCode();
-
-                                     ct(
-                                         delegate
-                                         {
-                                             (_ct_SourceTypeHashToTypeLookup[_ct_SourceType] as TypeBuilder).SetParent(_ct_SourceTypeHashToTypeLookup[_ct_BaseType]);
-                                         }
-                                     );
-
-                                 },
+             
 
                             AtCodeTraceDefineGenericParameters =
                               delegate
                               {
-                                  if (SourceType.IsGenericTypeDefinition)
-                                  {
-                                      // look how many indirections... cute? :)
-                                      var DeclaringType = TypeDefinitionCache[SourceType] as TypeBuilder;
-
-                                      var ga = SourceType.GetGenericArguments();
-
-                                      var _ct_SourceType = SourceType.GetHashCode();
-                                      var _ct_GenericParametersNames = ga.Select(k => k.Name).ToArray();
-
-
-
-                                      this.WriteDiagnostics("DefineGenericParameters");
-
-                                      var _ct_GenericParameters = default(GenericTypeParameterBuilder[]);
-
-                                      ct(() => _ct_GenericParameters = (_ct_SourceTypeHashToTypeLookup[_ct_SourceType] as TypeBuilder).DefineGenericParameters(_ct_GenericParametersNames));
-
-                                      for (int i = 0; i < _ct_GenericParameters.Length; i++)
-                                      {
-                                          TypeDefinitionCache[ga[i]] = _ct_GenericParameters[i];
-                                          TypeCache[ga[i]] = _ct_GenericParameters[i];
-
-
-                                          // http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
-
-
-                                          foreach (var item in ga[i].GetGenericParameterConstraints())
-                                          {
-                                              var Constraint = TypeDefinitionCache[item];
-
-
-                                              // any issues if circular referencing?
-                                              // Unable to change after type has been created.
-
-                                              if (item.IsInterface)
-                                                  _ct_GenericParameters[i].SetInterfaceConstraints(Constraint);
-                                              else
-                                                  _ct_GenericParameters[i].SetBaseTypeConstraint(Constraint);
-                                          }
-                                      }
-                                  }
+                                  
                               }
                         };
 
@@ -1233,19 +1078,8 @@ namespace jsc.meta.Commands.Rewrite
 
                              delegate
                              {
-                                 var _ct_SourceType = SourceType.GetHashCode();
-                                 var _ct_SourceTypeName = SourceType.FullName;
+                                
 
-                                 // GenericArguments[0], 'System.Object', 
-                                 // on 'IDocument`1[TConstraint2]' violates the constraint of type parameter 'TConstraint2'.
-                                 ct(
-                                     delegate
-                                     {
-                                         Console.WriteLine("CodeTrace CreateType: " + _ct_SourceTypeName);
-
-                                         (_ct_SourceTypeHashToTypeLookup[_ct_SourceType] as TypeBuilder).CreateType();
-                                     }
-                                 );
                              }
                         );
 
@@ -1438,15 +1272,10 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-            ct(
-                delegate
-                {
-                    m.CreateGlobalFunctions();
 
-                    a.Save(_ct_SaveName);
-                }
-            );
+            m.CreateGlobalFunctions();
 
+            a.Save(_ct_SaveName);
 
             // The type definition of the global function is not completed.
             if (OutputUndefined)
