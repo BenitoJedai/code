@@ -439,12 +439,9 @@ namespace jsc.meta.Commands.Rewrite
                 // interfaces dont have base types!
                 var BaseType = SourceType.BaseType == null ? null : context.TypeDefinitionCache[SourceType.BaseType];
 
-                if (BaseType != null)
-                {
-                    Command.WriteDiagnostics("SetParent " + BaseType.Name);
-                    t.SetParent(BaseType);
-                }
+                AtCodeTraceSetParent();
 
+                #region Interfaces
                 var _Interfaces = Enumerable.ToArray(
 
                     from k in SourceType.GetInterfaces()
@@ -460,38 +457,11 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     t.AddInterfaceImplementation(item);
                 }
+                #endregion
 
-                if (SourceType.IsGenericTypeDefinition)
-                {
-                    var ga = SourceType.GetGenericArguments();
+                AtCodeTraceDefineGenericParameters();
 
-                    this.Command.WriteDiagnostics("DefineGenericParameters");
-                    var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
-
-                    for (int i = 0; i < gp.Length; i++)
-                    {
-                        context.TypeDefinitionCache[ga[i]] = gp[i];
-                        context.TypeCache[ga[i]] = gp[i];
-
-
-                        // http://msdn.microsoft.com/en-us/library/system.reflection.emit.generictypeparameterbuilder(v=VS.95).aspx
-
-
-                        foreach (var item in ga[i].GetGenericParameterConstraints())
-                        {
-                            var Constraint = context.TypeDefinitionCache[item];
-
-
-                            // any issues if circular referencing?
-                            // Unable to change after type has been created.
-
-                            if (item.IsInterface)
-                                gp[i].SetInterfaceConstraints(Constraint);
-                            else
-                                gp[i].SetBaseTypeConstraint(Constraint);
-                        }
-                    }
-                }
+          
 
 
                 //Diagnostics("TypeDefinitionCache: " + TypeName);
@@ -590,7 +560,7 @@ namespace jsc.meta.Commands.Rewrite
                     //at System.Reflection.Emit.ModuleBuilder.DefineType(String name, TypeAttributes attr, Type parent, Type[] interfaces)
 
 
-                    return CodeTraceDefineType(BaseType, TypeAttributes, DefineTypeName);
+                    return AtCodeTraceDefineType(BaseType, TypeAttributes, DefineTypeName);
 
 
 
@@ -599,8 +569,9 @@ namespace jsc.meta.Commands.Rewrite
                 #endregion
             }
 
-            public Func<Type, TypeAttributes, string, TypeBuilder> CodeTraceDefineType;
-
+            public Func<Type, TypeAttributes, string, TypeBuilder> AtCodeTraceDefineType;
+            public Action AtCodeTraceDefineGenericParameters;
+            public Action AtCodeTraceSetParent;
 
             private static TypeAttributes ReplaceTypeAttributes(TypeAttributes TypeAttributes, TypeAttributes _From, TypeAttributes _To)
             {

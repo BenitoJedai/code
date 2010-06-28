@@ -37,6 +37,9 @@ namespace ScriptCoreLib
         /// <summary>
         /// For the WebGL :) And WPF?
         /// http://en.wikipedia.org/wiki/GLSL
+        /// 
+        /// Or HLSL?
+        /// http://msdn.microsoft.com/en-us/library/bb509561(VS.85).aspx
         /// </summary>
         ShadingLanguage
 	}
