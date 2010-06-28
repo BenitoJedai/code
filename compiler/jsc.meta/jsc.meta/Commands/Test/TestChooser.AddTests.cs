@@ -87,6 +87,15 @@ namespace jsc.meta.Commands.Test
                 }
             );
 
+            Add("ScriptCoreLib::ICommentNode", () =>
+              new RewriteToAssembly
+              {
+                  Output = new FileInfo(ScriptCoreLib + ".ICommentNode.dll"),
+                  assembly = new FileInfo(ScriptCoreLib),
+                  type = "ScriptCoreLib.JavaScript.DOM.ICommentNode"
+              }
+          );
+
             Add("ScriptCoreLib::IWindow", () =>
                 new RewriteToAssembly
                 {
@@ -105,6 +114,25 @@ namespace jsc.meta.Commands.Test
                    type = "ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement"
                }
            );
+
+            Add("ScriptCoreLib::IElement", () =>
+                 new RewriteToAssembly
+                 {
+                     Output = new FileInfo(ScriptCoreLib + ".IElement.dll"),
+                     assembly = new FileInfo(ScriptCoreLib),
+                     type = "ScriptCoreLib.JavaScript.DOM.IElement"
+                 }
+             );
+
+
+            Add("ScriptCoreLib::INode", () =>
+                 new RewriteToAssembly
+                 {
+                     Output = new FileInfo(ScriptCoreLib + ".INode.dll"),
+                     assembly = new FileInfo(ScriptCoreLib),
+                     type = "ScriptCoreLib.JavaScript.DOM.INode"
+                 }
+             );
 
             Add("ScriptCoreLib::IHTMLDocument", () =>
                new RewriteToAssembly

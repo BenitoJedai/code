@@ -15,6 +15,7 @@ namespace jsc.meta.Commands.Rewrite
 {
     public partial class RewriteToAssembly
     {
+
         internal static void CopyMethod(
             AssemblyBuilder a,
             ModuleBuilder m,
@@ -33,7 +34,9 @@ namespace jsc.meta.Commands.Rewrite
 
             RewriteToAssembly Command,
 
-            Func<string, MethodAttributes, CallingConventions, MethodBuilder> AtCodeTraceDefineMethod
+            Func<string, MethodAttributes, CallingConventions, MethodBuilder> AtCodeTraceDefineMethod,
+
+            Action<MethodBuilder> AtCodeTraceDefineGenericParameters = null
             )
         {
             if (AtCodeTraceDefineMethod == null)
@@ -113,16 +116,21 @@ namespace jsc.meta.Commands.Rewrite
             }
             else
             {
-                if (Command != null)
-                    Command.WriteDiagnostics("DefineMethod " + MethodName);
+                //if (Command != null)
+                //    Command.WriteDiagnostics("DefineMethod " + MethodName);
 
- 
 
-                DeclaringMethod = AtCodeTraceDefineMethod(
+
+                DeclaringMethod = DeclaringType.DefineMethod(
                     MethodName,
                     MethodAttributes__,
-                    SourceMethod.CallingConvention
+                     SourceMethod.CallingConvention,
+                    null,
+                    null
                 );
+
+
+          
             }
 
             context.MethodCache[SourceMethod] = DeclaringMethod;
@@ -142,10 +150,10 @@ namespace jsc.meta.Commands.Rewrite
                 // this method a second time causes an InvalidOperationException.
                 var GenericNames = ga.Select(k => k.Name).ToArray();
 
-                if (Command != null)
-                    Command.WriteDiagnostics("DefineGenericParameters " + MethodName);
+                var gp = default(GenericTypeParameterBuilder[]);
 
-                var gp = DeclaringMethod.DefineGenericParameters(GenericNames);
+
+                gp = DeclaringMethod.DefineGenericParameters(GenericNames);
 
                 for (int i = 0; i < gp.Length; i++)
                 {
@@ -159,15 +167,12 @@ namespace jsc.meta.Commands.Rewrite
                         var GenericParameter = gp[i];
 
                         // any issues if circular referencing?
-                        var Constraint = DelayedTypeCache(item);
+                        //var Constraint = DelayedTypeCache(item);
+                        var Constraint = context.TypeDefinitionCache[item];
 
                         if (item.IsInterface)
                         {
-                            if (Command != null)
-                                Command.WriteDiagnostics("SetInterfaceConstraints " + new { Constraint = Constraint.Name, Type = gp[i].Name });
-
-
-                            GenericParameter.SetInterfaceConstraints(typeof(IComparable));
+                            GenericParameter.SetInterfaceConstraints(Constraint);
                         }
                         else
                             GenericParameter.SetBaseTypeConstraint(Constraint);
