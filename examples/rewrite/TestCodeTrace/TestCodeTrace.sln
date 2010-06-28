@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCodeTrace", "TestCodeTrace\TestCodeTrace.csproj", "{E2BC55D6-4A33-494D-8496-735FAFB67CE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCodeTraceB", "TestCodeTraceB\TestCodeTraceB.csproj", "{3D920902-4DFD-48F8-8B85-CF914761B48F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{E2BC55D6-4A33-494D-8496-735FAFB67CE1}.Debug|x86.Build.0 = Debug|x86
 		{E2BC55D6-4A33-494D-8496-735FAFB67CE1}.Release|x86.ActiveCfg = Release|x86
 		{E2BC55D6-4A33-494D-8496-735FAFB67CE1}.Release|x86.Build.0 = Release|x86
+		{3D920902-4DFD-48F8-8B85-CF914761B48F}.Debug|x86.ActiveCfg = Debug|x86
+		{3D920902-4DFD-48F8-8B85-CF914761B48F}.Debug|x86.Build.0 = Debug|x86
+		{3D920902-4DFD-48F8-8B85-CF914761B48F}.Release|x86.ActiveCfg = Release|x86
+		{3D920902-4DFD-48F8-8B85-CF914761B48F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

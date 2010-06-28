@@ -33,6 +33,8 @@ namespace jsc.Languages.IL
             /// We are adding IL to a method. This method may already have defined some variables
             /// of which we are not aware of. This would allow
             /// us to enable method composition.
+            /// 
+            /// Note: this may not be needed afterall...
             /// </summary>
             public Func<int, int> TranslateLocalIndex = LocalIndex => LocalIndex;
 
