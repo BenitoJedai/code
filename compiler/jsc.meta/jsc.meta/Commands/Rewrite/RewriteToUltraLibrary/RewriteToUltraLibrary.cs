@@ -73,6 +73,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 			var r = new RewriteToAssembly
 			{
+                EnableDelayedFileMove = true,
+
                 DisableIsMarkedForMerge = this.DisableIsMarkedForMerge,
 
 				obfuscate = this.Obfuscate,
