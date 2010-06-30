@@ -591,7 +591,7 @@ namespace jsc.meta.Commands.Rewrite
 
                             (MethodBuilder DeclaringMethod) =>
                             {
-                                
+
                             }
                         );
                         return;
@@ -876,12 +876,12 @@ namespace jsc.meta.Commands.Rewrite
                                 },
 
 
-             
+
 
                             AtCodeTraceDefineGenericParameters =
                               delegate
                               {
-                                  
+
                               }
                         };
 
@@ -1078,7 +1078,7 @@ namespace jsc.meta.Commands.Rewrite
 
                              delegate
                              {
-                                
+
 
                              }
                         );
@@ -1288,11 +1288,18 @@ namespace jsc.meta.Commands.Rewrite
 
                 var Temp = Path.Combine(Product.Directory.FullName, "~" + Product.Name);
 
-                new FileInfo(
-                    Temp
-                ).CopyTo(this.Output.FullName, true);
+                // The process cannot access the file 'c:\util\jsc\bin\ScriptCoreLib.dll' because it is being used by another process.
+                // http://stackoverflow.com/questions/1337961/powershell-unload-module-completely
 
-                File.Delete(Temp);
+                if (this.EnableDelayedFileMove)
+                {
+                    Program.DelayedMoveFile(Temp, this.Output.FullName);
+                }
+                else
+                {
+                    File.Copy(Temp, this.Output.FullName, true);
+                    File.Delete(Temp);
+                }
             }
 
             Product.Refresh();

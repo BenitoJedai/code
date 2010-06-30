@@ -41,7 +41,9 @@ namespace jsc.meta
 			Console.WriteLine();
 		}
 
-		public static void Main(string[] args)
+        public static Action<string, string> DelayedMoveFile;
+
+		internal static void InternalMain(string[] args)
 		{
 			// This is the front-end compiler for jsc solutions...
 

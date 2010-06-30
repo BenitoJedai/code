@@ -41,6 +41,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="ScriptCoreLib.Redux.UltraSource">
+      <HintPath>bin\staging.UltraSource\ScriptCoreLib.Redux.UltraSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScript\Redux.cs" />
@@ -52,10 +55,18 @@
       <Name>ScriptCoreLib %28ScriptCoreLib\ScriptCoreLib%29</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="JavaScript\IDL\CanvasRenderingContext2D.idl" />
+    <Content Include="JavaScript\IDL\!References.htm" />
+    <Content Include="JavaScript\IDL\webgl.idl" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"  /PrimaryAssembly:"$(TargetPath)"  /AssemblyMerge:"c:\util\jsc\bin\ScriptCoreLib.dll" /AssemblyMerge:"$(TargetPath)"
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"  /PrimaryAssembly:"c:\util\jsc\bin\ScriptCoreLib.dll" /AssemblyMerge:"$(TargetPath)" /AssemblyMerge:"$(TargetDir)$(TargetName).UltraSource.dll"
 </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

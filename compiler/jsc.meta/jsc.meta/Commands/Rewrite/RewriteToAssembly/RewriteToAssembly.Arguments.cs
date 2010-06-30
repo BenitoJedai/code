@@ -205,6 +205,9 @@ namespace jsc.meta.Commands.Rewrite
         public bool DisableIsMarkedForMerge;
 
 
-        //public FileInfo CodeTrace;
+        /// <summary>
+        /// To rewrite a loaded module this flag must be set.
+        /// </summary>
+        public bool EnableDelayedFileMove;
     }
 }
