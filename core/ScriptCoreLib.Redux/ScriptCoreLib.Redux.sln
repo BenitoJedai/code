@@ -15,33 +15,33 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Redux.Avalon"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
 		Debug|Any CPU = Debug|Any CPU
-		HTShop|Any CPU = HTShop|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
-		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.HTShop|Any CPU.Build.0 = Release|Any CPU
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.HTShop|Any CPU.ActiveCfg = HTShop|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.HTShop|Any CPU.Build.0 = HTShop|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
-		{0910EC49-6697-4664-8A71-F09CAEC02E88}.HTShop|Any CPU.Build.0 = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.HTShop|Any CPU.ActiveCfg = Release|Any CPU
-		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.HTShop|Any CPU.Build.0 = Release|Any CPU
 		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

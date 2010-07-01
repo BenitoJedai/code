@@ -72,7 +72,6 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
             KnownTypeCache["any"] = typeof(object);
             KnownTypeCache["short"] = typeof(short);
             KnownTypeCache["unsigned short"] = typeof(ushort);
-            KnownTypeCache["float"] = typeof(float);
             KnownTypeCache["boolean"] = typeof(bool);
             KnownTypeCache["long"] = typeof(long);
             KnownTypeCache["unsigned long"] = typeof(ulong);
@@ -80,6 +79,12 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
             KnownTypeCache["byte"] = typeof(sbyte);
             KnownTypeCache["unsigned byte"] = typeof(byte);
             KnownTypeCache["DOMString"] = typeof(string);
+
+            // let's pretend float is a double... :)
+
+            //KnownTypeCache["float"] = typeof(float);
+            KnownTypeCache["float"] = typeof(double);
+
             #endregion
 
 

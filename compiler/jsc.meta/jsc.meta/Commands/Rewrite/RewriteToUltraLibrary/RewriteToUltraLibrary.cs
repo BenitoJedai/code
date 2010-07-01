@@ -11,154 +11,177 @@ using System.Reflection.Emit;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 {
-	public partial class RewriteToUltraLibrary : CommandBase
-	{
+    public partial class RewriteToUltraLibrary : CommandBase
+    {
 
-		public override void Invoke()
-		{
-			if (this.AttachDebugger)
-				Debugger.Launch();
+        public override void Invoke()
+        {
+            if (this.AttachDebugger)
+                Debugger.Launch();
 
+            InitializeLocalAssemblies();
 
             var ExplicitAssemblyMerge = new RewriteToAssembly.AssemblyMergeInstruction[] { PrimaryAssembly.FullName }.Concat(
                 this.AssemblyMerge
             );
 
 
-			var UltraSourceReferences = Enumerable.ToArray(
-				from pp in new[] { PrimaryProject }
-				where pp != null
-				from k in pp.HintPaths
-				where Path.GetFileNameWithoutExtension(k).EndsWith(ReferenceUltraSource.UltraSource)
-				let p = Path.Combine(PrimaryAssembly.Directory.FullName, Path.GetFileName(k))
-				where File.Exists(p)
-				select p
-			);
+            var UltraSourceReferences = Enumerable.ToArray(
+                from pp in new[] { PrimaryProject }
+                where pp != null
+                from k in pp.HintPaths
+                where Path.GetFileNameWithoutExtension(k).EndsWith(ReferenceUltraSource.UltraSource)
+                let p = Path.Combine(PrimaryAssembly.Directory.FullName, Path.GetFileName(k))
+                where File.Exists(p)
+                select p
+            );
 
-			if (this.Output != null)
-			{
-				this.DisableUltraSourceDetection = true;
-			}
+            if (this.Output != null)
+            {
+                this.DisableUltraSourceDetection = true;
+            }
 
-			if (this.Output == null)
-				this.Output = this.PrimaryAssembly;
+            if (this.Output == null)
+                this.Output = this.PrimaryAssembly;
 
-			if (DisableUltraSourceDetection)
-			{
-				// see? no checks!
-			}
-			else
-			{
-				if (!UltraSourceReferences.Any())
-				{
-					Console.WriteLine("No UltraSource assemblies found to be merged.");
-					return;
-				}
-			}
+            if (DisableUltraSourceDetection)
+            {
+                // see? no checks!
+            }
+            else
+            {
+                if (!UltraSourceReferences.Any())
+                {
+                    Console.WriteLine("No UltraSource assemblies found to be merged.");
+                    return;
+                }
+            }
 
-			var CurrentEntryPoint = default(MethodInfo);
+            var CurrentEntryPoint = default(MethodInfo);
 
-			var AssemblyMerge =
-				Enumerable.Concat(
+            var AssemblyMerge =
+                Enumerable.Concat(
                     ExplicitAssemblyMerge,
 
-					from k in UltraSourceReferences
-					select (RewriteToAssembly.AssemblyMergeInstruction)k
+                    from k in UltraSourceReferences
+                    select (RewriteToAssembly.AssemblyMergeInstruction)k
 
 
-					// the idea is that when we want to merge our UltraSource or Primary with EntryPoint
-					// then we omit unreferenced types. this does not work yet.
-				).Where(k => !this.merge.Any(kk => Path.GetFileNameWithoutExtension(k.name) == kk.name)).ToArray();
+                    // the idea is that when we want to merge our UltraSource or Primary with EntryPoint
+                // then we omit unreferenced types. this does not work yet.
+                ).Where(k => !this.merge.Any(kk => Path.GetFileNameWithoutExtension(k.name) == kk.name)).Distinct().ToArray();
 
 
-			var r = new RewriteToAssembly
-			{
+            var r = new RewriteToAssembly
+            {
                 EnableDelayedFileMove = true,
 
                 DisableIsMarkedForMerge = this.DisableIsMarkedForMerge,
 
-				obfuscate = this.Obfuscate,
+                obfuscate = this.Obfuscate,
+
+                SelectAssemblyMergeAttribute = !RemoveObfuscationMergeAttributes ? (Func<Attribute, Attribute>)null :
+                    a_ =>
+                    {
+                        var o = a_ as ObfuscationAttribute;
+
+                        if (o != null)
+                            if (o.Feature == "merge")
+                                return null;
+
+                        return a_;
+                    },
+
+                AssemblyMerge = AssemblyMerge,
+
+                Output = this.Output,
+
+                PostTypeRewrite =
+                    a =>
+                    {
+                        if (this.EntryPoint != null)
+                        {
+                            if (a.SourceType.FullName == this.EntryPoint.TypeName)
+                            {
+                                var m = a.SourceType.GetMethod(this.EntryPoint.Method, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+
+                                a.Assembly.SetEntryPoint(a.context.MethodCache[m], System.Reflection.Emit.PEFileKinds.WindowApplication);
+                            }
+                        }
+                        else
+                        {
+                            if (CurrentEntryPoint != null)
+                            {
+                                a.Assembly.SetEntryPoint(a.context.MethodCache[CurrentEntryPoint]);
+                            }
+                        }
+                    }
+            };
+
+            r.AssemblyMergeLoadHint +=
+                s =>
+                {
+                    CurrentEntryPoint = CurrentEntryPoint ?? s.EntryPoint;
+                };
 
 
-				AssemblyMerge = AssemblyMerge,
 
-				Output = this.Output,
+            #region on demand code with resources
+            r.merge = this.merge;
 
-				PostTypeRewrite =
-					a =>
-					{
-						if (this.EntryPoint != null)
-						{
-							if (a.SourceType.FullName == this.EntryPoint.TypeName)
-							{
-								var m = a.SourceType.GetMethod(this.EntryPoint.Method, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
 
-								a.Assembly.SetEntryPoint(a.context.MethodCache[m], System.Reflection.Emit.PEFileKinds.WindowApplication);
-							}
-						}
-						else
-						{
-							if (CurrentEntryPoint != null)
-							{
-								a.Assembly.SetEntryPoint(a.context.MethodCache[CurrentEntryPoint]);
-							}
-						}
-					}
-			};
+            #region AtILOverride copy assets
+            r.AtILOverride +=
+                (context, x) =>
+                {
 
-			r.AssemblyMergeLoadHint +=
-				s =>
-				{
-					CurrentEntryPoint = CurrentEntryPoint ?? s.EntryPoint;
-				};
+                    x.BeforeInstruction +=
+                        e =>
+                        {
+                            if (e.i.OpCode == OpCodes.Ldstr)
+                            {
+                                // if it is a websource we need to copy it.
+                                var Assembly = e.i.OwnerMethod.DeclaringType.Assembly;
 
-		
+                                if (r.AssemblyMerge.Any(k => Path.GetFileNameWithoutExtension(k.name) == Assembly.GetName().Name))
+                                {
+                                    // already handled as all resources were copied!
+                                }
+                                else
+                                {
+                                    CurrentScriptResources.Cache[Assembly].AddWhenResource(
+                                        r.RewriteArguments.ScriptResourceWriter,
+                                        e.i.TargetLiteral
+                                    );
+                                }
+                            }
+                        };
+                };
+            #endregion
+            #endregion
 
-			#region on demand code with resources
-			r.merge = this.merge;
+            r.Invoke();
 
-			var CurrentScriptResources = new jsc.meta.Commands.Rewrite.RewriteToJavaScriptDocument.ScriptResources();
+            foreach (var item in UltraSourceReferences)
+            {
+                if (this.Output.Directory == new FileInfo(item).Directory)
+                {
+                    Console.WriteLine("removing " + item);
+                    File.Delete(item);
+                }
+            }
+        }
 
-			#region AtILOverride copy assets
-			r.AtILOverride +=
-				(context, x) =>
-				{
-
-					x.BeforeInstruction +=
-						e =>
-						{
-							if (e.i.OpCode == OpCodes.Ldstr)
-							{
-								// if it is a websource we need to copy it.
-								var Assembly = e.i.OwnerMethod.DeclaringType.Assembly;
-
-								if (r.AssemblyMerge.Any(k => Path.GetFileNameWithoutExtension(k.name) == Assembly.GetName().Name))
-								{
-									// already handled as all resources were copied!
-								}
-								else
-								{
-									CurrentScriptResources.Cache[Assembly].AddWhenResource(
-										r.RewriteArguments.ScriptResourceWriter,
-										e.i.TargetLiteral
-									);
-								}
-							}
-						};
-				};
-			#endregion
-			#endregion
-
-			r.Invoke();
-
-			foreach (var item in UltraSourceReferences)
-			{
-				if (this.Output.Directory == new FileInfo(item).Directory)
-				{
-					Console.WriteLine("removing " + item);
-					File.Delete(item);
-				}
-			}
-		}
-	}
+        Type[] InitializeLocalAssembliesCache;
+        private void InitializeLocalAssemblies()
+        {
+            InitializeLocalAssembliesCache = new[]
+            {
+                typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+                typeof(ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
+                typeof(ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken)
+            };
+        }
+    }
 }

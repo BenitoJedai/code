@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}</ProjectGuid>
+    <ProjectGuid>{2A6EC4A4-324C-4C9E-90C2-1B29D18A7B10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
-    <AssemblyName>ScriptCoreLib.Redux.Avalon</AssemblyName>
+    <RootNamespace>MergeStaticTypesX</RootNamespace>
+    <AssemblyName>MergeStaticTypesX</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,20 +30,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Assets|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Assets\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptCoreLibA">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    <Reference Include="MergeStaticTypes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MergeStaticTypes\bin\Release\MergeStaticTypes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,24 +45,6 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj">
-      <Project>{0910EC49-6697-4664-8A71-F09CAEC02E88}</Project>
-      <Name>ScriptCoreLib.Avalon %28ScriptCoreLib.Avalon\ScriptCoreLib.Avalon%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ScriptCoreLib\ScriptCoreLib.csproj">
-      <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
-      <Name>ScriptCoreLib %28ScriptCoreLib\ScriptCoreLib%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScriptCoreLib.Redux\ScriptCoreLib.Redux.csproj">
-      <Project>{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}</Project>
-      <Name>ScriptCoreLib.Redux</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Avalon\" />
-    <Folder Include="JavaScript\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
