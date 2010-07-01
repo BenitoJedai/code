@@ -60,5 +60,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraLibrary
 
 		public RewriteToAssembly.MergeInstruction[] merge = new RewriteToAssembly.MergeInstruction[0];
         public RewriteToAssembly.AssemblyMergeInstruction[] AssemblyMerge = new RewriteToAssembly.AssemblyMergeInstruction[0];
+
+
+        public bool RemoveObfuscationMergeAttributes;
     }
 }

@@ -54,6 +54,16 @@ namespace jsc.meta.Commands.Rewrite
             {
                 return new AssemblyMergeInstruction { name = e };
             }
+
+            public override string ToString()
+            {
+                return name;
+            }
+
+            public override int GetHashCode()
+            {
+                return this.name.GetHashCode();
+            }
         }
 
 

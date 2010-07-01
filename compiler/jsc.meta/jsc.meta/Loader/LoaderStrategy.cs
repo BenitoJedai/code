@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.Remoting.Lifetime;
 
 namespace jsc.meta.Loader
 {
@@ -23,6 +24,12 @@ namespace jsc.meta.Loader
             // note that common libraries could be used in
             // script applications and be used in the compilers too
             // not all common libraries are designed for all platforms
+
+            // we will choke at 1 day...
+            LifetimeServices.LeaseTime = TimeSpan.FromDays(1);
+            LifetimeServices.RenewOnCallTime = TimeSpan.FromDays(1);
+
+            // http://msdn.microsoft.com/et-ee/magazine/cc300474(en-us).aspx
 
             // new appdomain...
             var WorkerDomain = AppDomain.CreateDomain("Worker");
@@ -46,6 +53,12 @@ namespace jsc.meta.Loader
                 }
             };
 
+            // Object '/8b43cf11_b3f0_47ed_9b00_4c80d129a539/lgla2bey+fnkjamf5yxgxlyv_4.rem' has been disconnected or does not exist at the server.
+
+            // http://stackoverflow.com/questions/2410221/appdomain-and-marshalbyrefobject-life-time-how-to-avoid-remotingexception
+            // http://social.msdn.microsoft.com/forums/en-US/netfxremoting/thread/2047ea91-7ad1-4eaf-84e7-513dd454a22a/
+
+            
             Worker.Invoke(args);
 
 

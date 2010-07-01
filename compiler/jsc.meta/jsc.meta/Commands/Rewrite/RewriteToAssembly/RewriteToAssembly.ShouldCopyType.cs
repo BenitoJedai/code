@@ -20,7 +20,10 @@ namespace jsc.meta.Commands.Rewrite
         {
             return PrimaryTypes.Any(k => k.Assembly == ContextAssembly)
                 ||
-                this.merge.Any(k => k.name == ContextAssembly.GetName().Name);
+                this.merge.Any(k => k.name == ContextAssembly.GetName().Name)
+                ||
+                // note that we may have loaded a local copy of an asssembly...
+                this.AssemblyMerge.Any(k => new FileInfo(k.name).Name == new FileInfo(ContextAssembly.Location).Name);
         }
 
         private bool ShouldCopyType(Type ContextType)

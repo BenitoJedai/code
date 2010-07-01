@@ -245,15 +245,16 @@ namespace jsc.meta.Commands.Rewrite
                     // GenericArguments[0], 'System.Object', 
                     // on 'IDocument`1[TConstraint2]' violates the constraint of type parameter 'TConstraint2'.
 
-                    // you better have CLR 4!
 
                     // An attempt was made to load a program with an incorrect format. (Exception from HRESULT: 0x8007000B)
-                    
+
                     // Method 'GetEnumerator' in type 'ScriptCoreLib.JavaScript.DOM.ICommentNode' 
                     // from assembly 'ScriptCoreLib.dll.IDocument, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' 
                     // does not have an implementation.
 
                     // Access is denied: 'WhyIncorrectFormat.C'.
+
+                    // you better have CLR 4!
                     t.CreateType();
 
 
@@ -519,6 +520,29 @@ namespace jsc.meta.Commands.Rewrite
 
             }
 
+            class DuplicateInfo
+            {
+                public string DeclaringTypeFullName;
+                public TypeBuilder DeclaringType;
+
+                public Type SourceType;
+
+                public override string ToString()
+                {
+                    return GetDeclaringAssemblyOrSourceAssembly().ToString();
+                }
+
+                private Assembly GetDeclaringAssemblyOrSourceAssembly()
+                {
+                    return (DeclaringType ?? SourceType).Assembly;
+                }
+
+                public static  implicit operator DuplicateInfo(Type t)
+                {
+                    return new DuplicateInfo { SourceType = t };
+                }
+            }
+
             private TypeBuilder DefineType(TypeBuilder _DeclaringType, string TypeName, Type BaseType, TypeAttributes TypeAttributes)
             {
                 #region DefineType
@@ -559,12 +583,19 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     var DefineTypeName = FullNameFixup(TypeName);
 
-                    Func<IEnumerable<Type>> GetDuplicates =
-                        () => context.TypeDefinitionCache.BaseDictionary.Values.Where(k => k != null).Where(
-                            k => (
-                                (string.IsNullOrEmpty(k.Namespace) ? "" : k.Namespace + ".") + k.Name
-                        ) == DefineTypeName
-                    );
+                    Func<IEnumerable<DuplicateInfo>> GetDuplicates =
+                        () =>
+                            from k in context.TypeDefinitionCache.BaseDictionary.Keys
+                            let v = context.TypeDefinitionCache.BaseDictionary[k]
+                            where v != null
+                            let FullName = (string.IsNullOrEmpty(k.Namespace) ? "" : k.Namespace + ".") + k.Name
+                            where FullName == DefineTypeName
+                            select new DuplicateInfo
+                            {
+                                DeclaringType = (TypeBuilder)v,
+                                SourceType = k,
+                                DeclaringTypeFullName = FullName
+                            };
 
 
                     while (GetDuplicates().Any())
@@ -581,7 +612,7 @@ namespace jsc.meta.Commands.Rewrite
                             // C = A + B
                             // D = C + B
 
-                            var Conflicts = GetDuplicates().Concat(new[] { SourceType }).Select(k => k.Assembly.ToString()).ToArray();
+                            var Conflicts = GetDuplicates().Concat(new[] { (DuplicateInfo)SourceType }).Select(k => k.ToString()).ToArray();
 
 
                             throw new InvalidOperationException(

@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 using ScriptCoreLib;
 using System;
+using ScriptCoreLib.Shared;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -37,8 +38,9 @@ using System;
 [assembly: AssemblyVersion("3.0.*")]
 [assembly: AssemblyFileVersion("3.0.*")]
 
-[assembly: Script(IsCoreLib = true)
-	//,ScriptResources("external")
+[assembly: 
+    Script(IsCoreLib = true)
+    //ScriptResources("assets/ScriptCoreLib")
 ]
 
 [assembly:

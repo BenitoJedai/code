@@ -828,6 +828,21 @@ namespace jsc.meta.Library
             return dll.LoadAssemblyAt(target) ?? exe.LoadAssemblyAt(target);
         }
 
+        public static Assembly ToAssemblyOrAppDomainAssembly(this FileInfo f)
+        {
+            var AlreadyLoadedAssembly = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(k => !(k is AssemblyBuilder))
+                .SingleOrDefault(k =>
+                    
+                    // we will not be able to load multiple assamblies with the same name later...
+                    new FileInfo(k.Location).Name == f.Name
+                );
+
+            if (AlreadyLoadedAssembly != null)
+                return AlreadyLoadedAssembly;
+
+            return Assembly.LoadFile(f.FullName);
+        }
 
         public static Assembly LoadAssemblyAt(this FileInfo assembly, DirectoryInfo target)
         {
@@ -839,7 +854,7 @@ namespace jsc.meta.Library
             var AlreadyLoadedAssembly = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(k => !(k is AssemblyBuilder))
                 .SingleOrDefault(k =>
-                    new FileInfo(k.Location).FullName == target_assembly
+                    new FileInfo(k.Location).Name == assembly.Name
                 );
 
             if (AlreadyLoadedAssembly != null)

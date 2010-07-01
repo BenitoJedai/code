@@ -28,6 +28,8 @@ namespace jsc.meta.Commands.Rewrite
             InternalInvoke();
         }
 
+        internal Func<Attribute, Attribute> SelectAssemblyMergeAttribute;
+
         public void InternalInvoke()
         {
 
@@ -147,7 +149,9 @@ namespace jsc.meta.Commands.Rewrite
                                 shadow
                             );
 
-                        var shadow_assembly = Assembly.LoadFile(shadow);
+
+                        // ? what? :)
+                        var shadow_assembly = new FileInfo(shadow).ToAssemblyOrAppDomainAssembly();
 
                         if (this.AssemblyMergeLoadHint != null)
                             this.AssemblyMergeLoadHint(shadow_assembly);
@@ -174,7 +178,14 @@ namespace jsc.meta.Commands.Rewrite
                             {
                                 // should we copy attributes? should they be opt-out?
 
-                                foreach (var item in shadow_assembly.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+                                foreach (var item in 
+                                    from k_ in shadow_assembly.GetCustomAttributes(false)
+                                    let kk = SelectAssemblyMergeAttribute == null ? 
+                                        (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
+
+                                    where kk != null
+                                    select kk.ToCustomAttributeBuilder()
+                                    )
                                 {
                                     __a.SetCustomAttribute(item(this.RewriteArguments.context));
                                 }
@@ -292,7 +303,15 @@ namespace jsc.meta.Commands.Rewrite
                         var _SetMethod = k.GetSetMethod(true);
                         var _GetMethod = k.GetGetMethod(true);
 
-                        var kp = t.DefineProperty(PropertyName, k.Attributes, TypeCache[k.PropertyType], null);
+                        // http://channel9.msdn.com/forums/TechOff/251252-Reflection-Emit-C-Indexer-problem/
+                        var kp = t.DefineProperty(
+                            PropertyName,
+                            k.Attributes,
+                            TypeCache[k.PropertyType],
+
+                            TypeCache[k.GetIndexParameters().Select(kk => kk.ParameterType).ToArray()]
+
+                        );
 
                         if (_SetMethod != null)
                             kp.SetSetMethod((MethodBuilder)MethodCache[_SetMethod]);
@@ -744,28 +763,36 @@ namespace jsc.meta.Commands.Rewrite
 
                             //this.WriteDiagnostics("DefineField " + FieldName);
 
-                            var FieldType = TypeCache[SourceField.FieldType];
+                            var FieldType = TypeDefinitionCache[SourceField.FieldType];
 
-                            var FieldAttributes = SourceField.Attributes;
-
-                            var DeclaringField = default(FieldBuilder);
-
-                            DeclaringField = DeclaringType.DefineField(
-                                 FieldName,
-                                 FieldType,
-                                 FieldAttributes
-                            );
-
-
-                            if (SourceField.IsLiteral)
+                            if (FieldCache.BaseDictionary.ContainsKey(SourceField))
                             {
-                                // should we enable constant value override? :)
+                            }
+                            else
+                            {
+                                var FieldAttributes = SourceField.Attributes;
 
-                                DeclaringField.SetConstant(SourceField.GetRawConstantValue());
+                                var DeclaringField = default(FieldBuilder);
+
+                                DeclaringField = DeclaringType.DefineField(
+                                     FieldName ,
+                                     FieldType,
+                                     FieldAttributes
+                                );
+
+
+                                if (SourceField.IsLiteral)
+                                {
+                                    // should we enable constant value override? :)
+
+                                    DeclaringField.SetConstant(SourceField.GetRawConstantValue());
+                                }
+
+
+                                FieldCache[SourceField] = DeclaringField;
                             }
 
-
-                            FieldCache[SourceField] = DeclaringField;
+                            FieldType = TypeCache[SourceField.FieldType];
                         }
                     }
                     else
@@ -781,10 +808,15 @@ namespace jsc.meta.Commands.Rewrite
                 };
             #endregion
 
+            // assemblies loaded at different locatiuons will have different hashes for types but the GUIDs are the same
+
+
             #region TypeDefinitionCache
             TypeDefinitionCache.Resolve +=
                 (SourceType) =>
                 {
+            
+
                     if (SourceType.Assembly is AssemblyBuilder)
                     {
                         // not going to merge already merged type.
@@ -1177,6 +1209,8 @@ namespace jsc.meta.Commands.Rewrite
 
                     ClosePartialDefinitions[SourceType] = PartialDefinition.IsPartial;
 
+                    var PartialMethods = new List<object>();
+
                     #region GetInterfaceMap
                     if (DeclaringType.IsClass && !DeclaringType.IsAbstract)
                     {
@@ -1199,12 +1233,21 @@ namespace jsc.meta.Commands.Rewrite
                         {
                             var VirtualMethod = VirtualMethod_.TargetMethod;
 
+                            PartialMethods.Add(
+                                new 
+                                {
+                                    VirtualMethod.Name,
+                                    VirtualMethod.ReturnType,
+                                    GetParameterTypes = TypeDefinitionCache[ VirtualMethod.GetParameterTypes()]
+                                }
+                            );
+
                             DeclaringType.DefineMethod(
                                 VirtualMethod.Name,
                                 VirtualMethod.Attributes,
                                 VirtualMethod.CallingConvention,
                                 VirtualMethod.ReturnType,
-                                VirtualMethod.GetParameterTypes()
+                                TypeDefinitionCache[ VirtualMethod.GetParameterTypes()]
                             ).NotImplemented();
                         }
                     }
