@@ -42,8 +42,12 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="jsc">
+      <HintPath>C:\util\jsc\bin\jsc.exe</HintPath>
+    </Reference>
+    <Reference Include="jsc.meta, Version=1.0.3834.20645, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore">

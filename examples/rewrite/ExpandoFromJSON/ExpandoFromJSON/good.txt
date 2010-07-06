@@ -1,0 +1,44 @@
+.method public hidebysig static class ExpandoFromJSON.Expando FromJSON(string e) cil managed
+{
+    .maxstack 2
+    .locals init (
+        [0] class ExpandoFromJSON.Expando r,
+        [1] class ExpandoFromJSON.Expando CS$1$0000,
+        [2] bool CS$4$0001)
+     nop 
+     ldnull 
+     stloc.0 
+     ldarg.0 
+     ldnull 
+     ceq 
+     stloc.2 
+     ldloc.2 
+     brtrue.s L_0035
+     nop 
+     nop 
+     ldstr "return;"
+     newobj instance void ExpandoFromJSON.IFunction::.ctor(string)
+     call instance class ExpandoFromJSON.Expando ExpandoFromJSON.IFunction::CreateType()
+     stloc.0 
+     nop 
+     leave.s L_0033
+     pop 
+     nop 
+     ldstr "Could not create object from json string : "
+     ldarg.0 
+     call string [mscorlib]System.String::Concat(string, string)
+     newobj instance void [mscorlib]System.Exception::.ctor(string)
+     throw 
+     nop 
+     nop 
+     ldloc.0 
+     stloc.1 
+     br.s L_0039
+     ldloc.1 
+     ret 
+    .try L_000c to L_0020 catch object handler L_0020 to L_0033
+}
+
+ 
+
+ 
