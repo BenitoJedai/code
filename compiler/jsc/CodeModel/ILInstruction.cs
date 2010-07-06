@@ -192,6 +192,12 @@ namespace jsc
                 if (this.Join == i)
                     return false;
 
+                // why is StackAfter null?
+                // 2010.01.32: it seems OpCodes.Leave has StackAfter null.. why?
+
+                if (i.StackAfter == null)
+                    return false;
+
                 if (i.StackAfter.Count == 0)
                 {
                     if (i.InlineIfElseConstruct != null)
@@ -2362,7 +2368,7 @@ namespace jsc
                 if (n.Length == 25)
                 {
                     if (
-                        
+
                         n[1].OpCode == OpCodes.Ldfld
                         && n[7].OpCode == OpCodes.Call
                         && n[8].OpCode == OpCodes.Castclass
