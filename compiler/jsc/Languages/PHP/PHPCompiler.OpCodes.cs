@@ -30,8 +30,7 @@ namespace jsc.Script.PHP
 					EmitFirstOnStack(e);
 				};
 
-			CIW[OpCodes.Leave,
-				OpCodes.Leave_S] =
+			CIW[OpCodes.Leave, OpCodes.Leave_S] =
 				e =>
 				{
 					var b = e.i.Flow.OwnerBlock;

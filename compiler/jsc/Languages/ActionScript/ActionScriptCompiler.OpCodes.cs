@@ -360,8 +360,7 @@ namespace jsc.Languages.ActionScript
 					else throw new NotSupportedException("invalid br opcode");
 				};
 
-			CIW[OpCodes.Leave,
-				OpCodes.Leave_S] =
+			CIW[OpCodes.Leave, OpCodes.Leave_S] =
 				e =>
 				{
 					var b = e.i.Flow.OwnerBlock;

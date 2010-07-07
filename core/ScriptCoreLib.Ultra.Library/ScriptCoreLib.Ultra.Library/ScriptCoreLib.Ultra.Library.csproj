@@ -76,6 +76,7 @@
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\IOGenericExtensions.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
+    <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />

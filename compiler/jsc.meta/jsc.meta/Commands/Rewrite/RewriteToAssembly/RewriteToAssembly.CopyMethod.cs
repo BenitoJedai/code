@@ -191,6 +191,7 @@ namespace jsc.meta.Commands.Rewrite
                 throw new InvalidOperationException();
 
             DeclaringMethod.SetParameters(Parameters);
+            // Calling this method replaces a return type established using the TypeBuilder.DefineMethod method.
             DeclaringMethod.SetReturnType(DelayedTypeCache(SourceMethod.ReturnType));
 
             DelayedTypeCacheList.Invoke();
@@ -312,6 +313,7 @@ namespace jsc.meta.Commands.Rewrite
                                 {
                                     //Console.WriteLine(".endcatch");
                                     e.il.EndExceptionBlock();
+                                   
 
                                 }
                             }
@@ -392,16 +394,16 @@ namespace jsc.meta.Commands.Rewrite
                 {
                 };
 
-            x[OpCodes.Leave_S] =
-                e =>
-                {
-                    // see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
+            //x[OpCodes.Leave_S] =
+            //    e =>
+            //    {
+            //        // see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
 
-                    // MethodBuilder.Emit is too nice and always writes .leave for us.
-                    // As such we need not to write this twice
-                };
+            //        // MethodBuilder.Emit is too nice and always writes .leave for us.
+            //        // As such we need not to write this twice
+            //    };
 
-            x[OpCodes.Leave] =
+            x[OpCodes.Leave, OpCodes.Leave_S] =
                 e =>
                 {
                     // see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
