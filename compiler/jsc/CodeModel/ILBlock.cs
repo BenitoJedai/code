@@ -8,6 +8,7 @@ using System.Reflection.Emit;
 using System.Linq;
 
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 
 using jsc.CodeModel;
 using jsc.Script;
@@ -651,7 +652,7 @@ namespace jsc
                         ILBlock.PrestatementBlock b = Block.Prestatements;
 
                         bool _pop = false;
-                        bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+                        bool _leave = OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
                         b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 
@@ -666,7 +667,7 @@ namespace jsc
                         bool _leave =
                             b.Last == OpCodes.Endfinally
                         ||
-                            (b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+                            (OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
                         b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 

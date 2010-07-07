@@ -780,6 +780,12 @@ namespace jsc.meta.Commands.Rewrite
                                      FieldAttributes
                                 );
 
+                                // should we copy attributes? should they be opt-out?
+                                foreach (var item in SourceField.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+                                {
+                                    DeclaringField.SetCustomAttribute(item(this.RewriteArguments.context));
+                                }
+
 
                                 if (SourceField.IsLiteral)
                                 {

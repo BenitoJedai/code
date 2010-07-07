@@ -16,6 +16,7 @@ using jsc.CodeModel;
 using ScriptCoreLib;
 using jsc.Script;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Extensions;
 namespace jsc.Languages.Java
 {
 
@@ -41,7 +42,7 @@ namespace jsc.Languages.Java
 					ILBlock.PrestatementBlock b = p.Block.Prestatements;
 
 					bool _pop = false;
-					bool _leave = b.Last.IsAnyOpCodeOf(OpCodes.Leave_S, OpCodes.Leave) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+					bool _leave = OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
 					EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
 				};
@@ -58,7 +59,7 @@ namespace jsc.Languages.Java
 						bool _leave =
 							b.Last == OpCodes.Endfinally
 						||
-							(b.Last.IsAnyOpCodeOf(OpCodes.Leave_S, OpCodes.Leave) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+							(OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
 						b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 
@@ -161,7 +162,7 @@ namespace jsc.Languages.Java
 				bool _leave =
 					b.Last == OpCodes.Endfinally
 				||
-					(b.Last.IsAnyOpCodeOf(OpCodes.Leave_S, OpCodes.Leave) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+					(OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
 				b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 

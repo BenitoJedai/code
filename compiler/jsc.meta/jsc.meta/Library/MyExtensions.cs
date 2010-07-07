@@ -853,7 +853,10 @@ namespace jsc.meta.Library
 
             var AlreadyLoadedAssembly = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(k => !(k is AssemblyBuilder))
-                .SingleOrDefault(k =>
+                // yay. thanks .net 4 for breaking changes :)
+                .Where(k => k.GetType().Name != "InternalAssemblyBuilder")
+                // why would we have multiple matches?
+                .FirstOrDefault(k =>
                     new FileInfo(k.Location).Name == assembly.Name
                 );
 

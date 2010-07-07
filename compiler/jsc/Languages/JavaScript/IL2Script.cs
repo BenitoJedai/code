@@ -19,6 +19,7 @@ namespace jsc
     using ili = ILInstruction;
     using ilfsi = ILFlow.StackItem;
     using ScriptCoreLib.Tools;
+    using ScriptCoreLib.Extensions;
 
 
 
@@ -173,9 +174,8 @@ namespace jsc
 
                         bool _pop = false;
                         bool _leave =
-                            (b.Last == OpCodes.Leave_S
-                                || b.Last == OpCodes.Leave
-                            ) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+                            OpCodeExtensions.IsOpCodeLeave(b.Last)
+                             && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
                         EmitScope(w, b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last), false);
 
@@ -196,7 +196,7 @@ namespace jsc
                         bool _leave =
                             b.Last == OpCodes.Endfinally
                         ||
-                            (b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+                            (OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
                         b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 

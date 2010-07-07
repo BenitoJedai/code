@@ -10,6 +10,7 @@ using System.Linq;
 using jsc.CodeModel;
 
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.Script.PHP
 {
@@ -600,7 +601,7 @@ namespace jsc.Script.PHP
 				ILBlock.PrestatementBlock b = p.Block.Prestatements;
 
 				bool _pop = false;
-				bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+				bool _leave = OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
 				EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
 
@@ -620,7 +621,7 @@ namespace jsc.Script.PHP
 				bool _leave =
 					b.Last == OpCodes.Endfinally
 				||
-					(b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+					(OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
 				b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 

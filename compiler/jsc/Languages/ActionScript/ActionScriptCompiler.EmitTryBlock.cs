@@ -7,6 +7,7 @@ using System.Xml;
 using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.Languages.ActionScript
 {
@@ -24,7 +25,7 @@ namespace jsc.Languages.ActionScript
                 ILBlock.PrestatementBlock b = p.Block.Prestatements;
 
                 bool _pop = false;
-                bool _leave = b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
+                bool _leave = OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First;
 
                 EmitScope(b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last));
 
@@ -44,7 +45,7 @@ namespace jsc.Languages.ActionScript
                 bool _leave =
                     b.Last == OpCodes.Endfinally
                 ||
-                    (b.Last == OpCodes.Leave_S && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
+                    (OpCodeExtensions.IsOpCodeLeave(b.Last) && b.Last.TargetInstruction == b.OwnerBlock.NextNonClauseBlock.First);
 
                 b = b.ExtractBlock(_pop ? b.First.Next : b.First, _leave ? b.Last.Prev : b.Last);
 
