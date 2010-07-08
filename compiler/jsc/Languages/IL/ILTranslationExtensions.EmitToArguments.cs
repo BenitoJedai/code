@@ -369,6 +369,7 @@ namespace jsc.Languages.IL
 					OpCodes.Ceq,
 
 					OpCodes.Rem,
+					OpCodes.Rem_Un,
 					OpCodes.Not,
 					OpCodes.Sub,
 					OpCodes.Sub_Ovf,
