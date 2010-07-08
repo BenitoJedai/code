@@ -53,7 +53,13 @@
       <Name>CLR45</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="xassets\adhocgamedisplay.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>START /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToReplacedReferences /Assembly:"$(TargetPath)" /Output:"$(TargetPath).25.dll" /References:"mscorlib;2:0:5:0;7C EC 85 D7 BE A7 79 8E" /AttachDebugger:false</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

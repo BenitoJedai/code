@@ -5,11 +5,14 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.IDL
 {
+
+
     public class IDLParserToken : IEnumerable<IDLParserToken>
     {
         public readonly string Source;
-        public int Position;
-        public int Length;
+
+        public int Position { get; set; }
+        public int Length { get; set; }
 
         public static implicit operator IDLParserToken(string Source)
         {
@@ -176,11 +179,20 @@ namespace ScriptCoreLib.Ultra.IDL
             }
         }
 
+        string InternalText;
+
         public string Text
         {
             get
             {
+                if (InternalText != null)
+                    return InternalText;
+
                 return this.Source.Substring(this.Position, this.Length);
+            }
+            set
+            {
+                InternalText = value;
             }
         }
 

@@ -107,9 +107,13 @@
     <Compile Include="Ultra\IDL\IDLModule.cs" />
     <Compile Include="Ultra\IDL\IDLParser.cs" />
     <Compile Include="Ultra\IDL\IDLParserToken.cs" />
+    <Compile Include="Ultra\IDL\IDLParserTokenExtensions.cs" />
     <Compile Include="Ultra\IDL\IDLParserTokenPair.cs" />
     <Compile Include="Ultra\IDL\IDLTypeDefinition.cs" />
     <Compile Include="Ultra\IDL\IDLTypeReference.cs" />
+    <Compile Include="Ultra\IL\ILAssembly.cs" />
+    <Compile Include="Ultra\IL\ILAssemblyExtern.cs" />
+    <Compile Include="Ultra\IL\ILParser.cs" />
     <Compile Include="Ultra\Library\CachedFileGeneratorBase.cs" />
     <Compile Include="Ultra\Library\Disposable.cs" />
     <Compile Include="Extensions\CryptographyExtensions.cs" />
