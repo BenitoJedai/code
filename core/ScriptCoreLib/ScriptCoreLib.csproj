@@ -725,9 +725,9 @@
     <EmbeddedResource Include="web\assets\ScriptCoreLib\jsc.png" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ActionScript\Documents\" />
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
-    <Folder Include="Documents\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

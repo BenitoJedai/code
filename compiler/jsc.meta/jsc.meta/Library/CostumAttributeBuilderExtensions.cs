@@ -10,176 +10,182 @@ using jsc.Languages.IL;
 
 namespace jsc.meta.Library
 {
-	public static class CostumAttributeBuilderExtensions
-	{
-		public static Func<ILTranslationContext, CustomAttributeBuilder> ToCustomAttributeBuilder(this object a)
-		{
-			var x = Enumerable.FirstOrDefault(
-				from t in new[] { a.GetType() }
+    public static class CostumAttributeBuilderExtensions
+    {
+        public static Func<ILTranslationContext, CustomAttributeBuilder> ToCustomAttributeBuilder(this object a)
+        {
+            var x = Enumerable.FirstOrDefault(
+                from t in new[] { a.GetType() }
 
-				// is there a constructor which saves all parameters to fields?
+                // is there a constructor which saves all parameters to fields?
 
-				// http://msdn.microsoft.com/en-us/library/system.security.permissions.permissionsetattribute(VS.100).aspx
+                // http://msdn.microsoft.com/en-us/library/system.security.permissions.permissionsetattribute(VS.100).aspx
 
-				let ctor = Enumerable.FirstOrDefault(
+                let ctor = Enumerable.FirstOrDefault(
 
-					from c in t.GetConstructors(BindingFlags.Public | BindingFlags.Instance)
-					let args = c.GetParameters()
-					orderby args.Length descending
-					let il = new ILBlock(c)
+                    from c in t.GetConstructors(BindingFlags.Public | BindingFlags.Instance)
+                    let args = c.GetParameters()
+                    orderby args.Length descending
+                    let il = new ILBlock(c)
 
-					let ldarg_stfld = Enumerable.ToArray(
-						from i in il.Instructrions
-						let p = i.TargetParameter
-						where p != null
-						let stfld = i.NextInstruction
-						let f = stfld.TargetField
-						where f != null
-						group f by p
-					)
+                    let ldarg_stfld = Enumerable.ToArray(
+                        from i in il.Instructrions
+                        let p = i.TargetParameter
+                        where p != null
+                        let stfld = i.NextInstruction
+                        let f = stfld.TargetField
+                        where f != null
+                        group f by p
+                    )
 
-					where ldarg_stfld.Length == args.Length
-
-
-					select new { c, args, ldarg_stfld }
-				)
-				
-				where ctor != null
-
-				let ctor_params = ctor.ldarg_stfld.Select(k => k.First().GetValue(a)).ToArray()
-
-				let def = Activator.CreateInstance(t, ctor_params)
-
-				let properties = Enumerable.ToArray(
-					from p in t.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-					where p.CanRead
-					where p.CanWrite
-					let value = p.GetValue(a, null)
-					where !Equals(value, p.GetValue(def, null), p.PropertyType)
-					select new { p, value }
-				)
-
-				let fields = Enumerable.ToArray(
-					from p in t.GetFields(BindingFlags.Public | BindingFlags.Instance)
-					where !p.IsInitOnly
-					where !ctor.ldarg_stfld.Any(k => k.First() == p)
-					let value = p.GetValue(a)
-					where !Equals(value, p.GetValue(def), p.FieldType)
-					select new { p, value }
-				)
-
-				select new { ctor, ctor_params, properties, fields }
-			);
+                    where ldarg_stfld.Length == args.Length
 
 
-			return context =>
-			{
-				Func<object[], object[]> ff =
-					e => e.Select(k => k is Type ? context.TypeCache[(Type)k] : k).ToArray();
+                    select new { c, args, ldarg_stfld }
+                )
 
-				// Property must be on the same type of the given ConstructorInfo.
-				if (x == null)
-					return null;
+                where ctor != null
 
-				return new CustomAttributeBuilder(
-					context.ConstructorCache[x.ctor.c],
-					ff(x.ctor_params),
+                let ctor_params = ctor.ldarg_stfld.Select(k => k.First().GetValue(a)).ToArray()
 
-					x.properties.Select(k => context.PropertyCache[k.p]).ToArray(),
-					ff(x.properties.Select(k => k.value).ToArray()),
+                let def = Activator.CreateInstance(t, ctor_params)
 
-					x.fields.Select(k => context.FieldCache[k.p]).ToArray(),
-					ff(x.fields.Select(k => k.value).ToArray())
+                let properties = Enumerable.ToArray(
+                    from p in t.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                    where p.CanRead
+                    where p.CanWrite
+                    let value = p.GetValue(a, null)
+                    where !Equals(value, p.GetValue(def, null), p.PropertyType)
+                    select new { p, value }
+                )
 
-				);
-			};
-		}
+                let fields = Enumerable.ToArray(
+                    from p in t.GetFields(BindingFlags.Public | BindingFlags.Instance)
+                    where !p.IsInitOnly
+                    where !ctor.ldarg_stfld.Any(k => k.First() == p)
+                    let value = p.GetValue(a)
+                    where !Equals(value, p.GetValue(def), p.FieldType)
+                    select new { p, value }
+                )
 
-		internal static bool Equals(object a, object b, Type t)
-		{
-			// are we doing the right thing here?
-			// we need to compare primitives and objects...
+                select new { ctor, ctor_params, properties, fields }
+            );
 
-			var Comparer = typeof(Comparer<>).MakeGenericType(t);
-			var Default = (IComparer)Comparer.GetProperty("Default").GetValue(null, null);
 
-			return Default.Compare(a, b) == 0;
-		}
+            return context =>
+            {
+                Func<Type, Type> TypeCache = SourceType => context == null ? SourceType : context.TypeCache[SourceType];
+                Func<ConstructorInfo, ConstructorInfo> ConstructorCache = SourceConstructor => context == null ? SourceConstructor : context.ConstructorCache[SourceConstructor];
+                Func<PropertyInfo, PropertyInfo> PropertyCache = SourceProperty => context == null ? SourceProperty : context.PropertyCache[SourceProperty];
+                Func<FieldInfo, FieldInfo> FieldCache = SourceField => context == null ? SourceField : context.FieldCache[SourceField];
 
-		public static void TestFeature()
-		{
-			var i = typeof(MyClass).GetCustomAttributes(false).Select(k => ToCustomAttributeBuilder(k)).ToArray();
-		}
-	}
-	namespace Templates
-	{
-		[global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-		sealed class MyAttribute : Attribute
-		{
-			// See the attribute guidelines at 
-			//  http://go.microsoft.com/fwlink/?LinkId=85236
-			readonly string positionalString;
 
-			// This is a positional argument
-			public MyAttribute(string positionalString)
-			{
-				this.positionalString = positionalString;
+                Func<object[], object[]> ff =
+                    e => e.Select(k => k is Type ? TypeCache((Type)k) : k).ToArray();
 
-			}
+                // Property must be on the same type of the given ConstructorInfo.
+                if (x == null)
+                    return null;
 
-			public MyAttribute(string positionalString, int i)
-			{
-				this.positionalString = positionalString;
+                return new CustomAttributeBuilder(
+                    ConstructorCache(x.ctor.c),
+                    ff(x.ctor_params),
 
-			}
+                    x.properties.Select(k => PropertyCache(k.p)).ToArray(),
+                    ff(x.properties.Select(k => k.value).ToArray()),
 
-			public string PositionalString
-			{
-				get { return positionalString; }
-			}
+                    x.fields.Select(k => FieldCache(k.p)).ToArray(),
+                    ff(x.fields.Select(k => k.value).ToArray())
 
-			// This is a named argument
-			public int NamedInt { get; set; }
+                );
+            };
+        }
 
-			public int Field1;
-		}
+        internal static bool Equals(object a, object b, Type t)
+        {
+            // are we doing the right thing here?
+            // we need to compare primitives and objects...
 
-		[global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-		sealed class My2Attribute : Attribute
-		{
-			// See the attribute guidelines at 
-			//  http://go.microsoft.com/fwlink/?LinkId=85236
-			readonly string positionalString;
+            var Comparer = typeof(Comparer<>).MakeGenericType(t);
+            var Default = (IComparer)Comparer.GetProperty("Default").GetValue(null, null);
 
-			// This is a positional argument
+            return Default.Compare(a, b) == 0;
+        }
 
-			public My2Attribute()
-			{
+        public static void TestFeature()
+        {
+            var i = typeof(MyClass).GetCustomAttributes(false).Select(k => ToCustomAttributeBuilder(k)).ToArray();
+        }
+    }
+    namespace Templates
+    {
+        [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
+        sealed class MyAttribute : Attribute
+        {
+            // See the attribute guidelines at 
+            //  http://go.microsoft.com/fwlink/?LinkId=85236
+            readonly string positionalString;
 
-			}
+            // This is a positional argument
+            public MyAttribute(string positionalString)
+            {
+                this.positionalString = positionalString;
 
-			public My2Attribute(string positionalString)
-			{
+            }
 
-				this.positionalString = positionalString;
+            public MyAttribute(string positionalString, int i)
+            {
+                this.positionalString = positionalString;
 
-			}
+            }
 
-			public string PositionalString
-			{
-				get { return positionalString; }
-			}
+            public string PositionalString
+            {
+                get { return positionalString; }
+            }
 
-			// This is a named argument
-			public int NamedInt { get; set; }
+            // This is a named argument
+            public int NamedInt { get; set; }
 
-			public int Field1;
-		}
+            public int Field1;
+        }
 
-		[My("Y", Field1 = 1, NamedInt = 2)]
-		class MyClass
-		{
+        [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
+        sealed class My2Attribute : Attribute
+        {
+            // See the attribute guidelines at 
+            //  http://go.microsoft.com/fwlink/?LinkId=85236
+            readonly string positionalString;
 
-		}
-	}
+            // This is a positional argument
+
+            public My2Attribute()
+            {
+
+            }
+
+            public My2Attribute(string positionalString)
+            {
+
+                this.positionalString = positionalString;
+
+            }
+
+            public string PositionalString
+            {
+                get { return positionalString; }
+            }
+
+            // This is a named argument
+            public int NamedInt { get; set; }
+
+            public int Field1;
+        }
+
+        [My("Y", Field1 = 1, NamedInt = 2)]
+        class MyClass
+        {
+
+        }
+    }
 }

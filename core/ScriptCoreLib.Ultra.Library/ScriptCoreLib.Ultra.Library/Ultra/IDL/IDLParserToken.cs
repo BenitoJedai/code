@@ -253,6 +253,39 @@ namespace ScriptCoreLib.Ultra.IDL
             return this;
         }
 
+        public class Literal
+        {
+            public IDLParserToken Value;
 
+            public static implicit operator Literal(IDLParserToken e)
+            {
+                if (e == null)
+                    return null;
+
+                return new Literal { Value = e };
+            }
+
+            public static implicit operator IDLParserToken(Literal e)
+            {
+                if (e == null)
+                    return null;
+
+                return e.Value;
+            }
+
+
+            public static implicit operator Literal(string e)
+            {
+                if (e == null)
+                    return null;
+
+
+                var n = new Literal { Value = e };
+
+                n.Value.Length = e.Length;
+
+                return n;
+            }
+        }
     }
 }

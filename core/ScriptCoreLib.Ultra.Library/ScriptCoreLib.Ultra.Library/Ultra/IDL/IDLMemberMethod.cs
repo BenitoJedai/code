@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Ultra.IDL
     {
         public IDLParserToken KeywordGetter;
         public IDLParserToken KeywordSetter;
-        public IDLTypeReference Type;
+        public IDLTypeReference ReturnType;
         public IDLParserToken Name;
 
         public readonly IDLParserTokenPair ParameterSymbols = new IDLParserTokenPair();

@@ -14,6 +14,7 @@ using jsc.Library;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib;
+using System.Reflection;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 {
@@ -178,6 +179,30 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                     );
 
 
+                    var MethodCache = item.Interface.GetMethods().ToDictionary(
+                        k => k,
+                        SourceMethod =>
+                        {
+                            var ReturnType = typeof(void);
+
+                            if (SourceMethod.ReturnType != null)
+                                ReturnType = TypeCache[SourceMethod.ReturnType];
+
+                            var Method = t.DefineMethod(SourceMethod.Name.Text, System.Reflection.MethodAttributes.Public,
+                                ReturnType,
+                                SourceMethod.Parameters.Select(k => TypeCache[k.ParameterType]).ToArray()
+                            );
+
+                            for (int i = 0; i < SourceMethod.Parameters.Count; i++)
+                            {
+                                Method.DefineParameter(i + 1, System.Reflection.ParameterAttributes.None, SourceMethod.Parameters[i].Name.Text);
+                            }
+
+                            Method.NotImplemented();
+
+                            return Method;
+                        }
+                    );
 
                     foreach (var m in item.Interface.Members)
                     {
@@ -222,29 +247,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         );
                         #endregion
 
-                        #region SourceMethod
-                        (m as IDLMemberMethod).With(
-                            SourceMethod =>
-                            {
-                                var ReturnType = typeof(void);
 
-                                if (SourceMethod.Type != null)
-                                    ReturnType = TypeCache[SourceMethod.Type];
-
-                                var Method = t.DefineMethod(SourceMethod.Name.Text, System.Reflection.MethodAttributes.Public,
-                                    ReturnType,
-                                    SourceMethod.Parameters.Select(k => TypeCache[k.ParameterType]).ToArray()
-                                );
-
-                                for (int i = 0; i < SourceMethod.Parameters.Count; i++)
-                                {
-                                    Method.DefineParameter(i + 1, System.Reflection.ParameterAttributes.None, SourceMethod.Parameters[i].Name.Text);
-                                }
-
-                                Method.NotImplemented();
-                            }
-                        );
-                        #endregion
 
                         #region SourceConstructor
                         (m as IDLMemberConstructor).With(
@@ -266,6 +269,48 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         );
                         #endregion
 
+                    }
+
+                    //     getter GLubyte get(in unsigned long index);
+                    //    setter void set(in unsigned long index, in GLubyte value);
+
+                    var IndexerName = "Item";
+                    var IndexerGetter = item.Interface.GetMethods().FirstOrDefault(
+                        k => k.KeywordGetter != null && k.Parameters.Count == 1
+                    );
+
+                    var IndexerSetter = item.Interface.GetMethods().FirstOrDefault(
+                        k => k.KeywordSetter != null && k.Parameters.Count == 2 && k.ReturnType.ToString() == "void"
+                    );
+
+                    if (IndexerGetter != null)
+                    {
+                        // now the types must also match
+                        var IndexerKeyType = IndexerGetter.Parameters[0].ParameterType;
+                        var IndexerValueType = IndexerGetter.ReturnType;
+
+                        if (IndexerKeyType.ToString() == IndexerSetter.Parameters[0].ParameterType.ToString())
+                            if (IndexerValueType.ToString() == IndexerSetter.Parameters[1].ParameterType.ToString())
+                            {
+                                var Indexer = t.DefineProperty(IndexerName, System.Reflection.PropertyAttributes.SpecialName,
+                                    TypeCache[IndexerValueType], new[] { TypeCache[IndexerKeyType] }
+                                );
+
+                                if (IndexerSetter != null)
+                                    if (IndexerKeyType.ToString() == IndexerSetter.Parameters[0].ParameterType.ToString())
+                                        if (IndexerValueType.ToString() == IndexerSetter.Parameters[1].ParameterType.ToString())
+                                        {
+                                            Indexer.SetSetMethod(MethodCache[IndexerSetter]);
+                                        }
+
+                                Indexer.SetGetMethod(MethodCache[IndexerGetter]);
+
+                                t.SetCustomAttribute(
+                                    new DefaultMemberAttribute(IndexerName).ToCustomAttributeBuilder()(null)
+                                );
+
+                                // calling a getter on a native type which is an indexer should reuse given language syntax...
+                            }
                     }
 
                     t.CreateType();
