@@ -13,1510 +13,1568 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc
 {
-	using ilbp = ILBlock.Prestatement;
-	using ilfsi = ILFlow.StackItem;
-	using ili = ILInstruction;
+    using ilbp = ILBlock.Prestatement;
+    using ilfsi = ILFlow.StackItem;
+    using ili = ILInstruction;
 
-	public delegate void OpCodeHandler(IdentWriter w, ilbp p, ili i, ilfsi[] s);
+    public delegate void OpCodeHandler(IdentWriter w, ilbp p, ili i, ilfsi[] s);
 
-	partial class IL2ScriptGenerator
-	{
+    partial class IL2ScriptGenerator
+    {
 
 
-		internal static OpCodeHandler[] InternalHandlers;
+        internal static OpCodeHandler[] InternalHandlers;
 
-		public class HandlersWrapper
-		{
-			public OpCodeHandler this[params OpCode[] i]
-			{
-				set
-				{
-					foreach (OpCode c in i)
-						this[c] = value;
-				}
-			}
+        public class HandlersWrapper
+        {
+            public OpCodeHandler this[params OpCode[] i]
+            {
+                set
+                {
+                    foreach (OpCode c in i)
+                        this[c] = value;
+                }
+            }
 
-			public OpCodeHandler this[OpCode i]
-			{
-				get
-				{
-					return this[i.Value];
-				}
-				set
-				{
-					this[i.Value] = value;
-				}
-			}
+            public OpCodeHandler this[OpCode i]
+            {
+                get
+                {
+                    return this[i.Value];
+                }
+                set
+                {
+                    this[i.Value] = value;
+                }
+            }
 
-			public OpCodeHandler this[short i]
-			{
-				get
-				{
-					return IL2ScriptGenerator.InternalHandlers[i & 0x0000ffff];
-				}
-				set
-				{
-					IL2ScriptGenerator.InternalHandlers[i & 0x0000ffff] = value;
-				}
-			}
-		}
+            public OpCodeHandler this[short i]
+            {
+                get
+                {
+                    return IL2ScriptGenerator.InternalHandlers[i & 0x0000ffff];
+                }
+                set
+                {
+                    IL2ScriptGenerator.InternalHandlers[i & 0x0000ffff] = value;
+                }
+            }
+        }
 
-		static readonly HandlersWrapper _Handlers = new HandlersWrapper();
+        static readonly HandlersWrapper _Handlers = new HandlersWrapper();
 
-		static public HandlersWrapper Handlers
-		{
-			get { return _Handlers; }
-		}
+        static public HandlersWrapper Handlers
+        {
+            get { return _Handlers; }
+        }
 
-		static IL2ScriptGenerator()
-		{
-			InternalHandlers = new OpCodeHandler[0xFFFF];
+        static IL2ScriptGenerator()
+        {
+            InternalHandlers = new OpCodeHandler[0xFFFF];
 
-			CreateInstructionHandlers();
-		}
+            CreateInstructionHandlers();
+        }
 
 
-		static void OpCodeHandlerLogic(IdentWriter w, ilbp p, ili i, ILBlock.InlineLogic logic)
-		{
+        static void OpCodeHandlerLogic(IdentWriter w, ilbp p, ili i, ILBlock.InlineLogic logic)
+        {
 
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
-			{
-				if (logic.IsNegative)
-					w.Write("!");
+            if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
+            {
+                if (logic.IsNegative)
+                    w.Write("!");
 
-				w.Write("(");
+                w.Write("(");
 
 
-				OpCodeHandlerLogic(w, p, i, logic.lhs);
+                OpCodeHandlerLogic(w, p, i, logic.lhs);
 
-				w.WriteSpace();
-				w.Write("&&");
-				w.WriteSpace();
+                w.WriteSpace();
+                w.Write("&&");
+                w.WriteSpace();
 
-				OpCodeHandlerLogic(w, p, i, logic.rhs);
+                OpCodeHandlerLogic(w, p, i, logic.rhs);
 
-				w.Write(")");
+                w.Write(")");
 
-				return;
-			}
+                return;
+            }
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.OrOperator)
-			{
-				if (logic.IsNegative)
-					w.Write("!");
+            if (logic.hint == ILBlock.InlineLogic.SpecialType.OrOperator)
+            {
+                if (logic.IsNegative)
+                    w.Write("!");
 
-				w.Write("(");
-				OpCodeHandlerLogic(w, p, i, logic.lhs);
+                w.Write("(");
+                OpCodeHandlerLogic(w, p, i, logic.lhs);
 
-				w.WriteSpace();
-				w.Write("||");
-				w.WriteSpace();
+                w.WriteSpace();
+                w.Write("||");
+                w.WriteSpace();
 
-				OpCodeHandlerLogic(w, p, i, logic.rhs);
+                OpCodeHandlerLogic(w, p, i, logic.rhs);
 
-				w.Write(")");
+                w.Write(")");
 
-				return;
-			}
+                return;
+            }
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.Value)
-			{
-				if (logic.IsNegative)
-					w.Write("!");
+            if (logic.hint == ILBlock.InlineLogic.SpecialType.Value)
+            {
+                if (logic.IsNegative)
+                    w.Write("!");
 
-				OpCodeHandler(w, p, logic.value.SingleStackInstruction, null);
+                OpCodeHandler(w, p, logic.value.SingleStackInstruction, null);
 
-				return;
-			}
+                return;
+            }
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.IfClause)
-			{
-				w.Write("(");
+            if (logic.hint == ILBlock.InlineLogic.SpecialType.IfClause)
+            {
+                w.Write("(");
 
-				if (logic.IsNegative)
-				{
-					w.Write("!");
+                if (logic.IsNegative)
+                {
+                    w.Write("!");
 
-				}
+                }
 
-				w.Write("(");
+                w.Write("(");
 
-				if (logic.IfClause.Branch == OpCodes.Brtrue_S
-					|| logic.IfClause.Branch == OpCodes.Brfalse_S)
-					OpCodeHandler(w, p, logic.IfClause.Branch, logic.IfClause.Branch.StackBeforeStrict[0]);
-				else
-					OpCodeHandler(w, p, logic.IfClause.Branch, null);
+                if (logic.IfClause.Branch == OpCodes.Brtrue_S
+                    || logic.IfClause.Branch == OpCodes.Brfalse_S)
+                    OpCodeHandler(w, p, logic.IfClause.Branch, logic.IfClause.Branch.StackBeforeStrict[0]);
+                else
+                    OpCodeHandler(w, p, logic.IfClause.Branch, null);
 
-				w.Write(")");
+                w.Write(")");
 
-				w.WriteSpace();
-				w.Write("?");
-				w.WriteSpace();
+                w.WriteSpace();
+                w.Write("?");
+                w.WriteSpace();
 
-				ILBlock.PrestatementBlock block;
-
-				block = p.Owner.ExtractBlock(
-					/*logic.IsNegative ? logic.IfClause.FFirst :*/ logic.IfClause.BodyFalseFirst,
-					/*logic.IsNegative ? logic.IfClause.FLast :*/ logic.IfClause.BodyFalseLast
-				);
+                ILBlock.PrestatementBlock block;
+
+                block = p.Owner.ExtractBlock(
+                    /*logic.IsNegative ? logic.IfClause.FFirst :*/ logic.IfClause.BodyFalseFirst,
+                    /*logic.IsNegative ? logic.IfClause.FLast :*/ logic.IfClause.BodyFalseLast
+                );
 
-				// todo: explicit boolean
+                // todo: explicit boolean
 
-				OpCodeHandler(w,
-				  block.PrestatementCommands[block.PrestatementCommands.Count - 1],
-				  block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction,
-				  null
-				  );
+                OpCodeHandler(w,
+                  block.PrestatementCommands[block.PrestatementCommands.Count - 1],
+                  block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction,
+                  null
+                  );
 
 
 
-				w.WriteSpace();
-				w.Write(":");
-				w.WriteSpace();
+                w.WriteSpace();
+                w.Write(":");
+                w.WriteSpace();
 
-				block = p.Owner.ExtractBlock(
-					/*!logic.IsNegative ?*/ logic.IfClause.BodyTrueFirst /*: logic.IfClause.TFirst*/,
-					/*!logic.IsNegative ?*/ logic.IfClause.BodyTrueLast /*: logic.IfClause.TLast*/
-				);
+                block = p.Owner.ExtractBlock(
+                    /*!logic.IsNegative ?*/ logic.IfClause.BodyTrueFirst /*: logic.IfClause.TFirst*/,
+                    /*!logic.IsNegative ?*/ logic.IfClause.BodyTrueLast /*: logic.IfClause.TLast*/
+                );
 
 
-				OpCodeHandler(w,
-					block.PrestatementCommands[block.PrestatementCommands.Count - 1],
-					block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction,
-					null
-					);
-
+                OpCodeHandler(w,
+                    block.PrestatementCommands[block.PrestatementCommands.Count - 1],
+                    block.PrestatementCommands[block.PrestatementCommands.Count - 1].Instruction,
+                    null
+                    );
+
 
-				w.Write(")");
+                w.Write(")");
 
-				return;
-			}
+                return;
+            }
 
-			Debugger.Break();
-		}
+            Debugger.Break();
+        }
 
-		public static void OpCodeHandlerArgument(IdentWriter w, ilbp p)
-		{
-			OpCodeHandlerArgument(w, p, p.Instruction, p.Instruction.StackBeforeStrict[0]);
-		}
+        public static void OpCodeHandlerArgument(IdentWriter w, ilbp p)
+        {
+            OpCodeHandlerArgument(w, p, p.Instruction, p.Instruction.StackBeforeStrict[0]);
+        }
 
-		static void OpCodeHandlerArgument(IdentWriter w, ilbp p, ili i, ilfsi s)
-		{
-			if (s.StackInstructions.Length == 1)
-			{
-				OpCodeHandler(w, p, s.SingleStackInstruction, null);
-			}
-			else
-			{
-				OpCodeHandlerLogic(w, p, i, s.InlineLogic(p.Owner.MemoryBy(s)));
-			}
-		}
+        static void OpCodeHandlerArgument(IdentWriter w, ilbp p, ili i, ilfsi s)
+        {
+            if (s.StackInstructions.Length == 1)
+            {
+                OpCodeHandler(w, p, s.SingleStackInstruction, null);
+            }
+            else
+            {
+                OpCodeHandlerLogic(w, p, i, s.InlineLogic(p.Owner.MemoryBy(s)));
+            }
+        }
 
-		public static void OpCodeHandler(IdentWriter w, ilbp p)
-		{
-			IL2ScriptGenerator.Handlers[p.Instruction.OpCode.Value](w, p, p.Instruction, p.Instruction.StackBeforeStrict);
-		}
+        public static void OpCodeHandler(IdentWriter w, ilbp p)
+        {
+            IL2ScriptGenerator.Handlers[p.Instruction.OpCode.Value](w, p, p.Instruction, p.Instruction.StackBeforeStrict);
+        }
 
-		/// <summary>
-		/// resolves operand (stackitem) -or- if s is null, resolves raw opcode
-		/// </summary>
-		/// <param name="w"></param>
-		/// <param name="p"></param>
-		/// <param name="i"></param>
-		/// <param name="s"></param>
-		public static void OpCodeHandler(IdentWriter w, ilbp p, ili i, ilfsi s)
-		{
-			if (s == null)
-			{
-				if (i == null)
-				{
-					w.Write("0 /* null instruction*/");
-
-					return;
-				}
-
-				// if debugger breaks, opcode is missing
-				if (Handlers[i] == null)
-				{
-					Task.Error("opcode unsupported - {0}", i);
-					Task.Fail(i);
-
-				}
-				else
-				{
-
-
-					Handlers[i](w, p, i, i.StackBeforeStrict);
-				}
-			}
-			else
-			{
-				OpCodeHandlerArgument(w, p, i, s);
-			}
-		}
-
-
-
-
-
-		static void OpCode_call_override(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
-		{
-			ScriptAttribute sq = ScriptAttribute.OfProvider(m);
-			ScriptAttribute sqt = ScriptAttribute.OfProvider(m.DeclaringType);
-
-			if (sqt == null && ScriptAttribute.IsAnonymousType(m.DeclaringType))
-				sqt = new ScriptAttribute();
-
-			// definition not found
-			if (sqt == null && !m.DeclaringType.IsInterface)
-			{
-				using (StringWriter sw = new StringWriter())
-				{
-					if (m.IsStatic)
-						sw.Write("static ");
-
-					sw.Write("{0}.{1}",
-						(m.DeclaringType.IsGenericType ?
-						m.DeclaringType.GetGenericTypeDefinition() :
-						m.DeclaringType).FullName, m.Name);
-					sw.Write("(");
-					int pix = 0;
-					foreach (ParameterInfo pi in m.GetParameters())
-					{
-						if (pix++ > 0)
-							sw.Write(", ");
-
-						sw.Write(pi.ParameterType.FullName);
-					}
-
-					sw.Write(")");
-
-					MethodBase x = w.Session.ResolveImplementationTrace(m.DeclaringType, m);
-
-					if (x == null)
-					{
-						Task.Error("No implementation found for this native method, please implement [{0}]", sw.ToString());
-						Task.Warning("Did you reference ScriptCoreLib via IAssemblyReferenceToken?", sw.ToString());
-					}
-					else
-						Task.Error("method was found, but too late: [{0}]", x.Name);
+        /// <summary>
+        /// resolves operand (stackitem) -or- if s is null, resolves raw opcode
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="p"></param>
+        /// <param name="i"></param>
+        /// <param name="s"></param>
+        public static void OpCodeHandler(IdentWriter w, ilbp p, ili i, ilfsi s)
+        {
+            if (s == null)
+            {
+                if (i == null)
+                {
+                    w.Write("0 /* null instruction*/");
+
+                    return;
+                }
+
+                // if debugger breaks, opcode is missing
+                if (Handlers[i] == null)
+                {
+                    Task.Error("opcode unsupported - {0}", i);
+                    Task.Fail(i);
+
+                }
+                else
+                {
+
+
+                    Handlers[i](w, p, i, i.StackBeforeStrict);
+                }
+            }
+            else
+            {
+                OpCodeHandlerArgument(w, p, i, s);
+            }
+        }
+
+
+
+
+
+        static void OpCode_call_override(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
+        {
+            ScriptAttribute sq = ScriptAttribute.OfProvider(m);
+            ScriptAttribute sqt = ScriptAttribute.OfProvider(m.DeclaringType);
+
+            if (sqt == null && ScriptAttribute.IsAnonymousType(m.DeclaringType))
+                sqt = new ScriptAttribute();
+
+            // definition not found
+            if (sqt == null && !m.DeclaringType.IsInterface)
+            {
+                using (StringWriter sw = new StringWriter())
+                {
+                    if (m.IsStatic)
+                        sw.Write("static ");
+
+                    sw.Write("{0}.{1}",
+                        (m.DeclaringType.IsGenericType ?
+                        m.DeclaringType.GetGenericTypeDefinition() :
+                        m.DeclaringType).FullName, m.Name);
+                    sw.Write("(");
+                    int pix = 0;
+                    foreach (ParameterInfo pi in m.GetParameters())
+                    {
+                        if (pix++ > 0)
+                            sw.Write(", ");
+
+                        sw.Write(pi.ParameterType.FullName);
+                    }
+
+                    sw.Write(")");
+
+                    MethodBase x = w.Session.ResolveImplementationTrace(m.DeclaringType, m);
+
+                    if (x == null)
+                    {
+                        Task.Error("No implementation found for this native method, please implement [{0}]", sw.ToString());
+                        Task.Warning("Did you reference ScriptCoreLib via IAssemblyReferenceToken?", sw.ToString());
+                    }
+                    else
+                        Task.Error("method was found, but too late: [{0}]", x.Name);
 
-					Task.Fail(i);
+                    Task.Fail(i);
 
-					return;
-				}
-				Debugger.Break();
-			}
+                    return;
+                }
+                Debugger.Break();
+            }
 
-			if (!m.IsStatic && sq != null && sq.DefineAsStatic)
-			{
-				w.WriteDecoratedMemberInfo(m);
+            if (!m.IsStatic && sq != null && sq.DefineAsStatic)
+            {
+                w.WriteDecoratedMemberInfo(m);
 
-				w.Write("(");
-				OpCodeHandler(w, p, i, s[0]);
-				if (s.Length > 1)
-				{
-					w.Helper.WriteDelimiter();
-					w.WriteParameters(p, i, s, 1, m);
-				}
-				w.Write(")");
-			}
-			else
-			{
-				if (m.IsStatic)
-				{
-					w.WriteDecoratedMemberInfo(m);
+                w.Write("(");
+                OpCodeHandler(w, p, i, s[0]);
+                if (s.Length > 1)
+                {
+                    w.Helper.WriteDelimiter();
+                    w.WriteParameters(p, i, s, 1, m);
+                }
+                w.Write(")");
+            }
+            else
+            {
+                if (m.IsStatic)
+                {
+                    w.WriteDecoratedMemberInfo(m);
 
-				}
-				else
-				{
-					// target
-					w.WriteHint("impl_type");
-					OpCodeHandler(w, p, i, s[0]);
-					w.Write(".");
+                }
+                else
+                {
+                    // target
+                    w.WriteHint("impl_type");
+                    OpCodeHandler(w, p, i, s[0]);
+                    w.Write(".");
+
+
+                    // method
+                    if (sqt != null && (sqt.ExternalTarget != null || sqt.HasNoPrototype))
+                    {
+                        w.Write(m.Name);
+                    }
+                    else
+                    {
+                        if (sq != null && sq.ExternalTarget != null)
+                            w.Write(sq.ExternalTarget);
+                        else
+                            w.WriteDecoratedMemberInfo(m);
+                    }
+                }
+
+                w.Write("(");
+                // arguments
+                w.WriteParameters(p, i, s, m.IsStatic ? 0 : 1, m);
+                w.Write(")");
+            }
+
+
+        }
+
+
+        //public static bool IsToString(MethodBase e)
+        //{
+        //    return e != null && e.Name == "ToString" && !e.IsStatic && e.GetParameters().Length == 0;
+        //}
+
+
+
+        static void OpCode_call(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            MethodBase mm = i.ReferencedMethod;
+
+            if (mm.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+            {
+                if (mm.Name == "InitializeArray")
+                {
+                    throw new SkipThisPrestatementException();
+                }
+            }
+
+            #region fetch method
+            MethodBase m = (MethodBase)i.TargetMethod ?? (MethodBase)i.TargetConstructor;
+
+
+            if (m == null)
+                Debugger.Break();
+            #endregion
+
+
+            if (m.DeclaringType.IsValueType)
+            {
+                if (m is ConstructorInfo)
+                {
+                    // fix this call as it shall be a call to new at the moment
+
+                    OpCodeHandler(w, p, i, s[0]);
+
+                    w.Helper.WriteAssignment();
+
+                    ilfsi[] s2 = new ilfsi[s.Length - 1];
+
+                    Array.Copy(s, 1, s2, 0, s2.Length);
+
+                    WriteCreateType(w, p, i, s2,
+                        w.Session.ResolveImplementation(m.DeclaringType, m) ?? m
+                        );
+
+                    return;
+                    // 
+                }
+            }
+
+            if (mm.DeclaringType.ToScriptAttributeOrDefault().HasNoPrototype)
+            {
+                // we are calling a native method
+
+                var DefaultMemberAttribute = mm.DeclaringType.GetCustomAttributes<DefaultMemberAttribute>().FirstOrDefault();
+
+                if (DefaultMemberAttribute != null)
+                {
+                    foreach (var DefaultMember in
+                        mm.DeclaringType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).Where(k => k.Name == DefaultMemberAttribute.MemberName)
+                        )
+                    {
+
+
+                        if (DefaultMember != null)
+                        {
+                            var Getter = DefaultMember.GetGetMethod();
+                            if (Getter == mm)
+                                if (Getter.ToScriptAttributeOrDefault().DefineAsStatic)
+                                {
+                                    // bail
+                                }
+                                else
+                                {
+                                    OpCodeHandler(w, p, i, s[0]);
+                                    w.Write("[");
+                                    OpCodeHandler(w, p, i, s[1]);
+                                    w.Write("]");
+                                    return;
+                                }
+
+                            var Setter = DefaultMember.GetSetMethod();
+
+                            if (Setter == mm)
+                                if (Setter.ToScriptAttributeOrDefault().DefineAsStatic)
+                                {
+                                    // bail
+                                }
+                                else
+                                {
+                                    OpCodeHandler(w, p, i, s[0]);
+                                    w.Write("[");
+                                    OpCodeHandler(w, p, i, s[1]);
+                                    w.Write("]");
+
+                                    w.WriteSpace();
+                                    w.Write("=");
+                                    w.WriteSpace();
+
+                                    OpCodeHandler(w, p, i, s[2]);
+                                    return;
+                                }
+                        }
+                    }
+                }
+            }
+
+
+            #region toString
+            if (Script.CompilerBase.IsToStringMethod(m))
+            {
+                w.Write("(");
+                OpCodeHandler(w, p, i, s[0]);
+                w.Write("+''");
+                w.Write(")");
+
+                return;
+            }
+            #endregion
 
 
-					// method
-					if (sqt != null && (sqt.ExternalTarget != null || sqt.HasNoPrototype))
-					{
-						w.Write(m.Name);
-					}
-					else
-					{
-						if (sq != null && sq.ExternalTarget != null)
-							w.Write(sq.ExternalTarget);
-						else
-							w.WriteDecoratedMemberInfo(m);
-					}
-				}
 
-				w.Write("(");
-				// arguments
-				w.WriteParameters(p, i, s, m.IsStatic ? 0 : 1, m);
-				w.Write(")");
-			}
+            var found_implementation = w.Session.ResolveImplementation(m.DeclaringType, m);
 
+            OpCode_call_override(w, p, i, s,
+                 found_implementation ?? m
+                 );
 
-		}
 
+        }
 
-		//public static bool IsToString(MethodBase e)
-		//{
-		//    return e != null && e.Name == "ToString" && !e.IsStatic && e.GetParameters().Length == 0;
-		//}
+        static void OpCode_ldstr(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            /*var @break = i.TargetLiteral == "jsc.break";
 
+            if (@break)
+                Debugger.Break();*/
 
+            w.WriteLiteral(i.TargetLiteral);
+        }
 
-		static void OpCode_call(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			MethodBase mm = i.ReferencedMethod;
+        static void OpCode_ldc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
 
-			if (mm.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
-			{
-				if (mm.Name == "InitializeArray")
-				{
-					throw new SkipThisPrestatementException();
-				}
-			}
+            if (i == OpCodes.Ldc_R4)
+            {
+                w.WriteNumeric(i.OpParamAsFloat);
+                return;
+            }
 
-			#region fetch method
-			MethodBase m = (MethodBase)i.TargetMethod ?? (MethodBase)i.TargetConstructor;
+            if (i == OpCodes.Ldc_I8)
+            {
+                w.WriteNumeric((long)i.TargetLong);
+                return;
+            }
 
+            if (i == OpCodes.Ldc_R8)
+            {
+                w.WriteNumeric(i.OpParamAsDouble);
+                return;
+            }
 
-			if (m == null)
-				Debugger.Break();
-			#endregion
-
+            int? n = i.TargetInteger;
 
-			if (m.DeclaringType.IsValueType)
-			{
-				if (m is ConstructorInfo)
-				{
-					// fix this call as it shall be a call to new at the moment
+            if (n == null)
+            {
+                Task.Error("ldc not resolved");
+                Debugger.Break();
+            }
 
-					OpCodeHandler(w, p, i, s[0]);
+            w.WriteNumeric(n.Value);
+        }
 
-					w.Helper.WriteAssignment();
+        static void OpCode_br(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (i.TargetFlow.Branch == OpCodes.Ret)
+            {
+                OpCode_ret(w, p, i.TargetFlow.Branch, i.TargetFlow.Branch.StackBeforeStrict);
+            }
+            else
+            {
+                Task.Error("logic failure");
+                Task.Fail(i);
 
-					ilfsi[] s2 = new ilfsi[s.Length - 1];
+            }
 
-					Array.Copy(s, 1, s2, 0, s2.Length);
+        }
 
-					WriteCreateType(w, p, i, s2,
-						w.Session.ResolveImplementation(m.DeclaringType, m) ?? m
-						);
+        static void OpCode_leave(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            ILBlock b = i.Flow.OwnerBlock;
 
-					return;
-					// 
-				}
-			}
+            if (b.Clause == null)
+            {
+                b = b.Parent;
+            }
 
-			#region toString
-			if (Script.CompilerBase.IsToStringMethod(m))
-			{
-				w.Write("(");
-				OpCodeHandler(w, p, i, s[0]);
-				w.Write("+''");
-				w.Write(")");
+            if (b.Clause == null)
+                Debugger.Break();
 
-				return;
-			}
-			#endregion
 
+            if (b.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
+            {
+                if (b.NextNonClauseBlock == null)
+                    Debugger.Break();
 
 
-			var found_implementation = w.Session.ResolveImplementation(m.DeclaringType, m);
 
-			OpCode_call_override(w, p, i, s,
-				 found_implementation ?? m
-				 );
+                ILBlock.Prestatement tx = i.IndirectReturnPrestatement;
 
+                if (tx != null)
+                {
+                    // redirect
 
-		}
+                    OpCodeHandler(w, tx);
 
-		static void OpCode_ldstr(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			/*var @break = i.TargetLiteral == "jsc.break";
+                    return;
+                }
 
-			if (@break)
-				Debugger.Break();*/
 
-			w.WriteLiteral(i.TargetLiteral);
-		}
+                if (b.NextNonClauseBlock.First == i.TargetInstruction)
+                {
+                    w.Write("/* leave */");
+                    return;
+                }
 
-		static void OpCode_ldc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
 
-			if (i == OpCodes.Ldc_R4)
-			{
-				w.WriteNumeric(i.OpParamAsFloat);
-				return;
-			}
+            }
 
-			if (i == OpCodes.Ldc_I8)
-			{
-				w.WriteNumeric((long)i.TargetLong);
-				return;
-			}
+            if (b.Clause.Flags == ExceptionHandlingClauseOptions.Finally)
+            {
+                ILBlock.Prestatement tx = i.IndirectReturnPrestatement;
 
-			if (i == OpCodes.Ldc_R8)
-			{
-				w.WriteNumeric(i.OpParamAsDouble);
-				return;
-			}
 
-			int? n = i.TargetInteger;
+                if (tx != null)
+                {
+                    // redirect
 
-			if (n == null)
-			{
-				Task.Error("ldc not resolved");
-				Debugger.Break();
-			}
+                    OpCodeHandler(w, tx);
 
-			w.WriteNumeric(n.Value);
-		}
+                    return;
+                }
+            }
 
-		static void OpCode_br(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (i.TargetFlow.Branch == OpCodes.Ret)
-			{
-				OpCode_ret(w, p, i.TargetFlow.Branch, i.TargetFlow.Branch.StackBeforeStrict);
-			}
-			else
-			{
-				Task.Error("logic failure");
-				Task.Fail(i);
+            // this needs to be fixed!
+            throw new NotSupportedException("current OpCodes.Leave cannot be understood at " + i.Location);
+        }
 
-			}
+        static void OpCode_ret(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (s.Length == 0)
+                w.Helper.DOMReturn();
+            else
+                w.Helper.DOMReturnExpression(
+                    delegate { OpCodeHandler(w, p, i, s[0]); }
+                );
 
-		}
+        }
 
-		static void OpCode_leave(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			ILBlock b = i.Flow.OwnerBlock;
+        static void OpCode_ldfld(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (i == OpCodes.Ldfld || i == OpCodes.Ldflda)
+            {
+                OpCodeHandler(w, p, i, s[0]);
 
-			if (b.Clause == null)
-			{
-				b = b.Parent;
-			}
+            }
 
-			if (b.Clause == null)
-				Debugger.Break();
+            if (i == OpCodes.Ldsfld)
+            {
+                object[] o = i.TargetField.DeclaringType.GetCustomAttributes(typeof(ScriptAttribute), true);
 
+                if (o.Length == 1)
+                {
+                    ScriptAttribute sa = o[0] as ScriptAttribute;
 
-			if (b.Clause.Flags == ExceptionHandlingClauseOptions.Clause)
-			{
-				if (b.NextNonClauseBlock == null)
-					Debugger.Break();
+                    if (sa.ExternalTarget != null)
+                    {
+                        Debugger.Break();
 
+                        w.Write(sa.ExternalTarget);
 
+                        goto skip;
+                    }
 
-				ILBlock.Prestatement tx = i.IndirectReturnPrestatement;
+                }
 
-				if (tx != null)
-				{
-					// redirect
+                o = i.TargetField.GetCustomAttributes(typeof(ScriptAttribute), true);
 
-					OpCodeHandler(w, tx);
+                if (o.Length == 1)
+                {
+                    ScriptAttribute sa = o[0] as ScriptAttribute;
 
-					return;
-				}
+                    if (sa.ExternalTarget != null)
+                    {
+                        w.Write(sa.ExternalTarget);
 
+                        return;
+                    }
 
-				if (b.NextNonClauseBlock.First == i.TargetInstruction)
-				{
-					w.Write("/* leave */");
-					return;
-				}
 
+                }
 
-			}
 
-			if (b.Clause.Flags == ExceptionHandlingClauseOptions.Finally)
-			{
-				ILBlock.Prestatement tx = i.IndirectReturnPrestatement;
+            }
 
+        skip:
 
-				if (tx != null)
-				{
-					// redirect
 
-					OpCodeHandler(w, tx);
+            OpCode_DecorateField(w, p, i, s);
+        }
 
-					return;
-				}
-			}
+        static void OpCode_DecorateField(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (i.TargetField == null)
+            {
+                w.Write("/* bad field */");
 
-			// this needs to be fixed!
-			throw new NotSupportedException("current OpCodes.Leave cannot be understood at " + i.Location);
-		}
+                return;
+            }
 
-		static void OpCode_ret(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (s.Length == 0)
-				w.Helper.DOMReturn();
-			else
-				w.Helper.DOMReturnExpression(
-					delegate { OpCodeHandler(w, p, i, s[0]); }
-				);
+            var sa = i.TargetField.DeclaringType.ToScriptAttributeOrDefault();
 
-		}
+            if (sa != null)
+            {
+                if (sa.HasNoPrototype)
+                {
+                    if (i.TargetField.IsStatic)
+                    {
 
-		static void OpCode_ldfld(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (i == OpCodes.Ldfld || i == OpCodes.Ldflda)
-			{
-				OpCodeHandler(w, p, i, s[0]);
+                        goto skip;
+                    }
+                    else
+                        w.Write(".");
 
-			}
 
-			if (i == OpCodes.Ldsfld)
-			{
-				object[] o = i.TargetField.DeclaringType.GetCustomAttributes(typeof(ScriptAttribute), true);
+                    w.Write(i.TargetField.Name);
 
-				if (o.Length == 1)
-				{
-					ScriptAttribute sa = o[0] as ScriptAttribute;
+                    return;
+                }
 
-					if (sa.ExternalTarget != null)
-					{
-						Debugger.Break();
 
-						w.Write(sa.ExternalTarget);
+            }
 
-						goto skip;
-					}
+            if (!i.TargetField.IsStatic)
+                w.Write(".");
 
-				}
+        skip:
 
-				o = i.TargetField.GetCustomAttributes(typeof(ScriptAttribute), true);
+            var TargetField = i.TargetField;
+            var TargetFieldType = TargetField.DeclaringType;
+            var TargetFieldTypeImplementation = w.Session.ResolveImplementation(TargetFieldType);
 
-				if (o.Length == 1)
-				{
-					ScriptAttribute sa = o[0] as ScriptAttribute;
+            if (TargetFieldTypeImplementation != null)
+                if (TargetFieldType != TargetFieldTypeImplementation)
+                {
+                    TargetField = TargetFieldTypeImplementation.GetField(TargetField.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
-					if (sa.ExternalTarget != null)
-					{
-						w.Write(sa.ExternalTarget);
+                    if (TargetField == null)
+                        throw new Exception("BCL implementation does not implement a field: " + i.TargetField.Name + " at " + TargetFieldType.ToString());
+                }
 
-						return;
-					}
+            // static fields live on the global scope
+            // yet when they need to honor [Script(Implements=)]
 
 
-				}
 
+            w.WriteDecoratedMemberInfo(TargetField);
 
-			}
 
-		skip:
+        }
 
+        static void OpCode_stfld(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (i == OpCodes.Stfld) OpCodeHandler(w, p, i, s[0]);
 
-			OpCode_DecorateField(w, p, i, s);
-		}
+            if (i == OpCodes.Stsfld)
+            {
+                object[] o = i.TargetField.DeclaringType.GetCustomAttributes(typeof(ScriptAttribute), true);
 
-		static void OpCode_DecorateField(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (i.TargetField == null)
-			{
-				w.Write("/* bad field */");
+                if (o.Length == 1)
+                {
+                    ScriptAttribute sa = o[0] as ScriptAttribute;
 
-				return;
-			}
+                    if (sa.ExternalTarget != null)
+                    {
+                        Debugger.Break();
 
-			var sa = i.TargetField.DeclaringType.ToScriptAttributeOrDefault();
+                        w.Write(sa.ExternalTarget);
 
-			if (sa != null)
-			{
-				if (sa.HasNoPrototype)
-				{
-					if (i.TargetField.IsStatic)
-					{
+                        goto skip;
+                    }
 
-						goto skip;
-					}
-					else
-						w.Write(".");
+                }
 
 
-					w.Write(i.TargetField.Name);
 
-					return;
-				}
 
+            }
 
-			}
 
-			if (!i.TargetField.IsStatic)
-				w.Write(".");
 
-		skip:
+        skip:
 
-			var TargetField = i.TargetField;
-			var TargetFieldType = TargetField.DeclaringType;
-			var TargetFieldTypeImplementation = w.Session.ResolveImplementation(TargetFieldType);
 
-			if (TargetFieldTypeImplementation != null)
-				if (TargetFieldType != TargetFieldTypeImplementation)
-				{
-					TargetField = TargetFieldTypeImplementation.GetField(TargetField.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            OpCode_DecorateField(w, p, i, s);
 
-					if (TargetField == null)
-						throw new Exception("BCL implementation does not implement a field: " + i.TargetField.Name + " at " + TargetFieldType.ToString());
-				}
 
-			// static fields live on the global scope
-			// yet when they need to honor [Script(Implements=)]
 
 
 
-			w.WriteDecoratedMemberInfo(TargetField);
+            w.WriteSpace();
+            w.Write("=");
+            w.WriteSpace();
 
+            if (OpCodeEmitStringEnum(w, s[s.Length - 1], i.TargetField.FieldType))
+                return;
 
-		}
+            OpCodeHandler(w, p, i, s[s.Length - 1]);
+        }
 
-		static void OpCode_stfld(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (i == OpCodes.Stfld) OpCodeHandler(w, p, i, s[0]);
+        internal static bool OpCodeEmitStringEnum(IdentWriter w, ilfsi s, Type type)
+        {
 
-			if (i == OpCodes.Stsfld)
-			{
-				object[] o = i.TargetField.DeclaringType.GetCustomAttributes(typeof(ScriptAttribute), true);
 
-				if (o.Length == 1)
-				{
-					ScriptAttribute sa = o[0] as ScriptAttribute;
+            if (type != null && type.IsEnum)
+            {
+                ScriptAttribute _enum_a = ScriptAttribute.Of(type);
 
-					if (sa.ExternalTarget != null)
-					{
-						Debugger.Break();
+                if (_enum_a != null && _enum_a.IsStringEnum)
+                {
+                    int? _enum_val = s.SingleStackInstruction.TargetInteger;
 
-						w.Write(sa.ExternalTarget);
+                    if (_enum_val != null)
+                    {
+                        string name = Enum.GetName(type, _enum_val.Value);
 
-						goto skip;
-					}
+                        ScriptAttribute ma = ScriptAttribute.OfTypeMember(type, name);
 
-				}
+                        if (ma != null)
+                        {
+                            if (ma.ExternalTarget != null)
+                            {
+                                w.WriteLiteral(ma.ExternalTarget);
 
+                                return true;
 
+                            }
+                        }
 
 
-			}
+                        w.WriteLiteral(name);
 
 
+                        return true;
+                    }
+                }
+            }
 
-		skip:
 
 
-			OpCode_DecorateField(w, p, i, s);
+            return false;
+        }
 
+        static void OpCode_ldelem(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCodeHandler(w, p, i, s[0]);
+            w.Write("[");
+            OpCodeHandler(w, p, i, s[1]);
+            w.Write("]");
+        }
 
+        static void OpCode_stelem(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCodeHandler(w, p, i, s[0]);
+            w.Write("[");
+            OpCodeHandler(w, p, i, s[1]);
+            w.Write("]");
+            w.WriteSpace();
+            w.Write("=");
+            w.WriteSpace();
 
 
+            OpCodeHandler(w, p, i, s[2]);
+        }
 
-			w.WriteSpace();
-			w.Write("=");
-			w.WriteSpace();
 
-			if (OpCodeEmitStringEnum(w, s[s.Length - 1], i.TargetField.FieldType))
-				return;
+        static void OpCode_stobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCodeHandler(w, p, i, s[0]);
 
-			OpCodeHandler(w, p, i, s[s.Length - 1]);
-		}
+            w.Write("=");
 
-		internal static bool OpCodeEmitStringEnum(IdentWriter w, ilfsi s, Type type)
-		{
+            OpCodeHandler(w, p, i, s[1]);
+        }
 
+        static void OpCode_ldobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCodeHandler(w, p, i, s[0]);
+        }
+        static void OpCode_ldlen(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCodeHandler(w, p, i, s[0]);
+            w.Write(".length");
+        }
 
-			if (type != null && type.IsEnum)
-			{
-				ScriptAttribute _enum_a = ScriptAttribute.Of(type);
 
-				if (_enum_a != null && _enum_a.IsStringEnum)
-				{
-					int? _enum_val = s.SingleStackInstruction.TargetInteger;
+        static void OpCode_ldnull(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            w.Write("null");
+        }
 
-					if (_enum_val != null)
-					{
-						string name = Enum.GetName(type, _enum_val.Value);
 
-						ScriptAttribute ma = ScriptAttribute.OfTypeMember(type, name);
+        static void OpCode_ldvirtftn(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_ldftn(w, p, i, s);
+        }
 
-						if (ma != null)
-						{
-							if (ma.ExternalTarget != null)
-							{
-								w.WriteLiteral(ma.ExternalTarget);
+        static void OpCode_ldtoken(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
 
-								return true;
+            w.Write("new ");
 
-							}
-						}
+            w.Helper.WriteWrappedConstructor(
 
+                w.Session.ResolveImplementation(
+                typeof(RuntimeTypeHandle)
+                ).GetConstructor(new Type[] { typeof(IntPtr) })
 
-						w.WriteLiteral(name);
+                );
 
+            w.Write("(");
 
-						return true;
-					}
-				}
-			}
+            w.Helper.WritePrototypeAlias(
 
+                w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType
 
+                );
 
-			return false;
-		}
+            w.Write(")");
 
-		static void OpCode_ldelem(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCodeHandler(w, p, i, s[0]);
-			w.Write("[");
-			OpCodeHandler(w, p, i, s[1]);
-			w.Write("]");
-		}
+        }
 
-		static void OpCode_stelem(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCodeHandler(w, p, i, s[0]);
-			w.Write("[");
-			OpCodeHandler(w, p, i, s[1]);
-			w.Write("]");
-			w.WriteSpace();
-			w.Write("=");
-			w.WriteSpace();
+        static void OpCode_ldftn(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            var _Method = w.Session.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod) ?? i.TargetMethod;
 
+            w.WriteDecoratedMemberInfo(_Method, true);
+        }
 
-			OpCodeHandler(w, p, i, s[2]);
-		}
 
 
-		static void OpCode_stobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCodeHandler(w, p, i, s[0]);
 
-			w.Write("=");
+        static void OpCode_initobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            // we can only initobj a variable. we cannot init a generic type parameter
+            if (i.Prev.TargetVariable == null)
+                throw new SkipThisPrestatementException();
 
-			OpCodeHandler(w, p, i, s[1]);
-		}
+            //Script.CompilerBase.WriteVisualStudioMessage(jsc.Script.CompilerBase.MessageType.warning, 1001, "init missing: " + i.Method.DeclaringType.FullName + "." + i.Method.Name);
 
-		static void OpCode_ldobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCodeHandler(w, p, i, s[0]);
-		}
-		static void OpCode_ldlen(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCodeHandler(w, p, i, s[0]);
-			w.Write(".length");
-		}
+            w.WriteDecorated(i.OwnerMethod, i.Prev.TargetVariable);
 
 
-		static void OpCode_ldnull(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			w.Write("null");
-		}
+            w.WriteSpace();
+            w.Write("=");
+            w.WriteSpace();
 
+            if (i.TargetType.IsGenericParameter)
+                w.Write("void(0)");
+            else
+            {
+                var type = w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType;
 
-		static void OpCode_ldvirtftn(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_ldftn(w, p, i, s);
-		}
+                var ctor = type.GetConstructor(new Type[0]);
 
-		static void OpCode_ldtoken(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
+                if (ctor == null)
+                    CompilerBase.BreakToDebugger("valuetype ctor not found " + i.TargetType.ToString());
 
-			w.Write("new ");
+                WriteCreateType(w, p, i, new ILFlow.StackItem[0], ctor);
 
-			w.Helper.WriteWrappedConstructor(
+            }
 
-				w.Session.ResolveImplementation(
-				typeof(RuntimeTypeHandle)
-				).GetConstructor(new Type[] { typeof(IntPtr) })
 
-				);
+            //Task.Error("default(T) not supported yet");
+            //Task.Fail(i);
+        }
 
-			w.Write("(");
 
-			w.Helper.WritePrototypeAlias(
 
-				w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType
+        private static void WriteCreateType(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
+        {
+            ScriptAttribute sa =
+                ScriptAttribute.IsAnonymousType(m.DeclaringType) ?
+                    new ScriptAttribute() :
+                    ScriptAttribute.Of(m.DeclaringType, true);
 
-				);
+            if (sa == null)
+            {
+                Script.CompilerBase.BreakToDebugger("ctor not found or no script attribute for type " + m.DeclaringType.FullName + " at " + i.Location);
+                return;
+            }
 
-			w.Write(")");
 
-		}
+            if (sa.HasNoPrototype)
+            {
 
-		static void OpCode_ldftn(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			var _Method = w.Session.ResolveImplementation(i.TargetMethod.DeclaringType, i.TargetMethod) ?? i.TargetMethod;
+                if (sa.GetConstructorAlias() != null)
+                {
+                    MethodBase c = w.Session.ResolveMethod(m, m.DeclaringType, sa.GetConstructorAlias());
 
-			w.WriteDecoratedMemberInfo(_Method, true);
-		}
+                    if (c != null)
+                    {
 
+                        OpCode_call_override(w, p, i, s, c);
 
+                        return;
+                    }
+                }
 
 
-		static void OpCode_initobj(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			// we can only initobj a variable. we cannot init a generic type parameter
-			if (i.Prev.TargetVariable == null)
-				throw new SkipThisPrestatementException();
 
-			//Script.CompilerBase.WriteVisualStudioMessage(jsc.Script.CompilerBase.MessageType.warning, 1001, "init missing: " + i.Method.DeclaringType.FullName + "." + i.Method.Name);
 
-			w.WriteDecorated(i.OwnerMethod, i.Prev.TargetVariable);
+                if (sa.ExternalTarget == null)
+                {
+                    Task.Error("You tried to instance a class which seems to be marked as native.");
 
+                    Task.Error("type has no callable constructor: [{0}] {1}", m.DeclaringType.FullName, m.ToString());
+                    Task.Fail(i);
+                }
+                else
+                    w.Helper.DOMCreateType(sa.ExternalTarget, p, i, s);
+            }
+            else
+            {
+                w.Helper.DOMCreateAndInvokeConstructor(
+                    m.DeclaringType,
+                    m, p, i, s);
+            }
+        }
 
-			w.WriteSpace();
-			w.Write("=");
-			w.WriteSpace();
+        static void OpCode_newarr(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            #region inline newarr
+            if (p.IsValidInlineArrayInit)
+            {
+                w.WriteLine("[");
+                w.Ident++;
 
-			if (i.TargetType.IsGenericParameter)
-				w.Write("void(0)");
-			else
-			{
-				var type = w.Session.ResolveImplementation(i.TargetType) ?? i.TargetType;
+                ILFlow.StackItem[] _stack = p.InlineArrayInitElements;
 
-				var ctor = type.GetConstructor(new Type[0]);
+                for (int si = 0; si < _stack.Length; si++)
+                {
 
-				if (ctor == null)
-					CompilerBase.BreakToDebugger("valuetype ctor not found " + i.TargetType.ToString());
 
-				WriteCreateType(w, p, i, new ILFlow.StackItem[0], ctor);
+                    if (si > 0)
+                    {
+                        w.Write(",");
+                        w.WriteLine();
+                    }
 
-			}
+                    w.WriteIdent();
 
+                    if (_stack[si] == null)
+                    {
+                        if (!i.TargetType.IsValueType)
+                        {
+                            w.Write("null");
+                        }
+                        else
+                        {
+                            if (i.TargetType == typeof(double))
+                                w.Write("0.0");
+                            else if (i.TargetType == typeof(int))
+                                w.Write("0");
+                            else if (i.TargetType == typeof(sbyte))
+                                w.Write("0");
+                            else if (i.TargetType == typeof(byte))
+                                w.Write("0");
+                            else if (i.TargetType.IsEnum)
+                                w.Write("0");
+                            else
+                                CompilerBase.BreakToDebugger("default for " + i.TargetType.FullName + " is unknown at " + i.Location);
+                        }
+                    }
+                    else
+                    {
+                        IL2ScriptGenerator.OpCodeHandler(w, p, i, _stack[si]);
 
-			//Task.Error("default(T) not supported yet");
-			//Task.Fail(i);
-		}
+                    }
 
+                }
 
+                w.WriteLine();
 
-		private static void WriteCreateType(IdentWriter w, ilbp p, ili i, ilfsi[] s, MethodBase m)
-		{
-			ScriptAttribute sa =
-				ScriptAttribute.IsAnonymousType(m.DeclaringType) ?
-					new ScriptAttribute() :
-					ScriptAttribute.Of(m.DeclaringType, true);
+                w.Ident--;
+                w.WriteIdent();
+                w.Write("]");
+            }
+            #endregion
+            else
+            {
+                if (i.NextInstruction == OpCodes.Dup &&
+                                            i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
+                                            i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
+                {
+                    var Length = (int)i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
+                    var Type = i.TargetType;
 
-			if (sa == null)
-			{
-				Script.CompilerBase.BreakToDebugger("ctor not found or no script attribute for type " + m.DeclaringType.FullName + " at " + i.Location);
-				return;
-			}
+                    // Conversion To IEnumrable
 
+                    if (Type == typeof(int))
+                    {
+                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
 
-			if (sa.HasNoPrototype)
-			{
+                        w.Write("[");
+                        for (int j = 0; j < Values.Length; j++)
+                        {
+                            if (j > 0)
+                                w.Write(", ");
 
-				if (sa.GetConstructorAlias() != null)
-				{
-					MethodBase c = w.Session.ResolveMethod(m, m.DeclaringType, sa.GetConstructorAlias());
+                            w.Write(Values[j].ToString());
+                        }
+                        w.Write("]");
+                    }
+                    else if (Type == typeof(uint))
+                    {
+                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
 
-					if (c != null)
-					{
+                        w.Write("[");
+                        for (int j = 0; j < Values.Length; j++)
+                        {
+                            if (j > 0)
+                                w.Write(", ");
 
-						OpCode_call_override(w, p, i, s, c);
+                            w.Write(Values[j].ToString());
+                        }
+                        w.Write("]");
+                    }
+                    else if (Type == typeof(double))
+                    {
+                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();
 
-						return;
-					}
-				}
+                        w.Write("[");
+                        for (int j = 0; j < Values.Length; j++)
+                        {
+                            if (j > 0)
+                                w.Write(", ");
 
+                            w.WriteNumeric(Values[j]);
+                        }
+                        w.Write("]");
+                    }
+                    else
+                        throw new NotImplementedException(Type.Name);
 
 
 
-				if (sa.ExternalTarget == null)
-				{
-					Task.Error("You tried to instance a class which seems to be marked as native.");
 
-					Task.Error("type has no callable constructor: [{0}] {1}", m.DeclaringType.FullName, m.ToString());
-					Task.Fail(i);
-				}
-				else
-					w.Helper.DOMCreateType(sa.ExternalTarget, p, i, s);
-			}
-			else
-			{
-				w.Helper.DOMCreateAndInvokeConstructor(
-					m.DeclaringType,
-					m, p, i, s);
-			}
-		}
+                    //Write("[ /* ? */ ]");
 
-		static void OpCode_newarr(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			#region inline newarr
-			if (p.IsValidInlineArrayInit)
-			{
-				w.WriteLine("[");
-				w.Ident++;
+                    // todo: implement
 
-				ILFlow.StackItem[] _stack = p.InlineArrayInitElements;
 
-				for (int si = 0; si < _stack.Length; si++)
-				{
+                }
+                else
+                {
 
+                    // Write("[]");
+                    // this fix is for javascript too
 
-					if (si > 0)
-					{
-						w.Write(",");
-						w.WriteLine();
-					}
+                    if (i.StackBeforeStrict[0].SingleStackInstruction == OpCodes.Ldc_I4_0)
+                    {
+                        w.Write("[]");
+                    }
+                    else
+                    {
+                        w.Write("new Array(");
 
-					w.WriteIdent();
 
-					if (_stack[si] == null)
-					{
-						if (!i.TargetType.IsValueType)
-						{
-							w.Write("null");
-						}
-						else
-						{
-							if (i.TargetType == typeof(double))
-								w.Write("0.0");
-							else if (i.TargetType == typeof(int))
-								w.Write("0");
-							else if (i.TargetType == typeof(sbyte))
-								w.Write("0");
-							else if (i.TargetType == typeof(byte))
-								w.Write("0");
-							else if (i.TargetType.IsEnum)
-								w.Write("0");
-							else
-								CompilerBase.BreakToDebugger("default for " + i.TargetType.FullName + " is unknown at " + i.Location);
-						}
-					}
-					else
-					{
-						IL2ScriptGenerator.OpCodeHandler(w, p, i, _stack[si]);
+                        IL2ScriptGenerator.OpCodeHandler(w, p, i, i.StackBeforeStrict[0]);
 
-					}
+                        w.Write(")");
+                    }
+                }
+            }
 
-				}
 
-				w.WriteLine();
 
-				w.Ident--;
-				w.WriteIdent();
-				w.Write("]");
-			}
-			#endregion
-			else
-			{
-				if (i.NextInstruction == OpCodes.Dup &&
-											i.NextInstruction.NextInstruction == OpCodes.Ldtoken &&
-											i.NextInstruction.NextInstruction.NextInstruction == OpCodes.Call)
-				{
-					var Length = (int)i.StackBeforeStrict.First().SingleStackInstruction.TargetInteger;
-					var Type = i.TargetType;
+        }
 
-					// Conversion To IEnumrable
+        static void OpCode_rethrow(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            w.Write("throw ");
 
-					if (Type == typeof(int))
-					{
-						var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsInt32Array();
+            w.Helper.DOMWriteCatchParameter();
 
-						w.Write("[");
-						for (int j = 0; j < Values.Length; j++)
-						{
-							if (j > 0)
-								w.Write(", ");
 
-							w.Write(Values[j].ToString());
-						}
-						w.Write("]");
-					}
-					else if (Type == typeof(uint))
-					{
-						var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt32Array();
+        }
 
-						w.Write("[");
-						for (int j = 0; j < Values.Length; j++)
-						{
-							if (j > 0)
-								w.Write(", ");
+        static void OpCode_throw(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (s.Length == 1)
+            {
+                w.Write("throw ");
 
-							w.Write(Values[j].ToString());
-						}
-						w.Write("]");
-					}
-					else if (Type == typeof(double))
-					{
-						var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();
+                OpCodeHandler(w, p, i, s[0]);
+            }
+            else
+            {
+                Debugger.Break();
+            }
+        }
 
-						w.Write("[");
-						for (int j = 0; j < Values.Length; j++)
-						{
-							if (j > 0)
-								w.Write(", ");
 
-							w.WriteNumeric(Values[j]);
-						}
-						w.Write("]");
-					}
-					else
-						throw new NotImplementedException(Type.Name);
 
 
+        static void OpCode_dup(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (s.Length != 1) Debugger.Break();
 
+            OpCodeHandler(w, p, i, s[0]);
+        }
 
-					//Write("[ /* ? */ ]");
+        static void OpCode_pop(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            // size optimized
 
-					// todo: implement
+            //w.Write("void (");
 
+            OpCodeHandler(w, p, i, s[0]);
 
-				}
-				else
-				{
+            //w.Write(")");
+        }
 
-					// Write("[]");
-					// this fix is for javascript too
+        static void OpCode_conv(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
 
-					if (i.StackBeforeStrict[0].SingleStackInstruction == OpCodes.Ldc_I4_0)
-					{
-						w.Write("[]");
-					}
-					else
-					{
-						w.Write("new Array(");
+            //if (i == OpCodes.Conv_R8)
+            //{
 
+            //    OpCodeHandler(w, p, i, s[0]);
 
-						IL2ScriptGenerator.OpCodeHandler(w, p, i, i.StackBeforeStrict[0]);
+            //    return;
+            //}
 
-						w.Write(")");
-					}
-				}
-			}
+            //if (i.IsAnyOpCodeOf(OpCodes.Conv_I4, OpCodes.Conv_I8, OpCodes.Conv_U8, OpCodes.Conv_U4))
+            //{
 
+            OpCodeHandler(w, p, i, s[0]);
 
+            //    return;
+            //}
 
-		}
+            //Debugger.Break();
+        }
 
-		static void OpCode_rethrow(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			w.Write("throw ");
+        static void OpCode_endfinally(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            Debugger.Break();
+        }
 
-			w.Helper.DOMWriteCatchParameter();
+        static void OpCode_castclass(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            // runtime check?
 
+            OpCodeHandler(w, p, i, s[0]);
+        }
 
-		}
+        static void OpCode_box(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (s.Length != 1)
+                Debugger.Break();
 
-		static void OpCode_throw(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (s.Length == 1)
-			{
-				w.Write("throw ");
+            Type t = i.TargetType;
 
-				OpCodeHandler(w, p, i, s[0]);
-			}
-			else
-			{
-				Debugger.Break();
-			}
-		}
+            if (t == typeof(bool))
+            {
+                w.Write("new Boolean");
+                w.Write("(");
+                OpCodeHandler(w, p, i, s[0]);
+                w.Write(")");
 
+                return;
+            }
 
+            if (t == typeof(int))
+            {
+                w.Write("new Number");
+                w.Write("(");
+                OpCodeHandler(w, p, i, s[0]);
+                w.Write(")");
 
+                return;
+            }
 
-		static void OpCode_dup(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (s.Length != 1) Debugger.Break();
 
-			OpCodeHandler(w, p, i, s[0]);
-		}
+            if (t == null)
+            {
+                w.Write("/* null box */ ");
+                OpCodeHandler(w, p, i, s[0]);
 
-		static void OpCode_pop(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			// size optimized
+                return;
+            }
 
-			//w.Write("void (");
 
-			OpCodeHandler(w, p, i, s[0]);
+            // w.Write("/* box[{0}] */ ", t.UnderlyingSystemType);
 
-			//w.Write(")");
-		}
+            OpCodeHandler(w, p, i, s[0]);
+        }
 
-		static void OpCode_conv(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
+        static void OpCode_donothing(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            //w.Write("/* {0} */", i.ToString());
 
-			//if (i == OpCodes.Conv_R8)
-			//{
 
-			//    OpCodeHandler(w, p, i, s[0]);
 
-			//    return;
-			//}
+            if (s.Length == 0)
+                return;
 
-			//if (i.IsAnyOpCodeOf(OpCodes.Conv_I4, OpCodes.Conv_I8, OpCodes.Conv_U8, OpCodes.Conv_U4))
-			//{
+            OpCodeHandler(w, p, i, s[0]);
+        }
 
-			OpCodeHandler(w, p, i, s[0]);
 
-			//    return;
-			//}
 
-			//Debugger.Break();
-		}
 
-		static void OpCode_endfinally(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			Debugger.Break();
-		}
+        /// <summary>
+        /// defines "lhs op rhs"
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="p"></param>
+        /// <param name="i"></param>
+        /// <param name="lhs"></param>
+        /// <param name="op"></param>
+        /// <param name="rhs"></param>
+        static void OpCode_OperatorHandler(IdentWriter w, ilbp p, ili i, ilfsi lhs, string op, ilfsi rhs)
+        {
+            OpCodeHandler(w, p, i, lhs);
 
-		static void OpCode_castclass(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			// runtime check?
+            w.WriteSpace();
+            w.Write(op);
+            w.WriteSpace();
 
-			OpCodeHandler(w, p, i, s[0]);
-		}
+            OpCodeHandler(w, p, i, rhs);
+        }
 
-		static void OpCode_box(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (s.Length != 1)
-				Debugger.Break();
+        static void OpCode_bne_un(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_OperatorHandler(w, p, i, s[0], "!=", s[1]);
+        }
 
-			Type t = i.TargetType;
+        static void OpCode_beq(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_OperatorHandler(w, p, i, s[0], "==", s[1]);
+        }
 
-			if (t == typeof(bool))
-			{
-				w.Write("new Boolean");
-				w.Write("(");
-				OpCodeHandler(w, p, i, s[0]);
-				w.Write(")");
+        static void OpCode_bgt(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_OperatorHandler(w, p, i, s[0], ">", s[1]);
+        }
 
-				return;
-			}
+        static void OpCode_blt(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_OperatorHandler(w, p, i, s[0], "<", s[1]);
+        }
 
-			if (t == typeof(int))
-			{
-				w.Write("new Number");
-				w.Write("(");
-				OpCodeHandler(w, p, i, s[0]);
-				w.Write(")");
+        static void OpCode_ble(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_OperatorHandler(w, p, i, s[0], "<=", s[1]);
+        }
 
-				return;
-			}
+        static void OpCode_bge(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            OpCode_OperatorHandler(w, p, i, s[0], ">=", s[1]);
+        }
 
 
-			if (t == null)
-			{
-				w.Write("/* null box */ ");
-				OpCodeHandler(w, p, i, s[0]);
+        static void OpCode_LogicOperators(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            // catch prefix operators
 
-				return;
-			}
+            if (i.IsInlinePrefixOperator(OpCodes.Add))
+            {
+                w.Write("++");
+                OpCodeHandler(w, p, i, s[0]);
+                return;
+            }
 
+            if (i.IsInlinePrefixOperator(OpCodes.Sub))
+            {
+                w.Write("--");
+                OpCodeHandler(w, p, i, s[0]);
+                return;
+            }
 
-			// w.Write("/* box[{0}] */ ", t.UnderlyingSystemType);
+            if (i == OpCodes.Not)
+            {
+                w.Write("~");
 
-			OpCodeHandler(w, p, i, s[0]);
-		}
+                OpCodeHandler(w, p, i, s[0]);
 
-		static void OpCode_donothing(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			//w.Write("/* {0} */", i.ToString());
 
+                return;
+            }
 
+            if (i == OpCodes.Ceq)
+            {
+                if (s[1].SingleStackInstruction == OpCodes.Ldc_I4_0)
+                {
+                    w.Write("!");
+                    OpCodeHandler(w, p, i, s[0]);
 
-			if (s.Length == 0)
-				return;
 
-			OpCodeHandler(w, p, i, s[0]);
-		}
+                    return;
+                }
+            }
 
+            if (i == OpCodes.Neg)
+            {
 
 
+                w.Write("(-");
+                OpCodeHandler(w, p, i, s[0]);
 
-		/// <summary>
-		/// defines "lhs op rhs"
-		/// </summary>
-		/// <param name="w"></param>
-		/// <param name="p"></param>
-		/// <param name="i"></param>
-		/// <param name="lhs"></param>
-		/// <param name="op"></param>
-		/// <param name="rhs"></param>
-		static void OpCode_OperatorHandler(IdentWriter w, ilbp p, ili i, ilfsi lhs, string op, ilfsi rhs)
-		{
-			OpCodeHandler(w, p, i, lhs);
+                w.Write(")");
 
-			w.WriteSpace();
-			w.Write(op);
-			w.WriteSpace();
+                return;
 
-			OpCodeHandler(w, p, i, rhs);
-		}
+            }
 
-		static void OpCode_bne_un(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_OperatorHandler(w, p, i, s[0], "!=", s[1]);
-		}
 
-		static void OpCode_beq(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_OperatorHandler(w, p, i, s[0], "==", s[1]);
-		}
+            if (s[0].SingleStackInstruction.OpCode == OpCodes.Isinst)
+                if (i.OpCode == OpCodes.Cgt_Un)
+                    if (s[1].SingleStackInstruction.OpCode == OpCodes.Ldnull)
+                    {
+                        WriteOperatorIs(w, p, i, s[0]);
 
-		static void OpCode_bgt(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_OperatorHandler(w, p, i, s[0], ">", s[1]);
-		}
 
-		static void OpCode_blt(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_OperatorHandler(w, p, i, s[0], "<", s[1]);
-		}
+                        return;
+                    }
 
-		static void OpCode_ble(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_OperatorHandler(w, p, i, s[0], "<=", s[1]);
-		}
 
-		static void OpCode_bge(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			OpCode_OperatorHandler(w, p, i, s[0], ">=", s[1]);
-		}
+            w.Write("(");
 
+            OpCodeHandler(w, p, i, s[0]);
 
-		static void OpCode_LogicOperators(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			// catch prefix operators
+            w.WriteSpace();
 
-			if (i.IsInlinePrefixOperator(OpCodes.Add))
-			{
-				w.Write("++");
-				OpCodeHandler(w, p, i, s[0]);
-				return;
-			}
+            if (i.IsAnyOpCodeOf(OpCodes.Div, OpCodes.Div_Un)) w.Write("/");
 
-			if (i.IsInlinePrefixOperator(OpCodes.Sub))
-			{
-				w.Write("--");
-				OpCodeHandler(w, p, i, s[0]);
-				return;
-			}
+            if (i == OpCodes.Sub ||
+                i == OpCodes.Sub_Ovf) w.Write("-");
 
-			if (i == OpCodes.Not)
-			{
-				w.Write("~");
+            if (i == OpCodes.Add ||
+                i == OpCodes.Add_Ovf ||
+                i == OpCodes.Add_Ovf_Un) w.Write("+");
 
-				OpCodeHandler(w, p, i, s[0]);
+            if (i == OpCodes.Mul) w.Write("*");
+            if (i == OpCodes.And) w.Write("&");
+            if (i == OpCodes.Or) w.Write("|");
+            if (i == OpCodes.Xor) w.Write("^");
+            if (i == OpCodes.Shl) w.Write("<<");
+            if (i == OpCodes.Shr) w.Write(">>");
+            if (i == OpCodes.Shr_Un) w.Write(">>");
+            if (i == OpCodes.Cgt) w.Write(">");
+            if (i == OpCodes.Cgt_Un) w.Write(">");
+            if (i == OpCodes.Ceq) w.Write("==");
+            if (i == OpCodes.Clt) w.Write("<");
+            if (i == OpCodes.Clt_Un) w.Write("<");
 
+            if (i.IsAnyOpCodeOf(OpCodes.Rem, OpCodes.Rem_Un)) w.Write("%");
 
-				return;
-			}
+            w.WriteSpace();
 
-			if (i == OpCodes.Ceq)
-			{
-				if (s[1].SingleStackInstruction == OpCodes.Ldc_I4_0)
-				{
-					w.Write("!");
-					OpCodeHandler(w, p, i, s[0]);
+            if (s[0].SingleStackInstruction.TargetField != null)
+                if (OpCodeEmitStringEnum(w, s[1], s[0].SingleStackInstruction.TargetField.FieldType))
+                {
 
+                    w.Write(")");
+                    return;
+                }
 
-					return;
-				}
-			}
+            #region uint fixup
+            if (s[1].SingleStackInstruction.TargetInteger != null)
+            {
+                // if we are going to AND an uint, the second operator should also be presented
+                if (
+                    (s[0].SingleStackInstruction.TargetField != null && s[0].SingleStackInstruction.TargetField.FieldType == typeof(uint)) ||
+                    (s[0].SingleStackInstruction.TargetParameter != null && s[0].SingleStackInstruction.TargetParameter.ParameterType == typeof(uint))
+                    )
+                {
+                    w.Write((uint)s[1].SingleStackInstruction.TargetInteger);
 
-			if (i == OpCodes.Neg)
-			{
+                    w.Write(")");
+                    return;
+                }
+            }
+            #endregion
 
 
-				w.Write("(-");
-				OpCodeHandler(w, p, i, s[0]);
+            OpCodeHandler(w, p, i, s[1]);
 
-				w.Write(")");
+            w.Write(")");
+        }
 
-				return;
+        //public static Func<IdentWriter, ilbp, ili, ilfsi[], bool> Override_OpCode_ldarg;
 
-			}
+        static void OpCode_ldarg(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            //if (Override_OpCode_ldarg != null)
+            //    if (Override_OpCode_ldarg(w, p, i, s))
+            //        return;
 
+            if (i.OwnerMethod.IsStatic)
+            {
+                w.WriteDecoratedParameterInfo(i.TargetParameter);
+            }
+            else
+            {
+                if (i == OpCodes.Ldarg_0)
+                    w.WriteSelf();
+                else
+                    w.WriteDecoratedParameterInfo(i.TargetParameter);
+            }
+        }
 
-			if (s[0].SingleStackInstruction.OpCode == OpCodes.Isinst)
-				if (i.OpCode == OpCodes.Cgt_Un)
-					if (s[1].SingleStackInstruction.OpCode == OpCodes.Ldnull)
-					{
-						WriteOperatorIs(w, p, i, s[0]);
 
+        static void OpCode_ldloc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
 
-						return;
-					}
 
+            if (p.Owner.IsCompound)
+            {
+                ilbp sp = p.Owner.SourcePrestatement(p, i);
 
-			w.Write("(");
+                if (sp != null)
+                {
+                    OpCodeHandlerArgument(w, sp);
 
-			OpCodeHandler(w, p, i, s[0]);
 
-			w.WriteSpace();
 
-			if (i.IsAnyOpCodeOf(OpCodes.Div, OpCodes.Div_Un)) w.Write("/");
+                    return;
+                }
+            }
 
-			if (i == OpCodes.Sub ||
-				i == OpCodes.Sub_Ovf) w.Write("-");
 
-			if (i == OpCodes.Add ||
-				i == OpCodes.Add_Ovf ||
-				i == OpCodes.Add_Ovf_Un) w.Write("+");
+            w.WriteDecorated(i.OwnerMethod, i.TargetVariable);
 
-			if (i == OpCodes.Mul) w.Write("*");
-			if (i == OpCodes.And) w.Write("&");
-			if (i == OpCodes.Or) w.Write("|");
-			if (i == OpCodes.Xor) w.Write("^");
-			if (i == OpCodes.Shl) w.Write("<<");
-			if (i == OpCodes.Shr) w.Write(">>");
-			if (i == OpCodes.Shr_Un) w.Write(">>");
-			if (i == OpCodes.Cgt) w.Write(">");
-			if (i == OpCodes.Cgt_Un) w.Write(">");
-			if (i == OpCodes.Ceq) w.Write("==");
-			if (i == OpCodes.Clt) w.Write("<");
-			if (i == OpCodes.Clt_Un) w.Write("<");
 
-			if (i.IsAnyOpCodeOf(OpCodes.Rem, OpCodes.Rem_Un)) w.Write("%");
+            // -- operator?
 
-			w.WriteSpace();
+            if (i.IsInlinePostSub) w.Write("--");
+            if (i.IsInlinePostAdd) w.Write("++");
+        }
 
-			if (s[0].SingleStackInstruction.TargetField != null)
-				if (OpCodeEmitStringEnum(w, s[1], s[0].SingleStackInstruction.TargetField.FieldType))
-				{
 
-					w.Write(")");
-					return;
-				}
+        static void OpCode_stloc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            // catch prefix operators here
 
-			#region uint fixup
-			if (s[1].SingleStackInstruction.TargetInteger != null)
-			{
-				// if we are going to AND an uint, the second operator should also be presented
-				if (
-					(s[0].SingleStackInstruction.TargetField != null && s[0].SingleStackInstruction.TargetField.FieldType == typeof(uint)) ||
-					(s[0].SingleStackInstruction.TargetParameter != null && s[0].SingleStackInstruction.TargetParameter.ParameterType == typeof(uint))
-					)
-				{
-					w.Write((uint)s[1].SingleStackInstruction.TargetInteger);
+            w.WriteDecorated(i.OwnerMethod, i.TargetVariable);
 
-					w.Write(")");
-					return;
-				}
-			}
-			#endregion
 
 
-			OpCodeHandler(w, p, i, s[1]);
+            if (i.IsInlinePrefixOperatorStatement(OpCodes.Add))
+            {
+                w.Write("++");
+                return;
+            }
 
-			w.Write(")");
-		}
+            if (i.IsInlinePrefixOperatorStatement(OpCodes.Sub))
+            {
+                w.Write("--");
+                return;
+            }
 
-		//public static Func<IdentWriter, ilbp, ili, ilfsi[], bool> Override_OpCode_ldarg;
+            // optimize: g = g + 1 to g += 1
+            if (w.OptimizeAssignment(p, i))
+                return;
 
-		static void OpCode_ldarg(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			//if (Override_OpCode_ldarg != null)
-			//    if (Override_OpCode_ldarg(w, p, i, s))
-			//        return;
 
-			if (i.OwnerMethod.IsStatic)
-			{
-				w.WriteDecoratedParameterInfo(i.TargetParameter);
-			}
-			else
-			{
-				if (i == OpCodes.Ldarg_0)
-					w.WriteSelf();
-				else
-					w.WriteDecoratedParameterInfo(i.TargetParameter);
-			}
-		}
 
+            w.WriteSpace();
+            w.Write("=");
+            w.WriteSpace();
 
-		static void OpCode_ldloc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
 
+            if (i.IsFirstInFlow && i.Flow.OwnerBlock.IsHandlerBlock)
+                w.Write("__exc");
+            else
+            {
 
-			if (p.Owner.IsCompound)
-			{
-				ilbp sp = p.Owner.SourcePrestatement(p, i);
+                if (OpCodeEmitStringEnum(w, s[0], i.TargetVariable.LocalType))
+                    return;
 
-				if (sp != null)
-				{
-					OpCodeHandlerArgument(w, sp);
+                IL2ScriptGenerator.OpCodeHandler(w, p, i, s[0]);
 
+            }
+        }
 
+        static void OpCode_starg(IdentWriter w, ilbp p, ili i, ilfsi[] s)
+        {
+            if (i.TargetParameter == null)
+                Debugger.Break();
 
-					return;
-				}
-			}
+            w.WriteDecoratedParameterInfo(i.TargetParameter);
 
 
-			w.WriteDecorated(i.OwnerMethod, i.TargetVariable);
+            w.WriteSpace();
+            w.Write("=");
+            w.WriteSpace();
 
-
-			// -- operator?
-
-			if (i.IsInlinePostSub) w.Write("--");
-			if (i.IsInlinePostAdd) w.Write("++");
-		}
-
-
-		static void OpCode_stloc(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			// catch prefix operators here
-
-			w.WriteDecorated(i.OwnerMethod, i.TargetVariable);
-
-
-
-			if (i.IsInlinePrefixOperatorStatement(OpCodes.Add))
-			{
-				w.Write("++");
-				return;
-			}
-
-			if (i.IsInlinePrefixOperatorStatement(OpCodes.Sub))
-			{
-				w.Write("--");
-				return;
-			}
-
-			// optimize: g = g + 1 to g += 1
-			if (w.OptimizeAssignment(p, i))
-				return;
-
-
-
-			w.WriteSpace();
-			w.Write("=");
-			w.WriteSpace();
-
-
-			if (i.IsFirstInFlow && i.Flow.OwnerBlock.IsHandlerBlock)
-				w.Write("__exc");
-			else
-			{
-
-				if (OpCodeEmitStringEnum(w, s[0], i.TargetVariable.LocalType))
-					return;
-
-				IL2ScriptGenerator.OpCodeHandler(w, p, i, s[0]);
-
-			}
-		}
-
-		static void OpCode_starg(IdentWriter w, ilbp p, ili i, ilfsi[] s)
-		{
-			if (i.TargetParameter == null)
-				Debugger.Break();
-
-			w.WriteDecoratedParameterInfo(i.TargetParameter);
-
-
-			w.WriteSpace();
-			w.Write("=");
-			w.WriteSpace();
-
-			OpCodeHandler(w, p, i, s[0]);
-		}
-	}
+            OpCodeHandler(w, p, i, s[0]);
+        }
+    }
 
 }

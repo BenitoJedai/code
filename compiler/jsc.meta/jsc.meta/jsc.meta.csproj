@@ -280,6 +280,8 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToReplacedReferences\RewriteToReplacedReferences.Arguments.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToReplacedReferences\RewriteToReplacedReferences.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.cs" />
     <Compile Include="Commands\Rewrite\RewriteToUltraApplication\RewriteToUltraApplication.AsProgram.cs" />
@@ -378,7 +380,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="jsc.meta.v4.0.30128.exe.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -453,7 +454,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
-:: copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.30128.exe" /y
+
 copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.exe" /y
 copy "$(TargetDir)Documents\*.rtf" "c:\util\jsc\bin\" /y</PostBuildEvent>
     <PreBuildEvent>

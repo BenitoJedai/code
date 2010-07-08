@@ -11,6 +11,7 @@ using jsc.meta.Commands.Reference;
 using System.IO;
 using System.Media;
 using jsc.meta.Commands.Rewrite;
+using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
 
 namespace jsc.meta.Commands.Test
 {
@@ -50,6 +51,14 @@ namespace jsc.meta.Commands.Test
                     }
                 );
             #endregion
+
+
+            Add("CLR40", () =>
+                new RewriteToReplacedReferences
+                {
+                    Assembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\CLR25\CLR40\bin\Debug\CLR40.dll"),
+                }
+            );
 
             Add("AvalonTriangleTexture", () =>
                 new ReferenceJavaScriptDocument
