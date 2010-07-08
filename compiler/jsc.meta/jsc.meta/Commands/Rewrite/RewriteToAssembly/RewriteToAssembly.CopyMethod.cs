@@ -86,6 +86,13 @@ namespace jsc.meta.Commands.Rewrite
             var MethodAttributes__ = context.MethodAttributesCache[SourceMethod];
             var DllImport__ = SourceMethod.GetCustomAttributes<DllImportAttribute>().SingleOrDefault();
 
+            var ParametersTypes = SourceMethod.GetParameterTypes().Select(DelayedTypeCache).ToArray();
+
+            if (ParametersTypes.Contains(null))
+                throw new InvalidOperationException();
+
+            var ReturnType = DelayedTypeCache(SourceMethod.ReturnType);
+
             if (DeclaringType == null)
             {
                 #region DefineGlobalMethod
@@ -107,8 +114,8 @@ namespace jsc.meta.Commands.Rewrite
                     DllImport__.Value,
                     MethodAttributes__,
                     SourceMethod.CallingConvention,
-                    null,
-                    null,
+                    ReturnType,
+                    ParametersTypes,
                     DllImport__.CallingConvention,
                     DllImport__.CharSet
                 );
@@ -130,7 +137,7 @@ namespace jsc.meta.Commands.Rewrite
                 );
 
 
-          
+
             }
 
             context.MethodCache[SourceMethod] = DeclaringMethod;
@@ -184,15 +191,17 @@ namespace jsc.meta.Commands.Rewrite
             // !! fixme
             // How to: Define a Generic Method with Reflection Emit
             // http://msdn.microsoft.com/en-us/library/ms228971.aspx
-            var Parameters =
-                 SourceMethod.GetParameterTypes().Select(DelayedTypeCache).ToArray();
 
-            if (Parameters.Contains(null))
-                throw new InvalidOperationException();
 
-            DeclaringMethod.SetParameters(Parameters);
             // Calling this method replaces a return type established using the TypeBuilder.DefineMethod method.
-            DeclaringMethod.SetReturnType(DelayedTypeCache(SourceMethod.ReturnType));
+
+            if (DllImport__ == null)
+                DeclaringMethod.SetSignature(
+                    ReturnType,
+                    null, null,
+                    ParametersTypes,
+                    null, null
+                );
 
             DelayedTypeCacheList.Invoke();
 
@@ -200,8 +209,16 @@ namespace jsc.meta.Commands.Rewrite
             // synchronized?
             DeclaringMethod.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());
 
-            SourceMethod.GetParameters().CopyTo(DeclaringMethod);
+            foreach (var item in SourceMethod.GetParameters())
+            {
+                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.methodbuilder.defineparameter.aspx
 
+                // The position of the parameter in the parameter list. 
+                // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
+
+
+                DeclaringMethod.DefineParameter(item.Position + 1, item.Attributes, item.Name);
+            }
 
             // should we copy attributes? should they be opt-out?
             foreach (var item in SourceMethod.GetCustomAttributes(false).Except(new[] { DllImport__ }).Select(kk => kk.ToCustomAttributeBuilder()))
@@ -313,7 +330,7 @@ namespace jsc.meta.Commands.Rewrite
                                 {
                                     //Console.WriteLine(".endcatch");
                                     e.il.EndExceptionBlock();
-                                   
+
 
                                 }
                             }
