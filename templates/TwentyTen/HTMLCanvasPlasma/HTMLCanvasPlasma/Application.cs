@@ -33,6 +33,8 @@ namespace HTMLCanvasPlasma
         {
             var canvas = new IHTMLCanvas().AttachTo(page.Content);
 
+            AddTransform(canvas);
+
             Plasma.generatePlasma(DefaultWidth, DefaultHeight);
 
             var shift = 0;
@@ -48,6 +50,7 @@ namespace HTMLCanvasPlasma
             //var x = new MyImageData(DefaultWidth, DefaultHeight);
             var x = context.getImageData(0, 0, DefaultWidth, DefaultHeight);
 
+            
             t.Tick +=
                 delegate
                 {
@@ -56,6 +59,7 @@ namespace HTMLCanvasPlasma
 
                     //var x = context.createImageData(DefaultWidth, DefaultHeight);
 
+                    var data = x.data;
 
                     var k = 0;
                     for (int i = 0; i < DefaultWidth; i++)
@@ -74,11 +78,12 @@ namespace HTMLCanvasPlasma
                             k++;
                         }
 
+
                     context.putImageData(x, 0, 0, 0, 0, DefaultWidth, DefaultHeight);
                     shift++;
                 };
 
-            t.StartInterval(50);
+            t.StartInterval(1000 / 24);
 
 
         }

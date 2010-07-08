@@ -16,20 +16,7 @@ namespace HTMLCanvasPlasma
         public static uint[] newPlasma;
 
 
-        public class DynamicA
-        {
-            // does alchemy support structs?
-            DynamicA ANextA;
-            DynamicB ANextB;
-        }
 
-        public class DynamicB
-        {
-            // does alchemy support structs?
-            DynamicA BNextA;
-            DynamicB BNextB;
-
-        }
 
         public static uint[] generatePlasma(int width, int height)
         {
