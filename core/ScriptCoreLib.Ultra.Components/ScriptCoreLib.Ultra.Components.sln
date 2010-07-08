@@ -15,11 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ScriptCoreLib.Ultra.VisualBasic", "..\ScriptCoreLib.Ultra.VisualBasic\ScriptCoreLib.Ultra.VisualBasic.vbproj", "{9CF379F4-DC30-4793-B379-653AF2E2F0FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.IDL", "ScriptCoreLib.Ultra.Components.IDL\ScriptCoreLib.Ultra.Components.IDL.csproj", "{FB6D3E61-0C7C-4505-80F3-2A577F085787}"
-	ProjectSection(ProjectDependencies) = postProject
-		{132EB43F-19B4-42AC-8025-3249B129867A} = {132EB43F-19B4-42AC-8025-3249B129867A}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -93,21 +88,6 @@ Global
 		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|x86.ActiveCfg = Release|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Assets|Any CPU.Build.0 = Assets|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Assets|x86.ActiveCfg = Assets|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{FB6D3E61-0C7C-4505-80F3-2A577F085787}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

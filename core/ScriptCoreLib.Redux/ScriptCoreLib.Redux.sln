@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptCoreLib.Avalon", "ScriptCoreLib.Avalon", "{A2AE2B5D-D2C6-4CB3-AC48-B8359D360F05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6} = {C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Redux.Avalon", "ScriptCoreLib.Redux.Avalon\ScriptCoreLib.Redux.Avalon.csproj", "{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}"
 EndProject

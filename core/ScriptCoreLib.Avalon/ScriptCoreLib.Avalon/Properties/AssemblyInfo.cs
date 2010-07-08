@@ -48,6 +48,7 @@ using ScriptCoreLib;
 	//ScriptNamespaceRename(NativeNamespaceName = "ScriptCoreLib.Shared", VirtualNamespaceName = "")
     // some namespace mangling, why bother?
 
-	InternalsVisibleTo("ScriptCoreLib.Avalon.Integration"),
-	InternalsVisibleTo("jsc.meta")
+    InternalsVisibleTo("ScriptCoreLib.Redux.Avalon"),
+    InternalsVisibleTo("ScriptCoreLib.Avalon.Integration"),
+	InternalsVisibleTo("jsc.meta"),
 ]
