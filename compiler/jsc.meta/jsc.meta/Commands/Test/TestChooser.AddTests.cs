@@ -60,6 +60,18 @@ namespace jsc.meta.Commands.Test
                 }
             );
 
+
+            Add("ScriptCoreLib.Redux", () =>
+                new ReferenceJavaScriptDocument
+                {
+                    ProjectFileName = new FileInfo(@"W:\jsc.svn\core\ScriptCoreLib.Redux\ScriptCoreLib.Redux\ScriptCoreLib.Redux.csproj"),
+                    Configuration = "Assets",
+                    SelectAll = true
+                }
+            );
+
+            //start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true
+
            
             new[]
             {

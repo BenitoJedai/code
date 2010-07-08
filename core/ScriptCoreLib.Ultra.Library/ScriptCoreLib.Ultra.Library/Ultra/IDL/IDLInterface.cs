@@ -18,6 +18,14 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public readonly List<IDLMember> Members = new List<IDLMember>();
 
+        public IEnumerable<IDLMemberMethod> GetMethods()
+        {
+            return from k in Members
+                   let m = k as IDLMemberMethod
+                   where m != null
+                   select m;
+        }
+
         public override string ToString()
         {
             return "interface " + this.Name.Text;

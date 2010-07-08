@@ -350,27 +350,52 @@ namespace ScriptCoreLib.Ultra.IDL
         private static IDLMemberMethod ToMemberMethod(IDLParserToken pp, IDLParserToken KeywordGetter, IDLParserToken KeywordSetter)
         {
             var Type = default(IDLTypeReference);
-            var NameMarker = pp;
+            var Name = default(IDLParserToken.Literal);
+
+            Func<IDLParserToken> GetParameterSymbols = () => Name.Value.SkipTo();
 
             // are we typeless? IDL is partial...
             if (pp.SkipTo().Text != "(")
             {
                 Type = ToTypeReference(pp);
-                NameMarker = Type.Terminator.SkipTo();
+                Name = Type.Terminator.SkipTo().AssertName();
             }
-           
+            else
+            {
+                // or are we nameless? is this method an indexer?
+
+                // or any other
+                var NameLookup = new Dictionary<string, string>
+                {
+                    {"void", "set"},
+                    {"octet", "get"}
+                };
+
+                if (NameLookup.ContainsKey(pp.Text))
+                {
+                    Type = ToTypeReference(pp);
+                    Name = NameLookup[pp.Text];
+                    GetParameterSymbols = () => pp.SkipTo();
+                }
+                else
+                {
+                    // are we typeless? IDL is partial...
+                    Name = pp.AssertName();
+                }
+            }
+
             var Method = new IDLMemberMethod
             {
-                Type = Type,
+                ReturnType = Type,
                 KeywordGetter = KeywordGetter,
                 KeywordSetter = KeywordSetter,
-                Name = NameMarker.AssertName()
+                Name = Name
             };
 
             var Parameters = Method.Parameters;
             var ParameterSymbols = Method.ParameterSymbols;
 
-            ParameterSymbols.Item1 = Method.Name.SkipTo();
+            ParameterSymbols.Item1 = GetParameterSymbols();
 
             ToParameters(Parameters, ParameterSymbols);
 
