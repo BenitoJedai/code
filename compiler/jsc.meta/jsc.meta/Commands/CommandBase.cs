@@ -98,17 +98,6 @@ namespace jsc.meta.Commands
         }
 
 
-        int __WriteDiagnostics_i;
 
-        [Obsolete]
-        public void WriteDiagnostics(string e)
-        {
-            __WriteDiagnostics_i++;
-
-            var c = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("j" + __WriteDiagnostics_i + ": " + e);
-            Console.ForegroundColor = c;
-        }
 	}
 }

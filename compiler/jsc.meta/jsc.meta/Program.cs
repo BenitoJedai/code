@@ -17,6 +17,7 @@ using jsc.meta.Commands.Rewrite.RewriteToUltraLibrary;
 using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
 using jsc.meta.Commands.Configuration;
 using jsc.meta.Commands.Test;
+using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
 
 namespace jsc.meta
 {
@@ -82,6 +83,7 @@ namespace jsc.meta
 				new RewriteToInstaller(),
 				new RewriteToUltraLibrary(),
 				new RewriteToSplashScreen(),
+                new RewriteToReplacedReferences(),
 
 				new AnalyticsForStatCounter().Invoke,
 				new AnalyticsForFlagCounter().Invoke,
