@@ -3,17 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToReplacedReferences
 {
     partial class RewriteToReplacedReferences
     {
         public FileInfo Assembly;
+        public FileInfo Output;
+
+        public ReferenceInfo[] References = new ReferenceInfo[0];
+
+        public bool UseReferencesForOrcas;
+        public bool UseReferencesForSilverlight;
+
+        public class ReferenceInfo
+        {
+            public string Name;
+
+            public string Version;
+            public string PublicKeyToken;
+            
+            public static implicit operator ReferenceInfo(string e)
+            {
+                const string s = ";";
+
+                return new ReferenceInfo
+                {
+                    Name = e.TakeUntilOrEmpty(s),
+                    Version = e.SkipUntilOrEmpty(s).TakeUntilOrEmpty(s),
+                    PublicKeyToken = e.SkipUntilOrEmpty(s).SkipUntilOrEmpty(s),
+                };
+            }
+        }
 
         public FileInfo ilasm = new FileInfo(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\ilasm.exe");
 
         public FileInfo ildasm = new FileInfo(@"C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\ildasm.exe");
-        
+
+        public bool AttachDebugger;
+
 
         /*
          

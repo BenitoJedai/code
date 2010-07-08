@@ -9,54 +9,6 @@ namespace ScriptCoreLib.Ultra.IDL
 {
     public static class IDLParser
     {
-        public static IDLParserToken AssertDigit(this IDLParserToken t)
-        {
-            if (t.IsSymbol)
-            {
-                if (t.Text.IsDigit())
-                    return t;
-            }
-
-            throw new Exception();
-        }
-
-        public static IDLParserToken AssertSymbol(this IDLParserToken t, string Text = null)
-        {
-            if (t.IsSymbol)
-            {
-                if (Text == null)
-                    return t;
-
-                if (t.Text == Text)
-                    return t;
-            }
-
-            throw new Exception();
-        }
-
-        public static IDLParserToken AssertName(this IDLParserToken t, string Text = null)
-        {
-            if (t.IsName)
-            {
-                if (Text == null)
-                    return t;
-
-                if (t.Text == Text)
-                    return t;
-            }
-
-            throw new Exception();
-        }
-
-        public static IDLParserToken SkipTo(this IDLParserToken source)
-        {
-            return (
-                from t in source
-                where !t.IsComment
-                where !t.IsWhiteSpace
-                select t
-            ).FirstOrDefault();
-        }
 
         public static IDLTypeReference ToTypeReference(this IDLParserToken source)
         {

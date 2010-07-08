@@ -14,5 +14,11 @@ namespace CLR25
     public class Class1
     {
 
+        public Class1()
+        {
+            var c = new CLR40.Class1();
+
+            
+        }
     }
 }

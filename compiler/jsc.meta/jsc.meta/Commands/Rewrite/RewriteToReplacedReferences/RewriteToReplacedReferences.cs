@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.IO;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.IDL;
+using ScriptCoreLib.Ultra.IL;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToReplacedReferences
 {
@@ -23,26 +27,69 @@ namespace jsc.meta.Commands.Rewrite.RewriteToReplacedReferences
          * 
          * We could actually do more and export native methods...
          * Those native exported methods could be used by java runtime.
+         * 
+         * Note that some types move between assemblies between
+         * CLR versions like System.Func.
          */
 
         public override void Invoke()
         {
-            var il = this.Assembly.FullName + ".il";
+            if (AttachDebugger)
+                Debugger.Launch();
 
+            if (this.Output == null)
+                this.Output = this.Assembly;
+
+            if (this.UseReferencesForOrcas)
+            {
+                //
+            }
+
+            var staging = Path.ChangeExtension(this.Output.FullName, ".staging");
+
+            Directory.CreateDirectory(staging);
+
+            var il = Path.Combine(staging, Path.ChangeExtension(this.Output.Name, ".il"));
+
+            Console.WriteLine(il);
+
+            // http://msdn.microsoft.com/en-us/library/f7dy01k1(VS.80).aspx
             Process.Start(
-                this.ildasm.FullName,
-                this.Assembly.FullName +
-                @" /OUT=""" + il + @".il"""
-            );
+                new ProcessStartInfo(
+                    this.ildasm.FullName,
+                    this.Assembly.FullName +
+                    @" /utf8 /forward /QUOTEALLNAMES /OUT=""" + il + @""""
+                )
+                {
+                    UseShellExecute = true,
+                    CreateNoWindow = true
+                }
+            ).WaitForExit();
 
-            // update the IL manually for now
-            Debugger.Break();
+
+            IDLParserToken il_source = File.ReadAllText(il);
+
+            var a = il_source.ToAssembly();
+
+            foreach (var item in this.References)
+            {
+                a.AssemblyExternList.Where(k => k.Name.Text == item.Name).WithEach(
+                     k =>
+                     {
+                         k.Version.Text = item.Version;
+                         k.PublicKeyToken.Text = item.PublicKeyToken;
+                     }
+                );
+            }
+
+
+            File.WriteAllText(il, il_source.GetString());
 
             Process.Start(
                 this.ilasm.FullName,
                 @"""" + il + @"""" +
-                @" /DLL /OUTPUT=""" + il + @".dll"""
-            );
+                @" /DLL /OUTPUT=""" + this.Output.FullName + @""""
+            ).WaitForExit();
         }
 
         /*
