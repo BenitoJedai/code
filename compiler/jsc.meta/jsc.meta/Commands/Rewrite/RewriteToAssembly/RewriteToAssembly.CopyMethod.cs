@@ -209,7 +209,7 @@ namespace jsc.meta.Commands.Rewrite
             // synchronized?
             DeclaringMethod.SetImplementationFlags(SourceMethod.GetMethodImplementationFlags());
 
-            foreach (var item in SourceMethod.GetParameters())
+            foreach (var SourceParameter in SourceMethod.GetParameters())
             {
                 // http://msdn.microsoft.com/en-us/library/system.reflection.emit.methodbuilder.defineparameter.aspx
 
@@ -217,7 +217,16 @@ namespace jsc.meta.Commands.Rewrite
                 // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
 
 
-                DeclaringMethod.DefineParameter(item.Position + 1, item.Attributes, item.Name);
+                var DeclaringParameter = DeclaringMethod.DefineParameter(SourceParameter.Position + 1, SourceParameter.Attributes, SourceParameter.Name);
+
+                if ((SourceParameter.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
+                    DeclaringParameter.SetConstant(SourceParameter.RawDefaultValue);
+
+                // should we copy attributes? should they be opt-out?
+                foreach (var item in SourceParameter.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+                {
+                    DeclaringParameter.SetCustomAttribute(item(context));
+                }
             }
 
             // should we copy attributes? should they be opt-out?
