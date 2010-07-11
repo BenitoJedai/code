@@ -167,6 +167,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         new ScriptAttribute
                         {
                             HasNoPrototype = true,
+                            ExternalTarget = item.Interface.GetConstructors().Any() ? item.Interface.Name.Text : null 
                         }.ToCustomAttributeBuilder()(this.r.RewriteArguments.context)
 
                         //new DescriptionAttribute(
