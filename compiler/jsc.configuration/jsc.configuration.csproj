@@ -33,7 +33,7 @@
     <SuiteName>jsc</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationRevision>16</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -174,7 +174,6 @@
     <Resource Include="Documents\jsc.png" />
   </ItemGroup>
   <ItemGroup>
-  
     <PublishFile Include="latest_jsc.installer">
       <Visible>False</Visible>
       <Group>
