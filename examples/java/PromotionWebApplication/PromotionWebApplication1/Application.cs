@@ -172,7 +172,7 @@ namespace PromotionWebApplication1
 
             Action<string> Analytics = delegate { };
 
-            #region logo
+        #region logo
             {
                 var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
 
@@ -743,7 +743,7 @@ namespace PromotionWebApplication1
         {
             get
             {
-                return (bool)new IFunction("/*@cc_on return true; @*/ return false;").apply(null);
+                return (bool)new IFunction("/*@cc_on return true; @*/ return false;").apply(null, new object[] { });
             }
         }
 
@@ -931,7 +931,7 @@ namespace PromotionWebApplication1
 
                 DownloadSDKFile(h, f);
 
-          
+
             }
 
             return;

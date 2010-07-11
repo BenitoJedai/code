@@ -23,11 +23,11 @@ namespace ScriptCoreLib.Avalon
 						Add(new Opera());
 					};
 
-				this.ImageDefaultWidth = JSCSolutionsNETImage.ImageDefaultWidth;
-				this.ImageDefaultHeight = JSCSolutionsNETImage.ImageDefaultHeight;
+                this.ImageDefaultWidth = JSCSolutionsNETImageOnWhite.ImageDefaultWidth;
+                this.ImageDefaultHeight = JSCSolutionsNETImageOnWhite.ImageDefaultHeight;
 
 				this.CreateCenterImage =
-					() => new JSCSolutionsNETImage();
+					() => new JSCSolutionsNETImageOnWhite();
 
 			}
 		}

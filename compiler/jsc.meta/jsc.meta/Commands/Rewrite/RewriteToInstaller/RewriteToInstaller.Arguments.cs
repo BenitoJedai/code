@@ -22,8 +22,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 		// we could Create an ultra application instead
 		// if the template is provided we could just provide
 		// our information and and the installer is already a web/desktop app.
-		public string TemplateAssembly;
-		public string TemplateWebService;
+        //public string TemplateAssembly;
+        //public string TemplateWebService;
 
 		public bool AttachDebugger;
 
@@ -42,7 +42,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 		/// The payload should also know when it's out of date to invoke the installer again
 		/// for updates.
 		/// </summary>
-		public Uri AutoUpdateLocation = new Uri("http://www.jsc-solutions.com/download");
+		public Uri AutoUpdateLocation = new Uri("http://download.jsc-solutions.com");
 
 		// we are wrapping our thing inside a splash screen, if specified
 		public RewriteToSplashScreen.RewriteToSplashScreen Splash;

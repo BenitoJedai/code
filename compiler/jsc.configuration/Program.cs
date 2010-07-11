@@ -73,7 +73,7 @@ namespace jsc.configuration
             w.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
             w.ResizeMode = ResizeMode.CanMinimize;
             w.Icon = a.image1.Source;
-
+            
             //w.ToTransparentWindow();
             //w.WindowStyle = WindowStyle.None;
             //w.ResizeMode = ResizeMode.NoResize;
