@@ -26,6 +26,14 @@ namespace ScriptCoreLib.Ultra.IDL
                    select m;
         }
 
+        public IEnumerable<IDLMemberConstructor> GetConstructors()
+        {
+            return from k in Members
+                   let m = k as IDLMemberConstructor
+                   where m != null
+                   select m;
+        }
+
         public override string ToString()
         {
             return "interface " + this.Name.Text;
