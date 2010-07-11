@@ -53,7 +53,7 @@ namespace jsc.configuration
 
             // http://stackoverflow.com/questions/741956/wpf-pan-zoom-image
             cc.Container.RenderTransform = new ScaleTransform(0.5, 0.5);
-            cc.MoveContainerTo(416, -60);
+            cc.MoveContainerTo(416, -50);
             cc.AttachContainerTo(c);
 
 
@@ -80,6 +80,7 @@ namespace jsc.configuration
 
             w.Background = Brushes.White;
             w.WithGlass();
+            //w.Opacity = 0.5;
             w.ShowDialog();
         }
 
