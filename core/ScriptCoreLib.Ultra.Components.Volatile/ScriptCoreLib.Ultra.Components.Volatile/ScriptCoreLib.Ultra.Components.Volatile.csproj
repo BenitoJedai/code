@@ -108,6 +108,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -128,6 +129,12 @@
     <Compile Include="UltraWebService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\Images\256px-Chrome_Logo.svg.png" />
+    <Content Include="Design\Images\512px-Opera_O.svg.png" />
+    <Content Include="Design\Images\Apple_Safari.png" />
+    <Content Include="Design\Images\Firefox_3.5_logo.png" />
+    <Content Include="Design\Images\Internet_Explorer_7_Logo.png" />
+    <Content Include="Design\WebBrowsers.htm" />
     <Content Include="My.UltraSource\About.htm" />
     <Content Include="My.UltraSource\WebBrowsers.htm" />
   </ItemGroup>
@@ -148,9 +155,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Design\Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -160,7 +165,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\$(TargetName).dll"  /PrimaryAssembly:"$(TargetPath)" /PrimaryProject:"$(ProjectPath)" /AttachDebugger:false
 
 
 
@@ -168,7 +173,6 @@
       if $(ConfigurationName)==Release (
       c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:false
       )</PostBuildEvent>
-    <PreBuildEvent>
-      C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false</PreBuildEvent>
+    <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)"  /SelectAll:true /AttachDebugger:false</PreBuildEvent>
   </PropertyGroup>
 </Project>

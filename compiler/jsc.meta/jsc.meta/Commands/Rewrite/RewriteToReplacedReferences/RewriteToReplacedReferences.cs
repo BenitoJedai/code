@@ -29,7 +29,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToReplacedReferences
          * Those native exported methods could be used by java runtime.
          * 
          * Note that some types move between assemblies between
-         * CLR versions like System.Func.
+         * CLR versions like System.Func and even System.Action
          */
 
         public override void Invoke()

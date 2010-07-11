@@ -37,6 +37,9 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Avalon">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
@@ -68,7 +71,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:true /DisableIsMarkedForMerge:false</PostBuildEvent>
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
