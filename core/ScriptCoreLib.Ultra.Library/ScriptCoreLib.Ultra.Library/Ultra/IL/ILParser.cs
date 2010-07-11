@@ -56,11 +56,28 @@ namespace ScriptCoreLib.Ultra.IL
             n.Scope = scope;
             scope.Item1 = q.Item2.SkipTo().AssertSymbol("{");
 
-            n.PublicKeyToken = scope.Item1.SkipTo().AssertSymbol(".").Next.AssertName("publickeytoken").SkipTo().AssertSymbol("=").SkipTo().AssertSymbol("(").TakeWhile(
-                k => !((k.IsWhiteSpace && k.Next.Text == ")") || k.Text == ")")
-            ).Combine();
 
-            n.Version = n.PublicKeyToken.SkipTo().AssertSymbol(")").SkipTo().AssertSymbol(".").Next.AssertName("ver").SkipWhile(k => k.IsWhiteSpace).TakeWhile(k => !k.IsWhiteSpace).Combine();
+            Func<IDLParserToken, IDLParserToken> _publickeytoken_value = __publickeytoken =>
+                __publickeytoken.AssertName("publickeytoken").SkipTo().AssertSymbol("=").SkipTo().AssertSymbol("(").TakeWhile(
+                    k => !((k.IsWhiteSpace && k.Next.Text == ")") || k.Text == ")")
+                ).Combine();
+            Func<IDLParserToken, IDLParserToken> _ver_value = __ver => __ver.AssertName("ver").SkipWhile(k => k.IsWhiteSpace).TakeWhile(k => !k.IsWhiteSpace).Combine();
+
+            var _publickeytoken = scope.Item1.SkipTo().AssertSymbol(".").Next;
+
+            if (_publickeytoken.Text == "publickeytoken")
+            {
+                n.PublicKeyToken = _publickeytoken_value(_publickeytoken);
+
+                var _ver = n.PublicKeyToken.SkipTo().AssertSymbol(")").SkipTo().AssertSymbol(".").Next;
+
+                n.Version = _ver_value(_ver);
+            }
+            else
+            {
+                n.Version = _ver_value(_publickeytoken);
+            }
+
             scope.Item2 = n.Version.SkipTo().AssertSymbol("}");
 
             return n;

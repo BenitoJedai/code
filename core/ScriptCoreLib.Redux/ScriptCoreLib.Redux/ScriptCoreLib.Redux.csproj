@@ -74,6 +74,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"  /PrimaryAssembly:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"$(TargetPath)" /AssemblyMerge:"$(ProjectDir)bin\staging.UltraSource\$(TargetName).UltraSource.dll" /AttachDebugger:false /RemoveObfuscationMergeAttributes:true
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToReplacedReferences /Assembly:"c:\util\jsc\bin\ScriptCoreLib.dll" /DefaultToOrcas:true /AttachDebugger:true
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
