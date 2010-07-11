@@ -289,28 +289,25 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         var IndexerKeyType = IndexerGetter.Parameters[0].ParameterType;
                         var IndexerValueType = IndexerGetter.ReturnType;
 
-                        if (IndexerKeyType.ToString() == IndexerSetter.Parameters[0].ParameterType.ToString())
-                            if (IndexerValueType.ToString() == IndexerSetter.Parameters[1].ParameterType.ToString())
-                            {
-                                var Indexer = t.DefineProperty(IndexerName, System.Reflection.PropertyAttributes.SpecialName,
-                                    TypeCache[IndexerValueType], new[] { TypeCache[IndexerKeyType] }
-                                );
 
-                                if (IndexerSetter != null)
-                                    if (IndexerKeyType.ToString() == IndexerSetter.Parameters[0].ParameterType.ToString())
-                                        if (IndexerValueType.ToString() == IndexerSetter.Parameters[1].ParameterType.ToString())
-                                        {
-                                            Indexer.SetSetMethod(MethodCache[IndexerSetter]);
-                                        }
+                        var Indexer = t.DefineProperty(IndexerName, System.Reflection.PropertyAttributes.SpecialName,
+                            TypeCache[IndexerValueType], new[] { TypeCache[IndexerKeyType] }
+                        );
 
-                                Indexer.SetGetMethod(MethodCache[IndexerGetter]);
+                        if (IndexerSetter != null)
+                            if (IndexerKeyType.ToString() == IndexerSetter.Parameters[0].ParameterType.ToString())
+                                if (IndexerValueType.ToString() == IndexerSetter.Parameters[1].ParameterType.ToString())
+                                {
+                                    Indexer.SetSetMethod(MethodCache[IndexerSetter]);
+                                }
 
-                                t.SetCustomAttribute(
-                                    new DefaultMemberAttribute(IndexerName).ToCustomAttributeBuilder()(null)
-                                );
+                        Indexer.SetGetMethod(MethodCache[IndexerGetter]);
 
-                                // calling a getter on a native type which is an indexer should reuse given language syntax...
-                            }
+                        t.SetCustomAttribute(
+                            new DefaultMemberAttribute(IndexerName).ToCustomAttributeBuilder()(null)
+                        );
+
+                        // calling a getter on a native type which is an indexer should reuse given language syntax...
                     }
 
                     t.CreateType();

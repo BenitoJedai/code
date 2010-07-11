@@ -50,7 +50,8 @@ namespace ScriptCoreLib.ActionScript.Components
 
 		public SaveAction()
 		{
-			this.InvokeWhenStageIsReady(
+            CommonExtensions.InvokeWhenStageIsReady(
+                this,
 				delegate
 				{
 
