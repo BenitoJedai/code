@@ -147,6 +147,7 @@
     <Content Include="My.UltraSource\Images\Common\jsc.png" />
     <Content Include="My.UltraSource\Images\Common\white-jsc.png" />
     <Content Include="My.UltraSource\Images\Common\white192.png" />
+    <Content Include="My.UltraSource\Images\Common\white192_jsc.png" />
     <Content Include="My.UltraSource\Images\Reflection\HTMLDocument.png" />
     <Content Include="My.UltraSource\Images\Reflection\ImageFile.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionProjectDependentUpon.png" />

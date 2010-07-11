@@ -61,11 +61,12 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
                 var name1_zip = DateTime.Now.ToString("yyyyMMdd") + "_jsc.zip";
                 var name2_zip = "latest_jsc.zip";
-                var name = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
-                var name2 = "latest_jsc.installer";
-                var name_zip = name + ".zip";
 
-                Console.WriteLine(name);
+                var name1 = DateTime.Now.ToString("yyyyMMdd") + "_jsc.installer";
+                var name_zip = name1 + ".zip";
+                var name2 = "latest_jsc.installer";
+
+                Console.WriteLine(name1);
 
 
                 // create an installer now!
@@ -76,7 +77,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 {
                     staging = jsc,
 
-                    product = name,
+                    product = name2,
                     productExtension = ".exe",
 
                     // does it work? :)
@@ -115,23 +116,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
 
                 };
-
-
-                //r.AtILOverride +=
-                //    (m, e) =>
-                //    {
-                //        if (((Func<byte[]>)Installer.GetArchive).Method == m)
-                //        {
-                //            e.BeforeInstructions +=
-                //                i =>
-                //                {
-                //                    i.il.Emit(OpCodes.Ldnull);
-                //                    i.il.Emit(OpCodes.Ret);
-                //                    i.Complete();
-                //                };
-                //        }
-                //    };
-
+      
                 r.Invoke();
 
                 if (this.Splash != null)
@@ -140,10 +125,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     this.Splash.Invoke();
                 }
 
+                // copy with the date prefix
                 r.Output.CopyTo(
                     Path.Combine(
                         jsc.FullName,
-                        name2 + ".exe"
+                        name1 + ".exe"
                     ), true
                 );
 
@@ -152,20 +138,20 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 					{ r.Output.Name, File.ReadAllBytes(r.Output.FullName)}
 				};
 
-                File.WriteAllBytes(
+                //File.WriteAllBytes(
 
-                    Path.Combine(jsc.FullName,
-                        name_zip
-                    ),
+                //    Path.Combine(jsc.FullName,
+                //        name_zip
+                //    ),
 
-                    exe_zip.ToBytes()
-                );
+                //    exe_zip.ToBytes()
+                //);
 
 
-                File.WriteAllBytes(
-                    Path.Combine(jsc.FullName, name1_zip),
-                    zip.ToBytes()
-                );
+                //File.WriteAllBytes(
+                //    Path.Combine(jsc.FullName, name1_zip),
+                //    zip.ToBytes()
+                //);
 
                 File.WriteAllBytes(
                     Path.Combine(jsc.FullName, name2_zip),

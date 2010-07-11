@@ -7,6 +7,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Threading;
 using System.Windows.Media;
 using ScriptCoreLib.Avalon;
+using System.Windows.Media.Effects;
 
 namespace ScriptCoreLib.Avalon.Desktop
 {
@@ -91,8 +92,9 @@ namespace ScriptCoreLib.Avalon.Desktop
                 Background = Brushes.Transparent,
                 BorderThickness = new System.Windows.Thickness(0),
                 Foreground = Brushes.Red,
-                BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect(),
-                Text = "Evaluation version",
+                //BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect(),
+                //Effect = new DropShadowEffect(),
+                Text = "evaluation version",
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 TextAlignment = System.Windows.TextAlignment.Right
             }.AttachTo(c).MoveTo(0, ImageCarouselCanvas.DefaultHeight - 96).SizeTo(ImageCarouselCanvas.DefaultWidth, 96);
