@@ -40,9 +40,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToReplacedReferences
             if (this.Output == null)
                 this.Output = this.Assembly;
 
-            if (this.UseReferencesForOrcas)
+            if (this.DefaultToOrcas)
             {
-                //
+                this.References = this.References.Concat(this.ReferencesForOrcas).ToArray();
+                this.ilasm = this.ilasm20;
             }
 
             var staging = Path.ChangeExtension(this.Output.FullName, ".staging");
@@ -90,6 +91,18 @@ namespace jsc.meta.Commands.Rewrite.RewriteToReplacedReferences
                 @"""" + il + @"""" +
                 @" /DLL /OUTPUT=""" + this.Output.FullName + @""""
             ).WaitForExit();
+
+            Process.Start(
+                new ProcessStartInfo(
+                    this.PEVerify.FullName,
+                    @" /NOLOGO """ + this.Output.FullName + @""""
+                )
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = false
+                }
+            ).WaitForExit();
+
         }
 
         /*

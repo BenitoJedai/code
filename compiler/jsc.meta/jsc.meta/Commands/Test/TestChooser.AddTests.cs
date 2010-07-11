@@ -52,10 +52,18 @@ namespace jsc.meta.Commands.Test
                 );
             #endregion
 
+            Add("ScriptCoreLib", () =>
+               new RewriteToReplacedReferences
+               {
+                   DefaultToOrcas = true,
+                   Assembly = new FileInfo(@"c:\util\jsc\bin\ScriptCoreLib.dll"),
+               }
+           );
 
             Add("CLR40", () =>
                 new RewriteToReplacedReferences
                 {
+                    DefaultToOrcas = true,
                     Assembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\CLR25\CLR40\bin\Debug\CLR40.dll"),
                 }
             );
@@ -81,7 +89,7 @@ namespace jsc.meta.Commands.Test
 
             //start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true
 
-           
+
             new[]
             {
                 @"W:\jsc.svn\examples\rewrite\CircularGenericInterfaces\CircularGenericInterfaces\bin\Debug\CircularGenericInterfaces.dll",
