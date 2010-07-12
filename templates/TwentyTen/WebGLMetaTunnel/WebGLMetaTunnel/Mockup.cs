@@ -221,14 +221,16 @@ namespace WebGLMetaTunnelXX
                         if (obj(o + d * t) < s)
                         {
                             t -= 5.0f;
-                            for (int j = 0; j < 5; j++) if (obj(o + d * t) >= s) t += 1.0f;
+                            for (int j = 0; j < 5; j++)
+                                if (obj(o + d * t) >= s) t += 1.0f;
                             vec3 e = vec3(0.01, .0, .0);
                             vec3 n = vec3(0.0);
                             n.y = obj(o + d * t) - obj(vec3(o + d * t + e.xyy));
                             n.x = obj(o + d * t) - obj(vec3(o + d * t + e.yxy));
                             n.z = obj(o + d * t) - obj(vec3(o + d * t + e.yyx));
                             n = normalize(n);
-                            color += max(dot(vec3(0.6, 0.0, -0.5), n), 0.0) + max(dot(vec3(-0.6, -0.0, -0.5), n), 0.0) * 0.5; color.a = 1.0f; break;
+                            color += max(dot(vec3(0.6, 0.0, -0.5), n), 0.0) + max(dot(vec3(-0.6, -0.0, -0.5), n), 0.0) * 0.5; color.a = 1.0f;
+                            break;
                         }
                         t += 5.0f;
                     }
