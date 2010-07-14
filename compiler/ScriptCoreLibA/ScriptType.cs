@@ -35,13 +35,14 @@ namespace ScriptCoreLib
 		Lua,
 
         /// <summary>
-        /// For the WebGL :) And WPF?
-        /// http://en.wikipedia.org/wiki/GLSL
-        /// 
-        /// Or HLSL?
-        /// http://msdn.microsoft.com/en-us/library/bb509561(VS.85).aspx
+        /// For the WebGL
         /// </summary>
-        ShadingLanguage
+        GLSL,
+
+        /// <summary>
+        /// For WPF via DirectX
+        /// </summary>
+        HLSL
 	}
 
 }

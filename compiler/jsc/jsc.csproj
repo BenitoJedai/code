@@ -222,6 +222,7 @@
     <Compile Include="Languages\CSharp2\CompilerJob.cs" />
     <Compile Include="Languages\C\CCompiler.cs" />
     <Compile Include="Languages\DelegateHint.cs" />
+    <Compile Include="Languages\GLSL\GLSLCompiler.cs" />
     <Compile Include="Languages\IL\ILTranslationContext.cs" />
     <Compile Include="Languages\IL\ILTranslationExtensions.EmitInstance.cs" />
     <Compile Include="Languages\IL\ILTranslationExtensions.EmitToArguments.cs" />
