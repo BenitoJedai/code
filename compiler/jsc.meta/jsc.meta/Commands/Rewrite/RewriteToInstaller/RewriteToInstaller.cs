@@ -85,6 +85,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
                     merge = new RewriteToAssembly.MergeInstruction[] { "ScriptCoreLib.Archive.ZIP" },
 
+                    OutputStrongNameKeyPair = this.OutputStrongNameKeyPair,
+
                     PostAssemblyRewrite =
                         a =>
                         {
@@ -122,6 +124,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 if (this.Splash != null)
                 {
                     this.Splash.PrimaryAssembly = r.Output;
+                    this.Splash.OutputStrongNameKeyPair = this.OutputStrongNameKeyPair;
                     this.Splash.Invoke();
                 }
 

@@ -44,7 +44,9 @@ using ScriptCoreLib.Shared;
 ]
 
 [assembly:
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.Function)),
+    ScriptTypeFilter(ScriptType.GLSL, typeof(global::ScriptCoreLib.GLSL.vec2)),
+
+    ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.Function)),
 	ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.Shared.BCLImplementation.System.__Uri)),
 	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
 

@@ -127,12 +127,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PromotionWebApplicationAssets\PromotionWebApplicationAssets.csproj">
-      <Project>{2134AA2E-374D-4BD9-A8E4-23D91A990D50}</Project>
-      <Name>PromotionWebApplicationAssets</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

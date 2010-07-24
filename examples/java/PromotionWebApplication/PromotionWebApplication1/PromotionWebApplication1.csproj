@@ -63,7 +63,7 @@
   <ItemGroup>
     <Reference Include="Bulldog.Server.CodeGenerators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\zproxygames\Bulldog\Bulldog.Server.CodeGenerators\bin\Debug\Bulldog.Server.CodeGenerators.dll</HintPath>
+      <HintPath>W:\zproxygames.svn\Bulldog\Bulldog.Server.CodeGenerators\bin\Debug\Bulldog.Server.CodeGenerators.dll</HintPath>
     </Reference>
     <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -110,10 +110,6 @@
     <Reference Include="ScriptCoreLib.Ultra.Components.Volatile, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.Volatile.dll</HintPath>
-    </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Documentation, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Documentation.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

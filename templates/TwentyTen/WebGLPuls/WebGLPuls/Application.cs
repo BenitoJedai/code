@@ -19,6 +19,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 namespace WebGLPuls
 {
     using gl = WebGLRenderingContext;
+    using ScriptCoreLib.GLSL;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -246,5 +247,48 @@ void main()
             c.style.border = "1px solid green";
         }
 
+        abstract class __fragment_shader
+        {
+            [uniform]
+            public float t;
+
+            [varying]
+            vec2 tc;
+
+            const float BLOWUP = 66.0f; /* 86.0 */
+            const float MAXSTEPSHIFT = 8.0f; /* 6.0 */
+            const int MAXITERS = 34; /* 26 */
+
+            const float pi = 3.1415926535f;
+
+            abstract protected float sum(vec3 v);
+            abstract protected int func(vec3 pos, float stepshift);
+
+            void main()
+            {
+            }
+        }
+
+        class __vertex_shader
+        {
+            [attribute]
+            vec2 position;
+
+            [attribute]
+            vec2 texcoord;
+
+            [uniform]
+            float h;
+
+            [varying]
+            vec2 tc;
+
+
+            void main()
+            {
+                //gl_Position = vec4(position, 0.0, 1.0);
+                //tc = vec2(position.x, position.y * h);
+            }
+        }
     }
 }

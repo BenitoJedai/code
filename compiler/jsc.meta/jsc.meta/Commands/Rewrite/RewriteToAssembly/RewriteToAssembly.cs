@@ -255,8 +255,18 @@ namespace jsc.meta.Commands.Rewrite
             var _ct_SaveName = OutputUndefined ? Product.Name : "~" + Product.Name;
 
 
+            var OutputAssemblyName = new AssemblyName(Path.GetFileNameWithoutExtension(_ct_Product_Name))
+            {
+            };
 
-            a = AppDomain.CurrentDomain.DefineDynamicAssembly(new AssemblyName(Path.GetFileNameWithoutExtension(_ct_Product_Name)), AssemblyBuilderAccess.RunAndSave, _ct_staging_FullName);
+            if (this.OutputStrongNameKeyPair != null)
+                OutputAssemblyName.KeyPair = new StrongNameKeyPair(File.ReadAllBytes(this.OutputStrongNameKeyPair.FullName));
+
+            a = AppDomain.CurrentDomain.DefineDynamicAssembly(
+                OutputAssemblyName, 
+                AssemblyBuilderAccess.RunAndSave, 
+                _ct_staging_FullName
+            );
 
             m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(_ct_Product_Name), _ct_SaveName);
 

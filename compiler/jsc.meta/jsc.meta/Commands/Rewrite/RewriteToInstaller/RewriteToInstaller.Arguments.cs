@@ -47,6 +47,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 		// we are wrapping our thing inside a splash screen, if specified
 		public RewriteToSplashScreen.RewriteToSplashScreen Splash;
 
+        public FileInfo OutputStrongNameKeyPair;
 	}
 
 }

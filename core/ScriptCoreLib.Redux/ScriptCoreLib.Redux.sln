@@ -1,18 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Redux", "ScriptCoreLib.Redux\ScriptCoreLib.Redux.csproj", "{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptCoreLib", "ScriptCoreLib", "{B526FEC5-0493-450A-8019-51D4F878FC25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib", "..\ScriptCoreLib\ScriptCoreLib.csproj", "{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptCoreLib.Avalon", "ScriptCoreLib.Avalon", "{A2AE2B5D-D2C6-4CB3-AC48-B8359D360F05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon", "..\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj", "{0910EC49-6697-4664-8A71-F09CAEC02E88}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6} = {C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Redux.Avalon", "ScriptCoreLib.Redux.Avalon\ScriptCoreLib.Redux.Avalon.csproj", "{A40532D2-FE5D-4CC9-AC65-C4F0E1BD43D6}"
 EndProject
@@ -29,12 +24,6 @@ Global
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Assets|Any CPU.Build.0 = Assets|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Assets|Any CPU.Build.0 = Assets|Any CPU
 		{0910EC49-6697-4664-8A71-F09CAEC02E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

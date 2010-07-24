@@ -196,6 +196,8 @@ namespace jsc.meta.Commands.Rewrite
 
         public FileInfo Output;
 
+        public FileInfo OutputStrongNameKeyPair;
+
         public ILTranslationContext ExternalContext = new ILTranslationContext
         {
             ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>(),

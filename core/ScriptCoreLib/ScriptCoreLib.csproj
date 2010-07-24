@@ -89,6 +89,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GLSL\vec3.cs" />
+    <Compile Include="GLSL\GLSLKeywords.cs" />
+    <Compile Include="GLSL\vec2.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
