@@ -760,7 +760,21 @@ namespace jsc.meta.Commands.Rewrite
                         var DeclaringType = (TypeBuilder)DeclaringType_;
                         var FieldName = NameObfuscation[MemberRenameCache[SourceField] ?? SourceField.Name];
 
-                        var FieldValue = SourceField.GetValue(null).StructAsByteArray();
+
+                        var FieldValue = default(byte[]);
+
+                        if (DeclaringType.ContainsGenericParameters || !SourceField.IsStatic || SourceField.FieldType.IsEnum || SourceField.IsLiteral)
+                        {
+                            // Unhandled Exception: System.Reflection.TargetException: Non-static field requires a target.
+
+                            // Unhandled Exception: System.InvalidOperationException: 
+                            // Late bound operations cannot be performed on fields with types for which Type.ContainsGenericParameters is true.
+                            // at System.Reflection.RtFieldInfo.GetValue(Object obj)
+                        }
+                        else if (SourceField.FieldType == typeof(long) || SourceField.FieldType.IsValueType)
+                        {
+                            FieldValue = SourceField.GetValue(null).StructAsByteArray();
+                        }
 
                         if (FieldValue != null && FieldValue.Any(k => k > 0))
                         {
