@@ -215,14 +215,13 @@ void main()
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicies);
 
-            var q = new WebGLUnsignedShortArray(4);
+  
 
-            q[0] = 0;
-            q[1] = 1;
-            q[2] = 2;
-            q[3] = 3;
-
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, q, gl.STATIC_DRAW);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
+                new WebGLUnsignedShortArray(
+                    new ushort[] { 0, 1, 2, 3 }
+                    )
+                , gl.STATIC_DRAW);
 
             var start = new IDate().getTime();
             Action redraw = delegate

@@ -149,6 +149,33 @@ namespace jsc //.Extensions
 			return s;
 		}
 
+        public static ushort[] StructAsUInt16Array(this object data)
+        {
+            // http://www.vsj.co.uk/articles/display.asp?id=501
+
+            var size = Marshal.SizeOf(data);
+            var buf = Marshal.AllocHGlobal(size);
+
+
+            Marshal.StructureToPtr(data, buf, false);
+
+            var a = new ushort[size / sizeof(ushort)];
+
+            unsafe
+            {
+                var p = (ushort*)buf;
+                for (int i = 0; i < a.Length; i++)
+                {
+                    a[i] = *p;
+                    p++;
+                }
+            }
+
+            Marshal.FreeHGlobal(buf);
+
+            return a;
+        }
+
 		public static uint[] StructAsUInt32Array(this object data)
 		{
 			// http://www.vsj.co.uk/articles/display.asp?id=501
@@ -178,6 +205,9 @@ namespace jsc //.Extensions
 
 		public static byte[] StructAsByteArray(this object data)
 		{
+            if (data == null)
+                return null;
+
 			// http://www.vsj.co.uk/articles/display.asp?id=501
 
 			var size = Marshal.SizeOf(data);

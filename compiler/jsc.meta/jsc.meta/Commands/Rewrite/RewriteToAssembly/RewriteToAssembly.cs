@@ -178,9 +178,9 @@ namespace jsc.meta.Commands.Rewrite
                             {
                                 // should we copy attributes? should they be opt-out?
 
-                                foreach (var item in 
+                                foreach (var item in
                                     from k_ in shadow_assembly.GetCustomAttributes(false)
-                                    let kk = SelectAssemblyMergeAttribute == null ? 
+                                    let kk = SelectAssemblyMergeAttribute == null ?
                                         (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
 
                                     where kk != null
@@ -263,8 +263,8 @@ namespace jsc.meta.Commands.Rewrite
                 OutputAssemblyName.KeyPair = new StrongNameKeyPair(File.ReadAllBytes(this.OutputStrongNameKeyPair.FullName));
 
             a = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                OutputAssemblyName, 
-                AssemblyBuilderAccess.RunAndSave, 
+                OutputAssemblyName,
+                AssemblyBuilderAccess.RunAndSave,
                 _ct_staging_FullName
             );
 
@@ -760,11 +760,12 @@ namespace jsc.meta.Commands.Rewrite
                         var DeclaringType = (TypeBuilder)DeclaringType_;
                         var FieldName = NameObfuscation[MemberRenameCache[SourceField] ?? SourceField.Name];
 
-                        if (SourceField.FieldType.IsInitializedDataFieldType())
-                        {
-                            var value = SourceField.GetValue(null).StructAsByteArray();
+                        var FieldValue = SourceField.GetValue(null).StructAsByteArray();
 
-                            var ff = DeclaringType.DefineInitializedData(FieldName, value, SourceField.Attributes);
+                        if (FieldValue != null && FieldValue.Any(k => k > 0))
+                        {
+
+                            var ff = DeclaringType.DefineInitializedData(FieldName, FieldValue, SourceField.Attributes);
 
                             FieldCache[SourceField] = ff;
                         }
@@ -785,7 +786,7 @@ namespace jsc.meta.Commands.Rewrite
                                 var DeclaringField = default(FieldBuilder);
 
                                 DeclaringField = DeclaringType.DefineField(
-                                     FieldName ,
+                                     FieldName,
                                      FieldType,
                                      FieldAttributes
                                 );
@@ -831,7 +832,7 @@ namespace jsc.meta.Commands.Rewrite
             TypeDefinitionCache.Resolve +=
                 (SourceType) =>
                 {
-            
+
 
                     if (SourceType.Assembly is AssemblyBuilder)
                     {
@@ -1250,11 +1251,11 @@ namespace jsc.meta.Commands.Rewrite
                             var VirtualMethod = VirtualMethod_.TargetMethod;
 
                             PartialMethods.Add(
-                                new 
+                                new
                                 {
                                     VirtualMethod.Name,
                                     VirtualMethod.ReturnType,
-                                    GetParameterTypes = TypeDefinitionCache[ VirtualMethod.GetParameterTypes()]
+                                    GetParameterTypes = TypeDefinitionCache[VirtualMethod.GetParameterTypes()]
                                 }
                             );
 
@@ -1263,7 +1264,7 @@ namespace jsc.meta.Commands.Rewrite
                                 VirtualMethod.Attributes,
                                 VirtualMethod.CallingConvention,
                                 VirtualMethod.ReturnType,
-                                TypeDefinitionCache[ VirtualMethod.GetParameterTypes()]
+                                TypeDefinitionCache[VirtualMethod.GetParameterTypes()]
                             ).NotImplemented();
                         }
                     }
