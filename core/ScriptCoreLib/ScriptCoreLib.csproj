@@ -89,6 +89,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GLSL\vec4.cs" />
+    <Compile Include="GLSL\sampler2D.cs" />
     <Compile Include="GLSL\vec3.cs" />
     <Compile Include="GLSL\GLSLKeywords.cs" />
     <Compile Include="GLSL\vec2.cs" />
