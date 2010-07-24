@@ -16,7 +16,15 @@ set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 ::ERASE /s /Q %LOCALAPPDATA%\jsc\cache 
 
 ::call c:\util\jsc\bin\jsc.meta.exe ConfigurationPrecompile
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:false
+
+set SDKConfiguration=jsc.SDKConfiguration.xml
+
+:: the configuration is machine local and should be reconfigured at install
+ren %target%\%SDKConfiguration% %SDKConfiguration%.transient
+
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:false /OutputStrongNameKeyPair:"W:\jsc_key.snk"
+
+ren %target%\%SDKConfiguration%.transient %SDKConfiguration%
 
 endlocal
 goto :eof

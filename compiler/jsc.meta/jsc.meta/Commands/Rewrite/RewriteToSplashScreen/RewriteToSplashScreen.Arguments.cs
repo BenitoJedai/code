@@ -11,6 +11,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 	{
 		public bool IsConsole = true;
 
+        public FileInfo OutputStrongNameKeyPair;
+
 		public FileInfo PrimaryAssembly;
 
 		public FileInfo Splash;

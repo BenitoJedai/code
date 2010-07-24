@@ -40,6 +40,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToSplashScreen
 			var r = new RewriteToAssembly
 			{
 				Output = this.PrimaryAssembly,
+                OutputStrongNameKeyPair = this.OutputStrongNameKeyPair,
 
 				merge = new RewriteToAssembly.MergeInstruction[]
 				{
