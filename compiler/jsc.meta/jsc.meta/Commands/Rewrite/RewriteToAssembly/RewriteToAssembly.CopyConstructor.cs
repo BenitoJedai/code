@@ -22,11 +22,11 @@ namespace jsc.meta.Commands.Rewrite
             )
         {
 
-            var km = default(ConstructorBuilder);
+            var DeclaringConstructor = default(ConstructorBuilder);
 
             if (SourceConstructor.IsStatic)
             {
-                km = DeclaringType.DefineTypeInitializer();
+                DeclaringConstructor = DeclaringType.DefineTypeInitializer();
             }
             else
             {
@@ -35,18 +35,35 @@ namespace jsc.meta.Commands.Rewrite
 
                 var ParameterTypes = context.TypeCache[SourceConstructor.GetParameterTypes()];
 
-                km = DeclaringType.DefineConstructor(
+                DeclaringConstructor = DeclaringType.DefineConstructor(
                     SourceConstructor.Attributes,
                     SourceConstructor.CallingConvention,
                     ParameterTypes
                 );
             }
 
-            km.SetImplementationFlags(SourceConstructor.GetMethodImplementationFlags());
+            DeclaringConstructor.SetImplementationFlags(SourceConstructor.GetMethodImplementationFlags());
 
-            SourceConstructor.GetParameters().CopyTo(km);
+            foreach (var SourceParameter in SourceConstructor.GetParameters())
+            {
+                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.methodbuilder.defineparameter.aspx
 
-            context.ConstructorCache[SourceConstructor] = km;
+                // The position of the parameter in the parameter list. 
+                // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
+
+
+                var DeclaringParameter = DeclaringConstructor.DefineParameter(SourceParameter.Position + 1, SourceParameter.Attributes, SourceParameter.Name);
+
+                if ((SourceParameter.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
+                    DeclaringParameter.SetConstant(SourceParameter.RawDefaultValue);
+
+                // should we copy attributes? should they be opt-out?
+                foreach (var item in SourceParameter.GetCustomAttributes(false).Select(kk => kk.ToCustomAttributeBuilder()))
+                {
+                    DeclaringParameter.SetCustomAttribute(item(context));
+                }
+            }
+            context.ConstructorCache[SourceConstructor] = DeclaringConstructor;
 
             if (SourceConstructor.GetMethodBody() == null)
                 return;
@@ -64,7 +81,7 @@ namespace jsc.meta.Commands.Rewrite
             );
 
 
-            SourceConstructor.EmitTo(km.GetILGenerator(), x);
+            SourceConstructor.EmitTo(DeclaringConstructor.GetILGenerator(), x);
 
         }
 

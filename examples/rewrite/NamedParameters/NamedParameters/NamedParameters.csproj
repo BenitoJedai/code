@@ -46,7 +46,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /AttachDebugger:true</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /AttachDebugger:false</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

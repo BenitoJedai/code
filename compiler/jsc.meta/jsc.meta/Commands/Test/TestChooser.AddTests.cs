@@ -208,6 +208,16 @@ namespace jsc.meta.Commands.Test
                  type = "ScriptCoreLib.PHP.Native"
              }
          );
+
+
+            Add("TestUInt16ArrayInitializer", () =>
+              new RewriteToAssembly
+              {
+                  Output = new FileInfo(@"W:\jsc.svn\examples\rewrite\TestUInt16ArrayInitializer\TestUInt16ArrayInitializer\bin\Debug\N.dll"),
+                  assembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\TestUInt16ArrayInitializer\TestUInt16ArrayInitializer\bin\Debug\TestUInt16ArrayInitializer.dll"),
+                  type = "TestUInt16ArrayInitializer.MyClass"
+              }
+          );
         }
     }
 }

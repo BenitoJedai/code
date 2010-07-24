@@ -1100,6 +1100,20 @@ namespace jsc
                         }
                         w.Write("]");
                     }
+                    else if (Type == typeof(ushort))
+                    {
+                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsUInt16Array();
+
+                        w.Write("[");
+                        for (int j = 0; j < Values.Length; j++)
+                        {
+                            if (j > 0)
+                                w.Write(", ");
+
+                            w.Write(Values[j].ToString());
+                        }
+                        w.Write("]");
+                    }
                     else if (Type == typeof(double))
                     {
                         var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();

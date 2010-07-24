@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Threading;
+using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
+using jsc.meta.Configuration;
+using ScriptCoreLib.Avalon;
 using ScriptCoreLib.CSharp.Avalon.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
-using System.Windows.Controls;
-using System.Reflection;
-using System.Windows.Media;
-using ScriptCoreLib.Avalon;
-using System.Windows.Media.Effects;
-using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
-using System.Windows;
-using System.Threading;
-using jsc.meta.Configuration;
-using System.Windows.Threading;
-using System.Diagnostics;
 
 namespace jsc.configuration
 {
