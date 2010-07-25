@@ -20,6 +20,7 @@ namespace TestUInt16ArrayInitializer
         public static void Main()
         {
             var u = new ushort[] { 0, 1, 2, 3 };
+            var yy = new ushort[] { 0, 1, 2, 3,6 };
         }
     }
 }

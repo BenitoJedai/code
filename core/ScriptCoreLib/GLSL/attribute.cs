@@ -17,13 +17,14 @@ namespace ScriptCoreLib.GLSL
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
     [AttributeUsageFieldTypeContractAttribute(
-        typeof(float),
-        typeof(vec2),
-        typeof(vec3),
-        typeof(vec4),
-        typeof(mat2),
-        typeof(mat3),
-        typeof(mat4)
+        typeof(float)
+        //jsc does not redirect those yet?
+        //typeof(vec2),
+        //typeof(vec3),
+        //typeof(vec4),
+        //typeof(mat2),
+        //typeof(mat3),
+        //typeof(mat4)
         )]
     public sealed class attribute : Attribute
     {

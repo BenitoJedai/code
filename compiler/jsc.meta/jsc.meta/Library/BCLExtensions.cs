@@ -129,7 +129,9 @@ namespace jsc.meta.Library
 
 		public static bool IsInitializedDataFieldType(this Type SourceType)
 		{
-			return (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0);
+			return (SourceType.StructLayoutAttribute != null && SourceType.StructLayoutAttribute.Size > 0) && 
+                (SourceType.Name.StartsWith("$ArrayType$") ||
+                    SourceType.Name.StartsWith("__StaticArrayInitTypeSize"));
 		}
 
 		public static T ToConsole<T>(this T e) where T : class
