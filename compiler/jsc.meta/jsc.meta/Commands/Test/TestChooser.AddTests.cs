@@ -218,6 +218,14 @@ namespace jsc.meta.Commands.Test
                   type = "TestUInt16ArrayInitializer.MyClass"
               }
           );
+
+            Add("TestStruct", () =>
+               new RewriteToAssembly
+               {
+                   Output = new FileInfo(@"W:\jsc.svn\examples\rewrite\TestStruct\TestStruct\bin\Debug\N.dll"),
+                   assembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\TestStruct\TestStruct\bin\Debug\TestStruct.dll"),
+               }
+           );
         }
     }
 }
