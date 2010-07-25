@@ -102,7 +102,7 @@ call :build core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.s
 ::call :build templates\OrcasWebSite\OrcasWebSite.sln
 
 
-call :build core\ScriptCoreLib.Ultra.Documentation\ScriptCoreLib.Ultra.Documentation.sln
+::call :build core\ScriptCoreLib.Ultra.Documentation\ScriptCoreLib.Ultra.Documentation.sln
 
 popd
 ::call rebuild.installer.bat

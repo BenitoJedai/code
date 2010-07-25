@@ -12,10 +12,8 @@
     <RootNamespace>PromotionWebApplication</RootNamespace>
     <AssemblyName>PromotionWebApplication</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <FileUpgradeFlags></FileUpgradeFlags>
+    <UpgradeBackupLocation></UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -63,6 +61,9 @@
     <Reference Include="PromotionWebApplication.WebSource.HTML">
       <HintPath>bin\WebSource.HTML.staging\PromotionWebApplication.WebSource.HTML.dll</HintPath>
     </Reference>
+    <Reference Include="PromotionWebApplication.UltraSource">
+      <HintPath>bin\staging.UltraSource\PromotionWebApplication.UltraSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -98,8 +99,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2457</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
+          <IISUrl></IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>http://localhost:8081/</CustomServerUrl>

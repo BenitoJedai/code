@@ -91,6 +91,7 @@ namespace jsc.meta
                 new ConfigurationCreateProjectTemplates(),
                 new ConfigurationInitialize(),
                 new ConfigurationPrecompile(),
+                new ConfigurationIncrementApplicationVersion(),
 
                 new TestChooser()
 			);
