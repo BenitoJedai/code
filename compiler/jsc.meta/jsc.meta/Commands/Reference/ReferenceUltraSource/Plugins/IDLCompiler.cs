@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using jsc.meta.Commands.Rewrite;
-using System.IO;
-using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Ultra.IDL;
-using System.ComponentModel;
-using jsc.meta.Library;
 using jsc.Library;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.JavaScript.DOM;
+using jsc.meta.Commands.Rewrite;
+using jsc.meta.Library;
 using ScriptCoreLib;
-using System.Reflection;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Ultra.IDL;
 
 namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 {
@@ -167,7 +167,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         new ScriptAttribute
                         {
                             HasNoPrototype = true,
-                            ExternalTarget = item.Interface.GetConstructors().Any() ? item.Interface.Name.Text : null 
+                            ExternalTarget = item.Interface.GetConstructors().Any() ? item.Interface.Name.Text : null
                         }.ToCustomAttributeBuilder()(this.r.RewriteArguments.context)
 
                         //new DescriptionAttribute(
@@ -179,7 +179,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         //).ToCustomAttributeBuilder()(this.r.RewriteArguments.context)
                     );
 
-
+                    #region Methods
                     var MethodCache = item.Interface.GetMethods().ToDictionary(
                         k => k,
                         SourceMethod =>
@@ -204,6 +204,35 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                             return Method;
                         }
                     );
+                    #endregion
+
+
+                    foreach (var SourceConstructor in item.Interface.GetConstructors())
+                    {
+
+                        var Constructor = t.DefineConstructor(
+                                    System.Reflection.MethodAttributes.Public,
+                                    System.Reflection.CallingConventions.Standard,
+                                     SourceConstructor.Parameters.Select(k => TypeCache[k.ParameterType]).ToArray()
+                                );
+
+                        for (int i = 0; i < SourceConstructor.Parameters.Count; i++)
+                        {
+                            var p = Constructor.DefineParameter(i + 1, System.Reflection.ParameterAttributes.None, SourceConstructor.Parameters[i].Name.Text);
+
+                            if (i == SourceConstructor.Parameters.Count - 1)
+                            {
+                                if (TypeCache[SourceConstructor.Parameters[i].ParameterType].IsArray)
+                                {
+                                    p.SetCustomAttribute(
+                                        new ParamArrayAttribute().ToCustomAttributeBuilder()(null)
+                                    );
+                                }
+                            }
+                        }
+
+                        Constructor.GetILGenerator().EmitCode(() => { throw new NotImplementedException(); });
+                    }
 
                     foreach (var m in item.Interface.Members)
                     {
@@ -248,33 +277,12 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                         );
                         #endregion
 
-
-
-                        #region SourceConstructor
-                        (m as IDLMemberConstructor).With(
-                            SourceConstructor =>
-                            {
-                                var Constructor = t.DefineConstructor(
-                                    System.Reflection.MethodAttributes.Public,
-                                    System.Reflection.CallingConventions.Standard,
-                                     SourceConstructor.Parameters.Select(k => TypeCache[k.ParameterType]).ToArray()
-                                );
-
-                                for (int i = 0; i < SourceConstructor.Parameters.Count; i++)
-                                {
-                                    Constructor.DefineParameter(i + 1, System.Reflection.ParameterAttributes.None, SourceConstructor.Parameters[i].Name.Text);
-                                }
-
-                                Constructor.GetILGenerator().EmitCode(() => { throw new NotImplementedException(); });
-                            }
-                        );
-                        #endregion
-
                     }
 
                     //     getter GLubyte get(in unsigned long index);
                     //    setter void set(in unsigned long index, in GLubyte value);
 
+                    #region indexer
                     var IndexerName = "Item";
                     var IndexerGetter = item.Interface.GetMethods().FirstOrDefault(
                         k => k.KeywordGetter != null && k.Parameters.Count == 1
@@ -310,6 +318,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 
                         // calling a getter on a native type which is an indexer should reuse given language syntax...
                     }
+                    #endregion
 
                     t.CreateType();
 

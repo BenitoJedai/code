@@ -310,8 +310,10 @@ void main(void) {
 
     class __shader_fs_show
     {
-  [uniform] sampler2D uTexSamp;
-  [varying] vec2 vTexCoord;
+        [uniform]
+        sampler2D uTexSamp;
+        [varying]
+        vec2 vTexCoord;
 
         void Main()
         {
