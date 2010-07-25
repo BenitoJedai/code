@@ -13,6 +13,7 @@ using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
 using jsc.meta.Library.CodeTrace;
+using System.Runtime.InteropServices;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -771,9 +772,18 @@ namespace jsc.meta.Commands.Rewrite
                             // Late bound operations cannot be performed on fields with types for which Type.ContainsGenericParameters is true.
                             // at System.Reflection.RtFieldInfo.GetValue(Object obj)
                         }
-                        else if (SourceField.FieldType == typeof(long) || SourceField.FieldType.IsValueType)
+                        //else if (/*SourceField.FieldType == typeof(long) ||*/ SourceField.FieldType.IsInitializedDataFieldType())
+                        else if (SourceField.FieldType.IsValueType && DeclaringType.Name.StartsWith("<PrivateImplementationDetails>"))
                         {
-                            FieldValue = SourceField.GetValue(null).StructAsByteArray();
+                            //An unhandled exception of type 'System.ExecutionEngineException' occurred in mscorlib.dll
+
+                            
+                            var __Value = SourceField.GetValue(null);
+
+
+
+                            FieldValue = __Value.StructAsByteArray();
+                            
                         }
 
                         if (FieldValue != null && FieldValue.Any(k => k > 0))

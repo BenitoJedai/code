@@ -64,8 +64,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>rem lib is not a good idea
-copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\lib\"
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)"
+
 copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
