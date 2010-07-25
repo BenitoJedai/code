@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A0783604-622B-4E9D-96EA-7131D31B139B}</ProjectGuid>
+    <ProjectGuid>{6B00ADF9-3DCC-4293-AA23-07236E484C3C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLBarkley</RootNamespace>
-    <AssemblyName>WebGLBarkley</AssemblyName>
+    <RootNamespace>WebGLChocolux</RootNamespace>
+    <AssemblyName>WebGLChocolux</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -110,8 +110,8 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="WebGLBarkley.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLBarkley.UltraSource.dll</HintPath>
+    <Reference Include="WebGLChocolux.UltraSource">
+      <HintPath>bin\staging.UltraSource\WebGLChocolux.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -131,8 +131,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
- c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /AssemblyAttributes.Company:"jsc-solutions.net/Examples/JavaScript"
- c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /AssemblyAttributes.Company:"jsc-solutions.net/Examples/JavaScript" /DefaultToOrcas:true
+ rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /AssemblyAttributes.Company:"jsc-solutions.net/Examples/JavaScript"
+ rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false /AssemblyAttributes.Company:"jsc-solutions.net/Examples/JavaScript" /DefaultToOrcas:true
 )
 
 if $(ConfigurationName)==Release (
