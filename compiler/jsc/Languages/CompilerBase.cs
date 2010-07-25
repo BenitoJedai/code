@@ -886,7 +886,10 @@ namespace jsc.Script
 				}
 				catch (Exception exc)
 				{
-					Break("internal compiler error at method " + m.DeclaringType.FullName + "." + m.Name + " : " + exc.Message + "\n" + exc.StackTrace);
+					throw new InvalidOperationException(
+                        "internal compiler error at method " + m.DeclaringType.FullName + "." + m.Name + " : " + exc.Message + "\n" + exc.StackTrace,
+                        exc
+                    );
 				}
 
 			}

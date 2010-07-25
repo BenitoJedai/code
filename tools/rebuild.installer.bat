@@ -21,9 +21,9 @@ set SDKConfiguration=jsc.SDKConfiguration.xml
 
 :: the configuration is machine local and should be reconfigured at install
 ren %target%\%SDKConfiguration% %SDKConfiguration%.transient
-
-call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:false /OutputStrongNameKeyPair:"W:\jsc_key.snk" /AttachDebugger:true
-
+cd
+call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:false /OutputStrongNameKeyPair:"W:\jsc_key.snk" 
+cd
 ren %target%\%SDKConfiguration%.transient %SDKConfiguration%
 
 endlocal

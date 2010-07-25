@@ -233,6 +233,7 @@
     <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\Configuration\ConfigurationIncrementApplicationVersion.cs" />
     <Compile Include="Commands\Configuration\ConfigurationInitialize.cs" />
     <Compile Include="Commands\Configuration\ConfigurationCreateProjectTemplates.cs" />
     <Compile Include="Commands\Configuration\ConfigurationPrecompile.cs" />
@@ -462,7 +463,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
 
-copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.exe" /y
+rem copy "$(TargetPath)" "c:\util\jsc\bin\jsc.meta.v4.0.exe" /y
 copy "$(TargetDir)Documents\*.rtf" "c:\util\jsc\bin\" /y</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
