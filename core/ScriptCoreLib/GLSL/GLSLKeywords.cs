@@ -17,15 +17,7 @@ namespace ScriptCoreLib.GLSL
 
     }
 
-    /// <summary>
-    /// The attribute qualifier is used to declare variables that are passed to a vertex shader from OpenGL ES on
-    /// a per-vertex basis.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-    public sealed class attribute : Attribute
-    {
 
-    }
 
     /// <summary>
     /// Varying variables provide the interface between the vertex shader, the fragment shader, and the fixed
