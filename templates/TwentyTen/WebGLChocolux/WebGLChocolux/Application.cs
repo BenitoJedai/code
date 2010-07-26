@@ -191,30 +191,29 @@ void main()
 
         class shader_fs_show : FragmentShader
         {
-            [uniform]
-            public sampler2D uTexSamp;
             [varying]
-            vec2 vTexCoord;
+            vec3[] s = new vec3[4];
 
             void main()
             {
-                vec4 t = texture2D(uTexSamp, vTexCoord);
-                gl_FragColor = vec4(t.r, 2.0f * t.g, 0.0f, 1.0f);
+                float h = 0.0f;
+
+                gl_FragColor = vec4(h, h * h, h * h * h * h, h);
             }
         }
 
         class shader_vs : VertexShader
         {
             [attribute]
-            vec2 position;
+            public vec2 position;
             [uniform]
-            float t;
+            public float t;
             [varying]
-            vec3[] s;
+            vec3[] s = new vec3[4];
 
             void main()
             {
-                //gl_Position = vec4(position, 0.0, 1.0);
+                gl_Position = vec4(position, 0.0f, 1.0f);
                 //s[0] = vec3(0);
                 //s[3] = vec3(sin(abs(t * .0001)), cos(abs(t * .0001)), 0);
                 //s[1] = s[3].zxy;
