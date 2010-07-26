@@ -16,6 +16,11 @@ namespace ScriptCoreLib.GLSL
     public struct vec2
     {
         public float x;
+        public float r;
+        public float s;
+	    
         public float y;
+        public float g;
+        public float t;
     }
 }

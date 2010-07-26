@@ -226,6 +226,14 @@ namespace jsc.meta.Commands.Test
                    assembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\TestStruct\TestStruct\bin\Debug\TestStruct.dll"),
                }
            );
+
+            Add("PromotionWebApplication1", () =>
+               new RewriteToJavaScriptDocument
+               {
+                   assembly = new FileInfo(@"W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication1\bin\Release\PromotionWebApplication1.exe"),
+               }
+           );
+           
         }
     }
 }

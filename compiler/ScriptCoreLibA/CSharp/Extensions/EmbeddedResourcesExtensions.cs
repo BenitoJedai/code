@@ -173,8 +173,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 		public static void CopyStream(Stream FromStream, Stream ToStream)
 		{
 
-			try
-			{
+		
 				//Creat a file to save to
 
 
@@ -198,13 +197,7 @@ namespace ScriptCoreLib.CSharp.Extensions
 				//clean up 
 				bw.Close();
 				br.Close();
-			}
-
-			 //use Exception e as it can handle any exception 
-			catch (Exception)
-			{
-				//code if u like 
-			}
+		
 		}
 
 		public static string[] GetEmbeddedResources(DirectoryInfo web, Assembly e)
