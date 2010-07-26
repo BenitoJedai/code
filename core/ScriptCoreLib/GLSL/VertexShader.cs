@@ -14,8 +14,8 @@ namespace ScriptCoreLib.GLSL
     public class VertexShader : Shader
     {
         [highp]
-        vec4 gl_Position; // should be written to
+        protected vec4 gl_Position; // should be written to
         [mediump]
-        float gl_PointSize; // may be written to
+        protected float gl_PointSize; // may be written to
     }
 }

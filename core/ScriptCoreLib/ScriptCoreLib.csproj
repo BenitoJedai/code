@@ -93,6 +93,10 @@
     <Compile Include="GLSL\bvec2.cs" />
     <Compile Include="GLSL\bvec3.cs" />
     <Compile Include="GLSL\bvec4.cs" />
+    <Compile Include="GLSL\Shader.Methods.cs" />
+    <Compile Include="GLSL\Shader.Common.vec4.cs" />
+    <Compile Include="GLSL\Shader.Common.vec3.cs" />
+    <Compile Include="GLSL\Shader.Common.vec2.cs" />
     <Compile Include="GLSL\Shader.Matrix.mat4.cs" />
     <Compile Include="GLSL\Shader.Matrix.mat3.cs" />
     <Compile Include="GLSL\Shader.VectorRelational.vec4.cs" />

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace ScriptCoreLib.GLSL
 {
+    using genType = Single;
+
     /// <summary>
     /// a two component floating-point vector
     /// 
@@ -13,14 +16,21 @@ namespace ScriptCoreLib.GLSL
     /// lookup results and the like.
     /// </summary>
     [Script]
+    [StructLayout(LayoutKind.Explicit)]
     public struct vec2
     {
-        public float x;
-        public float r;
-        public float s;
-	    
-        public float y;
-        public float g;
-        public float t;
+        [FieldOffset(0)]
+        public genType x;
+        [FieldOffset(0)]
+        public genType r;
+        [FieldOffset(0)]
+        public genType s;
+
+        [FieldOffset(sizeof(genType) * 1)]
+        public genType y;
+        [FieldOffset(sizeof(genType) * 1)]
+        public genType g;
+        [FieldOffset(sizeof(genType) * 1)]
+        public genType t;
     }
 }
