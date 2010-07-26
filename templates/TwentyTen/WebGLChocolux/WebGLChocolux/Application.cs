@@ -38,7 +38,9 @@ namespace WebGLChocolux
         {
             var c = new IHTMLCanvas();
             c.style.border = "1px solid red";
-            c.style.SetSize(w, h);
+            c.width = w;
+            c.height = h;
+
             page.Content.Clear();
             c.AttachTo(page.Content);
 
@@ -58,16 +60,15 @@ namespace WebGLChocolux
             c.style.border = "1px solid yellow";
 
             var fragment_shader_source = @"
-#version 120
 varying vec3 s[4];
- 
+
 void main()
 {
 	float t, b, c, h = 0.0;
 	vec3 m, n;
 	vec3 p = vec3(.2);
 	vec3 d = normalize(.001 * gl_FragCoord.rgb - p);
- 
+
 	for (int i = 0; i < 4; i++)
 	{
 		t=2.0;
@@ -89,7 +90,8 @@ void main()
 		h += pow(n.x * n.x, 44.) + n.x * n.x * .2;
 	}
 	gl_FragColor = vec4(h, h * h, h * h * h * h, h);
-}";
+}
+";
 
             var vertex_shader_source =
     @"
@@ -146,7 +148,7 @@ void main()
 
             gl.bindBuffer(gl.ARRAY_BUFFER, verts);
             gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(
-              new double[] { -1, -1, -1, 1, 1, -1, 1, 1, 0 }
+              new double[] { -1, -1, -1, 1, 1, -1, 1, 1 }
             ), gl.STATIC_DRAW);
             gl.vertexAttribPointer((ulong)0, 2, gl.FLOAT, false, 0, 0);
 
@@ -154,12 +156,9 @@ void main()
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicies);
 
-            var q = new WebGLUnsignedShortArray(4);
+            var q = new WebGLUnsignedShortArray(0, 1, 2, 3);
 
-            q[0] = 0;
-            q[1] = 1;
-            q[2] = 2;
-            q[3] = 3;
+
 
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, q, gl.STATIC_DRAW);
 
@@ -169,9 +168,7 @@ void main()
                 var timestamp = new IDate().getTime();
                 var t = (timestamp - start) / 1000.0f * 30f;
 
-                //var __fs = default(__fragment_shader);
 
-                //__fs.t = t;
 
                 gl.uniform1f(gl.getUniformLocation(p, "t"), t * 100);
                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
@@ -188,9 +185,25 @@ void main()
             ).StartInterval(1000 / 24);
 
             c.style.border = "1px solid green";
+
+
         }
 
-        public struct __vertex_shader
+        class shader_fs_show : FragmentShader
+        {
+            [uniform]
+            public sampler2D uTexSamp;
+            [varying]
+            vec2 vTexCoord;
+
+            void main()
+            {
+                vec4 t = texture2D(uTexSamp, vTexCoord);
+                gl_FragColor = vec4(t.r, 2.0f * t.g, 0.0f, 1.0f);
+            }
+        }
+
+        class shader_vs : VertexShader
         {
             [attribute]
             vec2 position;
@@ -201,18 +214,14 @@ void main()
 
             void main()
             {
-            }
-        }
-
-        public struct __fragment_shader
-        {
-            [varying]
-            vec3[] s;
-
-            void main()
-            {
-
+                //gl_Position = vec4(position, 0.0, 1.0);
+                //s[0] = vec3(0);
+                //s[3] = vec3(sin(abs(t * .0001)), cos(abs(t * .0001)), 0);
+                //s[1] = s[3].zxy;
+                //s[2] = s[3].zzx;
             }
         }
     }
+
+
 }

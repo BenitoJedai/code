@@ -42,7 +42,9 @@ namespace WebGLBarkley
 
             this.c = new IHTMLCanvas();
             c.style.border = "1px solid red";
-            c.style.SetSize(w, h);
+            c.width = w;
+            c.height = h;
+
             c.AttachTo(page.Content);
 
             //this.gl = (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)new IFunction("c", "return c.getContext('experimental-webgl', {depth : false } );").apply(null, c);
@@ -293,31 +295,32 @@ void main(void) {
 
     }
 
-    class __shader_vs
+    class shader_fs_show : FragmentShader
     {
-        [attribute]
-        vec3 aPos;
-        [attribute]
-        vec2 aTexCoord;
+        [uniform]
+        public sampler2D uTexSamp;
         [varying]
         vec2 vTexCoord;
 
-        void Main()
-        {
-
+        void main() {
+           vec4 t = texture2D(uTexSamp, vTexCoord);
+           gl_FragColor = vec4 ( t.r, 2.0f*t.g, 0.0f, 1.0f);
         }
     }
 
-    class __shader_fs_show
+    class shader_vs : VertexShader
     {
-        [uniform]
-        sampler2D uTexSamp;
+        [attribute]
+        public vec3 aPos;
+        [attribute]
+        public vec2 aTexCoord;
         [varying]
         vec2 vTexCoord;
 
-        void Main()
+        void main()
         {
-
+            gl_Position = vec4(aPos, 1.0f);
+            vTexCoord = aTexCoord;
         }
     }
 }
