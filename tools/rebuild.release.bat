@@ -18,15 +18,20 @@ set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 
 setlocal
 echo - installer ..
-::call rebuild.installer.bat
+echo increment installer payload
+call rebuild.installer.bat
 endlocal
 
 
 pushd ..
 
-::call %target%\jsc.meta.exe ConfigurationIncrementApplicationVersion /ProjectFileName:compiler\jsc.configuration\jsc.configuration.csproj"
+echo increment installer version
+call %target%\jsc.meta.exe ConfigurationIncrementApplicationVersion /ProjectFileName:compiler\jsc.configuration\jsc.configuration.csproj"
 
-::call :build40 /verbosity:q /target:publish "compiler\jsc.configuration\jsc.configuration.sln"
+echo make the installer
+call :build40 /verbosity:q /target:publish "compiler\jsc.configuration\jsc.configuration.sln"
+
+echo make the website
 call :build40 /verbosity:q /p:Configuration=Release "examples\java\PromotionWebApplication\PromotionWebApplication.sln"
 
 popd

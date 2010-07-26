@@ -1358,6 +1358,8 @@ namespace jsc.meta.Commands.Rewrite
 
 
             m.CreateGlobalFunctions();
+            
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
             a.Save(_ct_SaveName);
 

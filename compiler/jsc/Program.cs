@@ -211,14 +211,14 @@ namespace jsc
                     if (Debugger.IsAttached)
                         Debugger.Break();
 
-                    Task.Error("internal compiler failure: " + exc + "\n\n" + exc.StackTrace);
+                    throw new InvalidOperationException("internal compiler failure: " + exc + "\n\n" + exc.StackTrace);
 
                 }
 
             }
             catch (Exception excc)
             {
-                Console.WriteLine(" *** FATAL ERROR: " + excc.Message);
+                throw new InvalidOperationException(" *** FATAL ERROR: " + excc.Message);
             }
         }
 

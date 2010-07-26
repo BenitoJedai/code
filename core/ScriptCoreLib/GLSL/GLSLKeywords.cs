@@ -29,6 +29,11 @@ namespace ScriptCoreLib.GLSL
 
     }
 
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    public sealed class invariant : Attribute
+    {
+
+    }
     /// <summary>
     /// Satisfies the minimum requirements above for the fragment language. Its
     /// range and precision has to be greater than or the same as provided by lowp

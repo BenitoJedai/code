@@ -64,6 +64,10 @@ namespace jsc.Languages
             //DirectoryInfo SourceVersionDir = TargetDirectory.CreateSubdirectory("version");
 
             // assets
+
+            // low RAM?
+            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+
             foreach (Assembly v in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(sinfo.Options.TargetAssembly.FullName), true))
             {
                 EmbeddedResourcesExtensions.ExtractEmbeddedResources(TargetDirectory, v);
