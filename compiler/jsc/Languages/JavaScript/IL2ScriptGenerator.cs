@@ -1032,18 +1032,25 @@ namespace jsc
                         }
                         else
                         {
-                            if (i.TargetType == typeof(double))
-                                w.Write("0.0");
-                            else if (i.TargetType == typeof(int))
-                                w.Write("0");
-                            else if (i.TargetType == typeof(sbyte))
-                                w.Write("0");
-                            else if (i.TargetType == typeof(byte))
-                                w.Write("0");
-                            else if (i.TargetType.IsEnum)
-                                w.Write("0");
+                            // http://stackoverflow.com/questions/325426/c-programmatic-equivalent-of-defaulttype
+
+                            if (i.TargetType.IsEnum)
+                                w.Write("" + Activator.CreateInstance(Enum.GetUnderlyingType(i.TargetType)));
                             else
-                                CompilerBase.BreakToDebugger("default for " + i.TargetType.FullName + " is unknown at " + i.Location);
+                                w.Write("" + Activator.CreateInstance(i.TargetType));
+
+                            //if (i.TargetType == typeof(double))
+                            //    w.Write("0.0");
+                            //else if (i.TargetType == typeof(int))
+                            //    w.Write("0");
+                            //else if (i.TargetType == typeof(sbyte))
+                            //    w.Write("0");
+                            //else if (i.TargetType == typeof(byte))
+                            //    w.Write("0");
+                            //else if (i.TargetType.IsEnum)
+                            //    w.Write("0");
+                            //else
+                            //    CompilerBase.BreakToDebugger("default for " + i.TargetType.FullName + " is unknown at " + i.Location);
                         }
                     }
                     else

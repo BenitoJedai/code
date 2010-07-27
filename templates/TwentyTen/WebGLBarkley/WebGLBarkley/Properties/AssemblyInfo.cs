@@ -7,7 +7,7 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(@"WebGLBarkley")]
+[assembly: AssemblyTitle(@"WebGL Barkley Shader")]
 [assembly: AssemblyDescription(@"Write javascript, flash and java applets within a C# project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"WebGLBarkley")]

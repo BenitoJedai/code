@@ -250,6 +250,7 @@ void main()
             c.style.border = "1px solid green";
         }
 
+        #region GLSL
         abstract class __fragment_shader
         {
             [uniform]
@@ -293,5 +294,7 @@ void main()
                 //tc = vec2(position.x, position.y * h);
             }
         }
+        #endregion
+
     }
 }

@@ -295,6 +295,7 @@ void main(void) {
 
     }
 
+    #region GLSL
     class shader_fs_show : FragmentShader
     {
         [uniform]
@@ -302,9 +303,10 @@ void main(void) {
         [varying]
         vec2 vTexCoord;
 
-        void main() {
-           vec4 t = texture2D(uTexSamp, vTexCoord);
-           gl_FragColor = vec4 ( t.r, 2.0f*t.g, 0.0f, 1.0f);
+        void main()
+        {
+            vec4 t = texture2D(uTexSamp, vTexCoord);
+            gl_FragColor = vec4(t.r, 2.0f * t.g, 0.0f, 1.0f);
         }
     }
 
@@ -323,4 +325,6 @@ void main(void) {
             vTexCoord = aTexCoord;
         }
     }
+    #endregion
+
 }

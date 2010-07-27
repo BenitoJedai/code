@@ -2,12 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
+[assembly: Obfuscation(Feature = "script")]
 namespace TestUInt16ArrayInitializer
 {
     enum X
     {
         A
+    }
+
+    public class WebGLUnsignedShortArray 
+    {
+
+        public WebGLUnsignedShortArray(params ushort[] array)
+        {
+
+        }
     }
     class MyClass
     {
@@ -20,8 +31,19 @@ namespace TestUInt16ArrayInitializer
         public static void Main()
         {
             var ux = new ushort[] { 0, 0, 0, 0 };
-            var u = new ushort[] { 0, 1, 2, 3 };
-            var yy = new ushort[] { 0, 1, 2, 3,6 };
+            B();
+            A();
+            var yy = new ushort[] { 0, 1, 2, 3, 6 };
+        }
+
+        private static void B()
+        {
+            var u = new WebGLUnsignedShortArray(new ushort[] { 0, 1, 2, 3 });
+        }
+
+        private static void A()
+        {
+            var u = new WebGLUnsignedShortArray(0, 1, 2, 3);
         }
 
 

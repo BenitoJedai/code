@@ -287,6 +287,7 @@
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteEntryPointCodeInjection.cs" />
     <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToJavaScript\RewriteToJavaScript.cs" />
     <Compile Include="Commands\Rewrite\RewriteToReplacedReferences\RewriteToReplacedReferences.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToReplacedReferences\RewriteToReplacedReferences.cs" />
     <Compile Include="Commands\Rewrite\RewriteToSplashScreen\RewriteToSplashScreen.Arguments.cs" />

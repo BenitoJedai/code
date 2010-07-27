@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJavaCard", "ScriptCoreLibJavaCard\ScriptCoreLibJavaCard.csproj", "{953608DA-BB44-448E-80A5-1B76745D14B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLibJavaCard.APDUProxyGenerator", "ScriptCoreLibJavaCard.APDUProxyGenerator\ScriptCoreLibJavaCard.APDUProxyGenerator.csproj", "{F1758D5D-AB80-46F1-A595-D12A2A0E9CB0}"
