@@ -189,41 +189,41 @@ void main()
 
         }
 
-        #region GLSL
-        class shader_fs_show : FragmentShader
-        {
-            [varying]
-            vec3[] s = new vec3[4];
-
-            void main()
-            {
-                float h = 0.0f;
-
-                gl_FragColor = vec4(h, h * h, h * h * h * h, h);
-            }
-        }
-
-        class shader_vs : VertexShader
-        {
-            [attribute]
-            public vec2 position;
-            [uniform]
-            public float t;
-            [varying]
-            vec3[] s = new vec3[4];
-
-            void main()
-            {
-                gl_Position = vec4(position, 0.0f, 1.0f);
-                //s[0] = vec3(0);
-                //s[3] = vec3(sin(abs(t * .0001)), cos(abs(t * .0001)), 0);
-                //s[1] = s[3].zxy;
-                //s[2] = s[3].zzx;
-            }
-        }
-        #endregion
-
     }
 
+
+    #region GLSL
+    class shader_fs_show : FragmentShader
+    {
+        [varying]
+        vec3[] s = new vec3[4];
+
+        void main()
+        {
+            float h = 0.0f;
+
+            gl_FragColor = vec4(h, h * h, h * h * h * h, h);
+        }
+    }
+
+    class shader_vs : VertexShader
+    {
+        [attribute]
+        public vec2 position;
+        [uniform]
+        public float t;
+        [varying]
+        vec3[] s = new vec3[4];
+
+        void main()
+        {
+            gl_Position = vec4(position, 0.0f, 1.0f);
+            //s[0] = vec3(0);
+            //s[3] = vec3(sin(abs(t * .0001)), cos(abs(t * .0001)), 0);
+            //s[1] = s[3].zxy;
+            //s[2] = s[3].zzx;
+        }
+    }
+    #endregion
 
 }
