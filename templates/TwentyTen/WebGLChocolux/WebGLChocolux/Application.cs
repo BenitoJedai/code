@@ -189,6 +189,7 @@ void main()
 
         }
 
+        #region GLSL
         class shader_fs_show : FragmentShader
         {
             [varying]
@@ -220,6 +221,8 @@ void main()
                 //s[2] = s[3].zzx;
             }
         }
+        #endregion
+
     }
 
 

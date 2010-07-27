@@ -18,6 +18,7 @@ using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
 using jsc.meta.Commands.Configuration;
 using jsc.meta.Commands.Test;
 using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
+using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
 
 namespace jsc.meta
 {
@@ -78,6 +79,7 @@ namespace jsc.meta
 				new ReferenceAddClonedProject(),
 
 				new RewriteToAssembly().Invoke,
+                new RewriteToJavaScript(),
 				new RewriteToJavaScriptDocument(),
 				new RewriteToMVSProjectTemplate(),
 				new RewriteToInstaller(),

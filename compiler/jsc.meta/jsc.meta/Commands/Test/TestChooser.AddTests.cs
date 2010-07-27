@@ -12,6 +12,7 @@ using System.IO;
 using System.Media;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
+using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
 
 namespace jsc.meta.Commands.Test
 {
@@ -218,6 +219,13 @@ namespace jsc.meta.Commands.Test
                   type = "TestUInt16ArrayInitializer.MyClass"
               }
           );
+
+            Add("TestUInt16ArrayInitializer", () =>
+             new RewriteToJavaScript
+             {
+                 TargetAssembly = new FileInfo(@"W:\jsc.svn\examples\rewrite\TestUInt16ArrayInitializer\TestUInt16ArrayInitializer\bin\Debug\TestUInt16ArrayInitializer.dll"),
+             }
+         );
 
             Add("TestStruct", () =>
                new RewriteToAssembly

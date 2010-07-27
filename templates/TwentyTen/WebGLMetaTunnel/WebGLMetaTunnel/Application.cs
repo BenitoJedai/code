@@ -19,14 +19,15 @@ using ScriptCoreLib.JavaScript.WebGL;
 namespace WebGLMetaTunnel
 {
     using gl = WebGLRenderingContext;
+    using ScriptCoreLib.GLSL;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
     /// </summary>
     public sealed class Application
     {
-        int w = 400;
-        int h = 400;
+        public const int w = 400;
+        public const int h = 400;
 
         /// <summary>
         /// This is a javascript application.
@@ -164,6 +165,48 @@ gl_FragColor=color+vec4(0.4,0.3,0.2,1.0)*(t*0.025);
 
             c.style.border = "1px solid green";
         }
+
+        #region GLSL
+        class _fragment_shader_source : FragmentShader
+        {
+            [uniform]
+            vec4 in_color;
+
+            vec2 v;
+            float w;
+            const float s = 0.5f;
+
+            public _fragment_shader_source()
+            {
+                //this.v = (gl_FragCoord.xy - vec2(" + (w / 2) + @", " + (h / 2) + @")) / vec2(" + (w / 2) + @", " + (h / 2) + @");
+                //this.w = dot(in_color.xyz, vec3(1.0, 256.0, 65536.0)) * .25;
+            }
+
+            float obj(vec3 pos)
+            {
+                return default(float);
+            }
+
+            void main()
+            {
+                //vec4 color = vec4(0.0);
+
+                //gl_FragColor = color + vec4(0.4, 0.3, 0.2, 1.0) * (t * 0.025);
+            }
+        }
+
+        class _vertex_shader_source : VertexShader
+        {
+            [attribute]
+            public vec4 pos;
+
+            void main()
+            {
+                gl_Position = vec4(pos.x * (float)(Application.w / 2), pos.y * (float)(Application.h / 2), 0.0f, 1.0f);
+            }
+
+        }
+        #endregion
 
     }
 }

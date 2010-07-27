@@ -19,18 +19,34 @@ namespace ScriptCoreLib.GLSL
     [StructLayout(LayoutKind.Explicit)]
     public struct vec2
     {
+        #region [0]
         [FieldOffset(0)]
         public genType x;
         [FieldOffset(0)]
         public genType r;
         [FieldOffset(0)]
         public genType s;
+        #endregion
 
+        #region [1]
         [FieldOffset(sizeof(genType) * 1)]
         public genType y;
         [FieldOffset(sizeof(genType) * 1)]
         public genType g;
         [FieldOffset(sizeof(genType) * 1)]
         public genType t;
+        #endregion
+
+        public genType this[int i]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
