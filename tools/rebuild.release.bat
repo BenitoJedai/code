@@ -11,8 +11,8 @@ set target=C:\util\jsc\bin
 set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 
 :: we need to pre build that assembly in "Assets" configuration
-::ERASE /s /Q c:\util\jsc\cache 
-::ERASE /s /Q %LOCALAPPDATA%\jsc\cache 
+ERASE /s /Q c:\util\jsc\cache 
+ERASE /s /Q %LOCALAPPDATA%\jsc\cache 
 
 ::call c:\util\jsc\bin\jsc.meta.exe ConfigurationPrecompile
 
@@ -33,6 +33,7 @@ echo - make the installer
 call :build40 /verbosity:q /target:publish "compiler\jsc.configuration\jsc.configuration.sln"
 
 echo - make the website
+del examples\java\PromotionWebApplication\PromotionWebApplication1\bin\Release
 call :build40 /verbosity:q /p:Configuration=Release "examples\java\PromotionWebApplication\PromotionWebApplication.sln"
 
 popd
