@@ -10,7 +10,7 @@ namespace jsc.meta.Configuration
     public class SDKConfiguration
     {
         public DirectoryInfo JavaSDK = new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_20");
-        public DirectoryInfo FlexSDK = new DirectoryInfo(@"C:\util\flex_sdk_4.0.0.14159");
+        public DirectoryInfo FlexSDK = new DirectoryInfo(@"C:\util\flex_sdk_4.1.0.16076");
         public DirectoryInfo GoogleAppEngineJavaSDK = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.4");
         public DirectoryInfo ApacheAntSDK = new DirectoryInfo(@"C:\util\apache-ant-1.8.1");
 
