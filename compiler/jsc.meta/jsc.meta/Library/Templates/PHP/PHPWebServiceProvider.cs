@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.PHP;
 using ScriptCoreLib;
+using jsc.meta.Library.Templates.Java;
+using ScriptCoreLib.PHP.BCLImplementation.System.Web;
+using System.Web;
+using ScriptCoreLib.Ultra.WebService;
+using ScriptCoreLib.Ultra.Library.Delegates;
 
 namespace jsc.meta.Library.Templates.PHP
 {
@@ -19,7 +24,31 @@ namespace jsc.meta.Library.Templates.PHP
         [Script(NoDecoration = true)]
         internal static void PHPWebServiceProvider_Serve()
         {
-            Native.echo("powered by jsc");
+            var i = new TypelessImplementation1();
+            var g = (InternalGlobal)(object)i;
+            var a = (__HttpApplication)(object)g;
+
+
+            a.Request = (HttpRequest)(object)new __HttpRequest { };
+            a.Response = (HttpResponse)(object)new __HttpResponse {  };
+
+            //g.Application_BeginRequest(null, null);
+
+            //foreach (var item in g.GetFiles())
+            //{
+            //    Console.WriteLine("<p>" +  item.Name + "</p>");
+            //}
+
+            var ca = g.GetScriptApplications();
+            var c = ca[0];
+
+            StringAction Write =
+                e =>
+                {
+                    Native.echo(e);
+                };
+
+            c.WriteTo(Write);
         }
     }
 }

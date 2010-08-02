@@ -1248,7 +1248,7 @@ namespace jsc.meta.Commands.Rewrite
                             w.AppendLine("require_once '" + Path.GetFileName(kk.Location) + ".php';");
                         }
 
-                        // could we tell jsc to make a call for us?
+                        // could we tell jsc to make a call for us? 
                         w.Append(
                             ((Action)global::jsc.meta.Library.Templates.PHP.PHPWebServiceProvider.PHPWebServiceProvider_Serve).Method.Name
                         );

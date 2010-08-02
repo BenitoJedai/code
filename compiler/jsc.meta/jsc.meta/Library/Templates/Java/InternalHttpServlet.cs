@@ -99,15 +99,16 @@ namespace jsc.meta.Library.Templates.Java
 			{
 				//Console.WriteLine("<request>");
 
-				TypelessImplementation1 Application = new TypelessImplementation1();
+				TypelessImplementation1 g = new TypelessImplementation1();
 				__HttpApplication Application1;
 
-				Application1 = (__HttpApplication)(object)Application;
+				Application1 = (__HttpApplication)(object)g;
 
 				Application1.Request = (HttpRequest)(object)new __HttpRequest { InternalContext = req };
 				Application1.Response = (HttpResponse)(object)new __HttpResponse { InternalContext = resp };
 
-				Application.Application_BeginRequest(new object(), new EventArgs());
+                // Application.Application_BeginRequest(new object(), new EventArgs());
+                g.Application_BeginRequest(null, null);
 
 				//Console.WriteLine("</request>");
 

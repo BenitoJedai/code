@@ -188,6 +188,7 @@ namespace jsc.meta.Commands.Rewrite
                 );
                 #endregion
 
+                #region Global_Serve
                 var Global_Serve = Global.DefineMethod("Serve",
                     MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig, CallingConventions.Standard,
                     null,
@@ -214,6 +215,8 @@ namespace jsc.meta.Commands.Rewrite
 
                     il.Emit(OpCodes.Ret);
                 }
+                #endregion
+
 
                 var GetScriptApplicationsName = (new Func<InternalGlobal, WebServiceScriptApplication[]>(k => k.GetScriptApplications())).ToReferencedMethod().Name;
 
@@ -444,16 +447,12 @@ namespace jsc.meta.Commands.Rewrite
                 Global.CreateType();
                 #endregion
 
-                if (IsWebServicePHP)
-                {
-                    // redirect Typeless0 to our global here.
-
-                    var __PHPWebServiceProvider = TypeCache[typeof(PHPWebServiceProvider)];
-                }
+         
 
                 #region IsWebServiceJava
-                if (IsWebServiceJava)
+                if (IsWebServiceJava || IsWebServicePHP)
                 {
+                    // redirect Typeless0 to our global here.
                     r.ExternalContext.TypeCache.Resolve +=
                         __SourceType =>
                         {
@@ -486,7 +485,15 @@ namespace jsc.meta.Commands.Rewrite
                             }
                         };
 
-                    var InternalHttpServlet = TypeCache[typeof(InternalHttpServlet)];
+                    if (IsWebServicePHP)
+                    {
+                        var __PHPWebServiceProvider = TypeCache[typeof(PHPWebServiceProvider)];
+                    }
+
+                    if (IsWebServiceJava)
+                    {
+                        var InternalHttpServlet = TypeCache[typeof(InternalHttpServlet)];
+                    }
                 }
                 #endregion
 
