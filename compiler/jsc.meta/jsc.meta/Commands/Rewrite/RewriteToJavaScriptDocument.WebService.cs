@@ -33,6 +33,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Reflection;
 using ScriptCoreLib.Extensions;
+using jsc.meta.Library.Templates.PHP;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -442,6 +443,13 @@ namespace jsc.meta.Commands.Rewrite
 
                 Global.CreateType();
                 #endregion
+
+                if (IsWebServicePHP)
+                {
+                    // redirect Typeless0 to our global here.
+
+                    var __PHPWebServiceProvider = TypeCache[typeof(PHPWebServiceProvider)];
+                }
 
                 #region IsWebServiceJava
                 if (IsWebServiceJava)
