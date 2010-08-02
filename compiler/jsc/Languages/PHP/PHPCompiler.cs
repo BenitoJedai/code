@@ -377,7 +377,7 @@ namespace jsc.Script.PHP
 					(m.IsAbstract && !z.IsInterface && z.IsAbstract)
 				)
 				{
-					WriteCommentLine("abstract method");
+                    //WriteCommentLine("abstract method");
 				}
 				else
 				{

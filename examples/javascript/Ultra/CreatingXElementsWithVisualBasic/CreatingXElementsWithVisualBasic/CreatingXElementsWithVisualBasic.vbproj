@@ -86,7 +86,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Query, Version=3.5.3743.24529, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
@@ -165,13 +165,13 @@
       if $(ConfigurationName)==Debug (
       rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
       ) else (
-      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
+      c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /flashplayer:"C:\util\flex\runtimes\player\win\FlashPlayer.exe" /mxmlc:"C:\util\flex\bin\mxmlc.exe" /javapath:"c:\Program Files\Java\jdk1.6.0_14\bin" /AttachDebugger:false /DisableWebServiceJava:true
       )
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-      c:\util\jsc\bin\jsc.meta.v4.0.30128.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"  /Configuration:"$(ConfigurationName)" /AttachDebugger:false
+      c:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)"  /Configuration:"$(ConfigurationName)" /AttachDebugger:false
     </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Xml.Linq;
 using java.applet;
+using jsc.Languages;
 using jsc.Languages.IL;
+using jsc.meta.Commands.Rewrite.Templates;
 using jsc.meta.Library;
 using jsc.meta.Library.Templates;
+using jsc.meta.Library.Templates.Java;
+using jsc.meta.Library.VolumeFunctions;
 using jsc.meta.Tools;
+using jsc.Script;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
@@ -18,13 +25,6 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using jsc.meta.Commands.Rewrite.Templates;
-using jsc.meta.Library.Templates.Java;
-using System.Xml.Linq;
-using System.Diagnostics;
-using jsc.Languages;
-using jsc.Script;
-using jsc.meta.Library.VolumeFunctions;
 using ScriptCoreLib.JavaScript.Remoting;
 using ScriptCoreLib.Ultra.Library;
 
@@ -258,6 +258,18 @@ namespace jsc.meta.Commands.Rewrite
 
                 }
 
+                if (k.IsWebServicePHP)
+                {
+                    ScriptLibraries.AddRange(
+                        new[]
+						    {
+							    typeof(ScriptCoreLib.Shared.IAssemblyReferenceToken),
+							    typeof(ScriptCoreLib.Shared.Web.IAssemblyReferenceToken),
+							    typeof(ScriptCoreLib.Shared.Web.Services.IAssemblyReferenceToken),
+						    }
+                    );
+                }
+
                 if (k.IsWebServiceJava)
                 {
                     ScriptLibraries.AddRange(
@@ -417,8 +429,9 @@ namespace jsc.meta.Commands.Rewrite
                     PostAssemblyRewrite =
                         a =>
                         {
-                            if (k.IsJavaScript || k.IsActionScript || k.IsJava || k.IsWebServiceJava)
+                            if (k.IsJavaScript || k.IsActionScript || k.IsJava || k.IsWebServiceJava || k.IsWebServicePHP)
                             {
+                                #region IsScriptLibrary
                                 a.Assembly.DefineAttribute(
                                    new ScriptAttribute
                                    {
@@ -427,17 +440,23 @@ namespace jsc.meta.Commands.Rewrite
                                    },
                                    typeof(ScriptAttribute)
                                 );
+                                #endregion
+
 
                                 // IsScriptLibrary still needs to know which languages are being used...
+                                #region  ScriptTypeFilterAttribute
                                 a.Assembly.DefineAttribute(
                                     new ScriptTypeFilterAttribute(
                                         k.IsJavaScript ? ScriptType.JavaScript :
                                         k.IsActionScript ? ScriptType.ActionScript :
+                                        k.IsWebServicePHP ? ScriptType.PHP :
                                         ScriptType.Java
                                     ),
 
                                     typeof(ScriptTypeFilterAttribute)
                                 );
+                                #endregion
+
 
 
                             }
@@ -474,8 +493,11 @@ namespace jsc.meta.Commands.Rewrite
                                     r,
                                     a,
                                     k.TargetType,
-                                    k.StagingFolder,
-                                    __js.StagingFolder,
+                                    v.FromVirtual(k.StagingFolder),
+
+                                    // we should be passing both?
+                                    v.FromVirtual(__js.StagingFolder),
+
                                     __js.TargetType,
                                     RewriteOutput[__js],
                                     k.IsWebServicePHP,
@@ -483,6 +505,8 @@ namespace jsc.meta.Commands.Rewrite
                                     InvokeAfterBackendCompiler.Add,
                                     n => WebDevLauncher = v.FromVirtual(n)
                                 );
+
+
 
                                 if (k.IsWebServiceJava)
                                 {
@@ -493,6 +517,9 @@ namespace jsc.meta.Commands.Rewrite
                                         appengine = (XNamespace)"http://appengine.google.com/ns/1.0",
                                         javaee = (XNamespace)"http://java.sun.com/xml/ns/javaee"
                                     };
+
+                                    // yay! :) InternalHttpServlet depends on TypelessImplementation which was defined
+                                    // by WriteGlobalApplication
 
                                     var Handler = a.context.TypeCache[typeof(InternalHttpServlet)];
 
@@ -570,7 +597,7 @@ namespace jsc.meta.Commands.Rewrite
                     r.ExternalContext.TypeCache.Resolve +=
                         SourceType =>
                         {
-                            if (k.IsActionScript)
+                            if (k.IsActionScript || k.IsWebServicePHP)
                             {
                                 if (ScriptCoreLib_Query != null && SourceType.Assembly == System_Core)
                                 {
@@ -1193,6 +1220,40 @@ namespace jsc.meta.Commands.Rewrite
                             k.TargetType,
                             this.InternalCreateNoWindow
                         );
+                    }
+
+                    if (k.IsWebServicePHP)
+                    {
+                        jsc.Program.TypedMain(
+                            new jsc.CompileSessionInfo
+                            {
+                                Options = new jsc.CommandLineOptions
+                                {
+                                    CachedFileGeneratorConstructor = CachedFileGenerator.Create,
+                                    TargetAssembly = r.Output,
+                                    IsPHP = true,
+                                    IsNoLogo = true
+                                }
+                            }
+                        );
+
+                        #region Application_Main@index.php
+                        var w = new StringBuilder();
+
+                        // http://terrychay.com/article/short_open_tag.shtml
+                        w.AppendLine("<?php");
+
+                        foreach (var kk in SharedHelper.LoadReferencedAssemblies(Assembly.LoadFile(r.Output.FullName), true))
+                        {
+                            w.AppendLine("require_once '" + Path.GetFileName(kk.Location) + ".php';");
+                        }
+
+                        //w.AppendLine("Application_Main();");
+
+                        w.AppendLine("?>");
+
+                        File.WriteAllText(Path.Combine(r.Output.Directory.CreateSubdirectory("web").FullName, "index.php"), w.ToString());
+                        #endregion
                     }
 
                     if (k.IsWebServiceJava)

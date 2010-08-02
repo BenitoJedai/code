@@ -241,7 +241,12 @@ namespace jsc.meta.Commands.Test
                    assembly = new FileInfo(@"W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication1\bin\Release\PromotionWebApplication1.exe"),
                }
            );
-           
+
+            Add("",
+                () => new TestVirtualDriveCleanup
+                {
+                }
+            );
         }
     }
 }

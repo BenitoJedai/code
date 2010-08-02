@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication.Templates;
 using jsc.meta.Library;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Threading;
-using System.Drawing;
 using jsc.meta.Library.VolumeFunctions;
-using System.Net;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
@@ -178,10 +178,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                 // what about long paths? :)
                 // thanks for 414
 
-                using (var dir = dir__.Parent.ToVirtualDrive())
-                {
-                    InternalLaunch(port, Text, url, dir.VirtualDirectory.CreateSubdirectory(dir__.Name).FullName);
-                }
+                //using (var dir = dir__.Parent.ToVirtualDrive())
+                //{
+                //InternalLaunch(port, Text, url, dir.VirtualDirectory.CreateSubdirectory(dir__.Name).FullName);
+                InternalLaunch(port, Text, url, dir__.FullName);
+                //}
 
             }
 
@@ -210,52 +211,110 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                                    "Developer Tools"
                                );
 
-                           #region we need the originals
-                           Tools.DropDownItems.Add(
-                               new ToolStripMenuItem(
-                                   "Convert to Google App Engine",
-                                   null,
-                                   delegate
-                                   {
+                          // #region we need the originals
+                          // Tools.DropDownItems.Add(
+                          //     new ToolStripMenuItem(
+                          //         "Google App Engine",
+                          //         null,
+                          //         delegate
+                          //         {
 
-                                   }
-                               )
-                               {
-                                   Enabled = false
-                               }
-                           );
+                          //         }
+                          //     )
+                          //     {
+                          //         Enabled = false
+                          //     }
+                          // );
 
-                           Tools.DropDownItems.Add(
-                               new ToolStripMenuItem(
-                                   "Convert to PHP",
-                                   null,
-                                   delegate
-                                   {
+                          // Tools.DropDownItems.Add(
+                          //    new ToolStripMenuItem(
+                          //        "    Build",
+                          //        null,
+                          //        delegate
+                          //        {
+                          //        }
+                          //    )
+                          //    {
+                          //        Enabled = true
+                          //    }
+                          //);
 
-                                   }
-                               )
-                               {
-                                   Enabled = false
-                               }
-                           );
+                          // Tools.DropDownItems.Add(
+                          //    new ToolStripMenuItem(
+                          //        "    Launch",
+                          //        null,
+                          //        delegate
+                          //        {
 
-                           Tools.DropDownItems.Add(
-                               new ToolStripMenuItem(
-                                   "Convert to ASP.NET",
-                                   null,
-                                   delegate
-                                   {
+                          //        }
+                          //    )
+                          //    {
+                          //        Enabled = true
+                          //    }
+                          //);
 
-                                   }
-                               )
-                               {
-                                   Enabled = false
-                               }
-                           );
+                          // Tools.DropDownItems.Add(
+                          //     new ToolStripMenuItem(
+                          //         "    Deploy",
+                          //         null,
+                          //         delegate
+                          //         {
 
-                           Tools.DropDownItems.Add(new ToolStripSeparator());
+                          //         }
+                          //     )
+                          //     {
+                          //         Enabled = true
+                          //     }
+                          // );
 
-                           #endregion
+                          // Tools.DropDownItems.Add(new ToolStripSeparator());
+                          // Tools.DropDownItems.Add(
+                          //     new ToolStripMenuItem(
+                          //         "PHP",
+                          //         null,
+                          //         delegate
+                          //         {
+
+                          //         }
+                          //     )
+                          //     {
+                          //         Enabled = false
+                          //     }
+                          // );
+
+                          // Tools.DropDownItems.Add(
+                          //    new ToolStripMenuItem(
+                          //        "    Build",
+                          //        null,
+                          //        delegate
+                          //        {
+
+                          //        }
+                          //    )
+                          //    {
+                          //        Enabled = true
+                          //    }
+                          //);
+
+                          // Tools.DropDownItems.Add(
+                          //    new ToolStripMenuItem(
+                          //        "    Launch",
+                          //        null,
+                          //        delegate
+                          //        {
+
+                          //        }
+                          //    )
+                          //    {
+                          //        Enabled = true
+                          //    }
+                          //);
+
+
+
+                          // Tools.DropDownItems.Add(new ToolStripSeparator());
+
+                          // #endregion
 
 
 
@@ -288,30 +347,30 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
                            );
 
-                           var jsc_configuration = @"http://download.jsc-solutions.net";
+                           //var jsc_configuration = @"http://download.jsc-solutions.net";
 
-                           n.ContextMenuStrip.Items.Add(
-                                new ToolStripMenuItem(
-                               // Visual Studio has this text
-                                     "Configuration...",
-                                     null,
-                                    delegate
-                                    {
-                                        var c = new WebClient();
-                                        var f = Path.Combine(
-                                            Path.GetTempPath(),
-                                            Path.GetRandomFileName() + ".jsc.configuration.application"
-                                        );
+                           //n.ContextMenuStrip.Items.Add(
+                           //     new ToolStripMenuItem(
+                           //    // Visual Studio has this text
+                           //          "Configuration...",
+                           //          null,
+                           //         delegate
+                           //         {
+                           //             var c = new WebClient();
+                           //             var f = Path.Combine(
+                           //                 Path.GetTempPath(),
+                           //                 Path.GetRandomFileName() + ".jsc.configuration.application"
+                           //             );
 
-                                        c.DownloadFile(jsc_configuration, f);
+                           //             c.DownloadFile(jsc_configuration, f);
 
-                                        Process.Start(f);
-                                    }
-                                )
-                                {
-                                    ToolTipText = jsc_configuration
-                                }
-                            );
+                           //             Process.Start(f);
+                           //         }
+                           //     )
+                           //     {
+                           //         ToolTipText = jsc_configuration
+                           //     }
+                           // );
 
 
                            n.ContextMenuStrip.Items.Add(Tools);

@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using java.applet;
+using jsc.Languages.IL;
+using jsc.meta.Commands.Rewrite.Templates;
 using jsc.meta.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using jsc.Languages.IL;
-using System.Reflection.Emit;
-using jsc.meta.Commands.Rewrite.Templates;
-using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {

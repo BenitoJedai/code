@@ -330,6 +330,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			return default(bool);
 		}
 
+        public static bool Equals(string a, string b)
+        {
+            return a == b;
+        }
+
+
 		[Script(DefineAsStatic = true)]
 		public override bool Equals(object obj)
 		{

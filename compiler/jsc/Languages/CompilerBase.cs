@@ -1223,6 +1223,7 @@ namespace jsc.Script
 							}
 							else
 							{
+                                // ScriptCoreLib unreferenced?
 								Break(
 									@"BCL needs another method, please define it. Cannot call type without script attribute : " + m.DeclaringType + " for " + m + " used at " + i.OwnerMethod.DeclaringType.FullName + "." + i.OwnerMethod.Name + ". If the use of this method is intended, an implementation should be provided with the attribute [Script(Implements=typeof(...)] set. You may have mistyped it.");
 							}

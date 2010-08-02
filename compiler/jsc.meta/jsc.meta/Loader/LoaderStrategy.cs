@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting.Lifetime;
+using jsc.meta.Library.VolumeFunctions;
+using jsc.meta.Commands.Configuration;
 
 namespace jsc.meta.Loader
 {
@@ -88,6 +90,8 @@ namespace jsc.meta.Loader
 
         public void Invoke(string[] args)
         {
+            ConfigurationDisposeSubst.RegisterOnce();
+
             LoaderStrategyImplementation.Initialize();
 
             Program.DelayedMoveFile = AtDelayedMoveFileAction.Invoke;

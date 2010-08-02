@@ -84,6 +84,7 @@ namespace jsc.Script.PHP
 
 						WriteVirtualMethodOverrides(z);
 					}
+
 					CompileType_WriteAdditionalMembers();
 				}
 

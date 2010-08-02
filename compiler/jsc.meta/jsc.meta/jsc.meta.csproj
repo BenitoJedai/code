@@ -157,6 +157,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Web">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Web.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Web.Services, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLib.Web.Services.dll</HintPath>
@@ -233,6 +236,7 @@
     <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\Configuration\ConfigurationDisposeSubst.cs" />
     <Compile Include="Commands\Configuration\ConfigurationIncrementApplicationVersion.cs" />
     <Compile Include="Commands\Configuration\ConfigurationInitialize.cs" />
     <Compile Include="Commands\Configuration\ConfigurationCreateProjectTemplates.cs" />
@@ -241,7 +245,6 @@
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToGoogleAppEngineWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToNativeConsole.cs" />
-    <Compile Include="Commands\Extend\ExtendToPHPWebApplication.cs" />
     <Compile Include="Commands\Extend\ExtendToPHPWebService.cs" />
     <Compile Include="Commands\Extend\ExtendToWindowsFormsEverywhere.cs" />
     <Compile Include="Commands\Reference\ReferenceJavaScriptDocument.DefineInstanceLinks.cs" />
@@ -303,11 +306,13 @@
     <Compile Include="Commands\Rewrite\RewriteToUltraLibrary\RewriteToUltraLibrary.cs" />
     <Compile Include="Commands\Test\TestChooser.AddTests.cs" />
     <Compile Include="Commands\Test\TestChooser.cs" />
+    <Compile Include="Commands\Test\TestVirtualDriveCleanup.cs" />
     <Compile Include="Configuration\SDKConfiguration.cs" />
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\CodeTrace\CodeTraceAction.cs" />
     <Compile Include="Library\CodeTrace\CodeTraceExtensions.cs" />
     <Compile Include="Library\CostumAttributeBuilderExtensions.cs" />
+    <Compile Include="Library\Mashups\InferredEvents.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline.cs" />
@@ -389,6 +394,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="jsc_key.snk" />
+    <EmbeddedResource Include="Tools\apache\conf\httpd2.conf" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

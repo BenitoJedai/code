@@ -378,6 +378,8 @@ namespace jsc //.Extensions
 
 		public static bool IsVirtualMethod(this MethodInfo v)
 		{
+            // did the compiler add IsHideBySig flag to the supposedly virtual method?
+
 			if (v.IsVirtual && v.IsHideBySig)
 				if ((v.Attributes & MethodAttributes.VtableLayoutMask) == 0)
 					return true;
