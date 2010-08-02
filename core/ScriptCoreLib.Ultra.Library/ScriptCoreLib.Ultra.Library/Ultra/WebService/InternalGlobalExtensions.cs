@@ -124,7 +124,9 @@ namespace ScriptCoreLib.Ultra.WebService
 				{
 					that.Response.ContentType = "text/html";
 
-					var app = g.GetScriptApplications()[0];
+                    // todo: jsc: PHP workaround required
+                    var apps = g.GetScriptApplications();
+                    var app = apps[0];
 
 					app.WriteTo(Write);
 

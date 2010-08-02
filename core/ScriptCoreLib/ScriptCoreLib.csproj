@@ -184,6 +184,8 @@
     <Compile Include="JavaScript\DOM\XML\IXMLElement.cs" />
     <Compile Include="JavaScript\Native.cs" />
     <Compile Include="JavaScript\Runtime\StringWriter.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\ArrayList.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="PHP\Native.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JavaScript\Runtime\Color.cs" />

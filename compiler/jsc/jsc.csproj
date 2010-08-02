@@ -183,7 +183,6 @@
     <Compile Include="Languages\CompilerBase.DIA.cs" />
     <Compile Include="Languages\CompilerBase.CompilerConstants.cs" />
     <Compile Include="Languages\CompilerJob.cs" />
-    <Compile Include="Languages\CompilerBase.Handler.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteConstants.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteCustomAttributes.cs" />
     <Compile Include="Languages\CSharp2\CSharp2Compiler.WriteTypeInstanceConstructors.cs" />

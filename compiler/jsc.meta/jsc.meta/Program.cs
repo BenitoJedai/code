@@ -69,7 +69,6 @@ namespace jsc.meta
 				new ExtendToGoogleAppEngineWebApplication().Invoke,
 
 				new ExtendToPHPWebService().Invoke,
-				new ExtendToPHPWebApplication().Invoke,
 
 				new ReferenceWaveComponent().Invoke,
 				new ReferenceTextComponent().Invoke,
@@ -94,8 +93,10 @@ namespace jsc.meta
                 new ConfigurationInitialize(),
                 new ConfigurationPrecompile(),
                 new ConfigurationIncrementApplicationVersion(),
+                new ConfigurationDisposeSubst(),
 
-                new TestChooser()
+                new TestChooser(),
+                new TestVirtualDriveCleanup()
 			);
 
 		}

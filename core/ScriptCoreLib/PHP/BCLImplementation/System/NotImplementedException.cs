@@ -10,10 +10,7 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	{
 		public __NotImplementedException(string message) : base(message) { }
 
-		//static __NotImplementedException InternalConstructor()
-		//{
-		//    return (__NotImplementedException)__Exception.InternalConstructor("NotImplementedException");
-		//}
+
 
 		internal static __NotImplementedException InternalConstructor(string e)
 		{

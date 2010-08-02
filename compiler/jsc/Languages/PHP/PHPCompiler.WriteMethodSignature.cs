@@ -36,7 +36,7 @@ namespace jsc.Script.PHP
 							WriteKeywordSpace(Keywords._abstract);
 					}
 			}
-
+            // override?
 			WriteKeywordSpace(Keywords._function);
 			WriteMethodName(m);
 

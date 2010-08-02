@@ -18,6 +18,7 @@ namespace jsc.Script.PHP
 			// override: http://blogs.adobe.com/kiwi/2006/05/as3_language_101_for_cc_coders_1.html
 
 
+
 			foreach (var tmethod in z.GetVirtualMethods())
 			{
 				if (tmethod.IsToString())

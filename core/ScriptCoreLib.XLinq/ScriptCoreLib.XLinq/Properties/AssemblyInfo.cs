@@ -39,5 +39,6 @@ using ScriptCoreLib;
 [assembly:
     Script,
 	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
-	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+    ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
+    ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
 ]
