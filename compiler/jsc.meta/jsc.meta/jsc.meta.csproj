@@ -336,6 +336,7 @@
     <Compile Include="Library\Templates\Java\InternalHttpServlet.cs" />
     <Compile Include="Library\Templates\NamedImageInformation.cs" />
     <Compile Include="Library\Templates\JavaScript\InternalWebMethodRequest.cs" />
+    <Compile Include="Library\Templates\PHP\PHPWebServiceProvider.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsExtensions.cs" />
     <Compile Include="Library\VolumeFunctions\VolumeFunctionsProvider.cs" />
     <Compile Include="Library\Web\BasicWebCrawler.cs" />
