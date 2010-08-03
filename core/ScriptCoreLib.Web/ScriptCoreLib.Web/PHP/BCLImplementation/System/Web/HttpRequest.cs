@@ -26,19 +26,40 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
             }
         }
 
+        NameValueCollection InternalForm;
         public NameValueCollection Form
         {
             get
             {
-                return null;
+
+                if (InternalForm == null)
+                {
+                    InternalForm = new NameValueCollection();
+                    InitializeForm();
+                }
+
+                return InternalForm;
+
             }
         }
 
+        private void InitializeForm()
+        {
+            
+        }
+
+
+        NameValueCollection InternalQueryString;
         public NameValueCollection QueryString
         {
             get
             {
-                return null;
+                if (InternalQueryString == null)
+                {
+                    InternalQueryString = new NameValueCollection();
+                }
+
+                return InternalQueryString;
             }
         }
     }

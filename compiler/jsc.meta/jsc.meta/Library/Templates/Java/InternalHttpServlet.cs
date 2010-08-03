@@ -24,7 +24,7 @@ namespace jsc.meta.Library.Templates.Java
 	}
 
 	[Obfuscation(Feature = "invalidmerge")]
-	internal class TypelessImplementation1 : System.Web.HttpApplication
+	internal class InternalGlobalImplementation : System.Web.HttpApplication
 	{
 		public void _1_Application_BeginRequest(object sender, EventArgs e)
 		{
@@ -33,6 +33,7 @@ namespace jsc.meta.Library.Templates.Java
 
 		public void Application_BeginRequest(object sender, EventArgs e)
 		{
+            // is this implementation being used?
 			if (this.Request.Path == "/jsc")
 			{
 				var w = new StringBuilder();
@@ -99,7 +100,7 @@ namespace jsc.meta.Library.Templates.Java
 			{
 				//Console.WriteLine("<request>");
 
-				TypelessImplementation1 g = new TypelessImplementation1();
+				InternalGlobalImplementation g = new InternalGlobalImplementation();
 				__HttpApplication Application1;
 
 				Application1 = (__HttpApplication)(object)g;

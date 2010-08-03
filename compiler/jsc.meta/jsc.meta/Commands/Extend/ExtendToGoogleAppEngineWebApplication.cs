@@ -402,7 +402,7 @@ namespace jsc.meta.Commands.Extend
 				r.ExternalContext.ConstructorCache.Resolve +=
 					SourceConstructor =>
 					{
-						if (SourceConstructor.DeclaringType == typeof(TypelessImplementation1))
+						if (SourceConstructor.DeclaringType == typeof(InternalGlobalImplementation))
 						{
 							var __Global_ctor = r.RewriteArguments.context.ConstructorCache[rewrite_assembly_global.GetConstructor()];
 
@@ -415,7 +415,7 @@ namespace jsc.meta.Commands.Extend
 				r.ExternalContext.MethodCache.Resolve +=
 					SourceMethod =>
 					{
-						if (SourceMethod.DeclaringType == typeof(TypelessImplementation1))
+						if (SourceMethod.DeclaringType == typeof(InternalGlobalImplementation))
 						{
 							var n = r.RewriteArguments.context.MethodCache[
 								rewrite_assembly_global.GetMethod(SourceMethod.Name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, SourceMethod.GetParameterTypes(), null)
@@ -430,7 +430,7 @@ namespace jsc.meta.Commands.Extend
 				r.ExternalContext.TypeCache.Resolve +=
 					SourceType =>
 					{
-						if (SourceType == typeof(TypelessImplementation1))
+						if (SourceType == typeof(InternalGlobalImplementation))
 						{
 							var __Global = r.RewriteArguments.context.TypeCache[rewrite_assembly_global];
 
@@ -582,8 +582,8 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
 			{
 				var il = e.GetILGenerator();
 
-				var _1_Application_BeginRequest = typeof(TypelessImplementation1).GetMethod("_1_Application_BeginRequest");
-				var _0_Application_BeginRequest = typeof(TypelessImplementation1).GetMethod("Application_BeginRequest");
+				var _1_Application_BeginRequest = typeof(InternalGlobalImplementation).GetMethod("_1_Application_BeginRequest");
+				var _0_Application_BeginRequest = typeof(InternalGlobalImplementation).GetMethod("Application_BeginRequest");
 
 
 				var il_a = RewriteToAssembly.CreateMethodBaseEmitToArguments(

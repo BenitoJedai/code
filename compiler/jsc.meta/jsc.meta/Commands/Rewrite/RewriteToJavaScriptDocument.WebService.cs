@@ -456,7 +456,7 @@ namespace jsc.meta.Commands.Rewrite
                     r.ExternalContext.TypeCache.Resolve +=
                         __SourceType =>
                         {
-                            if (__SourceType == typeof(TypelessImplementation1))
+                            if (__SourceType == typeof(InternalGlobalImplementation))
                             {
                                 r.ExternalContext.TypeCache[__SourceType] = Global;
                                 return;
@@ -467,7 +467,7 @@ namespace jsc.meta.Commands.Rewrite
                     r.ExternalContext.MethodCache.Resolve +=
                         __SourceMethod =>
                         {
-                            if (__SourceMethod.DeclaringType == typeof(TypelessImplementation1))
+                            if (__SourceMethod.DeclaringType == typeof(InternalGlobalImplementation))
                             {
                                 r.ExternalContext.MethodCache[__SourceMethod] = Application_BeginRequest;
                                 return;
@@ -478,7 +478,7 @@ namespace jsc.meta.Commands.Rewrite
                     r.ExternalContext.ConstructorCache.Resolve +=
                         __SourceConstructor =>
                         {
-                            if (__SourceConstructor.DeclaringType == typeof(TypelessImplementation1))
+                            if (__SourceConstructor.DeclaringType == typeof(InternalGlobalImplementation))
                             {
                                 r.ExternalContext.ConstructorCache[__SourceConstructor] = Global_ctor;
                                 return;
@@ -765,13 +765,24 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
                     #region htaccess
                     // http://www.dynamicdrive.com/forums/showthread.php?t=43774
                     // http://corz.org/serv/tricks/htaccess2.php
-                    File.WriteAllText(Path.Combine(web.FullName, ".htaccess"),
-@"Options +FollowSymlinks
+                    
+                    var htaccess =
+                        @"Options +FollowSymlinks
 RewriteEngine on
-RewriteBase /
 DirectorySlash off 
 Options -Indexes
-RewriteRule ^(.*)$ index\.php [NC]");
+RewriteRule ^(.*)$ index\.php [NC]";
+
+
+//                    var htaccess =
+//                        @"Options +FollowSymlinks
+//RewriteEngine on
+//RewriteBase /
+//DirectorySlash off 
+//Options -Indexes
+//RewriteRule ^(.*)$ index\.php [NC]";
+
+                    File.WriteAllText(Path.Combine(web.FullName, ".htaccess"), htaccess);
                     #endregion
 
 
