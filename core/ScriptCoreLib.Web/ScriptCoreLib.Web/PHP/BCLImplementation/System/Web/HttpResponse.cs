@@ -22,18 +22,22 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
         public void Write(string s)
         {
+            Native.echo(s);
         }
 
         public void Redirect(string url)
         {
+            Native.Redirect(url);
         }
 
         public void AddHeader(string name, string value)
         {
+            Native.header(name + ":" + value);
         }
 
         public void WriteFile(string filename)
         {
+            // ?
         }
     }
 }

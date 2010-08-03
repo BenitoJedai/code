@@ -68,11 +68,16 @@ namespace ScriptCoreLib.Ultra.WebService
 				return;
 			}
 
-			StringAction Write = Context.Response.Write;
+            StringAction Write = 
+                e =>
+                {
+                    // could we take the method pointer implicitly?
+                    Context.Response.Write(e);
+                };
 
 			var WebMethods = g.GetWebMethods();
 
-			Console.WriteLine();
+            //Console.WriteLine();
 
 			foreach (var item in WebMethods)
 			{
@@ -171,7 +176,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 				// we could invoke web service handler now?
-				h.Redirect();
+                //h.Redirect();
+                h.Diagnostics();
 			}
 		}
 

@@ -24,7 +24,7 @@ namespace jsc.meta.Library.Templates.PHP
         [Script(NoDecoration = true)]
         internal static void PHPWebServiceProvider_Serve()
         {
-            var i = new TypelessImplementation1();
+            var i = new InternalGlobalImplementation();
             var g = (InternalGlobal)(object)i;
             var a = (__HttpApplication)(object)g;
 
@@ -39,16 +39,20 @@ namespace jsc.meta.Library.Templates.PHP
             //    Console.WriteLine("<p>" +  item.Name + "</p>");
             //}
 
-            var ca = g.GetScriptApplications();
-            var c = ca[0];
+            //var ca = g.GetScriptApplications();
+            //var c = ca[0];
 
-            StringAction Write =
-                e =>
-                {
-                    Native.echo(e);
-                };
+            //StringAction Write =
+            //    e =>
+            //    {
+            //        Native.echo(e);
+            //    };
 
-            c.WriteTo(Write);
+            //c.WriteTo(Write);
+
+            Native.API.ob_start();
+            i.Application_BeginRequest(null, null);
+            Native.API.ob_end_flush();
         }
     }
 }

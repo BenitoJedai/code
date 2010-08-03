@@ -40,39 +40,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 
 				if (InternalForm == null)
 				{
-					//Console.WriteLine("get_Form = new");
-
-					InternalForm = new NameValueCollection();
-
-					var e = this.InternalContext.getParameterNames();
-
-					// For HTTP servlets, parameters are contained in 
-					// the query string or posted form data.
-
-					// see: http://209.85.229.132/search?q=cache:0aKqPR_HgIUJ:g.oswego.edu/dl/classes/collections/SimpleTest.java+while+hasMoreElements&cd=1&hl=en&ct=clnk
-					// see: http://java.sun.com/j2ee/1.4/docs/api/javax/servlet/ServletRequest.html#getParameter(java.lang.String)
-					// see: http://java.sun.com/j2ee/1.4/docs/api/javax/servlet/http/HttpServletRequest.html#getQueryString()
-
-					var qs = this.InternalContext.getQueryString();
-					var q = new InternalQueryStringParser(qs);
-
-					while (e.hasMoreElements())
-					{
-						var name = (string)e.nextElement();
-
-						if (q[name] == null)
-						{
-							var value = this.InternalContext.getParameter(name);
-
-							//Console.WriteLine("Form add: " + name + " = " + value);
-							InternalForm[name] = value;
-						}
-						else
-						{
-							//Console.WriteLine("Form skip: " + name);
-
-						}
-					}
+                    InternalForm = new NameValueCollection();
+                    InitializeForm();
 				}
 
 				//Console.WriteLine("return get_Form");
@@ -80,6 +49,42 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Web
 				return InternalForm;
 			}
 		}
+
+        private void InitializeForm()
+        {
+            //Console.WriteLine("get_Form = new");
+
+
+            var e = this.InternalContext.getParameterNames();
+
+            // For HTTP servlets, parameters are contained in 
+            // the query string or posted form data.
+
+            // see: http://209.85.229.132/search?q=cache:0aKqPR_HgIUJ:g.oswego.edu/dl/classes/collections/SimpleTest.java+while+hasMoreElements&cd=1&hl=en&ct=clnk
+            // see: http://java.sun.com/j2ee/1.4/docs/api/javax/servlet/ServletRequest.html#getParameter(java.lang.String)
+            // see: http://java.sun.com/j2ee/1.4/docs/api/javax/servlet/http/HttpServletRequest.html#getQueryString()
+
+            var qs = this.InternalContext.getQueryString();
+            var q = new InternalQueryStringParser(qs);
+
+            while (e.hasMoreElements())
+            {
+                var name = (string)e.nextElement();
+
+                if (q[name] == null)
+                {
+                    var value = this.InternalContext.getParameter(name);
+
+                    //Console.WriteLine("Form add: " + name + " = " + value);
+                    InternalForm[name] = value;
+                }
+                else
+                {
+                    //Console.WriteLine("Form skip: " + name);
+
+                }
+            }
+        }
 
 		[Script]
 		public class InternalQueryStringParser : NameValueCollection
