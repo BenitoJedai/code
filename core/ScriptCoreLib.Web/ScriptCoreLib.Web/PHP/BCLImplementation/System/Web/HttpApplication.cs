@@ -27,7 +27,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
         public void CompleteRequest()
         {
-
+            Native.API.flush();
+            Native.API.exit();
         }
 
         #region __IHttpHandler Members

@@ -32,27 +32,25 @@ namespace jsc.meta.Library.Templates.PHP
             a.Request = (HttpRequest)(object)new __HttpRequest { };
             a.Response = (HttpResponse)(object)new __HttpResponse {  };
 
-            //g.Application_BeginRequest(null, null);
 
-            //foreach (var item in g.GetFiles())
-            //{
-            //    Console.WriteLine("<p>" +  item.Name + "</p>");
-            //}
-
-            //var ca = g.GetScriptApplications();
-            //var c = ca[0];
-
-            //StringAction Write =
-            //    e =>
-            //    {
-            //        Native.echo(e);
-            //    };
-
-            //c.WriteTo(Write);
-
-            Native.API.ob_start();
+            //Native.API.ob_start();
             i.Application_BeginRequest(null, null);
-            Native.API.ob_end_flush();
+            //Native.API.ob_end_flush();
+
+            var x = g.ToCurrentFile();
+            if (x != null)
+            {
+                // http://www.php.net/manual/en/function.fpassthru.php
+                // http://www.php.net/mime-content-type
+
+                Native.header("Content-Length: " + Native.API.filesize(x.Name));
+                
+                Native.SetContentType("application/octet-stream");
+
+                var fp = Native.API.fopen(x.Name, "rb");
+                Native.API.fpassthru(fp);
+                Native.API.exit();
+            }
         }
     }
 }

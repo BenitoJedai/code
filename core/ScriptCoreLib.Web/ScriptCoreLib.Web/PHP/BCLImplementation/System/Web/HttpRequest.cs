@@ -14,7 +14,13 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
         {
             get
             {
-                return (string)Native.SuperGlobals.Request["REQUEST_URI"];
+                var r = (string)Native.SuperGlobals.Server[Native.SuperGlobals.ServerVariables.REQUEST_URI];
+                var i = r.IndexOf("?");
+
+                if (i > 0)
+                    r = r.Substring(0, i);
+
+                return r;
             }
         }
 
@@ -22,7 +28,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
         {
             get
             {
-                return (string)Native.SuperGlobals.Request["REQUEST_METHOD"];
+                var r = (string)Native.SuperGlobals.Server["REQUEST_METHOD"];
+
+                return r;
             }
         }
 
@@ -45,7 +53,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
 
         private void InitializeForm()
         {
-            
+            var e = Native.SuperGlobals.Post;
+
+            foreach (var item in e.Keys)
+            {
+                InternalForm[item] = e[item];
+            }
         }
 
 
@@ -57,6 +70,14 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
                 if (InternalQueryString == null)
                 {
                     InternalQueryString = new NameValueCollection();
+
+                    var _get = Native.SuperGlobals.Get;
+
+                    foreach (var item in _get.Keys)
+	                {
+                        InternalQueryString[item] = _get[item]; 
+	                }
+                    
                 }
 
                 return InternalQueryString;
