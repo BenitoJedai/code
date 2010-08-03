@@ -11,20 +11,25 @@ namespace ScriptCoreLib.Ultra.WebService
 {
 	public static class InternalGlobalExtensions
 	{
+        public static InternalFileInfo ToCurrentFile(this InternalGlobal g)
+        {
+            var that = g.InternalApplication;
+
+            var x = default(InternalFileInfo);
+            foreach (var item in g.GetFiles())
+            {
+                if (that.Request.Path == "/" + item.Name)
+                {
+                    x = item;
+                    break;
+                }
+            }
+            return x;
+        }
+
 		public static bool FileExists(InternalGlobal g)
 		{
-			var that = g.InternalApplication;
-
-			bool x = false;
-			foreach (var item in g.GetFiles())
-			{
-				if (that.Request.Path == "/" + item.Name)
-				{
-					x = true;
-					break;
-				}
-			}
-			return x;
+            return g.ToCurrentFile() != null;
 		}
 
 		public static string escapeXML(string s)
@@ -176,8 +181,8 @@ namespace ScriptCoreLib.Ultra.WebService
 
 
 				// we could invoke web service handler now?
-                //h.Redirect();
-                h.Diagnostics();
+                h.Redirect();
+                //h.Diagnostics();
 			}
 		}
 
@@ -228,10 +233,14 @@ namespace ScriptCoreLib.Ultra.WebService
 
 		private static void WriteDiagnostics(InternalGlobal g, StringAction Write, InternalWebMethodInfo[] WebMethods)
 		{
+            // should the diagnostics be a separate rich Browser Application? :)
+
 			var Context = g.InternalApplication.Context;
 
+            Write("<title>jsc-solutions.net</title>");
 
 			Write("<a href='http://jsc-solutions.net'><img border='0' src='/assets/ScriptCoreLib/jsc.png' /></a>");
+
 
 			Write("<h2>Special pages</h2>");
 
@@ -250,9 +259,9 @@ namespace ScriptCoreLib.Ultra.WebService
 				WriteWebMethodForm(g, Write, item);
 			}
 
-			Write("<title>Powered by jsc: " + Context.Request.Path + "</title>");
 
-			Write("<br /> HttpMethod : " + Context.Request.HttpMethod);
+            Write("<br /> Path: '" + Context.Request.Path + "'");
+            Write("<br /> HttpMethod: '" + Context.Request.HttpMethod + "'");
 
 			Write("<h2>Form</h2>");
 			foreach (var item in Context.Request.Form.AllKeys)

@@ -10,14 +10,26 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Web
     {
         public int StatusCode
         {
-            get;
-            set;
+            get
+            {
+                return 200;
+            }
+            set
+            {
+                
+            }
         }
 
         public string ContentType
         {
-            get;
-            set;
+            get
+            {
+                return "";
+            }
+            set
+            {
+                Native.SetContentType(value);
+            }
         }
 
         public void Write(string s)
