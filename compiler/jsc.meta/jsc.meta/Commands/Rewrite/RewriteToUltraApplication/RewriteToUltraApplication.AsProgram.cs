@@ -48,6 +48,17 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                   {
                   };
 
+                Action ApplyContinueByCompileAndLaunch =
+                    delegate
+                    {
+                        Continue =
+                            delegate
+                            {
+                                CompileAndLaunch(PrimaryApplication);
+                            };
+                    };
+
+                
                 var PHPLauncher = default(FileInfo);
                 var GAELauncher = default(FileInfo);
 
@@ -56,7 +67,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                         new FileInfo(PrimaryApplication.Assembly.Location).Directory.FullName, "staging"
                     ));
 
-                if (staging != null)
+                if (staging.Exists)
                 {
                     var staging_WebService = staging.GetDirectories("*WebService").FirstOrDefault();
                     if (staging_WebService != null)
@@ -67,6 +78,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                                     staging_WebService.FullName, "staging.php/run.bat"
                                 )
                             );
+                        if (!PHPLauncher.Exists)
+                            PHPLauncher = null;
 
                         GAELauncher =
                          new FileInfo(
@@ -74,6 +87,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                                  staging_WebService.FullName, "staging.java/web/run.bat"
                              )
                          );
+                        if (!GAELauncher.Exists)
+                            GAELauncher = null;
                     }
                 }
 
@@ -164,6 +179,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                     t.Start();
                     t.Join();
                 }
+                else ApplyContinueByCompileAndLaunch();
 
                 ContinueWithSplashIfAvailable(Continue);
 

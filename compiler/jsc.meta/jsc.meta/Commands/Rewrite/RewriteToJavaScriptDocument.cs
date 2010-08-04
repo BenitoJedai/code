@@ -219,6 +219,7 @@ namespace jsc.meta.Commands.Rewrite
             {
                 ki++;
 
+                var AssembliesForDebugging = new List<string>();
                 var ScriptLibraries = new List<Type>();
 
                 // while rewriting we may decide to merge script
@@ -584,9 +585,22 @@ namespace jsc.meta.Commands.Rewrite
                         {
                             if (k.IsWebService && this.DisableWebServiceTypeMerge)
                             {
-                                if (t.ContextType.Assembly == k.TargetType.Assembly)
+                                // We have to disable type merge!
+
+                                t.DisableCopyType = true;
+
+                                if (t.ContextType.Assembly != k.TargetType.Assembly)
                                 {
-                                    t.DisableCopyType = true;
+                                    // cassini wont load if the dll's aren't there.
+
+                                    var AssemblyForDebugging = new FileInfo(t.ContextType.Assembly.Location);
+
+                                    if (AssemblyForDebugging.Directory.FullName ==
+                                        Path.GetDirectoryName(k.TargetType.Assembly.Location))
+                                    {
+                                        if (!AssembliesForDebugging.Contains(AssemblyForDebugging.FullName))
+                                            AssembliesForDebugging.Add(AssemblyForDebugging.FullName);
+                                    }
                                 }
                             }
 
@@ -1303,11 +1317,20 @@ namespace jsc.meta.Commands.Rewrite
                     {
                         item();
                     }
+
                     InvokeAfterBackendCompiler.Clear();
                 }
 
                 if (k.IsWebService && !k.IsWebServiceJava && !k.IsWebServicePHP)
                 {
+                    // assemblies for for cassini
+                    foreach (var item in AssembliesForDebugging)
+                    {
+                        var Target = Path.Combine(r.Output.Directory.FullName, Path.GetFileName(item));
+
+                        File.Copy(item, Target, true);
+                    }
+
                     if (this.AtWebServiceReady != null)
                         this.AtWebServiceReady(
                             new AtWebServiceReadyArguments
