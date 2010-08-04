@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ScriptCoreLib.CSharp.Extensions;
 using System.Windows.Navigation;
+using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
 
 namespace ScriptCoreLib.CSharp.Avalon.Extensions
 {
@@ -54,8 +54,14 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 		public static Window ToWindow(this Canvas e)
 		{
+
+			return ToWindow((FrameworkElement)e);
+		}
+
+		public static Window ToWindow(this FrameworkElement e)
+		{
 			// http://blogs.telerik.com/manoldonev/Posts/08-06-16/WPF_Line_Drawing_and_the_Device-Pixel-_In_dependence.aspx?ReturnURL=%2Fmanoldonev%2Fposts.aspx%3FYear%3D2008%26Month%3D6
-			
+
 			var w = new Window
 			{
 				Background = Brushes.Black,
@@ -68,7 +74,5 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 			return w;
 		}
-
-	
 	}
 }

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Threading;
 using System.Diagnostics;
-using System.Web;
 using System.IO;
-using jsc.meta.Library;
-using ScriptCoreLib.Ultra.Library.Extensions;
+using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
-using jsc.meta.Commands.Rewrite.RewriteToSplashScreen.Templates;
-using jsc.meta.Tools;
+using System.Text;
+using System.Threading;
+using System.Web;
 using jsc.meta.Commands.Configuration;
+using jsc.meta.Commands.Rewrite.RewriteToSplashScreen.Templates;
+using jsc.meta.Library;
 using jsc.meta.Library.VolumeFunctions;
+using jsc.meta.Tools;
+using ScriptCoreLib.Ultra.Library.Extensions;
+using jsc.meta.Dialogs;
+using ScriptCoreLib.CSharp.Avalon.Extensions;
+using System.Windows.Media;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
@@ -40,6 +43,135 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
             public void Launch()
             {
+                Action Continue =
+                  delegate
+                  {
+                  };
+
+                var PHPLauncher = default(FileInfo);
+                var GAELauncher = default(FileInfo);
+
+                var staging = new DirectoryInfo(
+                    Path.Combine(
+                        new FileInfo(PrimaryApplication.Assembly.Location).Directory.FullName, "staging"
+                    ));
+
+                if (staging != null)
+                {
+                    var staging_WebService = staging.GetDirectories("*WebService").FirstOrDefault();
+                    if (staging_WebService != null)
+                    {
+                        PHPLauncher =
+                            new FileInfo(
+                                Path.Combine(
+                                    staging_WebService.FullName, "staging.php/run.bat"
+                                )
+                            );
+
+                        GAELauncher =
+                         new FileInfo(
+                             Path.Combine(
+                                 staging_WebService.FullName, "staging.java/web/run.bat"
+                             )
+                         );
+                    }
+                }
+
+                #region setup dialog
+
+                var t = new Thread(
+                    delegate()
+                    {
+                        var c = new WebServiceLauncherDialog();
+
+                        c.button2.IsEnabled = PHPLauncher != null;
+                        c.button3.IsEnabled = GAELauncher != null;
+
+                        var w = c.ToWindow();
+
+                        c.button1.Click +=
+                            delegate
+                            {
+                                Continue =
+                                    delegate
+                                    {
+                                        CompileAndLaunch(PrimaryApplication);
+                                    };
+
+                                w.Close();
+                            };
+
+                        c.button2.Click +=
+                            delegate
+                            {
+                                Continue =
+                                    delegate
+                                    {
+                                        Process.Start(
+                                            new ProcessStartInfo(PHPLauncher.FullName)
+                                            {
+                                                WorkingDirectory = PHPLauncher.Directory.FullName
+                                            }
+                                        );
+                                    };
+
+                                w.Close();
+                            };
+
+                        c.button3.Click +=
+                               delegate
+                               {
+                                   Continue =
+                                       delegate
+                                       {
+                                           Process.Start(
+                                            new ProcessStartInfo(GAELauncher.FullName)
+                                            {
+                                                WorkingDirectory = GAELauncher.Directory.FullName
+                                            }
+                                        );
+                                       };
+
+                                   w.Close();
+                               };
+
+
+                        w.Loaded +=
+                            delegate
+                            {
+                                w.Focus();
+                            };
+
+                        w.Title = "studio.jsc-solutions.net - " + this.PrimaryApplication.Assembly.GetName().Name;
+
+                        w.Background = Brushes.White;
+                        w.Icon = c.image1.Source;
+                        w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+                        w.ShowDialog();
+                    }
+                )
+                {
+                    ApartmentState = ApartmentState.STA
+                };
+                #endregion
+
+                if (PHPLauncher != null ||
+                    GAELauncher != null
+                    )
+                {
+
+
+                    t.Start();
+                    t.Join();
+                }
+
+                ContinueWithSplashIfAvailable(Continue);
+
+
+            }
+
+            private void ContinueWithSplashIfAvailable(Action Continue)
+            {
                 var SplashTemplate = new FileInfo(@"c:\util\jsc\bin\jsc.splash.exe");
 
                 if (!DisableSplash && SplashTemplate.Exists)
@@ -62,20 +194,19 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                     ShowDialogSplash(
                         delegate
                         {
-                           CompileAndLaunch(PrimaryApplication);
+                            Continue();
                         }
                     );
                 }
                 else
                 {
-                    CompileAndLaunch(PrimaryApplication);
+                    Continue();
                 }
-
-
             }
 
             private void CompileAndLaunch(Type PrimaryApplication)
             {
+                // do we need to compile all components? maybe just the staging.net.debug?
                 var WebDevLauncher = Compile(PrimaryApplication);
 
                 // todo: WebDev cannot handle root virtual directories. we should provide an extension for non root virtual dir.
@@ -87,7 +218,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                                 Path.Combine(p.VirtualDirectory.FullName, WebDevLauncher.Directory.Name),
                                 WebDevLauncher.Name
                             )
-                        );  
+                        );
 
                     var WebDevLauncherAssembly = Assembly.LoadFile(WebDevLauncher.FullName);
 

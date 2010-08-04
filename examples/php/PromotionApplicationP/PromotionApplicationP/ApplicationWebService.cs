@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Avalon;
+using ScriptCoreLib.Ultra.Library.Delegates;
 
 namespace PromotionApplicationP
 {
@@ -20,7 +21,7 @@ namespace PromotionApplicationP
         /// </summary>
         /// <param name="e">A parameter from javascript</param>
         /// <param name="y">A callback to javascript</param>
-        public void WebMethod2(string e, Action<string> y)
+        public void WebMethod2(string e, StringAction y)
         {
             // Send it to the caller.
             y(e + GetArray()[0]);
