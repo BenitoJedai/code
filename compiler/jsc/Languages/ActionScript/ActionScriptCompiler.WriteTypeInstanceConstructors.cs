@@ -44,7 +44,7 @@ namespace jsc.Languages.ActionScript
 				if (CandidateField.FieldType == typeof(double))
 				{
 					// we need to initialize Number fields for actionscript
-					WriteIdent();
+					WriteIndent();
 					WriteKeyword(Keywords._this);
 					Write(".");
 					WriteSafeLiteral(CandidateField.Name);

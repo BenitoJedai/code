@@ -17,8 +17,10 @@ namespace jsc.Script.PHP
 		/// <summary>
 		/// compiles the main file for the assambly, also compile web/inc/*.dll/class.*.php multithreaded
 		/// </summary>
-		public void Compile(Assembly ja, CompileSessionInfo sinfo)
+        public void Compile(Assembly ja, CompileSessionInfo sinfo, Action<string, string> WriteAllText = null)
 		{
+            if (WriteAllText == null)
+                WriteAllText = File.WriteAllText;
 
 			var web = sinfo.Options.TargetAssembly.Directory.CreateSubdirectory("web");
 
@@ -57,14 +59,20 @@ namespace jsc.Script.PHP
 						string content = c.MyWriter.ToString();
 
 
-						StreamWriter sw = new StreamWriter(new FileStream(web.FullName + "/" + z.TargetFileName, FileMode.Create));
+                        WriteAllText(
+                             web.FullName + "/" + z.TargetFileName,
+                             "<?php" + Environment.NewLine + content + "?>"
+                        );
 
-						sw.WriteLine("<?php");
-						sw.Write(content);
-						sw.WriteLine("?>");
-						sw.Flush();
+                        //StreamWriter sw = new StreamWriter(new FileStream(
+                            
+                        //    web.FullName + "/" + z.TargetFileName, FileMode.Create));
 
-						sw.Close();
+                        //sw.WriteLine("<?php");
+                        //sw.Write(content);
+                        //sw.WriteLine("?>");
+                        //sw.Flush();
+                        //sw.Close();
 
 						req.Add(z);
 					}

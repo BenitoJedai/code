@@ -61,6 +61,8 @@ namespace WebGLPuls
             c.style.border = "1px solid yellow";
 
             var fragment_shader_source = @"
+#version 120
+
 uniform float t;
 varying vec2 tc;
  
@@ -154,6 +156,8 @@ void main()
 
             var vertex_shader_source =
     @"
+#version 120
+
 attribute vec2 position;
 attribute vec2 texcoord;
 uniform float h;
@@ -169,6 +173,13 @@ void main()
             var vs = gl.createShader(gl.VERTEX_SHADER);
             gl.shaderSource(vs, vertex_shader_source);
             gl.compileShader(vs);
+            if ((int)gl.getShaderParameter(vs, gl.COMPILE_STATUS) != 1)
+            {
+                var error = gl.getShaderInfoLog(vs);
+                alert("vs: " + error);
+                return;
+            }
+
 
             var fs = gl.createShader(gl.FRAGMENT_SHADER);
             gl.shaderSource(fs, fragment_shader_source);
@@ -176,7 +187,7 @@ void main()
             if ((int)gl.getShaderParameter(fs, gl.COMPILE_STATUS) != 1)
             {
                 var error = gl.getShaderInfoLog(fs);
-                alert("vs: " + error);
+                alert("fs: " + error);
                 return;
             }
 

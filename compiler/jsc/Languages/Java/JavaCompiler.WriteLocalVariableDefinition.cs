@@ -22,7 +22,7 @@ namespace jsc.Languages.Java
     {
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
-			WriteIdent();
+			WriteIndent();
 
 			WriteDecoratedTypeNameOrImplementationTypeName(v.LocalType, true, true);
 			WriteSpace();

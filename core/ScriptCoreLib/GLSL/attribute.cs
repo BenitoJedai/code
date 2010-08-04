@@ -14,6 +14,8 @@ namespace ScriptCoreLib.GLSL
     /// a per-vertex basis.
     /// 
     /// The attribute qualifier can be used only with the data types float, vec2, vec3, vec4, mat2, mat3, and mat4
+    /// 
+    /// GLSL 4 uses "in" attribute instead.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
     [AttributeUsageFieldTypeContractAttribute(

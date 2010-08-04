@@ -30,7 +30,7 @@ namespace jsc.Languages.CSharp2
                 if (ci.Length > 1)
                     Break("more than  static ctor?");
 
-                this.WriteIdent();
+                this.WriteIndent();
                 this.WriteKeywordSpace(Keywords._static);
                 
                 Write(GetShortName(z));

@@ -731,7 +731,7 @@ namespace jsc.Languages.ActionScript
 								WriteLine();
 							}
 
-							WriteIdent();
+							WriteIndent();
 
 							if (_stack[si] == null)
 							{
@@ -771,7 +771,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-						WriteIdent();
+						WriteIndent();
 						Write("]");
 					}
 					#endregion

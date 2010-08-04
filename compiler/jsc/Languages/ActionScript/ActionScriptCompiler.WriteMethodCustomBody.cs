@@ -43,7 +43,7 @@ namespace jsc.Languages.ActionScript
 
 		private void WriteMethodCustomBody_EmbedGetFileNames(MethodBase m)
 		{
-			WriteIdent();
+			WriteIndent();
 			WriteKeywordSpace(Keywords._return);
 			Write("[");
 			WriteLine();
@@ -56,7 +56,7 @@ namespace jsc.Languages.ActionScript
 			{
 				var source = a[i];
 				
-				WriteIdent();
+				WriteIndent();
 				WriteQuotedLiteral(source);
 
 				if (i < a.Length - 1)
@@ -65,7 +65,7 @@ namespace jsc.Languages.ActionScript
 				WriteLine();
 			}
 
-			WriteIdent();
+			WriteIndent();
 			Write("]");
 			Write(";");
 			WriteLine();
@@ -105,7 +105,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-							WriteIdent();
+							WriteIndent();
 							WriteKeywordSpace(Keywords._internal);
 							WriteKeywordSpace(Keywords._static);
 							WriteKeywordSpace(Keywords._var);
@@ -117,7 +117,7 @@ namespace jsc.Languages.ActionScript
 							WriteLine(";");
 						};
 
-					WriteIdent();
+					WriteIndent();
 					WriteKeywordSpace(Keywords._if);
 					Write("(");
 					WriteSafeLiteral(m.GetParameters().First().Name);
@@ -134,7 +134,7 @@ namespace jsc.Languages.ActionScript
 			);
 			#endregion
 
-			WriteIdent();
+			WriteIndent();
 			WriteKeywordSpace(Keywords._return);
 			WriteKeyword(Keywords._null);
 			WriteLine(";");

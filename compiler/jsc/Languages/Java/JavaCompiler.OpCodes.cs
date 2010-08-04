@@ -130,7 +130,7 @@ namespace jsc.Languages.Java
 
 								using (this.CreateScope())
 								{
-									this.WriteIdent();
+									this.WriteIndent();
 
 									if (((MethodInfo)_Method).ReturnType != typeof(void))
 									{
@@ -646,7 +646,7 @@ namespace jsc.Languages.Java
 				this.CompileType_WriteAdditionalMembers +=
 					delegate
 					{
-						this.WriteIdent();
+						this.WriteIndent();
 						this.WriteKeywordSpace(Keywords._private);
 						this.WriteKeywordSpace(Keywords._static);
 
@@ -664,7 +664,7 @@ namespace jsc.Languages.Java
 
 						using (this.CreateScope())
 						{
-							this.WriteIdent();
+							this.WriteIndent();
 							this.WriteKeywordSpace(Keywords._return);
 							EmitTryCast(() => this.Write("_" + e.i.Offset.ToString("x4")));
 							this.WriteLine(";");
@@ -891,7 +891,7 @@ namespace jsc.Languages.Java
 
 							   a();
 
-							   WriteIdent();
+							   WriteIndent();
 							   Write("}");
 						   }
 					   };
@@ -918,7 +918,7 @@ namespace jsc.Languages.Java
 										WriteLine();
 									}
 
-									WriteIdent();
+									WriteIndent();
 
 									if (_stack[si] == null)
 									{
@@ -995,7 +995,7 @@ namespace jsc.Languages.Java
 							CreateArray(
 								   delegate
 								   {
-									   WriteIdent();
+									   WriteIndent();
 
 									   if (Type == typeof(int))
 									   {

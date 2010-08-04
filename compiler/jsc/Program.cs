@@ -410,8 +410,11 @@ namespace jsc
 
             if (type == ScriptType.PHP)
             {
-
-                new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(_assambly_loaded, sinfo);
+                new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(
+                    _assambly_loaded, 
+                    sinfo,
+                    VersionLookup.Add
+                );
             }
             else if (type == ScriptType.JavaScript)
             {

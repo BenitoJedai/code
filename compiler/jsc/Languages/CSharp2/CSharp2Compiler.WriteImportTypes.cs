@@ -57,7 +57,7 @@ namespace jsc.Languages.CSharp2
 
             foreach (var v in imports.OrderBy(k => k).Distinct())
             {
-                WriteIdent();
+                WriteIndent();
                 WriteKeywordSpace(Keywords._using);
                 Write(v);
                 WriteLine(";");

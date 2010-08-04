@@ -71,7 +71,7 @@ namespace jsc.Script
 		{
 			if (loop.IsBreak(p.Instruction))
 			{
-				WriteIdent();
+				WriteIndent();
 				Write("break");
 				Write(";");
 				WriteLine();
@@ -79,7 +79,7 @@ namespace jsc.Script
 			}
 			else if (loop.IsContinue(p.Instruction))
 			{
-				WriteIdent();
+				WriteIndent();
 				Write("continue");
 				Write(";");
 				WriteLine();
@@ -87,7 +87,7 @@ namespace jsc.Script
 			}
 			else
 			{
-				WriteIdent();
+				WriteIndent();
 				Write("while");
 				WriteSpace();
 				Write("(");
@@ -579,7 +579,7 @@ namespace jsc.Script
 		public override void EmitIfBlock(ILBlock.Prestatement p, ILIfElseConstruct iif)
 		{
 			WriteLine();
-			WriteIdent();
+			WriteIndent();
 			WriteKeywordIf();
 
 			Write("(");
@@ -696,7 +696,7 @@ namespace jsc.Script
 
 			if (iif.HasElseClause)
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteKeywordElse();
 
 				EmitScope(p.Owner.ExtractBlock(iif.BodyFalseFirst, iif.BodyFalseLast));
@@ -727,7 +727,7 @@ namespace jsc.Script
 		{
 			Ident--;
 
-			WriteIdent();
+			WriteIndent();
 			Write("}");
 
 			if (usenewline)
@@ -736,7 +736,7 @@ namespace jsc.Script
 
 		public void WriteScopeBegin()
 		{
-			WriteIdent();
+			WriteIndent();
 			Write("{");
 			WriteLine();
 
@@ -866,7 +866,7 @@ namespace jsc.Script
 
 		public override void WriteMethodHint(MethodBase m)
 		{
-			WriteIdent();
+			WriteIndent();
 			WriteCommentLine((m.IsStatic ? "static " : "instance ") + m.DeclaringType.FullName + "." + m.Name);
 		}
 
@@ -1092,17 +1092,17 @@ namespace jsc.Script
 		{
 			string x = Summary.Trim();
 
-			WriteIdent();
+			WriteIndent();
 			WriteLine("/**");
 
 			foreach (string var in x.Split('\n'))
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteLine(" * " + var.Trim());
 
 			}
 
-			WriteIdent();
+			WriteIndent();
 			WriteLine(" */");
 		}
 
@@ -1260,7 +1260,7 @@ namespace jsc.Script
 
 				if (m.ToScriptAttributeOrDefault().IsDebugCode)
 				{
-					WriteIdent();
+					WriteIndent();
 					WriteCommentLine("[Script(IsDebugCode = true)]");
 				}
 
@@ -1322,7 +1322,7 @@ namespace jsc.Script
 			}
 
 
-			WriteIdent();
+			WriteIndent();
 
 			try
 			{

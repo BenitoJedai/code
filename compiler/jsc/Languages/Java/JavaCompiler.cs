@@ -305,7 +305,7 @@ namespace jsc.Languages.Java
 				if (zfn.IsLiteral)
 					continue;
 
-				WriteIdent();
+				WriteIndent();
 				WriteTypeFieldModifier(zfn);
 
 				WriteDecoratedTypeNameOrImplementationTypeName(zfn.FieldType, true, true);
@@ -407,7 +407,7 @@ namespace jsc.Languages.Java
 
 		public override void WriteTypeSignature(Type z, ScriptAttribute za)
 		{
-			WriteIdent();
+			WriteIndent();
 
 
 
@@ -842,7 +842,7 @@ namespace jsc.Languages.Java
 			if (p.Instruction.TargetVariable == null)
 				return;
 
-			WriteIdent();
+			WriteIndent();
 			WriteDecoratedMethodName(m, false);
 			Write("(");
 
@@ -862,7 +862,7 @@ namespace jsc.Languages.Java
 			if (WriteCall_DebugTrace_Assign_Active)
 				return;
 
-			WriteIdent();
+			WriteIndent();
 			WriteDecoratedMethodName(m, false);
 			Write("(");
 

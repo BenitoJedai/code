@@ -48,7 +48,7 @@ namespace jsc.Languages.ActionScript
 
                 if (IsSet || IsGet)
                 {
-                    WriteIdent();
+                    WriteIndent();
                     WriteCommentLine("override a virtual property by " + tmethod.Name);
 
                     continue;
@@ -92,7 +92,7 @@ namespace jsc.Languages.ActionScript
                     throw new NotImplementedException("cannot find override for " + tmethod.ToString());
                 }
 
-                WriteIdent();
+                WriteIndent();
 				WriteCommentLine("override a virtual member for " + InterfaceMethodImplementationSignature.DeclaringType.Name);
 
                 WriteMethodSignature(InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
@@ -102,7 +102,7 @@ namespace jsc.Languages.ActionScript
 
                 using (CreateScope())
                 {
-                    WriteIdent();
+                    WriteIndent();
 
                     if (vm.ReturnType != typeof(void))
                     {

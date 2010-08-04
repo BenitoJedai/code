@@ -15,7 +15,7 @@ namespace jsc.Script.PHP
 
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
-			WriteIdent();
+			WriteIndent();
 
 			this.Write("$_" + v.LocalIndex);
 

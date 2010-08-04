@@ -358,7 +358,7 @@ namespace jsc.Script
 
 		public bool WriteIdent_Enabled = true;
 
-		public void WriteIdent()
+		public void WriteIndent()
 		{
 			if (WriteIdent_Enabled)
 				Write(new string(' ', Ident * 4));
@@ -816,7 +816,7 @@ namespace jsc.Script
 					{
 						// we are lucky, as the inline code was provided;
 
-						WriteIdent();
+						WriteIndent();
 
 						string code = a.OptimizedCode;
 
@@ -940,7 +940,7 @@ namespace jsc.Script
 
 		private void WriteComment(string p)
 		{
-			WriteIdent();
+			WriteIndent();
 			WriteLine("// " + p);
 		}
 
@@ -1592,7 +1592,7 @@ namespace jsc.Script
 
 			//p.Instruction.ToConsole(4);
 
-			WriteIdent();
+			WriteIndent();
 			Write("for (");
 
 			EmitInstruction(p, p.Instruction);

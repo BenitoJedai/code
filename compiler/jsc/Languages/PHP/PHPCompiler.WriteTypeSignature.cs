@@ -17,7 +17,7 @@ namespace jsc.Script.PHP
 		{
 			WriteLine("// " + z.FullName);
 
-			WriteIdent();
+			WriteIndent();
 
 
 

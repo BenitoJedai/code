@@ -81,7 +81,7 @@ namespace jsc.Languages.CSharp2
 
                                 a();
 
-                                WriteIdent();
+                                WriteIndent();
                                 Write("}");
                             }
                         };
@@ -107,7 +107,7 @@ namespace jsc.Languages.CSharp2
                                         WriteLine();
                                     }
 
-                                    WriteIdent();
+                                    WriteIndent();
 
                                     if (_stack[si] == null)
                                     {

@@ -35,7 +35,7 @@ namespace jsc.Languages.PHP
 
             w.WriteCommentLine("delegate: " + z.Name);
 
-            w.WriteIdent();
+            w.WriteIndent();
             w.Write("class ");
             w.WriteDecoratedTypeName(z);
             w.Write(" extends ");
@@ -45,7 +45,7 @@ namespace jsc.Languages.PHP
 
             using (w.CreateScope())
             {
-                w.WriteIdent();
+                w.WriteIndent();
                 w.WriteLine("function __construct($object, $method) { parent::__construct($object, $method); }");
 
 
@@ -58,7 +58,7 @@ namespace jsc.Languages.PHP
                     #region WriteForEach
                     Action<Action> WriteForEach = delegate(Action f)
                     {
-                        w.WriteIdent();
+                        w.WriteIndent();
                         w.WriteLine(string.Format("foreach ($this->{0} as $f)", FieldList.Name));
 
                         using (w.CreateScope()) f();
@@ -89,7 +89,7 @@ namespace jsc.Languages.PHP
                     Action<string, string> st_loc =
                         delegate (string local, string value)
                         {
-                            w.WriteIdent();
+                            w.WriteIndent();
                             w.WriteLine("$" + local + " = " + value + ";");
                         };
                     
@@ -109,7 +109,7 @@ namespace jsc.Languages.PHP
                                 st_loc("t", ld_fld("f", FieldTarget.Name));
                                 st_loc("m", ld_fld("f", FieldMethod.Name));
 
-                                w.WriteIdent();
+                                w.WriteIndent();
                                 w.WriteLine(string.Format("if ($t) $t->$m({0}); else $m({0});",
                                     GetParams()
                                     ));
@@ -119,7 +119,7 @@ namespace jsc.Languages.PHP
                     }
                     else
                     {
-                        w.WriteIdent();
+                        w.WriteIndent();
                         w.WriteLine("$_ = NULL;");
 
                         WriteForEach(
@@ -129,7 +129,7 @@ namespace jsc.Languages.PHP
                                 st_loc("t", ld_fld("f", FieldTarget.Name));
                                 st_loc("m", ld_fld("f", FieldMethod.Name));
 
-                                w.WriteIdent();
+                                w.WriteIndent();
                                 w.WriteLine(string.Format("if ($t) $_ = $t->$m({0}); else $_ = $m({0});",
                                  GetParams()
                                  ));
@@ -137,7 +137,7 @@ namespace jsc.Languages.PHP
                             }
                         );
 
-                        w.WriteIdent();
+                        w.WriteIndent();
                         w.WriteLine("return $_;");
                     }
                 }

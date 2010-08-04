@@ -30,7 +30,7 @@ namespace jsc.Languages.Java
                 if (ci.Length > 1)
                     Break("more than  static ctor?");
 
-                this.WriteIdent();
+                this.WriteIndent();
                 this.WriteKeyword(Keywords._static);
                 this.WriteLine();
 
@@ -67,13 +67,13 @@ namespace jsc.Languages.Java
 
                 if (ScriptLibraryImport(z) != null)
                 {
-                    this.WriteIdent();
+                    this.WriteIndent();
                     this.WriteKeyword(Keywords._static);
                     this.WriteLine();
 
                     using (this.CreateScope())
                     {
-                        WriteIdent();
+                        WriteIndent();
 
                         WriteLine("java.lang.System.loadLibrary(\"" + ScriptLibraryImport(z) + "\");");
                     }

@@ -33,7 +33,7 @@ namespace jsc.Languages.ActionScript
 
 		public void WriteCustomAttribute(string AttributeName, object AttributeRef, FieldInfo[] AttributeFields)
 		{
-			WriteIdent();
+			WriteIndent();
 
 			Write("[");
 			WriteSafeLiteral(AttributeName);

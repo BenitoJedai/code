@@ -18,7 +18,7 @@ namespace jsc.Languages.CSharp2
             if (p.Block.IsTryBlock)
             {
 
-                WriteIdent();
+                WriteIndent();
                 WriteLine("try");
 
 
@@ -35,7 +35,7 @@ namespace jsc.Languages.CSharp2
             {
 
 
-                WriteIdent();
+                WriteIndent();
 
 
 

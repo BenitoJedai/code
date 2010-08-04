@@ -35,7 +35,7 @@ namespace jsc.Languages.Java
 		{
 			DebugBreak(ScriptAttribute.Of(m));
 
-			WriteIdent();
+			WriteIndent();
 
 			if (m.IsAbstract && !m.DeclaringType.IsInterface)
 				WriteKeywordSpace(Keywords._abstract);

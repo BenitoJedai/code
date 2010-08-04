@@ -50,7 +50,7 @@ namespace jsc.Languages.ActionScript
 
 			var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
 
-			WriteIdent();
+			WriteIndent();
 
 			if (DeclaringType.IsInterface)
 			{

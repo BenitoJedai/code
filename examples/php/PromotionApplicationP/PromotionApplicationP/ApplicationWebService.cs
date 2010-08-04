@@ -23,7 +23,15 @@ namespace PromotionApplicationP
         public void WebMethod2(string e, Action<string> y)
         {
             // Send it to the caller.
-            y(e + "jsc");
+            y(e + GetArray()[0]);
+
+            
+        }
+
+        private static string[] GetArray()
+        {
+            var s = new[] { "jsc" };
+            return s;
         }
 
     }

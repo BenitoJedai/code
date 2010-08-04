@@ -268,7 +268,7 @@ namespace jsc.Script.PHP
 				}
 				else
 				{
-					WriteIdent();
+					WriteIndent();
 
 					WriteHint(m);
 
@@ -303,7 +303,7 @@ namespace jsc.Script.PHP
 					continue;
 
 
-				WriteIdent();
+				WriteIndent();
 				WriteTypeFieldModifier(zfn);
 
 
@@ -531,7 +531,7 @@ namespace jsc.Script.PHP
 
 
 
-			WriteIdent();
+			WriteIndent();
 
 
 			try
@@ -594,7 +594,7 @@ namespace jsc.Script.PHP
 			if (p.Block.IsTryBlock)
 			{
 
-				WriteIdent();
+				WriteIndent();
 				WriteLine("try");
 
 
@@ -611,7 +611,7 @@ namespace jsc.Script.PHP
 			{
 
 
-				WriteIdent();
+				WriteIndent();
 
 
 
@@ -642,7 +642,7 @@ namespace jsc.Script.PHP
 					WriteLine(")");
 					WriteScopeBegin();
 
-					WriteIdent();
+					WriteIndent();
 					Write("$__" + p.Block.Clause.TryOffset);
 					WriteSpace();
 					Write("=");
@@ -655,14 +655,14 @@ namespace jsc.Script.PHP
 
 					EmitPrestatementBlock(b);
 
-					WriteIdent();
+					WriteIndent();
 					Write("if (isset(");
 					Write("$__" + p.Block.Clause.TryOffset);
 					WriteLine("))");
 
 					WriteScopeBegin();
 
-					WriteIdent();
+					WriteIndent();
 					Write("throw ");
 					Write("$__" + p.Block.Clause.TryOffset);
 					WriteLine(";");

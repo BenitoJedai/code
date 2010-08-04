@@ -24,7 +24,7 @@ namespace jsc.Script.PHP
 			{
 				foreach (ConstructorInfo zc in zci)
 				{
-					WriteIdent();
+					WriteIndent();
 					WriteCommentLine(zc.DeclaringType.FullName + ".ctor");
 					WriteMethodSignature(z, zc, false);
 					WriteMethodBody(zc);
@@ -45,7 +45,7 @@ namespace jsc.Script.PHP
 			if (InvalidBaseType)
 				Break("Types with multiple constructors must not inherit types with single constructor unless empty. " + z.FullName);
 
-			WriteIdent();
+			WriteIndent();
 			WriteKeywordSpace(Keywords._function);
 			WriteKeyword(Keywords.___construct);
 			Write("()");
@@ -53,7 +53,7 @@ namespace jsc.Script.PHP
 
 			using (this.CreateScope())
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteCommentLine("Multiple constructors are supported via additional methods.");
 			}
 
@@ -61,7 +61,7 @@ namespace jsc.Script.PHP
 
 			foreach (ConstructorInfo zc in zci)
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteKeywordSpace(Keywords._function);
 				WriteDecoratedMethodName(zc, false);
 
@@ -73,7 +73,7 @@ namespace jsc.Script.PHP
 				WriteMethodBody(zc, null, null,
 					delegate
 					{
-						WriteIdent();
+						WriteIndent();
 						WriteKeywordSpace(Keywords._return);
 						WriteSelf();
 						Write(";");

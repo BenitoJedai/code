@@ -19,7 +19,7 @@ namespace jsc.Languages.Java
 		public static void WriteConstructor(JavaCompiler w, ConstructorInfo m)
 		{
 
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeyword(JavaCompiler.Keywords._super);
 			w.Write("(");
 			w.WriteDecoratedMethodParameter(m.GetParameters()[0]);
@@ -38,7 +38,7 @@ namespace jsc.Languages.Java
 			Type IntPtr = w.MySession.ResolveImplementation(typeof(IntPtr));
 
 
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeywordSpace(JavaCompiler.Keywords._return);
 			w.WriteKeyword(JavaCompiler.Keywords._null);
 			w.WriteLine(";");
@@ -64,7 +64,7 @@ namespace jsc.Languages.Java
 
 			if (m.ReturnType != typeof(void))
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteDecoratedTypeName(m.ReturnType);
 				w.WriteSpace();
 				w.WriteSafeLiteral(__value);
@@ -85,7 +85,7 @@ namespace jsc.Languages.Java
 			}
 
 			#region var __InvocationList = GetInvocationList();
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteDecoratedTypeName(Delegate);
 			w.Write("[]");
 			w.WriteSpace();
@@ -99,7 +99,7 @@ namespace jsc.Languages.Java
 			#endregion
 
 			#region for(int __index = 0; __index < __InvocationList.length; __index++)
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeyword(JavaCompiler.Keywords._for);
 			w.Write("(");
 			w.Write("int");
@@ -124,7 +124,7 @@ namespace jsc.Languages.Java
 
 			using (w.CreateScope())
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteDecoratedTypeName(Delegate);
 				w.WriteSpace();
 				w.WriteSafeLiteral(__current);
@@ -137,7 +137,7 @@ namespace jsc.Languages.Java
 				w.WriteLine(";");
 
 				#region invoke
-				w.WriteIdent();
+				w.WriteIndent();
 
 				if (m.ReturnType != typeof(void))
 				{
@@ -255,7 +255,7 @@ namespace jsc.Languages.Java
 
 			if (m.ReturnType != typeof(void))
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteKeywordSpace(JavaCompiler.Keywords._return);
 				w.WriteSafeLiteral(__value);
 				w.WriteLine(";");
@@ -264,7 +264,7 @@ namespace jsc.Languages.Java
 
 		public static void WriteExtensionMethodSupport(JavaCompiler w, Type z)
 		{
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeywordSpace(JavaCompiler.Keywords._public);
 			w.WriteDecoratedTypeName(typeof(bool));
 
@@ -272,7 +272,7 @@ namespace jsc.Languages.Java
 			w.WriteSafeLiteral(IsExtensionMethod);
 			w.WriteLine(";");
 
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeywordSpace(JavaCompiler.Keywords._public);
 
 			w.WriteDecoratedTypeNameOrImplementationTypeName(z);
@@ -283,14 +283,14 @@ namespace jsc.Languages.Java
 
 			using (w.CreateScope())
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteSafeLiteral(IsExtensionMethod);
 				w.WriteAssignment();
 				w.WriteKeyword(JavaCompiler.Keywords._true);
 				w.WriteLine(";");
 
 
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteKeywordSpace(JavaCompiler.Keywords._return);
 				w.WriteKeyword(JavaCompiler.Keywords._this);
 				w.WriteLine(";");
@@ -302,7 +302,7 @@ namespace jsc.Languages.Java
 
 		public static void WriteEndInvoke(JavaCompiler w, MethodInfo m)
 		{
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeywordSpace(JavaCompiler.Keywords._throw);
 			w.WriteKeywordSpace(JavaCompiler.Keywords._new);
 			w.Write("java.lang.RuntimeException(\"Not implemented\")");

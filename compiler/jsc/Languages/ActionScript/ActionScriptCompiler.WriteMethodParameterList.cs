@@ -143,7 +143,7 @@ namespace jsc.Languages.ActionScript
 						AddDefaultVariableInitializer(
 							delegate
 							{
-								WriteIdent();
+								WriteIndent();
 								Write("if (");
 								WriteDecoratedMethodParameter(p);
 								Write(" == null) ");
