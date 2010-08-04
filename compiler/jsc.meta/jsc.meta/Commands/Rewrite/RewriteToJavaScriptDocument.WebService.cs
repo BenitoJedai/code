@@ -570,15 +570,15 @@ namespace jsc.meta.Commands.Rewrite
                     File.WriteAllText(Path.Combine(root.FullName, "Default.htm"), "");
 
 
-                    //#region staging.net.bat
-                    //// now we can run the rewritten app in .net :)
-                    //File.WriteAllText(
-                    //    Path.Combine(root.FullName,
-                    //        "WebDev.WebServer.bat"
-                    //        ),
-                    //    @"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
-                    //);
-                    //#endregion
+                    #region staging.net.bat
+                    // now we can run the rewritten app in .net :)
+                    File.WriteAllText(
+                        Path.Combine(root.FullName,
+                            "WebDev.WebServer.bat"
+                            ),
+                        @"call ""C:\Program Files\Common Files\Microsoft Shared\DevServer\9.0\WebDev.WebServer.exe"" /port:8081 /path:""" + __root.FullName + @""" /vpath:""/"""
+                    );
+                    #endregion
 
                     //#region staging.net.bat
                     //// now we can run the rewritten app in .net :)

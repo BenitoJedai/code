@@ -16,6 +16,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using TestSolutionBuilderV1.Views;
 
 namespace PromotionApplicationP
 {
@@ -40,10 +41,22 @@ namespace PromotionApplicationP
             var c = new JSCSolutionsNETWhiteCarouselCanvas();
             c.CloseOnClick = false;
             c.Container.AttachToContainer(page.Animation);
+
+            var IsStudio = Native.Document.location.hash.StartsWith("#/studio");
+
+            Action  ActivateStudio =
+                delegate
+                {
+                    page.PageContainer.Clear();
+                    new StudioView(null).Content.AttachToDocument();
+                };
+
             c.AtLogoClick +=
                 delegate
                 {
-                    new Uri("http://www.jsc-solutions.net").NavigateTo();
+                    Native.Document.location.hash = "#/studio";
+                    ActivateStudio();
+                    //new Uri("http://www.jsc-solutions.net").NavigateTo();
                 };
 
             new ApplicationWebService().WebMethod2("powered by ",
@@ -52,6 +65,9 @@ namespace PromotionApplicationP
                     e.ToDocumentTitle();
                 }
             );
+
+            if (IsStudio)
+                ActivateStudio();
         }
 
     }
