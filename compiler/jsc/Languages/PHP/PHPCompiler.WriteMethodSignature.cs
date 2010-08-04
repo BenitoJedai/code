@@ -20,7 +20,7 @@ namespace jsc.Script.PHP
 		public void WriteMethodSignature(Type compiland, MethodBase m, bool dStatic, WriteMethodSignatureMode Mode)
 		{
 
-			WriteIdent();
+			WriteIndent();
 
 			if (compiland.IsInterface)
 			{

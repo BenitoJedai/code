@@ -50,7 +50,7 @@ namespace jsc.Languages.ActionScript
 				// write the attributes for current field
 				WriteCustomAttributes(zfn);
 
-				WriteIdent();
+				WriteIndent();
 				WriteTypeFieldModifier(zfn);
 
 				Write("var ");

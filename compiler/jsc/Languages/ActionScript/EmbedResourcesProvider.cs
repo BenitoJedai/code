@@ -19,7 +19,7 @@ namespace jsc.Languages.ActionScript
 		{
 			if (z.Assembly != w.MySession.Options.TargetAssemblyReference)
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteCommentLine("there is a superior entrypoint which will embed the assets...");
 
 				return;
@@ -42,7 +42,7 @@ namespace jsc.Languages.ActionScript
 				return;
 			}
 
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteCommentLine("adding resources to the collector...");
 
 			// kind of cool to think about meta commenting :)
@@ -73,7 +73,7 @@ namespace jsc.Languages.ActionScript
 
 
 
-							w.WriteIdent();
+							w.WriteIndent();
 							w.WriteKeywordSpace(ActionScriptCompiler.Keywords._internal);
 							w.WriteKeywordSpace(ActionScriptCompiler.Keywords._static);
 							w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
@@ -86,7 +86,7 @@ namespace jsc.Languages.ActionScript
 						};
 
 
-					w.WriteIdent();
+					w.WriteIndent();
 					w.WriteDecoratedTypeName(Collector);
 					w.Write(".");
 					w.WriteSafeLiteral(Default.Name);
@@ -106,7 +106,7 @@ namespace jsc.Languages.ActionScript
 
 			foreach (var a in SharedHelper.LoadReferencedAssemblies(z.Assembly, true))
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteCommentLine(a.FullName);
 
 				foreach (var n in EmbeddedResourcesExtensions.GetEmbeddedResources(null, a))

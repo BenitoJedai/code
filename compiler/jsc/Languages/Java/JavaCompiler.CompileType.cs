@@ -35,7 +35,7 @@ namespace jsc.Languages.Java
 
             if (z.Namespace != null)
             {
-                this.WriteIdent();
+                this.WriteIndent();
 				this.WriteKeywordSpace(Keywords._package);
 
 				var _namespace = string.Join(".", NamespaceFixup(z.Namespace, z).Split('.').Select(k => GetSafeLiteral(k)).ToArray());
@@ -98,7 +98,7 @@ namespace jsc.Languages.Java
 				if (z_NonPrimitiveValueType)
 				{
 					// define ctor as methods
-					WriteIdent();
+					WriteIndent();
 					WriteCommentLine("NonPrimitiveValueType");
 
 					foreach (var NonPrimitiveValueTypeConstructor in z.GetInstanceConstructors())
@@ -166,7 +166,7 @@ namespace jsc.Languages.Java
 					if (_Resolved_InvokeInt32 == null)
 						throw new NotSupportedException("PlatformInvocationServices.InvokeInt32 implementation was not found.");
 
-					this.WriteIdent();
+					this.WriteIndent();
 
 					this.WriteKeywordSpace(Keywords._return);
 					this.WriteDecoratedTypeName(_Resolved_InvokeInt32.DeclaringType);

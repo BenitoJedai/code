@@ -21,7 +21,7 @@ namespace jsc.Languages.CSharp2
                 if (!zfn.IsLiteral)
                     continue;
 
-                WriteIdent();
+                WriteIndent();
                 
                 WriteSafeLiteral(zfn.Name);
 
@@ -54,7 +54,7 @@ namespace jsc.Languages.CSharp2
                 // write the attributes for current field
                 // WriteCustomAttributes(zfn);
 
-                WriteIdent();
+                WriteIndent();
                 WriteTypeFieldModifier(zfn);
 
                 WriteGenericTypeName(z, zfn.FieldType);

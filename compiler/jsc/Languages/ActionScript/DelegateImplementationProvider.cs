@@ -33,7 +33,7 @@ namespace jsc.Languages.ActionScript
             w.WriteMethodSignature(Constructor, false);
             using (w.CreateScope())
             {
-                w.WriteIdent();
+                w.WriteIndent();
                 w.Write("super("
                     + Constructor.GetParameters()[0].Name + ", "
                     + Constructor.GetParameters()[1].Name + ");"
@@ -60,7 +60,7 @@ namespace jsc.Languages.ActionScript
             using (w.CreateScope())
             {
                 #region var target:Object
-                w.WriteIdent();
+                w.WriteIndent();
                 w.Write("var target");
                 w.Write(":");
                 w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(object), false, false, w.IsFullyQualifiedNamesRequired(z, typeof(object)));
@@ -69,7 +69,7 @@ namespace jsc.Languages.ActionScript
                 #endregion
 
 				#region var method:Object
-				w.WriteIdent();
+				w.WriteIndent();
                 w.Write("var method");
                 w.Write(":");
                 w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false, w.IsFullyQualifiedNamesRequired(z, IntPtr));
@@ -79,7 +79,7 @@ namespace jsc.Languages.ActionScript
 
 
 				#region var field:Object
-				w.WriteIdent();
+				w.WriteIndent();
                 w.Write("var field");
                 w.Write(":");
                 w.WriteDecoratedTypeNameOrImplementationTypeName(typeof(string), false, false, w.IsFullyQualifiedNamesRequired(z, typeof(string)));
@@ -90,7 +90,7 @@ namespace jsc.Languages.ActionScript
 				#region ReturnType
 				if (Invoke.ReturnType != typeof(void))
                 {
-                    w.WriteIdent();
+                    w.WriteIndent();
 
 					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
                     w.Write("val");
@@ -104,7 +104,7 @@ namespace jsc.Languages.ActionScript
 
 
 				#region for each (var ptr:* in super.list)
-				w.WriteIdent();
+				w.WriteIndent();
 
                 w.Write("for each(");
                 w.Write("var ptr");
@@ -120,7 +120,7 @@ namespace jsc.Languages.ActionScript
                 using (w.CreateScope())
 				{
 					#region target = IsExtensionMethod ? null :  ptr._Target;
-					w.WriteIdent();
+					w.WriteIndent();
                     w.Write("target");
                     w.WriteAssignment();
 
@@ -147,7 +147,7 @@ namespace jsc.Languages.ActionScript
                     #endregion
 
                     #region method = ptr._Method;
-                    w.WriteIdent();
+                    w.WriteIndent();
                     w.Write("method");
                     w.WriteAssignment();
                     w.Write("ptr");
@@ -158,7 +158,7 @@ namespace jsc.Languages.ActionScript
                     #endregion
 
                     #region field = ?;
-                    w.WriteIdent();
+                    w.WriteIndent();
                     w.Write("field");
                     w.WriteAssignment();
                     w.WriteDecoratedTypeNameOrImplementationTypeName(IntPtr, false, false, w.IsFullyQualifiedNamesRequired(z, IntPtr));
@@ -173,7 +173,7 @@ namespace jsc.Languages.ActionScript
 
 
 					#region var Local_a
-					w.WriteIdent();
+					w.WriteIndent();
 					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
 					w.Write(Local_a);
 					w.Write(":");
@@ -187,7 +187,7 @@ namespace jsc.Languages.ActionScript
 					#endregion
 
 					#region add this pointer to argumetns for extension methods
-					w.WriteIdent();
+					w.WriteIndent();
 					w.WriteKeywordSpace(ActionScriptCompiler.Keywords._if);
 
 					w.Write("(");
@@ -209,7 +209,7 @@ namespace jsc.Languages.ActionScript
 					#endregion
 
 
-					w.WriteIdent();
+					w.WriteIndent();
                     
                     if (Invoke.ReturnType != typeof(void))
                     {
@@ -252,7 +252,7 @@ namespace jsc.Languages.ActionScript
 
                 if (Invoke.ReturnType != typeof(void))
                 {
-                    w.WriteIdent();
+                    w.WriteIndent();
                     w.WriteKeywordSpace(ActionScriptCompiler.Keywords._return);
                     w.Write("val");
                     w.Write(";");
@@ -264,7 +264,7 @@ namespace jsc.Languages.ActionScript
             #endregion
 
 			#region IsExtensionMethod
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._private);
 			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._var);
 			w.Write(IsExtensionMethod);
@@ -275,7 +275,7 @@ namespace jsc.Languages.ActionScript
 			#endregion
 
 			#region AsExtensionMethod
-			w.WriteIdent();
+			w.WriteIndent();
 			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._public);
 			w.WriteKeywordSpace(ActionScriptCompiler.Keywords._function);
 			w.Write(AsExtensionMethod);
@@ -285,7 +285,7 @@ namespace jsc.Languages.ActionScript
 			w.WriteLine();
 			using (w.CreateScope())
 			{
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteKeyword(ActionScriptCompiler.Keywords._this);
 				w.Write(".");
 				w.Write(IsExtensionMethod);
@@ -294,7 +294,7 @@ namespace jsc.Languages.ActionScript
 				w.Write(";");
 				w.WriteLine();
 
-				w.WriteIdent();
+				w.WriteIndent();
 				w.WriteKeywordSpace(ActionScriptCompiler.Keywords._return);
 				w.WriteKeyword(ActionScriptCompiler.Keywords._this);
 				w.Write(";");

@@ -94,7 +94,7 @@ namespace jsc.Script.PHP
 					throw new NotImplementedException("cannot find override for " + tmethod.ToString());
 				}
 
-				WriteIdent();
+				WriteIndent();
 				WriteCommentLine("override a virtual member: " + InterfaceMethodImplementationSignature.DeclaringType.Name + "." + InterfaceMethodImplementationSignature.Name);
 
 				WriteMethodSignature(z, InterfaceMethodImplementationSignature, false, WriteMethodSignatureMode.Overriding);
@@ -104,7 +104,7 @@ namespace jsc.Script.PHP
 
 				using (CreateScope())
 				{
-					WriteIdent();
+					WriteIndent();
 
 					if (vm.ReturnType != typeof(void))
 					{

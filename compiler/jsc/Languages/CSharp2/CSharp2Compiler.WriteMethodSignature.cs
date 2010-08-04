@@ -41,7 +41,7 @@ namespace jsc.Languages.CSharp2
 
             var IsNativeTarget = TypeScriptAttribute != null && TypeScriptAttribute.IsNative;
 
-            WriteIdent();
+            WriteIndent();
 
             var prop = new PropertyDetector(m);
             var IsSet = //!DeclaringType.IsInterface &&

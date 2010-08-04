@@ -49,9 +49,9 @@ namespace jsc.Languages.C
 					WriteLine();
 
 					#region typedef
-					WriteIdent();
+					WriteIndent();
 					WriteCommentLine(e.FullName);
-					WriteIdent();
+					WriteIndent();
 					WriteLine("typedef struct tag_" + GetDecoratedTypeName(e, false));
 
 					using (CreateScope(false))
@@ -87,7 +87,7 @@ namespace jsc.Languages.C
 
 									FieldCount++;
 
-									WriteIdent();
+									WriteIndent();
 
 									if (field.FieldType.IsDelegate())
 										if ((ResolveImplementation(field.FieldType) ?? field.FieldType).ToScriptAttributeOrDefault().IsNative)
@@ -112,7 +112,7 @@ namespace jsc.Languages.C
 
 						if (FieldCount == 0)
 						{
-							WriteIdent();
+							WriteIndent();
 							WriteLine("void* __empty;");
 						}
 					}

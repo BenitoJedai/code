@@ -42,7 +42,7 @@ namespace jsc.Languages.C
 							{
 
 
-								this.WriteIdent();
+								this.WriteIndent();
 
 
 								WriteSelf();

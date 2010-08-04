@@ -69,7 +69,7 @@ namespace jsc.Languages.ActionScript
 
 		public override void WriteAbstractMethodBody(MethodBase m)
 		{
-			WriteIdent();
+			WriteIndent();
 			WriteLine("{ throw new Error(\"Abstract method not implemented\"); }");
 		}
 
@@ -108,7 +108,7 @@ namespace jsc.Languages.ActionScript
 			if (p.Instruction.TargetVariable == null)
 				return;
 
-			WriteIdent();
+			WriteIndent();
 			WriteDecoratedMethodName(m, false);
 			Write("(");
 
@@ -128,7 +128,7 @@ namespace jsc.Languages.ActionScript
 			if (WriteCall_DebugTrace_Assign_Active)
 				return;
 
-			WriteIdent();
+			WriteIndent();
 			WriteDecoratedMethodName(m, false);
 			Write("(");
 

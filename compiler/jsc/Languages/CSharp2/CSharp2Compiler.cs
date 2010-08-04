@@ -87,7 +87,7 @@ namespace jsc.Languages.CSharp2
             if (p.Instruction.TargetVariable == null)
                 return;
 
-            WriteIdent();
+            WriteIndent();
             WriteDecoratedMethodName(m, false);
             Write("(");
 
@@ -107,7 +107,7 @@ namespace jsc.Languages.CSharp2
             if (WriteCall_DebugTrace_Assign_Active)
                 return;
 
-            WriteIdent();
+            WriteIndent();
             WriteDecoratedMethodName(m, false);
             Write("(");
 

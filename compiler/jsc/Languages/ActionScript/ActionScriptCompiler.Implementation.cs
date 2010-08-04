@@ -73,7 +73,7 @@ namespace jsc.Languages.ActionScript
 				{
 					var _cctor = z.Name + "_cctor";
 
-					WriteIdent();
+					WriteIndent();
 					WriteKeywordSpace(Keywords._internal);
 					WriteKeywordSpace(Keywords._static);
 					WriteKeywordSpace(Keywords._function);
@@ -90,7 +90,7 @@ namespace jsc.Languages.ActionScript
 
 					return delegate
 					{
-						WriteIdent();
+						WriteIndent();
 						WriteDecoratedTypeName(z);
 						Write(".");
 						WriteSafeLiteral(_cctor);
@@ -118,7 +118,7 @@ namespace jsc.Languages.ActionScript
 
 			return delegate
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteDecoratedTypeName(z);
 				Write(".");
 				WriteDecoratedMethodName(cctor, false);
@@ -152,7 +152,7 @@ namespace jsc.Languages.ActionScript
 			DebugBreak(za);
 
 
-			WriteIdent();
+			WriteIndent();
 
 			if (ScriptAttribute.IsAnonymousType(z) || (za != null && za.Implements != null))
 			{

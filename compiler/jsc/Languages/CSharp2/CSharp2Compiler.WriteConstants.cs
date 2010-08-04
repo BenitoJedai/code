@@ -16,7 +16,7 @@ namespace jsc.Languages.CSharp2
 		{
 			foreach (var f in z.GetFields(BindingFlags.Public | BindingFlags.Static).Where(k => k.IsLiteral))
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteKeywordSpace(Keywords._public);
 				WriteKeywordSpace(Keywords._const);
 				WriteDecoratedTypeName(z, f.FieldType);

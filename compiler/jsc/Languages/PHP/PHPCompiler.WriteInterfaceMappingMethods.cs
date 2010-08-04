@@ -47,7 +47,7 @@ namespace jsc.Script.PHP
 
 					using (CreateScope())
 					{
-						WriteIdent();
+						WriteIndent();
 
 						if (_InterfaceMethod.ReturnType != typeof(void))
 						{
@@ -84,17 +84,17 @@ namespace jsc.Script.PHP
 
 
 
-			WriteIdent();
+			WriteIndent();
 			WriteCommentLine(DateTime.Now.ToString());
 
 			foreach (var i in z.GetInterfaces())
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteCommentLine("interface " + i.Namespace + "::" + i.Name);
 
 				var mapping = z.GetInterfaceMap(i);
 
-				WriteIdent();
+				WriteIndent();
 				WriteCommentLine(" mappings:");
 
 				Action WriteInterfaceMappingDelayed = delegate { };
@@ -124,7 +124,7 @@ namespace jsc.Script.PHP
 
 					if (TargetMethod.DeclaringType == z)
 					{
-						WriteIdent();
+						WriteIndent();
 
 						if (InterfaceMethodImplementation == null)
 						{
@@ -143,7 +143,7 @@ namespace jsc.Script.PHP
 							WriteInterfaceMappingDelayed +=
 								delegate
 								{
-									WriteIdent();
+									WriteIndent();
 
 									WriteCommentLine(" " +
 										InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name + "_" + InterfaceMethodImplementation.MetadataToken

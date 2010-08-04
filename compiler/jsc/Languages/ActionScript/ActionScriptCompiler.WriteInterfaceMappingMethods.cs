@@ -34,7 +34,7 @@ namespace jsc.Languages.ActionScript
 
 					using (CreateScope())
 					{
-						WriteIdent();
+						WriteIndent();
 
 						if (_InterfaceMethod.ReturnType != typeof(void))
 						{
@@ -86,17 +86,17 @@ namespace jsc.Languages.ActionScript
 
 
 
-			WriteIdent();
+			WriteIndent();
 			WriteCommentLine(DateTime.Now.ToString());
 
 			foreach (var i in z.GetInterfaces())
 			{
-				WriteIdent();
+				WriteIndent();
 				WriteCommentLine("interface " + i.Namespace + "::" + i.Name);
 
 				var mapping = z.GetInterfaceMap(i);
 
-				WriteIdent();
+				WriteIndent();
 				WriteCommentLine(" mappings:");
 
 				Action WriteInterfaceMappingDelayed = delegate { };
@@ -126,7 +126,7 @@ namespace jsc.Languages.ActionScript
 
 					if (TargetMethod.DeclaringType == z)
 					{
-						WriteIdent();
+						WriteIndent();
 
 						if (InterfaceMethodImplementation == null)
 						{
@@ -145,7 +145,7 @@ namespace jsc.Languages.ActionScript
 							WriteInterfaceMappingDelayed +=
 								delegate
 								{
-									WriteIdent();
+									WriteIndent();
 
 									WriteCommentLine(" " +
 										InterfaceMethodImplementation.DeclaringType.Name + "." + InterfaceMethodImplementation.Name + "_" + InterfaceMethodImplementation.MetadataToken

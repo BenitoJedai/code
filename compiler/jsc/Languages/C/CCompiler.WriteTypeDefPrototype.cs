@@ -32,7 +32,7 @@ namespace jsc.Languages.C
 
 				if (a == null || !a.HasNoPrototype)
 				{
-					WriteIdent();
+					WriteIndent();
 					Write("typedef struct tag_" + GetDecoratedTypeName(e, false));
 
 					string _pname = GetPointerName(e);

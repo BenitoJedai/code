@@ -18,7 +18,7 @@ namespace jsc.Languages.ActionScript
             if (p.Block.IsTryBlock)
             {
 
-                WriteIdent();
+                WriteIndent();
                 WriteLine("try");
 
 
@@ -35,7 +35,7 @@ namespace jsc.Languages.ActionScript
             {
 
 
-                WriteIdent();
+                WriteIndent();
 
 
 

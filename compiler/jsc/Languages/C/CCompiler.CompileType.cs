@@ -79,7 +79,7 @@ namespace jsc.Languages.C
 				if (sfield.IsLiteral)
 					continue;
 
-				WriteIdent();
+				WriteIndent();
 
 				if (sfield.FieldType.StructLayoutAttribute != null &&
 					sfield.FieldType.StructLayoutAttribute.Size > 0)

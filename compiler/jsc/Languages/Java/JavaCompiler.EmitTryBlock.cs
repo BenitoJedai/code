@@ -126,7 +126,7 @@ namespace jsc.Languages.Java
 
 								if (Monitor_Exit_Call_Instruction != null)
 								{
-									this.WriteIdent();
+									this.WriteIndent();
 									this.WriteKeywordSpace(Keywords._synchronized);
 									this.Write("(");
 									this.Emit(p.Prev, Monitor_Exit_Call_Instruction.StackBeforeStrict[0]);
@@ -142,7 +142,7 @@ namespace jsc.Languages.Java
 				#endregion
 
 
-				this.WriteIdent();
+				this.WriteIndent();
 				this.WriteKeyword(Keywords._try);
 				this.WriteLine();
 
@@ -152,7 +152,7 @@ namespace jsc.Languages.Java
 			{
 
 
-				WriteIdent();
+				WriteIndent();
 
 
 

@@ -103,7 +103,7 @@ namespace jsc.Languages.ActionScript
             foreach (string var in imports)
             {
 
-                WriteIdent();
+                WriteIndent();
 
 				WriteKeywordSpace(Keywords._import);
 

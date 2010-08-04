@@ -89,7 +89,7 @@ namespace jsc.Languages.CSharp2
 
         public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
         {
-            WriteIdent();
+            WriteIndent();
 
             WriteKeywordSpace(Keywords._var);
             WriteVariableName(u.DeclaringType, u, v);

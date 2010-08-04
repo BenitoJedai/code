@@ -34,7 +34,7 @@ namespace jsc.Languages.CSharp2
 
                     // using
 
-                    WriteIdent();
+                    WriteIndent();
 
                     var IsStatic = z.IsSealed && z.IsAbstract;
 
@@ -195,7 +195,7 @@ namespace jsc.Languages.CSharp2
 
                 if (ParameterConstraints.Length > 0)
                 {
-                    WriteIdent();
+                    WriteIndent();
 
                     WriteKeywordSpace(Keywords._where);
 
@@ -229,7 +229,7 @@ namespace jsc.Languages.CSharp2
                 MethodBase AddMethod = p.GetAddMethod(true);
                 MethodBase RemoveMethod =  p.GetRemoveMethod(true) ;
 
-                WriteIdent();
+                WriteIndent();
 
                 if (AddMethod != null && AddMethod.IsStatic || RemoveMethod != null && RemoveMethod.IsStatic)
                     WriteKeywordSpace(Keywords._static);
@@ -259,7 +259,7 @@ namespace jsc.Languages.CSharp2
                 BindingFlags.Static | BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public
                 ))
             {
-                WriteIdent();
+                WriteIndent();
 
                 MethodBase Get = p.CanRead ? p.GetGetMethod(true) : null;
                 MethodBase Set = p.CanWrite ? p.GetSetMethod(true) : null;
@@ -295,7 +295,7 @@ namespace jsc.Languages.CSharp2
                 {
                     if (Get != null)
                     {
-						WriteIdent();
+						WriteIndent();
 						WriteKeyword(Keywords._get);
 						//WriteMethodSignature(Get, false);
 
@@ -313,7 +313,7 @@ namespace jsc.Languages.CSharp2
 
                     if (Set != null)
                     {
-						WriteIdent();
+						WriteIndent();
 						WriteKeyword(Keywords._set);
 
 						//WriteMethodSignature(Set, false);
@@ -346,7 +346,7 @@ namespace jsc.Languages.CSharp2
                 return;
             }
 
-            WriteIdent();
+            WriteIndent();
             WriteKeywordSpace(Keywords._partial);
 
             if (p.IsInterface)
@@ -373,7 +373,7 @@ namespace jsc.Languages.CSharp2
                 return;
             }
 
-            WriteIdent();
+            WriteIndent();
             WriteKeywordSpace(Keywords._namespace);
 
             Write(ns);

@@ -15,7 +15,7 @@ namespace jsc.Languages.ActionScript
 
 		public override void WriteLocalVariableDefinition(LocalVariableInfo v, MethodBase u)
 		{
-			WriteIdent();
+			WriteIndent();
 
 			Write("var ");
 			WriteVariableName(u.DeclaringType, u, v);

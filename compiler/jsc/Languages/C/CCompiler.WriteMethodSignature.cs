@@ -22,7 +22,7 @@ namespace jsc.Languages.C
 	{
 		public override void WriteMethodSignature(MethodBase m, bool dStatic)
 		{
-			WriteIdent();
+			WriteIndent();
 
 			if (m is MethodInfo)
 			{

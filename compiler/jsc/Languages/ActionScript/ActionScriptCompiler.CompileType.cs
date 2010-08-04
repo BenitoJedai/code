@@ -28,7 +28,7 @@ namespace jsc.Languages.ActionScript
 
 			CompileType_WriteAdditionalMembers = delegate { };
 
-			WriteIdent();
+			WriteIndent();
 			WriteKeywordSpace(Keywords._package);
 
 			var _namespace = string.Join(".", NamespaceFixup(z.Namespace, z).Split('.').Select(k => GetSafeLiteral(k)).ToArray());
@@ -61,7 +61,7 @@ namespace jsc.Languages.ActionScript
 
 				if (za.IsDebugCode)
 				{
-					WriteIdent();
+					WriteIndent();
 					WriteCommentLine("[Script(IsDebugCode = true)]");
 				}
 				WriteCustomAttributes(z);
@@ -121,7 +121,7 @@ namespace jsc.Languages.ActionScript
 							}
 							else
 							{
-								WriteIdent();
+								WriteIndent();
 								WriteCommentLine("this class is just extending another class via static members");
 							}
 						}
@@ -144,7 +144,7 @@ namespace jsc.Languages.ActionScript
 							if (z_NonPrimitiveValueType)
 							{
 								// define ctor as methods
-								WriteIdent();
+								WriteIndent();
 								WriteCommentLine("NonPrimitiveValueType");
 								WriteMethodSignature(ctor.Primary, false, WriteMethodSignatureMode.ValueTypeConstructorAlias, ctor.Values, i => ctor.CustomVariableInitialization += i, null);
 								WriteMethodBody(ctor.Primary, null, ctor.CustomVariableInitialization);
@@ -171,7 +171,7 @@ namespace jsc.Languages.ActionScript
 			// instead of first only defining the methods and then properties
 			// we are defining properties and then methods... funny :)
 
-			this.WriteIdent();
+			this.WriteIndent();
 			this.WriteCommentLine("properties as methods");
 
 			foreach (var item in z.GetProperties(BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
@@ -189,7 +189,7 @@ namespace jsc.Languages.ActionScript
 						WriteMethodSignature(GetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
 						using (this.CreateScope())
 						{
-							WriteIdent();
+							WriteIndent();
 							WriteKeywordSpace(Keywords._return);
 							if (GetMethod.IsStatic)
 								WriteDecoratedTypeName(GetMethod.DeclaringType);
@@ -216,7 +216,7 @@ namespace jsc.Languages.ActionScript
 						WriteMethodSignature(SetMethod, false, WriteMethodSignatureMode.DeclaringAsMethod);
 						using (this.CreateScope())
 						{
-							WriteIdent();
+							WriteIndent();
 							if (SetMethod.IsStatic)
 								WriteDecoratedTypeName(SetMethod.DeclaringType);
 							else

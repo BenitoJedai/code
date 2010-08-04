@@ -25,7 +25,7 @@ namespace jsc.Languages.CSharp2
 
 		public void WriteCustomAttribute(Type z, Attribute a)
 		{
-			WriteIdent();
+			WriteIndent();
 			Write("[");
 
 			var x = a.GetType();

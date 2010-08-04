@@ -327,7 +327,7 @@ namespace jsc.Languages.C
 		{
 			
 
-			WriteIdent();
+			WriteIndent();
 			if (v.LocalType.IsDelegate() && (ResolveImplementation(v.LocalType) ?? v.LocalType).ToScriptAttributeOrDefault().IsNative)
 				Write(GetDecoratedTypeName(typeof(object), false));
 			else
