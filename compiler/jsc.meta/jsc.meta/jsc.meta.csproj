@@ -308,6 +308,9 @@
     <Compile Include="Commands\Test\TestChooser.cs" />
     <Compile Include="Commands\Test\TestVirtualDriveCleanup.cs" />
     <Compile Include="Configuration\SDKConfiguration.cs" />
+    <Compile Include="Dialogs\WebServiceLauncherDialog.xaml.cs">
+      <DependentUpon>WebServiceLauncherDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Library\BCLExtensions.cs" />
     <Compile Include="Library\CodeTrace\CodeTraceAction.cs" />
     <Compile Include="Library\CodeTrace\CodeTraceExtensions.cs" />
@@ -371,6 +374,7 @@
     <Content Include="Commands\Rewrite\comment.txt" />
     <Content Include="Commands\Rewrite\RewriteToUltraApplication\comment.txt" />
     <EmbeddedResource Include="Documents\App.ico" />
+    <Resource Include="Documents\Avalon\jsc.png" />
     <Content Include="Documents\changelog.txt" />
     <EmbeddedResource Include="Documents\jsc.png" />
     <EmbeddedResource Include="Documents\jsc.ico" />
@@ -459,6 +463,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Page Include="Dialogs\WebServiceLauncherDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
