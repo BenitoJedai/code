@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLMultitexturing", "WebGLMultitexturing\WebGLMultitexturing.csproj", "{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0035E057-A0EE-43D9-A56B-B207A9D5EBFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
