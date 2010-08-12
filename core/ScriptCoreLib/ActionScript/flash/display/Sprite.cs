@@ -68,9 +68,37 @@ namespace ScriptCoreLib.ActionScript.flash.display
         }
 
         /// <summary>
+        /// Lets the user drag the specified sprite on a touch-enabled device.
+        /// </summary>
+        public void startTouchDrag(int touchPointID, bool lockCenter, Rectangle bounds)
+        {
+        }
+
+        /// <summary>
+        /// Lets the user drag the specified sprite on a touch-enabled device.
+        /// </summary>
+        public void startTouchDrag(int touchPointID, bool lockCenter)
+        {
+        }
+
+        /// <summary>
+        /// Lets the user drag the specified sprite on a touch-enabled device.
+        /// </summary>
+        public void startTouchDrag(int touchPointID)
+        {
+        }
+
+        /// <summary>
         /// Ends the startDrag() method.
         /// </summary>
         public void stopDrag()
+        {
+        }
+
+        /// <summary>
+        /// Ends the startTouchDrag() method, for use with touch-enabled devices.
+        /// </summary>
+        public void stopTouchDrag(int touchPointID)
         {
         }
 
@@ -81,6 +109,7 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// Creates a new Sprite instance.
         /// </summary>
         public Sprite()
+            : base()
         {
         }
 

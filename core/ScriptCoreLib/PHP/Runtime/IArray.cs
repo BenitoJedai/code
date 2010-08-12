@@ -364,7 +364,7 @@ namespace ScriptCoreLib.PHP.Runtime
     }
 
     [Script, System.Obsolete]
-    public class List<TItem> 
+    internal class List<TItem> 
         //where TItem : class
     {
         public IArray<int, TItem> BaseList = new IArray<int, TItem>();

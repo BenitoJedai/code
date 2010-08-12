@@ -692,7 +692,8 @@ namespace jsc.Languages.ActionScript
 				CIW[OpCodes.Conv_I4] = f("int");
 
 				CIW[OpCodes.Conv_R4] = f("Number");
-				CIW[OpCodes.Conv_R8] = f("Number");
+				CIW[OpCodes.Conv_R8,
+                    OpCodes.Conv_R_Un] = f("Number");
 				CIW[OpCodes.Conv_I8] = f("Number");
 				CIW[OpCodes.Conv_U8] = f("Number");
 
