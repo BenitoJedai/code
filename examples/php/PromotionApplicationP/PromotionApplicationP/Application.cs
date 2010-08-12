@@ -39,6 +39,7 @@ namespace PromotionApplicationP
             page.Animation.style.marginTop = (JSCSolutionsNETWhiteCarouselCanvas.DefaultHeight / -2) +  "px";
 
             var c = new JSCSolutionsNETWhiteCarouselCanvas();
+            
             c.CloseOnClick = false;
             c.Container.AttachToContainer(page.Animation);
 

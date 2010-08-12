@@ -152,6 +152,8 @@ namespace jsc.Languages.ActionScript
 
 		public void WriteSafeLiteralWithoutTypeNameClash(string e)
 		{
+            // how do we get the list of top level classes?
+
 			// Ideally we would use the escape sign like @ in c#
 			// we need to do that for each keyword and native type it seems...
 

@@ -8,9 +8,19 @@ using ScriptCoreLib;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Avalon;
 using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.PHP;
+using System.Diagnostics;
 
 namespace PromotionApplicationP
 {
+ 
+    static class PHP
+    {
+        public static void Invoke(Action e)
+        {
+        }
+    }
+
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
     /// </summary>
@@ -26,8 +36,11 @@ namespace PromotionApplicationP
             // Send it to the caller.
             y(e + GetArray()[0]);
 
-            
+            // this call will be omitted for non PHP platforms
+            PHP.Invoke(PHPImplementation.Method1);
         }
+
+     
 
         private static string[] GetArray()
         {
@@ -35,5 +48,14 @@ namespace PromotionApplicationP
             return s;
         }
 
+    }
+
+    class PHPImplementation
+    {
+        public static void Method1()
+        {
+            
+            Native.API.chr(3);
+        }
     }
 }
