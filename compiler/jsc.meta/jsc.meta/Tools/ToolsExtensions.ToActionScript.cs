@@ -123,7 +123,7 @@ namespace jsc.meta.Tools
 						mxmlc.FullName,
 					//  groups.google.com/group/projectsprouts/browse_thread/thread/8ae82f8f861aff4e/591a98d6637ac49a?show_docid=591a98d6637ac49a&fwc=1
 
-						"-static-link-runtime-shared-libraries=true -sp=. -verbose-stacktraces --target-player=10.0.0 -strict -output=\"" +
+						"-static-link-runtime-shared-libraries=true -sp=. -verbose-stacktraces --target-player=10.1.0 -strict -output=\"" +
 							obj_web_swf + "\" "
 							+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
 						)

@@ -351,6 +351,7 @@ namespace jsc.Languages.IL
 					OpCodes.Conv_U8,
 					OpCodes.Conv_I8,
 					OpCodes.Conv_I2,
+					OpCodes.Conv_R_Un,
 					OpCodes.Conv_R4,
 					OpCodes.Conv_R8,
 					OpCodes.Conv_Ovf_I,

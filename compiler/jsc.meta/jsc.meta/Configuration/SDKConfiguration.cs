@@ -36,7 +36,7 @@ namespace jsc.meta.Configuration
             get
             {
                 return
-                    new FileInfo(Path.Combine(FlexSDK.FullName, @"runtimes\player\10\win\FlashPlayer.exe"));
+                    new FileInfo(Path.Combine(FlexSDK.FullName, @"runtimes\player\10.1\win\FlashPlayerDebugger.exe"));
             }
         }
 

@@ -29,6 +29,9 @@ namespace MultitouchExample
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            //            http://www.adobe.com/devnet/flash/articles/multitouch_gestures.html
+            //These samples demonstrate the use of multi-touch and gesture APIs.
+
             // Initialize MySprite1
             new MySprite1().AttachSpriteTo(page.Content);
             @"Hello world".ToDocumentTitle();
