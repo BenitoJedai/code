@@ -595,5 +595,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 		{
 			return (UIElement)(object)e;
 		}
+
+        // .NET 4, yay :)
+
+        public event EventHandler<__TouchEventArgs> TouchDown;
+        public event EventHandler<__TouchEventArgs> TouchMove;
+        public event EventHandler<__TouchEventArgs> TouchUp;
 	}
 }
