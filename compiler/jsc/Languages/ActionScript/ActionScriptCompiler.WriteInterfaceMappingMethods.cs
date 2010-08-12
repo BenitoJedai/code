@@ -52,14 +52,14 @@ namespace jsc.Languages.ActionScript
 							if (_InterfaceMethod.GetParameters().Length == 1 && prop.SetProperty != null
 								 && prop.SetProperty.GetSetMethod(true).GetParameters().Length == 1)
 							{
-								Write(prop.SetProperty.Name);
+                                WriteSafeLiteralWithoutTypeNameClash(prop.SetProperty.Name);
 								WriteAssignment();
-								WriteSafeLiteral(_InterfaceMethod.GetParameters().Single().Name);
+								WriteSafeLiteralWithoutTypeNameClash(_InterfaceMethod.GetParameters().Single().Name);
 							}
 							else if (prop.GetProperty != null
 								  && prop.GetProperty.GetGetMethod(true).GetParameters().Length == 0)
 							{
-								Write(prop.GetProperty.Name);
+                                WriteSafeLiteralWithoutTypeNameClash(prop.GetProperty.Name);
 							}
 							else
 							{

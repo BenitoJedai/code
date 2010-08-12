@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionApplicationP", "Pr
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BrowserApplication1", "BrowserApplication1\BrowserApplication1.fsproj", "{9AC0661C-4887-495E-B1BB-3E2DB5B1F44D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{4F1B7851-3E4C-4199-929C-1A71758E08A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -24,6 +26,12 @@ Global
 		{9AC0661C-4887-495E-B1BB-3E2DB5B1F44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AC0661C-4887-495E-B1BB-3E2DB5B1F44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AC0661C-4887-495E-B1BB-3E2DB5B1F44D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F1B7851-3E4C-4199-929C-1A71758E08A6}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{4F1B7851-3E4C-4199-929C-1A71758E08A6}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{4F1B7851-3E4C-4199-929C-1A71758E08A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F1B7851-3E4C-4199-929C-1A71758E08A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F1B7851-3E4C-4199-929C-1A71758E08A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F1B7851-3E4C-4199-929C-1A71758E08A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

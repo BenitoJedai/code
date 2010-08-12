@@ -202,12 +202,13 @@ namespace WebGLMultitexturing
         }
 
 
-        WebGLTexture loadTexture(WebGLRenderingContext gl, string url, Action callback)
+        static WebGLTexture loadTexture(WebGLRenderingContext gl, string url, Action callback)
         {
             gl.enable(gl.TEXTURE_2D);
 
             var texture = gl.createTexture();
             var image = new IHTMLImage();
+
             image.InvokeOnComplete(
                 delegate
                 {
@@ -235,7 +236,7 @@ namespace WebGLMultitexturing
             return texture;
         }
 
-        void createRectangle(double size, data data)
+        static void createRectangle(double size, data data)
         {
             var half = size / 2;
 
@@ -259,8 +260,7 @@ namespace WebGLMultitexturing
             };
         }
 
-
-        bar initObject(WebGLRenderingContext gl, Action callback)
+        static bar initObject(WebGLRenderingContext gl, Action callback)
         {
 
             var data = new data
