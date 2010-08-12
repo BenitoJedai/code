@@ -173,7 +173,12 @@ namespace ScriptCoreLib
 		/// <summary>
 		/// Supports redirecting BCLImplementation.
 		/// </summary>
-		public Type Implements;
+        public Type Implements { get; set; }
+
+        /// <summary>
+        /// Supports redirecting BCLImplementation type while the target is visible.
+        /// </summary>
+        public string ImplementsViaAssemblyQualifiedName { get; set; }
 
 		/// <summary>
 		/// global::System.IDisposable - csharp.IDisposableImplementation - null
