@@ -5,13 +5,13 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.events
 {
-    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/events/Event.html
+    // http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/flash/events/Event.html
     [Script(IsNative = true)]
     public class Event
     {
         #region Constants
         /// <summary>
-        /// [static] The Event.ACTIVATE constant defines the value of the type property of an activate event object.
+        /// [static] The ACTIVATE constant defines the value of the type property of an activate event object.
         /// </summary>
         public static readonly string ACTIVATE = "activate";
 
@@ -36,6 +36,11 @@ namespace ScriptCoreLib.ActionScript.flash.events
         public static readonly string CHANGE = "change";
 
         /// <summary>
+        /// [static] The Event.CLEAR constant efines the value of the type property of a clear event object.
+        /// </summary>
+        public static readonly string CLEAR = "clear";
+
+        /// <summary>
         /// [static] The Event.CLOSE constant defines the value of the type property of a close event object.
         /// </summary>
         public static readonly string CLOSE = "close";
@@ -51,6 +56,16 @@ namespace ScriptCoreLib.ActionScript.flash.events
         public static readonly string CONNECT = "connect";
 
         /// <summary>
+        /// [static] Defines the value of the type property of a copy event object.
+        /// </summary>
+        public static readonly string COPY = "copy";
+
+        /// <summary>
+        /// [static] Defines the value of the type property of a cut event object.
+        /// </summary>
+        public static readonly string CUT = "cut";
+
+        /// <summary>
         /// [static] The Event.DEACTIVATE constant defines the value of the type property of a deactivate event object.
         /// </summary>
         public static readonly string DEACTIVATE = "deactivate";
@@ -59,6 +74,16 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// [static] The Event.ENTER_FRAME constant defines the value of the type property of an enterFrame event object.
         /// </summary>
         public static readonly string ENTER_FRAME = "enterFrame";
+
+        /// <summary>
+        /// [static] The Event.EXIT_FRAME constant defines the value of the type property of an exitFrame event object.
+        /// </summary>
+        public static readonly string EXIT_FRAME = "exitFrame";
+
+        /// <summary>
+        /// [static] The Event.FRAME_CONSTRUCTED constant defines the value of the type property of an frameConstructed event object.
+        /// </summary>
+        public static readonly string FRAME_CONSTRUCTED = "frameConstructed";
 
         /// <summary>
         /// [static] The Event.FULL_SCREEN constant defines the value of the type property of a fullScreen event object.
@@ -84,6 +109,11 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// [static] The Event.OPEN constant defines the value of the type property of an open event object.
         /// </summary>
         public static readonly string OPEN = "open";
+
+        /// <summary>
+        /// [static] The Event.PASTE constant defines the value of the type property of a paste event object.
+        /// </summary>
+        public static readonly string PASTE = "paste";
 
         /// <summary>
         /// [static] The Event.REMOVED constant defines the value of the type property of a removed event object.
@@ -114,6 +144,11 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// [static] The Event.SELECT constant defines the value of the type property of a select event object.
         /// </summary>
         public static readonly string SELECT = "select";
+
+        /// <summary>
+        /// [static] The Event.SELECT_ALL constant defines the value of the type property of a selectAll event object.
+        /// </summary>
+        public static readonly string SELECT_ALL = "selectAll";
 
         /// <summary>
         /// [static] The Event.SOUND_COMPLETE constant defines the value of the type property of a soundComplete event object.

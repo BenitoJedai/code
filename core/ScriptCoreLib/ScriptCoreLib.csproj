@@ -89,6 +89,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\Extensions\flash\text\ime\IIMEClient.cs" />
+    <Compile Include="ActionScript\flash\events\GestureEvent.cs" />
+    <Compile Include="ActionScript\flash\events\IMEEvent.cs" />
+    <Compile Include="ActionScript\flash\events\PressAndTapGestureEvent.cs" />
+    <Compile Include="ActionScript\flash\events\TouchEvent.cs" />
+    <Compile Include="ActionScript\flash\events\TransformGestureEvent.cs" />
+    <Compile Include="ActionScript\flash\text\AntiAliasType.cs" />
+    <Compile Include="ActionScript\flash\ui\Multitouch.cs" />
+    <Compile Include="ActionScript\flash\ui\MultitouchInputMode.cs" />
     <Compile Include="GLSL\attribute.cs" />
     <Compile Include="GLSL\bvec2.cs" />
     <Compile Include="GLSL\bvec3.cs" />
