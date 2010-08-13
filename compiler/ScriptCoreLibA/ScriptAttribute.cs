@@ -173,7 +173,7 @@ namespace ScriptCoreLib
 		/// <summary>
 		/// Supports redirecting BCLImplementation.
 		/// </summary>
-        public Type Implements { get; set; }
+        public Type Implements;
 
         /// <summary>
         /// Supports redirecting BCLImplementation type while the target is visible.
