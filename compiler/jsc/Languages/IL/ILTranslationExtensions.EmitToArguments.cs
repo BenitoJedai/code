@@ -382,7 +382,10 @@ namespace jsc.Languages.IL
 					OpCodes.And,
 					OpCodes.Add,
 					OpCodes.Add_Ovf,
-					OpCodes.Div,
+					
+                    OpCodes.Div,
+                    OpCodes.Div_Un,
+
 					OpCodes.Mul,
 					OpCodes.Neg,
 					OpCodes.Break,

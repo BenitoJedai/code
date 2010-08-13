@@ -598,8 +598,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
         // .NET 4, yay :)
 
-        public event EventHandler<__TouchEventArgs> TouchDown;
-        public event EventHandler<__TouchEventArgs> TouchMove;
-        public event EventHandler<__TouchEventArgs> TouchUp;
+        public event __EventHandler<__TouchEventArgs> TouchDown;
+        public event __EventHandler<__TouchEventArgs> TouchMove;
+        public event __EventHandler<__TouchEventArgs> TouchUp;
 	}
 }
