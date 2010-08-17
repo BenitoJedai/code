@@ -10,95 +10,9 @@ using ScriptCoreLib.CSharp.Extensions;
 
 namespace ScriptCoreLib
 {
-
-
-
-
-
-
-	[global::System.AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
-	public sealed class ScriptParameterByRefAttribute : Attribute
-	{
-
-	}
-
-
-
-	[global::System.AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-	public sealed class ScriptParameterByValAttribute : Attribute
-	{
-
-	}
-
-	[global::System.AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-	public sealed class ScriptDelegateDataHintAttribute : Attribute
-	{
-		// this class shall be omitted from the future versions of jsc
-		// jsc needs to infer this information by itself
-
-		public enum FieldType
-		{
-			List,
-			Target,
-			Method
-		}
-
-		public readonly FieldType Value;
-
-		public ScriptDelegateDataHintAttribute(FieldType Value)
-		{
-			this.Value = Value;
-		}
-	}
-
-	[global::System.AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
-	public sealed class ScriptMethodThrows : Attribute
-	{
-		public Type ThrowType;
-
-		public ScriptMethodThrows(Type e)
-		{
-			ThrowType = e;
-		}
-
-		public static ScriptMethodThrows[] ArrayOfProvider(ICustomAttributeProvider m)
-		{
-			try
-			{
-				ScriptMethodThrows[] s = m.GetCustomAttributes(typeof(ScriptMethodThrows), false) as ScriptMethodThrows[];
-
-				return s;
-			}
-			catch (Exception exc)
-			{
-				throw exc;
-			}
-		}
-	}
-
-
-
-
-
-	/// <summary>
-	/// allows the compiler to detect wether it is out of date. If this value is higher than the one from the compiler the compile proccess fill halt with an error.
-	/// </summary>
-	[Obsolete]
-	[global::System.AttributeUsage(AttributeTargets.Assembly, Inherited = false, AllowMultiple = false)]
-	public sealed class ScriptVersionAttribute : Attribute
-	{
-		public int Value;
-
-		public ScriptVersionAttribute(int e)
-		{
-			this.Value = e;
-		}
-
-	}
-
 	// AllowMultiple should be set
 	[global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
-	public sealed class ScriptAttribute : Attribute
+	public sealed partial class ScriptAttribute : Attribute
 	{
 		public const string InternalConstructorDefault = "InternalConstructor";
 
@@ -170,15 +84,7 @@ namespace ScriptCoreLib
 		/// </summary>
 		public string ExternalTarget;
 
-		/// <summary>
-		/// Supports redirecting BCLImplementation.
-		/// </summary>
-        public Type Implements;
 
-        /// <summary>
-        /// Supports redirecting BCLImplementation type while the target is visible.
-        /// </summary>
-        public string ImplementsViaAssemblyQualifiedName { get; set; }
 
 		/// <summary>
 		/// global::System.IDisposable - csharp.IDisposableImplementation - null

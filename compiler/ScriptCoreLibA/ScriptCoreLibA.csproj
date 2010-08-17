@@ -114,6 +114,7 @@
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
     <Compile Include="ActionScript\EmbedResourcesAttribute.cs" />
     <Compile Include="AttributeUsageFieldTypeContractAttribute.cs" />
+    <Compile Include="ScriptAttribute.Implements.cs" />
     <Compile Include="CSharp\Extensions\CodeWriterExtensions.cs" />
     <Compile Include="CSharp\Extensions\EmbeddedResourcesExtensions.ToManifestResourceStream.cs" />
     <Compile Include="CSharp\Extensions\ScriptAttributeExtensions.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="IEntryPoint.cs" />
     <Compile Include="Library\CodeWriter.cs" />
     <Compile Include="Library\ProtectiveFileStream.cs" />
+    <Compile Include="OtherAttributes.cs" />
     <Compile Include="ScriptNamespaceRenameAttribute.cs" />
     <Compile Include="ScriptType.cs" />
     <Compile Include="ScriptTypeFilterAttribute.cs" />
