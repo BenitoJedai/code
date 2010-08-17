@@ -598,8 +598,51 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 
         // .NET 4, yay :)
 
-        public event __EventHandler<__TouchEventArgs> TouchDown;
-        public event __EventHandler<__TouchEventArgs> TouchMove;
-        public event __EventHandler<__TouchEventArgs> TouchUp;
+        public event __EventHandler<__TouchEventArgs> TouchDown
+        {
+            add
+            {
+                this.InternalGetDisplayObject().touchBegin +=
+                    e =>
+                    {
+                        value(this, new __TouchEventArgs { InternalValue = e });
+                    };
+            }
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public event __EventHandler<__TouchEventArgs> TouchMove
+        {
+            add
+            {
+                this.InternalGetDisplayObject().touchMove +=
+                    e =>
+                    {
+                        value(this, new __TouchEventArgs { InternalValue = e });
+                    };
+            }
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+        public event __EventHandler<__TouchEventArgs> TouchUp
+        {
+            add
+            {
+                this.InternalGetDisplayObject().touchEnd +=
+                    e =>
+                    {
+                        value(this, new __TouchEventArgs { InternalValue = e });
+                    };
+            }
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 	}
 }
