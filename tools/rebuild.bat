@@ -40,6 +40,7 @@ call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.XLinq\ScriptCoreLib.XLinq.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
 call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
+call :build core\ScriptCoreLib.Web\ScriptCoreLib.Web.sln
 call :build core\ScriptCoreLib.Nonoba\ScriptCoreLib.Nonoba.sln
 call :build core\ScriptCoreLib.Mochi\ScriptCoreLib.Mochi.sln
 call :build core\ScriptCoreLib.GoogleMaps\ScriptCoreLib.GoogleMaps.sln
@@ -110,10 +111,10 @@ pushd ..
 
 
 popd
-call rebuild.installer.bat
+::call rebuild.installer.bat
 pushd ..
 
-call :build compiler\jsc.configuration\jsc.configuration.sln
+::call :build compiler\jsc.configuration\jsc.configuration.sln
 
 :: rebuild examples
 :: call :build javascript\Examples\ButterFly\ButterFly.sln

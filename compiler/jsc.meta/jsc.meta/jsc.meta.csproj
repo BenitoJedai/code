@@ -134,8 +134,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Archive.ZIP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\lib\ScriptCoreLib.Archive.ZIP.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Archive.ZIP.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
