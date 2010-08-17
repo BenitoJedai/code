@@ -78,7 +78,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.Avalon.dll"  /PrimaryAssembly:"c:\util\jsc\bin\ScriptCoreLib.Avalon.dll"   /AssemblyMerge:"$(TargetPath)" /AttachDebugger:false /RemoveObfuscationMergeAttributes:true
+    <PostBuildEvent>::start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.Avalon.dll"  /PrimaryAssembly:"c:\util\jsc\bin\ScriptCoreLib.Avalon.dll"   /AssemblyMerge:"$(TargetPath)" /AttachDebugger:false /RemoveObfuscationMergeAttributes:true
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
