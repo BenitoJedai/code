@@ -76,6 +76,8 @@ call :build compiler\jsc.meta\jsc.meta.sln
 
 call :build core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.sln
 
+call :build core\ScriptCoreLib.Redux\ScriptCoreLib.Redux.sln
+
 :: rebuild Ultra templates
 ::call :build templates\Orcas\OrcasUltraApplication\OrcasUltraApplication.sln
 ::call :build templates\Orcas\UltraApplicationWithAssets\UltraApplicationWithAssets.sln
