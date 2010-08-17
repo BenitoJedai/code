@@ -6,6 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.mx.core;
+using ScriptCoreLib.Shared;
 
 [assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.PromotionalPath)]
 [assembly: ScriptResources(FlashTreasureHunt.ActionScript.Assets.SoundPath)]

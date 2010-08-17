@@ -141,7 +141,10 @@ namespace cncserver
                                           where i.LastSeen < t
                                           select i).ToArray())
             {
-                var msg = string.Format("client {0} timed out, last seen at {1} @ {2} ", s.ClientName, s.LastSeen, s.LastRequest.RemoteEndPoint.Address);
+                var msg = string.Format("client {0} timed out, last seen at {1} @ {2} ", s.ClientName, 
+                    s.LastSeen, 
+                    s.LastRequest == null ? "" :
+                    s.LastRequest.RemoteEndPoint.Address.ToString());
 
                 Console.WriteLine(msg);
 

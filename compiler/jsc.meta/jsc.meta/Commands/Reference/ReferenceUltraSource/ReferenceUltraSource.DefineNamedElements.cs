@@ -159,7 +159,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
                         else
                         {
                             throw new InvalidOperationException(
-                                "Referenced asset not found in the project and not linked to http:// uri. Did you include it?"
+                                "Referenced asset not found in the project and not linked to http:// uri. Did you forget to include it? - " + src_value
                             );
                         }
                     }
