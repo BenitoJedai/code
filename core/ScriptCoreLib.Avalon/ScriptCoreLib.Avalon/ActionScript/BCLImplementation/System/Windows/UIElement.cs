@@ -605,7 +605,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             {
                 var s = this.InternalGetDisplayObject();
 
-                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+                InternalEnableMultitouch();
                 s.touchBegin +=
                     e =>
                     {
@@ -622,16 +622,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         {
             add
             {
-                //Console.WriteLine("UIElement.add_TouchMove");
-
                 var s = this.InternalGetDisplayObject();
 
-                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+                InternalEnableMultitouch();
                 s.touchMove +=
                     e =>
                     {
-                        //Console.WriteLine("event TouchMove " + e.touchPointID);
-
                         value(this, new __TouchEventArgs { InternalValue = e });
                     };
             }
@@ -646,7 +642,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             {
                 var s = this.InternalGetDisplayObject();
 
-                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+                InternalEnableMultitouch();
                 s.touchEnd +=
                     e =>
                     {
@@ -657,6 +653,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             {
                 throw new NotImplementedException();
             }
+        }
+
+        private static void InternalEnableMultitouch()
+        {
+            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
         }
 	}
 }
