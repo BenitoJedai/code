@@ -71,10 +71,10 @@ namespace MultitouchExampleWithFingerTools.Components
             this.graphics.beginFill(0x7f0000);
             this.graphics.drawRect(0, 0, DefaultWidth, DefaultHeight);
 
+            // not interested in stage are we
+            var u = app.ToSprite();
 
-
-
-            this.stage.touchBegin +=
+            u.touchBegin +=
                 e =>
                 {
                     if (this.dotCount == Multitouch.maxTouchPoints)
@@ -98,7 +98,7 @@ namespace MultitouchExampleWithFingerTools.Components
                     this.updateDotsLeft();
                 };
 
-            this.stage.touchMove +=
+            u.touchMove +=
                 e =>
                 {
                     var label = this.labels[e.touchPointID];
@@ -109,7 +109,7 @@ namespace MultitouchExampleWithFingerTools.Components
                     label.text = (e.touchPointID + ": " + e.stageX + ", " + e.stageY);
                 };
 
-            this.stage.touchEnd +=
+            u.touchEnd +=
                 e =>
                 {
                     //var dot = this.dots[e.touchPointID];

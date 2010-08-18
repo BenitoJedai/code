@@ -13,13 +13,14 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
-using MultitouchTransformAvalonFingers.HTML.Pages;
-using MultitouchTransformAvalonFingers;
+using MultitouchTransformAvalonFingersFlash.HTML.Pages;
+using MultitouchTransformAvalonFingersFlash;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using ScriptCoreLib.CSharp.Avalon.Extensions;
-using System.Diagnostics;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.Extensions;
 
-namespace MultitouchTransformAvalonFingers
+namespace MultitouchTransformAvalonFingersFlash
 {
 
 
@@ -36,8 +37,6 @@ namespace MultitouchTransformAvalonFingers
         public static void Main(string[] args)
         {
 #if DEBUG
-            //{ var n = typeof(System.Windows.Input.TouchPoint).AssemblyQualifiedName; Debugger.Break(); }
-
             new ApplicationCanvas().ToWindow().ShowDialog();
 #else
 
@@ -59,9 +58,25 @@ namespace MultitouchTransformAvalonFingers
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new ApplicationCanvas().AttachToContainer(page.PageContainer);
+            new ApplicationSprite().AttachSpriteTo(page.PageContainer);
         }
 
+    }
+
+    public sealed class ApplicationSprite : Sprite
+    {
+        public const int DefaultWidth = ApplicationCanvas.DefaultWidth;
+        public const int DefaultHeight = ApplicationCanvas.DefaultHeight;
+
+        public ApplicationSprite()
+        {
+            this.InvokeWhenStageIsReady(
+                delegate
+                {
+                    new ApplicationCanvas().AttachToContainer(this);
+                }
+            );
+        }
     }
 
     /// <summary>
