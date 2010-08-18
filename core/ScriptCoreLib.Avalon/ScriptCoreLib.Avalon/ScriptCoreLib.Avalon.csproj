@@ -148,8 +148,13 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\TextChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UIElementCollection.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Controls\UserControl.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\IManipulator.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\InputDevice.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\TouchPoint.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\MouseWheelEventHandler.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\TouchDevice.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\TouchEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\GeneralTransform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Matrix.cs" />

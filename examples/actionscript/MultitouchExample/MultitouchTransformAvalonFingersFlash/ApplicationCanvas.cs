@@ -24,8 +24,6 @@ namespace MultitouchTransformAvalonFingersFlash
 
         public ApplicationCanvas()
         {
-            Console.WriteLine("ApplicationCanvas loading...");
-
             this.WriteStatus(
                 new
                 {
@@ -36,27 +34,13 @@ namespace MultitouchTransformAvalonFingersFlash
             var s = new Stack<Movable>(this.Movables.Reverse());
             var x = new Dictionary<int, Movable>();
 
-            this.MouseLeftButtonDown +=
-                delegate
-                {
-                    this.WriteStatus(
-                    new
-                    {
-                        status = "MouseDown"
-                    }
-                );
 
-                    Console.WriteLine("MouseDown");
-                };
             this.TouchDown +=
                  (sender, e) =>
                  {
-                     Console.WriteLine("TouchDown: " + e.TouchDevice.Id);
-
                      x[e.TouchDevice.Id] = s.Pop();
                  };
 
-            Console.WriteLine("before TouchMove");
             this.TouchMove +=
                 (sender, e) =>
                 {
@@ -75,13 +59,10 @@ namespace MultitouchTransformAvalonFingersFlash
 
                     x[e.TouchDevice.Id].MoveTo(p.X, p.Y);
                 };
-            Console.WriteLine("after TouchMove");
 
             this.TouchUp +=
                  (sender, e) =>
                  {
-                     Console.WriteLine("TouchUp: " + e.TouchDevice.Id);
-
                      s.Push(x[e.TouchDevice.Id]);
                      x[e.TouchDevice.Id] = null;
                  };

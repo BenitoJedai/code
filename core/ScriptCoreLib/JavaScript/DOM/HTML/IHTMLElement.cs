@@ -652,6 +652,50 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 
+        #region event onkeydown
+        public event EventHandler<IEvent> ontouchstart
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+            }
+        }
+        #endregion
+
+        #region event onkeydown
+        public event EventHandler<IEvent> ontouchmove
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                // firefox4 and chrome and ipad?
+
+                // see: http://blog.attrakt.se/2010/05/multitouch-in-browser-pt-2-firefox-and.html
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+            }
+        }
+        #endregion
+
+        #region event onkeydown
+        public event EventHandler<IEvent> ontouchend
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+            }
+        }
+        #endregion
 		public static int NextID = 0;
 
 		[Script(DefineAsStatic = true)]
