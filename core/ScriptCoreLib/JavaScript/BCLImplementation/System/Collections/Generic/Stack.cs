@@ -14,6 +14,30 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 	{
 		readonly IArray<T> items = new IArray<T>();
 
+        public __Stack()
+            : this(null)
+        {
+
+        }
+
+        public __Stack(IEnumerable<T> collection)
+        {
+            // cannot have this check as the default ctor will pass null anyway
+            //if (collection == null)
+            //    throw new global::System.Exception("collection is null");
+
+            if (collection != null)
+                this.AddRange(collection);
+        }
+
+        internal void AddRange(IEnumerable<T> collection)
+        {
+            foreach (var item in collection.AsEnumerable())
+            {
+                this.Push(item);
+            }
+        }
+
 		public T Peek()
 		{
 			return (T)items[items.length - 1];

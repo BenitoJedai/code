@@ -17,6 +17,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 		// C:\Users\arvo\AppData\Roaming\Macromedia\Flash Player\Logs
 
+        // C:\Users\username\mm.cfg
+        // http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security_05.html
+
 		// http://www.adobe.com/devnet/flex/articles/client_debug_print.html
 		// http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=security2_117_44.html
 

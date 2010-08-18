@@ -1,13 +1,13 @@
 // For more information visit:
 // http://studio.jsc-solutions.net/
 
+
 using System;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml.Linq;
-using MultitouchTransformAvalonFingers;
 using ScriptCoreLib;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Collections.Generic;
 using MultitouchTransform.Library;
 
-namespace MultitouchTransformAvalonFingers
+namespace MultitouchTransformAvalonFingersFlash
 {
     public class ApplicationCanvas : MultitouchTransform.ApplicationCanvas
     {
@@ -24,9 +24,30 @@ namespace MultitouchTransformAvalonFingers
 
         public ApplicationCanvas()
         {
+            Console.WriteLine("ApplicationCanvas loading...");
+
+            this.WriteStatus(
+                new
+                {
+                    status = "ApplicationCanvas loading..."
+                }
+            );
+
             var s = new Stack<Movable>(this.Movables.Reverse());
             var x = new Dictionary<int, Movable>();
 
+            this.MouseLeftButtonDown +=
+                delegate
+                {
+                    this.WriteStatus(
+                    new
+                    {
+                        status = "MouseDown"
+                    }
+                );
+
+                    Console.WriteLine("MouseDown");
+                };
             this.TouchDown +=
                  (sender, e) =>
                  {
@@ -49,6 +70,7 @@ namespace MultitouchTransformAvalonFingers
                             p.Y
                         }
                     );
+
 
                     x[e.TouchDevice.Id].MoveTo(p.X, p.Y);
                 };

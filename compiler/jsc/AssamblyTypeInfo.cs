@@ -18,7 +18,7 @@ namespace jsc
         public Type[] Types;
 
 
-		
+
 
         public List<Type> ImplementationTypes = new List<Type>();
 
@@ -126,7 +126,7 @@ namespace jsc
 
             MethodBase b = null;
 
-			if (src_method.IsInstanceConstructor())
+            if (src_method.IsInstanceConstructor())
             {
                 b = impl_type.GetConstructor(pt);
             }
@@ -155,6 +155,7 @@ namespace jsc
 
         public MethodBase ResolveImplementation(Type src_type, MethodBase src_method, ResolveImplementationDirectMode Mode)
         {
+            // todo: refactor this method!
             // todo: cache results
 
             Type impl_type =
@@ -191,7 +192,7 @@ namespace jsc
 
 
             #region IsConstructor
-			if (src_method.IsInstanceConstructor())
+            if (src_method.IsInstanceConstructor())
             {
                 // b = timpl.GetConstructor(t);
 
@@ -245,118 +246,7 @@ namespace jsc
             #endregion
             else
             {
-                string MethodName = ((MethodInfo)src_method).Name;
-
-                var AllMethods = timpl.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-
-
-                foreach (MethodInfo v in AllMethods.Where(n => n.Name == MethodName))
-                {
-                    ParameterInfo[] vp = v.GetParameters();
-
-                    if (vp.Length != t.Length)
-                        if (Mode == ResolveImplementationDirectMode.ResolveNativeImplementationExtension &&
-                            t.Length + 1 == vp.Length &&
-                            v.IsStatic && !src_method.IsStatic &&
-                            vp[0].ParameterType == src_method.DeclaringType)
-                        {
-                            vp = vp.Skip(1).ToArray();
-                        }
-                        else
-                            continue;
-
-                    Type[] vpt = new Type[vp.Length];
-
-
-
-                    Func<Type, Type> ToGTD =
-                        i =>
-                            (i.IsGenericType && !i.IsGenericTypeDefinition)
-                            ? i.GetGenericTypeDefinition() : i;
-
-
-
-                    Func<Type, Type> ToElementIfAny =
-                        z =>
-                        {
-                            if (z.IsArray)
-                                return z.GetElementType();
-
-                            return z;
-                        };
-
-                    for (int i = 0; i < vp.Length; i++)
-                    {
-                        vpt[i] = ToGTD(vp[i].ParameterType);
-
-
-                    }
-
-
-
-
-                    Func<Type, bool> IsGenericParameter =
-                        i => i.IsGenericParameter || i.IsArray && i.GetElementType().IsGenericParameter;
-
-
-
-                    for (int i = 0; i < vp.Length; i++)
-                    {
-                        // fixme generic type comparision
-
-                        var vpt_i = vpt[i];
-                        var t_i = t[i];
-
-                        if (IsGenericParameter(vpt_i) && IsGenericParameter(t_i))
-                            continue;
-
-                        if (vpt_i.IsArray && t_i.IsArray)
-                        {
-                            var vpt_ie = vpt_i.GetElementType();
-                            var t_ie = t_i.GetElementType();
-
-                            if (IsGenericParameter(vpt_ie) && !IsGenericParameter(t_ie))
-                            {
-                                continue;
-                            }
-
-                            if (vpt_ie != t_ie)
-                            {
-                                goto skip;
-                            }
-                        }
-
-
-                        // extension method Enumerable.Contains
-                        if (vpt_i.IsGenericParameter && !t_i.IsGenericParameter)
-                            continue;
-
-                        if (vpt_i.GUID == t_i.GUID)
-                            continue;
-
-                        if (vpt_i.GUID == impl_type.GUID)
-                            if (src_type.GUID == t_i.GUID)
-                                continue;
-
-
-                        goto skip;
-
-                    }
-
-                    var SourceMethodReturnType = ToElementIfAny(ToGTD(((MethodInfo)src_method).ReturnType));
-                    var CurrentMethodReturnType = ToElementIfAny(ToGTD(v.ReturnType));
-
-                    if (!(IsGenericParameter(SourceMethodReturnType) || IsGenericParameter(CurrentMethodReturnType)))
-                        if (SourceMethodReturnType != CurrentMethodReturnType)
-                            if (ResolveImplementation(SourceMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != CurrentMethodReturnType)
-                                if (ResolveImplementation(CurrentMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != SourceMethodReturnType)
-                                    goto skip;
-
-
-                    b = v;
-                    break;
-                skip: ;
-                }
+                b = InternalResolveMethodImplementation(src_type, src_method, Mode, impl_type, b, timpl, t);
 
 
 
@@ -370,6 +260,126 @@ namespace jsc
 
             return b.IsStatic == src_method.IsStatic ? b : null;
 
+        }
+
+        private MethodBase InternalResolveMethodImplementation(Type src_type, MethodBase src_method, ResolveImplementationDirectMode Mode, Type impl_type, MethodBase b, Type timpl, Type[] t)
+        {
+            string MethodName = ((MethodInfo)src_method).Name;
+
+            var AllMethods = timpl.GetMethods(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+
+            // the overloads!
+            var AllMethodsNamed = AllMethods.Where(n => n.Name == MethodName).ToArray();
+
+            foreach (MethodInfo v in AllMethodsNamed)
+            {
+                ParameterInfo[] vp = v.GetParameters();
+
+                if (vp.Length != t.Length)
+                    if (Mode == ResolveImplementationDirectMode.ResolveNativeImplementationExtension &&
+                        t.Length + 1 == vp.Length &&
+                        v.IsStatic && !src_method.IsStatic &&
+                        vp[0].ParameterType == src_method.DeclaringType)
+                    {
+                        vp = vp.Skip(1).ToArray();
+                    }
+                    else
+                        continue;
+
+                Type[] vpt = new Type[vp.Length];
+
+
+
+                Func<Type, Type> ToGTD =
+                    i =>
+                        (i.IsGenericType && !i.IsGenericTypeDefinition)
+                        ? i.GetGenericTypeDefinition() : i;
+
+
+
+                Func<Type, Type> ToElementIfAny =
+                    z =>
+                    {
+                        if (z.IsArray)
+                            return z.GetElementType();
+
+                        return z;
+                    };
+
+                for (int i = 0; i < vp.Length; i++)
+                {
+                    vpt[i] = ToGTD(vp[i].ParameterType);
+
+
+                }
+
+
+
+
+                Func<Type, bool> IsGenericParameter =
+                    i => i.IsGenericParameter || i.IsArray && i.GetElementType().IsGenericParameter;
+
+
+
+                for (int i = 0; i < vp.Length; i++)
+                {
+                    // fixme generic type comparision
+
+                    var vpt_i = ResolveImplementation(vpt[i]) ?? vpt[i];
+                    var t_i = ResolveImplementation(t[i]) ?? t[i];
+
+                    if (IsGenericParameter(vpt_i) && IsGenericParameter(t_i))
+                        continue;
+
+                    if (vpt_i.IsArray && t_i.IsArray)
+                    {
+                        var vpt_ie = vpt_i.GetElementType();
+                        var t_ie = t_i.GetElementType();
+
+                        if (IsGenericParameter(vpt_ie) && !IsGenericParameter(t_ie))
+                        {
+                            continue;
+                        }
+
+                        if (vpt_ie != t_ie)
+                        {
+                            goto skip;
+                        }
+                    }
+
+
+                    // extension method Enumerable.Contains
+                    if (vpt_i.IsGenericParameter && !t_i.IsGenericParameter)
+                        continue;
+
+                    if (vpt_i.GUID == t_i.GUID)
+                        continue;
+
+                    if (vpt_i.GUID == impl_type.GUID)
+                        if (src_type.GUID == t_i.GUID)
+                            continue;
+
+
+                    goto skip;
+
+                }
+
+                var SourceMethodReturnType = ToElementIfAny(ToGTD(((MethodInfo)src_method).ReturnType));
+                var CurrentMethodReturnType = ToElementIfAny(ToGTD(v.ReturnType));
+
+                // black magic ahead!
+                if (!(IsGenericParameter(SourceMethodReturnType) || IsGenericParameter(CurrentMethodReturnType)))
+                    if (SourceMethodReturnType != CurrentMethodReturnType)
+                        if (ResolveImplementation(SourceMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != CurrentMethodReturnType)
+                            if (ResolveImplementation(CurrentMethodReturnType, ResolveImplementationDirectMode.ResolveBCLImplementation) != SourceMethodReturnType)
+                                goto skip;
+
+
+                b = v;
+                break;
+            skip: ;
+            }
+            return b;
         }
 
         public Type ResolveImplementationMethodTrace(MethodBase e)
@@ -460,7 +470,7 @@ namespace jsc
 
 
             if (
-				Mode == ResolveImplementationDirectMode.ResolveBCLImplementation)
+                Mode == ResolveImplementationDirectMode.ResolveBCLImplementation)
             {
                 if (ResolveImplementationDict.ContainsKey(e))
                     return ResolveImplementationDict[e];
@@ -477,7 +487,7 @@ namespace jsc
             ResolveNativeImplementationExtension,
             ResolveMethodOnly,
 
-			ResolveBCLTypeFromScriptIsNativeType,
+            ResolveBCLTypeFromScriptIsNativeType,
 
         }
 
@@ -490,32 +500,32 @@ namespace jsc
                 if (e.ToScriptAttribute() != null)
                     return null;
 
-			if (Mode == ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType)
-				if (e.ToScriptAttribute() == null)
-					return null;
+            if (Mode == ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType)
+                if (e.ToScriptAttribute() == null)
+                    return null;
 
 
             Type eg = (e.IsGenericType ? e.GetGenericTypeDefinition() : e);
 
-			if (Mode == ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType)
-			{
-				// For java.lang.Integer we shall return global::System.Int32
-				//
-				//    [Script(Implements = typeof(global::System.Int32)
-				//    , ImplementationType = typeof(java.lang.Integer)
-				//    )]
-				//	internal class __Int32
+            if (Mode == ResolveImplementationDirectMode.ResolveBCLTypeFromScriptIsNativeType)
+            {
+                // For java.lang.Integer we shall return global::System.Int32
+                //
+                //    [Script(Implements = typeof(global::System.Int32)
+                //    , ImplementationType = typeof(java.lang.Integer)
+                //    )]
+                //	internal class __Int32
 
-				return Enumerable.FirstOrDefault(
-					from z in ImplementationTypes
-					let sa = ScriptAttribute.OfProvider(z)
-					where sa != null
-					where sa.Implements != null
-					where sa.ImplementationType != null
-					where sa.ImplementationType == e
-					select sa.Implements
-				);
-			}
+                return Enumerable.FirstOrDefault(
+                    from z in ImplementationTypes
+                    let sa = ScriptAttribute.OfProvider(z)
+                    where sa != null
+                    where sa.Implements != null
+                    where sa.ImplementationType != null
+                    where sa.ImplementationType == e
+                    select sa.Implements
+                );
+            }
 
             foreach (var i in
                 from z in ImplementationTypes
@@ -524,8 +534,8 @@ namespace jsc
                 where sa.Implements != null
                 select new { z, sa })
             {
-				if (i.sa.Implements.Equals(eg))
-					//if (i.sa.Implements.GUID.Equals(eg.GUID))
+                if (i.sa.Implements.Equals(eg))
+                    //if (i.sa.Implements.GUID.Equals(eg.GUID))
                     return i.z;
 
             }

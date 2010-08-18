@@ -24,6 +24,8 @@ namespace MultitouchTransform
        	public const int DefaultWidth = 800;
 		public const int DefaultHeight = 600;
 
+        public Action<object> WriteStatus;
+
         public ApplicationCanvas()
 		{
 			Width = DefaultWidth;
@@ -62,6 +64,8 @@ namespace MultitouchTransform
 				IsReadOnly = true,
 				Width = DefaultWidth
 			}.MoveTo(8, 8).AttachTo(this);
+
+            this.WriteStatus = o => t.Text = o.ToString();
 
 			var t2 = new TextBox
 			{

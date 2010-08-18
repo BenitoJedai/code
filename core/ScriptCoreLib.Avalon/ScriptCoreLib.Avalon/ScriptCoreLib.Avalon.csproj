@@ -98,6 +98,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\Keyboard.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\TouchDevice.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\TouchEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Input\TouchPoint.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\FontFamily.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\MatrixTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\RenderOptions.cs" />

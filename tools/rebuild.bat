@@ -41,6 +41,7 @@ call :build core\ScriptCoreLib.XLinq\ScriptCoreLib.XLinq.sln
 call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
 call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
 call :build core\ScriptCoreLib.Web\ScriptCoreLib.Web.sln
+call :build core\ScriptCoreLib.Web.Services\ScriptCoreLib.Web.Services.sln
 call :build core\ScriptCoreLib.Nonoba\ScriptCoreLib.Nonoba.sln
 call :build core\ScriptCoreLib.Mochi\ScriptCoreLib.Mochi.sln
 call :build core\ScriptCoreLib.GoogleMaps\ScriptCoreLib.GoogleMaps.sln

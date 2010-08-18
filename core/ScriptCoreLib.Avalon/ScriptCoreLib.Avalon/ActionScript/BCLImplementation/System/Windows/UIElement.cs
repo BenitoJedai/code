@@ -602,7 +602,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         {
             add
             {
-                this.InternalGetDisplayObject().touchBegin +=
+                var s = this.InternalGetDisplayObject();
+
+                s.touchBegin +=
                     e =>
                     {
                         value(this, new __TouchEventArgs { InternalValue = e });
@@ -618,9 +620,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         {
             add
             {
-                this.InternalGetDisplayObject().touchMove +=
+                var s = this.InternalGetDisplayObject();
+
+                s.touchMove +=
                     e =>
                     {
+                        Console.WriteLine("TouchMove " + e.touchPointID);
+
                         value(this, new __TouchEventArgs { InternalValue = e });
                     };
             }
@@ -633,7 +639,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         {
             add
             {
-                this.InternalGetDisplayObject().touchEnd +=
+                var s = this.InternalGetDisplayObject();
+
+                s.touchEnd +=
                     e =>
                     {
                         value(this, new __TouchEventArgs { InternalValue = e });

@@ -43,6 +43,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
             public void Launch()
             {
+                Program.ShowLogo();
+
                 Action Continue =
                   delegate
                   {
@@ -181,9 +183,46 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                 }
                 else ApplyContinueByCompileAndLaunch();
 
+                // configure flash debug mode
+                // http://www.adobe.com/devnet/flashplayer/articles/fplayer9_security_05.html
+
+                // UserProfile	The user's profile folder. 
+                // Applications should not create files or folders at this level; 
+                // they should put their data under the locations referred to by ApplicationData.
+                // http://www.longhorncorner.com/Forums/ShowMessages.aspx?ThreadID=8486
+
+                var UserProfile = Environment.GetEnvironmentVariable("UserProfile");
+
+                // http://livedocs.adobe.com/flex/201/html/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Book_Parts&file=security2_117_44.html
+                // http://livedocs.adobe.com/flex/3/html/help.html?content=logging_04.html
+                // http://www.websector.de/blog/2007/02/20/trace-outside-the-flash-ide-with-tail/
+                // http://www.timo-ernst.net/2010/04/chrome-flash-debugger-not-connecting-to-flexflash-builder/
+
+                File.WriteAllLines(
+                    Path.Combine(UserProfile, "mm.cfg"),
+                    new[]
+                    {
+                        "PolicyFileLog=1   # Enables policy file logging",
+                        "PolicyFileLogAppend=1  # Optional; do not clear log at startup",
+                        "ErrorReportingEnable=1",
+                        "TraceOutputFileEnable=1"
+                    }
+                );
+
+                
+
+                var Logfile = 
+                    Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        @"Roaming\Macromedia\Flash Player\Logs\flashlog.txt"
+                    );
+
+                
+                Console.WriteLine("Configuring the debugger version of Flash Player...");
+
+                Console.WriteLine(Logfile);
+
                 ContinueWithSplashIfAvailable(Continue);
-
-
             }
 
             private void ContinueWithSplashIfAvailable(Action Continue)
