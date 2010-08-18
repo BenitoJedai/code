@@ -14,6 +14,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.ActionScript.flash.ui;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
@@ -604,6 +605,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             {
                 var s = this.InternalGetDisplayObject();
 
+                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
                 s.touchBegin +=
                     e =>
                     {
@@ -620,12 +622,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
         {
             add
             {
+                //Console.WriteLine("UIElement.add_TouchMove");
+
                 var s = this.InternalGetDisplayObject();
 
+                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
                 s.touchMove +=
                     e =>
                     {
-                        Console.WriteLine("TouchMove " + e.touchPointID);
+                        //Console.WriteLine("event TouchMove " + e.touchPointID);
 
                         value(this, new __TouchEventArgs { InternalValue = e });
                     };
@@ -641,6 +646,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             {
                 var s = this.InternalGetDisplayObject();
 
+                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
                 s.touchEnd +=
                     e =>
                     {

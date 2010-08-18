@@ -56,6 +56,7 @@ namespace MultitouchTransformAvalonFingersFlash
                      x[e.TouchDevice.Id] = s.Pop();
                  };
 
+            Console.WriteLine("before TouchMove");
             this.TouchMove +=
                 (sender, e) =>
                 {
@@ -74,6 +75,7 @@ namespace MultitouchTransformAvalonFingersFlash
 
                     x[e.TouchDevice.Id].MoveTo(p.X, p.Y);
                 };
+            Console.WriteLine("after TouchMove");
 
             this.TouchUp +=
                  (sender, e) =>
