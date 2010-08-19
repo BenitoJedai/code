@@ -14,6 +14,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(HasNoPrototype = true)]
     public class IHTMLDocument : IDocument<IHTMLElement>
     {
+        /// <summary>
+        /// Enable multitouch in Minefield by setting this field to true.
+        /// </summary>
+        internal bool multitouchData;
+
 
         public IHTMLStyle[] styleSheets;
 

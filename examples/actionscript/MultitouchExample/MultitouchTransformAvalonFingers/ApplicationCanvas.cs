@@ -27,17 +27,44 @@ namespace MultitouchTransformAvalonFingers
             var s = new Stack<Movable>(this.Movables.Reverse());
             var x = new Dictionary<int, Movable>();
 
+            x[-1] = default(Movable);
+            var _ = x[-1];
+
             this.TouchDown +=
                  (sender, e) =>
                  {
-                     Console.WriteLine("TouchDown: " + e.TouchDevice.Id);
+                     var id = e.TouchDevice.Id;
+                     Console.WriteLine("TouchDown: " + id);
 
-                     x[e.TouchDevice.Id] = s.Pop();
+                     {
+                         var m = s.Pop();
+
+                         if (m == null)
+                             Console.WriteLine("m == null on pop");
+
+                         x[id] = m;
+                     }
+
+                     {
+                         var m = x[id];
+
+                         if (m == null)
+                         {
+                             var keys = x.Keys.Aggregate("[", (q, k) => q + k + ", ");
+
+                             WriteStatus(new { Missing = "TouchDown m", id });
+                             return;
+                         }
+                     }
                  };
 
             this.TouchMove +=
                 (sender, e) =>
                 {
+                    var id = e.TouchDevice.Id;
+
+                    Console.WriteLine("TouchMove: " + id);
+
                     var tp = e.GetTouchPoint(this);
                     var p = tp.Position;
 
@@ -50,7 +77,23 @@ namespace MultitouchTransformAvalonFingers
                         }
                     );
 
-                    x[e.TouchDevice.Id].MoveTo(p.X, p.Y);
+                    if (!x.ContainsKey(id))
+                    {
+                        WriteStatus(new { Missing = id });
+                        return;
+                    }
+
+                    var m = x[id];
+
+                    if (m == null)
+                    {
+                        var keys = x.Keys.Aggregate("[", (q, k) => q + k + ", ");
+
+                        WriteStatus(new { Missing = "m", id });
+                        return;
+                    }
+
+                    m.MoveTo(p.X, p.Y);
                 };
 
             this.TouchUp +=
