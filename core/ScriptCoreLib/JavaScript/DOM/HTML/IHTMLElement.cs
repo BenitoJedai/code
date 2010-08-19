@@ -653,11 +653,13 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
         #region event onkeydown
-        public event EventHandler<IEvent> ontouchstart
+        public event EventHandler<ITouchEvent> ontouchstart
         {
             [Script(DefineAsStatic = true)]
             add
             {
+                InternalEnableMultitouch();
+                this.addEventListener("MozTouchDown", value, false);
             }
             [Script(DefineAsStatic = true)]
             remove
@@ -667,28 +669,35 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
         #region event onkeydown
-        public event EventHandler<IEvent> ontouchmove
+        public event EventHandler<ITouchEvent> ontouchmove
         {
             [Script(DefineAsStatic = true)]
             add
             {
-                // firefox4 and chrome and ipad?
+                InternalEnableMultitouch();
+                this.addEventListener("MozTouchMove", value, false);
 
-                // see: http://blog.attrakt.se/2010/05/multitouch-in-browser-pt-2-firefox-and.html
             }
             [Script(DefineAsStatic = true)]
             remove
             {
             }
         }
+
+        private static void InternalEnableMultitouch()
+        {
+            Native.Document.multitouchData = true;
+        }
         #endregion
 
         #region event onkeydown
-        public event EventHandler<IEvent> ontouchend
+        public event EventHandler<ITouchEvent> ontouchend
         {
             [Script(DefineAsStatic = true)]
             add
             {
+                InternalEnableMultitouch();
+                this.addEventListener("MozTouchUp", value, false);
             }
             [Script(DefineAsStatic = true)]
             remove

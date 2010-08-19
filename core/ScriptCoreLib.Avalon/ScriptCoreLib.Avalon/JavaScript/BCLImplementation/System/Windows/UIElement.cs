@@ -12,6 +12,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Media.Animation;
 using ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Input;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 {
@@ -442,23 +443,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 
         // .NET 4, yay :)
 
-        // move to scriptcorelib?
-        [Script(HasNoPrototype = true)]
-        internal class __minefield_IHTMLDocument : IHTMLDocument
-        {
-            public bool multitouchData;
-        }
 
-        [Script(HasNoPrototype = true)]
-        internal class __minefield_IEvent : IEvent
-        {
-            public int streamId;
-        }
 
-        private static void InternalEnableMultitouch()
-        {
-            ((__minefield_IHTMLDocument)(object)Native.Document).multitouchData = true;
-        }
+
 
         public event __EventHandler<__TouchEventArgs> TouchDown
         {
@@ -466,10 +453,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
             {
                 var s = this.InternalGetDisplayObject();
 
-                InternalEnableMultitouch();
-
-                // Firefox 4? iPad?
-
+                s.ontouchend +=
+                    e =>
+                    {
+                        value(this, new __TouchEventArgs { InternalValue = e });
+                    };
 
             }
             remove
@@ -484,7 +472,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
         {
             add
             {
+                var s = this.InternalGetDisplayObject();
 
+                s.ontouchmove +=
+                    e =>
+                    {
+                        value(this, new __TouchEventArgs { InternalValue = e });
+                    };
             }
             remove
             {
@@ -495,7 +489,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
         {
             add
             {
+                var s = this.InternalGetDisplayObject();
 
+                s.ontouchstart +=
+                    e =>
+                    {
+                        value(this, new __TouchEventArgs { InternalValue = e });
+                    };
             }
             remove
             {

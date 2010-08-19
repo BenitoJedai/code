@@ -171,6 +171,7 @@
     <Compile Include="JavaScript\DOM\IDocument.cs" />
     <Compile Include="JavaScript\DOM\IElement.cs" />
     <Compile Include="JavaScript\DOM\IRegExp.cs" />
+    <Compile Include="JavaScript\DOM\ITouchEvent.cs" />
     <Compile Include="JavaScript\Runtime\Cookie.cs" />
     <Compile Include="JavaScript\Runtime\Expando.cs" />
     <Compile Include="JavaScript\DOM\IFunction.cs" />
