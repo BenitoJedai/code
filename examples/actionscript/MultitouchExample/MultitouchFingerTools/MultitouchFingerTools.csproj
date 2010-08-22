@@ -121,6 +121,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Assets.htm" />
+    <Content Include="Design\bg1.png" />
+    <Content Include="Design\cloud_mid.png" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

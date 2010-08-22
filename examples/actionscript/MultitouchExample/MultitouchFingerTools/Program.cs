@@ -20,6 +20,7 @@ using ScriptCoreLib.CSharp.Avalon.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.Windows;
+using System.Windows.Input;
 
 namespace MultitouchFingerTools
 {
@@ -41,23 +42,43 @@ namespace MultitouchFingerTools
             var c = new ApplicationCanvas();
             var w = c.ToWindow();
 
-            
-
-            Action Update =
-                delegate
+            w.KeyDown +=
+                (s, e) =>
                 {
-                    // http://stackoverflow.com/questions/1081580/how-to-set-wpf-windows-startup-clientsize
-                    var horizontalBorderHeight = SystemParameters.ResizeFrameHorizontalBorderHeight;
-                    var verticalBorderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
-                    var captionHeight = SystemParameters.CaptionHeight;
 
-                    var Width = w.Width - 2 * verticalBorderWidth;
-                    var Height = w.Height - captionHeight - 2 * horizontalBorderHeight;
 
-                    c.SizeContentTo(Width, Height);
+                    if (e.Key == Key.Escape || e.Key == Key.F11)
+                        if (w.WindowState == WindowState.Maximized)
+                        {
+                            w.WindowState = WindowState.Normal;
+                            return;
+                        }
+
+                    if (e.Key == Key.F11)
+                        if (w.WindowState == WindowState.Normal)
+                        {
+                            w.WindowState = WindowState.Maximized;
+                            return;
+                        }
                 };
 
-    
+            w.StateChanged +=
+                (s, e) =>
+                {
+                    var n = w.WindowState == WindowState.Maximized ? WindowStyle.None : WindowStyle.SingleBorderWindow;
+
+                    if (w.WindowStyle != n)
+                        w.WindowStyle = n;
+                };
+
+
+            w.Loaded +=
+                delegate
+                {
+                    w.SizeToContent = SizeToContent.Manual;
+                    w.Focus();
+                };
+
             w.SizeChanged +=
                 (s, e) =>
                 {
@@ -65,8 +86,16 @@ namespace MultitouchFingerTools
                         return;
 
                     // Content dictates its size. Yet when we resize the window we want the content to know it has more room.
-                    Update();
-                    
+                    // http://stackoverflow.com/questions/1081580/how-to-set-wpf-windows-startup-clientsize
+                    var horizontalBorderHeight = SystemParameters.ResizeFrameHorizontalBorderHeight;
+                    var verticalBorderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
+                    var captionHeight = SystemParameters.CaptionHeight;
+
+                    var Width = e.NewSize.Width - 2 * verticalBorderWidth;
+                    var Height = e.NewSize.Height - captionHeight - 2 * horizontalBorderHeight;
+
+                    c.SizeTo(Width, Height);
+
                 };
 
             w.ShowDialog();
@@ -95,23 +124,24 @@ namespace MultitouchFingerTools
 
             s.AttachSpriteTo(page.PageContainer);
 
-          
-            Native.Window.onresize +=
+            Action Update =
                 delegate
                 {
                     var w = page.SizeShadow.scrollWidth;
                     var h = page.SizeShadow.scrollHeight;
 
-                    //e.style.SetLocation(32, 32, w, h);
-
-
-                    //s.RaiseSizeContentTo("" + w,  "" + h);
-                    //Native.Document.title = new { Native.Document.body.clientWidth, Native.Document.body.clientHeight }.ToString();
-
-                    Native.Document.title = new { w, h}.ToString();
 
                     e.style.SetSize(w, h);
                 };
+
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    Update();
+                };
+
+            Update();
         }
 
     }
@@ -149,7 +179,7 @@ namespace MultitouchFingerTools
                         e =>
                         {
 
-                            c.SizeContentTo(this.stage.stageWidth, this.stage.stageHeight);
+                            c.SizeTo(this.stage.stageWidth, this.stage.stageHeight);
                         };
                 }
             );
