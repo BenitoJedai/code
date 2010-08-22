@@ -14,6 +14,7 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using MultitouchTransform.Library;
+using System.Windows.Input;
 
 namespace MultitouchTransformAvalonFingers
 {
@@ -24,86 +25,24 @@ namespace MultitouchTransformAvalonFingers
 
         public ApplicationCanvas()
         {
-            var s = new Stack<Movable>(this.Movables.Reverse());
-            var x = new Dictionary<int, Movable>();
+            Console.WriteLine("MultitouchTransformAvalonFingers loading");
 
-            x[-1] = default(Movable);
-            var _ = x[-1];
+            
+            // http://connect.microsoft.com/VisualStudio/feedback/details/527886/touchdown-does-not-trigger-until-the-touch-moves
 
-            this.TouchDown +=
-                 (sender, e) =>
-                 {
-                     var id = e.TouchDevice.Id;
-                     Console.WriteLine("TouchDown: " + id);
+            var t = this.ToTouchEvents(this.Movables);
 
-                     {
-                         var m = s.Pop();
-
-                         if (m == null)
-                             Console.WriteLine("m == null on pop");
-
-                         x[id] = m;
-                     }
-
-                     {
-                         var m = x[id];
-
-                         if (m == null)
-                         {
-                             var keys = x.Keys.Aggregate("[", (q, k) => q + k + ", ");
-
-                             WriteStatus(new { Missing = "TouchDown m", id });
-                             return;
-                         }
-                     }
-                 };
-
-            this.TouchMove +=
-                (sender, e) =>
+            t.TouchMove +=
+                (m, e) =>
                 {
-                    var id = e.TouchDevice.Id;
-
-                    Console.WriteLine("TouchMove: " + id);
-
                     var tp = e.GetTouchPoint(this);
                     var p = tp.Position;
 
-                    this.WriteStatus(
-                        new
-                        {
-                            e.TouchDevice.Id,
-                            p.X,
-                            p.Y
-                        }
-                    );
-
-                    if (!x.ContainsKey(id))
-                    {
-                        WriteStatus(new { Missing = id });
-                        return;
-                    }
-
-                    var m = x[id];
-
-                    if (m == null)
-                    {
-                        var keys = x.Keys.Aggregate("[", (q, k) => q + k + ", ");
-
-                        WriteStatus(new { Missing = "m", id });
-                        return;
-                    }
-
                     m.MoveTo(p.X, p.Y);
+
                 };
 
-            this.TouchUp +=
-                 (sender, e) =>
-                 {
-                     Console.WriteLine("TouchUp: " + e.TouchDevice.Id);
-
-                     s.Push(x[e.TouchDevice.Id]);
-                     x[e.TouchDevice.Id] = null;
-                 };
+           
         }
     }
 }

@@ -89,6 +89,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionScript\BCLImplementation\System\IFormatProvider.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\ime\IIMEClient.cs" />
     <Compile Include="ActionScript\flash\events\GestureEvent.cs" />
     <Compile Include="ActionScript\flash\events\IMEEvent.cs" />

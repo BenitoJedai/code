@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchTransformAvalonFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchTransformAvalonFingersFlash", "MultitouchTransformAvalonFingersFlash\MultitouchTransformAvalonFingersFlash.csproj", "{B1147B30-63D6-44B0-AF7B-62662928F492}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchFingerTools", "MultitouchFingerTools\MultitouchFingerTools.csproj", "{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -48,6 +50,12 @@ Global
 		{B1147B30-63D6-44B0-AF7B-62662928F492}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1147B30-63D6-44B0-AF7B-62662928F492}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1147B30-63D6-44B0-AF7B-62662928F492}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

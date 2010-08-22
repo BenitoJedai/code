@@ -24,48 +24,23 @@ namespace MultitouchTransformAvalonFingersFlash
 
         public ApplicationCanvas()
         {
-            this.WriteStatus(
-                new
-                {
-                    status = "ApplicationCanvas loading..."
-                }
-            );
-
-            var s = new Stack<Movable>(this.Movables.Reverse());
-            var x = new Dictionary<int, Movable>();
 
 
-            this.TouchDown +=
-                 (sender, e) =>
-                 {
-                     x[e.TouchDevice.Id] = s.Pop();
-                 };
+            // http://connect.microsoft.com/VisualStudio/feedback/details/527886/touchdown-does-not-trigger-until-the-touch-moves
 
-            this.TouchMove +=
-                (sender, e) =>
+            var t = this.ToTouchEvents(this.Movables);
+
+            t.TouchMove +=
+                (m, e) =>
                 {
                     var tp = e.GetTouchPoint(this);
                     var p = tp.Position;
 
-                    this.WriteStatus(
-                        new
-                        {
-                            e.TouchDevice.Id,
-                            p.X,
-                            p.Y
-                        }
-                    );
+                    m.MoveTo(p.X, p.Y);
 
-
-                    x[e.TouchDevice.Id].MoveTo(p.X, p.Y);
+                   
                 };
 
-            this.TouchUp +=
-                 (sender, e) =>
-                 {
-                     s.Push(x[e.TouchDevice.Id]);
-                     x[e.TouchDevice.Id] = null;
-                 };
         }
     }
 }
