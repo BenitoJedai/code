@@ -103,6 +103,9 @@
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\MatrixTransform.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\RenderOptions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Media\TranslateTransform.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\Size.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\SizeChangedEventArgs.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Windows\SizeChangedEventHandler.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Threading\Dispatcher.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Vector.cs" />

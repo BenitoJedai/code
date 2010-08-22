@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 {
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.JavaScript.DOM;
+
 
     [Script(Implements = typeof(global::System.Console))]
     internal class __Console
@@ -15,8 +16,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         /// and about:config must be altered
         /// explorer: activex addin required
         /// 
-		/// browser.dom.window.dump.enabled
-		/// 
+        /// browser.dom.window.dump.enabled
+        /// 
         /// <see>http://kb.mozillazine.org/Viewing_dump%28%29_output</see>
         /// </summary>
         /// 
@@ -172,32 +173,47 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public static void WriteLine(object e)
         {
-            __BrowserConsole.WriteLine(e.ToString());
+            WriteLine(e.ToString());
         }
 
         public static void WriteLine(string e)
         {
-            __BrowserConsole.WriteLine(e);
+            Write(e + Environment.NewLine);
         }
 
         public static void WriteLine()
         {
-            __BrowserConsole.WriteLine();
+            WriteLine("");
         }
 
         public static void WriteLine(string e, object x)
         {
-            __BrowserConsole.WriteLine(string.Format(e, x));
+            WriteLine(string.Format(e, x));
         }
 
         public static void Write(string e)
         {
-            __BrowserConsole.Write(e);
+            if (Out == null)
+            {
+                __BrowserConsole.Write(e);
+            }
+            else
+            {
+                Out.Write(e);
+            }
         }
 
         public static void Write(object e)
         {
-            __BrowserConsole.Write(e.ToString());
+            Write(e.ToString());
+        }
+
+
+        public static global::System.IO.TextWriter Out { get; set; }
+
+        public static void SetOut(global::System.IO.TextWriter newOut)
+        {
+            Out = newOut;
         }
     }
 }

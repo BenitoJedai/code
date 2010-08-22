@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{449E2D94-2BFB-4FA0-8B95-EF59D919B226}</ProjectGuid>
+    <ProjectGuid>{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MultitouchTransformAvalonFingers</RootNamespace>
-    <AssemblyName>MultitouchTransformAvalonFingers</AssemblyName>
+    <RootNamespace>MultitouchFingerTools</RootNamespace>
+    <AssemblyName>MultitouchFingerTools</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
@@ -115,8 +115,8 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="MultitouchTransformAvalonFingers.UltraSource">
-      <HintPath>bin\staging.UltraSource\MultitouchTransformAvalonFingers.UltraSource.dll</HintPath>
+    <Reference Include="MultitouchFingerTools.UltraSource">
+      <HintPath>bin\staging.UltraSource\MultitouchFingerTools.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -131,18 +131,17 @@
     <Content Include="Design\white-jsc.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MultitouchTransform\MultitouchTransform.csproj">
-      <Project>{585C8CBB-0D2E-42C8-BD47-57873D9AFFAC}</Project>
-      <Name>MultitouchTransform</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false
+)
+
+if $(ConfigurationName)==Release (
+rem start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+)</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta40.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
   </PropertyGroup>
 </Project>

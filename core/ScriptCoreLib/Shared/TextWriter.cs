@@ -1,11 +1,12 @@
 using ScriptCoreLib.Shared;
+using System;
 
 namespace ScriptCoreLib.Shared
 {
 
 
-    [Script]
-    public class TextWriter //: ITextWriter
+    [Script, Obsolete]
+    internal class TextWriter //: ITextWriter
     {
         string _text = "";
 

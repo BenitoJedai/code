@@ -18,6 +18,7 @@ using MultitouchTransformAvalonFingers;
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using ScriptCoreLib.CSharp.Avalon.Extensions;
 using System.Diagnostics;
+using System.IO;
 
 namespace MultitouchTransformAvalonFingers
 {
@@ -53,12 +54,30 @@ namespace MultitouchTransformAvalonFingers
     /// </summary>
     public sealed class Application
     {
+        public class RemoteWriter : TextWriter
+        {
+            public override void Write(string e)
+            {
+                // cache?
+                new ApplicationWebService().Console_Write(e);
+            }
+
+            public override Encoding Encoding
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            Console.SetOut(new RemoteWriter());
             new ApplicationCanvas().AttachToContainer(page.PageContainer);
         }
 
@@ -69,7 +88,10 @@ namespace MultitouchTransformAvalonFingers
     /// </summary>
     public sealed class ApplicationWebService
     {
-
+        public void Console_Write(string e)
+        {
+            Console.Write(e);
+        }
     }
 
     #endregion

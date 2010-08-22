@@ -7,7 +7,7 @@ namespace ScriptCoreLib.PHP.Runtime
 {
     [Script]
 	[System.Obsolete("Removed external source code, this functionality is no longer available via this type.", true)]
-    public class PHPMailer
+    internal class PHPMailer
     {
         [Script(InternalConstructor = true)]
         public class PHPMailerNative

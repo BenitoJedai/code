@@ -7,130 +7,164 @@ using System.Windows;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 {
-	[Script(Implements = typeof(global::System.Windows.FrameworkElement))]
-	internal class __FrameworkElement : __UIElement
-	{
-		public int InternalZIndex;
-		public bool InternalZIndexPending;
+    [Script(Implements = typeof(global::System.Windows.FrameworkElement))]
+    internal class __FrameworkElement : __UIElement
+    {
+        public int InternalZIndex;
+        public bool InternalZIndexPending;
 
-		public string Name
-		{
-			set
-			{
-				this.InternalGetDisplayObjectDirect().name = value;
-			}
-		}
+        public string Name
+        {
+            set
+            {
+                this.InternalGetDisplayObjectDirect().name = value;
+            }
+        }
 
-		public virtual void InternalSetWidth(double value)
-		{
-			throw new NotImplementedException();
-		}
+        public virtual void InternalSetWidth(double value)
+        {
+            throw new NotImplementedException();
+        }
 
-		public virtual void InternalSetHeight(double value)
-		{
-			throw new NotImplementedException();
-		}
-
-
+        public virtual void InternalSetHeight(double value)
+        {
+            throw new NotImplementedException();
+        }
 
 
 
-		public double Width
-		{
-			get
-			{
-				return VirtualGetWidth();
-
-			}
-			set
-			{
-				InternalSetWidth(value);
-			}
-		}
-
-		public double Height
-		{
-			get
-			{
-				return VirtualGetHeight();
-
-			}
-			set
-			{
-				InternalSetHeight(value);
-			}
-		}
 
 
-		public Cursor InternalCursorValue;
+        public double Width
+        {
+            get
+            {
+                return VirtualGetWidth();
 
-		public void InternalSetCursor(Cursor value)
-		{
-			if (InternalCursorValue == null)
-			{
-				this.InternalGetDisplayObjectDirect().mouseOver +=
-					delegate
-					{
-						if (InternalCursorValue == Cursors.None)
-							global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
-					};
+            }
+            set
+            {
+                InternalSetWidth(value);
+                InternalRaiseSizeChanged();
+            }
+        }
 
-				this.InternalGetDisplayObjectDirect().mouseOut +=
-					delegate
-					{
-						if (InternalCursorValue == Cursors.None) 
-							global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
-					};
-			}
 
-			
-			InternalCursorValue = value;
+        public double Height
+        {
+            get
+            {
+                return VirtualGetHeight();
 
-			if (value == Cursors.Hand)
-			{
-				var Sprite = this.InternalGetDisplayObjectDirect() as global::ScriptCoreLib.ActionScript.flash.display.Sprite;
+            }
+            set
+            {
+                InternalSetHeight(value);
+                InternalRaiseSizeChanged();
+            }
+        }
 
-				if (Sprite != null)
-				{
-					Sprite.buttonMode = true;
-					Sprite.useHandCursor = true;
-				}
+        public event SizeChangedEventHandler SizeChanged;
 
-			
-			}
-			
-			// are we showing and hiding once too often?
-			if (InternalCursorValue == Cursors.None)
-				global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
-			else
-				global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
+        Size InternalPreviousSize;
 
-		}
+        bool InternalRaiseSizeChangedReentryGuard;
 
-		public Cursor Cursor
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				InternalSetCursor(value);
-			}
-		}
+        private void InternalRaiseSizeChanged()
+        {
+            if (InternalRaiseSizeChangedReentryGuard)
+                return;
 
-		public DependencyObject InternalParent;
 
-		public DependencyObject Parent { get { return this.InternalParent; } }
+            if (SizeChanged == null)
+                return;
 
-		public static implicit operator global::System.Windows.FrameworkElement(__FrameworkElement e)
-		{
-			return (global::System.Windows.FrameworkElement)(object)e;
-		}
+            InternalRaiseSizeChangedReentryGuard = true;
+            var NewSize = new Size(this.Width, this.Height);
 
-		public static implicit operator __FrameworkElement(global::System.Windows.FrameworkElement e)
-		{
-			return (__FrameworkElement)(object)e;
-		}
-	}
+            SizeChanged(this,
+                (SizeChangedEventArgs)(object)new __SizeChangedEventArgs
+                {
+                    NewSize = NewSize,
+                    PreviousSize = InternalPreviousSize
+                }
+            );
+
+            InternalPreviousSize = NewSize;
+            InternalRaiseSizeChangedReentryGuard = false;
+        }
+
+
+
+        public Cursor InternalCursorValue;
+
+        public void InternalSetCursor(Cursor value)
+        {
+            if (InternalCursorValue == null)
+            {
+                this.InternalGetDisplayObjectDirect().mouseOver +=
+                    delegate
+                    {
+                        if (InternalCursorValue == Cursors.None)
+                            global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
+                    };
+
+                this.InternalGetDisplayObjectDirect().mouseOut +=
+                    delegate
+                    {
+                        if (InternalCursorValue == Cursors.None)
+                            global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
+                    };
+            }
+
+
+            InternalCursorValue = value;
+
+            if (value == Cursors.Hand)
+            {
+                var Sprite = this.InternalGetDisplayObjectDirect() as global::ScriptCoreLib.ActionScript.flash.display.Sprite;
+
+                if (Sprite != null)
+                {
+                    Sprite.buttonMode = true;
+                    Sprite.useHandCursor = true;
+                }
+
+
+            }
+
+            // are we showing and hiding once too often?
+            if (InternalCursorValue == Cursors.None)
+                global::ScriptCoreLib.ActionScript.flash.ui.Mouse.hide();
+            else
+                global::ScriptCoreLib.ActionScript.flash.ui.Mouse.show();
+
+        }
+
+        public Cursor Cursor
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                InternalSetCursor(value);
+            }
+        }
+
+        public DependencyObject InternalParent;
+
+        public DependencyObject Parent { get { return this.InternalParent; } }
+
+        public static implicit operator global::System.Windows.FrameworkElement(__FrameworkElement e)
+        {
+            return (global::System.Windows.FrameworkElement)(object)e;
+        }
+
+        public static implicit operator __FrameworkElement(global::System.Windows.FrameworkElement e)
+        {
+            return (__FrameworkElement)(object)e;
+        }
+    }
 }
