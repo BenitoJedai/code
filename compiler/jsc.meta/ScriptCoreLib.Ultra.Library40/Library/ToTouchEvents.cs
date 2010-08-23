@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Library
 {
     public class ToTouchEvents<T>
     {
+        public readonly List<T> Touches = new List<T>();
+
 
 
         public ToTouchEvents(UIElement that, Func<T> NextTouchContext)
@@ -21,7 +23,11 @@ namespace ScriptCoreLib.Library
                 if (s.Count > 0)
                     return s.Pop();
 
-                return NextTouchContext();
+                var n = NextTouchContext();
+
+                this.Touches.Add(n);
+
+                return n;
             };
 
 
