@@ -122,6 +122,8 @@
   <ItemGroup>
     <Content Include="Design\Assets.htm" />
     <Content Include="Design\bg1.png" />
+    <Content Include="Design\buildmode.png" />
+    <Content Include="Design\buildmode_on.png" />
     <Content Include="Design\cloud_mid.png" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationCanvas.cs" />

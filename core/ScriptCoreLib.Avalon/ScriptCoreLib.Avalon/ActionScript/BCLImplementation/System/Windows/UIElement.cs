@@ -552,15 +552,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 			set
 			{
 				InternalClipToBounds = value;
-
-				// fixme: value = false
-
-				if (value)
-					((UIElement)this).ClipTo(0, 0, Convert.ToInt32(InternalGetWidth()), Convert.ToInt32(InternalGetHeight()));
-
-
+                InternalUpdateClip();
 			}
 		}
+
+        internal void InternalUpdateClip()
+        {
+            // fixme: value = false
+            if (InternalClipToBounds)
+                ((UIElement)this).ClipTo(0, 0, Convert.ToInt32(InternalGetWidth()), Convert.ToInt32(InternalGetHeight()));
+        }
 
 		public Style FocusVisualStyle
 		{

@@ -21,6 +21,7 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
 using System.Windows;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace MultitouchFingerTools
 {
@@ -38,6 +39,17 @@ namespace MultitouchFingerTools
         [STAThread]
         public static void Main(string[] args)
         {
+            //System.Diagnostics.Debug.WriteLine(
+            //    typeof(Tuple).AssemblyQualifiedName
+            //);
+
+
+            //System.Diagnostics.Debug.WriteLine(
+            //    typeof(Tuple<,>).AssemblyQualifiedName
+            //);
+
+            //Debugger.Break();
+
 #if DEBUG
             var c = new ApplicationCanvas();
             var w = c.ToWindow();
@@ -57,6 +69,7 @@ namespace MultitouchFingerTools
                     if (e.Key == Key.F11)
                         if (w.WindowState == WindowState.Normal)
                         {
+                            w.WindowStyle = WindowStyle.None;
                             w.WindowState = WindowState.Maximized;
                             return;
                         }
@@ -65,10 +78,7 @@ namespace MultitouchFingerTools
             w.StateChanged +=
                 (s, e) =>
                 {
-                    var n = w.WindowState == WindowState.Maximized ? WindowStyle.None : WindowStyle.SingleBorderWindow;
-
-                    if (w.WindowStyle != n)
-                        w.WindowStyle = n;
+                    w.WindowStyle = w.WindowState == WindowState.Maximized ? WindowStyle.None : WindowStyle.SingleBorderWindow;
                 };
 
 
@@ -91,8 +101,19 @@ namespace MultitouchFingerTools
                     var verticalBorderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
                     var captionHeight = SystemParameters.CaptionHeight;
 
-                    var Width = e.NewSize.Width - 2 * verticalBorderWidth;
-                    var Height = e.NewSize.Height - captionHeight - 2 * horizontalBorderHeight;
+                    var Width = e.NewSize.Width;
+
+                    var Height = e.NewSize.Height;
+
+
+                    Width -= 2 * verticalBorderWidth;
+                    Height -= 2 * horizontalBorderHeight;
+
+
+                    if (w.WindowStyle != WindowStyle.None)
+                    {
+                        Height -= captionHeight;
+                    }
 
                     c.SizeTo(Width, Height);
 
@@ -181,6 +202,8 @@ namespace MultitouchFingerTools
 
                             c.SizeTo(this.stage.stageWidth, this.stage.stageHeight);
                         };
+
+                    c.SizeTo(this.stage.stageWidth, this.stage.stageHeight);
                 }
             );
         }

@@ -75,6 +75,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             if (InternalRaiseSizeChangedReentryGuard)
                 return;
 
+            this.InternalUpdateClip();
 
             if (SizeChanged == null)
                 return;

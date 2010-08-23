@@ -16,6 +16,7 @@ using System.Windows;
 using System.Collections.Generic;
 using MultitouchFingerTools.Avalon.Images;
 using ScriptCoreLib.Avalon;
+using System.Windows.Input;
 
 namespace MultitouchFingerTools
 {
@@ -79,68 +80,139 @@ namespace MultitouchFingerTools
                 Opacity = 0
             }.AttachTo(TouchOverlay);
 
-
             var t = TouchOverlay.ToTouchEvents(
                 () =>
                 {
-                    var n = new { Content = new Canvas() };
+                    // a new reusable finger introduced by the system!
+                    var Content = new Canvas();
 
-
-                    new Avalon.Images.white_jsc().AttachTo(n.Content).MoveTo(
+                    new Avalon.Images.white_jsc().AttachTo(Content).MoveTo(
                         Avalon.Images.white_jsc.ImageDefaultWidth / -2,
                         Avalon.Images.white_jsc.ImageDefaultHeight / -2
                     );
 
+                    var CurrentTouchPoint = default(Tuple<double, double>);
 
+                    Func<Tuple<double, double>> GetTouchPoint = () => CurrentTouchPoint;
 
-                    return n;
+                    Action<TouchEventArgs> TouchDown = e =>
+                    {
+                        var p = e.GetTouchPoint(TouchOverlay).Position;
+
+                        CurrentTouchPoint = Tuple.Create(p.X, p.Y);
+                        Content.AttachTo(InfoOverlay);
+                    };
+
+                    Action<TouchEventArgs> TouchUp = e =>
+                    {
+                        CurrentTouchPoint = null;
+                        Content.Orphanize();
+                    };
+
+                    Action<TouchEventArgs> TouchMove = e =>
+                    {
+                        var p = e.GetTouchPoint(TouchOverlay).Position;
+
+                        CurrentTouchPoint = Tuple.Create(p.X, p.Y);
+
+                       
+
+                        Content.MoveTo(e, TouchOverlay);
+                    };
+
+                    return new
+                    {
+                        Content,
+                        TouchDown,
+                        TouchUp,
+                        TouchMove,
+                        GetTouchPoint
+                    };
                 }
             );
 
-            t.TouchDown +=
-                (k, e) =>
+            (1000 / 15).AtInterval(
+                delegate
                 {
-                    k.Content.AttachTo(InfoOverlay);
-                };
-
-            t.TouchUp +=
-                (k, e) =>
-                {
-                    k.Content.Orphanize();
-                };
+                    var touches = from k in t.Touches
+                                  let p = k.GetTouchPoint()
+                                  where p != null
+                                  let x = p.Item1
+                                  let y = p.Item2
 
 
-            t.TouchMove +=
-                (k, e) =>
-                {
-                    var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
 
+                                  select new { x, y };
 
-                    new Avalon.Images.white_jsc
+                    #region visualize all touches
+                    foreach (var item in touches)
                     {
-                    }.AttachTo(n.Content).MoveTo(
-                       Avalon.Images.white_jsc.ImageDefaultWidth / -2,
-                       Avalon.Images.white_jsc.ImageDefaultHeight / -2
-                   );
+                        var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
 
-                    n.Content.FadeOut();
+                        //Tuple
 
-                    n.Content.MoveTo(e, TouchOverlay);
-                    k.Content.MoveTo(e, TouchOverlay);
+                        new Avalon.Images.white_jsc
+                        {
 
-                };
+                        }.AttachTo(n.Content).MoveTo(
+                           Avalon.Images.white_jsc.ImageDefaultWidth / -4,
+                           Avalon.Images.white_jsc.ImageDefaultHeight / -4
+                       ).SizeTo(
+                           Avalon.Images.white_jsc.ImageDefaultWidth / 2,
+                           Avalon.Images.white_jsc.ImageDefaultHeight / 2
+                       );
+
+                        n.Content.FadeOut();
+
+                        n.Content.MoveTo(item.x, item.y);
+                    }
+                    #endregion
+
+
+
+
+                    var left_touch = from k in touches
+                                     let x = k.x
+                                     let y = k.y
+                                     where x < 64
+                                     where y > Height - 64
+                                     select k;
+
+                    var left_buildmode = left_touch.Any();
+
+                    if (left_buildmode)
+                    {
+                        // sound: build mode engaged!
+
+                        // all other touches in range are now build orders!
+
+                        left.buildmode_off.Hide();
+                        left.buildmode_on.Show();
+                    }
+                    else
+                    {
+                        left.buildmode_on.Hide();
+                        left.buildmode_off.Show();
+                    }
+                }
+            );
+
+            t.TouchDown += (k, e) => { k.TouchDown(e); };
+            t.TouchUp += (k, e) => { k.TouchUp(e);  };
+            t.TouchMove += (k, e) => { k.TouchMove(e); };
+
 
             this.SizeChanged +=
                 (s, e) =>
                 {
                     c1.MoveTo(
-                        (Width - c1.Width) / 2 , 0);
+                        (Width - c1.Width) / 2, 0);
 
                     c2.MoveTo(
                         (Width - c1.Width) / 2, Height / 2);
 
                     left.SizeTo(
-                        
+
                         Width / 2,
                         Height
                     );
@@ -148,7 +220,7 @@ namespace MultitouchFingerTools
 
                     right.MoveTo(
                         Width / 2, 0).SizeTo(
-                        
+
                         Width / 2,
                         Height
                     );
@@ -161,58 +233,109 @@ namespace MultitouchFingerTools
 
         public class PartialView : Canvas
         {
-
+            public Image buildmode_off;
+            public Image buildmode_on;
             public PartialView(Color color, bool rotate = false)
             {
-            //    new[] {
-            //    Colors.Black,
-            //    color,
-            //    Colors.Black
-            //}.ToGradient(DefaultHeight / 2).Select(
-            //    (c, i) =>
-            //        new Rectangle
-            //        {
-            //            Fill = new SolidColorBrush(c),
-            //            Width = DefaultWidth / 2,
-            //            Height = 3,
-            //        }.MoveTo(0, i * 2).AttachTo(this)
-            //).ToArray();
+                //    new[] {
+                //    Colors.Black,
+                //    color,
+                //    Colors.Black
+                //}.ToGradient(DefaultHeight / 2).Select(
+                //    (c, i) =>
+                //        new Rectangle
+                //        {
+                //            Fill = new SolidColorBrush(c),
+                //            Width = DefaultWidth / 2,
+                //            Height = 3,
+                //        }.MoveTo(0, i * 2).AttachTo(this)
+                //).ToArray();
 
                 var bg1 = new bg1().AttachTo(this);
 
+                var buildmode = new Canvas().AttachTo(this);
 
+                buildmode_off = new buildmode().AttachTo(buildmode);
+                buildmode_on = new buildmode_on().AttachTo(buildmode);
+
+                buildmode_on.Hide();
 
                 this.SizeChanged +=
                     delegate
                     {
                         //var Height = Width;
 
-                        var a = new AffineTransform
                         {
-                            Width = 720,
-                            Height = 720,
+                            var a = new AffineTransform
+                            {
+                                Width = 720,
+                                Height = 720,
 
 
 
-                            X2 = Width,
-                            Y2 = Height,
+                                X2 = Width,
+                                Y2 = Height,
 
-                            X3 = 000,
-                            Y3 = Height
+                                X3 = 000,
+                                Y3 = Height
 
-                        };
+                            };
 
-                        if (rotate)
-                        {
-                            a.X1 = Width;
-                            a.X3 = Width;
-                            a.X2 = 0;
+                            if (rotate)
+                            {
+                                a.X1 = Width;
+                                a.X3 = Width;
+                                a.X2 = 0;
+                            }
+
+                            bg1.RenderTransform = a;
                         }
+                        {
+                            var a = new AffineTransform
+                            {
+                                Width = 128,
+                                Height = 128,
 
-                        bg1.RenderTransform = a;
+
+                                X1 = 0,
+                                Y1 = Height - 64,
+
+                                X2 = 64,
+                                Y2 = Height,
+
+                                X3 = 0,
+                                Y3 = Height
+
+                            };
+
+                            if (!rotate)
+                            {
+                                a.X1 += Width - (64 + 32);
+                                a.X3 += Width - (64 + 32);
+                                a.X2 += Width - (64 + 32);
+                            }
+                            else
+                            {
+                                a.X1 = 64;
+                                a.Y1 = Height;
+
+                                a.X2 = 0;
+                                a.Y2 = Height - 64;
+
+                                a.X3 = 64;
+                                a.Y3 = Height - 64;
+
+                                a.X1 += 32;
+                                a.X3 += 32;
+                                a.X2 += 32;
+                            }
+
+                            buildmode_off.RenderTransform = a;
+                            buildmode_on.RenderTransform = a;
+                        }
                     };
 
-                //this.ClipToBounds = true;
+                this.ClipToBounds = true;
                 //this.ClipTo(0, 0, DefaultWidth / 2, DefaultHeight);
             }
         }
