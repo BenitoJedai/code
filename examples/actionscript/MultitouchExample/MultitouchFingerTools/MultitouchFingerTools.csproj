@@ -127,11 +127,13 @@
     <Content Include="Design\cloud_mid.png" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationCanvas.cs" />
+    <Compile Include="Library\Accelerate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
+    <Content Include="Design\rocket.png" />
     <Content Include="Design\white-jsc.png" />
   </ItemGroup>
   <ItemGroup>

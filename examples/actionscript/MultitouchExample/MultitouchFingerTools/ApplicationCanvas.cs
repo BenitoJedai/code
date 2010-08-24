@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using MultitouchFingerTools.Avalon.Images;
 using ScriptCoreLib.Avalon;
 using System.Windows.Input;
+using MultitouchFingerTools.Library;
 
 namespace MultitouchFingerTools
 {
@@ -115,10 +116,11 @@ namespace MultitouchFingerTools
 
                         CurrentTouchPoint = Tuple.Create(p.X, p.Y);
 
-                       
+
 
                         Content.MoveTo(e, TouchOverlay);
                     };
+
 
                     return new
                     {
@@ -126,23 +128,53 @@ namespace MultitouchFingerTools
                         TouchDown,
                         TouchUp,
                         TouchMove,
-                        GetTouchPoint
+                        GetTouchPoint,
+
+
                     };
                 }
             );
 
+            var touches = from k in t.Touches
+                          let p = k.GetTouchPoint()
+                          where p != null
+                          let x = p.Item1
+                          let y = p.Item2
+                          select new { x, y, touch = k };
+
+            var left_touch = from k in touches
+                             let x = k.x
+                             let y = k.y
+                             where x < 64
+                             where y > Height - 64
+                             select k;
+
+
+
+
+            var RocketsPending = new Dictionary<object, Canvas>();
+
+            var buildmode_touches =
+                from c in left_touch.Take(1)
+                from k in touches
+                where k.y < Height - 64
+
+                // um, this finger already seems to have a pending rocket...
+                where !RocketsPending.ContainsKey(k.touch)
+
+                select k;
+
+            var RocketsPendingToUpdate =
+                from c in touches
+                where RocketsPending.ContainsKey(c.touch)
+                let rocket = RocketsPending[c.touch]
+                let Update = new Action(() => rocket.MoveTo(c.x, c.y))
+                select new { rocket, c, Update };
+
             (1000 / 15).AtInterval(
                 delegate
                 {
-                    var touches = from k in t.Touches
-                                  let p = k.GetTouchPoint()
-                                  where p != null
-                                  let x = p.Item1
-                                  let y = p.Item2
 
-
-
-                                  select new { x, y };
 
                     #region visualize all touches
                     foreach (var item in touches)
@@ -168,23 +200,63 @@ namespace MultitouchFingerTools
                     }
                     #endregion
 
+                    foreach (var item in
+                        from k in t.Touches
+                        where k.GetTouchPoint() == null
+                        where RocketsPending.ContainsKey(k)
+                        select new { rocket = RocketsPending[k], touch = k }
+                        )
+                    {
+                        item.rocket.AccelerateAndFade();
 
-
-
-                    var left_touch = from k in touches
-                                     let x = k.x
-                                     let y = k.y
-                                     where x < 64
-                                     where y > Height - 64
-                                     select k;
+                        RocketsPending.Remove(item.touch);
+                    }
 
                     var left_buildmode = left_touch.Any();
-
                     if (left_buildmode)
                     {
                         // sound: build mode engaged!
 
                         // all other touches in range are now build orders!
+
+                        foreach (var item in RocketsPendingToUpdate)
+                        {
+                            item.Update();
+                        }
+
+                        #region build
+                        foreach (var item in buildmode_touches)
+                        {
+                            #region create a pending rocket
+                            var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
+
+                            //Tuple
+
+                            var i = new Avalon.Images.rocket
+                            {
+
+                            }.AttachTo(n.Content).MoveTo(
+                               Avalon.Images.rocket.ImageDefaultWidth / -4,
+                               Avalon.Images.rocket.ImageDefaultHeight / -4
+                           ).SizeTo(
+                               Avalon.Images.rocket.ImageDefaultWidth / 2,
+                               Avalon.Images.rocket.ImageDefaultHeight / 2
+                           );
+
+
+                            // hold/build!
+                            //i.Opacity = 0.5;
+
+                            n.Content.MoveTo(item.x, item.y);
+                            #endregion
+
+                            RocketsPending[item.touch] = n.Content;
+
+
+                            //n.Content.AccelerateAndFade();
+                        }
+                        #endregion
+
 
                         left.buildmode_off.Hide();
                         left.buildmode_on.Show();
@@ -198,7 +270,7 @@ namespace MultitouchFingerTools
             );
 
             t.TouchDown += (k, e) => { k.TouchDown(e); };
-            t.TouchUp += (k, e) => { k.TouchUp(e);  };
+            t.TouchUp += (k, e) => { k.TouchUp(e); };
             t.TouchMove += (k, e) => { k.TouchMove(e); };
 
 
