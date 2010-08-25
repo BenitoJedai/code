@@ -404,6 +404,19 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 						   //        ToolTipText = url
 						   //    }
 						   //);
+                           Action BrowseToApplication =
+                               delegate
+                               {
+                                   try
+                                   {
+                                       // note: firefox seems to update itself and cause an exception..
+                                       Process.Start(url);
+                                   }
+                                   catch
+                                   {
+                                       // no dice
+                                   }
+                               };
 
 						   n.ContextMenuStrip.Items.Add(
 							   new ToolStripMenuItem(
@@ -411,7 +424,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 								   null,
 								   delegate
 								   {
-									   Process.Start(url);
+                                       BrowseToApplication();
 								   }
 							   )
 							   {
@@ -422,7 +435,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 						   n.DoubleClick +=
 							   delegate
 							   {
-								   Process.Start(url);
+                                   BrowseToApplication();
 							   };
 
 
