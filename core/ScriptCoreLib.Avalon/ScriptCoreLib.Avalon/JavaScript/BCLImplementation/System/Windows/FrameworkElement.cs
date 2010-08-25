@@ -40,7 +40,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			set
 			{
 				InternalSetWidth(value);
-			}
+                InternalRaiseSizeChanged();
+            }
 		}
 
 		public double Height
@@ -53,9 +54,43 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			set
 			{
 				InternalSetHeight(value);
-			}
+                InternalRaiseSizeChanged();
+            }
 		}
 
+
+        #region SizeChanged
+        public event SizeChangedEventHandler SizeChanged;
+
+        Size InternalPreviousSize;
+
+        bool InternalRaiseSizeChangedReentryGuard;
+
+        private void InternalRaiseSizeChanged()
+        {
+            if (InternalRaiseSizeChangedReentryGuard)
+                return;
+
+            this.InternalUpdateClip();
+
+            if (SizeChanged == null)
+                return;
+
+            InternalRaiseSizeChangedReentryGuard = true;
+            var NewSize = new Size(this.Width, this.Height);
+
+            SizeChanged(this,
+                (SizeChangedEventArgs)(object)new __SizeChangedEventArgs
+                {
+                    NewSize = NewSize,
+                    PreviousSize = InternalPreviousSize
+                }
+            );
+
+            InternalPreviousSize = NewSize;
+            InternalRaiseSizeChangedReentryGuard = false;
+        }
+        #endregion
 
 		public Cursor InternalCursorValue;
 

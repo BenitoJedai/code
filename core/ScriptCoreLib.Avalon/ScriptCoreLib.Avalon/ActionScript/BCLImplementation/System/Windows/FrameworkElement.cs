@@ -64,6 +64,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             }
         }
 
+        #region SizeChanged
         public event SizeChangedEventHandler SizeChanged;
 
         Size InternalPreviousSize;
@@ -94,6 +95,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
             InternalPreviousSize = NewSize;
             InternalRaiseSizeChangedReentryGuard = false;
         }
+        #endregion
 
 
 

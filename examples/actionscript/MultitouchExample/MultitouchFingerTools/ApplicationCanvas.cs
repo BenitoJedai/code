@@ -60,7 +60,7 @@ namespace MultitouchFingerTools
 "
 
 
-            }.AttachTo(InfoOverlay);
+            }.AttachTo(InfoOverlay).MoveTo(128, 32);
 
             var c1 = new cloud_mid().AttachTo(InfoOverlay);
             var c2 = new cloud_mid().AttachTo(InfoOverlay);
@@ -82,7 +82,7 @@ namespace MultitouchFingerTools
             }.AttachTo(TouchOverlay);
 
             var t = TouchOverlay.ToTouchEvents(
-                () =>
+                m =>
                 {
                     // a new reusable finger introduced by the system!
                     var Content = new Canvas();
@@ -96,7 +96,7 @@ namespace MultitouchFingerTools
 
                     Func<Tuple<double, double>> GetTouchPoint = () => CurrentTouchPoint;
 
-                    Action<TouchEventArgs> TouchDown = e =>
+                    m.TouchDown += e =>
                     {
                         var p = e.GetTouchPoint(TouchOverlay).Position;
 
@@ -104,13 +104,13 @@ namespace MultitouchFingerTools
                         Content.AttachTo(InfoOverlay);
                     };
 
-                    Action<TouchEventArgs> TouchUp = e =>
+                    m.TouchUp += e =>
                     {
                         CurrentTouchPoint = null;
                         Content.Orphanize();
                     };
 
-                    Action<TouchEventArgs> TouchMove = e =>
+                    m.TouchMove += e =>
                     {
                         var p = e.GetTouchPoint(TouchOverlay).Position;
 
@@ -121,20 +121,17 @@ namespace MultitouchFingerTools
                         Content.MoveTo(e, TouchOverlay);
                     };
 
-
+                    
+                    // this is what will be visible for the rest.
                     return new
                     {
                         Content,
-                        TouchDown,
-                        TouchUp,
-                        TouchMove,
                         GetTouchPoint,
-
-
                     };
                 }
             );
 
+            
             var touches = from k in t.Touches
                           let p = k.GetTouchPoint()
                           where p != null
@@ -269,16 +266,12 @@ namespace MultitouchFingerTools
                 }
             );
 
-            t.TouchDown += (k, e) => { k.TouchDown(e); };
-            t.TouchUp += (k, e) => { k.TouchUp(e); };
-            t.TouchMove += (k, e) => { k.TouchMove(e); };
-
-
-            this.SizeChanged +=
-                (s, e) =>
+     
+            Action SizeChanged =
+                delegate
                 {
                     c1.MoveTo(
-                        (Width - c1.Width) / 2, 0);
+    (Width - c1.Width) / 2, 0);
 
                     c2.MoveTo(
                         (Width - c1.Width) / 2, Height / 2);
@@ -299,6 +292,14 @@ namespace MultitouchFingerTools
 
                     TouchArea.SizeTo(Width, Height);
                 };
+
+            this.SizeChanged +=
+                (s, e) =>
+                {
+                    SizeChanged();
+                };
+
+            SizeChanged();
         }
 
 
