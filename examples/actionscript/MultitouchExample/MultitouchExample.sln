@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchTransformAvalonFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchFingerTools", "MultitouchFingerTools\MultitouchFingerTools.csproj", "{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchFingerTools.JavaScript", "MultitouchFingerTools.JavaScript\MultitouchFingerTools.JavaScript.csproj", "{F37BD100-DBF3-4816-8E13-86D71D4074F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -56,6 +58,12 @@ Global
 		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12BC9D0F-697F-4D8D-9F69-A7B0010E8C32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

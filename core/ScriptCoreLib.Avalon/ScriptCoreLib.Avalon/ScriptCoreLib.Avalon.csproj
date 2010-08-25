@@ -166,6 +166,9 @@
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\ScaleTransform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\Transform.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Media\TranslateTransform.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\Size.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\SizeChangedEventArgs.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Windows\SizeChangedEventHandler.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Style.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyboardEventArgs.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Input\KeyEventArgs.cs" />
