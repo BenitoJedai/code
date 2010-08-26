@@ -135,9 +135,18 @@
     <Content Include="Design\Preview.png" />
     <Content Include="Design\rocket.png" />
     <Content Include="Design\white-jsc.png" />
+    <Content Include="Sounds\building.mp3" />
+    <Content Include="Sounds\launch.mp3" />
+    <Content Include="Sounds\Sounds.htm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MultitouchExample.Sounds\MultitouchExample.Sounds.csproj">
+      <Project>{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}</Project>
+      <Name>MultitouchExample.Sounds</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

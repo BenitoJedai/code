@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchFingerTools", "Mu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchFingerTools.JavaScript", "MultitouchFingerTools.JavaScript\MultitouchFingerTools.JavaScript.csproj", "{F37BD100-DBF3-4816-8E13-86D71D4074F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultitouchExample.Sounds", "MultitouchExample.Sounds\MultitouchExample.Sounds.csproj", "{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -64,6 +66,12 @@ Global
 		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F37BD100-DBF3-4816-8E13-86D71D4074F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBA3709-E84F-4F7F-B1BD-080946CCB5EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -81,6 +81,7 @@ namespace MultitouchFingerTools
                 Opacity = 0
             }.AttachTo(TouchOverlay);
 
+            
             var t = TouchOverlay.ToTouchEvents(
                 m =>
                 {
@@ -121,7 +122,7 @@ namespace MultitouchFingerTools
                         Content.MoveTo(e, TouchOverlay);
                     };
 
-                    
+
                     // this is what will be visible for the rest.
                     return new
                     {
@@ -131,7 +132,9 @@ namespace MultitouchFingerTools
                 }
             );
 
-            
+           
+
+
             var touches = from k in t.Touches
                           let p = k.GetTouchPoint()
                           where p != null
@@ -167,6 +170,8 @@ namespace MultitouchFingerTools
                 let rocket = RocketsPending[c.touch]
                 let Update = new Action(() => rocket.MoveTo(c.x, c.y))
                 select new { rocket, c, Update };
+
+            var __left_buildmode = false;
 
             (1000 / 15).AtInterval(
                 delegate
@@ -204,6 +209,10 @@ namespace MultitouchFingerTools
                         select new { rocket = RocketsPending[k], touch = k }
                         )
                     {
+                        // finger was lifted and rocked should be launched
+                        // no sound in .net
+                        MultitouchExample.Sounds.launch.Source.PlaySound();
+
                         item.rocket.AccelerateAndFade();
 
                         RocketsPending.Remove(item.touch);
@@ -212,6 +221,8 @@ namespace MultitouchFingerTools
                     var left_buildmode = left_touch.Any();
                     if (left_buildmode)
                     {
+                        if (!__left_buildmode)
+                            MultitouchExample.Sounds.building.Source.PlaySound();
                         // sound: build mode engaged!
 
                         // all other touches in range are now build orders!
@@ -263,10 +274,11 @@ namespace MultitouchFingerTools
                         left.buildmode_on.Hide();
                         left.buildmode_off.Show();
                     }
+                    __left_buildmode = left_buildmode;
                 }
             );
 
-     
+
             Action SizeChanged =
                 delegate
                 {
