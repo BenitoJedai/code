@@ -193,9 +193,11 @@ namespace MultitouchFingerTools
                         customItems = new[] { fullscreen }
                     };
 
+                    
                     var c = new ApplicationCanvas();
                     c.AttachToContainer(this);
 
+                    
                     this.stage.resize +=
                         e =>
                         {
