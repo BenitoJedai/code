@@ -10,6 +10,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 	[Script(Implements = typeof(global::System.Windows.Controls.Control))]
 	internal class __Control : __FrameworkElement
 	{
+        public void InternalSetDefaultFont()
+        {
+            this.FontFamily = new FontFamily("Segoe UI, Microsoft Sans Serif");
+            this.FontSize = 12;
+        }
+
 		#region Foreground
 		public virtual Brush InternalGetForeground()
 		{

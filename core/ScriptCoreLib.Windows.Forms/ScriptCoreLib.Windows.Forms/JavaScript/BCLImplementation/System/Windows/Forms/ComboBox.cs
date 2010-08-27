@@ -14,24 +14,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.ComboBox))]
     internal class __ComboBox : __ListControl
     {
-		public event EventHandler SelectedIndexChanged;
+        public event EventHandler SelectedIndexChanged;
 
         public IHTMLSelect HTMLTarget { get; set; }
 
         public __ComboBox()
         {
             this.HTMLTarget = new IHTMLSelect();
-			this.HTMLTarget.onchange +=
-				e =>
-				{
+            this.HTMLTarget.onchange +=
+                e =>
+                {
 
-					if (SelectedIndexChanged != null)
-						SelectedIndexChanged(this, new EventArgs());
-				};
+                    if (SelectedIndexChanged != null)
+                        SelectedIndexChanged(this, new EventArgs());
+                };
 
-			this.Items = new __ObjectCollection { Owner = this };
+            this.Items = new __ObjectCollection { Owner = this };
 
-			this.InternalSetDefaultFont();
+            this.InternalSetDefaultFont();
         }
 
         public override IHTMLElement HTMLTargetRef
@@ -58,7 +58,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             get
             {
-                return this.HTMLTarget.value;
+                // IE8 forced us to use this:
+                return this.HTMLTarget[this.HTMLTarget.selectedIndex].value;
             }
             set
             {
@@ -99,6 +100,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-		public ComboBoxStyle DropDownStyle { get; set; }
+        public ComboBoxStyle DropDownStyle { get; set; }
     }
 }

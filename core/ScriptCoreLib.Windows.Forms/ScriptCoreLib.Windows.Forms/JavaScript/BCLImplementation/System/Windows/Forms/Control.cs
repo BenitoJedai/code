@@ -416,6 +416,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         public int TabIndex { get; set; }
+
         public bool AutoSize { get; set; }
 
 

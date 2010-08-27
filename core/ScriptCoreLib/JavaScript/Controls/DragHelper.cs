@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 {
 	[System.Obsolete("To be moved out of CoreLib")]
     [Script]
-    public class DragHelper
+    internal class DragHelper
     {
         
         public bool IsDrag;

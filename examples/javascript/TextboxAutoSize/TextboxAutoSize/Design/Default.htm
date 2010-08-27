@@ -1,0 +1,133 @@
+<html>
+<head>
+    <title>DefaultPage</title>
+</head>
+<body>
+    <div id='PageContainer'>
+        <h1 id='Header'>
+            Hello world</h1>
+        <blockquote>
+            Tested. Note that the hidden Shadow span cannot be actually hidden. It's container
+            size is being set to zero instead. In IE some fonts are unavailable. While writing
+            into the autosize enable textbox the undesired scroll effect may show itself.
+            <br />
+            Future browsers will probable implement <code>bool autosize</code> property for
+            this.
+            <br />
+            Next task is to update Forms and Avalon libraries.
+        </blockquote>
+        <div>
+            <select id='FontFamily'>
+                <option>Helvetica</option>
+                <optgroup label="Font Family">
+                    <option>Fixedsys</option>
+                    <option>Arial</option>
+                    <option>Tahoma</option>
+                    <option>Consolas</option>
+                    <option>Courier</option>
+                    <option>Verdana</option>
+                    <option>Cambria</option>
+                    <option>Calibri</option>
+                </optgroup>
+            </select>
+            <select id='FontSize'>
+                <option>16</option>
+                <optgroup label="Font Size">
+                    <option>6</option>
+                    <option>8</option>
+                    <option>10</option>
+                    <option>12</option>
+                    <option>14</option>
+                    <option>16</option>
+                    <option>18</option>
+                    <option>20</option>
+                    <option>22</option>
+                    <option>24</option>
+                </optgroup>
+            </select>
+            <select id='FontSizeUnit'>
+                <optgroup label="Font Size Unit">
+                    <option>pt</option>
+                    <option>em</option>
+                    <option>px</option>
+                    <option>%</option>
+                </optgroup>
+            </select>
+            <select id='LineHeight'>
+                <option>100%</option>
+                <optgroup label="Line Height">
+                    <option>50%</option>
+                    <option>70%</option>
+                    <option>80%</option>
+                    <option>90%</option>
+                    <option>100%</option>
+                    <option>110%</option>
+                    <option>120%</option>
+                    <option>130%</option>
+                    <option>200%</option>
+                </optgroup>
+            </select>
+            <select id='Background'>
+                <option>Black</option>
+                <optgroup label="Background Color">
+                    <option>Gray</option>
+                    <option>White</option>
+                    <option>Black</option>
+                    <option>Red</option>
+                    <option>Green</option>
+                    <option>Blue</option>
+                </optgroup>
+            </select>
+            <select id='Foreground'>
+                <option>Yellow</option>
+                <optgroup label="Foreground Color">
+                    <option>Black</option>
+                    <option>White</option>
+                    <option>Yellow</option>
+                    <option>Cyan</option>
+                    <option>Pink</option>
+                </optgroup>
+            </select>
+            <span>Hide Shadow:
+                <input id='HideShadow' type="checkbox" /></span>
+        </div>
+        <hr />
+        <div>
+            <fieldset>
+                <legend>HTMLInput</legend>
+                <input id='Text1' value="single line" />
+            </fieldset>
+            <fieldset>
+                <legend>HTMLInput shadow</legend>
+                <div id='Text1ShadowContainer'>
+                    <span id='Text1Shadow'></span>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>HTMLInput AutoSize</legend>
+                <input id='Text1AutoSize' value="single line" />
+            </fieldset>
+        </div>
+        <hr />
+        <div>
+            <fieldset>
+                <legend>HTMLTextArea</legend>
+                <textarea id='Text2'>multiple lines</textarea>
+            </fieldset>
+            <fieldset>
+                <legend>HTMLTextArea shadow</legend>
+                <div id='Text2ShadowContainer'>
+                    <span id='Text2Shadow'></span>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>HTMLTextArea AutoSize</legend>
+                <textarea id='Text2AutoSize'>multiple lines</textarea>
+            </fieldset>
+        </div>
+        <hr />
+        <p id='Content' style='padding: 2em; color: blue;'>
+            This project was composed in your browser!</p>
+    </div>
+</body>
+</html>
