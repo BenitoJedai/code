@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.Controls
     /// </summary>
 	[System.Obsolete("To be moved out of CoreLib")]
     [Script]
-    public class SpawnControlBase
+    internal class SpawnControlBase
     {
         protected readonly IHTMLInput SpawnControl;
 

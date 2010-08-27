@@ -112,7 +112,7 @@ q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m
         //    SetLocation(r.Left, r.Top, r.Width, r.Height);
         //}
 
-        [Script(DefineAsStatic = true)]
+        [Script(DefineAsStatic = true), System.Obsolete]
         public void SetSize(int width, int height)
         {
             this.width = width + px;
@@ -125,7 +125,7 @@ q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m
         //    SetSize(e.width, e.height);
         //}
 
-        [Script(DefineAsStatic = true)]
+        [Script(DefineAsStatic = true), System.Obsolete]
         public void SetSize(IHTMLElement e)
         {
             SetSize(e.clientWidth, e.clientHeight);
@@ -178,7 +178,7 @@ q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m
         #endregion
 
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true), System.Obsolete]
         public void SetLocation(Rectangle size)
         {
             SetLocation(size.Left, size.Top, size.Width, size.Height);

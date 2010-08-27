@@ -12,6 +12,17 @@ namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class INodeExtensions
 	{
+        public static IHTMLOption GetSelection(this IHTMLSelect c)
+        {
+            return c[c.selectedIndex];
+        }
+
+        public static string GetSelectionText(this IHTMLSelect c)
+        {
+            return c.GetSelection().value;
+        }
+
+
         public static void SetMatrixTransform(this IHTMLElement c, AffineTransformBase matrix)
         {
             c.style.SetMatrixTransform(matrix);

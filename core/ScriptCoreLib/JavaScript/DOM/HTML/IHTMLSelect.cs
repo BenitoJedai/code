@@ -17,7 +17,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         public int selectedIndex;
         public bool disabled;
         public bool multiple;
-        public string value;
+
+
+        // IE seems to return "" here, see "selectedIndex" instead
+        internal string value;
 
 
         #region Constructor
@@ -34,6 +37,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #endregion
 
+        public IHTMLOption this[int i]
+        {
+            get
+            {
+                // um, IE 8 seems now not to give a value to us..
+                return default(IHTMLOption);
+            }
+        }
 
         /// <summary>
         /// adds object field names to the list
@@ -47,7 +58,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         public IHTMLOption Add(string p)
         {
             IHTMLOption o = new IHTMLOption();
@@ -72,7 +83,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [Script(DefineAsStatic = true)]
         public void Add(params string[] e)
         {
-            foreach (string  v in e)
+            foreach (string v in e)
             {
                 Add(v);
             }
