@@ -8,7 +8,7 @@ using ScriptCoreLib.Shared.Query;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Stack<>))]
-	internal class __Stack<T> : IEnumerable<T>
+    internal class __Stack<T> : IEnumerable<T>
     {
         readonly Array items = new Array();
 
@@ -30,7 +30,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         internal void AddRange(IEnumerable<T> collection)
         {
-            foreach (var item in collection.AsEnumerable())
+            foreach (var item in collection)
             {
                 this.Push(item);
             }
@@ -48,29 +48,29 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
         public int Count { get { return (int)items.length; } }
 
-		public void Clear()
-		{
-			items.splice(0, items.length);
-		}
+        public void Clear()
+        {
+            items.splice(0, items.length);
+        }
 
-		#region IEnumerable<T> Members
+        #region IEnumerable<T> Members
 
-		public IEnumerator<T> GetEnumerator()
-		{
-			var a = (T[])(object)items;
+        public IEnumerator<T> GetEnumerator()
+        {
+            var a = (T[])(object)items;
 
-			return new SZArrayEnumerator<T>(a);
-		}
+            return new SZArrayEnumerator<T>(a);
+        }
 
-		#endregion
+        #endregion
 
-		#region IEnumerable Members
+        #region IEnumerable Members
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return this.GetEnumerator();
-		}
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
 
-		#endregion
+        #endregion
     }
 }

@@ -856,8 +856,6 @@ namespace jsc.meta.Commands.Rewrite
             TypeDefinitionCache.Resolve +=
                 (SourceType) =>
                 {
-
-
                     if (SourceType.Assembly is AssemblyBuilder)
                     {
                         // not going to merge already merged type.
@@ -890,6 +888,7 @@ namespace jsc.meta.Commands.Rewrite
                         return;
                     }
 
+                    #region Generic
                     if (SourceType.IsGenericType)
                         if (!SourceType.IsGenericTypeDefinition)
                         {
@@ -907,6 +906,39 @@ namespace jsc.meta.Commands.Rewrite
 
                             return;
                         }
+                    #endregion
+
+
+                    #region This unit was resolved for us...
+                    if (ExternalContext.TypeCache[SourceType] != SourceType)
+                    {
+                        TypeDefinitionCache[SourceType] = ExternalContext.TypeCache[SourceType];
+
+                        // was continuation honored?
+                        if (TypeDefinitionCache[SourceType] is TypeBuilder)
+                        {
+                            TypeCache[SourceType] = TypeDefinitionCache[SourceType];
+                            TypeCache.Flags[SourceType] = new object();
+                            Console.WriteLine("CreateType:  " + SourceType.FullName);
+
+                            if (TypeCreated != null)
+                                TypeCreated(
+                                    new TypeRewriteArguments
+                                    {
+                                        SourceType = SourceType,
+                                        Type = (TypeBuilder)TypeCache[SourceType],
+                                        Assembly = a,
+                                        Module = m,
+
+                                        context = this.RewriteArguments.context
+                                    }
+                                );
+                        }
+
+                        return;
+                    }
+                    #endregion
+
 
                     var ContextType = SourceType;
                     if (ShouldCopyType(ContextType))
@@ -998,40 +1030,9 @@ namespace jsc.meta.Commands.Rewrite
                         return;
                     }
 
-                    // This unit was resolved for us...
-                    if (ExternalContext.TypeCache[SourceType] != SourceType)
-                    {
-                        TypeCache[SourceType] = ExternalContext.TypeCache[SourceType];
+                    
 
-                        // was continuation honored?
-                        if (TypeCache[SourceType] is TypeBuilder)
-                        {
-                            TypeCache.Flags[SourceType] = new object();
-                            Console.WriteLine("CreateType:  " + SourceType.FullName);
-
-                            if (TypeCreated != null)
-                                TypeCreated(
-                                    new TypeRewriteArguments
-                                    {
-                                        SourceType = SourceType,
-                                        Type = (TypeBuilder)TypeCache[SourceType],
-                                        Assembly = a,
-                                        Module = m,
-
-                                        context = this.RewriteArguments.context
-                                    }
-                                );
-                        }
-
-                        return;
-                    }
-
-                    if (TypeCache.BaseDictionary.ContainsKey(SourceType))
-                    {
-                        // seems like we are not supposed to resolve this type and use
-                        // what has been inserted in the cache!
-                        return;
-                    }
+           
 
                     if (SourceType.IsGenericParameter)
                     {
@@ -1077,6 +1078,15 @@ namespace jsc.meta.Commands.Rewrite
                     // simple rule - same assembly equals must copy
 
 
+                    // did we got overrridden?
+                    var __Definition = TypeDefinitionCache[SourceType];
+
+                    if (TypeCache.BaseDictionary.ContainsKey(SourceType))
+                    {
+                        // seems like we are not supposed to resolve this type and use
+                        // what has been inserted in the cache!
+                        return;
+                    }
 
                     if (ShouldCopyType(SourceType) && TypeDefinitionCache[SourceType] is TypeBuilder)
                     {

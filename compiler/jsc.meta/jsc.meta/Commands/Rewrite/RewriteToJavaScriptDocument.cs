@@ -799,6 +799,7 @@ namespace jsc.meta.Commands.Rewrite
                     r.ExternalContext.TypeCache.Resolve +=
                         SourceType =>
                         {
+                            #region BCLImplementations
                             if (ScriptCoreLib_Query != null && SourceType.Assembly == System_Core)
                             {
                                 ScriptLibraries.Add(ScriptCoreLib_Query);
@@ -816,6 +817,8 @@ namespace jsc.meta.Commands.Rewrite
                                 ScriptLibraries.Add(ScriptCoreLib_Windows_Forms);
                                 ScriptCoreLib_Windows_Forms = null;
                             }
+                            #endregion
+
 
                             if (r.ExternalContext.TypeCache.BaseDictionary.ContainsKey(SourceType))
                                 if (r.ExternalContext.TypeCache.BaseDictionary[SourceType] != SourceType)
@@ -858,6 +861,15 @@ namespace jsc.meta.Commands.Rewrite
 
                                         select r.RewriteArguments.context.TypeCache[y]
                                     );
+
+
+                                    // Duplicate type name within an assembly?
+                                    // would be awesome if you told me where the previous type was being created...
+
+                                    if (r.RewriteArguments.context.TypeDefinitionCache.BaseDictionary.ContainsKey(SourceType))
+                                    {
+                                        throw new InvalidOperationException("TypeDefinitionCache");
+                                    }
 
                                     var DeclaringType = SourceType.IsNested ?
                                         ((TypeBuilder)r.RewriteArguments.context.TypeCache[SourceType.DeclaringType]).DefineNestedType(

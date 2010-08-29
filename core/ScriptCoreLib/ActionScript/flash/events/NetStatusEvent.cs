@@ -9,11 +9,23 @@ namespace ScriptCoreLib.ActionScript.flash.events
     [Script(IsNative=true)]
     public class NetStatusEvent : Event
     {
+        [Script]
+        public class dynamic
+        {
+            // to be replaced by C# dynamic keyword at a later point?
+            // http://www.adobe.com/livedocs/flash/9.0/ActionScriptLangRefV3/flash/events/NetStatusEvent.html#info
+
+            public string code;
+            public string level;
+
+            public object message;
+        }
+
         #region Properties
         /// <summary>
         /// An object with properties that describe the object's status or error condition.
         /// </summary>
-        public object info { get; set; }
+        public dynamic info { get; set; }
 
         #endregion
 

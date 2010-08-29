@@ -9,10 +9,10 @@ using ScriptCoreLib.Shared.Query;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 {
-	[Script(Implements = typeof(Stack<>))]
-	internal class __Stack<T> : IEnumerable<T>
-	{
-		readonly IArray<T> items = new IArray<T>();
+    [Script(Implements = typeof(Stack<>))]
+    internal class __Stack<T> : IEnumerable<T>
+    {
+        readonly IArray<T> items = new IArray<T>();
 
         public __Stack()
             : this(null)
@@ -32,53 +32,53 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         internal void AddRange(IEnumerable<T> collection)
         {
-            foreach (var item in collection.AsEnumerable())
+            foreach (var item in InternalSequenceImplementation.AsEnumerable(collection))
             {
                 this.Push(item);
             }
         }
 
-		public T Peek()
-		{
-			return (T)items[items.length - 1];
-		}
+        public T Peek()
+        {
+            return (T)items[items.length - 1];
+        }
 
-		public T Pop()
-		{
-			return (T)items.pop();
-		}
+        public T Pop()
+        {
+            return (T)items.pop();
+        }
 
-		public void Push(T item)
-		{
-			items.push(item);
-		}
+        public void Push(T item)
+        {
+            items.push(item);
+        }
 
-		public int Count { get { return (int)items.length; } }
+        public int Count { get { return (int)items.length; } }
 
 
-		public void Clear()
-		{
-			items.splice(0, items.length);
-		}
+        public void Clear()
+        {
+            items.splice(0, items.length);
+        }
 
-		#region IEnumerable<T> Members
+        #region IEnumerable<T> Members
 
-		public IEnumerator<T> GetEnumerator()
-		{
-			var a = (T[])(object)items;
+        public IEnumerator<T> GetEnumerator()
+        {
+            var a = (T[])(object)items;
 
-			return new SZArrayEnumerator<T>(a);
-		}
+            return new SZArrayEnumerator<T>(a);
+        }
 
-		#endregion
+        #endregion
 
-		#region IEnumerable Members
+        #region IEnumerable Members
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return this.GetEnumerator();
-		}
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
