@@ -89,18 +89,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			InternalTextField.setTextFormat(e);
 		}
 
-		public override void InternalSetBorderThickness(global::System.Windows.Thickness value)
-		{
-			__Thickness v = value;
+        internal __Thickness InternalBorderThickness;
 
-			if (v.InternalValue == 0)
+        public override void InternalSetBorderThickness(Thickness value)
+		{
+            this.InternalBorderThickness = value;
+
+            if (this.InternalBorderThickness.InternalValue == 0)
 			{
 				this.InternalTextField.border = false;
 
 				return;
 			}
 
-			if (v.InternalValue == 1)
+            if (this.InternalBorderThickness.InternalValue == 1)
 			{
 				this.InternalTextField.border = true;
 

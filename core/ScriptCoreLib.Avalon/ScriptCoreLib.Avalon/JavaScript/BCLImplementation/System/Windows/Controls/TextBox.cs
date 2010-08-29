@@ -212,6 +212,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                                  InternalAutoSizeUpdate();
                              };
 
+                        InternalUpdateBackground();
+                        InternalUpdateBorderThickness();
+                        InternalUpdateForeground();
+
                         return;
                     }
 
@@ -223,12 +227,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
        
 
         #region InternalSetBorderThickness
-        public override void InternalSetBorderThickness(global::System.Windows.Thickness value)
+        internal __Thickness InternalBorderThickness;
+        public override void InternalSetBorderThickness(Thickness value)
         {
-            __Thickness v = value;
+            this.InternalBorderThickness = value;
 
+            InternalUpdateBorderThickness();
+        }
 
-            if (v.InternalValue == 0)
+        private void InternalUpdateBorderThickness()
+        {
+            if (this.InternalBorderThickness.InternalValue == 0)
             {
                 if (this.InternalTextField != null)
                     this.InternalTextField.style.borderWidth = "0";
@@ -240,7 +249,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 return;
             }
 
-            if (v.InternalValue == 1)
+            if (this.InternalBorderThickness.InternalValue == 1)
             {
                 if (this.InternalTextField != null)
                     this.InternalTextField.style.borderWidth = "1px";
@@ -267,8 +276,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
         public override void InternalSetForeground(Brush value)
         {
-            InternalForeground = value;
-            var AsSolidColorBrush = value as SolidColorBrush;
+            this.InternalForeground = value;
+
+            InternalUpdateForeground();
+        }
+
+        private void InternalUpdateForeground()
+        {
+            var AsSolidColorBrush = this.InternalForeground as SolidColorBrush;
 
             if (AsSolidColorBrush != null)
             {
@@ -286,9 +301,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
         #endregion
 
         #region InternalSetBackground
+        internal Brush InternalBackground;
         public override void InternalSetBackground(Brush value)
         {
-            var AsSolidColorBrush = value as SolidColorBrush;
+            this.InternalBackground = value;
+
+            InternalUpdateBackground();
+        }
+
+        private void InternalUpdateBackground()
+        {
+            var AsSolidColorBrush = this.InternalBackground as SolidColorBrush;
 
             if (AsSolidColorBrush != null)
             {
@@ -307,7 +330,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 if (this.InternalTextField_MultiLine != null)
                     this.InternalTextField_MultiLine.style.backgroundColor = _Color;
 
-              
+
             }
         }
         #endregion
