@@ -26,6 +26,9 @@ namespace MultitouchFingerTools
         public const int DefaultWidth = 800;
         public const int DefaultHeight = 400;
 
+        public Canvas InfoOverlay;
+        public Canvas TouchOverlay;
+
         public ApplicationCanvas()
         {
             Width = DefaultWidth;
@@ -37,7 +40,7 @@ namespace MultitouchFingerTools
             var left = new PartialView(Colors.Blue, true).AttachTo(this);
             var right = new PartialView(Colors.Green).AttachTo(this).MoveTo(DefaultWidth / 2, 0);
 
-            var InfoOverlay = new Canvas().AttachTo(this);
+            this.InfoOverlay = new Canvas().AttachTo(this);
 
             var About = new TextBox
             {
@@ -66,7 +69,7 @@ namespace MultitouchFingerTools
             var c2 = new cloud_mid().AttachTo(InfoOverlay);
 
 
-            var TouchOverlay = new Canvas
+            this.TouchOverlay = new Canvas
             {
 
 
