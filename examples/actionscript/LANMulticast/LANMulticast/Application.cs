@@ -35,7 +35,7 @@ namespace LANMulticast
             var s = new MySprite1();
 
             s.AtMessage +=
-                x => page.Log.value += Environment.NewLine + x;
+                x => page.Log.value = x + Environment.NewLine + page.Log.value;
 
             s.AttachSpriteTo(page.Content);
 
@@ -44,7 +44,7 @@ namespace LANMulticast
                 {
                     s.PostMessage("timer: " + t.Counter);
                 }
-                , 500, 1500
+                , 500, 15000
             );
 
             page.Send.onclick +=
