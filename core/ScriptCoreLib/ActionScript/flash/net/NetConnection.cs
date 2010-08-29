@@ -7,90 +7,90 @@ using ScriptCoreLib.ActionScript.flash.events;
 namespace ScriptCoreLib.ActionScript.flash.net
 {
     // http://livedocs.adobe.com/flex/3/langref/flash/net/NetConnection.html
-    [Script(IsNative=true)]
-	public class NetConnection : EventDispatcher
-	{
-		#region Properties
-		/// <summary>
-		/// Indicates the object on which callback methods should be invoked.
-		/// </summary>
-		public object client { get; set; }
+    [Script(IsNative = true)]
+    public class NetConnection : EventDispatcher
+    {
+        #region Properties
+        /// <summary>
+        /// Indicates the object on which callback methods should be invoked.
+        /// </summary>
+        public object client { get; set; }
 
-		/// <summary>
-		/// [read-only] Indicates whether the application is connected to a server through a persistent RTMP connection (true) or not (false).
-		/// </summary>
-		public bool connected { get; private set; }
+        /// <summary>
+        /// [read-only] Indicates whether the application is connected to a server through a persistent RTMP connection (true) or not (false).
+        /// </summary>
+        public bool connected { get; private set; }
 
-		/// <summary>
-		/// [read-only] The proxy type used to make a successful NetConnection.connect() call to Flash Media Server: "none", "HTTP", "HTTPS", or "CONNECT".
-		/// </summary>
-		public string connectedProxyType { get; private set; }
+        /// <summary>
+        /// [read-only] The proxy type used to make a successful NetConnection.connect() call to Flash Media Server: "none", "HTTP", "HTTPS", or "CONNECT".
+        /// </summary>
+        public string connectedProxyType { get; private set; }
 
-		/// <summary>
-		/// [static] The default object encoding for NetConnection objects.
-		/// </summary>
-		public static uint defaultObjectEncoding { get; set; }
+        /// <summary>
+        /// [static] The default object encoding for NetConnection objects.
+        /// </summary>
+        public static uint defaultObjectEncoding { get; set; }
 
-		/// <summary>
-		/// [read-only] The identifier of the Flash Media Server instance to which this Flash Player or Adobe AIR instance is connected.
-		/// </summary>
-		public string farID { get; private set; }
+        /// <summary>
+        /// [read-only] The identifier of the Flash Media Server instance to which this Flash Player or Adobe AIR instance is connected.
+        /// </summary>
+        public string farID { get; private set; }
 
-		/// <summary>
-		/// [read-only] A value chosen substantially by Flash Media Server, unique to this connection.
-		/// </summary>
-		public string farNonce { get; private set; }
+        /// <summary>
+        /// [read-only] A value chosen substantially by Flash Media Server, unique to this connection.
+        /// </summary>
+        public string farNonce { get; private set; }
 
-		/// <summary>
-		/// The total number of inbound and outbound peer connections that this instance of Flash Player or Adobe AIR allows.
-		/// </summary>
-		public uint maxPeerConnections { get; set; }
+        /// <summary>
+        /// The total number of inbound and outbound peer connections that this instance of Flash Player or Adobe AIR allows.
+        /// </summary>
+        public uint maxPeerConnections { get; set; }
 
-		/// <summary>
-		/// [read-only] The identifier of this Flash Player or Adobe AIR instance for this NetConnection instance.
-		/// </summary>
-		public string nearID { get; private set; }
+        /// <summary>
+        /// [read-only] The identifier of this Flash Player or Adobe AIR instance for this NetConnection instance.
+        /// </summary>
+        public string nearID { get; private set; }
 
-		/// <summary>
-		/// [read-only] A value chosen substantially by this Flash Player or Adobe AIR instance, unique to this connection.
-		/// </summary>
-		public string nearNonce { get; private set; }
+        /// <summary>
+        /// [read-only] A value chosen substantially by this Flash Player or Adobe AIR instance, unique to this connection.
+        /// </summary>
+        public string nearNonce { get; private set; }
 
-		/// <summary>
-		/// The object encoding for this NetConnection instance.
-		/// </summary>
-		public uint objectEncoding { get; set; }
+        /// <summary>
+        /// The object encoding for this NetConnection instance.
+        /// </summary>
+        public uint objectEncoding { get; set; }
 
-		/// <summary>
-		/// [read-only] The protocol used to establish the connection.
-		/// </summary>
-		public string protocol { get; private set; }
+        /// <summary>
+        /// [read-only] The protocol used to establish the connection.
+        /// </summary>
+        public string protocol { get; private set; }
 
-		/// <summary>
-		/// Determines which fallback methods are tried if an initial connection attempt to the server fails.
-		/// </summary>
-		public string proxyType { get; set; }
+        /// <summary>
+        /// Determines which fallback methods are tried if an initial connection attempt to the server fails.
+        /// </summary>
+        public string proxyType { get; set; }
 
-		/// <summary>
-		/// [read-only] An object that holds all of the peer subscriber NetStream objects that are not associated with publishing NetStream objects.
-		/// </summary>
-		public NetStream[] unconnectedPeerStreams { get; private set; }
+        /// <summary>
+        /// [read-only] An object that holds all of the peer subscriber NetStream objects that are not associated with publishing NetStream objects.
+        /// </summary>
+        public NetStream[] unconnectedPeerStreams { get; private set; }
 
-		/// <summary>
-		/// [read-only] The URI passed to the NetConnection.connect() method.
-		/// </summary>
-		public string uri { get; private set; }
+        /// <summary>
+        /// [read-only] The URI passed to the NetConnection.connect() method.
+        /// </summary>
+        public string uri { get; private set; }
 
-		/// <summary>
-		/// [read-only] Indicates whether a secure connection was made using native Transport Layer Security (TLS) rather than HTTPS.
-		/// </summary>
-		public bool usingTLS { get; private set; }
+        /// <summary>
+        /// [read-only] Indicates whether a secure connection was made using native Transport Layer Security (TLS) rather than HTTPS.
+        /// </summary>
+        public bool usingTLS { get; private set; }
 
-		#endregion
+        #endregion
 
 
-		#region Methods
-		/// <summary>
+        #region Methods
+        /// <summary>
         /// Adds a context header to the Action Message Format (AMF) packet structure.
         /// </summary>
         public void addHeader(string operation, bool mustUnderstand, object param)
@@ -185,6 +185,6 @@ namespace ScriptCoreLib.ActionScript.flash.net
 
         #endregion
 
-      
+
     }
 }

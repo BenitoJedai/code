@@ -188,6 +188,20 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 			private static void InternalLaunch(int port, string Text, string url, string dir)
 			{
+                Action BrowseToApplication =
+                    delegate
+                    {
+                        try
+                        {
+                            // note: firefox seems to update itself and cause an exception..
+                            Process.Start(url);
+                        }
+                        catch
+                        {
+                            // no dice
+                        }
+                    };
+
 				var t = new Thread(
 				   delegate()
 				   {
@@ -404,19 +418,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 						   //        ToolTipText = url
 						   //    }
 						   //);
-                           Action BrowseToApplication =
-                               delegate
-                               {
-                                   try
-                                   {
-                                       // note: firefox seems to update itself and cause an exception..
-                                       Process.Start(url);
-                                   }
-                                   catch
-                                   {
-                                       // no dice
-                                   }
-                               };
+                         
 
 						   n.ContextMenuStrip.Items.Add(
 							   new ToolStripMenuItem(
@@ -457,13 +459,15 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 				t.Start();
 
 
-				Process.Start(url);
+				
 
 
 
 				var s = new Server(port, "/", dir);
 
 				s.Start();
+
+                BrowseToApplication();
 
 				t.Join();
 

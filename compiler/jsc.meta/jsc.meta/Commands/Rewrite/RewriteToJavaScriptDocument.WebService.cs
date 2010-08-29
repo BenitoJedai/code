@@ -846,6 +846,9 @@ subst B: /D
 
                 var TypeCache = r.RewriteArguments.context.TypeCache;
 
+                // mark that we have overridden this type
+                r.ExternalContext.TypeCache[SourceType] = DeclaringType;
+
                 r.RewriteArguments.context.TypeDefinitionCache[SourceType] = DeclaringType;
                 TypeCache[SourceType] = DeclaringType;
 
