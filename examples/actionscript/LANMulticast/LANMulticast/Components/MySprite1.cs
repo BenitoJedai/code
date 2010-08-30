@@ -3,6 +3,7 @@ using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.events;
 using System;
 using ScriptCoreLib.ActionScript.flash.utils;
+using ScriptCoreLib.Extensions;
 
 namespace LANMulticast.Components
 {
@@ -40,15 +41,16 @@ namespace LANMulticast.Components
 
                         var group = new NetGroup(nc, groupspec.groupspecWithAuthorizations());
 
+
                         Action<string> PostMessage =
-                            x =>
+                            message =>
                             {
                                 if (connected)
                                 {
 
                                     RaiseMessage("write: " + x);
-                                    
-                                    group.post(x);
+
+                                    group.post(message);
                                 }
                                 else
                                 {
@@ -65,7 +67,11 @@ namespace LANMulticast.Components
 
                                 if (g.info.code == "NetGroup.Posting.Notify")
                                 {
-                                    RaiseMessage("read: " + (string)g.info.message);
+                                    // Type Coercion failed: cannot convert Object@60b6cb9 to LANMulticast_Components_MySprite1__f__AnonymousType0_1_33554444.
+
+                                    var k = (string)g.info.message;
+
+                                    RaiseMessage("read: " + k);
                                 }
                             };
 

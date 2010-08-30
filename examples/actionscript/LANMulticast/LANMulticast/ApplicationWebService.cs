@@ -14,16 +14,7 @@ namespace LANMulticast
     /// </summary>
     public sealed class ApplicationWebService
     {
-        /// <summary>
-        /// This Method is a javascript callable method.
-        /// </summary>
-        /// <param name="e">A parameter from javascript</param>
-        /// <param name="y">A callback to javascript</param>
-        public void WebMethod2(XElement e, Action<XElement> y)
-        {
-            // Send it to the caller.
-            y(e);
-        }
+    
 
     }
 }
