@@ -22,6 +22,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace MultitouchFingerTools
 {
@@ -51,75 +52,107 @@ namespace MultitouchFingerTools
             //Debugger.Break();
 
 #if DEBUG
-            var c = new ApplicationCanvas();
-            var w = c.ToWindow();
+            var Spawn = default(Action<Action<Window>>);
+            var Session = new List<ApplicationCanvas>();
 
-            w.KeyDown +=
-                (s, e) =>
+            Spawn = WindowCreated =>
                 {
+                    var c = new ApplicationCanvas();
 
+                    Session.Add(c);
 
-                    if (e.Key == Key.Escape || e.Key == Key.F11)
-                        if (w.WindowState == WindowState.Maximized)
+                    c.AtNotifyBuildRocket +=
+                        (x, y) =>
                         {
-                            w.WindowState = WindowState.Normal;
-                            return;
-                        }
+                            Session.Except(new[] { c }).WithEach(k => k.NotifyBuildRocket(x, y));
+                        };
 
-                    if (e.Key == Key.F11)
-                        if (w.WindowState == WindowState.Normal)
+                    var w = c.ToWindow();
+
+                    w.Title += " | F2 - Spawn, F11 - Fullscreen";
+
+                    w.Closing +=
+                        delegate
                         {
-                            w.WindowStyle = WindowStyle.None;
-                            w.WindowState = WindowState.Maximized;
-                            return;
-                        }
+                            Session.Remove(c);
+                        };
+
+                    w.KeyUp +=
+                        (s, e) =>
+                        {
+                            if (e.Key == Key.F2)
+                                Spawn(k => k.Show());
+                        };
+
+                    w.KeyDown +=
+                        (s, e) =>
+                        {
+
+                            if (e.Key == Key.Escape || e.Key == Key.F11)
+                                if (w.WindowState == WindowState.Maximized)
+                                {
+                                    w.WindowState = WindowState.Normal;
+                                    return;
+                                }
+
+                            if (e.Key == Key.F11)
+                                if (w.WindowState == WindowState.Normal)
+                                {
+                                    w.WindowStyle = WindowStyle.None;
+                                    w.WindowState = WindowState.Maximized;
+                                    return;
+                                }
+                        };
+
+                    w.StateChanged +=
+                        (s, e) =>
+                        {
+                            w.WindowStyle = w.WindowState == WindowState.Maximized ? WindowStyle.None : WindowStyle.SingleBorderWindow;
+                        };
+
+
+                    w.Loaded +=
+                        delegate
+                        {
+                            w.SizeToContent = SizeToContent.Manual;
+                            w.Focus();
+                        };
+
+                    w.SizeChanged +=
+                        (s, e) =>
+                        {
+                            if (e.PreviousSize.Width == 0)
+                                return;
+
+                            // Content dictates its size. Yet when we resize the window we want the content to know it has more room.
+                            // http://stackoverflow.com/questions/1081580/how-to-set-wpf-windows-startup-clientsize
+                            var horizontalBorderHeight = SystemParameters.ResizeFrameHorizontalBorderHeight;
+                            var verticalBorderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
+                            var captionHeight = SystemParameters.CaptionHeight;
+
+                            var Width = e.NewSize.Width;
+
+                            var Height = e.NewSize.Height;
+
+
+                            Width -= 2 * verticalBorderWidth;
+                            Height -= 2 * horizontalBorderHeight;
+
+
+                            if (w.WindowStyle != WindowStyle.None)
+                            {
+                                Height -= captionHeight;
+                            }
+
+                            c.SizeTo(Width, Height);
+
+                        };
+
+                    if (WindowCreated != null)
+                        WindowCreated(w);
                 };
 
-            w.StateChanged +=
-                (s, e) =>
-                {
-                    w.WindowStyle = w.WindowState == WindowState.Maximized ? WindowStyle.None : WindowStyle.SingleBorderWindow;
-                };
-
-
-            w.Loaded +=
-                delegate
-                {
-                    w.SizeToContent = SizeToContent.Manual;
-                    w.Focus();
-                };
-
-            w.SizeChanged +=
-                (s, e) =>
-                {
-                    if (e.PreviousSize.Width == 0)
-                        return;
-
-                    // Content dictates its size. Yet when we resize the window we want the content to know it has more room.
-                    // http://stackoverflow.com/questions/1081580/how-to-set-wpf-windows-startup-clientsize
-                    var horizontalBorderHeight = SystemParameters.ResizeFrameHorizontalBorderHeight;
-                    var verticalBorderWidth = SystemParameters.ResizeFrameVerticalBorderWidth;
-                    var captionHeight = SystemParameters.CaptionHeight;
-
-                    var Width = e.NewSize.Width;
-
-                    var Height = e.NewSize.Height;
-
-
-                    Width -= 2 * verticalBorderWidth;
-                    Height -= 2 * horizontalBorderHeight;
-
-
-                    if (w.WindowStyle != WindowStyle.None)
-                    {
-                        Height -= captionHeight;
-                    }
-
-                    c.SizeTo(Width, Height);
-
-                };
-
-            w.ShowDialog();
+            Spawn(w => w.ShowDialog());
 #else
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
@@ -193,11 +226,11 @@ namespace MultitouchFingerTools
                         customItems = new[] { fullscreen }
                     };
 
-                    
+
                     var c = new ApplicationCanvas();
                     c.AttachToContainer(this);
 
-                    
+
                     this.stage.resize +=
                         e =>
                         {

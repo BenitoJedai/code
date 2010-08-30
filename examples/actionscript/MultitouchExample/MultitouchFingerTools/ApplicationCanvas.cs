@@ -29,6 +29,11 @@ namespace MultitouchFingerTools
         public Canvas InfoOverlay;
         public Canvas TouchOverlay;
 
+
+        public event Action<double, double> AtNotifyBuildRocket;
+        // network sync
+        public Action<double, double> NotifyBuildRocket;
+
         public ApplicationCanvas()
         {
             Width = DefaultWidth;
@@ -84,7 +89,7 @@ namespace MultitouchFingerTools
                 Opacity = 0
             }.AttachTo(TouchOverlay);
 
-            
+
             var t = TouchOverlay.ToTouchEvents(
                 m =>
                 {
@@ -135,7 +140,7 @@ namespace MultitouchFingerTools
                 }
             );
 
-           
+
 
 
             var touches = from k in t.Touches
@@ -175,6 +180,35 @@ namespace MultitouchFingerTools
                 select new { rocket, c, Update };
 
             var __left_buildmode = false;
+
+
+            this.NotifyBuildRocket =
+                (x, y) =>
+                {
+                    #region create a pending rocket
+                    var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
+
+                    //Tuple
+
+                    var i = new Avalon.Images.rocket
+                    {
+
+                    }.AttachTo(n.Content).MoveTo(
+                       Avalon.Images.rocket.ImageDefaultWidth / -4,
+                       Avalon.Images.rocket.ImageDefaultHeight / -4
+                   ).SizeTo(
+                       Avalon.Images.rocket.ImageDefaultWidth / 2,
+                       Avalon.Images.rocket.ImageDefaultHeight / 2
+                   );
+
+
+                    // hold/build!
+                    //i.Opacity = 0.5;
+                    n.Content.MoveTo(x, y);
+                    MultitouchExample.Sounds.launch.Source.PlaySound();
+                    n.Content.AccelerateAndFade();
+                    #endregion
+                };
 
             (1000 / 15).AtInterval(
                 delegate
@@ -216,9 +250,13 @@ namespace MultitouchFingerTools
                         // no sound in .net
                         MultitouchExample.Sounds.launch.Source.PlaySound();
 
+                        item.rocket.Opacity = 1;
                         item.rocket.AccelerateAndFade();
 
                         RocketsPending.Remove(item.touch);
+
+                        if (AtNotifyBuildRocket != null)
+                            AtNotifyBuildRocket(Canvas.GetLeft(item.rocket), Canvas.GetTop(item.rocket));
                     }
 
                     var left_buildmode = left_touch.Any();
@@ -257,7 +295,7 @@ namespace MultitouchFingerTools
 
                             // hold/build!
                             //i.Opacity = 0.5;
-
+                            n.Content.Opacity = 0.5;
                             n.Content.MoveTo(item.x, item.y);
                             #endregion
 
