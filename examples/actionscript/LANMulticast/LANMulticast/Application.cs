@@ -54,26 +54,6 @@ namespace LANMulticast
                 };
 
             @"Hello world".ToDocumentTitle();
-            new ApplicationWebService().WebMethod2(
-                new XElement(@"Document",
-                    new object[] {
-						new XElement(@"Data", 
-							new object[] {
-								@"Hello world"
-							}
-						),
-						new XElement(@"Client", 
-							new object[] {
-								@"Unchanged text"
-							}
-						)
-					}
-                ),
-                delegate(XElement doc)
-                {
-                    doc.Element(@"Data").Value.ToDocumentTitle();
-                }
-            );
         }
 
     }
