@@ -21,7 +21,7 @@ using MultitouchFingerTools.Library;
 
 namespace MultitouchFingerTools
 {
-    public class ApplicationCanvas : Canvas
+    public partial class ApplicationCanvas : Canvas
     {
         public const int DefaultWidth = 800;
         public const int DefaultHeight = 400;
@@ -30,9 +30,8 @@ namespace MultitouchFingerTools
         public Canvas TouchOverlay;
 
 
-        public event Action<double, double> AtNotifyBuildRocket;
-        // network sync
-        public Action<double, double> NotifyBuildRocket;
+
+        public TextBox About;
 
         public ApplicationCanvas()
         {
@@ -47,7 +46,7 @@ namespace MultitouchFingerTools
 
             this.InfoOverlay = new Canvas().AttachTo(this);
 
-            var About = new TextBox
+            this.About = new TextBox
             {
                 BorderThickness = new Thickness(0),
                 Background = Brushes.Transparent,
@@ -210,6 +209,30 @@ namespace MultitouchFingerTools
                     #endregion
                 };
 
+            Action<double, double> VisualizeTouch = (x, y) =>
+            {
+                var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
+
+                //Tuple
+
+                new Avalon.Images.white_jsc
+                {
+
+                }.AttachTo(n.Content).MoveTo(
+                   Avalon.Images.white_jsc.ImageDefaultWidth / -4,
+                   Avalon.Images.white_jsc.ImageDefaultHeight / -4
+               ).SizeTo(
+                   Avalon.Images.white_jsc.ImageDefaultWidth / 2,
+                   Avalon.Images.white_jsc.ImageDefaultHeight / 2
+               );
+
+                n.Content.FadeOut();
+
+                n.Content.MoveTo(x, y);
+            };
+
+            this.NotifyVisualizeTouch = VisualizeTouch;
+
             (1000 / 15).AtInterval(
                 delegate
                 {
@@ -218,24 +241,10 @@ namespace MultitouchFingerTools
                     #region visualize all touches
                     foreach (var item in touches)
                     {
-                        var n = new { Content = new Canvas().AttachTo(InfoOverlay) };
+                        VisualizeTouch(item.x, item.y);
 
-                        //Tuple
-
-                        new Avalon.Images.white_jsc
-                        {
-
-                        }.AttachTo(n.Content).MoveTo(
-                           Avalon.Images.white_jsc.ImageDefaultWidth / -4,
-                           Avalon.Images.white_jsc.ImageDefaultHeight / -4
-                       ).SizeTo(
-                           Avalon.Images.white_jsc.ImageDefaultWidth / 2,
-                           Avalon.Images.white_jsc.ImageDefaultHeight / 2
-                       );
-
-                        n.Content.FadeOut();
-
-                        n.Content.MoveTo(item.x, item.y);
+                        if (this.AtNotifyVisualizeTouch != null)
+                            this.AtNotifyVisualizeTouch(item.x, item.y);
                     }
                     #endregion
 

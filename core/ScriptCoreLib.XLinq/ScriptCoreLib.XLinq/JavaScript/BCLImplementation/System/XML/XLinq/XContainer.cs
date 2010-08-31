@@ -25,6 +25,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 			return Elements(name).FirstOrDefault();
 		}
 
+        public IEnumerable<XElement> Elements(XName name)
+        {
+            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
+        }
+
 		public IEnumerable<XElement> Elements()
 		{
 			var e = InternalElement;
@@ -43,11 +48,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
 		}
 
-		public IEnumerable<XElement> Elements(XName name)
-		{
-			return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
 
-		}
 
 		public __XName InternalElementName;
 
