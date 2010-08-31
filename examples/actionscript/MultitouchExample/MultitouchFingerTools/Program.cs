@@ -61,11 +61,9 @@ namespace MultitouchFingerTools
 
                     Session.Add(c);
 
-                    c.AtNotifyBuildRocket +=
-                        (x, y) =>
-                        {
-                            Session.Except(new[] { c }).WithEach(k => k.NotifyBuildRocket(x, y));
-                        };
+                    c.ConnectToSession(Session.Except(new[] { c }));
+
+                    
 
                     var w = c.ToWindow();
 

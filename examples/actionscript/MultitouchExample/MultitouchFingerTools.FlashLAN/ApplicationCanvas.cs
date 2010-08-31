@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace MultitouchFingerTools.FlashLAN
 {
-    public class ApplicationCanvas : Canvas
+    public class ApplicationCanvas : global::MultitouchFingerTools.ApplicationCanvas
     {
         public const int DefaultWidth = 640;
         public const int DefaultHeight = 480;

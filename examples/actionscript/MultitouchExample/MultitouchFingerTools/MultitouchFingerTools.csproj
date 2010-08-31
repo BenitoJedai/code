@@ -128,6 +128,7 @@
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationCanvas.cs" />
     <Compile Include="Library\Accelerate.cs" />
+    <Compile Include="Library\XVector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationCanvas.cs</DependentUpon>
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="ApplicationCanvas.Session.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MultitouchExample.Sounds\MultitouchExample.Sounds.csproj">

@@ -15,6 +15,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 	{
 		public __XName InternalElementName;
 
+
+        public XElement Element(XName name)
+        {
+            return Elements(name).FirstOrDefault();
+        }
+
+        public IEnumerable<XElement> Elements(XName name)
+        {
+            return this.Elements().Where(k => k.Name.LocalName == name.LocalName);
+        }
+
+
 		public IEnumerable<XElement> Elements()
 		{
 			var e = this.InternalValue;
