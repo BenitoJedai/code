@@ -42,7 +42,11 @@ namespace ScriptCoreLib
         /// <summary>
         /// For WPF via DirectX
         /// </summary>
-        HLSL
+        HLSL,
+
+        Perl,
+
+        Ruby
 	}
 
 }
