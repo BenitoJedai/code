@@ -1223,7 +1223,11 @@ namespace jsc.Languages.ActionScript
 
 					WriteKeywordSpace(Keywords._new);
 					WriteDecoratedTypeName(e.Method.DeclaringType, target);
-					Write("()");
+
+                    var s = new ILFlow.StackItem[0];
+                    // we may have already inited this struct?
+
+                    WriteParameterInfoFromStack(target.GetConstructor(new Type[0]), null, s, 0);
 				};
 
 			#region Throw

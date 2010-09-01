@@ -113,6 +113,37 @@ namespace jsc.Languages.ActionScript
                 this.PrimaryConstructor = PrimaryConstructors.Single();
                 #endregion
             }
+
+            public ILFlow.StackItem[] InsertDefaults(ILFlow.StackItem[] s, ConstructorInfo TargetMethod, int offset)
+            {
+                var SatteliteConstructor = this.SatelliteConstructors.Single(k => k.Constructor == TargetMethod);
+
+                return SatteliteConstructor.TargetConstructorArguments.Select(
+                    a =>
+                    {
+                        var i = a.SingleStackInstruction;
+
+                        if (i.IsLoadLocal)
+                        {
+                            // http://maohao.wordpress.com/2009/02/26/actionscript-101-null-vs-undefined/
+
+                            // default(T) yay
+                            return new ILFlow.StackItem(
+                                new ILInstruction(OpCodes.Ldnull),
+                                0
+                            );
+                        }
+
+                        var p = i.TargetParameter;
+
+                        if (p == null)
+                            return a;
+
+                        // s[0] is this
+                        return s[p.Position + offset];
+                    }
+                ).ToArray();
+            }
         }
 
         protected ConstructorMergeInfo WriteTypeInstanceConstructorsAndGetPrimary(Type z)
@@ -136,9 +167,9 @@ namespace jsc.Languages.ActionScript
 
 
 
-                
 
-            
+
+
 
                 Action CustomVariableInitialization = delegate { };
 
@@ -149,7 +180,7 @@ namespace jsc.Languages.ActionScript
                     CustomVariableInitialization();
                 };
 
-                WriteMethodSignature(i.PrimaryConstructor, false, WriteMethodSignatureMode.Declaring, 
+                WriteMethodSignature(i.PrimaryConstructor, false, WriteMethodSignatureMode.Declaring,
                     null
                     , ii => CustomVariableInitializationForBody += ii, null);
 
