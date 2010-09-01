@@ -21,6 +21,7 @@ namespace ScriptCoreLib
 		// Visual Basic 6 seems to fade into irrelavancy... this language target will probably target vb.net 
 		// this is currently prioritized as nice to have
 		VisualBasic,
+        FSharp,
 
 		ActionScript,
 
@@ -46,7 +47,10 @@ namespace ScriptCoreLib
 
         Perl,
 
-        Ruby
+        Ruby,
+
+        
+        ObjectiveC
 	}
 
 }
