@@ -10,177 +10,183 @@ using System.Reflection.Emit;
 
 namespace jsc.Languages.ActionScript
 {
-	partial class ActionScriptCompiler
-	{
+    partial class ActionScriptCompiler
+    {
 
-		public class TypeInstanceConstructorInfo
-		{
-			public ILBlock code;
-			public ConstructorInfo ctor;
-			public ConstructorInfo target;
-			public ILFlow.StackItem[] args;
-		}
+        public class TypeInstanceConstructorInfo
+        {
+            public ILBlock ConstructorCode;
+            public ConstructorInfo Constructor;
+            public ConstructorInfo TargetConstructor;
+            public ILFlow.StackItem[] TargetConstructorArguments;
 
-
-
-		protected override void WriteTypeInstanceConstructors(Type z)
-		{
-			WriteTypeInstanceConstructorsAndGetPrimary(z);
-		}
-
-		public class ConstructorMergeInfo
-		{
-			public ConstructorInfo Primary;
-
-			public ILFlow.StackItem[] Values;
-
-			public Action CustomVariableInitialization;
-		}
-
-		public void WriteTypeFieldInitialization(Type z)
-		{
-			foreach (var CandidateField in z.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
-			{
-				if (CandidateField.FieldType == typeof(double))
-				{
-					// we need to initialize Number fields for actionscript
-					WriteIndent();
-					WriteKeyword(Keywords._this);
-					Write(".");
-					WriteSafeLiteral(CandidateField.Name);
-					WriteAssignment();
-					Write("0");
-					Write(";");
-					WriteLine();
-				}
-			}
-		}
-
-		protected ConstructorMergeInfo WriteTypeInstanceConstructorsAndGetPrimary(Type z)
-		{
-			var r = new ConstructorMergeInfo();
-
-			var zci = GetAllInstanceConstructors(z);
+            public override string ToString()
+            {
+                return this.Constructor.MetadataToken.ToString("x8") + " -> " + this.TargetConstructor.MetadataToken.ToString("x8");
+            }
+        }
 
 
 
-			if (zci.Length > 1)
-			{
-				// visual basic can have optional parameters on its own, its c# that needs some help
-				// as3 does not support method overloading but does support default parameters
-				// we need to figure out which ctor is real and which are just sattelites
+        protected override void WriteTypeInstanceConstructors(Type z)
+        {
+            WriteTypeInstanceConstructorsAndGetPrimary(z);
+        }
 
-				// default values should be extended to allow instance values
-				// a workaround could be:
-				// if (param == null) { param = UIComponent; } 
+        public class ConstructorMergeInfo
+        {
+            public ConstructorInfo Primary;
 
+            public ILFlow.StackItem[] Values;
 
+            public Action CustomVariableInitialization;
+        }
 
-				var query =
-					from c in zci
-					let code = new ILBlock(c)
-					let b = code.Prestatements.PrestatementCommands.Where(
-						p => p.Instruction != null && !p.Instruction.IsAnyOpCodeOf(OpCodes.Initobj, OpCodes.Ret, OpCodes.Nop)
-					).ToArray()
-					where (b.Length == 1 && b[0].Instruction == OpCodes.Call)
-					let i = b[0].Instruction
-					let t = i.TargetConstructor
-					where t != null && zci.Contains(t)
-					// skip the ldarg0/this op
-					select new TypeInstanceConstructorInfo { code = code, ctor = c, /*b,*/ target = t, args = i.StackBeforeStrict.Skip(1).ToArray() };
+        public void WriteTypeFieldInitialization(Type z)
+        {
+            foreach (var CandidateField in z.GetFields(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                if (CandidateField.FieldType == typeof(double))
+                {
+                    // we need to initialize Number fields for actionscript
+                    WriteIndent();
+                    WriteKeyword(Keywords._this);
+                    Write(".");
+                    WriteSafeLiteral(CandidateField.Name);
+                    WriteAssignment();
+                    Write("0");
+                    Write(";");
+                    WriteLine();
+                }
+            }
+        }
 
-				var cache = query.ToArray();
-				var targets = zci.Except(cache.Select(i => i.ctor)).ToArray();
+        public class ConstructorInlineInfo
+        {
+            public readonly Type z;
+            public ConstructorInfo[] Constructors { get; private set; }
+            public TypeInstanceConstructorInfo[] SatelliteConstructors { get; private set; }
+            public ConstructorInfo PrimaryConstructor { get; private set; }
 
+            public ConstructorInlineInfo(Type z)
+            {
+                this.Constructors = GetAllInstanceConstructors(z);
 
-				if (targets.Length != 1)
-					Break("Unable to transform overloaded constructors to a single constructor via optional parameters for " + z.FullName);
+                if (!(this.Constructors.Length > 1))
+                    return;
 
-				var target = targets.Single();
+                this.SatelliteConstructors = Enumerable.ToArray(
+                    from Constructor in Constructors
 
+                    let ConstructorCode = new ILBlock(Constructor)
 
-				// step 1
-				var ctor = cache.GroupBy(k => k.target).Single(i => i.Key == target).OrderBy(k => k.ctor.GetParameters().Length).First();
-				var args = ctor.args;
+                    let CallInstructions = ConstructorCode.Prestatements.PrestatementCommands.Where(
+                        p => p.Instruction != null && !p.Instruction.IsAnyOpCodeOf(OpCodes.Initobj, OpCodes.Ret, OpCodes.Nop)
+                    ).ToArray()
+                    where (CallInstructions.Length == 1 && CallInstructions[0].Instruction == OpCodes.Call)
 
-				Action CustomVariableInitialization = delegate { };
+                    let i = CallInstructions[0].Instruction
 
-				while (true)
-				{
-					ctor = cache.SingleOrDefault(i => i.target == ctor.ctor);
+                    let TargetConstructor = i.TargetConstructor
 
-					if (ctor == null)
-						break;
+                    // let's make sure our satellite is calling a constructor within same type
+                    where TargetConstructor != null && Constructors.Contains(TargetConstructor)
 
-
-
-					args = args.Select(
-						(s, i) =>
-						{
-							if (s.SingleStackInstruction.TargetParameter != null)
-								return ctor.args[i];
-
-							return s;
-						}
-					).ToArray();
-				}
-
-				// now we should have one ctor and others that point to them
-
-				args = args.Select(
-					a =>
-					{
-						if (a.SingleStackInstruction.IsLoadLocal)
-						{
-							// probably default(T), but we do not know for sure with this implementation
-							return null;
-						}
-
-						return a;
-					}
-				).ToArray();
-
-				Action CustomVariableInitializationForBody = delegate
-				{
-					WriteTypeFieldInitialization(z);
-
-					CustomVariableInitialization();
-				};
-
-				WriteMethodSignature(target, false, WriteMethodSignatureMode.Declaring, args, i => CustomVariableInitializationForBody += i, null);
-				WriteMethodBody(target, this.MethodBodyFilter, CustomVariableInitializationForBody);
-
-				r.Primary = target;
-				r.Values = args;
-				r.CustomVariableInitialization = CustomVariableInitializationForBody;
+                    let TargetConstructorArguments = i.StackBeforeStrict.Skip(1).ToArray()
+                    // skip the ldarg0/this op
+                    select new TypeInstanceConstructorInfo
+                    {
+                        ConstructorCode = ConstructorCode,
+                        Constructor = Constructor, /*b,*/
+                        TargetConstructor = TargetConstructor,
+                        TargetConstructorArguments = TargetConstructorArguments
+                    }
+                );
 
 
-			}
-			else
-			{
-				Action CustomVariableInitializationForBody = delegate
-				{
-					WriteTypeFieldInitialization(z);
+                #region PrimaryConstructor
+                var PrimaryConstructors = Constructors.Except(SatelliteConstructors.Select(i => i.Constructor)).ToArray();
 
-				};
+                if (PrimaryConstructors.Length != 1)
+                    throw new NotSupportedException("Unable to transform overloaded constructors to a single constructor via optional parameters for " + z.FullName);
 
-				foreach (var zc in zci)
-				{
-					r.Primary = zc;
+                this.PrimaryConstructor = PrimaryConstructors.Single();
+                #endregion
+            }
+        }
 
-					WriteMethodSignature(zc, false);
-					WriteMethodBody(zc, this.MethodBodyFilter, CustomVariableInitializationForBody);
+        protected ConstructorMergeInfo WriteTypeInstanceConstructorsAndGetPrimary(Type z)
+        {
+            var r = new ConstructorMergeInfo();
 
-				}
+            var i = new ConstructorInlineInfo(z);
 
-				r.CustomVariableInitialization = CustomVariableInitializationForBody;
+            var Constructors = i.Constructors;
 
-			}
 
-			WriteLine();
 
-			return r;
-		}
+            if (Constructors.Length > 1)
+            {
+                // as3 does not support method overloading but does support default parameters
+                // we need to figure out which ctor is real and which are just sattelites
 
-	}
+                // default values should be extended to allow instance values
+                // a workaround could be:
+                // if (param == null) { param = UIComponent; } 
+
+
+
+                
+
+            
+
+                Action CustomVariableInitialization = delegate { };
+
+                Action CustomVariableInitializationForBody = delegate
+                {
+                    WriteTypeFieldInitialization(z);
+
+                    CustomVariableInitialization();
+                };
+
+                WriteMethodSignature(i.PrimaryConstructor, false, WriteMethodSignatureMode.Declaring, 
+                    null
+                    , ii => CustomVariableInitializationForBody += ii, null);
+
+
+                WriteMethodBody(i.PrimaryConstructor, this.MethodBodyFilter, CustomVariableInitializationForBody);
+
+                r.Primary = i.PrimaryConstructor;
+                r.Values = null;
+                r.CustomVariableInitialization = CustomVariableInitializationForBody;
+
+
+            }
+            else
+            {
+                Action CustomVariableInitializationForBody = delegate
+                {
+                    WriteTypeFieldInitialization(z);
+
+                };
+
+                foreach (var zc in Constructors)
+                {
+                    r.Primary = zc;
+
+                    WriteMethodSignature(zc, false);
+                    WriteMethodBody(zc, this.MethodBodyFilter, CustomVariableInitializationForBody);
+
+                }
+
+                r.CustomVariableInitialization = CustomVariableInitializationForBody;
+
+            }
+
+            WriteLine();
+
+            return r;
+        }
+
+    }
 }

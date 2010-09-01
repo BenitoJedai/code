@@ -276,6 +276,22 @@ namespace jsc.Languages.ActionScript
 				}
 			}
 
+            if (TargetMethod is ConstructorInfo)
+            {
+                if (!TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative)
+                {
+                    var ii = new ConstructorInlineInfo(m.DeclaringType);
+
+                    if (ii.SatelliteConstructors != null)
+                        if (ii.SatelliteConstructors.Length > 0)
+                        {
+                            // we need to mangle the stack now and insert default values for inlined params.
+
+                            WriteBoxedComment("ctor inline");
+                        }
+                }
+            }
+
 			WriteParameterInfoFromStack(TargetMethod, p, s, offset);
 		}
 
