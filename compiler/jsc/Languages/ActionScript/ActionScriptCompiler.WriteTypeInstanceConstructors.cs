@@ -118,7 +118,8 @@ namespace jsc.Languages.ActionScript
             {
                 var SatteliteConstructor = this.SatelliteConstructors.Single(k => k.Constructor == TargetMethod);
 
-                return SatteliteConstructor.TargetConstructorArguments.Select(
+                return s.Take(offset).Concat(
+                    SatteliteConstructor.TargetConstructorArguments.Select(
                     a =>
                     {
                         var i = a.SingleStackInstruction;
@@ -142,7 +143,7 @@ namespace jsc.Languages.ActionScript
                         // s[0] is this
                         return s[p.Position + offset];
                     }
-                ).ToArray();
+                )).ToArray();
             }
         }
 

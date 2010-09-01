@@ -400,18 +400,19 @@ namespace jsc.Languages.ActionScript
 
         protected override ILFlow.StackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlow.StackItem[] s, int offset)
         {
-            var TargetMethod = m;
-            var TargetConstructor = TargetMethod as ConstructorInfo;
+            var TargetConstructor = m as ConstructorInfo;
 
             if (TargetConstructor != null)
             {
-                if (!TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative)
+                var DeclaringType = ResolveImplementation(TargetConstructor.DeclaringType) ?? TargetConstructor.DeclaringType;
+
+                if (!DeclaringType.ToScriptAttributeOrDefault().IsNative)
                 {
-                    var ii = new ConstructorInlineInfo(m.DeclaringType);
+                    var ii = new ConstructorInlineInfo(DeclaringType);
 
                     if (ii.SatelliteConstructors != null)
                         if (ii.SatelliteConstructors.Length > 0)
-                            if (TargetMethod != ii.PrimaryConstructor)
+                            if (TargetConstructor != ii.PrimaryConstructor)
                             {
                                 // we need to mangle the stack now and insert default values for inlined params.
                                 s = ii.InsertDefaults(s, TargetConstructor,  offset);
