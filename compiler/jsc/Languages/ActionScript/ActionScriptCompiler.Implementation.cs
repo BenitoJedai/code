@@ -197,7 +197,7 @@ namespace jsc.Languages.ActionScript
 					ScriptAttribute ba = ScriptAttribute.Of(BaseTypeImplementation, true);
 
 					if (ba == null)
-						throw new NotSupportedException("extending object has no attribute");
+						throw new NotSupportedException("Is ScriptCoreLibA out of sync? The base object has no attribute.");
 
 					if (ba.ImplementationType != null)
 					{
@@ -398,5 +398,28 @@ namespace jsc.Languages.ActionScript
 			return GetImportTypes(context).Any(i => i.Name == subject.Name || (i.Namespace != null && i.Namespace.EndsWith("." + subject.Name)));
 		}
 
+        protected override ILFlow.StackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlow.StackItem[] s, int offset)
+        {
+            var TargetMethod = m;
+            var TargetConstructor = TargetMethod as ConstructorInfo;
+
+            if (TargetConstructor != null)
+            {
+                if (!TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative)
+                {
+                    var ii = new ConstructorInlineInfo(m.DeclaringType);
+
+                    if (ii.SatelliteConstructors != null)
+                        if (ii.SatelliteConstructors.Length > 0)
+                            if (TargetMethod != ii.PrimaryConstructor)
+                            {
+                                // we need to mangle the stack now and insert default values for inlined params.
+                                s = ii.InsertDefaults(s, TargetConstructor,  offset);
+                            }
+                }
+            }
+
+            return s;
+        }
 	}
 }

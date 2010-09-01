@@ -28,14 +28,20 @@ namespace jsc.Languages.ActionScript
 				var z = MySession.ResolveImplementation(v.LocalType) ?? v.LocalType;
 
 				// define default ctor
-				if (z.GetConstructor(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, null, new Type[0], null) == null)
+                var Constructor = z.GetConstructor(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, null, new Type[0], null);
+ 
+				if (Constructor == null)
 					Break("valuetype " + z.ToString() + " - " + z.Namespace + "." + z.Name + " must define a default .ctor");
 
 
 				WriteAssignment();
 				WriteKeywordSpace(Keywords._new);
 				WriteDecoratedTypeNameOrImplementationTypeName(z, true, true, IsFullyQualifiedNamesRequired(u.DeclaringType, z));
-				Write("()");
+
+                var s = new ILFlow.StackItem[0];
+
+                WriteParameterInfoFromStack(Constructor, null, s, 0);
+                //Write("()");
 			}
 
 			WriteLine(";");

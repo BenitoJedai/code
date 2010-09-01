@@ -1151,6 +1151,11 @@ namespace jsc
             OpParamData = OpParamDataLookup(ref x);
         }
 
+        public ILInstruction(OpCode OpCode)
+        {
+            this.OpCode = OpCode;
+        }
+
         public byte[] OpParamDataLookup(ref byte[] x)
         {
             byte[] z = new byte[OpParamDataSize];

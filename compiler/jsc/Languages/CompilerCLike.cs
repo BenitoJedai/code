@@ -184,9 +184,15 @@ namespace jsc.Script
 		}
 
 
+        protected virtual ILFlow.StackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlow.StackItem[] s, int offset)
+        {
+            return s;
+        }
 
 		public void WriteParameterInfoFromStack(MethodBase m, ILBlock.Prestatement p, ILFlow.StackItem[] s, int offset)
 		{
+            s = BeforeWriteParameterInfoFromStack(m, s, offset);
+
 			ParameterInfo[] pi = m == null ? null : m.GetParameters();
 
 			Write("(");
