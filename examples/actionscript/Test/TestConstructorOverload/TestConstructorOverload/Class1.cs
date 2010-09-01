@@ -10,6 +10,30 @@ using System.Windows;
 
 namespace TestConstructorOverload
 {
+    [Script(Implements = typeof(global::System.Collections.Generic.IEnumerable<>))]
+    internal interface __IEnumerable<T> 
+    {
+    }
+
+    [Script(Implements = typeof(global::System.Collections.Generic.List<>))]
+    internal class __List<T>
+    {
+        public __List()
+            : this(null)
+        {
+
+        }
+
+        public __List(IEnumerable<T> collection)
+        {
+            
+        }
+    }
+
+    public class __ValueCollection : List<object>
+    {
+
+    }
 
     [Script(Implements = typeof(global::System.Windows.Vector))]
     internal class __Vector

@@ -40,7 +40,7 @@ namespace MultitouchFingerTools
             that.AtNotifyBuildRocket +=
                 (x, y) =>
                 {
-                    var BuildRocket = new DoubleVector2
+                    XElement BuildRocket = new DoubleVector2
                     {
                         X = x,
                         Y = y
@@ -99,13 +99,13 @@ namespace MultitouchFingerTools
                                 if (connected)
                                 {
 
-                                    RaiseMessage("write: " + message);
+                                    //RaiseMessage("write: " + message);
 
                                     group.post(message);
                                 }
                                 else
                                 {
-                                    RaiseMessage("skip: " + message);
+                                    //RaiseMessage("skip: " + message);
                                 }
                             };
 
@@ -120,9 +120,22 @@ namespace MultitouchFingerTools
                                 {
                                     // Type Coercion failed: cannot convert Object@60b6cb9 to LANMulticast_Components_MySprite1__f__AnonymousType0_1_33554444.
 
-                                    var k = (string)g.info.message;
+                                    var source = (string)g.info.message;
+                                    var xml = XElement.Parse(source);
 
-                                    RaiseMessage("read: " + k);
+                                    xml.Elements().Where(k => k.Name.LocalName == "BuildRocket").Select(k => (DoubleVector2)k).WithEach(
+                                        k =>
+                                        {
+                                            that.NotifyBuildRocket(k.X, k.Y);
+                                        }
+                                    );
+
+                                    xml.Elements().Where(k => k.Name.LocalName == "VisualizeTouch").Select(k => (DoubleVector2)k).WithEach(
+                                        k =>
+                                        {
+                                            that.NotifyVisualizeTouch(k.X, k.Y);
+                                        }
+                                    );
                                 }
                             };
 
