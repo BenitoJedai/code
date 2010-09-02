@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Extensions\ActionScriptAvalonExtensions.cs" />
+    <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Avalon\ImageCarouselCanvas.cs" />

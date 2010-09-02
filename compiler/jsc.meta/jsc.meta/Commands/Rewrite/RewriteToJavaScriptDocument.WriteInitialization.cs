@@ -284,8 +284,7 @@ namespace jsc.meta.Commands.Rewrite
 				{
 					// to be replaced by .out_method
 
-					if (ExternalInterface.available)
-						ExternalInterface.addCallback("isActive", new Action(Console.WriteLine).ToFunction());
+                    ExternalExtensions.TryAddCallback("isActive", new Action(Console.WriteLine).ToFunction());
 				};
 
 			var __DelegateIndex = -1;
