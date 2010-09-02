@@ -144,7 +144,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$
 )
 
 if $(ConfigurationName)==Release (
-rem start /WAIT c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false
 )</PostBuildEvent>
     <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
   </PropertyGroup>

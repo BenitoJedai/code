@@ -114,29 +114,44 @@ namespace MultitouchFingerTools
                         group.netStatus +=
                             g =>
                             {
-                                RaiseMessage("group.netStatus: " + g.info.code);
 
                                 if (g.info.code == "NetGroup.Posting.Notify")
                                 {
                                     // Type Coercion failed: cannot convert Object@60b6cb9 to LANMulticast_Components_MySprite1__f__AnonymousType0_1_33554444.
 
                                     var source = (string)g.info.message;
+
+                                    //Console.WriteLine("source: " + source);
+
                                     var xml = XElement.Parse(source);
 
-                                    xml.Elements().Where(k => k.Name.LocalName == "BuildRocket").Select(k => (DoubleVector2)k).WithEach(
-                                        k =>
+                                    xml.Elements().Where(k => k.Name.LocalName == "BuildRocket").Elements().WithEach(
+                                        ksource =>
                                         {
+                                            //Console.WriteLine("BuildRocket: " + ksource);
+
+                                            DoubleVector2 k = ksource;
+
                                             that.NotifyBuildRocket(k.X, k.Y);
                                         }
                                     );
 
-                                    xml.Elements().Where(k => k.Name.LocalName == "VisualizeTouch").Select(k => (DoubleVector2)k).WithEach(
-                                        k =>
+                                    xml.Elements().Where(k => k.Name.LocalName == "VisualizeTouch").Elements().WithEach(
+                                        ksource =>
                                         {
+                                            //Console.WriteLine("VisualizeTouch: " + ksource);
+
+                                            DoubleVector2 k = ksource;
+
                                             that.NotifyVisualizeTouch(k.X, k.Y);
                                         }
                                     );
+
+                                    return;
                                 }
+
+                                RaiseMessage("group.netStatus: " + g.info.code);
+
                             };
 
                         return;
