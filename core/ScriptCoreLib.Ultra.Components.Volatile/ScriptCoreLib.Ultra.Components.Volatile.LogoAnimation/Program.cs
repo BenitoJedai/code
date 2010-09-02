@@ -7,6 +7,8 @@ using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Threading;
 using System.Windows.Media;
 using ScriptCoreLib.Avalon;
+using ScriptCoreLib.Shared.Avalon;
+using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Media.Effects;
 using System.Windows.Interop;
 using System.Windows;
@@ -15,6 +17,7 @@ using System.Runtime.InteropServices;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 {
@@ -24,6 +27,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
         static void Main(string[] args)
         {
             var c = new JSCSolutionsNETCarouselCanvas();
+
 
 
             //c.Container.Effect = new DropShadowEffect();
@@ -60,25 +64,55 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             // http://blogs.interknowlogy.com/johnbowen/archive/2007/06/20/20458.aspx
             w.AllowsTransparency = true;
             w.WindowStyle = System.Windows.WindowStyle.None;
-            w.Background = Brushes.Transparent;
+            w.Background = new SolidColorBrush(Color.FromArgb(0x7F, 0, 0, 0));
+            //w.Background = Brushes.Transparent;
             w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             w.Topmost = true;
-            w.ShowInTaskbar = false;
+            //w.ShowInTaskbar = false;
             w.Focusable = false;
+
+            Action ActivateInput =
+                delegate
+                {
+                    IntPtr hwnd = new WindowInteropHelper(w).Handle;
+
+                    // Change the extended window style to include WS_EX_TRANSPARENT
+                    WindowExStyles extendedStyle = (WindowExStyles)NativeMethods.GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
+
+                    extendedStyle &= ~(WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
+
+                    NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
+                    //w.Opacity = 0.5;
+
+
+                    w.Background = SystemColors.ActiveCaptionBrush;
+                    
+                };
+
+            Action DeactivateInput =
+                delegate
+                {
+                    IntPtr hwnd = new WindowInteropHelper(w).Handle;
+                    //w.Opacity = 1;
+
+                    // Change the extended window style to include WS_EX_TRANSPARENT
+                    WindowExStyles extendedStyle = (WindowExStyles)NativeMethods.GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
+
+                    extendedStyle |= WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE;
+
+                    NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
+
+                    w.Background = new SolidColorBrush(Color.FromArgb(0x7F, 0, 0, 0));
+                };
+
+            var NextInputMode = new[] { ActivateInput, DeactivateInput }.ToCyclicAction(a => a());
 
             InterceptKeys.KeyDown +=
                 key =>
                 {
-                    IntPtr hwnd = new WindowInteropHelper(w).Handle;
                     if (key == Key.LeftCtrl)
                     {
-                        // Change the extended window style to include WS_EX_TRANSPARENT
-                        WindowExStyles extendedStyle = (WindowExStyles)NativeMethods.GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
-
-                        extendedStyle &= ~(WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
-
-                        NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
-                        w.Opacity = 0.5;
+                        //ActivateInput();
                     }
                 };
 
@@ -87,15 +121,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 {
                     if (key == Key.LeftCtrl)
                     {
-                        IntPtr hwnd = new WindowInteropHelper(w).Handle;
-                        w.Opacity = 1;
-
-                        // Change the extended window style to include WS_EX_TRANSPARENT
-                        WindowExStyles extendedStyle = (WindowExStyles)NativeMethods.GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
-
-                        extendedStyle |= WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE;
-
-                        NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
+                        //DeactivateInput();
+                        NextInputMode();
                     }
                 };
 

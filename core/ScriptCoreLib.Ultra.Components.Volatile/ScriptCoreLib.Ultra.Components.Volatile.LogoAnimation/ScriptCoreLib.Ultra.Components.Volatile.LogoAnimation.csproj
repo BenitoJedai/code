@@ -46,6 +46,10 @@
     <Reference Include="ScriptCoreLib.Avalon">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Query, Version=3.5.3896.28307, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Ultra">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
