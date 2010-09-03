@@ -37,7 +37,9 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 
 			this.Code.Add(Interactive.ApplicationToDocumentTitle);
-			this.Code.Add(Interactive.ApplicationCallWebMethod);
+			
+            // visual basic demands a local variable!
+            this.Code.Add(Interactive.ApplicationCallWebMethod);
 
 			this.DeclaringType = DeclaringType;
 			this.Parameters.Add(_page);

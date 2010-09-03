@@ -20,7 +20,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.UsingNamespaces.Add("System.Linq");
 			this.UsingNamespaces.Add("System.Xml.Linq");
 			this.UsingNamespaces.Add("ScriptCoreLib");
-			this.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+            this.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+            this.UsingNamespaces.Add("ScriptCoreLib.Delegates");
 
 			WebMethod2 = new StockMethodWebMethod(Interactive);
 

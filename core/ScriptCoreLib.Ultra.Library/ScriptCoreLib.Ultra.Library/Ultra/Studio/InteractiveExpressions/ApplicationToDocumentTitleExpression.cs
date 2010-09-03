@@ -19,17 +19,14 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 			this.Method = new SolutionProjectLanguageMethod
 			{
 				IsExtensionMethod = true,
+                IsStatic = true,
 				Name = "ToDocumentTitle",
 				DeclaringType = new SolutionProjectLanguageType
 				{
 					Namespace = "ScriptCoreLib.JavaScript.Extensions",
 					Name = "JavaScriptStringExtensions"
 				},
-				ReturnType = new SolutionProjectLanguageType
-				{
-					Namespace = "System",
-					Name = "String"
-				}
+				ReturnType = new SolutionProjectLanguageType.System.String()
 			};
 
 			this.Title = new PseudoStringConstantExpression { Value = "Hello world" };
