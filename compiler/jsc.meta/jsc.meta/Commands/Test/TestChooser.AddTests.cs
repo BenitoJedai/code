@@ -13,6 +13,7 @@ using System.Media;
 using jsc.meta.Commands.Rewrite;
 using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
 using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
+using jsc.meta.Commands.Configuration;
 
 namespace jsc.meta.Commands.Test
 {
@@ -52,6 +53,41 @@ namespace jsc.meta.Commands.Test
                     }
                 );
             #endregion
+
+            AddButton("SolutionBuilderWithConsole C#", () =>
+                {
+                    global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                        new ScriptCoreLib.Ultra.Studio.SolutionBuilder()
+                    );
+
+                }
+            );
+            AddButton("SolutionBuilderWithConsole Visual Basic", () =>
+                {
+                    global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                        new ScriptCoreLib.Ultra.Studio.SolutionBuilder
+                        {
+                            Language = global::ScriptCoreLib.Ultra.Studio.Languages.KnownLanguages.VisualBasic
+                        }
+                    );
+
+                }
+            );
+
+            AddButton("SolutionBuilderWithConsole Visual FSharp", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new ScriptCoreLib.Ultra.Studio.SolutionBuilder
+                    {
+                        Language = global::ScriptCoreLib.Ultra.Studio.Languages.KnownLanguages.VisualFSharp
+                    }
+                );
+
+            }
+            );
+
+
+            Add("ConfigurationCreateProjectTemplates", () => new ConfigurationCreateProjectTemplates());
 
             Add("ScriptCoreLib", () =>
                new RewriteToReplacedReferences

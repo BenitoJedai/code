@@ -158,6 +158,7 @@
     <Compile Include="Ultra\WebService\WebServiceHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Documentation\comments.txt" />
     <Content Include="Extensions\comments.txt" />
     <Content Include="Ultra\comments.txt" />
     <Content Include="Ultra\IDL\comments.txt" />
@@ -216,13 +217,11 @@
     <Compile Include="Ultra\Studio\StockTypes\StockAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockApplicationWebServiceType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockSpriteType.cs" />
-    <Compile Include="Ultra\Studio\StockTypes\StockSystemBooleanType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Documentation\" />
     <Folder Include="Library\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

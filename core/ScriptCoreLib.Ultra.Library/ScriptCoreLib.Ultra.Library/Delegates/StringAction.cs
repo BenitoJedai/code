@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace ScriptCoreLib.Ultra.Library.Delegates
+namespace ScriptCoreLib.Delegates
 {
 	// if only we had generic here :) just not yet
 

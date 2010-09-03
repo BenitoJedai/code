@@ -10,33 +10,13 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
 	public class ApplicationCallWebMethodExpression : PseudoCallExpression
 	{
-		public readonly InteractiveComment InteractiveComment = "Send xml to server";
 
 		public ApplicationCallWebMethodExpression(SolutionBuilderInteractive Interactive)
 		{
-			var XElement = new SolutionProjectLanguageType
-			{
-				Namespace = "System.Xml.Linq",
-				Name = "XElement"
-			};
 
 
-			InteractiveComment.Click +=
-				delegate
-				{
-					if (this.Method == null)
-					{
-						this.Method = Interactive.ApplicationWebServiceType.WebMethod2;
-						this.InteractiveComment.Comment = "Send xml to server";
-					}
-					else
-					{
-						this.Method = null;
-						this.InteractiveComment.Comment = "You could send xml to server";
-					}
-				};
 
-            //this.Comment = InteractiveComment;
+            this.Comment = "Send xml to server"; 
 
 			this.Object = new PseudoCallExpression
 			{
@@ -69,7 +49,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 
 			this.ParameterExpressions = new object[] {
-				StockWebMethod2Data.Element,
+				(PseudoStringConstantExpression) "A string from JavaScript.",
 				YieldMethod
 			};
 		}

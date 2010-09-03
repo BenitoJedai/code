@@ -13,6 +13,9 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 		public WebMethod2Expression()
 		{
+            // PHP does not yet support XLinq
+            // Java does not yet support Generics
+
 			var _XElement = new SolutionProjectLanguageType
 			{
 				Namespace = "System.Xml.Linq",
@@ -24,35 +27,18 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 			#region Parameters e y
 			var _e = new SolutionProjectLanguageArgument
 			{
-				Type = _XElement,
+                Type = new SolutionProjectLanguageType.System.String(),
 
 				Name = "e",
-				Summary = "A parameter from javascript"
+				Summary = "A parameter from javascript. JSC supports string data type for all platforms."
 			};
-
-
-			var _y_Type = new SolutionProjectLanguageType
-			{
-				Namespace = "System",
-				Name = "Action",
-			}.With(
-				k =>
-				{
-					k.Arguments.Add(
-						new SolutionProjectLanguageArgument
-						{
-							Type = _XElement
-						}
-					);
-				}
-			);
 
 			var _y = new SolutionProjectLanguageArgument
 			{
-				Type = _y_Type,
+                Type = SolutionProjectLanguageType.ScriptCoreLib.Delegates.StringAction,
 
 				Name = "y",
-				Summary = "A callback to javascript"
+				Summary = "A callback to javascript. In the future all platforms will allow Action<XElementConvertable> delegates."
 			};
 			#endregion
 

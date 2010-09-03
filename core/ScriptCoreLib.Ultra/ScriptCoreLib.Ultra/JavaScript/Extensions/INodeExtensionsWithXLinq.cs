@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
 using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 
 namespace ScriptCoreLib.JavaScript.Extensions
 {

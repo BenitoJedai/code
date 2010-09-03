@@ -38,8 +38,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
             var FileHeader = new SolutionFileComment
             {
-                Comment = "For more information visit:",
-                Link = new Uri("http://studio.jsc-solutions.net"),
+                Comment = "For more information please visit us at:",
+                Link = new Uri("http://www.jsc-solutions.net"),
                 MarginBottom = 1
             };
 
@@ -212,7 +212,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
                 Namespace = Context.Name,
                 Name = "Application",
-                Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.",
+                Summary = "This type will run as JavaScript.",
                 Comments = FileComments
             };
 
@@ -228,19 +228,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
-
-            //ApplicationType.Properties.Add(
-            //    new SolutionProjectLanguageProperty
-            //    {
-            //        Name = "Property1",
-            //        PropertyType = new SolutionProjectLanguageType
-            //        {
-            //            Name = "string"
-            //        },
-            //        GetMethod = new SolutionProjectLanguageMethod(),
-            //        SetMethod = new SolutionProjectLanguageMethod()
-            //    }
-            //);
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
 

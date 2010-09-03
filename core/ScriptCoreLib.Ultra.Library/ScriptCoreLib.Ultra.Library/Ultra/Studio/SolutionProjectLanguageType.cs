@@ -12,7 +12,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		public bool IsInterface;
 
 		
-		public string Namespace;
+		public string Namespace = "";
 
 		public string Name;
 
@@ -93,5 +93,50 @@ namespace ScriptCoreLib.Ultra.Studio
 		{
 			return this.FullName;
 		}
+
+        public class System : SolutionProjectLanguageType
+        {
+            public System()
+	        {
+                this.Namespace += "System";
+	        }
+
+            public class String : System
+            {
+                public String()
+	            {
+                    Name = "String";
+	            }
+
+            }
+
+            public class Boolean : System
+            {
+                public Boolean()
+                {
+                    Name = "Boolean";
+                }
+
+            }
+        }
+
+        public static class ScriptCoreLib
+        {
+            public static class Delegates
+            {
+                public static SolutionProjectLanguageType StringAction
+                {
+                    get
+                    {
+                        return new SolutionProjectLanguageType
+                        {
+                            Namespace = "ScriptCoreLib.Delegates",
+                            Name = "StringAction"
+                        };
+                    }
+                }
+            }
+        }
+
 	}
 }

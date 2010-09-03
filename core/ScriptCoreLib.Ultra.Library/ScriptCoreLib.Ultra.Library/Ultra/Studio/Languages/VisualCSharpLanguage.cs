@@ -349,9 +349,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
         {
-            if (Type is StockSystemBooleanType)
+            if (Type is SolutionProjectLanguageType.System.Boolean)
             {
                 File.Write(Keywords.@bool);
+                return;
+            }
+
+            if (Type is SolutionProjectLanguageType.System.Boolean)
+            {
+                File.Write(Keywords.@sealed);
                 return;
             }
 

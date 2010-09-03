@@ -79,6 +79,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
             // http://msdn.microsoft.com/en-us/library/5we0w25d(VS.100).aspx
             var ProjectType = default(string);
+            var PromptForSaveOnCreation = false;
+
             //
             if (this.ProjectFileName.Extension == KnownLanguages.VisualCSharp.ProjectFileExtension)
             {
@@ -88,6 +90,16 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
             }
             else if (this.ProjectFileName.Extension == KnownLanguages.VisualFSharp.ProjectFileExtension)
             {
+                //'Microsoft Visual F# does not support zero-impact projects. 
+                //' To create an F# project from this project template, either 
+                //' go to the Visual Studio menu 'Tools, Options..., Projects and Solutions, General' 
+                //' and check the box marked 'Save new projects when created', 
+                //' or specify <PromptForSaveOnCreation>true</PromptForSaveOnCreation> 
+                //' in the <TemplateData> section of this project template's .vstemplate file,
+                //' and then retry this operation.
+
+                PromptForSaveOnCreation = true;
+
                 ProjectType = "FSharp";
                 ProjectTemplates = ProjectTemplates.CreateSubdirectory("Visual F#");
                 SDKProjectTemplates = SDKProjectTemplates.CreateSubdirectory("Visual F#");
@@ -153,9 +165,13 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 
             XNamespace ns_vstemplate = "http://schemas.microsoft.com/developer/vstemplate/2005";
 
+
+
             zip["MyTemplate.vstemplate"].Text = new XElement(ns_vstemplate + "VSTemplate",
                 new XAttribute("Type", "Project"),
                 new XAttribute("Version", "3.0.0"),
+
+                // http://msdn.microsoft.com/en-us/library/hy7dh5te(v=VS.100).aspx
                 new XElement(ns_vstemplate + "TemplateData",
                     new XElement(ns_vstemplate + "Name", Attributes.Title),
                     new XElement(ns_vstemplate + "Description", Attributes.Description),
@@ -168,7 +184,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
                     new XElement(ns_vstemplate + "LocationField", "Enabled"),
                     new XElement(ns_vstemplate + "EnableLocationBrowseButton", "true"),
                     new XElement(ns_vstemplate + "Icon", "__TemplateIcon.ico"),
-                    new XElement(ns_vstemplate + "PreviewImage", "__PreviewImage.png")
+                    new XElement(ns_vstemplate + "PreviewImage", "__PreviewImage.png"),
+                    new XElement(ns_vstemplate + "PromptForSaveOnCreation", "" + PromptForSaveOnCreation)
                 ),
                 new XElement(ns_vstemplate + "TemplateContent",
                     new XElement(ns_vstemplate + "Project",

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
+
 namespace ScriptCoreLib.Ultra.WebService
 {
 	public class WebServiceScriptApplication

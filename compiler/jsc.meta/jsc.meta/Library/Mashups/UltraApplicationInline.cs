@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.Windows.Controls;
 using System.Windows.Media;

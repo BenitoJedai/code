@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			{
 				Summary = "true if managed resources should be disposed; otherwise, false.",
 				Name = "disposing",
-				Type = new StockSystemBooleanType(),
+				Type = new SolutionProjectLanguageType.System.Boolean(),
 			};
 
 			var Dispose = new SolutionProjectLanguageMethod
