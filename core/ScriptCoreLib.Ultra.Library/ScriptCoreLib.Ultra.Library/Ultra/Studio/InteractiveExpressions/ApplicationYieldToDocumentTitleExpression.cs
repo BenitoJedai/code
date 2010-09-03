@@ -15,6 +15,7 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 			this.Method = new SolutionProjectLanguageMethod
 			{
 				IsExtensionMethod = true,
+                IsStatic = true,
 				Name = "ToDocumentTitle",
 				DeclaringType = new SolutionProjectLanguageType
 				{

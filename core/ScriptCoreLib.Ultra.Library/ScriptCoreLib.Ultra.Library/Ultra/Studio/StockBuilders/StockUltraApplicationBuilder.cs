@@ -14,7 +14,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
         public StockUltraApplicationBuilder(
                 Action<SolutionFile> AddFile,
                 SolutionBuilder Context,
-                XElement ItemGroupForCompile)
+                XElement ItemGroupForCompile,
+                Action<SolutionProjectLanguageType> NotifyStartupType)
         {
             Func<string, string> ToProjectFile =
                 f => Context.Name + "/" + Context.Name + "/" + f;
@@ -227,6 +228,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Components");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
@@ -336,6 +338,8 @@ associated with an assembly."
             ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
 
             AddType(ProgramType);
+
+            NotifyStartupType(ProgramType);
 
             #endregion
 

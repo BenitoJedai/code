@@ -17,10 +17,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			{
 				Type = new SolutionProjectLanguageType
 				{
-					ElementType = new SolutionProjectLanguageType
-					{
-						Name = "string"
-					}
+					ElementType = new SolutionProjectLanguageType.System.String()
 				},
 
 				Name = "args",
