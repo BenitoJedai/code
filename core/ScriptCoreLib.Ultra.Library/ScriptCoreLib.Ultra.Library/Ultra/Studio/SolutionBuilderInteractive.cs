@@ -38,8 +38,8 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public SolutionProjectLanguageArgument YieldMethod_doc = new SolutionProjectLanguageArgument
 		{
-			Name = "doc",
-			Type = new StockXElementType()
+			Name = "value",
+            Type = new SolutionProjectLanguageType.System.String()
 		};
 
 		public SolutionBuilderInteractive()
@@ -78,8 +78,8 @@ namespace ScriptCoreLib.Ultra.Studio
 			{
 				return new InteractiveComment[]
 				{
-					this.ApplicationCallWebMethod.InteractiveComment,
-					this.ApplicationYieldToDocumentTitle.InteractiveComment
+                    //this.ApplicationCallWebMethod.InteractiveComment,
+                    //this.ApplicationYieldToDocumentTitle.InteractiveComment
 				};
 			}
 		}

@@ -9,10 +9,13 @@ namespace jsc.meta.Configuration
 {
     public class SDKConfiguration
     {
+        const string DefaultFile = @"c:\util\jsc\bin\jsc.SDKConfiguration.xml";
+
         public DirectoryInfo JavaSDK = new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_20");
         public DirectoryInfo FlexSDK = new DirectoryInfo(@"C:\util\flex_sdk_4.1.0.16076");
-        public DirectoryInfo GoogleAppEngineJavaSDK = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.4");
+        public DirectoryInfo GoogleAppEngineJavaSDK = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.3.7");
         public DirectoryInfo ApacheAntSDK = new DirectoryInfo(@"C:\util\apache-ant-1.8.1");
+        public DirectoryInfo XAMPLite = new DirectoryInfo(@"C:\util\xampplite-win32-1.7.3");
 
         public FileInfo ApacheAntSDK_ant
         {
@@ -48,7 +51,8 @@ namespace jsc.meta.Configuration
                 new XElement("JavaSDK", e.JavaSDK.FullName),
                 new XElement("FlexSDK", e.FlexSDK.FullName),
                 new XElement("GoogleAppEngineJavaSDK", e.GoogleAppEngineJavaSDK.FullName),
-                new XElement("ApacheAntSDK", e.ApacheAntSDK.FullName)
+                new XElement("ApacheAntSDK", e.ApacheAntSDK.FullName),
+                new XElement("XAMPLite", e.XAMPLite.FullName)
             );
         }
 
@@ -59,11 +63,11 @@ namespace jsc.meta.Configuration
                 JavaSDK = new DirectoryInfo(e.Element("JavaSDK").Value),
                 FlexSDK = new DirectoryInfo(e.Element("FlexSDK").Value),
                 GoogleAppEngineJavaSDK = new DirectoryInfo(e.Element("GoogleAppEngineJavaSDK").Value),
-                ApacheAntSDK = new DirectoryInfo(e.Element("ApacheAntSDK").Value)
+                ApacheAntSDK = new DirectoryInfo(e.Element("ApacheAntSDK").Value),
+                XAMPLite = new DirectoryInfo(e.Element("XAMPLite").Value)
             };
         }
 
-        const string DefaultFile = @"c:\util\jsc\bin\jsc.SDKConfiguration.xml";
 
         public static SDKConfiguration Default
         {

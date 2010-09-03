@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
 using ScriptCoreLib.JavaScript.Extensions;

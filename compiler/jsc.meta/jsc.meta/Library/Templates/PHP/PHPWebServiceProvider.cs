@@ -8,7 +8,7 @@ using jsc.meta.Library.Templates.Java;
 using ScriptCoreLib.PHP.BCLImplementation.System.Web;
 using System.Web;
 using ScriptCoreLib.Ultra.WebService;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 
 namespace jsc.meta.Library.Templates.PHP
 {

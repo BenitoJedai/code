@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.WebService;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 using System.ComponentModel;
 
 namespace ScriptCoreLib.Ultra.Components.Volatile

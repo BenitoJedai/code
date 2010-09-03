@@ -11,48 +11,26 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 	{
 		public StockMethodWebMethod(SolutionBuilderInteractive Interactive)
 		{
-			var _XElement = new SolutionProjectLanguageType
-			{
-				Namespace = "System.Xml.Linq",
-				Name = "XElement"
-			};
-
 			// note: this method will run under javascript
 
-			#region Parameters e y
-			var _e = new SolutionProjectLanguageArgument
-			{
-				Type = _XElement,
+            #region Parameters e y
+            var _e = new SolutionProjectLanguageArgument
+            {
+                Type = new SolutionProjectLanguageType.System.String(),
 
-				Name = "e",
-				Summary = "A parameter from javascript"
-			};
+                Name = "e",
+                Summary = "A parameter from javascript. JSC supports string data type for all platforms."
+            };
 
+            var _y = new SolutionProjectLanguageArgument
+            {
+                Type = SolutionProjectLanguageType.ScriptCoreLib.Delegates.StringAction,
 
-			var _y_Type = new SolutionProjectLanguageType
-			{
-				Namespace = "System",
-				Name = "Action",
-			}.With(
-				k =>
-				{
-					k.Arguments.Add(
-						new SolutionProjectLanguageArgument
-						{
-							Type = _XElement
-						}
-					);
-				}
-			);
+                Name = "y",
+                Summary = "A callback to javascript. In the future all platforms will allow Action<XElementConvertable> delegates."
+            };
+            #endregion
 
-			var _y = new SolutionProjectLanguageArgument
-			{
-				Type = _y_Type,
-
-				Name = "y",
-				Summary = "A callback to javascript"
-			};
-			#endregion
 
 			this.Name = "WebMethod2";
 			this.Summary = "This Method is a javascript callable method.";
@@ -61,7 +39,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			{
                 //Interactive.WebMethod2,
 
-				"Send it to the caller.",
+				"Send it back to the caller.",
 				new PseudoCallExpression
 				{
 					Object = _y.Name,
@@ -76,7 +54,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 
 			this.Parameters.Add(_e);
-
 			this.Parameters.Add(_y);
 		}
 

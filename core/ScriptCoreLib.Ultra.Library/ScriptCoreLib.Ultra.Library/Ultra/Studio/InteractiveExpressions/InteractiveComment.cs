@@ -7,6 +7,8 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
 	public class InteractiveComment : SolutionFileComment
 	{
+        // to be phased out
+
 		public event Action Click;
 
 		public void RaiseClick()

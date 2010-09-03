@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Profile;
 using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace ScriptCoreLib.Ultra.WebService

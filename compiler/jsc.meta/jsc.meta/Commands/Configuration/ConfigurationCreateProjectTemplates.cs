@@ -24,13 +24,13 @@ namespace jsc.meta.Commands.Configuration
             Action<SolutionBuilder> Create =
 
                 sln => (
-                        from DefaultToOrcas in new[] { true, false }
+                        //from DefaultToOrcas in new[] { true, false }
                         from Language in KnownLanguages.GetLanguages()
 
                         // exclude F# from 2008
-                        where !DefaultToOrcas || (DefaultToOrcas && Language != KnownLanguages.VisualFSharp)
+                        //where !DefaultToOrcas || (DefaultToOrcas && Language != KnownLanguages.VisualFSharp)
 
-                        select (Action)(() => RewriteToMVSProjectTemplate(sln, Language, DefaultToOrcas))
+                        select (Action)(() => RewriteToMVSProjectTemplate(sln, Language, DefaultToOrcas: false))
                 ).Invoke();
 
 
