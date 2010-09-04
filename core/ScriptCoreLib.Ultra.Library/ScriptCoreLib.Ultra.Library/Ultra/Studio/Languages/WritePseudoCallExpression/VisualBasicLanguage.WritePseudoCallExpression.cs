@@ -124,22 +124,31 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
         {
             File.Write("(");
 
+            #region HasComplexParameter
             var HasComplexParameter = Lambda.ParameterExpressions.Any(
                 k =>
                 {
                     if (k is XElement)
                         return true;
 
+                    // anonymous method!
+                    if (k is SolutionProjectLanguageMethod)
+                        return true;
+
+
                     var Call = k as PseudoCallExpression;
                     if (Call != null)
                     {
+                        // what? :) 
                         if (Call.XLinq != null)
                             return true;
                     }
 
+                    
                     return false;
                 }
             );
+            #endregion
 
             Action Body =
                 delegate
@@ -157,14 +166,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         {
                             if (HasComplexParameter)
                             {
-                                File.Write(",");
-                                File.WriteLine();
+                                File.WriteLine(",");
                                 File.WriteIndent();
                             }
                             else
                             {
-                                File.Write(",");
-                                File.WriteSpace();
+                                File.WriteSpace(",");
                             }
                         }
 

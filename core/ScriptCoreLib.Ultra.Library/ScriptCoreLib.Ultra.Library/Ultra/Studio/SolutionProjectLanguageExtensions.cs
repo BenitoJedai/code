@@ -57,6 +57,9 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public static void WriteSummary(this SolutionProjectLanguage that, SolutionFile File, string summary)
 		{
+            if (string.IsNullOrEmpty(summary))
+                return;
+
 			that.WriteSummary(File, summary, null);
 		}
 

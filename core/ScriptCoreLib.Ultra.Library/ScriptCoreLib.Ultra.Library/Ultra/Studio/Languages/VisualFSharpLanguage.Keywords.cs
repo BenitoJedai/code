@@ -22,7 +22,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					@ignore = "ignore",
 					@new = "new",
 					@fun = "fun",
-					@member = "member",
+                    @member = "member",
+                    @mutable = "mutable",
 					@assembly = "assembly",
 					@module = "module",
 					@namespace = "namespace"
