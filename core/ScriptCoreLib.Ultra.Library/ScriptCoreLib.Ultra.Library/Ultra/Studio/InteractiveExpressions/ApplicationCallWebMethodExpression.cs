@@ -13,25 +13,10 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 		public ApplicationCallWebMethodExpression(SolutionBuilderInteractive Interactive)
 		{
+            this.Comment = "Send data from JavaScript to the server tier";
 
-
-
-            this.Comment = "Send xml to server"; 
-
-			this.Object = new PseudoCallExpression
-			{
-
-				Method = new SolutionProjectLanguageMethod
-				{
-					Name = SolutionProjectLanguageMethod.ConstructorName,
-
-					DeclaringType = Interactive.ApplicationWebServiceType,
-					ReturnType = Interactive.ApplicationWebServiceType
-				},
-
-				ParameterExpressions = new object[] {
-				}
-			};
+            // why isn't this showing up?
+            this.GetObject = () => Interactive.Application_service;
 
 			this.Method = Interactive.ApplicationWebServiceType.WebMethod2;
 

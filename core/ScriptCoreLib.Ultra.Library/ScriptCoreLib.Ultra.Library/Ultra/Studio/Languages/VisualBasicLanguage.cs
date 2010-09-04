@@ -308,8 +308,52 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 									File.Indent(this,
 										delegate
-										{
-											foreach (var item in Type.Methods.ToArray())
+                                        {
+                                            #region Fields
+                                            Type.Fields.WithEach(
+                                                Field =>
+                                                {
+                                                    this.WriteSummary(File, Field.Summary);
+
+                                                    File.WriteIndent();
+
+                                                    if (Field.IsPrivate)
+                                                    {
+                                                        File.WriteSpace(Keywords.Private);
+                                                    }
+                                                    else
+                                                    {
+                                                        File.WriteSpace(Keywords.Public);
+                                                    }
+
+                                                    if (Field.IsReadOnly)
+                                                    {
+                                                        File.WriteSpace(Keywords.ReadOnly);
+                                                    }
+
+                                                    File.WriteSpace(Field.Name);
+                                                    File.WriteSpace(Keywords.As);
+
+                                                    if (Field.FieldConstructor == null)
+                                                    {
+                                                        WriteTypeName(File, Field.FieldType);
+                                                    }
+                                                    else
+                                                    {
+                                                        WritePseudoCallExpression(File, Field.FieldConstructor, Context);
+                                                    }
+
+                                                    File.WriteLine();
+
+                                                    File.WriteLine();
+                                                }
+                                            );
+
+                                            
+                                            #endregion
+
+                                            #region Methods
+                                            foreach (var item in Type.Methods.ToArray())
 											{
                                                 if (item.DeclaringType == null)
                                                     item.DeclaringType = Type;
@@ -322,11 +366,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 
 												File.WriteLine();
-											}
+                                            }
+                                            #endregion
 
 
 
-											File.WriteLine();
+                                            File.WriteLine();
 										}
 									);
 
@@ -506,6 +551,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				WriteMethod(File, Method, Context);
 				return;
 			}
+
+            // F# match would be awesome here? :)
+            var Field = Parameter as SolutionProjectLanguageField;
+            if (Field != null)
+            {
+                // DeclaringType Object?
+                File.Write(Field.Name);
+                return;
+            }
+
 		}
 
 		public override void WriteSingleIndent(SolutionFile File)

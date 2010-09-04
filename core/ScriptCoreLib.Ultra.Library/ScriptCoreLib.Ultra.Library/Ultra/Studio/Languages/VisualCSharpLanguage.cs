@@ -343,6 +343,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            // F# match would be awesome here? :)
+            var Field = Parameter as SolutionProjectLanguageField;
+            if (Field != null)
+            {
+                // DeclaringType Object?
+                File.Write(Field.Name);
+            }
         }
 
 
@@ -355,7 +362,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
-            if (Type is SolutionProjectLanguageType.System.Boolean)
+            if (Type.IsSealed)
             {
                 File.Write(Keywords.@sealed);
                 return;
@@ -488,29 +495,50 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                     File.Indent(this,
                                         delegate
                                         {
-                                            foreach (var item in Type.Fields.ToArray())
-                                            {
-                                                this.WriteSummary(File, item.Summary);
-
-                                                File.WriteIndent();
-
-                                                if (item.IsPrivate)
+                                            #region Fields
+                                            Type.Fields.WithEach(
+                                                Field =>
                                                 {
-                                                    File.Write(Keywords.@private);
-                                                }
-                                                else
-                                                {
-                                                    File.Write(Keywords.@public);
-                                                }
-                                                File.WriteSpace();
-                                                WriteTypeName(File, item.FieldType);
-                                                File.WriteSpace();
-                                                File.Write(item.Name);
-                                                File.Write(";");
-                                                File.WriteLine();
+                                                    this.WriteSummary(File, Field.Summary);
 
-                                                File.WriteLine();
-                                            }
+                                                    File.WriteIndent();
+
+                                                    if (Field.IsPrivate)
+                                                    {
+                                                        File.WriteSpace(Keywords.@private);
+                                                    }
+                                                    else
+                                                    {
+                                                        File.WriteSpace(Keywords.@public);
+                                                    }
+
+                                                    if (Field.IsReadOnly)
+                                                    {
+                                                        File.WriteSpace(Keywords.@readonly);
+                                                    }
+
+                                                    WriteTypeName(File, Field.FieldType);
+                                                    File.WriteSpace();
+                                                    File.Write(Field.Name);
+
+                                                    if (Field.FieldConstructor != null)
+                                                    {
+                                                        File.WriteSpace();
+                                                        File.Write("=");
+                                                        File.WriteSpace();
+                                                        this.WritePseudoCallExpression(File, Field.FieldConstructor, Context);
+                                                    }
+
+                                                    File.Write(";");
+                                                    File.WriteLine();
+
+                                                    File.WriteLine();
+                                                }
+                                            );
+
+                                     
+                                            #endregion
+
 
                                             #region Properties
                                             foreach (var m in Type.Properties.ToArray())

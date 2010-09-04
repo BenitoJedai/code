@@ -108,5 +108,8 @@ namespace ScriptCoreLib.Ultra.Studio
 				this.GenerateApplicationExpressions(e);
 		}
 
+
+        public SolutionProjectLanguageField Application_service;
+
 	}
 }

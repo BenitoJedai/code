@@ -35,6 +35,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
 			Interactive.RaiseGenerateApplicationExpressions(this.Code.Add);
 
+            
 
 			this.Code.Add(Interactive.ApplicationToDocumentTitle);
 			

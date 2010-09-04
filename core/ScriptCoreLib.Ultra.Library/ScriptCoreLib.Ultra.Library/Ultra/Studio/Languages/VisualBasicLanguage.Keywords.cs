@@ -19,6 +19,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				@Of = "Of",
 				@As = "As",
 				@Public = "Public",
+                @Private = "Private",
+                @ReadOnly = "ReadOnly",
 				@New = "New",
 				@Shared = "Shared",
 				@NotInheritable = "NotInheritable",
