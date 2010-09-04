@@ -97,7 +97,6 @@
     <Compile Include="ActionScript\flash\net\NetGroupInfo.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormattable.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Tuple.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\ime\IIMEClient.cs" />
     <Compile Include="ActionScript\flash\events\GestureEvent.cs" />
     <Compile Include="ActionScript\flash\events\IMEEvent.cs" />
