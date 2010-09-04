@@ -33,7 +33,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             //c.Container.Effect = new DropShadowEffect();
             //c.Container.BitmapEffect = new DropShadowBitmapEffect();
 
-            new System.Windows.Controls.TextBox
+            var t = new System.Windows.Controls.TextBox
             {
                 IsReadOnly = true,
                 Background = Brushes.Transparent,
@@ -102,7 +102,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                     NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
 
-                    w.Background = new SolidColorBrush(Color.FromArgb(0x7F, 0, 0, 0));
+                    w.Background = Brushes.Transparent;
                 };
 
             var NextInputMode = new[] { ActivateInput, DeactivateInput }.ToCyclicAction(a => a());
@@ -140,9 +140,43 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                             {
                                 //http://agsmith.wordpress.com/2008/09/16/hit-testing-in-wpf/
 
+                                var p = new
+                                {
+                                    cx = w.ActualWidth - (NativeMethods.LOWORD(lParam) - w.Left),
+                                    cy = w.ActualHeight - (NativeMethods.HIWORD(lParam) - w.Top),
+                                    x = NativeMethods.LOWORD(lParam) - w.Left,
+                                    y = NativeMethods.HIWORD(lParam) - w.Top
+                                };
+
+                                t.Text = p.ToString();
 
                                 handeled = true;
-                                return (IntPtr)2; // HTCAPTION
+
+                                var s = 8;
+
+                                if (p.x < s)
+                                    if (p.y < s)
+                                        return (IntPtr)HitTestValues.HTTOPLEFT; // HTCAPTION
+
+                                if (p.cx < s)
+                                    if (p.cy < s)
+                                        return (IntPtr)HitTestValues.HTBOTTOMRIGHT; // HTCAPTION
+
+                                if (p.x < s)
+                                    return (IntPtr)HitTestValues.HTLEFT; // HTCAPTION
+
+                                if (p.y < s)
+                                    return (IntPtr)HitTestValues.HTTOP; // HTCAPTION
+
+
+                                if (p.cx < s)
+                                    return (IntPtr)HitTestValues.HTRIGHT; // HTCAPTION
+
+                                if (p.cy < s)
+                                    return (IntPtr)HitTestValues.HTBOTTOM; // HTCAPTION
+
+
+                                return (IntPtr)HitTestValues.HTCAPTION; // HTCAPTION
 
                             }
                             return IntPtr.Zero;
@@ -160,9 +194,38 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
         }
 
+        enum HitTestValues
+        {
+            HTERROR = -2,
+            HTTRANSPARENT = -1,
+            HTNOWHERE = 0,
+            HTCLIENT = 1,
+            HTCAPTION = 2,
+            HTSYSMENU = 3,
+            HTGROWBOX = 4,
+            HTMENU = 5,
+            HTHSCROLL = 6,
+            HTVSCROLL = 7,
+            HTMINBUTTON = 8,
+            HTMAXBUTTON = 9,
+            HTLEFT = 10,
+            HTRIGHT = 11,
+            HTTOP = 12,
+            HTTOPLEFT = 13,
+            HTTOPRIGHT = 14,
+            HTBOTTOM = 15,
+            HTBOTTOMLEFT = 16,
+            HTBOTTOMRIGHT = 17,
+            HTBORDER = 18,
+            HTOBJECT = 19,
+            HTCLOSE = 20,
+            HTHELP = 21
+        }
+
+
         internal class NativeMethods
         {
-
+        
 
             [DllImport("user32.dll")]
             public static extern int GetWindowLong(IntPtr hwnd, int index);

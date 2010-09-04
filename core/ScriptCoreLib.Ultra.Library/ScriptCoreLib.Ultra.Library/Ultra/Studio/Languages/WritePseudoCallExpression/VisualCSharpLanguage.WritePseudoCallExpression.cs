@@ -172,7 +172,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					{
 						File.WriteIndent();
 						Body();
-                        //File.WriteLine();
+                        File.WriteLine();
 					}
 				);
 				File.WriteIndent();

@@ -663,7 +663,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                         Body();
 
-                        //File.WriteLine();
+                        File.WriteLine();
                     }
                 );
                 File.WriteIndent();

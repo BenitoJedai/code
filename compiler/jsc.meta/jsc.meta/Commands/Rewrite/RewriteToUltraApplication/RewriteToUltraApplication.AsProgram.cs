@@ -8,15 +8,15 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Web;
+using System.Windows.Media;
 using jsc.meta.Commands.Configuration;
 using jsc.meta.Commands.Rewrite.RewriteToSplashScreen.Templates;
+using jsc.meta.Dialogs;
 using jsc.meta.Library;
 using jsc.meta.Library.VolumeFunctions;
 using jsc.meta.Tools;
-using ScriptCoreLib.Ultra.Library.Extensions;
-using jsc.meta.Dialogs;
 using ScriptCoreLib.CSharp.Avalon.Extensions;
-using System.Windows.Media;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 {
@@ -263,6 +263,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
             {
                 // do we need to compile all components? maybe just the staging.net.debug?
                 var WebDevLauncher = Compile(PrimaryApplication);
+
+                Console.WriteLine("compiled! launching server! please wait...");
 
                 // todo: WebDev cannot handle root virtual directories. we should provide an extension for non root virtual dir.
                 using (var p = WebDevLauncher.Directory.Parent.ToVirtualDrive())

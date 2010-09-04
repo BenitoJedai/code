@@ -24,804 +24,825 @@ using TestSolutionBuilderV1.HTML.Pages;
 
 namespace TestSolutionBuilderV1.Views
 {
-	public class StudioView
-	{
-		public readonly IHTMLDiv Content = new IHTMLDiv();
-
-		public StudioView(Action<IHTMLElement, Action<ISaveAction>> AddSaveButton)
-		{
-			Content.style.position = IStyle.PositionEnum.absolute;
-			Content.style.left = "0px";
-			Content.style.right = "0px";
-			Content.style.top = "0px";
-			Content.style.bottom = "0px";
+    public class StudioView
+    {
+        public readonly IHTMLDiv Content = new IHTMLDiv();
 
-			new TwentyTenWorkspace().ToBackground(Content.style, true);
+        public StudioView(Action<IHTMLElement, Action<ISaveAction>> AddSaveButton)
+        {
+            Content.style.position = IStyle.PositionEnum.absolute;
+            Content.style.left = "0px";
+            Content.style.right = "0px";
+            Content.style.top = "0px";
+            Content.style.bottom = "0px";
 
-			var WorkspaceHeader = default(IHTMLSpan);
+            new TwentyTenWorkspace().ToBackground(Content.style, true);
 
-			@"jsc-solutions.net studio".ToDocumentTitle().With(
-				title =>
-				{
-					WorkspaceHeader = new IHTMLSpan { innerText = title };
+            var WorkspaceHeader = default(IHTMLSpan);
 
-					WorkspaceHeader.AttachTo(Content);
-					WorkspaceHeader.style.SetLocation(16, 8);
-					WorkspaceHeader.style.color = Color.White;
+            @"jsc-solutions.net studio".ToDocumentTitle().With(
+                title =>
+                {
+                    WorkspaceHeader = new IHTMLSpan { innerText = title };
 
-					// http://www.quirksmode.org/css/textshadow.html
-					WorkspaceHeader.style.textShadow = "#808080 4px 2px 2px";
+                    WorkspaceHeader.AttachTo(Content);
+                    WorkspaceHeader.style.SetLocation(16, 8);
+                    WorkspaceHeader.style.color = Color.White;
 
-				}
-			);
+                    // http://www.quirksmode.org/css/textshadow.html
+                    WorkspaceHeader.style.textShadow = "#808080 4px 2px 2px";
 
 
-			if (AddSaveButton != null)
-				AddSaveButton(WorkspaceHeader, i => Save = i);
+                }
+            );
 
-			// em + px :)
-			var Workspace0 = new IHTMLDiv().With(
-				div =>
-				{
-					div.style.position = IStyle.PositionEnum.absolute;
-					div.style.left = "0px";
-					div.style.right = "0px";
-					div.style.bottom = "0px";
-					div.style.top = "3em";
-				}
-			).AttachTo(Content);
 
-			// workspace contains the split views
-			var Workspace = new IHTMLDiv().With(
-				div =>
-				{
-					div.style.position = IStyle.PositionEnum.absolute;
-					div.style.left = "6px";
-					div.style.right = "6px";
-					div.style.bottom = "6px";
-					div.style.top = "6px";
-				}
-			).AttachTo(Workspace0);
+            if (AddSaveButton != null)
+                AddSaveButton(WorkspaceHeader, i => Save = i);
 
-			// in this project we wont be having toolbox or toolbar yet
+            // em + px :)
+            var Workspace0 = new IHTMLDiv().With(
+                div =>
+                {
+                    div.style.position = IStyle.PositionEnum.absolute;
+                    div.style.left = "0px";
+                    div.style.right = "0px";
+                    div.style.bottom = "0px";
+                    div.style.top = "3em";
+                }
+            ).AttachTo(Content);
 
-			Action<HorizontalSplit> ApplyStyle =
-				t =>
-				{
-					t.Split.Splitter.style.backgroundColor = Color.None;
-					t.SplitImageContainer.Orphanize();
-					t.SplitArea.Target.style.borderLeft = "0";
-					t.SplitArea.Target.style.borderRight = "0";
-					t.SplitArea.Target.style.width = "6px";
-					t.SplitArea.Target.style.Opacity = 0.7;
+            // workspace contains the split views
+            var Workspace = new IHTMLDiv().With(
+                div =>
+                {
+                    div.style.position = IStyle.PositionEnum.absolute;
+                    div.style.left = "6px";
+                    div.style.right = "6px";
+                    div.style.bottom = "6px";
+                    div.style.top = "6px";
+                }
+            ).AttachTo(Workspace0);
 
-					// should we obselete JSColor already?
-					t.SelectionColor = JSColor.Black;
-				};
+            // in this project we wont be having toolbox or toolbar yet
 
-			var EditorTreeSplit = new HorizontalSplit
-			{
-				Minimum = 0,
-				Maximum = 1,
-				Value = 0.7,
-			};
+            Action<HorizontalSplit> ApplyStyle =
+                t =>
+                {
+                    t.Split.Splitter.style.backgroundColor = Color.None;
+                    t.SplitImageContainer.Orphanize();
+                    t.SplitArea.Target.style.borderLeft = "0";
+                    t.SplitArea.Target.style.borderRight = "0";
+                    t.SplitArea.Target.style.width = "6px";
+                    t.SplitArea.Target.style.Opacity = 0.7;
 
-			EditorTreeSplit.With(ApplyStyle);
+                    // should we obselete JSColor already?
+                    t.SelectionColor = JSColor.Black;
+                };
 
-			EditorTreeSplit.Split.Splitter.style.backgroundColor = Color.None;
+            var EditorTreeSplit = new HorizontalSplit
+            {
+                Minimum = 0,
+                Maximum = 1,
+                Value = 0.7,
+            };
 
+            EditorTreeSplit.With(ApplyStyle);
 
-			EditorTreeSplit.Container.AttachTo(Workspace);
+            EditorTreeSplit.Split.Splitter.style.backgroundColor = Color.None;
 
 
+            EditorTreeSplit.Container.AttachTo(Workspace);
 
-			var Split = new HorizontalSplit
-			{
-				Minimum = 0,
-				Maximum = 1,
-				Value = 0.3,
-			};
 
-			Split.With(ApplyStyle);
 
-			Split.Split.Splitter.style.backgroundColor = Color.None;
+            var Split = new HorizontalSplit
+            {
+                Minimum = 0,
+                Maximum = 1,
+                Value = 0.3,
+            };
 
-			EditorTreeSplit.LeftContainer = Split.Container;
+            Split.With(ApplyStyle);
 
+            Split.Split.Splitter.style.backgroundColor = Color.None;
 
+            EditorTreeSplit.LeftContainer = Split.Container;
 
-			var SolutionToolbox = new SolutionDockWindowPage();
 
-			SolutionToolbox.HeaderText.innerText = "Toolbox";
-			SolutionToolbox.Content.style.backgroundColor = Color.White;
-			SolutionToolbox.Content.style.padding = "2px";
-			SolutionToolbox.Content.style.overflow = IStyle.OverflowEnum.auto;
-			SolutionToolbox.Content.Clear();
 
+            var SolutionToolbox = new SolutionDockWindowPage();
 
-			var vv = new SolutionToolboxListView();
+            SolutionToolbox.HeaderText.innerText = "Toolbox";
+            SolutionToolbox.Content.style.backgroundColor = Color.White;
+            SolutionToolbox.Content.style.padding = "2px";
+            SolutionToolbox.Content.style.overflow = IStyle.OverflowEnum.auto;
+            SolutionToolbox.Content.Clear();
 
-			vv.Container.AttachTo(SolutionToolbox.Content);
 
-			var items = new StockToolboxTabsForHTMLDocument();
+            var vv = new SolutionToolboxListView();
 
-			items.WithEach(vv.Add);
+            vv.Container.AttachTo(SolutionToolbox.Content);
 
+            var items = new StockToolboxTabsForHTMLDocument();
 
-			var Viewer = new SolutionDocumentViewer();
-			SolutionDocumentViewerTab File7Tab = "Design/Default.htm";
-			Viewer.Add(File7Tab);
+            items.WithEach(vv.Add);
 
-			#region OutputFile
-			var OutputFile = new SolutionFile();
-			var OutputFileViewer = new SolutionFileView();
 
-			// fullscreen! :)
-			OutputFileViewer.Container.style.height = "100%";
+            var Viewer = new SolutionDocumentViewer();
+            SolutionDocumentViewerTab File7Tab = "Design/Default.htm";
+            Viewer.Add(File7Tab);
 
-			OutputFile.IndentStack.Push(
-				delegate
-				{
-					OutputFile.Write(SolutionFileTextFragment.Comment, "" + DateTime.Now);
-					OutputFile.WriteSpace();
-				}
-			);
+            #region OutputFile
+            var OutputFile = new SolutionFile();
+            var OutputFileViewer = new SolutionFileView();
 
-			Action<string> OutputWriteLine =
-				n =>
-				{
-					// Would we want to rewire System.Out? Console.WriteLine?
-					OutputFile.WriteIndent();
-					OutputFile.WriteLine(n);
+            // fullscreen! :)
+            OutputFileViewer.Container.style.height = "100%";
 
-					// we could have a resume feature? now we just go and clear...
-					OutputFileViewer.File = OutputFile;
-				};
+            OutputFile.IndentStack.Push(
+                delegate
+                {
+                    OutputFile.Write(SolutionFileTextFragment.Comment, "" + DateTime.Now);
+                    OutputFile.WriteSpace();
+                }
+            );
 
+            Action<string> OutputWriteLine =
+                n =>
+                {
+                    // Would we want to rewire System.Out? Console.WriteLine?
+                    OutputFile.WriteIndent();
+                    OutputFile.WriteLine(n);
 
-			OutputWriteLine("studio.jsc-solutions.net ready!");
-			#endregion
+                    // we could have a resume feature? now we just go and clear...
+                    OutputFileViewer.File = OutputFile;
+                };
 
-			SolutionDocumentViewerTab OutputTab = "Output";
-			Viewer.Add(OutputTab);
-			OutputTab.TabElement.style.Float = IStyle.FloatEnum.right;
 
+            OutputWriteLine("studio.jsc-solutions.net ready!");
+            #endregion
 
-			SolutionDocumentViewerTab AboutTab = "Project";
-			Viewer.Add(AboutTab);
-			AboutTab.TabElement.style.Float = IStyle.FloatEnum.right;
+            SolutionDocumentViewerTab OutputTab = "Output";
+            Viewer.Add(OutputTab);
+            OutputTab.TabElement.style.Float = IStyle.FloatEnum.right;
 
 
-			var CurrentDesigner = new SolutionFileDesigner();
+            SolutionDocumentViewerTab AboutTab = "Project";
+            Viewer.Add(AboutTab);
+            AboutTab.TabElement.style.Float = IStyle.FloatEnum.right;
 
 
+            var CurrentDesigner = new SolutionFileDesigner();
 
 
-			var HTMLDesigner = new SolutionFileDesignerHTMLElementTabs();
 
-			CurrentDesigner.Add(HTMLDesigner);
 
+            var HTMLDesigner = new SolutionFileDesignerHTMLElementTabs();
 
+            CurrentDesigner.Add(HTMLDesigner);
 
 
 
 
-			#region CodeSourceA
-			var CodeSourceATab =
-				new SolutionFileDesignerTab
-				{
-					Image = new RTA_mode_html(),
-					Text = "Source [Generated]"
-				};
 
-			var CodeSourceAView = new SolutionFileView();
 
-			CodeSourceAView.Container.style.position = IStyle.PositionEnum.absolute;
-			CodeSourceAView.Container.style.left = "0px";
-			CodeSourceAView.Container.style.right = "0px";
-			CodeSourceAView.Container.style.top = "0px";
-			CodeSourceAView.Container.style.bottom = "0px";
+            #region CodeSourceA
+            var CodeSourceATab =
+                new SolutionFileDesignerTab
+                {
+                    Image = new RTA_mode_html(),
+                    Text = "Source [Generated]"
+                };
 
-			CodeSourceAView.Container.style.display = IStyle.DisplayEnum.none;
-			CodeSourceAView.Container.AttachTo(CurrentDesigner.Content);
+            var CodeSourceAView = new SolutionFileView();
 
-			CodeSourceATab.Deactivated +=
-				delegate
-				{
-					CodeSourceAView.Container.style.display = IStyle.DisplayEnum.none;
-				};
+            CodeSourceAView.Container.style.position = IStyle.PositionEnum.absolute;
+            CodeSourceAView.Container.style.left = "0px";
+            CodeSourceAView.Container.style.right = "0px";
+            CodeSourceAView.Container.style.top = "0px";
+            CodeSourceAView.Container.style.bottom = "0px";
 
-			CodeSourceATab.Activated +=
-				delegate
-				{
-					HTMLDesigner.HTMLDesignerContent.WhenContentReady(
-						body =>
-						{
-							var CodeSourceFile = new SolutionFile
-							{
-								Name = "Default.htm"
-							};
+            CodeSourceAView.Container.style.display = IStyle.DisplayEnum.none;
+            CodeSourceAView.Container.AttachTo(CurrentDesigner.Content);
 
-							var Type = new SolutionProjectLanguageType
-							{
-								Namespace = "HTML.Pages",
-								Name = "IDefaultPage",
-								IsInterface = true,
-							};
+            CodeSourceATab.Deactivated +=
+                delegate
+                {
+                    CodeSourceAView.Container.style.display = IStyle.DisplayEnum.none;
+                };
 
-							(from n in body.AsXElement().DescendantsAndSelf()
-							 let id = n.Attribute("id")
-							 where id != null
-							 select new { n, id }
-							).WithEach(
-								k =>
-								{
-									Type.Properties.Add(
-										new SolutionProjectLanguageProperty
-										{
-											Name = k.id.Value,
-											GetMethod = new SolutionProjectLanguageMethod(),
-											SetMethod = new SolutionProjectLanguageMethod(),
-											PropertyType = new SolutionProjectLanguageType
-											{
-												Namespace = "ScriptCoreLib.JavaScript.DOM.HTML",
-												Name = "IHTMLElement"
-											}
-										}
-									);
-								}
-							);
+            CodeSourceATab.Activated +=
+                delegate
+                {
+                    HTMLDesigner.HTMLDesignerContent.WhenContentReady(
+                        body =>
+                        {
+                            var CodeSourceFile = new SolutionFile
+                            {
+                                Name = "Default.htm"
+                            };
 
-							KnownLanguages.VisualCSharp.WriteType(CodeSourceFile, Type, null);
+                            var Type = new SolutionProjectLanguageType
+                            {
+                                Namespace = "HTML.Pages",
+                                Name = "IDefaultPage",
+                                IsInterface = true,
+                            };
 
-							CodeSourceAView.File = CodeSourceFile;
+                            (from n in body.AsXElement().DescendantsAndSelf()
+                             let id = n.Attribute("id")
+                             where id != null
+                             select new { n, id }
+                            ).WithEach(
+                                k =>
+                                {
+                                    Type.Properties.Add(
+                                        new SolutionProjectLanguageProperty
+                                        {
+                                            Name = k.id.Value,
+                                            GetMethod = new SolutionProjectLanguageMethod(),
+                                            SetMethod = new SolutionProjectLanguageMethod(),
+                                            PropertyType = new SolutionProjectLanguageType
+                                            {
+                                                Namespace = "ScriptCoreLib.JavaScript.DOM.HTML",
+                                                Name = "IHTMLElement"
+                                            }
+                                        }
+                                    );
+                                }
+                            );
 
-							CodeSourceAView.Container.style.display = IStyle.DisplayEnum.empty;
-						}
-					);
-				};
+                            KnownLanguages.VisualCSharp.WriteType(CodeSourceFile, Type, null);
 
+                            CodeSourceAView.File = CodeSourceFile;
 
-			#endregion
+                            CodeSourceAView.Container.style.display = IStyle.DisplayEnum.empty;
+                        }
+                    );
+                };
 
 
-			#region CodeSourceB
-			var CodeSourceBTab =
-				new SolutionFileDesignerTab
-				{
-					Image = new RTA_mode_html(),
-					Text = "Source"
-				};
+            #endregion
 
-			var CodeSourceBView = new SolutionFileView();
 
-			CodeSourceBView.Container.style.position = IStyle.PositionEnum.absolute;
-			CodeSourceBView.Container.style.left = "0px";
-			CodeSourceBView.Container.style.right = "0px";
-			CodeSourceBView.Container.style.top = "0px";
-			CodeSourceBView.Container.style.bottom = "0px";
+            #region CodeSourceB
+            var CodeSourceBTab =
+                new SolutionFileDesignerTab
+                {
+                    Image = new RTA_mode_html(),
+                    Text = "Source"
+                };
 
-			CodeSourceBView.Container.style.display = IStyle.DisplayEnum.none;
-			CodeSourceBView.Container.AttachTo(CurrentDesigner.Content);
+            var CodeSourceBView = new SolutionFileView();
 
-			CodeSourceBTab.Deactivated +=
-				delegate
-				{
-					CodeSourceBView.Container.style.display = IStyle.DisplayEnum.none;
-				};
+            CodeSourceBView.Container.style.position = IStyle.PositionEnum.absolute;
+            CodeSourceBView.Container.style.left = "0px";
+            CodeSourceBView.Container.style.right = "0px";
+            CodeSourceBView.Container.style.top = "0px";
+            CodeSourceBView.Container.style.bottom = "0px";
 
-			CodeSourceBTab.Activated +=
-				delegate
-				{
+            CodeSourceBView.Container.style.display = IStyle.DisplayEnum.none;
+            CodeSourceBView.Container.AttachTo(CurrentDesigner.Content);
 
-					CodeSourceBView.Container.style.display = IStyle.DisplayEnum.empty;
-				};
+            CodeSourceBTab.Deactivated +=
+                delegate
+                {
+                    CodeSourceBView.Container.style.display = IStyle.DisplayEnum.none;
+                };
 
+            CodeSourceBTab.Activated +=
+                delegate
+                {
 
-			#endregion
+                    CodeSourceBView.Container.style.display = IStyle.DisplayEnum.empty;
+                };
 
 
-			CurrentDesigner.Add(CodeSourceATab);
-			CurrentDesigner.Add(CodeSourceBTab);
+            #endregion
 
 
+            CurrentDesigner.Add(CodeSourceATab);
+            CurrentDesigner.Add(CodeSourceBTab);
 
 
 
 
 
-			Split.Split.LeftScrollable = SolutionToolbox.Container;
-			Split.Split.RightScrollable = Viewer.Container;
 
-			// ...
 
+            Split.Split.LeftScrollable = SolutionToolbox.Container;
+            Split.Split.RightScrollable = Viewer.Container;
 
+            // ...
 
-			var sln = new SolutionBuilder();
 
 
-			#region dynamic content
-			Func<IEnumerable<XElement>> GetPages = delegate
-			{
-				return from n in sln.ApplicationPage.DescendantsAndSelf()
-					   let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
-					   where type != null
-					   let id = n.Attribute("id")
-					   where id != null
-					   select n;
-			};
+            var sln = new SolutionBuilder();
 
-			sln.Interactive.GenerateApplicationExpressions +=
-				Add =>
-				{
 
+            #region dynamic content
+            Func<IEnumerable<XElement>> GetPages = delegate
+            {
+                return from n in sln.ApplicationPage.DescendantsAndSelf()
+                       let type = n.Attribute(SolutionBuilderInteractive.DataTypeAttribute)
+                       where type != null
+                       let id = n.Attribute("id")
+                       where id != null
+                       select n;
+            };
 
-					// page.PageContainer.ReplaceWith(
-					GetPages().WithEach(
-						k =>
-						{
-							var id = k.Attribute("id").Value;
+            sln.Interactive.GenerateApplicationExpressions +=
+                Add =>
+                {
 
-							if (id == "Page1")
-							{
-								Add(
-									new StockReplaceWithNewPageExpression(id)
-								);
-							}
 
-							if (id == "UserControl1")
-							{
-								Add(
-									new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", id)
-								);
-							}
+                    // page.PageContainer.ReplaceWith(
+                    GetPages().WithEach(
+                        k =>
+                        {
+                            var id = k.Attribute("id").Value;
 
-							if (id == "Applet1")
-							{
-								Add(
-									new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
-								);
-							}
+                            if (id == "Page1")
+                            {
+                                Add(
+                                    new StockReplaceWithNewPageExpression(id)
+                                );
+                            }
 
-							if (id == "Sprite1")
-							{
-								Add(
-									new StockReplaceWithNewSpriteExpression(sln.Name + ".Components", id)
-								);
-							}
+                            if (id == "UserControl1")
+                            {
+                                Add(
+                                    new StockReplaceWithNewUserControlExpression(sln.Name + ".Components", id)
+                                );
+                            }
 
-							if (id == "AppletUserControl1")
-							{
-								Add(
-									new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
-								);
-							}
-						}
-					);
-				};
+                            if (id == "Applet1")
+                            {
+                                Add(
+                                    new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
+                                );
+                            }
 
-			sln.Interactive.GenerateHTMLFiles +=
-				Add =>
-				{
+                            if (id == "Sprite1")
+                            {
+                                Add(
+                                    new StockReplaceWithNewSpriteExpression(sln.Name + ".Components", id)
+                                );
+                            }
 
-					GetPages().WithEach(
-						k =>
-						{
-							var id = k.Attribute("id").Value;
+                            if (id == "AppletUserControl1")
+                            {
+                                Add(
+                                    new StockReplaceWithNewAppletExpression(sln.Name + ".Components", id)
+                                );
+                            }
+                        }
+                    );
+                };
 
-							if (id == "Page1")
-							{
-								var __Content = new XElement(StockPageDefault.Page);
+            sln.Interactive.GenerateHTMLFiles +=
+                Add =>
+                {
 
+                    GetPages().WithEach(
+                        k =>
+                        {
+                            var id = k.Attribute("id").Value;
 
-								__Content.Element("head").Element("title").Value = id;
+                            if (id == "Page1")
+                            {
+                                var __Content = new XElement(StockPageDefault.Page);
 
-								Add(
-									new SolutionProjectHTMLFile
-									{
-										Name = "Design/" + id + ".htm",
-										Content = __Content
-									}
-								);
-							}
-						}
-					 );
-				};
 
-			sln.Interactive.GenerateTypes +=
-				Add =>
-				{
-					GetPages().WithEach(
-						k =>
-						{
-							var id = k.Attribute("id").Value;
+                                __Content.Element("head").Element("title").Value = id;
 
-							if (id == "UserControl1")
-							{
-								Add(
-									new StockUserControlType(sln.Name + ".Components", id)
-								);
-							}
+                                Add(
+                                    new SolutionProjectHTMLFile
+                                    {
+                                        Name = "Design/" + id + ".htm",
+                                        Content = __Content
+                                    }
+                                );
+                            }
+                        }
+                     );
+                };
 
-							if (id == "Applet1")
-							{
-								Add(
-									new StockAppletType(sln.Name + ".Components", id)
-								);
-							}
+            sln.Interactive.GenerateTypes +=
+                Add =>
+                {
+                    GetPages().WithEach(
+                        k =>
+                        {
+                            var id = k.Attribute("id").Value;
 
-							if (id == "Sprite1")
-							{
-								Add(
-									new StockSpriteType(sln.Name + ".Components", id)
-								);
-							}
+                            if (id == "UserControl1")
+                            {
+                                Add(
+                                    new StockUserControlType(sln.Name + ".Components", id)
+                                );
+                            }
 
-							if (id == "AppletUserControl1")
-							{
-								var UserControl2 = new StockUserControlType(sln.Name + ".Components", "UserControl2");
+                            if (id == "Applet1")
+                            {
+                                Add(
+                                    new StockAppletType(sln.Name + ".Components", id)
+                                );
+                            }
 
-								Add(
-									UserControl2
-								);
+                            if (id == "Sprite1")
+                            {
+                                Add(
+                                    new StockSpriteType(sln.Name + ".Components", id)
+                                );
+                            }
 
-								Add(
-									new StockUserControlAppletType(sln.Name + ".Components", id, UserControl2)
-								);
-							}
-						}
-					 );
-				};
-			#endregion
+                            if (id == "AppletUserControl1")
+                            {
+                                var UserControl2 = new StockUserControlType(sln.Name + ".Components", "UserControl2");
 
+                                Add(
+                                    UserControl2
+                                );
 
-			var _Solution = new TreeNode(VistaTreeNodePage.Create);
+                                Add(
+                                    new StockUserControlAppletType(sln.Name + ".Components", id, UserControl2)
+                                );
+                            }
+                        }
+                     );
+                };
+            #endregion
 
 
-			var _Project = _Solution.Add();
+            var _Solution = new TreeNode(VistaTreeNodePage.Create);
 
-			var About = new AboutPage();
 
-			Action UpdateFile1Text =
-				delegate
-				{
+            var _Project = _Solution.Add();
 
-					if (CodeSourceBView.File != null)
-					{
-						File7Tab.Text = CodeSourceBView.File.Name.SkipUntilLastIfAny("/");
-					}
-					else
-					{
-						File7Tab.Text = sln.Name;
-					}
+            var About = new AboutPage();
 
+            Action UpdateFile1Text =
+                delegate
+                {
 
-				};
+                    if (CodeSourceBView.File != null)
+                    {
+                        File7Tab.Text = CodeSourceBView.File.Name.SkipUntilLastIfAny("/");
+                    }
+                    else
+                    {
+                        File7Tab.Text = sln.Name;
+                    }
 
 
+                };
 
 
-			Action Update =
-				delegate
-				{
-					sln.Name = About.ProjectName.value;
 
-					UpdateFile1Text();
 
-					_Project.Clear();
-					UpdateTree(sln, CodeSourceBView, _Solution, _Project);
-				};
+            Action Update =
+                delegate
+                {
+                    sln.Name = About.ProjectName.value;
 
-			var PreviousVersion = default(string);
+                    UpdateFile1Text();
 
-			HTMLDesigner.HTMLDesignerContent.WhenContentReady(
-				body =>
-				{
-					if (PreviousVersion == null)
-					{
-						var x = new XElement(body.AsXElement());
-						var y = x.ToString();
-						PreviousVersion = y;
-					}
+                    _Project.Clear();
+                    UpdateTree(sln, CodeSourceBView, _Solution, _Project);
+                };
 
-					HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
-						delegate
-						{
-							OutputWriteLine("Designer activated.");
-							//"focus".ToDocumentTitle();
-						};
+            var PreviousVersion = default(string);
 
-					HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
-						delegate
-						{
-							//"blur".ToDocumentTitle();
+            HTMLDesigner.HTMLDesignerContent.WhenContentReady(
+                body =>
+                {
+                    if (PreviousVersion == null)
+                    {
+                        var x = new XElement(body.AsXElement());
+                        var y = x.ToString();
+                        PreviousVersion = y;
+                    }
 
-							var x = new XElement(body.AsXElement());
-							var y = x.ToString();
+                    HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
+                        delegate
+                        {
+                            OutputWriteLine("Designer activated.");
+                            //"focus".ToDocumentTitle();
+                        };
 
-							if (PreviousVersion != y)
-							{
-								PreviousVersion = y;
+                    HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
+                        delegate
+                        {
+                            //"blur".ToDocumentTitle();
 
+                            var x = new XElement(body.AsXElement());
+                            var y = x.ToString();
 
-								sln.ApplicationPage = x;
+                            if (PreviousVersion != y)
+                            {
+                                PreviousVersion = y;
 
 
-								// allow any blur causing action to complete first
-								// we get reselected for some odd reason, why?
-								new Timer(
-									delegate
-									{
-										OutputWriteLine("Designer has caused an update.");
-										Update();
+                                sln.ApplicationPage = x;
 
-									}
-								).StartTimeout(700);
-							}
-						};
-				}
-			);
 
+                                // allow any blur causing action to complete first
+                                // we get reselected for some odd reason, why?
+                                new Timer(
+                                    delegate
+                                    {
+                                        OutputWriteLine("Designer has caused an update.");
+                                        Update();
 
-			CodeSourceBView.FileChanged +=
-				delegate
-				{
-					UpdateFile1Text();
+                                    }
+                                ).StartTimeout(700);
+                            }
+                        };
+                }
+            );
 
 
-					OutputWriteLine("Select: " + CodeSourceBView.File.Name);
+            CodeSourceBView.FileChanged +=
+                delegate
+                {
+                    UpdateFile1Text();
 
-					// hack :)
-					if (CodeSourceBView.File.Name.EndsWith("/Default.htm"))
-					{
-						// currently we only have one element :)
 
-						HTMLDesigner.HTMLDesignerTab.RaiseActivated();
+                    OutputWriteLine("Select: " + CodeSourceBView.File.Name);
 
-						HTMLDesigner.HTMLDesignerTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
-						HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
-						CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
-						CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+                    // hack :)
+                    if (CodeSourceBView.File.Name.EndsWith("/Default.htm"))
+                    {
+                        // currently we only have one element :)
 
-						HTMLDesigner.HTMLDesignerContent.WhenContentReady(
-							body =>
-							{
-								HTMLDesigner.HTMLDesignerContent.contentWindow.focus();
-							}
-						);
+                        HTMLDesigner.HTMLDesignerTab.RaiseActivated();
 
-						// show the design/source buttons
-					}
-					else if (CodeSourceBView.File.Name.EndsWith(sln.Language.ProjectFileExtension))
-					{
-						AboutTab.Activate();
-					}
-					else if (CodeSourceBView.File.Name.EndsWith(sln.Language.CodeFileExtension))
-					{
-						// show type outline / member
-						CodeSourceBTab.RaiseActivated();
+                        HTMLDesigner.HTMLDesignerTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+                        HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
+                        CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+                        CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
 
-						HTMLDesigner.HTMLDesignerTab.TabElement.style.display = IStyle.DisplayEnum.none;
-						HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
-						CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.none;
-						CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
-					}
+                        HTMLDesigner.HTMLDesignerContent.WhenContentReady(
+                            body =>
+                            {
+                                HTMLDesigner.HTMLDesignerContent.contentWindow.focus();
+                            }
+                        );
 
+                        // show the design/source buttons
+                    }
+                    else if (CodeSourceBView.File.Name.EndsWith(sln.Language.ProjectFileExtension))
+                    {
+                        AboutTab.Activate();
+                    }
+                    else if (CodeSourceBView.File.Name.EndsWith(sln.Language.CodeFileExtension))
+                    {
+                        // show type outline / member
+                        CodeSourceBTab.RaiseActivated();
 
-				};
+                        HTMLDesigner.HTMLDesignerTab.TabElement.style.display = IStyle.DisplayEnum.none;
+                        HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
+                        CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.none;
+                        CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+                    }
 
-			//AddSaveButton(WorkspaceHeader, i => Save = i);
 
-			About.ProjectName.value = sln.Name;
-			About.ProjectName.onchange +=
-				delegate
-				{
-					OutputWriteLine("Project name has changed.");
-					Update();
-				};
+                };
 
+            //AddSaveButton(WorkspaceHeader, i => Save = i);
 
+            About.ProjectName.value = sln.Name;
+            About.ProjectName.onchange +=
+                delegate
+                {
+                    OutputWriteLine("Project name has changed.");
+                    Update();
+                };
 
-			Viewer.Content.Clear();
-			Viewer.Content.Add(About.Container);
-			Viewer.Content.Add(CurrentDesigner.Container);
-			Viewer.Content.Add(OutputFileViewer.Container);
 
-			AboutTab.WhenActivated(About.Container);
-			File7Tab.WhenActivated(CurrentDesigner.Container);
-			OutputTab.WhenActivated(OutputFileViewer.Container);
 
+            Viewer.Content.Clear();
+            Viewer.Content.Add(About.Container);
+            Viewer.Content.Add(CurrentDesigner.Container);
+            Viewer.Content.Add(OutputFileViewer.Container);
 
+            AboutTab.WhenActivated(About.Container);
+            File7Tab.WhenActivated(CurrentDesigner.Container);
+            OutputTab.WhenActivated(OutputFileViewer.Container);
 
-			Viewer.First().Activate();
 
-			var SolutionExplorer = new SolutionDockWindowPage();
 
-			SolutionExplorer.HeaderText.innerText = "Solution Explorer";
-			SolutionExplorer.Content.style.backgroundColor = Color.White;
-			SolutionExplorer.Content.style.padding = "2px";
-			SolutionExplorer.Content.ReplaceContentWith(_Solution.Container);
+            Viewer.First().Activate();
 
-			_Solution.Container.style.overflow = IStyle.OverflowEnum.auto;
-			_Solution.Container.style.height = "100%";
-			_Solution.Container.style.backgroundColor = Color.White;
+            var SolutionExplorer = new SolutionDockWindowPage();
 
-			EditorTreeSplit.Split.RightContainer = SolutionExplorer.Container;
+            SolutionExplorer.HeaderText.innerText = "Solution Explorer";
+            SolutionExplorer.Content.style.backgroundColor = Color.White;
+            SolutionExplorer.Content.style.padding = "2px";
+            SolutionExplorer.Content.ReplaceContentWith(_Solution.Container);
 
-			EditorTreeSplit.Container.AttachTo(Workspace);
+            _Solution.Container.style.overflow = IStyle.OverflowEnum.auto;
+            _Solution.Container.style.height = "100%";
+            _Solution.Container.style.backgroundColor = Color.White;
 
-			//CurrentDesigner.First().RaiseActivated();
+            EditorTreeSplit.Split.RightContainer = SolutionExplorer.Container;
 
-			Update();
+            EditorTreeSplit.Container.AttachTo(Workspace);
 
-			new Rules(CodeSourceBView, sln, Update);
+            //CurrentDesigner.First().RaiseActivated();
 
+            Update();
 
-		}
+            Action<string, SolutionProjectLanguage, string> CreateButton =
+                (Text, Language, Name) =>
+                {
+                    new IHTMLButton(Text).AttachTo(WorkspaceHeader).With(
+                        btn =>
+                        {
+                            btn.onclick +=
+                                delegate
+                                {
+                                    sln.Language = Language;
+                                    sln.Name = Name;
+                                    Update();
+                                };
+                        }
+                    );
+                };
 
+            CreateButton("C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
+            CreateButton("F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
+            CreateButton("Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
 
-		void UpdateTree(
-	SolutionBuilder sln, SolutionFileView v, TreeNode _Solution, TreeNode _Project)
-		{
-			_Solution.Text = "Solution '" + sln.Name + "' (1 project)";
-			_Solution.IsExpanded = true;
+            new Rules(CodeSourceBView, sln, Update);
 
-			_Solution.WithIcon(() => new SolutionTwentyTen());
 
-			_Project.Text = sln.Name;
-			_Project.IsExpanded = true;
+        }
 
-			// Or my project?
-			var _Properties = _Project.Add("Properties");
-			_Properties.IsExpanded = true;
-			_Properties.WithIcon(() => new SolutionProjectProperties());
 
-			var _References = _Project.Add("References");
-			_References.IsExpanded = false;
-			_References.WithIcon(() => new References());
+        void UpdateTree(SolutionBuilder sln, SolutionFileView v, TreeNode _Solution, TreeNode _Project)
+        {
+            _Solution.Text = "Solution '" + sln.Name + "' (1 project)";
+            _Solution.IsExpanded = true;
 
+            _Solution.WithIcon(() => new SolutionTwentyTen());
 
-			foreach (var item in sln.References.ToArray())
-			{
-				var _Reference = _References.Add(item.Attribute("Include").Value.TakeUntilIfAny(","));
-				_Reference.IsExpanded = true;
-				_Reference.WithIcon(() => new Assembly());
-			}
+            _Project.Text = sln.Name;
+            _Project.IsExpanded = true;
 
+            // Or my project?
+            var _Properties = _Project.Add("Properties");
+            _Properties.IsExpanded = true;
+            _Properties.WithIcon(() => new SolutionProjectProperties());
 
-			var FolderLookup = new Dictionary<string, TreeNode>();
-			var FileLookup = new Dictionary<SolutionFile, TreeNode>();
+            var _References = _Project.Add("References");
+            _References.IsExpanded = false;
+            _References.WithIcon(() => new References());
 
-			FolderLookup[_Properties.Text] = _Properties;
 
+            foreach (var item in sln.References.ToArray())
+            {
+                var _Reference = _References.Add(item.Attribute("Include").Value.TakeUntilIfAny(","));
+                _Reference.IsExpanded = true;
+                _Reference.WithIcon(() => new Assembly());
+            }
 
 
+            var FolderLookup = new Dictionary<string, TreeNode>();
+            var FileLookup = new Dictionary<SolutionFile, TreeNode>();
 
-			var files = sln.ToFiles();
+            FolderLookup[_Properties.Text] = _Properties;
 
-			files.WithEach(
-				f =>
-				{
-					var ProjectInclude = f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/");
 
-					var Folder = ProjectInclude.TakeUntilLastOrEmpty("/");
 
-					if (!string.IsNullOrEmpty(Folder))
-					{
-						if (!FolderLookup.ContainsKey(Folder))
-						{
-							var _Folder = _Project.Add(Folder);
-							FolderLookup[Folder] = _Folder;
-							_Folder.IsExpanded = true;
-						}
-					}
-				}
-			);
 
-			files.WithEach(
-				(SolutionFile f) =>
-				{
-					var n = default(TreeNode);
+            var files = sln.ToFiles();
 
-					var Extension = "." + f.Name.SkipUntilLastIfAny(".");
+            files.WithEach(
+                f =>
+                {
+                    var ProjectInclude = f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/");
 
-					if (Extension == ".sln")
-					{
-						n = _Solution;
-					}
-					else if (Extension == sln.Language.ProjectFileExtension)
-					{
-						n = _Project;
+                    var Folder = ProjectInclude.TakeUntilLastOrEmpty("/");
 
-						n.Element.TextArea.style.fontWeight = "bold";
-					}
-					else
-					{
-						var ProjectInclude = f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/");
+                    if (!string.IsNullOrEmpty(Folder))
+                    {
+                        if (!FolderLookup.ContainsKey(Folder))
+                        {
+                            var _Folder = _Project.Add(Folder);
+                            FolderLookup[Folder] = _Folder;
+                            _Folder.IsExpanded = true;
+                        }
+                    }
+                }
+            );
 
-						var Folder = ProjectInclude.TakeUntilLastOrEmpty("/");
+            files.WithEach(
+                (SolutionFile f) =>
+                {
+                    var n = default(TreeNode);
 
-						var Parent = _Project;
+                    var Extension = "." + f.Name.SkipUntilLastIfAny(".");
 
-						if (!string.IsNullOrEmpty(Folder))
-						{
-							Parent = FolderLookup[Folder];
-						}
+                    if (Extension == ".sln")
+                    {
+                        n = _Solution;
+                    }
+                    else if (Extension == sln.Language.ProjectFileExtension)
+                    {
+                        n = _Project;
 
-						if (f.DependentUpon != null)
-						{
-							Parent = FileLookup[f.DependentUpon];
-							Parent.IsExpanded = false;
-						}
+                        n.Element.TextArea.style.fontWeight = "bold";
+                    }
+                    else
+                    {
+                        var ProjectInclude = f.Name.SkipUntilIfAny("/").SkipUntilIfAny("/");
 
-						n = Parent.Add(ProjectInclude.SkipUntilLastIfAny("/"));
+                        var Folder = ProjectInclude.TakeUntilLastOrEmpty("/");
 
-						FileLookup[f] = n;
-					}
+                        var Parent = _Project;
 
-					if (Extension == ".cs")
-						n.WithIcon(() => new VisualCSharpCode());
-					else if (Extension == ".csproj")
-						n.WithIcon(() => new VisualCSharpProject());
-					else if (Extension == ".vb")
-						n.WithIcon(() => new VisualBasicCode());
-					else if (Extension == ".vbproj")
-						n.WithIcon(() => new VisualBasicProject());
-					else if (Extension == ".fs")
-						n.WithIcon(() => new VisualFSharpCode());
-					else if (Extension == ".fsproj")
-						n.WithIcon(() => new VisualFSharpProject());
-					else if (Extension == ".htm")
-						n.WithIcon(() => new HTMLDocument());
+                        if (!string.IsNullOrEmpty(Folder))
+                        {
+                            Parent = FolderLookup[Folder];
+                        }
 
-					if (f.ContextType != null)
-					{
-						if (f.ContextType.BaseType != null)
-						{
-							if (f.ContextType.BaseType.Name == "UserControl")
-								n.WithIcon(() => new SolutionProjectFormsControl());
-						}
-					}
+                        if (f.DependentUpon != null)
+                        {
+                            Parent = FileLookup[f.DependentUpon];
+                            Parent.IsExpanded = false;
+                        }
 
-					if (f.DependentUpon != null)
-					{
-						n.WithIcon(() => new SolutionProjectDependentUpon());
-					}
+                        n = Parent.Add(ProjectInclude.SkipUntilLastIfAny("/"));
 
-					n.IsExpanded = true;
+                        FileLookup[f] = n;
+                    }
 
+                    if (Extension == ".cs")
+                        n.WithIcon(() => new VisualCSharpCode());
+                    else if (Extension == ".csproj")
+                        n.WithIcon(() => new VisualCSharpProject());
+                    else if (Extension == ".vb")
+                        n.WithIcon(() => new VisualBasicCode());
+                    else if (Extension == ".vbproj")
+                        n.WithIcon(() => new VisualBasicProject());
+                    else if (Extension == ".fs")
+                        n.WithIcon(() => new VisualFSharpCode());
+                    else if (Extension == ".fsproj")
+                        n.WithIcon(() => new VisualFSharpProject());
+                    else if (Extension == ".htm")
+                        n.WithIcon(() => new HTMLDocument());
 
-					n.Click +=
-						delegate
-						{
-							v.File = f;
-						};
+                    if (f.ContextType != null)
+                    {
+                        if (f.ContextType.BaseType != null)
+                        {
+                            if (f.ContextType.BaseType.Name == "UserControl")
+                                n.WithIcon(() => new SolutionProjectFormsControl());
+                        }
+                    }
 
-					// somebody refreshed the solution.
-					if (v.File == null)
-					{
-						if (f.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") == "Application")
-							v.File = f;
-					}
-					else
-					{
-						// we may not care about the file extensions, will we see a glitch? :)
-						if (v.File.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") == f.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny("."))
-							v.File = f;
-					}
-				}
-			);
+                    if (f.DependentUpon != null)
+                    {
+                        n.WithIcon(() => new SolutionProjectDependentUpon());
+                    }
 
-			if (this.Save != null)
-			{
-				this.Save.Clear();
-				this.Save.FileName = sln.Name + ".sln.zip";
-				files.WithEach(f => this.Save.Add(f.Name, f.Content));
-			}
-		}
+                    n.IsExpanded = true;
 
-		ISaveAction Save;
 
+                    n.Click +=
+                        delegate
+                        {
+                            v.File = f;
+                        };
 
-	}
+                    // somebody refreshed the solution.
+                    if (v.File == null)
+                    {
+                        if (f.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") == "Application")
+                            v.File = f;
+                    }
+                    else
+                    {
+                        // we may not care about the file extensions, will we see a glitch? :)
+                        if (v.File.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny(".") == f.Name.SkipUntilLastIfAny("/").TakeUntilLastIfAny("."))
+                            v.File = f;
+                    }
+                }
+            );
+
+            if (this.Save != null)
+            {
+                this.Save.Clear();
+                this.Save.FileName = sln.Name + ".sln.zip";
+                files.WithEach(f => this.Save.Add(f.Name, f.Content));
+            }
+        }
+
+        ISaveAction Save;
+
+
+    }
 }
