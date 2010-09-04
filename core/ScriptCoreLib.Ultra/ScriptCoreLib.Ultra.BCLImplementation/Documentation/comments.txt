@@ -1,2 +1,3 @@
 ﻿This assembly contains implementations for types from Global Assembly Cache.
 
+All types within this assembly shall be internal.

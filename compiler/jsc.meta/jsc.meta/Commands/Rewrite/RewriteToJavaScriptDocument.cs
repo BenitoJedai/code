@@ -325,6 +325,11 @@ namespace jsc.meta.Commands.Rewrite
 						"jsc->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),
 					},
 
+                    BCLImplementationMergeAssemblies = new RewriteToAssembly.BCLImplementationMergeAssembly[]
+                    {
+                        // will be looking up Ultra.BCLImplementation..
+                        typeof(global::ScriptCoreLib.Ultra.BCLImplementation.System.__Tuple).Assembly.Location
+                    },
 
 
                     #region PreTypeRewrite
@@ -1224,6 +1229,7 @@ namespace jsc.meta.Commands.Rewrite
                     #endregion
                 }
                 #endregion
+
 
                 r.Invoke();
 
