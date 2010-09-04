@@ -603,6 +603,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     if (k is XElement)
                         return true;
 
+                    // anonymous method!
+                    if (k is SolutionProjectLanguageMethod)
+                        return true;
+
+
                     var Call = k as PseudoCallExpression;
                     if (Call != null)
                     {
@@ -658,7 +663,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                         Body();
 
-                        File.WriteLine();
+                        //File.WriteLine();
                     }
                 );
                 File.WriteIndent();

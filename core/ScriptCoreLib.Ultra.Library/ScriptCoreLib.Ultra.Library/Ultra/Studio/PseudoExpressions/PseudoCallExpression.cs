@@ -51,6 +51,9 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 		/// </summary>
 		public XElement XLinq;
 
-
+        public override string ToString()
+        {
+            return this.Method.ToString();
+        }
 	}
 }

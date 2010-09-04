@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using ScriptCoreLib.Ultra.Studio.Formatting;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -117,6 +118,11 @@ namespace ScriptCoreLib.Ultra.Studio
         {
             Write(a);
             WriteSpace();
+        }
+
+        public void WriteSpace(params SolutionFileWriteArguments[] a)
+        {
+            a.WithEach(WriteSpace);
         }
 
         public void WriteSpaces(SolutionFileWriteArguments a)

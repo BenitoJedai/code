@@ -49,16 +49,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				{
 					if (m.IsLambda)
 					{
-						File.Write(Keywords.Sub);
-						File.WriteSpace();
-
+                        File.WriteSpace(Keywords.Sub);
 					}
 					else
 					{
 						File.WriteIndent();
 
-						File.Write(Keywords.Public);
-						File.WriteSpace();
+                        File.WriteSpace(Keywords.Public);
 
 						if (m.IsStatic)
 						{
@@ -77,15 +74,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 							}
 							else
 							{
-								File.Write(Keywords.Shared);
-								File.WriteSpace();
+                                File.WriteSpace(Keywords.Shared);
 							}
 						}
 
 
 
-						File.Write(Keywords.Sub);
-						File.WriteSpace();
+                        File.WriteSpace(Keywords.Sub);
 
 						if (m.IsConstructor)
 						{
@@ -105,22 +100,19 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					{
 						if (i > 0)
 						{
-							File.Write(",");
-							File.WriteSpace();
+                            File.WriteSpace(",");
 						}
 
-						File.Write(Keywords.ByVal);
-						File.WriteSpace();
+                        File.WriteSpace(
+                            Keywords.ByVal,
+                            Parameters[i].Name,
+                            Keywords.As
+                        );
 
-						File.Write(Parameters[i].Name);
-						File.WriteSpace();
-						File.Write(Keywords.As);
-						File.WriteSpace();
 						this.WriteTypeName(File, Parameters[i].Type);
 					}
 
-					File.Write(")");
-					File.WriteLine();
+                    File.WriteLine(")");
 
 					this.WriteMethodBody(File, m.Code, Context);
 
@@ -283,26 +275,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								{
 
 									File.WriteIndent();
-									File.Write(Keywords.Public);
-									File.WriteSpace();
-
+                                    File.WriteSpace(Keywords.Public);
 
 									if (Type.IsSealed)
 									{
-										File.Write(Keywords.NotInheritable);
-										File.WriteSpace();
+                                        File.WriteSpace(Keywords.NotInheritable);
 									}
 
 									if (!Type.IsStatic)
 									{
-										File.Write(Keywords.Class);
+                                        File.WriteSpace(Keywords.Class);
 									}
 									else
 									{
-										File.Write(Keywords.Module);
+                                        File.WriteSpace(Keywords.Module);
 									}
 
-									File.WriteSpace();
 									File.Write(Type);
 									File.WriteLine();
 
