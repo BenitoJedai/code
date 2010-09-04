@@ -43,7 +43,7 @@ namespace ScriptCoreLib
         /// <summary>
         /// Supports redirecting BCLImplementation type while the target is visible.
         /// 
-        /// Example for F# interactive: typeof&lt;System.Tuple&gt;.AssemblyQualifiedName;;
+        /// Example for F# interactive: typeof[System.Tuple].AssemblyQualifiedName;;
         /// </summary>
         public string ImplementsViaAssemblyQualifiedName { get; set; }
 
