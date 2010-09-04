@@ -1,0 +1,2 @@
+﻿This assembly contains implementations for types from Global Assembly Cache.
+
