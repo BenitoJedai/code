@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Studio.StockMethods;
 using ScriptCoreLib.Ultra.Studio.StockAttributes;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 {
@@ -230,6 +231,18 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
+
+            Context.Interactive.Application_service = new SolutionProjectLanguageField
+            {
+                FieldType = ApplicationWebServiceType,
+                FieldConstructor = ApplicationWebServiceType.GetDefaultConstructor(),
+                Name = "service",
+                IsReadOnly = true
+            };
+
+            // we are adding a field. does it show up in the source code later?
+            // SolutionProjectLanguage.WriteType makes it happen!
+            ApplicationType.Fields.Add(Context.Interactive.Application_service);
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
 

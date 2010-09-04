@@ -27,5 +27,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
 			this.Methods.Add(WebMethod2);
 		}
-	}
+
+    }
 }

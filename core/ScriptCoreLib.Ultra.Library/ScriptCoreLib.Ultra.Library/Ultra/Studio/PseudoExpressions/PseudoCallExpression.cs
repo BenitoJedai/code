@@ -11,7 +11,24 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 
 		public SolutionFileComment Comment;
 
-		public object Object;
+        object InternalObject;
+        public object Object
+        {
+            get
+            {
+                if (this.InternalObject == null)
+                    if (this.GetObject != null)
+                        this.InternalObject = this.GetObject();
+
+                return this.InternalObject;
+            }
+            set
+            {
+                this.InternalObject = value;
+            }
+        }
+
+        public Func<object> GetObject;
 
 		public SolutionProjectLanguageMethod Method;
 
@@ -33,6 +50,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 		/// this expression is equal to the XLinq field.
 		/// </summary>
 		public XElement XLinq;
+
 
 	}
 }

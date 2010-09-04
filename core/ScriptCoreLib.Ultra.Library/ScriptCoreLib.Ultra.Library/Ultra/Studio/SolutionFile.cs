@@ -52,10 +52,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		public Stack<Action> IndentStack;
 
 
-		public void Write(string Text)
-		{
-			this.Write(SolutionFileTextFragment.None, Text);
-		}
+
 
 		public void WriteLine(SolutionFileTextFragment Fragment, string Text)
 		{
@@ -100,7 +97,7 @@ namespace ScriptCoreLib.Ultra.Studio
 			InternalContent.Append(a.Text);
 		}
 
-		public void WriteLine(string Text)
+        public void WriteLine(SolutionFileWriteArguments Text)
 		{
 			Write(Text);
 			WriteLine();
@@ -116,6 +113,17 @@ namespace ScriptCoreLib.Ultra.Studio
 			Write(" ");
 		}
 
+        public void WriteSpace(SolutionFileWriteArguments a)
+        {
+            Write(a);
+            WriteSpace();
+        }
 
+        public void WriteSpaces(SolutionFileWriteArguments a)
+        {
+            WriteSpace();
+            Write(a);
+            WriteSpace();
+        }
 	}
 }

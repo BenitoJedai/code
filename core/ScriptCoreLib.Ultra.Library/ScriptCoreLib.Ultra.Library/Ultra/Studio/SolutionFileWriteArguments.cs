@@ -13,6 +13,15 @@ namespace ScriptCoreLib.Ultra.Studio
 		public object Tag;
 
 
+        public static implicit operator SolutionFileWriteArguments(string u)
+        {
+            return new SolutionFileWriteArguments
+            {
+                Fragment = SolutionFileTextFragment.None,
+                Text = u
+            };
+        }
+
 		public static implicit operator SolutionFileWriteArguments(Uri u)
 		{
 			return new SolutionFileWriteArguments

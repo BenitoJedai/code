@@ -325,6 +325,20 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                         {
                                             if (!Type.IsStatic)
                                             {
+                                                Type.Fields.WithEach(
+                                                    Field =>
+                                                    {
+                                                        File.WriteIndent();
+                                                        File.WriteSpace(Keywords.let);
+                                                        File.Write(Field.Name);
+                                                        File.WriteSpaces("=");
+
+                                                        if (Field.FieldConstructor != null)
+                                                            this.WritePseudoCallExpression(File, Field.FieldConstructor, Context);
+
+                                                        File.WriteLine();
+                                                    }
+                                                );
 
                                                 if (Constructor != null)
                                                 {
@@ -507,6 +521,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             if (Method != null)
             {
                 WriteMethod(File, Method, Context);
+                return;
+            }
+
+            // F# match would be awesome here? :)
+            var Field = Parameter as SolutionProjectLanguageField;
+            if (Field != null)
+            {
+                // DeclaringType Object?
+                File.Write(Field.Name);
                 return;
             }
 
