@@ -39,6 +39,9 @@ namespace MultitouchFingerTools.FlashLAN
         [STAThread]
         public static void Main(string[] args)
         {
+            System.Diagnostics.Debug.WriteLine(
+                typeof(Microsoft.FSharp.Core.Operators).AssemblyQualifiedName
+            );
 
 #if DEBUG
             var Spawn = default(Action<Action<Window>>);

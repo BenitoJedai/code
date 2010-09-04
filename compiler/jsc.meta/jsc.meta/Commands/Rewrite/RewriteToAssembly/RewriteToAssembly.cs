@@ -7,13 +7,14 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml.Linq;
 using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
 using jsc.meta.Library.CodeTrace;
-using System.Runtime.InteropServices;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -223,6 +224,19 @@ namespace jsc.meta.Commands.Rewrite
                                 new[] { assembly.GetType(this.type) }
                         );
 
+            #region __BCLImplementationMergeAssemblies
+            var __BCLImplementationMergeAssemblies = Enumerable.ToLookup(
+                from bb in this.BCLImplementationMergeAssemblies
+                // or is it already loaded?
+                let aa = Assembly.LoadFile(bb.name)
+                from t in aa.GetTypes()
+                let ss = t.ToScriptAttributeOrDefault()
+                let ii = ss.Implements
+                where ii != null
+                select new { ii, t }
+                , k => k.ii, k => k.t
+            );
+            #endregion
 
 
             var Product_Extension = this.assembly == null ? productExtension : this.assembly.Extension;
@@ -777,13 +791,13 @@ namespace jsc.meta.Commands.Rewrite
                         {
                             //An unhandled exception of type 'System.ExecutionEngineException' occurred in mscorlib.dll
 
-                            
+
                             var __Value = SourceField.GetValue(null);
 
 
 
                             FieldValue = __Value.StructAsByteArray();
-                            
+
                         }
 
                         if (FieldValue != null && FieldValue.Any(k => k > 0))
@@ -939,6 +953,14 @@ namespace jsc.meta.Commands.Rewrite
                     }
                     #endregion
 
+                    #region time to find the BCLImplementation?
+                    {
+                        // 
+                        var Candidates = __BCLImplementationMergeAssemblies[SourceType].ToArray();
+                        var ResolvedBCLImplementationMergeAssemblies = TypeCache[Candidates];
+                    }
+                    #endregion
+
 
                     var ContextType = SourceType;
                     if (ShouldCopyType(ContextType))
@@ -1030,9 +1052,9 @@ namespace jsc.meta.Commands.Rewrite
                         return;
                     }
 
-                    
 
-           
+
+
 
                     if (SourceType.IsGenericParameter)
                     {
@@ -1368,7 +1390,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
             m.CreateGlobalFunctions();
-            
+
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
             a.Save(_ct_SaveName);

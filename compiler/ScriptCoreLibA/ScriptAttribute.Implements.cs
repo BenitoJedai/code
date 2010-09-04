@@ -28,6 +28,8 @@ namespace ScriptCoreLib
                     {
                         // yay.
                         this.InternalImplements = Type.GetType(this.ImplementsViaAssemblyQualifiedName);
+                        this.ImplementsViaAssemblyQualifiedName = null;
+                        // cannot be both!
                     }
 
                 return InternalImplements;
@@ -40,6 +42,8 @@ namespace ScriptCoreLib
 
         /// <summary>
         /// Supports redirecting BCLImplementation type while the target is visible.
+        /// 
+        /// Example for F# interactive: typeof&lt;System.Tuple&gt;.AssemblyQualifiedName;;
         /// </summary>
         public string ImplementsViaAssemblyQualifiedName { get; set; }
 

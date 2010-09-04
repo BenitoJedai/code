@@ -25,6 +25,24 @@ namespace jsc.meta.Commands.Rewrite
         public string product;
         public string productExtension = ".dll";
 
+        #region BCLImplementationMergeAssemblies
+        /// <summary>
+        /// These assemblies will be searched for BCLImplementations
+        /// </summary>
+        public BCLImplementationMergeAssembly[] BCLImplementationMergeAssemblies = new BCLImplementationMergeAssembly[0];
+
+        public class BCLImplementationMergeAssembly
+        {
+            public string name;
+
+            public static implicit operator BCLImplementationMergeAssembly(string e)
+            {
+                return new BCLImplementationMergeAssembly { name = e };
+            }
+        }
+        #endregion
+
+        #region MergeInstruction
         /// <summary>
         /// Types within these assemblies will be merged to the new primary assembly
         /// </summary>
@@ -39,10 +57,11 @@ namespace jsc.meta.Commands.Rewrite
                 return new MergeInstruction { name = e };
             }
         }
+        #endregion
 
-
+        #region AssemblyMerge
         /// <summary>
-        /// Multiple assemblies can be merged into single assembly. No types from these assemblies shalle be omitted.
+        /// Multiple assemblies can be merged into single assembly. No types from these assemblies shall be omitted.
         /// </summary>
         public AssemblyMergeInstruction[] AssemblyMerge = new AssemblyMergeInstruction[0];
 
@@ -65,6 +84,7 @@ namespace jsc.meta.Commands.Rewrite
                 return this.name.GetHashCode();
             }
         }
+        #endregion
 
 
 
@@ -223,5 +243,8 @@ namespace jsc.meta.Commands.Rewrite
         /// To rewrite a loaded module this flag must be set.
         /// </summary>
         public bool EnableDelayedFileMove;
+
+
+
     }
 }
