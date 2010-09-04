@@ -362,11 +362,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
-            if (Type.IsSealed)
-            {
-                File.Write(Keywords.@sealed);
-                return;
-            }
+   
 
             if (Type.DeclaringType != null)
             {
