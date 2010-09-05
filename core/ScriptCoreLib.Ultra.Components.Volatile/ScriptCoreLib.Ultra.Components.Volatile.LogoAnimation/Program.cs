@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-using ScriptCoreLib.CSharp.Avalon.Extensions;
-using ScriptCoreLib.Shared.Avalon.Extensions;
-using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using ScriptCoreLib.Avalon;
-using ScriptCoreLib.Shared.Avalon;
+using ScriptCoreLib.CSharp.Avalon.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
-using System.Windows.Media.Effects;
-using System.Windows.Interop;
-using System.Windows;
-using System.Windows.Input;
-using System.Runtime.InteropServices;
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation.Library;
+using System.Windows.Shapes;
 
 namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 {
@@ -53,87 +51,331 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             ImageCarouselCanvas.DefaultHeight / 2 - 96).SizeTo(ImageCarouselCanvas.DefaultWidth, 96);
             //.MoveTo(0, ImageCarouselCanvas.DefaultHeight - 96).SizeTo(ImageCarouselCanvas.DefaultWidth, 96);
 
-            var w = c.ToWindow();
+            var cc = new Canvas();
 
+
+            // http://cloudstore.blogspot.com/2008/05/creating-custom-window-style.html
+            var wcam = new Window();
+            wcam.Background = Brushes.Transparent;
+            wcam.WindowStyle = WindowStyle.None;
+            wcam.ResizeMode = ResizeMode.NoResize;
+            wcam.SizeTo(200, 200);
+            wcam.AllowsTransparency = true;
+            wcam.Opacity = 0.5;
+            wcam.ShowInTaskbar = false;
+            wcam.Cursor = Cursors.Hand;
+            wcam.Focusable = false;
+
+            var w = cc.ToWindow();
+
+            w.SizeToContent = SizeToContent.Manual;
+            w.SizeTo(400, 400);
             w.ToTransparentWindow();
-            c.CloseOnClick = false;
-            c.AtClose += w.Close;
+
 
             // http://blog.joachim.at/?p=39
             // http://blogs.msdn.com/changov/archive/2009/01/19/webbrowser-control-on-transparent-wpf-window.aspx
             // http://blogs.interknowlogy.com/johnbowen/archive/2007/06/20/20458.aspx
             w.AllowsTransparency = true;
             w.WindowStyle = System.Windows.WindowStyle.None;
-            w.Background = new SolidColorBrush(Color.FromArgb(0x7F, 0, 0, 0));
-            //w.Background = Brushes.Transparent;
+            w.Focusable = false;
+
+            //w.Background = new SolidColorBrush(Color.FromArgb(0x20, 0, 0, 0));
+            w.Background = Brushes.Transparent;
             w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             w.Topmost = true;
             //w.ShowInTaskbar = false;
-            w.Focusable = false;
 
+            var winfoc = new Canvas();
+
+            var winfo = winfoc.ToWindow();
+
+            winfo.AllowsTransparency = true;
+            winfo.ShowInTaskbar = false;
+            winfo.WindowStyle = WindowStyle.None;
+            winfo.Background = Brushes.Transparent;
+            winfo.ResizeMode = ResizeMode.NoResize;
+            winfo.SizeToContent = SizeToContent.Manual;
+
+            c.MoveContainerTo(-100, -100).AttachContainerTo(winfoc);
+
+            c.CloseOnClick = false;
+            c.AtClose += w.Close;
+
+            #region ActivateInput
             Action ActivateInput =
                 delegate
                 {
-                    IntPtr hwnd = new WindowInteropHelper(w).Handle;
-
-                    // Change the extended window style to include WS_EX_TRANSPARENT
-                    WindowExStyles extendedStyle = (WindowExStyles)NativeMethods.GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
-
-                    extendedStyle &= ~(WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
-
-                    NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
-                    //w.Opacity = 0.5;
-
+                    w.MakeInteractive(true);
 
                     w.Background = SystemColors.ActiveCaptionBrush;
-                    
-                };
+                    //wcam.Background = SystemColors.InactiveCaptionBrush;
 
+
+
+                };
+            #endregion
+
+            #region DeactivateInput
             Action DeactivateInput =
                 delegate
                 {
-                    IntPtr hwnd = new WindowInteropHelper(w).Handle;
-                    //w.Opacity = 1;
-
-                    // Change the extended window style to include WS_EX_TRANSPARENT
-                    WindowExStyles extendedStyle = (WindowExStyles)NativeMethods.GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
-
-                    extendedStyle |= WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE;
-
-                    NativeMethods.SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
+                    w.MakeInteractive(false);
 
                     w.Background = Brushes.Transparent;
+                    //wcam.Background = Brushes.Transparent;
+
+                    t.Text = "jsc-solutions.net";
                 };
+            #endregion
+
+
 
             var NextInputMode = new[] { ActivateInput, DeactivateInput }.ToCyclicAction(a => a());
 
+            var NextInputModeEnabled = false;
+            var NextInputModeKeyDownEnabled = false;
+
+            Action<Key> NextInputModeKeyDown = delegate { };
+
+            #region KeyDown
             InterceptKeys.KeyDown +=
                 key =>
                 {
-                    if (key == Key.LeftCtrl)
+                    if (key == Key.LeftShift)
                     {
-                        //ActivateInput();
+                        wcam.Background = new SolidColorBrush(Color.FromArgb(10, 0, 0, 0));
+                        wcam.MakeInteractive(true);
+
+
+                        NextInputModeEnabled = true;
+                    }
+                    else
+                    {
+
+                        if (NextInputModeEnabled || NextInputModeKeyDownEnabled)
+                        {
+                            NextInputModeKeyDownEnabled = false;
+                            NextInputModeKeyDown(key);
+                        }
+
+                        NextInputModeEnabled = false;
                     }
                 };
+            #endregion
 
             InterceptKeys.KeyUp +=
                 key =>
                 {
-                    if (key == Key.LeftCtrl)
+                    if (key == Key.LeftShift)
                     {
+                        wcam.MakeInteractive(false);
+                        wcam.Background = Brushes.Transparent;
+
                         //DeactivateInput();
-                        NextInputMode();
+                        if (NextInputModeEnabled)
+                            NextInputMode();
                     }
+                    else
+                    {
+
+                    }
+
+                    NextInputModeEnabled = false;
+                };
+
+            var s = 8;
+
+            var ThumbnailSize = 0.4;
+
+            Action UpdateChildren =
+                delegate
+                {
+                    if (w.ActualWidth == 0)
+                        return;
+
+                    var qw = w.ActualWidth - s * 2;
+                    var qh = w.ActualHeight - s * 2;
+
+                    winfo.MoveTo(w.Left, w.Top).SizeTo(w.ActualWidth, w.ActualHeight);
+
+                    wcam.MoveTo(w.Left + s, w.Top + (w.ActualHeight - qh * ThumbnailSize - s));
+                    wcam.SizeTo(
+                        qw * ThumbnailSize,
+                        qh * ThumbnailSize
+                    );
+                };
+
+            w.LocationChanged +=
+                delegate
+                {
+                    UpdateChildren();
+                };
+
+            w.SizeChanged +=
+                delegate
+                {
+                    UpdateChildren();
                 };
 
 
 
+            wcam.SourceInitialized +=
+                delegate
+                {
+                    {
+                        wcam.MakeInteractive(false);
+
+                        UpdateChildren();
+                    }
+
+                    Func<IEnumerable<Internal.Window>> GetWindows =
+                        delegate
+                        {
+                            var windows = new List<Internal.Window>();
+                            Internal.EnumWindows(
+                                (IntPtr hwnd, int lParam) =>
+                                {
+                                    if (new WindowInteropHelper(wcam).Handle != hwnd && (Internal.GetWindowLongA(hwnd, Internal.GWL_STYLE) & Internal.TARGETWINDOW) == Internal.TARGETWINDOW)
+                                    {
+                                        StringBuilder sb = new StringBuilder(100);
+                                        Internal.GetWindowText(hwnd, sb, sb.Capacity);
+
+                                        windows.Add(
+                                            new Internal.Window
+                                            {
+                                                Handle = hwnd,
+                                                Title = sb.ToString()
+                                            }
+                                        );
+                                    }
+
+                                    return true; //continue enumeration
+                                }
+                                , 0);
+
+                            return windows.OrderBy(k => k.Title);
+                        };
+
+                    var thumb = IntPtr.Zero;
+                    var ResetThumbnailSkip = 0;
+
+                    Func<Internal.Window> GetCurrentThumbnail = () => GetWindows().AsCyclicEnumerable().Skip(ResetThumbnailSkip).First();
+
+
+                    Action ResetThumbnail =
+                        delegate
+                        {
+                            GetCurrentThumbnail().With(
+                                shadow =>
+                                {
+                                    t.Text = shadow.Title;
+
+                                    if (thumb != IntPtr.Zero)
+                                        Internal.DwmUnregisterThumbnail(thumb);
+
+                                    int i = Internal.DwmRegisterThumbnail(
+                                        new WindowInteropHelper(wcam).Handle, shadow.Handle, out thumb);
+
+                                    Action UpdateThumbnail =
+                                        delegate
+                                        {
+                                            if (thumb != IntPtr.Zero)
+                                            {
+                                                Internal.PSIZE size;
+                                                Internal.DwmQueryThumbnailSourceSize(thumb, out size);
+
+                                                Internal.DWM_THUMBNAIL_PROPERTIES props = new Internal.DWM_THUMBNAIL_PROPERTIES();
+
+                                                props.fVisible = true;
+                                                props.dwFlags = Internal.DWM_TNP_VISIBLE | Internal.DWM_TNP_RECTDESTINATION | Internal.DWM_TNP_OPACITY | Internal.DWM_TNP_SOURCECLIENTAREAONLY;
+                                                props.opacity = (byte)0xFF;
+                                                props.rcDestination = new Internal.Rect(0, 0, (int)wcam.ActualWidth, (int)wcam.ActualHeight);
+                                                props.fSourceClientAreaOnly = true;
+
+                                                if (size.x < wcam.ActualWidth)
+                                                {
+                                                    props.rcDestination.Right = props.rcDestination.Left + size.x;
+                                                }
+
+                                                if (size.y < wcam.ActualHeight)
+                                                {
+                                                    props.rcDestination.Bottom = props.rcDestination.Top + size.y;
+                                                }
+
+                                                Internal.DwmUpdateThumbnailProperties(thumb, ref props);
+                                            }
+                                        };
+
+                                    UpdateThumbnail();
+
+                                    wcam.SizeChanged += delegate { UpdateThumbnail(); };
+                                }
+                            );
+                        };
+
+
+                    ResetThumbnail();
+
+                    NextInputModeKeyDown +=
+                        key =>
+                        {
+                            if (key == Key.Down)
+                            {
+                                NextInputModeKeyDownEnabled = true;
+                                ResetThumbnailSkip = GetWindows().TakeWhile(k => k.Handle != Internal.GetForegroundWindow()).Count();
+                                ResetThumbnail();
+                            }
+                            if (key == Key.Right)
+                            {
+                                NextInputModeKeyDownEnabled = true;
+                                ResetThumbnailSkip++;
+                                ResetThumbnail();
+                            }
+                            if (key == Key.Left)
+                            {
+                                NextInputModeKeyDownEnabled = true;
+
+                                if (ResetThumbnailSkip > 0)
+                                {
+                                    ResetThumbnailSkip--;
+                                    ResetThumbnail();
+                                }
+                            }
+
+                        };
+
+                    wcam.Activated +=
+                        delegate
+                        {
+                            NextInputModeEnabled = false;
+                            if (ThumbnailSize == 1)
+                                ThumbnailSize = 0.4;
+                            else
+                                ThumbnailSize = 1;
+                            UpdateChildren();
+
+                            winfo.Hide();
+                            winfo.Show();
+                        };
+                };
+
+            winfo.SourceInitialized +=
+                delegate
+                {
+                    winfo.MakeInteractive(false);
+                };
+
             w.SourceInitialized +=
                 delegate
                 {
+                    wcam.Owner = w;
+                    winfo.Owner = w;
+                    wcam.Show();
+                    winfo.Show();
+
                     HwndSource hwndSource = (HwndSource)HwndSource.FromVisual(w);
                     hwndSource.AddHook(
-
                         (IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handeled) =>
                         {
                             if (msg == 0x0084) // WM_NCHITTEST
@@ -142,17 +384,16 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                                 var p = new
                                 {
-                                    cx = w.ActualWidth - (NativeMethods.LOWORD(lParam) - w.Left),
-                                    cy = w.ActualHeight - (NativeMethods.HIWORD(lParam) - w.Top),
-                                    x = NativeMethods.LOWORD(lParam) - w.Left,
-                                    y = NativeMethods.HIWORD(lParam) - w.Top
+                                    cx = w.ActualWidth - (Internal.LOWORD(lParam) - w.Left),
+                                    cy = w.ActualHeight - (Internal.HIWORD(lParam) - w.Top),
+                                    x = Internal.LOWORD(lParam) - w.Left,
+                                    y = Internal.HIWORD(lParam) - w.Top
                                 };
 
                                 t.Text = p.ToString();
 
                                 handeled = true;
 
-                                var s = 8;
 
                                 if (p.x < s)
                                     if (p.y < s)
@@ -161,6 +402,14 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                 if (p.cx < s)
                                     if (p.cy < s)
                                         return (IntPtr)HitTestValues.HTBOTTOMRIGHT; // HTCAPTION
+
+                                if (p.cx < s)
+                                    if (p.y < s)
+                                        return (IntPtr)HitTestValues.HTTOPRIGHT; // HTCAPTION
+
+                                if (p.x < s)
+                                    if (p.cy < s)
+                                        return (IntPtr)HitTestValues.HTBOTTOMLEFT; // HTCAPTION
 
                                 if (p.x < s)
                                     return (IntPtr)HitTestValues.HTLEFT; // HTCAPTION
@@ -225,37 +474,9 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
         internal class NativeMethods
         {
-        
-
-            [DllImport("user32.dll")]
-            public static extern int GetWindowLong(IntPtr hwnd, int index);
-
-            [DllImport("user32.dll")]
-            public static extern int SetWindowLong(IntPtr hwnd, int index, WindowExStyles newStyle);
 
 
-            internal const int WM_NCHITTEST = 0x0084,
-                             HTBOTTOM = 15,
-                             HTBOTTOMRIGHT = 17;
-            internal static int HIWORD(int n)
-            {
-                return (n >> 16) & 0xffff;
-            }
 
-            internal static int HIWORD(IntPtr n)
-            {
-                return HIWORD(unchecked((int)(long)n));
-            }
-
-            internal static int LOWORD(int n)
-            {
-                return n & 0xffff;
-            }
-
-            internal static int LOWORD(IntPtr n)
-            {
-                return LOWORD(unchecked((int)(long)n));
-            }
 
         }
 
@@ -298,21 +519,30 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             private delegate IntPtr LowLevelKeyboardProc(
                 int nCode, IntPtr wParam, IntPtr lParam);
 
+            static Dictionary<Key, bool> KeyDownEnabled = new Dictionary<Key, bool>();
+
             private static IntPtr HookCallback(
                 int nCode, IntPtr wParam, IntPtr lParam)
             {
                 if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
                 {
                     int vkCode = Marshal.ReadInt32(lParam);
-                    if (KeyDown != null)
-                        KeyDown((KeyInterop.KeyFromVirtualKey(vkCode)));
+                    var key = (KeyInterop.KeyFromVirtualKey(vkCode));
+
+                    if (!KeyDownEnabled.ContainsKey(key) || KeyDownEnabled[key])
+                        if (KeyDown != null)
+                            KeyDown(key);
+
+                    KeyDownEnabled[key] = false;
                 }
 
                 if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
                 {
                     int vkCode = Marshal.ReadInt32(lParam);
+                    var key = (KeyInterop.KeyFromVirtualKey(vkCode));
+                    KeyDownEnabled[key] = true;
                     if (KeyUp != null)
-                        KeyUp((KeyInterop.KeyFromVirtualKey(vkCode)));
+                        KeyUp(key);
                 }
 
                 return CallNextHookEx(_hookID, nCode, wParam, lParam);
