@@ -16,6 +16,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation.Library;
 using System.Windows.Shapes;
+using System.Windows.Media.Effects;
 
 namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 {
@@ -31,24 +32,6 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             //c.Container.Effect = new DropShadowEffect();
             //c.Container.BitmapEffect = new DropShadowBitmapEffect();
 
-            var t = new System.Windows.Controls.TextBox
-            {
-                IsReadOnly = true,
-                Background = Brushes.Transparent,
-                BorderThickness = new System.Windows.Thickness(0),
-                Foreground = Brushes.Blue,
-                BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect() { GlowColor = Colors.White, GlowSize = 8 },
-                //Effect = new DropShadowEffect(),
-                Text = "jsc-solutions.net",
-                //TextDecorations = TextDecorations.Underline,
-                FontFamily = new FontFamily("Verdana"),
-                FontSize = 16,
-                TextAlignment = System.Windows.TextAlignment.Left
-            }
-            .AttachTo(c)
-            .MoveTo(
-            ImageCarouselCanvas.DefaultWidth / 2 + 48,
-            ImageCarouselCanvas.DefaultHeight / 2 - 96).SizeTo(ImageCarouselCanvas.DefaultWidth, 96);
             //.MoveTo(0, ImageCarouselCanvas.DefaultHeight - 96).SizeTo(ImageCarouselCanvas.DefaultWidth, 96);
 
             var cc = new Canvas();
@@ -88,6 +71,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             var winfoc = new Canvas();
 
+
+
             var winfo = winfoc.ToWindow();
 
             winfo.AllowsTransparency = true;
@@ -97,7 +82,9 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             winfo.ResizeMode = ResizeMode.NoResize;
             winfo.SizeToContent = SizeToContent.Manual;
 
-            c.MoveContainerTo(-100, -100).AttachContainerTo(winfoc);
+            // http://www.squidoo.com/youtubehd
+
+
 
             c.CloseOnClick = false;
             c.AtClose += w.Close;
@@ -107,12 +94,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 delegate
                 {
                     w.MakeInteractive(true);
-
                     w.Background = SystemColors.ActiveCaptionBrush;
-                    //wcam.Background = SystemColors.InactiveCaptionBrush;
-
-
-
                 };
             #endregion
 
@@ -125,7 +107,6 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     w.Background = Brushes.Transparent;
                     //wcam.Background = Brushes.Transparent;
 
-                    t.Text = "jsc-solutions.net";
                 };
             #endregion
 
@@ -144,10 +125,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 {
                     if (key == Key.LeftShift)
                     {
-                        wcam.Background = new SolidColorBrush(Color.FromArgb(10, 0, 0, 0));
-                        wcam.MakeInteractive(true);
-
-
+                        //w.Background = new SolidColorBrush(Color.FromArgb(2, 0, 0, 0));
+                        w.MakeInteractive(true);
                         NextInputModeEnabled = true;
                     }
                     else
@@ -169,12 +148,12 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 {
                     if (key == Key.LeftShift)
                     {
-                        wcam.MakeInteractive(false);
-                        wcam.Background = Brushes.Transparent;
+                        w.Background = Brushes.Transparent;
+                        w.MakeInteractive(false);
 
                         //DeactivateInput();
-                        if (NextInputModeEnabled)
-                            NextInputMode();
+                        //if (NextInputModeEnabled)
+                        //    NextInputMode();
                     }
                     else
                     {
@@ -187,6 +166,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             var s = 8;
 
             var ThumbnailSize = 0.4;
+            var CaptionBackgroundHeight = 24;
 
             Action UpdateChildren =
                 delegate
@@ -194,12 +174,24 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     if (w.ActualWidth == 0)
                         return;
 
-                    var qw = w.ActualWidth - s * 2;
-                    var qh = w.ActualHeight - s * 2;
+                    var ss = s;
+
+                    if (ThumbnailSize == 1)
+                    {
+                        wcam.Background = Brushes.Black;
+                        ss = 0;
+                    }
+                    else
+                    {
+                        wcam.Background = Brushes.Transparent;
+                    }
+
+                    var qw = w.ActualWidth - ss * 2;
+                    var qh = w.ActualHeight - ss - CaptionBackgroundHeight;
 
                     winfo.MoveTo(w.Left, w.Top).SizeTo(w.ActualWidth, w.ActualHeight);
 
-                    wcam.MoveTo(w.Left + s, w.Top + (w.ActualHeight - qh * ThumbnailSize - s));
+                    wcam.MoveTo(w.Left + ss, w.Top + (w.ActualHeight - qh * ThumbnailSize - ss));
                     wcam.SizeTo(
                         qw * ThumbnailSize,
                         qh * ThumbnailSize
@@ -212,12 +204,109 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     UpdateChildren();
                 };
 
-            w.SizeChanged +=
+
+
+            var Borders = Enumerable.Range(1, s).Reverse().Select(
+                Width =>
+                new
+                {
+                    Width = Width * 2,
+                    Left = new Rectangle { Fill = Brushes.Black, Opacity = 0.05 }.MoveTo(0, 0).AttachTo(cc),
+                    Right = new Rectangle { Fill = Brushes.Black, Opacity = 0.05 }.MoveTo(0, 0).AttachTo(cc)
+                }
+            );
+
+            var CaptionBackgroundOverlay = new Rectangle
+            {
+                Fill = Brushes.Black,
+                Opacity = 0.2,
+            }.AttachTo(cc);
+
+
+            var CaptionBackground = new Rectangle
+            {
+                Fill = Brushes.Black,
+                Opacity = 0.8,
+                Effect = new DropShadowEffect(),
+            }.AttachTo(winfoc);
+
+            c.MoveContainerTo(-200 + 42, -200 + 38).AttachContainerTo(winfoc);
+
+            var CaptionText = new System.Windows.Controls.TextBox
+            {
+                IsReadOnly = true,
+                Background = Brushes.Transparent,
+                BorderThickness = new System.Windows.Thickness(0),
+                Foreground = Brushes.White,
+                //BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect() { GlowColor = Colors.White, GlowSize = 2 },
+                Text = "jsc-solutions.net",
+                //TextDecorations = TextDecorations.Underline,
+                FontFamily = new FontFamily("Verdana"),
+                FontSize = 16,
+                TextAlignment = System.Windows.TextAlignment.Right
+            }
+            .AttachTo(winfoc)
+            .MoveTo(0, 2);
+
+            Action SizeChanged =
                 delegate
                 {
+                    CaptionText.SizeTo(w.ActualWidth - s * 2, 32);
+                    CaptionBackgroundOverlay.SizeTo(w.ActualWidth, CaptionBackgroundHeight);
+                    CaptionBackground.SizeTo(w.ActualWidth, CaptionBackgroundHeight);
+
+                    Borders.WithEach(k => k.Left.MoveTo(0, CaptionBackgroundHeight).SizeTo(k.Width, w.ActualHeight - CaptionBackgroundHeight));
+                    Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width, CaptionBackgroundHeight).SizeTo(k.Width, w.ActualHeight - CaptionBackgroundHeight));
+
                     UpdateChildren();
                 };
 
+            w.SizeChanged +=
+                delegate
+                {
+                    SizeChanged();
+                };
+
+            w.StateChanged +=
+                delegate
+                {
+
+                    SizeChanged();
+                };
+
+            w.SizeTo(1280, 720);
+
+            Func<IEnumerable<Internal.Window>> GetWindows =
+                delegate
+                {
+                    var windows = new List<Internal.Window>();
+                    Internal.EnumWindows(
+                        (IntPtr hwnd, int lParam) =>
+                        {
+                            if (new WindowInteropHelper(wcam).Handle != hwnd && (Internal.GetWindowLongA(hwnd, Internal.GWL_STYLE) & Internal.TARGETWINDOW) == Internal.TARGETWINDOW)
+                            {
+                                StringBuilder sb = new StringBuilder(100);
+                                Internal.GetWindowText(hwnd, sb, sb.Capacity);
+
+                                windows.Add(
+                                    new Internal.Window
+                                    {
+                                        Handle = hwnd,
+                                        Title = sb.ToString()
+                                    }
+                                );
+                            }
+
+                            return true; //continue enumeration
+                        }
+                        , 0);
+
+                    return windows.Where(k => k.Title.Contains("Chrome") || k.Title.Contains("Studio")).OrderBy(k => k.Title);
+                };
+
+            var ResetThumbnailSkip = 0;
+
+            Func<Internal.Window> GetCurrentThumbnail = () => GetWindows().AsCyclicEnumerable().Skip(ResetThumbnailSkip).First();
 
 
             wcam.SourceInitialized +=
@@ -229,38 +318,10 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         UpdateChildren();
                     }
 
-                    Func<IEnumerable<Internal.Window>> GetWindows =
-                        delegate
-                        {
-                            var windows = new List<Internal.Window>();
-                            Internal.EnumWindows(
-                                (IntPtr hwnd, int lParam) =>
-                                {
-                                    if (new WindowInteropHelper(wcam).Handle != hwnd && (Internal.GetWindowLongA(hwnd, Internal.GWL_STYLE) & Internal.TARGETWINDOW) == Internal.TARGETWINDOW)
-                                    {
-                                        StringBuilder sb = new StringBuilder(100);
-                                        Internal.GetWindowText(hwnd, sb, sb.Capacity);
 
-                                        windows.Add(
-                                            new Internal.Window
-                                            {
-                                                Handle = hwnd,
-                                                Title = sb.ToString()
-                                            }
-                                        );
-                                    }
-
-                                    return true; //continue enumeration
-                                }
-                                , 0);
-
-                            return windows.OrderBy(k => k.Title);
-                        };
 
                     var thumb = IntPtr.Zero;
-                    var ResetThumbnailSkip = 0;
-
-                    Func<Internal.Window> GetCurrentThumbnail = () => GetWindows().AsCyclicEnumerable().Skip(ResetThumbnailSkip).First();
+                    ResetThumbnailSkip = GetWindows().TakeWhile(k => k.Handle != Internal.GetForegroundWindow()).Count();
 
 
                     Action ResetThumbnail =
@@ -269,7 +330,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                             GetCurrentThumbnail().With(
                                 shadow =>
                                 {
-                                    t.Text = shadow.Title;
+                                    //t.Text = shadow.Title;
 
                                     if (thumb != IntPtr.Zero)
                                         Internal.DwmUnregisterThumbnail(thumb);
@@ -326,38 +387,27 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                 ResetThumbnailSkip = GetWindows().TakeWhile(k => k.Handle != Internal.GetForegroundWindow()).Count();
                                 ResetThumbnail();
                             }
-                            if (key == Key.Right)
+                            if (key == Key.Up)
                             {
                                 NextInputModeKeyDownEnabled = true;
-                                ResetThumbnailSkip++;
-                                ResetThumbnail();
+                                if (ThumbnailSize == 1)
+                                    ThumbnailSize = 0.4;
+                                else
+                                    ThumbnailSize = 1;
+                                UpdateChildren();
+
                             }
                             if (key == Key.Left)
                             {
                                 NextInputModeKeyDownEnabled = true;
 
-                                if (ResetThumbnailSkip > 0)
-                                {
-                                    ResetThumbnailSkip--;
-                                    ResetThumbnail();
-                                }
+                                GetCurrentThumbnail().Activate();
+
                             }
 
                         };
 
-                    wcam.Activated +=
-                        delegate
-                        {
-                            NextInputModeEnabled = false;
-                            if (ThumbnailSize == 1)
-                                ThumbnailSize = 0.4;
-                            else
-                                ThumbnailSize = 1;
-                            UpdateChildren();
 
-                            winfo.Hide();
-                            winfo.Show();
-                        };
                 };
 
             winfo.SourceInitialized +=
@@ -390,7 +440,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                     y = Internal.HIWORD(lParam) - w.Top
                                 };
 
-                                t.Text = p.ToString();
+                                //t.Text = p.ToString();
 
                                 handeled = true;
 
@@ -472,13 +522,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
         }
 
 
-        internal class NativeMethods
-        {
 
-
-
-
-        }
 
 
         //http://blogs.msdn.com/b/toub/archive/2006/05/03/589423.aspx
