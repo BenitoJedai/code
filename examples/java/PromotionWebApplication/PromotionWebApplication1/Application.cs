@@ -28,7 +28,7 @@ using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Ultra.Components.HTML.Images.FromAssets;
 using ScriptCoreLib.Ultra.Components.HTML.Pages;
 using ScriptCoreLib.Ultra.Documentation;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Studio;
