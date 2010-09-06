@@ -43,6 +43,9 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PromotionBrandIntro">
+      <HintPath>..\..\..\examples\actionscript\PromotionBrandIntro\PromotionBrandIntro\bin\Debug\PromotionBrandIntro.exe</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
