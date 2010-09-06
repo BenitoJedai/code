@@ -38,7 +38,7 @@ call :build core\ScriptCoreLib\ScriptCoreLib.sln
 call :build core\ScriptCoreLib.Reflection.Options\ScriptCoreLib.Reflection.Options.sln
 call :build core\ScriptCoreLib.Query\ScriptCoreLib.Query.sln
 call :build core\ScriptCoreLib.XLinq\ScriptCoreLib.XLinq.sln
-call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
+::call :build core\ScriptCoreLib.Cards\ScriptCoreLib.Cards.sln
 call :build core\ScriptCoreLib.Net\ScriptCoreLib.Net.sln
 call :build core\ScriptCoreLib.Web\ScriptCoreLib.Web.sln
 call :build core\ScriptCoreLib.Web.Services\ScriptCoreLib.Web.Services.sln
@@ -72,10 +72,15 @@ call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
 :: to be obsoleted?
 call :build javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.sln
+call :build examples\actionscript\PromotionBrandIntro\PromotionBrandIntro.sln
 
 call :build compiler\jsc.meta\jsc.meta.sln
 
 call :build core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.sln
+
+
+
+call :build core\ScriptCoreLib.Ultra.Components.Volatile\ScriptCoreLib.Ultra.Components.Volatile.sln
 
 call :build core\ScriptCoreLib.Redux\ScriptCoreLib.Redux.sln
 
