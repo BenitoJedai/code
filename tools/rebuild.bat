@@ -11,7 +11,7 @@ set flags=/nologo /verbosity:q
 set target=C:\util\jsc\bin
 
 mkdir C:\util\jsc\bin
-mkdir C:\util\jsc\lib
+::mkdir C:\util\jsc\lib
 
 :: C:\util\jsc\bin is expected to exist as compiler and framework assemblies will be placed there
 

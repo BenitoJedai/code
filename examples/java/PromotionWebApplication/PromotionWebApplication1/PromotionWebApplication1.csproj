@@ -85,7 +85,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.Archive.ZIP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\lib\ScriptCoreLib.Archive.ZIP.dll</HintPath>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Archive.ZIP.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLib.Avalon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -227,7 +227,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebugger:false</PostBuildEvent>
+start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebugger:false</PostBuildEvent>
     <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
 
 </PreBuildEvent>
