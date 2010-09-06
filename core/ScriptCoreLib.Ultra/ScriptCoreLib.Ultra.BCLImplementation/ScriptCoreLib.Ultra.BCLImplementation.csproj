@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\FSharpRef.cs" />
+    <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\LanguagePrimitives.cs" />
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\Operators.cs" />
     <Compile Include="Ultra\BCLImplementation\System\Tuple.cs" />
   </ItemGroup>

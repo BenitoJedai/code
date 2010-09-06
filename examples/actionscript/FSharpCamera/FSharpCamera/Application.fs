@@ -27,7 +27,23 @@ namespace FSharpCamera
         do ()
         let service = new ApplicationWebService()
         // Initialize MySprite1
-        do new MySprite1().AttachSpriteTo(page.Content) |> ignore
+        let s = new MySprite1()
+        let e = s.ToHTMLElement()
+
+        do s.AttachSpriteTo(page.PageContainer) |> ignore
+
+        let Update() =
+            let w = page.SizeShadow.scrollWidth
+            let h = page.SizeShadow.scrollHeight
+            do e.style.SetSize(w, h)
+            0
+
+        do Update() |> ignore
+
+        do Native.Window.add_onresize(
+            fun (_) -> Update() |> ignore
+        )
+
         do "Hello world".ToDocumentTitle() |> ignore
         // Send data from JavaScript to the server tier
         do service.WebMethod2(
