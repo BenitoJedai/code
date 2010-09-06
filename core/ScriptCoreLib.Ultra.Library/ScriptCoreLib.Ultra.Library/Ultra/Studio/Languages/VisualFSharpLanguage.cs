@@ -313,15 +313,17 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                     File.WriteIndent();
                                                     File.WriteSpace(Keywords.@inherit);
 
-                                                    WriteTypeName(File, Type);
+                                                    WriteTypeName(File, Type.BaseType);
                                                     File.Write("(");
                                                     File.WriteSpace(")");
                                                     File.WriteLine();
                                                 }
 
+                                                // jsc should make sure it maskerades javascript keywords like "this" when used as names.
+
                                                 File.WriteIndent();
                                                 File.WriteSpace(Keywords.@let);
-                                                File.Write("this");
+                                                File.Write("that");
                                                 File.WriteSpaces("=");
                                                 File.Write("me");
                                                 File.WriteLine();
