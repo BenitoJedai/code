@@ -93,30 +93,9 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
 
 
-            #region ActivateInput
-            Action ActivateInput =
-                delegate
-                {
-                    w.MakeInteractive(true);
-                    w.Background = SystemColors.ActiveCaptionBrush;
-                };
-            #endregion
-
-            #region DeactivateInput
-            Action DeactivateInput =
-                delegate
-                {
-                    w.MakeInteractive(false);
-
-                    w.Background = Brushes.Transparent;
-                    //wcam.Background = Brushes.Transparent;
-
-                };
-            #endregion
 
 
 
-            var NextInputMode = new[] { ActivateInput, DeactivateInput }.ToCyclicAction(a => a());
 
             var NextInputModeEnabled = false;
             var NextInputModeKeyDownEnabled = false;
@@ -754,8 +733,14 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 };
 
             InterceptKeys.InternalMain(
-                delegate
+                Rehook =>
                 {
+                    w.Activated +=
+                        delegate
+                        {
+                                Rehook();
+                        };
+
                     w.ShowDialog();
                 }
             );
@@ -806,12 +791,19 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             public static event Action<Key> KeyUp;
             public static event Action<Key> KeyDown;
 
-            public static void InternalMain(Action body)
+          
+            public static void InternalMain(Action<Action> body)
             {
                 _hookID = SetHook(_proc);
                 try
                 {
-                    body();
+                    body(
+                        delegate
+                        {
+                            UnhookWindowsHookEx(_hookID);
+                            _hookID = SetHook(_proc);
+                        }
+                    );
                 }
                 finally
                 {

@@ -319,11 +319,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                     File.WriteLine();
                                                 }
 
-                                                // jsc should make sure it maskerades javascript keywords like "this" when used as names.
 
                                                 File.WriteIndent();
                                                 File.WriteSpace(Keywords.@let);
-                                                File.Write("that");
+                                                File.Write("this");
                                                 File.WriteSpaces("=");
                                                 File.Write("me");
                                                 File.WriteLine();
