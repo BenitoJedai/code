@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpCamera3", "FSharpCamera3\FSharpCamera3.fsproj", "{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A6A22C-76E6-4036-84D9-BAEC1BCAED66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

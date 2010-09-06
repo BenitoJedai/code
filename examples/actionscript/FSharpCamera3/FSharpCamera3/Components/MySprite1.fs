@@ -1,4 +1,4 @@
-namespace FSharpCamera.Components
+namespace FSharpCamera3.Components
 
     open System
     open System.Text
@@ -9,9 +9,8 @@ namespace FSharpCamera.Components
     open ScriptCoreLib.ActionScript.Extensions
     open ScriptCoreLib.Extensions
 
-
     [<Sealed>]
-    type MySprite1() as me =
+    type MySprite1() as me = 
         inherit Sprite()
         let this = me
         let cam1 = Camera.getCamera()
@@ -27,5 +26,4 @@ namespace FSharpCamera.Components
                 vid1.height <- float this.stage.stageHeight
 
         )
-
 
