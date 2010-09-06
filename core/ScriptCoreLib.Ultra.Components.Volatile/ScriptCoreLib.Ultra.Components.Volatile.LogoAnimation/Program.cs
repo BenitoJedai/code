@@ -152,12 +152,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 {
                     if (key == Key.LeftShift)
                     {
-                        //w.Background = Brushes.Transparent;
-                        //w.MakeInteractive(false);
-
-                        //DeactivateInput();
-                        //if (NextInputModeEnabled)
-                        //    NextInputMode();
+                        NextInputModeKeyDownEnabled = false;
                     }
                     else
                     {
@@ -317,9 +312,14 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             var ExtraBorderSize = 0.10;
 
+
+            var Intro = new PromotionBrandIntro.ApplicationCanvas().AttachTo(winfoc);
+            Intro.Opacity = 0;
+
             Action SizeChanged =
                 delegate
                 {
+                    Intro.SizeTo(w.ActualWidth, w.ActualHeight);
                     ink.SizeTo(w.ActualWidth, w.ActualHeight - CaptionBackgroundHeight);
 
                     var CaptionWidth = 200;
@@ -336,7 +336,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         if (c != null)
                             c.MoveContainerTo(-200 + 42 + s, -200 + 38 + s);
                         Borders.WithEach(k => k.Left.MoveTo(s, 0).SizeTo(k.Width, w.ActualHeight));
-                        Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width - s, 0).SizeTo(k.Width, w.ActualHeight));
+                        Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width - s + 2, 0).SizeTo(k.Width, w.ActualHeight));
                         Borders.WithEach(k => k.Bottom.MoveTo(0, w.ActualHeight - k.Width - s).SizeTo(w.ActualWidth, k.Width));
                         Borders.WithEach(k => k.Top.MoveTo(0, s).SizeTo(w.ActualWidth, k.Width));
                         CaptionText.MoveTo(0, 2 + s).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
@@ -444,6 +444,19 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             Func<Internal.Window> GetCurrentThumbnail = () => GetWindows().AsCyclicEnumerable().Skip(ResetThumbnailSkip).First();
 
+            Intro.AnimationCompleted +=
+                delegate
+                {
+                    if (c == null)
+                    {
+                        c = new JSCSolutionsNETCarouselCanvas
+                        {
+                            CloseOnClick = false
+                        }.AttachContainerTo(winfoc);
+                        CaptionClose.Show();
+                        SizeChanged();
+                    }
+                };
 
             wcam.SourceInitialized +=
                 delegate
@@ -602,6 +615,35 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                                 SizeChanged();
                             }
+
+                            if (key == Key.RightShift)
+                            {
+                                NextInputModeKeyDownEnabled = true;
+
+                                if (c != null)
+                                {
+                                    CaptionClose.Hide();
+                                    c.AtClose +=
+                                        delegate
+                                        {
+                                            c.OrphanizeContainer();
+                                        };
+                                    c.Close();
+                                    c = null;
+                                }
+
+                                Intro.Background = Brushes.Transparent;
+                                Intro.Overlay.Opacity = 1;
+                                Intro.FadeIn(
+                                    delegate
+                                    {
+                                       
+
+                                        2000.AtDelay(Intro.PrepareAnimation());
+                                    }
+                                );
+                            }
+
                             if (key == Key.Left)
                             {
                                 if (w.IsActive)
