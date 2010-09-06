@@ -19,12 +19,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					@typeof = "typeof",
                     @do = "do",
                     @let = "let",
-					@ignore = "ignore",
+                    @ignore = "ignore",
+                    @inherit = "inherit",
 					@new = "new",
 					@fun = "fun",
                     @member = "member",
                     @mutable = "mutable",
-					@assembly = "assembly",
+                    @as = "as",
+                    @assembly = "assembly",
 					@module = "module",
 					@namespace = "namespace"
 				;

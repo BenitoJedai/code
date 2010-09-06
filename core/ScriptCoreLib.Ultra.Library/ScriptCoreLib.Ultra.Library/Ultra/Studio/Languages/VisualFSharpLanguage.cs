@@ -275,8 +275,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                                     if (Type.IsStatic)
                                     {
-                                        File.Write(Keywords.@module);
-                                        File.WriteSpace();
+                                        File.WriteSpace(Keywords.@module);
                                         WriteTypeName(File, Type);
                                         File.WriteSpace();
                                         File.Write("=");
@@ -298,19 +297,38 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                         if (Constructor != null)
                                             this.InternalWriteParameters(File, Constructor.Parameters.ToArray());
 
-                                        File.Write(")");
-                                        File.WriteSpace();
-                                        File.Write("=");
+                                        File.WriteSpace(")");
+
+                                        File.WriteSpace(Keywords.@as);
+                                        File.WriteSpace("me");
+
+                                        File.WriteSpace("=");
                                         File.WriteLine();
 
                                         File.Indent(this,
                                             delegate
                                             {
-                                                File.WriteIndent();
-                                                File.Write(Keywords.@do);
-                                                File.WriteSpace();
-                                                File.Write("()");
+                                                if (Type.BaseType != null)
+                                                {
+                                                    File.WriteIndent();
+                                                    File.WriteSpace(Keywords.@inherit);
 
+                                                    WriteTypeName(File, Type);
+                                                    File.Write("(");
+                                                    File.WriteSpace(")");
+                                                    File.WriteLine();
+                                                }
+
+                                                File.WriteIndent();
+                                                File.WriteSpace(Keywords.@let);
+                                                File.Write("this");
+                                                File.WriteSpaces("=");
+                                                File.Write("me");
+                                                File.WriteLine();
+
+                                                File.WriteIndent();
+                                                File.WriteSpace(Keywords.@do);
+                                                File.Write("()");
                                                 File.WriteLine();
                                             }
                                         );
