@@ -266,6 +266,10 @@ namespace jsc
 
 		public static string GetSafeLiteral(string z)
 		{
+            // escaping language keywords?
+            if (z == "this")
+                return "__this";
+
 			var w = new StringBuilder(z.Length);
 
 			foreach (char x in z)

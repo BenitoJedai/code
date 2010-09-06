@@ -177,7 +177,6 @@ namespace MultitouchFingerTools.FlashLAN
                     var w = page.SizeShadow.scrollWidth;
                     var h = page.SizeShadow.scrollHeight;
 
-
                     e.style.SetSize(w, h);
                 };
 
