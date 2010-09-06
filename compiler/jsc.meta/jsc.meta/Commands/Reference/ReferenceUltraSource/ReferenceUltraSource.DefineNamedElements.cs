@@ -282,7 +282,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
                                         if (Bitmap.PixelWidth == Bitmap.PixelHeight)
                                         {
                                             /* files are getting too big?
-                                             * 
+                                             */
                                             new AffineTriangles
                                             {
                                                 DefaultNamespace = DefaultNamespace,
@@ -290,7 +290,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
                                                 DeclaringType = DeclaringType,
                                                 r = r
                                             }.Define();
-                                            */
+                                            
 
                                         }
                                 }
