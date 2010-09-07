@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Specialized
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 {
     [Script(Implements = typeof(global::System.Collections.Specialized.StringDictionary))]
     internal class __StringDictionary : IEnumerable
@@ -60,4 +60,5 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Speciali
             this.InternalValue.Add(key, value);
         }
     }
+
 }

@@ -40,6 +40,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,12 +53,16 @@
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\FSharpRef.cs" />
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\LanguagePrimitives.cs" />
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\Operators.cs" />
+    <Compile Include="Ultra\BCLImplementation\System\ServiceModel\Syndication\SyndicationFeed.cs" />
     <Compile Include="Ultra\BCLImplementation\System\Tuple.cs" />
+    <Compile Include="Ultra\BCLImplementation\System\Xml\XmlReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Documentation\comments.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Ultra\BCLImplementation\System\Collections\Specialized\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>

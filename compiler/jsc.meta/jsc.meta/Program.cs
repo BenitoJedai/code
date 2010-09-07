@@ -94,6 +94,7 @@ namespace jsc.meta
                 new ConfigurationPrecompile(),
                 new ConfigurationIncrementApplicationVersion(),
                 new ConfigurationDisposeSubst(),
+                new ConfigurationClean(),
 
                 new TestChooser(),
                 new TestVirtualDriveCleanup()
