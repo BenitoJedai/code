@@ -800,6 +800,7 @@ namespace PromotionWebApplication1
 
         }
 
+        #if Bulldog
         public void CodeGenerator(WebServiceHandler h)
         {
 
@@ -831,6 +832,7 @@ namespace PromotionWebApplication1
                 h.CompleteRequest();
             }
         }
+       
 
         private static void DownloadJavaZip(WebServiceHandler h, string TypesList)
         {
@@ -873,6 +875,7 @@ namespace PromotionWebApplication1
 
             h.CompleteRequest();
         }
+        #endif
     }
 
     public static class DownloadSDKFunction

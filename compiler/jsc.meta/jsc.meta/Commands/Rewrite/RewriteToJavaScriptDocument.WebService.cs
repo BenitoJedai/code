@@ -741,6 +741,7 @@ call """ + this.appengine + @"\bin\appcfg.cmd"" update www
                 #endregion
 
 
+                #region IsWebServicePHP
                 if (IsWebServicePHP)
                 {
                     var web = root.CreateSubdirectory("web");
@@ -813,6 +814,8 @@ subst B: /D
 
 
                 }
+                #endregion
+
             }
         }
 

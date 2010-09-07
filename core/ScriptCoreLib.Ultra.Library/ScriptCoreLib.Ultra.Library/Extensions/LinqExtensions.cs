@@ -8,6 +8,10 @@ namespace ScriptCoreLib.Extensions
 {
     public static class LinqExtensions
     {
+        public static IEnumerable<Action> SelectAction<T>(this IEnumerable<T> source, Func<T, Action> selector)
+        {
+            return source.Select(selector);
+        }
 
 
         public static int Times(this int e, Action y)

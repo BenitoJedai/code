@@ -1914,6 +1914,39 @@ namespace jsc
 
             return null;
         }
+
+        public IEnumerable<Type> GetReferencedTypes()
+        {
+            var r = ReferencedType;
+
+            if (r != null)
+                yield return r;
+
+            {
+                var m = this.TargetMethod;
+                if (m != null)
+                {
+                    yield return m.DeclaringType;
+                    foreach (var item in m.GetParameters())
+                    {
+                        yield return item.ParameterType;
+                    }
+                }
+            }
+
+            {
+                var m = this.TargetConstructor;
+                if (m != null)
+                {
+                    yield return m.DeclaringType;
+                    foreach (var item in m.GetParameters())
+                    {
+                        yield return item.ParameterType;
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// returns ctor, parameter,  var, field, method type
         /// </summary>

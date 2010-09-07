@@ -155,7 +155,6 @@
     <Compile Include="GLSL\mediump.cs" />
     <Compile Include="GLSL\vec2.cs" />
     <Compile Include="GLSL\VertexShader.cs" />
-    <Compile Include="JavaScript\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLVideo.cs" />
@@ -209,6 +208,8 @@
     <Compile Include="JavaScript\Runtime\Color.cs" />
     <Compile Include="JavaScript\Runtime\Convert.cs" />
     <Compile Include="JavaScript\Runtime\Fader.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Uri.cs" />
     <Compile Include="Shared\Drawing\Rectangle.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
   </ItemGroup>
@@ -756,7 +757,6 @@
     <Compile Include="PHP\Runtime\PHPMailer.cs" />
     <Compile Include="PHP\Runtime\Properties.cs" />
     <Compile Include="PHP\Serialized\ObjectStreamHelper.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Uri.cs" />
     <Compile Include="Shared\IAssemblyReferenceToken.cs" />
     <Compile Include="Shared\Helper.cs" />
     <Compile Include="Shared\IAssemblyInfo.cs" />
@@ -797,6 +797,7 @@
     <Folder Include="ActionScript\Documents\" />
     <Folder Include="ActionScript\Extensions\mx\core\" />
     <Folder Include="ActionScript\mx\effects\effectClasses\" />
+    <Folder Include="JavaScript\BCLImplementation\System\Collections\Specialized\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

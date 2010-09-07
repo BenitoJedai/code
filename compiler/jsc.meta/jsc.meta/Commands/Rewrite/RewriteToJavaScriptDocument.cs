@@ -1341,6 +1341,42 @@ namespace jsc.meta.Commands.Rewrite
 
                 if (k.IsWebService && !k.IsWebServiceJava && !k.IsWebServicePHP)
                 {
+                    Console.WriteLine("looking for referenced assemblies to be deployed for WebService...");
+
+                    var AssembliesReferencedByFieldsScope = Path.GetDirectoryName(assembly.Location);
+
+                    var q = Enumerable.ToArray(
+                            from Method in k.TargetType.GetMethods()
+                            let Body = new ILBlock(Method)
+                            where Body.Instructrions != null
+                            from i in Body.Instructrions
+                            from ReferencedType in i.GetReferencedTypes()
+                            where ReferencedType != null
+                            let ReferencedAssembly = ReferencedType.Assembly
+                            where ReferencedAssembly != assembly
+                            let ReferencedAssemblyPath = new FileInfo(ReferencedAssembly.Location)
+                            where ReferencedAssemblyPath.Directory.FullName == AssembliesReferencedByFieldsScope
+                            select new
+                            {
+                                Method,
+                                ReferencedType,
+                                ReferencedAssembly,
+                                ReferencedAssemblyPath
+                            }
+
+                    ).GroupBy(kk => kk.ReferencedAssemblyPath);
+
+                    foreach (var item in q)
+                    {
+                        if (!AssembliesForDebugging.Contains(item.Key.FullName))
+                        {
+                            Console.WriteLine("found requirement for ~/bin/" + item.Key.Name);
+
+                            AssembliesForDebugging.Add(item.Key.FullName);
+                        }
+
+                    }
+
                     // assemblies for for cassini
                     foreach (var item in AssembliesForDebugging)
                     {

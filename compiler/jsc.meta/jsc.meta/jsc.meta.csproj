@@ -238,6 +238,7 @@
     <Compile Include="Commands\Analytics\AnalyticsForFlagCounter.cs" />
     <Compile Include="Commands\Analytics\AnalyticsForStatCounter.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\Configuration\ConfigurationClean.cs" />
     <Compile Include="Commands\Configuration\ConfigurationDisposeSubst.cs" />
     <Compile Include="Commands\Configuration\ConfigurationIncrementApplicationVersion.cs" />
     <Compile Include="Commands\Configuration\ConfigurationInitialize.cs" />

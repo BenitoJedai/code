@@ -1,3 +1,10 @@
 ﻿This assembly contains implementations for types from Global Assembly Cache.
 
 All types within this assembly shall be internal.
+
+The types defined here cannot be used by 
+	[1] ScriptCoreLib or 
+	[2] ScriptCoreLibJava or 
+	[3] assemblies with [Obfuscation(Feature = "script")] yet.
+
+Such types can be defined at ScriptCoreLib.Shared namespace.

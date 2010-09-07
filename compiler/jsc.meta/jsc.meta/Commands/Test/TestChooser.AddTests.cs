@@ -87,6 +87,19 @@ namespace jsc.meta.Commands.Test
             );
 
 
+            Add("ConfigurationClean w:/jsc.svn/core", () => new ConfigurationClean
+            {
+                Target = new DirectoryInfo(
+                    "w:/jsc.svn/core")
+            });
+
+            Add("ConfigurationClean w:/jsc.svn/examples", () => new ConfigurationClean
+            {
+                Target = new DirectoryInfo(
+                    "w:/jsc.svn/examples")
+            });
+
+
             Add("ConfigurationCreateProjectTemplates", () => new ConfigurationCreateProjectTemplates());
 
             Add("ScriptCoreLib", () =>
