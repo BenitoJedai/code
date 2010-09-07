@@ -19,6 +19,7 @@ using jsc.meta.Library.VolumeFunctions;
 using jsc.meta.Tools;
 using jsc.Script;
 using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.ActionScript;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.JavaScript;
@@ -27,6 +28,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Remoting;
 using ScriptCoreLib.Ultra.Library;
+using jsc.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -1345,34 +1347,55 @@ namespace jsc.meta.Commands.Rewrite
 
                     var AssembliesReferencedByFieldsScope = Path.GetDirectoryName(assembly.Location);
 
-                    var q = Enumerable.ToArray(
-                            from Method in k.TargetType.GetMethods()
-                            let Body = new ILBlock(Method)
-                            where Body.Instructrions != null
-                            from i in Body.Instructrions
-                            from ReferencedType in i.GetReferencedTypes()
-                            where ReferencedType != null
-                            let ReferencedAssembly = ReferencedType.Assembly
-                            where ReferencedAssembly != assembly
-                            let ReferencedAssemblyPath = new FileInfo(ReferencedAssembly.Location)
-                            where ReferencedAssemblyPath.Directory.FullName == AssembliesReferencedByFieldsScope
-                            select new
-                            {
-                                Method,
-                                ReferencedType,
-                                ReferencedAssembly,
-                                ReferencedAssemblyPath
-                            }
+                    var WebServiceMethods = new VirtualDictionary<Type, IEnumerable<FileInfo>>();
 
-                    ).GroupBy(kk => kk.ReferencedAssemblyPath);
-
-                    foreach (var item in q)
-                    {
-                        if (!AssembliesForDebugging.Contains(item.Key.FullName))
+                    WebServiceMethods.Resolve +=
+                        SourceType =>
                         {
-                            Console.WriteLine("found requirement for ~/bin/" + item.Key.Name);
+                            WebServiceMethods[SourceType] = null;
 
-                            AssembliesForDebugging.Add(item.Key.FullName);
+                            if (SourceType.Assembly != assembly)
+                                return;
+
+                            Console.WriteLine(SourceType.FullName);
+
+                            WebServiceMethods[SourceType] = Enumerable.ToArray(
+                                     from Method in SourceType.GetMethods()
+                                     let Body = new ILBlock(Method)
+                                     where Body.Instructrions != null
+                                     from i in Body.Instructrions
+                                     from ReferencedType in i.GetReferencedTypes().WithEach(
+                                        kk => { var _ = WebServiceMethods[kk]; }
+                                       )
+
+                                     where ReferencedType != null
+                                     let ReferencedAssembly = ReferencedType.Assembly
+                                     where ReferencedAssembly != assembly
+                                     let ReferencedAssemblyPath = new FileInfo(ReferencedAssembly.Location)
+                                     where ReferencedAssemblyPath.Directory.FullName == AssembliesReferencedByFieldsScope
+                                     select new
+                                     {
+                                         Method,
+                                         ReferencedType,
+                                         ReferencedAssembly,
+                                         ReferencedAssemblyPath
+                                     }
+
+                             ).GroupBy(kk => kk.ReferencedAssemblyPath).Select(kk => kk.Key);
+                        };
+
+
+          
+
+                    var Trigger = WebServiceMethods[k.TargetType];
+
+                    foreach (var item in WebServiceMethods.BaseDictionary.Values.Where(kk => kk != null).SelectMany(kk => kk).Distinct())
+                    {
+                        if (!AssembliesForDebugging.Contains(item.FullName))
+                        {
+                            Console.WriteLine("found dependancy: " + item.Name);
+
+                            AssembliesForDebugging.Add(item.FullName);
                         }
 
                     }
