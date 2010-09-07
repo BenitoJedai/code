@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication", "PromotionWebApplication\PromotionWebApplication.csproj", "{52F52DBC-1B23-4948-B5B6-E9A64684401C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1", "PromotionWebApplication1\PromotionWebApplication1.csproj", "{00A6CB37-64BC-4C54-849D-70A834E146A1}"
@@ -8,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplication1.TestTracks", "PromotionWebApplication1.TestTracks\PromotionWebApplication1.TestTracks.csproj", "{2F8427D5-D47E-4E26-A0C2-588CA3AD9F3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromotionWebApplicationHome", "PromotionWebApplicationHome\PromotionWebApplicationHome.csproj", "{52091756-B888-4CAF-BEA5-F1D539F6FB81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolutionBuilderV1", "..\..\javascript\Ultra\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj", "{A07DE0E4-E126-30A4-5F40-8F412172C72E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52091756-B888-4CAF-BEA5-F1D539F6FB81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A07DE0E4-E126-30A4-5F40-8F412172C72E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

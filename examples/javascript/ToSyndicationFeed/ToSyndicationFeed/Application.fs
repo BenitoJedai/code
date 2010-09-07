@@ -25,15 +25,22 @@ namespace ToSyndicationFeed
     type Application(page : IDefaultPage) as me = 
         let this = me
         do ()
-        let service = new ApplicationWebService()
+        
         do "Hello world".ToDocumentTitle() |> ignore
-        // Send data from JavaScript to the server tier
-        do service.WebMethod2(
-            "A string from JavaScript.",
-            fun(value : String) -> 
-                // Show the server message as document title
-                page.Content.innerText <- value
-                ()
 
-        )
+
+        let fetch uri = 
+            let service = new ApplicationWebService()
+            // Send data from JavaScript to the server tier
+            do service.WebMethod2(
+                uri,
+                fun(html) -> 
+                    // Show the server message as document title
+                    page.Content.Add(html)
+                    ()
+            )
+            uri
+      
+        do fetch "http://zproxy.wordpress.com/feed" |> ignore
+        do fetch "http://services.community.microsoft.com/feeds/feed/FSharpDevCenterFeaturedContent" |> ignore
 
