@@ -145,17 +145,11 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TestSolutionBuilderV1, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\javascript\Ultra\TestSolutionBuilder\TestSolutionBuilderV1\bin\Debug\TestSolutionBuilderV1.exe</HintPath>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Design\About.cs" />
-    <Compile Include="Design\Licensing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SaveActionSprite.cs" />
     <Compile Include="Library\GoogleAnalytics.cs" />
@@ -193,6 +187,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Design.UltraSource\Placeholders\" />
+    <Folder Include="Design\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -212,6 +207,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\javascript\Ultra\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj">
+      <Project>{A07DE0E4-E126-30A4-5F40-8F412172C72E}</Project>
+      <Name>TestSolutionBuilderV1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PromotionWebApplicationHome\PromotionWebApplicationHome.csproj">
       <Project>{52091756-B888-4CAF-BEA5-F1D539F6FB81}</Project>
       <Name>PromotionWebApplicationHome</Name>
