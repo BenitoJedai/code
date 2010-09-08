@@ -122,6 +122,9 @@
     </Compile>
     <Compile Include="Views\Rules.cs" />
     <Compile Include="Views\StudioView.cs" />
+    <Content Include="Design\Images\!Images.htm" />
+    <Content Include="Design\Images\DownloadSDK.png" />
+    <Content Include="Design\Images\Glow1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

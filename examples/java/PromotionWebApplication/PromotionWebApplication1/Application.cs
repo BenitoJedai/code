@@ -109,7 +109,9 @@ namespace PromotionWebApplication1
             if (IsStudio)
             {
                 app.PageContent.Clear();
-                new StudioView(null).Content.AttachToDocument();
+                new StudioView(
+                    AddSaveButton
+                ).Content.AttachToDocument();
             }
             else
             {

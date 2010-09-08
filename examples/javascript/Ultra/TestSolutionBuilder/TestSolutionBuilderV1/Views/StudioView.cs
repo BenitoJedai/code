@@ -21,6 +21,7 @@ using ScriptCoreLib.Ultra.Studio.StockExpressions;
 using ScriptCoreLib.Ultra.Studio.StockPages;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
 using TestSolutionBuilderV1.HTML.Pages;
+using TestSolutionBuilderV1.HTML.Images.FromAssets;
 
 namespace TestSolutionBuilderV1.Views
 {
@@ -38,27 +39,86 @@ namespace TestSolutionBuilderV1.Views
 
             new TwentyTenWorkspace().ToBackground(Content.style, true);
 
-            var WorkspaceHeader = default(IHTMLSpan);
+            var WorkspaceHeaderTab0 = new IHTMLDiv().With(
+                div =>
+                {
+                    div.style.position = IStyle.PositionEnum.absolute;
+                    div.style.top = "0px";
+                    div.style.left = "0px";
+                    div.style.width = "14em";
+                    div.style.height = "6em";
 
-            @"jsc-solutions.net studio".ToDocumentTitle().With(
+                    div.style.padding = "0.5em";
+
+                    new Glow1().ToBackground(div.style, false);
+                }
+            ).AttachTo(Content);
+
+            var WorkspaceHeaderTab1 = new IHTMLDiv().With(
+                div =>
+                {
+                    div.style.position = IStyle.PositionEnum.absolute;
+                    div.style.top = "0px";
+                    div.style.left = "14em";
+                    div.style.right = "6em";
+                    div.style.height = "6em";
+
+                    div.style.padding = "0.5em";
+
+                    new Glow1().ToBackground(div.style, false);
+                }
+            ).AttachTo(Content);
+
+            var WorkspaceHeaderTab2 = new IHTMLDiv().With(
+                 div =>
+                 {
+                     div.style.position = IStyle.PositionEnum.absolute;
+                     div.style.top = "0px";
+                     div.style.width = "6em";
+                     div.style.right = "0px";
+                     div.style.height = "6em";
+
+                     //div.style.padding = "0.5em";
+
+                     new Glow1().ToBackground(div.style, false);
+                 }
+             ).AttachTo(Content);
+
+            var WorkspaceHeaderTab0Text = default(IHTMLSpan);
+
+           
+           
+            new DownloadSDK
+            {
+                   
+            }.AttachTo(
+                 new IHTMLAnchor
+                 {
+                     title = "Download JSC SDK!",
+                     href = "http://download.jsc-solutions.net"
+                 }.AttachTo(WorkspaceHeaderTab2)
+            );
+
+            @"studio.jsc-solutions.net".ToDocumentTitle().With(
                 title =>
                 {
-                    WorkspaceHeader = new IHTMLSpan { innerText = title };
+                    WorkspaceHeaderTab0Text = new IHTMLSpan { innerText = title };
 
-                    WorkspaceHeader.AttachTo(Content);
-                    WorkspaceHeader.style.SetLocation(16, 8);
-                    WorkspaceHeader.style.color = Color.White;
+                    WorkspaceHeaderTab0Text.AttachTo(WorkspaceHeaderTab0);
+                    //WorkspaceHeaderTab0Text.style.SetLocation(16, 8);
+                    WorkspaceHeaderTab0Text.style.fontFamily = IStyle.FontFamilyEnum.Tahoma;
+                    WorkspaceHeaderTab0Text.style.color = Color.White;
+                    WorkspaceHeaderTab0Text.style.display = IStyle.DisplayEnum.block;
 
                     // http://www.quirksmode.org/css/textshadow.html
-                    WorkspaceHeader.style.textShadow = "#808080 4px 2px 2px";
-
+                    WorkspaceHeaderTab0Text.style.textShadow = "#808080 4px 2px 2px";
 
                 }
             );
 
 
             if (AddSaveButton != null)
-                AddSaveButton(WorkspaceHeader, i => Save = i);
+                AddSaveButton(WorkspaceHeaderTab0Text, i => Save = i);
 
             // em + px :)
             var Workspace0 = new IHTMLDiv().With(
@@ -68,7 +128,7 @@ namespace TestSolutionBuilderV1.Views
                     div.style.left = "0px";
                     div.style.right = "0px";
                     div.style.bottom = "0px";
-                    div.style.top = "3em";
+                    div.style.top = "6em";
                 }
             ).AttachTo(Content);
 
@@ -203,6 +263,7 @@ namespace TestSolutionBuilderV1.Views
             CurrentDesigner.Add(HTMLDesigner);
 
 
+            var sln = new SolutionBuilder();
 
 
 
@@ -212,7 +273,7 @@ namespace TestSolutionBuilderV1.Views
                 new SolutionFileDesignerTab
                 {
                     Image = new RTA_mode_html(),
-                    Text = "Source [Generated]"
+                    Text = "Generated Code"
                 };
 
             var CodeSourceAView = new SolutionFileView();
@@ -240,11 +301,13 @@ namespace TestSolutionBuilderV1.Views
                         {
                             var CodeSourceFile = new SolutionFile
                             {
+
                                 Name = "Default.htm"
                             };
 
                             var Type = new SolutionProjectLanguageType
                             {
+                                Comments = new SolutionFileComment[] { "This type was generated from the HTML file." },
                                 Namespace = "HTML.Pages",
                                 Name = "IDefaultPage",
                                 IsInterface = true,
@@ -273,7 +336,7 @@ namespace TestSolutionBuilderV1.Views
                                 }
                             );
 
-                            KnownLanguages.VisualCSharp.WriteType(CodeSourceFile, Type, null);
+                            sln.Language.WriteType(CodeSourceFile, Type, null);
 
                             CodeSourceAView.File = CodeSourceFile;
 
@@ -291,6 +354,7 @@ namespace TestSolutionBuilderV1.Views
                 new SolutionFileDesignerTab
                 {
                     Image = new RTA_mode_html(),
+                    // all source code, not just html?
                     Text = "Source"
                 };
 
@@ -322,9 +386,9 @@ namespace TestSolutionBuilderV1.Views
             #endregion
 
 
-            CurrentDesigner.Add(CodeSourceATab);
             CurrentDesigner.Add(CodeSourceBTab);
 
+            CurrentDesigner.Add(CodeSourceATab);
 
 
 
@@ -338,7 +402,6 @@ namespace TestSolutionBuilderV1.Views
 
 
 
-            var sln = new SolutionBuilder();
 
 
             #region dynamic content
@@ -655,10 +718,15 @@ namespace TestSolutionBuilderV1.Views
 
             Update();
 
-            Action<string, SolutionProjectLanguage, string> CreateButton =
-                (Text, Language, Name) =>
+            Action<IHTMLImage, string, SolutionProjectLanguage, string> CreateButton =
+                (Icon, Text, Language, Name) =>
                 {
-                    new IHTMLButton(Text).AttachTo(WorkspaceHeader).With(
+                    var span = new IHTMLSpan(Text);
+
+                    span.style.marginLeft = "0.7em";
+                    span.style.marginRight = "0.7em";
+
+                    new IHTMLButton { Icon, span }.AttachTo(WorkspaceHeaderTab1).With(
                         btn =>
                         {
                             btn.onclick +=
@@ -668,13 +736,15 @@ namespace TestSolutionBuilderV1.Views
                                     sln.Name = Name;
                                     Update();
                                 };
+
+                            btn.style.display = IStyle.DisplayEnum.block;
                         }
                     );
                 };
 
-            CreateButton("C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
-            CreateButton("F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
-            CreateButton("Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
+            CreateButton(new VisualCSharpProject(), "View as C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
+            CreateButton(new VisualFSharpProject(), "View as F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
+            CreateButton(new VisualBasicProject(), "View as Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
 
             new Rules(CodeSourceBView, sln, Update);
 
