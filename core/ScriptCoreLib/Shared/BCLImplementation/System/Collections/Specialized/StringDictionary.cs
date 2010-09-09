@@ -19,7 +19,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Collections.Specialized
 
         public IEnumerator GetEnumerator()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("");
         }
 
         public virtual bool ContainsKey(string key)

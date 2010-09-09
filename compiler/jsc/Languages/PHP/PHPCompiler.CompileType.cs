@@ -30,6 +30,8 @@ namespace jsc.Script.PHP
 				if (z.IsEnum)
 					return false;
 
+
+
 				if (z.IsValueType)
 				{
 					if (z.Name.Contains("PrivateImplementationDetails"))
@@ -51,6 +53,10 @@ namespace jsc.Script.PHP
 					return true;
 				}
 
+                if (za.IsNative)
+                {
+                    return false;
+                }
 
 				if (z.BaseType != typeof(object) && z.BaseType != null)
 				{
@@ -61,35 +67,38 @@ namespace jsc.Script.PHP
 				//Console.WriteLine(z.FullName);
 
 
+                if (z.ToScriptAttributeOrDefault().ImplementationType == null)
+                {
+                    // see PHP Exception
+
+                    WriteTypeSignature(z, za);
+
+                    using (CreateScope())
+                    {
+                        // BCL classes will define static fields!
+                        WriteTypeFields(z, za);
+
+                        if (!z.ToScriptAttributeOrDefault().InternalConstructor)
+                        {
+                            WriteTypeInstanceConstructors(z);
+                            WriteTypeInstanceMethods(z, za);
+
+                            //WriteTypeVirtualMethods(z, za);
+
+                            if (!z.IsInterface)
+                            {
+                                WriteInterfaceMappingMethods(z);
+                            }
+
+                            WriteVirtualMethodOverrides(z);
+                        }
+
+                        CompileType_WriteAdditionalMembers();
+                    }
 
 
-				WriteTypeSignature(z, za);
-
-				using (CreateScope())
-				{
-					// BCL classes will define static fields!
-					WriteTypeFields(z, za);
-
-					if (!z.ToScriptAttributeOrDefault().InternalConstructor)
-					{
-						WriteTypeInstanceConstructors(z);
-						WriteTypeInstanceMethods(z, za);
-
-						//WriteTypeVirtualMethods(z, za);
-
-						if (!z.IsInterface)
-						{
-							WriteInterfaceMappingMethods(z);
-						}
-
-						WriteVirtualMethodOverrides(z);
-					}
-
-					CompileType_WriteAdditionalMembers();
-				}
-
-
-				WriteLine();
+                    WriteLine();
+                }
 
 
 				WriteTypeStaticMethods(z, za);

@@ -51,7 +51,10 @@ namespace jsc.Script.PHP
 
 						WriteSpace();
 						WriteKeywordSpace(Keywords._extends);
-						WriteDecoratedTypeName(BaseType);
+
+                        var BaseType0 = BaseType.ToScriptAttributeOrDefault().ImplementationType ?? BaseType;
+
+                        WriteDecoratedTypeName(BaseType0);
 
 					}
 				}

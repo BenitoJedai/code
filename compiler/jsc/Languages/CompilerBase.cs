@@ -281,6 +281,9 @@ namespace jsc.Script
 			{
 				if (s.StackInstructions.Length == 1)
 				{
+                    if (s.SingleStackInstruction == null)
+                        throw new ArgumentNullException("s.SingleStackInstruction");
+
 					EmitInstruction(p, s.SingleStackInstruction, TypeExpectedOrDefault);
 				}
 				else

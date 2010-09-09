@@ -95,6 +95,7 @@
     <Compile Include="ActionScript\flash\net\GroupSpecifier.cs" />
     <Compile Include="ActionScript\flash\net\NetGroup.cs" />
     <Compile Include="ActionScript\flash\net\NetGroupInfo.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\Extensions\flash\text\ime\IIMEClient.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="GLSL\mediump.cs" />
     <Compile Include="GLSL\vec2.cs" />
     <Compile Include="GLSL\VertexShader.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLVideo.cs" />
@@ -202,7 +204,11 @@
     <Compile Include="JavaScript\Native.cs" />
     <Compile Include="JavaScript\Runtime\StringWriter.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\ArrayList.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
+    <Compile Include="PHP\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="PHP\Native.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JavaScript\Runtime\Color.cs" />

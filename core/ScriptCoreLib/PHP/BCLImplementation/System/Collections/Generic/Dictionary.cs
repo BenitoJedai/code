@@ -4,21 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generic
+namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 {
     [Script(Implements = typeof(Dictionary<,>))]
     internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable, ICollection
     {
         public __Dictionary()
-            : this(null)
         {
 
         }
 
-        public __Dictionary(IEqualityComparer<TKey> comparer)
-        {
-
-        }
+    
 
         #region IDictionary<TKey,TValue> Members
 
@@ -40,14 +36,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             return _keys.Contains(key);
         }
 
-		public bool ContainsValue(TValue value)
-		{
-			return _values.Contains(value);
-		}
+        public bool ContainsValue(TValue value)
+        {
+            return _values.Contains(value);
+        }
 
-        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection)
-            //, IsDebugCode = true
-            )]
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.KeyCollection))]
         public class __KeyCollection : List<TKey>
         {
         }
@@ -89,12 +83,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             throw new global::System.Exception("The method or operation is not implemented.");
         }
 
-        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection)
-            //, IsDebugCode = true
-            )]
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.ValueCollection))]
         public class __ValueCollection : List<TValue>
         {
-     
+
         }
 
         readonly __ValueCollection _values = new __ValueCollection();
@@ -211,19 +203,16 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
             return new __Enumerator(this);
         }
 
-        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator)
-            //,IsDebugCode = true
-            )]
+        [Script(Implements = typeof(global::System.Collections.Generic.Dictionary<,>.Enumerator))]
         public class __Enumerator : IEnumerator<KeyValuePair<TKey, TValue>>, IDisposable, IEnumerator
         {
             IEnumerator<KeyValuePair<TKey, TValue>> list;
 
-			public __Enumerator() : this(null) { }
 
             public __Enumerator(__Dictionary<TKey, TValue> e)
             {
-				if (e == null)
-					return;
+                if (e == null)
+                    return;
 
                 var a = new global::System.Collections.Generic.List<KeyValuePair<TKey, TValue>>();
 
@@ -237,7 +226,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
 
             }
 
-   
+
 
             public KeyValuePair<TKey, TValue> Current { get { return list.Current; } }
 
@@ -269,23 +258,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Collections.Generi
         }
 
 
-		#region ICollection Members
+        #region ICollection Members
 
-		public void CopyTo(global::System.Array array, int index)
-		{
-			throw new NotImplementedException();
-		}
+        public void CopyTo(global::System.Array array, int index)
+        {
+            throw new NotImplementedException("");
+        }
 
-		public bool IsSynchronized
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public bool IsSynchronized
+        {
+            get { throw new NotImplementedException(""); }
+        }
 
-		public object SyncRoot
-		{
-			get { throw new NotImplementedException(); }
-		}
+        public object SyncRoot
+        {
+            get { throw new NotImplementedException(""); }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
+
 }
