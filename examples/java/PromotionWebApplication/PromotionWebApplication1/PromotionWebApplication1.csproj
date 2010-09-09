@@ -162,20 +162,7 @@
     <Compile Include="UltraSprite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Audio.UltraSource\Audio.htm" />
-    <Content Include="Audio.UltraSource\SoundCloudBackground.htm" />
-    <Content Include="Audio.UltraSource\references.txt" />
-    <Content Include="Audio.UltraSource\rooster.mp3" />
-    <Content Include="Audio.UltraSource\SoundCloudHeader.htm" />
-    <Content Include="Audio.UltraSource\SoundCloudLoading.htm" />
-    <Content Include="Audio.UltraSource\SoundCloudMore.htm" />
-    <Content Include="Audio.UltraSource\SoundCloudTrack.htm" />
     <Content Include="Design.UltraSource\About.css" />
-    <Content Include="Design.UltraSource\About.htm" />
-    <Content Include="Design.UltraSource\SourceEditorHeader.htm" />
-    <Content Include="Design.UltraSource\DefaultPage1.htm" />
-    <Content Include="Design.UltraSource\SimpleCodeView.htm" />
-    <Content Include="Design.UltraSource\UltraApplicationWithAssets.htm" />
     <Content Include="Future.UltraSource\AboutApplet.java" />
     <None Include="Future.UltraSource\AboutSprite.as" />
     <Content Include="Future.UltraSource\AboutScript.js" />
@@ -226,7 +213,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"   /AttachDebugger:false</PostBuildEvent>
+start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServicePHP:true /AttachDebugger:false</PostBuildEvent>
     <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
 
 </PreBuildEvent>

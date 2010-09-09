@@ -87,7 +87,24 @@ namespace jsc.Script.PHP
 				var r = this.ResolveImplementation(LocalType) ?? LocalType;
 				var ctor = r.GetConstructor(new Type[] { });
 
-				if (ctor != null)
+                if (ctor == null)
+                {
+                    var InternalTypeDefault = r.GetMethod("InternalTypeDefault",
+                        BindingFlags.Static | BindingFlags.Public
+                    );
+
+                    if (InternalTypeDefault == null)
+                        throw new NotSupportedException("InternalTypeDefault not found for struct init");
+
+                    this.WriteDecoratedTypeName(u.DeclaringType, r);
+                    this.Write("::");
+                    this.WriteDecoratedMethodName(InternalTypeDefault, false);
+                    this.Write("()");
+                    this.WriteLine(";");
+                    return;
+
+                }
+                else
 				{
 					this.WriteKeywordSpace(Keywords._new);
 					this.WriteDecoratedTypeName(u.DeclaringType, r);
@@ -95,6 +112,7 @@ namespace jsc.Script.PHP
 					this.WriteLine(";");
 					return;
 				}
+
 			}
 
 			BreakToDebugger("WriteLocalVariableDefinition, " + v.LocalType.Name);

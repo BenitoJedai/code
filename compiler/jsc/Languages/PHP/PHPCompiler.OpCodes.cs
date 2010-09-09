@@ -445,6 +445,12 @@ namespace jsc.Script.PHP
                 ] =
                 delegate(CodeEmitArgs e)
                 {
+                    if (e.i.OpCode == OpCodes.Ldarg_0)
+                        if (e.Method.ToScriptAttributeOrDefault().DefineAsStatic)
+                        {
+                            WriteDefineAsStaticSelf();
+                            return;
+                        }
 
                     WriteMethodParameterOrSelf(e.i);
                 };
@@ -522,6 +528,17 @@ namespace jsc.Script.PHP
                     if (EmitEnumAsStringSafe(e))
                         return;
 
+                    if (e.FirstOnStack.IsSingle)
+                        if (e.FirstOnStack.SingleStackInstruction.OpCode == OpCodes.Castclass)
+                        {
+                            var StackBeforeStrict = e.FirstOnStack.SingleStackInstruction.StackBeforeStrict;
+
+                            if (StackBeforeStrict[0].SingleStackInstruction == null)
+                            {
+                                WriteExceptionVar();
+                                return;
+                            }
+                        }
 
                     Emit(e.p, e.FirstOnStack);
                 };
@@ -785,13 +802,13 @@ namespace jsc.Script.PHP
                     #region workaround "syntax error, unexpected '[' in"
                     if (s[0].SingleStackInstruction.OpCode.FlowControl == FlowControl.Call)
                     {
-                        Action WriteMethodName = 
+                        Action WriteMethodName =
                             delegate
                             {
                                 this.WriteDecoratedMethodName(e.Method, false);
                                 this.Write("_IL" + e.i.Offset.ToString("x4"));
                             };
-                        
+
                         this.CompileType_WriteAdditionalStaticMembers +=
                             delegate
                             {
@@ -891,7 +908,7 @@ namespace jsc.Script.PHP
 
                     var sa = ScriptAttribute.OfProvider(TargetConstructorDeclaringType);
 
-                    if (!(sa != null && sa.InternalConstructor))
+                    if (!(sa != null && sa.InternalConstructor) && (sa == null || sa.ImplementationType == null))
                         if (TargetConstructorDeclaringType.GetConstructors().Length > 1)
                         {
                             // yay, a special mode!

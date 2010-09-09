@@ -19,5 +19,23 @@ namespace ScriptCoreLib.Ultra.BCLImplementation.Microsoft.FSharp.Core
         {
             return tuple.Item2;
         }
+
+        public static T Raise<T>(Exception exn)
+        {
+            throw exn;
+        }
+
+        public static T FailWith<T>(string message)
+        {
+            throw new Exception(message);
+        }
+
+ 
+
+ 
+
+
+ 
+
     }
 }

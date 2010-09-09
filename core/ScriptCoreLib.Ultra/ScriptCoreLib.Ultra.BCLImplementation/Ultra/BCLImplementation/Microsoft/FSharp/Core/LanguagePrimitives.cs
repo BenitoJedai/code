@@ -20,6 +20,15 @@ namespace ScriptCoreLib.Ultra.BCLImplementation.Microsoft.FSharp.Core
                 return x;
             }
 
+            public static void FailInit()
+            {
+                throw new InvalidOperationException("checkInit");
+            }
+
+ 
+
+ 
+
         }
     }
 }

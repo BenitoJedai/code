@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("jsc.meta")]
-[assembly: AssemblyDescription("JSC - C# to JavaScript, ActionScript, PHP, Java, C and C#")]
+[assembly: AssemblyTitle("TestPHPExceptions")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://www.jsc-solutions.net")]
-[assembly: AssemblyProduct("jsc.meta")]
-[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("TestPHPExceptions")]
+[assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ae06be84-998d-47e9-a4a0-4b3185804acb")]
+[assembly: Guid("ad8c2fe3-1ee5-4b3e-9842-9b647c80b9f5")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,7 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.0.*")]
-[assembly: AssemblyFileVersion("4.0.*")]
-
-[assembly: Obfuscation(Feature = "merge")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

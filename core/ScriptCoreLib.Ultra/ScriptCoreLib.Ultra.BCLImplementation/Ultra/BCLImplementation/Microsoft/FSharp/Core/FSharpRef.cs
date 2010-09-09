@@ -12,7 +12,7 @@ namespace ScriptCoreLib.Ultra.BCLImplementation.Microsoft.FSharp.Core
 
         public __FSharpRef(T contents)
         {
-
+            this.contents = contents;
         }
 
     }
