@@ -50,6 +50,7 @@ call :build core\ScriptCoreLib.Windows.Forms\ScriptCoreLib.Windows.Forms.sln
 call :build core\ScriptCoreLib.Archive.ZIP\ScriptCoreLib.Archive.ZIP.sln
 call :build core\ScriptCoreLib.Archive\ScriptCoreLib.Archive.sln
 call :build core\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.sln
+call :build core\ScriptCoreLib.Avalon.Integration\ScriptCoreLib.Avalon.Integration.sln
 call :build core\ScriptCoreLib.Avalon.Cursors\ScriptCoreLib.Avalon.Cursors.sln
 call :build core\ScriptCoreLib.Avalon.Carousel\ScriptCoreLib.Avalon.Carousel.sln
 call :build core\ScriptCoreLib.Avalon.TextButton\ScriptCoreLib.Avalon.TextButton.sln
@@ -57,10 +58,12 @@ call :build core\ScriptCoreLib.Avalon.TiledImageButton\ScriptCoreLib.Avalon.Tile
 call :build core\ScriptCoreLib.Avalon.TextSuggestions\ScriptCoreLib.Avalon.TextSuggestions.sln
 call :build core\ScriptCoreLib.RayCaster\ScriptCoreLib.RayCaster.sln
 call :build core\ScriptCoreLib.Maze\ScriptCoreLib.Maze.sln
+call :build core\ScriptCoreLib.YAML\ScriptCoreLib.YAML.sln
 
 call :build core\ScriptCoreLib.Ultra.Library\ScriptCoreLib.Ultra.Library.sln
 call :build core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.sln
 
+call :build core\ScriptCoreLibNative\ScriptCoreLibNative.sln
 
 :: build some tools
 :: do we use this ? :)
@@ -72,9 +75,9 @@ call :build javascript\Controls\TextEditor\ScriptCoreLib.Controls.TextEditor.sln
 call :build javascript\Controls\LayeredControl\ScriptCoreLib.Controls.LayeredControl.sln
 :: to be obsoleted?
 call :build javascript\Controls\ScriptCoreLib.Controls.NatureBoy\ScriptCoreLib.Controls.NatureBoy.sln
-call :build examples\actionscript\PromotionBrandIntro\PromotionBrandIntro.sln
 
 call :build compiler\jsc.meta\jsc.meta.sln
+call :build examples\actionscript\PromotionBrandIntro\PromotionBrandIntro.sln
 
 call :build core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.sln
 
