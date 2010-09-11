@@ -531,8 +531,8 @@ namespace jsc.meta.Commands.Rewrite
 
                                     var Handler = a.context.TypeCache[typeof(InternalHttpServlet)];
 
-                                    var _application = "jsc-project";
-                                    var _version = "5";
+                                    var _application = this.WebServiceJavaSettings.application; // "jsc-project";
+                                    var _version = this.WebServiceJavaSettings.version;
 
                                     var res = new ScriptResourceWriter(a.Assembly, a.Module, a.context)
 									{

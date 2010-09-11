@@ -11,8 +11,8 @@ set target=C:\util\jsc\bin
 set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 
 :: we need to pre build that assembly in "Assets" configuration
-ERASE /s /Q c:\util\jsc\cache 
-ERASE /s /Q %LOCALAPPDATA%\jsc\cache 
+::ERASE /s /Q c:\util\jsc\cache 
+::ERASE /s /Q %LOCALAPPDATA%\jsc\cache 
 
 ::call c:\util\jsc\bin\jsc.meta.exe ConfigurationPrecompile
 

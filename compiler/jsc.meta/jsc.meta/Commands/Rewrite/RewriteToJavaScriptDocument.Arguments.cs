@@ -47,6 +47,14 @@ namespace jsc.meta.Commands.Rewrite
 		public bool DisableWebServiceJava = true;
         public bool DisableWebServicePHP = true;
 
+        public class WebServiceJavaSettingsType
+        {
+            public string application = "jsc-project";
+            public string version = "5";
+        }
+
+        public WebServiceJavaSettingsType WebServiceJavaSettings = new WebServiceJavaSettingsType();
+
 		/// <summary>
 		/// Server side debugging scenario is enabled by setting DisableWebServiceTypeMerge to true.
 		/// One can now insert Debug.Break statements into the WebService class and the original
