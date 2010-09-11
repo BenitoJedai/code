@@ -78,6 +78,8 @@
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
+    <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
+    <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssemblyBase.cs" />
@@ -221,9 +223,7 @@
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Library\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

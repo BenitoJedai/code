@@ -227,6 +227,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteNamespace(SolutionFile File, string Namespace, Action Body)
         {
+            var RootlessNamespace = Namespace.SkipUntilOrEmpty(".");
+
+            if (string.IsNullOrEmpty(RootlessNamespace))
+            {
+                Body();
+                return;
+            }
+
             File.Write(Keywords.Namespace);
             File.WriteSpace();
             File.Write(Namespace);

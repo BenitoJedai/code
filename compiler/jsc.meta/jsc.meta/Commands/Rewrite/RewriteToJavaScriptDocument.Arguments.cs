@@ -43,8 +43,9 @@ namespace jsc.meta.Commands.Rewrite
 
 		public bool IsRewriteOnly;
 
-		public bool DisableWebServiceJava;
-		public bool DisableWebServicePHP;
+        // less is more :)
+		public bool DisableWebServiceJava = true;
+        public bool DisableWebServicePHP = true;
 
 		/// <summary>
 		/// Server side debugging scenario is enabled by setting DisableWebServiceTypeMerge to true.

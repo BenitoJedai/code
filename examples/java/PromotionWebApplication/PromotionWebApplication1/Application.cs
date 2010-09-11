@@ -35,6 +35,7 @@ using ScriptCoreLib.Ultra.Studio;
 using TestSolutionBuilderV1.Views;
 using System.IO;
 using PromotionWebApplication1.Assets;
+using ScriptCoreLib.Library;
 
 namespace PromotionWebApplication1
 {
@@ -801,6 +802,8 @@ namespace PromotionWebApplication1
             DownloadSDKFunction.DownloadSDK(h);
 
         }
+
+
 
         #if Bulldog
         public void CodeGenerator(WebServiceHandler h)

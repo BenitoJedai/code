@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Archive.ZIP", "ScriptCoreLib.Archive.ZIP\ScriptCoreLib.Archive.ZIP.csproj", "{096E47C3-34FC-42AE-ADA0-848CE5F69FBE}"
 EndProject
 Global
