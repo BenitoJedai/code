@@ -10,6 +10,11 @@ set flags=/nologo /verbosity:q
 
 set target=C:\util\jsc\bin
 
+echo - deleting jsc SDK for new rebuild
+
+ERASE /s /Q c:\util\jsc
+
+mkdir C:\util\jsc\
 mkdir C:\util\jsc\bin
 ::mkdir C:\util\jsc\lib
 
