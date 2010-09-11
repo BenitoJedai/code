@@ -86,7 +86,6 @@ namespace jsc.meta
 				new RewriteToSplashScreen(),
                 new RewriteToReplacedReferences(),
 
-				new AnalyticsForStatCounter().Invoke,
 				new AnalyticsForFlagCounter().Invoke,
 
                 new ConfigurationCreateProjectTemplates(),

@@ -21,6 +21,9 @@ namespace jsc.meta.Commands.Configuration
 
         public override void Invoke()
         {
+            // We can only precompile assemblies which have explicit information on BCLImplementation at the moment
+            // What about PHP?
+
             Action<string> WithText = Text =>
             {
                 Console.WriteLine(Text);
@@ -33,7 +36,6 @@ namespace jsc.meta.Commands.Configuration
                 Options =>
                 {
                     Options.IsNoLogo = true;
-
                     Options.CachedFileGeneratorConstructor =
                         a => new CachedFileGenerator(a)
                         {
@@ -51,6 +53,7 @@ namespace jsc.meta.Commands.Configuration
                     jsc.Program.TypedMain(
                         new jsc.CompileSessionInfo
                         {
+                            
                             Options = Options
                         }
                     );
@@ -63,7 +66,7 @@ namespace jsc.meta.Commands.Configuration
                  { 
                     SourceType =>
                     {
-                        return  new CommandLineOptions
+                        return new CommandLineOptions
                         {
                             TargetAssembly = new System.IO.FileInfo(SourceType.Assembly.Location),
                             IsJava = true,
@@ -79,10 +82,26 @@ namespace jsc.meta.Commands.Configuration
                          typeof(global::ScriptCoreLibJava.Web.Services.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLibJava.jni.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLibJava.AppEngine.IAssemblyReferenceToken),
+                    }
+                 },
 
-                         typeof(global::ScriptCoreLib.Archive.ZIP.ZIPFile),
 
-                         //typeof(global::ScriptCoreLib.Shared.Archive.ZIP.),
+                 { 
+                    SourceType =>
+                    {
+                        return new CommandLineOptions
+                        {
+                            TargetAssembly = new System.IO.FileInfo(SourceType.Assembly.Location),
+                            IsPHP = true,
+                        };
+                    },
+                    new[]
+                    {
+                         typeof(global::ScriptCoreLib.Shared.IAssemblyReferenceToken),
+                         typeof(global::ScriptCoreLib.Shared.Query.IAssemblyReferenceToken),
+                         typeof(global::ScriptCoreLib.Shared.XLinq.IAssemblyReferenceToken),
+                         typeof(global::ScriptCoreLib.Shared.Web.IAssemblyReferenceToken),
+                         typeof(global::ScriptCoreLib.Shared.Web.Services.IAssemblyReferenceToken),
                     }
                  },
 
@@ -124,7 +143,7 @@ namespace jsc.meta.Commands.Configuration
                          typeof(global::ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken),
                          typeof(global::ScriptCoreLib.Shared.Avalon.Integration.IAssemblyReferenceToken),
 
-                         typeof(global::ScriptCoreLib.Archive.ZIP.ZIPFile),
+                         //typeof(global::ScriptCoreLib.Archive.ZIP.ZIPFile),
                     }
                  },
 

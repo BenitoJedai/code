@@ -376,8 +376,6 @@
     <Compile Include="ActionScript\mx\controls\SWFLoader.cs" />
     <Compile Include="ActionScript\mx\core\UIComponent.cs" />
     <Compile Include="ActionScript\mx\core\FlexSprite.cs" />
-    <Compile Include="JavaScript\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Conversions.cs" />
-    <Compile Include="JavaScript\BCLImplementation\Microsoft\VisualBasic\CompilerServices\ProjectData.cs" />
     <Compile Include="JavaScript\BCLImplementation\Microsoft\VisualBasic\Interaction.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Char.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Queue.cs" />

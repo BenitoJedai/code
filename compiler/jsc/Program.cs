@@ -13,6 +13,7 @@ using jsc.Script;
 using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Ultra.Library;
+using ScriptCoreLib.Library.Analytics;
 
 namespace jsc
 {
@@ -222,35 +223,19 @@ namespace jsc
             }
         }
 
-        private static void CheckForUpdates()
+        internal static void CheckForUpdates()
         {
-            new Thread(
-                delegate()
-                {
-                    try
-                    {
-                        Console.WriteLine("checking for updates...");
-
-                        Library.Analytics.AnalyticsForStatCounterImplementation.Invoke(
-                            new jsc.Library.Analytics.AnalyticsForStatCounterArguments
-                            {
-                                assembly = "jsc",
-                                // do not reuse these parameters in your applications!
-                                // public stats: http://my.statcounter.com/project/standard/stats.php?project_id=5203272&guest=1
-                                // http://my.statcounter.com/project/standard2/csv/download_log_file.php?project_id=5203272
+            new StatCounterUriBuilder
+            {
+                // do not reuse these parameters in your applications!
+                // public stats: http://my.statcounter.com/project/standard/stats.php?project_id=5203272&guest=1
+                // http://my.statcounter.com/project/standard2/csv/download_log_file.php?project_id=5203272
 
 
-                                sc_project = "5203272",
-                                security = "94d6fb4a",
+                sc_project = "5203272",
+                security = "94d6fb4a",
+            }.InvokeSilent("jsc; " + DateTime.Now);
 
-                            }
-                        );
-                    }
-                    catch
-                    {
-                    }
-                }
-            ) { IsBackground = true }.Start();
         }
 
         private static void DoShowReferences(CommandLineOptions options)

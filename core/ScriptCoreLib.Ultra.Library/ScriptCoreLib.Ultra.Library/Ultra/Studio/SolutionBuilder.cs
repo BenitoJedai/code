@@ -165,8 +165,7 @@ namespace ScriptCoreLib.Ultra.Studio
                 {
                     proj_Content.Elements("PropertyGroup").Elements("StartupObject").ReplaceContentWith(
                         
-                        this.Name + "." + StartupType.FullName
-                    
+                        StartupType.FullName 
                     );
                 }
             );

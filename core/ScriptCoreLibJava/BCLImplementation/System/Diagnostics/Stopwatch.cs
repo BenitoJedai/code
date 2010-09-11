@@ -9,6 +9,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Diagnostics
 	[Script(Implements = typeof(global::System.Diagnostics.Stopwatch))]
 	internal class __Stopwatch
 	{
+        public __Stopwatch()
+        {
+
+        }
+
 		public bool IsRunning
 		{
 			get;

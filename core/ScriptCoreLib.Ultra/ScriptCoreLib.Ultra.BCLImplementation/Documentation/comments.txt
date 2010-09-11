@@ -8,3 +8,9 @@ The types defined here cannot be used by
 	[3] assemblies with [Obfuscation(Feature = "script")] yet.
 
 Such types can be defined at ScriptCoreLib.Shared namespace.
+
+Example: global::Microsoft.VisualBasic.Interaction
+	MsgBox is UI related. For JavaScript we can use alert.
+	We cannot bring that type to this cross platform library.
+
+Note: While adding types here one must carefully consdier if the dependancies are available for each intended platform.

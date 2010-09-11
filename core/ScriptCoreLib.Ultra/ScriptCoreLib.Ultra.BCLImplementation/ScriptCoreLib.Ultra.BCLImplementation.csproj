@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ScriptCoreLib">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
     </Reference>
@@ -44,7 +45,6 @@
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -56,6 +56,8 @@
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\LanguagePrimitives.cs" />
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\Operators.cs" />
     <Compile Include="Ultra\BCLImplementation\Microsoft\FSharp\Core\Unit.cs" />
+    <Compile Include="Ultra\BCLImplementation\Microsoft\VisualBasic\CompilerServices\Conversions.cs" />
+    <Compile Include="Ultra\BCLImplementation\Microsoft\VisualBasic\CompilerServices\ProjectData.cs" />
     <Compile Include="Ultra\BCLImplementation\System\ServiceModel\Syndication\SyndicationFeed.cs" />
     <Compile Include="Ultra\BCLImplementation\System\Tuple.cs" />
     <Compile Include="Ultra\BCLImplementation\System\Xml\XmlReader.cs" />

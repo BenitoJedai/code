@@ -5,7 +5,7 @@ using System.Text;
 using System.Reflection;
 using jsc.meta.Commands.Rewrite;
 using System.IO;
-using jsc.Library.Analytics;
+using ScriptCoreLib.Library;
 
 namespace jsc.meta.Commands.Analytics
 {

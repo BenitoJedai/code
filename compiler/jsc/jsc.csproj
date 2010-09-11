@@ -275,9 +275,7 @@
     <Compile Include="Languages\PHP\DelegateImplementationProvider.cs" />
     <Compile Include="Languages\PropertyDetector.cs" />
     <Compile Include="Languages\StringToSByteArrayProvider.cs" />
-    <Compile Include="Library\Analytics\AnalyticsForStatCounterArguments.cs" />
     <Compile Include="Library\Analytics\AnalyticsForStatCounterImplementation.cs" />
-    <Compile Include="Library\Analytics\TrivialWebRequest.cs" />
     <Compile Include="Library\VirtualDictionary.cs" />
     <Compile Include="Library\Win32File.cs" />
     <Compile Include="Library\Win32FileExtensions.cs" />

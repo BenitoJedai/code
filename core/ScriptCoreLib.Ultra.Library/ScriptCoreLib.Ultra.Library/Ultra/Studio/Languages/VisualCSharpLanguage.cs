@@ -362,7 +362,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
-   
+            if (Type is SolutionProjectLanguageType.System.String)
+            {
+                File.Write(Keywords.@string);
+                return;
+            }
 
             if (Type.DeclaringType != null)
             {

@@ -87,6 +87,13 @@ namespace jsc.meta.Commands.Test
             );
 
 
+            AddButton("ConfigurationPrecompile.", () =>
+                {
+                    new ConfigurationPrecompile().Invoke();
+                }
+           );
+
+
             Add("ConfigurationClean w:/jsc.svn/core", () => new ConfigurationClean
             {
                 Target = new DirectoryInfo(
