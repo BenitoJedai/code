@@ -13,6 +13,9 @@ namespace ScriptCoreLib.Ultra.Studio
 		// this type shall enable collection initializer
 		// and method call replay
 
+        // union? :)
+        public PseudoIfExpression OwnerIfExpression;
+
 		public readonly ArrayList History = new ArrayList();
 
 		public void Add(string Comment)
@@ -28,15 +31,17 @@ namespace ScriptCoreLib.Ultra.Studio
 		public void Add(PseudoCallExpression e)
 		{
 			// no DLR yet. we use our lite version instead.
-			History.Add(e);
+			this.History.Add(e);
 		}
 
 
 		public void Add(PseudoIfExpression e)
 		{
 			// no DLR yet. we use our lite version instead.
-			History.Add(e);
+            this.History.Add(e);
 		}
+
+
 
 		#region IEnumerable Members
 

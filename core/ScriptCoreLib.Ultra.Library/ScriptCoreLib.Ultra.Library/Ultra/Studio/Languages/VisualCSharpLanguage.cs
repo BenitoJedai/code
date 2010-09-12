@@ -146,12 +146,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
         {
             // should this be an extension method to all languages?
 
-            File.WriteIndent();
-            File.WriteLine("{");
-            File.Indent(this,
+            Action WriteCodeStatements =
                 delegate
                 {
-
                     // ? :)
                     foreach (var item in Code.History.ToArray())
                     {
@@ -177,16 +174,49 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                         if (If != null)
                         {
-                            File.WriteIndent();
-                            File.Write(Keywords.@if);
-                            File.Write("(");
-                            WritePseudoExpression(File, If.Expression, Context);
-                            File.Write(")");
-                            File.WriteLine();
+                            if (If.IsConditionalCompilationDirective)
+                            {
+                                File.WriteSpace(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#if" });
+                                WritePseudoExpression(File, If.Expression, Context);
+                                File.WriteLine();
 
-                            WriteMethodBody(File, If.TrueCase, Context);
-                            File.WriteLine();
+                                WriteMethodBody(File, If.TrueCase, Context);
+                                File.WriteLine();
 
+                                if (If.FalseCase != null)
+                                {
+                                    File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#else" });
+                                    WriteMethodBody(File, If.FalseCase, Context);
+                                    File.WriteLine();
+
+                                }
+
+                                File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#endif" });
+                            }
+                            else
+                            {
+
+                                File.WriteIndent();
+                                File.WriteSpace(Keywords.@if);
+                                File.Write("(");
+                                WritePseudoExpression(File, If.Expression, Context);
+                                File.Write(")");
+                                File.WriteLine();
+
+                                WriteMethodBody(File, If.TrueCase, Context);
+                                File.WriteLine();
+
+                                if (If.FalseCase != null)
+                                {
+                                    File.WriteIndent();
+                                    File.WriteSpace(Keywords.@else);
+                                    File.WriteLine();
+
+                                    WriteMethodBody(File, If.FalseCase, Context);
+                                }
+                            }
+
+                            return;
                         }
 
                         var Lambda = item as PseudoCallExpression;
@@ -204,11 +234,21 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             }
                         }
                     }
-                }
-            );
+                };
 
-            File.WriteIndent();
-            File.Write("}");
+            Action WriteCodeStatementsAsBlock =
+                delegate
+                {
+                    File.WriteIndent();
+                    File.WriteLine("{");
+                    File.Indent(this, WriteCodeStatements);
+                    File.WriteIndent();
+                    File.Write("}");
+                };
+
+            Code.OwnerIfExpression.With(n => n.IsConditionalCompilationDirective, n => WriteCodeStatementsAsBlock = WriteCodeStatements);
+
+            WriteCodeStatementsAsBlock();
         }
 
 
@@ -538,7 +578,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                 }
                                             );
 
-                                     
+
                                             #endregion
 
 

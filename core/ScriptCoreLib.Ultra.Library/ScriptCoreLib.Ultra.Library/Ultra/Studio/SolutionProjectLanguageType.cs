@@ -127,4 +127,18 @@ namespace ScriptCoreLib.Ultra.Studio
                    };
         }
     }
+
+    public static class SolutionProjectLanguageTypeExtensions
+    {
+        public static SolutionProjectLanguageProperty ToAutoProperty(this SolutionProjectLanguageType PropertyType, string PropertyName)
+        {
+            return new SolutionProjectLanguageProperty
+            {
+                Name = PropertyName,
+                GetMethod = new SolutionProjectLanguageMethod(),
+                SetMethod = new SolutionProjectLanguageMethod(),
+                PropertyType = PropertyType
+            };
+        }
+    }
 }

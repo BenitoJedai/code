@@ -58,27 +58,8 @@ namespace MultitouchFingerTools.JavaScript
         {
             var c = new ApplicationCanvas();
             
-            c.AttachToContainer(page.PageContainer);
-
-            Action Update =
-                delegate
-                {
-                    var w = page.SizeShadow.scrollWidth;
-                    var h = page.SizeShadow.scrollHeight;
-
-                    c.SizeTo(w, h);
-                };
-
-
-            Native.Window.onresize +=
-                delegate
-                {
-                    Update();
-                };
-
-            Update();
+            c.AttachToContainer(page.PageContainer).AutoSizeTo(page.SizeShadow);
         }
-
     }
 
     /// <summary>

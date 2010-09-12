@@ -1,6 +1,17 @@
 ﻿Namespace Ultra.Studio.StockPages
 
     Public Module StockPageDefault
+        Public CanvasDefaultPage As XElement = _
+<body>
+    <div id='ContentSize' style='overflow: hidden; position: absolute;
+        left: 0px; right: 0px; bottom: 0px; top: 0px;'>
+    </div>
+    <div id='Content' style='overflow: hidden; position: absolute;
+        left: 0px; right: 0px; bottom: 0px; top: 0px;'>
+        <code>This HTML page will be displaying a docked Windows Presentation Foundation Canvas element</code>
+    </div>
+</body>
+
         Public Element As XElement = _
 <body>
     <div id='PageContainer'>

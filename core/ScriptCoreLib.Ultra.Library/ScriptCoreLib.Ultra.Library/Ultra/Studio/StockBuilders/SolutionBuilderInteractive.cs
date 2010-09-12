@@ -7,6 +7,7 @@ using ScriptCoreLib.Ultra.Studio.Languages;
 using ScriptCoreLib.Ultra.Studio.InteractiveExpressions;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
 using System.Xml.Linq;
+using ScriptCoreLib.Ultra.Studio.StockMethods;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -41,12 +42,12 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public SolutionProjectLanguageType ApplicationType;
         public SolutionProjectLanguageType ProgramType;
+        public StockMethodMain ProgramType_MainMethod;
 
 		public SolutionBuilderInteractive()
 		{
             Initialize();
 
-			this.ApplicationWebServiceType = new StockApplicationWebServiceType(this);
 
 
 			this.ApplicationYieldToDocumentTitle = new ApplicationYieldToDocumentTitleExpression(this);
@@ -57,6 +58,8 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public void Initialize()
         {
+            this.ApplicationWebServiceType = new StockApplicationWebServiceType(this);
+
             this.ApplicationType = new SolutionProjectLanguageType
             {
                 IsSealed = true,
@@ -66,6 +69,19 @@ namespace ScriptCoreLib.Ultra.Studio
 
             };
 
+            this.Application_service = new SolutionProjectLanguageField
+            {
+                FieldType = ApplicationWebServiceType,
+                FieldConstructor = ApplicationWebServiceType.GetDefaultConstructor(),
+                Name = "service",
+                IsReadOnly = true
+            };
+
+            // we are adding a field. does it show up in the source code later?
+            // SolutionProjectLanguage.WriteType makes it happen!
+            this.ApplicationType.Fields.Add(this.Application_service);
+
+
             this.ProgramType = new SolutionProjectLanguageType
             {
                 IsStatic = true,
@@ -73,6 +89,9 @@ namespace ScriptCoreLib.Ultra.Studio
                 Summary = "You can debug your application by hitting F5.",
                 DependentUpon = ApplicationType
             };
+
+            this.ProgramType_MainMethod = new StockMethodMain(ApplicationType);
+            this.ProgramType.Methods.Add(this.ProgramType_MainMethod);
         }
 
 
