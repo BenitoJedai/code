@@ -115,6 +115,7 @@
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Avalon\ImageCarouselCanvas.cs" />
+    <Compile Include="Desktop\Extensions\DesktopAvalonExtensions.cs" />
     <Compile Include="JavaScript\Components\HorizontalSplit.cs" />
     <Compile Include="JavaScript\Components\SolutionFileDesigner.cs" />
     <Compile Include="JavaScript\Components\SolutionFileDesignerTab.cs" />

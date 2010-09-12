@@ -44,6 +44,13 @@ namespace ScriptCoreLib.Ultra.Studio
         public SolutionProjectLanguageType ProgramType;
         public StockMethodMain ProgramType_MainMethod;
 
+        public SolutionFileComment FileHeader = new SolutionFileComment
+        {
+            Comment = "For more information please visit us at:",
+            Link = new Uri("http://www.jsc-solutions.net"),
+            MarginBottom = 1
+        };
+
 		public SolutionBuilderInteractive()
 		{
             Initialize();
