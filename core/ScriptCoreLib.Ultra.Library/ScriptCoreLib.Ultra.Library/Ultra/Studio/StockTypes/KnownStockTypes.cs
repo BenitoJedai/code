@@ -122,6 +122,33 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
         public static class ScriptCoreLib
         {
+            public static class Desktop
+            {
+                public static class Extensions
+                {
+                    public class DesktopAvalonExtensions : SolutionProjectLanguageType
+                    {
+                        public DesktopAvalonExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.Desktop.Extensions";
+                            Name = "DesktopAvalonExtensions";
+                        }
+
+                        public class Launch : SolutionProjectLanguageMethod
+                        {
+                            public Launch()
+                            {
+                                Name = "Launch";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new DesktopAvalonExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+                }
+            }
+
             public static class JavaScript
             {
                 public static class DOM

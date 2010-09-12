@@ -7,6 +7,7 @@ using ScriptCoreLib.Ultra.Studio.StockMethods;
 using ScriptCoreLib.Ultra.Studio.StockAttributes;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 {
@@ -43,18 +44,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             #endregion
 
 
-            var FileHeader = new SolutionFileComment
-            {
-                Comment = "For more information please visit us at:",
-                Link = new Uri("http://www.jsc-solutions.net"),
-                MarginBottom = 1
-            };
+      
 
-            var FileComments =
-                new[]
-				{
-					FileHeader
-				};
 
             #region DefaultPage
             var DefaultPageElement =
@@ -205,7 +196,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             var ApplicationWebServiceType = Context.Interactive.ApplicationWebServiceType;
 
             ApplicationWebServiceType.Namespace = Context.Name;
-            ApplicationWebServiceType.Comments = FileComments;
 
             AddType(ApplicationWebServiceType);
 
@@ -216,7 +206,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             var ApplicationType = Context.Interactive.ApplicationType;
 
             ApplicationType.Namespace = Context.Name;
-            ApplicationType.Comments = FileComments;
 
             ApplicationType.UsingNamespaces.Add("System");
             ApplicationType.UsingNamespaces.Add("System.Text");
@@ -252,7 +241,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 
             {
-                AssemblyInfo.Write(Context.Language, Context, FileComments);
+                AssemblyInfo.Write(Context.Language, Context, new [] { Context.Interactive.FileHeader });
 
                 AssemblyInfo.WriteLine();
 
@@ -329,12 +318,11 @@ associated with an assembly."
             var ProgramType = Context.Interactive.ProgramType;
 
             ProgramType.Namespace = Context.Name;
-            ProgramType.Comments = FileComments;
 
 
             ProgramType.UsingNamespaces.Add("System");
             ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
-
+            ProgramType.UsingNamespaces.Add(new KnownStockTypes.ScriptCoreLib.Desktop.Extensions.DesktopAvalonExtensions().Namespace);
             AddType(ProgramType);
 
             NotifyStartupType(ProgramType);

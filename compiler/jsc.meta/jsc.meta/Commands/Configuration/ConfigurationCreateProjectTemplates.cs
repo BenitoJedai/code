@@ -46,6 +46,15 @@ namespace jsc.meta.Commands.Configuration
                 new SolutionBuilder
                 {
                     // Ultra?
+                    Name = "Canvas Browser Application",
+                }.WithCanvas()
+            );
+
+
+            Create(
+                new SolutionBuilder
+                {
+                    // Ultra?
                     Name = "Browser Application With Java Applet",
                 }.WithJavaApplet()
             );

@@ -37,7 +37,6 @@ namespace BrowserApplicationCanvas
 #if DEBUG
             new ApplicationCanvas().ToWindow().ShowDialog();
 #else
-
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
 #endif
         }
