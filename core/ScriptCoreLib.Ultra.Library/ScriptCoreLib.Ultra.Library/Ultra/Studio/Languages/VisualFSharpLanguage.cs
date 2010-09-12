@@ -12,6 +12,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
     {
         public override string ProjectFileExtension { get { return ".fsproj"; } }
         public override string CodeFileExtension { get { return ".fs"; } }
+        public override string LanguageSpelledName { get { return "Visual FSharp"; } }
+        public override string LanguageName { get { return "Visual F#"; } }
 
         public override string Kind
         {

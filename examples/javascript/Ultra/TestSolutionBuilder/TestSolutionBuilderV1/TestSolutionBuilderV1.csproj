@@ -120,7 +120,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Rules.cs" />
     <Compile Include="Views\StudioView.cs" />
     <Content Include="Design\Images\!Images.htm" />
     <Content Include="Design\Images\DownloadSDK.png" />

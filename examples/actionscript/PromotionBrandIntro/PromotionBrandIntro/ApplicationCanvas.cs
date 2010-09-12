@@ -13,6 +13,7 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.Speech.Synthesis;
 
 namespace PromotionBrandIntro
 {
@@ -133,6 +134,9 @@ namespace PromotionBrandIntro
                                     }
                                 );
                             };
+
+                        
+
 
                         ShakeAt(30 * 2, -2, -4);
                         ShakeAt(30 * 3, 2, 3);

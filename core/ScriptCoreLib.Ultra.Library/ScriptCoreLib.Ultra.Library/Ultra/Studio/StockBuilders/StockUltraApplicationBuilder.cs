@@ -18,9 +18,12 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                 XElement ItemGroupForCompile,
                 Action<SolutionProjectLanguageType> NotifyStartupType)
         {
+            Context.Interactive.Initialize();
+
             Func<string, string> ToProjectFile =
                 f => Context.Name + "/" + Context.Name + "/" + f;
 
+            #region AddProjectFile
             Func<string, string, SolutionFile> AddProjectFile =
                 (f, t) =>
                 {
@@ -37,6 +40,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
                     return r;
                 };
+            #endregion
+
 
             var FileHeader = new SolutionFileComment
             {
@@ -47,13 +52,9 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
             var FileComments =
                 new[]
-					{
-						FileHeader
-                        //,
-                        //Context.Interactive.ToVisualBasicLanguage,
-                        //Context.Interactive.ToVisualCSharpLanguage,
-                        //Context.Interactive.ToVisualFSharpLanguage
-					};
+				{
+					FileHeader
+				};
 
             #region DefaultPage
             var DefaultPageElement =
@@ -117,6 +118,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
             var AddTypeFiles = new Dictionary<SolutionProjectLanguageType, SolutionFile>();
 
+            #region AddTypeWithoutMerge
             Action<SolutionProjectLanguageType, string> AddTypeWithoutMerge =
                 (SourceType, IncludeName) =>
                 {
@@ -164,7 +166,9 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                     ItemGroupForCompile.Add(Compile);
                     AddFile(SourceFile);
                 };
+            #endregion
 
+            #region AddType
             Action<SolutionProjectLanguageType> AddType =
                 SourceType =>
                 {
@@ -189,6 +193,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                         }
                     );
                 };
+            #endregion
 
             Context.Interactive.RaiseGenerateTypes(AddType);
 
@@ -208,15 +213,10 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
             #region Application
 
-            var ApplicationType = new SolutionProjectLanguageType
-            {
-                IsSealed = true,
+            var ApplicationType = Context.Interactive.ApplicationType;
 
-                Namespace = Context.Name,
-                Name = "Application",
-                Summary = "This type will run as JavaScript.",
-                Comments = FileComments
-            };
+            ApplicationType.Namespace = Context.Name;
+            ApplicationType.Comments = FileComments;
 
             ApplicationType.UsingNamespaces.Add("System");
             ApplicationType.UsingNamespaces.Add("System.Text");
@@ -336,15 +336,11 @@ associated with an assembly."
 
             #region Program
 
-            var ProgramType = new SolutionProjectLanguageType
-            {
-                IsStatic = true,
-                Namespace = Context.Name,
-                Name = "Program",
-                Summary = "You can debug your application by hitting F5.",
-                Comments = FileComments,
-                DependentUpon = ApplicationType
-            };
+            var ProgramType = Context.Interactive.ProgramType;
+
+            ProgramType.Namespace = Context.Name;
+            ProgramType.Comments = FileComments;
+
 
             ProgramType.UsingNamespaces.Add("System");
             ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");

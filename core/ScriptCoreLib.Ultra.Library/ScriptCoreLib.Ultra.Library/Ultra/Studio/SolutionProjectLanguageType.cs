@@ -95,66 +95,32 @@ namespace ScriptCoreLib.Ultra.Studio
             return this.FullName;
         }
 
-        #region KnownTypes
-        public class System : SolutionProjectLanguageType
+
+
+
+
+        public SolutionProjectLanguageMethod GetDefaultConstructorDefinition()
         {
-            public System()
-            {
-                this.Namespace += "System";
-            }
+            return new SolutionProjectLanguageMethod
+                       {
+                           Name = SolutionProjectLanguageMethod.ConstructorName,
 
-            public class String : System
-            {
-                public String()
-                {
-                    Name = "String";
-                }
+                           DeclaringType = this,
+                           ReturnType = this,
 
-            }
-
-            public class Boolean : System
-            {
-                public Boolean()
-                {
-                    Name = "Boolean";
-                }
-
-            }
+                           Code = new SolutionProjectLanguageCode
+                       {
+                       }
+                       };
         }
-
-        public static class ScriptCoreLib
-        {
-            public static class Delegates
-            {
-                public static SolutionProjectLanguageType StringAction
-                {
-                    get
-                    {
-                        return new SolutionProjectLanguageType
-                        {
-                            Namespace = "ScriptCoreLib.Delegates",
-                            Name = "StringAction"
-                        };
-                    }
-                }
-            }
-        }
-        #endregion
-
-
 
         public PseudoCallExpression GetDefaultConstructor()
         {
             return new PseudoCallExpression
                    {
 
-                       Method = new SolutionProjectLanguageMethod
-                       {
-                           Name = SolutionProjectLanguageMethod.ConstructorName,
-
-                           DeclaringType = this,
-                           ReturnType = this
-                       },
+                       Method = GetDefaultConstructorDefinition()
+                       ,
 
                        ParameterExpressions = new object[] {
                         }

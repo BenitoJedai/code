@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.StockMethods
 {
@@ -17,7 +18,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			{
 				Type = new SolutionProjectLanguageType
 				{
-					ElementType = new SolutionProjectLanguageType.System.String()
+                    ElementType = new KnownStockTypes.System.String()
 				},
 
 				Name = "args",

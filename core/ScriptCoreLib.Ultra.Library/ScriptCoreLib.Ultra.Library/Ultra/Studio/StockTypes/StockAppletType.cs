@@ -15,11 +15,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.Namespace = Namespace;
 			this.Name = Name;
 
-			this.BaseType = new SolutionProjectLanguageType
-			{
-				Namespace = "java.applet",
-				Name = "Applet"
-			};
+			this.BaseType = new KnownStockTypes.java.applet.Applet();
 
 			this.IsSealed = true;
 

@@ -62,7 +62,9 @@ namespace ScriptCoreLib.Ultra.Studio
 				}
 			);
 
-			File.WriteAllBytes(new FileInfo(that.Name).FullName + ".zip", zip.ToBytes());
+            var Output = new FileInfo(that.Name).FullName + ".zip";
+            Console.WriteLine(Output);
+			File.WriteAllBytes(Output, zip.ToBytes());
 		}
 	}
 }

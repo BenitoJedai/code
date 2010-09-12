@@ -12,24 +12,11 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.Namespace = Namespace;
 			this.Name = Name;
 
-			this.BaseType = new SolutionProjectLanguageType
-			{
-				Namespace = "ScriptCoreLib.ActionScript.flash.display",
-				Name = "Sprite"
-			};
+			this.BaseType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.display.Sprite();
 
 			this.IsSealed = true;
-
-			var ctor = new SolutionProjectLanguageMethod
-			{
-				DeclaringType = this,
-				Name = SolutionProjectLanguageMethod.ConstructorName,
-				Code = new SolutionProjectLanguageCode
-				{
-				}
-			};
-
-			this.Methods.Add(ctor);
+			
+			this.Methods.Add(GetDefaultConstructorDefinition());
 		}
 
 	

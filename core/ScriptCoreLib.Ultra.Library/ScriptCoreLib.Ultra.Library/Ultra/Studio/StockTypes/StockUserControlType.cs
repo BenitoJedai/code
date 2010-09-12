@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			{
 				Summary = "true if managed resources should be disposed; otherwise, false.",
 				Name = "disposing",
-				Type = new SolutionProjectLanguageType.System.Boolean(),
+				Type = new KnownStockTypes.System.Boolean(),
 			};
 
 			var Dispose = new SolutionProjectLanguageMethod
@@ -61,11 +61,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 					IsPrivate = true,
 					Name = "components",
 					Summary = "Required designer variable.",
-					FieldType = new SolutionProjectLanguageType
-					{
-						Namespace = "System.ComponentModel",
-						Name = "IContainer"
-					}
+					FieldType = new KnownStockTypes.System.ComponentModel.IContainer()
 				};
 
 			var set_Name = new PseudoCallExpression
@@ -151,11 +147,7 @@ the contents of this method with the code editor.",
 			this.Namespace = Namespace;
 			this.Name = Name;
 
-			this.BaseType = new SolutionProjectLanguageType
-				{
-					Namespace = "System.Windows.Forms",
-					Name = "UserControl"
-				};
+			this.BaseType = new KnownStockTypes.System.Windows.Forms.UserControl();
 
 			this.DependentPartialTypes = new[]
 				{
