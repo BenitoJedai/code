@@ -9,7 +9,10 @@ namespace ScriptCoreLib.Ultra.Studio
 	public abstract class SolutionProjectLanguage
 	{
 		abstract public string ProjectFileExtension { get; }
-		abstract public string CodeFileExtension { get; }
+        abstract public string CodeFileExtension { get; }
+
+        abstract public string LanguageSpelledName { get; }
+        abstract public string LanguageName { get; }
 
 		// http://msdn.microsoft.com/en-us/library/envdte.project.kind(VS.80).aspx
 		// http://www.mztools.com/articles/2008/MZ2008017.aspx

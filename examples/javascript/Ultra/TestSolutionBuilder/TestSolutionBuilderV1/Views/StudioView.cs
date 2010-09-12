@@ -60,7 +60,7 @@ namespace TestSolutionBuilderV1.Views
                     div.style.position = IStyle.PositionEnum.absolute;
                     div.style.top = "0px";
                     div.style.left = "14em";
-                    div.style.right = "6em";
+                    div.style.width = "20em";
                     div.style.height = "6em";
 
                     div.style.padding = "0.5em";
@@ -70,6 +70,21 @@ namespace TestSolutionBuilderV1.Views
             ).AttachTo(Content);
 
             var WorkspaceHeaderTab2 = new IHTMLDiv().With(
+                div =>
+                {
+                    div.style.position = IStyle.PositionEnum.absolute;
+                    div.style.top = "0px";
+                    div.style.left = "34em";
+                    div.style.right = "6em";
+                    div.style.height = "6em";
+
+                    div.style.padding = "0.5em";
+
+                    new Glow1().ToBackground(div.style, false);
+                }
+            ).AttachTo(Content);
+
+            var WorkspaceHeaderTab7 = new IHTMLDiv().With(
                  div =>
                  {
                      div.style.position = IStyle.PositionEnum.absolute;
@@ -96,7 +111,7 @@ namespace TestSolutionBuilderV1.Views
                  {
                      title = "Download JSC SDK!",
                      href = "http://download.jsc-solutions.net"
-                 }.AttachTo(WorkspaceHeaderTab2)
+                 }.AttachTo(WorkspaceHeaderTab7)
             );
 
             @"studio.jsc-solutions.net".ToDocumentTitle().With(
@@ -263,6 +278,7 @@ namespace TestSolutionBuilderV1.Views
             CurrentDesigner.Add(HTMLDesigner);
 
 
+            // undoable?
             var sln = new SolutionBuilder();
 
 
@@ -578,6 +594,7 @@ namespace TestSolutionBuilderV1.Views
 
             var PreviousVersion = default(string);
 
+            #region HTMLDesigner.HTMLDesignerContent
             HTMLDesigner.HTMLDesignerContent.WhenContentReady(
                 body =>
                 {
@@ -588,18 +605,9 @@ namespace TestSolutionBuilderV1.Views
                         PreviousVersion = y;
                     }
 
-                    HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
-                        delegate
+                    Action<bool> HTMLDesignerContentCheck =
+                        DoUpdate =>
                         {
-                            OutputWriteLine("Designer activated.");
-                            //"focus".ToDocumentTitle();
-                        };
-
-                    HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
-                        delegate
-                        {
-                            //"blur".ToDocumentTitle();
-
                             var x = new XElement(body.AsXElement());
                             var y = x.ToString();
 
@@ -610,22 +618,55 @@ namespace TestSolutionBuilderV1.Views
 
                                 sln.ApplicationPage = x;
 
-
                                 // allow any blur causing action to complete first
                                 // we get reselected for some odd reason, why?
                                 new Timer(
                                     delegate
                                     {
-                                        OutputWriteLine("Designer has caused an update.");
-                                        Update();
+                                        if (DoUpdate)
+                                        {
+                                            OutputWriteLine("Designer has caused an update.");
+                                            Update();
+                                        }
+                                        else
+                                        {
+                                            OutputWriteLine("Designer will cause an update.");
+                                        }
 
                                     }
                                 ).StartTimeout(700);
                             }
                         };
+
+                    var HTMLDesignerContentDirty = new Timer(
+                        delegate
+                        {
+                            HTMLDesignerContentCheck(false);
+                        }
+                    );
+
+                    HTMLDesigner.HTMLDesignerContent.contentWindow.onfocus +=
+                        delegate
+                        {
+                            OutputWriteLine("Designer activated.");
+                            //"focus".ToDocumentTitle();
+
+                            //HTMLDesignerContentDirty.StartInterval(700);
+                        };
+
+                    HTMLDesigner.HTMLDesignerContent.contentWindow.onblur +=
+                        delegate
+                        {
+                            //HTMLDesignerContentDirty.Stop();
+
+                            OutputWriteLine("Designer deactivated.");
+                            //"blur".ToDocumentTitle();
+                            HTMLDesignerContentCheck(true);
+                            
+                        };
                 }
             );
-
+            #endregion
 
             CodeSourceBView.FileChanged +=
                 delegate
@@ -718,7 +759,7 @@ namespace TestSolutionBuilderV1.Views
 
             Update();
 
-            Action<IHTMLImage, string, SolutionProjectLanguage, string> CreateButton =
+            Action<IHTMLImage, string, SolutionProjectLanguage, string> CreateLanguageButton =
                 (Icon, Text, Language, Name) =>
                 {
                     var span = new IHTMLSpan(Text);
@@ -733,7 +774,7 @@ namespace TestSolutionBuilderV1.Views
                                 delegate
                                 {
                                     sln.Language = Language;
-                                    sln.Name = Name;
+                                    sln.Name = Language.LanguageSpelledName.Replace(" ", "") + "Project1";
                                     Update();
                                 };
 
@@ -742,13 +783,41 @@ namespace TestSolutionBuilderV1.Views
                     );
                 };
 
-            CreateButton(new VisualCSharpProject(), "View as C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
-            CreateButton(new VisualFSharpProject(), "View as F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
-            CreateButton(new VisualBasicProject(), "View as Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
+            CreateLanguageButton(new VisualCSharpProject(), "View as C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
+            CreateLanguageButton(new VisualFSharpProject(), "View as F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
+            CreateLanguageButton(new VisualBasicProject(), "View as Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
 
-            new Rules(CodeSourceBView, sln, Update);
+            Action<string, Action> CreateProjectTypeButton =
+              (Text, Handler) =>
+              {
+                  var span = new IHTMLSpan(Text);
 
+                  span.style.marginLeft = "0.7em";
+                  span.style.marginRight = "0.7em";
 
+                  new IHTMLButton {  span }.AttachTo(WorkspaceHeaderTab2).With(
+                      btn =>
+                      {
+                          btn.onclick +=
+                              delegate
+                              {
+                                  btn.disabled = true;
+   
+                                  Handler();
+                              };
+
+                          btn.style.display = IStyle.DisplayEnum.block;
+                      }
+                  );
+              };
+
+            CreateProjectTypeButton("Convert to Canvas Browser Application",
+                delegate
+                {
+                    sln.WithCanvas();
+                    Update();
+                }
+            );
         }
 
 
@@ -850,17 +919,17 @@ namespace TestSolutionBuilderV1.Views
                         FileLookup[f] = n;
                     }
 
-                    if (Extension == ".cs")
+                    if (Extension == KnownLanguages.VisualCSharp.CodeFileExtension)
                         n.WithIcon(() => new VisualCSharpCode());
-                    else if (Extension == ".csproj")
+                    else if (Extension == KnownLanguages.VisualCSharp.ProjectFileExtension)
                         n.WithIcon(() => new VisualCSharpProject());
-                    else if (Extension == ".vb")
+                    else if (Extension == KnownLanguages.VisualBasic.CodeFileExtension)
                         n.WithIcon(() => new VisualBasicCode());
-                    else if (Extension == ".vbproj")
+                    else if (Extension == KnownLanguages.VisualBasic.ProjectFileExtension)
                         n.WithIcon(() => new VisualBasicProject());
-                    else if (Extension == ".fs")
+                    else if (Extension == KnownLanguages.VisualFSharp.CodeFileExtension)
                         n.WithIcon(() => new VisualFSharpCode());
-                    else if (Extension == ".fsproj")
+                    else if (Extension == KnownLanguages.VisualFSharp.ProjectFileExtension)
                         n.WithIcon(() => new VisualFSharpProject());
                     else if (Extension == ".htm")
                         n.WithIcon(() => new HTMLDocument());
@@ -869,7 +938,7 @@ namespace TestSolutionBuilderV1.Views
                     {
                         if (f.ContextType.BaseType != null)
                         {
-                            if (f.ContextType.BaseType.Name == "UserControl")
+                            if (f.ContextType.BaseType is KnownStockTypes.System.Windows.Forms.UserControl)
                                 n.WithIcon(() => new SolutionProjectFormsControl());
                         }
                     }

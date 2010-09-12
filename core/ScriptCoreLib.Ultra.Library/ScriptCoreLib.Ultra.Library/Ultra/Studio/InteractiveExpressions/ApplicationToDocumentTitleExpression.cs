@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 {
@@ -16,18 +17,8 @@ namespace ScriptCoreLib.Ultra.Studio.InteractiveExpressions
 
 
 
-			this.Method = new SolutionProjectLanguageMethod
-			{
-				IsExtensionMethod = true,
-                IsStatic = true,
-				Name = "ToDocumentTitle",
-				DeclaringType = new SolutionProjectLanguageType
-				{
-					Namespace = "ScriptCoreLib.JavaScript.Extensions",
-					Name = "JavaScriptStringExtensions"
-				},
-				ReturnType = new SolutionProjectLanguageType.System.String()
-			};
+			this.Method = new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.JavaScriptStringExtensions.ToDocumentTitle();
+
 
 			this.Title = new PseudoStringConstantExpression { Value = "Hello world" };
 

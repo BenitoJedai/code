@@ -16,6 +16,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
     {
         public override string ProjectFileExtension { get { return ".csproj"; } }
         public override string CodeFileExtension { get { return ".cs"; } }
+        public override string LanguageSpelledName { get { return "Visual CSharp"; } }
+        public override string LanguageName { get { return "Visual C#"; } }
 
         public override string Kind
         {
@@ -356,13 +358,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
         {
-            if (Type is SolutionProjectLanguageType.System.Boolean)
+            if (Type is KnownStockTypes.System.Boolean)
             {
                 File.Write(Keywords.@bool);
                 return;
             }
 
-            if (Type is SolutionProjectLanguageType.System.String)
+            if (Type is KnownStockTypes.System.String)
             {
                 File.Write(Keywords.@string);
                 return;

@@ -31,36 +31,20 @@ namespace ScriptCoreLib.Ultra.Studio
 		public WebMethod2Expression WebMethod2 =
 			new WebMethod2Expression();
 
-		public InteractiveComment
-			ToVisualBasicLanguage = "View as Visual Basic project",
-			ToVisualCSharpLanguage = "View as Visual CSharp project",
-			ToVisualFSharpLanguage = "View as Visual FSharp project";
+	
 
 		public SolutionProjectLanguageArgument YieldMethod_doc = new SolutionProjectLanguageArgument
 		{
 			Name = "value",
-            Type = new SolutionProjectLanguageType.System.String()
+            Type = new KnownStockTypes.System.String()
 		};
+
+        public SolutionProjectLanguageType ApplicationType;
+        public SolutionProjectLanguageType ProgramType;
 
 		public SolutionBuilderInteractive()
 		{
-			ToVisualBasicLanguage.IsActiveFilter =
-				Context =>
-				{
-					return !(Context.Language is VisualBasicLanguage);
-				};
-
-			ToVisualCSharpLanguage.IsActiveFilter =
-				Context =>
-				{
-					return !(Context.Language is VisualCSharpLanguage);
-				};
-
-			ToVisualFSharpLanguage.IsActiveFilter =
-				Context =>
-				{
-					return !(Context.Language is VisualFSharpLanguage);
-				};
+            Initialize();
 
 			this.ApplicationWebServiceType = new StockApplicationWebServiceType(this);
 
@@ -69,20 +53,29 @@ namespace ScriptCoreLib.Ultra.Studio
 
 			
 			this.ApplicationCallWebMethod = new ApplicationCallWebMethodExpression(this);
-
 		}
 
-		public InteractiveComment[] Comments
-		{
-			get
-			{
-				return new InteractiveComment[]
-				{
-                    //this.ApplicationCallWebMethod.InteractiveComment,
-                    //this.ApplicationYieldToDocumentTitle.InteractiveComment
-				};
-			}
-		}
+        public void Initialize()
+        {
+            this.ApplicationType = new SolutionProjectLanguageType
+            {
+                IsSealed = true,
+
+                Name = "Application",
+                Summary = "This type will run as JavaScript.",
+
+            };
+
+            this.ProgramType = new SolutionProjectLanguageType
+            {
+                IsStatic = true,
+                Name = "Program",
+                Summary = "You can debug your application by hitting F5.",
+                DependentUpon = ApplicationType
+            };
+        }
+
+
 
 
 

@@ -14,6 +14,7 @@ using jsc.meta.Commands.Rewrite;
 using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
 using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
 using jsc.meta.Commands.Configuration;
+using ScriptCoreLib.Ultra.Studio;
 
 namespace jsc.meta.Commands.Test
 {
@@ -54,6 +55,15 @@ namespace jsc.meta.Commands.Test
                 );
             #endregion
 
+            AddButton("SolutionBuilderWithConsole C# Canvas", () =>
+                {
+                    global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                        new SolutionBuilder().WithCanvas()
+                    );
+
+                }
+            );
+
             AddButton("SolutionBuilderWithConsole C#", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
@@ -62,6 +72,7 @@ namespace jsc.meta.Commands.Test
 
                 }
             );
+
             AddButton("SolutionBuilderWithConsole Visual Basic", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(

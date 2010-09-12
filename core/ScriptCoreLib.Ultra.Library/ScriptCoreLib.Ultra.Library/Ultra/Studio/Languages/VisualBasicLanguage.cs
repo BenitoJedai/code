@@ -11,7 +11,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 	public partial class VisualBasicLanguage : SolutionProjectLanguage
 	{
 		public override string ProjectFileExtension { get { return ".vbproj"; } }
-		public override string CodeFileExtension { get { return ".vb"; } }
+        public override string CodeFileExtension { get { return ".vb"; } }
+        public override string LanguageSpelledName { get { return "Visual Basic"; } }
+        public override string LanguageName { get { return "Visual Basic"; } }
 
 		public override string Kind
 		{

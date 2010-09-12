@@ -125,8 +125,9 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
-    <Compile Include="Ultra\Studio\SolutionBuilderWithJavaApplet.cs" />
-    <Compile Include="Ultra\Studio\SolutionBuilderWithAdobeFlash.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithCanvas.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithJavaApplet.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithAdobeFlash.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoStringConstantExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpression.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageAttribute.cs" />
@@ -140,12 +141,14 @@
     <Compile Include="Ultra\Studio\SolutionFile.cs" />
     <Compile Include="Ultra\Studio\SolutionFileTextFragment.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguage.cs" />
-    <Compile Include="Ultra\Studio\SolutionBuilder.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilder.cs" />
     <Compile Include="Ultra\Studio\SolutionFileExtensions.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageMethod.cs" />
     <Compile Include="Ultra\Studio\StockMethods\StockMethodApplication.cs" />
     <Compile Include="Ultra\Studio\StockMethods\StockMethodWebMethod.cs" />
     <Compile Include="Ultra\Studio\StockMethods\StockMethodMain.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\KnownStockTypes.cs" />
+    <Compile Include="Ultra\Studio\StockTypes\StockCanvasType.cs" />
     <Compile Include="Ultra\Tier.cs" />
     <Compile Include="Ultra\TierAttribute.cs" />
     <Compile Include="Ultra\TierEnum.cs" />
@@ -200,7 +203,7 @@
     <Compile Include="Ultra\Studio\Languages\WritePseudoCallExpression\VisualFSharpLanguage.WritePseudoCallExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoArrayExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoCallExpressionExtensions.cs" />
-    <Compile Include="Ultra\Studio\SolutionBuilderInteractive.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderInteractive.cs" />
     <Compile Include="Ultra\Studio\SolutionFileComment.cs" />
     <Compile Include="Ultra\Studio\SolutionFileWriteArguments.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectHTMLFile.cs" />
@@ -221,7 +224,6 @@
     <Compile Include="Ultra\Studio\StockTypes\StockSpriteType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
-    <Compile Include="Ultra\Studio\StockTypes\StockXElementType.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

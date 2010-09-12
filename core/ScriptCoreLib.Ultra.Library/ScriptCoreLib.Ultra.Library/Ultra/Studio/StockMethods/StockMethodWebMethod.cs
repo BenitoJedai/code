@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.StockMethods
 {
@@ -16,7 +17,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
             #region Parameters e y
             var _e = new SolutionProjectLanguageArgument
             {
-                Type = new SolutionProjectLanguageType.System.String(),
+                Type = new KnownStockTypes.System.String(),
 
                 Name = "e",
                 Summary = "A parameter from javascript. JSC supports string data type for all platforms."
@@ -24,7 +25,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
             var _y = new SolutionProjectLanguageArgument
             {
-                Type = SolutionProjectLanguageType.ScriptCoreLib.Delegates.StringAction,
+                Type = new KnownStockTypes.ScriptCoreLib.Delegates.StringAction(),
 
                 Name = "y",
                 Summary = "A callback to javascript. In the future all platforms will allow Action<XElementConvertable> delegates."
