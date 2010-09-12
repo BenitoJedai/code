@@ -232,17 +232,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
 
-            Context.Interactive.Application_service = new SolutionProjectLanguageField
-            {
-                FieldType = ApplicationWebServiceType,
-                FieldConstructor = ApplicationWebServiceType.GetDefaultConstructor(),
-                Name = "service",
-                IsReadOnly = true
-            };
-
-            // we are adding a field. does it show up in the source code later?
-            // SolutionProjectLanguage.WriteType makes it happen!
-            ApplicationType.Fields.Add(Context.Interactive.Application_service);
+          
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
 
@@ -344,7 +334,6 @@ associated with an assembly."
 
             ProgramType.UsingNamespaces.Add("System");
             ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
-            ProgramType.Methods.Add(new StockMethodMain(ApplicationType));
 
             AddType(ProgramType);
 

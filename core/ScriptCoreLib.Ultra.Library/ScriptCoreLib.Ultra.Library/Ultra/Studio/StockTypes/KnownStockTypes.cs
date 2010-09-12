@@ -13,6 +13,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         // or we should generate a SolutionBuilder from MSIL?
         // unless we want to use some ficttional type names?
 
+   
+
         public static class java
         {
             public static class applet
@@ -106,14 +108,81 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
 
             }
+
+            public class Object : SolutionProjectLanguageType
+            {
+                public Object()
+                {
+                    Namespace = "System";
+                    Name = "Object";
+                }
+
+            }
         }
 
         public static class ScriptCoreLib
         {
             public static class JavaScript
             {
+                public static class DOM
+                {
+                    public static class HTML
+                    {
+                        public class IHTMLElement : SolutionProjectLanguageType
+                        {
+                            public IHTMLElement()
+                            {
+                                Namespace = "ScriptCoreLib.JavaScript.DOM.HTML";
+                                Name = "IHTMLElement";
+                            }
+                        }
+                    }
+                }
+
                 public static class Extensions
                 {
+                    public class AvalonUltraExtensions : SolutionProjectLanguageType
+                    {
+                        public AvalonUltraExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "AvalonUltraExtensions";
+                        }
+
+                        public class AutoSizeTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeTo()
+                            {
+                                Name = "AutoSizeTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonUltraExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
+                    public class AvalonExtensions : SolutionProjectLanguageType
+                    {
+                        public AvalonExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "AvalonExtensions";
+                        }
+
+                        public class AttachToContainer : SolutionProjectLanguageMethod
+                        {
+                            public AttachToContainer()
+                            {
+                                Name = "AttachToContainer";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
                     public class JavaScriptStringExtensions : SolutionProjectLanguageType
                     {
                         public JavaScriptStringExtensions()

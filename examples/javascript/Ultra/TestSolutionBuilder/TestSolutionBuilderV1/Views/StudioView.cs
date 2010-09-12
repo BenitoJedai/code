@@ -101,11 +101,11 @@ namespace TestSolutionBuilderV1.Views
 
             var WorkspaceHeaderTab0Text = default(IHTMLSpan);
 
-           
-           
+
+
             new DownloadSDK
             {
-                   
+
             }.AttachTo(
                  new IHTMLAnchor
                  {
@@ -324,7 +324,7 @@ namespace TestSolutionBuilderV1.Views
                             var Type = new SolutionProjectLanguageType
                             {
                                 Comments = new SolutionFileComment[] { "This type was generated from the HTML file." },
-                                Namespace = "HTML.Pages",
+                                Namespace = sln.Name + ".HTML.Pages",
                                 Name = "IDefaultPage",
                                 IsInterface = true,
                             };
@@ -337,17 +337,7 @@ namespace TestSolutionBuilderV1.Views
                                 k =>
                                 {
                                     Type.Properties.Add(
-                                        new SolutionProjectLanguageProperty
-                                        {
-                                            Name = k.id.Value,
-                                            GetMethod = new SolutionProjectLanguageMethod(),
-                                            SetMethod = new SolutionProjectLanguageMethod(),
-                                            PropertyType = new SolutionProjectLanguageType
-                                            {
-                                                Namespace = "ScriptCoreLib.JavaScript.DOM.HTML",
-                                                Name = "IHTMLElement"
-                                            }
-                                        }
+                                        new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement().ToAutoProperty(k.id.Value)
                                     );
                                 }
                             );
@@ -662,7 +652,7 @@ namespace TestSolutionBuilderV1.Views
                             OutputWriteLine("Designer deactivated.");
                             //"blur".ToDocumentTitle();
                             HTMLDesignerContentCheck(true);
-                            
+
                         };
                 }
             );
@@ -795,14 +785,14 @@ namespace TestSolutionBuilderV1.Views
                   span.style.marginLeft = "0.7em";
                   span.style.marginRight = "0.7em";
 
-                  new IHTMLButton {  span }.AttachTo(WorkspaceHeaderTab2).With(
+                  new IHTMLButton { span }.AttachTo(WorkspaceHeaderTab2).With(
                       btn =>
                       {
                           btn.onclick +=
                               delegate
                               {
                                   btn.disabled = true;
-   
+
                                   Handler();
                               };
 
@@ -815,6 +805,17 @@ namespace TestSolutionBuilderV1.Views
                 delegate
                 {
                     sln.WithCanvas();
+
+
+                    HTMLDesigner.HTMLDesignerContent.WhenDocumentReady(
+                        document =>
+                        {
+                            document.WithContent(sln.ApplicationPage);
+                            // we should now also lock the designer!
+                            document.DesignMode = false;
+                        }
+                    );
+
                     Update();
                 }
             );

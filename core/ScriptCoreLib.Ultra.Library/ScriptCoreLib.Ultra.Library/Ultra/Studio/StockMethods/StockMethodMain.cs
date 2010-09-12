@@ -28,35 +28,36 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 			#endregion
 
 			this.Name = "Main";
-			this.Summary = "In debug build you can just hit F5 and debug the server side code.";
+            //this.Summary = "In debug build you can just hit F5 and debug the server side code.";
 			this.IsStatic = true;
-			this.Code = new SolutionProjectLanguageCode
-			{
-				"Prepare the yield value for",
-				new PseudoCallExpression
-				{
 
-					Method = new SolutionProjectLanguageMethod
-					{
-						DeclaringType = new SolutionProjectLanguageType 
-						{ 
-							DeclaringType = new SolutionProjectLanguageType 
-							{ 
-								Namespace = "jsc.meta.Commands.Rewrite.RewriteToUltraApplication",
-								Name = "RewriteToUltraApplication"
-							},
-							Name = "AsProgram"
-						},
-						IsStatic = true,
-						Name = "Launch" 
-					},
+            var AsProgram_Launch =
+                new PseudoCallExpression
+                {
 
-					ParameterExpressions = new [] {
+                    Method = new SolutionProjectLanguageMethod
+                    {
+                        DeclaringType = new SolutionProjectLanguageType
+                        {
+                            DeclaringType = new SolutionProjectLanguageType
+                            {
+                                Namespace = "jsc.meta.Commands.Rewrite.RewriteToUltraApplication",
+                                Name = "RewriteToUltraApplication"
+                            },
+                            Name = "AsProgram"
+                        },
+                        IsStatic = true,
+                        Name = "Launch"
+                    },
+
+                    ParameterExpressions = new[] {
 						ApplicationType
 					}
-				},
+                };
 
-			
+			this.Code = new SolutionProjectLanguageCode
+			{
+				AsProgram_Launch
 			};
 
 			this.Parameters.Add(_args);

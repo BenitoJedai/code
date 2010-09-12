@@ -54,6 +54,18 @@ namespace ScriptCoreLib.Extensions
         }
 
         [System.Diagnostics.DebuggerStepThrough]
+        public static T With<T>(this T e, Func<T, bool> filter, Action<T> handler) where T : class
+        {
+            if (e != null)
+                if (handler != null)
+                    if (filter != null)
+                        if (filter(e))
+                            handler(e);
+
+            return e;
+        }
+
+        [System.Diagnostics.DebuggerStepThrough]
         public static T With<T>(this T e, Action<T> h) where T : class
         {
             if (e != null)

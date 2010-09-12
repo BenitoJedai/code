@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 	{
 		public static class Keywords
 		{
+            // jsc needs to support enum ToString!
+
 			public static Keyword 
 				@assembly = "assembly",
 				@using = "using",
@@ -30,7 +32,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				@delegate = "delegate",
                 @bool = "bool",
                 @string = "string",
-				@if = "if",
+                @if = "if",
+                @else = "else",
 				@this = "this",
 				@base = "base",
 				@namespace = "namespace"
