@@ -12,8 +12,8 @@ using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
-	public static class SolutionBuilderWithCanvas
-	{
+    public static class SolutionBuilderWithCanvas
+    {
         public static SolutionBuilder WithCanvas(this SolutionBuilder sln)
         {
             // should we make an Undo available?
@@ -29,14 +29,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
                     var ApplicationCanvas = GetType();
 
-                    ApplicationCanvas.UsingNamespaces.Add("System");
-                    ApplicationCanvas.UsingNamespaces.Add("System.Text");
-                    ApplicationCanvas.UsingNamespaces.Add("System.Linq");
-                    ApplicationCanvas.UsingNamespaces.Add("System.Xml");
-                    ApplicationCanvas.UsingNamespaces.Add("System.Xml.Linq");
-                    ApplicationCanvas.UsingNamespaces.Add("System.Windows.Media");
-                    ApplicationCanvas.UsingNamespaces.Add("ScriptCoreLib.Extensions");
-                    ApplicationCanvas.UsingNamespaces.Add("ScriptCoreLib.Shared.Avalon.Extensions");
+
 
                     // in Canvas applications we want to focus only the canvas
                     // to do that we hide other implementation detail classes
@@ -61,7 +54,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
                     var Code = sln.Interactive.ProgramType_MainMethod.Code;
 
-                 
+
                     sln.Interactive.ProgramType_MainMethod.Code = new SolutionProjectLanguageCode
                     {
                         new PseudoIfExpression
@@ -73,7 +66,14 @@ namespace ScriptCoreLib.Ultra.Studio
                             {
                                 new KnownStockTypes.ScriptCoreLib.Desktop.Extensions.DesktopAvalonExtensions.Launch().ToCallExpression(
                                     null,
-                                    ApplicationCanvas.GetDefaultConstructor()
+                                    new SolutionProjectLanguageMethod
+                                    {
+                                        ReturnType = ApplicationCanvas,
+                                        Code = new SolutionProjectLanguageCode 
+                                        {
+                                            ApplicationCanvas.GetDefaultConstructor()
+                                        }
+                                    }
                                 )
                             }
                         }
@@ -100,21 +100,21 @@ namespace ScriptCoreLib.Ultra.Studio
                                 }
                         };
 
-                     var page_get_ContentSize =
-                        new PseudoCallExpression
-                        {
-                            // Application(page)
-                            Object = "page",
+                    var page_get_ContentSize =
+                       new PseudoCallExpression
+                       {
+                           // Application(page)
+                           Object = "page",
 
-                            Method =
-                                new SolutionProjectLanguageMethod
-                                {
-                                    IsProperty = true,
-                                    Name = "get_ContentSize",
-                                    ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
-                                }
-                        };
-                    
+                           Method =
+                               new SolutionProjectLanguageMethod
+                               {
+                                   IsProperty = true,
+                                   Name = "get_ContentSize",
+                                   ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
+                               }
+                       };
+
                     AddCode(
                         new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AvalonUltraExtensions.AutoSizeTo().ToCallExpression(
                             null,
@@ -125,11 +125,11 @@ namespace ScriptCoreLib.Ultra.Studio
                             ),
                             page_get_ContentSize
                         )
-                        
+
                     );
                 };
 
             return sln;
         }
-	}
+    }
 }

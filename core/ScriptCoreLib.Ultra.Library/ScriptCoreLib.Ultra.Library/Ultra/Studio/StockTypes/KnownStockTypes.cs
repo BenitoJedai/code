@@ -34,6 +34,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         {
             public static class Windows
             {
+
                 public static class Forms
                 {
                     public class UserControl : SolutionProjectLanguageType
@@ -43,6 +44,19 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                             Namespace = "System.Windows.Forms";
                             Name = "UserControl";
                         }
+                    }
+                }
+
+                public static class Shapes
+                {
+                    public class Rectangle : SolutionProjectLanguageType
+                    {
+                        public Rectangle()
+                        {
+                            Namespace = "System.Windows.Shapes";
+                            Name = "Rectangle";
+                        }
+
                     }
                 }
 
@@ -139,7 +153,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                             public Launch()
                             {
                                 Name = "Launch";
-                                IsExtensionMethod = true;
                                 IsStatic = true;
                                 DeclaringType = new DesktopAvalonExtensions();
                                 ReturnType = new KnownStockTypes.System.Object();

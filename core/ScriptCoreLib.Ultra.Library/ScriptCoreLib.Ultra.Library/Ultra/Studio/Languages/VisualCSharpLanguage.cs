@@ -149,9 +149,17 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             Action WriteCodeStatements =
                 delegate
                 {
-                    // ? :)
-                    foreach (var item in Code.History.ToArray())
+                    var History = Code.History.ToArray();
+
+                    for (int i = 0; i < History.Length; i++)
                     {
+                        var IsReturnStatement = false;
+
+                        Code.OwnerMethod.With(m => m.ReturnType != null, m => IsReturnStatement = i == History.Length - 1);
+
+
+                        var item = History[i];
+                     
                         {
                             var Comment = item as string;
                             if (Comment != null)
@@ -229,6 +237,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             if (Lambda.Method != null)
                             {
                                 File.WriteIndent();
+
+                                if (IsReturnStatement)
+                                {
+                                    File.WriteSpace(Keywords.@return);
+                                }
+
                                 WritePseudoCallExpression(File, Lambda, Context);
                                 File.WriteLine(";");
                             }

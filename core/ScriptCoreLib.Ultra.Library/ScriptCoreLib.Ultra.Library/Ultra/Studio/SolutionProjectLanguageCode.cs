@@ -15,6 +15,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         // union? :)
         public PseudoIfExpression OwnerIfExpression;
+        public SolutionProjectLanguageMethod OwnerMethod;
 
 		public readonly ArrayList History = new ArrayList();
 
