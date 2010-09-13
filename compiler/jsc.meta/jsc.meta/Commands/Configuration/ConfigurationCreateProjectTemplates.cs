@@ -46,10 +46,20 @@ namespace jsc.meta.Commands.Configuration
                 new SolutionBuilder
                 {
                     // Ultra?
-                    Name = "Canvas Browser Application",
+                    Name = "Browser Avalon Application",
                 }.WithCanvas()
             );
 
+
+            Create(
+                new SolutionBuilder
+                {
+                    // Ultra?
+                    Name = "Browser Avalon Application With Adobe Flash",
+
+                    // make it work! :)
+                }.WithAdobeFlash().WithCanvas()
+            );
 
             Create(
                 new SolutionBuilder

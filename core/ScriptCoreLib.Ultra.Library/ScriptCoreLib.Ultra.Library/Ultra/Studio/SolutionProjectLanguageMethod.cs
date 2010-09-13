@@ -41,7 +41,20 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public readonly List<SolutionProjectLanguageArgument> Parameters = new List<SolutionProjectLanguageArgument>();
 
-        public SolutionProjectLanguageCode Code;
+        SolutionProjectLanguageCode InternalCode;
+
+        public SolutionProjectLanguageCode Code
+        {
+            get
+            {
+                return InternalCode;
+            }
+            set
+            {
+                InternalCode = value;
+                value.OwnerMethod = this;
+            }
+        }
 
         public SolutionProjectLanguageType DeclaringType;
 

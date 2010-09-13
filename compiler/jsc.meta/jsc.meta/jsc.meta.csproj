@@ -329,6 +329,7 @@
     <Compile Include="Library\Mashups\UltraStaticSpriteApplet.cs" />
     <Compile Include="Library\Mashups\UltraWebService.cs" />
     <Compile Include="Library\Mashups\UltraWebServiceWithDelayedDOM.cs" />
+    <Compile Include="Library\Mashups\UltraWebServiceWithInternalService.cs" />
     <Compile Include="Library\MethodBuilderInfo.cs" />
     <Compile Include="Library\ScriptResourceWriter.cs" />
     <Compile Include="Library\Templates\ActionScript\InternaActionScriptToJavaScriptBridge.cs" />

@@ -35,7 +35,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 @if = "if",
                 @else = "else",
 				@this = "this",
-				@base = "base",
+                @base = "base",
+                @return = "return",
 				@namespace = "namespace"
 			;
 		}
