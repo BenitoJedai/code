@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Linq.Expressions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
@@ -43,6 +44,22 @@ namespace ScriptCoreLib.Ultra.Studio
 		}
 
 
+        public bool IsLambdaExpression
+        {
+            get
+            {
+                if (this.OwnerMethod == null)
+                    return false;
+
+                if (!this.OwnerMethod.IsLambda)
+                    return false;
+
+                if (this.History.Count != 1)
+                    return false;
+
+                return true;
+            }
+        }
 
 		#region IEnumerable Members
 

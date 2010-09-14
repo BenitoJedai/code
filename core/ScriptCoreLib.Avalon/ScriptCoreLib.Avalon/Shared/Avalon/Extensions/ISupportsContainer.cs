@@ -259,6 +259,13 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T SizeTo<T>(this T e, int w, int h)
 			where T : FrameworkElement
 		{
+            if (w < 0)
+                w = 0;
+
+            if (h < 0)
+                h = 0;
+
+
 			e.Width = w;
 			e.Height = h;
 
@@ -270,9 +277,14 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 		public static T SizeTo<T>(this T e, double w, double h)
 			where T : FrameworkElement
 		{
+            if (w < 0)
+                w = 0;
+
+            if (h < 0)
+                h = 0;
+
 			e.Width = w;
 			e.Height = h;
-
 
 			return e;
 		}

@@ -20,8 +20,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 			if (Lambda.Method.IsConstructor)
 			{
-				File.Write(Keywords.@new);
-				File.WriteSpace();
+                File.WriteSpace(Keywords.@new);
 
 				this.WriteTypeName(File, Lambda.Method.DeclaringType);
 				InternalWriteParameterList(File, Lambda, Context);
@@ -89,9 +88,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			{
 				if (Lambda.ParameterExpressions.Length == 1)
 				{
-					File.WriteSpace();
-					File.Write("=");
-					File.WriteSpace();
+					File.WriteSpaces("=");
 					WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
 
 				}
@@ -146,14 +143,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 					{
 						if (HasComplexParameter)
 						{
-							File.Write(",");
-							File.WriteLine();
+                            File.WriteLine(",");
 							File.WriteIndent();
 						}
 						else
 						{
-							File.Write(",");
-							File.WriteSpace();
+                            File.WriteSpace(",");
 						}
 					}
 
