@@ -12,6 +12,13 @@ namespace ScriptCoreLib.JavaScript.Extensions
 {
 	public static class INodeExtensions
 	{
+        //public static T SizeTo<T>(this T e, int w, int h) where T : IHTMLElement
+        //{
+        //    e.style.width = w + "px";
+        //    e.style.height = w + "px";
+        //    return e;
+        //}
+
         public static IHTMLOption GetSelection(this IHTMLSelect c)
         {
             return c[c.selectedIndex];

@@ -165,29 +165,8 @@ namespace MultitouchFingerTools.FlashLAN
         {
             var s = new ApplicationSprite();
 
-            
-
-            var e = s.ToHTMLElement();
-
             s.AttachSpriteTo(page.PageContainer);
-
-            Action Update =
-                delegate
-                {
-                    var w = page.SizeShadow.scrollWidth;
-                    var h = page.SizeShadow.scrollHeight;
-
-                    e.style.SetSize(w, h);
-                };
-
-
-            Native.Window.onresize +=
-                delegate
-                {
-                    Update();
-                };
-
-            Update();
+            s.AutoSizeSpriteTo(page.SizeShadow);
         }
 
     }
@@ -197,14 +176,15 @@ namespace MultitouchFingerTools.FlashLAN
         public const int DefaultWidth = ApplicationCanvas.DefaultWidth;
         public const int DefaultHeight = ApplicationCanvas.DefaultHeight;
 
+        ApplicationCanvas content = new ApplicationCanvas();
+
         public ApplicationSprite()
         {
             this.InvokeWhenStageIsReady(
                 delegate
                 {
-                    this.stage.align = StageAlign.TOP_LEFT;
-                    this.stage.scaleMode = StageScaleMode.NO_SCALE;
 
+                    #region context menu
                     var fullscreen = new ScriptCoreLib.ActionScript.flash.ui.ContextMenuItem("Go fullscreen!");
 
                     fullscreen.menuItemSelect +=
@@ -218,21 +198,12 @@ namespace MultitouchFingerTools.FlashLAN
                         customItems = new[] { fullscreen }
                     };
 
+                    #endregion
 
-                    var c = new ApplicationCanvas();
-                    c.AttachToContainer(this);
+                    content.AttachToContainer(this).AutoSizeTo(this.stage);
 
-
-                    this.stage.resize +=
-                        e =>
-                        {
-
-                            c.SizeTo(this.stage.stageWidth, this.stage.stageHeight);
-                        };
-
-                    c.SizeTo(this.stage.stageWidth, this.stage.stageHeight);
-
-                    c.ConnectToSession(ApplicationCanvasExtensionsForFlash.ConnectToSessionVariation.Flash);
+                    // user code
+                    content.ConnectToSession(ApplicationCanvasExtensionsForFlash.ConnectToSessionVariation.Flash);
                 }
             );
         }

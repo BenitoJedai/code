@@ -64,6 +64,15 @@ namespace jsc.meta.Commands.Test
                 }
             );
 
+            AddButton("SolutionBuilderWithConsole C# Canvas + Flash", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new SolutionBuilder().WithCanvas().WithAdobeFlash()
+                );
+
+            }
+          );
+
             AddButton("SolutionBuilderWithConsole C#", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
