@@ -25,6 +25,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
         public IHTMLInput InternalTextField;
         public IHTMLTextArea InternalTextField_MultiLine;
 
+        public IHTMLElement InternalGetTextField()
+        {
+            if (InternalTextField_MultiLine != null)
+                return InternalTextField_MultiLine;
+
+            return InternalTextField;
+        }
 
         public __TextBox()
         {
@@ -41,7 +48,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
             this.InternalTextField_ShadowContainer = new IHTMLDiv();
 
- 
+
 
 
             //.AttachTo(this.InternalContainer);
@@ -185,6 +192,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                             p.insertBefore(this.InternalTextField_MultiLine, this.InternalTextField);
 
                             p.removeChild(this.InternalTextField);
+
+                            Console.WriteLine("InternalSetAcceptsReturn!!");
                         }
 
                         // lets apply current font - probably is the default font...
@@ -224,10 +233,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
         #endregion
 
 
-       
+
 
         #region InternalSetBorderThickness
-        internal __Thickness InternalBorderThickness;
+        internal __Thickness InternalBorderThickness = new __Thickness();
         public override void InternalSetBorderThickness(Thickness value)
         {
             this.InternalBorderThickness = value;
@@ -341,16 +350,84 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
         {
             add
             {
-                this.InternalGetDisplayObject().onchange +=
-                    (IEvent e) =>
-                    {
-                        value(null, null);
-                    };
+                Internal_add_TextChanged(value);
             }
             remove
             {
                 throw new NotImplementedException();
             }
+        }
+
+        private void Internal_add_TextChanged(TextChangedEventHandler value)
+        {
+            //Console.WriteLine("Internal_add_TextChanged: ");
+
+            var NotifyText = default(string);
+
+            Action Notify =
+                delegate
+                {
+                    //Console.WriteLine("notify: " + this.Text);
+                    InternalAutoSizeUpdate();
+                    value(this, null);
+                };
+
+            var t = new ScriptCoreLib.JavaScript.Runtime.Timer();
+
+            Action Check =
+                delegate
+                {
+                    var Text = this.Text;
+
+                    if (Text == NotifyText)
+                        return;
+
+                    NotifyText = Text;
+                    Notify();
+                };
+
+            t.Tick +=
+                delegate
+                {
+                    Check(); 
+                };
+
+            this.InternalGetTextField().onfocus +=
+                delegate
+                {
+                    //Console.WriteLine("onfocus: ");
+                    NotifyText = this.Text;
+                    // based on cpu and text length we may choose a larger interval
+                    t.StartInterval(1000 / 10);
+                };
+
+
+            this.InternalGetTextField().onblur +=
+                delegate
+                {
+                    //Console.WriteLine("onblur: ");
+                    t.Stop();
+                    NotifyText = null;
+                };
+
+            this.InternalGetTextField().onchange +=
+                delegate
+                {
+                    Check(); 
+                };
+
+
+            this.InternalGetTextField().onkeyup +=
+             delegate
+             {
+                 Check(); 
+             };
+
+            this.InternalGetTextField().onkeydown +=
+             delegate
+             {
+                 Check();
+             };
         }
         #endregion
 
@@ -559,7 +636,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
             this.Text = "";
         }
 
-      
+
 
         #region InternalSetFontFamily
         FontFamily InternalFontFamily;
@@ -574,7 +651,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
             var value = ((__FontFamily)(object)value_).InternalFamilyName;
 
-        
+
             if (this.InternalTextField != null)
                 this.InternalTextField.style.fontFamily = (IStyle.FontFamilyEnum)(object)(value);
 
