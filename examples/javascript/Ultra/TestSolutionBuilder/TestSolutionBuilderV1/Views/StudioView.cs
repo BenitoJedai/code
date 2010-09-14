@@ -777,6 +777,8 @@ namespace TestSolutionBuilderV1.Views
             CreateLanguageButton(new VisualFSharpProject(), "View as F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
             CreateLanguageButton(new VisualBasicProject(), "View as Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
 
+            var ListOfCreateProjectTypeButton = new List<IHTMLButton>();
+
             Action<string, Action> CreateProjectTypeButton =
               (Text, Handler) =>
               {
@@ -788,10 +790,12 @@ namespace TestSolutionBuilderV1.Views
                   new IHTMLButton { span }.AttachTo(WorkspaceHeaderTab2).With(
                       btn =>
                       {
+                          ListOfCreateProjectTypeButton.Add(btn);
+
                           btn.onclick +=
                               delegate
                               {
-                                  btn.disabled = true;
+                                  ListOfCreateProjectTypeButton.WithEach(n => n.disabled = true);
 
                                   Handler();
                               };
@@ -819,6 +823,25 @@ namespace TestSolutionBuilderV1.Views
                     Update();
                 }
             );
+
+            CreateProjectTypeButton("Convert to Browser Avalon Application With Adobe Flash",
+               delegate
+               {
+                   sln.WithCanvasAdobeFlash();
+
+
+                   HTMLDesigner.HTMLDesignerContent.WhenDocumentReady(
+                       document =>
+                       {
+                           document.WithContent(sln.ApplicationPage);
+                           // we should now also lock the designer!
+                           document.DesignMode = false;
+                       }
+                   );
+
+                   Update();
+               }
+           );
         }
 
 

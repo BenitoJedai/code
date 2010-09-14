@@ -16,10 +16,50 @@ namespace ScriptCoreLib.Ultra.Studio
     {
         public static SolutionBuilder WithCanvas(this SolutionBuilder sln)
         {
+            return InternalWithCanvas(sln);
+        }
+
+        public static SolutionBuilder WithCanvasAdobeFlash(this SolutionBuilder sln)
+        {
+            var content = default(SolutionProjectLanguageField);
+
+            InternalWithCanvas(sln, value => content = value);
+
+            sln.Interactive.GenerateTypes +=
+                AddType =>
+                {
+                    var ApplicationSprite = new StockSpriteType(sln.Name, "ApplicationSprite", content);
+
+                    AddType(ApplicationSprite);
+
+                    ApplicationSprite.DependentUpon = content.FieldType;
+
+
+                    content.DeclaringType = ApplicationSprite;
+
+                    var sprite = ApplicationSprite.ToInitializedField("sprite");
+
+                    sprite.DeclaringType = sln.Interactive.ApplicationType;
+                };
+
+
+            sln.Interactive.GenerateApplicationExpressions +=
+                AddCode =>
+                {
+
+                };
+
+            return sln;
+        }
+
+
+        static SolutionBuilder InternalWithCanvas(SolutionBuilder sln, 
+            Action<SolutionProjectLanguageField> NotifyContent = null
+            )
+        {
             // should we make an Undo available?
             sln.ApplicationPage = StockPageDefault.CanvasDefaultPage;
 
-            Func<StockCanvasType> GetType = () => new StockCanvasType(sln.Name, "ApplicationCanvas");
 
             var content = default(SolutionProjectLanguageField);
 
@@ -27,8 +67,8 @@ namespace ScriptCoreLib.Ultra.Studio
                 AddType =>
                 {
 
-                    var ApplicationCanvas = GetType();
-
+                    #region ApplicationCanvas
+                    var ApplicationCanvas = new StockCanvasType(sln.Name, "ApplicationCanvas");
 
 
                     // in Canvas applications we want to focus only the canvas
@@ -40,20 +80,16 @@ namespace ScriptCoreLib.Ultra.Studio
 
                     AddType(ApplicationCanvas);
 
-                    content = new SolutionProjectLanguageField
-                    {
-                        FieldType = ApplicationCanvas,
-                        FieldConstructor = ApplicationCanvas.GetDefaultConstructor(),
-                        Name = "content",
-                        IsReadOnly = true
-                    };
+                    content = ApplicationCanvas.ToInitializedField("content");
+                    content.DeclaringType = sln.Interactive.ApplicationType;
 
                     // we are adding a field. does it show up in the source code later?
                     // SolutionProjectLanguage.WriteType makes it happen!
-                    sln.Interactive.ApplicationType.Fields.Add(content);
+
+                    if (NotifyContent != null)
+                        NotifyContent(content);
 
                     var Code = sln.Interactive.ProgramType_MainMethod.Code;
-
 
                     sln.Interactive.ProgramType_MainMethod.Code = new SolutionProjectLanguageCode
                     {
@@ -78,6 +114,8 @@ namespace ScriptCoreLib.Ultra.Studio
                             }
                         }
                     };
+                    #endregion
+
                 };
 
             sln.Interactive.GenerateApplicationExpressions +=
@@ -117,9 +155,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
                     AddCode(
                         new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AvalonUltraExtensions.AutoSizeTo().ToCallExpression(
-                            null,
                             new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AvalonExtensions.AttachToContainer().ToCallExpression(
-                                null,
                                 content,
                                 page_get_Content
                             ),

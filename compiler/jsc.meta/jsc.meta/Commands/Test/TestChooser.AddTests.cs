@@ -67,7 +67,7 @@ namespace jsc.meta.Commands.Test
             AddButton("SolutionBuilderWithConsole C# Canvas + Flash", () =>
             {
                 global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
-                    new SolutionBuilder().WithCanvas().WithAdobeFlash()
+                    new SolutionBuilder().WithCanvasAdobeFlash()
                 );
 
             }
