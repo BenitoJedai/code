@@ -18,5 +18,26 @@ namespace ScriptCoreLib.Ultra.Studio
 		public SolutionProjectLanguageType FieldType;
 
         public PseudoCallExpression FieldConstructor;
+
+
+        SolutionProjectLanguageType InternalDeclaringType;
+        public SolutionProjectLanguageType DeclaringType
+        {
+            get
+            {
+                return InternalDeclaringType;
+            }
+            set
+            {
+                if (InternalDeclaringType != null)
+                    InternalDeclaringType.Fields.Remove(this);
+
+                InternalDeclaringType = value;
+
+                if (InternalDeclaringType != null)
+                    InternalDeclaringType.Fields.Add(this);
+
+            }
+        }
 	}
 }

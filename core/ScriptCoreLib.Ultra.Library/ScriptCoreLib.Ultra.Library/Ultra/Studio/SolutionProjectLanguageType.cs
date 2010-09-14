@@ -130,6 +130,17 @@ namespace ScriptCoreLib.Ultra.Studio
 
     public static class SolutionProjectLanguageTypeExtensions
     {
+        public static SolutionProjectLanguageField ToInitializedField(this SolutionProjectLanguageType FieldType, string FieldName)
+        {
+            return  new SolutionProjectLanguageField
+            {
+                FieldType = FieldType,
+                FieldConstructor = FieldType.GetDefaultConstructor(),
+                Name = FieldName,
+                IsReadOnly = true
+            }; 
+        }
+
         public static SolutionProjectLanguageProperty ToAutoProperty(this SolutionProjectLanguageType PropertyType, string PropertyName)
         {
             return new SolutionProjectLanguageProperty

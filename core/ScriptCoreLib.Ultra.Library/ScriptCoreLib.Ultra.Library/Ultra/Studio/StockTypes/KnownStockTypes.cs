@@ -335,6 +335,29 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             public static class ActionScript
             {
+                public static class Extensions
+                {
+                    public class CommonExtensions : SolutionProjectLanguageType
+                    {
+                        public CommonExtensions()
+                        {
+                            Namespace = "System.ActionScript.Extensions";
+                            Name = "CommonExtensions";
+                        }
+
+                        public class InvokeWhenStageIsReady : SolutionProjectLanguageMethod
+                        {
+                            public InvokeWhenStageIsReady()
+                            {
+                                Name = "InvokeWhenStageIsReady";
+                                IsStatic = true;
+                                IsExtensionMethod = true;
+                                DeclaringType = new CommonExtensions();
+                            }
+                        }
+                    }
+                }
+
                 public static class flash
                 {
                     public static class display
