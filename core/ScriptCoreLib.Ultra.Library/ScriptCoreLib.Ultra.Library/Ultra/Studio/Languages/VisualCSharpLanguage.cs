@@ -54,6 +54,35 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             File.Region(
                 delegate
                 {
+                    if (m.IsLambda)
+                    {
+                        if (m.Code.History.Count == 1)
+                        {
+                            var Parameters = m.Parameters.ToArray();
+
+                            if (Parameters.Length != 1)
+                                File.Write("(");
+
+
+                            for (int i = 0; i < Parameters.Length; i++)
+                            {
+                                if (i > 0)
+                                {
+                                    File.WriteSpace(",");
+                                }
+
+                                File.Write(Parameters[i].Name);
+                            }
+
+                            if (Parameters.Length != 1)
+                                File.WriteSpace(")");
+
+                            File.WriteSpace("=>");
+
+                            this.WriteMethodBody(File, m.Code, Context);
+                            return;
+                        }
+                    }
 
                     if (m.IsLambda)
                     {
@@ -105,22 +134,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                     File.Write("(");
 
-                    var Parameters = m.Parameters.ToArray();
-
-                    for (int i = 0; i < Parameters.Length; i++)
                     {
-                        if (i > 0)
+                        var Parameters = m.Parameters.ToArray();
+
+                        for (int i = 0; i < Parameters.Length; i++)
                         {
-                            File.Write(",");
+                            if (i > 0)
+                            {
+                                File.WriteSpace(",");
+                            }
+
+                            this.WriteTypeName(File, Parameters[i].Type);
+
                             File.WriteSpace();
+                            File.Write(Parameters[i].Name);
                         }
-
-                        this.WriteTypeName(File, Parameters[i].Type);
-
-                        File.WriteSpace();
-                        File.Write(Parameters[i].Name);
                     }
-
                     File.Write(")");
                     if (m.Code == null)
                     {
@@ -159,7 +188,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
 
                         var item = History[i];
-                     
+
                         {
                             var Comment = item as string;
                             if (Comment != null)
@@ -231,20 +260,27 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                         if (Lambda != null)
                         {
-                            if (Lambda.Comment != null)
-                                Lambda.Comment.WriteTo(File, this, Context);
-
-                            if (Lambda.Method != null)
+                            if (Code.IsLambdaExpression)
                             {
-                                File.WriteIndent();
-
-                                if (IsReturnStatement)
-                                {
-                                    File.WriteSpace(Keywords.@return);
-                                }
-
                                 WritePseudoCallExpression(File, Lambda, Context);
-                                File.WriteLine(";");
+                            }
+                            else
+                            {
+                                if (Lambda.Comment != null)
+                                    Lambda.Comment.WriteTo(File, this, Context);
+
+                                if (Lambda.Method != null)
+                                {
+                                    File.WriteIndent();
+
+                                    if (IsReturnStatement)
+                                    {
+                                        File.WriteSpace(Keywords.@return);
+                                    }
+
+                                    WritePseudoCallExpression(File, Lambda, Context);
+                                    File.WriteLine(";");
+                                }
                             }
                         }
                     }
@@ -261,6 +297,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 };
 
             Code.OwnerIfExpression.With(n => n.IsConditionalCompilationDirective, n => WriteCodeStatementsAsBlock = WriteCodeStatements);
+
+            if (Code.IsLambdaExpression)
+                WriteCodeStatementsAsBlock = WriteCodeStatements;
 
             WriteCodeStatementsAsBlock();
         }
@@ -300,6 +339,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            #region PseudoArrayExpression
             var Array = Parameter as PseudoArrayExpression;
             if (Array != null)
             {
@@ -352,6 +392,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                 return;
             }
+            #endregion
 
             var Call = Parameter as PseudoCallExpression;
             if (Call != null)
