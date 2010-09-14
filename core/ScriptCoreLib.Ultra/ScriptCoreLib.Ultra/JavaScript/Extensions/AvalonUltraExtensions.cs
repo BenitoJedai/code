@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 using System.Windows.Controls;
 
@@ -19,7 +18,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
                     var w = shadow.scrollWidth;
                     var h = shadow.scrollHeight;
 
-                    e.SizeTo(w, h);
+                    ScriptCoreLib.Shared.Avalon.Extensions.SupportsContainerExtensions.SizeTo(e, w, h);
+                    //e.SizeTo(w, h);
                 };
 
 
