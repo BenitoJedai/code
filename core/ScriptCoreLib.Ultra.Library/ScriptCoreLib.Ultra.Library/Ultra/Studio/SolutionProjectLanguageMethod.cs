@@ -13,6 +13,8 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public const string ConstructorName = ".ctor";
 
+        public string OperatorName;
+
         public bool IsConstructor
         {
             get
@@ -58,6 +60,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public SolutionProjectLanguageType DeclaringType;
 
+        public bool IsEvent;
         public bool IsProperty;
         public bool IsExtensionMethod;
 
@@ -74,14 +77,27 @@ namespace ScriptCoreLib.Ultra.Studio
 
     public static class SolutionProjectLanguageMethodExtensions
     {
-        public static PseudoCallExpression ToCallExpression(this SolutionProjectLanguageMethod Method, object Object, params object[] ParameterExpressions)
+        public static PseudoCallExpression ToCallExpression(this SolutionProjectLanguageMethod Method, object Object = null, params object[] ParameterExpressions)
         {
+            if (Method.IsExtensionMethod)
+            {
+                if (Object != null)
+                {
+                    // promote Object to arg0
+
+                    return ToCallExpression(Method, null,
+                        new[] { Object }.Concat(ParameterExpressions).ToArray()
+
+                    );
+                }
+            }
+
             return new PseudoCallExpression
-                        {
-                            Method = Method,
-                            Object = Object,
-                            ParameterExpressions = ParameterExpressions
-                        };
+            {
+                Method = Method,
+                Object = Object,
+                ParameterExpressions = ParameterExpressions
+            };
         }
     }
 }

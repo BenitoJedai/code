@@ -67,6 +67,7 @@
         </Reference>
         <Reference Include="System.Data"/>
         <Reference Include="System.Web"/>
+        <Reference Include="System.Xaml"/>
         <Reference Include="System.Xml"/>
         <Reference Include="System.Xml.Linq">
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -90,7 +91,7 @@
             <AppDesignerFolder>Properties</AppDesignerFolder>
             <RootNamespace>XElementEverywhere</RootNamespace>
             <AssemblyName>XElementEverywhere</AssemblyName>
-            <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+            <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
             <FileAlignment>512</FileAlignment>
             <StartupObject>
             </StartupObject>
@@ -132,9 +133,9 @@
         <PropertyGroup>
             <PostBuildEvent>
 if $(ConfigurationName)==Release (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+rem c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-            <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+            <PreBuildEvent>C:\util\jsc\bin\jsc.meta40.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
         </PropertyGroup>
     </Project>
 
@@ -275,9 +276,9 @@ c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFile
           <PropertyGroup>
               <PostBuildEvent>
 if $(ConfigurationName)==Release (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true /DisableWebServicePHP:true
+rem c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true /DisableWebServicePHP:true
 )</PostBuildEvent>
-              <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+              <PreBuildEvent>C:\util\jsc\bin\jsc.meta40.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
           </PropertyGroup>
       </Project>
 End Module

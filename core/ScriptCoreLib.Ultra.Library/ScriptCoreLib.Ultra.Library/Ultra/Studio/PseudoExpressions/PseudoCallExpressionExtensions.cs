@@ -9,6 +9,17 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 {
 	public static class PseudoCallExpressionExtensions
 	{
+        public static SolutionProjectLanguageMethod ToAnonymousMethod(this PseudoCallExpression e)
+        {
+            return new SolutionProjectLanguageMethod
+            {
+                Code = new SolutionProjectLanguageCode
+				{
+					e
+				}
+            };
+        }
+
 		public static PseudoCallExpression ToPseudoCallExpression(this XElement e)
 		{
 			// we need a factory or context for equality

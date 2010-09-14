@@ -6,10 +6,10 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 {
-	public class PseudoCallExpression
-	{
+    public class PseudoCallExpression
+    {
 
-		public SolutionFileComment Comment;
+        public SolutionFileComment Comment;
 
         object InternalObject;
         public object Object
@@ -30,30 +30,48 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 
         public Func<object> GetObject;
 
-		public SolutionProjectLanguageMethod Method;
+        public SolutionProjectLanguageMethod Method;
 
-		public object[] ParameterExpressions = new object[0];
+        public object[] ParameterExpressions = new object[0];
 
 
-		public bool IsAttributeContext;
+        public bool IsAttributeContext;
 
-		public static implicit operator Uri(PseudoCallExpression that)
-		{
-			if (that.Comment == null)
-				return null;
+        public static implicit operator Uri(PseudoCallExpression that)
+        {
+            if (that.Comment == null)
+                return null;
 
-			return that.Comment.Link;
-		}
+            return that.Comment.Link;
+        }
 
-		/// <summary>
-		/// Visual Basic can inline xml. When this field is set, 
-		/// this expression is equal to the XLinq field.
-		/// </summary>
-		public XElement XLinq;
+        /// <summary>
+        /// Visual Basic can inline xml. When this field is set, 
+        /// this expression is equal to the XLinq field.
+        /// </summary>
+        public XElement XLinq;
 
         public override string ToString()
         {
             return this.Method.ToString();
         }
-	}
+
+        public static PseudoCallExpression operator -(PseudoCallExpression e, PseudoInt32ConstantExpression value)
+        {
+            return new PseudoCallExpression
+            {
+                Method = new SolutionProjectLanguageMethod { OperatorName = "-" },
+
+
+                ParameterExpressions = new object[]
+                {
+                    e, 
+                    value
+                }
+            };
+
+        }
+    }
+
+
 }

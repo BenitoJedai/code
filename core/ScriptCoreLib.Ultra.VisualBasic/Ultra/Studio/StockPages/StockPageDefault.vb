@@ -8,7 +8,7 @@
     </div>
     <div id='Content' style='overflow: hidden; position: absolute;
         left: 0px; right: 0px; bottom: 0px; top: 0px;'>
-        <code>This HTML page will be displaying a docked Windows Presentation Foundation Canvas element</code>
+        <!-- This HTML document is a placeholder. -->
     </div>
 </body>
 
