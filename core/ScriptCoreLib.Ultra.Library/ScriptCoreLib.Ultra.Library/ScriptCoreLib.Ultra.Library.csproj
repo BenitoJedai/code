@@ -72,7 +72,7 @@
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Delegates\Async.cs" />
-    <Compile Include="Extensions\FormsExtensions.cs" />
+    <Compile Include="Extensions\Forms\FormsExtensions.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\IOGenericExtensions.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
@@ -225,7 +225,9 @@
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Extensions\Avalon\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

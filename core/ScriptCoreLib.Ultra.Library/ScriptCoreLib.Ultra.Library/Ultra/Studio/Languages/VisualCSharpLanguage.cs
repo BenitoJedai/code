@@ -184,7 +184,18 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     {
                         var IsReturnStatement = false;
 
-                        Code.OwnerMethod.With(m => m.ReturnType != null, m => IsReturnStatement = i == History.Length - 1);
+                        Code.OwnerMethod.With(
+                            m =>
+                            {
+                                if (m.ReturnType == null)
+                                    return;
+
+                                if (m.IsConstructor)
+                                    return;
+
+                                IsReturnStatement = i == History.Length - 1;
+                            }
+                        );
 
 
                         var item = History[i];

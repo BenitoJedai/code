@@ -70,6 +70,9 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public void Write(SolutionFileWriteArguments a)
 		{
+            if (a.Text == null)
+                return;
+
 			if (a.Text != Environment.NewLine)
 			{
 				var r = a.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);

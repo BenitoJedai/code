@@ -198,6 +198,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteTypeName(SolutionFile File, SolutionProjectLanguageType Type)
         {
+            if (Type == null)
+                return;
+
             if (Type.DeclaringType != null)
             {
                 WriteTypeName(File, Type.DeclaringType);

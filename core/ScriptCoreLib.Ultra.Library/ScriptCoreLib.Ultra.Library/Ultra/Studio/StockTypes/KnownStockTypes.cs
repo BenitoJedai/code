@@ -13,7 +13,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         // or we should generate a SolutionBuilder from MSIL?
         // unless we want to use some ficttional type names?
 
-   
+
 
         public static class java
         {
@@ -47,6 +47,30 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                     }
                 }
 
+                public static class Media
+                {
+                    public class Brushes : SolutionProjectLanguageType
+                    {
+                        public Brushes()
+                        {
+                            Namespace = "System.Windows.Media";
+                            Name = "Brushes";
+                        }
+
+                        public class get_Red : SolutionProjectLanguageMethod
+                        {
+                            public get_Red()
+                            {
+                                DeclaringType = new KnownStockTypes.System.Windows.Media.Brushes();
+                                IsStatic = true;
+                                IsProperty = true;
+                                Name = "get_Red";
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+                }
+
                 public static class Shapes
                 {
                     public class Rectangle : SolutionProjectLanguageType
@@ -55,6 +79,16 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                         {
                             Namespace = "System.Windows.Shapes";
                             Name = "Rectangle";
+                        }
+
+                        public class set_Fill : SolutionProjectLanguageMethod
+                        {
+                            public set_Fill()
+                            {
+                                DeclaringType = new Rectangle();
+                                IsProperty = true;
+                                Name = "set_Fill";
+                            }
                         }
 
                     }
@@ -66,10 +100,53 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                     {
                         public Canvas()
                         {
+                            BaseType = new FrameworkElement();
+
                             Namespace = "System.Windows.Controls";
                             Name = "Canvas";
                         }
 
+                    }
+                }
+
+                public class FrameworkElement : SolutionProjectLanguageType
+                {
+                    public FrameworkElement()
+                    {
+                        Namespace = "System.Windows";
+                        Name = "FrameworkElement";
+                    }
+
+                    public class add_SizeChanged : SolutionProjectLanguageMethod
+                    {
+                        public add_SizeChanged()
+                        {
+                            Name = "add_SizeChanged";
+                            DeclaringType = new FrameworkElement();
+                            IsEvent = true;
+                        }
+                    }
+
+                    public class get_Width : SolutionProjectLanguageMethod
+                    {
+                        public get_Width()
+                        {
+                            IsProperty = true;
+                            Name = "get_Width";
+                            DeclaringType = new FrameworkElement();
+                            ReturnType = new KnownStockTypes.System.Double();
+                        }
+                    }
+
+                    public class get_Height : SolutionProjectLanguageMethod
+                    {
+                        public get_Height()
+                        {
+                            IsProperty = true;
+                            Name = "get_Height";
+                            DeclaringType = new FrameworkElement();
+                            ReturnType = new KnownStockTypes.System.Double();
+                        }
                     }
                 }
             }
@@ -109,6 +186,16 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 {
                     Namespace = "System";
                     Name = "String";
+                }
+
+            }
+
+            public class Double : SolutionProjectLanguageType
+            {
+                public Double()
+                {
+                    Namespace = "System";
+                    Name = "Double";
                 }
 
             }
@@ -277,6 +364,61 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                         Name = "StringAction";
                     }
                 }
+            }
+
+            public static class Shared
+            {
+                public static class Avalon
+                {
+                    public static class Extensions
+                    {
+                        public class SupportsContainerExtensions : SolutionProjectLanguageType
+                        {
+                            public SupportsContainerExtensions()
+                            {
+                                this.Namespace = "ScriptCoreLib.Shared.Avalon.Extensions";
+                                this.Name = "SupportsContainerExtensions";
+                            }
+
+                            public class AttachTo : SolutionProjectLanguageMethod
+                            {
+                                public AttachTo()
+                                {
+                                    Name = "AttachTo";
+                                    IsStatic = true;
+                                    IsExtensionMethod = true;
+                                    DeclaringType = new SupportsContainerExtensions();
+                                    ReturnType = new KnownStockTypes.System.Object();
+                                }
+                            }
+
+                            public class MoveTo : SolutionProjectLanguageMethod
+                            {
+                                public MoveTo()
+                                {
+                                    Name = "MoveTo";
+                                    IsStatic = true;
+                                    IsExtensionMethod = true;
+                                    DeclaringType = new SupportsContainerExtensions();
+                                    ReturnType = new KnownStockTypes.System.Object();
+                                }
+                            }
+
+                            public class SizeTo : SolutionProjectLanguageMethod
+                            {
+                                public SizeTo()
+                                {
+                                    Name = "SizeTo";
+                                    IsStatic = true;
+                                    IsExtensionMethod = true;
+                                    DeclaringType = new SupportsContainerExtensions();
+                                    ReturnType = new KnownStockTypes.System.Object();
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
         }
     }
