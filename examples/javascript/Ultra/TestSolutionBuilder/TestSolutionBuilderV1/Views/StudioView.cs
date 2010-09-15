@@ -805,7 +805,7 @@ namespace TestSolutionBuilderV1.Views
                   );
               };
 
-            CreateProjectTypeButton("Convert to Canvas Browser Application",
+            CreateProjectTypeButton("Convert to Browser Avalon Application",
                 delegate
                 {
                     sln.WithCanvas();
