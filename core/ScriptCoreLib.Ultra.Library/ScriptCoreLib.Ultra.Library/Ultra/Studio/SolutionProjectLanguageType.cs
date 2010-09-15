@@ -8,6 +8,10 @@ namespace ScriptCoreLib.Ultra.Studio
 {
     public class SolutionProjectLanguageType
     {
+        public string Name;
+        public string Namespace = "";
+
+
         // http://msdn.microsoft.com/en-us/library/dd233188.aspx
 
         public bool IsInternal;
@@ -16,9 +20,6 @@ namespace ScriptCoreLib.Ultra.Studio
         public bool IsInterface;
 
 
-        public string Namespace = "";
-
-        public string Name;
 
         public string Summary;
 

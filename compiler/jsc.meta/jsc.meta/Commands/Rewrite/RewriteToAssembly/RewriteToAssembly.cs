@@ -1335,6 +1335,14 @@ namespace jsc.meta.Commands.Rewrite
                         ConstructorCache[SourceTypeDefaultConstructor] = DeclaringType.DefineDefaultConstructor(SourceTypeDefaultConstructor.Attributes);
                     }
 
+                    if (SourceType.IsNested)
+                    {
+                        if (!TypeCache.Flags.ContainsKey(SourceType.DeclaringType))
+                        {
+                            var ParentPartial = ClosePartialDefinitions[SourceType.DeclaringType];
+                        }
+                    }
+
                     // do we need to implement some methods?
                     Console.WriteLine("Create Partial Type: " + DeclaringType.FullName);
                     DeclaringType.CreateType();
