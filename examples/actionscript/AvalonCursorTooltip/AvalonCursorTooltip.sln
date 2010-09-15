@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonCursorTooltip", "AvalonCursorTooltip\AvalonCursorTooltip.csproj", "{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserAvalonApplication1", "BrowserAvalonApplication1\BrowserAvalonApplication1.csproj", "{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D2CDDD-3B66-4602-90D1-3291CD4F717B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12CB0A7-938D-4FE5-A7BD-6F35EE55E884}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
