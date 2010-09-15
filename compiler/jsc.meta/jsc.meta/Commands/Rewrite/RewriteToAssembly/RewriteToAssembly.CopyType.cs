@@ -274,20 +274,28 @@ namespace jsc.meta.Commands.Rewrite
                 );
             }
 
-            if (SourceType.IsNested /*&& SourceType.IsClass*/)
-            {
-                //Diagnostics("Delayed:  " + SourceType.FullName);
-                if (SourceType.IsEnum)
+            Action<Type> rec_SourceTypeCheck = null;
+
+            rec_SourceTypeCheck = 
+                rec_SourceType =>
                 {
-                    if (SourceType.DeclaringType.IsNested)
-                        AtTypeCreatedFilter.Add(SourceType.DeclaringType);
-                    // Enums are special! :)
-                }
-                else
-                {
-                    AtTypeCreatedFilter.Add(SourceType.DeclaringType);
-                }
-            }
+
+                    if (rec_SourceType.IsNested /*&& SourceType.IsClass*/)
+                    {
+                        //Diagnostics("Delayed:  " + SourceType.FullName);
+                        if (rec_SourceType.IsEnum)
+                        {
+                            // Enums are special! :)
+                        }
+                        else
+                        {
+                            AtTypeCreatedFilter.Add(rec_SourceType.DeclaringType);
+                        }
+                        rec_SourceTypeCheck(rec_SourceType.DeclaringType);
+                    }
+                };
+
+            rec_SourceTypeCheck(SourceType);
 
             if (SourceType.IsGenericTypeDefinition)
             {

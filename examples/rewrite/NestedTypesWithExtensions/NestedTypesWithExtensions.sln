@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestedTypesWithExtensions", "NestedTypesWithExtensions\NestedTypesWithExtensions.csproj", "{11C7940B-F54B-4F28-8733-A6FAD4B701BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestedTypesPartialClose", "NestedTypesPartialClose\NestedTypesPartialClose.csproj", "{D32D3D7D-B92D-4717-B1EB-BAAAF4A909E7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{11C7940B-F54B-4F28-8733-A6FAD4B701BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11C7940B-F54B-4F28-8733-A6FAD4B701BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11C7940B-F54B-4F28-8733-A6FAD4B701BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D32D3D7D-B92D-4717-B1EB-BAAAF4A909E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D32D3D7D-B92D-4717-B1EB-BAAAF4A909E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D32D3D7D-B92D-4717-B1EB-BAAAF4A909E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D32D3D7D-B92D-4717-B1EB-BAAAF4A909E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
