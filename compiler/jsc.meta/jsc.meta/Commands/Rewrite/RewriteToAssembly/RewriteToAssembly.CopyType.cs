@@ -286,12 +286,17 @@ namespace jsc.meta.Commands.Rewrite
                         if (rec_SourceType.IsEnum)
                         {
                             // Enums are special! :)
+
+                            if (rec_SourceType.DeclaringType.IsNested /*&& SourceType.IsClass*/)
+                            {
+                                AtTypeCreatedFilter.Add(rec_SourceType.DeclaringType);
+                            }
                         }
                         else
                         {
                             AtTypeCreatedFilter.Add(rec_SourceType.DeclaringType);
                         }
-                        rec_SourceTypeCheck(rec_SourceType.DeclaringType);
+                        //rec_SourceTypeCheck(rec_SourceType.DeclaringType);
                     }
                 };
 
