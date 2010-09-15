@@ -76,6 +76,7 @@ namespace ScriptCoreLib.Desktop.Extensions
                     w.SizeToContent = SizeToContent.Manual;
                     w.Width = 400;
                     w.Height = 300;
+                    w.Title += " | F2 - Spawn, F11 - Fullscreen";
 
                     var ExitFullscreen = default(Action);
 

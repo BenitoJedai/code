@@ -15,7 +15,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			public static Keyword
 					@global = "global",
 					@open = "open",
-					@type = "type",
+                    @type = "type",
+                    @internal = "internal",
 					@typeof = "typeof",
                     @do = "do",
                     @let = "let",

@@ -70,6 +70,7 @@ namespace ScriptCoreLib.Ultra.Studio
             this.ApplicationType = new SolutionProjectLanguageType
             {
                 IsSealed = true,
+                IsInternal = true,
 
                 Name = "Application",
                 Summary = "This type will run as JavaScript.",
@@ -92,6 +93,7 @@ namespace ScriptCoreLib.Ultra.Studio
             this.ProgramType = new SolutionProjectLanguageType
             {
                 IsStatic = true,
+                IsInternal = true,
                 Name = "Program",
                 Summary = "You can debug your application by hitting F5.",
                 DependentUpon = ApplicationType

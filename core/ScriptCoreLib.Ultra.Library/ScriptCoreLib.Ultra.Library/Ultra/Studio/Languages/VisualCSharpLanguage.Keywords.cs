@@ -33,6 +33,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 @bool = "bool",
                 @string = "string",
                 @if = "if",
+                @internal = "internal",
                 @else = "else",
 				@this = "this",
                 @base = "base",

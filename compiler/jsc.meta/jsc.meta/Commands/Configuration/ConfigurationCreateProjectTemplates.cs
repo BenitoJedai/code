@@ -57,8 +57,7 @@ namespace jsc.meta.Commands.Configuration
                     // Ultra?
                     Name = "Browser Avalon Application With Adobe Flash",
 
-                    // make it work! :)
-                }.WithAdobeFlash().WithCanvas()
+                }.WithCanvasAdobeFlash()
             );
 
             Create(

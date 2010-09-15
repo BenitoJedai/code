@@ -13,8 +13,10 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 		public StockApplicationWebServiceType(SolutionBuilderInteractive Interactive)
 		{
 			this.IsSealed = true;
+            this.IsInternal = true;
+
 			this.Name = "ApplicationWebService";
-			this.Summary = "This type can be used from javascript. The method calls will seamlessly be proxied to the server.";
+			this.Summary = "Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.";
 
 			this.UsingNamespaces.Add("System");
 			this.UsingNamespaces.Add("System.Linq");
