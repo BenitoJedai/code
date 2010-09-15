@@ -13,7 +13,9 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 		public StockApplicationWebServiceType(SolutionBuilderInteractive Interactive)
 		{
 			this.IsSealed = true;
-            this.IsInternal = true;
+
+            // Cassini will not be able to support debugging if WebService is made internal?
+            //this.IsInternal = true;
 
 			this.Name = "ApplicationWebService";
 			this.Summary = "Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.";

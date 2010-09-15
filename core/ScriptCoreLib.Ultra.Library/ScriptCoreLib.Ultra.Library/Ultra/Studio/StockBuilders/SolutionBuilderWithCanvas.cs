@@ -106,14 +106,13 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
             var content = default(SolutionProjectLanguageField);
-            var ApplicationCanvas = default(StockCanvasType);
 
             sln.Interactive.GenerateTypes +=
                 AddType =>
                 {
 
                     #region ApplicationCanvas
-                    ApplicationCanvas = new StockCanvasType(sln.Name, "ApplicationCanvas");
+                    var ApplicationCanvas = new StockCanvasType(sln.Name, "ApplicationCanvas");
 
 
                     // in Canvas applications we want to focus only the canvas
@@ -167,7 +166,7 @@ namespace ScriptCoreLib.Ultra.Studio
                 AddCode =>
                 {
                     // our content has been removed...
-                    if (ApplicationCanvas != content.DeclaringType)
+                    if (content.DeclaringType != sln.Interactive.ApplicationType)
                         return;
 
                     var page_get_Content =
