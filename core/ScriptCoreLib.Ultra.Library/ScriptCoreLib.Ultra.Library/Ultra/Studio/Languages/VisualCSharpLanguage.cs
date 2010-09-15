@@ -553,46 +553,47 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                 delegate
                                 {
                                     File.WriteIndent();
-                                    File.Write(Keywords.@public);
-                                    File.WriteSpace();
+
+                                    if (Type.IsInternal)
+                                    {
+                                        File.WriteSpace(Keywords.@internal);
+                                    }
+                                    else
+                                    {
+                                        File.WriteSpace(Keywords.@public);
+                                    }
 
                                     if (Type.IsStatic)
                                     {
-                                        File.Write(Keywords.@static);
-                                        File.WriteSpace();
+                                        File.WriteSpace(Keywords.@static);
                                     }
 
 
                                     if (Type.IsSealed)
                                     {
-                                        File.Write(Keywords.@sealed);
-                                        File.WriteSpace();
+                                        File.WriteSpace(Keywords.@sealed);
                                     }
 
                                     if (Type.IsPartial)
                                     {
-                                        File.Write(Keywords.@partial);
-                                        File.WriteSpace();
+                                        File.WriteSpace(Keywords.@partial);
                                     }
 
 
                                     if (Type.IsInterface)
                                     {
-                                        File.Write(Keywords.@interface);
+                                        File.WriteSpace(Keywords.@interface);
                                     }
                                     else
                                     {
-                                        File.Write(Keywords.@class);
+                                        File.WriteSpace(Keywords.@class);
                                     }
 
-                                    File.WriteSpace();
                                     File.Write(Type);
 
                                     if (Type.BaseType != null)
                                     {
-                                        File.WriteSpace();
-                                        File.Write(":");
-                                        File.WriteSpace();
+                                        File.WriteSpaces(":");
                                         WriteTypeName(File, Type.BaseType);
                                     }
 

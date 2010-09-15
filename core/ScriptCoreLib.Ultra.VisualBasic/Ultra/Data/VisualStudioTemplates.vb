@@ -17,7 +17,7 @@
         <Reference Include="PresentationFramework">
             <RequiredTargetFramework>3.0</RequiredTargetFramework>
         </Reference>
-        <Reference Include="ScriptCoreLib, Version=3.0.2665.39893, Culture=neutral, processorArchitecture=MSIL">
+        <Reference Include="ScriptCoreLib">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
         </Reference>
@@ -48,6 +48,10 @@
         <Reference Include="ScriptCoreLib.Ultra.Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+        </Reference>
+        <Reference Include="ScriptCoreLib.Ultra.Library40">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library40.dll</HintPath>
         </Reference>
         <Reference Include="ScriptCoreLib.Ultra.VisualBasic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
             <SpecificVersion>False</SpecificVersion>

@@ -9,8 +9,13 @@ namespace ScriptCoreLib.ActionScript
     [Script(IsNative = true)]
     public sealed class SWFAttribute : Attribute
     {
+        const uint White = 0xffffff;
+        const uint AdobeFlashDefault = 0xcccccc;
+
         [Hex]
-        public uint backgroundColor = 0xcccccc;
+        public uint backgroundColor = White;
+
+        //public uint backgroundColor = 0xcccccc;
 
         public int frameRate = 30;
         public int width = ScriptApplicationEntryPointAttribute.DefaultWidth;

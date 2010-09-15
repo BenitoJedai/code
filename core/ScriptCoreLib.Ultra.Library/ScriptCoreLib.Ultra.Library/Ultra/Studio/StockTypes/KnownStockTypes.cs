@@ -268,6 +268,39 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
                 public static class Extensions
                 {
+                    public class SpriteExtensions : SolutionProjectLanguageType
+                    {
+                        public SpriteExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "SpriteExtensions";
+                        }
+
+                        public class AutoSizeSpriteTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeSpriteTo()
+                            {
+                                Name = "AutoSizeSpriteTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonUltraExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+
+                        public class AttachSpriteTo : SolutionProjectLanguageMethod
+                        {
+                            public AttachSpriteTo()
+                            {
+                                Name = "AttachSpriteTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonUltraExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
                     public class AvalonUltraExtensions : SolutionProjectLanguageType
                     {
                         public AvalonUltraExtensions()
@@ -335,13 +368,59 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             public static class ActionScript
             {
+                const string Namespace = "ScriptCoreLib.ActionScript";
+
                 public static class Extensions
                 {
+                    const string Namespace = ActionScript.Namespace + ".Extensions";
+
+                    public class ActionScriptAvalonExtensions : SolutionProjectLanguageType
+                    {
+                        public ActionScriptAvalonExtensions()
+                        {
+                            Namespace = Namespace;
+                            Name = "ActionScriptAvalonExtensions";
+                        }
+
+                        public class AutoSizeTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeTo()
+                            {
+                                Name = "AutoSizeTo";
+                                IsStatic = true;
+                                IsExtensionMethod = true;
+                                DeclaringType = new AvalonExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+                    public class AvalonExtensions : SolutionProjectLanguageType
+                    {
+                        public AvalonExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.ActionScript.Extensions";
+                            Name = "AvalonExtensions";
+                        }
+
+                        public class AttachToContainer : SolutionProjectLanguageMethod
+                        {
+                            public AttachToContainer()
+                            {
+                                Name = "AttachToContainer";
+                                IsStatic = true;
+                                IsExtensionMethod = true;
+                                DeclaringType = new AvalonExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+
+                            }
+                        }
+                    }
+
                     public class CommonExtensions : SolutionProjectLanguageType
                     {
                         public CommonExtensions()
                         {
-                            Namespace = "System.ActionScript.Extensions";
+                            Namespace = "ScriptCoreLib.ActionScript.Extensions";
                             Name = "CommonExtensions";
                         }
 
@@ -362,11 +441,30 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 {
                     public static class display
                     {
+                        public class DisplayObject : SolutionProjectLanguageType
+                        {
+                            public DisplayObject()
+                            {
+                                Namespace = "ScriptCoreLib.ActionScript.flash.display";
+                                Name = "DisplayObject";
+                            }
+
+                            public class get_stage : SolutionProjectLanguageMethod
+                            {
+                                public get_stage()
+                                {
+                                    Name = "get_stage";
+                                    IsProperty = true;
+                                    DeclaringType = new DisplayObject();
+                                }
+                            }
+                        }
+
                         public class Sprite : SolutionProjectLanguageType
                         {
                             public Sprite()
                             {
-                                Namespace = "System.ActionScript.flash.display";
+                                Namespace = "ScriptCoreLib.ActionScript.flash.display";
                                 Name = "Sprite";
                             }
 

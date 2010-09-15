@@ -8,6 +8,9 @@ namespace ScriptCoreLib.Ultra.Studio
 {
     public class SolutionProjectLanguageType
     {
+        // http://msdn.microsoft.com/en-us/library/dd233188.aspx
+
+        public bool IsInternal;
         public bool IsStatic;
         public bool IsSealed;
         public bool IsInterface;

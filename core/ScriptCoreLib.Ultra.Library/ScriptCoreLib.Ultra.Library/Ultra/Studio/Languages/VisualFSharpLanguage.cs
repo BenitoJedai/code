@@ -241,10 +241,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteNamespace(SolutionFile File, string Namespace, Action Body)
         {
-            File.Write(Keywords.@namespace);
-            File.WriteSpace();
-            File.Write(Namespace);
-            File.WriteLine();
+            File.WriteSpace(Keywords.@namespace);
+            File.WriteLine(Namespace);
 
             File.WriteLine();
 
@@ -253,6 +251,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteType(SolutionFile File, SolutionProjectLanguageType Type, SolutionBuilder Context)
         {
+            // http://msdn.microsoft.com/en-us/library/dd233205.aspx
+
             File.Write(this, Context, Type.Comments);
 
             File.Region(
@@ -294,8 +294,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                         File.WriteLine();
                                         File.WriteIndent();
 
-                                        File.Write(Keywords.type);
-                                        File.WriteSpace();
+                                        File.WriteSpace(Keywords.type);
+
+                                        if (Type.IsInternal)
+                                        {
+                                            File.WriteSpace(Keywords.@internal);
+                                        }
+
                                         WriteTypeName(File, Type);
                                         File.Write("(");
 
@@ -352,6 +357,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                 Type.Fields.WithEach(
                                                     Field =>
                                                     {
+                                                        // http://msdn.microsoft.com/en-us/library/dd469494.aspx
+
                                                         File.WriteIndent();
                                                         File.WriteSpace(Keywords.let);
                                                         File.Write(Field.Name);

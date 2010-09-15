@@ -18,6 +18,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.BaseType = new KnownStockTypes.java.applet.Applet();
 
 			this.IsSealed = true;
+            this.IsInternal = true;
 
 			this.init = new SolutionProjectLanguageMethod
 			{

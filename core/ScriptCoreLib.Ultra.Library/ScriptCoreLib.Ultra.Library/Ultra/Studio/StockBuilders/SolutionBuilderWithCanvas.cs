@@ -22,6 +22,7 @@ namespace ScriptCoreLib.Ultra.Studio
         public static SolutionBuilder WithCanvasAdobeFlash(this SolutionBuilder sln)
         {
             var content = default(SolutionProjectLanguageField);
+            var sprite = default(SolutionProjectLanguageField);
 
             InternalWithCanvas(sln, value => content = value);
 
@@ -30,30 +31,73 @@ namespace ScriptCoreLib.Ultra.Studio
                 {
                     var ApplicationSprite = new StockSpriteType(sln.Name, "ApplicationSprite", content);
 
-                    AddType(ApplicationSprite);
 
                     ApplicationSprite.DependentUpon = content.FieldType;
 
 
                     content.DeclaringType = ApplicationSprite;
 
-                    var sprite = ApplicationSprite.ToInitializedField("sprite");
+                    sprite = ApplicationSprite.ToInitializedField("sprite");
 
                     sprite.DeclaringType = sln.Interactive.ApplicationType;
+
+                    AddType(ApplicationSprite);
                 };
 
 
             sln.Interactive.GenerateApplicationExpressions +=
                 AddCode =>
                 {
+                    var page_get_Content =
+                        new PseudoCallExpression
+                        {
+                            // Application(page)
+                            Object = "page",
 
+                            Method =
+                                new SolutionProjectLanguageMethod
+                                {
+                                    IsProperty = true,
+                                    Name = "get_Content",
+                                    ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
+                                }
+                        };
+
+                    var page_get_ContentSize =
+                       new PseudoCallExpression
+                       {
+                           // Application(page)
+                           Object = "page",
+
+                           Method =
+                               new SolutionProjectLanguageMethod
+                               {
+                                   IsProperty = true,
+                                   Name = "get_ContentSize",
+                                   ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
+                               }
+                       };
+
+                    AddCode(
+                        new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.SpriteExtensions.AutoSizeSpriteTo().ToCallExpression(
+                            sprite,
+                            page_get_ContentSize
+                        )
+                    );
+
+                    AddCode(
+                        new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.SpriteExtensions.AttachSpriteTo().ToCallExpression(
+                            sprite,
+                            page_get_Content
+                        )
+                    );
                 };
 
             return sln;
         }
 
 
-        static SolutionBuilder InternalWithCanvas(SolutionBuilder sln, 
+        static SolutionBuilder InternalWithCanvas(SolutionBuilder sln,
             Action<SolutionProjectLanguageField> NotifyContent = null
             )
         {
@@ -62,13 +106,14 @@ namespace ScriptCoreLib.Ultra.Studio
 
 
             var content = default(SolutionProjectLanguageField);
+            var ApplicationCanvas = default(StockCanvasType);
 
             sln.Interactive.GenerateTypes +=
                 AddType =>
                 {
 
                     #region ApplicationCanvas
-                    var ApplicationCanvas = new StockCanvasType(sln.Name, "ApplicationCanvas");
+                    ApplicationCanvas = new StockCanvasType(sln.Name, "ApplicationCanvas");
 
 
                     // in Canvas applications we want to focus only the canvas
@@ -121,7 +166,9 @@ namespace ScriptCoreLib.Ultra.Studio
             sln.Interactive.GenerateApplicationExpressions +=
                 AddCode =>
                 {
-                    // new ApplicationCanvas().AttachToContainer(page.PageContainer);
+                    // our content has been removed...
+                    if (ApplicationCanvas != content.DeclaringType)
+                        return;
 
                     var page_get_Content =
                         new PseudoCallExpression
@@ -161,7 +208,6 @@ namespace ScriptCoreLib.Ultra.Studio
                             ),
                             page_get_ContentSize
                         )
-
                     );
                 };
 

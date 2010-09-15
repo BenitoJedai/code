@@ -16,24 +16,52 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.BaseType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.display.Sprite();
 
 			this.IsSealed = true;
+            this.IsInternal = true;
 
             var ctor = GetDefaultConstructorDefinition();
 
-            var handler = new SolutionProjectLanguageMethod
-            {
-                Code = new SolutionProjectLanguageCode
-                {
-
-                }
-            };
-
+            this.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+            
+       
             ctor.Code = new SolutionProjectLanguageCode
             {
-                new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.CommonExtensions.InvokeWhenStageIsReady().ToCallExpression(
-                    new PseudoThisExpression(),
-                    handler
-                )
+               
             };
+
+            if (Content != null)
+            {
+                var AttachToContainer =
+                      new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.AvalonExtensions.AttachToContainer().ToCallExpression(
+                          Content,
+                          new PseudoThisExpression()
+                      );
+
+                var get_stage = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.display.DisplayObject.get_stage().ToCallExpression(
+                    new PseudoThisExpression()
+                );
+
+                var AutoSizeTo =
+                     new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.ActionScriptAvalonExtensions.AutoSizeTo().ToCallExpression(
+                        Content,
+                        get_stage
+                    );
+
+                var handler = new SolutionProjectLanguageMethod
+                {
+                    Code = new SolutionProjectLanguageCode
+                    {
+                        AttachToContainer,
+                        AutoSizeTo
+                    }
+                };
+
+                ctor.Code.Add(
+                     new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.CommonExtensions.InvokeWhenStageIsReady().ToCallExpression(
+                        new PseudoThisExpression(),
+                        handler
+                    )
+                );
+            }
 
 			this.Methods.Add(ctor);
 		}

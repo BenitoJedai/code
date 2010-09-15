@@ -36,7 +36,7 @@ namespace ScriptCoreLib.Ultra.Studio
             this.ApplicationPage = StockPageDefault.Element;
             this.Language = new Languages.VisualCSharpLanguage();
             this.Name = "VisualCSharpProject1";
-            this.Description = "Write javascript, flash and java applets within a C# project. http://jsc-solutions.net";
+            this.Description = "Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net";
             this.Company = "jsc-solutions.net";
         }
 
