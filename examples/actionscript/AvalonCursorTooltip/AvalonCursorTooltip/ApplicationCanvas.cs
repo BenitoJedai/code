@@ -64,7 +64,7 @@ namespace BrowserAvalonApplicationWithAdobeFlash2
                 {
                     var p = e.GetPosition(this);
                     
-                    text.Text = "jsc-solutins.net\n" + new { p.X, p.Y };
+                    text.Text = "jsc-solutions.net\n" + new { p.X, p.Y };
 
                     text.MoveTo(p.X + 32, p.Y);
                 };

@@ -21,12 +21,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				@Public = "Public",
                 @Private = "Private",
                 @ReadOnly = "ReadOnly",
-				@New = "New",
+                @New = "New",
+                @Me = "Me",
 				@Shared = "Shared",
 				@NotInheritable = "NotInheritable",
 				@Class = "Class",
 				@Module = "Module",
-				@ByVal = "ByVal",
+                @ByVal = "ByVal",
+                @If = "If",
+                @Then = "Then",
+                @Else = "Else",
 
 				@Namespace = "Namespace"
 			;

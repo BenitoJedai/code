@@ -10,7 +10,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
     {
         public override void WritePseudoCallExpression(SolutionFile File, ScriptCoreLib.Ultra.Studio.PseudoExpressions.PseudoCallExpression Lambda, SolutionBuilder Context)
         {
-            var Objectless = true;
 
             if (Lambda.Method.IsConstructor)
             {
@@ -21,6 +20,20 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            if (Lambda.Method.OperatorName != null)
+            {
+                if (Lambda.ParameterExpressions.Length == 2)
+                {
+                    WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+                    File.WriteSpaces(Lambda.Method.OperatorName);
+                    WritePseudoExpression(File, Lambda.ParameterExpressions[1], Context);
+
+                    return;
+                }
+            }
+
+
+            var Objectless = true;
 
             if (Lambda.Method.IsExtensionMethod)
             {

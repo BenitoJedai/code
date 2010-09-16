@@ -350,6 +350,61 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            var Call = Parameter as PseudoCallExpression;
+            if (Call != null)
+            {
+                WritePseudoCallExpression(File, Call, Context);
+                return;
+            }
+
+            var This = Parameter as PseudoThisExpression;
+            if (This != null)
+            {
+                File.Write(Keywords.@this);
+                return;
+            }
+
+            var Base = Parameter as PseudoBaseExpression;
+            if (Base != null)
+            {
+                File.Write(Keywords.@base);
+                return;
+            }
+
+
+            var Type = Parameter as SolutionProjectLanguageType;
+            if (Type != null)
+            {
+                File.Write(Keywords.@typeof);
+                File.Write("(");
+                WriteTypeName(File, Type);
+                File.Write(")");
+                return;
+            }
+
+            var XElement = Parameter as XElement;
+            if (XElement != null)
+            {
+                WritePseudoCallExpression(File, XElement.ToPseudoCallExpression(), Context);
+                return;
+            }
+
+            var Method = Parameter as SolutionProjectLanguageMethod;
+            if (Method != null)
+            {
+                WriteMethod(File, Method, Context);
+                return;
+            }
+
+            // F# match would be awesome here? :)
+            var Field = Parameter as SolutionProjectLanguageField;
+            if (Field != null)
+            {
+                // DeclaringType Object?
+                File.Write(Field.Name);
+            }
+
+
             #region PseudoArrayExpression
             var Array = Parameter as PseudoArrayExpression;
             if (Array != null)
@@ -405,59 +460,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             }
             #endregion
 
-            var Call = Parameter as PseudoCallExpression;
-            if (Call != null)
-            {
-                WritePseudoCallExpression(File, Call, Context);
-                return;
-            }
-
-            var This = Parameter as PseudoThisExpression;
-            if (This != null)
-            {
-                File.Write(Keywords.@this);
-                return;
-            }
-
-            var Base = Parameter as PseudoBaseExpression;
-            if (Base != null)
-            {
-                File.Write(Keywords.@base);
-                return;
-            }
-
-
-            var Type = Parameter as SolutionProjectLanguageType;
-            if (Type != null)
-            {
-                File.Write(Keywords.@typeof);
-                File.Write("(");
-                WriteTypeName(File, Type);
-                File.Write(")");
-                return;
-            }
-
-            var XElement = Parameter as XElement;
-            if (XElement != null)
-            {
-                WritePseudoCallExpression(File, XElement.ToPseudoCallExpression(), Context);
-                return;
-            }
-
-            var Method = Parameter as SolutionProjectLanguageMethod;
-            if (Method != null)
-            {
-                WriteMethod(File, Method, Context);
-                return;
-            }
-
-            // F# match would be awesome here? :)
-            var Field = Parameter as SolutionProjectLanguageField;
-            if (Field != null)
-            {
-                // DeclaringType Object?
-                File.Write(Field.Name);
-            }
         }
 
 

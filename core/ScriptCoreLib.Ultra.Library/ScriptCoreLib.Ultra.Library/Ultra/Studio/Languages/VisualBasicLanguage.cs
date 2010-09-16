@@ -105,13 +105,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             File.WriteSpace(",");
 						}
 
+                         
                         File.WriteSpace(
-                            Keywords.ByVal,
-                            Parameters[i].Name,
-                            Keywords.As
+                            //Keywords.ByVal,
+                            Parameters[i].Name
                         );
 
-						this.WriteTypeName(File, Parameters[i].Type);
+                        Parameters[i].Type.With(
+                            ParameterType =>
+                            {
+                                File.WriteSpace(
+                                  Keywords.As
+                              );
+
+                                this.WriteTypeName(File, ParameterType);
+                            }
+                       );
 					}
 
                     File.WriteLine(")");
@@ -150,6 +159,57 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 								return;
 							}
 						}
+
+                        var If = item as PseudoIfExpression;
+
+                        if (If != null)
+                        {
+                            if (If.IsConditionalCompilationDirective)
+                            {
+                                File.WriteSpace(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#if" });
+                                WritePseudoExpression(File, If.Expression, Context);
+                                File.WriteLine();
+
+                                WriteMethodBody(File, If.TrueCase, Context);
+                                File.WriteLine();
+
+                                if (If.FalseCase != null)
+                                {
+                                    File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#else" });
+                                    WriteMethodBody(File, If.FalseCase, Context);
+                                    File.WriteLine();
+
+                                }
+
+                                File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#endif" });
+                            }
+                            else
+                            {
+
+                                File.WriteIndent();
+                                File.WriteSpace(Keywords.If);
+                                WritePseudoExpression(File, If.Expression, Context);
+                                File.WriteSpace();
+                                File.WriteLine(Keywords.Then);
+
+                                WriteMethodBody(File, If.TrueCase, Context);
+                                File.WriteLine();
+
+                                if (If.FalseCase != null)
+                                {
+                                    File.WriteIndent();
+                                    File.WriteLine(Keywords.Else);
+
+                                    WriteMethodBody(File, If.FalseCase, Context);
+                                }
+
+                                File.WriteIndent();
+                                File.WriteSpace(Keywords.End);
+                                File.WriteLine(Keywords.@If);
+                            }
+
+                            return;
+                        }
 
 						var Lambda = item as PseudoCallExpression;
 
@@ -507,6 +567,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			}
 
 
+            var ConstantInt32 = Parameter as PseudoInt32ConstantExpression;
+            if (ConstantInt32 != null)
+            {
+                File.Write("" + ConstantInt32.Value);
+                return;
+            }
 
 			var Call = Parameter as PseudoCallExpression;
 			if (Call != null)
@@ -514,6 +580,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				WritePseudoCallExpression(File, Call, Context);
 				return;
 			}
+
+            var This = Parameter as PseudoThisExpression;
+            if (This != null)
+            {
+                File.Write(Keywords.Me);
+                return;
+            }
 
 			var Type = Parameter as SolutionProjectLanguageType;
 			if (Type != null)

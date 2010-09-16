@@ -67,14 +67,13 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public static void WriteUsingNamespaceList(this SolutionFile File, SolutionProjectLanguage Language, SolutionProjectLanguageType Type)
         {
-
-
-
-
             File.Region(
                 delegate
                 {
-                    foreach (var item in new GetUsingNamespaces(Type).Current.ToArray())
+                    var ul = new GetUsingNamespaces(Type).Current.ToArray();
+                    var ol = ul.OrderBy(k => k);
+
+                    foreach (var item in ol)
                     {
                         Language.WriteUsingNamespace(File, item);
                     }

@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using System.Windows.Forms;
-using ScriptCoreLib.Extensions;
 using System.Drawing;
-using System.Threading;
-using jsc.meta.Commands.Reference;
 using System.IO;
+using System.Linq;
 using System.Media;
-using jsc.meta.Commands.Rewrite;
-using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
-using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using jsc.meta.Commands.Configuration;
+using jsc.meta.Commands.Reference;
+using jsc.meta.Commands.Rewrite;
+using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
+using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio;
+using ScriptCoreLib.Ultra.Studio.Languages;
 
 namespace jsc.meta.Commands.Test
 {
@@ -63,6 +64,30 @@ namespace jsc.meta.Commands.Test
 
                 }
             );
+
+            AddButton("SolutionBuilderWithConsole F# Canvas", () =>
+                {
+                    global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                        new SolutionBuilder
+                        {
+                            Language = KnownLanguages.VisualFSharp
+                        }.WithCanvas()
+                    );
+
+                }
+            );
+
+            AddButton("SolutionBuilderWithConsole Visual Basic Canvas", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new SolutionBuilder
+                    {
+                        Language = KnownLanguages.VisualBasic
+                    }.WithCanvas()
+                );
+
+            }
+           );
 
             AddButton("SolutionBuilderWithConsole C# Canvas + Flash", () =>
             {
