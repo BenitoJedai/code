@@ -32,6 +32,12 @@ namespace jsc.meta.Commands.Test
                 FormBorderStyle = FormBorderStyle.Sizable
             };
 
+            f.Load +=
+                delegate
+                {
+                    f.Activate();
+                };
+
             var p = new FlowLayoutPanel
             {
 

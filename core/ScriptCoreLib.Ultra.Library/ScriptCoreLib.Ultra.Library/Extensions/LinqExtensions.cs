@@ -8,6 +8,11 @@ namespace ScriptCoreLib.Extensions
 {
     public static class LinqExtensions
     {
+        public static Queue<T> ToQueue<T>(this IEnumerable<T> source)
+        {
+            return new Queue<T>(source);
+        }
+
         public static IEnumerable<Action> SelectAction<T>(this IEnumerable<T> source, Func<T, Action> selector)
         {
             return source.Select(selector);

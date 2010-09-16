@@ -14,10 +14,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				@End = "End",
 				@Sub = "Sub",
 				@Function = "Function",
-				@Imports = "Imports",
+                @Imports = "Imports",
+                @Inherits = "Inherits",
 				@Assembly = "Assembly",
 				@Of = "Of",
-				@As = "As",
+                @As = "As",
+                @AddHandler = "AddHandler",
 				@Public = "Public",
                 @Private = "Private",
                 @ReadOnly = "ReadOnly",
@@ -31,6 +33,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 @If = "If",
                 @Then = "Then",
                 @Else = "Else",
+                @Return = "Return",
 
 				@Namespace = "Namespace"
 			;
