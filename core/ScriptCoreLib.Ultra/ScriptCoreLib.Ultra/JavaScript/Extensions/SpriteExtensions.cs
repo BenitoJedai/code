@@ -64,6 +64,15 @@ namespace ScriptCoreLib.JavaScript.Extensions
             return i;
         }
 
+        /// <summary>
+        ///  Given the architecture of plugins there is no way for the Flash Player to know if 
+        ///  Flash content is on a hidden tab or not and disable rendering properly.
+        ///  If you use WMODE the Flash Player will continue to suck up CPU cycles as if the
+        ///  tab was visible. In addition WMODE is much slower than the normal mode.
+        ///  
+        /// See also: http://blog.kaourantin.net/?p=77
+        /// </summary>
+        /// <param name="s"></param>
 		public static void ToTransparentSprite(this Sprite s)
 		{
 			var x = s.ToHTMLElement();

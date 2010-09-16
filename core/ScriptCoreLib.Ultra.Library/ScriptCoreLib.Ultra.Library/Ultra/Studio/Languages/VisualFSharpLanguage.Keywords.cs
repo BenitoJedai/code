@@ -13,7 +13,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 			// http://msdn.microsoft.com/en-us/library/ee353754.aspx
 
 			public static Keyword
-					@global = "global",
+                    @base = "base",
+                    @global = "global",
 					@open = "open",
                     @type = "type",
                     @internal = "internal",
@@ -28,7 +29,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     @mutable = "mutable",
                     @as = "as",
                     @assembly = "assembly",
-					@module = "module",
+                    @module = "module",
+                    @if = "if",
+                    @then = "then",
+                    @else = "else",
 					@namespace = "namespace"
 				;
 		}

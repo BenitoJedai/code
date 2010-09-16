@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using System.Xml.Linq;
+using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
@@ -134,11 +135,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                 File.Write(Parameters[i].Name);
 
-                File.WriteSpace();
-                File.Write(":");
-                File.WriteSpace();
+                Parameters[i].Type.With(
+                    ParameterType =>
+                    {
+                        File.WriteSpaces(":");
 
-                this.WriteTypeName(File, Parameters[i].Type);
+                        this.WriteTypeName(File, Parameters[i].Type);
+                    }
+                );
             }
         }
 
@@ -164,6 +168,55 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         Comment.WriteTo(File, this, Context);
                         return;
                     }
+                }
+
+                var If = item as PseudoIfExpression;
+
+                if (If != null)
+                {
+                    if (If.IsConditionalCompilationDirective)
+                    {
+                        File.WriteSpace(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#if" });
+                        WritePseudoExpression(File, If.Expression, Context);
+                        File.WriteLine();
+
+                        WriteMethodBody(File, If.TrueCase, Context);
+                        File.WriteLine();
+
+                        if (If.FalseCase != null)
+                        {
+                            File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#else" });
+                            WriteMethodBody(File, If.FalseCase, Context);
+                            File.WriteLine();
+
+                        }
+
+                        File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#endif" });
+                    }
+                    else
+                    {
+
+                        File.WriteIndent();
+                        File.WriteSpace(Keywords.@if);
+                        WritePseudoExpression(File, If.Expression, Context);
+                        File.WriteSpace();
+                        File.Write(Keywords.@then);
+                        File.WriteLine();
+
+                        WriteMethodBody(File, If.TrueCase, Context);
+                        File.WriteLine();
+
+                        if (If.FalseCase != null)
+                        {
+                            File.WriteIndent();
+                            File.WriteSpace(Keywords.@else);
+                            File.WriteLine();
+
+                            WriteMethodBody(File, If.FalseCase, Context);
+                        }
+                    }
+
+                    return;
                 }
 
                 var Lambda = item as PseudoCallExpression;
@@ -200,6 +253,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
         {
             if (Type == null)
                 return;
+
+            if (Type is KnownStockTypes.System.String)
+            {
+                File.Write("string");
+                return;
+            }
 
             if (Type.DeclaringType != null)
             {
@@ -523,6 +582,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             }
 
 
+            var ConstantInt32 = Parameter as PseudoInt32ConstantExpression;
+            if (ConstantInt32 != null)
+            {
+                File.Write("" + ConstantInt32.Value);
+                return;
+            }
 
             var Call = Parameter as PseudoCallExpression;
             if (Call != null)
@@ -530,6 +595,21 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 WritePseudoCallExpression(File, Call, Context);
                 return;
             }
+
+            var This = Parameter as PseudoThisExpression;
+            if (This != null)
+            {
+                File.Write("this");
+                return;
+            }
+
+            var Base = Parameter as PseudoBaseExpression;
+            if (Base != null)
+            {
+                File.Write(Keywords.@base);
+                return;
+            }
+
 
             var Type = Parameter as SolutionProjectLanguageType;
             if (Type != null)
@@ -580,7 +660,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         //File.Write("[]");
 
                         //File.WriteSpace();
-                        File.Write("[");
+                        File.Write("[|");
                         File.WriteLine();
 
                         File.Indent(this,
@@ -606,7 +686,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         File.WriteLine();
                         File.WriteIndent();
 
-                        File.Write("]");
+                        File.Write("|]");
 
                     }
                 );
