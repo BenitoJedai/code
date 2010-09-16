@@ -81,6 +81,7 @@
         </Reference>
         <Reference Include="System.Drawing"/>
         <Reference Include="System.Windows.Forms"/>
+        <Reference Include="UIAutomationTypes"/>
     </ItemGroup>
 
     Public VisualCSharpProject As XElement = _

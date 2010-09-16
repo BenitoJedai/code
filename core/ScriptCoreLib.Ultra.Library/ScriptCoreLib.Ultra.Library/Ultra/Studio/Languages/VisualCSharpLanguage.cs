@@ -319,24 +319,40 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
-            var Constant = Parameter as PseudoStringConstantExpression;
-            if (Constant != null)
             {
-                var Value = (string)Constant.Value;
-                File.Write(SolutionFileTextFragment.String,
-                    // jsc escape string
-                    "@\"" + Value.Replace("\"", "\"\"") + "\""
-                );
-                return;
+                var Constant = Parameter as PseudoStringConstantExpression;
+                if (Constant != null)
+                {
+                    var Value = (string)Constant.Value;
+                    File.Write(SolutionFileTextFragment.String,
+                        // jsc escape string
+                        "@\"" + Value.Replace("\"", "\"\"") + "\""
+                    );
+                    return;
+                }
             }
 
-            var ConstantInt32 = Parameter as PseudoInt32ConstantExpression;
-            if (ConstantInt32 != null)
             {
-                File.Write("" + ConstantInt32.Value);
-                return;
+                var Constant = Parameter as PseudoInt32ConstantExpression;
+                if (Constant != null)
+                {
+                    File.Write("" + Constant.Value);
+                    return;
+                }
             }
 
+            {
+                var Constant = Parameter as PseudoDoubleConstantExpression;
+                if (Constant != null)
+                {
+                    var Value = "" + Constant.Value;
+                    if (!Value.Contains("."))
+                        Value += ".0";
+
+                    File.Write(Value);
+                    return;
+                }
+            }
             var Call = Parameter as PseudoCallExpression;
             if (Call != null)
             {

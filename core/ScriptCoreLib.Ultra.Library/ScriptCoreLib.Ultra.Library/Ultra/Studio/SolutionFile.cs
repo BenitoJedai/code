@@ -68,10 +68,10 @@ namespace ScriptCoreLib.Ultra.Studio
 			);
 		}
 
-		public void Write(SolutionFileWriteArguments a)
+        public SolutionFile Write(SolutionFileWriteArguments a)
 		{
             if (a.Text == null)
-                return;
+                return this;
 
 			if (a.Text != Environment.NewLine)
 			{
@@ -92,13 +92,15 @@ namespace ScriptCoreLib.Ultra.Studio
 						Write(SolutionFileTextFragment.None, Environment.NewLine);
 
 					}
-					return;
+					return this;
 				}
 			}
 
 			WriteHistory.Add(a);
 
 			InternalContent.Append(a.Text);
+
+            return this;
 		}
 
         public void WriteLine(SolutionFileWriteArguments Text)
@@ -128,11 +130,13 @@ namespace ScriptCoreLib.Ultra.Studio
             a.WithEach(WriteSpace);
         }
 
-        public void WriteSpaces(SolutionFileWriteArguments a)
+        public SolutionFile WriteSpaces(SolutionFileWriteArguments a)
         {
             WriteSpace();
             Write(a);
             WriteSpace();
+
+            return this;
         }
 	}
 }
