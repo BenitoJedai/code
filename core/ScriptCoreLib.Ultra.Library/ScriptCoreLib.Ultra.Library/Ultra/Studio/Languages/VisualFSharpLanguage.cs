@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
-using System.Xml.Linq;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
@@ -44,16 +44,77 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteMethod(SolutionFile File, SolutionProjectLanguageMethod Method, SolutionBuilder Context)
         {
+            #region WriteMethodBody
+            Action WriteMethodBody =
+                delegate
+                {
+                    this.WriteMethodBody(File, Method.Code, Context);
+
+                    if (!Method.IsConstructor)
+                    {
+                        File.WriteIndent();
+
+                        // empty?
+                        var IsStatic = Method.IsStatic;
+
+                        if (Method.DeclaringType != null)
+                            if (Method.DeclaringType.IsStatic)
+                                IsStatic = true;
+
+                        if (IsStatic)
+                        {
+                            File.Write("0");
+                        }
+                        else
+                        {
+                            if (Method.ReturnType == null)
+                                File.Write("()");
+                        }
+
+                        File.WriteLine();
+                    }
+                };
+            #endregion
+
 
             if (Method.IsLambda)
             {
-                File.Write(Keywords.fun);
-                File.Write("(");
-                InternalWriteParameters(File, Method.Parameters.ToArray());
-                File.Write(")");
-                File.WriteSpace();
-                File.Write("->");
-                File.WriteSpace();
+                var Parameters = Method.Parameters.ToQueue();
+
+                var rec = default(Action<bool>);
+
+                rec = WriteIndent =>
+                {
+                    if (WriteIndent)
+                        File.WriteIndent();
+
+                    File.WriteSpace(Keywords.fun);
+
+                    if (Parameters.Count == 0)
+                    {
+                        File.Write("(").Write(")").WriteSpace();
+                    }
+                    else
+                    {
+                        InternalWriteParameters(File, Method, Parameters.Dequeue());
+                    }
+
+                    File.WriteSpaces("->").WriteLine();
+
+                    File.Indent(this,
+                        delegate
+                        {
+                            if (Parameters.Count == 0)
+                                WriteMethodBody();
+                            else
+                                rec(true);
+                        }
+                    );
+
+                };
+
+                rec(false);
+
             }
             else
             {
@@ -83,75 +144,73 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 }
                 File.Write(Method.Name);
                 File.Write("(");
-                InternalWriteParameters(File, Method.Parameters.ToArray());
+                InternalWriteParameters(File, Method, Method.Parameters.ToArray());
                 File.Write(")");
                 File.WriteSpace();
                 File.Write("=");
+                File.WriteLine();
+                File.Indent(this, WriteMethodBody);
             }
 
-            File.WriteLine();
 
-            File.Indent(this,
-                delegate
-                {
-                    WriteMethodBody(File, Method.Code, Context);
-
-                    if (!Method.IsConstructor)
-                    {
-                        File.WriteIndent();
-
-                        // empty?
-                        var IsStatic = Method.IsStatic;
-
-                        if (Method.DeclaringType != null)
-                            if (Method.DeclaringType.IsStatic)
-                                IsStatic = true;
-
-                        if (IsStatic)
-                        {
-                            File.Write("0");
-                        }
-                        else
-                        {
-                            File.Write("()");
-                        }
-
-                        File.WriteLine();
-                    }
-                }
-            );
         }
 
-        private void InternalWriteParameters(SolutionFile File, SolutionProjectLanguageArgument[] Parameters)
+        private void InternalWriteParameters(SolutionFile File, SolutionProjectLanguageMethod Method, params SolutionProjectLanguageArgument[] Parameters)
         {
 
             for (int i = 0; i < Parameters.Length; i++)
             {
                 if (i > 0)
                 {
-                    File.Write(",");
-                    File.WriteSpace();
+                    File.WriteSpace(",");
                 }
 
                 File.Write(Parameters[i].Name);
 
-                Parameters[i].Type.With(
-                    ParameterType =>
-                    {
-                        File.WriteSpaces(":");
+                if (Method.IsLambda)
+                {
+                    // no types for lamdas!
+                }
+                else
+                {
+                    Parameters[i].Type.With(
+                        ParameterType =>
+                        {
+                            File.WriteSpaces(":");
 
-                        this.WriteTypeName(File, Parameters[i].Type);
-                    }
-                );
+                            this.WriteTypeName(File, Parameters[i].Type);
+                        }
+                    );
+                }
             }
         }
 
         public override void WriteMethodBody(SolutionFile File, SolutionProjectLanguageCode Code, SolutionBuilder Context)
         {
 
-            // ? :)
-            foreach (var item in Code.History.ToArray())
+            var History = Code.History.ToArray();
+
+            for (int i = 0; i < History.Length; i++)
             {
+                var IsReturnStatement = false;
+
+                Code.OwnerMethod.With(
+                    m =>
+                    {
+                        if (m.ReturnType == null)
+                            return;
+
+                        if (m.IsConstructor)
+                            return;
+
+                        IsReturnStatement = i == History.Length - 1;
+                    }
+                );
+
+
+                var item = History[i];
+
+                #region Comment
                 {
                     var Comment = item as string;
                     if (Comment != null)
@@ -169,7 +228,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         return;
                     }
                 }
+                #endregion
 
+                #region If
                 var If = item as PseudoIfExpression;
 
                 if (If != null)
@@ -190,7 +251,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         File.WriteLine();
 
                         WriteMethodBody(File, If.TrueCase, Context);
-                        File.WriteLine();
 
                         if (If.FalseCase != null)
                         {
@@ -204,7 +264,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                     return;
                 }
+                #endregion
 
+                #region Lambda
                 var Lambda = item as PseudoCallExpression;
 
                 if (Lambda != null)
@@ -215,18 +277,28 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     if (Lambda.Method != null)
                     {
                         File.WriteIndent();
-                        File.Write(Keywords.@do);
-                        File.WriteSpace();
-                        WritePseudoCallExpression(File, Lambda, Context);
-                        if (Lambda.Method.ReturnType != null)
+
+                        if (IsReturnStatement)
                         {
-                            File.WriteSpaces("|>");
-                            File.Write(Keywords.ignore);
+                            WritePseudoCallExpression(File, Lambda, Context);
+                        }
+                        else
+                        {
+                            File.WriteSpace(Keywords.@do);
+
+                            WritePseudoCallExpression(File, Lambda, Context);
+                            if (Lambda.Method.ReturnType != null)
+                            {
+                                File.WriteSpaces("|>");
+                                File.Write(Keywords.ignore);
+                            }
                         }
 
                         File.WriteLine();
                     }
                 }
+                #endregion
+
             }
 
 
@@ -348,7 +420,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                         File.Write("(");
 
                                         if (Constructor != null)
-                                            this.InternalWriteParameters(File, Constructor.Parameters.ToArray());
+                                            this.InternalWriteParameters(File, Constructor, Constructor.Parameters.ToArray());
 
                                         File.WriteSpace(")");
 
@@ -554,23 +626,39 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
-            var Constant = Parameter as PseudoStringConstantExpression;
-            if (Constant != null)
             {
-                var Value = (string)Constant.Value;
-                File.Write(SolutionFileTextFragment.String,
-                    // jsc escape string
-                    "\"" + Value.Replace("\"", "\"\"") + "\""
-                );
-                return;
+                var Constant = Parameter as PseudoStringConstantExpression;
+                if (Constant != null)
+                {
+                    var Value = (string)Constant.Value;
+                    File.Write(SolutionFileTextFragment.String,
+                        // jsc escape string
+                        "\"" + Value.Replace("\"", "\"\"") + "\""
+                    );
+                    return;
+                }
             }
 
-
-            var ConstantInt32 = Parameter as PseudoInt32ConstantExpression;
-            if (ConstantInt32 != null)
             {
-                File.Write("" + ConstantInt32.Value);
-                return;
+                var Constant = Parameter as PseudoInt32ConstantExpression;
+                if (Constant != null)
+                {
+                    File.Write("" + Constant.Value);
+                    return;
+                }
+            }
+
+            {
+                var Constant = Parameter as PseudoDoubleConstantExpression;
+                if (Constant != null)
+                {
+                    var Value = "" + Constant.Value;
+                    if (!Value.Contains("."))
+                        Value += ".0";
+
+                    File.Write(Value);
+                    return;
+                }
             }
 
             var Call = Parameter as PseudoCallExpression;
@@ -721,7 +809,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                     var FirstParameter = 0;
 
-                    if (Lambda.Method.IsExtensionMethod)
+                    if (IsExtensionMethod(Lambda))
                         FirstParameter = 1;
 
                     for (int i = FirstParameter; i < Parameters.Length; i++)

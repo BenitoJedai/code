@@ -56,12 +56,11 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
             return this.Method.ToString();
         }
 
-        public static PseudoCallExpression operator -(PseudoCallExpression e, PseudoInt32ConstantExpression value)
+        public static PseudoCallExpression operator -(PseudoCallExpression e, PseudoNumericConstantExpression value)
         {
             return new PseudoCallExpression
             {
                 Method = new SolutionProjectLanguageMethod { OperatorName = "-" },
-
 
                 ParameterExpressions = new object[]
                 {
@@ -69,7 +68,6 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
                     value
                 }
             };
-
         }
     }
 

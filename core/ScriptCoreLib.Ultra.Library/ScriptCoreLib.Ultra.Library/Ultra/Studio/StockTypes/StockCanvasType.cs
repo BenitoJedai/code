@@ -76,10 +76,10 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 );
 
             var this_get_Height_sub_16 =
-                new KnownStockTypes.System.Windows.FrameworkElement.get_Height().ToCallExpression(new PseudoThisExpression()) - 16;
+                new KnownStockTypes.System.Windows.FrameworkElement.get_Height().ToCallExpression(new PseudoThisExpression()) - 16.0;
 
             var this_get_Width_sub_16 =
-                new KnownStockTypes.System.Windows.FrameworkElement.get_Width().ToCallExpression(new PseudoThisExpression()) - 16;
+                new KnownStockTypes.System.Windows.FrameworkElement.get_Width().ToCallExpression(new PseudoThisExpression()) - 16.0;
 
 
             var r_SizeTo_16_16 =
