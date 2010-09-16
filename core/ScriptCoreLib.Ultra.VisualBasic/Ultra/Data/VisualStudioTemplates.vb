@@ -159,7 +159,7 @@ rem c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(Targ
         <AssemblyName>ConsoleApplication1</AssemblyName>
         <FileAlignment>512</FileAlignment>
         <MyType>Console</MyType>
-        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
         <PlatformTarget>x86</PlatformTarget>
@@ -212,9 +212,9 @@ rem c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(Targ
     <PropertyGroup>
         <PostBuildEvent>
 if $(ConfigurationName)==Release (
-c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-        <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+        <PreBuildEvent>C:\util\jsc\bin\jsc.meta40.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
     </PropertyGroup>
 </Project>
 

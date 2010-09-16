@@ -10,10 +10,33 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 {
     public partial class VisualBasicLanguage
     {
-        static bool IsExtensionMethod(SolutionProjectLanguageMethod m)
+        static bool IsExtensionMethod(PseudoCallExpression m)
         {
+            if (!m.Method.IsExtensionMethod)
+                return false;
+
             // it seems Visual Basic only supports extensions that also return a value which is used
-            return false;
+            // or Visual Basic supports extension methods on objects
+            // which ae not literals nor constructors
+
+            var Object = m.ParameterExpressions.First();
+
+            var Call = Object as PseudoCallExpression;
+
+            if (Call != null)
+            {
+                if (Call.Method.IsConstructor)
+                    return false;
+            }
+
+            var Constant = Object as PseudoConstantExpression;
+
+            if (Constant != null)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public override void WritePseudoCallExpression(SolutionFile File, PseudoCallExpression Lambda, SolutionBuilder Context)
@@ -45,9 +68,17 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            if (Lambda.Method.IsEvent)
+            {
+                if (Lambda.Method.Name.StartsWith("add_"))
+                {
+                    File.WriteSpace(Keywords.AddHandler);
+                }
+            }
+
             var Objectless = true;
 
-            if (IsExtensionMethod(Lambda.Method))
+            if (IsExtensionMethod(Lambda))
             {
                 WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
                 Objectless = false;
@@ -84,7 +115,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 if (Lambda.Method.IsProperty)
                 {
                     Target = Target.SkipUntilIfAny("set_").SkipUntilIfAny("get_");
-
+                }
+                else if (Lambda.Method.IsEvent)
+                {
+                    Target = Target.SkipUntilIfAny("add_").SkipUntilIfAny("remove_");
                 }
 
                 if (!Objectless)
@@ -102,7 +136,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 );
             }
 
-            if (Lambda.Method.IsProperty)
+            if (Lambda.Method.IsEvent)
+            {
+                if (Lambda.Method.Name.StartsWith("add_"))
+                {
+                    File.WriteSpace(",");
+                    WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
+                }
+            }
+            else if (Lambda.Method.IsProperty)
             {
 
                 if (Lambda.ParameterExpressions.Length == 1)
@@ -169,12 +211,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                     var FirstParameter = 0;
 
-                    if (IsExtensionMethod(Lambda.Method))
+                    if (IsExtensionMethod(Lambda))
                         FirstParameter = 1;
 
                     for (int i = FirstParameter; i < Parameters.Length; i++)
                     {
-                        if (i > 0)
+                        if (i > FirstParameter)
                         {
                             if (HasComplexParameter)
                             {

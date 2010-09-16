@@ -69,6 +69,17 @@ namespace ScriptCoreLib.Ultra.Studio
         /// </summary>
         public SolutionProjectLanguageType ReturnType;
 
+        public bool IsFunction
+        {
+            get
+            {
+                if (this.IsConstructor)
+                    return false;
+
+                return this.ReturnType != null;
+            }
+        }
+
         public override string ToString()
         {
             return this.Name;

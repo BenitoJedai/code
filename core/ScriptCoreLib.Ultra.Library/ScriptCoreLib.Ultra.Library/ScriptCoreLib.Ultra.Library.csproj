@@ -125,6 +125,8 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Ultra\Reflection\ConversionPattern.cs" />
     <Compile Include="Ultra\Reflection\XElementConversionPattern.cs" />
+    <Compile Include="Ultra\Studio\Languages\PreprocessorDirectives.cs" />
+    <Compile Include="Ultra\Studio\PseudoExpressions\PseudoConstantExpression.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithCanvas.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithJavaApplet.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithAdobeFlash.cs" />

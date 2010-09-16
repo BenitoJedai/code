@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 {
-	public class PseudoInt32ConstantExpression
+    public class PseudoInt32ConstantExpression : PseudoConstantExpression
 	{
 		public int Value;
 

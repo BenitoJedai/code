@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 
 namespace ScriptCoreLib.Ultra.Studio.Languages
 {
     partial class VisualFSharpLanguage
     {
+        static bool IsExtensionMethod(PseudoCallExpression m)
+        {
+            if (!m.Method.IsExtensionMethod)
+                return false;
+
+            // F# has some trouble with overloaded extensions?
+
+            return false;
+        }
+
         public override void WritePseudoCallExpression(SolutionFile File, ScriptCoreLib.Ultra.Studio.PseudoExpressions.PseudoCallExpression Lambda, SolutionBuilder Context)
         {
 
@@ -35,7 +46,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
             var Objectless = true;
 
-            if (Lambda.Method.IsExtensionMethod)
+            if (IsExtensionMethod(Lambda))
             {
                 WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
                 Objectless = false;
@@ -105,10 +116,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 {
                     File.WriteSpace();
                     if (Lambda.IsAttributeContext)
-                        File.Write("=");
+                        File.WriteSpace("=");
                     else
-                        File.Write("<-");
-                    File.WriteSpace();
+                        File.WriteSpace("<-");
                     WritePseudoExpression(File, Lambda.ParameterExpressions[0], Context);
                 }
 
@@ -116,7 +126,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             else
             {
                 InternalWriteParameterList(File, Lambda, Context);
-                ;
             }
         }
 

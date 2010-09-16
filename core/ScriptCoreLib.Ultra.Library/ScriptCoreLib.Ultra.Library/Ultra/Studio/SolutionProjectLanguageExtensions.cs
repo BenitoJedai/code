@@ -65,7 +65,11 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public static void WriteSummary(this SolutionProjectLanguage that, SolutionFile File, string summary, SolutionProjectLanguageArgument[] @params)
 		{
+            if (string.IsNullOrEmpty(summary))
+                return;
+
 			var c = new List<XElement>();
+
 
 			c.Add(new XElement("summary", "\n" + summary + "\n"));
 

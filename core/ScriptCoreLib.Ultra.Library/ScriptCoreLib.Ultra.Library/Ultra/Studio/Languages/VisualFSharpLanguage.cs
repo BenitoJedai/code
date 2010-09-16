@@ -176,22 +176,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 {
                     if (If.IsConditionalCompilationDirective)
                     {
-                        File.WriteSpace(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#if" });
-                        WritePseudoExpression(File, If.Expression, Context);
-                        File.WriteLine();
+                        this.WriteConditionalCompilation(File, If, Context);
 
-                        WriteMethodBody(File, If.TrueCase, Context);
-                        File.WriteLine();
-
-                        if (If.FalseCase != null)
-                        {
-                            File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#else" });
-                            WriteMethodBody(File, If.FalseCase, Context);
-                            File.WriteLine();
-
-                        }
-
-                        File.WriteLine(new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#endif" });
                     }
                     else
                     {
@@ -234,9 +220,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         WritePseudoCallExpression(File, Lambda, Context);
                         if (Lambda.Method.ReturnType != null)
                         {
-                            File.WriteSpace();
-                            File.Write("|>");
-                            File.WriteSpace();
+                            File.WriteSpaces("|>");
                             File.Write(Keywords.ignore);
                         }
 
