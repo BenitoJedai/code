@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -11,9 +12,8 @@ using System.Windows.Forms;
 using jsc.meta.Commands.Rewrite.RewriteToInstaller.Templates;
 using jsc.meta.Library;
 using ScriptCoreLib.Archive.ZIP;
-using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Extensions;
-using System.IO.Compression;
+using ScriptCoreLib.Ultra.Library.Extensions;
 
 namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 {
@@ -34,22 +34,31 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 var zip = new ZIPFile();
 
                 var bin = new DirectoryInfo(Path.Combine(jsc.FullName, "bin"));
-                foreach (var item in bin.GetFilesByPattern("*.exe", "*.dll", "*.xml", "*.rtf"))
+                foreach (var item in bin.GetFilesByPattern(
+                    "*.exe", 
+                    "*.exe.config", 
+                    "*.dll", 
+                    "*.xml", 
+                    "*.rtf"
+                    ))
                 {
                     zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
                 }
 
-                var lib = new DirectoryInfo(Path.Combine(jsc.FullName, "lib"));
-                foreach (var item in lib.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
-                {
-                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
-                }
+                // !! no lib anymore
+                // !! no custom templates anymore
 
-                var templates = new DirectoryInfo(Path.Combine(jsc.FullName, "templates"));
-                foreach (var item in templates.GetAllFilesByPattern("*.zip"))
-                {
-                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
-                }
+                //var lib = new DirectoryInfo(Path.Combine(jsc.FullName, "lib"));
+                //foreach (var item in lib.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
+                //{
+                //    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                //}
+
+                //var templates = new DirectoryInfo(Path.Combine(jsc.FullName, "templates"));
+                //foreach (var item in templates.GetAllFilesByPattern("*.zip"))
+                //{
+                //    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                //}
 
                 var cache = new DirectoryInfo(Path.Combine(jsc.FullName, "cache"));
                 foreach (var item in cache.GetAllFilesByPattern("*.zip"))
@@ -238,10 +247,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     }
 
                     // note lib is to be deprecated with ultra
-                    foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
-                    {
-                        files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
-                    }
+                    //foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("lib/")))
+                    //{
+                    //    files[Path.Combine(SDK.FullName, lib.FileName)] = lib.Bytes;
+                    //}
 
                     foreach (var lib in a.Entries.Where(k => k.FileName.StartsWith("cache/")))
                     {

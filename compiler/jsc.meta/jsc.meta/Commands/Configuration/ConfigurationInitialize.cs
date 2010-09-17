@@ -18,6 +18,21 @@ namespace jsc.meta.Commands.Configuration
     {
         public override void Invoke()
         {
+            try
+            {
+                InternalInvoke();
+            }
+            catch (Exception exc)
+            {
+                System.Windows.MessageBox.Show(exc.Message, "Error",
+                     System.Windows.MessageBoxButton.OK,
+                      System.Windows.MessageBoxImage.Error
+                );
+            }
+        }
+
+        private void InternalInvoke()
+        {
             Action<string> WithText = Text =>
             {
                 Console.WriteLine(Text);
