@@ -28,18 +28,55 @@ namespace jsc.configuration
 
         private static void InitializeWindow()
         {
+            // http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/39cb9238-4674-4a4e-aedb-ed26b9bd6e47
+            // http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/a0a31c61-d7b2-4fff-b3bc-ffd909c87045
+
             var c = new Canvas
             {
                 Width = 600,
-                Height = 400
+                Height = 400,
+
+                //// Does not work for labels?
+                //Effect = new DropShadowEffect
+                //{
+                //    //RenderingBias = RenderingBias.
+                //    BlurRadius = 12,
+                //    ShadowDepth = 0,
+                //    Color = Colors.White
+                //}
             };
 
+            var c0 = new Canvas
+             {
+                 // Does not work for labels?
+                 Effect = new DropShadowEffect
+                 {
+                     //RenderingBias = RenderingBias.
+                     BlurRadius = 12,
+                     ShadowDepth = 0,
+                     Color = Colors.White
+                 }
+             }.AttachTo(c);
 
+
+            var c1 = new Canvas
+            {
+                // Does not work for labels?
+                Effect = new DropShadowEffect
+                {
+                    //RenderingBias = RenderingBias.
+                    BlurRadius = 12,
+                    ShadowDepth = 0,
+                    Color = Colors.White
+                }
+            }.AttachTo(c0);
 
             var a = new Agreement
             {
-                BitmapEffect = new OuterGlowBitmapEffect { GlowColor = Colors.White }
-            }.AttachTo(c);
+
+
+                //BitmapEffect = new OuterGlowBitmapEffect { GlowColor = Colors.White }
+            }.AttachTo(c1);
 
 
             var cc = new JSCSolutionsNETCarouselCanvas();
@@ -59,6 +96,18 @@ namespace jsc.configuration
 
             var w = c.ToWindow();
 
+            a.button1.Click +=
+                delegate
+                {
+                    cc.HideSattelites();
+                };
+
+            a.button2.Click +=
+             delegate
+             {
+                 w.Close();
+             };
+
             w.Activated +=
                 delegate
                 {
@@ -73,7 +122,7 @@ namespace jsc.configuration
             w.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
             w.ResizeMode = ResizeMode.CanMinimize;
             w.Icon = a.image1.Source;
-            
+
             //w.ToTransparentWindow();
             //w.WindowStyle = WindowStyle.None;
             //w.ResizeMode = ResizeMode.NoResize;
@@ -101,6 +150,7 @@ namespace jsc.configuration
                 };
 
 
+
             a.button1.Click +=
                 delegate
                 {
@@ -108,25 +158,48 @@ namespace jsc.configuration
                     a.button1.IsEnabled = false;
                     a.checkBox1.IsEnabled = false;
 
-                    new Thread(
-                        delegate()
+                    ContinueInBackground(a);
+                };
+        }
+
+
+        static void InteractiveError(Action e)
+        {
+            try
+            {
+                e();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private static void ContinueInBackground(Agreement a)
+        {
+            new Thread(
+                delegate()
+                {
+                    var i = new Installer.FileMonkey();
+
+                    // The process cannot access the file 'c:\util\jsc\bin\jsc.meta.exe' because it is being used by another process.
+                    // The process cannot access the file 'C:\Users\Arvo\Documents\Visual Studio 10\Templates\ProjectTemplates\Visual F#\jsc-solutions.net\Ultra Application With Assets.zip' because it is being used by another process.
+
+                    InteractiveError(
+                        delegate
                         {
-                            var i = new Installer.FileMonkey();
+                            Installer.Continue(i.files, false);
 
-                            // The process cannot access the file 'c:\util\jsc\bin\jsc.meta.exe' because it is being used by another process.
-                            // The process cannot access the file 'C:\Users\Arvo\Documents\Visual Studio 10\Templates\ProjectTemplates\Visual F#\jsc-solutions.net\Ultra Application With Assets.zip' because it is being used by another process.
+                            Process.Start("http://register.jsc-solutions.net/");
+                        }
+                    );
+               
 
-                            try
+                    a.Dispatcher.Invoke(
+                        new Action(
+                            delegate
                             {
-                                Installer.Continue(i.files, false);
-                            }
-                            catch (Exception exc)
-                            {
-                                MessageBox.Show(exc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            }
-
-                            a.Dispatcher.Invoke(
-                                new Action(
+                                InteractiveError(
                                     delegate
                                     {
                                         //System.Diagnostics.Debug.WriteLine("after install");
@@ -163,11 +236,12 @@ namespace jsc.configuration
                                         //    "Automatic configuration will continue in the background. \n\nYou may now change manual configuration or exit this installer.", "Installation complete!", MessageBoxButton.OK, MessageBoxImage.Information
                                         //);
                                     }
-                                )
-                            );
-                        }
-                    ).Start();
-                };
+                              );
+                            }
+                        )
+                    );
+                }
+            ).Start();
         }
 
         private static void InitializeDynamic()

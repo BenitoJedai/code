@@ -20,12 +20,13 @@
                     <Label Content="Adobe Flex Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,51,0,0" Name="label3" VerticalAlignment="Top" />
                     <my:FolderEntry HorizontalAlignment="Left" Margin="40,23,0,0" x:Name="folderEntry1" VerticalAlignment="Top" Width="499" Text="c:\util\java5\" DownloadLocation="http://java.sun.com/javase/downloads/index.jsp" />
                     <my:FolderEntry HorizontalAlignment="Left" Margin="40,77,0,0" x:Name="folderEntry2" VerticalAlignment="Top" Width="499" Text="c:\util\flex4\" DownloadLocation="http://opensource.adobe.com/wiki/display/flexsdk/Download+Flex+4" />
-                    <Button Content="Save Configuration" Height="23" HorizontalAlignment="Left" Margin="390,217,0,0" Name="SaveButton" VerticalAlignment="Top" Width="149" />
+                    <Button Content="Save Configuration" Height="23" HorizontalAlignment="Left" Margin="258,217,0,0" Name="SaveButton" VerticalAlignment="Top" Width="149" />
                     <Label Content="Google App Engine Java Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,104,0,0" Name="label4" VerticalAlignment="Top" />
                     <my:FolderEntry HorizontalAlignment="Left" Margin="40,130,0,0" x:Name="folderEntry3" Text="c:\util\flex4\" VerticalAlignment="Top" Width="499" DownloadLocation="http://code.google.com/intl/et-EE/appengine/downloads.html#Google_App_Engine_SDK_for_Java" />
                     <Label Content="Apache Ant Software Development Kit" Height="28" HorizontalAlignment="Left" Margin="18,158,0,0" Name="label5" VerticalAlignment="Top" />
                     <my:FolderEntry HorizontalAlignment="Left" Margin="40,184,0,0" x:Name="folderEntry4" Text="c:\util\flex4\" VerticalAlignment="Top" Width="499" DownloadLocation="http://ant.apache.org/bindownload.cgi" />
                     <Label Content="Thank you for choosing jsc!" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="6,212,0,0" Name="label1" VerticalAlignment="Top" />
+                    <Button Content="Finish" Height="23" HorizontalAlignment="Right" Margin="0,217,6,0" Name="button2" VerticalAlignment="Top" Width="149" FontWeight="Bold" Click="button2_Click" />
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration" Name="tabItem3" Visibility="Hidden">
