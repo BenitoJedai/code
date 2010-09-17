@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Compone
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile.Splash", "ScriptCoreLib.Ultra.Components.Volatile.Splash\ScriptCoreLib.Ultra.Components.Volatile.Splash.csproj", "{952A2DDF-9EAE-402F-A66D-515E33F39637}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation", "ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation\ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation.csproj", "{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc.screencast", "ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation\jsc.screencast.csproj", "{3EF9D3A9-4E41-44E8-971D-71E98CB3B996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
