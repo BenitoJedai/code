@@ -102,6 +102,22 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             Action<Key> NextInputModeKeyDown = delegate { };
 
+            var CommandKeysEnabled = false;
+
+            var TopicText = new System.Windows.Controls.TextBox
+            {
+                //IsReadOnly = true,
+                Background = Brushes.Transparent,
+                BorderThickness = new System.Windows.Thickness(0),
+                Foreground = Brushes.White,
+                BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect() { GlowColor = Colors.Black, GlowSize = 8 },
+                Text = "JSC C# Foo Bar",
+                //TextDecorations = TextDecorations.Underline,
+                FontFamily = new FontFamily("Verdana"),
+                FontSize = 24,
+                TextAlignment = System.Windows.TextAlignment.Right
+            };
+
             #region KeyDown
             InterceptKeys.KeyDown +=
                 key =>
@@ -117,8 +133,10 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                         if (NextInputModeEnabled || NextInputModeKeyDownEnabled)
                         {
+
                             NextInputModeKeyDownEnabled = false;
                             NextInputModeKeyDown(key);
+
                         }
 
                         NextInputModeEnabled = false;
@@ -129,6 +147,13 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             InterceptKeys.KeyUp +=
                 key =>
                 {
+                    if (key == Key.CapsLock)
+                    {
+                        CommandKeysEnabled = !CommandKeysEnabled;
+                        TopicText.IsReadOnly = CommandKeysEnabled;
+                        TopicText.Select(0, 0);
+                    }
+
                     if (key == Key.LeftShift)
                     {
                         NextInputModeKeyDownEnabled = false;
@@ -266,8 +291,9 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 FontSize = 16,
                 TextAlignment = System.Windows.TextAlignment.Right
             }
-            .AttachTo(winfoc)
-            ;
+            .AttachTo(winfoc);
+
+            TopicText.AttachTo(winfoc);
 
             Action<string> SetCaption =
                 text =>
@@ -309,6 +335,12 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     ExtraBorderTop.MoveTo(0, 0).SizeTo(w.ActualWidth, w.ActualHeight * ExtraBorderSize);
                     ExtraBorderBottom.MoveTo(0, w.ActualHeight * (1 - ExtraBorderSize)).SizeTo(w.ActualWidth, w.ActualHeight * ExtraBorderSize);
 
+                    TopicText.MoveTo(
+                        0,
+                        w.ActualHeight - 48
+                    ).SizeTo(w.ActualWidth - 48, 48);
+
+
 
                     if (w.WindowState == WindowState.Maximized)
                     {
@@ -336,6 +368,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                     UpdateChildren();
                 };
+
 
             Action StylusOutOfRange = delegate { };
 
@@ -385,7 +418,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     SizeChanged();
                 };
 
-            w.SizeTo(1280, 720);
+
 
             #region GetWindows
             Func<IEnumerable<Internal.Window>> GetWindows =
@@ -531,6 +564,47 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     NextInputModeKeyDown +=
                         key =>
                         {
+                            if (key == Key.RightShift)
+                            {
+                                NextInputModeKeyDownEnabled = true;
+
+                                if (c != null)
+                                {
+                                    CaptionClose.Hide();
+                                    c.AtClose +=
+                                        delegate
+                                        {
+                                            c.OrphanizeContainer();
+                                        };
+                                    c.Close();
+                                    c = null;
+                                }
+
+                                Intro.Background = Brushes.Transparent;
+                                Intro.Overlay.Opacity = 1;
+                                Intro.FadeIn(
+                                    delegate
+                                    {
+
+
+                                        2000.AtDelay(Intro.PrepareAnimation());
+                                    }
+                                );
+                            }
+
+                            if (!CommandKeysEnabled)
+                            {
+                                if (key == Key.F2)
+                                {
+                                    w.Activate();
+
+                                    TopicText.Focusable = true;
+                                    TopicText.Focus();
+                                    TopicText.SelectAll();
+                                }
+                                return;
+                            }
+
                             if (key == Key.Right)
                             {
                                 if (w.IsActive)
@@ -544,6 +618,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                     ResetThumbnail();
                                 }
                             }
+
                             if (key == Key.Up)
                             {
                                 NextInputModeKeyDownEnabled = true;
@@ -595,33 +670,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                 SizeChanged();
                             }
 
-                            if (key == Key.RightShift)
-                            {
-                                NextInputModeKeyDownEnabled = true;
-
-                                if (c != null)
-                                {
-                                    CaptionClose.Hide();
-                                    c.AtClose +=
-                                        delegate
-                                        {
-                                            c.OrphanizeContainer();
-                                        };
-                                    c.Close();
-                                    c = null;
-                                }
-
-                                Intro.Background = Brushes.Transparent;
-                                Intro.Overlay.Opacity = 1;
-                                Intro.FadeIn(
-                                    delegate
-                                    {
-                                       
-
-                                        2000.AtDelay(Intro.PrepareAnimation());
-                                    }
-                                );
-                            }
+                          
 
                             if (key == Key.Left)
                             {
@@ -732,13 +781,25 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                    );
                 };
 
+            w.SizeTo(1280, 720);
+            SizeChanged();
+
+
             InterceptKeys.InternalMain(
                 Rehook =>
                 {
+                    w.Deactivated +=
+                        delegate
+                        {
+                            TopicText.Focusable = false;
+                        };
                     w.Activated +=
                         delegate
                         {
-                                Rehook();
+
+
+                            //TopicText.Focus();
+                            Rehook();
                         };
 
                     w.ShowDialog();
@@ -791,7 +852,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             public static event Action<Key> KeyUp;
             public static event Action<Key> KeyDown;
 
-          
+
             public static void InternalMain(Action<Action> body)
             {
                 _hookID = SetHook(_proc);
