@@ -265,55 +265,77 @@ namespace jsc
                     w.Write("if");
                     w.WriteSpace();
 
+                    if (iif.Branch.IsAnyOpCodeOf(OpCodes.Bge, OpCodes.Bge_S))
+                    {
+                        #region F# FailInit check :)
+                        if (iif.BodyTrueFirst == null)
+                        {
+                            w.Write("(");
+                            IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[0]);
+                            w.Write(" < ");
+                            IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[1]);
+                            w.Write(")");
+                            w.WriteLine();
 
-                    if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
+                            EmitScope(w, p.Owner.ExtractBlock(iif.BodyFalseFirst, iif.BodyFalseLast), true);
+                            
+                            w.WriteLine();
+                            continue;
+                        }
+
+                        w.Write("(");
+                        IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[0]);
+                        w.Write(" > ");
+                        IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[1]);
+                        w.Write(")");
+                        #endregion
+
+
+                    }
+                    else if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
                     {
                         w.Write("(");
                         IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[0]);
                         w.Write(")");
                     }
-                    else
+                    else if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brtrue_S, OpCodes.Brtrue))
                     {
+                        // fix 2.03.2006
+                        w.Write("(");
+                        w.Write("!");
 
-                        if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brtrue_S, OpCodes.Brtrue))
+                        ILFlow.StackItem expression = iif.Branch.StackBeforeStrict[0];
+
+                        bool compact = false;
+
+                        if (expression.StackInstructions.Length == 1)
                         {
-                            // fix 2.03.2006
-                            w.Write("(");
-                            w.Write("!");
-
-                            ILFlow.StackItem expression = iif.Branch.StackBeforeStrict[0];
-
-                            bool compact = false;
-
-                            if (expression.StackInstructions.Length == 1)
-                            {
-                                if (expression.SingleStackInstruction.TargetVariable != null)
-                                    compact = true;
-                            }
-
-                            if (compact)
-                                IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, expression);
-
-                            else
-                            {
-                                w.Write("(");
-                                IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, expression);
-
-                                w.Write(")");
-                            }
-
-                            w.Write(")");
-                            //w.Write("(!(");
-                            //IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[0]);
-                            //w.Write("))");
+                            if (expression.SingleStackInstruction.TargetVariable != null)
+                                compact = true;
                         }
+
+                        if (compact)
+                            IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, expression);
+
                         else
                         {
-                            Task.Error("if block not detected correctly, opcode was " + iif.Branch.OpCode.Name);
-                            Task.Fail(null);
+                            w.Write("(");
+                            IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, expression);
 
-
+                            w.Write(")");
                         }
+
+                        w.Write(")");
+                        //w.Write("(!(");
+                        //IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[0]);
+                        //w.Write("))");
+                    }
+                    else
+                    {
+                        Task.Error("if block not detected correctly, opcode was " + iif.Branch.OpCode.Name);
+                        Task.Fail(null);
+
+
                     }
 
                     w.WriteLine();
