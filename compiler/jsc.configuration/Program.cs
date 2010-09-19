@@ -171,7 +171,7 @@ namespace jsc.configuration
             }
             catch (Exception exc)
             {
-                MessageBox.Show(exc.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(exc.ToString(), exc.Message, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

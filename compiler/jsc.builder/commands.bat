@@ -1,5 +1,8 @@
-﻿echo launch builder (or log into aws and launch your instance manually)
-rem aws
+﻿echo error 0
+call command0.bat
+
+echo error 1
+call command1.bat
 
 echo svn update
 call TortoiseProc.exe /command:update /path:"w:\jsc.svn\" /closeonend:0
