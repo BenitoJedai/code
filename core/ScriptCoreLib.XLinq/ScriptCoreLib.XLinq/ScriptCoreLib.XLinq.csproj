@@ -77,10 +77,15 @@
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XObject.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\XML\XLinq\XText.cs" />
     <Compile Include="JavaScript\Extensions\XLinqExtensions.cs" />
+    <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XDocument.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XContainer.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XElement.cs" />
+    <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XName.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XNode.cs" />
     <Compile Include="PHP\BCLImplementation\System\XML\XLinq\XObject.cs" />
+    <Compile Include="PHP\DOM\DOMElement.cs" />
+    <Compile Include="PHP\DOM\DOMNode.cs" />
+    <Compile Include="PHP\DOM\DOMDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\XLinq\IAssemblyReferenceToken.cs" />
   </ItemGroup>

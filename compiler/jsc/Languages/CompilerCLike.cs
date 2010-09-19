@@ -590,7 +590,34 @@ namespace jsc.Script
 
 			Write("(");
 
-			if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
+            if (iif.Branch.IsAnyOpCodeOf(OpCodes.Bge, OpCodes.Bge_S))
+            {
+                var w = this;
+
+                #region F# FailInit check :)
+                if (iif.BodyTrueFirst == null)
+                {
+                    Emit(p, iif.Branch.StackBeforeStrict[0]);
+                    w.Write(" < ");
+                    Emit(p, iif.Branch.StackBeforeStrict[1]);
+                    w.Write(")");
+                    w.WriteLine();
+
+                    EmitScope(p.Owner.ExtractBlock(iif.BodyFalseFirst, iif.BodyFalseLast));
+
+                    w.WriteLine();
+                    return;
+                }
+
+                Emit(p, iif.Branch.StackBeforeStrict[0]);
+                w.Write(" > ");
+                Emit(p, iif.Branch.StackBeforeStrict[1]);
+                w.Write(")");
+                #endregion
+
+
+            }
+            else if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
 			{
 				Emit(p, iif.Branch.StackBeforeStrict[0], typeof(bool));
 			}
