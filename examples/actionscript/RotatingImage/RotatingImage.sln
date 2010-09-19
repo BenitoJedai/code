@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RotatingImage", "RotatingImage\RotatingImage.fsproj", "{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FA741B0-7110-4F34-8BE0-FB52B1EE795F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
