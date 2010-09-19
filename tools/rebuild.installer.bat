@@ -20,11 +20,11 @@ set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 set SDKConfiguration=jsc.SDKConfiguration.xml
 
 :: the configuration is machine local and should be reconfigured at install
-ren %target%\%SDKConfiguration% %SDKConfiguration%.transient
+::ren %target%\%SDKConfiguration% %SDKConfiguration%.transient
 cd
 call c:\util\jsc\bin\jsc.meta.exe RewriteToInstaller /Splash:%SplashAssembly% /AttachDebugger:false /OutputStrongNameKeyPair:"W:\jsc.svn\compiler\jsc.meta\jsc.meta\jsc_key.snk" 
 cd
-ren %target%\%SDKConfiguration%.transient %SDKConfiguration%
+::ren %target%\%SDKConfiguration%.transient %SDKConfiguration%
 
 endlocal
 goto :eof
