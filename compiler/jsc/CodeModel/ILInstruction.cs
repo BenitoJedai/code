@@ -976,6 +976,48 @@ namespace jsc
 
                         if (is_if_else)
                         {
+                            // in F# the compiler will add FailInit conditional check to every public method
+                            // it is somewhat different from the if else construct C# compiler is emitting
+
+                            var __true = this.BranchTargets[0];
+                            var __false = this.Next;
+
+                            if (__true.OpCode.FlowControl == FlowControl.Branch)
+                                if (__false.OpCode.FlowControl == FlowControl.Branch)
+                                {
+                                    //Debugger.Break();
+
+                                    var __false__ = __false.BranchTargets[0];
+                                    var __false_branch = __false__.Flow.Branch;
+
+                                    var __true__ = __true.BranchTargets[0];
+                                    var __true_branch = __true__.Flow.Branch;
+
+                                    // we are assuming true clause is empty.
+                                    if (__true__.Flow.Entry == __true_branch)
+                                        if (__true_branch.OpCode == OpCodes.Nop)
+                                        {
+                                            var __true_join = __true_branch.Next;
+
+                                            if (__false_branch.OpCode.FlowControl == FlowControl.Branch)
+                                            {
+                                                var __false_join = __false_branch.BranchTargets[0];
+
+                                                if (__true_join == __false_join)
+                                                {
+                                                    z.Branch = this;
+                                                    z.Join = __true_join;
+
+                                                    z.BodyFalseFirst = __false__;
+                                                    z.BodyFalseLast = __false_branch;
+
+                                                    return _cached_iif.Value = z;
+                                                }
+                                            }
+                                        }
+                                }
+
+
                             z.Branch = this;
                             z.Join = t.Prev.BranchTargets[0];
 

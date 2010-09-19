@@ -30,6 +30,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             if (Content != null)
             {
+                this.UsingNamespaces.Add("ScriptCoreLib.ActionScript.Extensions");
+
                 var AttachToContainer =
                       new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.AvalonExtensions.AttachToContainer().ToCallExpression(
                           Content,
