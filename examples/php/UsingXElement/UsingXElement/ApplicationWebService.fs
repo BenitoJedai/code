@@ -25,6 +25,7 @@ namespace UsingXElement
             let source = "<item> value <!-- comment --></item>"
             let doc = XDocument.Parse(source)
 
+            doc.Root.Value <- doc.Root.Value + " yay :)"
 
             do y.Invoke(e + " from PHP - " + doc.ToString())
             ()

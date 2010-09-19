@@ -14,6 +14,8 @@ namespace ScriptCoreLib.PHP.DOM
 
         }
 
+        public readonly DOMElement documentElement;
+
         public DOMElement createElement(string name)
         {
             return default(DOMElement);

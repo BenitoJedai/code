@@ -12,6 +12,21 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.XML.XLinq
     {
         public DOMDocument InternalDocument;
 
+        __XElement _Root;
+
+        public XElement Root
+        {
+            get
+            {
+                if (_Root == null)
+                {
+                    _Root = new __XElement(null, null) { InternalValue = InternalDocument.documentElement };
+                }
+
+                return (XElement)(object)_Root;
+            }
+        }
+
         public static __XDocument Parse(string text)
         {
             var doc = new DOMDocument();
