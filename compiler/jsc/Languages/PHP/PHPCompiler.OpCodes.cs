@@ -241,9 +241,44 @@ namespace jsc.Script.PHP
 
                 };
 
+            var Ldnull_c1 = 0;
+
             CIW[OpCodes.Ldnull] =
                 delegate(CodeEmitArgs e)
                 {
+                    if (e.TypeExpectedOrDefault != null)
+                        if (e.TypeExpectedOrDefault.IsArray)
+                        {
+                            // Preventing: Fatal error: Cannot pass parameter 2 by reference
+
+
+                            var Ldnull_x1 = Ldnull_c1;
+                            Ldnull_c1++;
+
+                            Action WriteField =
+                                delegate
+                                {
+                                    Write("$__nullarray__" + Ldnull_x1);
+                                };
+
+                            CompileType_WriteAdditionalStaticMembers +=
+                                delegate
+                                {
+                                    WriteIndent();
+
+                                    WriteField();
+                                    WriteSpace();
+                                    Write("=");
+                                    WriteSpace();
+                                    Write("NULL");
+                                    WriteLine(";");
+                                };
+
+                            WriteField();
+
+                            return;
+                        }
+
                     Write("NULL");
                 };
             #endregion
@@ -907,6 +942,18 @@ namespace jsc.Script.PHP
                     var TargetConstructorDeclaringType = ResolveImplementation(TargetConstructor.DeclaringType) ?? TargetConstructor.DeclaringType;
 
                     var sa = ScriptAttribute.OfProvider(TargetConstructorDeclaringType);
+
+                    if (sa != null && sa.IsNative)
+                    {
+                        WriteKeywordSpace(Keywords._new);
+
+                        // what about namespaces?
+
+                        WriteSafeLiteral(TargetConstructorDeclaringType.Name);
+                        WriteParameterInfoFromStack(TargetConstructor, e.p, e.i.StackBeforeStrict, 0);
+
+                        return;
+                    }
 
                     if (!(sa != null && sa.InternalConstructor) && (sa == null || sa.ImplementationType == null))
                         if (TargetConstructorDeclaringType.GetConstructors().Length > 1)

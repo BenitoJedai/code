@@ -270,12 +270,12 @@ namespace jsc.Script
 
 		RecursionGuard EmitGuard = new RecursionGuard(32);
 
-		public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s)
-		{
-			Emit(p, s, null);
-		}
+        //public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s)
+        //{
+        //    Emit(p, s, null);
+        //}
 
-		public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s, Type TypeExpectedOrDefault)
+		public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s, Type TypeExpectedOrDefault = null)
 		{
 			using (EmitGuard.Lock)
 			{
