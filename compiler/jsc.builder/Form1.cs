@@ -25,6 +25,9 @@ namespace jsc.builder
             var a = new List<Action>();
             var cd = default(string);
             var btn = default(Button);
+
+            var NotifyNextAction = default(Action<Action>);
+
             foreach (var item in File.ReadLines("commands.bat"))
             {
                 if (string.IsNullOrWhiteSpace(item))
@@ -80,7 +83,9 @@ namespace jsc.builder
 
                         var _cd = cd;
 
-                        btn.Click +=
+                        var NextAction = default(Action);
+
+                        Action InvokeAction =
                             delegate
                             {
                                 _.ForeColor = Color.Blue;
@@ -89,8 +94,32 @@ namespace jsc.builder
                                 {
                                     item1.Enabled = false;
                                 }
+
+                                var c = "__command.bat";
+
+                                File.WriteAllText(c,
+                                    @"
+@echo off
+rem echo " + _.Text + @"
+call " + cmd + @"
+set __ERRORLEVEL=%ERRORLEVEL%
+rem echo error: %ERRORLEVEL%
+rem echo error: %__ERRORLEVEL%
+if %ERRORLEVEL% == 0 exit /B
+echo.
+echo.
+color 0C 
+echo *** ERROR: %__ERRORLEVEL%
+echo.
+echo.
+pause
+exit /B %__ERRORLEVEL%
+"
+                                );
+
+
                                 var p = Process.Start(
-                                     new ProcessStartInfo("cmd", "/TITLE " + _.Text + " /K " + cmd)
+                                     new ProcessStartInfo(Path.GetFullPath(c))
                                      {
                                          WorkingDirectory = _cd
                                      }
@@ -108,11 +137,53 @@ namespace jsc.builder
                                                     {
                                                         item1.Enabled = true;
                                                     }
+
+                                                    if (p.ExitCode != 0)
+                                                    {
+                                                        _.ForeColor = Color.Red;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (NextAction != null)
+                                                        {
+                                                            var EnableNextAction = false;
+                                                            using (var ff = new Form2())
+                                                            {
+
+
+                                                                ff.timer1.Tick +=
+                                                                    delegate
+                                                                    {
+                                                                        EnableNextAction = true;
+                                                                    };
+
+
+                                                                ff.StartPosition = FormStartPosition.CenterParent;
+                                                                ff.ShowDialog(this);
+                                                            }
+                                                            if (EnableNextAction)
+                                                                NextAction();
+                                                        }
+                                                    }
+
+
                                                 }
                                             )
                                         );
                                     };
                             };
+
+                        if (NotifyNextAction != null)
+                            NotifyNextAction(InvokeAction);
+
+                        NotifyNextAction = value => NextAction = value;
+
+                        btn.Click +=
+                            delegate
+                            {
+                                InvokeAction();
+                            };
+
                         a.Add(() => this.Controls.Add(_));
                         btn = null;
                         cd = null;
