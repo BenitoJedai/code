@@ -9,6 +9,8 @@ namespace ScriptCoreLib.PHP.DOM
     [Script(IsNative = true)]
     public class DOMNode
     {
+        public readonly DOMDocument ownerDocument;
+
         public string nodeValue;
 
         public DOMNode appendChild(DOMNode newnode)

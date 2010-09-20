@@ -13,6 +13,7 @@ namespace UsingXElement
     open System.Linq
     open System.Text
     open System.Xml.Linq
+    open ScriptCoreLib.Shared.Lambda
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -23,16 +24,36 @@ namespace UsingXElement
         do ()
         let service = new ApplicationWebService()
         do JavaScriptStringExtensions.ToDocumentTitle("Hello world") |> ignore
-        // Send data from JavaScript to the server tier
-        do service.WebMethod2(
-            "A string from JavaScript.",
-            fun value -> 
-                // Show the server message as document title
-                page.Log.value <- value
+        
+        let a = Enumerable.Range(0, 18)
 
-//                let value = value.ToDocumentTitle()
-//                do JavaScriptStringExtensions.ToDocumentTitle(value) |> ignore
-                ()
+        let a = 
+            a.ForEach(
+                fun (i:int) ->
+                    fun (next:Action) ->
 
-        )
+                        let uri = "http://ctocorner.com/fsharp/book/ch" + Convert.ToString( i) + ".aspx"
+
+                        do uri.ToDocumentTitle() |> ignore
+
+                        do service.WebMethod2(
+                            uri,
+                            fun value -> 
+                                // Show the server message as document title
+                                let div = new IHTMLDiv()
+
+                                div.innerHTML <- value.Value
+
+                                page.Content.Add(div)
+
+                                do next.Invoke()
+
+                                ()
+
+                        )
+
+
+                        ()
+            )
+
 

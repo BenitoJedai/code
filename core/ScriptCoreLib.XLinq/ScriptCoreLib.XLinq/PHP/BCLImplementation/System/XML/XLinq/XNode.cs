@@ -12,5 +12,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.XML.XLinq
     {
         internal DOMNode InternalValue;
 
+        public override string ToString()
+        {
+            return InternalValue.ownerDocument.saveXML(InternalValue);
+        }
+
     }
 }
