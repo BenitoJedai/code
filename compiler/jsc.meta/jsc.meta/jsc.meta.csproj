@@ -318,6 +318,7 @@
     <Compile Include="Library\CodeTrace\CodeTraceAction.cs" />
     <Compile Include="Library\CodeTrace\CodeTraceExtensions.cs" />
     <Compile Include="Library\CostumAttributeBuilderExtensions.cs" />
+    <Compile Include="Library\Mashups\ClickOnceWithWebService.cs" />
     <Compile Include="Library\Mashups\UltraWebServiceWithEvents.cs" />
     <Compile Include="Library\Mashups\UltraApplicationInline2.cs" />
     <Compile Include="Library\Mashups\MonetizationAttribute.cs" />
