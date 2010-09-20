@@ -5,6 +5,7 @@ namespace UsingXElement
     open ScriptCoreLib.Extensions
     open System
     open System.Linq
+    open System.Net
     open System.Xml.Linq
 
     /// <summary>
@@ -20,13 +21,31 @@ namespace UsingXElement
         /// </summary>
         /// <param name="e">A parameter from javascript. JSC supports string data type for all platforms.</param>
         /// <param name="y">A callback to javascript. In the future all platforms will allow Action&lt;XElementConvertable&gt; delegates.</param>
-        member this.WebMethod2(e : string, y : StringAction) =
+        member this.WebMethod2(e : string, y : Action<XElement>) =
             // Send it back to the caller.
             let source = "<item> value <!-- comment --></item>"
+
             let doc = XDocument.Parse(source)
 
-            doc.Root.Value <- doc.Root.Value + " yay :)"
+            let ch1 = new WebClient();
+            
+            ch1.Encoding <- System.Text.Encoding.UTF8
 
-            do y.Invoke(e + " from PHP - " + doc.ToString())
+            let ch2 = ch1.DownloadString(e);
+
+            let body = ch2.SkipUntilIfAny("<body>").TakeUntilLastIfAny("</body>").Replace("src=\"", "src=\"" + e.TakeUntilLastIfAny("/") + "/")
+            let style = ch2.SkipUntilIfAny("<style type=\"text/css\">").TakeUntilLastIfAny("</style>")
+
+            doc.Root.Value <- "<style>" + style + "</style><div>" + body + "</div>";
+
+//            doc.Root.Value <- doc.Root.Value + " yay :)"
+
+            do y.Invoke(doc.Root)
             ()
 
+
+//        member this.WebMethod3(e : (string * string), y : StringAction) =
+//            // Send it back to the caller.
+//           
+//            
+//            ()

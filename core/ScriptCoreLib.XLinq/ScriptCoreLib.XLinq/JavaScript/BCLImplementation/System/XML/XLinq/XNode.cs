@@ -16,7 +16,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.XML.XLinq
 
         public override string ToString()
         {
-
             return IXMLDocument.ToXMLString(InternalValue);
         }
 
