@@ -10,14 +10,20 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using jsc;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Configuration
 {
     [Description("The installer will invoke this. This is a background installer.")]
     public class ConfigurationInitialize : CommandBase
     {
+        public bool AttachDebugger;
+
         public override void Invoke()
         {
+            if (this.AttachDebugger)
+                Debugger.Launch();
+
             try
             {
                 InternalInvoke();

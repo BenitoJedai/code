@@ -203,9 +203,9 @@ namespace jsc.configuration
                                     delegate
                                     {
                                         //System.Diagnostics.Debug.WriteLine("after install");
-                                        var conf = SDKConfiguration.Default;
+                                        var conf = new SDKConfiguration();
 
-                                        SDKConfiguration.Default = conf;
+                                        //SDKConfiguration.Default = conf;
 
                                         a.folderEntry1.Text = conf.JavaSDK.FullName;
                                         a.folderEntry2.Text = conf.FlexSDK.FullName;
