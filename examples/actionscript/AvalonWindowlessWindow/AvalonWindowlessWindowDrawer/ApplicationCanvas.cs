@@ -17,10 +17,10 @@ namespace AvalonWindowlessWindowDrawer
     public class ApplicationCanvas : Canvas
     {
         public readonly Rectangle r = new Rectangle();
-
+        public AvalonWindowlessWindow.ApplicationCanvas c;
         public ApplicationCanvas()
         {
-            var c = new AvalonWindowlessWindow.ApplicationCanvas();
+            c = new AvalonWindowlessWindow.ApplicationCanvas();
 
             c.Selection.GlassArea.Orphanize();
             c.Selection.Orphanize();

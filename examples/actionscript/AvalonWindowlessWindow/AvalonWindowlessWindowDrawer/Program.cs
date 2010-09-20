@@ -1,5 +1,6 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using ScriptCoreLib.Desktop.Extensions;
+using ScriptCoreLib.CSharp.Avalon.Extensions;
 using System;
 
 namespace AvalonWindowlessWindowDrawer
@@ -12,9 +13,15 @@ namespace AvalonWindowlessWindowDrawer
         public static void Main(string[] args)
         {
 #if DEBUG
-			DesktopAvalonExtensions.Launch(
-				() => new ApplicationCanvas()
-			);
+            DesktopAvalonExtensions.Launch(
+                () => new ApplicationCanvas(),
+
+                w =>
+                {
+                    w.Content.c.r.Visibility = System.Windows.Visibility.Hidden;
+                    w.Window.ExplicitWithGlass();
+                }
+            );
 #else
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
 #endif
