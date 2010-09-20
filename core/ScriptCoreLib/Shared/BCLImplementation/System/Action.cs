@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace ScriptCoreLib.ActionScript.BCLImplementation.System
+namespace ScriptCoreLib.Shared.BCLImplementation.System
 {
+    // implements System.Core
+    // should be defined in ScriptCoreLib.Query but
+    // this assembly needs to use them
     [Script(Implements = typeof(global::System.Action))]
     internal delegate void __Action();
 
@@ -19,5 +21,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
     [Script(Implements = typeof(global::System.Action<,,,>))]
     internal delegate void __Action<A, B, C, D>(A a, B b, C c, D d);
+
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Action`5")]
+    internal delegate void __Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
 
 }

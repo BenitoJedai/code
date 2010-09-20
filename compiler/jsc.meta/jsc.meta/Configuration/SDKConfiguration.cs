@@ -58,14 +58,27 @@ namespace jsc.meta.Configuration
 
         public static implicit operator SDKConfiguration(XElement e)
         {
-            return new SDKConfiguration
-            {
-                JavaSDK = new DirectoryInfo(e.Element("JavaSDK").Value),
-                FlexSDK = new DirectoryInfo(e.Element("FlexSDK").Value),
-                GoogleAppEngineJavaSDK = new DirectoryInfo(e.Element("GoogleAppEngineJavaSDK").Value),
-                ApacheAntSDK = new DirectoryInfo(e.Element("ApacheAntSDK").Value),
-                XAMPLite = new DirectoryInfo(e.Element("XAMPLite").Value)
-            };
+            Action<string, Action<DirectoryInfo>> With =
+                (n, h) =>
+                {
+                    var k = e.Element(n);
+                    if (k == null)
+                        return;
+
+                    h(new DirectoryInfo(k.Value));
+                };
+
+
+
+            var c = new SDKConfiguration();
+
+            With("JavaSDK", value => c.JavaSDK = value);
+            With("FlexSDK", value => c.FlexSDK = value);
+            With("GoogleAppEngineJavaSDK", value => c.GoogleAppEngineJavaSDK = value);
+            With("ApacheAntSDK", value => c.ApacheAntSDK = value);
+            With("XAMPLite", value => c.XAMPLite = value);
+
+            return c;
         }
 
 

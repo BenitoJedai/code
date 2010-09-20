@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonWindowlessWindow", "AvalonWindowlessWindow\AvalonWindowlessWindow.csproj", "{3239C40F-7BD9-4795-A127-F34AF99C7EC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonWindowlessWindowFlash", "AvalonWindowlessWindowFlash\AvalonWindowlessWindowFlash.csproj", "{051ED006-9F68-406C-8374-9E678B5C7CB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonWindowlessWindowDrawer", "AvalonWindowlessWindowDrawer\AvalonWindowlessWindowDrawer.csproj", "{AFEE759C-AD81-4B7C-B566-4B276BFAD291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonWindowlessWindowDrawerFlash", "AvalonWindowslessWindowDrawer\AvalonWindowlessWindowDrawerFlash.csproj", "{21161EDE-8F71-4337-A325-EC9FD6FC2C76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3239C40F-7BD9-4795-A127-F34AF99C7EC3}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{3239C40F-7BD9-4795-A127-F34AF99C7EC3}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{3239C40F-7BD9-4795-A127-F34AF99C7EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3239C40F-7BD9-4795-A127-F34AF99C7EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3239C40F-7BD9-4795-A127-F34AF99C7EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3239C40F-7BD9-4795-A127-F34AF99C7EC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{051ED006-9F68-406C-8374-9E678B5C7CB3}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{051ED006-9F68-406C-8374-9E678B5C7CB3}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{051ED006-9F68-406C-8374-9E678B5C7CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{051ED006-9F68-406C-8374-9E678B5C7CB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{051ED006-9F68-406C-8374-9E678B5C7CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{051ED006-9F68-406C-8374-9E678B5C7CB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFEE759C-AD81-4B7C-B566-4B276BFAD291}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{AFEE759C-AD81-4B7C-B566-4B276BFAD291}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{AFEE759C-AD81-4B7C-B566-4B276BFAD291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFEE759C-AD81-4B7C-B566-4B276BFAD291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFEE759C-AD81-4B7C-B566-4B276BFAD291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFEE759C-AD81-4B7C-B566-4B276BFAD291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21161EDE-8F71-4337-A325-EC9FD6FC2C76}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{21161EDE-8F71-4337-A325-EC9FD6FC2C76}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{21161EDE-8F71-4337-A325-EC9FD6FC2C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21161EDE-8F71-4337-A325-EC9FD6FC2C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21161EDE-8F71-4337-A325-EC9FD6FC2C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21161EDE-8F71-4337-A325-EC9FD6FC2C76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
