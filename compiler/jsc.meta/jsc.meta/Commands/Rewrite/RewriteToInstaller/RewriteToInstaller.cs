@@ -35,7 +35,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
                 var bin = new DirectoryInfo(Path.Combine(jsc.FullName, "bin"));
                 foreach (var item in bin.GetFilesByPattern(
-                    "*.exe", 
+                    "*.exe",
+                    //"*.pdb", 
                     "*.exe.config", 
                     "*.dll", 
                     "*.xml", 
@@ -333,8 +334,13 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                     Console.WriteLine("Thank you for installing jsc!");
                 }
 
+                var __ConfigurationInitialize = ConfigurationInitialize;
+
+                if (Debugger.IsAttached)
+                    __ConfigurationInitialize += " /AttachDebugger:true";
+
                 var p = Process.Start(
-                    new ProcessStartInfo(Compiler.FullName, ConfigurationInitialize)
+                    new ProcessStartInfo(Compiler.FullName, __ConfigurationInitialize)
                     {
                         UseShellExecute = false,
                         CreateNoWindow = true,
