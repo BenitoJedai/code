@@ -9,6 +9,14 @@ namespace ScriptCoreLib.Extensions
 
 	public static class QueryExtensions
 	{
+        public static bool ThenDo(this bool n, Action h)
+        {
+            if (n)
+                h();
+
+            return n;
+        }
+
         public static List<T> WhenAny<T>(this List<T> that)
         {
             if (that == null)
