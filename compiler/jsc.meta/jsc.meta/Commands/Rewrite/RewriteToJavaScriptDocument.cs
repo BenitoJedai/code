@@ -321,6 +321,8 @@ namespace jsc.meta.Commands.Rewrite
 
                     product = k.TargetType.FullName,
 
+                    // we should only disable it for .NET output :) ASP.NET release build for example
+                    EnableSwitchRewrite = true,
 
                     rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
 						"jsc.meta->" +  Path.GetFileNameWithoutExtension( this.assembly.Name),

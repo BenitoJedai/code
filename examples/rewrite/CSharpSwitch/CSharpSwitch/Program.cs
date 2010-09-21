@@ -7,6 +7,26 @@ using System.IO;
 
 namespace ConsoleApplication1
 {
+    class BarX
+    {
+        public BarX()
+        {
+            //int caseSwitch = 1;
+            //switch (caseSwitch)
+            //{
+            //    case 1:
+            //        Console.WriteLine("Case 1");
+            //        break;
+            //    case 2:
+            //        Console.WriteLine("Case 2");
+            //        break;
+            //    default:
+            //        Console.WriteLine("Default case");
+            //        break;
+            //}
+        }
+    }
+
     class Foo
     {
         public static void Bar()
@@ -64,6 +84,8 @@ namespace ConsoleApplication1
  
          
          */
+
+
 
         public static string Bar(int caseSwitch2)
         {
@@ -152,6 +174,7 @@ namespace ConsoleApplication1
             var o = Console.Out;
             Console.SetOut(new StringWriter());
 
+            var nn = new BarX();
             var x = Stopwatch.StartNew();
             for (int i = 0; i < 0x100000; i++)
             {
