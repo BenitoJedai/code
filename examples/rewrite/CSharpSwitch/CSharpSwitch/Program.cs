@@ -91,6 +91,31 @@ namespace ConsoleApplication1
                     return ("Default case");
             }
         }
+
+        public  static void Workflow(object e)
+        {
+            var offset = 0;
+
+            while (offset >= 0)
+            {
+                if (offset == 0)
+                    offset = Flow0(e);
+
+                //if (offset == 2)
+                //    offset = Flow2();
+            }
+        }
+
+        private static int Flow0(object e)
+        {
+            return -1;
+        }
+
+        //private int Flow2()
+        //{
+        //    return -1;
+        //}
+
     }
 
     class Program
