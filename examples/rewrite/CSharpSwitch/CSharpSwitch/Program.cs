@@ -106,9 +106,12 @@ namespace ConsoleApplication1
             }
         }
 
+        
         private static int Flow0(object e)
         {
-            return -1;
+            var offset = new int [] { -1, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            return offset[0];
         }
 
         //private int Flow2()
