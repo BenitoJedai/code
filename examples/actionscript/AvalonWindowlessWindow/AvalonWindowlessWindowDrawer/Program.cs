@@ -18,8 +18,8 @@ namespace AvalonWindowlessWindowDrawer
 
                 w =>
                 {
-                    w.Content.c.r.Visibility = System.Windows.Visibility.Hidden;
-                    w.Window.ExplicitWithGlass();
+                    //w.Content.c.r.Visibility = System.Windows.Visibility.Hidden;
+                    //w.Window.ExplicitWithGlass();
                 }
             );
 #else

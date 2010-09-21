@@ -295,7 +295,127 @@ namespace jsc.meta.Commands.Rewrite
                 context
             );
 
+            if (Command.EnableSwitchRewrite)
+            {
+                var xb = new ILBlock(mb);
 
+                if (xb.Instructrions.Any(k => k.OpCode == OpCodes.Switch))
+                {
+                    // we need to capture the locals
+
+                    var SwitchClosure = DeclaringType.DefineNestedType(
+                        "<" + mb.MetadataToken + "> switch closure", TypeAttributes.Sealed | TypeAttributes.NestedAssembly);
+
+                    var SwitchClosureFields = mb.GetMethodBody().LocalVariables.Select(
+                        loc =>
+                        {
+                            var fld = SwitchClosure.DefineField(" loc" + loc.LocalIndex, loc.LocalType, FieldAttributes.Assembly);
+
+                            Action<LocalBuilder> store = 
+                                closure_loc =>
+                                {
+
+                                };
+
+                            return new
+                            {
+                                fld,
+                                store
+                            };
+                        }
+                    ).ToArray();
+
+                    var SwitchClosureReturn = default(FieldBuilder);
+                    var SwitchClosureThis = default(FieldBuilder);
+
+                    (mb as MethodInfo).With(
+                        Method =>
+                        {
+                            if (ReturnType == typeof(void))
+                                return;
+
+                            SwitchClosureReturn = SwitchClosure.DefineField(" ret", ReturnType, FieldAttributes.Assembly);
+                        }
+                    );
+
+                    mb.IsStatic.ThenDo(
+                        delegate
+                        {
+
+                            SwitchClosureThis = SwitchClosure.DefineField(" this", DeclaringType, FieldAttributes.Assembly);
+                        }
+                    );
+
+                    var SwitchClosureConstructor = SwitchClosure.DefineDefaultConstructor(MethodAttributes.Family);
+
+                    SwitchClosure.CreateType();
+
+                    var EntryBranchAttributes = MethodAttributes.Family;
+
+                    (!mb.IsStatic).ThenDo(() => EntryBranchAttributes |= MethodAttributes.Static);
+
+                    var EntryBranch = DeclaringType.DefineMethod(
+                          "<" + mb.MetadataToken + "> switch",
+                          EntryBranchAttributes,
+                          SourceMethod.CallingConvention,
+                         ReturnType,
+                         ParametersTypes
+                     );
+
+
+
+                    var Workflow = DeclaringType.DefineMethod(
+                        "<" + mb.MetadataToken + "> switch workflow",
+                        MethodAttributes.Family | MethodAttributes.Static,
+                        SourceMethod.CallingConvention,
+                       null,
+                       new[] { SwitchClosure }
+                    );
+
+                    {
+                        var il = EntryBranch.GetILGenerator();
+
+                        var closure_loc = il.DeclareLocal(SwitchClosure);
+
+                        il.Emit(OpCodes.Newobj, SwitchClosureConstructor);
+                        il.Emit(OpCodes.Stloc, closure_loc);
+
+                        SwitchClosureThis.With(
+                          fld =>
+                          {
+                              il.Emit(OpCodes.Ldloc, closure_loc);
+                              il.Emit(OpCodes.Ldarg_0);
+                              il.Emit(OpCodes.Stfld, fld);
+                          }
+                        );
+
+                        // args
+
+                        il.Emit(OpCodes.Ldloc, closure_loc);
+                        il.Emit(OpCodes.Call, Workflow);
+
+                        SwitchClosureReturn.With(
+                            fld =>
+                            {
+                                il.Emit(OpCodes.Ldloc, closure_loc);
+                                il.Emit(OpCodes.Ldfld, fld);
+                            }
+                        );
+
+                        il.Emit(OpCodes.Ret);
+                    }
+
+                    {
+                        var il = Workflow.GetILGenerator();
+
+                        il.Emit(OpCodes.Ret);
+                    }
+
+
+                    // step 1. create static version of the method and call that
+                    // step 2. create our closure and call with that
+                }
+            }
 
             mb.EmitTo(kmil, x);
 

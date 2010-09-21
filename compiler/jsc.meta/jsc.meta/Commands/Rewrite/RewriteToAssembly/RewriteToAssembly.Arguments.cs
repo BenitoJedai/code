@@ -245,6 +245,6 @@ namespace jsc.meta.Commands.Rewrite
         public bool EnableDelayedFileMove;
 
 
-
+        public bool EnableSwitchRewrite;
     }
 }
