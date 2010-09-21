@@ -306,13 +306,52 @@ namespace jsc.meta.Commands.Rewrite
                     var SwitchClosure = DeclaringType.DefineNestedType(
                         "<" + mb.MetadataToken + "> switch closure", TypeAttributes.Sealed | TypeAttributes.NestedAssembly);
 
+                    var SwitchClosureThis = default(FieldBuilder);
+                    mb.IsStatic.ThenDo(
+                         delegate
+                         {
+
+                             SwitchClosureThis = SwitchClosure.DefineField(" this", DeclaringType, FieldAttributes.Assembly);
+                         }
+                     );
+
+                    #region SwitchClosureArguments
+                    var SwitchClosureArguments = mb.GetParameters().Select(
+                        arg =>
+                        {
+                            var fld = SwitchClosure.DefineField(" arg" + arg.Position, context.TypeCache[arg.ParameterType], FieldAttributes.Assembly);
+
+                            Action<ILGenerator, LocalBuilder> store =
+                                (il, closure_loc) =>
+                                {
+                                    il.Emit(OpCodes.Ldloc, closure_loc);
+
+                                    if (SwitchClosureThis == null)
+                                        il.Emit(OpCodes.Ldarg, (short)arg.Position);
+                                    else
+                                        il.Emit(OpCodes.Ldarg, (short)(arg.Position + 1));
+
+                                    il.Emit(OpCodes.Stfld, fld);
+                                };
+
+                            return new
+                            {
+                                fld,
+                                store
+                            };
+                        }
+                    ).ToArray();
+                    #endregion
+
+
+                    #region SwitchClosureFields
                     var SwitchClosureFields = mb.GetMethodBody().LocalVariables.Select(
                         loc =>
                         {
                             var fld = SwitchClosure.DefineField(" loc" + loc.LocalIndex, loc.LocalType, FieldAttributes.Assembly);
 
-                            Action<LocalBuilder> store = 
-                                closure_loc =>
+                            Action<ILGenerator, LocalBuilder> store =
+                                (il, closure_loc) =>
                                 {
 
                                 };
@@ -324,9 +363,10 @@ namespace jsc.meta.Commands.Rewrite
                             };
                         }
                     ).ToArray();
+                    #endregion
+
 
                     var SwitchClosureReturn = default(FieldBuilder);
-                    var SwitchClosureThis = default(FieldBuilder);
 
                     (mb as MethodInfo).With(
                         Method =>
@@ -338,13 +378,7 @@ namespace jsc.meta.Commands.Rewrite
                         }
                     );
 
-                    mb.IsStatic.ThenDo(
-                        delegate
-                        {
 
-                            SwitchClosureThis = SwitchClosure.DefineField(" this", DeclaringType, FieldAttributes.Assembly);
-                        }
-                    );
 
                     var SwitchClosureConstructor = SwitchClosure.DefineDefaultConstructor(MethodAttributes.Family);
 
@@ -354,24 +388,31 @@ namespace jsc.meta.Commands.Rewrite
 
                     (!mb.IsStatic).ThenDo(() => EntryBranchAttributes |= MethodAttributes.Static);
 
+
+
+                    Func<string, Type, MethodBuilder> DefineWorkflowMethod =
+                        (text, __ReturnType) =>
+                            DeclaringType.DefineMethod(
+                                mb.Name + " <" + mb.MetadataToken + "> switch " + text,
+                                MethodAttributes.Family | MethodAttributes.Static,
+                                SourceMethod.CallingConvention,
+                               __ReturnType,
+                               new[] { SwitchClosure }
+                            );
+
+
                     var EntryBranch = DeclaringType.DefineMethod(
-                          "<" + mb.MetadataToken + "> switch",
-                          EntryBranchAttributes,
-                          SourceMethod.CallingConvention,
-                         ReturnType,
-                         ParametersTypes
-                     );
-
-
-
-                    var Workflow = DeclaringType.DefineMethod(
-                        "<" + mb.MetadataToken + "> switch workflow",
-                        MethodAttributes.Family | MethodAttributes.Static,
+                        mb.Name + " <" + mb.MetadataToken + "> switch",
+                        EntryBranchAttributes,
                         SourceMethod.CallingConvention,
-                       null,
-                       new[] { SwitchClosure }
-                    );
+                       ReturnType,
+                       ParametersTypes
+                   );
 
+                    var Workflow = DefineWorkflowMethod("workflow", null);
+
+
+                    #region EntryBranch
                     {
                         var il = EntryBranch.GetILGenerator();
 
@@ -389,7 +430,7 @@ namespace jsc.meta.Commands.Rewrite
                           }
                         );
 
-                        // args
+                        SwitchClosureArguments.WithEach(f => f.store(il, closure_loc));
 
                         il.Emit(OpCodes.Ldloc, closure_loc);
                         il.Emit(OpCodes.Call, Workflow);
@@ -404,9 +445,132 @@ namespace jsc.meta.Commands.Rewrite
 
                         il.Emit(OpCodes.Ret);
                     }
+                    #endregion
 
                     {
                         var il = Workflow.GetILGenerator();
+
+                        // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.br.aspx
+                        var offset_loc = il.DeclareLocal(typeof(int));
+                        var flag_loc = il.DeclareLocal(typeof(bool));
+
+                        il.Emit(OpCodes.Nop);
+                        il.Emit(OpCodes.Ldc_I4_0);
+                        il.Emit(OpCodes.Stloc, offset_loc);
+
+                        var loop_check = il.DefineLabel();
+                        il.Emit(OpCodes.Br, loop_check);
+
+                        var loop_continue = il.DefineLabel();
+                        il.MarkLabel(loop_continue);
+
+                        il.Emit(OpCodes.Nop);
+
+                        var FlowMethods = new VirtualDictionary<ILFlow, MethodBuilder>();
+
+                        FlowMethods.Resolve +=
+                            flow =>
+                            {
+                                var FlowMethod = DefineWorkflowMethod("flow " + flow.Entry.Offset.ToString("x8") + " -> " + flow.Branch.Offset.ToString("x8"), typeof(int));
+
+                                FlowMethods[flow] = FlowMethod;
+
+
+                                foreach (var item in flow.BranchFlow)
+                                {
+                                    var Branch = FlowMethods[item];
+                                }
+
+
+                                #region enter flow
+                                il.Emit(OpCodes.Nop);
+
+
+                                il.Emit(OpCodes.Ldloc, offset_loc);
+                                il.Emit(OpCodes.Ldc_I4, flow.Entry.Offset);
+                                il.Emit(OpCodes.Ceq);
+                                il.Emit(OpCodes.Ldc_I4_0);
+                                il.Emit(OpCodes.Ceq);
+                                il.Emit(OpCodes.Stloc, flag_loc);
+                                il.Emit(OpCodes.Ldloc, flag_loc);
+
+                                var skip = il.DefineLabel();
+                                il.Emit(OpCodes.Brtrue, skip);
+
+                                il.Emit(OpCodes.Ldarg_0);
+                                il.Emit(OpCodes.Call, FlowMethod);
+                                il.Emit(OpCodes.Stloc, offset_loc);
+
+
+
+                                il.MarkLabel(skip);
+                                il.Emit(OpCodes.Nop);
+                                #endregion
+
+                                var FlowInstructions = Enumerable.ToArray(
+                                    from i in xb.Instructrions
+                                    where i.Offset >= flow.Entry.Offset
+                                    where i.Offset < flow.Branch.Offset
+                                    select i
+                                );
+
+                                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.marklabel.aspx
+                                var labels = Enumerable.ToDictionary(
+                                    from i in FlowInstructions
+                                    select new { i, label = il.DefineLabel() }
+                                , k => k.i, k => k.label);
+
+
+                                var flow_il = FlowMethod.GetILGenerator();
+
+                                foreach (var i in FlowInstructions)
+                                {
+                                    il.MarkLabel(labels[i]);
+
+                                    x.Configuration[i.OpCode](new ILTranslationExtensions.EmitToArguments.ILRewriteContext { SourceMethod = SourceMethod, i = i, il = flow_il, Complete = delegate { }, Labels = labels });
+                                }
+
+                                if (flow.BranchFlow.Count == 0)
+                                {
+                                    SwitchClosureReturn.With(
+                                        fld =>
+                                        {
+                                            flow_il.Emit(OpCodes.Ldarg_0);
+                                            flow_il.Emit(OpCodes.Stfld, fld);
+                                        }
+                                    );
+
+                                    flow_il.Emit(OpCodes.Ldc_I4_M1);
+                                    flow_il.Emit(OpCodes.Ret);
+                                }
+                                else if (flow.BranchFlow.Count == 1)
+                                {
+                                    flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow[0].Entry.Offset);
+                                    flow_il.Emit(OpCodes.Ret);
+                                }
+                                else
+                                {
+                                    FlowMethod.NotImplemented();
+                                }
+                            };
+
+                        var EntryFlowMethod = FlowMethods[xb.Flow];
+
+                        il.Emit(OpCodes.Nop);
+
+                        il.MarkLabel(loop_check);
+
+                        il.Emit(OpCodes.Nop);
+
+                        il.Emit(OpCodes.Ldloc, offset_loc);
+                        il.Emit(OpCodes.Ldc_I4_0);
+                        il.Emit(OpCodes.Clt);
+                        il.Emit(OpCodes.Ldc_I4_0);
+                        il.Emit(OpCodes.Ceq);
+                        il.Emit(OpCodes.Stloc, flag_loc);
+
+                        il.Emit(OpCodes.Ldloc, flag_loc);
+                        il.Emit(OpCodes.Brtrue, loop_continue);
 
                         il.Emit(OpCodes.Ret);
                     }
