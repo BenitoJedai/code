@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A6C43ED1-6FC1-414C-B89F-ADB92C8BBCE3}</ProjectGuid>
+    <ProjectGuid>{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CSharpSwitch.ToJavaScript</RootNamespace>
-    <AssemblyName>CSharpSwitch.ToJavaScript</AssemblyName>
+    <RootNamespace>CSharpSwitchForInstance</RootNamespace>
+    <AssemblyName>CSharpSwitchForInstance</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -45,8 +45,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta40.exe RewriteToAssembly /assembly:"$(TargetPath)" /EnableSwitchRewrite:true /AttachDebugger:true
-c:\util\jsc\bin\jsc40.exe $(TargetDir)staging\$(TargetFileName).Rewrite.dll -js --attachdebugger</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta40.exe RewriteToAssembly /assembly:"$(TargetPath)" /EnableSwitchRewrite:true /AttachDebugger:false</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

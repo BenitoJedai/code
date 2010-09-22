@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpSwitch", "CSharpSwitc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpSwitch.ToJavaScript", "CSharpSwitch.ToJavaScript\CSharpSwitch.ToJavaScript.csproj", "{A6C43ED1-6FC1-414C-B89F-ADB92C8BBCE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpSwitchForInstance", "CSharpSwitchForInstance\CSharpSwitchForInstance.csproj", "{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{A6C43ED1-6FC1-414C-B89F-ADB92C8BBCE3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A6C43ED1-6FC1-414C-B89F-ADB92C8BBCE3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A6C43ED1-6FC1-414C-B89F-ADB92C8BBCE3}.Release|x86.ActiveCfg = Release|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B703DA3A-62B5-4A5B-86B8-D3CEE3FE53E2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
