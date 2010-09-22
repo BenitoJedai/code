@@ -298,25 +298,33 @@ namespace jsc.meta.Commands.Rewrite
                 if (xb.Instructrions.Any(k => k.OpCode == OpCodes.Switch))
                 {
 
-                    WriteSwitchRewrite(SourceMethod, DeclaringType, context, ParametersTypes, ReturnType,
+
+                    var ForwardRef = WriteSwitchRewrite(SourceMethod, DeclaringType, context, ParametersTypes, ReturnType,
                         ILOverride,
                         ExceptionHandlingClauses,
                         xb
-                    ).With(
-                        ForwardRef =>
-                        {
-                            if (!SourceMethod.IsStatic)
-                                kmil.Emit(OpCodes.Ldloc_0);
-
-                            foreach (var item in SourceMethod.GetParameters())
-                            {
-                                kmil.Emit(OpCodes.Ldarg, (short)item.Position);
-                            }
-
-                            kmil.Emit(OpCodes.Call, ForwardRef);
-                            kmil.Emit(OpCodes.Ret);
-                        }
                     );
+
+
+                    if (ForwardRef == null)
+                    {
+                        DeclaringMethod.NotImplemented();
+                    }
+                    else
+                    {
+                        if (!SourceMethod.IsStatic)
+                            kmil.Emit(OpCodes.Ldarg_0);
+
+                        var ArgumentsOffset = SourceMethod.IsStatic ? 1 : 0;
+
+                        foreach (var item in SourceMethod.GetParameters())
+                        {
+                            kmil.Emit(OpCodes.Ldarg, (short)(item.Position + ArgumentsOffset));
+                        }
+
+                        kmil.Emit(OpCodes.Call, ForwardRef);
+                        kmil.Emit(OpCodes.Ret);
+                    }
 
                     return;
                 }
@@ -348,6 +356,14 @@ namespace jsc.meta.Commands.Rewrite
             )
         {
             // do we suppport try?
+            
+            // ??
+            //   Unhandled Exception: System.TypeLoadException: The signature is incorrect.
+
+
+            var DebugDisableMethodImplementation = true;
+            var DebugDisableMethods = false;
+            var DebugDisableWorkflowMethod = true;
 
             var x = CreateMethodBaseEmitToArguments(
                     SourceMethod,
@@ -460,6 +476,7 @@ namespace jsc.meta.Commands.Rewrite
             );
 
 
+            #region variable redirect
             var ArgumentOffset = (SourceMethod.IsStatic) ? 0 : 1;
 
             x[OpCodes.Ldarg_0] = e =>
@@ -498,15 +515,14 @@ namespace jsc.meta.Commands.Rewrite
             x[OpCodes.Stloc_3] = e => SwitchClosureFields[3].store(e);
             x[OpCodes.Stloc_S] = e => SwitchClosureFields[e.i.OpParamAsInt8].store(e);
             x[OpCodes.Stloc] = e => SwitchClosureFields[e.i.OpParamAsInt16].store(e);
-
-
-
-
-
+            #endregion
 
             var SwitchClosureConstructor = SwitchClosure.DefineDefaultConstructor(MethodAttributes.FamORAssem);
 
             SwitchClosure.CreateType();
+
+            if (DebugDisableMethods)
+                return null;
 
             var EntryBranchAttributes = MethodAttributes.FamORAssem;
 
@@ -515,15 +531,6 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-            Func<string, Type, MethodBuilder> DefineWorkflowMethod =
-                (text, __ReturnType) =>
-                    DeclaringType.DefineMethod(
-                        ContextName + text,
-                        MethodAttributes.FamORAssem | MethodAttributes.Static,
-                        SourceMethod.CallingConvention,
-                       __ReturnType,
-                       new[] { SwitchClosure }
-                    ).With(m => m.DefineAttribute<CompilerGeneratedAttribute>(new object()));
 
 
             var EntryBranch = DeclaringType.DefineMethod(
@@ -534,10 +541,33 @@ namespace jsc.meta.Commands.Rewrite
                ParametersTypes
            );
 
+
+            Func<string, Type, MethodBuilder> DefineWorkflowMethod =
+         (text, __ReturnType) =>
+             DeclaringType.DefineMethod(
+                 ContextName + text,
+                 MethodAttributes.Private | MethodAttributes.Static,
+                 SourceMethod.CallingConvention,
+                __ReturnType,
+                new[] { SwitchClosure }
+             ).With(m => m.DefineAttribute<CompilerGeneratedAttribute>(new object()));
+
+            if (DebugDisableWorkflowMethod)
+            {
+                EntryBranch.NotImplemented();
+
+                return EntryBranch;
+            }
+
             var Workflow = DefineWorkflowMethod("workflow", null);
 
 
             #region EntryBranch
+            if (DebugDisableMethodImplementation)
+            {
+                EntryBranch.NotImplemented();
+            }
+            else
             {
                 var il = EntryBranch.GetILGenerator();
 
@@ -575,257 +605,290 @@ namespace jsc.meta.Commands.Rewrite
             }
             #endregion
 
+            #region Workflow
             {
                 var il = Workflow.GetILGenerator();
 
-                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.br.aspx
-                var offset_loc = il.DeclareLocal(typeof(int));
-                var flag_loc = il.DeclareLocal(typeof(bool));
-
-                il.Emit(OpCodes.Nop);
-                il.Emit(OpCodes.Ldc_I4_0);
-                il.Emit(OpCodes.Stloc, offset_loc);
-
+                var offset_loc = default(LocalBuilder);
+                var flag_loc = default(LocalBuilder);
                 var loop_check = il.DefineLabel();
-                il.Emit(OpCodes.Br, loop_check);
-
                 var loop_continue = il.DefineLabel();
-                il.MarkLabel(loop_continue);
-
-                il.Emit(OpCodes.Nop);
-
-                #region FlowMethods
-                var FlowMethods = new VirtualDictionary<ILFlow, MethodBuilder>();
-
-                FlowMethods.Resolve +=
-                    flow =>
-                    {
-                        var FlowMethodName = "flow " + flow.Entry.Offset.ToString("x8") + " -> " + flow.Branch.Offset.ToString("x8") + " (" + flow.BranchFlow.Count + ")";
-
-                        var FlowMethod = DefineWorkflowMethod(
-                            FlowMethodName, typeof(int));
-
-                        FlowMethods[flow] = FlowMethod;
 
 
-                        foreach (var item in flow.BranchFlow)
+                if (DebugDisableMethodImplementation)
+                {
+                    Workflow.NotImplemented();
+                }
+                else
+                {
+
+                    // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.br.aspx
+                    offset_loc = il.DeclareLocal(typeof(int));
+                    flag_loc = il.DeclareLocal(typeof(bool));
+
+
+                    il.Emit(OpCodes.Nop);
+                    il.Emit(OpCodes.Ldc_I4_0);
+                    il.Emit(OpCodes.Stloc, offset_loc);
+
+                    il.Emit(OpCodes.Br, loop_check);
+
+                    il.MarkLabel(loop_continue);
+
+                    il.Emit(OpCodes.Nop);
+
+                    #region FlowMethods
+                    var FlowMethods = new VirtualDictionary<ILFlow, MethodBuilder>();
+
+                    FlowMethods.Resolve +=
+                        flow =>
                         {
-                            var Branch = FlowMethods[item];
-                        }
+                            var FlowMethodName = "flow " + flow.Entry.Offset.ToString("x8") + " -> " + flow.Branch.Offset.ToString("x8") + " (" + flow.BranchFlow.Count + ")";
 
-
-                        #region enter flow
-                        il.Emit(OpCodes.Nop);
-
-
-                        il.Emit(OpCodes.Ldloc, offset_loc);
-                        il.Emit(OpCodes.Ldc_I4, flow.Entry.Offset);
-                        il.Emit(OpCodes.Ceq);
-                        il.Emit(OpCodes.Ldc_I4_0);
-                        il.Emit(OpCodes.Ceq);
-                        il.Emit(OpCodes.Stloc, flag_loc);
-                        il.Emit(OpCodes.Ldloc, flag_loc);
-
-                        var skip = il.DefineLabel();
-                        il.Emit(OpCodes.Brtrue, skip);
-
-                        il.Emit(OpCodes.Ldarg_0);
-                        il.Emit(OpCodes.Call, FlowMethod);
-                        il.Emit(OpCodes.Stloc, offset_loc);
-
-
-
-                        il.MarkLabel(skip);
-                        il.Emit(OpCodes.Nop);
-                        #endregion
-
-                        var FlowInstructions = Enumerable.ToArray(
-                            from i in xb.Instructrions
-                            where i.Offset >= flow.Entry.Offset
-                            where i.Offset < flow.Branch.Offset
-                            select i
-                        );
-
-                        // http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.marklabel.aspx
-                        var labels = Enumerable.ToDictionary(
-                            from i in FlowInstructions
-                            select new { i, label = il.DefineLabel() }
-                        , k => k.i, k => k.label);
-
-
-                        var flow_il = FlowMethod.GetILGenerator();
-
-                        foreach (var i in FlowInstructions)
-                        {
-                            il.MarkLabel(labels[i]);
-
-                            x.Configuration[i.OpCode](new ILTranslationExtensions.EmitToArguments.ILRewriteContext { SourceMethod = SourceMethod, i = i, il = flow_il, Complete = delegate { }, Labels = labels });
-                        }
-
-                        if (flow.BranchFlow.Count == 0)
-                        {
-                            SwitchClosureReturn.With(
-                                fld =>
-                                {
-                                    var ret = flow_il.DeclareLocal(SwitchClosureReturn.FieldType);
-
-                                    flow_il.Emit(OpCodes.Stloc, ret);
-
-                                    flow_il.Emit(OpCodes.Ldarg_0);
-                                    flow_il.Emit(OpCodes.Ldloc, ret);
-                                    flow_il.Emit(OpCodes.Stfld, fld);
-                                }
+                            var FlowMethod = DefineWorkflowMethod(
+                                FlowMethodName, typeof(int)
                             );
 
-                            flow_il.Emit(OpCodes.Ldc_I4_M1);
-                            flow_il.Emit(OpCodes.Ret);
-                        }
-                        else if (flow.BranchFlow.Count == 1)
-                        {
+                            FlowMethods[flow] = FlowMethod;
 
 
-                            flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow[0].Entry.Offset);
-                            flow_il.Emit(OpCodes.Ret);
-                        }
-                        else
-                        {
-                            Action<Action<LocalBuilder>> WriteLookup =
-                                NotifyLookup =>
-                                {
-                                    var m = new MemoryStream();
-
-                                    var w = new BinaryWriter(m);
-
-                                    foreach (var item1 in flow.BranchFlow)
-                                    {
-                                        w.Write(item1.Entry.Offset);
-                                    }
-
-                                    var lookup = DeclaringType.DefineInitializedData(
-                                        ContextName + FlowMethodName + " lookup", m.ToArray(), FieldAttributes.Static | FieldAttributes.Family
-                                    );
-
-                                    var lookup_loc = flow_il.DeclareLocal(typeof(int));
-
-                                    flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count);
-                                    flow_il.Emit(OpCodes.Newarr, typeof(int));
-                                    flow_il.Emit(OpCodes.Dup);
-                                    flow_il.Emit(OpCodes.Ldtoken, lookup);
-                                    flow_il.Emit(OpCodes.Call, ((Action<Array, RuntimeFieldHandle>)System.Runtime.CompilerServices.RuntimeHelpers.InitializeArray).Method);
-
-                                    flow_il.Emit(OpCodes.Stloc, lookup_loc);
-
-                                    if (NotifyLookup != null)
-                                        NotifyLookup(lookup_loc);
-                                };
-
-
-                            //L_0001: ldc.i4.s 10
-                            //L_0003: newarr int32
-                            //L_0008: dup 
-                            //L_0009: ldtoken valuetype $ArrayType$40 <PrivateImplementationDetails>{9D96CAA6-4058-426A-87F2-B3955165707E}::$$method0x6000004-1
-                            //L_000e: call void [mscorlib]System.Runtime.CompilerServices.RuntimeHelpers::InitializeArray(class [mscorlib]System.Array, valuetype [mscorlib]System.RuntimeFieldHandle)
-                            //L_0013: stloc.0 
-
-                            if (flow.Branch.OpCode == OpCodes.Switch)
+                            foreach (var item in flow.BranchFlow)
                             {
-                                var index_loc = flow_il.DeclareLocal(typeof(int));
+                                var Branch = FlowMethods[item];
+                            }
 
-                                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.switch.aspx
-                                // in our table -1 or "i > N" is actually at offset 0
-                                flow_il.Emit(OpCodes.Ldc_I4_1);
-                                flow_il.Emit(OpCodes.Add);
-                                flow_il.Emit(OpCodes.Stloc, index_loc);
-
-                             
-
-                                WriteLookup(
-                                    lookup_loc =>
-                                    {
-
-                                        #region  if less than zero make it a zero
-
-                                        var check_loc = flow_il.DeclareLocal(typeof(bool));
-
-
-                                        flow_il.Emit(OpCodes.Ldloc, index_loc);
-                                        flow_il.Emit(OpCodes.Ldc_I4_0);
-                                        flow_il.Emit(OpCodes.Clt);
-                                        flow_il.Emit(OpCodes.Stloc, check_loc);
-
-
-                                        var br_skipmin = flow_il.DefineLabel();
-
-                                        flow_il.Emit(OpCodes.Ldloc, check_loc);
-                                        flow_il.Emit(OpCodes.Brfalse, br_skipmin);
-
-                                        flow_il.Emit(OpCodes.Ldc_I4_0);
-                                        flow_il.Emit(OpCodes.Stloc, index_loc);
-
-                                        flow_il.MarkLabel(br_skipmin);
-                                        flow_il.Emit(OpCodes.Nop);
-
-                                        flow_il.Emit(OpCodes.Ldloc, index_loc);
-                                        flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count - 1);
-                                        flow_il.Emit(OpCodes.Cgt);
-                                        flow_il.Emit(OpCodes.Stloc, check_loc);
-
-
-                                        var br_skipmax = flow_il.DefineLabel();
-
-                                        flow_il.Emit(OpCodes.Ldloc, check_loc);
-                                        flow_il.Emit(OpCodes.Brfalse, br_skipmax);
-
-                                        flow_il.Emit(OpCodes.Ldc_I4_0);
-                                        flow_il.Emit(OpCodes.Stloc, index_loc);
-
-                                        flow_il.MarkLabel(br_skipmax);
-                                        flow_il.Emit(OpCodes.Nop);
-
-                                      
-                                        #endregion
-
-
-                                        flow_il.Emit(OpCodes.Ldloc, lookup_loc);
-                                        flow_il.Emit(OpCodes.Ldloc, index_loc);
-                                        flow_il.Emit(OpCodes.Ldelem_I4);
-                                        flow_il.Emit(OpCodes.Ret);
-                                    }
-                                );
-
+                            if (DebugDisableMethodImplementation)
+                            {
+                                FlowMethod.NotImplemented();
                             }
                             else
                             {
-                                WriteLookup(null);
 
-                                FlowMethod.NotImplemented();
+                                #region il
+                                #region enter flow
+                                il.Emit(OpCodes.Nop);
+
+
+                                il.Emit(OpCodes.Ldloc, offset_loc);
+                                il.Emit(OpCodes.Ldc_I4, flow.Entry.Offset);
+                                il.Emit(OpCodes.Ceq);
+                                il.Emit(OpCodes.Ldc_I4_0);
+                                il.Emit(OpCodes.Ceq);
+                                il.Emit(OpCodes.Stloc, flag_loc);
+                                il.Emit(OpCodes.Ldloc, flag_loc);
+
+                                var skip = il.DefineLabel();
+                                il.Emit(OpCodes.Brtrue, skip);
+
+                                il.Emit(OpCodes.Ldarg_0);
+                                il.Emit(OpCodes.Call, FlowMethod);
+                                il.Emit(OpCodes.Stloc, offset_loc);
+
+
+
+                                il.MarkLabel(skip);
+                                il.Emit(OpCodes.Nop);
+                                #endregion
+
+                                var FlowInstructions = Enumerable.ToArray(
+                                    from i in xb.Instructrions
+                                    where i.Offset >= flow.Entry.Offset
+                                    where i.Offset < flow.Branch.Offset
+                                    select i
+                                );
+
+                                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.marklabel.aspx
+                                var labels = Enumerable.ToDictionary(
+                                    from i in FlowInstructions
+                                    select new { i, label = il.DefineLabel() }
+                                , k => k.i, k => k.label);
+
+
+                                var flow_il = FlowMethod.GetILGenerator();
+
+                                foreach (var i in FlowInstructions)
+                                {
+                                    il.MarkLabel(labels[i]);
+
+                                    x.Configuration[i.OpCode](new ILTranslationExtensions.EmitToArguments.ILRewriteContext { SourceMethod = SourceMethod, i = i, il = flow_il, Complete = delegate { }, Labels = labels });
+                                }
+
+                                if (flow.BranchFlow.Count == 0)
+                                {
+                                    SwitchClosureReturn.With(
+                                        fld =>
+                                        {
+                                            var ret = flow_il.DeclareLocal(SwitchClosureReturn.FieldType);
+
+                                            flow_il.Emit(OpCodes.Stloc, ret);
+
+                                            flow_il.Emit(OpCodes.Ldarg_0);
+                                            flow_il.Emit(OpCodes.Ldloc, ret);
+                                            flow_il.Emit(OpCodes.Stfld, fld);
+                                        }
+                                    );
+
+                                    flow_il.Emit(OpCodes.Ldc_I4_M1);
+                                    flow_il.Emit(OpCodes.Ret);
+                                }
+                                else if (flow.BranchFlow.Count == 1)
+                                {
+
+
+                                    flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow[0].Entry.Offset);
+                                    flow_il.Emit(OpCodes.Ret);
+                                }
+                                else
+                                {
+                                    Action<Action<LocalBuilder>> WriteLookup =
+                                        NotifyLookup =>
+                                        {
+                                            var m = new MemoryStream();
+
+                                            var w = new BinaryWriter(m);
+
+                                            foreach (var item1 in flow.BranchFlow)
+                                            {
+                                                w.Write(item1.Entry.Offset);
+                                            }
+
+                                            var lookup = DeclaringType.DefineInitializedData(
+                                                ContextName + FlowMethodName + " lookup", m.ToArray(), FieldAttributes.Static | FieldAttributes.Family
+                                            );
+
+                                            var lookup_loc = flow_il.DeclareLocal(typeof(int));
+
+                                            flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count);
+                                            flow_il.Emit(OpCodes.Newarr, typeof(int));
+                                            flow_il.Emit(OpCodes.Dup);
+                                            flow_il.Emit(OpCodes.Ldtoken, lookup);
+                                            flow_il.Emit(OpCodes.Call, ((Action<Array, RuntimeFieldHandle>)System.Runtime.CompilerServices.RuntimeHelpers.InitializeArray).Method);
+
+                                            flow_il.Emit(OpCodes.Stloc, lookup_loc);
+
+                                            if (NotifyLookup != null)
+                                                NotifyLookup(lookup_loc);
+                                        };
+
+
+                                    //L_0001: ldc.i4.s 10
+                                    //L_0003: newarr int32
+                                    //L_0008: dup 
+                                    //L_0009: ldtoken valuetype $ArrayType$40 <PrivateImplementationDetails>{9D96CAA6-4058-426A-87F2-B3955165707E}::$$method0x6000004-1
+                                    //L_000e: call void [mscorlib]System.Runtime.CompilerServices.RuntimeHelpers::InitializeArray(class [mscorlib]System.Array, valuetype [mscorlib]System.RuntimeFieldHandle)
+                                    //L_0013: stloc.0 
+
+                                    if (flow.Branch.OpCode == OpCodes.Switch)
+                                    {
+                                        var index_loc = flow_il.DeclareLocal(typeof(int));
+
+                                        // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.switch.aspx
+                                        // in our table -1 or "i > N" is actually at offset 0
+                                        flow_il.Emit(OpCodes.Ldc_I4_1);
+                                        flow_il.Emit(OpCodes.Add);
+                                        flow_il.Emit(OpCodes.Stloc, index_loc);
+
+
+
+                                        WriteLookup(
+                                            lookup_loc =>
+                                            {
+
+                                                #region  if less than zero make it a zero
+
+                                                var check_loc = flow_il.DeclareLocal(typeof(bool));
+
+
+                                                flow_il.Emit(OpCodes.Ldloc, index_loc);
+                                                flow_il.Emit(OpCodes.Ldc_I4_0);
+                                                flow_il.Emit(OpCodes.Clt);
+                                                flow_il.Emit(OpCodes.Stloc, check_loc);
+
+
+                                                var br_skipmin = flow_il.DefineLabel();
+
+                                                flow_il.Emit(OpCodes.Ldloc, check_loc);
+                                                flow_il.Emit(OpCodes.Brfalse, br_skipmin);
+
+                                                flow_il.Emit(OpCodes.Ldc_I4_0);
+                                                flow_il.Emit(OpCodes.Stloc, index_loc);
+
+                                                flow_il.MarkLabel(br_skipmin);
+                                                flow_il.Emit(OpCodes.Nop);
+
+                                                flow_il.Emit(OpCodes.Ldloc, index_loc);
+                                                flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count - 1);
+                                                flow_il.Emit(OpCodes.Cgt);
+                                                flow_il.Emit(OpCodes.Stloc, check_loc);
+
+
+                                                var br_skipmax = flow_il.DefineLabel();
+
+                                                flow_il.Emit(OpCodes.Ldloc, check_loc);
+                                                flow_il.Emit(OpCodes.Brfalse, br_skipmax);
+
+                                                flow_il.Emit(OpCodes.Ldc_I4_0);
+                                                flow_il.Emit(OpCodes.Stloc, index_loc);
+
+                                                flow_il.MarkLabel(br_skipmax);
+                                                flow_il.Emit(OpCodes.Nop);
+
+
+                                                #endregion
+
+
+                                                flow_il.Emit(OpCodes.Ldloc, lookup_loc);
+                                                flow_il.Emit(OpCodes.Ldloc, index_loc);
+                                                flow_il.Emit(OpCodes.Ldelem_I4);
+                                                flow_il.Emit(OpCodes.Ret);
+                                            }
+                                        );
+
+                                    }
+                                    else
+                                    {
+                                        WriteLookup(null);
+
+                                        FlowMethod.NotImplemented();
+                                    }
+                                }
+                                #endregion
+
+
                             }
-                        }
-                    };
-                #endregion
+                        };
+                    #endregion
 
-                var EntryFlowMethod = FlowMethods[xb.Flow];
+                    var EntryFlowMethod = FlowMethods[xb.Flow];
+                }
 
                 //il.EmitCode(() => { throw new NotSupportedException("Invalid branch target"); });
 
-                il.Emit(OpCodes.Nop);
+                if (DebugDisableMethodImplementation)
+                {
+                }
+                else
+                {
+                    il.Emit(OpCodes.Nop);
 
-                il.MarkLabel(loop_check);
+                    il.MarkLabel(loop_check);
 
-                il.Emit(OpCodes.Nop);
+                    il.Emit(OpCodes.Nop);
 
-                il.Emit(OpCodes.Ldloc, offset_loc);
-                il.Emit(OpCodes.Ldc_I4_0);
-                il.Emit(OpCodes.Clt);
-                il.Emit(OpCodes.Ldc_I4_0);
-                il.Emit(OpCodes.Ceq);
-                il.Emit(OpCodes.Stloc, flag_loc);
+                    il.Emit(OpCodes.Ldloc, offset_loc);
+                    il.Emit(OpCodes.Ldc_I4_0);
+                    il.Emit(OpCodes.Clt);
+                    il.Emit(OpCodes.Ldc_I4_0);
+                    il.Emit(OpCodes.Ceq);
+                    il.Emit(OpCodes.Stloc, flag_loc);
 
-                il.Emit(OpCodes.Ldloc, flag_loc);
-                il.Emit(OpCodes.Brtrue, loop_continue);
+                    il.Emit(OpCodes.Ldloc, flag_loc);
+                    il.Emit(OpCodes.Brtrue, loop_continue);
 
-                il.Emit(OpCodes.Ret);
+                    il.Emit(OpCodes.Ret);
+                }
             }
+            #endregion
 
 
             // step 1. create static version of the method and call that

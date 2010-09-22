@@ -23,6 +23,24 @@ namespace CSharpSwitch.ToJavaScript
         }
     }
 
+
+    public class Class2
+    {
+
+        public string Bar(int caseSwitch2)
+        {
+            switch (caseSwitch2)
+            {
+                case 1:
+                    return ("Case 1");
+                case 2:
+                    return ("Case 2");
+                default:
+                    return ("Default case");
+            }
+        }
+    }
+
     class G
     {
         protected internal static int Foo(object closure1)
