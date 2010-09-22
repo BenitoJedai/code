@@ -268,6 +268,8 @@ namespace jsc
                     if (iif.Branch.IsAnyOpCodeOf(OpCodes.Bge, OpCodes.Bge_S))
                     {
                         #region F# FailInit check :)
+
+                        #region only false block
                         if (iif.BodyTrueFirst == null)
                         {
                             w.Write("(");
@@ -282,6 +284,8 @@ namespace jsc
                             w.WriteLine();
                             continue;
                         }
+                        #endregion
+
 
                         w.Write("(");
                         IL2ScriptGenerator.OpCodeHandler(w, p, iif.Branch, iif.Branch.StackBeforeStrict[0]);
