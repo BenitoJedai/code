@@ -24,7 +24,7 @@ namespace CSharpSwitch
                       r.Fill = Brushes.Red;
                       break;
                   case 2:
-                      r.Fill = Brushes.Yellow;
+                      r.Fill = Brushes.Blue;
                       break;
                   default:
                       r.Fill = Brushes.Yellow;
@@ -34,10 +34,19 @@ namespace CSharpSwitch
 
         public ApplicationCanvas()
         {
-    
 
+            var c = 0;
 
-            SetColor(2, r);
+            Action Update = () => SetColor(c, r);
+
+            Update();
+
+            r.MouseLeftButtonUp +=
+                delegate
+                {
+                    c++;
+                    Update();
+                };
             
             r.AttachTo(this);
             r.MoveTo(8, 8);

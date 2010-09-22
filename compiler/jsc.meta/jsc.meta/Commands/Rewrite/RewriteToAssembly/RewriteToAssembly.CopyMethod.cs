@@ -462,9 +462,9 @@ namespace jsc.meta.Commands.Rewrite
 
             var ArgumentOffset = (SourceMethod.IsStatic) ? 0 : 1;
 
-            x[OpCodes.Ldarg_0] = e => 
+            x[OpCodes.Ldarg_0] = e =>
                 {
-                    if (SourceMethod.IsStatic )
+                    if (SourceMethod.IsStatic)
                     {
                         SwitchClosureArguments[0].load(e);
                         return;
@@ -473,7 +473,7 @@ namespace jsc.meta.Commands.Rewrite
                     e.il.Emit(OpCodes.Ldarg_0);
                     e.il.Emit(OpCodes.Ldfld, SwitchClosureThis);
 
-                 };
+                };
 
             x[OpCodes.Ldarg_1] = e => SwitchClosureArguments[1 - ArgumentOffset].load(e);
             x[OpCodes.Ldarg_2] = e => SwitchClosureArguments[2 - ArgumentOffset].load(e);
@@ -731,11 +731,61 @@ namespace jsc.meta.Commands.Rewrite
                             {
                                 var index_loc = flow_il.DeclareLocal(typeof(int));
 
+                                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.switch.aspx
+                                // in our table -1 or "i > N" is actually at offset 0
+                                flow_il.Emit(OpCodes.Ldc_I4_1);
+                                flow_il.Emit(OpCodes.Add);
                                 flow_il.Emit(OpCodes.Stloc, index_loc);
+
+                             
 
                                 WriteLookup(
                                     lookup_loc =>
                                     {
+
+                                        #region  if less than zero make it a zero
+
+                                        var check_loc = flow_il.DeclareLocal(typeof(bool));
+
+
+                                        flow_il.Emit(OpCodes.Ldloc, index_loc);
+                                        flow_il.Emit(OpCodes.Ldc_I4_0);
+                                        flow_il.Emit(OpCodes.Clt);
+                                        flow_il.Emit(OpCodes.Stloc, check_loc);
+
+
+                                        var br_skipmin = flow_il.DefineLabel();
+
+                                        flow_il.Emit(OpCodes.Ldloc, check_loc);
+                                        flow_il.Emit(OpCodes.Brfalse, br_skipmin);
+
+                                        flow_il.Emit(OpCodes.Ldc_I4_0);
+                                        flow_il.Emit(OpCodes.Stloc, index_loc);
+
+                                        flow_il.MarkLabel(br_skipmin);
+                                        flow_il.Emit(OpCodes.Nop);
+
+                                        flow_il.Emit(OpCodes.Ldloc, index_loc);
+                                        flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count - 1);
+                                        flow_il.Emit(OpCodes.Cgt);
+                                        flow_il.Emit(OpCodes.Stloc, check_loc);
+
+
+                                        var br_skipmax = flow_il.DefineLabel();
+
+                                        flow_il.Emit(OpCodes.Ldloc, check_loc);
+                                        flow_il.Emit(OpCodes.Brfalse, br_skipmax);
+
+                                        flow_il.Emit(OpCodes.Ldc_I4_0);
+                                        flow_il.Emit(OpCodes.Stloc, index_loc);
+
+                                        flow_il.MarkLabel(br_skipmax);
+                                        flow_il.Emit(OpCodes.Nop);
+
+                                      
+                                        #endregion
+
+
                                         flow_il.Emit(OpCodes.Ldloc, lookup_loc);
                                         flow_il.Emit(OpCodes.Ldloc, index_loc);
                                         flow_il.Emit(OpCodes.Ldelem_I4);
@@ -755,6 +805,8 @@ namespace jsc.meta.Commands.Rewrite
                 #endregion
 
                 var EntryFlowMethod = FlowMethods[xb.Flow];
+
+                //il.EmitCode(() => { throw new NotSupportedException("Invalid branch target"); });
 
                 il.Emit(OpCodes.Nop);
 

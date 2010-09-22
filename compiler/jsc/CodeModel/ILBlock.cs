@@ -724,7 +724,11 @@ namespace jsc
                         Owner.ExtractBlock(loop.BodyFirst, loop.BodyLast);
 
                         //ILBlock.Prestatement
-                        ILBlock.Prestatement[] p = Owner.ExtractBlock(loop.CFirst, loop.CLast).PrestatementCommands.ToArray();
+                        ILBlock.Prestatement[] p = Enumerable.ToArray(
+                            from c in Owner.ExtractBlock(loop.CFirst, loop.CLast).PrestatementCommands
+                            where c.Instruction.OpCode != OpCodes.Nop
+                            select c
+                        );
 
                         if (p.Length == 2)
                         {
@@ -1252,11 +1256,11 @@ namespace jsc
                 {
                     ILInstruction ix = PrestatementCommands[z].Instruction;
 
-
-                    if (ix.TargetVariable.LocalIndex == i.TargetVariable.LocalIndex)
-                    {
-                        return PrestatementCommands[z];
-                    }
+                    if (ix.TargetVariable != null)
+                        if (ix.TargetVariable.LocalIndex == i.TargetVariable.LocalIndex)
+                        {
+                            return PrestatementCommands[z];
+                        }
                 }
 
                 return null;
