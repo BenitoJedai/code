@@ -27,8 +27,44 @@ namespace ConsoleApplication1
         }
     }
 
+    static class Ex
+    {
+        public static IEnumerable<T> Where<T>(this IEnumerable<T> source, Func<T, bool> y)
+        {
+            foreach (var item in source)
+            {
+                yield return item;
+            }
+        }
+    }
     class Foo
     {
+        public void BarX()
+        {
+            foreach (var item in GetX())
+            {
+                Console.WriteLine(item);
+            }
+        }
+        public IEnumerable<string> GetX()
+        {
+            Console.WriteLine();
+            yield return "hello";
+
+            for (int i = 0; i < 3; i++)
+            {
+                Console.WriteLine();
+                var value = "hello1 + " + 1;
+
+                yield return value;
+            }
+         
+            Console.WriteLine();
+            yield return "hello2";
+            Console.WriteLine();
+            yield return "world3";
+        }
+
         public static void Bar()
         {
             int caseSwitch = 1;
@@ -162,6 +198,8 @@ namespace ConsoleApplication1
 
         static void Main(string[] args)
         {
+            new Foo().BarX();
+
             for (int i = 0; i < 10; i++)
             {
                 Measure1();
