@@ -34,6 +34,7 @@ namespace CSharpSwitch
 
         public ApplicationCanvas()
         {
+            var q = typeof(Action<,,,,>).AssemblyQualifiedName;
 
             var c = 0;
 

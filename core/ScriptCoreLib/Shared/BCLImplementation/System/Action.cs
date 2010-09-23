@@ -22,7 +22,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System
     [Script(Implements = typeof(global::System.Action<,,,>))]
     internal delegate void __Action<A, B, C, D>(A a, B b, C c, D d);
 
-    [Script(ImplementsViaAssemblyQualifiedName = "System.Action`5")]
+    [Script(ImplementsViaAssemblyQualifiedName = "System.Action`5, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")]
     internal delegate void __Action<A, B, C, D, E>(A a, B b, C c, D d, E e);
 
 }

@@ -361,9 +361,9 @@ namespace jsc.meta.Commands.Rewrite
             //   Unhandled Exception: System.TypeLoadException: The signature is incorrect.
 
 
-            var DebugDisableMethodImplementation = true;
+            var DebugDisableMethodImplementation = false;
             var DebugDisableMethods = false;
-            var DebugDisableWorkflowMethod = true;
+            var DebugDisableWorkflowMethod = false;
 
             var x = CreateMethodBaseEmitToArguments(
                     SourceMethod,
