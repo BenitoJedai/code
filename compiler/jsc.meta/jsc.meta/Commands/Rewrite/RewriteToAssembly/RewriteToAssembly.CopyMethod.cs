@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using jsc.meta.Library;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Text;
 using jsc.Languages.IL;
 using jsc.Library;
+using jsc.meta.Library;
 using ScriptCoreLib.Extensions;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -291,6 +291,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
+            #region EnableSwitchRewrite
             if (Command.EnableSwitchRewrite)
             {
                 var xb = new ILBlock(SourceMethod);
@@ -299,36 +300,25 @@ namespace jsc.meta.Commands.Rewrite
                 {
 
 
-                    var ForwardRef = WriteSwitchRewrite(SourceMethod, DeclaringType, context, ParametersTypes, ReturnType,
+                     WriteSwitchRewrite(
+                        SourceMethod, 
+                        DeclaringType, 
+                        context, 
+                        ParametersTypes, 
+                        ReturnType,
                         ILOverride,
                         ExceptionHandlingClauses,
-                        xb
+                        xb,
+                        kmil
                     );
 
 
-                    if (ForwardRef == null)
-                    {
-                        DeclaringMethod.NotImplemented();
-                    }
-                    else
-                    {
-                        if (!SourceMethod.IsStatic)
-                            kmil.Emit(OpCodes.Ldarg_0);
-
-                        var ArgumentsOffset = SourceMethod.IsStatic ? 1 : 0;
-
-                        foreach (var item in SourceMethod.GetParameters())
-                        {
-                            kmil.Emit(OpCodes.Ldarg, (short)(item.Position + ArgumentsOffset));
-                        }
-
-                        kmil.Emit(OpCodes.Call, ForwardRef);
-                        kmil.Emit(OpCodes.Ret);
-                    }
-
+                 
                     return;
                 }
             }
+            #endregion
+
 
             var x = CreateMethodBaseEmitToArguments(
                 SourceMethod,
@@ -336,6 +326,7 @@ namespace jsc.meta.Commands.Rewrite
                 ExceptionHandlingClauses,
                 context
             );
+
             mb.EmitTo(kmil, x);
 
 
@@ -343,559 +334,7 @@ namespace jsc.meta.Commands.Rewrite
 
         }
 
-        private static MethodBuilder WriteSwitchRewrite(
-            MethodInfo SourceMethod,
-            TypeBuilder DeclaringType,
-            ILTranslationContext context,
-            Type[] ParametersTypes,
-            Type ReturnType,
-
-            Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
-            ExceptionHandlingClause[] ExceptionHandlingClauses,
-            ILBlock xb
-            )
-        {
-            // do we suppport try?
-            
-            // ??
-            //   Unhandled Exception: System.TypeLoadException: The signature is incorrect.
-
-
-            var DebugDisableMethodImplementation = false;
-            var DebugDisableMethods = false;
-            var DebugDisableWorkflowMethod = false;
-
-            var x = CreateMethodBaseEmitToArguments(
-                    SourceMethod,
-                    ILOverride,
-                    ExceptionHandlingClauses,
-                    context
-                );
-
-
-            // we need to capture the locals
-            var ContextName = SourceMethod.Name + " <" + SourceMethod.MetadataToken + "> switch ";
-
-            var SwitchClosure = DeclaringType.DefineNestedType(
-                ContextName + "closure", TypeAttributes.Sealed | TypeAttributes.NestedAssembly);
-
-            var SwitchClosureThis = default(FieldBuilder);
-
-            (!SourceMethod.IsStatic).ThenDo(
-                 delegate
-                 {
-
-                     SwitchClosureThis = SwitchClosure.DefineField(" this", DeclaringType, FieldAttributes.Assembly);
-                 }
-             );
-
-            #region SwitchClosureArguments
-            var SwitchClosureArguments = SourceMethod.GetParameters().Select(
-                arg =>
-                {
-                    var fld = SwitchClosure.DefineField(" arg" + arg.Position, context.TypeCache[arg.ParameterType], FieldAttributes.Assembly);
-
-                    Action<ILGenerator, LocalBuilder> init =
-                        (il, closure_loc) =>
-                        {
-                            il.Emit(OpCodes.Nop);
-                            il.Emit(OpCodes.Ldloc, closure_loc);
-
-                            if (SwitchClosureThis == null)
-                                il.Emit(OpCodes.Ldarg, (short)arg.Position);
-                            else
-                                il.Emit(OpCodes.Ldarg, (short)(arg.Position + 1));
-
-                            il.Emit(OpCodes.Stfld, fld);
-                            il.Emit(OpCodes.Nop);
-                        };
-
-                    Action<ILTranslationExtensions.EmitToArguments.ILRewriteContext> load =
-                       (e) =>
-                       {
-                           e.il.Emit(OpCodes.Ldarg_0);
-                           e.il.Emit(OpCodes.Ldfld, fld);
-                       };
-
-                    return new
-                    {
-                        fld,
-                        init,
-                        load
-                    };
-                }
-            ).ToArray();
-            #endregion
-
-
-            #region SwitchClosureFields
-            var SwitchClosureFields = SourceMethod.GetMethodBody().LocalVariables.Select(
-                loc =>
-                {
-                    var fld = SwitchClosure.DefineField(" loc" + loc.LocalIndex, context.TypeCache[loc.LocalType], FieldAttributes.Assembly);
-
-                    Action<ILTranslationExtensions.EmitToArguments.ILRewriteContext> store =
-                        (e) =>
-                        {
-                            var value = e.il.DeclareLocal(context.TypeCache[loc.LocalType]);
-
-                            e.il.Emit(OpCodes.Stloc, value);
-
-                            e.il.Emit(OpCodes.Ldarg_0);
-                            e.il.Emit(OpCodes.Ldloc, value);
-                            e.il.Emit(OpCodes.Stfld, fld);
-                        };
-
-                    Action<ILTranslationExtensions.EmitToArguments.ILRewriteContext> load =
-                        (e) =>
-                        {
-                            e.il.Emit(OpCodes.Ldarg_0);
-                            e.il.Emit(OpCodes.Ldfld, fld);
-                        };
-
-                    return new
-                    {
-                        fld,
-                        store,
-                        load
-                    };
-                }
-            ).ToArray();
-            #endregion
-
-            var SwitchClosureReturn = default(FieldBuilder);
-
-            (SourceMethod as MethodInfo).With(
-                Method =>
-                {
-                    if (ReturnType == typeof(void))
-                        return;
-
-                    SwitchClosureReturn = SwitchClosure.DefineField(" ret", ReturnType, FieldAttributes.Assembly);
-                }
-            );
-
-
-            #region variable redirect
-            var ArgumentOffset = (SourceMethod.IsStatic) ? 0 : 1;
-
-            x[OpCodes.Ldarg_0] = e =>
-                {
-                    if (SourceMethod.IsStatic)
-                    {
-                        SwitchClosureArguments[0].load(e);
-                        return;
-                    }
-
-                    e.il.Emit(OpCodes.Ldarg_0);
-                    e.il.Emit(OpCodes.Ldfld, SwitchClosureThis);
-
-                };
-
-            x[OpCodes.Ldarg_1] = e => SwitchClosureArguments[1 - ArgumentOffset].load(e);
-            x[OpCodes.Ldarg_2] = e => SwitchClosureArguments[2 - ArgumentOffset].load(e);
-            x[OpCodes.Ldarg_3] = e => SwitchClosureArguments[3 - ArgumentOffset].load(e);
-            x[OpCodes.Ldarg_S] = e => SwitchClosureArguments[e.i.OpParamAsInt8 - ArgumentOffset].load(e);
-            x[OpCodes.Ldarg] = e => SwitchClosureArguments[e.i.OpParamAsInt8 - ArgumentOffset].load(e);
-
-            x[OpCodes.Ldloc_0] = e => SwitchClosureFields[0].load(e);
-            x[OpCodes.Ldloc_1] = e => SwitchClosureFields[1].load(e);
-            x[OpCodes.Ldloc_2] = e => SwitchClosureFields[2].load(e);
-            x[OpCodes.Ldloc_3] = e => SwitchClosureFields[3].load(e);
-            x[OpCodes.Ldloc_S] = e => SwitchClosureFields[e.i.OpParamAsInt8].load(e);
-            x[OpCodes.Ldloc] = e => SwitchClosureFields[e.i.OpParamAsInt16].load(e);
-
-            //x[OpCodes.Ldloca_S] = e => SwitchClosureFields[e.i.OpParamAsInt8].load(e);
-            //x[OpCodes.Ldloca] = e => SwitchClosureFields[e.i.OpParamAsInt16].load(e);
-
-
-            x[OpCodes.Stloc_0] = e => SwitchClosureFields[0].store(e);
-            x[OpCodes.Stloc_1] = e => SwitchClosureFields[1].store(e);
-            x[OpCodes.Stloc_2] = e => SwitchClosureFields[2].store(e);
-            x[OpCodes.Stloc_3] = e => SwitchClosureFields[3].store(e);
-            x[OpCodes.Stloc_S] = e => SwitchClosureFields[e.i.OpParamAsInt8].store(e);
-            x[OpCodes.Stloc] = e => SwitchClosureFields[e.i.OpParamAsInt16].store(e);
-            #endregion
-
-            var SwitchClosureConstructor = SwitchClosure.DefineDefaultConstructor(MethodAttributes.FamORAssem);
-
-            SwitchClosure.CreateType();
-
-            if (DebugDisableMethods)
-                return null;
-
-            var EntryBranchAttributes = MethodAttributes.FamORAssem;
-
-            (SourceMethod.IsStatic).ThenDo(() => EntryBranchAttributes |= MethodAttributes.Static);
-
-
-
-
-
-
-            var EntryBranch = DeclaringType.DefineMethod(
-                ContextName + "init",
-                EntryBranchAttributes,
-                SourceMethod.CallingConvention,
-               ReturnType,
-               ParametersTypes
-           );
-
-
-            Func<string, Type, MethodBuilder> DefineWorkflowMethod =
-         (text, __ReturnType) =>
-             DeclaringType.DefineMethod(
-                 ContextName + text,
-                 MethodAttributes.Private | MethodAttributes.Static,
-                 SourceMethod.CallingConvention,
-                __ReturnType,
-                new[] { SwitchClosure }
-             ).With(m => m.DefineAttribute<CompilerGeneratedAttribute>(new object()));
-
-            if (DebugDisableWorkflowMethod)
-            {
-                EntryBranch.NotImplemented();
-
-                return EntryBranch;
-            }
-
-            var Workflow = DefineWorkflowMethod("workflow", null);
-
-
-            #region EntryBranch
-            if (DebugDisableMethodImplementation)
-            {
-                EntryBranch.NotImplemented();
-            }
-            else
-            {
-                var il = EntryBranch.GetILGenerator();
-
-                var closure_loc = il.DeclareLocal(SwitchClosure);
-
-                il.Emit(OpCodes.Newobj, SwitchClosureConstructor);
-                il.Emit(OpCodes.Stloc, closure_loc);
-
-                SwitchClosureThis.With(
-                  fld =>
-                  {
-                      il.Emit(OpCodes.Nop);
-
-                      il.Emit(OpCodes.Ldloc, closure_loc);
-                      il.Emit(OpCodes.Ldarg_0);
-                      il.Emit(OpCodes.Stfld, fld);
-                  }
-                );
-
-                SwitchClosureArguments.WithEach(f => f.init(il, closure_loc));
-
-                il.Emit(OpCodes.Nop);
-                il.Emit(OpCodes.Ldloc, closure_loc);
-                il.Emit(OpCodes.Call, Workflow);
-
-                SwitchClosureReturn.With(
-                    fld =>
-                    {
-                        il.Emit(OpCodes.Ldloc, closure_loc);
-                        il.Emit(OpCodes.Ldfld, fld);
-                    }
-                );
-
-                il.Emit(OpCodes.Ret);
-            }
-            #endregion
-
-            #region Workflow
-            {
-                var il = Workflow.GetILGenerator();
-
-                var offset_loc = default(LocalBuilder);
-                var flag_loc = default(LocalBuilder);
-                var loop_check = il.DefineLabel();
-                var loop_continue = il.DefineLabel();
-
-
-                if (DebugDisableMethodImplementation)
-                {
-                    Workflow.NotImplemented();
-                }
-                else
-                {
-
-                    // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.br.aspx
-                    offset_loc = il.DeclareLocal(typeof(int));
-                    flag_loc = il.DeclareLocal(typeof(bool));
-
-
-                    il.Emit(OpCodes.Nop);
-                    il.Emit(OpCodes.Ldc_I4_0);
-                    il.Emit(OpCodes.Stloc, offset_loc);
-
-                    il.Emit(OpCodes.Br, loop_check);
-
-                    il.MarkLabel(loop_continue);
-
-                    il.Emit(OpCodes.Nop);
-
-                    #region FlowMethods
-                    var FlowMethods = new VirtualDictionary<ILFlow, MethodBuilder>();
-
-                    FlowMethods.Resolve +=
-                        flow =>
-                        {
-                            var FlowMethodName = "flow " + flow.Entry.Offset.ToString("x8") + " -> " + flow.Branch.Offset.ToString("x8") + " (" + flow.BranchFlow.Count + ")";
-
-                            var FlowMethod = DefineWorkflowMethod(
-                                FlowMethodName, typeof(int)
-                            );
-
-                            FlowMethods[flow] = FlowMethod;
-
-
-                            foreach (var item in flow.BranchFlow)
-                            {
-                                var Branch = FlowMethods[item];
-                            }
-
-                            if (DebugDisableMethodImplementation)
-                            {
-                                FlowMethod.NotImplemented();
-                            }
-                            else
-                            {
-
-                                #region il
-                                #region enter flow
-                                il.Emit(OpCodes.Nop);
-
-
-                                il.Emit(OpCodes.Ldloc, offset_loc);
-                                il.Emit(OpCodes.Ldc_I4, flow.Entry.Offset);
-                                il.Emit(OpCodes.Ceq);
-                                il.Emit(OpCodes.Ldc_I4_0);
-                                il.Emit(OpCodes.Ceq);
-                                il.Emit(OpCodes.Stloc, flag_loc);
-                                il.Emit(OpCodes.Ldloc, flag_loc);
-
-                                var skip = il.DefineLabel();
-                                il.Emit(OpCodes.Brtrue, skip);
-
-                                il.Emit(OpCodes.Ldarg_0);
-                                il.Emit(OpCodes.Call, FlowMethod);
-                                il.Emit(OpCodes.Stloc, offset_loc);
-
-
-
-                                il.MarkLabel(skip);
-                                il.Emit(OpCodes.Nop);
-                                #endregion
-
-                                var FlowInstructions = Enumerable.ToArray(
-                                    from i in xb.Instructrions
-                                    where i.Offset >= flow.Entry.Offset
-                                    where i.Offset < flow.Branch.Offset
-                                    select i
-                                );
-
-                                // http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.marklabel.aspx
-                                var labels = Enumerable.ToDictionary(
-                                    from i in FlowInstructions
-                                    select new { i, label = il.DefineLabel() }
-                                , k => k.i, k => k.label);
-
-
-                                var flow_il = FlowMethod.GetILGenerator();
-
-                                foreach (var i in FlowInstructions)
-                                {
-                                    il.MarkLabel(labels[i]);
-
-                                    x.Configuration[i.OpCode](new ILTranslationExtensions.EmitToArguments.ILRewriteContext { SourceMethod = SourceMethod, i = i, il = flow_il, Complete = delegate { }, Labels = labels });
-                                }
-
-                                if (flow.BranchFlow.Count == 0)
-                                {
-                                    SwitchClosureReturn.With(
-                                        fld =>
-                                        {
-                                            var ret = flow_il.DeclareLocal(SwitchClosureReturn.FieldType);
-
-                                            flow_il.Emit(OpCodes.Stloc, ret);
-
-                                            flow_il.Emit(OpCodes.Ldarg_0);
-                                            flow_il.Emit(OpCodes.Ldloc, ret);
-                                            flow_il.Emit(OpCodes.Stfld, fld);
-                                        }
-                                    );
-
-                                    flow_il.Emit(OpCodes.Ldc_I4_M1);
-                                    flow_il.Emit(OpCodes.Ret);
-                                }
-                                else if (flow.BranchFlow.Count == 1)
-                                {
-
-
-                                    flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow[0].Entry.Offset);
-                                    flow_il.Emit(OpCodes.Ret);
-                                }
-                                else
-                                {
-                                    Action<Action<LocalBuilder>> WriteLookup =
-                                        NotifyLookup =>
-                                        {
-                                            var m = new MemoryStream();
-
-                                            var w = new BinaryWriter(m);
-
-                                            foreach (var item1 in flow.BranchFlow)
-                                            {
-                                                w.Write(item1.Entry.Offset);
-                                            }
-
-                                            var lookup = DeclaringType.DefineInitializedData(
-                                                ContextName + FlowMethodName + " lookup", m.ToArray(), FieldAttributes.Static | FieldAttributes.Family
-                                            );
-
-                                            var lookup_loc = flow_il.DeclareLocal(typeof(int));
-
-                                            flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count);
-                                            flow_il.Emit(OpCodes.Newarr, typeof(int));
-                                            flow_il.Emit(OpCodes.Dup);
-                                            flow_il.Emit(OpCodes.Ldtoken, lookup);
-                                            flow_il.Emit(OpCodes.Call, ((Action<Array, RuntimeFieldHandle>)System.Runtime.CompilerServices.RuntimeHelpers.InitializeArray).Method);
-
-                                            flow_il.Emit(OpCodes.Stloc, lookup_loc);
-
-                                            if (NotifyLookup != null)
-                                                NotifyLookup(lookup_loc);
-                                        };
-
-
-                                    //L_0001: ldc.i4.s 10
-                                    //L_0003: newarr int32
-                                    //L_0008: dup 
-                                    //L_0009: ldtoken valuetype $ArrayType$40 <PrivateImplementationDetails>{9D96CAA6-4058-426A-87F2-B3955165707E}::$$method0x6000004-1
-                                    //L_000e: call void [mscorlib]System.Runtime.CompilerServices.RuntimeHelpers::InitializeArray(class [mscorlib]System.Array, valuetype [mscorlib]System.RuntimeFieldHandle)
-                                    //L_0013: stloc.0 
-
-                                    if (flow.Branch.OpCode == OpCodes.Switch)
-                                    {
-                                        var index_loc = flow_il.DeclareLocal(typeof(int));
-
-                                        // http://msdn.microsoft.com/en-us/library/system.reflection.emit.opcodes.switch.aspx
-                                        // in our table -1 or "i > N" is actually at offset 0
-                                        flow_il.Emit(OpCodes.Ldc_I4_1);
-                                        flow_il.Emit(OpCodes.Add);
-                                        flow_il.Emit(OpCodes.Stloc, index_loc);
-
-
-
-                                        WriteLookup(
-                                            lookup_loc =>
-                                            {
-
-                                                #region  if less than zero make it a zero
-
-                                                var check_loc = flow_il.DeclareLocal(typeof(bool));
-
-
-                                                flow_il.Emit(OpCodes.Ldloc, index_loc);
-                                                flow_il.Emit(OpCodes.Ldc_I4_0);
-                                                flow_il.Emit(OpCodes.Clt);
-                                                flow_il.Emit(OpCodes.Stloc, check_loc);
-
-
-                                                var br_skipmin = flow_il.DefineLabel();
-
-                                                flow_il.Emit(OpCodes.Ldloc, check_loc);
-                                                flow_il.Emit(OpCodes.Brfalse, br_skipmin);
-
-                                                flow_il.Emit(OpCodes.Ldc_I4_0);
-                                                flow_il.Emit(OpCodes.Stloc, index_loc);
-
-                                                flow_il.MarkLabel(br_skipmin);
-                                                flow_il.Emit(OpCodes.Nop);
-
-                                                flow_il.Emit(OpCodes.Ldloc, index_loc);
-                                                flow_il.Emit(OpCodes.Ldc_I4, flow.BranchFlow.Count - 1);
-                                                flow_il.Emit(OpCodes.Cgt);
-                                                flow_il.Emit(OpCodes.Stloc, check_loc);
-
-
-                                                var br_skipmax = flow_il.DefineLabel();
-
-                                                flow_il.Emit(OpCodes.Ldloc, check_loc);
-                                                flow_il.Emit(OpCodes.Brfalse, br_skipmax);
-
-                                                flow_il.Emit(OpCodes.Ldc_I4_0);
-                                                flow_il.Emit(OpCodes.Stloc, index_loc);
-
-                                                flow_il.MarkLabel(br_skipmax);
-                                                flow_il.Emit(OpCodes.Nop);
-
-
-                                                #endregion
-
-
-                                                flow_il.Emit(OpCodes.Ldloc, lookup_loc);
-                                                flow_il.Emit(OpCodes.Ldloc, index_loc);
-                                                flow_il.Emit(OpCodes.Ldelem_I4);
-                                                flow_il.Emit(OpCodes.Ret);
-                                            }
-                                        );
-
-                                    }
-                                    else
-                                    {
-                                        WriteLookup(null);
-
-                                        FlowMethod.NotImplemented();
-                                    }
-                                }
-                                #endregion
-
-
-                            }
-                        };
-                    #endregion
-
-                    var EntryFlowMethod = FlowMethods[xb.Flow];
-                }
-
-                //il.EmitCode(() => { throw new NotSupportedException("Invalid branch target"); });
-
-                if (DebugDisableMethodImplementation)
-                {
-                }
-                else
-                {
-                    il.Emit(OpCodes.Nop);
-
-                    il.MarkLabel(loop_check);
-
-                    il.Emit(OpCodes.Nop);
-
-                    il.Emit(OpCodes.Ldloc, offset_loc);
-                    il.Emit(OpCodes.Ldc_I4_0);
-                    il.Emit(OpCodes.Clt);
-                    il.Emit(OpCodes.Ldc_I4_0);
-                    il.Emit(OpCodes.Ceq);
-                    il.Emit(OpCodes.Stloc, flag_loc);
-
-                    il.Emit(OpCodes.Ldloc, flag_loc);
-                    il.Emit(OpCodes.Brtrue, loop_continue);
-
-                    il.Emit(OpCodes.Ret);
-                }
-            }
-            #endregion
-
-
-            // step 1. create static version of the method and call that
-            // step 2. create our closure and call with that
-
-            return EntryBranch;
-        }
+       
 
         public static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
             MethodBase SourceMethod,

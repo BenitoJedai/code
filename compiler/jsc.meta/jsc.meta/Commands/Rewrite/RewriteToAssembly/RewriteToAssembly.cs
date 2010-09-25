@@ -434,7 +434,8 @@ namespace jsc.meta.Commands.Rewrite
                             DeclaringType,
                             NameObfuscation,
                             AtILOverride,
-                            this.RewriteArguments.context
+                            this.RewriteArguments.context,
+                            this
                         );
                         return;
                     }

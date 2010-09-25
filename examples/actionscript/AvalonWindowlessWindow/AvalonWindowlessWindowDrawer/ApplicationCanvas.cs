@@ -26,6 +26,7 @@ namespace AvalonWindowlessWindowDrawer
             c.Selection.Orphanize();
 
 
+
             c.AttachTo(this);
             c.MoveTo(8, 8);
 

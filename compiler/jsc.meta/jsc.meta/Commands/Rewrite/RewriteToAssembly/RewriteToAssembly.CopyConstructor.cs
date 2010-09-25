@@ -18,7 +18,8 @@ namespace jsc.meta.Commands.Rewrite
             TypeBuilder DeclaringType,
             VirtualDictionary<string, string> NameObfuscation,
             Action<MethodBase, ILTranslationExtensions.EmitToArguments> ILOverride,
-            ILTranslationContext context
+            ILTranslationContext context,
+            RewriteToAssembly Command
             )
         {
 
@@ -71,6 +72,34 @@ namespace jsc.meta.Commands.Rewrite
             var MethodBody = SourceConstructor.GetMethodBody();
 
             var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
+
+            #region EnableSwitchRewrite
+            if (Command.EnableSwitchRewrite)
+            {
+                var xb = new ILBlock(SourceConstructor);
+
+                if (xb.Instructrions.Any(k => k.OpCode == OpCodes.Switch))
+                {
+
+
+                    WriteSwitchRewrite(
+                        SourceConstructor, 
+                        DeclaringType, 
+                        context, 
+                        SourceConstructor.GetParameterTypes(), 
+                        typeof(void),
+                        ILOverride,
+                        ExceptionHandlingClauses,
+                        xb,
+
+                        DeclaringConstructor.GetILGenerator()
+                    );
+
+                   
+                    return;
+                }
+            }
+            #endregion
 
 
             var x = CreateMethodBaseEmitToArguments(

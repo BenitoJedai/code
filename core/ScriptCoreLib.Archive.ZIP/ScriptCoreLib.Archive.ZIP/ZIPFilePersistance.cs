@@ -140,18 +140,23 @@ namespace ScriptCoreLib.Archive.ZIP
 
 		private bool InternalInvokeTask(string TaskName, TaskControlAction value, string Category, string TaskHandler)
 		{
+            var ShouldEnqueueTask = false;
 
 			if (!this.PersistanceDisabled)
 				if (this.Stopwatch.ElapsedMilliseconds > Timeout)
 				{
-					CountTaskEnqeued++;
-
-					if (this.TaskEnqeued != null)
-						this.TaskEnqeued(TaskName);
-
-					return false;
+                    ShouldEnqueueTask = true;
 				}
 
+            if (ShouldEnqueueTask)
+            {
+                CountTaskEnqeued++;
+
+                if (this.TaskEnqeued != null)
+                    this.TaskEnqeued(TaskName);
+
+                return false;
+            }
 
 
 			if (this.TaskStarted != null)
@@ -277,7 +282,23 @@ namespace ScriptCoreLib.Archive.ZIP
 			this.Archive.Writer(s.ToArray());
 		}
 
-		public bool PersistanceDisabled;
+        bool InternalPersistanceDisabled;
+        public event Action PersistanceDisabledChanged;
+
+        public bool PersistanceDisabled
+        {
+            get
+            {
+                return InternalPersistanceDisabled;
+            }
+            set
+            {
+                this.InternalPersistanceDisabled = value;
+
+                if (PersistanceDisabledChanged != null)
+                    PersistanceDisabledChanged();
+            }
+        }
 
 		public bool PersistanceRequested;
 
