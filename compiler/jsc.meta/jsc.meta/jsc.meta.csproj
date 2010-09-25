@@ -277,6 +277,7 @@
     <Compile Include="Commands\Reference\ReferenceUltraSource\ReferenceUltraSource.cs" />
     <Compile Include="Commands\Reference\ReferenceWaveComponent.cs" />
     <Compile Include="Commands\Reference\ReferenceWebSource.cs" />
+    <Compile Include="Commands\Rewrite\RewriteToAssembly\RewriteToAssembly.WriteSwitchRewrite.cs" />
     <Compile Include="Commands\Rewrite\RewriteToInstaller\RewriteToInstaller.Arguments.cs" />
     <Compile Include="Commands\Rewrite\RewriteToInstaller\RewriteToInstaller.cs" />
     <Compile Include="Commands\Rewrite\RewriteToJavaScriptDocument.ScriptResources.cs" />

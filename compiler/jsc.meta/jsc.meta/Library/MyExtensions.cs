@@ -51,6 +51,12 @@ namespace jsc.meta.Library
         }
 
 
+        public static void NotImplemented(this ConstructorBuilder m)
+        {
+            m.GetILGenerator().EmitCode(() => { throw new NotImplementedException(); });
+        }
+
+
         public static void NotImplemented(this MethodBuilder m)
         {
             m.GetILGenerator().EmitCode(() => { throw new NotImplementedException(); });

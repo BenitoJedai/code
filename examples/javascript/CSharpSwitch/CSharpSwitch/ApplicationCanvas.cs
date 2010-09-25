@@ -16,29 +16,45 @@ namespace CSharpSwitch
     {
         public readonly Rectangle r = new Rectangle();
 
-        static void SetColor (int i, Rectangle r)
-          {
-              switch (i)
-              {
-                  case 1:
-                      r.Fill = Brushes.Red;
-                      break;
-                  case 2:
-                      r.Fill = Brushes.Blue;
-                      break;
-                  default:
-                      r.Fill = Brushes.Yellow;
-                      break;
-              }
-          }
+        static void SetColor(int c, Rectangle r)
+        {
+            switch (c)
+            {
+                case 1:
+                    r.Fill = Brushes.Red;
+                    break;
+                case 2:
+                    r.Fill = Brushes.Blue;
+                    break;
+                default:
+                    r.Fill = Brushes.Yellow;
+                    break;
+            }
+        }
 
         public ApplicationCanvas()
         {
-            var q = typeof(Action<,,,,>).AssemblyQualifiedName;
+            //var q = typeof(Action<,,,,>).AssemblyQualifiedName;
 
             var c = 0;
 
-            Action Update = () => SetColor(c, r);
+            Action Update =
+                delegate
+                {
+                    switch (c)
+                    {
+                        case 1:
+                            r.Fill = Brushes.Red;
+                            break;
+                        case 2:
+                            r.Fill = Brushes.Blue;
+                            break;
+                        default:
+                            r.Fill = Brushes.Yellow;
+                            break;
+                    }
+                };
+
 
             Update();
 
@@ -48,12 +64,12 @@ namespace CSharpSwitch
                     c++;
                     Update();
                 };
-            
+
             r.AttachTo(this);
             r.MoveTo(8, 8);
             this.SizeChanged += (s, e) => r.SizeTo(this.Width - 16.0, this.Height - 16.0);
 
-            
+
         }
 
     }

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YieldKeyword", "YieldKeyword\YieldKeyword.csproj", "{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DA0569D-C1F7-45E0-8C0E-9E383B5550DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -11,6 +11,11 @@ namespace jsc.meta.Library
 	// todo: move to ScriptCoreLib.Ultra.Library
 	public static class BCLExtensions
 	{
+        public static string[] GetGenericArgumentsNames(this MethodBase e)
+        {
+            return e.GetGenericArguments().Select(k => k.Name).ToArray();
+        }
+
         public static int GetHashCodeOrDefault(this object e)
         {
             // The value zero is reserved as meaning "the hash code is not cached".
