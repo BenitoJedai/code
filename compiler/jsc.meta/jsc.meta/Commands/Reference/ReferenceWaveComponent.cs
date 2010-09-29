@@ -16,6 +16,9 @@ namespace jsc.meta.Commands.Reference
 {
 	public class ReferenceWaveComponent
 	{
+        public bool AttachDebugger;
+
+
 		// each wav file added to the project will be created as
 		// a SoundPlayer
 		// a folder MySounds.WaveComponent
@@ -43,7 +46,8 @@ namespace jsc.meta.Commands.Reference
 
 		public void Invoke()
 		{
-			//Debugger.Launch();
+            if (this.AttachDebugger)
+                Debugger.Launch();
 
 
 			var csproj = XDocument.Load(ProjectFileName.FullName);
@@ -272,7 +276,7 @@ namespace jsc.meta.Commands.Reference
 	
 			var t_ctor = t.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, null);
 
-			t.DefineDefaultProperty(t_ctor);
+            //t.DefineDefaultProperty(t_ctor);
 			
 			var _ByteArrayToSoundPlayer = t.DefineByteArrayToSoundPlayerConversion();
 
