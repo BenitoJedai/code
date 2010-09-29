@@ -10,20 +10,24 @@ namespace WavePlayer2
 
 	public static partial class Program
 	{
+        static MySounds1 Sounds;
+
 		public static void Main()
 		{
 			Console.WriteLine("hear the sounds!");
 
+            Sounds = new MySounds1();
+
 			Action dispenser = delegate
 			{
 				Console.WriteLine("dispenser");
-				MySounds1.Default.dispenser.PlaySync();
+                Sounds.dispenser.PlaySync();
 			};
 
 			Action jscisawesome = delegate
 			{
 				Console.WriteLine("jscisawesome");
-				MySounds1.Default.jscisawesome.PlaySync();
+                Sounds.jscisawesome.PlaySync();
 			};
 
 
@@ -31,7 +35,7 @@ namespace WavePlayer2
 			Action doorclose = delegate
 			{
 				Console.WriteLine("doorclose");
-				MySounds1.Default.doorclose.PlaySync();
+                Sounds.doorclose.PlaySync();
 			};
 			
 		

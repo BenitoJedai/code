@@ -75,10 +75,17 @@ namespace jsc.meta.Commands.Rewrite
 
             // GenericArguments[0], 'T', on 'ScriptCoreLib.JavaScript.Concepts.SectionConcept`1[T]' violates the constraint of type parameter 'T'.
 
-            var MethodName =
-                //(source == this._assembly.EntryPoint) ||
-                (SourceMethod.GetMethodBody() == null || (SourceMethod.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual) ?
-                SourceMethod.Name : NameObfuscation[context.MemberRenameCache[SourceMethod] ?? SourceMethod.Name];
+            var MethodName = default(string);
+
+            if (SourceMethod.GetMethodBody() == null || (SourceMethod.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual)
+            {
+                MethodName = SourceMethod.Name;
+            }
+            else
+            {
+                var __MemberRenameCache = context.MemberRenameCache[SourceMethod];
+                MethodName = NameObfuscation[__MemberRenameCache ?? SourceMethod.Name];
+            }
 
 
 
@@ -292,7 +299,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
             #region EnableSwitchRewrite
-            if (Command.EnableSwitchRewrite)
+            if (Command != null && Command.EnableSwitchRewrite)
             {
                 var xb = new ILBlock(SourceMethod);
 

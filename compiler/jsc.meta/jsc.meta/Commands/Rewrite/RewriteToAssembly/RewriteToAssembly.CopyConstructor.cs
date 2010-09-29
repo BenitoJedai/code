@@ -74,7 +74,7 @@ namespace jsc.meta.Commands.Rewrite
             var ExceptionHandlingClauses = MethodBody.ExceptionHandlingClauses.ToArray();
 
             #region EnableSwitchRewrite
-            if (Command.EnableSwitchRewrite)
+            if (Command != null && Command.EnableSwitchRewrite)
             {
                 var xb = new ILBlock(SourceConstructor);
 

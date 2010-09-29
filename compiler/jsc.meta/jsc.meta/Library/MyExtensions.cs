@@ -116,7 +116,7 @@ namespace jsc.meta.Library
             il.Emit(OpCodes.Ret);
         }
 
-     
+
 
         internal static LocalBuilder InternalCreateArray(ILGenerator il, Type ElementType, Array e, Func<Type, Type> TypeCache, Func<ConstructorInfo, ConstructorInfo> ConstructorCache, Func<FieldInfo, FieldInfo> FieldCache)
         {
@@ -249,29 +249,66 @@ namespace jsc.meta.Library
                     return new SoundPlayer(m);
                 };
 
-            var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
-            var FieldCache = new jsc.Library.VirtualDictionary<FieldInfo, FieldInfo>();
-            var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
-            var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
+            var context = new ILTranslationContext();
+
+
+            #region context Resolve defaults
+            context.MethodCache.Resolve +=
+               source =>
+               {
+                   context.MethodCache[source] = source;
+               };
+
+
+            context.ConstructorCache.Resolve +=
+                source =>
+                {
+                    context.ConstructorCache[source] = source;
+                };
+
+
+            context.TypeDefinitionCache.Resolve +=
+                source =>
+                {
+                    context.TypeDefinitionCache[source] = source;
+                };
+
+            context.TypeCache.Resolve +=
+                source =>
+                {
+                    context.TypeCache[source] = source;
+                };
+
+            // test me!
+            context.FieldCache.Resolve +=
+                source =>
+                {
+                    context.FieldCache[source] = source;
+                };
+
+            context.PropertyCache.Resolve +=
+                  source =>
+                  {
+                      context.PropertyCache[source] = source;
+                  };
+
+
+
+            context.MemberRenameCache.Resolve +=
+                source =>
+                {
+                    context.MemberRenameCache[source] = null;
+                };
+
+            context.MethodAttributesCache.Resolve +=
+                source =>
+                {
+                    context.MethodAttributesCache[source] = source.Attributes;
+                };
+            #endregion
+
             var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
 
-            TypeCache.Resolve +=
-                source =>
-                {
-                    TypeCache[source] = source;
-                };
-
-            FieldCache.Resolve +=
-                source =>
-                {
-                    FieldCache[source] = source;
-                };
-
-            ConstructorCache.Resolve +=
-                source =>
-                {
-                    ConstructorCache[source] = source;
-                };
 
             NameObfuscation.Resolve +=
                 source =>
@@ -279,11 +316,6 @@ namespace jsc.meta.Library
                     NameObfuscation[source] = source;
                 };
 
-            MethodCache.Resolve +=
-                source =>
-                {
-                    MethodCache[source] = source;
-                };
 
             jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyMethod(
                 null,
@@ -293,104 +325,14 @@ namespace jsc.meta.Library
                 NameObfuscation,
                 null,
                 null, null, null, null,
-                new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache },
+                context,
                 null,
                 null
             );
 
-            return (MethodBuilder)MethodCache[msource.Method];
+            return (MethodBuilder)context.MethodCache[msource.Method];
         }
 
-        class DefineDefaultPropertyMarker
-        {
-            static DefineDefaultPropertyMarker __DefaultInstance;
-
-            public static DefineDefaultPropertyMarker Default
-            {
-                get
-                {
-                    if (__DefaultInstance == null)
-                        __DefaultInstance = new DefineDefaultPropertyMarker();
-
-                    return __DefaultInstance;
-                }
-            }
-        }
-
-        public static void DefineDefaultProperty(this TypeBuilder t, ConstructorBuilder ctor)
-        {
-
-
-            var TypeCache = new jsc.Library.VirtualDictionary<Type, Type>();
-            var TypeDefinitionCache = new jsc.Library.VirtualDictionary<Type, Type>();
-            var ConstructorCache = new jsc.Library.VirtualDictionary<ConstructorInfo, ConstructorInfo>();
-            var FieldCache = new jsc.Library.VirtualDictionary<FieldInfo, FieldInfo>();
-            var MethodCache = new jsc.Library.VirtualDictionary<MethodInfo, MethodInfo>();
-            var PropertyCache = new jsc.Library.VirtualDictionary<PropertyInfo, PropertyInfo>();
-            var NameObfuscation = new jsc.Library.VirtualDictionary<string, string>();
-            var TypeRenameCache = new jsc.Library.VirtualDictionary<Type, string>();
-
-            ConstructorCache[typeof(DefineDefaultPropertyMarker).GetConstructor(new Type[0])] = ctor;
-            TypeCache[typeof(DefineDefaultPropertyMarker)] = t;
-
-            TypeCache.Resolve +=
-                source =>
-                {
-                    TypeCache[source] = source;
-                };
-
-            // test me!
-            FieldCache.Resolve +=
-                source =>
-                {
-                    FieldCache[source] = source;
-                };
-
-            NameObfuscation.Resolve +=
-                source =>
-                {
-                    NameObfuscation[source] = source;
-                };
-
-            MethodCache.Resolve +=
-                source =>
-                {
-                    jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyMethod(
-                        null,
-                        null,
-                        source,
-                        t,
-                        NameObfuscation,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                new ILTranslationContext { TypeCache = TypeCache, ConstructorCache = ConstructorCache },
-                           null,
-                           null
-                    );
-                };
-
-            jsc.meta.Commands.Rewrite.RewriteToAssembly.CopyTypeMembers(typeof(DefineDefaultPropertyMarker),
-                NameObfuscation,
-                t,
-                new ILTranslationContext
-                {
-                    ConstructorCache = ConstructorCache,
-                    FieldCache = FieldCache,
-                    MethodCache = MethodCache,
-                    PropertyCache = PropertyCache,
-                    TypeCache = TypeCache,
-                    TypeDefinitionCache = TypeDefinitionCache,
-                    TypeRenameCache = TypeRenameCache
-                }
-
-            );
-
-
-
-        }
 
         public static T Initialize<T>(this object value, T e)
             where T : class
@@ -841,7 +783,7 @@ namespace jsc.meta.Library
             var AlreadyLoadedAssembly = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(k => !(k is AssemblyBuilder))
                 .SingleOrDefault(k =>
-                    
+
                     // we will not be able to load multiple assamblies with the same name later...
                     new FileInfo(k.Location).Name == f.Name
                 );
