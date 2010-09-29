@@ -18,6 +18,12 @@ namespace WavePlayer2
 
             Sounds = new MySounds1();
 
+            Action jsc_robo2 = delegate
+            {
+                Console.WriteLine("jsc_robo2");
+                Sounds.JSC_robo2.PlaySync();
+            };
+
 			Action dispenser = delegate
 			{
 				Console.WriteLine("dispenser");
@@ -37,8 +43,8 @@ namespace WavePlayer2
 				Console.WriteLine("doorclose");
                 Sounds.doorclose.PlaySync();
 			};
-			
-		
+
+            jsc_robo2();
 			dispenser();
 			jscisawesome();
 			doorclose();
