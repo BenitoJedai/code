@@ -11,7 +11,7 @@ using jsc.meta.Commands.Configuration;
 
 namespace jsc.meta.Loader
 {
-    class LoaderStrategy
+    internal class LoaderStrategy
     {
 
         public static void Main(string[] args)
@@ -42,7 +42,8 @@ namespace jsc.meta.Loader
 
             // http://it.toolbox.com/blogs/programming-life/enter-the-net-appdomain-5595
 
-            var Worker = WorkerDomain.CreateInstanceAndUnwrap(Assembly.GetCallingAssembly().GetName().Name, typeof(Worker).FullName) as Worker;
+            var Worker = WorkerDomain.CreateInstanceAndUnwrap(
+                Assembly.GetExecutingAssembly().GetName().Name, typeof(Worker).FullName) as Worker;
 
             Action Delayed = delegate { };
 

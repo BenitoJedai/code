@@ -36,3 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("4.0.*")]
 
 [assembly: Obfuscation(Feature = "merge")]
+
+[assembly: InternalsVisibleTo("jsc.internal")]

@@ -1223,6 +1223,7 @@ namespace jsc.meta.Commands.Rewrite
             Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
             Console.WriteLine("");
 
+
             #region HiddenEntryPoints
             var HiddenEntryPoints = Enumerable.ToArray(
                 from t in PrimaryTypes
@@ -1236,6 +1237,7 @@ namespace jsc.meta.Commands.Rewrite
                 MethodAttributesCache[item] = item.Attributes | MethodAttributes.Family;
             }
             #endregion
+
 
             // ask for our primary types to be copied
             var kt = TypeCache[PrimaryTypes];
@@ -1375,9 +1377,10 @@ namespace jsc.meta.Commands.Rewrite
             }
 
 
-
-            DefineHiddenEntryPointsType(m, HiddenEntryPoints);
-
+            if (string.IsNullOrEmpty(this.EntryPoint))
+            {
+                DefineHiddenEntryPointsType(m, HiddenEntryPoints);
+            }
 
             #region maybe the rewriter wants to add some types at this point?
             if (PostAssemblyRewrite != null)
