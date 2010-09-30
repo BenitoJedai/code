@@ -272,7 +272,15 @@ namespace jsc.meta.Commands.Rewrite
                 return;
 
             #region EntryPoint
-            if (PrimarySourceAssembly != null)
+            if (Command != null && Command.EntryPoint != null && 
+                Command.EntryPoint == 
+                    SourceMethod.DeclaringType.FullName + "." + SourceMethod.Name
+                )
+            {
+                a.SetEntryPoint(DeclaringMethod);
+
+            }
+            else  if (PrimarySourceAssembly != null)
                 if (SourceMethod == PrimarySourceAssembly.EntryPoint)
                 {
                     // we found the entrypoint
@@ -296,7 +304,19 @@ namespace jsc.meta.Commands.Rewrite
             #endregion
 
 
+            if (Command != null && Command.obfuscate)
+            {
+                var skip = kmil.DefineLabel();
 
+                kmil.Emit(OpCodes.Br, skip);
+
+                // and the stack is now under water. good luck :)
+                kmil.Emit(OpCodes.Pop);
+                kmil.Emit(OpCodes.Ldnull);
+
+                kmil.MarkLabel(skip);
+
+            }
 
             #region EnableSwitchRewrite
             if (Command != null && Command.EnableSwitchRewrite)
