@@ -272,7 +272,13 @@ namespace jsc.meta.Commands.Rewrite
                 return;
 
             #region EntryPoint
-            if (Command != null && Command.EntryPoint != null && 
+            if (Command != null && Command.EntryPointAssembly != null
+                && Command.EntryPointAssembly == SourceMethod.DeclaringType.Assembly.GetName().Name
+                && SourceMethod.DeclaringType.Assembly.EntryPoint == SourceMethod)
+            {
+                a.SetEntryPoint(DeclaringMethod);
+            }
+            else if (Command != null && Command.EntryPoint != null && 
                 Command.EntryPoint == 
                     SourceMethod.DeclaringType.FullName + "." + SourceMethod.Name
                 )

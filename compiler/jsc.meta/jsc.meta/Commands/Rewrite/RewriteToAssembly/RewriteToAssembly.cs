@@ -15,6 +15,7 @@ using jsc.Library;
 using jsc.meta.Library;
 using jsc.meta.Library.CodeTrace;
 using ScriptCoreLib.CSharp.Extensions;
+using System.Security.Permissions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -180,16 +181,23 @@ namespace jsc.meta.Commands.Rewrite
                             {
                                 // should we copy attributes? should they be opt-out?
 
-                                foreach (var item in
-                                    from k_ in shadow_assembly.GetCustomAttributes(false)
-                                    let kk = SelectAssemblyMergeAttribute == null ?
-                                        (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
+                                var AttributesToCopy =
+                                     from k_ in shadow_assembly.GetCustomAttributes(false)
+                                     let kk = SelectAssemblyMergeAttribute == null ?
+                                         (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
 
-                                    where kk != null
-                                    select kk.ToCustomAttributeBuilder()
-                                    )
+                                     where kk != null
+
+                                     // http://stackoverflow.com/questions/2252754/how-would-i-use-the-securitypermissionattribute-correctly
+                                     // .NET 4 ignores this...
+                                     where !(kk is SecurityPermissionAttribute)
+
+                                     let builder = kk.ToCustomAttributeBuilder()
+                                     select new { k, kk, builder };
+
+                                foreach (var item in AttributesToCopy)
                                 {
-                                    __a.SetCustomAttribute(item(this.RewriteArguments.context));
+                                    __a.SetCustomAttribute(item.builder(this.RewriteArguments.context));
                                 }
 
 
@@ -1377,7 +1385,7 @@ namespace jsc.meta.Commands.Rewrite
             }
 
 
-            if (string.IsNullOrEmpty(this.EntryPoint))
+            if (string.IsNullOrEmpty(this.EntryPoint) && string.IsNullOrEmpty(this.EntryPointAssembly))
             {
                 DefineHiddenEntryPointsType(m, HiddenEntryPoints);
             }

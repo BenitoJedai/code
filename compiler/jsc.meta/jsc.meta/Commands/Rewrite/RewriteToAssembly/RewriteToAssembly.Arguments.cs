@@ -233,5 +233,7 @@ namespace jsc.meta.Commands.Rewrite
         /// When a method is found with this name it is made an entrypoint.
         /// </summary>
         public string EntryPoint;
+
+        public string EntryPointAssembly;
     }
 }

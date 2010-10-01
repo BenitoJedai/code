@@ -569,7 +569,10 @@ namespace jsc.meta.Commands.Rewrite
                 if (_DeclaringType != null)
                 {
                     #region nested
-                    var _NestedTypeName = NameObfuscation[TypeName];
+                    var _NestedTypeName = TypeName;
+
+
+                    _NestedTypeName = NameObfuscation[TypeName];
 
 
                     //TypeAttributes = ReplaceTypeAttributes(TypeAttributes, TypeAttributes.NotPublic, TypeAttributes.NestedFamORAssem);
