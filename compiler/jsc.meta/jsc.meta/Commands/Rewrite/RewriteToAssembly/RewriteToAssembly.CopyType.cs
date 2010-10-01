@@ -275,6 +275,14 @@ namespace jsc.meta.Commands.Rewrite
             var AtTypeCreatedFilter = new List<Type>();
 
             Action<Type> AtTypeCreatedFilterAdd = null;
+            Action<IEnumerable<Type>> AtTypeCreatedFilterAddRange =
+                source =>
+                {
+                    foreach (var item in source)
+                    {
+                        AtTypeCreatedFilterAdd(item);
+                    }
+                };
 
             AtTypeCreatedFilterAdd =
                 k =>
@@ -298,11 +306,8 @@ namespace jsc.meta.Commands.Rewrite
 
                             var GenericArguments = k.GetGenericArguments();
 
-                            foreach (var item in GenericArguments)
-                            {
-                                AtTypeCreatedFilterAdd(item);
 
-                            }
+                            AtTypeCreatedFilterAddRange(GenericArguments);
                         }
 
 
@@ -351,12 +356,14 @@ namespace jsc.meta.Commands.Rewrite
 
             if (SourceType.IsGenericTypeDefinition)
             {
-                AtTypeCreatedFilter.AddRange(
+                AtTypeCreatedFilterAddRange(
                     SourceType.GetGenericArguments().SelectMany(k => k.GetGenericParameterConstraints()).Where(ShouldCopyType)
                 );
+
+
             }
 
-            AtTypeCreatedFilter.AddRange(
+            AtTypeCreatedFilterAddRange(
                  from mm in SourceType.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
                  where mm.IsGenericMethodDefinition
                  from aa in mm.GetGenericArguments()
@@ -366,7 +373,7 @@ namespace jsc.meta.Commands.Rewrite
             );
 
             // do we need this?
-            AtTypeCreatedFilter.AddRange(
+            AtTypeCreatedFilterAddRange(
                 from k in SourceType.GetFields(BindingFlags.NonPublic | BindingFlags.Static)
                 where k.Name.StartsWith("__InternalTypeReferenceHint__")
                 select k.FieldType
