@@ -20,6 +20,19 @@ namespace TestCustomStack
     public abstract class CommandLineOptionsBase<T>
        where T : CommandLineOptionsBase<T>
     {
+        public CommandLineOptionsBase()
+        {
+            var u = 6;
+
+            Action<int> i = 
+            x => u += x;
+
+            i(4);
+            i(4);
+            i(4);
+
+            u--;
+        }
     }
 
 
