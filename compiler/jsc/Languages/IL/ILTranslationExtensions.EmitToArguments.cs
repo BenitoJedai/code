@@ -43,6 +43,7 @@ namespace jsc.Languages.IL
             public Func<MethodInfo, MethodInfo> TranslateTargetMethod = TargetMethod => TargetMethod;
             public Func<ConstructorInfo, ConstructorInfo> TranslateTargetConstructor = TargetConstructor => TargetConstructor;
 
+            public Func<string, string> TranslateTargetLiteral = TargetLiteral => TargetLiteral;
 
             public EmitToArguments()
             {
@@ -119,7 +120,8 @@ namespace jsc.Languages.IL
 
                 // somebody said string encryption?
                 // first level obfuscation starts here
-                this[OpCodes.Ldstr] = e => e.il.Emit(OpCodes.Ldstr, e.i.TargetLiteral);
+                this[OpCodes.Ldstr] =
+                    e => e.il.Emit(OpCodes.Ldstr, TranslateTargetLiteral(e.i.TargetLiteral));
 
                 this[OpCodes.Call] =
                     e =>

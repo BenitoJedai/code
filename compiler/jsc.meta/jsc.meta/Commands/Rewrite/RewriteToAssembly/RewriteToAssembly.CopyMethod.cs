@@ -478,6 +478,7 @@ namespace jsc.meta.Commands.Rewrite
                 TranslateTargetField = context.FieldCache,
                 TranslateTargetMethod = context.MethodCache,
                 TranslateTargetConstructor = context.ConstructorCache,
+                TranslateTargetLiteral = context.StringLiteralCache
             };
 
             x[OpCodes.Endfinally] =
