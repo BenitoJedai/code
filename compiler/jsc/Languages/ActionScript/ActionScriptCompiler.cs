@@ -43,7 +43,7 @@ namespace jsc.Languages.ActionScript
 																			  select i).SingleOrDefault());
 		}
 
-		public override void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
+		public override void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlowStackItem s)
 		{
 			var x = GetArrayEnumeratorType();
 			if (x == null)

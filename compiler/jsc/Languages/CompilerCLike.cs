@@ -147,7 +147,7 @@ namespace jsc.Script
 			}
 		}
 
-		public virtual void MethodCallParameterTypeCast(Type context, Type p, ILFlow.StackItem s)
+		public virtual void MethodCallParameterTypeCast(Type context, Type p, ILFlowStackItem s)
 		{
 			this.MethodCallParameterTypeCast(context, p);
 
@@ -184,12 +184,12 @@ namespace jsc.Script
 		}
 
 
-        protected virtual ILFlow.StackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlow.StackItem[] s, int offset)
+        protected virtual ILFlowStackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlowStackItem[] s, int offset)
         {
             return s;
         }
 
-		public void WriteParameterInfoFromStack(MethodBase m, ILBlock.Prestatement p, ILFlow.StackItem[] s, int offset)
+		public void WriteParameterInfoFromStack(MethodBase m, ILBlock.Prestatement p, ILFlowStackItem[] s, int offset)
 		{
             s = BeforeWriteParameterInfoFromStack(m, s, offset);
 
@@ -227,18 +227,18 @@ namespace jsc.Script
 			Write(")");
 		}
 
-		public virtual void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlow.StackItem s)
+		public virtual void WriteArrayToCustomArrayEnumeratorCast(Type Enumerable, Type ElementType, ILBlock.Prestatement p, ILFlowStackItem s)
 		{
 			Write("/* autocast " + Enumerable.Name + " */");
 			Emit(p, s);
 		}
 
-		protected virtual bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
+		protected virtual bool IsTypeCastRequired(Type e, ILFlowStackItem s)
 		{
 			return AlwaysDoTypeCastOnParameters;
 		}
 
-		public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
+		public override void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlowStackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op)
 		{
 			// this statement was generated and does not have an assiocated statement
 			if (p != null)
@@ -339,12 +339,12 @@ namespace jsc.Script
 			}
 		}
 
-		public virtual void EmitMethodCallParameter(ILBlock.Prestatement p, ILFlow.StackItem s, Type ParameterType)
+		public virtual void EmitMethodCallParameter(ILBlock.Prestatement p, ILFlowStackItem s, Type ParameterType)
 		{
 			Emit(p, s, ParameterType);
 		}
 
-		public bool AutoCastToEnumerator(ILBlock.Prestatement p, Type ParameterType, ILFlow.StackItem CurrentStack)
+		public bool AutoCastToEnumerator(ILBlock.Prestatement p, Type ParameterType, ILFlowStackItem CurrentStack)
 		{
 			var SingleStackInstruction = CurrentStack.SingleStackInstruction;
 			var ParameterGeneric = ParameterType.IsGenericType ? ParameterType.GetGenericTypeDefinition() : null;
@@ -469,7 +469,7 @@ namespace jsc.Script
 
 		public override void EmitLogic(ILBlock.Prestatement p, ILBlock.InlineLogic logic, Type TypeExpectedOrDefault)
 		{
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
+			if (logic.hint == ILBlockInlineLogicSpecialType.AndOperator)
 			{
 				if (logic.IsNegative)
 					Write("!");
@@ -490,7 +490,7 @@ namespace jsc.Script
 				return;
 			}
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.OrOperator)
+			if (logic.hint == ILBlockInlineLogicSpecialType.OrOperator)
 			{
 				if (logic.IsNegative)
 					Write("!");
@@ -509,7 +509,7 @@ namespace jsc.Script
 				return;
 			}
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.Value)
+			if (logic.hint == ILBlockInlineLogicSpecialType.Value)
 			{
 				if (logic.IsNegative)
 					Write("!");
@@ -520,7 +520,7 @@ namespace jsc.Script
 				return;
 			}
 
-			if (logic.hint == ILBlock.InlineLogic.SpecialType.IfClause)
+			if (logic.hint == ILBlockInlineLogicSpecialType.IfClause)
 			{
 				Write("(");
 
@@ -625,7 +625,7 @@ namespace jsc.Script
 			{
 				if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brtrue_S, OpCodes.Brtrue))
 				{
-					ILFlow.StackItem expression = iif.Branch.StackBeforeStrict[0];
+					ILFlowStackItem expression = iif.Branch.StackBeforeStrict[0];
 
 					bool compact = false;
 
@@ -784,7 +784,7 @@ namespace jsc.Script
 
 		public void WriteInlineOperator(ILBlock.Prestatement p, ILInstruction i, string op)
 		{
-			ILFlow.StackItem[] s = i.StackBeforeStrict;
+			ILFlowStackItem[] s = i.StackBeforeStrict;
 
 			if (i.OpCode == OpCodes.Ceq)
 				if (s[0].SingleStackInstruction == OpCodes.Cgt_Un)
@@ -942,7 +942,7 @@ namespace jsc.Script
 		{
 			DebugBreak(i.OwnerMethod.ToScriptAttribute());
 
-			ILFlow.StackItem[] s = i.StackBeforeStrict;
+			ILFlowStackItem[] s = i.StackBeforeStrict;
 
 			//WriteBoxedComment("return");
 
@@ -967,7 +967,7 @@ namespace jsc.Script
 				return;
 
 
-			var WriteReturnValue = default(Action<ILFlow.StackItem>);
+			var WriteReturnValue = default(Action<ILFlowStackItem>);
 			WriteReturnValue =
 				left_s =>
 				{
@@ -1060,12 +1060,12 @@ namespace jsc.Script
 
 		}
 
-		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s)
+		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlowStackItem s)
 		{
 			WriteReturnParameter(p, i, s, null);
 		}
 
-		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem s, Type ExpectedType)
+		public void WriteReturnParameter(ILBlock.Prestatement p, ILInstruction i, ILFlowStackItem s, Type ExpectedType)
 		{
 			if (IsTypeCastRequired(((MethodInfo)p.DeclaringMethod).ReturnType, s))
 			{

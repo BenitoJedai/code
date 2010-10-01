@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F6B2A3C5-1764-4CF6-A78D-7D3DE5DA0C55}</ProjectGuid>
+    <ProjectGuid>{BFC94444-C6D8-46F2-9E72-9F3A98993CE2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestShortIfTryBlock</RootNamespace>
-    <AssemblyName>TestShortIfTryBlock</AssemblyName>
+    <RootNamespace>TestCustomStack</RootNamespace>
+    <AssemblyName>TestCustomStack</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

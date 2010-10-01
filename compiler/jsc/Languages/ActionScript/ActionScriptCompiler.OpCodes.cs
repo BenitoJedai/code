@@ -267,7 +267,7 @@ namespace jsc.Languages.ActionScript
 				{
 
 
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write(".");
@@ -574,7 +574,7 @@ namespace jsc.Languages.ActionScript
 						var a = e.i.StackBeforeStrict[0].SingleStackInstruction.TargetInteger;
 						var b = e.i.StackBeforeStrict[1].SingleStackInstruction.TargetInteger;
 
-						Func<int?, int, jsc.ILFlow.StackItem, bool> TryOptimize =
+						Func<int?, int, jsc.ILFlowStackItem, bool> TryOptimize =
 							(z, x, s) =>
 							{
 								if (z != null)
@@ -720,7 +720,7 @@ namespace jsc.Languages.ActionScript
 
 						Ident++;
 
-						ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+						ILFlowStackItem[] _stack = e.p.InlineArrayInitElements;
 
 						for (int si = 0; si < _stack.Length; si++)
 						{
@@ -916,7 +916,7 @@ namespace jsc.Languages.ActionScript
 				] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write("[");
@@ -934,7 +934,7 @@ namespace jsc.Languages.ActionScript
 				] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write("[");
@@ -948,7 +948,7 @@ namespace jsc.Languages.ActionScript
 			CIW[OpCodes.Stobj] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 
@@ -960,7 +960,7 @@ namespace jsc.Languages.ActionScript
 			CIW[OpCodes.Ldobj] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 
@@ -1054,7 +1054,7 @@ namespace jsc.Languages.ActionScript
 			CIW[OpCodes.Ldsfld] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 
 					var t = e.i.TargetField.DeclaringType;
@@ -1224,7 +1224,7 @@ namespace jsc.Languages.ActionScript
 					WriteKeywordSpace(Keywords._new);
 					WriteDecoratedTypeName(e.Method.DeclaringType, target);
 
-                    var s = new ILFlow.StackItem[0];
+                    var s = new ILFlowStackItem[0];
                     // we may have already inited this struct?
 
                     WriteParameterInfoFromStack(target.GetConstructor(new Type[0]), null, s, 0);

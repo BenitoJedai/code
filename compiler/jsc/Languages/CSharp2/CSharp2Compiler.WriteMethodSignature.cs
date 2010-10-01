@@ -31,7 +31,7 @@ namespace jsc.Languages.CSharp2
             WriteMethodSignature(m, dStatic, mode, null, null, m);
         }
 
-        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer, System.Reflection.MethodBase _ParamSignature)
+        protected void WriteMethodSignature(System.Reflection.MethodBase m, bool dStatic, WriteMethodSignatureMode mode, ILFlowStackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer, System.Reflection.MethodBase _ParamSignature)
         {
 
             var DeclaringType = m.DeclaringType;

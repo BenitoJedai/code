@@ -320,7 +320,7 @@ namespace jsc.Script.PHP
             CIW[OpCodes.Stfld] =
                 delegate(CodeEmitArgs e)
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     Emit(e.p, s[0]);
                     Write("->");
@@ -337,7 +337,7 @@ namespace jsc.Script.PHP
             CIW[OpCodes.Ldsfld] =
                 delegate(CodeEmitArgs e)
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     var FieldContext = e.i.TargetField.DeclaringType;
 
@@ -438,7 +438,7 @@ namespace jsc.Script.PHP
 
                 delegate(CodeEmitArgs e)
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     bool b = false;
 
@@ -660,7 +660,7 @@ namespace jsc.Script.PHP
                         //using (CreateScope(false))
                         {
 
-                            ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+                            ILFlowStackItem[] _stack = e.p.InlineArrayInitElements;
 
                             for (int si = 0; si < _stack.Length; si++)
                             {
@@ -832,7 +832,7 @@ namespace jsc.Script.PHP
                 ] =
                 delegate(CodeEmitArgs e)
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     #region workaround "syntax error, unexpected '[' in"
                     if (s[0].SingleStackInstruction.OpCode.FlowControl == FlowControl.Call)
@@ -899,7 +899,7 @@ namespace jsc.Script.PHP
                 ] =
                 delegate(CodeEmitArgs e)
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     Emit(e.p, s[0]);
                     Write("[");
@@ -914,7 +914,7 @@ namespace jsc.Script.PHP
             CIW[OpCodes.Stobj] =
                 e =>
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     Emit(e.p, s[0]);
 
@@ -926,7 +926,7 @@ namespace jsc.Script.PHP
             CIW[OpCodes.Ldobj] =
                 e =>
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     Emit(e.p, s[0]);
 

@@ -51,7 +51,7 @@ namespace jsc.Script.PHP
 
 
 
-            ILFlow.StackItem[] s = i == null ? null : i.StackBeforeStrict;
+            ILFlowStackItem[] s = i == null ? null : i.StackBeforeStrict;
 
             int offset = 1;
 

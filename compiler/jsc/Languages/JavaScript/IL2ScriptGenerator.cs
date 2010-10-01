@@ -14,7 +14,7 @@ using ScriptCoreLib.CSharp.Extensions;
 namespace jsc
 {
     using ilbp = ILBlock.Prestatement;
-    using ilfsi = ILFlow.StackItem;
+    using ilfsi = ILFlowStackItem;
     using ili = ILInstruction;
 
     public delegate void OpCodeHandler(IdentWriter w, ilbp p, ili i, ilfsi[] s);
@@ -80,7 +80,7 @@ namespace jsc
         {
 
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.AndOperator)
+            if (logic.hint == ILBlockInlineLogicSpecialType.AndOperator)
             {
                 if (logic.IsNegative)
                     w.Write("!");
@@ -101,7 +101,7 @@ namespace jsc
                 return;
             }
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.OrOperator)
+            if (logic.hint == ILBlockInlineLogicSpecialType.OrOperator)
             {
                 if (logic.IsNegative)
                     w.Write("!");
@@ -120,7 +120,7 @@ namespace jsc
                 return;
             }
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.Value)
+            if (logic.hint == ILBlockInlineLogicSpecialType.Value)
             {
                 if (logic.IsNegative)
                     w.Write("!");
@@ -130,7 +130,7 @@ namespace jsc
                 return;
             }
 
-            if (logic.hint == ILBlock.InlineLogic.SpecialType.IfClause)
+            if (logic.hint == ILBlockInlineLogicSpecialType.IfClause)
             {
                 w.Write("(");
 
@@ -940,7 +940,7 @@ namespace jsc
                 if (ctor == null)
                     CompilerBase.BreakToDebugger("valuetype ctor not found " + i.TargetType.ToString());
 
-                WriteCreateType(w, p, i, new ILFlow.StackItem[0], ctor);
+                WriteCreateType(w, p, i, new ILFlowStackItem[0], ctor);
 
             }
 
@@ -1010,7 +1010,7 @@ namespace jsc
                 w.WriteLine("[");
                 w.Ident++;
 
-                ILFlow.StackItem[] _stack = p.InlineArrayInitElements;
+                ILFlowStackItem[] _stack = p.InlineArrayInitElements;
 
                 for (int si = 0; si < _stack.Length; si++)
                 {

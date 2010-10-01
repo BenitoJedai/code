@@ -398,7 +398,7 @@ namespace jsc.Languages.ActionScript
 			return GetImportTypes(context).Any(i => i.Name == subject.Name || (i.Namespace != null && i.Namespace.EndsWith("." + subject.Name)));
 		}
 
-        protected override ILFlow.StackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlow.StackItem[] s, int offset)
+        protected override ILFlowStackItem[] BeforeWriteParameterInfoFromStack(MethodBase m, ILFlowStackItem[] s, int offset)
         {
             var TargetConstructor = m as ConstructorInfo;
 

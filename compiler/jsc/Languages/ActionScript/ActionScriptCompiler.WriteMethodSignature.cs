@@ -37,7 +37,7 @@ namespace jsc.Languages.ActionScript
 			System.Reflection.MethodBase m, 
 			bool dStatic, 
 			WriteMethodSignatureMode mode, 
-			ILFlow.StackItem[] DefaultValues, 
+			ILFlowStackItem[] DefaultValues, 
 			Action<Action> AddDefaultVariableInitializer, 
 			System.Reflection.MethodBase _ParamSignature
 			)

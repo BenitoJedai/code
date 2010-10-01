@@ -95,7 +95,7 @@ namespace jsc.Languages.CSharp2
                             {
                                 Ident++;
 
-                                ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+                                ILFlowStackItem[] _stack = e.p.InlineArrayInitElements;
 
                                 for (int si = 0; si < _stack.Length; si++)
                                 {
@@ -333,7 +333,7 @@ namespace jsc.Languages.CSharp2
                 ] =
                 e =>
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     Emit(e.p, s[0]);
                     Write("[");
@@ -351,7 +351,7 @@ namespace jsc.Languages.CSharp2
                 ] =
                 e =>
                 {
-                    ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                    ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                     Emit(e.p, s[0]);
                     Write("[");
@@ -569,7 +569,7 @@ namespace jsc.Languages.CSharp2
               {
 
 
-                  ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                  ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                   Emit(e.p, s[0]);
 
@@ -1000,7 +1000,7 @@ namespace jsc.Languages.CSharp2
             CIW[OpCodes.Ldsfld] =
               e =>
               {
-                  ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+                  ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
                   WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
                   Write(".");

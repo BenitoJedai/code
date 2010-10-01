@@ -66,7 +66,7 @@ namespace jsc.Languages.CSharp2
             Write(")");
         }
 
-        public void ConvertTypeAndEmit(Type context, Type subject, jsc.ILBlock.Prestatement p, jsc.ILFlow.StackItem s)
+        public void ConvertTypeAndEmit(Type context, Type subject, jsc.ILBlock.Prestatement p, ILFlowStackItem s)
         {
             Write("(");
             Write("(");

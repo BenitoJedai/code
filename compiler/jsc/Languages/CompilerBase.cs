@@ -106,7 +106,7 @@ namespace jsc.Script
 
 		}
 
-		public ILFlow.StackItem FirstOnStack
+		public ILFlowStackItem FirstOnStack
 		{
 			[DebuggerNonUserCode]
 			get
@@ -275,7 +275,7 @@ namespace jsc.Script
         //    Emit(p, s, null);
         //}
 
-		public void Emit(ILBlock.Prestatement p, ILFlow.StackItem s, Type TypeExpectedOrDefault = null)
+		public void Emit(ILBlock.Prestatement p, ILFlowStackItem s, Type TypeExpectedOrDefault = null)
 		{
 			using (EmitGuard.Lock)
 			{
@@ -1140,7 +1140,7 @@ namespace jsc.Script
 			}
 		}
 
-		public abstract void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlow.StackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op);
+		public abstract void WriteParameters(ILBlock.Prestatement p, MethodBase _method, ILFlowStackItem[] s, int offset, ParameterInfo[] pi, bool pWritten, string op);
 
 		public bool IsTypeOfOperator(MethodBase m)
 		{
@@ -1614,7 +1614,7 @@ namespace jsc.Script
 			}
 			else
 			{
-				ILFlow.StackItem ux = block.LastPrestatement.Instruction.StackBeforeStrict[0];
+				ILFlowStackItem ux = block.LastPrestatement.Instruction.StackBeforeStrict[0];
 
 				// xxx: for redundantsy
 

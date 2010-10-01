@@ -237,7 +237,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Ldelem_U1] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 
 					Write("(short)");
@@ -261,7 +261,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Ldelem_U4] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 
 					Write("(long)");
@@ -292,7 +292,7 @@ namespace jsc.Languages.Java
 				] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 
 
@@ -314,7 +314,7 @@ namespace jsc.Languages.Java
 				] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 
 
@@ -388,7 +388,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Ldobj] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 
@@ -397,7 +397,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Stobj] =
 				e =>
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 
@@ -755,7 +755,7 @@ namespace jsc.Languages.Java
 				{
 
 
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write(".");
@@ -906,7 +906,7 @@ namespace jsc.Languages.Java
 							{
 								Ident++;
 
-								ILFlow.StackItem[] _stack = e.p.InlineArrayInitElements;
+								ILFlowStackItem[] _stack = e.p.InlineArrayInitElements;
 
 								for (int si = 0; si < _stack.Length; si++)
 								{
@@ -1326,7 +1326,7 @@ namespace jsc.Languages.Java
 			CIW[OpCodes.Ldsfld] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					#region byte
 					if (e.i.TargetField.FieldType == typeof(byte))

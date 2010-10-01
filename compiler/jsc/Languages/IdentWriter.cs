@@ -696,7 +696,7 @@ namespace jsc
 		/// <param name="i"></param>
 		/// <param name="s"></param>
 		/// <param name="offset"></param>
-		public void WriteParameters(ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem[] s, int offset, MethodBase m)
+		public void WriteParameters(ILBlock.Prestatement p, ILInstruction i, ILFlowStackItem[] s, int offset, MethodBase m)
 		{
 			ParameterInfo[] pi = m == null ? null : m.GetParameters();
 

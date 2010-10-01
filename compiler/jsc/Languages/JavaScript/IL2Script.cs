@@ -17,7 +17,7 @@ namespace jsc
 {
     using ilbp = ILBlock.Prestatement;
     using ili = ILInstruction;
-    using ilfsi = ILFlow.StackItem;
+    using ilfsi = ILFlowStackItem;
     using ScriptCoreLib.Tools;
     using ScriptCoreLib.Extensions;
 
@@ -308,7 +308,7 @@ namespace jsc
                         w.Write("(");
                         w.Write("!");
 
-                        ILFlow.StackItem expression = iif.Branch.StackBeforeStrict[0];
+                        ILFlowStackItem expression = iif.Branch.StackBeforeStrict[0];
 
                         bool compact = false;
 

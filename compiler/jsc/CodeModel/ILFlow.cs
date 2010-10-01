@@ -11,7 +11,197 @@ using System.Reflection.Emit;
 
 namespace jsc
 {
-    
+    /// <summary>
+    /// represents item in stack
+    /// </summary>
+    public class ILFlowStackItem
+    {
+        /// <summary>
+        /// originating instruction
+        /// </summary>
+        public ILInstruction Entry;
+        /// <summary>
+        /// index of push
+        /// </summary>
+        public int Index;
+        /// <summary>
+        /// unknown source, so info should be obtained from block given
+        /// </summary>
+        public ILBlock Block;
+
+        public List<ILFlowStackItem> Alternate = new List<ILFlowStackItem>();
+
+        public ILFlowStackItem ClonedFrom;
+
+        //public static StackItem Duplicate(StackItem e)
+        //{
+        //    return new StackItem(e.Entry, e.Index + 1);
+        //}
+
+        public ILFlowStackItem(ILInstruction p, int index)
+        {
+            Entry = p;
+            Index = index;
+
+        }
+
+        public ILFlowStackItem(ILBlock b)
+        {
+            Block = b;
+        }
+
+        public ILFlowStackItem Clone()
+        {
+            ILFlowStackItem s = new ILFlowStackItem(Entry, Index);
+
+            s.Block = Block;
+
+            s.ClonedFrom = this;
+
+            return s;
+        }
+
+        public ILBlock.InlineLogic InlineLogic(ILBlock.Prestatement p)
+        {
+            if (p == null)
+                throw new ArgumentNullException();
+
+            ILBlock.InlineLogic x = new ILBlock.InlineLogic();
+
+            x.Resolve(this, p.Instruction.InlineIfElseConstruct);
+
+            return x;
+        }
+
+
+
+        public override string ToString()
+        {
+            if (this.Alternate.Count > 0)
+            {
+                return "alternatives";
+            }
+            else
+                using (StringWriter w = new StringWriter())
+                {
+                    w.Write("{");
+
+                    for (int i = 0; i < StackInstructions.Length; i++)
+                    {
+                        if (i > 0)
+                            w.Write(", ");
+
+                        if (StackInstructions[i] == null)
+                            w.Write("null");
+                        else
+                            w.Write(StackInstructions[i].ToString());
+                    }
+
+                    w.Write("}");
+
+                    return w.ToString();
+                }
+
+
+        }
+
+        public bool IsSingle
+        {
+            get
+            {
+                return StackInstructions.Length == 1;
+            }
+        }
+
+        public ILInstruction SingleStackInstruction
+        {
+            get
+            {
+                ILInstruction[] s = StackInstructions;
+
+                if (s.Length == 1)
+                    return s[0];
+                else
+                    throw new NotSupportedException("multiple stack entries instead of one");
+            }
+        }
+
+        /// <summary>
+        /// returns uset stack item and all the alternates aswell
+        /// </summary>
+        public ILInstruction[] StackInstructions
+        {
+            get
+            {
+                ILInstruction[] n = new ILInstruction[Alternate.Count + 1];
+
+                n[0] = Entry;
+
+                for (int i = 0; i < Alternate.Count; i++)
+                {
+                    if (Alternate[i].Alternate.Count > 0)
+                        throw new NotImplementedException();
+
+                    n[i + 1] = Alternate[i].Entry;
+                }
+
+                return n;
+            }
+        }
+    }
+
+
+    public class ILFlowEvaluationStack : Stack<ILFlowStackItem>
+    {
+        public ILFlowStackItem[] Pop(int i)
+        {
+            ILFlowStackItem[] n = new ILFlowStackItem[i];
+
+            while (i-- > 0)
+                n[i] = Pop();
+
+            return n;
+        }
+
+        public ILFlowEvaluationStack Clone(bool deep)
+        {
+            if (deep)
+            {
+                ILFlowStackItem[] z = base.ToArray();
+
+                int i = z.Length;
+
+                ILFlowEvaluationStack n = new ILFlowEvaluationStack();
+
+                while (i-- > 0)
+                {
+                    n.Push(z[i].Clone());
+                }
+
+                return n;
+            }
+            else
+                return Clone();
+        }
+
+        public ILFlowEvaluationStack Clone()
+        {
+            ILFlowStackItem[] z = base.ToArray();
+
+            int i = z.Length;
+
+            ILFlowEvaluationStack n = new ILFlowEvaluationStack();
+
+            while (i-- > 0)
+            {
+                n.Push(z[i]);
+            }
+
+            return n;
+        }
+    }
+
+
 
     public class ILFlow
     {
@@ -67,200 +257,12 @@ namespace jsc
         /// </summary>
         public readonly ILBlock OwnerBlock;
 
-        /// <summary>
-        /// represents item in stack
-        /// </summary>
-        public class StackItem
-        {
-            /// <summary>
-            /// originating instruction
-            /// </summary>
-            public ILInstruction Entry;
-            /// <summary>
-            /// index of push
-            /// </summary>
-            public int Index;
-            /// <summary>
-            /// unknown source, so info should be obtained from block given
-            /// </summary>
-            public ILBlock Block;
-
-            public List<StackItem> Alternate = new List<StackItem>();
-
-            public StackItem ClonedFrom;
-
-            //public static StackItem Duplicate(StackItem e)
-            //{
-            //    return new StackItem(e.Entry, e.Index + 1);
-            //}
-
-            public StackItem(ILInstruction p, int index)
-            {
-                Entry = p;
-                Index = index;
-                
-            }
-
-            public StackItem(ILBlock b)
-            {
-                Block = b;
-            }
-
-            public StackItem Clone()
-            {
-                StackItem s = new StackItem(Entry, Index);
-
-                s.Block = Block;
-
-                s.ClonedFrom = this;
-
-                return s;
-            }
-
-            public ILBlock.InlineLogic InlineLogic(ILBlock.Prestatement p)
-            {
-                if (p == null)
-                    throw new ArgumentNullException();
-
-                ILBlock.InlineLogic x = new ILBlock.InlineLogic();
-
-                x.Resolve(this, p.Instruction.InlineIfElseConstruct);
-
-                return x;
-            }
-
-
-
-            public override string ToString()
-            {
-                if (this.Alternate.Count > 0)
-                {
-                    return "alternatives";
-                }
-                else
-                    using (StringWriter w = new StringWriter())
-                    {
-                        w.Write("{");
-
-                        for (int i = 0; i < StackInstructions.Length; i++)
-                        {
-                            if (i > 0)
-                                w.Write(", ");
-
-                            if (StackInstructions[i] == null)
-                                w.Write("null");
-                            else
-                                w.Write(StackInstructions[i].ToString());
-                        }
-
-                            w.Write("}");
-
-                        return w.ToString();
-                    }
-
-                
-            }
-
-            public bool IsSingle
-            {
-                get
-                {
-                    return StackInstructions.Length == 1;
-                }
-            }
-
-            public ILInstruction SingleStackInstruction
-            {
-                get
-                {
-                    ILInstruction[] s = StackInstructions;
-
-                    if (s.Length == 1)
-                        return s[0];
-                    else
-                        throw new NotSupportedException("multiple stack entries instead of one");
-                }
-            }
-
-            /// <summary>
-            /// returns uset stack item and all the alternates aswell
-            /// </summary>
-            public ILInstruction[] StackInstructions
-            {
-                get
-                {
-                    ILInstruction[] n = new ILInstruction[Alternate.Count + 1];
-
-                    n[0] = Entry;
-
-                    for (int i = 0; i < Alternate.Count; i++)
-                    {
-                        if (Alternate[i].Alternate.Count > 0)
-                            throw new NotImplementedException();
-
-                        n[i + 1] = Alternate[i].Entry;
-                    }
-
-                    return n;
-                }
-            }
-        }
-
-        public class EvaluationStack : Stack<StackItem>
-        {
-            public StackItem[] Pop(int i)
-            {
-                StackItem[] n = new StackItem[i];
-
-                while (i-- > 0)
-                    n[i] = Pop();
-
-                return n;
-            }
-
-            public EvaluationStack Clone(bool deep)
-            {
-                if (deep)
-                {
-                    ILFlow.StackItem[] z = base.ToArray();
-
-                    int i = z.Length;
-
-                    EvaluationStack n = new EvaluationStack();
-
-                    while (i-- > 0)
-                    {
-                        n.Push(z[i].Clone());
-                    }
-
-                    return n;
-                }
-                else
-                    return Clone();
-            }
-
-            public EvaluationStack Clone()
-            {
-                ILFlow.StackItem[] z = base.ToArray();
-
-                int i = z.Length;
-
-                EvaluationStack n = new EvaluationStack();
-
-                while (i-- > 0)
-                {
-                    n.Push(z[i]);
-                }
-
-                return n;
-            }
-        }
-
+  
 
         /// <summary>
         /// defines the stack state after all items are iterated
         /// </summary>
-        public readonly EvaluationStack Stack;
+        public readonly ILFlowEvaluationStack Stack;
 
         /// <summary>
         /// a list of flows which branch to this flow
@@ -303,7 +305,7 @@ namespace jsc
 
         readonly ResolveFlowBlock _resolve_block;
 
-        public ILFlow(ResolveFlowBlock r, ILInstruction i, EvaluationStack s)
+        public ILFlow(ResolveFlowBlock r, ILInstruction i, ILFlowEvaluationStack s)
         {
             using (new Task("ilflow with stack", i.ToString()))
             {
@@ -355,8 +357,8 @@ namespace jsc
                 if (z.StackBefore.Count != Branch.StackAfter.Count)
                     throw new ArgumentException();
 
-                StackItem[] alt = Branch.StackAfter.ToArray();
-                StackItem[] cur = z.StackBefore.ToArray();
+                ILFlowStackItem[] alt = Branch.StackAfter.ToArray();
+                ILFlowStackItem[] cur = z.StackBefore.ToArray();
 
                 // Console.WriteLine("join to 0x{0:x4} from 0x{1:x4} [{2}]: ", z.Offset, this.Branch.Offset, alt.Length);
 
@@ -480,7 +482,7 @@ namespace jsc
 
 
                 for (int i = 0; i < p.StackPushCount; i++)
-                    Stack.Push(new StackItem(p, i));
+                    Stack.Push(new ILFlowStackItem(p, i));
                 //}
 
                 p.StackAfter = Stack.Clone();

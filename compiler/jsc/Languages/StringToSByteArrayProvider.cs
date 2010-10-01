@@ -16,7 +16,7 @@ namespace jsc.Languages
 
 			public MethodInfo TargetMethod;
 
-			public ILFlow.StackItem[] Arguments;
+			public ILFlowStackItem[] Arguments;
 		}
 
 	

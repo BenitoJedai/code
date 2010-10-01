@@ -11,7 +11,7 @@ namespace jsc
 {
 	using ilbp = ILBlock.Prestatement;
 	using ili = ILInstruction;
-	using ilfsi = ILFlow.StackItem;
+	using ilfsi = ILFlowStackItem;
 	using System.IO;
 
 	using jsc.Languages.JavaScript;
@@ -234,7 +234,7 @@ namespace jsc
 		}
 
 		public void DOMInvokeMethod(string o,
-			ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem[] s, int offset, MethodBase m)
+			ILBlock.Prestatement p, ILInstruction i, ILFlowStackItem[] s, int offset, MethodBase m)
 		{
 
 			w.Write(o);
@@ -394,7 +394,7 @@ namespace jsc
 
 		public void DOMCreateAndInvokeConstructor(
 			Type type, MethodBase ctor,
-			ILBlock.Prestatement p, ILInstruction i, ILFlow.StackItem[] s)
+			ILBlock.Prestatement p, ILInstruction i, ILFlowStackItem[] s)
 		{
 			// fixme: call ctor$...
 

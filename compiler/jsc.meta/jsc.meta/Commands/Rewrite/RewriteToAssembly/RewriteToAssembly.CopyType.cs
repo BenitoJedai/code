@@ -274,16 +274,56 @@ namespace jsc.meta.Commands.Rewrite
 
             var AtTypeCreatedFilter = new List<Type>();
 
-            if (SourceType.IsClass && SourceType.BaseType != typeof(object) && ShouldCopyType(SourceType.BaseType))
+            Action<Type> AtTypeCreatedFilterAdd = null;
+
+            AtTypeCreatedFilterAdd =
+                k =>
+                {
+                    if (k.IsGenericType)
+                    {
+                        if (k.IsGenericTypeDefinition)
+                        {
+                            if (ShouldCopyType(k))
+                            {
+                                AtTypeCreatedFilter.Add(
+                                    k
+                                );
+                            }
+                        }
+                        else
+                        {
+                            var GenericTypeDefinition = k.GetGenericTypeDefinition();
+
+                            AtTypeCreatedFilterAdd(GenericTypeDefinition);
+
+                            var GenericArguments = k.GetGenericArguments();
+
+                            foreach (var item in GenericArguments)
+                            {
+                                AtTypeCreatedFilterAdd(item);
+
+                            }
+                        }
+
+
+
+                    }
+                    else if (ShouldCopyType(k))
+                    {
+                        AtTypeCreatedFilter.Add(
+                            k
+                        );
+                    }
+                };
+
+            if (SourceType.IsClass && SourceType.BaseType != typeof(object))
             {
-                AtTypeCreatedFilter.Add(
-                    SourceType.BaseType.TryGetGenericTypeDefinition()
-                );
+                AtTypeCreatedFilterAdd(SourceType.BaseType);
             }
 
             Action<Type> rec_SourceTypeCheck = null;
 
-            rec_SourceTypeCheck = 
+            rec_SourceTypeCheck =
                 rec_SourceType =>
                 {
 
@@ -296,12 +336,12 @@ namespace jsc.meta.Commands.Rewrite
 
                             if (rec_SourceType.DeclaringType.IsNested /*&& SourceType.IsClass*/)
                             {
-                                AtTypeCreatedFilter.Add(rec_SourceType.DeclaringType);
+                                AtTypeCreatedFilterAdd(rec_SourceType.DeclaringType);
                             }
                         }
                         else
                         {
-                            AtTypeCreatedFilter.Add(rec_SourceType.DeclaringType);
+                            AtTypeCreatedFilterAdd(rec_SourceType.DeclaringType);
                         }
                         //rec_SourceTypeCheck(rec_SourceType.DeclaringType);
                     }
@@ -330,6 +370,12 @@ namespace jsc.meta.Commands.Rewrite
                 from k in SourceType.GetFields(BindingFlags.NonPublic | BindingFlags.Static)
                 where k.Name.StartsWith("__InternalTypeReferenceHint__")
                 select k.FieldType
+            );
+
+            // we should not be waiting for ourselves!
+
+            AtTypeCreatedFilter.RemoveAll(
+                k => k == SourceType
             );
 
 
@@ -557,7 +603,7 @@ namespace jsc.meta.Commands.Rewrite
                     return (DeclaringType ?? SourceType).Assembly;
                 }
 
-                public static  implicit operator DuplicateInfo(Type t)
+                public static implicit operator DuplicateInfo(Type t)
                 {
                     return new DuplicateInfo { SourceType = t };
                 }

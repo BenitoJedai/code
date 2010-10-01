@@ -38,7 +38,7 @@ namespace jsc.Languages.ActionScript
 				WriteKeywordSpace(Keywords._new);
 				WriteDecoratedTypeNameOrImplementationTypeName(z, true, true, IsFullyQualifiedNamesRequired(u.DeclaringType, z));
 
-                var s = new ILFlow.StackItem[0];
+                var s = new ILFlowStackItem[0];
 
                 WriteParameterInfoFromStack(Constructor, null, s, 0);
                 //Write("()");
