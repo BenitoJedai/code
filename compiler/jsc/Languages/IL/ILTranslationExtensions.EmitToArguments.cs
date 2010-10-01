@@ -236,10 +236,14 @@ namespace jsc.Languages.IL
 				};
 
                 this[i => i.OpParamAsInt32] = new[] {
-					OpCodes.Ldc_I4,
-					OpCodes.Ldloca
+					OpCodes.Ldc_I4
 				};
 
+
+                this[i => i.OpParamAsInt16] = new[] {
+					OpCodes.Ldloca,
+					OpCodes.Ldarg,
+				};
 
 
                 this[i => i.OpParamAsInt8] = new[] {
@@ -403,6 +407,7 @@ namespace jsc.Languages.IL
 					OpCodes.Mul,
 					OpCodes.Neg,
 					OpCodes.Break,
+					OpCodes.Rethrow,
 
 					OpCodes.Volatile,
 

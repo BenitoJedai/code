@@ -198,6 +198,8 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                 // http://www.websector.de/blog/2007/02/20/trace-outside-the-flash-ide-with-tail/
                 // http://www.timo-ernst.net/2010/04/chrome-flash-debugger-not-connecting-to-flexflash-builder/
 
+                // http://jpauclair.net/2010/02/10/mmcfg-treasure/
+
                 File.WriteAllLines(
                     Path.Combine(UserProfile, "mm.cfg"),
                     new[]

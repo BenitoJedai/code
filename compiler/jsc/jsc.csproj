@@ -321,10 +321,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <Compile Include="Languages\JavaScript\IL2Script.DeclareTypes.cs" />
-    <None Include="jsc40.exe.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="neutronic.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +342,6 @@ copy "$(TargetDir)*.pdb" "c:\util\jsc\bin" /y
 copy "$(TargetDir)*.dll" "c:\util\jsc\bin" /y
 ::copy "$(TargetDir)*.txt" "c:\util\jsc\bin" /y
 
-copy "$(TargetPath)" "c:\util\jsc\bin\jsc40.exe" /y</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
