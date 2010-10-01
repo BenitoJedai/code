@@ -219,6 +219,7 @@ namespace jsc.meta.Commands.Rewrite
         /// </summary>
         public bool DisableIsMarkedForMerge;
 
+        public bool DisableInvalidMergeCheck;
 
         /// <summary>
         /// To rewrite a loaded module this flag must be set.
