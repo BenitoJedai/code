@@ -257,37 +257,51 @@ namespace jsc.Languages.IL
 
                 //// http://msdn.microsoft.com/en-us/library/74b4xzyw(VS.71).aspx
 
+                var branch = new Dictionary<OpCode, OpCode>
+                {
+                    {OpCodes.Br_S, OpCodes.Br},
+                    {OpCodes.Brtrue_S, OpCodes.Brtrue},
+                    {OpCodes.Brfalse_S, OpCodes.Brfalse},
+                    {OpCodes.Bne_Un_S, OpCodes.Bne_Un},
+                    {OpCodes.Bge_S, OpCodes.Bge},
+                    {OpCodes.Blt_Un_S, OpCodes.Blt_Un},
+                    {OpCodes.Blt_S, OpCodes.Blt},
+                    {OpCodes.Ble_S, OpCodes.Ble},
+                    {OpCodes.Bgt_S, OpCodes.Bgt},
+                    {OpCodes.Beq_S, OpCodes.Beq},
+                };
 
-                this[
-                    OpCodes.Br_S,
-                    OpCodes.Brtrue_S,
-                    OpCodes.Brfalse_S,
-                    OpCodes.Bne_Un_S,
-                    OpCodes.Bge_S,
-                    OpCodes.Bge,
-                    OpCodes.Ble,
-                    OpCodes.Blt,
-                    OpCodes.Blt_Un,
-                    OpCodes.Blt_Un_S,
-                    OpCodes.Blt_S,
-                    OpCodes.Ble_S,
-                    OpCodes.Bgt,
-                    OpCodes.Bgt_S,
-                    OpCodes.Br,
-                    OpCodes.Brtrue,
-                    OpCodes.Brfalse,
-                    OpCodes.Bne_Un,
-                    OpCodes.Bne_Un_S,
-                    OpCodes.Beq,
-                    OpCodes.Beq_S
-
-
-                    ] =
+                
+                this[branch.Values.ToArray()] =
                     e =>
                     {
-
                         e.il.Emit(e.i.OpCode, e.i.BranchTargets.Select(k => e.Labels[k]).Single());
                     };
+
+                this[branch.Keys.ToArray()] =
+                 e =>
+                 {
+                     var clauses = e.i.OwnerMethod.GetMethodBody().ExceptionHandlingClauses.AsEnumerable();
+
+                     if (clauses.Any(
+                            k =>
+                            {
+                                if (k.TryOffset > e.i.Offset)
+                                    if (k.TryOffset + k.TryLength < e.i.TargetInstruction.Offset)
+                                        return true;
+
+                                return false;
+                            }
+
+                         ))
+                     {
+                         e.il.Emit(branch[e.i.OpCode], e.i.BranchTargets.Select(k => e.Labels[k]).Single());
+                     }
+                     else
+                     {
+                         e.il.Emit(e.i.OpCode, e.i.BranchTargets.Select(k => e.Labels[k]).Single());
+                     }
+                 };
 
                 this[OpCodes.Switch] =
                     e =>
@@ -410,7 +424,7 @@ namespace jsc.Languages.IL
 
             }
 
-            public Action<ILRewriteContext, OpCode> AtCodeTrace_EmitOpCode = (e, OpCode)  => e.il.Emit(OpCode);
+            public Action<ILRewriteContext, OpCode> AtCodeTrace_EmitOpCode = (e, OpCode) => e.il.Emit(OpCode);
 
             public OpCode[] this[Func<ILInstruction, Type> selector]
             {
