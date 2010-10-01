@@ -52,10 +52,17 @@ namespace jsc.meta.Commands.Rewrite
             if (context.TypeCache.BaseDictionary.ContainsKey(SourceType))
                 return;
 
-            #region invalidmerge
-            if (SourceType.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "invalidmerge"))
-                throw new InvalidOperationException(SourceType.FullName);
-            #endregion
+            if (r.DisableInvalidMergeCheck)
+            {
+                // preserve "invalidmerge" .. 
+            }
+            else
+            {
+                #region invalidmerge
+                if (SourceType.GetCustomAttributes<ObfuscationAttribute>().Any(k => k.Feature == "invalidmerge"))
+                    throw new InvalidOperationException(SourceType.FullName);
+                #endregion
+            }
 
 
             var t = (TypeBuilder)context.TypeDefinitionCache[SourceType];

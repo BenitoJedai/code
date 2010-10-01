@@ -1733,15 +1733,15 @@ namespace jsc.meta.Commands.Rewrite
 
 		internal class InternalToType_
 		{
-			internal interface InternalToTypeReturnTypeImplementation
+			public interface InternalToTypeReturnTypeImplementation
 			{
 			}
 
-			internal interface InternalToTypeReturnType
+            public interface InternalToTypeReturnType
 			{
 			}
 
-			internal interface InternalToTypeContext
+            public interface InternalToTypeContext
 			{
 			}
 
@@ -1753,7 +1753,7 @@ namespace jsc.meta.Commands.Rewrite
 		internal class InternalToType_Consumer
 		{
 			[Obfuscation(Feature = "invalidmerge")]
-			internal class InternalToTypeReturnTypeImplementation : RemotingToken, InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
+            public class InternalToTypeReturnTypeImplementation : RemotingToken, InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
 			{
 				public InternalToTypeContext context;
 
@@ -1764,18 +1764,18 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
-			internal interface InternalToTypeReturnType : InternalToType_.InternalToTypeReturnType
+            public interface InternalToTypeReturnType : InternalToType_.InternalToTypeReturnType
 			{
 
 			}
 
 
-			internal class __InternalToTypeReturnType : InternalToTypeReturnType
+            public class __InternalToTypeReturnType : InternalToTypeReturnType
 			{
 
 			}
 			[Obfuscation(Feature = "invalidmerge")]
-			internal class InternalToTypeContext : InternalToType_.InternalToTypeContext
+            public class InternalToTypeContext : InternalToType_.InternalToTypeContext
 			{
 				public InternalLookup._Consumer lookup;
 			}
@@ -1850,7 +1850,7 @@ namespace jsc.meta.Commands.Rewrite
 		internal class InternalToType_Provider
 		{
 			[Obfuscation(Feature = "invalidmerge")]
-			internal class InternalToTypeReturnTypeImplementation : RemotingToken, InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
+            public class InternalToTypeReturnTypeImplementation : RemotingToken, InternalToTypeReturnType, InternalToType_.InternalToTypeReturnTypeImplementation
 			{
 				public InternalToTypeContext context;
 
@@ -1861,18 +1861,18 @@ namespace jsc.meta.Commands.Rewrite
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
-			internal interface InternalToTypeReturnType : InternalToType_.InternalToTypeReturnType
+            public interface InternalToTypeReturnType : InternalToType_.InternalToTypeReturnType
 			{
 
 			}
 
-			internal class __InternalToTypeReturnType : InternalToTypeReturnType
+            public class __InternalToTypeReturnType : InternalToTypeReturnType
 			{
 
 			}
 
 			[Obfuscation(Feature = "invalidmerge")]
-			internal class InternalToTypeContext : InternalToType_.InternalToTypeContext
+            public class InternalToTypeContext : InternalToType_.InternalToTypeContext
 			{
 				public InternalLookup._Provider lookup;
 			}
