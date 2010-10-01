@@ -479,14 +479,7 @@ namespace jsc.meta.Commands.Rewrite
                 {
                 };
 
-            //x[OpCodes.Leave_S] =
-            //    e =>
-            //    {
-            //        // see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
 
-            //        // MethodBuilder.Emit is too nice and always writes .leave for us.
-            //        // As such we need not to write this twice
-            //    };
 
             x[OpCodes.Leave, OpCodes.Leave_S] =
                 e =>
