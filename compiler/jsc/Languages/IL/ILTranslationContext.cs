@@ -16,7 +16,9 @@ namespace jsc.Languages.IL
 		public VirtualDictionary<MethodInfo, MethodAttributes> MethodAttributesCache = new VirtualDictionary<MethodInfo, MethodAttributes>();
 		public VirtualDictionary<MemberInfo, string> MemberRenameCache = new VirtualDictionary<MemberInfo, string>();
 
-		public VirtualDictionary<Type, string> TypeRenameCache = new VirtualDictionary<Type, string>();
+        public VirtualDictionary<string, string> StringLiteralCache = new VirtualDictionary<string, string>();
+
+        public VirtualDictionary<Type, string> TypeRenameCache = new VirtualDictionary<Type, string>();
 		public VirtualDictionary<Type, Type> TypeDefinitionCache = new VirtualDictionary<Type, Type>();
 		public VirtualDictionary<Type, Type> TypeCache = new VirtualDictionary<Type, Type>();
 		public VirtualDictionary<ConstructorInfo, ConstructorInfo> ConstructorCache = new VirtualDictionary<ConstructorInfo, ConstructorInfo>();

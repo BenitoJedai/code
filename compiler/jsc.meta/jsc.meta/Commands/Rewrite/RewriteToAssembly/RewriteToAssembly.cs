@@ -176,6 +176,23 @@ namespace jsc.meta.Commands.Rewrite
 
                         }
 
+                        var ResourceNames = Enumerable.ToArray(
+                            from item in shadow_assembly.GetManifestResourceNames()
+                              let n =
+                                     (item.StartsWith(shadow_assembly.GetName().Name)) ?
+                                          Product_Name + item.Substring(shadow_assembly.GetName().Name.Length)  : item
+
+                            select new { item, n }
+                        );
+
+
+                        foreach (var item in ResourceNames)
+                        {
+                            Console.WriteLine("asset merge: " + item.item);
+
+                            this.RewriteArguments.context.StringLiteralCache[item.item] = item.n;
+                        }
+
                         InvokeLater +=
                             (__a, __m) =>
                             {
@@ -201,16 +218,12 @@ namespace jsc.meta.Commands.Rewrite
                                 }
 
 
-                                foreach (var item in shadow_assembly.GetManifestResourceNames())
+                                foreach (var item in ResourceNames)
                                 {
-                                    var n = item;
-
-                                    if (n.StartsWith(shadow_assembly.GetName().Name))
-                                        n = Product_Name + n.Substring(shadow_assembly.GetName().Name.Length);
-
+                                   
                                     __m.DefineManifestResource(
-                                        n,
-                                        shadow_assembly.GetManifestResourceStream(item), ResourceAttributes.Public
+                                        item.n,
+                                        shadow_assembly.GetManifestResourceStream(item.item), ResourceAttributes.Public
                                     );
 
                                 }
@@ -1211,6 +1224,13 @@ namespace jsc.meta.Commands.Rewrite
                 };
             #endregion
 
+            this.RewriteArguments.context.StringLiteralCache.Resolve +=
+                s =>
+                {
+                    this.RewriteArguments.context.StringLiteralCache[s] = s;
+                };
+
+
             if (assembly != null)
                 foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
                 {
@@ -1246,6 +1266,7 @@ namespace jsc.meta.Commands.Rewrite
             }
             #endregion
 
+         
 
             // ask for our primary types to be copied
             var kt = TypeCache[PrimaryTypes];
@@ -1253,6 +1274,7 @@ namespace jsc.meta.Commands.Rewrite
             // did we define any type declarations which we did not actually create yet?
             // fixme: maybe we shold just close the unclosed TypeBuilders?
 
+            #region ClosePartialDefinitions
             var ClosePartialDefinitions = new VirtualDictionary<Type, object>();
             var ClosePartialDefinitionsFilter =
                 TypeDefinitionCache.BaseDictionary.Keys.Except(TypeCache.BaseDictionary.Keys).Select(
@@ -1374,6 +1396,8 @@ namespace jsc.meta.Commands.Rewrite
                     RaiseTypeCreated(TypeCreatedArguments);
 
                 };
+            #endregion
+
 
             // fixme: one partial type inherits another...
 
