@@ -275,29 +275,55 @@ namespace jsc.Languages.IL
                     {OpCodes.Beq_S, OpCodes.Beq},
                 };
 
-                
+
                 this[branch.Values.ToArray()] =
                     e =>
                     {
                         e.il.Emit(e.i.OpCode, e.i.BranchTargets.Select(k => e.Labels[k]).Single());
                     };
 
+                Func<ILInstruction, bool> ShortBranchNeedsUpgradeDueTryBlock =
+                    i =>
+                    {
+                        var clauses = i.OwnerMethod.GetMethodBody().ExceptionHandlingClauses.AsEnumerable();
+
+                         if (clauses.Any(
+                                k =>
+                                {
+                                    if (k.TryOffset > i.Offset)
+                                        if (k.TryOffset + k.TryLength < i.TargetInstruction.Offset)
+                                            return true;
+
+                                    return false;
+                                }
+
+                             ))
+                             return true;
+
+                        return false;
+                    };
+
+                Func<ILInstruction, bool> ShortBranchNeedsUpgradeDueCascadeUpgrade =
+                    i =>
+                    {
+                        var n =
+                            from k in i.Flow.OwnerBlock.Root.ExtractInstructionsBetweenOffsets(
+                                i.Offset,
+                                i.TargetInstruction.Offset
+                            )
+                            where branch.Keys.Contains(k.OpCode)
+                            where ShortBranchNeedsUpgradeDueTryBlock(k)
+                            select k;
+
+                        return n.Any();
+                    };
+
                 this[branch.Keys.ToArray()] =
                  e =>
                  {
-                     var clauses = e.i.OwnerMethod.GetMethodBody().ExceptionHandlingClauses.AsEnumerable();
 
-                     if (clauses.Any(
-                            k =>
-                            {
-                                if (k.TryOffset > e.i.Offset)
-                                    if (k.TryOffset + k.TryLength < e.i.TargetInstruction.Offset)
-                                        return true;
-
-                                return false;
-                            }
-
-                         ))
+                     if (ShortBranchNeedsUpgradeDueTryBlock(e.i)
+                         || ShortBranchNeedsUpgradeDueCascadeUpgrade(e.i))
                      {
                          e.il.Emit(branch[e.i.OpCode], e.i.BranchTargets.Select(k => e.Labels[k]).Single());
                      }
@@ -313,6 +339,7 @@ namespace jsc.Languages.IL
 
                         e.il.Emit(e.i.OpCode, e.i.BranchTargets.Select(k => e.Labels[k]).ToArray());
                     };
+
                 // switch? :)s
 
 
@@ -361,14 +388,16 @@ namespace jsc.Languages.IL
 					OpCodes.Ret,
 					OpCodes.Dup,
 
-					OpCodes.Conv_I4,
 					OpCodes.Conv_U,
 					OpCodes.Conv_U1,
 					OpCodes.Conv_U2,
 					OpCodes.Conv_U4,
 					OpCodes.Conv_U8,
-					OpCodes.Conv_I8,
+					OpCodes.Conv_I,
+					OpCodes.Conv_I1,
 					OpCodes.Conv_I2,
+					OpCodes.Conv_I4,
+					OpCodes.Conv_I8,
 					OpCodes.Conv_R_Un,
 					OpCodes.Conv_R4,
 					OpCodes.Conv_R8,
@@ -411,11 +440,30 @@ namespace jsc.Languages.IL
 
 					OpCodes.Volatile,
 
+					OpCodes.Ldind_I ,
+					OpCodes.Ldind_I1 ,
+					OpCodes.Ldind_I2 ,
+					OpCodes.Ldind_I4 ,
+					OpCodes.Ldind_I8 ,
+					OpCodes.Ldind_Ref ,
+
+					OpCodes.Ldind_R4,
+					OpCodes.Ldind_R8,
+					OpCodes.Ldind_U1,
+					OpCodes.Ldind_U2,
+					OpCodes.Ldind_U4,
+
 					OpCodes.Stind_I,
 					OpCodes.Stind_I1,
 					OpCodes.Stind_I2,
-					// try/catch is special
-					//OpCodes.Endfinally,
+					OpCodes.Stind_I4,
+					OpCodes.Stind_I8,
+
+                    OpCodes.Stind_R4,
+					OpCodes.Stind_R8,
+					OpCodes.Stind_Ref,
+
+
 					
 				}.ForEach(
                     OpCode => this[OpCode] =

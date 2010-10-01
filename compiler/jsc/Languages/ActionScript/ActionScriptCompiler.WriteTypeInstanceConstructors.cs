@@ -18,7 +18,7 @@ namespace jsc.Languages.ActionScript
             public ILBlock ConstructorCode;
             public ConstructorInfo Constructor;
             public ConstructorInfo TargetConstructor;
-            public ILFlow.StackItem[] TargetConstructorArguments;
+            public ILFlowStackItem[] TargetConstructorArguments;
 
             public override string ToString()
             {
@@ -37,7 +37,7 @@ namespace jsc.Languages.ActionScript
         {
             public ConstructorInfo Primary;
 
-            public ILFlow.StackItem[] Values;
+            public ILFlowStackItem[] Values;
 
             public Action CustomVariableInitialization;
         }
@@ -114,7 +114,7 @@ namespace jsc.Languages.ActionScript
                 #endregion
             }
 
-            public ILFlow.StackItem[] InsertDefaults(ILFlow.StackItem[] s, ConstructorInfo TargetMethod, int offset)
+            public ILFlowStackItem[] InsertDefaults(ILFlowStackItem[] s, ConstructorInfo TargetMethod, int offset)
             {
                 var SatteliteConstructor = this.SatelliteConstructors.Single(k => k.Constructor == TargetMethod);
 
@@ -129,7 +129,7 @@ namespace jsc.Languages.ActionScript
                             // http://maohao.wordpress.com/2009/02/26/actionscript-101-null-vs-undefined/
 
                             // default(T) yay
-                            return new ILFlow.StackItem(
+                            return new ILFlowStackItem(
                                 new ILInstruction(OpCodes.Ldnull),
                                 0
                             );

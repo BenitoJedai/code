@@ -115,7 +115,7 @@ namespace jsc.Languages.CSharp2
             );
         }
 
-        protected override bool IsTypeCastRequired(System.Type e, jsc.ILFlow.StackItem s)
+        protected override bool IsTypeCastRequired(System.Type e, ILFlowStackItem s)
         {
             if (e.IsEnum)
             {

@@ -339,7 +339,7 @@ namespace jsc.Languages.C
 			WriteLine(";");
 		}
 
-		protected override bool IsTypeCastRequired(Type e, ILFlow.StackItem s)
+		protected override bool IsTypeCastRequired(Type e, ILFlowStackItem s)
 		{
 			// we shall behave like AlwaysDoTypeCastOnParameters
 			return true;

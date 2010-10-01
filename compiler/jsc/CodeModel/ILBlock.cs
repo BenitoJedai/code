@@ -16,6 +16,14 @@ using jsc.Script;
 
 namespace jsc
 {
+    public enum ILBlockInlineLogicSpecialType
+    {
+        AndOperator,
+        OrOperator,
+        Value,
+        IfClause
+    }
+
     /// <summary>
     /// denotes to a method, or a methods protected region
     /// </summary>
@@ -162,6 +170,14 @@ namespace jsc
 
 
 
+        public ILInstruction[] ExtractInstructionsBetweenOffsets(int offset, int offset2)
+        {
+            if (offset < offset2)
+                return ExtractInstructions(offset, offset2 - offset);
+            
+            return ExtractInstructions(offset2, offset - offset2);
+        }
+
         public ILInstruction[] ExtractInstructions(int offset, int length)
         {
             if (length < 0)
@@ -242,7 +258,7 @@ namespace jsc
 
             using (new Task("binding flow", "method entry"))
             {
-                new ILFlow(ResolveFlowBlock, First, new ILFlow.EvaluationStack());
+                new ILFlow(ResolveFlowBlock, First, new ILFlowEvaluationStack());
 
                 CreateExceptionEntry();
             }
@@ -254,10 +270,10 @@ namespace jsc
             {
                 using (new Task("binding flow", "catch block"))
                 {
-                    ILFlow.EvaluationStack s = new ILFlow.EvaluationStack();
+                    ILFlowEvaluationStack s = new ILFlowEvaluationStack();
 
                     if (Clause.Flags == ExceptionHandlingClauseOptions.Clause)
-                        s.Push(new ILFlow.StackItem(this));
+                        s.Push(new ILFlowStackItem(this));
 
 
                     new ILFlow(Root.ResolveFlowBlock, First, s);
@@ -439,19 +455,13 @@ namespace jsc
 
             }
 
-            public InlineLogic(SpecialType _hint, ILFlow.StackItem _value)
+            public InlineLogic(ILBlockInlineLogicSpecialType _hint, ILFlowStackItem _value)
             {
                 hint = _hint;
                 value = _value;
             }
 
-            public enum SpecialType
-            {
-                AndOperator,
-                OrOperator,
-                Value,
-                IfClause
-            }
+
 
             public bool IsNegative;
 
@@ -459,13 +469,13 @@ namespace jsc
             public InlineLogic lhs;
             public InlineLogic rhs;
 
-            public SpecialType hint;
+            public ILBlockInlineLogicSpecialType hint;
 
-            public ILFlow.StackItem value;
+            public ILFlowStackItem value;
 
             public ILIfElseConstruct IfClause;
 
-            public void Resolve(ILFlow.StackItem s, ILIfElseConstruct iif)
+            public void Resolve(ILFlowStackItem s, ILIfElseConstruct iif)
             {
 
 
@@ -473,7 +483,7 @@ namespace jsc
                 if (resolve_iif(iif, OpCodes.Brtrue_S, false, true, true, false)) return;
 
                 this.IfClause = iif;
-                this.hint = SpecialType.IfClause;
+                this.hint = ILBlockInlineLogicSpecialType.IfClause;
 
             }
 
@@ -481,13 +491,13 @@ namespace jsc
             {
                 if (iif.BodyTrueFirst == iif.BodyTrueLast)
                 {
-                    this.rhs = new InlineLogic(SpecialType.Value, iif.BodyTrueLast.StackAfterStrict[0]);
+                    this.rhs = new InlineLogic(ILBlockInlineLogicSpecialType.Value, iif.BodyTrueLast.StackAfterStrict[0]);
                 }
                 else
                 {
                     if (iif.FCondition == null)
                     {
-                        this.rhs = new InlineLogic(SpecialType.Value, iif.BodyTrueLast.StackAfterStrict[0]);
+                        this.rhs = new InlineLogic(ILBlockInlineLogicSpecialType.Value, iif.BodyTrueLast.StackAfterStrict[0]);
                     }
                     else
                     {
@@ -524,21 +534,21 @@ namespace jsc
                 {
                     InlineLogic x = new InlineLogic();
 
-                    x.lhs = new InlineLogic(SpecialType.Value, iif.Branch.StackBeforeStrict[0]);
+                    x.lhs = new InlineLogic(ILBlockInlineLogicSpecialType.Value, iif.Branch.StackBeforeStrict[0]);
                     x.rhs = lhs;
 
 
 
                     if (owner.IsTResult(or_value))
                     {
-                        x.hint = SpecialType.OrOperator;
+                        x.hint = ILBlockInlineLogicSpecialType.OrOperator;
                         x.lhs.IsNegative = neg_lhs && (owner.Branch == iif.Branch.OpCode);
                         x.rhs.IsNegative = neg_rhs && (owner.Branch == iif.Branch.OpCode);
 
                     }
                     if (owner.IsTResult(and_value))
                     {
-                        x.hint = SpecialType.AndOperator;
+                        x.hint = ILBlockInlineLogicSpecialType.AndOperator;
                         x.lhs.IsNegative = neg_lhs && (owner.Branch == iif.Branch.OpCode);
                         x.rhs.IsNegative = neg_rhs && (owner.Branch == iif.Branch.OpCode);
                     }
@@ -567,7 +577,7 @@ namespace jsc
                 {
                     InlineLogic x = new InlineLogic();
 
-                    x.hint = SpecialType.Value;
+                    x.hint = ILBlockInlineLogicSpecialType.Value;
                     x.value = iif.Branch.StackBeforeStrict[0];
 
                     if (iif.IsTResult(and_value))
@@ -575,7 +585,7 @@ namespace jsc
                         lhs = x;
                         lhs.IsNegative = lhs_and_neg;
 
-                        hint = SpecialType.AndOperator;
+                        hint = ILBlockInlineLogicSpecialType.AndOperator;
 
                         resolve_iif_sub(iif);
 
@@ -586,7 +596,7 @@ namespace jsc
                     {
                         lhs = x;
                         lhs.IsNegative = lhs_or_neg;
-                        hint = SpecialType.OrOperator;
+                        hint = ILBlockInlineLogicSpecialType.OrOperator;
 
                         resolve_iif_sub(iif);
 
@@ -595,7 +605,7 @@ namespace jsc
 
 
                     this.IfClause = iif;
-                    this.hint = SpecialType.IfClause;
+                    this.hint = ILBlockInlineLogicSpecialType.IfClause;
                     this.IsNegative = iif.Branch != OpCodes.Brtrue_S;
 
                     resolve_iif_sub(iif);
@@ -922,7 +932,7 @@ namespace jsc
                     if (!IsInlineArrayInit)
                         return -1;
 
-                    ILFlow.StackItem _stack = this.Instruction.StackBeforeStrict[0];
+                    ILFlowStackItem _stack = this.Instruction.StackBeforeStrict[0];
                     ILInstruction _newarr = _stack.SingleStackInstruction;
 
                     _stack = _newarr.StackBeforeStrict[0];
@@ -944,7 +954,7 @@ namespace jsc
                     if (!this.Instruction.IsStoreInstruction)
                         return false;
 
-                    ILFlow.StackItem _stack = this.Instruction.StackBeforeStrict[0];
+                    ILFlowStackItem _stack = this.Instruction.StackBeforeStrict[0];
 
                     if (_stack.StackInstructions.Length != 1)
                         return false;
@@ -986,12 +996,12 @@ namespace jsc
                 {
                     int u = 0;
 
-                    ILFlow.StackItem[] s = InlineArrayInitElements;
+                    ILFlowStackItem[] s = InlineArrayInitElements;
 
                     if (s == null)
                         return -1;
 
-                    foreach (ILFlow.StackItem var in s)
+                    foreach (ILFlowStackItem var in s)
                     {
                         if (var != null)
                             u++;
@@ -1001,7 +1011,7 @@ namespace jsc
                 }
             }
 
-            public ILFlow.StackItem[] InlineArrayInitElements
+            public ILFlowStackItem[] InlineArrayInitElements
             {
                 get
                 {
@@ -1010,7 +1020,7 @@ namespace jsc
                     if (len == -1)
                         return null;
 
-                    ILFlow.StackItem[] u = new ILFlow.StackItem[len];
+                    ILFlowStackItem[] u = new ILFlowStackItem[len];
 
                     Prestatement p = this;
 
@@ -1112,7 +1122,7 @@ namespace jsc
                 return false;
             }
 
-            public ILFlow.StackItem FirstOnStack
+            public ILFlowStackItem FirstOnStack
             {
                 get
                 {
@@ -1340,7 +1350,7 @@ namespace jsc
             //    return null;
             //}
 
-            public Prestatement MemoryBy(ILFlow.StackItem s)
+            public Prestatement MemoryBy(ILFlowStackItem s)
             {
                 ILInstruction t = s.StackInstructions[0];
                 ILInstruction f = s.StackInstructions[1];

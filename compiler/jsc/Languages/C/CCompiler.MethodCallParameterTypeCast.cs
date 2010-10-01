@@ -20,7 +20,7 @@ namespace jsc.Languages.C
 {
 	partial class CCompiler
 	{
-		public override void MethodCallParameterTypeCast(Type context, Type p, ILFlow.StackItem si)
+		public override void MethodCallParameterTypeCast(Type context, Type p, ILFlowStackItem si)
 		{
 			// we know what the method expects
 			// it may be int, but it may also be T that we might not know yet

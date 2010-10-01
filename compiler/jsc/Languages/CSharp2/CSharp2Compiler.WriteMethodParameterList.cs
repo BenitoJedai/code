@@ -18,7 +18,7 @@ namespace jsc.Languages.CSharp2
             WriteMethodParameterList(m, null, null);
         }
 
-        public void WriteMethodParameterList(MethodBase m, ILFlow.StackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer)
+        public void WriteMethodParameterList(MethodBase m, ILFlowStackItem[] DefaultValues, Action<Action> AddDefaultVariableInitializer)
         {
             if (DefaultValues != null)
                 throw new NotSupportedException();

@@ -18,7 +18,7 @@ namespace jsc
 {
 	using ilbp = ILBlock.Prestatement;
 	using ili = ILInstruction;
-	using ilfsi = ILFlow.StackItem;
+	using ilfsi = ILFlowStackItem;
 
 
 	partial class IL2ScriptGenerator

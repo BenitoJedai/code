@@ -154,7 +154,7 @@ namespace jsc.Languages.Java
 			}
 		}
 
-		protected override bool IsTypeCastRequired(Type ParameterType, ILFlow.StackItem s)
+		protected override bool IsTypeCastRequired(Type ParameterType, ILFlowStackItem s)
 		{
 
 
@@ -184,7 +184,7 @@ namespace jsc.Languages.Java
 			return false;
 		}
 
-		public override void MethodCallParameterTypeCast(Type context, Type ParameterType, ILFlow.StackItem s)
+		public override void MethodCallParameterTypeCast(Type context, Type ParameterType, ILFlowStackItem s)
 		{
 			// this is what the variable must be
 			ParameterType = ParameterType.ToScriptAttributeOrDefault().Implements ?? ParameterType;

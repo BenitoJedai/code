@@ -376,8 +376,8 @@ namespace jsc
         public readonly byte[] OpParam;
         public readonly byte[] OpParamData;
 
-        public ILFlow.EvaluationStack StackBefore;
-        public ILFlow.EvaluationStack StackAfter;
+        public ILFlowEvaluationStack StackBefore;
+        public ILFlowEvaluationStack StackAfter;
 
         public readonly ILInstructionInfo Info;
 
@@ -500,9 +500,9 @@ namespace jsc
 
                 Index[i.Index]++;
 
-                ILFlow.StackItem[] s = i.StackBeforeStrict;
+                ILFlowStackItem[] s = i.StackBeforeStrict;
 
-                foreach (ILFlow.StackItem x in s)
+                foreach (ILFlowStackItem x in s)
                 {
                     // string si = x.ToString();
 
@@ -526,7 +526,7 @@ namespace jsc
                     return false;
 
 
-                ILFlow.StackItem[] s = StackBeforeStrict;
+                ILFlowStackItem[] s = StackBeforeStrict;
 
                 if (s.Length != 2)
                     return false;
@@ -581,7 +581,7 @@ namespace jsc
         public bool IsInlinePrefixOperatorStatement(OpCode e)
         {
 
-            ILFlow.StackItem[] s = this.StackBeforeStrict;
+            ILFlowStackItem[] s = this.StackBeforeStrict;
 
             if (s.Length == 1)
             {
@@ -614,7 +614,7 @@ namespace jsc
 
         public bool IsInlinePrefixOperator(OpCode e)
         {
-            ILFlow.StackItem[] s = this.StackBeforeStrict;
+            ILFlowStackItem[] s = this.StackBeforeStrict;
 
             if ((this == e) && this.Next == OpCodes.Dup)
             {
@@ -718,7 +718,7 @@ namespace jsc
         /// <summary>
         /// returns a stackarray on which stack analysis can be maded without chaning this instructuion
         /// </summary>
-        public ILFlow.StackItem[] StackBeforeStrict
+        public ILFlowStackItem[] StackBeforeStrict
         {
             get
             {
@@ -726,7 +726,7 @@ namespace jsc
             }
         }
 
-        public ILFlow.StackItem[] StackAfterStrict
+        public ILFlowStackItem[] StackAfterStrict
         {
             get
             {
@@ -2144,7 +2144,7 @@ namespace jsc
 
                 if (this.StackBefore != null)
                 {
-                    ILFlow.StackItem[] s = this.StackBefore.Clone().Pop(this.StackPopCount);
+                    ILFlowStackItem[] s = this.StackBefore.Clone().Pop(this.StackPopCount);
 
                     for (int i = 0; i < s.Length; i++)
                         w.Write("{0} ", s[i]);

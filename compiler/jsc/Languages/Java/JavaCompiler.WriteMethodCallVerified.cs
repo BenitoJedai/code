@@ -62,7 +62,7 @@ namespace jsc.Languages.Java
 			}
 
 
-			ILFlow.StackItem[] s = i.StackBeforeStrict;
+			ILFlowStackItem[] s = i.StackBeforeStrict;
 
 			int offset = 1;
 

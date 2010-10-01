@@ -115,7 +115,7 @@ namespace jsc.Languages.C
 				] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write("[");
@@ -131,7 +131,7 @@ namespace jsc.Languages.C
 				] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write("[");
@@ -251,7 +251,7 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Stfld] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Emit(e.p, s[0]);
 					Write("->");
@@ -294,7 +294,7 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Ldsfld] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
 					Write("_");
@@ -304,7 +304,7 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Stsfld] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
 					Write("_");
@@ -318,7 +318,7 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Ldsflda] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					Write("&");
 					WriteDecoratedTypeName(e.i.TargetField.DeclaringType);
@@ -412,7 +412,7 @@ namespace jsc.Languages.C
 			CIW[OpCodes.Ceq] =
 				delegate(CodeEmitArgs e)
 				{
-					ILFlow.StackItem[] s = e.i.StackBeforeStrict;
+					ILFlowStackItem[] s = e.i.StackBeforeStrict;
 
 					bool b = false;
 
