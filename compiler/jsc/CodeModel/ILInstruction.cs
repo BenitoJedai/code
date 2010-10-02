@@ -1767,10 +1767,29 @@ namespace jsc
                         {
                             return 0;
                         }
+
+
+                        throw new InvalidOperationException(
+                            "Unable to extract stackpushcount (FlowControl.Call): "
+                            + new
+                            {
+                                OpCode.StackBehaviourPush,
+                                OpCode.FlowControl
+                            }.ToString()
+
+                        ).TryDebuggerBreak();
                     }
                 }
 
-                throw new Exception("unable to extract stackpushcount");
+                throw new InvalidOperationException(
+                    "Unable to extract stackpushcount: "
+                    + new
+                    {
+                        OpCode.StackBehaviourPush,
+                        OpCode.FlowControl
+                    }.ToString()
+
+                ).TryDebuggerBreak();
 
 
 
