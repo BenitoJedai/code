@@ -265,6 +265,7 @@ namespace jsc.Languages.IL
 
                 var branch = new Dictionary<OpCode, OpCode>
                 {
+                    {OpCodes.Leave_S, OpCodes.Leave},
                     {OpCodes.Br_S, OpCodes.Br},
                     {OpCodes.Brtrue_S, OpCodes.Brtrue},
                     {OpCodes.Brfalse_S, OpCodes.Brfalse},
