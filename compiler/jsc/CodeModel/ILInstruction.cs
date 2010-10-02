@@ -6,6 +6,7 @@ using System.Reflection;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using ScriptCoreLib.Extensions;
 
 using jsc.CodeModel;
 
@@ -2350,13 +2351,14 @@ namespace jsc
             }
         }
 
+        readonly static FieldInfo[] OpCodeLookup_f = typeof(OpCodes).GetFields(BindingFlags.Static | BindingFlags.Public);
+
         public OpCode OpCodeLookup(ref byte[] x)
         {
             int id = x[Offset] == 0xFE ? (x[Offset] << 8) + x[Offset + 1] : x[Offset];
 
-            FieldInfo[] f = typeof(OpCodes).GetFields(BindingFlags.Static | BindingFlags.Public);
 
-            foreach (FieldInfo i in f)
+            foreach (FieldInfo i in OpCodeLookup_f)
             {
                 OpCode c = (OpCode)i.GetValue(null);
 
@@ -2364,7 +2366,7 @@ namespace jsc
                     return c;
             }
 
-            throw new Exception();
+            throw new InvalidOperationException("OpCode not found: " + id.ToString("x4")).TryDebuggerBreak();
         }
 
 

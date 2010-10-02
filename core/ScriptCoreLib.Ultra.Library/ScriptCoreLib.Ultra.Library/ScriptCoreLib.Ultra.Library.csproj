@@ -74,6 +74,7 @@
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Delegates\Async.cs" />
+    <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Forms\FormsExtensions.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\IOGenericExtensions.cs" />
