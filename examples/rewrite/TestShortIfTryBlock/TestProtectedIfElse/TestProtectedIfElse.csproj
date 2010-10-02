@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{48CE6E28-79F8-4F78-B5DE-6091C69530C4}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestProtectedIfElse</RootNamespace>
     <AssemblyName>TestProtectedIfElse</AssemblyName>
@@ -30,6 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,9 +48,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false</PostBuildEvent>
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

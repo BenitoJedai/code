@@ -1795,6 +1795,11 @@ namespace jsc
 
         void PopulateChildren()
         {
+            foreach (var item in this.Instructrions)
+            {
+                item.RootBlock = this;
+            }
+
             ExceptionHandlingClause c = FindNextEHC(First);
 
             if (c != null)
