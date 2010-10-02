@@ -495,6 +495,9 @@ namespace jsc.meta.Commands.Rewrite
 
                     // MethodBuilder.Emit is too nice and always writes .leave for us.
                     // As such we need not to write this twice
+
+
+                    e.Default();
                 };
 
 
