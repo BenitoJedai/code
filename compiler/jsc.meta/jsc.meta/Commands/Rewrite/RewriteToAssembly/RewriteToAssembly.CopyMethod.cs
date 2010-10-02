@@ -496,7 +496,18 @@ namespace jsc.meta.Commands.Rewrite
                     // MethodBuilder.Emit is too nice and always writes .leave for us.
                     // As such we need not to write this twice
 
+                    var Offset = e.i.Offset;
 
+                    if (Enumerable.Any(
+                            from k in ExceptionHandlingClauses
+                            where 
+                                Offset >= k.TryOffset && Offset <= (k.TryOffset + k.TryLength)
+                                || Offset >= k.HandlerOffset && Offset <= (k.HandlerOffset + k.HandlerLength)
+                            select k
+                        ))
+                        return;
+
+                    // unless we are not in a protected block
                     e.Default();
                 };
 
