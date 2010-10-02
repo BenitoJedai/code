@@ -11,6 +11,7 @@ using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
 using ScriptCoreLib.Extensions;
+using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -278,15 +279,15 @@ namespace jsc.meta.Commands.Rewrite
             {
                 a.SetEntryPoint(DeclaringMethod);
             }
-            else if (Command != null && Command.EntryPoint != null && 
-                Command.EntryPoint == 
+            else if (Command != null && Command.EntryPoint != null &&
+                Command.EntryPoint ==
                     SourceMethod.DeclaringType.FullName + "." + SourceMethod.Name
                 )
             {
                 a.SetEntryPoint(DeclaringMethod);
 
             }
-            else  if (PrimarySourceAssembly != null)
+            else if (PrimarySourceAssembly != null)
                 if (SourceMethod == PrimarySourceAssembly.EntryPoint)
                 {
                     // we found the entrypoint
@@ -333,20 +334,20 @@ namespace jsc.meta.Commands.Rewrite
                 {
 
 
-                     WriteSwitchRewrite(
-                        SourceMethod, 
-                        DeclaringType, 
-                        context, 
-                        ParametersTypes, 
-                        ReturnType,
-                        ILOverride,
-                        ExceptionHandlingClauses,
-                        xb,
-                        kmil
-                    );
+                    WriteSwitchRewrite(
+                       SourceMethod,
+                       DeclaringType,
+                       context,
+                       ParametersTypes,
+                       ReturnType,
+                       ILOverride,
+                       ExceptionHandlingClauses,
+                       xb,
+                       kmil
+                   );
 
 
-                 
+
                     return;
                 }
             }
@@ -367,7 +368,7 @@ namespace jsc.meta.Commands.Rewrite
 
         }
 
-       
+
 
         public static ILTranslationExtensions.EmitToArguments CreateMethodBaseEmitToArguments(
             MethodBase SourceMethod,
@@ -376,6 +377,15 @@ namespace jsc.meta.Commands.Rewrite
             ExceptionHandlingClause[] ExceptionHandlingClauses,
             ILTranslationContext context)
         {
+            const string DebugPrefix = "~~debug: ";
+
+            Action<ILGenerator, string> DebugWrite =
+                (il, text) =>
+                {
+                    //il.Emit(OpCodes.Ldstr, DebugPrefix + text);
+                    //il.Emit(OpCodes.Pop);
+                };
+
             var x = new ILTranslationExtensions.EmitToArguments
             {
                 #region BeforeInstruction
@@ -392,6 +402,8 @@ namespace jsc.meta.Commands.Rewrite
 
                                 if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
                                 {
+                                    DebugWrite(e.il, ".endfinally " + e.i.Offset.ToString("x4"));
+
 
                                     //Console.WriteLine(".endfinally");
                                     e.il.EndExceptionBlock();
@@ -402,6 +414,8 @@ namespace jsc.meta.Commands.Rewrite
 
                                 if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
                                 {
+                                    DebugWrite(e.il, ".endcatch " + e.i.Offset.ToString("x4"));
+
                                     //Console.WriteLine(".endcatch");
                                     e.il.EndExceptionBlock();
 
@@ -417,6 +431,8 @@ namespace jsc.meta.Commands.Rewrite
                             if (ex.TryOffset == e.i.Offset)
                             {
                                 //Console.WriteLine(".try");
+                                DebugWrite(e.il, ".try " + e.i.Offset.ToString("x4"));
+
                                 e.il.BeginExceptionBlock();
 
                             }
@@ -428,6 +444,7 @@ namespace jsc.meta.Commands.Rewrite
                                 if (ex.Flags == ExceptionHandlingClauseOptions.Finally)
                                 {
                                     //Console.WriteLine(".finally");
+                                    DebugWrite(e.il, ".finally " + e.i.Offset.ToString("x4"));
 
                                     // http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.beginfinallyblock.aspx
                                     // Label multiply defined ?
@@ -438,6 +455,7 @@ namespace jsc.meta.Commands.Rewrite
                                 else if (ex.Flags == ExceptionHandlingClauseOptions.Clause)
                                 {
 
+                                    DebugWrite(e.il, ".catch " + e.i.Offset.ToString("x4"));
                                     //Console.WriteLine(".catch");
                                     e.il.BeginCatchBlock(context.TypeCache[ex.CatchType]);
 
@@ -446,6 +464,7 @@ namespace jsc.meta.Commands.Rewrite
                                 else if (ex.Flags == ExceptionHandlingClauseOptions.Fault)
                                 {
 
+                                    DebugWrite(e.il, ".fault " + e.i.Offset.ToString("x4"));
                                     //Console.WriteLine(".catch");
                                     e.il.BeginFaultBlock();
 
@@ -486,29 +505,55 @@ namespace jsc.meta.Commands.Rewrite
                 {
                 };
 
+            x[OpCodes.Pop] =
+              e =>
+              {
+                  if (e.i.Prev.OpCode == OpCodes.Ldstr)
+                      if (e.i.Prev.TargetLiteral.StartsWith(DebugPrefix))
+                          return;
+
+                  e.Default();
+              };
+
+            x[OpCodes.Ldstr] =
+                e =>
+                {
+                    if (e.i.TargetLiteral.StartsWith(DebugPrefix) && e.i.Next.OpCode == OpCodes.Pop)
+                        return;
+
+                    e.Default();
+                };
 
 
             x[OpCodes.Leave, OpCodes.Leave_S] =
                 e =>
                 {
-                    // see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
+                    //see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
 
-                    // MethodBuilder.Emit is too nice and always writes .leave for us.
-                    // As such we need not to write this twice
+                    //MethodBuilder.Emit is too nice and always writes .leave for us.
+                    //As such we need not to write this twice
 
-                    var Offset = e.i.Offset;
+                    // we get some extra leave opcodes for now..
 
-                    if (Enumerable.Any(
-                            from k in ExceptionHandlingClauses
-                            where 
-                                Offset >= k.TryOffset && Offset <= (k.TryOffset + k.TryLength)
-                                || Offset >= k.HandlerOffset && Offset <= (k.HandlerOffset + k.HandlerLength)
-                            select k
-                        ))
-                        return;
+                    Func<int, bool> IsEndHandlerOffset =
+                        Offset => ExceptionHandlingClauses.Any(k => (k.HandlerOffset + k.HandlerLength) == Offset);
 
-                    // unless we are not in a protected block
-                    e.Default();
+                    var j = e.i.TargetInstruction;
+
+                    if (j.IsAnyOpCodeOf(OpCodes.Leave, OpCodes.Leave_S) && IsEndHandlerOffset(j.TargetInstruction.Offset) 
+                        || IsEndHandlerOffset(e.i.TargetInstruction.Offset))
+                    {
+
+                        //e.il.Emit(OpCodes.Ldstr, DebugPrefix + "rewrite (implicit .endcatch) " + e.i.Offset.ToString("x4"));
+                        //e.il.Emit(OpCodes.Pop);
+                    }
+                    else
+                    {
+                        DebugWrite(e.il, "rewrite " + e.i.Offset.ToString("x4"));
+                        
+                        e.Default();
+                    }
+
                 };
 
 
