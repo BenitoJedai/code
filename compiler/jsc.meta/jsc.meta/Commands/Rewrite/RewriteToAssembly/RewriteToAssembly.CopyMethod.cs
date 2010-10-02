@@ -274,7 +274,7 @@ namespace jsc.meta.Commands.Rewrite
 
             #region EntryPoint
             if (Command != null && Command.EntryPointAssembly != null
-                && Command.EntryPointAssembly == SourceMethod.DeclaringType.Assembly.GetName().Name
+                && Command.EntryPointAssembly.TakeUntilLastIfAny(".exe").TakeUntilLastIfAny(".dll") == SourceMethod.DeclaringType.Assembly.GetName().Name
                 && SourceMethod.DeclaringType.Assembly.EntryPoint == SourceMethod)
             {
                 a.SetEntryPoint(DeclaringMethod);
@@ -431,7 +431,7 @@ namespace jsc.meta.Commands.Rewrite
                             if (ex.TryOffset == e.i.Offset)
                             {
                                 //Console.WriteLine(".try");
-                                DebugWrite(e.il, ".try " + e.i.Offset.ToString("x4"));
+                                //DebugWrite(e.il, ".try " + e.i.Offset.ToString("x4"));
 
                                 e.il.BeginExceptionBlock();
 
@@ -538,21 +538,22 @@ namespace jsc.meta.Commands.Rewrite
                     Func<int, bool> IsEndHandlerOffset =
                         Offset => ExceptionHandlingClauses.Any(k => (k.HandlerOffset + k.HandlerLength) == Offset);
 
-                    var j = e.i.TargetInstruction;
+                    var j = e.i;
 
-                    if (j.IsAnyOpCodeOf(OpCodes.Leave, OpCodes.Leave_S) && IsEndHandlerOffset(j.TargetInstruction.Offset) 
-                        || IsEndHandlerOffset(e.i.TargetInstruction.Offset))
+                    if (j.Next.Offset == j.TargetInstruction.Offset)
                     {
+                        if (IsEndHandlerOffset(j.TargetInstruction.Offset))
+                            return;
+                    }
 
-                        //e.il.Emit(OpCodes.Ldstr, DebugPrefix + "rewrite (implicit .endcatch) " + e.i.Offset.ToString("x4"));
-                        //e.il.Emit(OpCodes.Pop);
-                    }
-                    else
-                    {
-                        DebugWrite(e.il, "rewrite " + e.i.Offset.ToString("x4"));
-                        
-                        e.Default();
-                    }
+                    //if (j.Next.IsAnyOpCodeOf(OpCodes.Leave, OpCodes.Leave_S))
+                    //    if (j.Next.TargetInstruction == j.TargetInstruction)
+                    //        return;
+
+
+
+
+                    e.Default();
 
                 };
 

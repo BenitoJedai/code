@@ -306,27 +306,65 @@ namespace jsc.Languages.IL
                         return false;
                     };
 
-                Func<ILInstruction, bool> ShortBranchNeedsUpgradeDueCascadeUpgrade =
-                    i =>
-                    {
-                        var n =
-                            from k in i.Flow.OwnerBlock.Root.ExtractInstructionsBetweenOffsets(
-                                i.Offset,
-                                i.TargetInstruction.Offset
-                            )
-                            where branch.Keys.Contains(k.OpCode)
-                            where ShortBranchNeedsUpgradeDueTryBlock(k)
-                            select k;
+             
 
-                        return n.Any();
+                Func<ILInstruction, Func<bool>> GetShortBranchNeedsUpgrade =
+                    j =>
+                    {
+                        var Cache = new Dictionary<ILInstruction, bool>();
+
+                        Func<ILInstruction, bool> f = null;
+
+                        f = i =>
+                        {
+                            if (Cache.ContainsKey(i))
+                                return Cache[i];
+
+                            var r = ShortBranchNeedsUpgradeDueTryBlock(i);
+
+                            Cache[i] = r;
+
+                            if (!r)
+                            {
+                                r = Enumerable.Any(
+                                     from k in i.RootBlock.ExtractInstructionsBetweenOffsets(
+                                        i.Offset,
+                                        i.TargetInstruction.Offset
+                                    )
+                                    where branch.Keys.Contains(k.OpCode)
+                                    where f(k)
+                                    select k
+                                );
+                            }
+
+                            Cache[i] = r;
+
+                            return r;
+                        };
+
+                        //ShortBranchNeedsUpgradeDueTryBlock(e.i)
+                        // || ShortBranchNeedsUpgradeDueCascadeUpgrade(e.i)
+
+                        return delegate
+                        {
+
+                            return f(j);
+                        };
                     };
 
                 this[branch.Keys.ToArray()] =
                  e =>
                  {
+                     if (e.SourceMethod.Name == "get_InlineIfElseConstruct")
+                     {
+                         var jump = e.i.Offset.ToString("x4");
 
-                     if (ShortBranchNeedsUpgradeDueTryBlock(e.i)
-                         || ShortBranchNeedsUpgradeDueCascadeUpgrade(e.i))
+                         Console.WriteLine("jump: " + jump);
+
+                     }
+
+
+                     if (GetShortBranchNeedsUpgrade(e.i)())
                      {
                          e.il.Emit(branch[e.i.OpCode], e.i.BranchTargets.Select(k => e.Labels[k]).Single());
                      }

@@ -343,6 +343,8 @@ namespace jsc
 
     public class ILInstruction
     {
+        public ILBlock RootBlock;
+
         /// <summary>
         /// cached value
         /// </summary>
