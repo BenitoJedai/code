@@ -29,6 +29,7 @@ namespace jsc.meta.Tools
                 };
 
             Console.WriteLine(psi.FileName);
+            Console.WriteLine(SourceAssembly.FullName);
 
             var p = Process.Start(psi);
 

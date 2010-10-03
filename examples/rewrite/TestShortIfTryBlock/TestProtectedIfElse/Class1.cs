@@ -28,6 +28,16 @@ namespace TestProtectedIfElse
             {
                 throw;
             }
+            catch 
+            {
+                throw;
+            }
+            finally
+            {
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
         }
     }
 

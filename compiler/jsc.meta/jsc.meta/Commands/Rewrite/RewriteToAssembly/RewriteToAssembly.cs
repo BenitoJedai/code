@@ -1471,16 +1471,21 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     File.Copy(Temp, this.Output.FullName, true);
                     File.Delete(Temp);
+
+
+                    if (PEVerify)
+                    {
+                        //Path.Combine(_ct_staging_FullName, _ct_SaveName)
+
+                        this.Output.ToPEVerify(this.MicrosoftWindowsSDK);
+                    }
+
                 }
             }
 
             Product.Refresh();
 
-            if (PEVerify)
-            {
-                Product.ToPEVerify(this.MicrosoftWindowsSDK);
-
-            }
+   
         }
 
         public void RaiseTypeCreated(TypeRewriteArguments TypeCreatedArguments)
