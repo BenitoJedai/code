@@ -16,6 +16,7 @@ using jsc.meta.Library;
 using jsc.meta.Library.CodeTrace;
 using ScriptCoreLib.CSharp.Extensions;
 using System.Security.Permissions;
+using jsc.meta.Tools;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -26,9 +27,18 @@ namespace jsc.meta.Commands.Rewrite
         public override void Invoke()
         {
             if (this.AttachDebugger)
+            {
+                Console.WriteLine("AttachDebugger...");
                 Debugger.Launch();
+            }
 
             InternalInvoke();
+
+            if (this.Pause)
+            {
+                Console.WriteLine("Paused...");
+                Console.ReadKey(true);
+            }
         }
 
         internal Func<Attribute, Attribute> SelectAssemblyMergeAttribute;
@@ -1465,6 +1475,12 @@ namespace jsc.meta.Commands.Rewrite
             }
 
             Product.Refresh();
+
+            if (PEVerify)
+            {
+                Product.ToPEVerify(this.MicrosoftWindowsSDK);
+
+            }
         }
 
         public void RaiseTypeCreated(TypeRewriteArguments TypeCreatedArguments)

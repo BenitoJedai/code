@@ -288,25 +288,46 @@ namespace jsc.Languages.IL
                 Func<ILInstruction, bool> ShortBranchNeedsUpgradeDueTryBlock =
                     i =>
                     {
-                        var clauses = i.OwnerMethod.GetMethodBody().ExceptionHandlingClauses.AsEnumerable();
+                        // -----I------X----
+                        // ----TTTT---------
+                        // --------TT-------
+                        // -----------TTTT--
 
-                         if (clauses.Any(
-                                k =>
-                                {
-                                    if (k.TryOffset > i.Offset)
-                                        if (k.TryOffset + k.TryLength < i.TargetInstruction.Offset)
-                                            return true;
+                        var q = new { n1 = i.Offset, n2 = i.TargetInstruction.Offset };
 
-                                    return false;
+                        if (q.n1 > q.n2)
+                            q = new { n1 = q.n2, n2 = q.n2 };
+
+                        var r = from k1 in i.OwnerMethod.GetMethodBody().ExceptionHandlingClauses.AsEnumerable()
+                                from k2 in new[] {
+                                    new { n1 = k1.TryOffset, n2 = k1.TryOffset + k1.TryLength },
+                                    new { n1 = k1.HandlerOffset, n2 = k1.HandlerOffset + k1.HandlerLength },
                                 }
+                                select k2;
 
-                             ))
-                             return true;
+                        var c1 = from y in r
+                                 select new { y, x = q };
 
-                        return false;
+                        var c2 = from x in r
+                                 select new { y = q, x };
+
+                        var c = c1.Concat(c2);
+
+
+
+                        return Enumerable.Any(
+                            from k in c
+
+                            let n1 = k.x.n1 >= k.y.n1 && k.x.n1 <= k.y.n2
+                            let n2 = k.x.n2 >= k.y.n1 && k.x.n2 <= k.y.n2
+
+                            where n1 && n2
+
+                            select k
+                        );
                     };
 
-             
+
 
                 Func<ILInstruction, Func<bool>> GetShortBranchNeedsUpgrade =
                     j =>
@@ -331,9 +352,9 @@ namespace jsc.Languages.IL
                                         i.Offset,
                                         i.TargetInstruction.Offset
                                     )
-                                    where branch.Keys.Contains(k.OpCode)
-                                    where f(k)
-                                    select k
+                                     where branch.Keys.Contains(k.OpCode)
+                                     where f(k)
+                                     select k
                                 );
                             }
 
@@ -355,16 +376,18 @@ namespace jsc.Languages.IL
                 this[branch.Keys.ToArray()] =
                  e =>
                  {
-                     if (e.SourceMethod.Name == "get_InlineIfElseConstruct")
-                     {
-                         var jump = e.i.Offset.ToString("x4");
+                     var ShortBranchNeedsUpgrade = GetShortBranchNeedsUpgrade(e.i)();
 
-                         Console.WriteLine("jump: " + jump);
+                     //if (e.SourceMethod.Name == "get_InlineIfElseConstruct")
+                     //{
+                     //    var jump = e.i.Offset.ToString("x4");
 
-                     }
+                     //    Console.WriteLine(">> " + new { jump, ShortBranchNeedsUpgrade, e.i.Offset });
+
+                     //}
 
 
-                     if (GetShortBranchNeedsUpgrade(e.i)())
+                     if (ShortBranchNeedsUpgrade)
                      {
                          e.il.Emit(branch[e.i.OpCode], e.i.BranchTargets.Select(k => e.Labels[k]).Single());
                      }
