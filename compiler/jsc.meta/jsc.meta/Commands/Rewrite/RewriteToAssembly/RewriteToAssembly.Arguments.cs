@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using jsc.meta.Library;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
+using jsc;
 using jsc.Languages.IL;
 using jsc.Library;
-using jsc;
+using jsc.meta.Library;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -235,5 +235,12 @@ namespace jsc.meta.Commands.Rewrite
         public string EntryPoint;
 
         public string EntryPointAssembly;
+
+        public bool PEVerify;
+
+        public DirectoryInfo MicrosoftVisualStudio = new DirectoryInfo(@"c:\Program Files\Microsoft Visual Studio 10.0\");
+        public DirectoryInfo MicrosoftWindowsSDK = new DirectoryInfo(@"C:\Program Files\Microsoft SDKs\Windows\v7.0A");
+
+        public bool Pause;
     }
 }

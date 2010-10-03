@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{48CE6E28-79F8-4F78-B5DE-6091C69530C4}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>6d263540-a045-472c-a4ca-2938da35b126</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestProtectedIfElse</RootNamespace>
-    <AssemblyName>TestProtectedIfElse</AssemblyName>
+    <RootNamespace>TestInlineIfElseConstruct</RootNamespace>
+    <AssemblyName>TestInlineIfElseConstruct</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,9 +30,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,10 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false /PEVerify:true /Pause:true
-</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

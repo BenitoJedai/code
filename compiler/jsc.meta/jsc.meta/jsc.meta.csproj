@@ -368,6 +368,7 @@
     <Compile Include="Loader\LoaderStrategyImplementation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\ToolsExtensions.ToPEVerify.cs" />
     <Compile Include="Tools\ToolsExtensions.ToC.cs" />
     <Compile Include="Tools\ToolsExtensions.ToActionScript.cs" />
     <Compile Include="Tools\ToolsExtensions.ToJava.cs" />
