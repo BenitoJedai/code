@@ -538,6 +538,34 @@ namespace jsc.meta.Commands.Rewrite
                     // we can omit inter clause jumping...
                     // detecting such leaves is tricky.
 
+                    
+                    // if next is try exit
+                    //            catch exit
+                    // and if target is join 
+                    // then we can omit this instruction
+
+                    var RegionByJoin = Enumerable.FirstOrDefault(
+                        from ex in ExceptionHandlingClauses.AsEnumerable()
+                        
+                        where ex.HandlerOffset + ex.HandlerLength == e.i.TargetInstruction.Offset
+                        select ex
+                    );
+
+                    if (RegionByJoin != null)
+                    {
+                        var IsTryLeave = (e.i.Next.Offset == RegionByJoin.TryOffset + RegionByJoin.TryLength);
+                        var IsCatchLeave = (e.i.Next.Offset == RegionByJoin.HandlerOffset + RegionByJoin.HandlerLength);
+
+                        if (IsTryLeave)
+                            return;
+
+                        if (RegionByJoin.Flags == ExceptionHandlingClauseOptions.Clause)
+                        {
+                            if (IsCatchLeave)
+                                return;
+                        }
+                    }
+
                     e.Default();
                 };
 
