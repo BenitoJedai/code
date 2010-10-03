@@ -48,7 +48,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false /PEVerify:true /Pause:true
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"X$(TargetFileName)" /EntryPointAssembly:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false /PEVerify:true /Pause:false
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"Y$(TargetFileName)" /EntryPointAssembly:"X$(TargetFileName)" /AssemblyMerge:"X$(TargetFileName)" /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false /PEVerify:true /Pause:false
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -392,38 +392,7 @@ namespace jsc.meta.Commands.Rewrite
                 BeforeInstruction =
                     e =>
                     {
-                        #region ExceptionHandlingClauses
-                        foreach (var ex in ExceptionHandlingClauses)
-                        {
 
-
-                            if ((ex.Flags & ExceptionHandlingClauseOptions.Finally) == ExceptionHandlingClauseOptions.Finally)
-                            {
-
-                                if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
-                                {
-                                    DebugWrite(e.il, ".endfinally " + e.i.Offset.ToString("x4"));
-
-
-                                    //Console.WriteLine(".endfinally");
-                                    e.il.EndExceptionBlock();
-                                }
-                            }
-                            else
-                            {
-
-                                if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Offset)
-                                {
-                                    DebugWrite(e.il, ".endcatch " + e.i.Offset.ToString("x4"));
-
-                                    //Console.WriteLine(".endcatch");
-                                    e.il.EndExceptionBlock();
-
-
-                                }
-                            }
-                        }
-                        #endregion
 
                         #region ExceptionHandlingClauses
                         foreach (var ex in ExceptionHandlingClauses)
@@ -444,7 +413,7 @@ namespace jsc.meta.Commands.Rewrite
                                 if (ex.Flags == ExceptionHandlingClauseOptions.Finally)
                                 {
                                     //Console.WriteLine(".finally");
-                                    DebugWrite(e.il, ".finally " + e.i.Offset.ToString("x4"));
+                                    DebugWrite(e.il, ".finally (jump next or exit) " + e.i.Offset.ToString("x4"));
 
                                     // http://msdn.microsoft.com/en-us/library/system.reflection.emit.ilgenerator.beginfinallyblock.aspx
                                     // Label multiply defined ?
@@ -455,7 +424,7 @@ namespace jsc.meta.Commands.Rewrite
                                 else if (ex.Flags == ExceptionHandlingClauseOptions.Clause)
                                 {
 
-                                    DebugWrite(e.il, ".catch " + e.i.Offset.ToString("x4"));
+                                    DebugWrite(e.il, ".catch (jump next or exit) " + e.i.Offset.ToString("x4"));
                                     //Console.WriteLine(".catch");
                                     e.il.BeginCatchBlock(context.TypeCache[ex.CatchType]);
 
@@ -485,7 +454,41 @@ namespace jsc.meta.Commands.Rewrite
                 AfterInstruction =
                     e =>
                     {
+                        if (e.i.Next == null)
+                            return;
 
+                        #region ExceptionHandlingClauses
+                        foreach (var ex in ExceptionHandlingClauses)
+                        {
+
+
+                            if ((ex.Flags & ExceptionHandlingClauseOptions.Finally) == ExceptionHandlingClauseOptions.Finally)
+                            {
+
+                                if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Next.Offset)
+                                {
+                                    DebugWrite(e.il, ".endfinally " + e.i.Offset.ToString("x4"));
+
+
+                                    //Console.WriteLine(".endfinally");
+                                    e.il.EndExceptionBlock();
+                                }
+                            }
+                            else
+                            {
+
+                                if ((ex.HandlerOffset + ex.HandlerLength) == e.i.Next.Offset)
+                                {
+                                    DebugWrite(e.il, ".endcatch (jump next or exit) " + e.i.Offset.ToString("x4"));
+
+                                    //Console.WriteLine(".endcatch");
+                                    e.il.EndExceptionBlock();
+
+
+                                }
+                            }
+                        }
+                        #endregion
 
                     },
 
@@ -503,6 +506,7 @@ namespace jsc.meta.Commands.Rewrite
             x[OpCodes.Endfinally] =
                 e =>
                 {
+                    //e.il.Emit(OpCodes.Nop);
                 };
 
             x[OpCodes.Pop] =
@@ -530,31 +534,11 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     //see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/afc3b34b-1d42-427c-880f-1f6372ed81ca
 
-                    //MethodBuilder.Emit is too nice and always writes .leave for us.
-                    //As such we need not to write this twice
-
-                    // we get some extra leave opcodes for now..
-
-                    Func<int, bool> IsEndHandlerOffset =
-                        Offset => ExceptionHandlingClauses.Any(k => (k.HandlerOffset + k.HandlerLength) == Offset);
-
-                    var j = e.i;
-
-                    if (j.Next.Offset == j.TargetInstruction.Offset)
-                    {
-                        if (IsEndHandlerOffset(j.TargetInstruction.Offset))
-                            return;
-                    }
-
-                    //if (j.Next.IsAnyOpCodeOf(OpCodes.Leave, OpCodes.Leave_S))
-                    //    if (j.Next.TargetInstruction == j.TargetInstruction)
-                    //        return;
-
-
-
+                    // we can omit calls to current blocks finally or current blocks exit
+                    // we can omit inter clause jumping...
+                    // detecting such leaves is tricky.
 
                     e.Default();
-
                 };
 
 

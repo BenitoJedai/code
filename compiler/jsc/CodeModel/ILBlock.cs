@@ -174,7 +174,7 @@ namespace jsc
         {
             if (offset < offset2)
                 return ExtractInstructions(offset, offset2 - offset);
-            
+
             return ExtractInstructions(offset2, offset - offset2);
         }
 
@@ -1831,7 +1831,14 @@ namespace jsc
 
                         if (c == null)
                         {
-                            b = new ILBlock(this, b, null, ExtractInstructions(b.Last.Next.Offset, (Last.Offset) - b.Last.Next.Offset));
+                            // there is a bug somewhere here
+
+                            var length = (Last.Offset) - b.Last.Next.Offset;
+
+                            if (length < 0)
+                                length = 0;
+
+                            b = new ILBlock(this, b, null, ExtractInstructions(b.Last.Next.Offset, length));
                         }
                         else
                             b = new ILBlock(this, b, null, ExtractInstructions(b.Last.Next.Offset, (c.TryOffset - 1) - b.Last.Next.Offset));
