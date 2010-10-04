@@ -5,6 +5,7 @@ using System.Text;
 using java.awt;
 using java.applet;
 using System.Windows.Forms;
+using javax.swing;
 
 namespace ScriptCoreLib.Java.Extensions
 {
@@ -14,6 +15,8 @@ namespace ScriptCoreLib.Java.Extensions
 		{
 			// a dirty redirect.
 			Application.EnableVisualStyles();
+
+            SwingUtilities.updateComponentTreeUI(a);
 		}
 
 		public static void ReplaceContentWith(this Applet a, UserControl u)

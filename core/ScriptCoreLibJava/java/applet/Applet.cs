@@ -14,11 +14,12 @@ namespace java.applet
 
         }
 
+
         public void showStatus(string e)
         {
         }
 
-        public void resize(int w, int h)
+        public virtual void resize(int w, int h)
         {
 
         }

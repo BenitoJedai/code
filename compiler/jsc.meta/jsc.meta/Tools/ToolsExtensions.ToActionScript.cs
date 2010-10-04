@@ -114,7 +114,6 @@ namespace jsc.meta.Tools
 				//if (Debugger.IsAttached)
 				//    Debugger.Break();
 
-				var UseShellExecute = true;
                 
                 // Blocked by internet? :)
 

@@ -45,5 +45,31 @@ namespace ScriptCoreLib.JavaScript.Extensions
 
 			return i;
 		}
+
+        public static IHTMLElement AutoSizeAppletTo(this Applet e, IHTMLElement shadow)
+        {
+            var i = e.ToHTMLElement();
+
+            Action Update =
+                 delegate
+                 {
+                     var w = shadow.scrollWidth;
+                     var h = shadow.scrollHeight;
+
+                     i.style.SetSize(w, h);
+                 };
+
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    Update();
+                };
+
+            Update();
+
+
+            return i;
+        }
 	}
 }
