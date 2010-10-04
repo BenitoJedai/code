@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using ScriptCoreLib.JavaScript.Drawing;
+using ScriptCoreLib.JavaScript.Windows.Forms;
+using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
 
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using ScriptCoreLib.JavaScript.Drawing;
-    using ScriptCoreLib.JavaScript.Windows.Forms;
-
 
     using DOMHandler = Shared.EventHandler<DOM.IEvent>;
-	using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
 
 
 
@@ -39,12 +38,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     }
 
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
-    internal class __Control  : __Component
+    internal class __Control : __Component
     {
-		public void InternalSetDefaultFont()
-		{
-			this.Font = new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
-		}
+        public void InternalSetDefaultFont()
+        {
+            this.Font = new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+        }
 
         public virtual DOM.HTML.IHTMLElement HTMLTargetRef
         {
@@ -125,22 +124,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 }
             }
 
-			public virtual void SetChildIndex(Control child, int newIndex)
-			{
-				// we should apply the index
-			}
+            public virtual void SetChildIndex(Control child, int newIndex)
+            {
+                // we should apply the index
+            }
         }
 
         public void PerformLayout()
         {
 
         }
+
+        bool InternalLayoutSuspended;
+
         public void SuspendLayout()
         {
+            InternalLayoutSuspended = true;
 
         }
+
         public void ResumeLayout(bool b)
         {
+            InternalLayoutSuspended = false;
 
         }
         protected void UpdateStyles()
@@ -154,7 +159,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
             this.Controls = new Control.ControlCollection(this);
 
-			
+            this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
         }
 
 
@@ -301,6 +306,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
         {
+            // let's remember old size for anchoring..
+            var old_width = this.width;
+            var old_height = this.height;
+
             var _x = (this.x != x);
             var _y = (this.y != y);
             var _width = (this.width != width);
@@ -332,6 +341,87 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 //this.OnClientSizeChanged(EventArgs.Empty);
                 //CommonProperties.xClearPreferredSizeCache(this);
                 //LayoutTransaction.DoLayout(this.ParentInternal, this, PropertyNames.Bounds);
+
+                if (InternalLayoutSuspended)
+                {
+                }
+                else
+                {
+                    for (int i = 0; i < this.Controls.Count; i++)
+                    {
+                        var item = this.Controls[i];
+
+                        InternalChildrenAnchorUpdate(
+                            width,
+                            height,
+                            old_width,
+                            old_height,
+                            item
+                        );
+                    }
+
+                }
+
+            }
+        }
+
+
+        private void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
+        {
+
+            var IsRight = (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right;
+            var IsLeft = (c.Anchor & AnchorStyles.Left) == AnchorStyles.Left;
+            var IsBottom = (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom;
+            var IsTop = (c.Anchor & AnchorStyles.Top) == AnchorStyles.Top;
+
+            var x = width - old_width;
+            var y = height - old_height;
+
+
+            if (IsRight)
+            {
+                if (IsLeft)
+                {
+                    c.Width += x;
+                }
+                else
+                {
+                    c.Left += x;
+                }
+            }
+            else
+            {
+                if (IsLeft)
+                {
+                }
+                else
+                {
+                    c.Left += x / 2;
+
+                }
+            }
+
+            if (IsBottom)
+            {
+                if (IsTop)
+                {
+                    c.Height += y;
+                }
+                else
+                {
+                    c.Top += y;
+                }
+            }
+            else
+            {
+                if (IsTop)
+                {
+                }
+                else
+                {
+                    c.Top += y / 2;
+
+                }
             }
         }
 
@@ -383,17 +473,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (SizeChanged != null)
                 SizeChanged(this, null);
 
+
+
         }
-
-
-
-
-
-
-
-
-
-
 
 
         private __Cursor _Cursor;
@@ -418,6 +500,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public int TabIndex { get; set; }
 
         public bool AutoSize { get; set; }
+
+        public virtual AnchorStyles Anchor { get; set; }
 
 
         #region ForeColor
@@ -610,7 +694,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         Handler<MouseEventHandler, DOMHandler> _MouseUp = new Handler<MouseEventHandler, DOMHandler>();
 
         #region MouseMove
-		Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
+        Handler<MouseEventHandler, DOMHandler> _MouseMove = new Handler<MouseEventHandler, DOMHandler>();
         public event MouseEventHandler MouseMove
         {
             add
@@ -618,11 +702,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _MouseMove.Event += value;
                 if (_MouseMove)
                 {
-                    _MouseMove.EventInternal = 
-						i =>
-                       {
-                           this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
-                       };
+                    _MouseMove.EventInternal =
+                        i =>
+                        {
+                            this._MouseMove.Event(this, i.GetMouseEventHandler(MouseButtons.None));
+                        };
 
                     this.HTMLTargetRef.onmousemove += _MouseMove.EventInternal;
                 }
@@ -640,13 +724,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
         #endregion
 
-		public event EventHandler TextChanged;
+        public event EventHandler TextChanged;
 
-		internal void InternalRaiseTextChanged()
-		{
-			if (TextChanged != null)
-				TextChanged(this, new EventArgs());
-		}
+        internal void InternalRaiseTextChanged()
+        {
+            if (TextChanged != null)
+                TextChanged(this, new EventArgs());
+        }
 
         DOM.HTML.IHTMLDocument OwnerDocument
         {
@@ -833,6 +917,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
+            Console.WriteLine("OnControlAdded: " + e.Control.Name);
+
             if (ControlAdded != null)
                 ControlAdded(this, e);
         }
@@ -1039,7 +1125,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual Size SizeFromClientSize(Size clientSize)
         {
-			return new Size(clientSize.Width, clientSize.Height);
+            return new Size(clientSize.Width, clientSize.Height);
         }
 
 

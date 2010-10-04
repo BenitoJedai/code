@@ -4,7 +4,7 @@
 namespace BrowserApplication1
 
     open System
-    open jsc.meta.Commands.Rewrite.RewriteToUltraApplication
+//    open jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -17,6 +17,7 @@ namespace BrowserApplication1
         [<Microsoft.FSharp.Core.EntryPoint>]
         let Main(args : string[]) =
             // Prepare the yield value for
-            do RewriteToUltraApplication.AsProgram.Launch(typeof<Application>)
+            
+            do global.jsc.BrowserApplicationDiagnostics.Launch(typeof<Application>)
             0
 

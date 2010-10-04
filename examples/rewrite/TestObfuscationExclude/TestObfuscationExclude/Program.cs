@@ -6,6 +6,15 @@ using System.Reflection;
 
 namespace TestObfuscationExclude
 {
+    [Obfuscation(Exclude = true)]
+    public class Service
+    {
+        static void Foo(string[] args)
+        {
+            Console.WriteLine();
+        }
+    }
+
     class Internal
     {
         static void Foo(string[] args)
@@ -15,7 +24,6 @@ namespace TestObfuscationExclude
     }
 
     // jsc does not implement this yet
-    //[Obfuscation(Exclude = true)]
     class Program
     {
         static void Main(string[] args)

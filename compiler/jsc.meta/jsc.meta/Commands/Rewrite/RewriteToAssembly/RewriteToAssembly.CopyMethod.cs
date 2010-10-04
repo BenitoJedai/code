@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +12,6 @@ using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
 using ScriptCoreLib.Extensions;
-using System.Diagnostics;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -85,7 +85,17 @@ namespace jsc.meta.Commands.Rewrite
             else
             {
                 var __MemberRenameCache = context.MemberRenameCache[SourceMethod];
-                MethodName = NameObfuscation[__MemberRenameCache ?? SourceMethod.Name];
+                MethodName = __MemberRenameCache ?? SourceMethod.Name;
+
+                var o = SourceMethod.DeclaringType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+
+                if (o != null && o.Exclude)
+                {
+                }
+                else
+                {
+                    MethodName = NameObfuscation[MethodName];
+                }
             }
 
 
@@ -538,7 +548,7 @@ namespace jsc.meta.Commands.Rewrite
                     // we can omit inter clause jumping...
                     // detecting such leaves is tricky.
 
-                    
+
                     // if next is try exit
                     //            catch exit
                     // and if target is join 
@@ -546,7 +556,7 @@ namespace jsc.meta.Commands.Rewrite
 
                     var RegionByJoin = Enumerable.FirstOrDefault(
                         from ex in ExceptionHandlingClauses.AsEnumerable()
-                        
+
                         where ex.HandlerOffset + ex.HandlerLength == e.i.TargetInstruction.Offset
                         select ex
                     );

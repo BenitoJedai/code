@@ -1361,6 +1361,7 @@ namespace jsc.Script
 			}
 			catch (SkipThisPrestatementException)
 			{
+                // where is this catched?
 				throw;
 			}
 			catch (Exception exc)

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Avalon;
-using ScriptCoreLib.Ultra.Library.Delegates;
+using ScriptCoreLib.Delegates;
 using ScriptCoreLib.PHP;
 using System.Diagnostics;
 
@@ -55,7 +55,7 @@ namespace PromotionApplicationP
         public static void Method1()
         {
             
-            Native.API.chr(3);
+            //Native.API.chr(3);
         }
     }
 }
