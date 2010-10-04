@@ -8,15 +8,15 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Text;
 using System.Xml.Linq;
 using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
 using jsc.meta.Library.CodeTrace;
-using ScriptCoreLib.CSharp.Extensions;
-using System.Security.Permissions;
 using jsc.meta.Tools;
+using ScriptCoreLib.CSharp.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -1557,10 +1557,18 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-        public string FullNameFixup(string n)
+        public string FullNameFixup(string n, Type ContextType)
         {
             if (this.obfuscate)
+            {
+                var o = ContextType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+
+                if (o != null)
+                    if (o.Exclude)
+                        return InternalFullNameFixup(n);
+
                 return NameObfuscation[n];
+            }
 
             return InternalFullNameFixup(n);
         }

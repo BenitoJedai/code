@@ -10,7 +10,7 @@ namespace PromotionWebApplication1
 	{
 		public static void Main(string[] args)
 		{
-			new ThreeDWarehouse();
+            //new ThreeDWarehouse();
 
 			global::jsc.meta.Commands.Rewrite.RewriteToUltraApplication.RewriteToUltraApplication.AsProgram.Launch(
 				typeof(Application)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
@@ -26,6 +27,22 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        Size InternalAutoScrollMinSize;
+
+        public Size AutoScrollMinSize
+        {
+            get
+            {
+                return InternalAutoScrollMinSize;
+            }
+            set
+            {
+                InternalAutoScrollMinSize = value;
+
+                this.HTMLTargetContainerRef.style.minWidth = value.Width + "px";
+                this.HTMLTargetContainerRef.style.minHeight = value.Height + "px";
+            }
+        }
 
     }
 }

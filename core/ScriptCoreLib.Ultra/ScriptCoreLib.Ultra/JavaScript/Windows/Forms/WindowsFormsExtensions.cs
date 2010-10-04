@@ -39,5 +39,29 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 
 			return that;
 		}
+
+        public static T AutoSizeControlTo<T>(this T e, IHTMLElement shadow) where T : Control
+        {
+            Action Update =
+                delegate
+                {
+                    var w = shadow.scrollWidth;
+                    var h = shadow.scrollHeight;
+
+                    e.Width = w;
+                    e.Height = h;
+                };
+
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    Update();
+                };
+
+            Update();
+
+            return e;
+        }
 	}
 }

@@ -24,7 +24,7 @@ namespace jsc.meta.Commands.Rewrite
                 VirtualDictionary<Type, string> TypeRenameCache,
                 VirtualDictionary<string, string> NameObfuscation,
                 Func<Type, bool> ShouldCopyType,
-                Func<string, string> FullNameFixup,
+                Func<string, Type, string> FullNameFixup,
                 Action<TypeBuilder> PostTypeRewrite,
                 Action<TypeBuilder> PreTypeRewrite,
 
@@ -421,11 +421,9 @@ namespace jsc.meta.Commands.Rewrite
 
             public Type SourceType;
             public ModuleBuilder m;
-            //public VirtualDictionary<Type, Type> TypeCache;
-            //public TypeBuilder OverrideDeclaringType;
             public VirtualDictionary<string, string> NameObfuscation;
             public Func<Type, bool> ShouldCopyType;
-            public Func<string, string> FullNameFixup;
+            public Func<string, Type, string> FullNameFixup;
             public Action<string> Diagnostics;
 
 
@@ -616,7 +614,11 @@ namespace jsc.meta.Commands.Rewrite
                 }
             }
 
-            private TypeBuilder DefineType(TypeBuilder _DeclaringType, string TypeName, Type BaseType, TypeAttributes TypeAttributes)
+            private TypeBuilder DefineType(
+                TypeBuilder _DeclaringType, 
+                string TypeName, 
+                Type BaseType, 
+                TypeAttributes TypeAttributes)
             {
                 #region DefineType
                 if (_DeclaringType != null)
@@ -657,7 +659,7 @@ namespace jsc.meta.Commands.Rewrite
                 }
                 else
                 {
-                    var DefineTypeName = FullNameFixup(TypeName);
+                    var DefineTypeName = FullNameFixup(TypeName, this.SourceType);
 
                     Func<IEnumerable<DuplicateInfo>> GetDuplicates =
                         () =>

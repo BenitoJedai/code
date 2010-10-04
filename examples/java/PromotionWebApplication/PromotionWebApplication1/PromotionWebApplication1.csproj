@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PromotionWebApplication1</RootNamespace>
     <AssemblyName>PromotionWebApplication1</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
@@ -34,6 +34,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,10 +62,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bulldog.Server.CodeGenerators, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>W:\zproxygames.svn\Bulldog\Bulldog.Server.CodeGenerators\bin\Debug\Bulldog.Server.CodeGenerators.dll</HintPath>
-    </Reference>
     <Reference Include="jsc.meta, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <ExecutableExtension>.exe</ExecutableExtension>
@@ -138,6 +135,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="PromotionWebApplication1.UltraSource">
       <HintPath>bin\staging.UltraSource\PromotionWebApplication1.UltraSource.dll</HintPath>
@@ -164,6 +162,7 @@
   <ItemGroup>
     <Content Include="Design.UltraSource\About.css" />
     <Content Include="Future.UltraSource\AboutApplet.java" />
+    <None Include="app.config" />
     <None Include="Future.UltraSource\AboutSprite.as" />
     <Content Include="Future.UltraSource\AboutScript.js" />
     <Content Include="Design.UltraSource\CenteredLogo.htm" />
@@ -213,7 +212,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-start /WAIT cmd /K c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServicePHP:true /AttachDebugger:false /WebServiceJavaSettings.version:4</PostBuildEvent>
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServicePHP:true /AttachDebugger:false /WebServiceJavaSettings.version:4</PostBuildEvent>
     <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
 
 </PreBuildEvent>
