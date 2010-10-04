@@ -473,8 +473,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             if (SizeChanged != null)
                 SizeChanged(this, null);
 
-
-
         }
 
 
