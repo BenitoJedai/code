@@ -1640,7 +1640,7 @@ namespace java.awt
 		/// Resizes this component so that it has width <code>width</code>
 		/// and height <code>height</code>.
 		/// </summary>
-		public void setSize(int @width, int @height)
+		public virtual void setSize(int @width, int @height)
 		{
 		}
 

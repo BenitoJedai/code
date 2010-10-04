@@ -85,7 +85,8 @@ namespace jsc.meta.Tools
                 {
                     UseShellExecute = false,
 
-                    CreateNoWindow = CreateNoWindow,
+                    // http://blogs.msdn.com/jmstall/archive/2006/09/28/CreateNoWindow.aspx
+                    CreateNoWindow = false,
 
                     WorkingDirectory = obj_web
                 }

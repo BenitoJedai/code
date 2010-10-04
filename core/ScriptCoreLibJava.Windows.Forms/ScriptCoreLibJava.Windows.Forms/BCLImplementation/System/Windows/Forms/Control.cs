@@ -9,138 +9,138 @@ using System.Drawing;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 {
-	[Script(Implements = typeof(global::System.Windows.Forms.Control))]
-	internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
-	{
-		public int Bottom
-		{
-			get
-			{
-				return this.Size.Height + this.Location.Y;
-			}
-		}
+    [Script(Implements = typeof(global::System.Windows.Forms.Control))]
+    internal partial class __Control : __Component, __IDropTarget, __ISynchronizeInvoke, __IWin32Window, __IBindableComponent, __IComponent, IDisposable
+    {
+        public int Bottom
+        {
+            get
+            {
+                return this.Size.Height + this.Location.Y;
+            }
+        }
 
-		public event EventHandler Click;
+        public event EventHandler Click;
 
-		public void RaiseClick()
-		{
-			if (Click != null)
-				Click(this, new EventArgs());
-		}
+        public void RaiseClick()
+        {
+            if (Click != null)
+                Click(this, new EventArgs());
+        }
 
 
-		public virtual java.awt.Component InternalGetElement()
-		{
-			throw new NotImplementedException();
-		}
+        public virtual java.awt.Component InternalGetElement()
+        {
+            throw new NotImplementedException();
+        }
 
-		public __Control()
-		{
-			this.Controls = new Control.ControlCollection(this);
+        public __Control()
+        {
+            this.Controls = new Control.ControlCollection(this);
 
             this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
-		}
+        }
 
-		public virtual bool InternalGetEnabled()
-		{
-			return this.InternalGetElement().isEnabled();
-		}
+        public virtual bool InternalGetEnabled()
+        {
+            return this.InternalGetElement().isEnabled();
+        }
 
-		public virtual void InternalSetEnabled(bool value)
-		{
-			this.InternalGetElement().setEnabled(value);
-		}
+        public virtual void InternalSetEnabled(bool value)
+        {
+            this.InternalGetElement().setEnabled(value);
+        }
 
-		public bool Enabled
-		{
-			get
-			{
-				return InternalGetEnabled();
-			}
+        public bool Enabled
+        {
+            get
+            {
+                return InternalGetEnabled();
+            }
 
-			set
-			{
-				InternalSetEnabled(value);
-			}
-		}
+            set
+            {
+                InternalSetEnabled(value);
+            }
+        }
 
-		public virtual string Text { get; set; }
-
-	
-
-		public void Show()
-		{
-			this.Visible = true;
-		}
-
-		public void Hide()
-		{
-			this.Visible = false;
-		}
+        public virtual string Text { get; set; }
 
 
-		public bool Visible
-		{
-			get
-			{
-				return this.InternalGetElement().isVisible();
-			}
 
-			set
-			{
-				this.InternalGetElement().setVisible(value);
-			}
-		}
+        public void Show()
+        {
+            this.Visible = true;
+        }
+
+        public void Hide()
+        {
+            this.Visible = false;
+        }
 
 
-		public Control.ControlCollection Controls { get; set; }
+        public bool Visible
+        {
+            get
+            {
+                return this.InternalGetElement().isVisible();
+            }
+
+            set
+            {
+                this.InternalGetElement().setVisible(value);
+            }
+        }
 
 
-		static public implicit operator Control(__Control e)
-		{
-			return (Control)(object)e;
-		}
+        public Control.ControlCollection Controls { get; set; }
 
-		static public implicit operator __Control(Control e)
-		{
-			return (__Control)(object)e;
-		}
 
-		Point InternalLocation = new Point();
+        static public implicit operator Control(__Control e)
+        {
+            return (Control)(object)e;
+        }
 
-		public Point Location
-		{
-			get
-			{
-				return InternalLocation;
+        static public implicit operator __Control(Control e)
+        {
+            return (__Control)(object)e;
+        }
 
-			}
-			set
-			{
-				InternalLocation = value;
+        Point InternalLocation = new Point();
 
-				this.InternalGetElement().setLocation(value.X, value.Y);
-			}
-		}
+        public Point Location
+        {
+            get
+            {
+                return InternalLocation;
 
-		Size InternalSize = new Size();
-		public Size Size
-		{
-			get
-			{
-				return InternalSize;
-			}
-			set
-			{
-				InternalSize = value;
+            }
+            set
+            {
+                InternalLocation = value;
+
+                this.InternalGetElement().setLocation(value.X, value.Y);
+            }
+        }
+
+        Size InternalSize = new Size();
+        public Size Size
+        {
+            get
+            {
+                return InternalSize;
+            }
+            set
+            {
+                InternalSize = value;
 
                 var Width = value.Width;
                 var Height = value.Height;
 
 
                 UpdateBounds(Width, Height);
-			}
-		}
+            }
+        }
 
 
         public int Left
@@ -191,10 +191,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             }
         }
 
+        int old_width;
+        int old_height;
+
         private void UpdateBounds(int width, int height)
         {
-            var old_width = this.Width;
-            var old_height = this.Height;
 
             this.InternalGetElement().setSize(width, height);
 
@@ -206,22 +207,31 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             }
             else
             {
+                var x = width - old_width;
+                var y = height - old_height;
+
                 for (int i = 0; i < this.Controls.Count; i++)
                 {
                     var item = this.Controls[i];
 
+
+                    //Console.WriteLine(
+                    //    "UpdateBounds " + x + " " + y
+                    //);
+
                     InternalChildrenAnchorUpdate(
-                        width,
-                        height,
-                        old_width,
-                        old_height,
+                        x,
+                        y,
                         item
                     );
                 }
             }
+
+            old_width = width;
+            old_height = height;
         }
 
-        private void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
+        private void InternalChildrenAnchorUpdate(int x, int y, Control c)
         {
 
             var IsRight = (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right;
@@ -229,8 +239,6 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
             var IsBottom = (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom;
             var IsTop = (c.Anchor & AnchorStyles.Top) == AnchorStyles.Top;
 
-            var x = width - old_width;
-            var y = height - old_height;
 
 
             if (IsRight)
@@ -282,35 +290,35 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
         bool InternalLayoutSuspended;
 
-		public void SuspendLayout()
-		{
+        public void SuspendLayout()
+        {
             InternalLayoutSuspended = true;
-		}
+        }
 
-		public void ResumeLayout(bool performLayout)
-		{
+        public void ResumeLayout(bool performLayout)
+        {
             InternalLayoutSuspended = false;
-		}
+        }
 
-		public void PerformLayout()
-		{
-		}
+        public void PerformLayout()
+        {
+        }
 
-		public string Name { get; set; }
+        public string Name { get; set; }
 
-		public Size ClientSize
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				this.Size = new Size(value.Width + 12, value.Height + 32);
+        public Size ClientSize
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                this.Size = new Size(value.Width + 12, value.Height + 32);
 
 
-			}
-		}
+            }
+        }
 
         public event EventHandler Resize;
 
@@ -332,58 +340,58 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 
         }
 
-		public int TabIndex { get; set; }
+        public int TabIndex { get; set; }
 
-		public bool UseVisualStyleBackColor { get; set; }
+        public bool UseVisualStyleBackColor { get; set; }
 
-		public virtual bool AutoSize { get; set; }
+        public virtual bool AutoSize { get; set; }
 
         public virtual AnchorStyles Anchor { get; set; }
 
-		Color InternalForeColor;
+        Color InternalForeColor;
 
-		public virtual Color ForeColor
-		{
-			get
-			{
-				return InternalForeColor;
-			}
-			set
-			{
-				InternalForeColor = value;
+        public virtual Color ForeColor
+        {
+            get
+            {
+                return InternalForeColor;
+            }
+            set
+            {
+                InternalForeColor = value;
 
-				int R = value.R;
-				int G = value.G;
-				int B = value.B;
+                int R = value.R;
+                int G = value.G;
+                int B = value.B;
 
-				var c = new java.awt.Color(R, G, B);
+                var c = new java.awt.Color(R, G, B);
 
-				this.InternalGetElement().setForeground(c);
-			}
-		}
+                this.InternalGetElement().setForeground(c);
+            }
+        }
 
 
-		Color InternalBackColor;
+        Color InternalBackColor;
 
-		public virtual Color BackColor
-		{
-			get
-			{
-				return InternalBackColor;
-			}
-			set
-			{
-				InternalBackColor = value;
+        public virtual Color BackColor
+        {
+            get
+            {
+                return InternalBackColor;
+            }
+            set
+            {
+                InternalBackColor = value;
 
-				int R = value.R;
-				int G = value.G;
-				int B = value.B;
+                int R = value.R;
+                int G = value.G;
+                int B = value.B;
 
-				var c = new java.awt.Color(R, G, B);
+                var c = new java.awt.Color(R, G, B);
 
-				this.InternalGetElement().setBackground(c);
-			}
-		}
-		
-	}
+                this.InternalGetElement().setBackground(c);
+            }
+        }
+
+    }
 }

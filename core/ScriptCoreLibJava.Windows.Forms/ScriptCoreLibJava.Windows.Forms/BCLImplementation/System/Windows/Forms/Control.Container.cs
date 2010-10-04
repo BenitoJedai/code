@@ -71,7 +71,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			{
 				get
 				{
-					throw new NotImplementedException();
+                    return this.Items.Count;
 				}
 			}
 
@@ -79,7 +79,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			{
 				get
 				{
-					throw new NotImplementedException();
+                    return (Control)this.Items[index];
 				}
 			}
 
