@@ -37,6 +37,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 		public __Control()
 		{
 			this.Controls = new Control.ControlCollection(this);
+
+            this.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 		}
 
 		public virtual bool InternalGetEnabled()
@@ -132,22 +134,162 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			{
 				InternalSize = value;
 
-				this.InternalGetElement().setSize(value.Width, value.Height);
+                var Width = value.Width;
+                var Height = value.Height;
 
-				if (this.SizeChanged != null)
-					this.SizeChanged(this, new EventArgs());
 
+                UpdateBounds(Width, Height);
 			}
 		}
 
+
+        public int Left
+        {
+            get
+            {
+                return this.Location.X;
+            }
+            set
+            {
+                this.Location = new Point(value, this.Top);
+            }
+        }
+
+        public int Top
+        {
+            get
+            {
+                return this.Location.Y;
+            }
+            set
+            {
+                this.Location = new Point(this.Left, value);
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return this.Size.Width;
+            }
+            set
+            {
+                this.Size = new Size(value, this.Height);
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return this.Size.Height;
+            }
+            set
+            {
+                this.Size = new Size(this.Width, value);
+            }
+        }
+
+        private void UpdateBounds(int width, int height)
+        {
+            var old_width = this.Width;
+            var old_height = this.Height;
+
+            this.InternalGetElement().setSize(width, height);
+
+
+            this.OnSizeChanged(null);
+
+            if (InternalLayoutSuspended)
+            {
+            }
+            else
+            {
+                for (int i = 0; i < this.Controls.Count; i++)
+                {
+                    var item = this.Controls[i];
+
+                    InternalChildrenAnchorUpdate(
+                        width,
+                        height,
+                        old_width,
+                        old_height,
+                        item
+                    );
+                }
+            }
+        }
+
+        private void InternalChildrenAnchorUpdate(int width, int height, int old_width, int old_height, Control c)
+        {
+
+            var IsRight = (c.Anchor & AnchorStyles.Right) == AnchorStyles.Right;
+            var IsLeft = (c.Anchor & AnchorStyles.Left) == AnchorStyles.Left;
+            var IsBottom = (c.Anchor & AnchorStyles.Bottom) == AnchorStyles.Bottom;
+            var IsTop = (c.Anchor & AnchorStyles.Top) == AnchorStyles.Top;
+
+            var x = width - old_width;
+            var y = height - old_height;
+
+
+            if (IsRight)
+            {
+                if (IsLeft)
+                {
+                    c.Width += x;
+                }
+                else
+                {
+                    c.Left += x;
+                }
+            }
+            else
+            {
+                if (IsLeft)
+                {
+                }
+                else
+                {
+                    c.Left += x / 2;
+
+                }
+            }
+
+            if (IsBottom)
+            {
+                if (IsTop)
+                {
+                    c.Height += y;
+                }
+                else
+                {
+                    c.Top += y;
+                }
+            }
+            else
+            {
+                if (IsTop)
+                {
+                }
+                else
+                {
+                    c.Top += y / 2;
+
+                }
+            }
+        }
+
+        bool InternalLayoutSuspended;
+
 		public void SuspendLayout()
 		{
-
+            InternalLayoutSuspended = true;
 		}
 
 		public void ResumeLayout(bool performLayout)
 		{
-
+            InternalLayoutSuspended = false;
 		}
 
 		public void PerformLayout()
@@ -170,13 +312,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Windows.Forms
 			}
 		}
 
-		public event EventHandler SizeChanged;
+        public event EventHandler Resize;
+
+
+        protected virtual void OnResize(EventArgs e)
+        {
+            if (Resize != null)
+                Resize(this, null);
+        }
+
+        public event EventHandler SizeChanged;
+
+        protected virtual void OnSizeChanged(EventArgs e)
+        {
+            this.OnResize(null);
+
+            if (SizeChanged != null)
+                SizeChanged(this, null);
+
+        }
 
 		public int TabIndex { get; set; }
 
 		public bool UseVisualStyleBackColor { get; set; }
 
 		public virtual bool AutoSize { get; set; }
+
+        public virtual AnchorStyles Anchor { get; set; }
 
 		Color InternalForeColor;
 
