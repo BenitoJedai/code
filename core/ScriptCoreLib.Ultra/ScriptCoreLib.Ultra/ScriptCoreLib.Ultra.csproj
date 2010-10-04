@@ -114,6 +114,8 @@
     <Compile Include="ActionScript\Extensions\ExternalInterfaceExtensions.cs" />
     <Compile Include="Archive\ZIP\ZIPFileFromFile.cs" />
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
+    <Compile Include="Desktop\Avalon\Extensions\DesktopAvalonExtensions.cs" />
+    <Compile Include="Desktop\Forms\Extensions\DesktopFormsExtensions.cs" />
     <Compile Include="Extensions\Avalon\AvalonUltraTimerExtensions.cs" />
     <Compile Include="Avalon\ImageCarouselCanvas.cs" />
     <Compile Include="Desktop\Extensions\DesktopAvalonExtensions.cs" />
