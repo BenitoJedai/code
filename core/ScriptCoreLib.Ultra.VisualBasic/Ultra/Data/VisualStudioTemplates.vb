@@ -121,6 +121,7 @@
         <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
             <DebugSymbols>true</DebugSymbols>
             <OutputPath>bin\Assets\</OutputPath>
+            <Optimize>false</Optimize>
             <DefineConstants>DEBUG;TRACE</DefineConstants>
             <DebugType>full</DebugType>
             <PlatformTarget>AnyCPU</PlatformTarget>
@@ -168,6 +169,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
         <DebugType>full</DebugType>
         <DefineDebug>true</DefineDebug>
         <DefineTrace>true</DefineTrace>
+        <Optimize>false</Optimize>
         <OutputPath>bin\Debug\</OutputPath>
         <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     </PropertyGroup>
@@ -176,7 +178,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
         <DebugType>pdbonly</DebugType>
         <DefineDebug>false</DefineDebug>
         <DefineTrace>true</DefineTrace>
-        <Optimize>true</Optimize>
+        <Optimize>false</Optimize>
         <OutputPath>bin\Release\</OutputPath>
         <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     </PropertyGroup>
@@ -186,6 +188,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
         <DebugType>full</DebugType>
         <DefineDebug>true</DefineDebug>
         <DefineTrace>true</DefineTrace>
+        <Optimize>false</Optimize>
         <OutputPath>bin\Debug\</OutputPath>
         <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     </PropertyGroup>

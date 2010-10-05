@@ -19,6 +19,82 @@ namespace ScriptCoreLib.Ultra.Studio
             return Internal(sln);
         }
 
+        public static SolutionBuilder WithFormsApplet(this SolutionBuilder sln)
+        {
+            var content = default(SolutionProjectLanguageField);
+            var sprite = default(SolutionProjectLanguageField);
+
+            Internal(sln, value => content = value);
+
+            sln.Interactive.GenerateTypes +=
+                AddType =>
+                {
+                    var ApplicationSprite = new StockAppletType(sln.Name, "ApplicationApplet", content);
+
+
+                    ApplicationSprite.DependentUpon = content.FieldType;
+
+
+                    content.DeclaringType = ApplicationSprite;
+
+                    sprite = ApplicationSprite.ToInitializedField("applet");
+
+                    sprite.DeclaringType = sln.Interactive.ApplicationType;
+
+                    AddType(ApplicationSprite);
+                };
+
+
+            sln.Interactive.GenerateApplicationExpressions +=
+                AddCode =>
+                {
+                    var page_get_Content =
+                        new PseudoCallExpression
+                        {
+                            // Application(page)
+                            Object = "page",
+
+                            Method =
+                                new SolutionProjectLanguageMethod
+                                {
+                                    IsProperty = true,
+                                    Name = "get_Content",
+                                    ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
+                                }
+                        };
+
+                    var page_get_ContentSize =
+                       new PseudoCallExpression
+                       {
+                           // Application(page)
+                           Object = "page",
+
+                           Method =
+                               new SolutionProjectLanguageMethod
+                               {
+                                   IsProperty = true,
+                                   Name = "get_ContentSize",
+                                   ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
+                               }
+                       };
+
+                    AddCode(
+                        new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AppletExtensions.AutoSizeAppletTo().ToCallExpression(
+                            sprite,
+                            page_get_ContentSize
+                        )
+                    );
+
+                    AddCode(
+                        new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AppletExtensions.AttachAppletTo().ToCallExpression(
+                            sprite,
+                            page_get_Content
+                        )
+                    );
+                };
+
+            return sln;
+        }
 
         static SolutionBuilder Internal(SolutionBuilder sln,
             Action<SolutionProjectLanguageField> NotifyContent = null

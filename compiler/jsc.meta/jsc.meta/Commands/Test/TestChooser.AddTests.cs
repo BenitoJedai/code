@@ -56,6 +56,29 @@ namespace jsc.meta.Commands.Test
                 );
             #endregion
 
+
+
+            AddButton("SolutionBuilderWithConsole C# Forms Applet", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new SolutionBuilder().WithFormsApplet()
+                );
+
+            }
+            );
+
+            AddButton("SolutionBuilderWithConsole VB Forms Applet", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new SolutionBuilder
+                    {
+                        Language = KnownLanguages.VisualBasic
+                    }.WithFormsApplet()
+                );
+
+            }
+            );
+
             AddButton("SolutionBuilderWithConsole C# Forms", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
@@ -66,16 +89,16 @@ namespace jsc.meta.Commands.Test
             );
 
             AddButton("SolutionBuilderWithConsole VB Forms", () =>
-            {
-                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
-                    new SolutionBuilder
-                    {
-                        Language = KnownLanguages.VisualBasic
-                    }.WithForms()
-                );
+                {
+                    global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                        new SolutionBuilder
+                        {
+                            Language = KnownLanguages.VisualBasic
+                        }.WithForms()
+                    );
 
-            }
-        );
+                }
+            );
 
             AddButton("SolutionBuilderWithConsole C# Canvas", () =>
                 {

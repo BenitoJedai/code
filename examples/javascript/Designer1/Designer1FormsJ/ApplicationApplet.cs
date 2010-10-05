@@ -4,31 +4,25 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Java.Extensions;
 using java.applet;
+using java.awt.@event;
 
 namespace Designer1FormsJ
 {
     internal sealed class ApplicationApplet : Applet
     {
-         ApplicationControl content;
+        readonly ApplicationControl content = new ApplicationControl();
 
         public override void init()
         {
+            content.AttachTo(this);
+            content.AutoSizeTo(this);
+            
             this.EnableVisualStyles();
 
-            this.content = new ApplicationControl();
-
-            this.ReplaceContentWith(content);
-
-            this.content.Size = new System.Drawing.Size(this.getWidth(), this.getHeight());
+           
         }
 
-        public override void resize(int width, int height)
-        {
-            if (content == null)
-                return;
-
-            content.Size = new System.Drawing.Size(width, height);
-        }
+      
     }
 	
 }
