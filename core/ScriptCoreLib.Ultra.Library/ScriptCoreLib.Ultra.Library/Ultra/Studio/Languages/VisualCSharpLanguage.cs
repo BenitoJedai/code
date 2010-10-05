@@ -26,9 +26,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteLinkCommentLine(SolutionFile File, Uri Link)
         {
-            File.Write(SolutionFileTextFragment.Comment, "// ");
-            File.Write(Link);
-            File.WriteLine();
+            File.Write(SolutionFileTextFragment.Comment, "// ").WriteLine(Link);
         }
 
         public override void WriteCommentLine(SolutionFile File, string Text)
@@ -86,8 +84,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                     if (m.IsLambda)
                     {
-                        File.Write(Keywords.@delegate);
-                        File.WriteSpace();
+                        File.WriteSpace(Keywords.@delegate);
                     }
                     else
                     {
@@ -109,15 +106,13 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                         if (m.IsOverride)
                         {
-                            File.Write(Keywords.@override);
-                            File.WriteSpace();
+                            File.WriteSpace(Keywords.@override);
                         }
 
 
                         if (m.IsStatic)
                         {
-                            File.Write(Keywords.@static);
-                            File.WriteSpace();
+                            File.WriteSpace(Keywords.@static);
                         }
 
                         if (m.IsConstructor)
@@ -126,9 +121,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         }
                         else
                         {
-                            File.Write(Keywords.@void);
-                            File.WriteSpace();
-                            File.Write(m.Name);
+                            File.WriteSpace(Keywords.@void).Write(m.Name);
                         }
                     }
 
@@ -153,8 +146,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     File.Write(")");
                     if (m.Code == null)
                     {
-                        File.Write(";");
-                        File.WriteLine();
+                        File.WriteLine(";");
                     }
                     else
                     {
@@ -231,8 +223,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             else
                             {
 
-                                File.WriteIndent();
-                                File.WriteSpace(Keywords.@if);
+                                File.WriteIndent().WriteSpace(Keywords.@if);
                                 File.Write("(");
                                 WritePseudoExpression(File, If.Expression, Context);
                                 File.Write(")");
@@ -243,9 +234,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                                 if (If.FalseCase != null)
                                 {
-                                    File.WriteIndent();
-                                    File.WriteSpace(Keywords.@else);
-                                    File.WriteLine();
+                                    File.WriteIndent().WriteLine(Keywords.@else);
 
                                     WriteMethodBody(File, If.FalseCase, Context);
                                 }
@@ -287,11 +276,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             Action WriteCodeStatementsAsBlock =
                 delegate
                 {
-                    File.WriteIndent();
-                    File.WriteLine("{");
+                    File.WriteIndent().WriteLine("{");
                     File.Indent(this, WriteCodeStatements);
-                    File.WriteIndent();
-                    File.Write("}");
+                    File.WriteIndent().Write("}");
                 };
 
             Code.OwnerIfExpression.With(n => n.IsConditionalCompilationDirective, n => WriteCodeStatementsAsBlock = WriteCodeStatements);
@@ -785,11 +772,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteUsingNamespace(SolutionFile File, string item)
         {
-            File.WriteIndent();
-            File.Write(Keywords.@using);
-            File.WriteSpace();
-            File.Write(item);
-            File.WriteLine(";");
+            File.WriteIndent().WriteSpace(Keywords.@using).Write(item).WriteLine(";");
         }
 
         public override void WriteAssemblyAttributeNamespace(SolutionFile File, string Namespace, Action Body)

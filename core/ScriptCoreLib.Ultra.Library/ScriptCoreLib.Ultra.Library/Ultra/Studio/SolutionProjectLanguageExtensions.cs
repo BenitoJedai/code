@@ -10,9 +10,11 @@ namespace ScriptCoreLib.Ultra.Studio
 {
 	public static class SolutionProjectLanguageExtensions
 	{
-		public static void WriteIndent(this SolutionFile File)
+        public static SolutionFile WriteIndent(this SolutionFile File)
 		{
 			File.IndentStack.Invoke();
+
+            return File;
 		}
 
 		/// <summary>

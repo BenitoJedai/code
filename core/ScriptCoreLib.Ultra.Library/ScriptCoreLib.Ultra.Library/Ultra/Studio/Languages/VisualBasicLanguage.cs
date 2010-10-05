@@ -60,7 +60,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                     {
                         File.WriteIndent();
 
-                        File.WriteSpace(Keywords.Public);
+                        if (m.IsProtected)
+                            File.WriteSpace(Keywords.Protected);
+                        else
+                            File.WriteSpace(Keywords.Public);
 
                         if (m.IsStatic)
                         {
@@ -83,6 +86,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             }
                         }
 
+                        if (m.IsOverride)
+                            File.WriteSpace(Keywords.Overrides);
 
                         if (Method.IsFunction)
                             File.WriteSpace(Keywords.Function);
@@ -163,130 +168,128 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
         {
             // should this be an extension method to all languages?
 
-            File.Indent(this,
-                delegate
-                {
+            Action WriteCodeStatements =
+             delegate
+             {
 
-                    var History = Code.History.ToArray();
+                 var History = Code.History.ToArray();
 
-                    for (int i = 0; i < History.Length; i++)
-                    {
-                        var IsReturnStatement = false;
+                 for (int i = 0; i < History.Length; i++)
+                 {
+                     var IsReturnStatement = false;
 
-                        Code.OwnerMethod.With(
-                             m =>
+                     Code.OwnerMethod.With(
+                          m =>
+                          {
+                              if (m.ReturnType == null)
+                                  return;
+
+                              if (m.IsConstructor)
+                                  return;
+
+                              IsReturnStatement = i == History.Length - 1;
+                          }
+                     );
+
+
+                     var item = History[i];
+
+
+                     #region Comment
+                     {
+                         var Comment = item as string;
+                         if (Comment != null)
+                         {
+                             File.WriteIndent();
+                             this.WriteCommentLine(File, Comment);
+                         }
+                     }
+
+                     {
+                         var Comment = item as SolutionFileComment;
+                         if (Comment != null)
+                         {
+                             Comment.WriteTo(File, this, Context);
+                             return;
+                         }
+                     }
+                     #endregion
+
+
+                     #region If
+                     var If = item as PseudoIfExpression;
+
+                     if (If != null)
+                     {
+                         Func<SolutionFile> WriteDirectiveOrIndent = File.WriteIndent;
+
+
+                         if (If.IsConditionalCompilationDirective)
+                         {
+                             WriteDirectiveOrIndent = File.WriteDirective;
+                         }
+
+                         WriteDirectiveOrIndent().WriteSpace(Keywords.If);
+                         WritePseudoExpression(File, If.Expression, Context);
+                         File.WriteSpace();
+                         File.WriteLine(Keywords.Then);
+
+                         WriteMethodBody(File, If.TrueCase, Context);
+
+                         if (If.FalseCase != null)
+                         {
+                             WriteDirectiveOrIndent().WriteLine(Keywords.Else);
+
+                             WriteMethodBody(File, If.FalseCase, Context);
+                         }
+
+                         WriteDirectiveOrIndent().WriteSpace(Keywords.End).WriteLine(Keywords.@If);
+
+                         return;
+                     }
+                     #endregion
+
+
+                     #region Lambda
+                     var Lambda = item as PseudoCallExpression;
+
+                     if (Lambda != null)
+                     {
+                         if (Code.IsLambdaExpression)
+                         {
+                             WritePseudoCallExpression(File, Lambda, Context);
+                         }
+                         else
+                         {
+
+                             if (Lambda.Comment != null)
+                                 Lambda.Comment.WriteTo(File, this, Context);
+
+                             if (Lambda.Method != null)
                              {
-                                 if (m.ReturnType == null)
-                                     return;
+                                 File.WriteIndent();
 
-                                 if (m.IsConstructor)
-                                     return;
+                                 if (IsReturnStatement)
+                                 {
+                                     File.WriteSpace(Keywords.@Return);
+                                 }
 
-                                 IsReturnStatement = i == History.Length - 1;
+
+                                 WritePseudoCallExpression(File, Lambda, Context);
+                                 File.WriteLine();
                              }
-                        );
+                         }
+                     }
+                     #endregion
 
+                 }
 
-                        var item = History[i];
+             };
 
-
-                        #region Comment
-                        {
-                            var Comment = item as string;
-                            if (Comment != null)
-                            {
-                                File.WriteIndent();
-                                this.WriteCommentLine(File, Comment);
-                            }
-                        }
-
-                        {
-                            var Comment = item as SolutionFileComment;
-                            if (Comment != null)
-                            {
-                                Comment.WriteTo(File, this, Context);
-                                return;
-                            }
-                        }
-                        #endregion
-
-
-                        #region If
-                        var If = item as PseudoIfExpression;
-
-                        if (If != null)
-                        {
-                            if (If.IsConditionalCompilationDirective)
-                            {
-                                this.WriteConditionalCompilation(File, If, Context);
-
-                            }
-                            else
-                            {
-
-                                File.WriteIndent();
-                                File.WriteSpace(Keywords.If);
-                                WritePseudoExpression(File, If.Expression, Context);
-                                File.WriteSpace();
-                                File.WriteLine(Keywords.Then);
-
-                                WriteMethodBody(File, If.TrueCase, Context);
-                                //File.WriteLine();
-
-                                if (If.FalseCase != null)
-                                {
-                                    File.WriteIndent();
-                                    File.WriteLine(Keywords.Else);
-
-                                    WriteMethodBody(File, If.FalseCase, Context);
-                                }
-
-                                File.WriteIndent();
-                                File.WriteSpace(Keywords.End);
-                                File.WriteLine(Keywords.@If);
-                            }
-
-                            return;
-                        }
-                        #endregion
-
-
-                        #region Lambda
-                        var Lambda = item as PseudoCallExpression;
-
-                        if (Lambda != null)
-                        {
-                            if (Code.IsLambdaExpression)
-                            {
-                                WritePseudoCallExpression(File, Lambda, Context);
-                            }
-                            else
-                            {
-
-                                if (Lambda.Comment != null)
-                                    Lambda.Comment.WriteTo(File, this, Context);
-
-                                if (Lambda.Method != null)
-                                {
-                                    File.WriteIndent();
-
-                                    if (IsReturnStatement)
-                                    {
-                                        File.WriteSpace(Keywords.@Return);
-                                    }
-
-
-                                    WritePseudoCallExpression(File, Lambda, Context);
-                                    File.WriteLine();
-                                }
-                            }
-                        }
-                        #endregion
-
-                    }
-
-                }
-            );
+            if (Code.IsConditionalCompilationDirectiveCode)
+                WriteCodeStatements();
+            else
+                File.Indent(this, WriteCodeStatements);
 
 
         }
@@ -399,8 +402,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             File.Region(
                                 delegate
                                 {
-
                                     File.WriteIndent();
+
+                                    if (Type.IsPartial)
+                                        File.WriteSpace(Keywords.Partial);
+
                                     File.WriteSpace(Keywords.Public);
 
                                     if (Type.IsSealed)
@@ -426,8 +432,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                             Type.BaseType.With(
                                                 BaseType =>
                                                 {
-                                                    File.WriteIndent();
-                                                    File.WriteSpace(Keywords.Inherits);
+                                                    File.WriteIndent().WriteSpace(Keywords.Inherits);
                                                     WriteTypeName(File, BaseType);
                                                     File.WriteLine();
                                                 }
@@ -592,11 +597,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteUsingNamespace(SolutionFile File, string item)
         {
-            File.WriteIndent();
-            File.Write(Keywords.@Imports);
-            File.WriteSpace();
-            File.Write(item);
-            File.WriteLine();
+            File.WriteIndent().WriteSpace(Keywords.@Imports).WriteLine(item);
         }
 
 
@@ -666,6 +667,14 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 File.Write(Keywords.Me);
                 return;
             }
+
+            var Base = Parameter as PseudoBaseExpression;
+            if (Base != null)
+            {
+                File.Write(Keywords.MyBase);
+                return;
+            }
+
 
             var Type = Parameter as SolutionProjectLanguageType;
             if (Type != null)

@@ -322,7 +322,6 @@ associated with an assembly."
 
             ProgramType.UsingNamespaces.Add("System");
             ProgramType.UsingNamespaces.Add("jsc.meta.Commands.Rewrite.RewriteToUltraApplication");
-            ProgramType.UsingNamespaces.Add(new KnownStockTypes.ScriptCoreLib.Desktop.Extensions.DesktopAvalonExtensions().Namespace);
             AddType(ProgramType);
 
             NotifyStartupType(ProgramType);

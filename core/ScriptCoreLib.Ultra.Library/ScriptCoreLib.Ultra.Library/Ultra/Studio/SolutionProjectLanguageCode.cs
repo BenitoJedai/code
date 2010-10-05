@@ -69,5 +69,19 @@ namespace ScriptCoreLib.Ultra.Studio
 		}
 
 		#endregion
-	}
+
+        public bool IsConditionalCompilationDirectiveCode
+        {
+            get
+            {
+                if (this.OwnerIfExpression == null)
+                    return false;
+
+                if (this.OwnerIfExpression.IsConditionalCompilationDirective)
+                    return true;
+
+                return false;
+            }
+        }
+    }
 }
