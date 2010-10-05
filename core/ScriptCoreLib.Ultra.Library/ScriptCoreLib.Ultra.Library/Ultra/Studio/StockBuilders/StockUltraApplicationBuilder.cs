@@ -168,6 +168,19 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                     // we need to merge the types
                     // later we may need to have an identity object? :)
 
+                    if (!Context.Language.SupportsPartialTypes())
+                    {
+                        SourceType.DependentPartialTypes.WithEach(
+                              PartialType =>
+                              {
+                                  SourceType.Fields.AddRange(PartialType.Type.Fields);
+                                  SourceType.Methods.AddRange(PartialType.Type.Methods);
+                              }
+                        );
+
+                        SourceType.DependentPartialTypes = null;
+                    }
+                    
                     AddTypeWithoutMerge(
                         SourceType,
                         SourceType.Name
@@ -187,53 +200,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                 };
             #endregion
 
-            Context.Interactive.RaiseGenerateTypes(AddType);
-
-
-            // http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
-
-            #region ApplicationWebService
-
-            var ApplicationWebServiceType = Context.Interactive.ApplicationWebServiceType;
-
-            ApplicationWebServiceType.Namespace = Context.Name;
-
-            AddType(ApplicationWebServiceType);
-
-            #endregion
-
-            #region Application
-
-            var ApplicationType = Context.Interactive.ApplicationType;
-
-            ApplicationType.Namespace = Context.Name;
-
-            ApplicationType.UsingNamespaces.Add("System");
-            ApplicationType.UsingNamespaces.Add("System.Text");
-            ApplicationType.UsingNamespaces.Add("System.Linq");
-            ApplicationType.UsingNamespaces.Add("System.Xml.Linq");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM.HTML");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Components");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
-            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
-            ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
-
-          
-
-            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
-
-            ApplicationType.Methods.Add(ApplicationConstructor);
-
-
-            AddType(ApplicationType);
-
-            #endregion
-
-            #region AssemblyInfo
+                 #region AssemblyInfo
 
             var AssemblyInfoFolder = "Properties";
 
@@ -310,7 +277,7 @@ associated with an assembly."
             ItemGroupForCompile.Add(
                 new XElement("Compile",
                     new XAttribute("Include",
-                        @"Properties\AssemblyInfo" + Context.Language.CodeFileExtension
+                        AssemblyInfoFolder + @"\AssemblyInfo" + Context.Language.CodeFileExtension
                     )
                 )
             );
@@ -320,6 +287,54 @@ associated with an assembly."
             #endregion
 
 
+
+            Context.Interactive.RaiseGenerateTypes(AddType);
+
+
+            // http://thevalerios.net/matt/2009/01/assembly-information-for-f-console-applications/
+
+            #region ApplicationWebService
+
+            var ApplicationWebServiceType = Context.Interactive.ApplicationWebServiceType;
+
+            ApplicationWebServiceType.Namespace = Context.Name;
+
+            AddType(ApplicationWebServiceType);
+
+            #endregion
+
+            #region Application
+
+            var ApplicationType = Context.Interactive.ApplicationType;
+
+            ApplicationType.Namespace = Context.Name;
+
+            ApplicationType.UsingNamespaces.Add("System");
+            ApplicationType.UsingNamespaces.Add("System.Text");
+            ApplicationType.UsingNamespaces.Add("System.Linq");
+            ApplicationType.UsingNamespaces.Add("System.Xml.Linq");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.DOM.HTML");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Components");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.JavaScript.Extensions");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+            ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
+            ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
+
+          
+
+            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
+
+            ApplicationType.Methods.Add(ApplicationConstructor);
+
+
+            AddType(ApplicationType);
+
+            #endregion
+
+       
             #region Program
 
             var ProgramType = Context.Interactive.ProgramType;

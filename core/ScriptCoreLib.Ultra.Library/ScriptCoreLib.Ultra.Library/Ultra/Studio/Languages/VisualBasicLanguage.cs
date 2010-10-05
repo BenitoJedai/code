@@ -735,5 +735,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
             return true;
         }
 
+        public override bool SupportsPartialTypes()
+        {
+            return true;
+        }
     }
 }

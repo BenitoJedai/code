@@ -619,19 +619,15 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                     }
 
                                                     WriteTypeName(File, Field.FieldType);
-                                                    File.WriteSpace();
-                                                    File.Write(Field.Name);
+                                                    File.WriteSpace().Write(Field.Name);
 
                                                     if (Field.FieldConstructor != null)
                                                     {
-                                                        File.WriteSpace();
-                                                        File.Write("=");
-                                                        File.WriteSpace();
+                                                        File.WriteSpaces("=");
                                                         this.WritePseudoCallExpression(File, Field.FieldConstructor, Context);
                                                     }
 
-                                                    File.Write(";");
-                                                    File.WriteLine();
+                                                    File.WriteLine(";");
 
                                                     File.WriteLine();
                                                 }
@@ -756,8 +752,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                         }
                                     );
 
-                                    File.WriteIndent();
-                                    File.WriteLine("}");
+                                    File.WriteIndent().WriteLine("}");
                                 }
                             );
                         }
@@ -848,6 +843,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
         }
 
         public override bool SupportsDependentUpon()
+        {
+            return true;
+        }
+
+        public override bool SupportsPartialTypes()
         {
             return true;
         }
