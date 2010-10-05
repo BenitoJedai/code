@@ -7,6 +7,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 {
 	public partial class VisualBasicLanguage
 	{
+        // http://www.codeproject.com/KB/dotnet/vbnet_c__difference.aspx
+
 		public static class Keywords
 		{
 			public static Keyword
@@ -23,8 +25,10 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 				@Public = "Public",
                 @Private = "Private",
                 @ReadOnly = "ReadOnly",
+                @Overrides = "Overrides",
                 @New = "New",
                 @Me = "Me",
+                @MyBase = "MyBase",
 				@Shared = "Shared",
 				@NotInheritable = "NotInheritable",
 				@Class = "Class",
@@ -34,7 +38,8 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 @Then = "Then",
                 @Else = "Else",
                 @Return = "Return",
-
+                @Partial = "Partial",
+                @Protected = "Protected",
 				@Namespace = "Namespace"
 			;
 		}

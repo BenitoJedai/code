@@ -601,13 +601,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteUsingNamespace(SolutionFile File, string item)
         {
-            File.WriteIndent();
-
-            File.Write(Keywords.@open);
-            File.WriteSpace();
-            File.Write(item);
-
-            File.WriteLine();
+            File.WriteIndent().WriteSpace(Keywords.@open).WriteLine(item);
         }
 
         public override void WritePseudoExpression(SolutionFile File, object Parameter, SolutionBuilder Context)

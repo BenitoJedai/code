@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{66891E90-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserFormsApplication1", "BrowserFormsApplication1\BrowserFormsApplication1.csproj", "{E37E60B8-D202-4810-B7A4-5D4436675761}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrowserFormsApplication2", "BrowserFormsApplication2\BrowserFormsApplication2.vbproj", "{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -84,11 +86,27 @@ Global
 		{E37E60B8-D202-4810-B7A4-5D4436675761}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E37E60B8-D202-4810-B7A4-5D4436675761}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E37E60B8-D202-4810-B7A4-5D4436675761}.Release|x86.ActiveCfg = Release|Any CPU
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Assets|Any CPU.ActiveCfg = Assets|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Assets|Mixed Platforms.ActiveCfg = Assets|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Assets|Mixed Platforms.Build.0 = Assets|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Assets|x86.ActiveCfg = Assets|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Assets|x86.Build.0 = Assets|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Debug|x86.ActiveCfg = Debug|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Debug|x86.Build.0 = Debug|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|Any CPU.ActiveCfg = Release|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|x86.ActiveCfg = Release|x86
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E37E60B8-D202-4810-B7A4-5D4436675761} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
+		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
 	EndGlobalSection
 EndGlobal

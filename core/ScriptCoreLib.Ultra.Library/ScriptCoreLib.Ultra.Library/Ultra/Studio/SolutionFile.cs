@@ -61,11 +61,13 @@ namespace ScriptCoreLib.Ultra.Studio
 			Write(SolutionFileTextFragment.None, Environment.NewLine);
 		}
 
-		public void Write(SolutionFileTextFragment Fragment, string Text)
+		public SolutionFile Write(SolutionFileTextFragment Fragment, string Text)
 		{
 			this.Write(
 				new SolutionFileWriteArguments { Fragment = Fragment, Text = Text }
 			);
+
+            return this;
 		}
 
         public SolutionFile Write(SolutionFileWriteArguments a)
@@ -114,20 +116,37 @@ namespace ScriptCoreLib.Ultra.Studio
 			WriteLine(SolutionFileTextFragment.None, "");
 		}
 
-		public void WriteSpace()
+        public SolutionFile WriteSpace()
 		{
 			Write(" ");
+
+            return this;
 		}
 
-        public void WriteSpace(SolutionFileWriteArguments a)
+
+        public SolutionFile WriteDirective()
+        {
+            var n = new SolutionFileWriteArguments { Fragment = SolutionFileTextFragment.Keyword, Text = "#"};
+
+            Write(n);
+
+            return this;
+        }
+
+
+        public SolutionFile WriteSpace(SolutionFileWriteArguments a)
         {
             Write(a);
             WriteSpace();
+
+            return this;
         }
 
-        public void WriteSpace(params SolutionFileWriteArguments[] a)
+        public SolutionFile WriteSpace(params SolutionFileWriteArguments[] a)
         {
-            a.WithEach(WriteSpace);
+            a.WithEach(k => WriteSpace(k));
+
+            return this;
         }
 
         public SolutionFile WriteSpaces(SolutionFileWriteArguments a)

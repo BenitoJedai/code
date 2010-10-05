@@ -33,6 +33,13 @@ namespace ScriptCoreLib.Ultra.Studio
             void VisitExpression(object s)
             {
                 (s as PseudoExpressions.PseudoCallExpression).With(VisitCall);
+                (s as PseudoExpressions.PseudoIfExpression).With(
+                    i =>
+                    {
+                        i.TrueCase.With(VisitCode);
+                        i.FalseCase.With(VisitCode);
+                    }
+                );
             }
 
             void VisitCode(SolutionProjectLanguageCode Code)

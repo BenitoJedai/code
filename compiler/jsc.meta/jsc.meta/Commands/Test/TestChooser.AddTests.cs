@@ -65,6 +65,18 @@ namespace jsc.meta.Commands.Test
                 }
             );
 
+            AddButton("SolutionBuilderWithConsole VB Forms", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new SolutionBuilder
+                    {
+                        Language = KnownLanguages.VisualBasic
+                    }.WithForms()
+                );
+
+            }
+        );
+
             AddButton("SolutionBuilderWithConsole C# Canvas", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
