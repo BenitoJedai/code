@@ -56,6 +56,15 @@ namespace jsc.meta.Commands.Test
                 );
             #endregion
 
+            AddButton("SolutionBuilderWithConsole C# Forms", () =>
+                {
+                    global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                        new SolutionBuilder().WithForms()
+                    );
+
+                }
+            );
+
             AddButton("SolutionBuilderWithConsole C# Canvas", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(

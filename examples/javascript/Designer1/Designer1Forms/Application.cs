@@ -20,7 +20,8 @@ namespace Designer1Forms
         {
             //page.Content.innerText = "hi!";
 
-            content.AttachControlTo(page.Content).AutoSizeControlTo(page.ContentSize);
+            content.AttachControlTo(page.Content);
+            content.AutoSizeControlTo(page.ContentSize);
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier

@@ -43,6 +43,14 @@ namespace jsc.meta.Commands.Configuration
             );
 
             Create(
+               new SolutionBuilder
+               {
+                   // Ultra?
+                   Name = "Browser Forms Application",
+               }.WithForms()
+            );
+
+            Create(
                 new SolutionBuilder
                 {
                     // Ultra?

@@ -132,6 +132,7 @@
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoNumericConstantExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoDoubleConstantExpression.cs" />
     <Compile Include="Ultra\Studio\PseudoExpressions\PseudoConstantExpression.cs" />
+    <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithForms.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithCanvas.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithJavaApplet.cs" />
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilderWithAdobeFlash.cs" />
