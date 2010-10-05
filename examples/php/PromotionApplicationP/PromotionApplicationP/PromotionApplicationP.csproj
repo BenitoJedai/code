@@ -124,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Form_Fields.psd" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationWebService.cs" />
