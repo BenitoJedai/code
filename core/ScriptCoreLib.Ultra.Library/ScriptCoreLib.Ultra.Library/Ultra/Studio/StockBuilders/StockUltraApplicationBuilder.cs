@@ -8,6 +8,7 @@ using ScriptCoreLib.Ultra.Studio.StockAttributes;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Studio.PseudoExpressions;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
+using ScriptCoreLib.Ultra.Studio.Languages;
 
 namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 {
@@ -233,10 +234,16 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             #endregion
 
             #region AssemblyInfo
+
+            var AssemblyInfoFolder = "Properties";
+
+            if (Context.Language == KnownLanguages.VisualBasic)
+                AssemblyInfoFolder = "My Project";
+
             var AssemblyInfo =
                 new SolutionFile
                 {
-                    Name = ToProjectFile("Properties/AssemblyInfo" + Context.Language.CodeFileExtension),
+                    Name = ToProjectFile(AssemblyInfoFolder + "/AssemblyInfo" + Context.Language.CodeFileExtension),
                 };
 
 

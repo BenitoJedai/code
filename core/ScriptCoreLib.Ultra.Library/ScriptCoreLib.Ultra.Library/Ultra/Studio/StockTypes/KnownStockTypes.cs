@@ -210,6 +210,16 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             }
 
+            public class Int32 : SolutionProjectLanguageType
+            {
+                public Int32()
+                {
+                    Namespace = "Int32";
+                    Name = "Int32";
+                }
+
+            }
+
             public class Object : SolutionProjectLanguageType
             {
                 public Object()
@@ -275,6 +285,54 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
             }
 
+            public static class Java
+            {
+                public static class Extensions
+                {
+                    public class WindowsFormsExtensions : SolutionProjectLanguageType
+                    {
+                        public WindowsFormsExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.Java.Extensions";
+                            Name = "WindowsFormsExtensions";
+                        }
+
+                        public class AutoSizeTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeTo()
+                            {
+                                Name = "AutoSizeTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new WindowsFormsExtensions();
+                            }
+                        }
+
+                        public class EnableVisualStyles : SolutionProjectLanguageMethod
+                        {
+                            public EnableVisualStyles()
+                            {
+                                Name = "EnableVisualStyles";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new WindowsFormsExtensions();
+                            }
+                        }
+
+                        public class AttachTo : SolutionProjectLanguageMethod
+                        {
+                            public AttachTo()
+                            {
+                                Name = "AttachTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new WindowsFormsExtensions();
+                            }
+                        }
+                    }
+                }
+            }
+
             public static class JavaScript
             {
                 public static class Windows
@@ -331,6 +389,39 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
                 public static class Extensions
                 {
+                    public class AppletExtensions : SolutionProjectLanguageType
+                    {
+                        public AppletExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "AppletExtensions";
+                        }
+
+                        public class AttachAppletTo : SolutionProjectLanguageMethod
+                        {
+                            public AttachAppletTo()
+                            {
+                                Name = "AttachAppletTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AppletExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+
+                        public class AutoSizeAppletTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeAppletTo()
+                            {
+                                Name = "AutoSizeAppletTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AppletExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
                     public class SpriteExtensions : SolutionProjectLanguageType
                     {
                         public SpriteExtensions()

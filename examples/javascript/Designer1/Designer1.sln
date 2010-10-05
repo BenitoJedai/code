@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrowserFormsApplication1", 
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrowserFormsApplication2", "BrowserFormsApplication2\BrowserFormsApplication2.vbproj", "{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrowserFormsApplicationWithJavaApplet1", "BrowserFormsApplicationWithJavaApplet1\BrowserFormsApplicationWithJavaApplet1.vbproj", "{099875D8-C2CA-4320-9645-3950C8389A1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -101,6 +103,21 @@ Global
 		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|x86.ActiveCfg = Release|x86
 		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21}.Release|x86.Build.0 = Release|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Assets|Any CPU.ActiveCfg = Assets|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Assets|Mixed Platforms.ActiveCfg = Assets|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Assets|Mixed Platforms.Build.0 = Assets|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Assets|x86.ActiveCfg = Assets|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Assets|x86.Build.0 = Assets|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Debug|x86.ActiveCfg = Debug|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Debug|x86.Build.0 = Debug|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|Any CPU.ActiveCfg = Release|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|Mixed Platforms.Build.0 = Release|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|x86.ActiveCfg = Release|x86
+		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,5 +125,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E37E60B8-D202-4810-B7A4-5D4436675761} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
 		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
+		{099875D8-C2CA-4320-9645-3950C8389A1D} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
 	EndGlobalSection
 EndGlobal

@@ -8,9 +8,10 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 {
 	public class StockAppletType : SolutionProjectLanguageType
 	{
-		public readonly SolutionProjectLanguageMethod init;
+        public readonly SolutionProjectLanguageMethod init;
+        public readonly SolutionProjectLanguageMethod resize;
 
-		public StockAppletType(string Namespace, string Name)
+        public StockAppletType(string Namespace, string Name, SolutionProjectLanguageField Content = null)
 		{
 			this.Namespace = Namespace;
 			this.Name = Name;
@@ -44,7 +45,27 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 				}
 			};
 
-			this.Methods.Add(init);
+            this.Methods.Add(init);
+
+            if (Content != null)
+            {
+                this.init.Code = new SolutionProjectLanguageCode
+                {
+                    new KnownStockTypes.ScriptCoreLib.Java.Extensions.WindowsFormsExtensions.AttachTo().ToCallExpression(
+                        Content,
+                        new PseudoThisExpression()
+                    ),
+                     new KnownStockTypes.ScriptCoreLib.Java.Extensions.WindowsFormsExtensions.AutoSizeTo().ToCallExpression(
+                        Content,
+                        new PseudoThisExpression()
+                    ),
+
+                    new KnownStockTypes.ScriptCoreLib.Java.Extensions.WindowsFormsExtensions.EnableVisualStyles().ToCallExpression(
+                        new PseudoThisExpression()
+                    )
+                };
+            }
+
 		}
 	}
 }

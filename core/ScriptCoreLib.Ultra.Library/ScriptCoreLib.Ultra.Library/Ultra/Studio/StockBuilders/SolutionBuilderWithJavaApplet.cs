@@ -18,22 +18,22 @@ namespace ScriptCoreLib.Ultra.Studio
             public CreateMyApplet(StockAppletType Type)
             {
                 var page_Page1 =
-                            new PseudoCallExpression
-                            {
-                                // Application(page)
-                                Object = "page",
+                    new PseudoCallExpression
+                    {
+                        // Application(page)
+                        Object = "page",
 
-                                Method =
-                                    new SolutionProjectLanguageMethod
-                                    {
-                                        IsProperty = true,
-                                        Name = "get_Content",
-                                        ReturnType = new SolutionProjectLanguageType
-                                        {
-                                            Name = "IHTMLElement"
-                                        }
-                                    }
-                            };
+                        Method =
+                            new SolutionProjectLanguageMethod
+                            {
+                                IsProperty = true,
+                                Name = "get_Content",
+                                ReturnType = new SolutionProjectLanguageType
+                                {
+                                    Name = "IHTMLElement"
+                                }
+                            }
+                    };
 
                 var new_Page1 =
                     new PseudoCallExpression

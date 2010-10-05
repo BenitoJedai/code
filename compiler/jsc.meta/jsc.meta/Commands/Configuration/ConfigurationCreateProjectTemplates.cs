@@ -54,6 +54,15 @@ namespace jsc.meta.Commands.Configuration
                 new SolutionBuilder
                 {
                     // Ultra?
+                    Name = "Browser Forms Application With Java Applet",
+                }.WithFormsApplet()
+             );
+
+
+            Create(
+                new SolutionBuilder
+                {
+                    // Ultra?
                     Name = "Browser Avalon Application",
                 }.WithCanvas()
             );
