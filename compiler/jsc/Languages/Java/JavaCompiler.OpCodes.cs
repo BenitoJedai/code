@@ -744,9 +744,12 @@ namespace jsc.Languages.Java
 					}
 					#endregion
 
+               
 					Emit(e.p, e.FirstOnStack);
 					Write(".");
 					WriteSafeLiteral(e.i.TargetField.Name);
+
+               
 
 				};
 

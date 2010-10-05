@@ -619,7 +619,30 @@ namespace jsc.Script
             }
             else if (iif.Branch.IsAnyOpCodeOf(OpCodes.Brfalse_S, OpCodes.Brfalse))
 			{
-				Emit(p, iif.Branch.StackBeforeStrict[0], typeof(bool));
+                var expression = iif.Branch.StackBeforeStrict[0];
+
+                // fixme: is this operator valid on this expression?
+
+                var expression_type = expression.SingleStackInstruction.ReferencedType;
+
+                if (expression_type.IsClass)
+                {
+                    Write("(");
+                    Emit(p, expression);
+                    WriteSpace();
+                    Write("!=");
+                    WriteSpace();
+                    WriteKeywordNull();
+                    Write(")");
+                }
+                else
+                {
+                    Write("(");
+                    Emit(p, expression, typeof(bool));
+
+                    Write(")");
+                }
+
 			}
 			else
 			{
