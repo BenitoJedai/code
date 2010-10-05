@@ -805,43 +805,60 @@ namespace TestSolutionBuilderV1.Views
                   );
               };
 
-            CreateProjectTypeButton("Convert to Browser Avalon Application",
+            Action<string, Action> ToSpecificProjectType =
+                (Text, Handler) =>
+                {
+                    CreateProjectTypeButton(Text,
+                        delegate
+                        {
+                            Handler();
+
+
+                            HTMLDesigner.HTMLDesignerContent.WhenDocumentReady(
+                                document =>
+                                {
+                                    document.WithContent(sln.ApplicationPage);
+                                    // we should now also lock the designer!
+                                    document.DesignMode = false;
+                                }
+                            );
+
+                            Update();
+                        }
+                    );
+                };
+
+            ToSpecificProjectType("Convert to Browser Avalon Application",
                 delegate
                 {
                     sln.WithCanvas();
-
-
-                    HTMLDesigner.HTMLDesignerContent.WhenDocumentReady(
-                        document =>
-                        {
-                            document.WithContent(sln.ApplicationPage);
-                            // we should now also lock the designer!
-                            document.DesignMode = false;
-                        }
-                    );
-
-                    Update();
                 }
             );
 
-            CreateProjectTypeButton("Convert to Browser Avalon Application With Adobe Flash",
+
+            ToSpecificProjectType("Convert to Browser Avalon Application With Adobe Flash",
                delegate
                {
                    sln.WithCanvasAdobeFlash();
 
-
-                   HTMLDesigner.HTMLDesignerContent.WhenDocumentReady(
-                       document =>
-                       {
-                           document.WithContent(sln.ApplicationPage);
-                           // we should now also lock the designer!
-                           document.DesignMode = false;
-                       }
-                   );
-
-                   Update();
                }
-           );
+            );
+
+            ToSpecificProjectType("Convert to Browser Forms Application",
+                delegate
+                {
+                    sln.WithForms();
+                }
+            );
+
+
+            ToSpecificProjectType("Convert to Browser Forms Application With Java Applet",
+               delegate
+               {
+                   sln.WithFormsApplet();
+
+               }
+            );
         }
 
 

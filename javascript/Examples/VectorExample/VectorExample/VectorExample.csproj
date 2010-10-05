@@ -81,6 +81,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.exe $(TargetFileName)  -js</PostBuildEvent>
   </PropertyGroup>
 </Project>
