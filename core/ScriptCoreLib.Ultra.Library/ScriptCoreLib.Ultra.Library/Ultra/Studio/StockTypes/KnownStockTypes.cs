@@ -225,6 +225,32 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         {
             public static class Desktop
             {
+                public static class Forms
+                {
+                    public static class Extensions
+                    {
+                        public class DesktopFormsExtensions : SolutionProjectLanguageType
+                        {
+                            public DesktopFormsExtensions()
+                            {
+                                Namespace = "ScriptCoreLib.Desktop.Forms.Extensions";
+                                Name = "DesktopFormsExtensions";
+                            }
+
+                            public class Launch : SolutionProjectLanguageMethod
+                            {
+                                public Launch()
+                                {
+                                    Name = "Launch";
+                                    IsStatic = true;
+                                    DeclaringType = new DesktopFormsExtensions();
+                                    ReturnType = new KnownStockTypes.System.Object();
+                                }
+                            }
+                        }
+                    }
+                }
+
                 public static class Extensions
                 {
                     public class DesktopAvalonExtensions : SolutionProjectLanguageType
@@ -251,6 +277,43 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
             public static class JavaScript
             {
+                public static class Windows
+                {
+                    public static class Forms
+                    {
+                        public class WindowsFormsExtensions : SolutionProjectLanguageType
+                        {
+                            public WindowsFormsExtensions()
+                            {
+                                Namespace = "ScriptCoreLib.JavaScript.Windows.Forms";
+                                Name = "WindowsFormsExtensions";
+                            }
+                            public class AutoSizeControlTo : SolutionProjectLanguageMethod
+                            {
+                                public AutoSizeControlTo()
+                                {
+                                    Name = "AutoSizeControlTo";
+                                    IsExtensionMethod = true;
+                                    IsStatic = true;
+                                    DeclaringType = new WindowsFormsExtensions();
+                                    ReturnType = new KnownStockTypes.System.Object();
+                                }
+                            }
+                            public class AttachControlTo : SolutionProjectLanguageMethod
+                            {
+                                public AttachControlTo()
+                                {
+                                    Name = "AttachControlTo";
+                                    IsExtensionMethod = true;
+                                    IsStatic = true;
+                                    DeclaringType = new WindowsFormsExtensions();
+                                    ReturnType = new KnownStockTypes.System.Object();
+                                }
+                            }
+                        }
+                    }
+                }
+
                 public static class DOM
                 {
                     public static class HTML

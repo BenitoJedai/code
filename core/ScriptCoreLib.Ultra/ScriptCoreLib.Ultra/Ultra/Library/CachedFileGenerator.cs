@@ -11,6 +11,8 @@ namespace ScriptCoreLib.Ultra.Library
 {
     public class CachedFileGenerator : CachedFileGeneratorBase
     {
+        // should this be moved into .Liibrary assembly?
+
         public DirectoryInfo SDK;
 
         public static new CachedFileGeneratorBase Create(CachedFileGeneratorBase.Arguments Arguments)
