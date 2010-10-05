@@ -21,7 +21,6 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WritePseudoCallExpression(SolutionFile File, ScriptCoreLib.Ultra.Studio.PseudoExpressions.PseudoCallExpression Lambda, SolutionBuilder Context)
         {
-
             if (Lambda.Method.IsConstructor)
             {
                 File.Write(Keywords.@new);

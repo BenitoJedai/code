@@ -23,9 +23,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteLinkCommentLine(SolutionFile File, Uri Link)
         {
-            File.Write(SolutionFileTextFragment.Comment, "// ");
-            File.Write(Link);
-            File.WriteLine();
+            File.Write(SolutionFileTextFragment.Comment, "// ").WriteLine(Link);
         }
 
         public override void WriteCommentLine(SolutionFile File, string Text)
@@ -132,23 +130,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
                 if (Method.DeclaringType.IsStatic)
                 {
-                    File.Write(Keywords.let);
-                    File.WriteSpace();
+                    File.WriteSpace(Keywords.let);
                 }
                 else
                 {
-                    File.Write(Keywords.member);
-                    File.WriteSpace();
-                    File.Write("this");
-                    File.Write(".");
+                    if (Method.IsOverride)
+                        File.WriteSpace(Keywords.@override);
+                    else
+                        File.WriteSpace(Keywords.member);
+                    
+                    File.Write("this").Write(".");
                 }
                 File.Write(Method.Name);
                 File.Write("(");
                 InternalWriteParameters(File, Method, Method.Parameters.ToArray());
                 File.Write(")");
-                File.WriteSpace();
-                File.Write("=");
-                File.WriteLine();
+                File.WriteSpace().WriteLine("=");
                 File.Indent(this, WriteMethodBody);
             }
 
@@ -316,6 +313,12 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 return;
             }
 
+            if (Type is KnownStockTypes.System.Boolean)
+            {
+                File.Write("bool");
+                return;
+            }
+
             if (Type.DeclaringType != null)
             {
                 WriteTypeName(File, Type.DeclaringType);
@@ -356,8 +359,7 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
 
         public override void WriteNamespace(SolutionFile File, string Namespace, Action Body)
         {
-            File.WriteSpace(Keywords.@namespace);
-            File.WriteLine(Namespace);
+            File.WriteSpace(Keywords.@namespace).WriteLine(Namespace);
 
             File.WriteLine();
 
@@ -474,13 +476,22 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                                     {
                                                         // http://msdn.microsoft.com/en-us/library/dd469494.aspx
 
-                                                        File.WriteIndent();
-                                                        File.WriteSpace(Keywords.let);
-                                                        File.Write(Field.Name);
-                                                        File.WriteSpaces("=");
+
+
 
                                                         if (Field.FieldConstructor != null)
+                                                        {
+                                                            File.WriteIndent().WriteSpace(Keywords.let).Write(Field.Name).WriteSpaces("=");
                                                             this.WritePseudoCallExpression(File, Field.FieldConstructor, Context);
+                                                        }
+                                                        else
+                                                        {
+                                                            File.WriteIndent().WriteSpace(Keywords.let).WriteSpace(Keywords.mutable);
+                                                            File.Write(Field.Name).WriteSpaces(":");
+                                                            WriteTypeName(File, Field.FieldType);
+
+                                                            File.WriteSpaces("=").Write(Keywords.@null);
+                                                        }
 
                                                         File.WriteLine();
                                                     }
@@ -854,6 +865,11 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
         }
 
         public override bool SupportsDependentUpon()
+        {
+            return false;
+        }
+
+        public override bool SupportsPartialTypes()
         {
             return false;
         }

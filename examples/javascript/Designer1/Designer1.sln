@@ -15,6 +15,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrowserFormsApplication2", 
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrowserFormsApplicationWithJavaApplet1", "BrowserFormsApplicationWithJavaApplet1\BrowserFormsApplicationWithJavaApplet1.vbproj", "{099875D8-C2CA-4320-9645-3950C8389A1D}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BrowserFormsApplication3", "BrowserFormsApplication3\BrowserFormsApplication3.fsproj", "{E0C52994-1CC0-4E0B-BA50-81E17A231550}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BrowserFormsApplication4", "BrowserFormsApplication4\BrowserFormsApplication4.fsproj", "{82BFBA97-801C-469E-8C5B-6E1898C0A471}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -118,6 +122,36 @@ Global
 		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|Mixed Platforms.Build.0 = Release|x86
 		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|x86.ActiveCfg = Release|x86
 		{099875D8-C2CA-4320-9645-3950C8389A1D}.Release|x86.Build.0 = Release|x86
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Assets|x86.ActiveCfg = Assets|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550}.Release|x86.ActiveCfg = Release|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Assets|Mixed Platforms.ActiveCfg = Assets|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Assets|Mixed Platforms.Build.0 = Assets|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Assets|x86.ActiveCfg = Assets|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,5 +160,7 @@ Global
 		{E37E60B8-D202-4810-B7A4-5D4436675761} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
 		{C373D646-6CD8-4C60-AFBB-7CEB3591DF21} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
 		{099875D8-C2CA-4320-9645-3950C8389A1D} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
+		{E0C52994-1CC0-4E0B-BA50-81E17A231550} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
+		{82BFBA97-801C-469E-8C5B-6E1898C0A471} = {66891E90-F55C-409E-A2B7-20BF64E1ECD0}
 	EndGlobalSection
 EndGlobal

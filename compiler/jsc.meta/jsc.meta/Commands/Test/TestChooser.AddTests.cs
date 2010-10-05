@@ -79,6 +79,7 @@ namespace jsc.meta.Commands.Test
             }
             );
 
+
             AddButton("SolutionBuilderWithConsole C# Forms", () =>
                 {
                     global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
@@ -99,6 +100,18 @@ namespace jsc.meta.Commands.Test
 
                 }
             );
+
+            AddButton("SolutionBuilderWithConsole F# Forms", () =>
+            {
+                global::ScriptCoreLib.Ultra.Studio.SolutionBuilderWithConsole.WriteToConsole(
+                    new SolutionBuilder
+                    {
+                        Language = KnownLanguages.VisualFSharp
+                    }.WithForms()
+                );
+
+            }
+          );
 
             AddButton("SolutionBuilderWithConsole C# Canvas", () =>
                 {
