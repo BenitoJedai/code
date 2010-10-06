@@ -30,9 +30,13 @@ echo rebuild website
 cd w:\jsc.svn\tools\
 call rebuild.release.bat
 
-echo upload
+echo verify website
+cd W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication1\bin\Release\staging\PromotionWebApplication1.UltraWebService\staging.java\web
+call start .
+
+echo upload website
 cd W:\jsc.svn\examples\java\PromotionWebApplication\PromotionWebApplication1\bin\Release\staging\PromotionWebApplication1.UltraWebService\staging.java\web
 call upload.bat
 
-echo exit windows
-rundll32 user.exe,exitwindows 
+echo shutdown in 3 min
+call shutdown -s -t 180 -c "jsc.builder completed"
