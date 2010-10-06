@@ -391,9 +391,66 @@ namespace TestSolutionBuilderV1.Views
 
             #endregion
 
+            #region CodeSourceFormsDesignerTab
+            var CodeSourceFormsDesignerTab =
+                new SolutionFileDesignerTab
+                {
+                    Image = new RTA_mode_design(),
+                    // all source code, not just html?
+                    Text = "Designer"
+                };
 
+
+            var CodeSourceFormsDesignerTabView = new SolutionFileView();
+
+            CodeSourceFormsDesignerTabView.Container.style.With(
+                style =>
+                {
+                    style.position = IStyle.PositionEnum.absolute;
+                    style.left = "0px";
+                    style.right = "0px";
+                    style.top = "0px";
+                    style.bottom = "0px";
+
+                    style.display = IStyle.DisplayEnum.none;
+                }
+            );
+
+            new IHTMLDiv().With(
+                div =>
+                {
+                    div.style.position = IStyle.PositionEnum.absolute;
+                    div.style.left = "16px";
+                    div.style.top = "16px";
+                    div.style.width = "400px";
+                    div.style.height = "300px";
+                    div.style.backgroundColor = Color.FromGray(0xe0);
+                    div.style.border = "1px solid gray";
+                    div.AttachTo(CodeSourceFormsDesignerTabView.Container);
+                }
+            );
+
+
+            CodeSourceFormsDesignerTabView.Container.AttachTo(CurrentDesigner.Content);
+
+            CodeSourceFormsDesignerTab.Deactivated +=
+                delegate
+                {
+                    CodeSourceFormsDesignerTabView.Container.style.display = IStyle.DisplayEnum.none;
+                };
+
+            CodeSourceFormsDesignerTab.Activated +=
+                delegate
+                {
+
+                    CodeSourceFormsDesignerTabView.Container.style.display = IStyle.DisplayEnum.empty;
+                };
+
+
+            #endregion
+
+            CurrentDesigner.Add(CodeSourceFormsDesignerTab);
             CurrentDesigner.Add(CodeSourceBTab);
-
             CurrentDesigner.Add(CodeSourceATab);
 
 
@@ -666,6 +723,8 @@ namespace TestSolutionBuilderV1.Views
 
                     OutputWriteLine("Select: " + CodeSourceBView.File.Name);
 
+                    CodeSourceFormsDesignerTab.TabElement.Hide();
+
                     // hack :)
                     if (CodeSourceBView.File.Name.EndsWith("/Default.htm"))
                     {
@@ -687,6 +746,10 @@ namespace TestSolutionBuilderV1.Views
 
                         // show the design/source buttons
                     }
+                    else if (CodeSourceBView.File.Name.EndsWith(".sln"))
+                    {
+                        AboutTab.Activate();
+                    }
                     else if (CodeSourceBView.File.Name.EndsWith(sln.Language.ProjectFileExtension))
                     {
                         AboutTab.Activate();
@@ -700,6 +763,19 @@ namespace TestSolutionBuilderV1.Views
                         HTMLDesigner.HTMLSourceTab.TabElement.style.display = IStyle.DisplayEnum.none;
                         CodeSourceATab.TabElement.style.display = IStyle.DisplayEnum.none;
                         CodeSourceBTab.TabElement.style.display = IStyle.DisplayEnum.inline_block;
+
+                        CodeSourceBView.File.ContextType.BaseType.With(
+                            BaseType =>
+                            {
+                                if (BaseType is KnownStockTypes.System.Windows.Forms.UserControl)
+                                {
+                                    CodeSourceFormsDesignerTab.TabElement.Show();
+                                    CodeSourceFormsDesignerTab.RaiseActivated();
+
+                                }
+                            }
+                        );
+
                     }
 
 
@@ -873,7 +949,12 @@ namespace TestSolutionBuilderV1.Views
             _Project.IsExpanded = true;
 
             // Or my project?
-            var _Properties = _Project.Add("Properties");
+
+            var PropertiesFolderName = "Properties";
+            if (sln.Language == KnownLanguages.VisualBasic)
+                PropertiesFolderName = "My Project";
+
+            var _Properties = _Project.Add(PropertiesFolderName);
             _Properties.IsExpanded = true;
             _Properties.WithIcon(() => new SolutionProjectProperties());
 
@@ -882,12 +963,7 @@ namespace TestSolutionBuilderV1.Views
             _References.WithIcon(() => new References());
 
 
-            foreach (var item in sln.References.ToArray())
-            {
-                var _Reference = _References.Add(item.Attribute("Include").Value.TakeUntilIfAny(","));
-                _Reference.IsExpanded = true;
-                _Reference.WithIcon(() => new Assembly());
-            }
+            RenderReferences(sln, _References);
 
 
             var FolderLookup = new Dictionary<string, TreeNode>();
@@ -949,11 +1025,12 @@ namespace TestSolutionBuilderV1.Views
                             Parent = FolderLookup[Folder];
                         }
 
-                        if (f.DependentUpon != null)
-                        {
-                            Parent = FileLookup[f.DependentUpon];
-                            Parent.IsExpanded = false;
-                        }
+                        if (sln.Language.SupportsDependentUpon())
+                            if (f.DependentUpon != null)
+                            {
+                                Parent = FileLookup[f.DependentUpon];
+                                Parent.IsExpanded = false;
+                            }
 
                         n = Parent.Add(ProjectInclude.SkipUntilLastIfAny("/"));
 
@@ -984,10 +1061,11 @@ namespace TestSolutionBuilderV1.Views
                         }
                     }
 
-                    if (f.DependentUpon != null)
-                    {
-                        n.WithIcon(() => new SolutionProjectDependentUpon());
-                    }
+                    if (sln.Language.SupportsDependentUpon())
+                        if (f.DependentUpon != null)
+                        {
+                            n.WithIcon(() => new SolutionProjectDependentUpon());
+                        }
 
                     n.IsExpanded = true;
 
@@ -1018,6 +1096,27 @@ namespace TestSolutionBuilderV1.Views
                 this.Save.Clear();
                 this.Save.FileName = sln.Name + ".sln.zip";
                 files.WithEach(f => this.Save.Add(f.Name, f.Content));
+            }
+        }
+
+        private static void RenderReferences(SolutionBuilder sln, TreeNode _References)
+        {
+            // why doesn't LINQ work anymore?
+            var OrderedReferences = sln.References.Select(
+                item =>
+                {
+                    var Include = item.Attribute("Include");
+                    return Include.Value.TakeUntilIfAny(",");
+                }
+            ).OrderBy(k => k).ToArray();
+
+
+
+            foreach (var item in OrderedReferences)
+            {
+                var _Reference = _References.Add(item);
+                _Reference.IsExpanded = true;
+                _Reference.WithIcon(() => new Assembly());
             }
         }
 
