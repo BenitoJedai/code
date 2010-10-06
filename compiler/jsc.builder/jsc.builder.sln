@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jsc.builder", "jsc.builder.csproj", "{EF663A54-3E02-4855-A1E8-5294C8C14654}"
 EndProject
 Global

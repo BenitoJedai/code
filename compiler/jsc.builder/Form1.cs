@@ -97,6 +97,8 @@ namespace jsc.builder
 
                                 var c = "__command.bat";
 
+                                Console.WriteLine(DateTime.Now.ToString() + " " + cmd);
+
                                 File.WriteAllText(c,
                                     @"
 @echo off
@@ -141,9 +143,13 @@ exit /B %__ERRORLEVEL%
                                                     if (p.ExitCode != 0)
                                                     {
                                                         _.ForeColor = Color.Red;
+                                                        Console.WriteLine(DateTime.Now.ToString() + " ERROR " + p.ExitCode);
+
                                                     }
                                                     else
                                                     {
+                                                        Console.WriteLine(DateTime.Now.ToString() + " OK");
+
                                                         if (NextAction != null)
                                                         {
                                                             var EnableNextAction = false;
