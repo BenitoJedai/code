@@ -7,11 +7,15 @@ call command1.bat
 echo jsc.svn update
 call TortoiseProc.exe /command:update /path:"w:\jsc.svn\" /closeonend:0
 
+echo rebuild
+cd w:\jsc.svn\tools\
+call rebuild.bat
+
 echo jsc.internal.svn update
 call TortoiseProc.exe /command:update /path:"w:\jsc.internal.svn\" /closeonend:0
 
-echo rebuild
-cd w:\jsc.svn\tools\
+echo rebuild jsc.internal
+cd w:\jsc.internal.svn\tools\
 call rebuild.bat
 
 echo rebuild cache
