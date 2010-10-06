@@ -4,8 +4,11 @@ call command0.bat
 echo error 1
 call command1.bat
 
-echo svn update
+echo jsc.svn update
 call TortoiseProc.exe /command:update /path:"w:\jsc.svn\" /closeonend:0
+
+echo jsc.internal.svn update
+call TortoiseProc.exe /command:update /path:"w:\jsc.internal.svn\" /closeonend:0
 
 echo rebuild
 cd w:\jsc.svn\tools\
