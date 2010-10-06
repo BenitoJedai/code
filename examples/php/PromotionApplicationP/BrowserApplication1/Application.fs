@@ -18,6 +18,7 @@ namespace BrowserApplication1
     open BrowserApplication1.HTML.Pages
     open BrowserApplication1
     open ScriptCoreLib.Shared.Avalon.Extensions
+    open TestSolutionBuilderV1.Views;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -32,7 +33,13 @@ namespace BrowserApplication1
 
         do page.Animation.Clear()  |> ignore
 
+        let IsStudio = Native.Document.location.hash.StartsWith("#/studio");
 
+        let ActivateStudio () =
+             page.PageContainer.Clear();
+             let studio = new StudioView(null)
+             let studio = Extensions.AttachToDocument( studio.Content)
+             ()
 
         let c = new JSCSolutionsNETWhiteCarouselCanvas()
 
@@ -44,7 +51,10 @@ namespace BrowserApplication1
             page.Animation.style.marginTop <- top + "px"
             c.CloseOnClick <- false
             c.add_AtLogoClick(
-                fun () -> do AvalonSharedExtensions.NavigateTo( new Uri("http://www.jsc-solutions.net"))
+                fun () -> 
+//                    do AvalonSharedExtensions.NavigateTo( new Uri("http://www.jsc-solutions.net"))
+                    Native.Document.location.hash <- "#/studio";
+                    ActivateStudio();
             )
 
         do "Hello world".ToDocumentTitle() |> ignore

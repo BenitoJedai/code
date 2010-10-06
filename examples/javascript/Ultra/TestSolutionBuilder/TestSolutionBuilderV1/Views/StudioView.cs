@@ -217,6 +217,7 @@ namespace TestSolutionBuilderV1.Views
 
             var vv = new SolutionToolboxListView();
 
+            vv.Container.style.color = Color.Black;
             vv.Container.AttachTo(SolutionToolbox.Content);
 
             var items = new StockToolboxTabsForHTMLDocument();
