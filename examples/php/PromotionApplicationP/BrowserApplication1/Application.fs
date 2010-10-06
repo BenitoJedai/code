@@ -57,9 +57,9 @@ namespace BrowserApplication1
                     ActivateStudio();
             )
 
-        do "Hello world".ToDocumentTitle() |> ignore
+        do "jsc.ee".ToDocumentTitle() |> ignore
         do (new ApplicationWebService()).WebMethod2(
-            "hello",
+            "jsc.ee - powered by ",
             fun e -> 
                 do e.ToDocumentTitle() |> ignore
                 ()
