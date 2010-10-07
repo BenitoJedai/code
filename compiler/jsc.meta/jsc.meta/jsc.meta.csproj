@@ -457,10 +457,6 @@
       <Project>{77861F2D-D284-4913-B9E9-D906C7262219}</Project>
       <Name>jsc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\jsx\jsx.csproj">
-      <Project>{4D7EED61-DBFD-48E8-9671-8E734C1F2817}</Project>
-      <Name>jsx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\ScriptCoreLibA\ScriptCoreLibA.csproj">
       <Project>{477C5608-F5CD-436F-935D-66675988F1D9}</Project>
       <Name>ScriptCoreLibA</Name>
