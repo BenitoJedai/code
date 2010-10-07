@@ -36,6 +36,9 @@ echo - make the website
 ERASE /s /Q examples\java\PromotionWebApplication\PromotionWebApplication1\bin\Release
 call :build40 /verbosity:q /p:Configuration=Release "examples\java\PromotionWebApplication\PromotionWebApplication.sln"
 
+echo - make the website (PHP)
+erase /S /Q examples\php\PromotionApplicationP\BrowserApplication1\bin\Release
+call :build40 /verbosity:q /p:Configuration=Release "examples\php\PromotionApplicationP\PromotionApplicationP.sln"
 popd
 
 endlocal

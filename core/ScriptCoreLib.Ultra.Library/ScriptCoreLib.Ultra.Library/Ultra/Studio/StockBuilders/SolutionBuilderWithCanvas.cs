@@ -200,11 +200,15 @@ namespace ScriptCoreLib.Ultra.Studio
                        };
 
                     AddCode(
+                        new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AvalonExtensions.AttachToContainer().ToCallExpression(
+                            content,
+                            page_get_Content
+                      )
+                  );
+
+                    AddCode(
                         new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AvalonUltraExtensions.AutoSizeTo().ToCallExpression(
-                            new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.AvalonExtensions.AttachToContainer().ToCallExpression(
-                                content,
-                                page_get_Content
-                            ),
+                            content,
                             page_get_ContentSize
                         )
                     );
