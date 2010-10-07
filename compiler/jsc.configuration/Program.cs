@@ -121,6 +121,8 @@ namespace jsc.configuration
             w.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             w.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
             w.ResizeMode = ResizeMode.CanMinimize;
+            //w.ControlBox = false;
+
             w.Icon = a.image1.Source;
 
             //w.ToTransparentWindow();
