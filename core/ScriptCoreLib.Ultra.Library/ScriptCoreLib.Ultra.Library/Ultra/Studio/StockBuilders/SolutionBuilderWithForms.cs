@@ -199,11 +199,15 @@ namespace ScriptCoreLib.Ultra.Studio
                        };
 
                     AddCode(
+                         new KnownStockTypes.ScriptCoreLib.JavaScript.Windows.Forms.WindowsFormsExtensions.AttachControlTo().ToCallExpression(
+                             content,
+                             page_get_Content
+                         )
+                     );
+
+                    AddCode(
                         new KnownStockTypes.ScriptCoreLib.JavaScript.Windows.Forms.WindowsFormsExtensions.AutoSizeControlTo().ToCallExpression(
-                            new KnownStockTypes.ScriptCoreLib.JavaScript.Windows.Forms.WindowsFormsExtensions.AttachControlTo().ToCallExpression(
-                                content,
-                                page_get_Content
-                            ),
+                            content,
                             page_get_ContentSize
                         )
                     );
