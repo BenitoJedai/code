@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{A44300BD-8150-407F-8600-495E357D1DD0}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestArrayInitializer</RootNamespace>
     <AssemblyName>TestArrayInitializer</AssemblyName>
@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -53,6 +56,9 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -62,6 +68,10 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /AttachDebugger:true</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetFileName).config" "c:\util\jsc\bin\jsc.meta.exe.config" /y
+
+
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /AttachDebugger:false /obfuscate:false
+c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"o_$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /AttachDebugger:false /obfuscate:true</PostBuildEvent>
   </PropertyGroup>
 </Project>

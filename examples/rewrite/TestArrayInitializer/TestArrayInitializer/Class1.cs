@@ -31,5 +31,15 @@ namespace TestArrayInitializer
 	}
 
 
+    class Foo
+    {
+        public static void Main(string[] e)
+        {
+        }
 
+        public Foo()
+        {
+            var i = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        }
+    }
 }

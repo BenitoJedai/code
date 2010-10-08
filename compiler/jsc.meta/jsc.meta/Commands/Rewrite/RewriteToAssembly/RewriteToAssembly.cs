@@ -17,6 +17,7 @@ using jsc.meta.Library;
 using jsc.meta.Library.CodeTrace;
 using jsc.meta.Tools;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -87,7 +88,9 @@ namespace jsc.meta.Commands.Rewrite
             NameObfuscation.Resolve +=
                 n =>
                 {
-                    if (!this.obfuscate)
+                    // PrivateImplementationDetails does not like obfuscation?
+
+                    if (!this.obfuscate || n.StartsWith("<"))
                     {
                         NameObfuscation[n] = n;
 
@@ -101,6 +104,14 @@ namespace jsc.meta.Commands.Rewrite
                     var salt_length = NameObfuscationRandom.Next(7);
 
                     var ObfuscatedName = new StringBuilder();
+
+                    if (this.AttachDebugger)
+                    {
+                        // keep the original around for debugging...
+                        ObfuscatedName.Append(
+                            n + "->"
+                        );
+                    }
 
                     ObfuscatedName.Append((char)(0xFEFC - NameObfuscation.BaseDictionary.Count));
 
@@ -188,9 +199,15 @@ namespace jsc.meta.Commands.Rewrite
 
                         var ResourceNames = Enumerable.ToArray(
                             from item in shadow_assembly.GetManifestResourceNames()
-                              let n =
-                                     (item.StartsWith(shadow_assembly.GetName().Name)) ?
-                                          Product_Name + item.Substring(shadow_assembly.GetName().Name.Length)  : item
+                            let IsProperties = item.EndsWith(".Properties.Resources.resources")
+                            let IsResources = item.EndsWith(".resources")
+
+                            let ShouldRename = item.StartsWith(shadow_assembly.GetName().Name)
+
+                            let n = IsProperties ? item :
+                                        IsResources ? (NameObfuscation[item.TakeUntilLastOrEmpty(".resources")] + ".resources") :
+                                            (ShouldRename) ?
+                                            Product_Name + item.Substring(shadow_assembly.GetName().Name.Length) : item
 
                             select new { item, n }
                         );
@@ -230,7 +247,7 @@ namespace jsc.meta.Commands.Rewrite
 
                                 foreach (var item in ResourceNames)
                                 {
-                                   
+
                                     __m.DefineManifestResource(
                                         item.n,
                                         shadow_assembly.GetManifestResourceStream(item.item), ResourceAttributes.Public
@@ -1276,7 +1293,7 @@ namespace jsc.meta.Commands.Rewrite
             }
             #endregion
 
-         
+
 
             // ask for our primary types to be copied
             var kt = TypeCache[PrimaryTypes];
@@ -1485,7 +1502,7 @@ namespace jsc.meta.Commands.Rewrite
 
             Product.Refresh();
 
-   
+
         }
 
         public void RaiseTypeCreated(TypeRewriteArguments TypeCreatedArguments)
