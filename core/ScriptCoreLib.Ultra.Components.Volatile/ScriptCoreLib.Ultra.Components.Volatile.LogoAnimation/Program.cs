@@ -30,6 +30,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     CloseOnClick = false
                 };
 
+            c.HideSattelites();
 
 
             //c.Container.Effect = new DropShadowEffect();
@@ -85,6 +86,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             winfo.WindowStyle = WindowStyle.None;
             winfo.Background = Brushes.Transparent;
             winfo.ResizeMode = ResizeMode.NoResize;
+            
             winfo.SizeToContent = SizeToContent.Manual;
             winfo.Topmost = true;
             // http://www.squidoo.com/youtubehd
@@ -110,7 +112,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 Background = Brushes.Transparent,
                 BorderThickness = new System.Windows.Thickness(0),
                 Foreground = Brushes.White,
-                BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect() { GlowColor = Colors.Black, GlowSize = 8 },
+                Effect = new DropShadowEffect(),
                 Text = "JSC C# Foo Bar",
                 //TextDecorations = TextDecorations.Underline,
                 FontFamily = new FontFamily("Verdana"),
@@ -180,6 +182,10 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     var ss = s;
                     var ss2 = 0;
 
+               
+                    Console.WriteLine(
+                        new { w.Left, w.Top });
+
                     winfo.MoveTo(w.Left, w.Top).SizeTo(w.ActualWidth, w.ActualHeight);
 
                     if (ThumbnailSize == 1)
@@ -205,10 +211,10 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     {
                         wcam.Background = Brushes.Transparent;
 
-                        if (w.WindowState == WindowState.Maximized)
-                        {
-                            ss2 = s;
-                        }
+                        //if (w.WindowState == WindowState.Maximized)
+                        //{
+                        //    ss2 = s;
+                        //}
 
                         var qw = w.ActualWidth - ss * 2;
                         var qh = w.ActualHeight - ss * 2;
@@ -284,7 +290,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 Background = Brushes.Transparent,
                 BorderThickness = new System.Windows.Thickness(0),
                 Foreground = Brushes.White,
-                BitmapEffect = new System.Windows.Media.Effects.OuterGlowBitmapEffect() { GlowColor = Colors.Black, GlowSize = 2 },
+                Effect = new System.Windows.Media.Effects.DropShadowEffect(),
                 Text = "jsc-solutions.net",
                 //TextDecorations = TextDecorations.Underline,
                 FontFamily = new FontFamily("Verdana"),
@@ -305,13 +311,13 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                 };
 
-            var ink = new InkCanvas
-            {
-                Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)),
-            }.AttachTo(cc).MoveTo(0, CaptionBackgroundHeight);
+            //var ink = new InkCanvas
+            //{
+            //    Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)),
+            //}.AttachTo(cc).MoveTo(0, CaptionBackgroundHeight);
 
-            ink.DefaultDrawingAttributes.IgnorePressure = false;
-            ink.DefaultDrawingAttributes.Color = Colors.Yellow;
+            //ink.DefaultDrawingAttributes.IgnorePressure = false;
+            //ink.DefaultDrawingAttributes.Color = Colors.Yellow;
 
             c.AttachContainerTo(winfoc);
 
@@ -325,7 +331,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 delegate
                 {
                     Intro.SizeTo(w.ActualWidth, w.ActualHeight);
-                    ink.SizeTo(w.ActualWidth, w.ActualHeight - CaptionBackgroundHeight);
+                    //ink.SizeTo(w.ActualWidth, w.ActualHeight - CaptionBackgroundHeight);
 
                     var CaptionWidth = 200;
 
@@ -340,22 +346,22 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         w.ActualHeight - 48
                     ).SizeTo(w.ActualWidth - 48, 48);
 
+                    // .NET 4 ?
 
+                    //if (w.WindowState == WindowState.Maximized)
+                    //{
+                    //    if (c != null)
+                    //        c.MoveContainerTo(-200 + 42 + s, -200 + 38 + s);
+                    //    Borders.WithEach(k => k.Left.MoveTo(s, 0).SizeTo(k.Width, w.ActualHeight));
+                    //    Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width - s + 2, 0).SizeTo(k.Width, w.ActualHeight));
+                    //    Borders.WithEach(k => k.Bottom.MoveTo(0, w.ActualHeight - k.Width - s).SizeTo(w.ActualWidth, k.Width));
+                    //    Borders.WithEach(k => k.Top.MoveTo(0, s).SizeTo(w.ActualWidth, k.Width));
+                    //    CaptionText.MoveTo(0, 2 + s).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
+                    //    CaptionClose.MoveTo(w.ActualWidth - CaptionBackgroundHeight, s + s).SizeTo(CaptionBackgroundHeight - s, CaptionBackgroundHeight - s);
 
-                    if (w.WindowState == WindowState.Maximized)
-                    {
-                        if (c != null)
-                            c.MoveContainerTo(-200 + 42 + s, -200 + 38 + s);
-                        Borders.WithEach(k => k.Left.MoveTo(s, 0).SizeTo(k.Width, w.ActualHeight));
-                        Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width - s + 2, 0).SizeTo(k.Width, w.ActualHeight));
-                        Borders.WithEach(k => k.Bottom.MoveTo(0, w.ActualHeight - k.Width - s).SizeTo(w.ActualWidth, k.Width));
-                        Borders.WithEach(k => k.Top.MoveTo(0, s).SizeTo(w.ActualWidth, k.Width));
-                        CaptionText.MoveTo(0, 2 + s).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
-                        CaptionClose.MoveTo(w.ActualWidth - CaptionBackgroundHeight, s + s).SizeTo(CaptionBackgroundHeight - s, CaptionBackgroundHeight - s);
-
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         if (c != null)
                             c.MoveContainerTo(-200 + 42, -200 + 38);
                         Borders.WithEach(k => k.Left.MoveTo(0, 0).SizeTo(k.Width, w.ActualHeight));
@@ -364,46 +370,46 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         Borders.WithEach(k => k.Top.MoveTo(0, 0).SizeTo(w.ActualWidth, k.Width));
                         CaptionText.MoveTo(0, 2).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
                         CaptionClose.MoveTo(w.ActualWidth - CaptionBackgroundHeight, s).SizeTo(CaptionBackgroundHeight - s, CaptionBackgroundHeight - s);
-                    }
+                    //}
 
                     UpdateChildren();
                 };
 
 
-            Action StylusOutOfRange = delegate { };
+            //Action StylusOutOfRange = delegate { };
 
-            w.StylusInRange +=
-                delegate
-                {
-                    ink.Background = new SolidColorBrush(Color.FromArgb(0x10, 0, 0, 0));
-                    StylusOutOfRange = delegate { };
+            //w.StylusInRange +=
+            //    delegate
+            //    {
+            //        ink.Background = new SolidColorBrush(Color.FromArgb(0x10, 0, 0, 0));
+            //        StylusOutOfRange = delegate { };
 
-                    SetCaption("drawing");
-                };
+            //        SetCaption("drawing");
+            //    };
 
-            ink.StylusInRange +=
-                delegate
-                {
-                    StylusOutOfRange = delegate { };
-                };
+            ////ink.StylusInRange +=
+            ////    delegate
+            ////    {
+            ////        StylusOutOfRange = delegate { };
+            ////    };
 
-            w.StylusOutOfRange +=
-                delegate
-                {
-                    StylusOutOfRange = delegate
-                    {
-                        SetCaption("");
-                        ink.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-                    };
+            //w.StylusOutOfRange +=
+            //    delegate
+            //    {
+            //        StylusOutOfRange = delegate
+            //        {
+            //            SetCaption("");
+            //            ink.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            //        };
 
-                    10000.AtDelay(
-                        delegate
-                        {
-                            StylusOutOfRange();
-                        }
-                    );
+            //        10000.AtDelay(
+            //            delegate
+            //            {
+            //                StylusOutOfRange();
+            //            }
+            //        );
 
-                };
+            //    };
 
             w.SizeChanged +=
                 delegate
@@ -414,6 +420,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             w.StateChanged +=
                 delegate
                 {
+                    if (w.WindowState == WindowState.Maximized)
+                        w.WindowState = WindowState.Normal;
 
                     SizeChanged();
                 };
@@ -465,6 +473,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         {
                             CloseOnClick = false
                         }.AttachContainerTo(winfoc);
+                        c.HideSattelites();
+
                         CaptionClose.Show();
                         SizeChanged();
                     }
@@ -725,6 +735,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                     y = Internal.HIWORD(lParam) - w.Top
                                 };
 
+
                                 //t.Text = p.ToString();
 
                                 handeled = true;
@@ -781,7 +792,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                    );
                 };
 
-            w.SizeTo(1280, 720);
+            w.SizeTo(1280, 768);
             SizeChanged();
 
 
