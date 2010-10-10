@@ -6,10 +6,16 @@ using ScriptCoreLib.Delegates;
 
 namespace ScriptCoreLib.Ultra.WebService
 {
-    public static class WebApplicationManifest
+    public static class WebApplicationIcon
+    {
+        public const string Icon = "assets/ScriptCoreLib/jsc.ico";
+        public const string Image = "assets/ScriptCoreLib/jsc.png";
+    }
+
+    public static class WebApplicationCacheManifest
     {
         public const string ManifestContentType = "text/cache-manifest";
-        public const string ManifestName = "offline.manifest";
+        public const string ManifestName = "cache.manifest";
     }
 
     public class WebServiceScriptApplication
@@ -47,7 +53,7 @@ namespace ScriptCoreLib.Ultra.WebService
             // http://www.w3.org/TR/html5/offline.html
 
             WriteLine(@"<!DOCTYPE HTML>");
-            WriteLine(@"<html manifest=""" + WebApplicationManifest.ManifestName + @""">");
+            WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
             WriteLine(@"<head>");
 
             // do we need this?
@@ -58,10 +64,11 @@ namespace ScriptCoreLib.Ultra.WebService
 
             // http://www.whatwg.org/specs/web-apps/current-work/multipage/links.html#rel-icon
 
-            WriteLine(@"<link rel=""icon"" href=""assets/ScriptCoreLib/jsc.ico"" sizes=""32x32 96x96"" type=""image/vnd.microsoft.icon"" />");
+            WriteLine(@"<link rel=""icon"" href=""" + WebApplicationIcon.Icon + @""" sizes=""32x32 96x96"" type=""image/vnd.microsoft.icon"" />");
+            WriteLine(@"<link rel=""icon"" href=""" + WebApplicationIcon.Image + @""" sizes=""96x96"" type=""image/png"" />");
 
 
-            WriteLine(@"<link rel=""shortcut icon"" href=""favicon""  type=""image/x-icon"" />");
+            //WriteLine(@"<link rel=""shortcut icon"" href=""favicon""  type=""image/x-icon"" />");
 
             //WriteLine(@"<title>" + this.TypeFullName + "</title>");
 

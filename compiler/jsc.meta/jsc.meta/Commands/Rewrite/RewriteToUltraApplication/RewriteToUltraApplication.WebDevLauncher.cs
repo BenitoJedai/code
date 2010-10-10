@@ -174,6 +174,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 					Text = Text.Substring(0, Text.Length - Launcher.Length);
 
 				var url = "http://localhost:" + port;
+
+                Console.WriteLine(url);
+
 				var dir__ = new FileInfo(typeof(WebDevLauncer).Assembly.Location).Directory;
 				// what about long paths? :)
 				// thanks for 414

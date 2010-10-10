@@ -266,6 +266,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
                 // do we need to compile all components? maybe just the staging.net.debug?
                 var WebDevLauncher = Compile(PrimaryApplication);
 
+                Console.WriteLine();
                 Console.WriteLine("compiled! launching server! please wait...");
 
                 // todo: WebDev cannot handle root virtual directories. we should provide an extension for non root virtual dir.
