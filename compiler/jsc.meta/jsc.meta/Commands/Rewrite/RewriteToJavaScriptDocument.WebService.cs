@@ -139,7 +139,7 @@ namespace jsc.meta.Commands.Rewrite
 
                 );
 
-                var __Files1 = __Files2.Select(k => new InternalFileInfo { Name = k.Name }).ToArray();
+                var __Files1 = __Files2.Select(k => new InternalFileInfo { Name = k.Name, Length = (int)k.k.Length }).ToArray();
 
 
                 #region GetFiles

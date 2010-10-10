@@ -57,8 +57,8 @@ namespace BrowserApplication1
                     ActivateStudio();
             )
 
-//            if IsStudio then 
-//                ActivateStudio()
+            if IsStudio then 
+                ActivateStudio()
 
 
         do "jsc.ee".ToDocumentTitle() |> ignore

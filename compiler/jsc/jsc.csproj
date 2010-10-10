@@ -147,6 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeModel\ILInstruction.InlineIfElseConstruct.cs" />
     <Compile Include="CodeModel\ILLoopConstruct.cs" />
     <Compile Include="CodeModel\TypeInfo.cs" />
     <Compile Include="CodeModel\VariableInfo.cs" />

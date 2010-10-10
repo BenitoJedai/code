@@ -161,6 +161,13 @@ namespace jsc.meta.Library
                             il.Emit(((bool)f.GetValue(item)) ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
                             il.Emit(OpCodes.Stfld, FieldCache(f));
                         }
+                        else if (f.FieldType == typeof(int))
+                        {
+                            il.Emit(OpCodes.Ldloc, (short)(loc1.LocalIndex));
+                            il.Emit(OpCodes.Ldc_I4, ((int)f.GetValue(item)));
+
+                            il.Emit(OpCodes.Stfld, FieldCache(f));
+                        }
                         else throw new NotImplementedException();
                 }
 
