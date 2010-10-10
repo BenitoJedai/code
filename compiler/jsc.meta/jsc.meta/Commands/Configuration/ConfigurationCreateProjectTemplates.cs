@@ -33,28 +33,27 @@ namespace jsc.meta.Commands.Configuration
                         select (Action)(() => RewriteToMVSProjectTemplate(sln, Language, DefaultToOrcas: false))
                 ).Invoke();
 
+            // http://en.wikipedia.org/wiki/Web_application
+
 
             Create(
                 new SolutionBuilder
                 {
-                    // Ultra?
-                    Name = "Browser Application",
+                    Name = "Web Application",
                 }
             );
 
             Create(
                new SolutionBuilder
                {
-                   // Ultra?
-                   Name = "Browser Forms Application",
+                   Name = "Web Forms Application",
                }.WithForms()
             );
 
             Create(
                 new SolutionBuilder
                 {
-                    // Ultra?
-                    Name = "Browser Forms Application With Java Applet",
+                    Name = "Web Forms Application With Java Applet",
                 }.WithFormsApplet()
              );
 
@@ -62,8 +61,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    // Ultra?
-                    Name = "Browser Avalon Application",
+                    Name = "Web Avalon Application",
                 }.WithCanvas()
             );
 
@@ -71,8 +69,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    // Ultra?
-                    Name = "Browser Avalon Application With Adobe Flash",
+                    Name = "Web Avalon Application With Adobe Flash",
 
                 }.WithCanvasAdobeFlash()
             );
@@ -80,17 +77,15 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    // Ultra?
-                    Name = "Browser Application With Java Applet",
+                    Name = "Web Application With Java Applet",
                 }.WithJavaApplet()
             );
 
             Create(
                 new SolutionBuilder
                 {
-                    // Ultra?
                     
-                    Name = "Browser Application With Adobe Flash",
+                    Name = "Web Application With Adobe Flash",
                 }.WithAdobeFlash()
             );
         }

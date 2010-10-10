@@ -57,6 +57,10 @@ namespace BrowserApplication1
                     ActivateStudio();
             )
 
+//            if IsStudio then 
+//                ActivateStudio()
+
+
         do "jsc.ee".ToDocumentTitle() |> ignore
         do (new ApplicationWebService()).WebMethod2(
             "jsc.ee - powered by ",
