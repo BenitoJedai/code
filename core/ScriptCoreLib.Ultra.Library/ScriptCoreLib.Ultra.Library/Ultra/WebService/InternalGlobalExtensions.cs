@@ -51,7 +51,10 @@ namespace ScriptCoreLib.Ultra.WebService
 				return;
 			}
 
-			if (Context.Request.Path == "/favicon.ico")
+            var Path = Context.Request.Path;
+
+
+			if (Path == "/favicon.ico")
 			{
                 Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
                 
@@ -59,14 +62,22 @@ namespace ScriptCoreLib.Ultra.WebService
 				return;
 			}
 
-			if (Context.Request.Path == "/robots.txt")
+            if (Path == "/favicon")
+            {
+                Context.Response.WriteFile("assets/ScriptCoreLib/jsc.ico");
+
+                that.CompleteRequest();
+                return;
+            }
+
+			if (Path == "/robots.txt")
 			{
 				Context.Response.StatusCode = 404;
 				that.CompleteRequest();
 				return;
 			}
 
-			if (Context.Request.Path == "/crossdomain.xml")
+			if (Path == "/crossdomain.xml")
 			{
 				Context.Response.StatusCode = 404;
 				that.CompleteRequest();
@@ -79,6 +90,36 @@ namespace ScriptCoreLib.Ultra.WebService
                     // could we take the method pointer implicitly?
                     Context.Response.Write(e);
                 };
+
+            StringAction WriteLine = 
+                e =>
+                {
+                    // could we take the method pointer implicitly?
+                    Write(e + Environment.NewLine);
+                };
+
+            if (Path == "/" + WebApplicationManifest.ManifestName)
+            {
+                that.Response.ContentType = WebApplicationManifest.ManifestContentType;
+
+                // http://www.whatwg.org/specs/web-apps/current-work/multipage/offline.html
+
+                WriteLine("CACHE MANIFEST");
+
+                var files = g.GetFiles();
+
+                foreach (var item in files)
+                    WriteLine(item.Name);
+
+                var now = DateTime.Now;
+
+                WriteLine("# jsc: have good day! files: " + files.Length);
+
+                that.CompleteRequest();
+                return;
+            }
+
+    
 
 			var WebMethods = g.GetWebMethods();
 
