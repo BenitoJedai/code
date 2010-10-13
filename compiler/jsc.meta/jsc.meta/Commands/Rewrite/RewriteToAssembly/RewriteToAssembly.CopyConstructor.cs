@@ -56,6 +56,8 @@ namespace jsc.meta.Commands.Rewrite
                 var DeclaringParameter = DeclaringConstructor.DefineParameter(
                     SourceParameter.Position + 1,
                     SourceParameter.Attributes,
+
+                    SourceParameter.Name == null ? null :
                     NameObfuscation[SourceParameter.Name]
                 );
 

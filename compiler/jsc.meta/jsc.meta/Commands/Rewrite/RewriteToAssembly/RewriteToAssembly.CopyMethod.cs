@@ -108,7 +108,7 @@ namespace jsc.meta.Commands.Rewrite
 
             var ReturnType = DelayedTypeCache(SourceMethod.ReturnType);
 
-            var IsNonPublicStatic =
+            var IsNonPublicStatic = DllImport__ == null &&
                 SourceMethod.IsStatic && !SourceMethod.IsPublic;
 
             var IsNonPublicStaticProperty = IsNonPublicStatic && Enumerable.Any(
@@ -285,12 +285,17 @@ namespace jsc.meta.Commands.Rewrite
                 // The position of the parameter in the parameter list. 
                 // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
 
+                var ParameterPosition = SourceParameter.Position + 1;
 
-                var DeclaringParameter = DeclaringMethod.DefineParameter(
-                    SourceParameter.Position + 1,
-                    SourceParameter.Attributes,
-                    NameObfuscation[SourceParameter.Name]
-                );
+                var ParameterName = SourceParameter.Name == null ? null :
+                    NameObfuscation[SourceParameter.Name];
+
+                var DeclaringParameter = 
+                    DeclaringMethod.DefineParameter(
+                        ParameterPosition,
+                        SourceParameter.Attributes,
+                        ParameterName
+                    );
 
                 if ((SourceParameter.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
                     DeclaringParameter.SetConstant(SourceParameter.RawDefaultValue);
