@@ -4,7 +4,6 @@
 namespace FSharpCamera3
 
     open System
-    open jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
     /// <summary>
     /// You can debug your application by hitting F5.
@@ -17,6 +16,6 @@ namespace FSharpCamera3
         [<Microsoft.FSharp.Core.EntryPoint>]
         let Main(args : String[]) =
             // Prepare the yield value for
-            do RewriteToUltraApplication.AsProgram.Launch(typeof<Application>)
+            do global.jsc.BrowserApplicationDiagnostics.Launch(typeof<Application>)
             0
 

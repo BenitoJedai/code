@@ -8,8 +8,14 @@
     <Grid>
         <my:UserControl1 HorizontalAlignment="Left" Margin="37,40,0,0" x:Name="userControl11" VerticalAlignment="Top" />
         <my:UserControl1 HorizontalAlignment="Left" Margin="37,114,0,0" x:Name="userControl12" VerticalAlignment="Top" />
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="16,35,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="16,64,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="16,93,0,0" Name="button3" VerticalAlignment="Top" Width="75" />
+        <Button Content="Button" Height="22" HorizontalAlignment="Left" Margin="118,57,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="26,41,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
+        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="26,70,0,0" Name="button3" VerticalAlignment="Top" Width="75" />
+        <DataGrid AutoGenerateColumns="False" Height="200" HorizontalAlignment="Left" Margin="78,57,0,0" Name="dataGrid1" VerticalAlignment="Top" Width="200" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Header" />
+                <DataGridTextColumn Header="Header" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

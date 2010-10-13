@@ -17,7 +17,7 @@ namespace FSharpCamera3.Components
         let vid1 = new Video(this.stage.stageWidth,  this.stage.stageHeight)
         let vid1 = CommonExtensions.AttachTo(vid1, this)  
 
-        do cam1.setMode(640, 480, 1000.0 / 24.0)
+        do cam1.setMode(1024, 768, 1000.0 / 24.0)
         do vid1.attachCamera(cam1)
         do this.stage.scaleMode <- StageScaleMode.NO_BORDER
         do this.stage.add_resize(

@@ -16,6 +16,18 @@ namespace jsc.meta.Loader
 
         public static void Main(string[] args)
         {
+            if (Enumerable.Any(
+                from k in args
+                where k == "/DisableWorkerDomain"
+                select k
+                ))
+            {
+                ConfigurationDisposeSubst.RegisterOnce();
+                LoaderStrategyImplementation.Initialize();
+                Program.InternalMain(args);
+                return;
+            }
+
             // if this assembly does not embed the referenced
             // assemblies we might need to tell where to look
             // for them.
