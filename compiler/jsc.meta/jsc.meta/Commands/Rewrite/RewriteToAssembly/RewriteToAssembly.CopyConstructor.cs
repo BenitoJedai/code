@@ -53,7 +53,11 @@ namespace jsc.meta.Commands.Rewrite
                 // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
 
 
-                var DeclaringParameter = DeclaringConstructor.DefineParameter(SourceParameter.Position + 1, SourceParameter.Attributes, SourceParameter.Name);
+                var DeclaringParameter = DeclaringConstructor.DefineParameter(
+                    SourceParameter.Position + 1,
+                    SourceParameter.Attributes,
+                    NameObfuscation[SourceParameter.Name]
+                );
 
                 if ((SourceParameter.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
                     DeclaringParameter.SetConstant(SourceParameter.RawDefaultValue);
@@ -83,10 +87,10 @@ namespace jsc.meta.Commands.Rewrite
 
 
                     WriteSwitchRewrite(
-                        SourceConstructor, 
-                        DeclaringType, 
-                        context, 
-                        SourceConstructor.GetParameterTypes(), 
+                        SourceConstructor,
+                        DeclaringType,
+                        context,
+                        SourceConstructor.GetParameterTypes(),
                         typeof(void),
                         ILOverride,
                         ExceptionHandlingClauses,
@@ -95,7 +99,7 @@ namespace jsc.meta.Commands.Rewrite
                         DeclaringConstructor.GetILGenerator()
                     );
 
-                   
+
                     return;
                 }
             }

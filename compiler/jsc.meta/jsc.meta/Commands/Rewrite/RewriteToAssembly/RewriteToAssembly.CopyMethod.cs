@@ -41,14 +41,7 @@ namespace jsc.meta.Commands.Rewrite
             Action<MethodBuilder> AtCodeTraceDefineGenericParameters = null
             )
         {
-            if (AtCodeTraceDefineMethod == null)
-                AtCodeTraceDefineMethod = (__MethodName, __MethodAttributes__, CallingConvention) => DeclaringType.DefineMethod(
-                                            __MethodName,
-                                            __MethodAttributes__,
-                                            CallingConvention,
-                                            null,
-                                            null
-                                        );
+
             // sanity check!
 
             if (context.MethodCache.BaseDictionary.ContainsKey(SourceMethod))
@@ -87,7 +80,10 @@ namespace jsc.meta.Commands.Rewrite
                 var __MemberRenameCache = context.MemberRenameCache[SourceMethod];
                 MethodName = __MemberRenameCache ?? SourceMethod.Name;
 
-                var o = SourceMethod.DeclaringType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+                var o = default(ObfuscationAttribute);
+
+                if (SourceMethod.DeclaringType != null)
+                    SourceMethod.DeclaringType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
 
                 if (o != null && o.Exclude)
                 {
@@ -112,11 +108,65 @@ namespace jsc.meta.Commands.Rewrite
 
             var ReturnType = DelayedTypeCache(SourceMethod.ReturnType);
 
-            if (DeclaringType == null)
+            var IsNonPublicStatic =
+                SourceMethod.IsStatic && !SourceMethod.IsPublic;
+
+            var IsNonPublicStaticProperty = IsNonPublicStatic && Enumerable.Any(
+                from _DeclaringType in new[] { SourceMethod.DeclaringType }
+                where _DeclaringType != null
+                from _Property in _DeclaringType.GetProperties(BindingFlags.Static | BindingFlags.NonPublic)
+                from _Method in new[] { _Property.GetGetMethod(), _Property.GetSetMethod() }
+                where _Method != null
+                where _Method == SourceMethod
+                select _Property
+            );
+
+            var IsNonPublicStaticEvent = IsNonPublicStatic && Enumerable.Any(
+                 from _DeclaringType in new[] { SourceMethod.DeclaringType }
+                 where _DeclaringType != null
+                 from _Event in _DeclaringType.GetEvents(BindingFlags.Static | BindingFlags.NonPublic)
+                 from _Method in new[] { _Event.GetAddMethod(), _Event.GetRemoveMethod() }
+                 where _Method != null
+                 where _Method == SourceMethod
+                 select _Event
+            );
+
+            var IsNonPublicStaticToGlobalMethodUpgrate =
+                IsNonPublicStatic && !IsNonPublicStaticProperty && !IsNonPublicStaticEvent;
+
+            if (IsNonPublicStaticToGlobalMethodUpgrate && DllImport__ == null)
             {
+                if (Enumerable.Any(
+                    from i in new ILBlock(SourceMethod).Instructrions
+                    let f = i.TargetField
+                    where f != null
+                    where f.IsPrivate
+                    select f
+                    )
+                )
+                {
+                    // the use of private static field would cause access violation..
+                    IsNonPublicStaticToGlobalMethodUpgrate = false;
+                }
+
+            }
+
+            if (DeclaringType == null || IsNonPublicStaticToGlobalMethodUpgrate)
+            {
+                if ((MethodAttributes__ & MethodAttributes.Private) == MethodAttributes.Private)
+                {
+                    // <Module> methods should not be private unless used only by <Module> methods...
+                    // we currently do not keep track for that
+
+                    MethodAttributes__ = MethodAttributes__ & ~MethodAttributes.Private;
+                    MethodAttributes__ = MethodAttributes__ | MethodAttributes.Public;
+                }
+
                 #region DefineGlobalMethod
                 DeclaringMethod = m.DefineGlobalMethod(
-                        MethodName, MethodAttributes__, SourceMethod.CallingConvention,
+                    MethodName,
+                    MethodAttributes__,
+                    SourceMethod.CallingConvention,
                     null,
                     null
                 );
@@ -174,7 +224,7 @@ namespace jsc.meta.Commands.Rewrite
                 // Calling the DefineGenericParameters method makes the current 
                 // method generic. There is no way to undo this change. Calling 
                 // this method a second time causes an InvalidOperationException.
-                var GenericNames = ga.Select(k => k.Name).ToArray();
+                var GenericNames = ga.Select(k => NameObfuscation[k.Name]).ToArray();
 
                 var gp = default(GenericTypeParameterBuilder[]);
 
@@ -236,7 +286,11 @@ namespace jsc.meta.Commands.Rewrite
                 // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
 
 
-                var DeclaringParameter = DeclaringMethod.DefineParameter(SourceParameter.Position + 1, SourceParameter.Attributes, SourceParameter.Name);
+                var DeclaringParameter = DeclaringMethod.DefineParameter(
+                    SourceParameter.Position + 1,
+                    SourceParameter.Attributes,
+                    NameObfuscation[SourceParameter.Name]
+                );
 
                 if ((SourceParameter.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
                     DeclaringParameter.SetConstant(SourceParameter.RawDefaultValue);
@@ -283,9 +337,17 @@ namespace jsc.meta.Commands.Rewrite
                 return;
 
             #region EntryPoint
+
+            var DeclaringAssembly =
+                SourceMethod.DeclaringType != null ?
+                    SourceMethod.DeclaringType.Assembly :
+                        SourceMethod.Module.Assembly;
+
             if (Command != null && Command.EntryPointAssembly != null
-                && Command.EntryPointAssembly.TakeUntilLastIfAny(".exe").TakeUntilLastIfAny(".dll") == SourceMethod.DeclaringType.Assembly.GetName().Name
-                && SourceMethod.DeclaringType.Assembly.EntryPoint == SourceMethod)
+                && (
+                    Command.EntryPointAssembly.TakeUntilLastIfAny(".exe").TakeUntilLastIfAny(".dll") == DeclaringAssembly.GetName().Name
+                    && DeclaringAssembly.EntryPoint == SourceMethod)
+                )
             {
                 a.SetEntryPoint(DeclaringMethod);
             }
@@ -323,15 +385,15 @@ namespace jsc.meta.Commands.Rewrite
 
             if (Command != null && Command.obfuscate)
             {
-                var skip = kmil.DefineLabel();
+                //var skip = kmil.DefineLabel();
 
-                kmil.Emit(OpCodes.Br, skip);
+                //kmil.Emit(OpCodes.Br, skip);
 
-                // and the stack is now under water. good luck :)
-                kmil.Emit(OpCodes.Pop);
-                kmil.Emit(OpCodes.Ldnull);
+                //// and the stack is now under water. good luck :)
+                //kmil.Emit(OpCodes.Pop);
+                //kmil.Emit(OpCodes.Ldnull);
 
-                kmil.MarkLabel(skip);
+                //kmil.MarkLabel(skip);
 
             }
 

@@ -558,7 +558,7 @@ namespace jsc.meta.Commands.Rewrite
                     var ga = SourceType.GetGenericArguments();
 
                     //this.Command.WriteDiagnostics("DefineGenericParameters");
-                    var gp = t.DefineGenericParameters(ga.Select(k => k.Name).ToArray());
+                    var gp = t.DefineGenericParameters(ga.Select(k => NameObfuscation[k.Name]).ToArray());
 
                     for (int i = 0; i < gp.Length; i++)
                     {
@@ -615,9 +615,9 @@ namespace jsc.meta.Commands.Rewrite
             }
 
             private TypeBuilder DefineType(
-                TypeBuilder _DeclaringType, 
-                string TypeName, 
-                Type BaseType, 
+                TypeBuilder _DeclaringType,
+                string TypeName,
+                Type BaseType,
                 TypeAttributes TypeAttributes)
             {
                 #region DefineType

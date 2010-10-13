@@ -90,7 +90,7 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     // PrivateImplementationDetails does not like obfuscation?
 
-                    if (!this.obfuscate || n.StartsWith("<"))
+                    if (!this.obfuscate || n.StartsWith("<PrivateImplementationDetails>"))
                     {
                         NameObfuscation[n] = n;
 
@@ -199,6 +199,16 @@ namespace jsc.meta.Commands.Rewrite
 
                         var ResourceNames = Enumerable.ToArray(
                             from item in shadow_assembly.GetManifestResourceNames()
+
+                            let Is = new
+                            {
+                                FSharpOptimizationData = item.StartsWith("FSharpOptimizationData."),
+                                FSharpSignatureData = item.StartsWith("FSharpSignatureData.")
+                            }
+
+                            // what are these for?
+                            where !Is.FSharpOptimizationData && !Is.FSharpSignatureData
+
                             let IsProperties = item.EndsWith(".Properties.Resources.resources")
                             let IsResources = item.EndsWith(".resources")
 
@@ -227,6 +237,9 @@ namespace jsc.meta.Commands.Rewrite
 
                                 var AttributesToCopy =
                                      from k_ in shadow_assembly.GetCustomAttributes(false)
+
+                                     let k_Type = k_.GetType()
+
                                      let kk = SelectAssemblyMergeAttribute == null ?
                                          (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
 
@@ -235,6 +248,10 @@ namespace jsc.meta.Commands.Rewrite
                                      // http://stackoverflow.com/questions/2252754/how-would-i-use-the-securitypermissionattribute-correctly
                                      // .NET 4 ignores this...
                                      where !(kk is SecurityPermissionAttribute)
+
+                                     let IsFSharpInterface = k_Type.FullName == "Microsoft.FSharp.Core.FSharpInterfaceDataVersionAttribute"
+
+                                     where !IsFSharpInterface
 
                                      let builder = kk.ToCustomAttributeBuilder()
                                      select new { k, kk, builder };
@@ -639,8 +656,8 @@ namespace jsc.meta.Commands.Rewrite
                             tb_source,
                             NameObfuscation,
                             _assembly,
-                            this.codeinjecton,
-                            this.codeinjectonparams,
+                            null,
+                            null,
 
                             (MethodBase, e) =>
                             {

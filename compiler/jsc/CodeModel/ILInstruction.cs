@@ -1657,9 +1657,14 @@ namespace jsc
         {
             get
             {
+                var GenericArguments = default(Type[]);
+
+                if (OwnerMethod.DeclaringType != null)
+                    GenericArguments = OwnerMethod.DeclaringType.GetGenericArguments();
+
                 try
                 {
-                    return OwnerMethod.Module.ResolveType(OpParamAsInt32, this.OwnerMethod.DeclaringType.GetGenericArguments(), this.OwnerMethod.IsGenericMethod ? this.OwnerMethod.GetGenericArguments() : null);
+                    return OwnerMethod.Module.ResolveType(OpParamAsInt32, GenericArguments, this.OwnerMethod.IsGenericMethod ? this.OwnerMethod.GetGenericArguments() : null);
                 }
                 catch
                 {
@@ -1669,7 +1674,7 @@ namespace jsc
                     try
                     {
 
-                        return OwnerMethod.Module.ResolveType(OpParamAsInt32, this.OwnerMethod.DeclaringType.GetGenericArguments(), this.OwnerMethod.GetGenericArguments());
+                        return OwnerMethod.Module.ResolveType(OpParamAsInt32, GenericArguments, this.OwnerMethod.GetGenericArguments());
                     }
                     catch
                     {
@@ -1979,7 +1984,12 @@ namespace jsc
 
                 try
                 {
-                    FieldInfo x = OwnerMethod.Module.ResolveField(OpParamAsInt32, OwnerMethod.DeclaringType.GetGenericArguments(), ma);
+                    var GenericArguments = default(Type[]);
+
+                    if (OwnerMethod.DeclaringType != null)
+                        GenericArguments = OwnerMethod.DeclaringType.GetGenericArguments();
+
+                    FieldInfo x = OwnerMethod.Module.ResolveField(OpParamAsInt32, GenericArguments, ma);
 
                     return x as FieldInfo;
                 }

@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using System.Reflection;
-using jsc.meta.Commands;
+using jsc.meta.Commands.Analytics;
+using jsc.meta.Commands.Configuration;
 using jsc.meta.Commands.Extend;
 using jsc.meta.Commands.Reference;
 using jsc.meta.Commands.Rewrite;
-using System.Diagnostics;
-using jsc.meta.Commands.Analytics;
-using ScriptCoreLib.Reflection.Options;
-using jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate;
 using jsc.meta.Commands.Rewrite.RewriteToInstaller;
-using jsc.meta.Commands.Rewrite.RewriteToUltraLibrary;
-using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
-using jsc.meta.Commands.Configuration;
-using jsc.meta.Commands.Test;
-using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
 using jsc.meta.Commands.Rewrite.RewriteToJavaScript;
+using jsc.meta.Commands.Rewrite.RewriteToReplacedReferences;
+using jsc.meta.Commands.Rewrite.RewriteToSplashScreen;
+using jsc.meta.Commands.Rewrite.RewriteToUltraLibrary;
+using jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate;
+using jsc.meta.Commands.Test;
+using ScriptCoreLib.Reflection.Options;
 
 namespace jsc.meta
 {
