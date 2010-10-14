@@ -36,9 +36,9 @@
   <PropertyGroup>
     <PostBuildEvent>copy "jsc.meta.exe.config" "c:\util\jsc\bin\jsc.meta.exe.config" /y
 
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"O.dll" /AssemblyMerge:"$(TargetFileName)" /AssemblyMerge:"TestFSharpCSharpIntelliSense.core.dll" /AttachDebugger:false /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false /obfuscate:true
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"O.dll" /AssemblyMerge:"$(TargetFileName)" /AssemblyMerge:"TestFSharpCSharpIntelliSense.core.dll" /AttachDebugger:false /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false /obfuscate:true /PEVerify:true /Pause:true
 
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /AssemblyMerge:"TestFSharpCSharpIntelliSense.core.dll" /AttachDebugger:false /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
+rem start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"$(TargetFileName)" /AssemblyMerge:"$(TargetFileName)" /AssemblyMerge:"TestFSharpCSharpIntelliSense.core.dll" /AttachDebugger:false /DisableIsMarkedForMerge:true /DisableInvalidMergeCheck:true /AttachDebugger:false
 </PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>

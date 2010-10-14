@@ -99,6 +99,18 @@ namespace jsc.meta.Commands.Rewrite
             var DeclaringMethod = default(MethodBuilder);
 
             var MethodAttributes__ = context.MethodAttributesCache[SourceMethod];
+
+            if (SourceMethod.IsStatic)
+                if ((MethodAttributes__ & MethodAttributes.Private) == MethodAttributes.Private)
+                {
+                    // <Module> methods should not be private unless used only by <Module> methods...
+                    // we currently do not keep track for that
+
+                    MethodAttributes__ = MethodAttributes__ & ~MethodAttributes.Private;
+                    MethodAttributes__ = MethodAttributes__ | MethodAttributes.Assembly;
+                }
+
+
             var DllImport__ = SourceMethod.GetCustomAttributes<DllImportAttribute>().SingleOrDefault();
 
             var ParametersTypes = SourceMethod.GetParameterTypes().Select(DelayedTypeCache).ToArray();
@@ -114,8 +126,8 @@ namespace jsc.meta.Commands.Rewrite
             var IsNonPublicStaticProperty = IsNonPublicStatic && Enumerable.Any(
                 from _DeclaringType in new[] { SourceMethod.DeclaringType }
                 where _DeclaringType != null
-                from _Property in _DeclaringType.GetProperties(BindingFlags.Static | BindingFlags.NonPublic)
-                from _Method in new[] { _Property.GetGetMethod(), _Property.GetSetMethod() }
+                from _Property in _DeclaringType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
+                from _Method in new[] { _Property.GetGetMethod(true), _Property.GetSetMethod(true) }
                 where _Method != null
                 where _Method == SourceMethod
                 select _Property
@@ -124,8 +136,8 @@ namespace jsc.meta.Commands.Rewrite
             var IsNonPublicStaticEvent = IsNonPublicStatic && Enumerable.Any(
                  from _DeclaringType in new[] { SourceMethod.DeclaringType }
                  where _DeclaringType != null
-                 from _Event in _DeclaringType.GetEvents(BindingFlags.Static | BindingFlags.NonPublic)
-                 from _Method in new[] { _Event.GetAddMethod(), _Event.GetRemoveMethod() }
+                 from _Event in _DeclaringType.GetEvents(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
+                 from _Method in new[] { _Event.GetAddMethod(true), _Event.GetRemoveMethod(true) }
                  where _Method != null
                  where _Method == SourceMethod
                  select _Event
@@ -134,33 +146,10 @@ namespace jsc.meta.Commands.Rewrite
             var IsNonPublicStaticToGlobalMethodUpgrate =
                 IsNonPublicStatic && !IsNonPublicStaticProperty && !IsNonPublicStaticEvent;
 
-            if (IsNonPublicStaticToGlobalMethodUpgrate && DllImport__ == null)
-            {
-                if (Enumerable.Any(
-                    from i in new ILBlock(SourceMethod).Instructrions
-                    let f = i.TargetField
-                    where f != null
-                    where f.IsPrivate
-                    select f
-                    )
-                )
-                {
-                    // the use of private static field would cause access violation..
-                    IsNonPublicStaticToGlobalMethodUpgrate = false;
-                }
-
-            }
 
             if (DeclaringType == null || IsNonPublicStaticToGlobalMethodUpgrate)
             {
-                if ((MethodAttributes__ & MethodAttributes.Private) == MethodAttributes.Private)
-                {
-                    // <Module> methods should not be private unless used only by <Module> methods...
-                    // we currently do not keep track for that
 
-                    MethodAttributes__ = MethodAttributes__ & ~MethodAttributes.Private;
-                    MethodAttributes__ = MethodAttributes__ | MethodAttributes.Public;
-                }
 
                 #region DefineGlobalMethod
                 DeclaringMethod = m.DefineGlobalMethod(
@@ -287,10 +276,12 @@ namespace jsc.meta.Commands.Rewrite
 
                 var ParameterPosition = SourceParameter.Position + 1;
 
-                var ParameterName = SourceParameter.Name == null ? null :
+                var ParameterName =
+                    Command != null && Command.obfuscate ? null :
+                    SourceParameter.Name == null ? null :
                     NameObfuscation[SourceParameter.Name];
 
-                var DeclaringParameter = 
+                var DeclaringParameter =
                     DeclaringMethod.DefineParameter(
                         ParameterPosition,
                         SourceParameter.Attributes,

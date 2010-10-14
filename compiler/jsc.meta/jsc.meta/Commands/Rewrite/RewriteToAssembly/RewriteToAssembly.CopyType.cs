@@ -504,6 +504,18 @@ namespace jsc.meta.Commands.Rewrite
 
                 TypeAttributes &= ~TypeAttributes.HasSecurity;
 
+                var ObfuscationAttribute = SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+
+                if (this.Command.obfuscate)
+                    if (ObfuscationAttribute == null || !ObfuscationAttribute.Exclude)
+                        if ((TypeAttributes & TypeAttributes.Public) == TypeAttributes.Public)
+                        {
+                            // <Module> methods should not be private unless used only by <Module> methods...
+                            // we currently do not keep track for that
+
+                            TypeAttributes = TypeAttributes & ~TypeAttributes.Public;
+                            TypeAttributes = TypeAttributes | TypeAttributes.NotPublic;
+                        }
                 // http://msdn.microsoft.com/en-us/library/system.reflection.typeattributes.aspx
                 //                Bad type attributes. Reserved bits set on the type.
                 //Public | BeforeFieldInit | HasSecurity

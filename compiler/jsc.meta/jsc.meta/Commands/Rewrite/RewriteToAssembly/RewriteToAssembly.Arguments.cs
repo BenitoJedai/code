@@ -106,6 +106,8 @@ namespace jsc.meta.Commands.Rewrite
         /// </summary>
         public bool obfuscate = false;
 
+        public bool ObfuscateNamesWithDiagnostics;
+
         [Obsolete]
         internal Delegate codeinjecton;
         [Obsolete]

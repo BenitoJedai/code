@@ -2,9 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace TestFSharpCSharpIntelliSense.core
 {
+    [Obfuscation(Exclude = true)]
+    public class Class2
+    {
+        public static void Foo()
+        {
+            Class1.Foo();
+        }
+    }
+
     public class Class1
     {
         public static void Foo()
@@ -48,5 +58,8 @@ namespace TestFSharpCSharpIntelliSense.core
             // pure method with static variable
             a++;
         }
+
+        public static int Property1 { get; set; }
+        static int Property2 { get; set; }
     }
 }
