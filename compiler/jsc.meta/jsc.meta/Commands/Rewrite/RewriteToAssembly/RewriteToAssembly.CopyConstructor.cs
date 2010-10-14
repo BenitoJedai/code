@@ -52,13 +52,16 @@ namespace jsc.meta.Commands.Rewrite
                 // The position of the parameter in the parameter list. 
                 // Parameters are indexed beginning with the number 1 for the first parameter; the number 0 represents the return value of the method. 
 
+                var ParameterName =
+                    Command != null && Command.obfuscate ? null :
+                    SourceParameter.Name == null ? null :
+                    NameObfuscation[SourceParameter.Name];
 
                 var DeclaringParameter = DeclaringConstructor.DefineParameter(
                     SourceParameter.Position + 1,
                     SourceParameter.Attributes,
 
-                    SourceParameter.Name == null ? null :
-                    NameObfuscation[SourceParameter.Name]
+                    ParameterName
                 );
 
                 if ((SourceParameter.Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)

@@ -105,7 +105,7 @@ namespace jsc.meta.Commands.Rewrite
 
                     var ObfuscatedName = new StringBuilder();
 
-                    if (this.AttachDebugger)
+                    if (this.AttachDebugger || this.ObfuscateNamesWithDiagnostics)
                     {
                         // keep the original around for debugging...
                         ObfuscatedName.Append(
@@ -271,6 +271,15 @@ namespace jsc.meta.Commands.Rewrite
                                     );
 
                                 }
+
+                                
+                                shadow_assembly.EntryPoint.With(
+                                    EntryPoint =>
+                                    {
+                                        var _ = this.RewriteArguments.context.MethodCache[EntryPoint];
+
+                                    }
+                                );
                             };
 
 
@@ -843,6 +852,18 @@ namespace jsc.meta.Commands.Rewrite
 
 
                         var FieldValue = default(byte[]);
+                        var FieldAttributes = SourceField.Attributes;
+
+
+                        if (SourceField.IsStatic)
+                            if ((FieldAttributes & FieldAttributes.Private) == FieldAttributes.Private)
+                            {
+                                // <Module> methods should not be private unless used only by <Module> methods...
+                                // we currently do not keep track for that
+
+                                FieldAttributes = FieldAttributes & ~FieldAttributes.Private;
+                                FieldAttributes = FieldAttributes | FieldAttributes.Assembly;
+                            }
 
                         if (DeclaringType.ContainsGenericParameters || !SourceField.IsStatic || SourceField.FieldType.IsEnum || SourceField.IsLiteral)
                         {
@@ -869,7 +890,7 @@ namespace jsc.meta.Commands.Rewrite
                         if (FieldValue != null && FieldValue.Any(k => k > 0))
                         {
 
-                            var ff = DeclaringType.DefineInitializedData(FieldName, FieldValue, SourceField.Attributes);
+                            var ff = DeclaringType.DefineInitializedData(FieldName, FieldValue, FieldAttributes);
 
                             FieldCache[SourceField] = ff;
                         }
@@ -885,7 +906,6 @@ namespace jsc.meta.Commands.Rewrite
                             }
                             else
                             {
-                                var FieldAttributes = SourceField.Attributes;
 
                                 var DeclaringField = default(FieldBuilder);
 
