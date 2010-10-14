@@ -120,7 +120,7 @@ namespace jsc.meta.Commands.Rewrite
 
             var ReturnType = DelayedTypeCache(SourceMethod.ReturnType);
 
-            var IsNonPublicStatic = DllImport__ == null &&
+            var IsNonPublicStatic = DllImport__ == null && Command.obfuscate &&
                 SourceMethod.IsStatic && !SourceMethod.IsPublic;
 
             var IsNonPublicStaticProperty = IsNonPublicStatic && Enumerable.Any(
