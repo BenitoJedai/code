@@ -145,7 +145,6 @@
     <Compile Include="Tools\JSONSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="neutronic.snk" />
   </ItemGroup>
   <ItemGroup>

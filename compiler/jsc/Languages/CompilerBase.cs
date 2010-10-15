@@ -407,8 +407,13 @@ namespace jsc.Script
 		public void WriteSpace()
 		{
 			Write(" ");
-
 		}
+
+        public void WriteSpace(string e)
+        {
+            Write(e);
+            Write(" ");
+        }
 
 		public void WriteLine(string p)
 		{

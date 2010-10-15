@@ -157,6 +157,45 @@ namespace jsc.Languages.Java
 				// cool.
 				// do we have Platform Invocation Services?
 
+                Action<MethodBase> WriteInvoke =
+                    TargetMethod =>
+                    {
+                        this.WriteIndent();
+
+                        this.WriteKeywordSpace(Keywords._return);
+                        this.WriteDecoratedTypeName(TargetMethod.DeclaringType);
+                        this.Write(".");
+                        this.WriteDecoratedMethodName(TargetMethod, false);
+                        this.Write("(");
+
+                        this.WriteQuotedLiteral(DllImport.Value);
+                        this.WriteSpace(", ");
+                        this.WriteQuotedLiteral(DllImport.EntryPoint);
+                        this.Write(", ");
+
+                        this.WriteKeywordSpace(Keywords._new);
+                        this.WriteDecoratedTypeName(typeof(object));
+                        this.WriteSpace();
+                        this.Write("[]");
+                        this.WriteSpace();
+                        this.Write("{");
+
+                        var p = m.GetParameters();
+                        for (int i = 0; i < p.Length; i++)
+                        {
+                            if (i > 0)
+                                this.Write(", ");
+
+                            this.WriteDecoratedMethodParameter(p[i], typeof(object));
+                        }
+
+                        this.Write("}");
+                        this.Write(")");
+                        this.Write(";");
+
+                        this.WriteLine();
+                    };
+
 				if (ReturnType == typeof(int))
 				{
 					Func<string, string, object[], int> _InvokeInt32 = PlatformInvocationServices.InvokeInt32;
@@ -166,49 +205,40 @@ namespace jsc.Languages.Java
 					if (_Resolved_InvokeInt32 == null)
 						throw new NotSupportedException("PlatformInvocationServices.InvokeInt32 implementation was not found.");
 
-					this.WriteIndent();
 
-					this.WriteKeywordSpace(Keywords._return);
-					this.WriteDecoratedTypeName(_Resolved_InvokeInt32.DeclaringType);
-					this.Write(".");
-					this.WriteDecoratedMethodName(_Resolved_InvokeInt32, false);
-					this.Write("(");
-
-					this.WriteQuotedLiteral(DllImport.Value);
-					this.Write(", ");
-					this.WriteQuotedLiteral(DllImport.EntryPoint);
-					this.Write(", ");
-
-					this.WriteKeywordSpace(Keywords._new);
-					this.WriteDecoratedTypeName(typeof(object));
-					this.WriteSpace();
-					this.Write("[]");
-					this.WriteSpace();
-					this.Write("{");
-
-					var p = m.GetParameters();
-					for (int i = 0; i < p.Length; i++)
-					{
-						if (i > 0)
-							this.Write(", ");
-
-						this.WriteDecoratedMethodParameter(p[i], typeof(object));
-					}
-
-					this.Write("}");
-					this.Write(")");
-					this.Write(";");
-
-					this.WriteLine();
-
-					//WriteCommentLine("PinvokeImpl: " + DllImport.Value);
-
-					//Debugger.Launch();
-					//Debugger.Break();
+                    WriteInvoke(_Resolved_InvokeInt32);
 
 					return true;
-
 				}
+
+                if (ReturnType == typeof(string))
+                {
+                    Func<string, string, object[], string> _InvokeString = PlatformInvocationServices.InvokeString;
+
+                    var _Resolved = this.ResolveImplementationMethod(_InvokeString.Method.DeclaringType, _InvokeString.Method);
+
+                    if (_Resolved == null)
+                        throw new NotSupportedException("PlatformInvocationServices.InvokeString implementation was not found.");
+
+                    WriteInvoke(_Resolved);
+
+                    return true;
+                }
+
+                if (ReturnType == typeof(IntPtr))
+                {
+                    Func<string, string, object[], IntPtr> _InvokeIntPtr = PlatformInvocationServices.InvokeIntPtr;
+
+                    var _Resolved = this.ResolveImplementationMethod(_InvokeIntPtr.Method.DeclaringType, _InvokeIntPtr.Method);
+
+                    if (_Resolved == null)
+                        throw new NotSupportedException("PlatformInvocationServices.InvokeIntPtr implementation was not found.");
+
+                    WriteInvoke(_Resolved);
+
+                    return true;
+                }
+
 
 				throw new NotSupportedException("PlatformInvocationServices for " + ReturnType.FullName + " not implemented");
 			}

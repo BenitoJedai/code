@@ -23,8 +23,16 @@ namespace jsc.meta.Commands.Extend
 		public DirectoryInfo staging;
 		public string jarname;
 
+        public bool AttachDebugger;
+
 		public void Invoke()
 		{
+            if (this.AttachDebugger)
+            {
+                Console.WriteLine("AttachDebugger...");
+                Debugger.Launch();
+            }
+
 			// Debugger.Launch();
 
 			// could todo: JNI could be used to implement externs

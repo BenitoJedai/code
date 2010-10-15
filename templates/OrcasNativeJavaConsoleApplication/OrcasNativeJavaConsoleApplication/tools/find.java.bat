@@ -15,7 +15,7 @@ if '%TargetJava%' == '' (
 :: get java from http://java.sun.com/javase/downloads/index_jdk5.jsp
 
 
-set ReturnValue=C:\j2sdk1.4.2_17\bin\%TargetJava%
+set ReturnValue=C:\util\j2sdk1.4.2_19\bin\%TargetJava%
 if exist %ReturnValue% goto :exit
 
 

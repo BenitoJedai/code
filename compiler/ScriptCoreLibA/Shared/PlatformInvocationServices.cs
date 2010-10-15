@@ -14,5 +14,15 @@ namespace ScriptCoreLib.Shared
 		{
 			return default(int);
 		}
+
+        public static IntPtr InvokeIntPtr(string DllName, string EntryPoint, params object[] e)
+        {
+            return default(IntPtr);
+        }
+
+        public static string InvokeString(string DllName, string EntryPoint, params object[] e)
+        {
+            return default(string);
+        }
 	}
 }
