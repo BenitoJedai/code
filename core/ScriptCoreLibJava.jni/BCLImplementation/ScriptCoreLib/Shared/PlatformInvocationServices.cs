@@ -6,53 +6,118 @@ using jni;
 
 namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 {
-	[Script(Implements = typeof(global::ScriptCoreLib.Shared.PlatformInvocationServices))]
-	internal class __PlatformInvocationServices
-	{
-		[Script]
-		public class Func
-		{
-			public readonly string DllName;
-			public readonly string EntryPoint;
-			public Func(string DllName, string EntryPoint)
-			{
-				this.DllName = DllName;
-				this.EntryPoint = EntryPoint;
-			}
+    [Script(Implements = typeof(global::ScriptCoreLib.Shared.PlatformInvocationServices))]
+    internal class __PlatformInvocationServices
+    {
+        [Script]
+        public partial class Func
+        {
+            public readonly string DllName;
+            public readonly string EntryPoint;
+            public Func(string DllName, string EntryPoint)
+            {
+                this.DllName = DllName;
+                this.EntryPoint = EntryPoint;
+            }
 
-			CFunc _Method;
-				 
-			public CFunc Method
-			{
-				get
-				{
-					if (_Method == null)
-						_Method = new CFunc(this.DllName, this.EntryPoint);
+            CFunc _Method;
 
-					return _Method;
-				}
-			}
-		}
+            public CFunc Method
+            {
+                get
+                {
+                    if (_Method == null)
+                        _Method = new CFunc(this.DllName, this.EntryPoint);
 
-		[Script]
-		public class Int32Func : Func
-		{
-			public Int32Func(string DllName, string EntryPoint) : base(DllName, EntryPoint)
-			{
-			}
+                    return _Method;
+                }
+            }
 
-			public int Invoke(object[] e)
-			{
-				return this.Method.callInt(e);
-			}
-		}
 
-		// we should cache the func pointers somehow!
-		public static int InvokeInt32(string DllName, string EntryPoint, object[] e)
-		{
-			var f = new Int32Func(DllName, EntryPoint);
+        }
 
-			return f.Invoke(e);
-		}
-	}
+        #region Int32Func
+        [Script]
+        public delegate int Int32Func(object[] e);
+
+        partial class Func
+        {
+            public static implicit operator Int32Func(Func f)
+            {
+                var Method = f.Method;
+
+                return e =>
+                {
+                    return Method.callInt(e);
+                };
+            }
+        }
+
+        public static int InvokeInt32(string DllName, string EntryPoint, object[] e)
+        {
+            Int32Func f = new Func(DllName, EntryPoint);
+
+            return f(MarshalToNative(e));
+        }
+        #endregion
+
+
+
+        #region StringFunc
+        [Script]
+        public delegate string StringFunc(object[] e);
+
+        partial class Func
+        {
+            public static implicit operator StringFunc(Func f)
+            {
+                var Method = f.Method;
+
+                return e =>
+                {
+                    return Method.callString(e);
+                };
+            }
+        }
+
+        public static string InvokeString(string DllName, string EntryPoint, object[] e)
+        {
+            StringFunc f = new Func(DllName, EntryPoint);
+
+            return f(MarshalToNative(e));
+        }
+        #endregion
+
+        #region IntPtrFunc
+        [Script]
+        public delegate IntPtr IntPtrFunc(object[] e);
+
+        partial class Func
+        {
+            public static implicit operator IntPtrFunc(Func f)
+            {
+                var Method = f.Method;
+
+                return e =>
+                {
+                    return (IntPtr)Method.callCPtr(e);
+                };
+            }
+        }
+
+        public static IntPtr InvokeIntPtr(string DllName, string EntryPoint, object[] e)
+        {
+            IntPtrFunc f = new Func(DllName, EntryPoint);
+
+            return f(MarshalToNative(e));
+        }
+        #endregion
+
+        internal static object[] MarshalToNative(object[] e)
+        {
+            return e;
+        }
+
+        
+    }
 }

@@ -363,6 +363,10 @@ namespace jsc.Languages.Java
 						if (i.ReferencedMethod.DeclaringType == typeof(object))
 							imp.Add(MySession.ResolveImplementation(typeof(object)));
 
+                        // ScriptCoreLib.jni is for pointers...
+                        if (i.ReferencedMethod.DeclaringType == typeof(IntPtr))
+                            continue;
+
 						if (!IsTypeOfOperator(i.ReferencedMethod))
 							if (i.ReferencedMethod.DeclaringType != typeof(object))
 							{

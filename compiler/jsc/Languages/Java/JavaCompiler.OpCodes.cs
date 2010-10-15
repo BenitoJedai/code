@@ -10,7 +10,7 @@ using ScriptCoreLib.CSharp.Extensions;
 namespace jsc.Languages.Java
 {
 
-	partial class JavaCompiler
+	unsafe partial  class JavaCompiler
 	{
 		private void CreateInstructionHandlers()
 		{
@@ -1394,11 +1394,34 @@ namespace jsc.Languages.Java
 					WriteMethodCall(e.p, e.i, e.i.TargetMethod);
 				};
 
+            // can jsc rewrite pointers?
+           
 			#region call
 			CIW[OpCodes.Call] =
 				delegate(CodeEmitArgs e)
-				{
-					var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
+                {
+                    #region IntPtr of void*
+                    // we are enabling: var value = new IntPtr(&port);
+
+                    //L_0003: ldloca.s 'value'
+                    //L_0005: ldarga.s port
+                    //L_0007: conv.u 
+                    //L_0008: call instance void [mscorlib]System.IntPtr::.ctor(void*)
+
+                    if (e.i.ReferencedMethod.IsConstructor &&
+                        e.i.ReferencedMethod.DeclaringType == typeof(IntPtr) &&
+                        e.i.ReferencedMethod.GetParameters().Length == 1 &&
+                        e.i.ReferencedMethod.GetParameters()[0].ParameterType == typeof(void*))
+                    {
+                        this.WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.StackBeforeStrict[0].SingleStackInstruction.TargetVariable);
+                        this.WriteAssignment();
+                        this.WriteKeywordNull();
+
+                        return;
+                    }
+                    #endregion
+
+                    var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
 					var ResolvedByte = this.ResolveImplementation(typeof(byte));
 					var ResolvedInt32 = this.ResolveImplementation(typeof(int));
 					var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));

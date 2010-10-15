@@ -38,6 +38,7 @@ using ScriptCoreLib;
 [assembly: ScriptTypeFilter(ScriptType.Java)]
 [assembly: Script(IsCoreLib = true)]
 
+[assembly: InternalsVisibleTo("ScriptCoreLibJava.jni")]
 [assembly: InternalsVisibleTo("ScriptCoreLibJava.Threading")]
 [assembly: InternalsVisibleTo("ScriptCoreLibJava.Web")]
 [assembly: InternalsVisibleTo("ScriptCoreLibJava.Web.Services")]

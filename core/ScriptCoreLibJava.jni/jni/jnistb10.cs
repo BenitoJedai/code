@@ -12,6 +12,7 @@ using OutOfMemoryException = global::System.OutOfMemoryException;
 using NullReferenceException = global::System.NullReferenceException;
 using IndexOutOfRangeException = global::System.IndexOutOfRangeException;
 using IDisposable = global::System.IDisposable;
+using ScriptCoreLibJava.BCLImplementation.System;
 
 namespace jni
 {
@@ -58,6 +59,20 @@ namespace jni
 		{
 			return e.getString(0);
 		}
+
+        public static explicit operator System.IntPtr(CPtr e)
+        {
+            var u = new __IntPtr { PointerToken = e };
+
+            return (System.IntPtr)(object)u;
+        }
+
+        public static explicit operator CPtr(System.IntPtr e)
+        {
+            var u = (__IntPtr)(object)e;
+
+            return u.PointerToken as CPtr;
+        }
 
 		#region pinvoke
 		[Script(IsPInvoke = true)]

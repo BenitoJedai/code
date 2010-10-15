@@ -10,34 +10,33 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 	[Script(Implements = typeof(global::System.IntPtr))]
 	internal class __IntPtr
 	{
-		//public string StringToken;
-		//public Function FunctionToken;
-		public java.lang.Class ClassToken;
 
+        public java.lang.Class ClassToken
+        {
+            get
+            {
+                return this.PointerToken as java.lang.Class;
+            }
+            set
+            {
+                this.PointerToken = value;
+            }
+        }
 
+        public java.lang.reflect.Method MethodToken
+        {
+            get
+            {
+                return this.PointerToken as java.lang.reflect.Method;
+            }
+            set
+            {
+                this.PointerToken = value;
+            }
+        }
 
-		//public static explicit operator __IntPtr(string _Token)
-		//{
-		//    return new __IntPtr { StringToken = _Token };
-		//}
+        public object PointerToken;
 
-		//public static explicit operator __IntPtr(Function _Token)
-		//{
-		//    return new __IntPtr { FunctionToken = _Token };
-		//}
-
-		//public static explicit operator string(__IntPtr _ptr)
-		//{
-		//    return _ptr.StringToken;
-		//}
-
-		//public static explicit operator Function(__IntPtr _ptr)
-		//{
-		//    return _ptr.FunctionToken;
-		//}
-
-	
-		public java.lang.reflect.Method MethodToken;
 
 		public static __IntPtr Of(java.lang.Class Target, string MethodName, java.lang.Class[] Parameters)
 		{
