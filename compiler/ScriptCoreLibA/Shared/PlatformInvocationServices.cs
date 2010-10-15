@@ -10,6 +10,16 @@ namespace ScriptCoreLib.Shared
 	/// </summary>
 	public class PlatformInvocationServices
 	{
+        public static IDisposable CreateCMallocCollector()
+        {
+            return default(IDisposable);
+        }
+
+        public static IntPtr OfInt32(IDisposable c, int value)
+        {
+            return default(IntPtr);
+        }
+
 		public static int InvokeInt32(string DllName, string EntryPoint, params object[] e)
 		{
 			return default(int);

@@ -808,6 +808,11 @@ namespace jsc.Script
 			WriteMethodBody(m, predicate, CustomVariableInitialization, null);
 		}
 
+        protected virtual void WriteMethodBodyContent(ILBlock xb, Action h)
+        {
+            h();
+        }
+
 		public void WriteMethodBody(MethodBase m, Predicate<ILBlock.Prestatement> predicate, Action CustomVariableInitialization, Action CustomReturnAction)
 		{
 			using (CreateScope())
@@ -855,39 +860,45 @@ namespace jsc.Script
 						// do we have IL?
 						if (xb.Instructrions != null)
 						{
-							EmitPrestatementBlock(xb.Prestatements,
-								delegate(ILBlock.Prestatement p)
-								{
-									if (!p.IsConstructorCall())
-										return true;
+                            WriteMethodBodyContent(xb,
+                                delegate
+                                {
+                                    EmitPrestatementBlock(xb.Prestatements,
+                                        delegate(ILBlock.Prestatement p)
+                                        {
+                                            if (!p.IsConstructorCall())
+                                                return true;
 
-									return predicate != null && predicate(p);
-								}
-							);
-
-
-							WriteMethodLocalVariables(xb);
-
-							if (CustomVariableInitialization != null)
-								CustomVariableInitialization();
-
-							DebugBreak(a);
+                                            return predicate != null && predicate(p);
+                                        }
+                                    );
 
 
-							EmitPrestatementBlock(xb.Prestatements,
-								delegate(ILBlock.Prestatement p)
-								{
+
+                                    WriteMethodLocalVariables(xb);
+
+                                    if (CustomVariableInitialization != null)
+                                        CustomVariableInitialization();
+
+                                    DebugBreak(a);
 
 
-									if (p.IsConstructorCall())
-										return true;
+                                    EmitPrestatementBlock(xb.Prestatements,
+                                        delegate(ILBlock.Prestatement p)
+                                        {
 
-									return predicate != null && predicate(p);
-								}
-							);
 
-							if (CustomReturnAction != null)
-								CustomReturnAction();
+                                            if (p.IsConstructorCall())
+                                                return true;
+
+                                            return predicate != null && predicate(p);
+                                        }
+                                    );
+
+                                    if (CustomReturnAction != null)
+                                        CustomReturnAction();
+                                }
+                            );
 						}
 					}
 
@@ -1084,6 +1095,12 @@ namespace jsc.Script
 #if true
 				if (SupportsInlineAssigments)
 				{
+                    if (v.LocalType == typeof(IntPtr))
+                    {
+                        // jni! :)
+                        goto define;
+                    }
+
 					if (v.LocalType.IsValueType && !v.LocalType.IsPrimitive)
 					{
 						goto define;
