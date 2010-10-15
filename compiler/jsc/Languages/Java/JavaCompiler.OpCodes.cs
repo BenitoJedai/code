@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using jsc.Script;
 using ScriptCoreLib;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Shared;
 
 namespace jsc.Languages.Java
 {
@@ -1415,7 +1416,26 @@ namespace jsc.Languages.Java
                     {
                         this.WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.StackBeforeStrict[0].SingleStackInstruction.TargetVariable);
                         this.WriteAssignment();
+
+                        Func<IDisposable, int, IntPtr> OfInt32 = PlatformInvocationServices.OfInt32;
+
+                        var _Resolved = this.ResolveImplementationMethod(OfInt32.Method.DeclaringType, OfInt32.Method);
+
+                        if (_Resolved == null)
+                            throw new NotSupportedException("PlatformInvocationServices.OfInt32 implementation was not found.");
+
+
+                        this.WriteDecoratedTypeName(_Resolved.DeclaringType);
+                        this.Write(".");
+                        this.WriteDecoratedMethodName(_Resolved, false);
+                        this.Write("(");
                         this.WriteKeywordNull();
+                        this.WriteSpace(", ");
+
+                        Emit(e.p, e.i.StackBeforeStrict[1]);
+
+                        this.Write(")");
+
 
                         return;
                     }

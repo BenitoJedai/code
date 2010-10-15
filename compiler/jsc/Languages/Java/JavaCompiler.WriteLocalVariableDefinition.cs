@@ -31,7 +31,7 @@ namespace jsc.Languages.Java
 
 			WriteVariableName(u.DeclaringType, u, v);
 
-			if (v.LocalType.IsValueType && !v.LocalType.IsPrimitive && !v.LocalType.IsEnum)
+			if (v.LocalType == typeof(IntPtr) || (v.LocalType.IsValueType && !v.LocalType.IsPrimitive && !v.LocalType.IsEnum))
 			{
 				var z = MySession.ResolveImplementation(v.LocalType) ?? v.LocalType;
 

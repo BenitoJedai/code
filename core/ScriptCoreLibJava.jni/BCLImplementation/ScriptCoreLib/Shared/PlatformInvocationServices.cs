@@ -3,12 +3,25 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
 using jni;
+using ScriptCoreLibJava.BCLImplementation.System;
 
 namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 {
     [Script(Implements = typeof(global::ScriptCoreLib.Shared.PlatformInvocationServices))]
     internal class __PlatformInvocationServices
     {
+        public static IDisposable CreateCMallocCollector()
+        {
+            return new CMalloc.Collector();
+        }
+
+        public static IntPtr OfInt32(IDisposable c, int value)
+        {
+            var p = ((CMalloc.Collector)c).OfInt32(value);
+
+            return (IntPtr)p;
+        }
+
         [Script]
         public partial class Func
         {
