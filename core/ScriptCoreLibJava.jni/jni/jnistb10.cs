@@ -50,6 +50,11 @@ namespace jni
 			}
 		}
 
+        public override string ToString()
+        {
+            return "" + Pointer;
+        }
+
 		public static implicit operator long(CPtr e)
 		{
 			return e.Pointer;

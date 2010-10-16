@@ -1408,127 +1408,140 @@ namespace jsc.Languages.Java
                     //L_0005: ldarga.s port
                     //L_0007: conv.u 
                     //L_0008: call instance void [mscorlib]System.IntPtr::.ctor(void*)
-
-                    if (e.i.ReferencedMethod.IsConstructor &&
-                        e.i.ReferencedMethod.DeclaringType == typeof(IntPtr) &&
-                        e.i.ReferencedMethod.GetParameters().Length == 1 &&
-                        e.i.ReferencedMethod.GetParameters()[0].ParameterType == typeof(void*))
                     {
-                        this.WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.StackBeforeStrict[0].SingleStackInstruction.TargetVariable);
-                        this.WriteAssignment();
+                        var q = from i in new[] { e.i }
+                                let m = i.ReferencedMethod
+                                where m != null
+                                where m.IsConstructor
+                                where m.DeclaringType == typeof(IntPtr)
+                                let p = m.GetParameters()
+                                where p.Length == 1
+                                where p[0].ParameterType == typeof(void*)
+                                select new { i, m, p };
 
-                        Func<IDisposable, int, IntPtr> OfInt32 = PlatformInvocationServices.OfInt32;
+                        if (q.Any())
+                        {
+                            this.WriteVariableName(e.i.OwnerMethod.DeclaringType, e.i.OwnerMethod, e.i.StackBeforeStrict[0].SingleStackInstruction.TargetVariable);
+                            this.WriteAssignment();
 
-                        var _Resolved = this.ResolveImplementationMethod(OfInt32.Method.DeclaringType, OfInt32.Method);
+                            // let's assume its an int for now..
+                            Func<IDisposable, int, IntPtr> OfInt32 = PlatformInvocationServices.OfInt32;
 
-                        if (_Resolved == null)
-                            throw new NotSupportedException("PlatformInvocationServices.OfInt32 implementation was not found.");
+                            var _Resolved = this.ResolveImplementationMethod(OfInt32.Method.DeclaringType, OfInt32.Method);
 
-
-                        this.WriteDecoratedTypeName(_Resolved.DeclaringType);
-                        this.Write(".");
-                        this.WriteDecoratedMethodName(_Resolved, false);
-                        this.Write("(");
-                        this.WriteKeywordNull();
-                        this.WriteSpace(", ");
-
-                        Emit(e.p, e.i.StackBeforeStrict[1]);
-
-                        this.Write(")");
+                            if (_Resolved == null)
+                                throw new NotSupportedException("PlatformInvocationServices.OfInt32 implementation was not found.");
+                            var CreateCMallocCollector = ((Func<IDisposable>)PlatformInvocationServices.CreateCMallocCollector).Method;
 
 
-                        return;
+                            this.WriteDecoratedTypeName(_Resolved.DeclaringType);
+                            this.Write(".");
+                            this.WriteDecoratedMethodName(_Resolved, false);
+                            this.Write("(");
+                            this.WriteSafeLiteral("_" + CreateCMallocCollector.MetadataToken.ToString("x8"));
+
+                            this.WriteSpace(", ");
+
+                            Emit(e.p, e.i.StackBeforeStrict[1], typeof(int));
+
+                            this.Write(")");
+
+
+                            return;
+                        }
                     }
                     #endregion
 
-                    var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
-					var ResolvedByte = this.ResolveImplementation(typeof(byte));
-					var ResolvedInt32 = this.ResolveImplementation(typeof(int));
-					var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
-					var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
+                    {
+                        var ResolvedTypeExpectedOrDefault = this.ResolveImplementation(e.TypeExpectedOrDefault) ?? e.TypeExpectedOrDefault;
+                        var ResolvedByte = this.ResolveImplementation(typeof(byte));
+                        var ResolvedInt32 = this.ResolveImplementation(typeof(int));
+                        var ResolvedUInt32 = this.ResolveImplementation(typeof(uint));
+                        var ResolvedUInt16 = this.ResolveImplementation(typeof(ushort));
 
-					// http://www.brics.dk/~mis/dOvs/jvmspec/ref--44.html;
+                        // http://www.brics.dk/~mis/dOvs/jvmspec/ref--44.html;
 
-					Action<object> Monitor_Enter = System.Threading.Monitor.Enter;
-					Action<object> Monitor_Exit = System.Threading.Monitor.Exit;
+                        Action<object> Monitor_Enter = System.Threading.Monitor.Enter;
+                        Action<object> Monitor_Exit = System.Threading.Monitor.Exit;
 
-					MethodBase m = e.i.ReferencedMethod;
+                        MethodBase m = e.i.ReferencedMethod;
 
-					if (m == Monitor_Enter.Method)
-					{
-						//this.WriteBoxedComment(".monitorenter");
-						throw new SkipThisPrestatementException();
+                        if (m == Monitor_Enter.Method)
+                        {
+                            //this.WriteBoxedComment(".monitorenter");
+                            throw new SkipThisPrestatementException();
 
-					}
+                        }
 
-					//if (m == Monitor_Exit.Method)
-					//{
-					//    this.WriteBoxedComment(".monitorexit");
-					//    throw new NotSupportedException();
+                        //if (m == Monitor_Exit.Method)
+                        //{
+                        //    this.WriteBoxedComment(".monitorexit");
+                        //    throw new NotSupportedException();
 
-					//}
+                        //}
 
-					if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
-					{
-						if (m.Name == "InitializeArray")
-						{
-							throw new SkipThisPrestatementException();
-						}
-					}
+                        if (m.DeclaringType == typeof(System.Runtime.CompilerServices.RuntimeHelpers))
+                        {
+                            if (m.Name == "InitializeArray")
+                            {
+                                throw new SkipThisPrestatementException();
+                            }
+                        }
 
-					Action<Action> Wrapper = h => h();
+                        Action<Action> Wrapper = h => h();
 
-					var ReturnType = m is MethodInfo ? ((MethodInfo)m).ReturnType : typeof(void);
+                        var ReturnType = m is MethodInfo ? ((MethodInfo)m).ReturnType : typeof(void);
 
-					if (ReturnType != null)
-					{
-						#region byte
-						if (ReturnType == typeof(byte) && (ResolvedTypeExpectedOrDefault != ResolvedByte))
-						{
-							Wrapper =
-								WriteMethodCall =>
-								{
-									Write("(short)");
-									Write("(");
+                        if (ReturnType != null)
+                        {
+                            #region byte
+                            if (ReturnType == typeof(byte) && (ResolvedTypeExpectedOrDefault != ResolvedByte))
+                            {
+                                Wrapper =
+                                    WriteMethodCall =>
+                                    {
+                                        Write("(short)");
+                                        Write("(");
 
-									WriteMethodCall();
+                                        WriteMethodCall();
 
-									// this operator is either 16bit or 32bit, depends on VM
-									Write(" & 0xff");
-									Write(")");
-								};
+                                        // this operator is either 16bit or 32bit, depends on VM
+                                        Write(" & 0xff");
+                                        Write(")");
+                                    };
 
-						}
-						#endregion
+                            }
+                            #endregion
 
-					}
+                        }
 
 
-					MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
+                        MethodBase mi = MySession.ResolveImplementation(m.DeclaringType, m);
 
-					if (mi != null)
-					{
-						Wrapper(() => WriteMethodCall(e.p, e.i, mi));
+                        if (mi != null)
+                        {
+                            Wrapper(() => WriteMethodCall(e.p, e.i, mi));
 
-						return;
-					}
+                            return;
+                        }
 
-					if (m.Name == "op_Implicit")
-					{
-						ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
+                        if (m.Name == "op_Implicit")
+                        {
+                            ScriptAttribute sa = ScriptAttribute.Of(m.DeclaringType, false);
 
-						if (sa != null && sa.IsNative)
-						{
-							// that implicit call is only for to help c# conversions
-							// so we must emit first parameter
+                            if (sa != null && sa.IsNative)
+                            {
+                                // that implicit call is only for to help c# conversions
+                                // so we must emit first parameter
 
-							EmitFirstOnStack(e);
-							return;
-						}
-					}
+                                EmitFirstOnStack(e);
+                                return;
+                            }
+                        }
 
-					Wrapper(() => WriteMethodCall(e.p, e.i, m));
-				};
+                        Wrapper(() => WriteMethodCall(e.p, e.i, m));
+                    }
+                };
 			#endregion
 
 

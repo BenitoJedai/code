@@ -77,5 +77,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return new __IntPtr { MethodToken = MethodToken };
 		}
 
+        public override string ToString()
+        {
+            return this.PointerToken.ToString();
+        }
 	}
 }

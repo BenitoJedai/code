@@ -13,38 +13,38 @@ namespace jsc.Languages.Java
 
     partial class JavaCompiler
     {
-		public Action CompileType_WriteAdditionalMembers;
+        public Action CompileType_WriteAdditionalMembers;
 
         public override bool CompileType(Type z)
         {
             if (IsNativeType(z))
                 return false;
 
-			if (z.Name.Contains("<PrivateImplementationDetails>") || (z.DeclaringType != null && z.DeclaringType.Name.Contains("<PrivateImplementationDetails>")))
-				return false;
+            if (z.Name.Contains("<PrivateImplementationDetails>") || (z.DeclaringType != null && z.DeclaringType.Name.Contains("<PrivateImplementationDetails>")))
+                return false;
 
-			// why would we do that?
-			//if (IsEmptyImplementationType(z))
-			//    return false;
+            // why would we do that?
+            //if (IsEmptyImplementationType(z))
+            //    return false;
 
             if (ScriptAttribute.IsAnonymousType(z))
                 return false;
 
             //WriteMachineGeneratedWarning();
-			WriteCommentLine(Path.GetFileName(z.Assembly.Location) );
+            WriteCommentLine(Path.GetFileName(z.Assembly.Location));
 
             if (z.Namespace != null)
             {
                 this.WriteIndent();
-				this.WriteKeywordSpace(Keywords._package);
+                this.WriteKeywordSpace(Keywords._package);
 
-				var _namespace = string.Join(".", NamespaceFixup(z.Namespace, z).Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+                var _namespace = string.Join(".", NamespaceFixup(z.Namespace, z).Split('.').Select(k => GetSafeLiteral(k)).ToArray());
 
-				this.Write(_namespace + ";");
+                this.Write(_namespace + ";");
 
-				//this.Write(NamespaceFixup(z.Namespace, z) + ";");
-				this.WriteLine();
-				this.WriteLine();
+                //this.Write(NamespaceFixup(z.Namespace, z) + ";");
+                this.WriteLine();
+                this.WriteLine();
             }
 
             this.WriteImportTypes(z);
@@ -54,8 +54,8 @@ namespace jsc.Languages.Java
 
             ScriptAttribute za = ScriptAttribute.Of(z, true);
 
-			var z_Implements = za.Implements;
-			var z_NonPrimitiveValueType = z_Implements != null && z_Implements.IsValueType && !z_Implements.IsPrimitive;
+            var z_Implements = za.Implements;
+            var z_NonPrimitiveValueType = z_Implements != null && z_Implements.IsValueType && !z_Implements.IsPrimitive;
 
 
             #region type summary
@@ -65,7 +65,7 @@ namespace jsc.Languages.Java
                 WriteBlockComment(u["summary"].InnerText);
             #endregion
 
-			CompileType_WriteAdditionalMembers = delegate { };
+            CompileType_WriteAdditionalMembers = delegate { };
 
             WriteTypeSignature(z, za);
 
@@ -76,43 +76,43 @@ namespace jsc.Languages.Java
                 WriteTypeStaticConstructor(z, za);
                 WriteLine();
 
-				// why was this check here?
-				//if (za.Implements == null)
-				//{
-                    WriteTypeInstanceConstructors(z);
-                    WriteLine();
-				//}
+                // why was this check here?
+                //if (za.Implements == null)
+                //{
+                WriteTypeInstanceConstructors(z);
+                WriteLine();
+                //}
 
                 WriteTypeInstanceMethods(z, za);
                 WriteLine();
                 WriteTypeStaticMethods(z, za);
 
-				if (za.Implements == typeof(Delegate))
-				{
-					DelegateImplementationProvider.WriteExtensionMethodSupport(this, z);
-				}
+                if (za.Implements == typeof(Delegate))
+                {
+                    DelegateImplementationProvider.WriteExtensionMethodSupport(this, z);
+                }
 
-				CompileType_WriteAdditionalMembers();
+                CompileType_WriteAdditionalMembers();
 
 
-				if (z_NonPrimitiveValueType)
-				{
-					// define ctor as methods
-					WriteIndent();
-					WriteCommentLine("NonPrimitiveValueType");
+                if (z_NonPrimitiveValueType)
+                {
+                    // define ctor as methods
+                    WriteIndent();
+                    WriteCommentLine("NonPrimitiveValueType");
 
-					foreach (var NonPrimitiveValueTypeConstructor in z.GetInstanceConstructors())
-					{
-						InternalWriteMethodSignature(
-							NonPrimitiveValueTypeConstructor, 
-							false,
-							"NonPrimitiveValueTypeConstructor",
-							false
-						);
+                    foreach (var NonPrimitiveValueTypeConstructor in z.GetInstanceConstructors())
+                    {
+                        InternalWriteMethodSignature(
+                            NonPrimitiveValueTypeConstructor,
+                            false,
+                            "NonPrimitiveValueTypeConstructor",
+                            false
+                        );
 
-						WriteMethodBody(NonPrimitiveValueTypeConstructor);
-					}
-				}
+                        WriteMethodBody(NonPrimitiveValueTypeConstructor);
+                    }
+                }
             }
 
             //Thread.Sleep(100);
@@ -120,42 +120,42 @@ namespace jsc.Languages.Java
             return true;
         }
 
-		protected override bool WriteMethodCustomBody(MethodBase m)
-		{
-			if (m.DeclaringType.IsDelegate())
-			{
-				if (m.IsConstructor)
-				{
-					DelegateImplementationProvider.WriteConstructor(this, (ConstructorInfo)m);
-					return true;
-				}
+        protected override bool WriteMethodCustomBody(MethodBase m)
+        {
+            if (m.DeclaringType.IsDelegate())
+            {
+                if (m.IsConstructor)
+                {
+                    DelegateImplementationProvider.WriteConstructor(this, (ConstructorInfo)m);
+                    return true;
+                }
 
-				if (m.Name == "BeginInvoke")
-				{
-					DelegateImplementationProvider.WriteBeginInvoke(this, (MethodInfo)m);
-					return true;
-				}
+                if (m.Name == "BeginInvoke")
+                {
+                    DelegateImplementationProvider.WriteBeginInvoke(this, (MethodInfo)m);
+                    return true;
+                }
 
-				if (m.Name == "EndInvoke")
-				{
-					DelegateImplementationProvider.WriteEndInvoke(this, (MethodInfo)m);
-					return true;
-				}
+                if (m.Name == "EndInvoke")
+                {
+                    DelegateImplementationProvider.WriteEndInvoke(this, (MethodInfo)m);
+                    return true;
+                }
 
-				if (m.Name == "Invoke")
-				{
-					DelegateImplementationProvider.WriteInvoke(this, (MethodInfo)m);
-					return true;
+                if (m.Name == "Invoke")
+                {
+                    DelegateImplementationProvider.WriteInvoke(this, (MethodInfo)m);
+                    return true;
 
-				} 
-			}
+                }
+            }
 
-			if ((m.Attributes & MethodAttributes.PinvokeImpl) == MethodAttributes.PinvokeImpl)
-			{
-				var DllImport = m.GetCustomAttributes<DllImportAttribute>().Single();
-				var ReturnType = ((MethodInfo)m).ReturnType;
-				// cool.
-				// do we have Platform Invocation Services?
+            if ((m.Attributes & MethodAttributes.PinvokeImpl) == MethodAttributes.PinvokeImpl)
+            {
+                var DllImport = m.GetCustomAttributes<DllImportAttribute>().Single();
+                var ReturnType = ((MethodInfo)m).ReturnType;
+                // cool.
+                // do we have Platform Invocation Services?
 
                 Action<MethodBase> WriteInvoke =
                     TargetMethod =>
@@ -171,45 +171,71 @@ namespace jsc.Languages.Java
                         this.WriteQuotedLiteral(DllImport.Value);
                         this.WriteSpace(", ");
                         this.WriteQuotedLiteral(DllImport.EntryPoint);
-                        this.Write(", ");
-
+                        this.WriteLine(",");
+                        this.Ident++;
+                        
+                        this.WriteIndent();
                         this.WriteKeywordSpace(Keywords._new);
                         this.WriteDecoratedTypeName(typeof(object));
                         this.WriteSpace();
                         this.Write("[]");
                         this.WriteSpace();
-                        this.Write("{");
+                        this.WriteLine();
 
-                        var p = m.GetParameters();
-                        for (int i = 0; i < p.Length; i++)
+                        var IntPtrToPointerToken = ((Func<IntPtr, object>)PlatformInvocationServices.IntPtrToPointerToken).Method;
+
+                        
+                        using (this.CreateScope())
                         {
-                            if (i > 0)
-                                this.Write(", ");
 
-                            this.WriteDecoratedMethodParameter(p[i], typeof(object));
+                            var p = m.GetParameters();
+                            for (int i = 0; i < p.Length; i++)
+                            {
+                                if (i > 0)
+                                    this.WriteLine(",");
+
+                                this.WriteIndent();
+
+                                if (p[i].ParameterType == typeof(IntPtr))
+                                {
+                                    this.WriteDecoratedTypeName(IntPtrToPointerToken.DeclaringType);
+                                    this.Write(".");
+                                    this.WriteDecoratedMethodName(IntPtrToPointerToken, false);
+                                    this.Write("(");
+                                    this.WriteDecoratedMethodParameter(p[i], typeof(IntPtr));
+                                    this.Write(")");
+                                }
+                                else
+                                {
+                                    this.WriteDecoratedMethodParameter(p[i], typeof(object));
+                                }
+                            }
+
+                            this.WriteLine();
                         }
+                        this.Ident--;
 
-                        this.Write("}");
+                        this.WriteIndent();
                         this.Write(")");
                         this.Write(";");
 
                         this.WriteLine();
                     };
 
-				if (ReturnType == typeof(int))
-				{
-					Func<string, string, object[], int> _InvokeInt32 = PlatformInvocationServices.InvokeInt32;
+                if (ReturnType == typeof(int))
+                {
+                    Func<string, string, object[], int> _InvokeInt32 = PlatformInvocationServices.InvokeInt32;
 
-					var _Resolved_InvokeInt32 = this.ResolveImplementationMethod(_InvokeInt32.Method.DeclaringType, _InvokeInt32.Method);
+                    var _Resolved_InvokeInt32 = this.ResolveImplementationMethod(_InvokeInt32.Method.DeclaringType, _InvokeInt32.Method);
 
-					if (_Resolved_InvokeInt32 == null)
-						throw new NotSupportedException("PlatformInvocationServices.InvokeInt32 implementation was not found.");
+                    if (_Resolved_InvokeInt32 == null)
+                        throw new NotSupportedException("PlatformInvocationServices.InvokeInt32 implementation was not found.");
 
 
                     WriteInvoke(_Resolved_InvokeInt32);
 
-					return true;
-				}
+                    return true;
+                }
 
                 if (ReturnType == typeof(string))
                 {
@@ -240,10 +266,10 @@ namespace jsc.Languages.Java
                 }
 
 
-				throw new NotSupportedException("PlatformInvocationServices for " + ReturnType.FullName + " not implemented");
-			}
+                throw new NotSupportedException("PlatformInvocationServices for " + ReturnType.FullName + " not implemented");
+            }
 
-			return false;
-		}
+            return false;
+        }
     }
 }

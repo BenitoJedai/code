@@ -64,24 +64,9 @@ namespace jsc.Languages.Java
 
 			if (m.ReturnType != typeof(void))
 			{
-				w.WriteIndent();
-				w.WriteDecoratedTypeName(m.ReturnType);
-				w.WriteSpace();
-				w.WriteSafeLiteral(__value);
+                w.WriteLocalVariableDefinition(m.ReturnType, () => w.WriteSafeLiteral(__value), true);
 
-				// TODO: more defaults. Maybe even implement something like Write(default(T));
-				if (m.ReturnType == typeof(bool))
-				{
-					w.WriteAssignment();
-					w.WriteKeyword(JavaCompiler.Keywords._false);
-				}
-				else if (m.ReturnType.IsClass | m.ReturnType.IsInterface)
-				{
-					w.WriteAssignment();
-					w.WriteKeyword(JavaCompiler.Keywords._null);
-				}
 
-				w.WriteLine(";");
 			}
 
 			#region var __InvocationList = GetInvocationList();
@@ -144,13 +129,17 @@ namespace jsc.Languages.Java
 					w.WriteSafeLiteral(__value);
 					w.WriteAssignment();
 			
-					// unbox
+					// unbox any!
 
 					if (m.ReturnType == typeof(bool))
 					{
 						w.Write("((Boolean)");
 					}
-					else
+                    else if (m.ReturnType == typeof(int))
+                    {
+                        w.Write("((Integer)");
+                    }
+                    else
 					{
 						w.Write("(");
 						w.WriteDecoratedTypeName(m.ReturnType);
@@ -236,12 +225,16 @@ namespace jsc.Languages.Java
 
 				w.Write(")");
 
-				// unbox
+				// see unbox.any opcode
 
 				if (m.ReturnType == typeof(bool))
 				{
 					w.Write(").booleanValue()");
 				}
+                else if (m.ReturnType == typeof(int))
+                {
+                    w.Write(").intValue()");
+                }
 
 				w.WriteLine(";");
 				#endregion
