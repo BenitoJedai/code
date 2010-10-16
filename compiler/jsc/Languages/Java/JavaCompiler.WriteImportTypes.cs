@@ -308,6 +308,21 @@ namespace jsc.Languages.Java
 					imp.Add(l.LocalType);
 				}
 
+                var q = from i in b.Instructrions
+                        let m = i.ReferencedMethod
+                        where m != null
+                        where m.IsConstructor
+                        where m.DeclaringType == typeof(IntPtr)
+                        let p = m.GetParameters()
+                        where p.Length == 1
+                        where p[0].ParameterType == typeof(void*)
+                        select new { i, m, p };
+
+                if (q.Any())
+                {
+                    imp.Add(this.ResolveImplementation(typeof(PlatformInvocationServices)));
+                    imp.Add(this.ResolveImplementation(typeof(IDisposable)));
+                }
 
 				foreach (ILInstruction i in b.Instructrions)
 				{

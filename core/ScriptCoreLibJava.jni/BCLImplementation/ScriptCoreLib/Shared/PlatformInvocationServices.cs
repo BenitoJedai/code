@@ -22,6 +22,11 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
             return (IntPtr)p;
         }
 
+        public static object IntPtrToPointerToken(IntPtr ptr)
+        {
+            return ((__IntPtr)(object)ptr).PointerToken;
+        }
+
         [Script]
         public partial class Func
         {
@@ -70,7 +75,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
         {
             Int32Func f = new Func(DllName, EntryPoint);
 
-            return f(MarshalToNative(e));
+            return f(e);
         }
         #endregion
 
@@ -97,7 +102,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
         {
             StringFunc f = new Func(DllName, EntryPoint);
 
-            return f(MarshalToNative(e));
+            return f(e);
         }
         #endregion
 
@@ -122,14 +127,11 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
         {
             IntPtrFunc f = new Func(DllName, EntryPoint);
 
-            return f(MarshalToNative(e));
+            return f(e);
         }
         #endregion
 
-        internal static object[] MarshalToNative(object[] e)
-        {
-            return e;
-        }
+       
 
         
     }

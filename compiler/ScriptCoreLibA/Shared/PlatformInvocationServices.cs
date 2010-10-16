@@ -20,6 +20,12 @@ namespace ScriptCoreLib.Shared
             return default(IntPtr);
         }
 
+        public static object IntPtrToPointerToken(IntPtr ptr)
+        {
+            return default(object);
+        }
+
+
 		public static int InvokeInt32(string DllName, string EntryPoint, params object[] e)
 		{
 			return default(int);
