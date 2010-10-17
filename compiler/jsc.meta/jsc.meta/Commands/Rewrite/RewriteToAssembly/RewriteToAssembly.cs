@@ -209,15 +209,24 @@ namespace jsc.meta.Commands.Rewrite
                             // what are these for?
                             where !Is.FSharpOptimizationData && !Is.FSharpSignatureData
 
+                            // There is a generated ldstr in the project.
+                            //      ResourceManager manager = new ResourceManager("TestObfuscationWithXAML.Properties.Resources", typeof(Resources).Assembly);
+
                             let IsProperties = item.EndsWith(".Properties.Resources.resources")
                             let IsResources = item.EndsWith(".resources")
+                            
+                            // XAML loader seems to use GetExcecutingAssemblyName
+                            let IsXAMLResources = item.EndsWith(".g.resources")
 
                             let ShouldRename = item.StartsWith(shadow_assembly.GetName().Name)
 
+                            let RenamedName = Product_Name + item.Substring(shadow_assembly.GetName().Name.Length)
+
                             let n = IsProperties ? item :
-                                        IsResources ? (NameObfuscation[item.TakeUntilLastOrEmpty(".resources")] + ".resources") :
-                                            (ShouldRename) ?
-                                            Product_Name + item.Substring(shadow_assembly.GetName().Name.Length) : item
+                                        IsXAMLResources ? RenamedName :
+                                            IsResources ? (NameObfuscation[item.TakeUntilLastOrEmpty(".resources")] + ".resources") :
+                                                (ShouldRename) ? RenamedName :
+                                                    item
 
                             select new { item, n }
                         );
@@ -272,7 +281,7 @@ namespace jsc.meta.Commands.Rewrite
 
                                 }
 
-                                
+
                                 shadow_assembly.EntryPoint.With(
                                     EntryPoint =>
                                     {
