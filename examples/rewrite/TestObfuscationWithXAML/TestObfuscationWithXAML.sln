@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestObfuscationWithXAML", "TestObfuscationWithXAML\TestObfuscationWithXAML.csproj", "{3D1F4BBC-2F86-4C0F-89E8-FC1FF2BE91E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestObfuscationWithXAMLDebugger", "TestObfuscationWithXAMLDebugger\TestObfuscationWithXAMLDebugger.csproj", "{92F0A213-6BDA-4A7A-80D0-B1D8AB1E4F37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D1F4BBC-2F86-4C0F-89E8-FC1FF2BE91E3}.Debug|x86.ActiveCfg = Debug|x86
+		{3D1F4BBC-2F86-4C0F-89E8-FC1FF2BE91E3}.Debug|x86.Build.0 = Debug|x86
+		{3D1F4BBC-2F86-4C0F-89E8-FC1FF2BE91E3}.Release|x86.ActiveCfg = Release|x86
+		{3D1F4BBC-2F86-4C0F-89E8-FC1FF2BE91E3}.Release|x86.Build.0 = Release|x86
+		{92F0A213-6BDA-4A7A-80D0-B1D8AB1E4F37}.Debug|x86.ActiveCfg = Debug|x86
+		{92F0A213-6BDA-4A7A-80D0-B1D8AB1E4F37}.Debug|x86.Build.0 = Debug|x86
+		{92F0A213-6BDA-4A7A-80D0-B1D8AB1E4F37}.Release|x86.ActiveCfg = Release|x86
+		{92F0A213-6BDA-4A7A-80D0-B1D8AB1E4F37}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
