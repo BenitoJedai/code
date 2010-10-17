@@ -14,7 +14,7 @@ namespace TestObfuscationWithXAML
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var u = "foo;component/" + this.StartupUri.ToString();
+            var u = typeof(App).Assembly.GetName().Name + ";component/" + this.StartupUri.ToString();
 
             this.StartupUri = new Uri(u, System.UriKind.Relative);
 
