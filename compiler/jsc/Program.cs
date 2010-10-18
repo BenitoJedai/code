@@ -39,8 +39,30 @@ namespace jsc
             Console.WriteLine();
         }
 
+        internal static void LaunchMeta(string[] args)
+        {
+            Process.Start(
+                new ProcessStartInfo("jsc.meta.exe",
+                    string.Join(" ", args.Select(k => "\"" + k + "\"").ToArray())
+
+                )
+                {
+                    CreateNoWindow = false,
+                    UseShellExecute = false,
+
+                }
+
+            ).WaitForExit();
+        }
+
         public static void Main(string[] args)
         {
+            if (args.Length == 0 || (args.Length > 0 && (!File.Exists(args[0]) || args.All(File.Exists))))
+            {
+                LaunchMeta(args);
+                return;
+            }
+
             CompileSessionInfo a = new CompileSessionInfo();
 
             a.Options = new CommandLineOptions(args);
@@ -396,7 +418,7 @@ namespace jsc
             if (type == ScriptType.PHP)
             {
                 new jsc.Script.PHP.PHPCompiler(xw, xw.Session).Compile(
-                    _assambly_loaded, 
+                    _assambly_loaded,
                     sinfo,
                     VersionLookup.Add
                 );
