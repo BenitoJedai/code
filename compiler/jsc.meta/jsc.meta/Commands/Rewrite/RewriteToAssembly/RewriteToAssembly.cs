@@ -220,12 +220,12 @@ namespace jsc.meta.Commands.Rewrite
 
                             let ShouldRename = item.StartsWith(shadow_assembly.GetName().Name)
 
-                            let RenamedName = Product_Name + item.Substring(shadow_assembly.GetName().Name.Length)
+                            let RenamedName = new Func<string>(() => Product_Name + item.Substring(shadow_assembly.GetName().Name.Length))
 
                             let n = IsProperties ? item :
-                                        IsXAMLResources ? RenamedName :
+                                        IsXAMLResources ? RenamedName() :
                                             IsResources ? (NameObfuscation[item.TakeUntilLastOrEmpty(".resources")] + ".resources") :
-                                                (ShouldRename) ? RenamedName :
+                                                (ShouldRename) ? RenamedName() :
                                                     item
 
                             select new { item, n }
