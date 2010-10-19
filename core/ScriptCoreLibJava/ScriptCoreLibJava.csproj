@@ -96,6 +96,7 @@
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Char.cs" />
+    <Compile Include="BCLImplementation\System\Diagnostics\Debugger.cs" />
     <Compile Include="BCLImplementation\System\EventArgs.cs" />
     <Compile Include="BCLImplementation\System\EventHandler.cs" />
     <Compile Include="BCLImplementation\System\Globalization\CultureInfo.cs" />
