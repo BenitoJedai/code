@@ -23,7 +23,7 @@ namespace jni
 	}
 
 	[Script]
-	public class CPtr
+    public class CPtr : IConvertToInt64
 	{
 		
 		public static readonly int SIZE;
@@ -204,7 +204,12 @@ namespace jni
 		{
 			return "0x" + Convert.ToHexString(this.Pointer, 8);
 		}
-	}
+
+        public long ToInt64()
+        {
+            return this.Pointer;
+        }
+    }
 
 
 	[Script]
