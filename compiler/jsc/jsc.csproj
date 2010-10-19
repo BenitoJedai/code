@@ -244,6 +244,7 @@
     <Compile Include="Languages\JavaScript\IL2ScriptGenerator.cs" />
     <Compile Include="Languages\JavaScript\MethodBodyOptimizer.cs" />
     <Compile Include="Languages\Java\CompilerJob.cs" />
+    <Compile Include="Languages\Java\JavaCompiler.WriteMethodCustomBody.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteMethodBodyContent.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteReturnParameter.cs" />
     <Compile Include="Languages\Java\JavaCompiler.WriteLocalVariableDefinition.cs" />

@@ -45,6 +45,12 @@ namespace ScriptCoreLib
         /// </summary>
         HLSL,
 
+
+        /// <summary>
+        /// Shaders for Flash? http://www.gotoandlearn.com/play.php?id=83
+        /// </summary>
+        PixelBender,
+
         Perl,
 
         Ruby,
