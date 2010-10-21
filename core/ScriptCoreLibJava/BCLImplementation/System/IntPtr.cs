@@ -16,9 +16,51 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         long ToInt64();
     }
 
+    [Script]
+    class ZeroConvertToInt64 : IConvertToInt64
+    {
+        public long ToInt64()
+        {
+            return 0;
+        }
+    }
+
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
+        public static readonly __IntPtr Zero = new __IntPtr();
+
+        public static __IntPtr InternalGetZero()
+        {
+            return new __IntPtr { PointerToken = new ZeroConvertToInt64() };
+        }
+
+        public override bool Equals(object obj)
+        {
+            return InternalEquals(this, obj as __IntPtr);
+        }
+
+        public static bool operator !=(__IntPtr value1, __IntPtr value2)
+        {
+            return !InternalEquals(value1, value2);
+        }
+
+        public static bool operator ==(__IntPtr value1, __IntPtr value2)
+        {
+            return InternalEquals(value1, value2);
+        }
+
+        private static bool InternalEquals(__IntPtr value1, __IntPtr value2)
+        {
+            var a64 = value1.PointerToken as IConvertToInt64;
+            var b64 = value1.PointerToken as IConvertToInt64;
+
+            if (a64 != null)
+                if (b64 != null)
+                    return a64.ToInt64() == b64.ToInt64();
+
+            return false;
+        }
 
         public java.lang.Class ClassToken
         {
