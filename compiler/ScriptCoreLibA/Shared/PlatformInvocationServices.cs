@@ -44,5 +44,9 @@ namespace ScriptCoreLib.Shared
         {
             return default(string);
         }
+
+        public static void InvokeVoid(string DllName, string EntryPoint, params object[] e)
+        {
+        }
 	}
 }

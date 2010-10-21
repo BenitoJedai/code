@@ -157,8 +157,31 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
         }
         #endregion
 
-       
 
+        #region Action
+        [Script]
+        public delegate void Action(object[] e);
+
+        partial class Func
+        {
+            public static implicit operator Action(Func f)
+            {
+                var Method = f.Method;
+
+                return e =>
+                {
+                     Method.callVoid(e);
+                };
+            }
+        }
+
+        public static void InvokeVoid(string DllName, string EntryPoint, object[] e)
+        {
+            Action f = new Func(DllName, EntryPoint);
+
+            f(e);
+        }
+        #endregion
         
     }
 }

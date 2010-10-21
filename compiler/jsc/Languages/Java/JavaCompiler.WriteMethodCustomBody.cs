@@ -65,7 +65,11 @@ namespace jsc.Languages.Java
                     {
                         this.WriteIndent();
 
-                        this.WriteKeywordSpace(Keywords._return);
+                        if (ReturnType != typeof(void))
+                        {
+                            this.WriteKeywordSpace(Keywords._return);
+                        }
+
                         this.WriteDecoratedTypeName(TargetMethod.DeclaringType);
                         this.Write(".");
                         this.WriteDecoratedMethodName(TargetMethod, false);
@@ -182,6 +186,19 @@ namespace jsc.Languages.Java
                     return true;
                 }
 
+                if (ReturnType == typeof(void))
+                {
+                    Action<string, string, object[]> _Invoke = PlatformInvocationServices.InvokeVoid;
+
+                    var _Resolved = this.ResolveImplementationMethod(_Invoke.Method.DeclaringType, _Invoke.Method);
+
+                    if (_Resolved == null)
+                        throw new NotSupportedException("PlatformInvocationServices.InvokeVoid implementation was not found.");
+
+                    WriteInvoke(_Resolved);
+
+                    return true;
+                }
 
                 throw new NotSupportedException("PlatformInvocationServices for " + ReturnType.FullName + " not implemented");
             }
