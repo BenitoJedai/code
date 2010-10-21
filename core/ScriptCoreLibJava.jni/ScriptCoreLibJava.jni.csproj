@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BCLImplementation\ScriptCoreLib\Shared\PlatformInvocationServices.cs" />
+    <Compile Include="BCLImplementation\System\Runtime\InteropServices\Marshal.cs" />
     <Compile Include="jni\IAssemblyReferenceToken.cs" />
     <Compile Include="jni\jnistb10.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
