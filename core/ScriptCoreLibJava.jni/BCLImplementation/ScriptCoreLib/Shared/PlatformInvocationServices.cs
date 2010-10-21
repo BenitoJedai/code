@@ -106,6 +106,32 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
         }
         #endregion
 
+        #region BooleanFunc
+        [Script]
+        public delegate bool BooleanFunc(object[] e);
+
+        partial class Func
+        {
+            public static implicit operator BooleanFunc(Func f)
+            {
+                var Method = f.Method;
+
+                return e =>
+                {
+                    return Method.callBoolean(e);
+                };
+            }
+        }
+
+        public static bool InvokeBoolean(string DllName, string EntryPoint, object[] e)
+        {
+            BooleanFunc f = new Func(DllName, EntryPoint);
+
+            return f(e);
+        }
+        #endregion
+
+
         #region IntPtrFunc
         [Script]
         public delegate IntPtr IntPtrFunc(object[] e);

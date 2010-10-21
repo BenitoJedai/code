@@ -154,6 +154,20 @@ namespace jsc.Languages.Java
                     return true;
                 }
 
+                if (ReturnType == typeof(bool))
+                {
+                    Func<string, string, object[], bool> _Invoke = PlatformInvocationServices.InvokeBoolean;
+
+                    var _Resolved = this.ResolveImplementationMethod(_Invoke.Method.DeclaringType, _Invoke.Method);
+
+                    if (_Resolved == null)
+                        throw new NotSupportedException("PlatformInvocationServices.InvokeBoolean implementation was not found.");
+
+                    WriteInvoke(_Resolved);
+
+                    return true;
+                }
+
                 if (ReturnType == typeof(IntPtr))
                 {
                     Func<string, string, object[], IntPtr> _InvokeIntPtr = PlatformInvocationServices.InvokeIntPtr;

@@ -25,6 +25,10 @@ namespace ScriptCoreLib.Shared
             return default(object);
         }
 
+        public static bool InvokeBoolean(string DllName, string EntryPoint, params object[] e)
+        {
+            return default(bool);
+        }
 
 		public static int InvokeInt32(string DllName, string EntryPoint, params object[] e)
 		{
