@@ -172,8 +172,10 @@ namespace jsc.meta.Commands.Extend
 					},
 				NonScriptTypes = assembly.GetTypes().Where(
 					k =>
-						k.Namespace.EndsWith(".My") ||
-						k.Namespace.EndsWith(".My.Resources")
+                        k.Namespace != null && (
+						    k.Namespace.EndsWith(".My") ||
+						    k.Namespace.EndsWith(".My.Resources")
+                        )
 				).ToArray()
 			};
 
