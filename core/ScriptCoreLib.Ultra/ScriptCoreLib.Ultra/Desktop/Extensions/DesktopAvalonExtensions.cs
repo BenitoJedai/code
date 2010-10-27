@@ -58,10 +58,10 @@ namespace ScriptCoreLib.Desktop.Extensions
                             return ci;
                         };
 
+                    var CreateContent = Create;
                     var ActualSize = new Canvas();
 
-                    var c = Create().AttachTo(ActualSize);
-                    wi.Content = c;
+                    var c = CreateContent().AttachTo(ActualSize);
 
                     ActualSize.SizeChanged +=
                         delegate
@@ -70,6 +70,8 @@ namespace ScriptCoreLib.Desktop.Extensions
                         };
 
                     var w = ActualSize.ToWindow();
+
+                    wi.Content = c;
                     wi.Window = w;
 
                     w.Background = Brushes.White;
@@ -80,6 +82,7 @@ namespace ScriptCoreLib.Desktop.Extensions
 
                     var ExitFullscreen = default(Action);
 
+                    #region ToFullscreen
                     Action ToFullscreen =
                         () =>
                         {
@@ -106,6 +109,7 @@ namespace ScriptCoreLib.Desktop.Extensions
                             w.WindowState = System.Windows.WindowState.Normal;
                             w.WindowState = System.Windows.WindowState.Maximized;
                         };
+                    #endregion
 
 
                     w.Deactivated +=
@@ -119,6 +123,7 @@ namespace ScriptCoreLib.Desktop.Extensions
                             }
                         };
 
+                    #region PreviewKeyUp
                     w.PreviewKeyUp +=
                         (s, e) =>
                         {
@@ -158,6 +163,8 @@ namespace ScriptCoreLib.Desktop.Extensions
                                 return;
                             }
                         };
+                    #endregion
+
 
 
                     return wi;
