@@ -58,7 +58,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
 
             w.SizeToContent = SizeToContent.Manual;
-            w.SizeTo(400, 400);
+            //w.SizeTo(400, 400);
             //w.ToTransparentWindow();
 
 
@@ -84,9 +84,12 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             winfo.AllowsTransparency = true;
             winfo.ShowInTaskbar = false;
             winfo.WindowStyle = WindowStyle.None;
-            winfo.Background = Brushes.Transparent;
+            //winfo.Background = Brushes.Transparent;
+            winfo.Background = Brushes.Red;
+            winfo.Opacity = 0.3;
+
             winfo.ResizeMode = ResizeMode.NoResize;
-            
+
             winfo.SizeToContent = SizeToContent.Manual;
             winfo.Topmost = true;
             // http://www.squidoo.com/youtubehd
@@ -106,6 +109,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             var CommandKeysEnabled = false;
 
+            #region TopicText
             var TopicText = new System.Windows.Controls.TextBox
             {
                 //IsReadOnly = true,
@@ -119,6 +123,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 FontSize = 24,
                 TextAlignment = System.Windows.TextAlignment.Right
             };
+            #endregion
+
 
             #region KeyDown
             InterceptKeys.KeyDown +=
@@ -146,6 +152,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                 };
             #endregion
 
+            #region KeyUp
             InterceptKeys.KeyUp +=
                 key =>
                 {
@@ -167,12 +174,15 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
                     NextInputModeEnabled = false;
                 };
+            #endregion
+
 
             var s = 7;
 
             var ThumbnailSize = 0.4;
             var CaptionBackgroundHeight = 24;
 
+            #region UpdateChildren
             Action UpdateChildren =
                 delegate
                 {
@@ -182,7 +192,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                     var ss = s;
                     var ss2 = 0;
 
-               
+
                     Console.WriteLine(
                         new { w.Left, w.Top });
 
@@ -227,6 +237,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
 
                 };
+            #endregion
+
 
             w.LocationChanged +=
                 delegate
@@ -301,6 +313,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             TopicText.AttachTo(winfoc);
 
+            #region SetCaption
             Action<string> SetCaption =
                 text =>
                 {
@@ -310,14 +323,10 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         CaptionText.Text = text + " | jsc-solutions.net";
 
                 };
+            #endregion
 
-            //var ink = new InkCanvas
-            //{
-            //    Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)),
-            //}.AttachTo(cc).MoveTo(0, CaptionBackgroundHeight);
 
-            //ink.DefaultDrawingAttributes.IgnorePressure = false;
-            //ink.DefaultDrawingAttributes.Color = Colors.Yellow;
+
 
             c.AttachContainerTo(winfoc);
 
@@ -327,6 +336,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             var Intro = new PromotionBrandIntro.ApplicationCanvas().AttachTo(winfoc);
             Intro.Opacity = 0;
 
+            #region SizeChanged
             Action SizeChanged =
                 delegate
                 {
@@ -346,70 +356,19 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         w.ActualHeight - 48
                     ).SizeTo(w.ActualWidth - 48, 48);
 
-                    // .NET 4 ?
-
-                    //if (w.WindowState == WindowState.Maximized)
-                    //{
-                    //    if (c != null)
-                    //        c.MoveContainerTo(-200 + 42 + s, -200 + 38 + s);
-                    //    Borders.WithEach(k => k.Left.MoveTo(s, 0).SizeTo(k.Width, w.ActualHeight));
-                    //    Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width - s + 2, 0).SizeTo(k.Width, w.ActualHeight));
-                    //    Borders.WithEach(k => k.Bottom.MoveTo(0, w.ActualHeight - k.Width - s).SizeTo(w.ActualWidth, k.Width));
-                    //    Borders.WithEach(k => k.Top.MoveTo(0, s).SizeTo(w.ActualWidth, k.Width));
-                    //    CaptionText.MoveTo(0, 2 + s).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
-                    //    CaptionClose.MoveTo(w.ActualWidth - CaptionBackgroundHeight, s + s).SizeTo(CaptionBackgroundHeight - s, CaptionBackgroundHeight - s);
-
-                    //}
-                    //else
-                    //{
-                        if (c != null)
-                            c.MoveContainerTo(-200 + 42, -200 + 38);
-                        Borders.WithEach(k => k.Left.MoveTo(0, 0).SizeTo(k.Width, w.ActualHeight));
-                        Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width, 0).SizeTo(k.Width, w.ActualHeight));
-                        Borders.WithEach(k => k.Bottom.MoveTo(0, w.ActualHeight - k.Width).SizeTo(w.ActualWidth, k.Width));
-                        Borders.WithEach(k => k.Top.MoveTo(0, 0).SizeTo(w.ActualWidth, k.Width));
-                        CaptionText.MoveTo(0, 2).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
-                        CaptionClose.MoveTo(w.ActualWidth - CaptionBackgroundHeight, s).SizeTo(CaptionBackgroundHeight - s, CaptionBackgroundHeight - s);
-                    //}
+                   
+                    if (c != null)
+                        c.MoveContainerTo(-200 + 42, -200 + 38);
+                    Borders.WithEach(k => k.Left.MoveTo(0, 0).SizeTo(k.Width, w.ActualHeight));
+                    Borders.WithEach(k => k.Right.MoveTo(w.ActualWidth - k.Width, 0).SizeTo(k.Width, w.ActualHeight));
+                    Borders.WithEach(k => k.Bottom.MoveTo(0, w.ActualHeight - k.Width).SizeTo(w.ActualWidth, k.Width));
+                    Borders.WithEach(k => k.Top.MoveTo(0, 0).SizeTo(w.ActualWidth, k.Width));
+                    CaptionText.MoveTo(0, 2).SizeTo(w.ActualWidth - CaptionBackgroundHeight, 32);
+                    CaptionClose.MoveTo(w.ActualWidth - CaptionBackgroundHeight, s).SizeTo(CaptionBackgroundHeight - s, CaptionBackgroundHeight - s);
 
                     UpdateChildren();
                 };
-
-
-            //Action StylusOutOfRange = delegate { };
-
-            //w.StylusInRange +=
-            //    delegate
-            //    {
-            //        ink.Background = new SolidColorBrush(Color.FromArgb(0x10, 0, 0, 0));
-            //        StylusOutOfRange = delegate { };
-
-            //        SetCaption("drawing");
-            //    };
-
-            ////ink.StylusInRange +=
-            ////    delegate
-            ////    {
-            ////        StylusOutOfRange = delegate { };
-            ////    };
-
-            //w.StylusOutOfRange +=
-            //    delegate
-            //    {
-            //        StylusOutOfRange = delegate
-            //        {
-            //            SetCaption("");
-            //            ink.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-            //        };
-
-            //        10000.AtDelay(
-            //            delegate
-            //            {
-            //                StylusOutOfRange();
-            //            }
-            //        );
-
-            //    };
+            #endregion
 
             w.SizeChanged +=
                 delegate
@@ -464,6 +423,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
 
             Func<Internal.Window> GetCurrentThumbnail = () => GetWindows().AsCyclicEnumerable().Skip(ResetThumbnailSkip).First();
 
+            #region AnimationCompleted
             Intro.AnimationCompleted +=
                 delegate
                 {
@@ -479,6 +439,8 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                         SizeChanged();
                     }
                 };
+            #endregion
+
 
             wcam.SourceInitialized +=
                 delegate
@@ -680,7 +642,7 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                 SizeChanged();
                             }
 
-                          
+
 
                             if (key == Key.Left)
                             {
@@ -714,6 +676,17 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
             w.SourceInitialized +=
                 delegate
                 {
+
+                    // http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/61e93dca-e24c-4953-9719-22ce3f705353
+                    Matrix m = PresentationSource.FromVisual(w).CompositionTarget.TransformToDevice;
+                    double dx = m.M11;
+                    double dy = m.M22;
+
+
+                    w.SizeTo(1280 / dx, 768 /dy);
+                    w.MoveTo(8, 0);
+                    SizeChanged();
+
                     wcam.Owner = w;
                     winfo.Owner = w;
                     wcam.Show();
@@ -736,54 +709,59 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                                 };
 
 
-                                //t.Text = p.ToString();
+                                CaptionText.Text = p.ToString();
 
                                 handeled = true;
 
+                                return (IntPtr)HitTestValues.HTCAPTION; // HTCAPTION
 
-                                if (p.x < s)
+
+                                if (false)
+                                {
+                                    if (p.x < s)
+                                        if (p.y < s)
+                                            return (IntPtr)HitTestValues.HTTOPLEFT; // HTCAPTION
+
+                                    if (p.x < CaptionBackgroundHeight)
+                                        if (p.y < CaptionBackgroundHeight)
+                                            return (IntPtr)HitTestValues.HTSYSMENU; // HTCAPTION
+
+
+                                    if (p.cx < CaptionBackgroundHeight)
+                                        if (p.y < CaptionBackgroundHeight)
+                                            return (IntPtr)HitTestValues.HTCLOSE; // HTCAPTION
+
+
+                                    if (p.cx < s)
+                                        if (p.cy < s)
+                                            return (IntPtr)HitTestValues.HTBOTTOMRIGHT; // HTCAPTION
+
+                                    if (p.cx < s)
+                                        if (p.y < s)
+                                            return (IntPtr)HitTestValues.HTTOPRIGHT; // HTCAPTION
+
+                                    if (p.x < s)
+                                        if (p.cy < s)
+                                            return (IntPtr)HitTestValues.HTBOTTOMLEFT; // HTCAPTION
+
+                                    if (p.x < s)
+                                        return (IntPtr)HitTestValues.HTLEFT; // HTCAPTION
+
                                     if (p.y < s)
-                                        return (IntPtr)HitTestValues.HTTOPLEFT; // HTCAPTION
-
-                                if (p.x < CaptionBackgroundHeight)
-                                    if (p.y < CaptionBackgroundHeight)
-                                        return (IntPtr)HitTestValues.HTSYSMENU; // HTCAPTION
+                                        return (IntPtr)HitTestValues.HTTOP; // HTCAPTION
 
 
-                                if (p.cx < CaptionBackgroundHeight)
-                                    if (p.y < CaptionBackgroundHeight)
-                                        return (IntPtr)HitTestValues.HTCLOSE; // HTCAPTION
+                                    if (p.cx < s)
+                                        return (IntPtr)HitTestValues.HTRIGHT; // HTCAPTION
 
-
-                                if (p.cx < s)
                                     if (p.cy < s)
-                                        return (IntPtr)HitTestValues.HTBOTTOMRIGHT; // HTCAPTION
+                                        return (IntPtr)HitTestValues.HTBOTTOM; // HTCAPTION
 
-                                if (p.cx < s)
-                                    if (p.y < s)
-                                        return (IntPtr)HitTestValues.HTTOPRIGHT; // HTCAPTION
+                                    if (p.y < CaptionBackgroundHeight)
+                                        return (IntPtr)HitTestValues.HTCAPTION; // HTCAPTION
 
-                                if (p.x < s)
-                                    if (p.cy < s)
-                                        return (IntPtr)HitTestValues.HTBOTTOMLEFT; // HTCAPTION
-
-                                if (p.x < s)
-                                    return (IntPtr)HitTestValues.HTLEFT; // HTCAPTION
-
-                                if (p.y < s)
-                                    return (IntPtr)HitTestValues.HTTOP; // HTCAPTION
-
-
-                                if (p.cx < s)
-                                    return (IntPtr)HitTestValues.HTRIGHT; // HTCAPTION
-
-                                if (p.cy < s)
-                                    return (IntPtr)HitTestValues.HTBOTTOM; // HTCAPTION
-
-                                if (p.y < CaptionBackgroundHeight)
-                                    return (IntPtr)HitTestValues.HTCAPTION; // HTCAPTION
-
-                                return (IntPtr)HitTestValues.HTTRANSPARENT; // HTCAPTION
+                                    return (IntPtr)HitTestValues.HTTRANSPARENT; // HTCAPTION
+                                }
 
                             }
                             return IntPtr.Zero;
@@ -792,8 +770,6 @@ namespace ScriptCoreLib.Ultra.Components.Volatile.LogoAnimation
                    );
                 };
 
-            w.SizeTo(1280, 768);
-            SizeChanged();
 
 
             InterceptKeys.InternalMain(
