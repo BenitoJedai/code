@@ -224,9 +224,18 @@ namespace jsc.Languages.ActionScript
                         Emit(p, s[0]);
                     }
 
-                    if (TargetMethod.Name == "get_Item"
+                    var IsIndexerGet = TargetMethod.Name == "get_Item"
                         && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
-                        && TargetMethod.GetParameters().Length == 1)
+                        && TargetMethod.GetParameters().Length == 1;
+
+
+
+
+                    var IsIndexerSet = TargetMethod.Name == "set_Item"
+                       && TargetMethod.DeclaringType.ToScriptAttributeOrDefault().IsNative
+                       && TargetMethod.GetParameters().Length == 2;
+
+                    if (IsIndexerGet)
                     {
                         // call with and indexer... possibly an array or xml list
                         Write("[");
@@ -234,6 +243,25 @@ namespace jsc.Languages.ActionScript
                         WriteParameters(p, TargetMethod, s, offset, TargetMethod.GetParameters(), false, ",");
 
                         Write("]");
+
+
+                        return;
+                    }
+
+                    if (IsIndexerSet)
+                    {
+                        // call with and indexer... possibly an array or xml list
+                        Write("[");
+
+                        WriteParameters(p, TargetMethod,
+
+                                s.Skip(offset).Take(1).ToArray()
+                            , 0, TargetMethod.GetParameters(), false, ",");
+
+                        Write("]");
+
+                        WriteAssignment();
+                        Emit(p, s[2]);
 
                         return;
                     }

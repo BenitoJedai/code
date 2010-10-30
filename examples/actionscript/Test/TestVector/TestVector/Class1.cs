@@ -49,6 +49,10 @@ namespace TestVector
             var i = new Vector<int>();
             var o = new Vector<Class1>();
 
+            i = new int[] { 4, 3, 2, 1 };
+
+            i[3] = 0;
+
             // C#: vector_10 = new Vector<int>();
             // as: vector_10 = new Vector_1();
 

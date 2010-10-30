@@ -80,7 +80,10 @@ namespace jsc
             CommandLineOptions options = sinfo.Options;
 
             if (options.IsAttachDebugger)
+            { 
                 Debugger.Launch();
+                Debugger.Break();
+            }
 
             if (!options.IsNoLogo || options.IsHelp)
                 ShowLogo();
