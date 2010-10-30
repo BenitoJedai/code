@@ -21,13 +21,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 		private class InternalXMLHttpRequest { }
 
 		public IXMLHttpRequest() { }
-		public IXMLHttpRequest(HTTPMethodEnum method, string url, bool async) { }
+		public IXMLHttpRequest(HTTPMethodEnum method, string url, bool @async) { }
 		public IXMLHttpRequest(string url, Action<IXMLHttpRequest> handler) { }
-		public IXMLHttpRequest(string url, Action<IXMLHttpRequest> handler, bool async) { }
+		public IXMLHttpRequest(string url, Action<IXMLHttpRequest> handler, bool @async) { }
 		public IXMLHttpRequest(string url, string data, Action<IXMLHttpRequest> handler) { }
-		public IXMLHttpRequest(string url, string data, Action<IXMLHttpRequest> handler, bool async) { }
+		public IXMLHttpRequest(string url, string data, Action<IXMLHttpRequest> handler, bool @async) { }
 		public IXMLHttpRequest(string url, IXMLDocument data, Action<IXMLHttpRequest> handler) { }
-		public IXMLHttpRequest(string url, IXMLDocument data, Action<IXMLHttpRequest> handler, bool async) { }
+		public IXMLHttpRequest(string url, IXMLDocument data, Action<IXMLHttpRequest> handler, bool @async) { }
 
 		/// <summary>
 		/// creates object, opens connection
@@ -55,11 +55,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 		}
 
 
-		private static IXMLHttpRequest InternalConstructor(HTTPMethodEnum method, string url, bool async)
+		private static IXMLHttpRequest InternalConstructor(HTTPMethodEnum method, string url, bool @async)
 		{
 			IXMLHttpRequest n = InternalConstructor();
 
-			n.open(method, url, async);
+			n.open(method, url, @async);
 
 			return n;
 		}
@@ -69,13 +69,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 			return InternalConstructor(url, data, handler, true);
 		}
 
-		private static IXMLHttpRequest InternalConstructor(string url, string data, Action<IXMLHttpRequest> handler, bool async)
+		private static IXMLHttpRequest InternalConstructor(string url, string data, Action<IXMLHttpRequest> handler, bool @async)
 		{
-			IXMLHttpRequest req = new IXMLHttpRequest(HTTPMethodEnum.POST, url, async);
+			IXMLHttpRequest req = new IXMLHttpRequest(HTTPMethodEnum.POST, url, @async);
 
 			req.send(data);
 
-			req.InvokeOnComplete(handler, async);
+			req.InvokeOnComplete(handler, @async);
 
 			return req;
 		}
@@ -92,13 +92,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 		/// <param name="handler"></param>
 		/// <param name="async"></param>
 		/// <returns></returns>
-		private static IXMLHttpRequest InternalConstructor(string url, Action<IXMLHttpRequest> handler, bool async)
+		private static IXMLHttpRequest InternalConstructor(string url, Action<IXMLHttpRequest> handler, bool @async)
 		{
-			IXMLHttpRequest req = InternalConstructor(HTTPMethodEnum.HEAD, url, async);
+			IXMLHttpRequest req = InternalConstructor(HTTPMethodEnum.HEAD, url, @async);
 
 			req.send();
 
-			req.InvokeOnComplete(handler, async);
+			req.InvokeOnComplete(handler, @async);
 
 			return req;
 
@@ -117,13 +117,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 		/// <param name="handler"></param>
 		/// <param name="async"></param>
 		/// <returns></returns>
-		private static IXMLHttpRequest InternalConstructor(string url, IXMLDocument data, Action<IXMLHttpRequest> handler, bool async)
+		private static IXMLHttpRequest InternalConstructor(string url, IXMLDocument data, Action<IXMLHttpRequest> handler, bool @async)
 		{
-			IXMLHttpRequest req = new IXMLHttpRequest(HTTPMethodEnum.POST, url, async);
+			IXMLHttpRequest req = new IXMLHttpRequest(HTTPMethodEnum.POST, url, @async);
 
 			req.send(data);
 
-			req.InvokeOnComplete(handler, async);
+			req.InvokeOnComplete(handler, @async);
 
 			return req;
 		}
@@ -168,11 +168,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 		{
 		}
 
-		public void open(HTTPMethodEnum method, string url, bool async)
+		public void open(HTTPMethodEnum method, string url, bool @async)
 		{
 		}
 
-		public void open(HTTPMethodEnum method, string url, bool async, string name, string pass)
+		public void open(HTTPMethodEnum method, string url, bool @async, string name, string pass)
 		{
 		}
 
@@ -230,12 +230,12 @@ namespace ScriptCoreLib.JavaScript.DOM
 		}
 
 		[Script(DefineAsStatic = true)]
-		public void InvokeOnComplete(Action<IXMLHttpRequest> e, bool async)
+		public void InvokeOnComplete(Action<IXMLHttpRequest> e, bool @async)
 		{
 			if (e == null)
 				return;
 
-			if (async)
+			if (@async)
 				InvokeOnComplete(e);
 			else
 			{

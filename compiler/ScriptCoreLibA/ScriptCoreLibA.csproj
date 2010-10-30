@@ -113,6 +113,7 @@
     <Compile Include="ActionScript\EmbedByFileNameAttribute.cs" />
     <Compile Include="ActionScript\EmbedFieldsAttribute.cs" />
     <Compile Include="ActionScript\EmbedResourcesAttribute.cs" />
+    <Compile Include="ActionScript\GenericTypeDefinitionAttribute.cs" />
     <Compile Include="AttributeUsageFieldTypeContractAttribute.cs" />
     <Compile Include="ScriptAttribute.Implements.cs" />
     <Compile Include="CSharp\Extensions\CodeWriterExtensions.cs" />

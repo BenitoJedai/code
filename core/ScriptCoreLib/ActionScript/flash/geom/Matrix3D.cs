@@ -25,7 +25,7 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// A Vector of 16 Numbers, where every four elements can be a row or a column of a 4x4 matrix.
 		/// </summary>
-		public Vector rawData { get; set; }
+		public Vector<double> rawData { get; set; }
 
 		#endregion
 
@@ -76,17 +76,17 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// Returns the transformation matrix's translation, rotation, and scale settings as a Vector of three Vector3D objects.
 		/// </summary>
-		public Vector decompose(string orientationStyle)
+		public Vector<Vector3D> decompose(string orientationStyle)
 		{
-			return default(Vector);
+			return default(Vector<Vector3D>);
 		}
 
 		/// <summary>
 		/// Returns the transformation matrix's translation, rotation, and scale settings as a Vector of three Vector3D objects.
 		/// </summary>
-		public Vector decompose()
+		public Vector<Vector3D> decompose()
 		{
-			return default(Vector);
+			return default(Vector<Vector3D>);
 		}
 
 		/// <summary>
@@ -186,7 +186,7 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// Sets the transformation matrix's translation, rotation, and scale setting.
 		/// </summary>
-		public bool recompose(Vector components, string orientationStyle)
+		public bool recompose(Vector<Vector3D> components, string orientationStyle)
 		{
 			return default(bool);
 		}
@@ -194,7 +194,7 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// Sets the transformation matrix's translation, rotation, and scale setting.
 		/// </summary>
-		public bool recompose(Vector components)
+		public bool recompose(Vector<Vector3D> components)
 		{
 			return default(bool);
 		}
@@ -210,7 +210,7 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// Uses the transformation matrix to transform a Vector of Numbers from one coordinate space to another.
 		/// </summary>
-		public void transformVectors(Vector vin, Vector vout)
+		public void transformVectors(Vector<Vector3D> vin, Vector<Vector3D> vout)
 		{
 		}
 
@@ -227,7 +227,7 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// Creates a Matrix3D object.
 		/// </summary>
-		public Matrix3D(Vector v)
+		public Matrix3D(Vector<double> v)
 		{
 		}
 

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ScriptCoreLib;
-using System.Xml;
-using System.Reflection;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
+using System.Xml;
+using ScriptCoreLib;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.ActionScript;
 
 namespace jsc.Languages.ActionScript
 {
@@ -85,6 +87,25 @@ namespace jsc.Languages.ActionScript
 						}
 
 					}
+
+                    var IsGenericTypeDefinition = t.GetCustomAttributes<GenericTypeDefinitionAttribute>().Any();
+
+                    if (IsGenericTypeDefinition)
+                    {
+                        WriteSafeLiteral(t.Name.TakeUntilIfAny("`"));
+                        Write(".");
+                        Write("<");
+
+                        WriteDecoratedTypeNameOrImplementationTypeName(
+                            t.GetGenericArguments().Single(),
+                            false,
+                            false,
+                            false
+                        );
+
+                        Write(">");
+                        return;
+                    }
 
 					WriteSafeLiteral(GetDecoratedTypeName(t, true));
 
