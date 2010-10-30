@@ -20,7 +20,22 @@ using ScriptCoreLib.ActionScript;
 [Script(IsNative = true)]
 public class Vector<T>
 {
+    public static implicit operator Vector<T>(T[] e)
+    {
+        return default(Vector<T>);
+    }
 
+    public T this[int i]
+    {
+        get
+        {
+            return default(T);
+        }
+        set
+        {
+
+        }
+    }
 }
 
 namespace TestVector

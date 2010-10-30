@@ -11,6 +11,7 @@ using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Shared;
 using jsc.meta.Library;
 using ScriptCoreLib.Ultra.Library.Extensions;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -32,13 +33,13 @@ namespace jsc.meta.Commands.Rewrite
 				this.ManifestResourceNames = SourceAssembly.GetManifestResourceNames();
 
 				this.Folders = this.SourceAssembly.GetCustomAttributes<ScriptResourcesAttribute>().OrderByDescending(k => k.Value.Length).Concat(
-                    new [] 
-                    {
-                        new ScriptResourcesAttribute(
-                            "assets/" + SourceAssembly.GetName().Name
-                        )
-                    }
-                ).ToArray();
+					new[] 
+					{
+						new ScriptResourcesAttribute(
+							"assets/" + SourceAssembly.GetName().Name
+						)
+					}
+				).ToArray();
 
 				var Name = SourceAssembly.GetName().Name;
 
@@ -60,10 +61,17 @@ namespace jsc.meta.Commands.Rewrite
 
 			public void AddWhenResource(
 				jsc.meta.Library.ScriptResourceWriter w,
-				string p
+				// ActionScript EmbedAttribute uses aboslute path
+				string value
 				)
 			{
-				var i = Array.IndexOf<string>(this.Assets, p);
+
+				value = value.SkipUntilIfAny("/");
+
+				var i = Array.IndexOf<string>(
+					this.Assets,
+					value
+				);
 
 				if (i < 0)
 					return;
@@ -74,7 +82,7 @@ namespace jsc.meta.Commands.Rewrite
 
 				var Bytes = s.ToBytes();
 
-				w.Add(p, Bytes);
+				w.Add(value, Bytes);
 
 				// Slot used! We should not add the asset twice!
 				this.Assets[i] = null;
