@@ -303,6 +303,7 @@ namespace jsc.Languages.ActionScript
 
 		public override string GetDecoratedTypeName(Type x, bool bExternalAllowed)
 		{
+            // fixme: Enum.GetUnderlingType
 			if (x.IsEnum)
 				return "int";
 
