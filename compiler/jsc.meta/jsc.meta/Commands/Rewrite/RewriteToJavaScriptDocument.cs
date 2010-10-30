@@ -378,6 +378,26 @@ namespace jsc.meta.Commands.Rewrite
                     PostTypeRewrite =
                         a =>
                         {
+                            // ActionScript Image assets are referenced via EmbedAttribute
+                            a.SourceType.GetCustomAttributes(false).WithEach(
+                                SourceTypeAttribute =>
+                                {
+                                    var Fields = SourceTypeAttribute.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(
+                                        Field => Field.FieldType == typeof(string)
+                                    ).Select(f => (string)f.GetValue(SourceTypeAttribute)).WithEach(
+                                        FieldValue =>
+                                        {
+                                            CurrentScriptResources.Cache[a.SourceType.Assembly].AddWhenResource(
+                                                r.RewriteArguments.ScriptResourceWriter,
+                                                FieldValue
+                                            );
+                                        }
+                                    );
+
+                                }
+                            );
+
+
                             // we need to inject bootstrap code
                             if (a.Type == a.context.TypeCache[k.TargetType])
                             {

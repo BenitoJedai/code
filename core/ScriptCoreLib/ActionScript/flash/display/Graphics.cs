@@ -7,9 +7,23 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     // http://livedocs.adobe.com/flex/3/langref/flash/display/Graphics.html
+    // http://help.adobe.com/en_US/AS3LCR/Flash_10.0/flash/display/Graphics.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Graphics.html
     [Script(IsNative = true)]
     public sealed class Graphics
     {
+        /// <summary>
+        /// Renders a set of triangles, typically to distort bitmaps and give them a three-dimensional appearance.
+        /// </summary>
+        /// <param name="vertices"></param>
+        /// <param name="indices"></param>
+        /// <param name="uvtData"></param>
+        /// <param name="culling"></param>
+        public void drawTriangles(Vector<double> vertices, Vector<int> indices = null, Vector<double> uvtData = null, string culling = "none")
+        {
+
+        }
+
         #region Methods
         /// <summary>
         /// Fills a drawing area with a bitmap image.

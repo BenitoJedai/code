@@ -15,6 +15,23 @@ namespace ScriptCoreLib.ActionScript
     [Script(IsNative = true, IsArray = true)]
     public class Vector<T>
     {
+        public Vector()
+        {
+
+        }
+
+        public Vector(uint length)
+            : this()
+        {
+
+        }
+
+        public Vector(uint length, bool @fixed)
+            : this(length)
+        {
+
+        }
+
         /// <summary>
         /// Indicates whether the length property of the Vector can be changed.
         /// </summary>
@@ -41,6 +58,23 @@ namespace ScriptCoreLib.ActionScript
         public void push(T a)
         {
 
+        }
+
+        public static implicit operator Vector<T>(T[] e)
+        {
+            return default(Vector<T>);
+        }
+
+        public T this[int i]
+        {
+            get
+            {
+                return default(T);
+            }
+            set
+            {
+
+            }
         }
     }
 
