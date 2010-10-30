@@ -88,24 +88,24 @@ namespace jsc.Languages.ActionScript
 
 					}
 
-                    var IsGenericTypeDefinition = t.GetCustomAttributes<GenericTypeDefinitionAttribute>().Any();
+					var IsGenericTypeDefinition = t.GetCustomAttributes<GenericTypeDefinitionAttribute>().Any();
 
-                    if (IsGenericTypeDefinition)
-                    {
-                        WriteSafeLiteral(t.Name.TakeUntilIfAny("`"));
-                        Write(".");
-                        Write("<");
+					if (IsGenericTypeDefinition)
+					{
+						WriteSafeLiteral(t.Name.TakeUntilIfAny("`"));
+						Write(".");
+						Write("<");
 
-                        WriteDecoratedTypeNameOrImplementationTypeName(
-                            t.GetGenericArguments().Single(),
-                            false,
-                            false,
-                            false
-                        );
+						WriteDecoratedTypeNameOrImplementationTypeName(
+							t.GetGenericArguments().Single(),
+							false,
+							false,
+							false
+						);
 
-                        Write(">");
-                        return;
-                    }
+						Write(">");
+						return;
+					}
 
 					WriteSafeLiteral(GetDecoratedTypeName(t, true));
 

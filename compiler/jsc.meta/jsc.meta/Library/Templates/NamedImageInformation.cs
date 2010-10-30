@@ -25,5 +25,10 @@ namespace jsc.meta.Library.Templates
 		{
 			throw new NotImplementedException();
 		}
+
+		public static string GetImageAssetPath()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
