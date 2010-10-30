@@ -1,18 +1,21 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirforceExample", "AirforceExample\AirforceExample.csproj", "{072D0D38-CFEA-4236-BB38-F54517AD7005}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirforceExampleX", "AirforceExampleX\AirforceExampleX.csproj", "{A56C499E-2E06-479C-9FC3-700497A2FE71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{072D0D38-CFEA-4236-BB38-F54517AD7005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{072D0D38-CFEA-4236-BB38-F54517AD7005}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{072D0D38-CFEA-4236-BB38-F54517AD7005}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{072D0D38-CFEA-4236-BB38-F54517AD7005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56C499E-2E06-479C-9FC3-700497A2FE71}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{A56C499E-2E06-479C-9FC3-700497A2FE71}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{A56C499E-2E06-479C-9FC3-700497A2FE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56C499E-2E06-479C-9FC3-700497A2FE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56C499E-2E06-479C-9FC3-700497A2FE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56C499E-2E06-479C-9FC3-700497A2FE71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

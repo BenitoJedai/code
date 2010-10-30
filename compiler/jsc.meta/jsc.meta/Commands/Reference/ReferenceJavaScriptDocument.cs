@@ -575,6 +575,7 @@ namespace jsc.meta.Commands.Reference
 
                                     }.Define();
 
+                                    // to be phased out?
                                     new SpriteSheet
                                     {
                                         DefaultNamespace = DefaultNamespace,
@@ -602,16 +603,20 @@ namespace jsc.meta.Commands.Reference
                                         var VariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
 								        {
 									        {"FromAssets",   TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource})},
-									        {"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromWeb, Source = k.Value.FromWebSource })},
-									        {"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromBase64, Source = k.Value.FromBase64Source })},
+
+                                            // to be phased out...
+                                            //{"FromWeb",  TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromWeb, Source = k.Value.FromWebSource })},
+                                            //{"FromBase64", TypeVariations.ToDictionary(k => k.Key, k => new TypeVariationsTuple { Type = k.Value.FromBase64, Source = k.Value.FromBase64Source })},
 								        };
 
 
                                         var RemotingVariationsForPages = new Dictionary<string, Dictionary<string, TypeVariationsTuple>>
 								        {
 									        {"FromAssets",   RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type = k.Value.FromAssets, Source = k.Value.FromAssetsSource })},
-									        {"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type =  k.Value.FromWeb, Source = k.Value.FromWebSource })},
-									        {"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
+
+                                            // to be phased out...
+                                            //{"FromWeb",  RemotingTypeVariations.ToDictionary(k => k.Key,k => new TypeVariationsTuple { Type =  k.Value.FromWeb, Source = k.Value.FromWebSource })},
+                                            //{"FromBase64", RemotingTypeVariations.ToDictionary(k => k.Key, k =>new TypeVariationsTuple { Type =k.Value.FromBase64, Source = k.Value.FromBase64Source })},
 								        };
 
                                         var IPageLookup = new Dictionary<string, TypeBuilder>();

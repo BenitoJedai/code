@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
-using ScriptCoreLib.Ultra.Studio;
-using System.IO;
-using ScriptCoreLib.Ultra.Studio.Languages;
 using jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Ultra.Studio;
+using ScriptCoreLib.Ultra.Studio.Languages;
 
 namespace jsc.meta.Commands.Configuration
 {
@@ -39,21 +39,21 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "Web Application",
+                    Name = "JSC Web Application",
                 }
             );
 
             Create(
                new SolutionBuilder
                {
-                   Name = "Web Forms Application",
+                   Name = "JSC Web Forms Application",
                }.WithForms()
             );
 
             Create(
                 new SolutionBuilder
                 {
-                    Name = "Web Forms Application With Java Applet",
+                    Name = "JSC Web Forms Application With Java Applet",
                 }.WithFormsApplet()
              );
 
@@ -61,7 +61,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "Web Avalon Application",
+                    Name = "JSC Web Avalon Application",
                 }.WithCanvas()
             );
 
@@ -69,7 +69,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "Web Avalon Application With Adobe Flash",
+                    Name = "JSC Web Avalon Application With Adobe Flash",
 
                 }.WithCanvasAdobeFlash()
             );
@@ -77,15 +77,15 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "Web Application With Java Applet",
+                    Name = "JSC Web Application With Java Applet",
                 }.WithJavaApplet()
             );
 
             Create(
                 new SolutionBuilder
                 {
-                    
-                    Name = "Web Application With Adobe Flash",
+
+                    Name = "JSC Web Application With Adobe Flash",
                 }.WithAdobeFlash()
             );
         }

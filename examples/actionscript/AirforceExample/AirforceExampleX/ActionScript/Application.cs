@@ -6,16 +6,15 @@ using ScriptCoreLib.ActionScript.flash.text;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
+using AirforceExampleX.ActionScript.Images;
 
 namespace AirforceExample
 {
-	/// <summary>
-	/// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
-	/// </summary>
-	[Script, ScriptApplicationEntryPoint(WithResources = true, Width = 600, Height = 600, Background = true, BackgroundColor = 0, AlignToCenter = true)]
-	[SWF(width = 600, height = 600)]
-	public class Application : Sprite
+	public sealed class Application : Sprite
 	{
+        public const int DefaultWidth = 600;
+        public const int DefaultHeight = 600;
+
 		// port of http://www.bit-101.com/blog/?p=2339
 
 		// how can we port this to wpf?
@@ -50,45 +49,45 @@ namespace AirforceExample
 			}.AttachTo(this);
 			#endregion
 
-			#region jsc_diagram
-			var jsc_diagram = KnownEmbeddedResources.Default["assets/AirforceExample/Preview.png"].ToBitmapAsset();
+            //#region jsc_diagram
+            //var jsc_diagram = KnownEmbeddedResources.Default["assets/AirforceExample/Preview.png"].ToBitmapAsset();
 
-			jsc_diagram.x = -jsc_diagram.width / 2;
-			jsc_diagram.y = -jsc_diagram.height / 2;
+            //jsc_diagram.x = -jsc_diagram.width / 2;
+            //jsc_diagram.y = -jsc_diagram.height / 2;
 
-			var sprite = new Sprite
-			{
-				x = 500,
-				y = 300,
-				z = 100
-			}.AttachTo(this);
+            //var sprite = new Sprite
+            //{
+            //    x = 500,
+            //    y = 300,
+            //    z = 100
+            //}.AttachTo(this);
 
-			jsc_diagram.filters = new BitmapFilter[] { new GlowFilter(0xffffff, 1, 12, 12) };
-			jsc_diagram.AttachTo(sprite);
+            //jsc_diagram.filters = new BitmapFilter[] { new GlowFilter(0xffffff, 1, 12, 12) };
+            //jsc_diagram.AttachTo(sprite);
 
-			#endregion
+            //#endregion
 
 
-			this.enterFrame +=
-				e =>
-				{
-					sprite.transform.matrix3D.pointAt(new Vector3D(mouseX, mouseY, 0),
-						// fixed: an now we are not showing up in reverse
-						new Vector3D(0, 0, -0.9999), new Vector3D(0, -0.9999, 0)
-					);
+            //this.enterFrame +=
+            //    e =>
+            //    {
+            //        sprite.transform.matrix3D.pointAt(new Vector3D(mouseX, mouseY, 0),
+            //            // fixed: an now we are not showing up in reverse
+            //            new Vector3D(0, 0, -0.9999), new Vector3D(0, -0.9999, 0)
+            //        );
 
-					//sprite.transform.matrix3D.appendTranslation(-300, -300, 0);
-					//sprite.transform.matrix3D.appendRotation(45, Vector3D.Y_AXIS);
-					//sprite.transform.matrix3D.appendTranslation(300, 300, 0);
+            //        //sprite.transform.matrix3D.appendTranslation(-300, -300, 0);
+            //        //sprite.transform.matrix3D.appendRotation(45, Vector3D.Y_AXIS);
+            //        //sprite.transform.matrix3D.appendTranslation(300, 300, 0);
 
-				};
+            //    };
 
 
 
 			#region jsc_preview2
 
-			var jsc_preview2 = KnownEmbeddedResources.Default["assets/AirforceExample/left.png"].ToBitmapAsset();
-
+            var jsc_preview2 = new left();
+   
 			jsc_preview2.x = -jsc_preview2.width / 2;
 			jsc_preview2.y = -jsc_preview2.height / 2;
 
@@ -126,7 +125,7 @@ namespace AirforceExample
 
 			#region jsc_preview3
 
-			var jsc_preview3 = KnownEmbeddedResources.Default["assets/AirforceExample/right.png"].ToBitmapAsset();
+            var jsc_preview3 = new right();
 
 			jsc_preview3.x = -jsc_preview3.width / 2;
 			jsc_preview3.y = -jsc_preview3.height / 2;
@@ -171,10 +170,7 @@ namespace AirforceExample
 
 			t3.start();
 
-
-
-            
-			KnownEmbeddedResources.Default["assets/AirforceExample/jsc.png"].ToBitmapAsset().AttachTo(this).MoveTo(600 - 96, 600 - 96);
+            new global::AirforceExampleX.ActionScript.Images.jsc().AttachTo(this).MoveTo(600 - 96, 600 - 96);
 
 
 		}
