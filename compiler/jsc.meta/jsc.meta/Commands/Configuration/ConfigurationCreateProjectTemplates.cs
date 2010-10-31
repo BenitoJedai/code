@@ -39,21 +39,21 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "JSC Web Application",
+                    Name = "Web Application",
                 }
             );
 
             Create(
                new SolutionBuilder
                {
-                   Name = "JSC Web Forms Application",
+                   Name = "Web Forms Application",
                }.WithForms()
             );
 
             Create(
                 new SolutionBuilder
                 {
-                    Name = "JSC Web Forms Application With Java Applet",
+                    Name = "Web Forms Application With Java Applet",
                 }.WithFormsApplet()
              );
 
@@ -61,7 +61,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "JSC Web Avalon Application",
+                    Name = "Web Avalon Application",
                 }.WithCanvas()
             );
 
@@ -69,7 +69,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "JSC Web Avalon Application With Adobe Flash",
+                    Name = "Web Avalon Application With Adobe Flash",
 
                 }.WithCanvasAdobeFlash()
             );
@@ -77,7 +77,7 @@ namespace jsc.meta.Commands.Configuration
             Create(
                 new SolutionBuilder
                 {
-                    Name = "JSC Web Application With Java Applet",
+                    Name = "Web Application With Java Applet",
                 }.WithJavaApplet()
             );
 
@@ -85,7 +85,7 @@ namespace jsc.meta.Commands.Configuration
                 new SolutionBuilder
                 {
 
-                    Name = "JSC Web Application With Adobe Flash",
+                    Name = "Web Application With Adobe Flash",
                 }.WithAdobeFlash()
             );
         }
