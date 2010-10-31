@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\Extensions.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XAttribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XName.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XObject.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XDocument.cs" />

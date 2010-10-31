@@ -24,7 +24,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             var e = new __Type
             {
-                _TypeDescription = describeType(getDefinitionByName(x))
+                InternalTypeDescription = describeType(getDefinitionByName(x))
             };
 
             return (Type)(object)e;
@@ -34,7 +34,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             var e = new __Type
             {
-                _TypeDescription = describeType(x)
+                InternalTypeDescription = describeType(x)
             };
 
             return (Type)(object)e;
@@ -50,7 +50,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return (Type)(object)e;
         }
 
-        XML _TypeDescription;
+        XML InternalTypeDescription;
         //<type name="FlashXMLExample.ActionScript.Serialized::MyDataClass" base="Class" isDynamic="true" isFinal="true" isStatic="true">
         //  <extendsClass type="Class"/>
         //  <extendsClass type="Object"/>
@@ -75,10 +75,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         {
             get
             {
-                if (_TypeDescription == null)
-                    _TypeDescription = describeType(this._TypeHandle.Value.ToClassToken());
+                if (InternalTypeDescription == null)
+                    InternalTypeDescription = describeType(this._TypeHandle.Value.ToClassToken());
 
-                return _TypeDescription;
+                return InternalTypeDescription;
             }
         }
 
@@ -155,6 +155,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+        public string Namespace
+        {
+            get
+            {
+                var v = InternalFullName;
+                var z = "::";
+                var i = v.IndexOf(z);
+
+                if (i < 0)
+                    return "";
+
+                return v.Substring(0, i);
+            }
+        }
+
         public string FullName
         {
             get
@@ -171,5 +186,28 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             //return e.TypeDescription == this.TypeDescription;
         }
 
+        public Type BaseType
+        {
+            get
+            {
+                
+                var n = default(Type);
+
+                //<type name="FlashXMLExample.ActionScript.Serialized::MyDataClass" base="FlashXMLExample.ActionScript::MyDataClassCommon" isDynamic="false" isFinal="true" isStatic="false">
+                //  <extendsClass type="FlashXMLExample.ActionScript::MyDataClassCommon"/>
+
+                var extendsClass = this.InternalTypeDescription.elements("extendsClass");
+
+                if (extendsClass.length() > 0)
+                {
+                    var x = extendsClass[0];
+                    var type = x["@type"];
+
+                    n = GetType(type.ToString());
+                }
+
+                return n;
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 		{
 			var InternalValue = new AS3_XML(text);
 
-			return new __XDocument { InternalValue = InternalValue };
+			return new __XDocument { InternalElement = InternalValue };
 		}
 
 		__XElement _Root;
@@ -28,7 +28,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 			{
 				if (_Root == null)
 				{
-					_Root = new __XElement { InternalValue = InternalValue };
+					_Root = new __XElement { InternalElement = InternalElement };
 				}
 
 				return (XElement)(object)_Root;

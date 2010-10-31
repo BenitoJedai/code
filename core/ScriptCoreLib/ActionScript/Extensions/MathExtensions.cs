@@ -7,6 +7,7 @@ using ScriptCoreLib.ActionScript.flash.geom;
 namespace ScriptCoreLib.ActionScript.Extensions
 {
 	[Script]
+    [Obsolete("To be upgraded to Ultra library")]
 	public static class MathExtensions
 	{
 		public static double DegreesToRadians(this int Degrees)

@@ -20,7 +20,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
             get
             {
 
-                AS3_QName InternalQName = (AS3_QName)this.InternalValue.name();
+                AS3_QName InternalQName = (AS3_QName)this.InternalElement.name();
 
 
                 // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/XML.html#name()
@@ -28,7 +28,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
             }
             set
             {
-                this.InternalValue.setLocalName(value.LocalName);
+                this.InternalElement.setLocalName(value.LocalName);
             }
         }
 
@@ -75,10 +75,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 
         public void RemoveAll()
         {
-            if (this.InternalValue == null)
+            if (this.InternalElement == null)
                 return;
 
-            var p = this.InternalValue.children();
+            var p = this.InternalElement.children();
 
             while (p.length() > 0)
             {
@@ -93,7 +93,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
             {
                 var w = new StringBuilder();
 
-                var c = this.InternalValue.text();
+                var c = this.InternalElement.text();
                 var length = c.length();
 
                 for (int i = 0; i < length; i++)

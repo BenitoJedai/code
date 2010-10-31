@@ -5,13 +5,13 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript
 {
-    
+
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/XML.html
 
     /// <summary>
     /// The XML class contains methods and properties for working with XML objects. The XML class (along with the XMLList, Namespace, and QName classes) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) specification (ECMA-357 edition 2).
     /// </summary>
-    [Script(IsNative=true)]
+    [Script(IsNative = true)]
     public sealed class XML
     {
         #region Properties
@@ -413,5 +413,18 @@ namespace ScriptCoreLib.ActionScript
 
         #endregion
 
+        // see: http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/operators.html#attribute_identifier
+        public object this[string i]
+        {
+            set
+            {
+            }
+            get
+            {
+                return default(XMLList);
+            }
+        }
+
+   
     }
 }
