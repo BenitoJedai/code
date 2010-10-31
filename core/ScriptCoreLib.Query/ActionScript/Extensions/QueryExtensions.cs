@@ -11,11 +11,7 @@ namespace ScriptCoreLib.ActionScript.Extensions
     [Script]
     public static class QueryExtensions
     {
-        public static IEnumerable<DisplayObject> Children(this DisplayObjectContainer c)
-        {
-            return Enumerable.Range(0, c.numChildren).Select(i => c.getChildAt(i));
 
-        }
 
         static void ToDictionaryHandler<T>(ZipFileEntry.Cookie<T>[] source, Action<Dictionary<string, T>> handler)
         {

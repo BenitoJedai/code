@@ -4,12 +4,17 @@ using ScriptCoreLib.Extensions;
 using ScriptCoreLib.ActionScript.flash.net;
 using ScriptCoreLib.ActionScript.flash.system;
 using System.Xml.Linq;
+using System.Linq;
 using System;
 
 namespace LoadExternalFlashComponent.Components
 {
     internal sealed class MySprite1 : Sprite
     {
+        public event Action<XElement> Inspecting;
+
+        public event Action Ready;
+
         public MySprite1()
         {
             // http://www.adobe.com/livedocs/flash/9.0/ActionScriptLangRefV3/flash/display/Loader.html
@@ -25,7 +30,29 @@ namespace LoadExternalFlashComponent.Components
             var ctx_sec = SecurityDomain.currentDomain;
             
             var ctx = new LoaderContext(true, ctx_app, ctx_sec);
+
+            ldr.contentLoaderInfo.complete +=
+                    delegate
+                    {
+                        if (Ready != null)
+                            Ready();
+
+                     
+                    };
+
             ldr.load(urlReq, ctx);
+
+        
+            DoClean =
+                delegate
+                {
+
+                    ldr.content.GetChildren().Where(k => k.GetType().Name == "InfoPanel").ToArray().WithEach(
+                        k => k.Orphanize()
+                    );
+                        
+                };
+
             addChild(ldr);
 
             var Inspect = default(Action<DisplayObject, XElement>);
@@ -72,6 +99,9 @@ namespace LoadExternalFlashComponent.Components
                     if (Inspecting != null)
                         Inspecting(doc);
                 };
+
+
+
                 
         }
 
@@ -81,6 +111,10 @@ namespace LoadExternalFlashComponent.Components
             DoInspect();
         }
 
-        public event Action<XElement> Inspecting;
+        Action DoClean;
+        public void Clean()
+        {
+            DoClean();
+        }
     }
 }
