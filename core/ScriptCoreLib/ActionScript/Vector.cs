@@ -12,7 +12,7 @@ namespace ScriptCoreLib.ActionScript
 
     [GenericTypeDefinition]
     [DynamicType]
-    [Script(IsNative = true, IsArray = true)]
+    [Script(IsNative = true)]
     public class Vector<T>
     {
         public Vector()

@@ -63,7 +63,12 @@ namespace jsc.Languages.ActionScript
 							// that implicit call is only for to help c# conversions
 							// so we must emit first parameter
 
-							EmitFirstOnStack(e);
+                            // lets make it a cast..
+                            // ActionScript has some top level methods
+                            // which act like a cast..
+
+                            ConvertTypeAndEmit(e, ((MethodInfo)m).ReturnType);
+                            //EmitFirstOnStack(e);
 							return;
 						}
 					}

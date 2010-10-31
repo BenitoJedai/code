@@ -44,12 +44,14 @@ namespace TestVector
 
     public class Class1
     {
+        private Vector<int> v6 = new[] { 0, 1, 2, 0, 2, 3 };
+
         public static void Foo()
         {
             var i = new Vector<int>();
             var o = new Vector<Class1>();
 
-            i = new int[] { 4, 3, 2, 1 };
+            i = new [] { 0, 1, 2, 0, 2, 3  };
 
             i[3] = 0;
 
