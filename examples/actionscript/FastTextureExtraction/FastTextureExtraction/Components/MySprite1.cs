@@ -1,17 +1,18 @@
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.Extensions;
-using ScriptCoreLib.Extensions;
 using FastTextureExtraction.ActionScript.Images;
 using ScriptCoreLib.ActionScript;
-using FastTextureExtraction.Components.FastTextureExtraction.Components;
-using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.filters;
+using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace FastTextureExtraction.Components
 {
     internal sealed class MySprite1 : HTest
     {
+        public const int DefaultWidth = 600;
+        public const int DefaultHeight = 600;
+
         // http://wonderfl.net/c/vbla
 
         public MySprite1()
@@ -66,15 +67,26 @@ namespace FastTextureExtraction.Components
 
 
     }
-}
 
-namespace FastTextureExtraction.Components
-{
+    class Anchor : Sprite
+    {
+        public Anchor(int x0, int y0)
+        {
+            x = x0; y = y0;
+            graphics.beginFill(0xFF7F00, 1);
+            graphics.drawRect(-4, -4, 8, 8);
+            graphics.drawRect(-2, -2, 4, 4);
+            graphics.beginFill(0xFF7F00, 0);
+            graphics.drawRect(-2, -2, 4, 4);
+            useHandCursor = true;
+            buttonMode = true;
 
-    using ScriptCoreLib.ActionScript.flash.display;
-    using ScriptCoreLib.ActionScript;
-    using ScriptCoreLib.ActionScript.flash.geom;
+            this.mouseDown += delegate { startDrag(); };
+            this.mouseUp += delegate { stopDrag(); };
+        }
 
+    }
+ 
     class Homography : Shape
     {
         private Vector<int> v6 = new[] { 0, 1, 2, 0, 2, 3 };
@@ -137,29 +149,7 @@ namespace FastTextureExtraction.Components
             graphics.drawTriangles(v8, v6, v12);
         }
 
-    }
 
-    namespace FastTextureExtraction.Components
-    {
-        using ScriptCoreLib.ActionScript.flash.display;
-        using ScriptCoreLib.ActionScript.flash.events;
-
-        class Anchor : Sprite
-        {
-            public Anchor(int x0, int y0)
-            {
-                x = x0; y = y0;
-                graphics.beginFill(0xFF7F00, 1);
-                graphics.drawRect(-4, -4, 8, 8);
-                graphics.drawRect(-2, -2, 4, 4);
-                graphics.beginFill(0xFF7F00, 0);
-                graphics.drawRect(-2, -2, 4, 4);
-                useHandCursor = buttonMode = true;
-
-                this.mouseDown += delegate { startDrag(); };
-                this.mouseUp += delegate { stopDrag(); };
-            }
-
-        }
+  
     }
 }

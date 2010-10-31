@@ -256,7 +256,7 @@ namespace jsc.Languages.ActionScript
                         WriteParameters(p, TargetMethod,
 
                                 s.Skip(offset).Take(1).ToArray()
-                            , 0, TargetMethod.GetParameters(), false, ",");
+                        , 0, TargetMethod.GetParameters(), false, ",");
 
                         Write("]");
 
