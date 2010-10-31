@@ -29,7 +29,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 
 		public IEnumerable<XElement> Elements()
 		{
-			var e = this.InternalValue;
+			var e = this.InternalElement;
 			var a = new List<XElement>();
 
 			var elements = e.elements();
@@ -40,7 +40,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 				var item = elements[i];
 
 				a.Add(
-					(XElement)(object)new __XElement { InternalValue = item }
+					(XElement)(object)new __XElement { InternalElement = item }
 				);
 
 			}
@@ -59,10 +59,10 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 
 		public void Add(object content)
 		{
-			if (this.InternalValue == null)
+			if (this.InternalElement == null)
 			{
-				this.InternalValue = __createElement();
-				this.InternalValue.setLocalName(this.InternalElementName.LocalName);
+				this.InternalElement = __createElement();
+				this.InternalElement.setLocalName(this.InternalElementName.LocalName);
 			}
 
 			{
@@ -70,25 +70,40 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
 
 				if (e != null)
 				{
-					this.InternalValue.appendChild(
+					this.InternalElement.appendChild(
 						(AS3_XML)(object)e
 					);
 					return;
 				}
 			}
 
+            #region XAttribute
+            {
+                var e = (__XAttribute)(object)(content as XAttribute);
+                if (e != null)
+                {
+                    var CurrentValue = e.Value;
+
+                    e.InternalParentElement = this;
+                    e.Value = CurrentValue;
+                    return;
+                }
+            }
+            #endregion
+
+
 			#region XElement
 			{
 				var e = (__XElement)(object)(content as XElement);
 				if (e != null)
 				{
-					if (e.InternalValue == null)
+					if (e.InternalElement == null)
 					{
-						e.InternalValue = __createElement();
-						e.InternalValue.setLocalName(e.InternalElementName.LocalName);
+						e.InternalElement = __createElement();
+						e.InternalElement.setLocalName(e.InternalElementName.LocalName);
 					}
 
-					this.InternalValue.appendChild(e.InternalValue);
+					this.InternalElement.appendChild(e.InternalElement);
 
 					return;
 				}

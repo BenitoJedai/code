@@ -9,6 +9,7 @@ using ScriptCoreLib.ActionScript.flash.system;
 namespace ScriptCoreLib.ActionScript.flash.display
 {
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/Loader.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Loader.html
     [Script(IsNative = true)]
     public class Loader : DisplayObjectContainer
     {

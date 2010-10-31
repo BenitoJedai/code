@@ -12,20 +12,20 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.XML.XLinq
     [Script(Implements = typeof(XNode))]
     internal class __XNode : __XObject
     {
-        internal AS3_XML InternalValue;
+        internal AS3_XML InternalElement;
 
         public override string ToString()
         {
-            return InternalValue.toXMLString();
+            return InternalElement.toXMLString();
         }
 		public void Remove()
 		{
 			// http://edsyrett.wordpress.com/2008/07/26/xmlremovechild/
 
-			var p = (AS3_XML)this.InternalValue.parent();
+			var p = (AS3_XML)this.InternalElement.parent();
 
 
-			__delete(p.children(), this.InternalValue.childIndex());
+			__delete(p.children(), this.InternalElement.childIndex());
 		}
 
 
