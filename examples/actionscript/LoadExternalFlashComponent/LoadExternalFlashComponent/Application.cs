@@ -31,6 +31,12 @@ namespace LoadExternalFlashComponent
             // Initialize MySprite1
             var s = new MySprite1();
 
+            s.Ready +=
+                delegate
+                {
+                    new IHTMLDiv { innerText = "Ready!" }.AttachTo(page.Content);
+                };
+
             s.Inspecting +=
                 doc =>
                 {
@@ -44,6 +50,15 @@ namespace LoadExternalFlashComponent
                 {
                     s.Inspect();
                 };
+
+            var Clean = new IHTMLButton("Clean").AttachTo(page.Content);
+
+            Clean.onclick +=
+                delegate
+                {
+                    s.Clean();
+                };
+
 
             s.AttachSpriteTo(page.Content);
             @"Hello world".ToDocumentTitle();
