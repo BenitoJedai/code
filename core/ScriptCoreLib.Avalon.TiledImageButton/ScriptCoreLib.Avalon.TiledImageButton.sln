@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Avalon.TiledImageButton", "ScriptCoreLib.Avalon.TiledImageButton\ScriptCoreLib.Avalon.TiledImageButton.csproj", "{C29D9A28-C529-4D0B-B60B-A6FD476D8ED0}"
 EndProject
 Global
