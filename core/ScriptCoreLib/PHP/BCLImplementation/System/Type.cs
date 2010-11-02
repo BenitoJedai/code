@@ -98,5 +98,32 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 				return GetTypeFromHandle((RuntimeTypeHandle)(object)(__RuntimeTypeHandle)API.get_parent_class(ClassTokenName));
 			}
 		}
+
+        public bool Equals(Type o)
+        {
+            return InternalEquals(this, (__Type)(object)o);
+        }
+
+        public static bool operator !=(__Type left, __Type right)
+        {
+            return !InternalEquals(left, right);
+        }
+
+        public static bool operator ==(__Type left, __Type right)
+        {
+            return InternalEquals(left, right);
+        }
+
+        public bool Equals(__Type e)
+        {
+            return InternalEquals(this, e);
+        }
+
+        private static bool InternalEquals(__Type x, __Type e)
+        {
+            throw new NotImplementedException("Type.InternalEquals");
+        }
 	}
+
+
 }

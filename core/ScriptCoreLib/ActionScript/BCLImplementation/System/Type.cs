@@ -179,11 +179,24 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             }
         }
 
+        public static bool operator !=(__Type left, __Type right)
+        {
+            return !InternalEquals(left, right);
+        }
+
+        public static bool operator ==(__Type left, __Type right)
+        {
+            return InternalEquals(left, right);
+        }
+
         public bool Equals(__Type e)
         {
-            return this.InternalFullName == e.InternalFullName;
+            return InternalEquals(this, e);
+        }
 
-            //return e.TypeDescription == this.TypeDescription;
+        private static bool InternalEquals(__Type x, __Type e)
+        {
+            return x.InternalFullName == e.InternalFullName;
         }
 
         public Type BaseType
