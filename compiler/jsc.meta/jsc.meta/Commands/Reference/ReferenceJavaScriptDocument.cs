@@ -201,7 +201,13 @@ namespace jsc.meta.Commands.Reference
 
                     let HintPath = HintPaths.Any() ? HintPaths.First() : null
 
-                    let Assembly = HintPath != null ? Assembly.LoadFile(HintPath.FullName) : Assembly.LoadWithPartialName(Include)
+                    // Object reference not set to an instance of an object.
+                    // ??
+
+                    let Assembly = 
+                        HintPath != null ? 
+                        Assembly.LoadFile(HintPath.FullName) : 
+                        Assembly.LoadWithPartialName(Include)
 
                     // why do we get null?
                     where Assembly != null
