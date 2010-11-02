@@ -94,8 +94,28 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public bool Equals(Type o)
         {
-            object a = this.TypeHandle.Value;
-            object b = o.TypeHandle.Value;
+            return InternalEquals(this, (__Type)(object)o);
+        }
+
+        public static bool operator !=(__Type left, __Type right)
+        {
+            return !InternalEquals(left, right);
+        }
+
+        public static bool operator ==(__Type left, __Type right)
+        {
+            return InternalEquals(left, right);
+        }
+
+        public bool Equals(__Type e)
+        {
+            return InternalEquals(this, e);
+        }
+
+        private static bool InternalEquals(__Type x, __Type e)
+        {
+            object a = x.TypeHandle.Value;
+            object b = e.TypeHandle.Value;
 
             return a == b;
         }
