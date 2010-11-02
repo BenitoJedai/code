@@ -65,8 +65,9 @@ namespace jsc.meta.Commands.Rewrite
 				string value
 				)
 			{
+                if (value.StartsWith("/"))
+                    value = value.Substring(1);
 
-				value = value.SkipUntilIfAny("/");
 
 				var i = Array.IndexOf<string>(
 					this.Assets,

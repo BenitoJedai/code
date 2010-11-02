@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceConverter.Web", "ConvertASToCS\SourceConverter.Web.csproj", "{794287FC-14AF-4A4A-A895-464F09682CAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceConverter", "ConvertASToCS.Any\SourceConverter.csproj", "{EE7DE4C7-9941-4B2A-A23D-15E641292835}"
