@@ -41,6 +41,9 @@ namespace LoadExternalFlashComponent.Components
 
     internal sealed class MySprite1 : Sprite
     {
+        public const int DefaultWidth = 800;
+        public const int DefaultHeight = 600;
+
         public event Action<XElement> Inspecting;
 
         public event Action VideoPlayerReady;

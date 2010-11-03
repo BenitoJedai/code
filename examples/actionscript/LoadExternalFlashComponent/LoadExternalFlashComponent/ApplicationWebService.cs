@@ -4,6 +4,9 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using ScriptCoreLib.Ultra.WebService;
+using System.IO;
+using System.Net;
 
 namespace LoadExternalFlashComponent
 {
@@ -21,6 +24,39 @@ namespace LoadExternalFlashComponent
         {
             // Send it back to the caller.
             y(e);
+        }
+
+        public void Proxy(WebServiceHandler h)
+        {
+            var r = h.Context.Request.Path;
+
+            Console.WriteLine("get: " + r);
+
+
+            if (h.IsDefaultPath)
+            {
+                h.Default();
+                return;
+            }
+
+            var p = "/proxy/";
+
+            if (r == "/images/eesti.jpg")
+                r = "/proxy/www.regio.ee" + r;
+
+            if (r.StartsWith(p))
+            {
+                var f = "http://" + r.SkipUntilIfAny(p);
+                Console.WriteLine("download: " + f);
+
+                var bytes = new WebClient().DownloadData(f);
+
+                h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+                h.CompleteRequest();
+
+                return;
+            }
+
         }
 
     }

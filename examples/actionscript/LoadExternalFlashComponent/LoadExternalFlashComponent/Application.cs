@@ -49,15 +49,27 @@ namespace LoadExternalFlashComponent
                     new IHTMLPre { innerText = doc.ToString() }.AttachTo(page.Content);
                 };
 
-            var LoadOdoSketch = new IHTMLButton("LoadOdoSketch").AttachTo(page.Content);
+            new IHTMLButton("Load from textbox").AttachTo(page.Content).With(
+               btn =>
+               {
+                   btn.onclick += delegate
+                   {
+                       s.LoadTargetContent(page.SWFAddress.value);
+                   };
+               }
+           );
 
-            LoadOdoSketch.onclick +=
-                delegate
+            new IHTMLButton("LoadOdoSketch").AttachTo(page.Content).With(
+                btn =>
                 {
-                    s.LoadTargetContent();
-                };
+                    btn.onclick += delegate
+                    {
+                        s.LoadTargetContent();
+                    };
+                }
+            );
 
-            new IHTMLButton("Load Player").AttachTo(page.Content).With(btn =>
+            new IHTMLButton("Load youtube player").AttachTo(page.Content).With(btn =>
             {
 
                 btn.onclick +=
@@ -70,7 +82,7 @@ namespace LoadExternalFlashComponent
                     };
             });
 
-            new IHTMLButton("Load Video 1").AttachTo(page.Content).With(btn =>
+            new IHTMLButton("loadVideoById").AttachTo(page.Content).With(btn =>
             {
 
                 btn.onclick +=
@@ -80,7 +92,7 @@ namespace LoadExternalFlashComponent
                     };
             });
 
-            new IHTMLButton("LoadVideo1").AttachTo(page.Content).With(btn =>
+            new IHTMLButton("load youtube swf").AttachTo(page.Content).With(btn =>
             {
 
                 btn.onclick +=
@@ -93,7 +105,7 @@ namespace LoadExternalFlashComponent
                     };
             });
 
-            var LoadVideo2 = new IHTMLButton("LoadVideo2").AttachTo(page.Content);
+            var LoadVideo2 = new IHTMLButton("load playlist swf").AttachTo(page.Content);
 
             LoadVideo2.onclick +=
                 delegate
