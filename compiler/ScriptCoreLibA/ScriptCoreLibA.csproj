@@ -143,7 +143,7 @@
     <Compile Include="Shared\PlatformInvocationServices.cs" />
     <Compile Include="Shared\ScriptResourcesAttribute.cs" />
     <Compile Include="Shared\TypeOfByNameOverrideAttribute.cs" />
-    <Compile Include="SwitchToCLRAttribute.cs" />
+    <Compile Include="SwitchToCLRContextAttribute.cs" />
     <Compile Include="Tools\JSONSerializer.cs" />
   </ItemGroup>
   <ItemGroup>

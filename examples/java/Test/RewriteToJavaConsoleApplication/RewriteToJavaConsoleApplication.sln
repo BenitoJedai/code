@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewriteToJavaConsoleApplication", "RewriteToJavaConsoleApplication\RewriteToJavaConsoleApplication.csproj", "{8B196D6F-4DD1-492B-BCAB-90DCC3E65AF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{411A136E-2343-4DA2-B489-47019FFBA4E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{8B196D6F-4DD1-492B-BCAB-90DCC3E65AF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B196D6F-4DD1-492B-BCAB-90DCC3E65AF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B196D6F-4DD1-492B-BCAB-90DCC3E65AF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{411A136E-2343-4DA2-B489-47019FFBA4E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{411A136E-2343-4DA2-B489-47019FFBA4E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{411A136E-2343-4DA2-B489-47019FFBA4E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{411A136E-2343-4DA2-B489-47019FFBA4E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

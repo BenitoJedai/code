@@ -163,7 +163,11 @@ namespace jsc.meta.Tools
             Console.WriteLine("- created bat entrypoint:");
             Console.WriteLine(run_jar);
 
-            var library_path = bin_jar.Directory.FullName.Substring(new FileInfo(run_jar).Directory.FullName.Length + 1);
+            // so where is our jar?
+            var bin_jar_FullName = bin_jar.Directory.FullName;
+            var run_jar_FullName = new FileInfo(run_jar).Directory.FullName;
+
+            var library_path = bin_jar_FullName.Length == run_jar_FullName.Length ? "." : bin_jar_FullName.Substring(run_jar_FullName.Length + 1);
 
             var ClassPath = library_path + @"\" + bin_jar.Name;
 

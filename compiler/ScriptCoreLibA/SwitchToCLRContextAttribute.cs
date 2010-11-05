@@ -15,10 +15,10 @@ namespace ScriptCoreLib
     /// to switch from JavaScript to Silverlight.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public sealed class SwitchToCLRAttribute : Attribute
+    public sealed class SwitchToCLRContextAttribute : Attribute
     {
-
-
-        
+      
     }
+
+  
 }
