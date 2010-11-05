@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScriptCoreLib.Ultra.BCLImplementation")]
+[assembly: AssemblyTitle("ClassLibrary1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ScriptCoreLib.Ultra.BCLImplementation")]
+[assembly: AssemblyProduct("ClassLibrary1")]
 [assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("eb5e20fe-3013-4d05-ad7e-c87a0d7fcf9f")]
+[assembly: Guid("0ca71046-1082-4501-b8f1-0cdb85f4e372")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,14 +32,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("4.0.*")]
-[assembly: AssemblyFileVersion("4.0.*")]
-
-
-// jsc.meta rewriter will pull types from this assembly
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: Obfuscation(Feature = "merge")]
-
-[assembly:
-    InternalsVisibleTo("jsc.meta"),
-    InternalsVisibleTo("jsc.internal"),
-]

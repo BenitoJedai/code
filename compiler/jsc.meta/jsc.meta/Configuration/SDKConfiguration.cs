@@ -17,14 +17,22 @@ namespace jsc.meta.Configuration
         public DirectoryInfo ApacheAntSDK = new DirectoryInfo(@"C:\util\apache-ant-1.8.1");
         public DirectoryInfo XAMPLite = new DirectoryInfo(@"C:\util\xampplite-win32-1.7.3");
 
+        public DirectoryInfo JavaSDK_bin
+        {
+            get
+            {
+                return new DirectoryInfo(Path.Combine(JavaSDK.FullName, @"bin"));
+            }
+        }
+
         public FileInfo ApacheAntSDK_ant
         {
             get
             {
                 return new FileInfo(Path.Combine(ApacheAntSDK.FullName, @"bin\ant.bat"));
             }
-
         }
+
         public FileInfo FlexSDK_mxmlc
         {
             get
