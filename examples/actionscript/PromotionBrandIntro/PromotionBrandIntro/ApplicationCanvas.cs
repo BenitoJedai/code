@@ -44,17 +44,17 @@ namespace PromotionBrandIntro
                 (s, e) =>
                 {
                     OverlayWhite.SizeTo(
-                        this.ActualWidth,
-                        this.ActualHeight
+                        this.Width,
+                        this.Height
                     );
                     Overlay.SizeTo(
-                        this.ActualWidth,
-                        this.ActualHeight
+                        this.Width,
+                        this.Height
                     );
 
                     c.MoveTo(
-                        this.ActualWidth * 0.5,
-                        this.ActualHeight * 0.5
+                        this.Width * 0.5,
+                        this.Height * 0.5
                     );
                 };
 

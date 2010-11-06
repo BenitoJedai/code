@@ -7,7 +7,9 @@ namespace BrowserApplication1
     open System.Linq
     open System.Xml.Linq
     open ScriptCoreLib
+    open ScriptCoreLib.Delegates
     open ScriptCoreLib.Extensions
+    open JustinTV
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -26,3 +28,7 @@ namespace BrowserApplication1
             do y.Invoke(e + "jsc")
             ()
 
+        member this.GetChannels(y : XElementAction) =
+            let i = new JustinTV.ApplicationWebService()
+
+            do i.WebMethod2("", y)
