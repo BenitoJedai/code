@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{542D548D-B2DD-4836-A81B-DD8C4BE1F23D}</ProjectGuid>
+    <ProjectGuid>{D6061BB2-00DD-4ED5-B517-89A72C2AAD9A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LoadExternalFlashComponent</RootNamespace>
-    <AssemblyName>LoadExternalFlashComponent</AssemblyName>
+    <RootNamespace>JustinTV</RootNamespace>
+    <AssemblyName>JustinTV</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>LoadExternalFlashComponent.Program</StartupObject>
+    <StartupObject>JustinTV.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,7 +48,6 @@
     <Reference Include="FSharp.Core">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -120,8 +119,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="LoadExternalFlashComponent.UltraSource">
-      <HintPath>bin\staging.UltraSource\LoadExternalFlashComponent.UltraSource.dll</HintPath>
+    <Reference Include="JustinTV.UltraSource">
+      <HintPath>bin\staging.UltraSource\JustinTV.UltraSource.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +132,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Documents\list.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

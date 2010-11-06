@@ -2,9 +2,42 @@
 <head>
     <title>DefaultPage</title>
 </head>
-<body style='margin: 0; padding: 0; background-color: Black; color: White; overflow: hidden;'>
-    <div id='PageContainer' style="margin: 30%; text-align: center;">
-        <div id='Animation' style='position: relative;'><code>loading...</code></div>
+<body style='margin: 0; padding: 0; background: black; color: White; overflow: hidden;'>
+    <div id='ContentSize' style='overflow: hidden; position: absolute; left: 0px; right: 0px;
+        bottom: 0px; top: 0px;'>
+    </div>
+    <div id='Content' style='overflow: hidden; position: absolute; left: 0px; right: 0px;
+        bottom: 0px; top: 0px; background: -moz-linear-gradient(
+
+      left top,
+
+      rgba(0,0,160,1),
+
+      rgba(0,0,0,1)
+
+  ); background: -webkit-gradient(
+
+      linear,
+
+      left top, right bottom,
+
+      from(rgba(0,0,160,1)),
+
+      to(rgba(0,0,0,1))
+
+  );'>
+        <!-- This HTML document is a placeholder. -->
+    </div>
+    <div id='PageContainer' style="text-align: center;">
+        <div id='Animation' style='position: relative;'>
+            <code>loading...</code></div>
+    </div>
+    <div id='HeaderA' style='position: absolute; left: 0; top: 0; right: 0; height: 113px;
+        text-align: center; display: none;'>
+    </div>
+    <div id='InfoA' style='position: absolute; left: 0; top: 113px; padding: 2em; color: white;
+        font-family: "Gill Sans MT", "Gill Sans", GillSans, Arial, Helvetica, sans-serif;
+        font-size: 24px; font-weight: bold; text-shadow: black 0.1em 0.1em 0.2em; display: none;'>
     </div>
 </body>
 </html>

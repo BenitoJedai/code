@@ -19,6 +19,7 @@ using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using ScriptCoreLib.CSharp.Avalon.Extensions;
 using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.Desktop.Extensions;
 
 namespace PromotionBrandIntro
 {
@@ -37,12 +38,10 @@ namespace PromotionBrandIntro
         public static void Main(string[] args)
         {
 #if DEBUG
-            var w = new ApplicationCanvas().ToWindow();
+            DesktopAvalonExtensions.Launch(
+                () => new ApplicationCanvas()
 
-            
-            w.SizeToContent = System.Windows.SizeToContent.Manual;
-            
-            w.ShowDialog();
+            );
 #else
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));

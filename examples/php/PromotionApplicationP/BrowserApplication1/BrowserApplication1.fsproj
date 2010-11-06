@@ -116,9 +116,7 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TestSolutionBuilderV1">
-      <HintPath>..\..\..\javascript\Ultra\TestSolutionBuilder\TestSolutionBuilderV1\bin\Debug\TestSolutionBuilderV1.exe</HintPath>
-    </Reference>
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -134,6 +132,23 @@
     <Compile Include="Application.fs" />
     <Compile Include="Properties\AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\actionscript\LoadExternalFlashComponent\JustinTV\JustinTV.csproj">
+      <Name>JustinTV</Name>
+      <Project>{d6061bb2-00dd-4ed5-b517-89a72c2aad9a}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\actionscript\PromotionBrandIntro\PromotionBrandIntro\PromotionBrandIntro.csproj">
+      <Name>PromotionBrandIntro</Name>
+      <Project>{af9ccb08-8b72-459b-865c-c1d5ce7a3495}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\javascript\Ultra\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj">
+      <Name>TestSolutionBuilderV1</Name>
+      <Project>{a07de0e4-e126-30a4-5f40-8f412172c72e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
