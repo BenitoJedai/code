@@ -1303,7 +1303,7 @@ namespace jsc.meta.Commands.Rewrite
                     this.RewriteArguments.context.StringLiteralCache[s] = s;
                 };
 
-
+          
             if (assembly != null)
                 foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
                 {

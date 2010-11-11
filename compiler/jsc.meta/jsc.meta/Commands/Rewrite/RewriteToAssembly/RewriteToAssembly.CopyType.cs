@@ -70,6 +70,7 @@ namespace jsc.meta.Commands.Rewrite
 
             foreach (var item in
                 from kk in SourceType.GetCustomAttributes(false)
+                where context.TypeAttributeFilter(SourceType, kk)
                 let aa = kk.ToCustomAttributeBuilder()(context)
                 where aa != null
                 select aa

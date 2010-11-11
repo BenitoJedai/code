@@ -96,6 +96,10 @@
       <Project>{411A136E-2343-4DA2-B489-47019FFBA4E3}</Project>
       <Name>ClassLibrary1</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ClassLibraryForCLR\ClassLibraryForCLR.csproj">
+      <Project>{9C5E1F3A-3BA6-486A-A497-B8D37B9D5D4F}</Project>
+      <Name>ClassLibraryForCLR</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -107,6 +111,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-start /WAIT C:\util\jsc\bin\jsc.internal.exe RewriteToJavaConsoleApplication /assembly:$(TargetPath) /AttachDebugger:true</PostBuildEvent>
+start /WAIT C:\util\jsc\bin\jsc.internal.exe RewriteToJavaConsoleApplication /assembly:$(TargetPath) /AttachDebugger:false</PostBuildEvent>
   </PropertyGroup>
 </Project>

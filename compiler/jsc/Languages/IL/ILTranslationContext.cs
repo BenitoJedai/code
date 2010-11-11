@@ -26,6 +26,7 @@ namespace jsc.Languages.IL
 		public VirtualDictionary<FieldInfo, FieldInfo> FieldCache = new VirtualDictionary<FieldInfo, FieldInfo>();
 		public VirtualDictionary<PropertyInfo, PropertyInfo> PropertyCache = new VirtualDictionary<PropertyInfo, PropertyInfo>();
 
+        public Func<Type, object, bool> TypeAttributeFilter = (SourceType, Attribute) => true;
 
 
 		/// <summary>
@@ -47,7 +48,7 @@ namespace jsc.Languages.IL
 					ConstructorCache,
 					MethodCache,
 					FieldCache,
-					PropertyCache
+					PropertyCache,
 				}.Select(k => k.ToTransientTransaction()).ToArray()
 			;
 		}
