@@ -147,6 +147,9 @@ namespace PromotionBrandIntro
                         1000.AtDelay(
                             delegate
                             {
+                                if (AnimationAllBlack != null)
+                                    AnimationAllBlack();
+
                                 Overlay.FadeOut(
                                     delegate
                                     {
@@ -158,6 +161,9 @@ namespace PromotionBrandIntro
                                                     AnimationCompleted();
                                             }
                                         );
+
+                                        if (AnimationAllWhite != null)
+                                            AnimationAllWhite();
                                     }
                                 );
                             }
@@ -222,5 +228,7 @@ namespace PromotionBrandIntro
         public readonly Func<Action> PrepareAnimation;
 
         public event Action AnimationCompleted;
+        public event Action AnimationAllBlack;
+        public event Action AnimationAllWhite;
     }
 }
