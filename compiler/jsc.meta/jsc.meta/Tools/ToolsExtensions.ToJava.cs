@@ -169,7 +169,7 @@ namespace jsc.meta.Tools
 
             var library_path = bin_jar_FullName.Length == run_jar_FullName.Length ? "." : bin_jar_FullName.Substring(run_jar_FullName.Length + 1);
 
-            var ClassPath = library_path + @"\" + bin_jar.Name;
+            var ClassPath = @".\" + bin_jar.Name;
 
             foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
                               where k != bin_jar.FullName
@@ -183,7 +183,10 @@ namespace jsc.meta.Tools
 @echo off
 setlocal
 
-call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""" + library_path + @""" -cp """ + ClassPath + @""" " + TargetTypeFullName + @" %*
+pushd " + library_path + @"
+call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + ClassPath + @""" " + TargetTypeFullName + @" %*
+
+popd
 
 endlocal
 "
