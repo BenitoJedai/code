@@ -112,6 +112,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug goto :eof
-start /WAIT C:\util\jsc\bin\jsc.internal.exe RewriteToJavaConsoleApplication /assembly:$(TargetPath) /AttachDebugger:false</PostBuildEvent>
+start /WAIT C:\util\jsc\bin\jsc.internal.exe RewriteToJavaConsoleApplication /assembly:$(TargetPath) /AttachDebugger:false /obfuscate:true</PostBuildEvent>
   </PropertyGroup>
 </Project>
