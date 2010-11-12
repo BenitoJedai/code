@@ -214,7 +214,7 @@ namespace jsc.meta.Commands.Rewrite
 
                             let IsProperties = item.EndsWith(".Properties.Resources.resources")
                             let IsResources = item.EndsWith(".resources")
-                            
+
                             // XAML loader seems to use GetExcecutingAssemblyName
                             let IsXAMLResources = item.EndsWith(".g.resources")
 
@@ -818,29 +818,29 @@ namespace jsc.meta.Commands.Rewrite
                     if (FieldCache.BaseDictionary.ContainsKey(SourceField))
                         return;
 
-                    var source = SourceField.DeclaringType;
+                    var SourceType = SourceField.DeclaringType;
 
                     #region IsGenericType
-                    if (source.IsGenericType)
-                        if (!source.IsGenericTypeDefinition)
+                    if (SourceType.IsGenericType)
+                        if (!SourceType.IsGenericTypeDefinition)
                         {
 
-                            if (!ShouldCopyType(source))
+                            if (!ShouldCopyType(SourceType))
                             {
                                 FieldCache[SourceField] = SourceField;
                                 return;
                             }
 
 
-                            var ResolvedType1 = TypeDefinitionCache[source.GetGenericTypeDefinition()];
+                            var ResolvedType1 = TypeDefinitionCache[SourceType.GetGenericTypeDefinition()];
 
                             var ResolvedType2 = ResolvedType1.MakeGenericType(
-                                TypeDefinitionCache[source.GetGenericArguments()]
+                                TypeDefinitionCache[SourceType.GetGenericArguments()]
                             );
 
 
 
-                            var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[source.GetGenericTypeDefinition().GetField(
+                            var Def1 = TypeBuilder.GetField(ResolvedType2, FieldCache[SourceType.GetGenericTypeDefinition().GetField(
                                 SourceField.Name,
                                 BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic
                                 )]
@@ -857,7 +857,12 @@ namespace jsc.meta.Commands.Rewrite
                     if (DeclaringType_ is TypeBuilder)
                     {
                         var DeclaringType = (TypeBuilder)DeclaringType_;
-                        var FieldName = NameObfuscation[MemberRenameCache[SourceField] ?? SourceField.Name];
+                        var FieldName = MemberRenameCache[SourceField] ?? SourceField.Name;
+
+                        var SourceTypeObfuscation = SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+
+                        if (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers))
+                            FieldName = NameObfuscation[FieldName];
 
 
                         var FieldValue = default(byte[]);
@@ -1303,7 +1308,7 @@ namespace jsc.meta.Commands.Rewrite
                     this.RewriteArguments.context.StringLiteralCache[s] = s;
                 };
 
-          
+
             if (assembly != null)
                 foreach (var ka in assembly.GetCustomAttributes<ObfuscationAttribute>())
                 {

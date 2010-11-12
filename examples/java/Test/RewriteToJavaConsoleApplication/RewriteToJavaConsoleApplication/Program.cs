@@ -64,8 +64,11 @@ namespace RewriteToJavaConsoleApplication
 
     }
 
+    [Obfuscation(Exclude = true, ApplyToMembers = true)]
     class Foo1
     {
+        public string Bar;
+
         public static void Foo1Method()
         {
             ClassLibraryForCLR.Class1.Foo();
