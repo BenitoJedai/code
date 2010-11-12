@@ -41,6 +41,7 @@ namespace jsc.meta.Commands.Rewrite
             Action<MethodBuilder> AtCodeTraceDefineGenericParameters = null
             )
         {
+            var SourceType = SourceMethod.DeclaringType;
 
             // sanity check!
 
@@ -90,7 +91,10 @@ namespace jsc.meta.Commands.Rewrite
                 }
                 else
                 {
-                    MethodName = NameObfuscation[MethodName];
+                    var SourceTypeObfuscation = SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+
+                    if (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers))
+                        MethodName = NameObfuscation[MethodName];
                 }
             }
 
