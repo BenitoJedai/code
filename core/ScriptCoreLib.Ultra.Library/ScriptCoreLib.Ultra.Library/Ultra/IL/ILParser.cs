@@ -8,27 +8,125 @@ namespace ScriptCoreLib.Ultra.IL
 {
     public static class ILParser
     {
+        public static ILAssembly ToAssemblyWithMethods(this IDLParserToken t)
+        {
+            var a = new ILAssembly();
+
+            var q = t;
+
+     
+            #region manage those quouted literals
+            {
+                var p = q;
+                while (p != null)
+                {
+                    Action<string> CombineAsPairs =
+                        Qoute =>
+                        {
+                            var ok = p.Text == Qoute;
+
+                            while (ok)
+                            {
+                                p.IsCommentDiscoveryEnabled = false;
+
+                                // do we allow escaping? :)
+                                if (p.Next.Text == Qoute)
+                                    ok = false;
+
+                                new[] { p, p.Next }.Combine();
+
+                                //Console.WriteLine("literal: " + p.Text);
+                            }
+
+                            p.IsCommentDiscoveryEnabled = true;
+                        };
+
+                    CombineAsPairs("\"");
+                    CombineAsPairs("'");
+
+                    Action<string> CombineKeyword =
+                        k =>
+                        {
+                            if (p.Text + p.Next.Text == k)
+                            {
+                                new[] { p, p.Next }.Combine();
+                            }
+                        };
+
+
+                    CombineKeyword(".corflags");
+                    CombineKeyword(".class");
+                    CombineKeyword(".method");
+                    CombineKeyword(".ctor");
+
+                    p = p.SkipTo();
+                }
+            }
+            #endregion
+
+
+
+            {
+
+
+                {
+                    var p = q;
+                    while (p != null)
+                    {
+                        if (p.Text == ".method")
+                        {
+                            var NameToken = p.SkipWhile(k => k.SkipTo().Text != "(").First();
+                            var Sig = p.TakeWhile(k => k != NameToken).ToArray();
+
+                            var IsStatic = Sig.Any(k => k.Text == "static");
+                            var IsUnmanagedExport = Sig.Any(k => k.Text == "unmanagedexp");
+
+                            a.Methods.Add(
+                                new ILAssemblyMethod
+                                {
+                                    Token = p,
+                                    IsStatic = IsStatic,
+                                    IsUnmanagedExport = IsUnmanagedExport,
+                                    NameToken = NameToken,
+                                    ParameterStartToken = p.SkipWhile(k => k.Text != "(").First(),
+                                    BodyStartToken = p.SkipWhile(k => k.Text != "{").First(),
+                                }
+                            );
+                        }
+                        p = p.SkipTo();
+                    }
+                }
+            }
+
+            return a;
+        }
+
         public static ILAssembly ToAssembly(this IDLParserToken t)
         {
             var a = new ILAssembly();
 
-            var p = t;
+            var q = t;
 
-            while (p != null)
+            #region AssemblyExternList
             {
-                var n = p.ToAssemblyExtern();
+                var p = q;
 
-                if (n == null)
+                while (p != null)
                 {
-                    p = null;
-                }
-                else
-                {
-                    a.AssemblyExternList.Add(n);
-                    p = n.Scope.Item2;
+                    var n = p.ToAssemblyExtern();
+
+                    if (n == null)
+                    {
+                        p = null;
+                    }
+                    else
+                    {
+                        a.AssemblyExternList.Add(n);
+                        p = n.Scope.Item2;
+                    }
                 }
             }
-
+            #endregion
 
 
 

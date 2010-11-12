@@ -8,6 +8,17 @@ namespace ScriptCoreLib.Ultra.IDL
 {
     public static class IDLParserTokenExtensions
     {
+        public static IDLParserToken AssertWhiteSpace(this IDLParserToken t)
+        {
+            if (t.IsWhiteSpace)
+            {
+                return t;
+            }
+
+            throw new NotSupportedException();
+        }
+
+
         public static IDLParserToken AssertDigit(this IDLParserToken t)
         {
             if (t.IsSymbol)
@@ -63,8 +74,12 @@ namespace ScriptCoreLib.Ultra.IDL
                     if (n.Next == item)
                     {
                         n.Length += item.Length;
-                        n.InternalNext = item.Next;
-                        n.Next.Previous = n; 
+                        n.InternalNext = item.InternalNext;
+
+                        if (n.InternalNext != null)
+                        {
+                            n.InternalNext.Previous = n;
+                        }
                     }
                 }
             }
@@ -72,7 +87,7 @@ namespace ScriptCoreLib.Ultra.IDL
             return n;
         }
 
-    
+
 
         public static IDLParserToken SkipTo(this IDLParserToken source)
         {
@@ -96,6 +111,40 @@ namespace ScriptCoreLib.Ultra.IDL
             return w.ToString();
         }
 
-       
+        public static IDLParserToken Write(this IDLParserToken source, IDLParserToken.Literal e)
+        {
+            e.Value.Previous = source;
+
+            source.Next.Previous = e;
+            e.Value.InternalNext = source.Next;
+
+            source.InternalNext = e;
+
+            return e;
+        }
+
+        public static IDLParserToken WriteLine(this IDLParserToken source)
+        {
+            var e = source.Write("\r\n");
+
+            e.IsWhiteSpace = true;
+
+            return e;
+        }
+
+
+        public static IDLParserToken WriteSpace(this IDLParserToken source)
+        {
+            var e = source.Write(" ");
+
+            e.IsWhiteSpace = true;
+
+            return e;
+        }
+
+        public static void WriteSpaces(this IDLParserToken source, IDLParserToken.Literal p)
+        {
+            source.WriteSpace().Write(p).WriteSpace();
+        }
     }
 }

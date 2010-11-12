@@ -9,6 +9,8 @@ namespace ScriptCoreLib.Ultra.IDL
 
     public class IDLParserToken : IEnumerable<IDLParserToken>
     {
+        // see: http://en.wikipedia.org/wiki/IDL_specification_language
+
         public readonly string Source;
 
         public int Position { get; set; }
@@ -49,10 +51,13 @@ namespace ScriptCoreLib.Ultra.IDL
             }
         }
 
+        public bool IsCommentDiscoveryEnabled = true;
+
         public bool IsComment;
         public bool IsWhiteSpace;
         public bool IsName;
         public bool IsSymbol;
+        public bool IsLiteral;
 
         public void Initialize()
         {
@@ -63,42 +68,48 @@ namespace ScriptCoreLib.Ultra.IDL
             // so who are we?
             // are we whitespace, comment, keyword, literal or just name?
 
+            // we have to add support for literals so we wont mix them with comments.
+            // or we should add support to disable comment recognition?
+
             #region IsComment
-            if (this[0] == '/')
+            if (this.Previous == null || this.Previous.IsCommentDiscoveryEnabled)
             {
-                // are we a box comment?
-                if (this[1] == '*')
+                if (this[0] == '/')
                 {
+                    // are we a box comment?
+                    if (this[1] == '*')
+                    {
 
-                    // this means we will scan to */
+                        // this means we will scan to */
 
 
-                    this.IsComment = true;
-                    this.Length = ScanLength(4,
-                        i =>
-                        {
-                            if (this[i - 2] == '*')
-                                if (this[i - 1] == '/')
-                                    return true;
+                        this.IsComment = true;
+                        this.Length = ScanLength(4,
+                            i =>
+                            {
+                                if (this[i - 2] == '*')
+                                    if (this[i - 1] == '/')
+                                        return true;
 
-                            return false;
-                        }
-                    );
-                    return;
-                }
+                                return false;
+                            }
+                        );
+                        return;
+                    }
 
-                if (this[1] == '/')
-                {
-                    this.IsComment = true;
+                    if (this[1] == '/')
+                    {
+                        this.IsComment = true;
 
-                    this.Length = ScanLength(3,
-                        i =>
-                        {
-                            return this[i - 1] == '\n';
-                        }
-                    );
+                        this.Length = ScanLength(3,
+                            i =>
+                            {
+                                return this[i - 1] == '\n';
+                            }
+                        );
 
-                    return;
+                        return;
+                    }
                 }
             }
             #endregion
@@ -120,6 +131,7 @@ namespace ScriptCoreLib.Ultra.IDL
             }
             #endregion
 
+            #region IsLetterOrUnderscore
             Func<char, bool> IsLetterOrUnderscore =
                 c =>
                 {
@@ -131,6 +143,8 @@ namespace ScriptCoreLib.Ultra.IDL
 
                     return false;
                 };
+            #endregion
+
 
             #region IsName
             if (IsLetterOrUnderscore(this[0]))
@@ -299,5 +313,7 @@ namespace ScriptCoreLib.Ultra.IDL
                 return n;
             }
         }
+
+  
     }
 }
