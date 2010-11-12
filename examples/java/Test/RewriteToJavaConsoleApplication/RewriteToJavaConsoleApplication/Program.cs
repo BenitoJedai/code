@@ -17,39 +17,44 @@ namespace RewriteToJavaConsoleApplication
             Class1.Foo();
 
             //var x = new CLRProgram();
-            CLRProgram.StaticMethod1("hello");
+            ExtensionsToSwitchToCLRContext.StaticMethod1("hello");
+
+            Console.WriteLine("jvm".StaticMethod1());
         }
 
-        [SwitchToCLRContext]
-        sealed class CLRProgram
+        
+    }
+
+
+    [SwitchToCLRContext]
+    static class ExtensionsToSwitchToCLRContext
+    {
+        //object __Field1;
+
+
+        //public CLRProgram()
+        //{
+        //    // CLR is now loaded into JVM via JNI
+        //}
+
+
+        //public string Method1(string e)
+        //{
+        //    // method code is now running inside CLR
+
+        //    return "hello from CLR - " + e;
+        //}
+
+        public static string StaticMethod1(this string args, string message2 = "ok")
         {
-            //object __Field1;
+            Console.WriteLine("CLR!!: " + DateTime.Now + args);
 
+            //Console.WriteLine("Enter!");
+            //Console.ReadLine();
+            Console.WriteLine(message2);
 
-            //public CLRProgram()
-            //{
-            //    // CLR is now loaded into JVM via JNI
-            //}
-
-            
-            //public string Method1(string e)
-            //{
-            //    // method code is now running inside CLR
-
-            //    return "hello from CLR - " + e;
-            //}
-
-            public static string StaticMethod1(string args)
-            {
-                Console.WriteLine("CLR!!: " + DateTime.Now);
-
-                Console.WriteLine("Enter!");
-                Console.ReadLine();
-                Console.WriteLine("ok!");
-
-                return args + " ***";
-            }
-
+            return args + " ***";
         }
+
     }
 }
