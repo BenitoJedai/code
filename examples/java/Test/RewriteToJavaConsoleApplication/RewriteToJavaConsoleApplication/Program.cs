@@ -30,22 +30,6 @@ namespace RewriteToJavaConsoleApplication
     [SwitchToCLRContext]
     static class ExtensionsToSwitchToCLRContext
     {
-        //object __Field1;
-
-
-        //public CLRProgram()
-        //{
-        //    // CLR is now loaded into JVM via JNI
-        //}
-
-
-        //public string Method1(string e)
-        //{
-        //    // method code is now running inside CLR
-
-        //    return "hello from CLR - " + e;
-        //}
-
         public static string StaticMethod1(this string args, string message2 = "ok")
         {
             Console.WriteLine("CLR!!: " + DateTime.Now + args);
@@ -65,28 +49,7 @@ namespace RewriteToJavaConsoleApplication
                 Console.WriteLine(message2);
 
 
-                //AppDomain.CurrentDomain.AssemblyResolve +=
-                //    (_s, _a) =>
-                //    {
 
-                //        var dll = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, new AssemblyName(_a.Name).Name + ".dll");
-
-                //        //Console.WriteLine("looking for " + dll);
-
-                //        if (File.Exists(dll))
-                //            return Assembly.LoadFrom(dll);
-
-                //        var exe = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, new AssemblyName(_a.Name).Name + ".exe");
-
-                //        //Console.WriteLine("looking for " + exe);
-
-                //        if (File.Exists(exe))
-                //            return Assembly.LoadFrom(exe);
-
-                //        //Console.WriteLine("missing!");
-
-                //        return null;
-                //    };
 
                 Foo1.Foo1Method();
 
