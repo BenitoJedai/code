@@ -39,11 +39,15 @@ namespace RewriteToJavaConsoleApplication
             //    return "hello from CLR - " + e;
             //}
 
-            public static string StaticMethod1(string e)
+            public static string StaticMethod1(string args)
             {
-                ClassLibraryForCLR.Class1.Foo();
+                Console.WriteLine("CLR!!: " + DateTime.Now);
 
-                return "hello from CLR - " + e;
+                Console.WriteLine("Enter!");
+                Console.ReadLine();
+                Console.WriteLine("ok!");
+
+                return args + " ***";
             }
 
         }
