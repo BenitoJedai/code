@@ -859,7 +859,7 @@ namespace jsc.meta.Commands.Rewrite
                         var DeclaringType = (TypeBuilder)DeclaringType_;
                         var FieldName = MemberRenameCache[SourceField] ?? SourceField.Name;
 
-                        var SourceTypeObfuscation = SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+                        var SourceTypeObfuscation = SourceType == null ? null : SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
 
                         if (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers))
                             FieldName = NameObfuscation[FieldName];

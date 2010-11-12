@@ -91,7 +91,7 @@ namespace jsc.meta.Commands.Rewrite
                 }
                 else
                 {
-                    var SourceTypeObfuscation = SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
+                    var SourceTypeObfuscation = SourceType == null ? null : SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
 
                     if (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers))
                         MethodName = NameObfuscation[MethodName];
