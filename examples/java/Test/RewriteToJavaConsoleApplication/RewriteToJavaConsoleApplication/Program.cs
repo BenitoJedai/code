@@ -6,6 +6,7 @@ using System.Threading;
 using System.Reflection;
 using ClassLibrary1;
 using ScriptCoreLib;
+using System.IO;
 
 namespace RewriteToJavaConsoleApplication
 {
@@ -22,7 +23,7 @@ namespace RewriteToJavaConsoleApplication
             Console.WriteLine("jvm".StaticMethod1());
         }
 
-        
+
     }
 
 
@@ -49,12 +50,62 @@ namespace RewriteToJavaConsoleApplication
         {
             Console.WriteLine("CLR!!: " + DateTime.Now + args);
 
-            //Console.WriteLine("Enter!");
-            //Console.ReadLine();
-            Console.WriteLine(message2);
+            try
+            {
+
+                Console.WriteLine(new { Environment.CurrentDirectory });
+                Console.WriteLine(new { GetExecutingAssembly = Assembly.GetExecutingAssembly().Location });
+                Console.WriteLine(new { GetCallingAssembly = Assembly.GetCallingAssembly().Location });
+
+                if (Assembly.GetEntryAssembly() == null)
+                    Console.WriteLine("GetEntryAssembly is null");
+                else
+
+                    Console.WriteLine(new { GetEntryAssembly = Assembly.GetEntryAssembly().Location });
+                Console.WriteLine(message2);
+
+
+                //AppDomain.CurrentDomain.AssemblyResolve +=
+                //    (_s, _a) =>
+                //    {
+
+                //        var dll = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, new AssemblyName(_a.Name).Name + ".dll");
+
+                //        //Console.WriteLine("looking for " + dll);
+
+                //        if (File.Exists(dll))
+                //            return Assembly.LoadFrom(dll);
+
+                //        var exe = Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName, new AssemblyName(_a.Name).Name + ".exe");
+
+                //        //Console.WriteLine("looking for " + exe);
+
+                //        if (File.Exists(exe))
+                //            return Assembly.LoadFrom(exe);
+
+                //        //Console.WriteLine("missing!");
+
+                //        return null;
+                //    };
+
+                Foo1.Foo1Method();
+
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine(exc.ToString());
+            }
 
             return args + " ***";
         }
 
+    }
+
+    class Foo1
+    {
+        public static void Foo1Method()
+        {
+            ClassLibraryForCLR.Class1.Foo();
+        }
     }
 }
