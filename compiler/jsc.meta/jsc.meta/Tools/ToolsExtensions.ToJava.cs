@@ -160,6 +160,7 @@ namespace jsc.meta.Tools
             #region run_jar
             // 4
             var run_jar = Path.Combine(TargetAssembly.Directory.FullName, Path.GetFileNameWithoutExtension(TargetAssembly.Name) + ".jar.bat");
+
             Console.WriteLine("- created bat entrypoint:");
             Console.WriteLine(run_jar);
 
@@ -169,47 +170,79 @@ namespace jsc.meta.Tools
 
             var library_path = bin_jar_FullName.Length == run_jar_FullName.Length ? "." : bin_jar_FullName.Substring(run_jar_FullName.Length + 1);
 
-            var ClassPath = @".\" + bin_jar.Name;
 
-            foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
-                              where k != bin_jar.FullName
-                              select k)
+            Func<FileInfo, string> ClassPathFromFile =
+                TargetFile =>
+                {
+                    var ClassPath = @".\" + TargetFile.Name;
+
+                    foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
+                                      where k != bin_jar.FullName
+                                      select k)
+                    {
+                        ClassPath += ";" + Path.Combine(library_path, Path.GetFileName(r));
+                    }
+
+                    return ClassPath;
+                };
+
+
+     
+
+            if (FusionAssembly == null)
             {
-                ClassPath += ";" + Path.Combine(library_path, Path.GetFileName(r));
-            }
-
-            File.WriteAllText(run_jar,
-                @"
+                File.WriteAllText(run_jar,
+         @"
 @echo off
 setlocal
 
 pushd " + library_path + @"
-call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + ClassPath + @""" " + TargetTypeFullName + @" %*
+call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + ClassPathFromFile(bin_jar) + @""" " + TargetTypeFullName + @" %*
 
 popd
 
 endlocal
 "
-
-            );
-
-            if (FusionAssembly != null)
+     );
+            }
+            else
             {
-
+                // um, this is dirty :) I am sure we could just append the bytes via IO.
                 File.WriteAllBytes(FusionAssembly.FullName,
-                    File.ReadAllBytes(TargetAssembly.FullName).Concat(
+
+                    // breaking change, we expect the fusion assebly to be the assembly we are appending...
+
+                    File.ReadAllBytes(FusionAssembly.FullName).Concat(
                         File.ReadAllBytes(bin_jar.FullName)
                     ).ToArray()
                 );
 
-                var FusionAssemblyStart = Path.ChangeExtension(FusionAssembly.FullName, "bat");
+                //var FusionAssemblyStart = Path.Combine(TargetAssembly.Directory.FullName, Path.GetFileNameWithoutExtension(FusionAssembly.Name) + ".fusion.bat");
 
-                Console.WriteLine("- created fusion bat entrypoint:");
-                Console.WriteLine(FusionAssemblyStart);
+                //var FusionAssemblyStart = Path.ChangeExtension(FusionAssembly.FullName, "bat");
 
-                File.WriteAllText(FusionAssemblyStart,
-                    @"@call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + FusionAssembly.Name + @""" " + TargetTypeFullName + @" %*"
-                );
+                //Console.WriteLine("- created fusion bat entrypoint:");
+                //Console.WriteLine(FusionAssemblyStart);
+
+                File.WriteAllText(run_jar,
+    @"
+@echo off
+setlocal
+
+pushd " + library_path + @"
+call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + ClassPathFromFile(FusionAssembly) + @""" " + TargetTypeFullName + @" %*
+
+popd
+
+endlocal
+"
+);
+
+             
+                // let's clean up. while we could have created the jar in memory, we have not done that for now
+                // so we have to remove that file as we are in fusion mode.
+
+                bin_jar.Delete();
             }
 
             #endregion
