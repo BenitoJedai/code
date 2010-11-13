@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativePluginExample", "NativePluginExample\NativePluginExample.csproj", "{9E6FFEEC-5B34-48C7-A709-F4AB533F3917}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativePluginContainer", "NativePluginContainer\NativePluginContainer.csproj", "{D9D7EFFF-393F-4591-B3C2-53A3785B1CFF}"
