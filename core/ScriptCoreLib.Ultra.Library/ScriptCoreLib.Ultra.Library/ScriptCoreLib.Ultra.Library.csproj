@@ -83,6 +83,7 @@
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
+    <Compile Include="Interop\IntPtrInfo.cs" />
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />

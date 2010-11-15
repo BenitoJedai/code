@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 {
@@ -11,6 +12,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 	internal class __XContainer : __XNode
 	{
 		public __XName InternalElementName;
+
+        /// <summary>
+        /// This is the list of elements which were added to our node.
+        /// 
+        /// It may be partial as the actual data is stored in the native dom.
+        /// </summary>
+        public readonly ArrayList InternalPartialElements = new ArrayList();
 
 		public void Add(object content)
 		{
@@ -57,6 +65,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 						__adoptNode(e);
 					}
 
+                    this.InternalPartialElements.Add(e);
 					this.InternalValue.appendChild(e.InternalValue);
 
 					return;
@@ -68,7 +77,16 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 			throw new NotImplementedException();
 		}
 
-		private void InternalEnsureElement()
+        void InternalNotifyChildren()
+        {
+            foreach (__XElement item in this.InternalPartialElements)
+            {
+                item.InternalValue = this.InternalGetElementByTag(item.InternalValue.getLocalName());
+                item.InternalNotifyChildren();
+            }
+        }
+
+		override protected void InternalEnsureElement()
 		{
 			if (this.InternalValue == null)
 			{
@@ -80,14 +98,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 
 					var f = InternalCreateFactory();
-
+                    
 					var b = f.newDocumentBuilder();
 
 					var doc = b.newDocument();
 
 					var name = this.InternalElementName.LocalName;
 
-					this.InternalValue = doc.createElement(name);
+                    var root = doc.createElement(name);
+
+                    //var element = root.appendChild(doc.createElement(name));
+
+                    this.InternalValue = root;
+                    this.InternalNotifyChildren();
 				}
 				catch (csharp.ThrowableException exc)
 				{
@@ -141,23 +164,31 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				{
 					// IE does not implement adoptNode yet
 					e.InternalValue = ownerDocument.importNode(e.InternalValue, true);
+                    e.InternalNotifyChildren();
 				}
 				catch
 				{
-
+                    throw new InvalidOperationException();
 				}
 			}
 		}
 
+
 		public XElement Element(XName name)
 		{
+            // should we see if we already have it?
 			var e = new __XElement
 			{
-				InternalValue = this.InternalElement.getElementsByTagName(name.LocalName).item(0)
+                InternalValue = InternalGetElementByTag(name.LocalName)
 			};
 
 			return (XElement)(object)e;
 		}
+
+        private org.w3c.dom.Node InternalGetElementByTag(string name)
+        {
+            return this.InternalElement.getElementsByTagName(name).item(0);
+        }
 
 		public void RemoveNodes()
 		{
@@ -169,6 +200,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 				InternalElement.removeChild(p);
 				p = InternalElement.getFirstChild();
 			}
+
+            this.InternalPartialElements.Clear();
 		}
 	}
 }

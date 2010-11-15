@@ -12,6 +12,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 	{
 		readonly java.util.ArrayList InternalList = new java.util.ArrayList();
 
+        public virtual void Clear()
+        {
+            this.InternalList.clear();
+        }
+
 		public virtual int Add(object value)
 		{
 			var i = InternalList.size();

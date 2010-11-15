@@ -63,8 +63,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			this._buffer[2] = (byte)(value >> 0x10);
 			this._buffer[3] = (byte)(value >> 0x18);
 			this.InternalStream.Write(this._buffer, 0, 4);
-
 		}
+
+        public virtual void Write(long value)
+        {
+            this._buffer[0] = (byte)value;
+            this._buffer[1] = (byte)(value >> 8);
+            this._buffer[2] = (byte)(value >> (8 * 2));
+            this._buffer[3] = (byte)(value >> (8 * 3));
+            this._buffer[4] = (byte)(value >> (8 * 4));
+            this._buffer[5] = (byte)(value >> (8 * 5));
+            this._buffer[6] = (byte)(value >> (8 * 6));
+            this._buffer[7] = (byte)(value >> (8 * 7));
+            this.InternalStream.Write(this._buffer, 0, 8);
+        }
 
 		//public virtual void Write(uint value)
 		//{
