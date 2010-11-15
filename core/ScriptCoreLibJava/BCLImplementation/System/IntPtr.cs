@@ -25,10 +25,41 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         }
     }
 
+    [Script]
+    internal class __ConvertToInt64 : IConvertToInt64
+    {
+        public long Pointer;
+
+        public long ToInt64()
+        {
+            return Pointer;
+        }
+    }
+
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
         public static readonly __IntPtr Zero = new __IntPtr();
+
+        public static explicit operator __IntPtr(long value)
+        {
+            return new __IntPtr(value);
+        }
+
+        public static explicit operator long(__IntPtr value)
+        {
+            return value.ToInt64();
+        }
+
+        public __IntPtr()
+        {
+
+        }
+
+        public __IntPtr(long Pointer)
+        {
+            this.PointerToken = new __ConvertToInt64 { Pointer = Pointer };       
+        }
 
         public static __IntPtr InternalGetZero()
         {
@@ -138,19 +169,24 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             // note: x64 support not implemented
 
+            var __int64 = ToInt64();
+
+            if (format != "x8")
+                throw new NotImplementedException("format");
+
+            return __Int32.InternalToString(format, (int)__int64);
+        }
+
+        public long ToInt64()
+        {
             var value = this.PointerToken as IConvertToInt64;
 
             if (value == null)
                 throw new NotImplementedException("IntPtr could not make use of IConvertToInt64");
 
+            var __int64 = value.ToInt64();
 
-            if (format != "x8")
-                throw new NotImplementedException("format");
-
-
-            var __int32 = (int)value.ToInt64();
-
-            return __Int32.InternalToString(format, __int32);
+            return __int64;
         }
     }
 }

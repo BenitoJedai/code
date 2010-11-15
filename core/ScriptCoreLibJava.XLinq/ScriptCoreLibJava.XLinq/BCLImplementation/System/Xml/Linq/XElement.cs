@@ -62,8 +62,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 			}
 			set
 			{
+                this.InternalEnsureElement();
 				this.RemoveNodes();
-				this.Add(Value);
+				this.Add(value);
 			}
 		}
 

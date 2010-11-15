@@ -50,6 +50,15 @@ namespace jni
             }
         }
 
+        public void free()
+        {
+            if (peer != 0)
+            {
+                CMalloc.free(peer);
+                peer = 0;
+            }
+        }
+
         public override string ToString()
         {
             return "" + Pointer;
@@ -76,7 +85,20 @@ namespace jni
         {
             var u = (__IntPtr)(object)e;
 
-            return u.PointerToken as CPtr;
+            var PointerToken = u.PointerToken;
+
+            var p = PointerToken as CPtr;
+
+            if (p == null)
+            {
+                var ConvertToInt64 = PointerToken as __ConvertToInt64;
+                if (ConvertToInt64 != null)
+                {
+                    p = new CPtr(ConvertToInt64.ToInt64());
+                }
+            }
+
+            return p;
         }
 
         #region pinvoke
@@ -465,7 +487,7 @@ namespace jni
         [Script(IsPInvoke = true)]
         private static long malloc(int size) { return default(long); }
         [Script(IsPInvoke = true)]
-        private static void free(long ptr) { return; }
+        internal static void free(long ptr) { return; }
 
         [Script(IsPInvoke = true)]
         public static int sizeof_jint() { return default(int); }
@@ -540,14 +562,7 @@ namespace jni
             }
         }
 
-        public void free()
-        {
-            if (peer != 0)
-            {
-                free(peer);
-                peer = 0;
-            }
-        }
+ 
 
         private void boundsCheck(int off, int sz)
         {

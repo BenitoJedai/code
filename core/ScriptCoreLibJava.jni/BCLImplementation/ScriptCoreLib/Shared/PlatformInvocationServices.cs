@@ -24,7 +24,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
         public static object IntPtrToPointerToken(IntPtr ptr)
         {
-            return ((__IntPtr)(object)ptr).PointerToken;
+            return (CPtr)ptr;
         }
 
         [Script]

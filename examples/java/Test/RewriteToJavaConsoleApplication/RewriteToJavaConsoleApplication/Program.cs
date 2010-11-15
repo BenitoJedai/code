@@ -8,6 +8,8 @@ using ClassLibrary1;
 using ScriptCoreLib;
 using System.IO;
 using System.Xml.Linq;
+using System.Runtime.InteropServices;
+using ScriptCoreLib.Interop;
 
 namespace RewriteToJavaConsoleApplication
 {
@@ -18,6 +20,7 @@ namespace RewriteToJavaConsoleApplication
             Console.WriteLine("hello world");
             Class1.Foo();
 
+#if TEST_XElement
             var doc1 = new XElement("request");
 
 #if FEATURE_XElement
@@ -30,11 +33,26 @@ namespace RewriteToJavaConsoleApplication
 
             Console.WriteLine(XElement.Parse(_result1).ToString());
 #endif
+#endif
 
             //var x = new CLRProgram();
-            ExtensionsToSwitchToCLRContext.StaticMethod1("hello");
+            //ExtensionsToSwitchToCLRContext.StaticMethod1("hello");
 
-            Console.WriteLine("jvm".StaticMethod1());
+            var retval1 = new IntPtrInfo(IntPtr.Size);
+
+            "jvm".StaticMethod1(retval1);
+
+
+
+            //Console.WriteLine("r: 0x" + r.ToString("x8"));
+            Console.WriteLine("r: " + Marshal.PtrToStringAnsi(retval1.IntPtrValue));
+
+            //var r1 = Marshal.PtrToStringAnsi(r);
+            //Marshal.FreeHGlobal(r);
+            ExtensionsToSwitchToCLRContext.StaticMethod1_free(retval1);
+            Marshal.FreeHGlobal(retval1);
+
+            //Console.WriteLine("r1: " + r1);
         }
 
 
@@ -45,6 +63,7 @@ namespace RewriteToJavaConsoleApplication
     static class ExtensionsToSwitchToCLRContext
     {
         // XElements are passed by value!
+#if TEST_XElement
 #if FEATURE_XElement
         public static XElement XMethod2(this XElement x)
         {
@@ -62,15 +81,22 @@ namespace RewriteToJavaConsoleApplication
             return doc;
         }
 #else
-            var _doc = doc.ToString();
+            //var _doc = doc.ToString();
+            var _doc = "err";
             Console.WriteLine("exit XMethod2: " + _doc);
-
+         
             // clr aint returning this string?
             return _doc;
         }
 #endif
+#endif
 
-        public static string StaticMethod1(this string args, string message2 = "ok")
+        public static void StaticMethod1_free(IntPtr retval1)
+        {
+            Marshal.FreeHGlobal(Marshal.ReadIntPtr(retval1));
+        }
+
+        public static string StaticMethod1(this string args, IntPtr retval1, string message2 = "ok")
         {
             Console.WriteLine("CLR!!: " + DateTime.Now + args);
 
@@ -84,7 +110,6 @@ namespace RewriteToJavaConsoleApplication
                 if (Assembly.GetEntryAssembly() == null)
                     Console.WriteLine("CLR adhoc? GetEntryAssembly is null");
                 else
-
                     Console.WriteLine("CLR: " + new { GetEntryAssembly = Assembly.GetEntryAssembly().Location });
 
                 Console.WriteLine(message2);
@@ -100,7 +125,16 @@ namespace RewriteToJavaConsoleApplication
                 Console.WriteLine(exc.ToString());
             }
 
-            return args + " ***";
+            IntPtrInfo nn = args + " ***";
+
+            Console.WriteLine("nn: 0x" + nn.Pointer.ToString("x8"));
+            // we have our LPString...
+
+            var __retval1 = new IntPtrInfo(8, retval1);
+            var __retval2 = Marshal.StringToHGlobalAnsi(args + " ***");
+            __retval1.Int64Value = __retval2.ToInt64();
+
+            return "hello world!!!";
         }
 
     }

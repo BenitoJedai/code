@@ -49,6 +49,21 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 			return buffer;
 		}
 
+        public virtual long ReadInt64()
+        {
+            var i = ReadBytes(8);
+
+            return
+                (i[7] << (8 * 7)) +
+                (i[6] << (8 * 6)) +
+                (i[5] << (8 * 5)) +
+                (i[4] << (8 * 4)) +
+                (i[3] << (8 * 3)) +
+                (i[2] << (8 * 2)) +
+                (i[1] << (8 * 1)) +
+                (i[0] << (8 * 0));
+        }
+
 		public virtual int ReadInt32()
 		{
 			var i = ReadBytes(4);

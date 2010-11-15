@@ -15,6 +15,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 	{
 		public org.w3c.dom.Node InternalValue;
 
+        virtual protected void InternalEnsureElement()
+        {
+        }
+
 		public override string ToString()
 		{
 			// http://faq.javaranch.com/java/DocumentToString
@@ -22,18 +26,36 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 			try
 			{
+                this.InternalEnsureElement();
+
 				Source source = new DOMSource(this.InternalValue);
 				StringWriter stringWriter = new StringWriter();
 				Result result = new StreamResult(stringWriter);
 				TransformerFactory factory = TransformerFactory.newInstance();
+
+                
 				Transformer transformer = factory.newTransformer();
+
 				transformer.transform(source, result);
 
 				r = stringWriter.getBuffer().toString();
+
+                var IsDocument = (this is __XDocument);
+                if (!IsDocument)
+                {
+                    // hack.
+
+                    var prefix = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+
+                    if (r.StartsWith(prefix))
+                        r = r.Substring(prefix.Length);
+                }
 			}
-			catch
+			catch (csharp.ThrowableException exc)
 			{
-				throw new NotSupportedException();
+                // The input node can not be null for a DOMSource for newTemplates!
+
+				throw new NotSupportedException(exc.Message);
 			}
 
 			return r;

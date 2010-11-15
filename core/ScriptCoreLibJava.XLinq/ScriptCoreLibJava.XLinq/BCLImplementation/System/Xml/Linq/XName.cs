@@ -26,8 +26,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 		public static implicit operator __XName(string e)
 		{
-			return new __XName { InternalValue = e };
+            return __XName.Get(e);
 		}
+
+        public static __XName Get(string e)
+        {
+            return new __XName { InternalValue = e };
+        }
 
 		public static XName Get(string localName, string namespaceName)
 		{
