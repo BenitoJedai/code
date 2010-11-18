@@ -53,6 +53,7 @@ namespace ScriptCoreLib.Ultra.WebService
             // http://www.w3.org/TR/html5/offline.html
 
             WriteLine(@"<!DOCTYPE HTML>");
+            WriteLine(@"<!-- Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. --> ");
             WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
             WriteLine(@"<head>");
 
