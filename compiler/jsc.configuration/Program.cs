@@ -137,7 +137,7 @@ namespace jsc.configuration
 
         private static void InitializeWindowContent(Agreement a)
         {
-
+            
 
             a.richTextBox1.Selection.Load(
                Installer.Archive.Entries.Single(k => k.FileName.EndsWith("EULA.rtf")).Data
@@ -145,6 +145,7 @@ namespace jsc.configuration
                DataFormats.Rtf
            );
 
+            a.checkBox1.IsEnabled = true;
             a.checkBox1.Checked +=
                 delegate
                 {
@@ -248,21 +249,24 @@ namespace jsc.configuration
 
         private static void InitializeDynamic()
         {
+            var s = typeof(Program).Assembly.GetManifestResourceStream("jsc.configuration.Content.latest_jsc.installer.exe");
+            var a = default(Assembly);
+
+            if (s != null)
+            {
+                var buffer = new byte[s.Length];
+
+                s.Read(buffer, 0, buffer.Length);
+
+                a = Assembly.Load(buffer);
+            }
+            
             AppDomain.CurrentDomain.AssemblyResolve +=
                  (sender, args) =>
                  {
                      if (args.Name.Contains("_jsc.installer,"))
                      {
-                         var s = typeof(Program).Assembly.GetManifestResourceStream("jsc.configuration.Content.latest_jsc.installer.exe");
-
-                         if (s != null)
-                         {
-                             var buffer = new byte[s.Length];
-
-                             s.Read(buffer, 0, buffer.Length);
-
-                             return Assembly.Load(buffer);
-                         }
+                         return a;
                      }
 
                      return null;
