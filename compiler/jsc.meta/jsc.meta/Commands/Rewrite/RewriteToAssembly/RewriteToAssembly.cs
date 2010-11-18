@@ -152,9 +152,12 @@ namespace jsc.meta.Commands.Rewrite
                 this.productExtension = this.Output.Extension;
             }
 
-            var Product_Name = (string.IsNullOrEmpty(this.product) ?
-                    this.assembly.Name + ".Rewrite" :
-                    this.product);
+            
+            var Product_Name = (!string.IsNullOrEmpty(this.product) ? this.product :
+
+                this.assembly != null ? this.assembly.Name + ".Rewrite" :
+                this.AssemblyMerge.First().name + ".Rewrite"
+            );
 
 
             #region PrimaryTypes AssemblyMerge
@@ -608,8 +611,17 @@ namespace jsc.meta.Commands.Rewrite
 
                                 var ResolvedType1 = TypeDefinitionCache[SourceType.GetGenericTypeDefinition()];
 
+                                var ResolvedType2_Types =
+                                    TypeDefinitionCache[SourceType.GetGenericArguments()];
+
+                                var ResolvedType2_TypesIsTypeBuilder =
+                                    ResolvedType2_Types.Any(k =>
+                                        k.GetType().FullName == "System.Reflection.Emit.SymbolType" ||
+                                        k.GetType().FullName == "System.Reflection.Emit.TypeBuilderInstantiation" ||
+                                        k is TypeBuilder || k is GenericTypeParameterBuilder);
+
                                 var ResolvedType2 = ResolvedType1.MakeGenericType(
-                                    TypeDefinitionCache[SourceType.GetGenericArguments()]
+                                    ResolvedType2_Types
                                 );
 
                                 // http://connect.microsoft.com/VisualStudio/feedback/details/97424/confused-typebuilder-getmethod-constructor
@@ -623,11 +635,16 @@ namespace jsc.meta.Commands.Rewrite
                                 var Def2 = default(MethodInfo);
 
                                 // ResolvedType1 is TypeBuilder || TypeDefinitionCache[source.GetGenericArguments()].Any(k => k is TypeBuilder) ?
-                                try
+                                //try
+                                if (ResolvedType1 is TypeBuilder || ResolvedType2_TypesIsTypeBuilder)
                                 {
-                                    Def2 = TypeBuilder.GetMethod(ResolvedType2, Def1);
+                                    Def2 = TypeBuilder.GetMethod(
+                                        type: ResolvedType2,
+                                        method: Def1
+                                    );
                                 }
-                                catch
+                                //catch
+                                else
                                 {
                                     Def2 = ResolvedType2.GetMethods(Flags).Single(k => k.MetadataToken == SourceMethod.MetadataToken);
                                 }

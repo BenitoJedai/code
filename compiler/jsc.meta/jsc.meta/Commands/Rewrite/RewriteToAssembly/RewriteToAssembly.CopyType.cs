@@ -679,8 +679,9 @@ namespace jsc.meta.Commands.Rewrite
                             from k in context.TypeDefinitionCache.BaseDictionary.Keys
                             let v = context.TypeDefinitionCache.BaseDictionary[k]
                             where v != null
-                            let FullName = (string.IsNullOrEmpty(k.Namespace) ? "" : k.Namespace + ".") + k.Name
-                            where FullName == DefineTypeName
+                            let FullName = ((string.IsNullOrEmpty(k.Namespace) ? "" : k.Namespace + ".") + k.Name)
+                            let FullName0 = FullNameFixup(FullName, k)
+                            where FullName0 == DefineTypeName
                             select new DuplicateInfo
                             {
                                 DeclaringType = (TypeBuilder)v,
