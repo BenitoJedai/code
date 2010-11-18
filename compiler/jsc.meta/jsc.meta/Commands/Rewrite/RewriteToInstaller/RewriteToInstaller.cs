@@ -336,6 +336,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
                 var __ConfigurationInitialize = ConfigurationInitialize;
 
+                // On some machines the AppDomain cannot be undloaded.
+                // this is a workaround, we do not know the real reason for the problem yet.
+                __ConfigurationInitialize += " /DisableWorkerDomain";
+
                 if (Debugger.IsAttached)
                     __ConfigurationInitialize += " /AttachDebugger:true";
 
