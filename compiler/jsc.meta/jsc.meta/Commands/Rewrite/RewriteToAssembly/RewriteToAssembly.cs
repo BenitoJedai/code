@@ -1079,6 +1079,12 @@ namespace jsc.meta.Commands.Rewrite
                     #endregion
 
 
+
+                    if (TypeDefinitionCache.BaseDictionary.ContainsKey(SourceType))
+                    {
+                        return;
+                    }
+
                     var ContextType = SourceType;
                     if (ShouldCopyType(ContextType))
                     {
