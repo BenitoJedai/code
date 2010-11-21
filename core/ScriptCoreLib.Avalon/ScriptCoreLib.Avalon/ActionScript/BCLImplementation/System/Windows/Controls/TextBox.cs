@@ -145,7 +145,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				var _SolidColorBrush = (__SolidColorBrush)AsSolidColorBrush;
 				uint _Color = (__Color)_SolidColorBrush.Color;
 
-				if (_SolidColorBrush.Color.A == 0)
+                var IsTransparent = _SolidColorBrush.Color.A == Colors.Transparent.A;
+
+                if (IsTransparent)
 				{
 					InternalTextField.background = false;
 				}

@@ -60,24 +60,74 @@ namespace ScriptCoreLib.Desktop.Extensions
 
                     var CreateContent = Create;
                     var ActualSize = new Canvas();
+                    var ActualSize2 = new Canvas();
 
-                    var c = CreateContent().AttachTo(ActualSize);
+                    var c = CreateContent();
+
+                    if (double.IsNaN(c.Width))
+                    {
+                      
+                    }
+                    else
+                    {
+                        ActualSize.Width = c.Width;
+                        ActualSize.Height = c.Height;
+                    }
+
+                    c.AttachTo(ActualSize);
+
+                    var w = ActualSize.ToWindow();
+
+                    if (double.IsNaN(c.Width))
+                    {
+                        w.SizeToContent = SizeToContent.Manual;
+
+
+                        w.Width = ScriptApplicationEntryPointAttribute.DefaultWidth;
+                        w.Height = ScriptApplicationEntryPointAttribute.DefaultHeight;
+                    }
+                    else
+                    {
+                        ActualSize.Width = c.Width;
+                        ActualSize.Height = c.Height;
+                    }
+
+
+                    ActualSize2.SizeChanged +=
+                        delegate
+                        {
+                            c.SizeTo(ActualSize2.ActualWidth, ActualSize2.ActualHeight);
+                        };
 
                     ActualSize.SizeChanged +=
                         delegate
                         {
                             c.SizeTo(ActualSize.ActualWidth, ActualSize.ActualHeight);
+
                         };
 
-                    var w = ActualSize.ToWindow();
+                    w.SourceInitialized +=
+                        delegate
+                        {
+                            if (w.SizeToContent != SizeToContent.Manual)
+                            {
+                                w.Content = null;
+
+                                w.SizeToContent = SizeToContent.Manual;
+                                c.Orphanize().AttachTo(ActualSize2);
+                                ActualSize2.AttachTo(w);
+                                return;
+                            }
+
+                        };
 
                     wi.Content = c;
                     wi.Window = w;
 
                     w.Background = Brushes.White;
-                    w.SizeToContent = SizeToContent.Manual;
-                    w.Width = 400;
-                    w.Height = 300;
+
+
+
                     w.Title += " | F2 - Spawn, F11 - Fullscreen";
 
                     var ExitFullscreen = default(Action);
@@ -112,6 +162,7 @@ namespace ScriptCoreLib.Desktop.Extensions
                     #endregion
 
 
+                    #region Deactivated
                     w.Deactivated +=
                         delegate
                         {
@@ -122,6 +173,8 @@ namespace ScriptCoreLib.Desktop.Extensions
                                 return;
                             }
                         };
+                    #endregion
+
 
                     #region PreviewKeyUp
                     w.PreviewKeyUp +=
