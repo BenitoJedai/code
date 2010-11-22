@@ -8,10 +8,15 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 	[Script(Implements = typeof(global::System.IO.TextWriter))]
 	internal abstract class __TextWriter : IDisposable
 	{
-		public virtual void WriteLine(string value)
-		{
+        public virtual void Write(string value)
+        {
 
-		}
+        }
+
+        public virtual void WriteLine(string value)
+        {
+
+        }
 
 		#region IDisposable Members
 

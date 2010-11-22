@@ -45,8 +45,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 			if (x.Length > 0)
 				WriteLinePending = new StringBuilder();
 
-			trace(x + e);
+            var n = x + e;
+
+            InternalWriteLine(n);
 		}
+
+        private static void InternalWriteLine(string n)
+        {
+            if (__Console.Out == null)
+            {
+                trace(n);
+                return;
+            }
+
+            __Console.Out.Write(n + Environment.NewLine);
+        }
 
 		public static void WriteLine()
 		{
@@ -73,5 +86,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 			Write(e.ToString());
 		}
+
+        public static global::System.IO.TextWriter Out { get; set; }
+
+        public static void SetOut(global::System.IO.TextWriter newOut)
+        {
+            Out = newOut;
+        }
 	}
 }

@@ -30,6 +30,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows
 			return new Vector { X = point1.X - point2.X, Y = point1.Y - point2.Y };
 		}
 
+        public static bool operator !=(__Point point1, __Point point2)
+        {
+            return !Equals(point1, point2);
+        }
+
+
+        public static bool operator ==(__Point point1, __Point point2)
+        {
+            return Equals(point1, point2);
+        }
+
+        public static bool Equals(__Point point1, __Point point2)
+        {
+            if (point1.X != point2.X)
+                return false;
+
+            if (point1.Y != point2.Y)
+                return false;
+
+            return true;
+        }
 
 		//public static __Point operator -(__Point point1, __Vector point2)
 		//{
