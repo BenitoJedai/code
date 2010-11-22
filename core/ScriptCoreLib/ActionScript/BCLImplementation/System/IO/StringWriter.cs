@@ -10,6 +10,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 	{
 		readonly StringBuilder StringBuilder = new StringBuilder();
 
+        public override void Write(string value)
+        {
+            this.StringBuilder.Append(value);
+        }
+
 		public override void WriteLine(string value)
 		{
 			StringBuilder.AppendLine(value);
