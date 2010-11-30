@@ -17,6 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewriteToJavaConsoleApplica
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewriteToJavaConsoleApplicationWithDelegates", "RewriteToJavaConsoleApplicationWithDelegates\RewriteToJavaConsoleApplicationWithDelegates.csproj", "{8164AC46-9158-4E49-B225-F9D8C9B7F5AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewriteToJavaConsoleApplicationWithDelegatesB", "RewriteToJavaConsoleApplicationWithDelegatesB\RewriteToJavaConsoleApplicationWithDelegatesB.csproj", "{3906A90B-4B51-405B-91D2-E0B2D4774C5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WithDelegates", "WithDelegates", "{2D4D33D0-69F7-4281-9DA3-C994993C59CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReturnParameter", "ReturnParameter", "{427F6030-A674-42DC-A533-D26D75A5F1C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +103,16 @@ Global
 		{8164AC46-9158-4E49-B225-F9D8C9B7F5AC}.Release|Mixed Platforms.Build.0 = Release|x86
 		{8164AC46-9158-4E49-B225-F9D8C9B7F5AC}.Release|x86.ActiveCfg = Release|x86
 		{8164AC46-9158-4E49-B225-F9D8C9B7F5AC}.Release|x86.Build.0 = Release|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Debug|x86.ActiveCfg = Debug|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Debug|x86.Build.0 = Debug|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Release|Any CPU.ActiveCfg = Release|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Release|x86.ActiveCfg = Release|x86
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +120,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BCC976A0-6D45-4B7C-BA0C-E06FD23BD1CC} = {29C7F75C-C727-4990-A5E3-2D903EE2CAC4}
 		{7376272A-E6E8-4B97-9485-BC58AE493680} = {29C7F75C-C727-4990-A5E3-2D903EE2CAC4}
+		{3906A90B-4B51-405B-91D2-E0B2D4774C5E} = {2D4D33D0-69F7-4281-9DA3-C994993C59CC}
+		{8164AC46-9158-4E49-B225-F9D8C9B7F5AC} = {2D4D33D0-69F7-4281-9DA3-C994993C59CC}
+		{7A0EAC00-800B-4F27-883B-452793941899} = {427F6030-A674-42DC-A533-D26D75A5F1C0}
 	EndGlobalSection
 EndGlobal

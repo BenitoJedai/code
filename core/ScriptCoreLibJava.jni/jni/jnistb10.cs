@@ -85,6 +85,9 @@ namespace jni
         {
             var u = (__IntPtr)(object)e;
 
+            //if (u == null)
+            //    return CPtr.NULL;
+
             var PointerToken = u.PointerToken;
 
             var p = PointerToken as CPtr;

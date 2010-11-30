@@ -1510,9 +1510,16 @@ namespace jsc.meta.Commands.Rewrite
             }
 
 
-            if (string.IsNullOrEmpty(this.EntryPoint) && string.IsNullOrEmpty(this.EntryPointAssembly))
+            if (this.DisableHiddenEntryPoints)
             {
-                DefineHiddenEntryPointsType(m, HiddenEntryPoints);
+                // less is more..
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(this.EntryPoint) && string.IsNullOrEmpty(this.EntryPointAssembly))
+                {
+                    DefineHiddenEntryPointsType(m, HiddenEntryPoints);
+                }
             }
 
             #region maybe the rewriter wants to add some types at this point?

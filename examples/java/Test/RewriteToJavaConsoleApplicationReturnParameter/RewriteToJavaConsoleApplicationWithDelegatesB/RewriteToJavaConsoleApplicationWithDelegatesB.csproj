@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BD90BDC8-73A4-416F-B98C-76A982732F33}</ProjectGuid>
+    <ProjectGuid>{3906A90B-4B51-405B-91D2-E0B2D4774C5E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RewriteToJavaConsoleApplicationWithThreads</RootNamespace>
-    <AssemblyName>RewriteToJavaConsoleApplicationWithThreads</AssemblyName>
+    <RootNamespace>RewriteToJavaConsoleApplicationWithDelegatesB</RootNamespace>
+    <AssemblyName>RewriteToJavaConsoleApplicationWithDelegatesB</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -24,7 +24,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
