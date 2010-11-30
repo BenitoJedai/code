@@ -223,6 +223,8 @@ namespace jsc.meta.Commands.Rewrite
 
         public bool DisableInvalidMergeCheck;
 
+        public bool DisableHiddenEntryPoints = true;
+
         /// <summary>
         /// To rewrite a loaded module this flag must be set.
         /// </summary>
