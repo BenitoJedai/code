@@ -677,14 +677,15 @@ namespace jsc.meta.Commands.Rewrite
                     Func<IEnumerable<DuplicateInfo>> GetDuplicates =
                         () =>
                             from k in context.TypeDefinitionCache.BaseDictionary.Keys
-                            let v = context.TypeDefinitionCache.BaseDictionary[k]
+                            let v = context.TypeDefinitionCache.BaseDictionary[k] as TypeBuilder
                             where v != null
+
                             let FullName = ((string.IsNullOrEmpty(k.Namespace) ? "" : k.Namespace + ".") + k.Name)
                             let FullName0 = FullNameFixup(FullName, k)
                             where FullName0 == DefineTypeName
                             select new DuplicateInfo
                             {
-                                DeclaringType = (TypeBuilder)v,
+                                DeclaringType = v,
                                 SourceType = k,
                                 DeclaringTypeFullName = FullName
                             };

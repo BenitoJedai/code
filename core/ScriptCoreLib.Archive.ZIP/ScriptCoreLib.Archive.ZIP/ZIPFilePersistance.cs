@@ -170,7 +170,7 @@ namespace ScriptCoreLib.Archive.ZIP
 			{
 				value(c);
 			}
-			catch
+			catch 
 			{
 				// in case of errors we will mark this workflow not to be persisted anymore...
 				PersistanceDisabled = true;

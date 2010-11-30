@@ -9,9 +9,17 @@ using System.Runtime.InteropServices;
 
 namespace RewriteToJavaConsoleApplicationWithThreads
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
+        {
+            X00.InternalMain();
+        }
+    }
+
+    class X00
+    {
+        public static void InternalMain()
         {
             Console.WriteLine("begin Generate");
 
@@ -27,8 +35,38 @@ namespace RewriteToJavaConsoleApplicationWithThreads
                     Thread.Sleep(500);
                 };
 
+            X01.Invoke(AtEvent1);
+
+            Console.WriteLine("end Generate");
+        }
+
+
+    }
+    class X01
+    {
+
+        public static void Invoke(TupleAction AtEvent1)
+        {
             // this is our call site context..
             var AtEvent_Context = Marshal.AllocHGlobal(1);
+            var t = X02.__Invoke(AtEvent_Context);
+
+            ExtensionsToSwitchToCLRContext.AtEvent1_BeginAsync(AtEvent_Context);
+
+            t.Start();
+
+            X03.PollLoop(AtEvent1, AtEvent_Context, t);
+
+            Marshal.FreeHGlobal(AtEvent_Context);
+            t.Join();
+        }
+
+    }
+
+    class X02
+    {
+        public static Thread __Invoke(IntPtr AtEvent_Context)
+        {
             var t = new Thread(
                 delegate()
                 {
@@ -36,14 +74,17 @@ namespace RewriteToJavaConsoleApplicationWithThreads
                     ExtensionsToSwitchToCLRContext.AtEvent1_EndAsync(AtEvent_Context);
                 }
             );
+            return t;
+        }
+    }
 
-            ExtensionsToSwitchToCLRContext.AtEvent1_BeginAsync(AtEvent_Context);
-
-            t.Start();
-
+    class X03
+    {
+        public static void PollLoop(TupleAction AtEvent1, IntPtr AtEvent_Context, Thread t)
+        {
             while (t.IsAlive)
             {
-                var n = ExtensionsToSwitchToCLRContext.AtEvent1_Poll(AtEvent_Context);
+                var n = X04.__Poll(AtEvent_Context);
 
                 if (n != null)
                 {
@@ -54,11 +95,15 @@ namespace RewriteToJavaConsoleApplicationWithThreads
                     Console.WriteLine("no event");
                 }
             }
+        }
+    }
 
-            Marshal.FreeHGlobal(AtEvent_Context);
-            t.Join();
-
-            Console.WriteLine("end Generate");
+    class X04
+    {
+        public static Tuple __Poll(IntPtr AtEvent_Context)
+        {
+            var n = ExtensionsToSwitchToCLRContext.AtEvent1_Poll(AtEvent_Context);
+            return n;
         }
     }
 
