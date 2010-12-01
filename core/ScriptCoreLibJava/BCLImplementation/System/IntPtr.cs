@@ -39,7 +39,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     [Script(Implements = typeof(global::System.IntPtr))]
     internal class __IntPtr
     {
-        public static readonly __IntPtr Zero = new __IntPtr();
+        public static readonly __IntPtr Zero = InternalGetZero();
 
         public static explicit operator __IntPtr(long value)
         {
@@ -53,7 +53,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public __IntPtr()
         {
-
+            this.PointerToken = new ZeroConvertToInt64();
         }
 
         public __IntPtr(long Pointer)
@@ -63,7 +63,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public static __IntPtr InternalGetZero()
         {
-            return new __IntPtr { PointerToken = new ZeroConvertToInt64() };
+            return new __IntPtr();
         }
 
         public override bool Equals(object obj)
