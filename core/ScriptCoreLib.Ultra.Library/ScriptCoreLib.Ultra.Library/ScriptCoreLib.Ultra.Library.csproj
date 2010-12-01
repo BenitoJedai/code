@@ -78,12 +78,15 @@
     <Compile Include="Desktop\AppDomainAssemblyResolve.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Forms\FormsExtensions.cs" />
+    <Compile Include="Extensions\IntPtrExtensions.cs" />
     <Compile Include="Extensions\IOExtensions.cs" />
     <Compile Include="Extensions\IOGenericExtensions.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
+    <Compile Include="Extensions\MarshalExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
+    <Compile Include="Interop\InternalPollClosure.cs" />
     <Compile Include="Interop\IntPtrDictionary.cs" />
     <Compile Include="Interop\IntPtrInfo.cs" />
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />

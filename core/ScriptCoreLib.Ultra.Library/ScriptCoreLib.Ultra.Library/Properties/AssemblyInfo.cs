@@ -38,3 +38,4 @@ using System.Runtime.InteropServices;
 
 [assembly: Obfuscation(Feature = "merge")]
 [assembly: InternalsVisibleTo("jsc.meta")]
+[assembly: InternalsVisibleTo("jsc.internal")]
