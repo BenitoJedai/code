@@ -70,6 +70,8 @@
     <Compile Include="BCLImplementation\System\BitConverter.cs" />
     <Compile Include="BCLImplementation\System\Boolean.cs" />
     <Compile Include="BCLImplementation\System\Collections\ArrayList.cs" />
+    <Compile Include="BCLImplementation\System\Collections\Hashtable.cs" />
+    <Compile Include="BCLImplementation\System\Collections\IDictionary.cs" />
     <Compile Include="BCLImplementation\System\Collections\IEnumerator.cs" />
     <Compile Include="BCLImplementation\System\Collections\IEnumerable.cs" />
     <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />

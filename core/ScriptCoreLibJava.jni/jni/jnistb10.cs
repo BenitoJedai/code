@@ -94,10 +94,12 @@ namespace jni
 
             if (p == null)
             {
-                var ConvertToInt64 = PointerToken as __ConvertToInt64;
+                var ConvertToInt64 = PointerToken as IConvertToInt64;
                 if (ConvertToInt64 != null)
                 {
-                    p = new CPtr(ConvertToInt64.ToInt64());
+                    var Int64 = ConvertToInt64.ToInt64();
+
+                    p = new CPtr(Int64);
                 }
             }
 

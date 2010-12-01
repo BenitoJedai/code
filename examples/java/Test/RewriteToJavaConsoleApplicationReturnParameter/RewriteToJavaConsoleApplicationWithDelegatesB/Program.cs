@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
+using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace RewriteToJavaConsoleApplicationWithDelegatesB
 {
@@ -11,6 +13,17 @@ namespace RewriteToJavaConsoleApplicationWithDelegatesB
     {
         public static void Main(string[] args)
         {
+            var h = new Hashtable();
+            var a = Marshal.AllocHGlobal(1);
+            var b = Marshal.AllocHGlobal(1);
+
+            h[a] = "hello";
+            h[b] = "world";
+
+
+            Console.WriteLine((string)h[a]);
+            Console.WriteLine((string)h[b]);
+
             var x = ExtensionsToSwitchToCLRContext.Method1(
                 Handler1:
                     text =>

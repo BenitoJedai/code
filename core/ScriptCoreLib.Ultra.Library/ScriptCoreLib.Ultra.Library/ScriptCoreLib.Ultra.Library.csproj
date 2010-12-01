@@ -82,7 +82,9 @@
     <Compile Include="Extensions\IOGenericExtensions.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
+    <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
+    <Compile Include="Interop\IntPtrDictionary.cs" />
     <Compile Include="Interop\IntPtrInfo.cs" />
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
