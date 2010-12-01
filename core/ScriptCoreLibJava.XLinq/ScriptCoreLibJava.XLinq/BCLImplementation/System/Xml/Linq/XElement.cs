@@ -51,6 +51,9 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 				var f = this.InternalElement.getFirstChild();
 
+                if (f == null)
+                    return null;
+
 				// http://faq.javaranch.com/java/GetNodeValue
 				// http://java.sun.com/j2se/1.4.2/docs/api/constant-values.html#org.w3c.dom.Node.TEXT_NODE
 				if (f.getNodeType() == 3)

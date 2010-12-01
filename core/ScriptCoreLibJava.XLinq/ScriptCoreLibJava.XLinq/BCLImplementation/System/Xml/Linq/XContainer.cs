@@ -176,10 +176,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 
 		public XElement Element(XName name)
 		{
+            var InternalValue = InternalGetElementByTag(name.LocalName);
+
+            if (InternalValue == null)
+                return null;
+
             // should we see if we already have it?
 			var e = new __XElement
 			{
-                InternalValue = InternalGetElementByTag(name.LocalName)
+                InternalValue = InternalValue
 			};
 
 			return (XElement)(object)e;

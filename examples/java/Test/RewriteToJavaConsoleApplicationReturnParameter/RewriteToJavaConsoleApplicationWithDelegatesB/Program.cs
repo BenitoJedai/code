@@ -25,11 +25,11 @@ namespace RewriteToJavaConsoleApplicationWithDelegatesB
             Console.WriteLine((string)h[b]);
 
             var x = ExtensionsToSwitchToCLRContext.Method1(
-                Handler1:
-                    text =>
-                    {
-                        Console.WriteLine("Handler1: " + text);
-                    },
+                //Handler1:
+                //    text =>
+                //    {
+                //        Console.WriteLine("Handler1: " + text);
+                //    },
                 Handler2:
                     text =>
                     {
@@ -45,8 +45,8 @@ namespace RewriteToJavaConsoleApplicationWithDelegatesB
     static class ExtensionsToSwitchToCLRContext
     {
         public static string Method1(
-            StringAction Handler1,
-            StringAction Handler2,
+            StringAction Handler1 = null,
+            StringAction Handler2 = null,
             string P1 = "P1",
             string P2 = "p2"
         )
@@ -54,14 +54,22 @@ namespace RewriteToJavaConsoleApplicationWithDelegatesB
             Console.WriteLine("Method1 0");
 
             if (Handler1 != null)
+            {
+                Console.WriteLine("Handler1 is not null - " + P1);
+
                 Handler1("A " + P1);
+            }
             else
                 Console.WriteLine("Handler1 is null - " + P1);
 
             Console.WriteLine("Method1 1");
 
             if (Handler2 != null)
+            {
+                Console.WriteLine("Handler2 is not null - " + P2);
+
                 Handler2("B" + P2);
+            }
             else
                 Console.WriteLine("Handler2 is null - " + P2);
 
