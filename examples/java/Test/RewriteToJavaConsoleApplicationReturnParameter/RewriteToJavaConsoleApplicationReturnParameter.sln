@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReturnParameter", "ReturnPa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewriteToJavaConsoleApplicationWithDelegatesC", "RewriteToJavaConsoleApplicationWithDelegatesC\RewriteToJavaConsoleApplicationWithDelegatesC.csproj", "{93137763-5462-4026-9265-44AB104DA7A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RewriteToJavaConsoleApplicationWithDelegatesD", "RewriteToJavaConsoleApplicationWithDelegatesD\RewriteToJavaConsoleApplicationWithDelegatesD.csproj", "{A523E139-532B-4818-A738-550843B7CE99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,16 @@ Global
 		{93137763-5462-4026-9265-44AB104DA7A7}.Release|Mixed Platforms.Build.0 = Release|x86
 		{93137763-5462-4026-9265-44AB104DA7A7}.Release|x86.ActiveCfg = Release|x86
 		{93137763-5462-4026-9265-44AB104DA7A7}.Release|x86.Build.0 = Release|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Debug|x86.ActiveCfg = Debug|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Debug|x86.Build.0 = Debug|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Release|Any CPU.ActiveCfg = Release|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Release|x86.ActiveCfg = Release|x86
+		{A523E139-532B-4818-A738-550843B7CE99}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,5 +148,6 @@ Global
 		{3906A90B-4B51-405B-91D2-E0B2D4774C5E} = {2D4D33D0-69F7-4281-9DA3-C994993C59CC}
 		{8164AC46-9158-4E49-B225-F9D8C9B7F5AC} = {2D4D33D0-69F7-4281-9DA3-C994993C59CC}
 		{93137763-5462-4026-9265-44AB104DA7A7} = {2D4D33D0-69F7-4281-9DA3-C994993C59CC}
+		{A523E139-532B-4818-A738-550843B7CE99} = {2D4D33D0-69F7-4281-9DA3-C994993C59CC}
 	EndGlobalSection
 EndGlobal

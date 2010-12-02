@@ -90,6 +90,7 @@ namespace jsc.Languages.Java
                         this.WriteLine();
 
                         var IntPtrToPointerToken = ((Func<IntPtr, object>)PlatformInvocationServices.IntPtrToPointerToken).Method;
+                        var StringOrNullCPtr = ((Func<string, object>)PlatformInvocationServices.StringOrNullCPtr).Method;
 
 
                         using (this.CreateScope())
@@ -110,6 +111,15 @@ namespace jsc.Languages.Java
                                     this.WriteDecoratedMethodName(IntPtrToPointerToken, false);
                                     this.Write("(");
                                     this.WriteDecoratedMethodParameter(p[i], typeof(IntPtr));
+                                    this.Write(")");
+                                }
+                                else if (p[i].ParameterType == typeof(string))
+                                {
+                                    this.WriteDecoratedTypeName(StringOrNullCPtr.DeclaringType);
+                                    this.Write(".");
+                                    this.WriteDecoratedMethodName(StringOrNullCPtr, false);
+                                    this.Write("(");
+                                    this.WriteDecoratedMethodParameter(p[i], typeof(string));
                                     this.Write(")");
                                 }
                                 else
