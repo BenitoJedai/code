@@ -10,6 +10,14 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
     [Script(Implements = typeof(global::ScriptCoreLib.Shared.PlatformInvocationServices))]
     internal class __PlatformInvocationServices
     {
+        public static object StringOrNullCPtr(string e)
+        {
+            if (e == null)
+                return CPtr.NULL;
+
+            return e;
+        }
+
         public static IDisposable CreateCMallocCollector()
         {
             return new CMalloc.Collector();

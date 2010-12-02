@@ -10,6 +10,11 @@ namespace ScriptCoreLib.Shared
 	/// </summary>
 	public class PlatformInvocationServices
 	{
+        public static object StringOrNullCPtr(string e)
+        {
+            return default(object);
+        }
+
         public static IDisposable CreateCMallocCollector()
         {
             return default(IDisposable);
