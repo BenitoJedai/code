@@ -83,7 +83,7 @@ namespace JVMCLRForm
         [STAThread]
         public static void CLRMain(
              StringAction ListMethods = null,
-            Action SwitchVM = null
+             Action SwitchVM = null
             )
         {
             Application.EnableVisualStyles();

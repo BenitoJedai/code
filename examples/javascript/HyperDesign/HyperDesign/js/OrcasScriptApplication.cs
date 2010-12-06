@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
 using System;
 using System.Linq;
+using HyperDesign.HTML.Pages;
 
 
 namespace HyperDesign.js
@@ -20,7 +21,7 @@ namespace HyperDesign.js
 		{
 			Native.Document.body.style.overflow = IStyle.OverflowEnum.auto;
 
-			var g1 = new Pages.ThreeDGroup1();
+			var g1 = new ThreeDGroup1();
 
 			//WriteAnimations();
 
@@ -43,7 +44,7 @@ namespace HyperDesign.js
 
 			g1.Container.AttachToDocument();
 
-			var n = new Pages.Application();
+			var n = new Application();
 
 			n.Container.AttachToDocument();
 
@@ -70,7 +71,7 @@ namespace HyperDesign.js
 			n.Add.onclick +=
 				delegate
 				{
-					var i = new Pages.Summary();
+					var i = new Summary();
 					var j = new Employee
 					{
 						Number = List.Count + 1,
@@ -102,7 +103,7 @@ namespace HyperDesign.js
 						{
 							i.Edit.disabled = true;
 
-							var details = new Pages.Details();
+							var details = new Details();
 
 							details.FirstName.value = i.FirstName.value;
 							details.LastName.value = i.LastName.value;
@@ -138,8 +139,10 @@ namespace HyperDesign.js
 			Action<string> Write = r => new IHTMLDiv { innerText = r }.AttachToDocument();
 
 
-			foreach (var r in Pages.ThreeDGroup1.Static.Images)
+			foreach (var rr in ThreeDGroup1.Create().Images)
 			{
+                var r = rr.src;
+
 				Write(r);
 
 				var u = new Uri(r);

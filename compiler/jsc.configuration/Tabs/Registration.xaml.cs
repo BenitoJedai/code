@@ -12,26 +12,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace jsc.configuration
+namespace jsc.configuration.Tabs
 {
     /// <summary>
-    /// Interaction logic for Agreement.xaml
+    /// Interaction logic for Registration.xaml
     /// </summary>
-    public partial class Agreement : UserControl
+    public partial class Registration : UserControl
     {
-        public Agreement()
+        public Registration()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

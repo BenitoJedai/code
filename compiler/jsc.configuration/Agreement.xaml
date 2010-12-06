@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" d:DesignHeight="413" d:DesignWidth="613" xmlns:my="clr-namespace:jsc.configuration.Controls" xmlns:my1="clr-namespace:jsc.configuration">
+             mc:Ignorable="d" d:DesignHeight="413" d:DesignWidth="613" xmlns:my="clr-namespace:jsc.configuration.Controls" xmlns:my1="clr-namespace:jsc.configuration" xmlns:my2="clr-namespace:jsc.configuration.Tabs">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="400" Width="600">
         <Image Height="96" HorizontalAlignment="Right" Margin="0,0,0,304" Name="image1" Source="/jsc.configuration;component/Documents/jsc.png" Stretch="None" VerticalAlignment="Bottom" Width="96" Visibility="Hidden" />
-        <Button Content="Install" Height="23" HorizontalAlignment="Right" IsEnabled="False" Margin="0,0,12,9" Name="button1" VerticalAlignment="Bottom" Width="175" />
+        <Button Content="Install" Height="23" HorizontalAlignment="Right" IsEnabled="False" Margin="0,0,12,9" Name="button1" VerticalAlignment="Bottom" Width="175" Click="button1_Click" />
         <CheckBox Content="I agree with the End User Agreement shown above" Height="16" HorizontalAlignment="Left" Margin="10,0,0,12" Name="checkBox1" VerticalAlignment="Bottom" FontWeight="Bold" IsEnabled="False" />
         <TabControl Margin="10,83,12,39" Name="tabControl1">
             <TabItem Header="End User License Agreement" Name="tabItem1">
@@ -27,11 +27,6 @@
                     <my:FolderEntry HorizontalAlignment="Left" Margin="40,184,0,0" x:Name="folderEntry4" Text="c:\util\flex4\" VerticalAlignment="Top" Width="499" DownloadLocation="http://ant.apache.org/bindownload.cgi" />
                     <Label Content="Thank you for choosing jsc!" FontWeight="Bold" Height="28" HorizontalAlignment="Left" Margin="6,212,0,0" Name="label1" VerticalAlignment="Top" />
                     <Button Content="Finish" Height="23" HorizontalAlignment="Right" Margin="0,217,6,0" Name="button2" VerticalAlignment="Top" Width="149" FontWeight="Bold" Click="button2_Click" />
-                </Grid>
-            </TabItem>
-            <TabItem Header="Configuration" Name="tabItem3" Visibility="Hidden">
-                <Grid >
-                    <my1:Configuration HorizontalAlignment="Stretch" Margin="4,4,4,4" x:Name="configuration1" VerticalAlignment="Stretch" />
                 </Grid>
             </TabItem>
         </TabControl>
