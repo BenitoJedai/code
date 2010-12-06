@@ -137,7 +137,7 @@ namespace jsc.configuration
 
         private static void InitializeWindowContent(Agreement a)
         {
-            
+
 
             a.richTextBox1.Selection.Load(
                Installer.Archive.Entries.Single(k => k.FileName.EndsWith("EULA.rtf")).Data
@@ -157,6 +157,7 @@ namespace jsc.configuration
             a.button1.Click +=
                 delegate
                 {
+
                     //System.Diagnostics.Debug.WriteLine("before install");
                     a.button1.IsEnabled = false;
                     a.checkBox1.IsEnabled = false;
@@ -196,7 +197,7 @@ namespace jsc.configuration
                             Process.Start("http://register.jsc-solutions.net/");
                         }
                     );
-               
+
 
                     a.Dispatcher.Invoke(
                         new Action(
@@ -260,7 +261,7 @@ namespace jsc.configuration
 
                 a = Assembly.Load(buffer);
             }
-            
+
             AppDomain.CurrentDomain.AssemblyResolve +=
                  (sender, args) =>
                  {

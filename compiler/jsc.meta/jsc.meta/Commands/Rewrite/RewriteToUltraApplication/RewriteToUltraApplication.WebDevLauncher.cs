@@ -391,6 +391,20 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 
 						   n.ContextMenuStrip.Items.Add(Tools);
+
+                           n.ContextMenuStrip.Items.Add(new ToolStripSeparator());
+
+                           n.ContextMenuStrip.Items.Add(
+                            new ToolStripMenuItem(
+                                "Customer Feedback Options...",
+                                null,
+                                delegate
+                                {
+                                    Process.Start("http://feedback.jsc-solutions.net");
+                                }
+                            )
+                           );
+
 						   n.ContextMenuStrip.Items.Add(new ToolStripSeparator());
 
 
@@ -437,6 +451,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 								   Font = new Font(SystemFonts.DialogFont, FontStyle.Bold)
 							   }
 						   );
+
 						   n.DoubleClick +=
 							   delegate
 							   {
@@ -446,7 +461,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 
 
 						   n.Text = Text;
-						   n.ShowBalloonTip(300, Text, "Loading...", ToolTipIcon.None);
+						   n.ShowBalloonTip(300, Text, "Loading...\n\nSend us your feedback!", ToolTipIcon.None);
 
 
 						   Application.Run();
