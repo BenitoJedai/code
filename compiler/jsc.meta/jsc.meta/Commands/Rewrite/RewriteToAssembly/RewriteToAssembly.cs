@@ -143,7 +143,7 @@ namespace jsc.meta.Commands.Rewrite
                 assembly.LoadReferencesAt(staging, this.assembly.Directory);
             }
 
-            // AssemblyMerge will copy resources too... getting crowded!
+            // AssemblyMerge will copy resources too... getting crowded! who else?
             Action<AssemblyBuilder, ModuleBuilder> InvokeLater = delegate { };
 
             if (this.Output != null)
@@ -159,9 +159,77 @@ namespace jsc.meta.Commands.Rewrite
                 this.AssemblyMerge.First().name + ".Rewrite"
             );
 
+            Action<Assembly> CopyAssetsFromAssembly =
+                shadow_assembly =>
+                {
+                    var ResourceNames = Enumerable.ToArray(
+                        from item in shadow_assembly.GetManifestResourceNames()
+
+                        let Is = new
+                        {
+                            FSharpOptimizationData = item.StartsWith("FSharpOptimizationData."),
+                            FSharpSignatureData = item.StartsWith("FSharpSignatureData.")
+                        }
+
+                        // what are these for?
+                        where !Is.FSharpOptimizationData && !Is.FSharpSignatureData
+
+                        // There is a generated ldstr in the project.
+                        //      ResourceManager manager = new ResourceManager("TestObfuscationWithXAML.Properties.Resources", typeof(Resources).Assembly);
+
+                        let IsProperties = item.EndsWith(".Properties.Resources.resources")
+                        let IsResources = item.EndsWith(".resources")
+
+                        // XAML loader seems to use GetExcecutingAssemblyName
+                        let IsXAMLResources = item.EndsWith(".g.resources")
+
+                        let ShouldRename = item.StartsWith(shadow_assembly.GetName().Name)
+
+                        let RenamedName = new Func<string>(() => Product_Name + item.Substring(shadow_assembly.GetName().Name.Length))
+
+                        let n = IsProperties ? item :
+                                    IsXAMLResources ? RenamedName() :
+                                        IsResources ? (NameObfuscation[item.TakeUntilLastOrEmpty(".resources")] + ".resources") :
+                                            (ShouldRename) ? RenamedName() :
+                                                item
+
+                        select new { item, n }
+                    );
+
+
+                    foreach (var item in ResourceNames)
+                    {
+                        Console.WriteLine("asset merge: " + item.item);
+
+                        this.RewriteArguments.context.StringLiteralCache[item.item] = item.n;
+                    }
+
+                    InvokeLater +=
+                        (__a, __m) =>
+                        {
+                            foreach (var item in ResourceNames)
+                            {
+
+                                __m.DefineManifestResource(
+                                    item.n,
+                                    shadow_assembly.GetManifestResourceStream(item.item), ResourceAttributes.Public
+                                );
+
+                            }
+                        };
+                };
+
 
             #region PrimaryTypes AssemblyMerge
-            if (this.PrimaryTypes.Length == 0)
+            if (this.PrimaryTypes.Length > 0)
+            {
+                if (this.PrimaryTypesWithAssets)
+                {
+                    this.PrimaryTypes.Select(k => k.Assembly).Distinct().WithEach(CopyAssetsFromAssembly);
+                }
+
+            }
+            else
             {
                 this.PrimaryTypes = this.AssemblyMerge.SelectMany(
                     k =>
@@ -200,47 +268,7 @@ namespace jsc.meta.Commands.Rewrite
 
                         }
 
-                        var ResourceNames = Enumerable.ToArray(
-                            from item in shadow_assembly.GetManifestResourceNames()
-
-                            let Is = new
-                            {
-                                FSharpOptimizationData = item.StartsWith("FSharpOptimizationData."),
-                                FSharpSignatureData = item.StartsWith("FSharpSignatureData.")
-                            }
-
-                            // what are these for?
-                            where !Is.FSharpOptimizationData && !Is.FSharpSignatureData
-
-                            // There is a generated ldstr in the project.
-                            //      ResourceManager manager = new ResourceManager("TestObfuscationWithXAML.Properties.Resources", typeof(Resources).Assembly);
-
-                            let IsProperties = item.EndsWith(".Properties.Resources.resources")
-                            let IsResources = item.EndsWith(".resources")
-
-                            // XAML loader seems to use GetExcecutingAssemblyName
-                            let IsXAMLResources = item.EndsWith(".g.resources")
-
-                            let ShouldRename = item.StartsWith(shadow_assembly.GetName().Name)
-
-                            let RenamedName = new Func<string>(() => Product_Name + item.Substring(shadow_assembly.GetName().Name.Length))
-
-                            let n = IsProperties ? item :
-                                        IsXAMLResources ? RenamedName() :
-                                            IsResources ? (NameObfuscation[item.TakeUntilLastOrEmpty(".resources")] + ".resources") :
-                                                (ShouldRename) ? RenamedName() :
-                                                    item
-
-                            select new { item, n }
-                        );
-
-
-                        foreach (var item in ResourceNames)
-                        {
-                            Console.WriteLine("asset merge: " + item.item);
-
-                            this.RewriteArguments.context.StringLiteralCache[item.item] = item.n;
-                        }
+                        CopyAssetsFromAssembly(shadow_assembly);
 
                         InvokeLater +=
                             (__a, __m) =>
@@ -274,15 +302,7 @@ namespace jsc.meta.Commands.Rewrite
                                 }
 
 
-                                foreach (var item in ResourceNames)
-                                {
-
-                                    __m.DefineManifestResource(
-                                        item.n,
-                                        shadow_assembly.GetManifestResourceStream(item.item), ResourceAttributes.Public
-                                    );
-
-                                }
+                          
 
 
                                 shadow_assembly.EntryPoint.With(
