@@ -149,6 +149,10 @@ namespace jsc.meta.Commands.Rewrite
 
         public Type[] PrimaryTypes = new Type[0];
 
+        /// <summary>
+        /// If this flag was set, every assembly referenced by a referenced type is inspected for assets.
+        /// </summary>
+        public bool PrimaryTypesWithAssets;
 
         public class AssemblyRewriteArguments
         {
