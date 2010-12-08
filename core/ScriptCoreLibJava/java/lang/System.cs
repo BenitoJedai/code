@@ -24,6 +24,11 @@ namespace java.lang
 			return default(long);
 		}
 
+        public static void load(string p)
+        {
+
+        }
+
 		public static void loadLibrary(string p)
 		{
 

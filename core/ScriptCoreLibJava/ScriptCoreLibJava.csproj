@@ -193,6 +193,7 @@
     <Compile Include="BCLImplementation\System\Threading\ThreadStart.cs" />
     <Compile Include="BCLImplementation\System\Type.cs" />
     <Compile Include="BCLImplementation\System\Uri.cs" />
+    <Compile Include="Extensions\BCLImplementationExtensions.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="javax.common\runtime\WrappedBigDecimal.cs" />
