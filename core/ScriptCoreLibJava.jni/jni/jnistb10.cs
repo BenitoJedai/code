@@ -250,6 +250,37 @@ namespace jni
         /// <param name="fname"></param>
         public CFunc(string lib, string fname)
         {
+            string r = null;
+
+            r = InternalTryLoadLibrary(lib, fname);
+
+            if (r == null)
+                return;
+         
+            var path = java.lang.JavaSystem.getProperty("java.library.path").Split(';');
+
+            foreach (var item in path)
+            {
+                var xlib = item + "/" + lib;
+                var xr = InternalTryLoadLibrary(xlib, fname);
+
+                if (xr == null)
+                {
+                    r = null;
+                    break;
+                }
+            }
+
+            if (r == null)
+                return;
+
+            throw new System.InvalidOperationException(r);
+        }
+
+        private string InternalTryLoadLibrary(string lib, string fname)
+        {
+            string r = null;
+
             try
             {
                 peer = find(lib, fname);
@@ -261,11 +292,11 @@ namespace jni
             catch (csharp.UnsatisfiedLinkError u)
             {
 
-                throw new System.InvalidOperationException(
+                r = "[UnsatisfiedLinkError] lib: " + lib + "; fname: " + fname + "; message:" + u.Message;
 
-                    "[UnsatisfiedLinkError] lib: " + lib + "; fname: " + fname + "; message:" + u.Message
-                );
             }
+
+            return r;
         }
 
         [Script(IsPInvoke = true)]

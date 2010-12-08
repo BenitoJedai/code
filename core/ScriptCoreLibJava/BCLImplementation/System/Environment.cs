@@ -17,6 +17,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 		}
 
+     
 		public static string CurrentDirectory
 		{
 			get

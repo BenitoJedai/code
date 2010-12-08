@@ -49,5 +49,9 @@ namespace java.lang
 		{
 			return default(string);
 		}
+
+        static public void setProperty(string @key, string value)
+        {
+        }
 	}
 }
