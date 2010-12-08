@@ -12,6 +12,8 @@ namespace java.lang
 	[Script(IsNative = true)]
 	public class Class
 	{
+ 
+
 		/// <summary>
 		/// Returns the assertion status that would be assigned to this
 		/// class if it were to be initialized at the time this method is invoked.

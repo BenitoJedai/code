@@ -13,6 +13,8 @@ using NullReferenceException = global::System.NullReferenceException;
 using IndexOutOfRangeException = global::System.IndexOutOfRangeException;
 using IDisposable = global::System.IDisposable;
 using ScriptCoreLibJava.BCLImplementation.System;
+using ScriptCoreLibJava.Extensions;
+using System.IO;
 
 namespace jni
 {
@@ -184,17 +186,81 @@ namespace jni
         static CPtr()
         {
             // http://support.teamdev.com/thread/405
-            JavaSystem.loadLibrary(CPtrLibrary.LibraryPath);
+            InternalTryLoadLibrary();
 
             NULL = new CPtr();
 
             SIZE = initIDs(NULL);
         }
 
-        private static void LoadLibrary()
+        private static void InternalTryLoadLibrary()
         {
+            try
+            {
+                JavaSystem.loadLibrary(CPtrLibrary.LibraryPath);
+
+            }
+            catch
+            {
+                InternalTryLoadLibraryAtHint();
+            }
 
         }
+
+        private static void InternalTryLoadLibraryAtHint()
+        {
+            // Directory separator should not appear in library name
+            // see: http://www.chilkatsoft.com/p/p_499.asp
+            var hint = Path.Combine(InternalGetHintPath(), CPtrLibrary.LibraryPath) + ".dll";
+
+           
+            try
+            {
+                JavaSystem.load(hint);
+            }
+            catch (csharp.ThrowableException ex)
+            {
+                ((Throwable)(object)ex).printStackTrace();
+                throw new System.InvalidOperationException("Failed to loadLibrary: " + CPtrLibrary.LibraryPath + " or " + hint);
+            }
+        }
+
+        public static string InternalGetHintPath()
+        {
+            var ff = "";
+
+            try
+            {
+                var ct = typeof(CPtr);
+                var c = ct.ToClass();
+                var url = c.getResource("");
+                var path = url.ToString();
+
+                // jar:file:/W:x/bin/Debug/staging/web/bin/x.__interface.__delegate.clr.dll!/EstEIDPerso/ChipXpressPlugin/
+                if (path.StartsWith("jar:file:"))
+                {
+                    path = path.Substring("jar:file:".Length);
+
+                    if (path.StartsWith("/"))
+                        path = path.Substring(1);
+
+                    path = path.Substring(0, path.IndexOf("!"));
+
+
+                }
+
+
+                ff = new java.io.File(path).getCanonicalPath();
+            }
+            catch (csharp.ThrowableException ex)
+            {
+                throw new System.InvalidOperationException("InternalGetHintPath");
+            }
+
+            return Path.GetDirectoryName(ff);
+        }
+
+
 
         public static CPtr ReportNullReference(CPtr cPtr)
         {
@@ -256,12 +322,22 @@ namespace jni
 
             if (r == null)
                 return;
-         
+
+            {
+                var xlib = Path.Combine(CPtr.InternalGetHintPath(), lib);
+                var xr = InternalTryLoadLibrary(xlib, fname);
+
+                if (xr == null)
+                {
+                    return;
+                }
+            }
+
             var path = java.lang.JavaSystem.getProperty("java.library.path").Split(';');
 
             foreach (var item in path)
             {
-                var xlib = item + "/" + lib;
+                var xlib = Path.Combine(item, lib);
                 var xr = InternalTryLoadLibrary(xlib, fname);
 
                 if (xr == null)
@@ -598,7 +674,7 @@ namespace jni
             }
         }
 
- 
+
 
         private void boundsCheck(int off, int sz)
         {
