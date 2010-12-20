@@ -45,10 +45,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
                 {
                     // hack.
 
-                    var prefix = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+                    {
+                        var prefix = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
-                    if (r.StartsWith(prefix))
-                        r = r.Substring(prefix.Length);
+                        if (r.StartsWith(prefix))
+                            r = r.Substring(prefix.Length);
+                    }
+
+                    {
+                        var prefix = "\r\n";
+
+                        if (r.StartsWith(prefix))
+                            r = r.Substring(prefix.Length);
+                    }
                 }
 			}
 			catch (csharp.ThrowableException exc)
