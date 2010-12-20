@@ -54,6 +54,7 @@ namespace JVMCLRForm
             {
                 SwitchVM = false;
 
+                CLRProgram.XML = new XElement("hello", "world");
                 CLRProgram.CLRMain(
                     ListMethods: ListMethods,
                     SwitchVM: () => SwitchVM = true
@@ -78,15 +79,21 @@ namespace JVMCLRForm
     [SwitchToCLRContext]
     static class CLRProgram
     {
+        public static XElement XML { get; set; }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         public static void CLRMain(
+            // error?
+            //XElementAction xml = null,
              StringAction ListMethods = null,
              Action SwitchVM = null
             )
         {
+            Console.WriteLine(XML);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(
