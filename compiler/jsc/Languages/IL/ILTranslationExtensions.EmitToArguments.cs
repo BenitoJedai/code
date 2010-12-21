@@ -271,6 +271,7 @@ namespace jsc.Languages.IL
                     {OpCodes.Brfalse_S, OpCodes.Brfalse},
                     {OpCodes.Bne_Un_S, OpCodes.Bne_Un},
                     {OpCodes.Bge_S, OpCodes.Bge},
+                    {OpCodes.Bge_Un_S, OpCodes.Bge_Un},
                     {OpCodes.Blt_Un_S, OpCodes.Blt_Un},
                     {OpCodes.Blt_S, OpCodes.Blt},
                     {OpCodes.Ble_S, OpCodes.Ble},

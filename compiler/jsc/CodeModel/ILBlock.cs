@@ -1841,7 +1841,14 @@ namespace jsc
                             b = new ILBlock(this, b, null, ExtractInstructions(b.Last.Next.Offset, length));
                         }
                         else
-                            b = new ILBlock(this, b, null, ExtractInstructions(b.Last.Next.Offset, (c.TryOffset - 1) - b.Last.Next.Offset));
+                        {
+                            var length = (c.TryOffset - 1) - b.Last.Next.Offset;
+
+                            if (length < 0)
+                                length = 0;
+
+                            b = new ILBlock(this, b, null, ExtractInstructions(b.Last.Next.Offset, length));
+                        }
 
                         count += 3;
                     }
