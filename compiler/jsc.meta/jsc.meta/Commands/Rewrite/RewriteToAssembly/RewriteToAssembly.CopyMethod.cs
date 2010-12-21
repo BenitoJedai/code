@@ -233,18 +233,25 @@ namespace jsc.meta.Commands.Rewrite
 
                     foreach (var item in ga[i].GetGenericParameterConstraints())
                     {
-                        var GenericParameter = gp[i];
-
                         // any issues if circular referencing?
                         //var Constraint = DelayedTypeCache(item);
                         var Constraint = context.TypeDefinitionCache[item];
 
-                        if (item.IsInterface)
-                        {
-                            GenericParameter.SetInterfaceConstraints(Constraint);
-                        }
+
+                        var gpi = gp[i];
+
+                        // any issues if circular referencing?
+                        // Unable to change after type has been created.
+                        gpi.SetGenericParameterAttributes(ga[i].GenericParameterAttributes);
+
+                        if (item.IsClass)
+                            gpi.SetBaseTypeConstraint(Constraint);
                         else
-                            GenericParameter.SetBaseTypeConstraint(Constraint);
+                        {
+                            // http://forum.springframework.net/showthread.php?page=2&t=644
+
+                            gpi.SetInterfaceConstraints(Constraint);
+                        }
                     }
                 }
             }

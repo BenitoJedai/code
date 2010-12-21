@@ -472,7 +472,9 @@ namespace jsc.Languages.IL
 					OpCodes.Conv_Ovf_I_Un,
 					OpCodes.Conv_Ovf_U4,
 					OpCodes.Conv_Ovf_I4,
-
+					OpCodes.Conv_Ovf_U2,
+					OpCodes.Conv_Ovf_U2_Un,
+                   
 					OpCodes.Ldlen,
 					OpCodes.Throw,
 					OpCodes.Nop,
