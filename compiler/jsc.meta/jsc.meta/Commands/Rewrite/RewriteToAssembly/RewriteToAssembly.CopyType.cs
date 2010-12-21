@@ -586,14 +586,20 @@ namespace jsc.meta.Commands.Rewrite
                         {
                             var Constraint = context.TypeDefinitionCache[item];
 
+                            var gpi = gp[i];
 
                             // any issues if circular referencing?
                             // Unable to change after type has been created.
+                            gpi.SetGenericParameterAttributes(ga[i].GenericParameterAttributes);
 
-                            if (item.IsInterface)
-                                gp[i].SetInterfaceConstraints(Constraint);
+                            if (item.IsClass)
+                                gpi.SetBaseTypeConstraint(Constraint);
                             else
-                                gp[i].SetBaseTypeConstraint(Constraint);
+                            {
+                                // http://forum.springframework.net/showthread.php?page=2&t=644
+
+                                gpi.SetInterfaceConstraints(Constraint);
+                            }
                         }
                     }
                 }
