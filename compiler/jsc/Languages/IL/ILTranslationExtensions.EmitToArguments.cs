@@ -72,13 +72,13 @@ namespace jsc.Languages.IL
                             return;
                         }
 
-                        e.il.Emit(OpCodes.Stloc, LocalIndex);
+                        e.il.Emit(OpCodes.Stloc, (short)LocalIndex);
                     };
 
                 Stloc_.ForEach((OpCode, n) => this[OpCode] = e => Stloc(e, TranslateLocalIndex(n)));
 
                 this[OpCodes.Stloc_S] = e => Stloc(e, TranslateLocalIndex(e.i.OpParamAsInt8));
-                this[OpCodes.Stloc] = e => Stloc(e, TranslateLocalIndex(e.i.OpParamAsInt16));
+                this[OpCodes.Stloc] = e => Stloc(e, TranslateLocalIndex(e.i.OpParamAsUInt16));
                 #endregion
 
 
@@ -106,13 +106,13 @@ namespace jsc.Languages.IL
                             return;
                         }
 
-                        e.il.Emit(OpCodes.Ldloc, LocalIndex);
+                        e.il.Emit(OpCodes.Ldloc, (short)LocalIndex);
                     };
 
                 Ldloc_.ForEach((OpCode, n) => this[OpCode] = e => Ldloc(e, TranslateLocalIndex(n)));
 
                 this[OpCodes.Ldloc_S] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsInt8));
-                this[OpCodes.Ldloc] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsInt16));
+                this[OpCodes.Ldloc] = e => Ldloc(e, TranslateLocalIndex(e.i.OpParamAsUInt16));
                 #endregion
 
                 this[OpCodes.Newobj] = e => e.il.Emit(OpCodes.Newobj, this.TranslateTargetConstructor(e.i.TargetConstructor));
@@ -554,6 +554,11 @@ namespace jsc.Languages.IL
             }
 
             public OpCode[] this[Func<ILInstruction, FieldInfo> selector]
+            {
+                set { value.ForEach(OpCode => this[OpCode] = e => e.il.Emit(OpCode, selector(e.i))); }
+            }
+
+            public OpCode[] this[Func<ILInstruction, short> selector]
             {
                 set { value.ForEach(OpCode => this[OpCode] = e => e.il.Emit(OpCode, selector(e.i))); }
             }
