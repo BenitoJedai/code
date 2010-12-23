@@ -44,6 +44,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return (int)e;
 		}
 
+        public static int ToInt32(string e)
+        {
+            return int.Parse(e);
+        }
+
 		// what about this : public static int ToInt32(int e)
 
 		public static int ToInt32(uint e)

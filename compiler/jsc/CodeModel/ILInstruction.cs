@@ -1060,6 +1060,7 @@ namespace jsc
             }
         }
 
+        // UInt8!
         public byte OpParamAsInt8
         {
             get
@@ -1082,6 +1083,17 @@ namespace jsc
             {
                 if (OpParam.Length == 2)
                     return (short)(OpParam[0] + (OpParam[1] << 8));
+                else
+                    throw new NotSupportedException(new { OpParam.Length }.ToString());
+            }
+        }
+
+        public ushort OpParamAsUInt16
+        {
+            get
+            {
+                if (OpParam.Length == 2)
+                    return (ushort)(OpParam[0] + (OpParam[1] << 8));
                 else
                     throw new NotSupportedException(new { OpParam.Length }.ToString());
             }
