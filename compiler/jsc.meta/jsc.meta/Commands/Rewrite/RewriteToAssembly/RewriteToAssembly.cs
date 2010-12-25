@@ -384,12 +384,15 @@ namespace jsc.meta.Commands.Rewrite
                 OutputAssemblyName.KeyPair = new StrongNameKeyPair(File.ReadAllBytes(this.OutputStrongNameKeyPair.FullName));
 
             a = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                OutputAssemblyName,
-                AssemblyBuilderAccess.RunAndSave,
-                _ct_staging_FullName
+                name: OutputAssemblyName,
+                access: AssemblyBuilderAccess.RunAndSave,
+                dir: _ct_staging_FullName
             );
 
-            m = a.DefineDynamicModule(Path.GetFileNameWithoutExtension(_ct_Product_Name), _ct_SaveName);
+            m = a.DefineDynamicModule(
+                name: Path.GetFileNameWithoutExtension(_ct_Product_Name),
+                fileName: _ct_SaveName
+            );
 
 
 
@@ -1000,7 +1003,7 @@ namespace jsc.meta.Commands.Rewrite
                 };
             #endregion
 
-            // assemblies loaded at different locatiuons will have different hashes for types but the GUIDs are the same
+            // assemblies loaded at different locations will have different hashes for types but the GUIDs are the same
 
 
             #region TypeDefinitionCache
@@ -1565,7 +1568,9 @@ namespace jsc.meta.Commands.Rewrite
 
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
-            a.Save(_ct_SaveName);
+            a.Save(
+                assemblyFileName: _ct_SaveName
+            );
 
             // The type definition of the global function is not completed.
             if (OutputUndefined)

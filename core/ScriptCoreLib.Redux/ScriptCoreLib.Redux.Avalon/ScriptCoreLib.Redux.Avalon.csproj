@@ -62,11 +62,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon\ScriptCoreLib.Avalon.csproj">
       <Project>{0910EC49-6697-4664-8A71-F09CAEC02E88}</Project>
-      <Name>ScriptCoreLib.Avalon %28ScriptCoreLib.Avalon\ScriptCoreLib.Avalon%29</Name>
+      <Name>ScriptCoreLib.Avalon</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ScriptCoreLib\ScriptCoreLib.csproj">
       <Project>{C9F431EB-5D35-4C7B-826B-A4E4CA913AA6}</Project>
-      <Name>ScriptCoreLib %28ScriptCoreLib\ScriptCoreLib%29</Name>
+      <Name>ScriptCoreLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScriptCoreLib.Redux\ScriptCoreLib.Redux.csproj">
       <Project>{B7EEAE58-6CB9-45DD-A06F-B6D04DF588F3}</Project>

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMergeHonoringSubsystems", "AssemblyMergeHonoringSubsystems\AssemblyMergeHonoringSubsystems.csproj", "{021C4C3E-AEB5-45F1-8255-FBBF906A1BFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{2778C921-430E-4EAF-B740-69D84B85E7A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{021C4C3E-AEB5-45F1-8255-FBBF906A1BFA}.Debug|x86.ActiveCfg = Debug|x86
+		{021C4C3E-AEB5-45F1-8255-FBBF906A1BFA}.Debug|x86.Build.0 = Debug|x86
+		{021C4C3E-AEB5-45F1-8255-FBBF906A1BFA}.Release|x86.ActiveCfg = Release|x86
+		{021C4C3E-AEB5-45F1-8255-FBBF906A1BFA}.Release|x86.Build.0 = Release|x86
+		{2778C921-430E-4EAF-B740-69D84B85E7A9}.Debug|x86.ActiveCfg = Debug|x86
+		{2778C921-430E-4EAF-B740-69D84B85E7A9}.Debug|x86.Build.0 = Debug|x86
+		{2778C921-430E-4EAF-B740-69D84B85E7A9}.Release|x86.ActiveCfg = Release|x86
+		{2778C921-430E-4EAF-B740-69D84B85E7A9}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

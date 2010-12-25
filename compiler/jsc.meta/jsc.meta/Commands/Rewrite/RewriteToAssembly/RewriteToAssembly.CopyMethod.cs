@@ -12,6 +12,7 @@ using jsc.Languages.IL;
 using jsc.Library;
 using jsc.meta.Library;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Desktop;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -350,6 +351,17 @@ namespace jsc.meta.Commands.Rewrite
                     SourceMethod.DeclaringType.Assembly :
                         SourceMethod.Module.Assembly;
 
+            Action SetEntryPoint =
+                delegate
+                {
+                    
+                    a.SetEntryPoint(
+                        entryMethod: DeclaringMethod,
+                        fileKind: SourceMethod.GetPEFileKinds()
+                    );
+                };
+
+
             if (Command != null && Command.EntryPointAssembly != null
                 && (
                     Path.GetFileNameWithoutExtension(Command.EntryPointAssembly) == DeclaringAssembly.GetName().Name
@@ -357,14 +369,14 @@ namespace jsc.meta.Commands.Rewrite
                     && DeclaringAssembly.EntryPoint == SourceMethod)
                 )
             {
-                a.SetEntryPoint(DeclaringMethod);
+                SetEntryPoint();
             }
             else if (Command != null && Command.EntryPoint != null &&
                 Command.EntryPoint ==
                     SourceMethod.DeclaringType.FullName + "." + SourceMethod.Name
                 )
             {
-                a.SetEntryPoint(DeclaringMethod);
+                SetEntryPoint();
 
             }
             else if (PrimarySourceAssembly != null)
@@ -386,24 +398,12 @@ namespace jsc.meta.Commands.Rewrite
                         // we have changed the IL offsets!
                     }
 
-                    a.SetEntryPoint(DeclaringMethod);
+                    SetEntryPoint();
                 }
             #endregion
 
 
-            if (Command != null && Command.obfuscate)
-            {
-                //var skip = kmil.DefineLabel();
-
-                //kmil.Emit(OpCodes.Br, skip);
-
-                //// and the stack is now under water. good luck :)
-                //kmil.Emit(OpCodes.Pop);
-                //kmil.Emit(OpCodes.Ldnull);
-
-                //kmil.MarkLabel(skip);
-
-            }
+     
 
             #region EnableSwitchRewrite
             if (Command != null && Command.EnableSwitchRewrite)
