@@ -56,12 +56,15 @@ namespace WebGLPuls
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
             // http://wakaba.c3.cx/w/puls.html
 
-            Action<string> alert = Native.Window.alert;
+            Action<string> alert = x => Native.Window.alert(x);
 
             c.style.border = "1px solid yellow";
 
+            #region fragment_shader_source
             var fragment_shader_source = @"
-#version 120
+// #version 120
+
+precision highp float;
 
 uniform float t;
 varying vec2 tc;
@@ -153,10 +156,12 @@ void main()
 }
 
             ";
+            #endregion
 
+            #region vertex_shader_source
             var vertex_shader_source =
     @"
-#version 120
+// #version 120
 
 attribute vec2 position;
 attribute vec2 texcoord;
@@ -169,27 +174,37 @@ void main()
 	tc=vec2(position.x,position.y*h);
 }
     ";
+            #endregion
+
+
+            Native.Document.title = "VERTEX_SHADER..";
 
             var vs = gl.createShader(gl.VERTEX_SHADER);
             gl.shaderSource(vs, vertex_shader_source);
             gl.compileShader(vs);
             if ((int)gl.getShaderParameter(vs, gl.COMPILE_STATUS) != 1)
             {
+                // vs: ERROR: 0:2: '' : Version number not supported by ESSL 
                 var error = gl.getShaderInfoLog(vs);
                 alert("vs: " + error);
                 return;
             }
 
 
+            Native.Document.title = "FRAGMENT_SHADER..";
             var fs = gl.createShader(gl.FRAGMENT_SHADER);
             gl.shaderSource(fs, fragment_shader_source);
             gl.compileShader(fs);
             if ((int)gl.getShaderParameter(fs, gl.COMPILE_STATUS) != 1)
             {
+                //fs: ERROR: 0:2: '' : Version number not supported by ESSL 
+                //ERROR: 0:4: '' : No precision specified for (float) 
+
                 var error = gl.getShaderInfoLog(fs);
                 alert("fs: " + error);
                 return;
             }
+            Native.Document.title = "LINK_STATUS..";
 
             var p = gl.createProgram();
             gl.attachShader(p, vs);
@@ -204,6 +219,9 @@ void main()
                 alert("Error while linking: " + error);
                 return;
             }
+
+            Native.Document.title = "WebGL..";
+
             gl.useProgram(p);
             gl.viewport(0, 0, w, h);
             gl.uniform1f(gl.getUniformLocation(p, "h"), h / w);
