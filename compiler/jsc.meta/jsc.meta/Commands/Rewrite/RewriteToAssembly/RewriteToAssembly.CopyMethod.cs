@@ -364,8 +364,7 @@ namespace jsc.meta.Commands.Rewrite
 
             if (Command != null && Command.EntryPointAssembly != null
                 && (
-                    Path.GetFileNameWithoutExtension(Command.EntryPointAssembly) == DeclaringAssembly.GetName().Name
-                    //Command.EntryPointAssembly.TakeUntilLastIfAny(".exe").TakeUntilLastIfAny(".dll") == DeclaringAssembly.GetName().Name
+                    Path.GetFileName(Command.EntryPointAssembly).TakeUntilLastIfAny(".exe").TakeUntilLastIfAny(".dll") == DeclaringAssembly.GetName().Name
                     && DeclaringAssembly.EntryPoint == SourceMethod)
                 )
             {
