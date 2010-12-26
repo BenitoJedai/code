@@ -16,6 +16,15 @@ namespace ScriptCoreLib.Ultra.IDL
         public int Position { get; set; }
         public int Length { get; set; }
 
+        public int LineNumber
+        {
+            get
+            {
+                return Source.Substring(0, Position).Split('\n').Length;
+            }
+        }
+
+
         public static implicit operator IDLParserToken(string Source)
         {
             return new IDLParserToken(Source);
@@ -121,8 +130,12 @@ namespace ScriptCoreLib.Ultra.IDL
                 this.Length = ScanLength(1,
                     i =>
                     {
-                        if (char.IsWhiteSpace(this[i]))
-                            return false;
+                        if ((this.Position + i) < this.Source.Length)
+                        {
+                            if (char.IsWhiteSpace(this[i]))
+                                return false;
+
+                        }
 
                         return true;
                     }
@@ -153,12 +166,17 @@ namespace ScriptCoreLib.Ultra.IDL
                 this.Length = ScanLength(1,
                     i =>
                     {
-                        if (IsLetterOrUnderscore(this[i]))
-                            return false;
+                        if ((this.Position + i) < this.Source.Length)
+                        {
 
-                        if (char.IsLetterOrDigit(this[i]))
-                            return false;
+                            if (IsLetterOrUnderscore(this[i]))
+                                return false;
 
+                            if (char.IsLetterOrDigit(this[i]))
+                                return false;
+
+                        }
+                        
                         return true;
                     }
                 );
@@ -314,6 +332,6 @@ namespace ScriptCoreLib.Ultra.IDL
             }
         }
 
-  
+
     }
 }

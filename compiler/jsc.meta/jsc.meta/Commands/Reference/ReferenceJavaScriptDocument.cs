@@ -148,6 +148,7 @@ namespace jsc.meta.Commands.Reference
             #endregion
 
 
+            #region Targets
             var Targets =
               from ItemGroup in csproj.Root.Elements(nsItemGroup)
 
@@ -179,6 +180,7 @@ namespace jsc.meta.Commands.Reference
                   TargetName,
                   //Target
               } by Directory;
+            #endregion
 
             // F# lazy?
             #region ReferencedConcepts
@@ -242,7 +244,7 @@ namespace jsc.meta.Commands.Reference
             #endregion
 
 
-
+            #region LocalSources
             var LocalSources = Enumerable.ToArray(
                 from k in Targets
 
@@ -280,6 +282,7 @@ namespace jsc.meta.Commands.Reference
                         }
                 }
             );
+            #endregion
 
             var Output = new FileInfo(Path.Combine(Staging.FullName, DefaultNamespace + "." + UltraSource + ".dll"));
 
@@ -349,14 +352,14 @@ namespace jsc.meta.Commands.Reference
 
                         #region if we are going to inject code from jsc we need to copy it
                         rename = new RewriteToAssembly.NamespaceRenameInstructions[] {
-					    "jsc.meta->" +  DefaultNamespace,
-					    "jsc->" +  DefaultNamespace,
-					},
+					        "jsc.meta->" +  DefaultNamespace,
+					        "jsc->" +  DefaultNamespace,
+					    },
 
-                        merge = new RewriteToAssembly.MergeInstruction[] {
-					    "jsc.meta",
-					    "jsc"
-					},
+                            merge = new RewriteToAssembly.MergeInstruction[] {
+					        "jsc.meta",
+					        "jsc"
+					    },
                         #endregion
 
                         // we do not want to merge ScriptCoreLib.Ultra

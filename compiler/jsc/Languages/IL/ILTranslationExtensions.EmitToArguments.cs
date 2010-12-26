@@ -442,6 +442,7 @@ namespace jsc.Languages.IL
 					OpCodes.Ldelem_I4,
 					OpCodes.Ldelem_I8,
 					OpCodes.Ldelem_R8,
+					OpCodes.Ldelem_R4,
 					
 					OpCodes.Stelem_Ref,
 					OpCodes.Stelem_I1,
@@ -449,6 +450,7 @@ namespace jsc.Languages.IL
 					OpCodes.Stelem_I4,
 					OpCodes.Stelem_I8,
 					OpCodes.Stelem_R8,
+					OpCodes.Stelem_R4,
 
 					OpCodes.Ldnull,
 					OpCodes.Pop,	

@@ -55,7 +55,7 @@ namespace ScriptCoreLib.Ultra.IDL
                     return t;
             }
 
-            throw new NotSupportedException();
+            throw new NotSupportedException("AssertName failed at line " + t.LineNumber);
         }
 
 

@@ -237,8 +237,8 @@ void main()
             var verts = gl.createBuffer();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, verts);
-            gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(
-              new double[] { 
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(
+              new float[] { 
                   -1,-1,  -1,1,  1,-1, 1,1,
               }
             ), gl.STATIC_DRAW);
@@ -251,7 +251,7 @@ void main()
   
 
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-                new WebGLUnsignedShortArray(
+                new Uint16Array(
                     /*new ushort[] {*/ 0, 1, 2, 3 /*}*/
                     )
                 , gl.STATIC_DRAW);
@@ -260,7 +260,7 @@ void main()
             Action redraw = delegate
             {
                 var timestamp = new IDate().getTime();
-                var t = (timestamp - start) / 1000.0 * 30;
+                var t = (float)((timestamp - start) / 1000.0 * 30);
 
                 gl.uniform1f(gl.getUniformLocation(p, "t"), t);
                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);

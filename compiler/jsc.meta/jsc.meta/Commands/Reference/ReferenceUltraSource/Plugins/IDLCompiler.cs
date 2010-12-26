@@ -25,16 +25,36 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
         public RewriteToAssembly r;
         public Func<string, FileInfo> GetLocalResource;
 
+        public class IDLFileTuple
+        {
+            public string TargetNamespace;
+            public FileInfo File;
+        }
+
         public void Define()
         {
+            var Files = from a in BodyElement.XPathSelectElements("//a")
+                        let href = a.Attribute("href").Value
+                        where href.EndsWith(".idl")
+                        let f = GetLocalResource(href)
+                        select new IDLFileTuple
+                        {
+                            TargetNamespace = a.Attribute("data-namespace").Value,
+                            File = f
+                        };
+
+            Define(Files);
+
+
+
+        }
+
+        public void Define(IEnumerable<IDLFileTuple> Files)
+        {
             var modules =
-                (from a in BodyElement.XPathSelectElements("//a")
-                 let href = a.Attribute("href").Value
-                 where href.EndsWith(".idl")
-                 let f = GetLocalResource(href)
-                 let TargetNamespace = a.Attribute("data-namespace").Value
-                 let m = ((IDLModule)File.ReadAllText(f.FullName))
-                 select new { a, f, m, TargetNamespace }
+                (from a in Files
+                 let m = ((IDLModule)File.ReadAllText(a.File.FullName))
+                 select new { f = a.File, m, a.TargetNamespace }
             );
 
             var PrimaryModules = modules.SelectMany(
@@ -70,6 +90,7 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
             KnownTypeCache["events::Event"] = typeof(IEvent);
 
             KnownTypeCache["void"] = typeof(void);
+            KnownTypeCache["object"] = typeof(object);
             KnownTypeCache["any"] = typeof(object);
             KnownTypeCache["short"] = typeof(short);
             KnownTypeCache["unsigned short"] = typeof(ushort);
@@ -81,20 +102,34 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
             KnownTypeCache["unsigned byte"] = typeof(byte);
             KnownTypeCache["DOMString"] = typeof(string);
 
-            // let's pretend float is a double... :)
+            // let's pretend float is a double... :) ?
 
-            //KnownTypeCache["float"] = typeof(float);
-            KnownTypeCache["float"] = typeof(double);
+            KnownTypeCache["float"] = typeof(float);
+            KnownTypeCache["double"] = typeof(double);
 
             #endregion
 
 
+            #region TypeCache
             var TypeCache = new VirtualDictionary<IDLTypeReference, Type>();
 
             TypeCache.Resolve +=
                 SourceType =>
                 {
                     #region T[]
+                    // newer WebIDL is using byte[]
+                    if (SourceType.ArraySymbols.Item2 != null)
+                    {
+                        var ElementType = TypeCache[
+                            new IDLTypeReference { Name = SourceType.Name, Namespace = SourceType.Namespace }
+                        ];
+
+                        TypeCache.BaseDictionary[SourceType] = ElementType.MakeArrayType();
+
+                        return;
+                    }
+
+                    // while some instances were previously using sequence<byte>
                     if (SourceType.Name.Text == "sequence")
                     {
                         if (SourceType.GenericParameters.Count == 1)
@@ -134,6 +169,21 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
 
 
                     var item = PrimaryTypes.FirstOrDefault(k => k.Interface.Name.Text == SourceType.Name.Text);
+
+                    // alias for spec violation ... 
+                    if (item == null)
+                    {
+                        if (SourceType.Name.Text == "FloatArray")
+                        {
+                            // typedarrays::FloatArray FloatArray; 
+
+                            TypeCache.BaseDictionary[SourceType] = TypeCache[
+                                IDLTypeReference.OfName("Float32Array")
+                            ];
+
+                            return;
+                        }
+                    }
 
                     if (item == null)
                     {
@@ -323,6 +373,9 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
                     t.CreateType();
 
                 };
+            #endregion
+
+
 
             var PrimaryTypesDefined = PrimaryTypes.Select(item =>
                 TypeCache[
@@ -336,9 +389,6 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource.Plugins
             // a = {<a href="CanvasRenderingContext2D.idl">CanvasRenderingContext2D</a>}, 
             // f = {W:\jsc.svn\core\ScriptCoreLib.Ultra.Components\ScriptCoreLib.Ultra.Components.IDL\Design\IDLFiles\CanvasRenderingContext2D.idl} 
             // }
-
-
-
         }
     }
 }

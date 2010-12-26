@@ -64,6 +64,12 @@ namespace ScriptCoreLib.Ultra.IDL
                 ).AssertSymbol(">");
             }
 
+            if (Name.Next.Text == "[")
+            {
+                r.ArraySymbols.Item1 = Name.Next;
+                r.ArraySymbols.Item2 = r.ArraySymbols.Item1.SkipTo().AssertSymbol("]");
+            }
+
             return r;
         }
 
@@ -272,6 +278,13 @@ namespace ScriptCoreLib.Ultra.IDL
                          return a.Terminator.SkipTo();
                      }
 
+                     var __omittable = default(IDLParserToken);
+                     if (pp.Text == "omittable")
+                     {
+                         __omittable = pp;
+                         pp = pp.SkipTo();
+                     }
+
                      var KeywordGetter = default(IDLParserToken);
                      if (pp.Text == "getter")
                      {
@@ -286,6 +299,7 @@ namespace ScriptCoreLib.Ultra.IDL
                          pp = pp.SkipTo();
                      }
 
+                  
                      // method!!
                      var Method = ToMemberMethod(pp, KeywordGetter, KeywordSetter);
 
