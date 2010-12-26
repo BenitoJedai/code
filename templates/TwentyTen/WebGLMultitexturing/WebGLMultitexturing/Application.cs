@@ -22,6 +22,8 @@ namespace WebGLMultitexturing
     using ScriptCoreLib.GLSL;
     using System.Collections.Generic;
     using WebGLMultitexturing.HTML.Images.FromAssets;
+    using WebGLFloatArray = Float32Array;
+    using WebGLUnsignedShortArray = Uint16Array;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -64,41 +66,64 @@ namespace WebGLMultitexturing
 
             page.MaxTextures.innerText = "" + gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
 
-            var vs = "attribute vec3 aVertexPosition;";
-            vs += "attribute vec2 aTextureCoord;";
-            vs += "uniform mat4 uModelViewMatrix;";
-            vs += "uniform mat4 uProjectionMatrix;";
-            vs += "varying vec2 vTextureCoord;";
-            vs += "void main(void) {";
-            vs += "gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0);";
-            vs += "vTextureCoord = vec2(aTextureCoord.x, 1-aTextureCoord.y);";
-            vs += "}";
+            // https://www.khronos.org/webgl/public-mailing-list/archives/1007/msg00034.html
 
-
-            var fs = "varying vec2 vTextureCoord;";
-            fs += "uniform sampler2D uSamplerDiffuse1;";
-            fs += "uniform sampler2D uSamplerDiffuse2;";
-            fs += "uniform sampler2D uSamplerDiffuse3;";
-            fs += "uniform sampler2D uSamplerDiffuse4;";
-            fs += "uniform sampler2D uSamplerDiffuse5;";
-            fs += "uniform sampler2D uSamplerDiffuse6;";
-            fs += "void main(void) {";
-            fs += "gl_FragColor = vec4(1,0,0,1)*texture2D(uSamplerDiffuse1, vTextureCoord)";
-            fs += "+ vec4(0,1,0,1)*texture2D(uSamplerDiffuse2, vTextureCoord)";
-            fs += "+ vec4(0,0,1,1)*texture2D(uSamplerDiffuse3, vTextureCoord)";
-            fs += "+ vec4(0,1,1,1)*texture2D(uSamplerDiffuse4, vTextureCoord)";
-            fs += "+ vec4(1,0,1,1)*texture2D(uSamplerDiffuse5, vTextureCoord)";
-            fs += "+ vec4(1,1,0,1)*texture2D(uSamplerDiffuse6, vTextureCoord);";
-            fs += "}";
+              var vs  = "attribute vec3 aVertexPosition;";
+        vs += "attribute vec2 aTextureCoord;";
+        vs += "uniform mat4 uModelViewMatrix;";
+        vs += "uniform mat4 uProjectionMatrix;";
+        vs += "varying vec2 vTextureCoord;";
+        vs += "void main(void) {";
+        vs +=   "gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0);";
+        vs +=   "vTextureCoord = vec2(aTextureCoord.x, 1.0 - aTextureCoord.y);";
+        vs += "}";
+ 
+    var fs  = "#ifdef GL_ES \n";
+    fs += "precision highp float; \n";
+        fs += "#endif \n";
+        fs += "varying vec2 vTextureCoord;";
+        fs += "uniform sampler2D uSamplerDiffuse1;";
+        fs += "uniform sampler2D uSamplerDiffuse2;";
+        fs += "uniform sampler2D uSamplerDiffuse3;";
+        fs += "uniform sampler2D uSamplerDiffuse4;";
+        fs += "uniform sampler2D uSamplerDiffuse5;";
+        fs += "uniform sampler2D uSamplerDiffuse6;";
+        fs += "void main(void) {";
+        fs +=   "gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * texture2D(uSamplerDiffuse1, vTextureCoord)";
+        fs +=                "+ vec4(0.0, 1.0, 0.0, 1.0) * texture2D(uSamplerDiffuse2, vTextureCoord)";
+        fs +=                "+ vec4(0.0, 0.0, 1.0, 1.0) * texture2D(uSamplerDiffuse3, vTextureCoord)";
+        fs +=                "+ vec4(0.0, 1.0, 1.0, 1.0) * texture2D(uSamplerDiffuse4, vTextureCoord)";
+        fs +=                "+ vec4(1.0, 0.0, 1.0, 1.0) * texture2D(uSamplerDiffuse5, vTextureCoord)";
+        fs +=                "+ vec4(1.0, 1.0, 0.0, 1.0) * texture2D(uSamplerDiffuse6, vTextureCoord);";
+        fs += "}";
 
 
             var xfs = gl.createShader(gl.FRAGMENT_SHADER);
             gl.shaderSource(xfs, fs);
             gl.compileShader(xfs);
+            if ((int)gl.getShaderParameter(xfs, gl.COMPILE_STATUS) != 1)
+            {
+                // vs: ERROR: 0:2: '' : Version number not supported by ESSL 
+                // fs: ERROR: 0:1: '' : No precision specified for (float) 
+
+                var error = gl.getShaderInfoLog(xfs);
+                Native.Window.alert("fs: " + error);
+                return;
+            }
 
             var xvs = gl.createShader(gl.VERTEX_SHADER);
             gl.shaderSource(xvs, vs);
             gl.compileShader(xvs);
+            if ((int)gl.getShaderParameter(xvs, gl.COMPILE_STATUS) != 1)
+            {
+                // vs: ERROR: 0:2: '' : Version number not supported by ESSL 
+                // vs: ERROR: 0:10: '-' :  wrong operand types  no operation '-' exists that takes a left-hand operand of type 'const mediump int' and a right operand of type 'float' (or there is no acceptable conversion)
+
+
+                var error = gl.getShaderInfoLog(xvs);
+                Native.Window.alert("vs: " + error);
+                return;
+            }
 
             var shader = new foo();
 
@@ -106,6 +131,14 @@ namespace WebGLMultitexturing
             gl.attachShader(shader.program, xvs);
             gl.attachShader(shader.program, xfs);
             gl.linkProgram(shader.program);
+
+            var linked = gl.getProgramParameter(shader.program, gl.LINK_STATUS);
+            if (linked == null)
+            {
+                var error = gl.getProgramInfoLog(shader.program);
+                Native.Window.alert("Error while linking: " + error);
+                return;
+            }
 
             gl.useProgram(shader.program);
             shader.aVertexPosition = gl.getAttribLocation(shader.program, "aVertexPosition");
@@ -115,6 +148,7 @@ namespace WebGLMultitexturing
 
             shader.u["uModelViewMatrix"] = gl.getUniformLocation(shader.program, "uModelViewMatrix");
             shader.u["uProjectionMatrix"] = gl.getUniformLocation(shader.program, "uProjectionMatrix");
+
             shader.u["uSamplerDiffuse1"] = gl.getUniformLocation(shader.program, "uSamplerDiffuse1");
             shader.u["uSamplerDiffuse2"] = gl.getUniformLocation(shader.program, "uSamplerDiffuse2");
             shader.u["uSamplerDiffuse3"] = gl.getUniformLocation(shader.program, "uSamplerDiffuse3");
@@ -122,18 +156,18 @@ namespace WebGLMultitexturing
             shader.u["uSamplerDiffuse5"] = gl.getUniformLocation(shader.program, "uSamplerDiffuse5");
             shader.u["uSamplerDiffuse6"] = gl.getUniformLocation(shader.program, "uSamplerDiffuse6");
 
-            shader.MV_MATRIX = new double[] { 
-                1.0, 0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0, 0.0,
-                0.0, 0.0, 1.0, 0.0,
-                0.0, 0.0, 0.0, 1.0 };
+            shader.MV_MATRIX = new float[] { 
+                1.0f, 0.0f, 0.0f, 0.0f,
+                0.0f, 1.0f, 0.0f, 0.0f,
+                0.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f };
 
 
-            shader.PROJECTION_MATRIX = new double[] { 
-                                1.000, 0.000, 0.000, 0.000,
-                                0.000, 1.000, 0.000, 0.000,
-                                0.000, 0.000, 0.002, 0.000,
-                                0.000, 0.000, 0.998, 1.000 };
+            shader.PROJECTION_MATRIX = new float[] { 
+                                1.000f, 0.000f, 0.000f, 0.000f,
+                                0.000f, 1.000f, 0.000f, 0.000f,
+                                0.000f, 0.000f, 0.002f, 0.000f,
+                                0.000f, 0.000f, 0.998f, 1.000f };
 
             var bar = default(bar);
 
@@ -145,10 +179,12 @@ namespace WebGLMultitexturing
                         return;
 
                     renderFrame(gl, shader, bar);
+
+                    c.style.border = "2px solid green";
                 }
             );
 
-            c.style.border = "2px solid green";
+            
 
         }
 
@@ -196,7 +232,7 @@ namespace WebGLMultitexturing
 
         void renderFrame(WebGLRenderingContext gl, foo shader, bar @object)
         {
-            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             drawObject(gl, shader, @object);
         }
@@ -204,43 +240,37 @@ namespace WebGLMultitexturing
 
         static WebGLTexture loadTexture(WebGLRenderingContext gl, string url, Action callback)
         {
-            gl.enable(gl.TEXTURE_2D);
+            //gl.enable(gl.TEXTURE_2D);
 
             var texture = gl.createTexture();
             var image = new IHTMLImage();
 
+            Console.WriteLine("loading: " + url);
+            image.src = url;
+
             image.InvokeOnComplete(
                 delegate
                 {
+                    Console.WriteLine("loaded: " + url);
+
                     gl.bindTexture(gl.TEXTURE_2D, texture);
-
-                    // http://blog.tojicode.com/2010/07/obsolete-teximage2d-wha.html
-                    // Calling obsolete texImage2D(GLenum target, GLint level, HTMLImageElement image, GLboolean flipY, GLboolean premultiplyAlpha)
-
-                    new IFunction("gl", "image",
-                        "gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);").apply(null,
-                        gl, image
-                    );
-                    //gl.texImage2D(gl.TEXTURE_2D, 0, image, false, false);
-
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
-
                     gl.bindTexture(gl.TEXTURE_2D, null);
 
                     callback();
                 }
             );
 
-            image.src = url;
             return texture;
         }
 
         static void createRectangle(double size, data data)
         {
-            var half = size / 2;
+            var half = (float)(size / 2);
 
-            data.vertices = new double[] {
+            data.vertices = new float[] {
                 -half, -half, 0,
                 half, -half, 0,
                 half, half, 0,
@@ -252,7 +282,7 @@ namespace WebGLMultitexturing
                 0,3,2
             };
 
-            data.uvs = new double[] {
+            data.uvs = new float[] {
                 0,0,
                 1,0,
                 1,1,
@@ -265,9 +295,9 @@ namespace WebGLMultitexturing
 
             var data = new data
             {
-                vertices = new double[] { },
+                vertices = new float[] { },
                 indices = new ushort[] { },
-                uvs = new double[] { }
+                uvs = new float[] { }
             };
 
             createRectangle(2, data);
@@ -299,9 +329,9 @@ namespace WebGLMultitexturing
 
         class data
         {
-            public double[] vertices;
+            public float[] vertices;
             public ushort[] indices;
-            public double[] uvs;
+            public float[] uvs;
         }
 
         class bar
@@ -318,8 +348,8 @@ namespace WebGLMultitexturing
         {
             public WebGLProgram program;
 
-            public double[] MV_MATRIX;
-            public double[] PROJECTION_MATRIX;
+            public float[] MV_MATRIX;
+            public float[] PROJECTION_MATRIX;
 
             public long aVertexPosition;
             public long aTextureCoord;

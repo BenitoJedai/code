@@ -1121,9 +1121,23 @@ namespace jsc
                         }
                         w.Write("]");
                     }
+                    else if (Type == typeof(float))
+                    {
+                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsFloatArray();
+
+                        w.Write("[");
+                        for (int j = 0; j < Values.Length; j++)
+                        {
+                            if (j > 0)
+                                w.Write(", ");
+
+                            w.WriteNumeric(Values[j]);
+                        }
+                        w.Write("]");
+                    }
                     else if (Type == typeof(double))
                     {
-                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsDoubleArray();
+                        var Values = i.NextInstruction.NextInstruction.TargetField.GetValue(null).StructAsFloatArray();
 
                         w.Write("[");
                         for (int j = 0; j < Values.Length; j++)

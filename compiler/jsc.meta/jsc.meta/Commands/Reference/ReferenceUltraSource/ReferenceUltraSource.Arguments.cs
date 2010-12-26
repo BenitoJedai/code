@@ -10,7 +10,8 @@ namespace jsc.meta.Commands.Reference.ReferenceUltraSource
 		/// <summary>
 		/// While true any html in the solution is selected as UltraSource input.
 		/// </summary>
-		public bool SelectAll;
+        [Obsolete]
+        public bool SelectAll = true;
 
 		// step 3 do not event filter by folder just import everything
 		public const string UltraSource = "UltraSource";

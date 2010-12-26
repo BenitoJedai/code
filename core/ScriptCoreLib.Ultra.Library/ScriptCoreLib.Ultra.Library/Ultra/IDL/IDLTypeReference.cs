@@ -15,6 +15,8 @@ namespace ScriptCoreLib.Ultra.IDL
         public readonly List<IDLTypeReference> GenericParameters = new List<IDLTypeReference>();
         public readonly IDLParserTokenPair GenericParameterSymbols = new IDLParserTokenPair();
 
+        public readonly IDLParserTokenPair ArraySymbols = new IDLParserTokenPair();
+
         public override string ToString()
         {
             var w = new StringBuilder();
@@ -23,13 +25,20 @@ namespace ScriptCoreLib.Ultra.IDL
             {
                 w.Append(Namespace.Text);
 
-                if (Operator.Text == "::")
+                if (Operator == null)
                 {
-                    w.Append("::");
+                    w.Append(" ");
                 }
                 else
                 {
-                    w.Append(" ");
+                    if (Operator.Text == "::")
+                    {
+                        w.Append("::");
+                    }
+                    else
+                    {
+                        w.Append(" ");
+                    }
                 }
             }
 
@@ -44,16 +53,26 @@ namespace ScriptCoreLib.Ultra.IDL
                 w.Append(">");
             }
 
+            if (this.ArraySymbols.Item2 != null)
+                w.Append("[]");
+
             return w.ToString();
         }
 
-        
+        static public IDLTypeReference OfName(string Name)
+        {
+            return new IDLTypeReference { Name = ((IDLParserToken)Name).Next };
+        }
+
         public IDLParserToken Terminator
         {
             get
             {
                 if (GenericParameterSymbols.Item2 != null)
                     return GenericParameterSymbols.Item2;
+
+                if (ArraySymbols.Item2 != null)
+                    return ArraySymbols.Item2;
 
                 return Name;
             }
