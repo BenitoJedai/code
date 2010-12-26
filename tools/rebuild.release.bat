@@ -19,7 +19,7 @@ set SplashAssembly=c:\util\jsc\bin\jsc.splash.exe
 setlocal
 echo - installer ..
 
-call rebuild.installer.bat
+rem call rebuild.installer.bat
 endlocal
 
 
@@ -27,6 +27,8 @@ pushd ..
 
 echo - increment installer version
 call %target%\jsc.meta.exe ConfigurationIncrementApplicationVersion /ProjectFileName:compiler\jsc.configuration\jsc.configuration.csproj"
+
+exit 1
 
 del /Q /S c:\util\jsc\publish
 echo - make the installer
