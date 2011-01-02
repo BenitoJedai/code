@@ -12,7 +12,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		// http://bugs.adobe.com/jira/browse/ASC-2677
 		public IntPtr Value { get; /* private */ set; }
 
-		public static explicit operator __RuntimeTypeHandle(java.lang.Class _ptr)
+        public static explicit operator __RuntimeTypeHandle(global::java.lang.Class _ptr)
 		{
 			return new __RuntimeTypeHandle { Value = (IntPtr)(object)new __IntPtr { ClassToken = _ptr } };
 		}

@@ -10,7 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 	[Script(Implements = typeof(FieldInfo))]
 	internal class __FieldInfo : __MemberInfo
 	{
-		public java.lang.reflect.Field InternalField;
+		public global::java.lang.reflect.Field InternalField;
 
 		public override string Name
 		{

@@ -10,7 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 	[Script(Implements = typeof(global::System.Net.IPAddress))]
 	internal class __IPAddress
 	{
-		public java.net.InetAddress InternalAddress;
+        public global::java.net.InetAddress InternalAddress;
 
 		public static readonly IPAddress Loopback;
 
@@ -28,7 +28,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net
 
 			try
 			{
-				Loopback = new __IPAddress { InternalAddress = java.net.InetAddress.getLocalHost() };
+                Loopback = new __IPAddress { InternalAddress = global::java.net.InetAddress.getLocalHost() };
 			}
 			catch
 			{

@@ -10,7 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections.Specialized
 	internal class __NameValueCollection : __NameObjectCollectionBase
 	{
 		// http://www.jguru.com/faq/view.jsp?EID=430247
-		readonly java.util.HashMap InternalCollection = new java.util.HashMap();
+        readonly global::java.util.HashMap InternalCollection = new global::java.util.HashMap();
 
 		public virtual void Add(string name, string value)
 		{

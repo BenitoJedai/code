@@ -8,11 +8,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Text
 	[Script(Implements = typeof(global::System.Text.StringBuilder))]
 	internal class __StringBuilder
 	{
-		java.lang.StringBuffer InternalBuffer;
+		global::java.lang.StringBuffer InternalBuffer;
 
 		public __StringBuilder()
 		{
-			InternalBuffer = new java.lang.StringBuffer();
+            InternalBuffer = new global::java.lang.StringBuffer();
 		}
 
 		public __StringBuilder(string v) : this()

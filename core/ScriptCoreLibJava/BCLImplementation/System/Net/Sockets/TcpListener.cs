@@ -12,7 +12,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.TcpListener))]
 	internal class __TcpListener
 	{
-		public java.net.ServerSocket InternalSocket;
+        public global::java.net.ServerSocket InternalSocket;
 		public __IPAddress localaddr;
 		public int port;
 
@@ -41,7 +41,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 
 			try
 			{
-				this.InternalSocket = new java.net.ServerSocket(this.port, backlog, this.localaddr.InternalAddress);
+                this.InternalSocket = new global::java.net.ServerSocket(this.port, backlog, this.localaddr.InternalAddress);
 			}
 			catch
 				//(csharp.ThrowableException t)

@@ -12,8 +12,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.NetworkStream))]
 	internal class __NetworkStream : __Stream
 	{
-		public java.io.OutputStream InternalOutputStream;
-		public java.io.InputStream InternalInputStream;
+        public global::java.io.OutputStream InternalOutputStream;
+        public global::java.io.InputStream InternalInputStream;
 
 		public override void Close()
 		{
