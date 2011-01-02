@@ -10,8 +10,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Net.Sockets
 	[Script(Implements = typeof(global::System.Net.Sockets.Socket))]
 	internal class __Socket : IDisposable
 	{
-		public java.net.ServerSocket InternalServerSocket;
-		public java.net.Socket InternalSocket;
+        public global::java.net.ServerSocket InternalServerSocket;
+        public global::java.net.Socket InternalSocket;
 
 		public EndPoint LocalEndPoint
 		{

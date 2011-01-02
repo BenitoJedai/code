@@ -11,7 +11,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
     {
         // http://download.oracle.com/javase/1.4.2/docs/api/java/util/Hashtable.html
 
-        readonly java.util.Hashtable InternalElement = new java.util.Hashtable();
+        readonly global::java.util.Hashtable InternalElement = new global::java.util.Hashtable();
 
         public object this[object key]
         {

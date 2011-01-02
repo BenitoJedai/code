@@ -20,7 +20,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public static Type GetTypeFromValue(object x)
 		{
-			object i = (__RuntimeTypeHandle)java.lang.Object.getClass(x);
+            object i = (__RuntimeTypeHandle)global::java.lang.Object.getClass(x);
 
 			return GetTypeFromHandle((RuntimeTypeHandle)i);
 		}
@@ -44,7 +44,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 		}
 
-		public java.lang.Class InternalTypeDescription
+        public global::java.lang.Class InternalTypeDescription
 		{
 			get
 			{
@@ -188,8 +188,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		}
 
 
-		public static implicit operator __Type(java.lang.Class e)
+        public static implicit operator __Type(global::java.lang.Class e)
 		{
+            if (e == null)
+                return null;
+
 			object i = (__RuntimeTypeHandle)e;
 
 			return GetTypeFromHandle((RuntimeTypeHandle)i);
@@ -197,13 +200,46 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		public bool Equals(__Type e)
 		{
-			// .net 4.0 seems to also add == operator. jsc should choose equals until then?
-			if (this.InternalTypeDescription.isAssignableFrom(e.InternalTypeDescription))
-				return this.FullName == e.FullName;
-
-			return false;
+            return this == e;
 		}
 
+        private static bool InternalEquals(__Type e, __Type k)
+        {
+            // .net 4.0 seems to also add == operator. jsc should choose equals until then?
+            if (k.InternalTypeDescription.isAssignableFrom(e.InternalTypeDescription))
+                return k.FullName == e.FullName;
+
+            return false;
+        }
+
+
+        public static bool operator !=(__Type left, __Type right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator ==(__Type left, __Type right)
+        {
+            #region null checks
+            var oleft = (object)left;
+            var oright = (object)right;
+
+            if (oleft == null)
+            {
+                if (oright == null)
+                    return true;
+
+                return false;
+            }
+            else
+            {
+                if (oright == null)
+                    return false;
+            }
+            #endregion
+
+            return InternalEquals(left, right);
+        }
 
 		public __FieldInfo[] GetFields()
 		{

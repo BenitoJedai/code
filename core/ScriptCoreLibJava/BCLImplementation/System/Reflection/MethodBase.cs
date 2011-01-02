@@ -12,7 +12,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 	[Script(Implements = typeof(MethodBase))]
 	internal abstract class __MethodBase : __MemberInfo
 	{
-		public java.lang.reflect.Method InternalMethod;
+        public global::java.lang.reflect.Method InternalMethod;
 
 		public bool IsStatic { get { return Modifier.isStatic(InternalMethod.getModifiers()); } }
 		public bool IsPublic { get { return Modifier.isPublic(InternalMethod.getModifiers()); } }

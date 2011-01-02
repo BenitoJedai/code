@@ -93,11 +93,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return false;
         }
 
-        public java.lang.Class ClassToken
+        public global::java.lang.Class ClassToken
         {
             get
             {
-                return this.PointerToken as java.lang.Class;
+                return this.PointerToken as global::java.lang.Class;
             }
             set
             {
@@ -105,11 +105,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
-        public java.lang.reflect.Method MethodToken
+        public global::java.lang.reflect.Method MethodToken
         {
             get
             {
-                return this.PointerToken as java.lang.reflect.Method;
+                return this.PointerToken as global::java.lang.reflect.Method;
             }
             set
             {
@@ -120,7 +120,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         public object PointerToken;
 
 
-        public static __IntPtr Of(java.lang.Class Target, string MethodName, java.lang.Class[] Parameters)
+        public static __IntPtr Of(global::java.lang.Class Target, string MethodName, global::java.lang.Class[] Parameters)
         {
             var MethodToken = default(Method);
             var Methods = Target.getDeclaredMethods();

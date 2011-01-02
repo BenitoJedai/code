@@ -10,7 +10,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 	[Script(Implements = typeof(global::System.Collections.ArrayList))]
 	internal class __ArrayList : __IList, __ICollection, __IEnumerable, __ICloneable
 	{
-		readonly java.util.ArrayList InternalList = new java.util.ArrayList();
+        readonly global::java.util.ArrayList InternalList = new global::java.util.ArrayList();
 
         public virtual void Clear()
         {

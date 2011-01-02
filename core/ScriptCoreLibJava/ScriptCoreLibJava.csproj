@@ -748,6 +748,8 @@
     <Compile Include="java\util\HashMap.cs" />
     <Compile Include="java\util\Hashtable.cs" />
     <Compile Include="java\util\Set.cs" />
+    <Compile Include="java\util\zip\ZipEntry.cs" />
+    <Compile Include="java\util\zip\ZipInputStream.cs" />
     <Compile Include="org\w3c\dom\Attr.cs" />
     <Compile Include="org\w3c\dom\CDATASection.cs" />
     <Compile Include="org\w3c\dom\CharacterData.cs" />

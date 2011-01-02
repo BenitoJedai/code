@@ -180,7 +180,7 @@ namespace jsc.meta.Tools
                                       where k != bin_jar.FullName
                                       select k)
                     {
-                        ClassPath += ";" + Path.Combine(library_path, Path.GetFileName(r));
+                        ClassPath += ";" + @".\" + Path.GetFileName(r);
                     }
 
                     return ClassPath;
@@ -195,6 +195,8 @@ namespace jsc.meta.Tools
          @"
 @echo off
 setlocal
+
+set PATH=%PATH%
 
 pushd " + library_path + @"
 call """ + javapath.FullName + @"\java.exe"" -Djava.library.path=""."" -cp """ + ClassPathFromFile(bin_jar) + @""" " + TargetTypeFullName + @" %*

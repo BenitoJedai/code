@@ -53,7 +53,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			try
 			{
 				// we cannot do this in applet?
-				u = java.lang.JavaSystem.getProperty("file.encoding");
+                u = global::java.lang.JavaSystem.getProperty("file.encoding");
 			}
 			catch
 			{
@@ -74,8 +74,8 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			return u;
 		}
 
-		static java.io.PrintStream InternalOutCache;
-		static java.io.PrintStream InternalOut
+        static global::java.io.PrintStream InternalOutCache;
+        static global::java.io.PrintStream InternalOut
 		{
 			get
 			{
@@ -83,10 +83,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 				{
 					if (InternalOutCache == null)
 					{
-						var _stream = java.lang.JavaSystem.@out;
+                        var _stream = global::java.lang.JavaSystem.@out;
 						var _encoding = InternalGetEnvironmentEncoding();
 
-						InternalOutCache = new java.io.PrintStream(_stream, true, _encoding);
+                        InternalOutCache = new global::java.io.PrintStream(_stream, true, _encoding);
 					}
 				}
 				catch (csharp.ThrowableException ex)
@@ -129,7 +129,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			// java applet behaves somewhat different?
 
-			var InternalOut = default(java.io.PrintStream);
+            var InternalOut = default(global::java.io.PrintStream);
 
 			InternalOut = __Console.InternalOut;
 

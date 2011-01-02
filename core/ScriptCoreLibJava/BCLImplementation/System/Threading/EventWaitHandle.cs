@@ -21,7 +21,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Threading
 		bool initialState;
 		EventResetMode mode;
 
-		readonly java.lang.Object Context = new java.lang.Object();
+        readonly global::java.lang.Object Context = new global::java.lang.Object();
 
 		// this implementation needs to be updated
 		public __EventWaitHandle(bool initialState, EventResetMode mode)
