@@ -92,6 +92,7 @@
     <Compile Include="Interop\IntPtrDictionary.cs" />
     <Compile Include="Interop\IntPtrInfo.cs" />
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
+    <Compile Include="Library\StringConversions.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
