@@ -7,7 +7,7 @@ namespace ScriptCoreLib.Extensions
 {
 	public static class StringExtensions
 	{
-   
+        
 
 		public static string[] ToLines(this string e)
 		{
