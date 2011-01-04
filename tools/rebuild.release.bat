@@ -28,7 +28,7 @@ pushd ..
 echo - increment installer version
 call %target%\jsc.meta.exe ConfigurationIncrementApplicationVersion /ProjectFileName:compiler\jsc.configuration\jsc.configuration.csproj"
 
-exit 1
+rem exit 1
 
 del /Q /S c:\util\jsc\publish
 echo - make the installer
