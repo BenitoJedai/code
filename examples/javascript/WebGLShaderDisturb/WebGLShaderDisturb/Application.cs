@@ -35,9 +35,17 @@ namespace WebGLShaderDisturb
         {
             // view-source:http://mrdoob.com/lab/javascript/webgl/glsl/04/
 
+            var parameters_start_time = new IDate().getTime();
+            var parameters_time = 0L;
+            var parameters_screenWidth = 0;
+            var parameters_screenHeight = 0;
+
             var canvas = new IHTMLCanvas();
 
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
             canvas.AttachToDocument();
+            canvas.style.SetLocation(0, 0);
 
             // Initialise WebGL
 
@@ -67,104 +75,207 @@ namespace WebGLShaderDisturb
 
             // Create Program
 
-            Func<string, ulong, WebGLShader> createShader = ( src, type ) =>
+            #region createShader
+            Func<string, ulong, WebGLShader> createShader = (src, type) =>
             {
- 
-				var shader = gl.createShader( type );
- 
-				gl.shaderSource( shader, src );
-				gl.compileShader( shader );
- 
-				if ( gl.getShaderParameter( shader, gl.COMPILE_STATUS ) == null ) 
+
+                var shader = gl.createShader(type);
+
+                gl.shaderSource(shader, src);
+                gl.compileShader(shader);
+
+                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    if (type == gl.VERTEX_SHADER )
-					    Native.Window.alert(  "VERTEX SHADER:\n" + gl.getShaderInfoLog( shader ));
-					else
-                        Native.Window.alert( "FRAGMENT SHADER:\n" + gl.getShaderInfoLog( shader  ));
-					return null;
- 
-				}
- 
-				return shader;
- 
-			};
+                    if (type == gl.VERTEX_SHADER)
+                        Native.Window.alert("VERTEX SHADER:\n" + gl.getShaderInfoLog(shader));
+                    else
+                        Native.Window.alert("FRAGMENT SHADER:\n" + gl.getShaderInfoLog(shader));
+                    return null;
 
-            Func<string, string, WebGLProgram> createProgram = ( vertex, fragment ) =>
+                }
+
+                return shader;
+
+            };
+            #endregion
+
+            #region createProgram
+            Func<string, string, WebGLProgram> createProgram = (vertex, fragment) =>
             {
- 
-				var program = gl.createProgram();
- 
-				var vs = createShader( vertex, gl.VERTEX_SHADER );
-				var fs = createShader( "#ifdef GL_ES\nprecision highp float;\n#endif\n\n" + fragment, gl.FRAGMENT_SHADER );
- 
-				if ( vs == null || fs == null ) return null;
- 
-				gl.attachShader( program, vs );
-				gl.attachShader( program, fs );
- 
-				gl.deleteShader( vs );
-				gl.deleteShader( fs );
- 
-				gl.linkProgram( program );
- 
-				if ( gl.getProgramParameter( program, gl.LINK_STATUS ) == null ) {
- 
-					Native.Window.alert( "ERROR:\n" +
-					"VALIDATE_STATUS: " + gl.getProgramParameter( program, gl.VALIDATE_STATUS ) + "\n" +
-					"ERROR: " + gl.getError() + "\n\n" +
-					"- Vertex Shader -\n" + vertex + "\n\n" +
-					"- Fragment Shader -\n" + fragment );
- 
-					return null;
- 
-				}
- 
-				return program;
- 
-			};
 
+                var program = gl.createProgram();
+
+                var vs = createShader(vertex, gl.VERTEX_SHADER);
+                var fs = createShader("#ifdef GL_ES\nprecision highp float;\n#endif\n\n" + fragment, gl.FRAGMENT_SHADER);
+
+                if (vs == null || fs == null) return null;
+
+                gl.attachShader(program, vs);
+                gl.attachShader(program, fs);
+
+                gl.deleteShader(vs);
+                gl.deleteShader(fs);
+
+                gl.linkProgram(program);
+
+                if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
+                {
+
+                    Native.Window.alert("ERROR:\n" +
+                    "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
+                    "ERROR: " + gl.getError() + "\n\n" +
+                    "- Vertex Shader -\n" + vertex + "\n\n" +
+                    "- Fragment Shader -\n" + fragment);
+
+                    return null;
+
+                }
+
+                return program;
+
+            };
+            #endregion
+
+            var currentProgram = createProgram(
+
+                @"
+	            attribute vec3 position;
+ 
+			    void main() {
+ 
+				    gl_Position = vec4( position, 1.0 );
+ 
+			    }
+                "
+                ,
+
+                @"
+	            uniform float time;
+			    uniform vec2 resolution;
+ 
+			    uniform sampler2D texture;
+ 
+			    void main( void ) {
+ 
+				    vec2 position = - 1.0 + 2.0 * gl_FragCoord.xy / resolution.xy;
+ 
+				    float a = atan( position.y, position.x );
+				    float r = sqrt( dot( position, position ) );
+ 
+				    vec2 uv;
+				    uv.x = cos( a ) / r;
+				    uv.y = sin( a ) / r;
+				    uv /= 10.0;
+				    uv += time * 0.05;
+ 
+				    vec3 color = texture2D( texture, uv ).rgb;
+ 
+				    gl_FragColor = vec4( color * r * 1.5, 1.0 );
+ 
+			    }     
+                "
+            );
+
+            #region loadTexture
+            Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
+            {
+
+                var texture_ = gl.createTexture();
+
+                image.InvokeOnComplete(
+                    delegate
+                    {
+
+                        gl.enable(gl.TEXTURE_2D);
+                        gl.bindTexture(gl.TEXTURE_2D, texture_);
+                        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_LINEAR);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (long)gl.REPEAT);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (long)gl.REPEAT);
+                        gl.generateMipmap(gl.TEXTURE_2D);
+                        gl.bindTexture(gl.TEXTURE_2D, null);
+
+
+                    }
+                );
+
+                return texture_;
+
+            };
+            #endregion
+
+
+            var texture = loadTexture(new HTML.Images.FromAssets.disturb());
+
+
+            var vertexPositionLocation = default(long);
+            var textureLocation = default(WebGLUniformLocation);
+
+            #region loop
             Action loop = delegate
             {
- 
-				if ( currentProgram  == null) return;
- 
-				parameters.time = new IDate().getTime() - parameters.start_time;
- 
-				gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
- 
-				// Load program into GPU
- 
-				gl.useProgram( currentProgram );
- 
-				// Get var locations
- 
-				vertexPositionLocation = gl.getAttribLocation( currentProgram, "position" );
-				textureLocation = gl.getUniformLocation( currentProgram, "texture" );
- 
-				// Set values to program variables
- 
-				gl.uniform1f( gl.getUniformLocation( currentProgram, "time" ), parameters.time / 1000 );
-				gl.uniform2f( gl.getUniformLocation( currentProgram, "resolution" ), parameters.screenWidth, parameters.screenHeight );
- 
-				gl.uniform1i( textureLocation, 0 );
-				gl.activeTexture( gl.TEXTURE0);
-				gl.bindTexture( gl.TEXTURE_2D, texture );
- 
-				// Render geometry
- 
-				gl.bindBuffer( gl.ARRAY_BUFFER, buffer );
-				gl.vertexAttribPointer( vertexPositionLocation, 2, gl.FLOAT, false, 0, 0 );
-				gl.enableVertexAttribArray( vertexPositionLocation );
-				gl.drawArrays( gl.TRIANGLES, 0, 6 );
-				gl.disableVertexAttribArray( vertexPositionLocation );
- 
-			}
+
+                if (currentProgram == null) return;
+
+                parameters_time = new IDate().getTime() - parameters_start_time;
+
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                // Load program into GPU
+
+                gl.useProgram(currentProgram);
+
+                // Get var locations
+
+                vertexPositionLocation = gl.getAttribLocation(currentProgram, "position");
+                textureLocation = gl.getUniformLocation(currentProgram, "texture");
+
+                // Set values to program variables
+
+                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
+                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
+
+                gl.uniform1i(textureLocation, 0);
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, texture);
+
+                // Render geometry
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.vertexAttribPointer((ulong)vertexPositionLocation, 2, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray((ulong)vertexPositionLocation);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                gl.disableVertexAttribArray((ulong)vertexPositionLocation);
+
+            };
+            #endregion
+
+            Action resize = delegate
+            {
+                canvas.width = Native.Window.Width;
+                canvas.height = Native.Window.Height;
+
+                parameters_screenWidth = canvas.width;
+                parameters_screenHeight = canvas.height;
+
+                gl.viewport(0, 0, canvas.width, canvas.height);
             };
 
-            //var currentProgram = createProgram( vertex_shader, fragment_shader );
+            Native.Window.onresize +=
+                delegate
+                {
+                    resize();
+                };
 
-            //texture = loadTexture( 'disturb.jpg' );
+            resize();
 
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                delegate
+                {
+                    loop();
+                }
+            ).StartInterval(1000 / 60);
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -174,5 +285,35 @@ namespace WebGLShaderDisturb
             );
         }
 
+    }
+
+    class ShaderMockup : ScriptCoreLib.GLSL.FragmentShader
+    {
+        [uniform]
+        float time;
+        [uniform]
+        vec2 resolution;
+        [uniform]
+        sampler2D texture;
+
+        void main()
+        {
+
+            vec2 position = -1.0f + 2.0f * gl_FragCoord.xy / resolution.xy;
+
+            float a = atan(position.y, position.x);
+            float r = sqrt(dot(position, position));
+
+            var uv = new vec2();
+            uv.x = cos(a) / r;
+            uv.y = sin(a) / r;
+            uv /= 10.0f;
+            uv += time * 0.05f;
+
+            vec3 color = texture2D(texture, uv).rgb;
+
+            gl_FragColor = vec4(color * r * 1.5f, 1.0f);
+
+        }
     }
 }

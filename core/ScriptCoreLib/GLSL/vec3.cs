@@ -32,5 +32,11 @@ namespace ScriptCoreLib.GLSL
         public genType b;
         [FieldOffset(sizeof(genType) * 2)]
         public genType p;
+
+        public static vec3 operator *(vec3 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
