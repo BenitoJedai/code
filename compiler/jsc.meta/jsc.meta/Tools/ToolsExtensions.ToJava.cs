@@ -12,24 +12,20 @@ namespace jsc.meta.Tools
 {
     static partial class ToolsExtensions
     {
-        public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly)
-        {
-            ToJava(TargetAssembly, javapath, assembly_metaentrypoint, FusionAssembly, null);
-        }
-
-        public static void ToJava(this FileInfo TargetAssembly, DirectoryInfo javapath, MethodInfo assembly_metaentrypoint, FileInfo FusionAssembly, string jarname)
-        {
-            ToJava(TargetAssembly, javapath, assembly_metaentrypoint, FusionAssembly, jarname, null, true);
-        }
+       
 
         public static void ToJava(
             this FileInfo TargetAssembly,
             DirectoryInfo javapath,
             MethodInfo assembly_metaentrypoint,
             FileInfo FusionAssembly,
-            string jarname,
-            Type TargetType,
-            bool CreateNoWindow)
+            string jarname = null,
+            Type TargetType = null,
+            bool CreateNoWindow = true,
+
+            string JavaSourceVersion = null,
+            string JavaTargetVersion = null
+            )
         {
 
             // we should run jsc in another appdomain actually
@@ -77,10 +73,22 @@ namespace jsc.meta.Tools
                 TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
             }
 
+            // http://download.oracle.com/javase/6/docs/technotes/tools/windows/javac.html
+
+            var proccess_javac_args =
+                @"-classpath " + TargetSourceFiles + @" -d release java\" + TargetTypeFullName.Replace(".", @"\").Replace("+", "_") + @".java";
+
+            if (!string.IsNullOrEmpty(JavaTargetVersion))
+                proccess_javac_args += " -target " + JavaTargetVersion;
+
+            if (!string.IsNullOrEmpty(JavaSourceVersion))
+                proccess_javac_args += " -source " + JavaSourceVersion;
+
+
             var proccess_javac = Process.Start(
                 new ProcessStartInfo(
                     Path.Combine(javapath.FullName, "javac.exe"),
-                    @"-classpath " + TargetSourceFiles + @" -d release java\" + TargetTypeFullName.Replace(".", @"\").Replace("+", "_") + @".java"
+                    proccess_javac_args
                     )
                 {
                     UseShellExecute = false,
@@ -94,6 +102,7 @@ namespace jsc.meta.Tools
 
             proccess_javac.WaitForExit();
 
+            // we should display the javac error!
             if (proccess_javac.ExitCode != 0)
                 throw new ArgumentOutOfRangeException();
             #endregion
@@ -187,7 +196,7 @@ namespace jsc.meta.Tools
                 };
 
 
-     
+
 
             if (FusionAssembly == null)
             {
@@ -240,7 +249,7 @@ endlocal
 "
 );
 
-             
+
                 // let's clean up. while we could have created the jar in memory, we have not done that for now
                 // so we have to remove that file as we are in fusion mode.
 
