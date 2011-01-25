@@ -10,7 +10,7 @@ using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Delegates;
-using BrowserAvalonApplication1.HTML.Pages;
+using AvalonRedRectangle.HTML.Pages;
 
 namespace BrowserAvalonApplication1
 {
