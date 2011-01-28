@@ -54,6 +54,11 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        public static vec2 operator *(vec2 x, vec2 y)
+        {
+            throw new NotImplementedException();
+        }
+
         public static vec2 operator /(vec2 x, float y)
         {
             throw new NotImplementedException();
@@ -74,7 +79,15 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        public static vec2 operator +(vec2 y, vec2 x)
+        {
+            throw new NotImplementedException();
+        }
 
+        public static vec2 operator -(vec2 x)
+        {
+            throw new NotImplementedException();
+        }
 
         //x,y,z,w	Useful for points, vectors, normals
         //r,g,b,a	Useful for colors
