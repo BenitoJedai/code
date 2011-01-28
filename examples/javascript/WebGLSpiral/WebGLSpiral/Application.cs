@@ -55,6 +55,8 @@ namespace WebGLSpiral
         // 26. Run the project to see if there are any defects.
         // 27. Make canvas fullscreen/ fulldocument.
         // 28. Test, save, commit
+        // 29. Enable PHP server in release build
+        // 30. Test with Android Firefox 4
 
         const string VertexShaderSource = @"
 			attribute vec3 position;
