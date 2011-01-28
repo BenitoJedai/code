@@ -51,6 +51,10 @@ namespace WebGLSpiral
         // 22. Port "onWindowResize" function
         // 23. Port "loop" function
         // 24. Save work and commit
+        // 25. Clear jsc cache due to ScriptCoreLib update
+        // 26. Run the project to see if there are any defects.
+        // 27. Make canvas fullscreen/ fulldocument.
+        // 28. Test, save, commit
 
         const string VertexShaderSource = @"
 			attribute vec3 position;
@@ -112,12 +116,10 @@ namespace WebGLSpiral
                 var vertex_shader = Application.VertexShaderSource;
                 var fragment_shader = Application.FragmentShaderSource;
 
-                //effectDiv = document.getElementById( 'effect' );
-                //sourceDiv = document.getElementById( 'info' );
-                //sourceDiv.innerHTML = '--- adapted from http://mrdoob.com/lab/javascript/webgl/glsl/02/ by mrdoob<br/>'+
-                //                    '--- answer for http://stackoverflow.com/questions/4638317'
-
                 var canvas = new IHTMLCanvas().AttachToDocument();
+                
+                Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+                canvas.style.SetLocation(0, 0);
 
 
                 // Initialise WebGL
