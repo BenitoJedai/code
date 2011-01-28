@@ -61,10 +61,8 @@ namespace WebGLShaderDisturb
 
             if (gl == null)
             {
-
                 Native.Window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
-
             }
 
             // Create Vertex buffer (2 triangles)
