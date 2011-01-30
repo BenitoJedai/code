@@ -93,9 +93,12 @@
     <Compile Include="ActionScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetGroup.cs" />
+    <Compile Include="ActionScript\Extensions\flash\sensors\Accelerometer.cs" />
+    <Compile Include="ActionScript\flash\events\AccelerometerEvent.cs" />
     <Compile Include="ActionScript\flash\net\GroupSpecifier.cs" />
     <Compile Include="ActionScript\flash\net\NetGroup.cs" />
     <Compile Include="ActionScript\flash\net\NetGroupInfo.cs" />
+    <Compile Include="ActionScript\flash\sensors\Accelerometer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormattable.cs" />
