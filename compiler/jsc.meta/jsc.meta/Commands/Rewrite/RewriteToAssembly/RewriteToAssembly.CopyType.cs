@@ -288,6 +288,12 @@ namespace jsc.meta.Commands.Rewrite
             AtTypeCreatedFilterAdd =
                 k =>
                 {
+                    if (k.IsArray)
+                    {
+                        AtTypeCreatedFilterAdd(k.GetElementType());
+                        return;
+                    }
+
                     if (k.IsGenericType)
                     {
                         if (k.IsGenericTypeDefinition)
@@ -326,6 +332,26 @@ namespace jsc.meta.Commands.Rewrite
             {
                 AtTypeCreatedFilterAdd(SourceType.BaseType);
             }
+
+            // lets collect generic field types
+
+            foreach (var f in SourceType.GetFields(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+            {
+                if (f.FieldType.IsGenericType)
+                {
+                    var fg = f.FieldType.GetGenericArguments();
+
+                    foreach (var fga in fg)
+                    {
+                        // avoid circular dependency
+                        if (fga.IsNested && fga.DeclaringType == SourceType)
+                            continue;
+
+                        AtTypeCreatedFilterAdd(fga);
+                    }
+                }
+            }
+
 
             Action<Type> rec_SourceTypeCheck = null;
 
@@ -683,6 +709,10 @@ namespace jsc.meta.Commands.Rewrite
                     Func<IEnumerable<DuplicateInfo>> GetDuplicates =
                         () =>
                             from k in context.TypeDefinitionCache.BaseDictionary.Keys
+                            
+                            // for now we do not care about nested name conflicts..
+                            where !k.IsNested
+
                             let v = context.TypeDefinitionCache.BaseDictionary[k] as TypeBuilder
                             where v != null
 
