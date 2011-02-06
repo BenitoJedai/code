@@ -59,14 +59,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 			return w.ToString();
 		}
 
-		public long Ticks
-		{
-			get
-			{
-				throw new NotImplementedException();
-				//return 0;
-			}
-		}
+        public long Ticks
+        {
+            get
+            {
+                // conversion needed
+
+                var ms = (long)this.InternalValue.getTime();
+
+                return ms * TicksPerMillisecond + ticks_1970_1_1;
+            }
+        }
+
+        private const long TicksPerMillisecond = 0x10000;
+
+        public const long ticks_1970_1_1 = 621355968000000000;
 
 
 

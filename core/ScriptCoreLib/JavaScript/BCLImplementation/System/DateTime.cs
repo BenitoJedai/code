@@ -9,7 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     [Script(Implements = typeof(global::System.DateTime))]
     internal class __DateTime
     {
-        public IDate Value;
+        public IDate InternalValue;
 
         public __DateTime()
         {
@@ -25,7 +25,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
             var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
 
-            Value = new IDate(ms);
+            InternalValue = new IDate(ms);
         }
 
 
@@ -33,24 +33,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public __DateTime(int year, int month, int day)
         {
-            Value = new IDate();
-            Value.setFullYear(year);
-            Value.setMonth(month - 1);
-            Value.setDate(day);
-			Value.setHours(0);
-			Value.setMinutes(0);
-			Value.setSeconds(0);
+            InternalValue = new IDate();
+            InternalValue.setFullYear(year);
+            InternalValue.setMonth(month - 1);
+            InternalValue.setDate(day);
+			InternalValue.setHours(0);
+			InternalValue.setMinutes(0);
+			InternalValue.setSeconds(0);
         }
 
 		public __DateTime(int year, int month, int day, int hours, int minutes, int seconds)
 		{
-			Value = new IDate();
-			Value.setFullYear(year);
-			Value.setMonth(month - 1);
-			Value.setDate(day);
-			Value.setHours(hours);
-			Value.setMinutes(minutes);
-			Value.setSeconds(seconds);
+			InternalValue = new IDate();
+			InternalValue.setFullYear(year);
+			InternalValue.setMonth(month - 1);
+			InternalValue.setDate(day);
+			InternalValue.setHours(hours);
+			InternalValue.setMinutes(minutes);
+			InternalValue.setSeconds(seconds);
 		}
 
 
@@ -60,7 +60,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return new __DateTime { Value = new IDate() };
+                return new __DateTime { InternalValue = new IDate() };
             }
         }
 
@@ -71,7 +71,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getMilliseconds();
+                return this.InternalValue.getMilliseconds();
             }
         }
 
@@ -79,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getSeconds();
+                return this.InternalValue.getSeconds();
             }
         }
 
@@ -87,7 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getMinutes();
+                return this.InternalValue.getMinutes();
             }
         }
 
@@ -95,7 +95,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getHours();
+                return this.InternalValue.getHours();
             }
         }
 
@@ -103,7 +103,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return (DayOfWeek)this.Value.getDay();
+                return (DayOfWeek)this.InternalValue.getDay();
             }
         }
 
@@ -111,7 +111,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getDate();
+                return this.InternalValue.getDate();
             }
         }
 
@@ -119,7 +119,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getMonth() + 1;
+                return this.InternalValue.getMonth() + 1;
             }
         }
 
@@ -127,7 +127,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         {
             get
             {
-                return this.Value.getFullYear();
+                return this.InternalValue.getFullYear();
             }
         }
 
@@ -137,7 +137,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 // conversion needed
 
-                var ms = this.Value.getTime();
+                var ms = this.InternalValue.getTime();
 
                 return ms * TicksPerMillisecond + ticks_1970_1_1;
             }
@@ -224,7 +224,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 		public static __TimeSpan operator -(__DateTime d1, __DateTime d2)
 		{
 			return new __TimeSpan {
-				TotalMilliseconds = d1.Value.getTime() - d2.Value.getTime()
+				TotalMilliseconds = d1.InternalValue.getTime() - d2.InternalValue.getTime()
 			};
 		}
 

@@ -288,6 +288,18 @@ namespace jsc.meta.Commands.Rewrite
             AtTypeCreatedFilterAdd =
                 k =>
                 {
+                    // no duplicates
+                    if (AtTypeCreatedFilter.Contains(k))
+                        return;
+
+                    // we shouldn't be waiting other types that are subclassing SourceType
+                    if (k.IsSubclassOf(SourceType))
+                        return;
+
+                    // avoid circular dependency
+                    if (k.IsNested && k.DeclaringType == SourceType)
+                        return;
+
                     if (k.IsArray)
                     {
                         AtTypeCreatedFilterAdd(k.GetElementType());
@@ -343,9 +355,7 @@ namespace jsc.meta.Commands.Rewrite
 
                     foreach (var fga in fg)
                     {
-                        // avoid circular dependency
-                        if (fga.IsNested && fga.DeclaringType == SourceType)
-                            continue;
+                
 
                         AtTypeCreatedFilterAdd(fga);
                     }
@@ -412,6 +422,8 @@ namespace jsc.meta.Commands.Rewrite
                 k => k == SourceType
             );
 
+            ;
+            ;
 
             //Diagnostics("CreateType:  " + SourceType.FullName);
             AtTypeCreatedFilter_Trace = AtTypeCreatedFilter.ToArray();
