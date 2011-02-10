@@ -15,6 +15,7 @@ namespace jsc.meta.Commands.Rewrite
     partial class RewriteToAssembly
     {
         // usage: start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)"
+
         // usage: start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)"
         // usage: start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /assembly:"$(TargetPath)" /CodeTrace:"$(TargetDir)$(TargetName).CodeTrace$(TargetExt)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)"
         // usage: RewriteToAssembly /assembly:"C:\work\jsc.svn\examples\javascript\OrcasUltraWebApplication2\Rewrite1\bin\Debug\Rewrite1.dll"
@@ -85,6 +86,9 @@ namespace jsc.meta.Commands.Rewrite
                 return this.name.GetHashCode();
             }
         }
+
+        public AssemblyMergeInstruction[] AssemblyMergeExtension = new AssemblyMergeInstruction[0];
+
         #endregion
 
 
@@ -149,6 +153,8 @@ namespace jsc.meta.Commands.Rewrite
         VirtualDictionary<string, string> NameObfuscation = new VirtualDictionary<string, string>();
 
         public Type[] PrimaryTypes = new Type[0];
+        
+        public Type[] ExtensionTypes = new Type[0];
 
         /// <summary>
         /// If this flag was set, every assembly referenced by a referenced type is inspected for assets.

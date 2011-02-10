@@ -231,93 +231,113 @@ namespace jsc.meta.Commands.Rewrite
             }
             else
             {
-                this.PrimaryTypes = this.AssemblyMerge.SelectMany(
-                    k =>
+                // PrimaryTypes should also include Types which are defined by AssemblyMergeExtension but
+                // not defined in AssemblyMerge.
+
+                Func<AssemblyMergeInstruction, IEnumerable<Type>> LoadTypesFromAssemblyMerge = k =>
+                {
+                    var shadow = Path.Combine(this.staging.FullName, Path.GetFileName(k.name));
+
+                    var loaded = File.Exists(shadow);
+
+                    if (!loaded)
+                        File.Copy(
+                            k.name,
+                            shadow
+                        );
+
+
+                    // ? what? :)
+                    var shadow_assembly = new FileInfo(shadow).ToAssemblyOrAppDomainAssembly();
+
+                    if (this.AssemblyMergeLoadHint != null)
+                        this.AssemblyMergeLoadHint(shadow_assembly);
+
+
+                    if (!loaded)
                     {
-                        var shadow = Path.Combine(this.staging.FullName, Path.GetFileName(k.name));
+                        var FolderToLoadFrom = Path.GetDirectoryName(k.name);
 
-                        var loaded = File.Exists(shadow);
-
-                        if (!loaded)
-                            File.Copy(
-                                k.name,
-                                shadow
-                            );
-
-
-                        // ? what? :)
-                        var shadow_assembly = new FileInfo(shadow).ToAssemblyOrAppDomainAssembly();
-
-                        if (this.AssemblyMergeLoadHint != null)
-                            this.AssemblyMergeLoadHint(shadow_assembly);
-
-
-                        if (!loaded)
+                        if (string.IsNullOrEmpty(FolderToLoadFrom))
                         {
-                            var FolderToLoadFrom = Path.GetDirectoryName(k.name);
-
-                            if (string.IsNullOrEmpty(FolderToLoadFrom))
-                            {
-                                FolderToLoadFrom = Path.GetDirectoryName(this.AssemblyMerge.First().name);
-                                // ????
-                            }
-                            else
-                            {
-                                shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(FolderToLoadFrom));
-                            }
-
+                            FolderToLoadFrom = Path.GetDirectoryName(this.AssemblyMerge.First().name);
+                            // ????
+                        }
+                        else
+                        {
+                            shadow_assembly.LoadReferencesAt(staging, new DirectoryInfo(FolderToLoadFrom));
                         }
 
-                        CopyAssetsFromAssembly(shadow_assembly);
-
-                        InvokeLater +=
-                            (__a, __m) =>
-                            {
-                                // should we copy attributes? should they be opt-out?
-
-                                var AttributesToCopy =
-                                     from k_ in shadow_assembly.GetCustomAttributes(false)
-
-                                     let k_Type = k_.GetType()
-
-                                     let kk = SelectAssemblyMergeAttribute == null ?
-                                         (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
-
-                                     where kk != null
-
-                                     // http://stackoverflow.com/questions/2252754/how-would-i-use-the-securitypermissionattribute-correctly
-                                     // .NET 4 ignores this...
-                                     where !(kk is SecurityPermissionAttribute)
-
-                                     let IsFSharpInterface = k_Type.FullName == "Microsoft.FSharp.Core.FSharpInterfaceDataVersionAttribute"
-
-                                     where !IsFSharpInterface
-
-                                     let builder = kk.ToCustomAttributeBuilder()
-                                     select new { k, kk, builder };
-
-                                foreach (var item in AttributesToCopy)
-                                {
-                                    __a.SetCustomAttribute(item.builder(this.RewriteArguments.context));
-                                }
-
-
-                          
-
-
-                                shadow_assembly.EntryPoint.With(
-                                    EntryPoint =>
-                                    {
-                                        var _ = this.RewriteArguments.context.MethodCache[EntryPoint];
-
-                                    }
-                                );
-                            };
-
-
-                        return shadow_assembly.GetTypes();
                     }
-                ).ToArray();
+
+                    CopyAssetsFromAssembly(shadow_assembly);
+
+                    // later when? :)
+                    InvokeLater +=
+                        (__a, __m) =>
+                        {
+                            // should we copy attributes? should they be opt-out?
+
+                            var AttributesToCopy =
+                                    from k_ in shadow_assembly.GetCustomAttributes(false)
+
+                                    let k_Type = k_.GetType()
+
+                                    let kk = SelectAssemblyMergeAttribute == null ?
+                                        (Attribute)k_ : SelectAssemblyMergeAttribute((Attribute)k_)
+
+                                    where kk != null
+
+                                    // http://stackoverflow.com/questions/2252754/how-would-i-use-the-securitypermissionattribute-correctly
+                                    // .NET 4 ignores this...
+                                    where !(kk is SecurityPermissionAttribute)
+
+                                    let IsFSharpInterface = k_Type.FullName == "Microsoft.FSharp.Core.FSharpInterfaceDataVersionAttribute"
+
+                                    where !IsFSharpInterface
+
+                                    let builder = kk.ToCustomAttributeBuilder()
+                                    select new { k, kk, builder };
+
+                            foreach (var item in AttributesToCopy)
+                            {
+                                __a.SetCustomAttribute(item.builder(this.RewriteArguments.context));
+                            }
+
+
+
+
+
+                            shadow_assembly.EntryPoint.With(
+                                EntryPoint =>
+                                {
+                                    var _ = this.RewriteArguments.context.MethodCache[EntryPoint];
+
+                                }
+                            );
+                        };
+
+
+                    return shadow_assembly.GetTypes();
+                };
+
+                var AssemblyMergeTypes = this.AssemblyMerge.SelectMany(LoadTypesFromAssemblyMerge).ToArray();
+
+                var AssemblyMergeExtensionTypeCandidates = Enumerable.ToArray(
+                    from ExtensionTypeCandidate in this.AssemblyMergeExtension.SelectMany(LoadTypesFromAssemblyMerge)
+
+                    // so if there is a name match it is actually an extension to an existing type
+                    let IsExtensionType = AssemblyMergeTypes.Any(k => k.FullName == ExtensionTypeCandidate.FullName)
+
+                    // as such in first phase we omit such extension types
+                    select new { ExtensionTypeCandidate, IsExtensionType }
+                );
+
+                this.ExtensionTypes = AssemblyMergeExtensionTypeCandidates.Where(k => k.IsExtensionType).Select(k => k.ExtensionTypeCandidate).ToArray();
+
+                var NotExtensionTypes = AssemblyMergeExtensionTypeCandidates.Where(k => !k.IsExtensionType).Select(k => k.ExtensionTypeCandidate).ToArray();
+
+                this.PrimaryTypes = AssemblyMergeTypes.Concat(NotExtensionTypes).ToArray();
             }
             #endregion
 
@@ -1101,7 +1121,15 @@ namespace jsc.meta.Commands.Rewrite
                     }
                     #endregion
 
+                    // if the source is one of the extension types then we shall just resolve to the primary type
+                    if (this.ExtensionTypes.Contains(SourceType))
+                    {
+                        TypeDefinitionCache[SourceType] = TypeDefinitionCache[
+                            this.PrimaryTypes.Single(k => k.FullName == SourceType.FullName)
+                        ];
 
+                        return;
+                    }
 
                     if (TypeDefinitionCache.BaseDictionary.ContainsKey(SourceType))
                     {
@@ -1111,6 +1139,7 @@ namespace jsc.meta.Commands.Rewrite
                     var ContextType = SourceType;
                     if (ShouldCopyType(ContextType))
                     {
+                        #region ShouldCopyType
                         var ttt = new CopyTypeDefinition
                         {
                             Command = this,
@@ -1160,6 +1189,7 @@ namespace jsc.meta.Commands.Rewrite
 
                         var t = ttt.Invoke();
 
+                        #endregion
 
                         //TypeDefinitionCache[SourceType] = t;
                     }
@@ -1253,6 +1283,16 @@ namespace jsc.meta.Commands.Rewrite
                     {
                         // seems like we are not supposed to resolve this type and use
                         // what has been inserted in the cache!
+                        return;
+                    }
+
+                    // if the source is one of the extension types then we shall just resolve to the primary type
+                    if (this.ExtensionTypes.Contains(SourceType))
+                    {
+                        TypeCache[SourceType] = TypeCache[
+                            this.PrimaryTypes.Single(k => k.FullName == SourceType.FullName)
+                        ];
+
                         return;
                     }
 

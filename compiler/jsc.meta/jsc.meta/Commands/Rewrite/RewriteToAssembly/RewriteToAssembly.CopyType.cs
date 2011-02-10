@@ -10,6 +10,7 @@ using jsc.Languages.IL;
 using jsc.Library;
 using jsc;
 using System.Diagnostics;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -102,15 +103,32 @@ namespace jsc.meta.Commands.Rewrite
 
 
             #region define fields now! as they are actually what the type is all about!
-            foreach (var f in SourceType.GetFields(
-                        BindingFlags.DeclaredOnly |
-                        BindingFlags.Public | BindingFlags.NonPublic |
-                        BindingFlags.Instance | BindingFlags.Static))
+
+            var SourceTypes = new[] { SourceType }.Concat(
+                // should we have a cached lookup here? compiler, rund benchmarking and teach me :)
+                from ExtensionType in r.ExtensionTypes 
+                where ExtensionType.FullName == SourceType.FullName
+                select ExtensionType
+            ).ToArray();
+
+            var Fields = SourceTypes.SelectMany(k => k.GetFields(
+                BindingFlags.DeclaredOnly |
+                BindingFlags.Public | BindingFlags.NonPublic |
+                BindingFlags.Instance | BindingFlags.Static)
+            );
+
+            foreach (var f in from k in Fields group k by k.Name)
             {
                 //Diagnostics("Field: " + SourceType.Name + "." + f.Name);
 
-                var ff = context.FieldCache[f];
+                var ff = context.FieldCache[f.First()];
+
+                // redirect the extension field definitions
+                f.Skip(1).WithEach(k => context.FieldCache[k] = ff);
             }
+
+            // do we have extensions?
+
             #endregion
 
 
@@ -147,6 +165,7 @@ namespace jsc.meta.Commands.Rewrite
 
             var AtTypeCreatedFilter_Trace = new Type[0];
 
+            #region AtTypeCreated
             Action AtTypeCreated =
                 delegate
                 {
@@ -271,6 +290,7 @@ namespace jsc.meta.Commands.Rewrite
                     if (TypeCreated != null)
                         TypeCreated(t);
                 };
+            #endregion
 
 
             var AtTypeCreatedFilter = new List<Type>();
