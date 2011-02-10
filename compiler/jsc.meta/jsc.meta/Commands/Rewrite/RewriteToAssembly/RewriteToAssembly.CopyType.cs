@@ -104,12 +104,13 @@ namespace jsc.meta.Commands.Rewrite
 
             #region define fields now! as they are actually what the type is all about!
 
-            var SourceTypes = new[] { SourceType }.Concat(
-                // should we have a cached lookup here? compiler, rund benchmarking and teach me :)
-                from ExtensionType in r.ExtensionTypes 
+            var ExtensionTypes = Enumerable.ToArray(
+                from ExtensionType in r.ExtensionTypes
                 where ExtensionType.FullName == SourceType.FullName
                 select ExtensionType
-            ).ToArray();
+            );
+
+            var SourceTypes = new[] { SourceType }.Concat(ExtensionTypes).ToArray();
 
             var Fields = SourceTypes.SelectMany(k => k.GetFields(
                 BindingFlags.DeclaredOnly |
@@ -123,7 +124,7 @@ namespace jsc.meta.Commands.Rewrite
 
                 var ff = context.FieldCache[f.First()];
 
-                // redirect the extension field definitions
+                // redirect the overlapping extension field definitions
                 f.Skip(1).WithEach(k => context.FieldCache[k] = ff);
             }
 
@@ -136,7 +137,7 @@ namespace jsc.meta.Commands.Rewrite
             if (PreTypeRewrite != null)
                 PreTypeRewrite(t);
 
-            CopyTypeMembers(SourceType, NameObfuscation, t, context);
+            CopyTypeMembers(SourceType, NameObfuscation, t, context, ExtensionTypes);
 
 
 
@@ -375,7 +376,7 @@ namespace jsc.meta.Commands.Rewrite
 
                     foreach (var fga in fg)
                     {
-                
+
 
                         AtTypeCreatedFilterAdd(fga);
                     }
@@ -741,7 +742,7 @@ namespace jsc.meta.Commands.Rewrite
                     Func<IEnumerable<DuplicateInfo>> GetDuplicates =
                         () =>
                             from k in context.TypeDefinitionCache.BaseDictionary.Keys
-                            
+
                             // for now we do not care about nested name conflicts..
                             where !k.IsNested
 
@@ -827,46 +828,41 @@ namespace jsc.meta.Commands.Rewrite
             Type SourceType,
 
             VirtualDictionary<string, string> NameObfuscation,
-            TypeBuilder t,
-            ILTranslationContext context
+            TypeBuilder DeclaringType,
+            ILTranslationContext context,
+
+            Type[] ExtensionTypes
             )
         {
 
+            var SourceTypeBindingFlags = BindingFlags.DeclaredOnly |
+         BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
 
 
 
-            foreach (var k in SourceType.GetConstructors(
-                BindingFlags.DeclaredOnly |
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+            foreach (var k in SourceType.GetConstructors(SourceTypeBindingFlags))
             {
-
                 var km = context.ConstructorCache[k];
             }
 
 
-            foreach (var k in SourceType.GetMethods(
-                BindingFlags.DeclaredOnly |
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+            foreach (var k in new[] { SourceType }.Concat(ExtensionTypes).SelectMany(kk => kk.GetMethods(SourceTypeBindingFlags)))
             {
                 var km = context.MethodCache[k];
             }
 
-            foreach (var k in SourceType.GetProperties(
-                BindingFlags.DeclaredOnly |
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+            foreach (var k in new[] { SourceType }.Concat(ExtensionTypes).SelectMany(kk => kk.GetProperties(SourceTypeBindingFlags)))
             {
                 var km = context.PropertyCache[k];
 
             }
 
 
-            foreach (var k in SourceType.GetEvents(
-                BindingFlags.DeclaredOnly |
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+            foreach (var k in new[] { SourceType }.Concat(ExtensionTypes).SelectMany(kk => kk.GetEvents(SourceTypeBindingFlags)))
             {
                 var EventName = NameObfuscation[k.Name];
-                var kp = t.DefineEvent(EventName, k.Attributes, context.TypeCache[k.EventHandlerType]);
+                var kp = DeclaringType.DefineEvent(EventName, k.Attributes, context.TypeCache[k.EventHandlerType]);
 
                 var _AddMethod = k.GetAddMethod(true);
                 if (_AddMethod != null)

@@ -28,7 +28,7 @@ namespace TypeExtension
         public NotExtensionType InstanceNotExtensionTypeFieldExtension;
 
         // this method shall update the existing implementation
-        public static void Foo(global::TypeExtension.FooType f)
+        public static void Foo2(global::TypeExtension.FooType f)
         {
             Console.WriteLine("extension!");
             Console.WriteLine(f.FooText);
@@ -39,6 +39,14 @@ namespace TypeExtension
     {
         public source::TypeExtension.BarType Bar;
         public Dictionary<source::TypeExtension.BarType, NotExtensionType> BarToNotExtensionType;
+
+        public event Action<Dictionary<source::TypeExtension.BarType, NotExtensionType>> ComplexEvent;
+
+        public void RaiseComplexEvent(Dictionary<source::TypeExtension.BarType, NotExtensionType> e)
+        {
+            if (ComplexEvent != null)
+                ComplexEvent(e);
+        }
 
         // this member shall be resolved as already existing member
         public string Text;
