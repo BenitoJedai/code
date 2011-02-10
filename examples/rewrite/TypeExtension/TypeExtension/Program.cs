@@ -19,7 +19,7 @@ namespace TypeExtension
     {
         public static void Foo(FooType f)
         {
-
+            Console.WriteLine(f.ToString());
         }
 
         public static void Main(string[] args)

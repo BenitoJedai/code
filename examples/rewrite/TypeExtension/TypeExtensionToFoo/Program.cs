@@ -19,6 +19,7 @@ namespace TypeExtension
          * 06. Make JSC merge types that are not extensions like type NotExtensionType below
          * 07. Make JSC remember which types are extension types for use later
          * 08. Make JSC extend fields
+         * 09. Add support for properties, events and methods when not overlapping
          */
     }
 
@@ -53,6 +54,11 @@ namespace TypeExtension
 
         // this member shall be added
         public string FooText { get { return this.Text + " foo"; } }
+
+        public override string ToString()
+        {
+            return this.FooText;
+        }
     }
 
     public class NotExtensionType
