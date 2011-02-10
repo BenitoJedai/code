@@ -5,7 +5,12 @@ using System.Text;
 
 namespace TypeExtension
 {
-    class FooType
+    public class BarType
+    {
+        public string Text { get; set; }
+    }
+
+    public class FooType
     {
         public string Text { get; set; }
     }
