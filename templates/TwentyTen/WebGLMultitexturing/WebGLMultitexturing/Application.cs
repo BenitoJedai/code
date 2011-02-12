@@ -68,34 +68,37 @@ namespace WebGLMultitexturing
 
             // https://www.khronos.org/webgl/public-mailing-list/archives/1007/msg00034.html
 
-              var vs  = "attribute vec3 aVertexPosition;";
-        vs += "attribute vec2 aTextureCoord;";
-        vs += "uniform mat4 uModelViewMatrix;";
-        vs += "uniform mat4 uProjectionMatrix;";
-        vs += "varying vec2 vTextureCoord;";
-        vs += "void main(void) {";
-        vs +=   "gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0);";
-        vs +=   "vTextureCoord = vec2(aTextureCoord.x, 1.0 - aTextureCoord.y);";
-        vs += "}";
- 
-    var fs  = "#ifdef GL_ES \n";
-    fs += "precision highp float; \n";
-        fs += "#endif \n";
-        fs += "varying vec2 vTextureCoord;";
-        fs += "uniform sampler2D uSamplerDiffuse1;";
-        fs += "uniform sampler2D uSamplerDiffuse2;";
-        fs += "uniform sampler2D uSamplerDiffuse3;";
-        fs += "uniform sampler2D uSamplerDiffuse4;";
-        fs += "uniform sampler2D uSamplerDiffuse5;";
-        fs += "uniform sampler2D uSamplerDiffuse6;";
-        fs += "void main(void) {";
-        fs +=   "gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * texture2D(uSamplerDiffuse1, vTextureCoord)";
-        fs +=                "+ vec4(0.0, 1.0, 0.0, 1.0) * texture2D(uSamplerDiffuse2, vTextureCoord)";
-        fs +=                "+ vec4(0.0, 0.0, 1.0, 1.0) * texture2D(uSamplerDiffuse3, vTextureCoord)";
-        fs +=                "+ vec4(0.0, 1.0, 1.0, 1.0) * texture2D(uSamplerDiffuse4, vTextureCoord)";
-        fs +=                "+ vec4(1.0, 0.0, 1.0, 1.0) * texture2D(uSamplerDiffuse5, vTextureCoord)";
-        fs +=                "+ vec4(1.0, 1.0, 0.0, 1.0) * texture2D(uSamplerDiffuse6, vTextureCoord);";
-        fs += "}";
+            var vs = "";
+
+            vs += "precision highp float; \n";
+            vs += "attribute vec3 aVertexPosition;";
+            vs += "attribute vec2 aTextureCoord;";
+            vs += "uniform mat4 uModelViewMatrix;";
+            vs += "uniform mat4 uProjectionMatrix;";
+            vs += "varying vec2 vTextureCoord;";
+            vs += "void main(void) {";
+            vs += "gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aVertexPosition, 1.0);";
+            vs += "vTextureCoord = vec2(aTextureCoord.x, 1.0 - aTextureCoord.y);";
+            vs += "}";
+
+           var fs = "";
+            
+            fs += "precision highp float; \n";
+            fs += "varying vec2 vTextureCoord;";
+            fs += "uniform sampler2D uSamplerDiffuse1;";
+            fs += "uniform sampler2D uSamplerDiffuse2;";
+            fs += "uniform sampler2D uSamplerDiffuse3;";
+            fs += "uniform sampler2D uSamplerDiffuse4;";
+            fs += "uniform sampler2D uSamplerDiffuse5;";
+            fs += "uniform sampler2D uSamplerDiffuse6;";
+            fs += "void main(void) {";
+            fs += "gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0) * texture2D(uSamplerDiffuse1, vTextureCoord)";
+            fs += "+ vec4(0.0, 1.0, 0.0, 1.0) * texture2D(uSamplerDiffuse2, vTextureCoord)";
+            fs += "+ vec4(0.0, 0.0, 1.0, 1.0) * texture2D(uSamplerDiffuse3, vTextureCoord)";
+            fs += "+ vec4(0.0, 1.0, 1.0, 1.0) * texture2D(uSamplerDiffuse4, vTextureCoord)";
+            fs += "+ vec4(1.0, 0.0, 1.0, 1.0) * texture2D(uSamplerDiffuse5, vTextureCoord)";
+            fs += "+ vec4(1.0, 1.0, 0.0, 1.0) * texture2D(uSamplerDiffuse6, vTextureCoord);";
+            fs += "}";
 
 
             var xfs = gl.createShader(gl.FRAGMENT_SHADER);
@@ -184,7 +187,7 @@ namespace WebGLMultitexturing
                 }
             );
 
-            
+
 
         }
 

@@ -15,12 +15,15 @@ using WebGLChocolux.HTML.Pages;
 using WebGLChocolux;
 using ScriptCoreLib.Avalon;
 using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.GLSL;
 
 namespace WebGLChocolux
 {
-    using gl = WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.Runtime;
-    using ScriptCoreLib.GLSL;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
+    using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
+    using Date = IDate;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -54,12 +57,15 @@ namespace WebGLChocolux
         {
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
 
-            Action<string> alert = Native.Window.alert;
+            // jsc: can we take a direct delegate from native method?
+            Action<string> alert = x => Native.Window.alert(x);
 
             c.style.backgroundColor = JSColor.Black;
             c.style.border = "1px solid yellow";
 
             var fragment_shader_source = @"
+precision lowp float;
+
 varying vec3 s[4];
 
 void main()
@@ -95,6 +101,8 @@ void main()
 
             var vertex_shader_source =
     @"
+precision lowp float;
+
 attribute vec2 position;
 uniform float t;
 varying vec3 s[4];
@@ -112,6 +120,12 @@ void main()
             var vs = gl.createShader(gl.VERTEX_SHADER);
             gl.shaderSource(vs, vertex_shader_source);
             gl.compileShader(vs);
+            if ((int)gl.getShaderParameter(vs, gl.COMPILE_STATUS) != 1)
+            {
+                var error = gl.getShaderInfoLog(vs);
+                alert("vs: " + error);
+                return;
+            }
 
             var fs = gl.createShader(gl.FRAGMENT_SHADER);
             gl.shaderSource(fs, fragment_shader_source);
@@ -119,7 +133,7 @@ void main()
             if ((int)gl.getShaderParameter(fs, gl.COMPILE_STATUS) != 1)
             {
                 var error = gl.getShaderInfoLog(fs);
-                alert("vs: " + error);
+                alert("fs: " + error);
                 return;
             }
 
@@ -148,7 +162,7 @@ void main()
 
             gl.bindBuffer(gl.ARRAY_BUFFER, verts);
             gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(
-              new double[] { -1, -1, -1, 1, 1, -1, 1, 1 }
+              new [] { -1f, -1f, -1f, 1f, 1f, -1f, 1f, 1f }
             ), gl.STATIC_DRAW);
             gl.vertexAttribPointer((ulong)0, 2, gl.FLOAT, false, 0, 0);
 
