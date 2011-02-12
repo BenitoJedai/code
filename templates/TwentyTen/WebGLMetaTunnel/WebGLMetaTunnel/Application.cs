@@ -74,27 +74,46 @@ float obj(vec3 pos){
     return final;
 }
 
-void main(){
+void main()
+{
     vec3 o=vec3(v.x,v.y,0.0);
     vec3 d=vec3(v.x+cos(w)*.3,v.y,1.0)/64.0;
     vec4 color=vec4(0.0);
     float t=0.0;
-    for(int i=0;i<40;i++) {
-    if(obj(o+d*t)<s){
-    t-=5.0;
-    for (int j=0; j<5; j++) if (obj(o+d*t)>=s) t+=1.0;
-    vec3 e=vec3(0.01,.0,.0);
-    vec3 n=vec3(0.0);
-    n.y=obj(o+d*t)-obj(vec3(o+d*t+e.xyy));
-    n.x=obj(o+d*t)-obj(vec3(o+d*t+e.yxy));
-    n.z=obj(o+d*t)-obj(vec3(o+d*t+e.yyx));
-    n=normalize(n);
-    color+=max(dot(vec3(0.6,0.0,-0.5),n),0.0)+max(dot(vec3(-0.6,-0.0,-0.5),n),0.0)*0.5;color.a=1.0;break;
+
+    for (int i=0;i<40;i++) 
+    {
+        if (obj(o+d*t) < s)
+        {
+           
+            t += -5.0;
+    
+            for (int j = 0; j < 5; j++) 
+            {
+                if (obj(o+d*t) >= s) 
+                {
+                    t+=1.0;
+                }
+            }
+
+            vec3 e=vec3(0.01,.0,.0);
+            vec3 n=vec3(0.0);
+            n.y=obj(o+d*t)-obj(vec3(o+d*t+e.xyy));
+            n.x=obj(o+d*t)-obj(vec3(o+d*t+e.yxy));
+            n.z=obj(o+d*t)-obj(vec3(o+d*t+e.yyx));
+            n=normalize(n);
+            color+=max(dot(vec3(0.6,0.0,-0.5),n),0.0)+max(dot(vec3(-0.6,-0.0,-0.5),n),0.0)*0.5;
+
+            color.a=1.0;
+            
+            break;
+        }
+
+        t+=5.0;
     }
-    t+=5.0;
-}
-gl_FragColor=color+vec4(0.4,0.3,0.2,1.0)*(t*0.025);
-            }";
+
+    gl_FragColor=color+vec4(0.4,0.3,0.2,1.0)*(t*0.025);
+}";
 
             var vertex_shader_source =
     "precision lowp float; attribute vec4 pos; void main() { gl_Position = vec4(pos.x * float(" + w / 2 + "), pos.y * float(" + h / 2 + "), 0.0, 1.0); }";

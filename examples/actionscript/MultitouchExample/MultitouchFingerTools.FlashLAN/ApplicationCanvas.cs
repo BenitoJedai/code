@@ -23,6 +23,7 @@ namespace MultitouchFingerTools.FlashLAN
         public ApplicationCanvas()
         {
             
+
         }
     }
 }
