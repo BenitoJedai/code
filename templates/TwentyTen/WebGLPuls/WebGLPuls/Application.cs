@@ -262,7 +262,10 @@ void main()
                 var timestamp = new IDate().getTime();
                 var t = (float)((timestamp - start) / 1000.0 * 30);
 
+                // INVALID_OPERATION <= getUniformLocation([Program 2], "t")
                 gl.uniform1f(gl.getUniformLocation(p, "t"), t);
+
+                // INVALID_OPERATION <= drawElements(TRIANGLE_STRIP, 4, UNSIGNED_SHORT, 0)
                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
                 gl.flush();
 

@@ -15,12 +15,18 @@ using WebGLBarkley.HTML.Pages;
 using WebGLBarkley;
 using ScriptCoreLib.Avalon;
 using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.GLSL;
+using System.Collections.Generic;
 
 namespace WebGLBarkley
 {
-    using gl = WebGLRenderingContext;
-    using ScriptCoreLib.GLSL;
-    using System.Collections.Generic;
+    using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
+    using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
+    using WebGLUnsignedByteArray = ScriptCoreLib.JavaScript.WebGL.Uint8Array;
+
+    using Date = IDate;
+
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -111,11 +117,11 @@ namespace WebGLBarkley
 
         int delay = 3;
         int it = 1;
-        double a = .5;
-        double b = .04;
-        double dt = .02;
-        double eps = .02;
-        double h = .3;
+        float a = .5f;
+        float b = .04f;
+        float dt = .02f;
+        float eps = .02f;
+        float h = .3f;
 
         #region shaders
         string shader_fs = @"
@@ -215,12 +221,12 @@ void main(void) {
             gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
 
             // todo: jsc promoted float to double? :) let's revert that at the next build
-            var vertices = new WebGLFloatArray(new double[] { -1, -1, 0, 1, -1, 0, -1, 1, 0, 1, 1, 0 });
+            var vertices = new WebGLFloatArray(new [] { -1f, -1f, 0f, 1f, -1f, 0f, -1f, 1f, 0f, 1f, 1f, 0f });
             var aPosLoc = gl.getAttribLocation(prog, "aPos");
             gl.enableVertexAttribArray((ulong)aPosLoc);
             var aTexLoc = gl.getAttribLocation(prog, "aTexCoord");
             gl.enableVertexAttribArray((ulong)aTexLoc);
-            var texCoords = new WebGLFloatArray(new double[] { 0, 0, 1, 0, 0, 1, 1, 1 });
+            var texCoords = new WebGLFloatArray(new [] { 0f, 0f, 1f, 0f, 0f, 1f, 1f, 1f });
             var texCoordOffset = vertices.byteLength;
             gl.bufferData(gl.ARRAY_BUFFER,
                 (long)(texCoordOffset + texCoords.byteLength), gl.STATIC_DRAW);

@@ -15,11 +15,14 @@ using WebGLMetaTunnel.HTML.Pages;
 using WebGLMetaTunnel;
 using ScriptCoreLib.Avalon;
 using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.GLSL;
 
 namespace WebGLMetaTunnel
 {
     using gl = WebGLRenderingContext;
-    using ScriptCoreLib.GLSL;
+    using WebGLFloatArray = Float32Array;
+    using WebGLUnsignedShortArray = Uint16Array;
+
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
@@ -51,12 +54,12 @@ namespace WebGLMetaTunnel
         {
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
 
-            Action<string> alert = Native.Window.alert;
+            Action<string> alert = x => Native.Window.alert(x);
 
             c.style.border = "1px solid yellow";
 
             var fragment_shader_source = @"
-#version 120
+precision lowp float;
 uniform vec4 in_color;
 vec2 v=(gl_FragCoord.xy-vec2(" + (w / 2) + @"," + (h / 2) + @"))/vec2(" + (w / 2) + @"," + (h / 2) + @");
 float w=dot(in_color.xyz,vec3(1.0,256.0,65536.0))*.25;
@@ -94,7 +97,7 @@ gl_FragColor=color+vec4(0.4,0.3,0.2,1.0)*(t*0.025);
             }";
 
             var vertex_shader_source =
-    "attribute vec4 pos; void main() { gl_Position = vec4(pos.x * float(" + w / 2 + "), pos.y * float(" + h / 2 + "), 0.0, 1.0); }";
+    "precision lowp float; attribute vec4 pos; void main() { gl_Position = vec4(pos.x * float(" + w / 2 + "), pos.y * float(" + h / 2 + "), 0.0, 1.0); }";
 
             var vs = gl.createShader(gl.VERTEX_SHADER);
             gl.shaderSource(vs, vertex_shader_source);
@@ -139,7 +142,7 @@ gl_FragColor=color+vec4(0.4,0.3,0.2,1.0)*(t*0.025);
 
 
             gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(
-              new double[] { -1, 1, 1, 1, -1, -1, 1, -1 }
+              new [] { -1f, 1f, 1f, 1f, -1f, -1f, 1f, -1f }
             ), gl.STATIC_DRAW);
             gl.vertexAttribPointer((ulong)pos, 2, gl.FLOAT, false, 0, 0);
 
@@ -151,7 +154,7 @@ gl_FragColor=color+vec4(0.4,0.3,0.2,1.0)*(t*0.025);
                 var b = (n >> 16) & 0xff;
                 // workaround for chrome webGL not invalidating canvas on drawArrays
                 gl.clear(gl.COLOR_BUFFER_BIT);
-                gl.uniform4f(in_color, r / 255.0, g / 255.0, b / 255.0, 1.0);
+                gl.uniform4f(in_color, r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
                 gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
             };
             redraw();
