@@ -58,7 +58,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"TypeExtension.exe" /AssemblyMergeExtension:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite.exe" /DisableWorkerDomain /XAttachDebugger:true
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /EntryPointAssembly:"TypeExtension.exe" /AssemblyMerge:"TypeExtension.exe" /AssemblyMergeExtension:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite.exe" /DisableWorkerDomain /XAttachDebugger:true
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

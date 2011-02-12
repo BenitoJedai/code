@@ -98,6 +98,9 @@ call :build core\ScriptCoreLib.Redux\ScriptCoreLib.Redux.sln
 ::call :build templates\Orcas\UltraLibraryWithAssets\UltraLibraryWithAssets.sln
 ::call :build templates\Orcas\OrcasUltraWebApplication\OrcasUltraWebApplication.sln
 
+call :build examples\WebGLShaderDisturb\WebGLShaderDisturb.sln
+call :build examples\WebGLSpiral\WebGLSpiral.sln
+
 ::call :build40 templates\TwentyTen\UltraApplication\UltraApplication.sln
 ::call :build40 templates\TwentyTen\UltraWebApplication\UltraWebApplication.sln
 ::call :build40 templates\TwentyTen\UltraLibraryWithAssets\UltraLibraryWithAssets.sln

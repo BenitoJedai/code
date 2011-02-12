@@ -141,7 +141,6 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
  rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
- rem c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToOrcas:true
 )
 
 if $(ConfigurationName)==Release (
