@@ -45,10 +45,24 @@ namespace WebGLLesson01
             {
                 var canvas = new IHTMLCanvas().AttachTo(page.Content);
 
+                canvas.style.SetSize(500, 500);
+
                 var gl = default(WebGLRenderingContext);
+                var shaderProgram = default(WebGLShader);
+
+                var shaderProgram_vertexPositionAttribute = default(ulong);
 
                 var triangleVertexPositionBuffer = default(WebGLBuffer);
                 var squareVertexPositionBuffer = default(WebGLBuffer);
+
+                var triangleVertexPositionBuffer_itemSize = 3;
+                var triangleVertexPositionBuffer_numItems = 3;
+
+                var squareVertexPositionBuffer_itemSize = 3;
+                var squareVertexPositionBuffer_numItems = 4;
+
+                var gl_viewportWidth = default(int);
+                var gl_viewportHeight = default(int);
 
                 #region initBuffers
                 Action initBuffers = delegate
@@ -68,8 +82,7 @@ namespace WebGLLesson01
                         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
                     }
 
-                    var triangleVertexPositionBuffer_itemSize = 3;
-                    var triangleVertexPositionBuffer_numItems = 3;
+
                     #endregion
 
                     #region squareVertexPositionBuffer
@@ -88,13 +101,13 @@ namespace WebGLLesson01
                         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
                     }
-                    var squareVertexPositionBuffer_itemSize = 3;
-                    var squareVertexPositionBuffer_numItems = 4;
+
                     #endregion
 
                 };
                 #endregion
 
+                #region drawScene
                 Action drawScene = delegate
                 {
                     // viewport?
@@ -106,6 +119,43 @@ namespace WebGLLesson01
                     //perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);
 
                     //loadIdentity();
+
+                    //mvTranslate([-1.5, 0.0, -7.0]);
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+                    gl.vertexAttribPointer(shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                    // setMatrixUniforms();
+
+                    gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
+
+                    //mvTranslate([3.0, 0.0, 0.0])
+
+                    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+                    gl.vertexAttribPointer(shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                    //setMatrixUniforms();
+
+                    gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
+                };
+                #endregion
+
+                Action initGL = delegate
+                {
+                    // should JSC throw type is not castable in JavaScript?
+                    try
+                    {
+                        gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+                        gl_viewportWidth = canvas.width;
+                        gl_viewportHeight = canvas.height;
+                    }
+                    catch
+                    {
+                    }
+
+                    if (gl == null)
+                        Native.Window.alert("Could not initialise WebGL, sorry :-(");
+
                 };
 
                 // initGL
