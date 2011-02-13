@@ -16,6 +16,7 @@ using WebGLLesson01.HTML.Pages;
 namespace WebGLLesson01
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLLesson01.Sylvester;
 
 
     /// <summary>
@@ -30,6 +31,8 @@ namespace WebGLLesson01
          * 03. Port "initBuffers" function
          * 03. Add "gl" alias for static methods
          * 04. Port "drawScene" function
+         * 05. We are not using any dynamic or expando objects and we have to define such variables.
+         * 06. We will have to port "sylvester" for Matrix type
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -63,6 +66,42 @@ namespace WebGLLesson01
 
                 var gl_viewportWidth = default(int);
                 var gl_viewportHeight = default(int);
+
+                // JSC could realy try harder to unify Matrix objects on different platforms :)
+                var mvMatrix = default(Matrix);
+
+                Action loadIdentity = delegate
+                {
+                    mvMatrix = Matrix.I(4);
+                };
+
+                Action<Matrix> multMatrix = m =>
+                {
+                    mvMatrix = mvMatrix.x(m);
+                };
+
+                Action<int> mvTranslate = v =>
+                {
+                    // whats $V?
+                    var m = Matrix.Translation(
+                        //$V([v[0], v[1], v[2]])
+                        null
+                    ).ensure4x4();
+
+                    multMatrix(m);
+                };
+
+                var pMatrix = default(Matrix);
+
+                Action<float, float, float, float> perspective = (fovy, aspect, znear, zfar) =>
+                {
+                    //pMatrix = makePerspective(fovy, aspect, znear, zfar);
+                };
+
+                Action setMatrixUniforms = delegate
+                {
+
+                };
 
                 #region initBuffers
                 Action initBuffers = delegate
@@ -110,22 +149,20 @@ namespace WebGLLesson01
                 #region drawScene
                 Action drawScene = delegate
                 {
-                    // viewport?
-                    //gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+                    gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
 
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                    // perspective ?
-                    //perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);
+                    perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f);
 
-                    //loadIdentity();
+                    loadIdentity();
 
                     //mvTranslate([-1.5, 0.0, -7.0]);
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
                     gl.vertexAttribPointer(shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                    // setMatrixUniforms();
+                    setMatrixUniforms();
 
                     gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
@@ -140,9 +177,9 @@ namespace WebGLLesson01
                 };
                 #endregion
 
+                #region initGL
                 Action initGL = delegate
                 {
-                    // should JSC throw type is not castable in JavaScript?
                     try
                     {
                         gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
@@ -157,8 +194,9 @@ namespace WebGLLesson01
                         Native.Window.alert("Could not initialise WebGL, sorry :-(");
 
                 };
+                #endregion
 
-                // initGL
+                initGL();
                 // initShaders
                 initBuffers();
 
