@@ -12,11 +12,12 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLLesson01.HTML.Pages;
+using WebGLLesson01.Sylvester;
 
 namespace WebGLLesson01
 {
+    using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using WebGLLesson01.Sylvester;
 
 
     /// <summary>
@@ -97,15 +98,58 @@ namespace WebGLLesson01
 
                 var pMatrix = default(Matrix);
 
+                #region makeFrustum
+                Func<f, f, f, f, f, f, Matrix> makeFrustum =
+                    (left, right,
+                     bottom, top,
+                     znear, zfar) =>
+                    {
+                        var X = 2 * znear / (right - left);
+                        var Y = 2 * znear / (top - bottom);
+                        var A = (right + left) / (right - left);
+                        var B = (top + bottom) / (top - bottom);
+                        var C = -(zfar + znear) / (zfar - znear);
+                        var D = -2 * zfar * znear / (zfar - znear);
+
+
+
+                        return new Matrix(
+                            X, 0f, A, 0f,
+                            0f, Y, B, 0f,
+                            0f, 0f, C, D,
+                            0f, 0f, -1f, 0f
+                        );
+                    };
+                #endregion
+
+
+                #region makePerspective
+                Func<f, f, f, f, Matrix> makePerspective = (fovy, aspect, znear, zfar) =>
+                {
+                    var ymax = znear * (float)Math.Tan(fovy * Math.PI / 360.0);
+                    var ymin = -ymax;
+                    var xmin = ymin * aspect;
+                    var xmax = ymax * aspect;
+
+                    return makeFrustum(xmin, xmax, ymin, ymax, znear, zfar);
+                };
+                #endregion
+
+                #region perspective
                 Action<float, float, float, float> perspective = (fovy, aspect, znear, zfar) =>
                 {
-                    //pMatrix = makePerspective(fovy, aspect, znear, zfar);
+                    pMatrix = makePerspective(fovy, aspect, znear, zfar);
                 };
+                #endregion
 
+                #region setMatrixUniforms
                 Action setMatrixUniforms = delegate
                 {
-
+                    gl.uniformMatrix4fv(shaderProgram_pMatrixUniform, false, new Float32Array(pMatrix.flatten()));
+                    gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, new Float32Array(mvMatrix.flatten()));
                 };
+                #endregion
+
 
                 #region initBuffers
                 Action initBuffers = delegate
@@ -274,7 +318,8 @@ namespace WebGLLesson01
                 gl.enable(gl.DEPTH_TEST);
                 gl.depthFunc(gl.LEQUAL);
 
-                //    setInterval(drawScene, 15);
+
+                Native.Window.setInterval(drawScene, 15);
 
             };
 
