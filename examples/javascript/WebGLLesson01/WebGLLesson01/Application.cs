@@ -18,6 +18,7 @@ namespace WebGLLesson01
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.Shared.Lambda;
 
 
     /// <summary>
@@ -35,6 +36,7 @@ namespace WebGLLesson01
          * 05. We are not using any dynamic or expando objects and we have to define such variables.
          * 06. We will have to port "sylvester" for Matrix type
          * 07. Port "initShaders" function
+         * 08. Continue with Matrix.multiply implementation!
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -85,12 +87,10 @@ namespace WebGLLesson01
                     mvMatrix = mvMatrix.x(m);
                 };
 
-                Action<int> mvTranslate = v =>
+                ParamsAction<float> mvTranslate = v =>
                 {
-                    // whats $V?
                     var m = Matrix.Translation(
-                        //$V([v[0], v[1], v[2]])
-                        null
+                        new Vector(v[0], v[1], v[2])
                     ).ensure4x4();
 
                     multMatrix(m);
@@ -205,7 +205,7 @@ namespace WebGLLesson01
 
                     loadIdentity();
 
-                    //mvTranslate([-1.5, 0.0, -7.0]);
+                    mvTranslate(-1.5f, 0.0f, -7.0f);
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
                     gl.vertexAttribPointer(shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
@@ -214,12 +214,12 @@ namespace WebGLLesson01
 
                     gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
-                    //mvTranslate([3.0, 0.0, 0.0])
+                    mvTranslate(3.0f, 0.0f, 0.0f);
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
                     gl.vertexAttribPointer(shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                    //setMatrixUniforms();
+                    setMatrixUniforms();
 
                     gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
                 };
