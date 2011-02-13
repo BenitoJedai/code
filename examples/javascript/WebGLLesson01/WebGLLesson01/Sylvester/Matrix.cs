@@ -15,14 +15,28 @@ namespace WebGLLesson01.Sylvester
 
         }
 
-        public static Matrix I(int e)
+        //  Identity matrix of size n
+        public static Matrix I(int n)
         {
-            return new Matrix();
+            var r = new Matrix();
+
+            if (n == 4)
+                r.ensure4x4();
+            else
+                throw new NotImplementedException();
+
+
+            return r;
         }
 
         public Matrix x(Matrix e)
         {
-            return this;
+            return this.multiply(e);
+        }
+
+        private Matrix multiply(Matrix e)
+        {
+            throw new NotImplementedException();
         }
 
 
