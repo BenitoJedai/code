@@ -33,6 +33,7 @@ namespace WebGLLesson01
          * 04. Port "drawScene" function
          * 05. We are not using any dynamic or expando objects and we have to define such variables.
          * 06. We will have to port "sylvester" for Matrix type
+         * 07. Port "initShaders" function
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -51,7 +52,7 @@ namespace WebGLLesson01
                 canvas.style.SetSize(500, 500);
 
                 var gl = default(WebGLRenderingContext);
-                var shaderProgram = default(WebGLShader);
+                var shaderProgram = default(WebGLProgram);
 
                 var shaderProgram_vertexPositionAttribute = default(ulong);
 
@@ -66,6 +67,9 @@ namespace WebGLLesson01
 
                 var gl_viewportWidth = default(int);
                 var gl_viewportHeight = default(int);
+
+                var shaderProgram_pMatrixUniform = default(WebGLUniformLocation);
+                var shaderProgram_mvMatrixUniform = default(WebGLUniformLocation);
 
                 // JSC could realy try harder to unify Matrix objects on different platforms :)
                 var mvMatrix = default(Matrix);
@@ -196,14 +200,79 @@ namespace WebGLLesson01
                 };
                 #endregion
 
+                #region getShader
+                Func<string, ulong, WebGLShader> getShader = (source, type) =>
+                {
+                    var shader = gl.createShader(type);
+
+                    gl.shaderSource(shader, source);
+                    gl.compileShader(shader);
+
+                    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+                    {
+                        Native.Window.alert(gl.getShaderInfoLog(shader));
+                        return null;
+                    }
+
+                    return shader;
+                };
+                #endregion
+
+
+                #region initShaders
+                Action initShaders = delegate
+                {
+                    const string FragmentShader = @"
+  precision highp float;
+ 
+  void main(void) {
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  }
+                    ";
+
+                    const string VertexShader = @"
+  attribute vec3 aVertexPosition;
+ 
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+ 
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+  }
+                    ";
+
+                    var vertexShader = getShader(FragmentShader, gl.FRAGMENT_SHADER);
+                    var fragmentShader = getShader(VertexShader, gl.VERTEX_SHADER);
+
+
+                    shaderProgram = gl.createProgram();
+                    gl.attachShader(shaderProgram, vertexShader);
+                    gl.attachShader(shaderProgram, fragmentShader);
+                    gl.linkProgram(shaderProgram);
+
+                    if (gl.getProgramParameter(shaderProgram, gl.LINK_STATUS) == null)
+                    {
+                        Native.Window.alert("Could not initialise shaders");
+                    }
+
+                    gl.useProgram(shaderProgram);
+
+                    shaderProgram_vertexPositionAttribute = (ulong)gl.getAttribLocation(shaderProgram, "aVertexPosition");
+                    gl.enableVertexAttribArray(shaderProgram_vertexPositionAttribute);
+
+                    shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+                    shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+                };
+                #endregion
+
                 initGL();
-                // initShaders
+                initShaders();
                 initBuffers();
 
-                //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-                //    gl.clearDepth(1.0)
-                //    gl.enable(gl.DEPTH_TEST);
-                //    gl.depthFunc(gl.LEQUAL);
+                gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                gl.clearDepth(1.0f);
+                gl.enable(gl.DEPTH_TEST);
+                gl.depthFunc(gl.LEQUAL);
 
                 //    setInterval(drawScene, 15);
 
