@@ -47,7 +47,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 }
 
                 // !! no lib anymore
-                // !! no custom templates anymore
+                // !! no custom templates anymore // but now we want to have them again :)
 
                 //var lib = new DirectoryInfo(Path.Combine(jsc.FullName, "lib"));
                 //foreach (var item in lib.GetFilesByPattern("*.exe", "*.dll", "*.xml"))
@@ -55,11 +55,11 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 //    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
                 //}
 
-                //var templates = new DirectoryInfo(Path.Combine(jsc.FullName, "templates"));
-                //foreach (var item in templates.GetAllFilesByPattern("*.zip"))
-                //{
-                //    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
-                //}
+                var templates = new DirectoryInfo(Path.Combine(jsc.FullName, "templates"));
+                foreach (var item in templates.GetAllFilesByPattern("*.zip"))
+                {
+                    zip.Add(item.FullName.Substring(jsc.FullName.Length + 1), File.ReadAllBytes(item.FullName));
+                }
 
                 var cache = new DirectoryInfo(Path.Combine(jsc.FullName, "cache"));
                 foreach (var item in cache.GetAllFilesByPattern("*.zip"))
