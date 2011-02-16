@@ -49,10 +49,6 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
         </Reference>
-        <Reference Include="ScriptCoreLib.Ultra.Library40">
-            <SpecificVersion>False</SpecificVersion>
-            <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library40.dll</HintPath>
-        </Reference>
         <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>

@@ -48,6 +48,7 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
@@ -55,8 +56,10 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -87,12 +90,15 @@
     <Compile Include="Extensions\MarshalExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
+    <Compile Include="Extensions\TouchExtensions.cs" />
+    <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
     <Compile Include="Interop\InternalPollClosure.cs" />
     <Compile Include="Interop\IntPtrDictionary.cs" />
     <Compile Include="Interop\IntPtrInfo.cs" />
     <Compile Include="Library\Analytics\StatCounterUriBuilder.cs" />
     <Compile Include="Library\StringConversions.cs" />
+    <Compile Include="Library\ToTouchEvents.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
