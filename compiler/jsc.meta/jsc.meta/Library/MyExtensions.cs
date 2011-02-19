@@ -733,7 +733,7 @@ namespace jsc.meta.Library
             );
         }
 
-        
+
         public static void DefineAttribute(this MethodBuilder a, object z, Type Attribute)
         {
             a.SetCustomAttribute(

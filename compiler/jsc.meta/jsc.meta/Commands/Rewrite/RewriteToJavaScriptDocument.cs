@@ -491,6 +491,7 @@ namespace jsc.meta.Commands.Rewrite
 
                             }
 
+                            
                             if (k.IsJavaScript)
                             {
                                 // javascript will embed objects
@@ -507,9 +508,11 @@ namespace jsc.meta.Commands.Rewrite
                                         throw new FileNotFoundException("", asset.Product);
                                     }
 
-                                    a.Module.DefineManifestResource(k.TargetType + ".web.assets." + k.TargetType.FullName + "." + Path.GetFileName(asset.Product),
-                                        new MemoryStream(File.ReadAllBytes(asset.Product))
-                                    , ResourceAttributes.Public);
+                                    a.Module.DefineManifestResource(
+                                        name: k.TargetType + ".web.assets." + k.TargetType.FullName + "." + Path.GetFileName(asset.Product),
+                                        stream: new MemoryStream(File.ReadAllBytes(asset.Product)),
+                                        attribute: ResourceAttributes.Public
+                                    );
 
                                 }
                             }

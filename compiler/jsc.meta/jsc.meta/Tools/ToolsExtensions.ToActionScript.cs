@@ -117,14 +117,29 @@ namespace jsc.meta.Tools
                 
                 // Blocked by internet? :)
 
+                var Libraries = Directory.GetFiles(obj_web, "*.swc", SearchOption.AllDirectories);
+
+                var Arguments = " -static-link-runtime-shared-libraries=true "
+                        + " -debug"
+                        + " -sp=."
+                        + " -verbose-stacktraces"
+                        + " --target-player=10.1.0"
+                        + " -strict"
+                        + " -output=\"" + obj_web_swf + "\"";
+
+                foreach (var item in Libraries)
+                {
+                    Arguments += " -library-path+=\"" + item + "\"";
+                }
+
+                Arguments += " " + sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as";
+
 				var proccess_mxmlc = Process.Start(
 					new ProcessStartInfo(
 						mxmlc.FullName,
 					//  groups.google.com/group/projectsprouts/browse_thread/thread/8ae82f8f861aff4e/591a98d6637ac49a?show_docid=591a98d6637ac49a&fwc=1
 
-						"-static-link-runtime-shared-libraries=true -debug -sp=. -verbose-stacktraces --target-player=10.1.0 -strict -output=\"" +
-							obj_web_swf + "\" "
-							+ sprite.FullName.Replace(".", @"\").Replace("+", "_") + @".as"
+                        Arguments
 						)
 					{
 						UseShellExecute = false,
