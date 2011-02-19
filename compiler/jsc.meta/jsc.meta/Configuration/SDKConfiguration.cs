@@ -42,6 +42,16 @@ namespace jsc.meta.Configuration
             }
         }
 
+        public FileInfo FlexSDK_compc
+        {
+            get
+            {
+                return
+                    new FileInfo(Path.Combine(FlexSDK.FullName, @"bin\compc.exe"));
+            }
+        }
+
+
         public FileInfo FlexSDK_flashplayer
         {
             get
