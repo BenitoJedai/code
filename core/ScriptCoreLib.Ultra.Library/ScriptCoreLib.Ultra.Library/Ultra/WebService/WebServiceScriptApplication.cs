@@ -54,7 +54,10 @@ namespace ScriptCoreLib.Ultra.WebService
 
             WriteLine(@"<!DOCTYPE HTML>");
             WriteLine(@"<!-- Hello curious person, welcome to the source code. I hope you enjoy your time here. Please close the door after you've gone. --> ");
-            WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
+            //WriteLine(@"<html manifest=""" + WebApplicationCacheManifest.ManifestName + @""">");
+            
+            // flash cannot be reloaded for some reason? why?
+            WriteLine(@"<html>");
             WriteLine(@"<head>");
 
             // do we need this?
