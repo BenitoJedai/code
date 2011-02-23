@@ -100,6 +100,7 @@
     <Compile Include="Library\StringConversions.cs" />
     <Compile Include="Library\ToTouchEvents.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
+    <Compile Include="Desktop\Compiler\ISWCNativeTypeBuilder.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssemblyBase.cs" />
