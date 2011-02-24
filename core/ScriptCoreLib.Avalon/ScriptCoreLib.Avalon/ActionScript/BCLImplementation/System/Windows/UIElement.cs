@@ -127,6 +127,18 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows
 					return;
 				}
 
+                var AsRotateTransform = value as RotateTransform;
+
+                if (AsRotateTransform != null)
+                {
+
+                    var o = InternalGetDisplayObject();
+
+                    o.rotation = AsRotateTransform.Angle;
+
+                    return;
+                }
+
 
 				var AsTranslateTransform = value as TranslateTransform;
 				if (AsTranslateTransform != null)
