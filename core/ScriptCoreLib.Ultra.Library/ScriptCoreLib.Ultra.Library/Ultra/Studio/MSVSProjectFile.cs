@@ -11,15 +11,16 @@ using System.Reflection;
 namespace jsc.meta.Library
 {
 
-	public class MSVSProjectFile
-	{
+    public class MSVSProjectFile
+    {
         // Microsoft Visual Studio Project File
 
-		public string[] HintPaths;
+        public string[] HintPaths;
 
         public string DefaultNamespace;
 
         public FileInfo[] NoneFiles;
+        public FileInfo[] ContentFiles;
 
         public Func<FileInfo, bool> HasReference;
 
@@ -27,30 +28,30 @@ namespace jsc.meta.Library
 
         public Action Save;
 
-		public static MSVSProjectFile FromFile(string filepath)
-		{
+        public static MSVSProjectFile FromFile(string filepath)
+        {
             var ProjectFileName = new FileInfo(filepath);
 
-			var csproj = XDocument.Load(filepath);
+            var csproj = XDocument.Load(filepath);
 
-			#region ns
-			XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
-			var nsItemGroup = ns + "ItemGroup";
-			var nsRootNamespace = ns + "RootNamespace";
-			var nsPropertyGroup = ns + "PropertyGroup";
-			var nsNone = ns + "None";
-			var nsContent = ns + "Content";
-			var nsCompile = ns + "Compile";
-			var nsDependentUpon = ns + "DependentUpon";
-			var nsReference = ns + "Reference";
-			var nsHintPath = ns + "HintPath";
-			var nsAssemblyName = ns + "AssemblyName";
+            #region ns
+            XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
+            var nsItemGroup = ns + "ItemGroup";
+            var nsRootNamespace = ns + "RootNamespace";
+            var nsPropertyGroup = ns + "PropertyGroup";
+            var nsNone = ns + "None";
+            var nsContent = ns + "Content";
+            var nsCompile = ns + "Compile";
+            var nsDependentUpon = ns + "DependentUpon";
+            var nsReference = ns + "Reference";
+            var nsHintPath = ns + "HintPath";
+            var nsAssemblyName = ns + "AssemblyName";
             var nsLink = ns + "Link";
 
-			#endregion
+            #endregion
 
 
-			var HintPaths = csproj.Root.Elements(nsItemGroup).Elements(nsReference).Elements(nsHintPath).Select(k => k.Value).ToArray();
+            var HintPaths = csproj.Root.Elements(nsItemGroup).Elements(nsReference).Elements(nsHintPath).Select(k => k.Value).ToArray();
 
             var DefaultNamespace = Enumerable.First(
                  from PropertyGroup in csproj.Root.Elements(nsPropertyGroup)
@@ -61,22 +62,24 @@ namespace jsc.meta.Library
                  select __AssemblyName.Value
             );
 
-            var NoneFiles =
+            Func<XName, IEnumerable<FileInfo>> GetFilesByType =
+                FileType =>
+                      from ItemGroup in csproj.Root.Elements(nsItemGroup)
 
-               from ItemGroup in csproj.Root.Elements(nsItemGroup)
+                      from None in ItemGroup.Elements(FileType)
 
-               from None in ItemGroup.Elements(nsNone)
+                      let Link = None.Element(nsLink)
 
-               let Link = None.Element(nsLink)
+                      let Include = None.Attribute("Include").Value
 
-               let Include = None.Attribute("Include").Value
+                      // Directory In Project
+                      let Directory = Path.GetDirectoryName(Link != null ? Link.Value : Include).Replace("\\", "/")
 
-               // Directory In Project
-               let Directory = Path.GetDirectoryName(Link != null ? Link.Value : Include).Replace("\\", "/")
+                      let File = new FileInfo(Link != null ? Include : Path.Combine(ProjectFileName.Directory.FullName, Include))
 
-               let File = new FileInfo(Link != null ? Include : Path.Combine(ProjectFileName.Directory.FullName, Include))
+                      select File;
 
-               select File;
+
 
 
             Func<FileInfo, bool> HasReference =
@@ -123,7 +126,7 @@ namespace jsc.meta.Library
                                 new XElement(nsHintPath, TargetHintPath)
                             )
                         );
-                        
+
 
                     }
                 };
@@ -134,20 +137,21 @@ namespace jsc.meta.Library
                 csproj.Save(filepath);
             };
 
-			return new MSVSProjectFile
-			{
-				HintPaths = HintPaths,
+            return new MSVSProjectFile
+            {
+                HintPaths = HintPaths,
                 DefaultNamespace = DefaultNamespace,
-                NoneFiles = NoneFiles.ToArray(),
+                NoneFiles = GetFilesByType(nsNone).ToArray(),
+                ContentFiles = GetFilesByType(nsContent).ToArray(),
                 HasReference = HasReference,
                 AddReference = AddReference,
                 Save = Save
-			};
-		}
+            };
+        }
 
         public static implicit operator MSVSProjectFile(FileInfo f)
         {
             return MSVSProjectFile.FromFile(f.FullName);
         }
-	}
+    }
 }
