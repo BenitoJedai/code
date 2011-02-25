@@ -12,8 +12,8 @@ namespace ScriptCoreLib.Extensions
         {
             return from f in files
                    where f.FullName.StartsWith(root.FullName)
-                   let r = f.Directory.FullName.SkipUntilOrEmpty(root.FullName).Substring(1)
-                   let x = target.CreateSubdirectory(r)
+                   let r = f.Directory.FullName.SkipUntilOrEmpty(root.FullName)
+                   let x = string.IsNullOrEmpty(r) ? target : target.CreateSubdirectory(r.Substring(1))
                    let c = f.CopyTo(Path.Combine(x.FullName, f.Name), true)
                    select c;
         }
