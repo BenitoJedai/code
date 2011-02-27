@@ -20,6 +20,7 @@ namespace WebGLSpiral
     using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
     using Date = IDate;
+    using WebGLSpiral.Shaders;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -57,40 +58,9 @@ namespace WebGLSpiral
         // 28. Test, save, commit
         // 29. Enable PHP server in release build
         // 30. Test with Android Firefox 4
-
-        const string VertexShaderSource = @"
-			attribute vec3 position;
- 
-			void main() {
- 
-				gl_Position = vec4( position, 1.0 );
- 
-			}
-        ";
+        // 31. Integrate with .frag and .vert files to generate types into AssetsLibrary
 
 
-
-        const string FragmentShaderSource = @"
-            uniform float time;
-			uniform vec2 resolution;
-			uniform vec2 aspect;
- 
-			void main( void ) {
- 
-				vec2 position = -aspect.xy + 2.0 * gl_FragCoord.xy / resolution.xy * aspect.xy;
-                float angle = 0.0 ;
-                float radius = sqrt(position.x*position.x + position.y*position.y) ;
-                if (position.x != 0.0 && position.y != 0.0){
-                    angle = degrees(atan(position.y,position.x)) ;
-                }
-                float amod = mod(angle+30.0*time-120.0*log(radius), 30.0) ;
-                if (amod<15.0){
-                    gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
-                } else{
-                    gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );                    
-                }
-			}
-        ";
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -115,11 +85,9 @@ namespace WebGLSpiral
             Action init = delegate
             {
 
-                var vertex_shader = Application.VertexShaderSource;
-                var fragment_shader = Application.FragmentShaderSource;
 
                 var canvas = new IHTMLCanvas().AttachToDocument();
-                
+
                 Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
                 canvas.style.SetLocation(0, 0);
 
@@ -152,34 +120,29 @@ namespace WebGLSpiral
                 // Create Program
 
                 #region createProgram
-                Func<string, string, WebGLProgram> createProgram = (vertex, fragment) =>
+                Func<WebGLProgram> createProgram = () =>
                 {
                     var program = gl.createProgram();
 
                     #region createShader
-                    Func<string, ulong, WebGLShader> createShader = (src, type) =>
+                    Func<Shader, WebGLShader> createShader = (src) =>
                     {
+                        var shader = gl.createShader(src);
 
-                        var shader = gl.createShader(type);
-
-                        gl.shaderSource(shader, src);
-                        gl.compileShader(shader);
+                        // verify
                         if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                         {
-                            if (type == gl.VERTEX_SHADER)
-                                Native.Window.alert("VERTEX SHADER:\n" + gl.getShaderInfoLog(shader));
-                            else
-                                Native.Window.alert("FRAGMENT SHADER:\n" + gl.getShaderInfoLog(shader));
-                            return null;
+                            Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
 
+                            return null;
                         }
 
                         return shader;
                     };
                     #endregion
 
-                    var vs = createShader(vertex, gl.VERTEX_SHADER);
-                    var fs = createShader("#ifdef GL_ES\nprecision highp float;\n#endif\n\n" + fragment, gl.FRAGMENT_SHADER);
+                    var vs = createShader(new SpiralVertexShader());
+                    var fs = createShader(new SpiralFragmentShader());
 
                     if (vs == null || fs == null) return null;
 
@@ -196,9 +159,7 @@ namespace WebGLSpiral
 
                         Native.Window.alert("ERROR:\n" +
                       "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                      "ERROR: " + gl.getError() + "\n\n" +
-                      "- Vertex Shader -\n" + vertex + "\n\n" +
-                      "- Fragment Shader -\n" + fragment);
+                      "ERROR: " + gl.getError() + "\n\n");
 
                         return null;
 
@@ -210,7 +171,7 @@ namespace WebGLSpiral
                 #endregion
 
 
-                var currentProgram = createProgram(vertex_shader, fragment_shader);
+                var currentProgram = createProgram();
 
                 #region onWindowResize
                 Action onWindowResize = delegate
@@ -291,45 +252,5 @@ namespace WebGLSpiral
 
     }
 
-    class FragmentShader : ScriptCoreLib.GLSL.FragmentShader
-    {
-        [uniform]
-        float time;
-        [uniform]
-        vec2 resolution;
-        [uniform]
-        vec2 aspect;
 
-        void main()
-        {
-
-            vec2 position = -aspect.xy + 2.0f * gl_FragCoord.xy / resolution.xy * aspect.xy;
-            float angle = 0.0f;
-            float radius = sqrt(position.x * position.x + position.y * position.y);
-            if (position.x != 0.0f && position.y != 0.0f)
-            {
-                angle = degrees(atan(position.y, position.x));
-            }
-            float amod = mod(angle + 30.0f * time - 120.0f * log(radius), 30.0f);
-            if (amod < 15.0)
-            {
-                gl_FragColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-            }
-            else
-            {
-                gl_FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-            }
-        }
-    }
-
-    class VertexShader : ScriptCoreLib.GLSL.VertexShader
-    {
-        [attribute]
-        vec3 position;
-
-        void main()
-        {
-            gl_Position = vec4(position, 1.0f);
-        }
-    }
 }

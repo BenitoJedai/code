@@ -124,6 +124,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\vNext\DisturbFragmentShader.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -133,6 +134,10 @@
     </Compile>
     <Content Include="Design\disturb.jpg" />
     <Content Include="Design\Images\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Disturb.vert" />
+    <None Include="Shaders\Disturb.frag" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
