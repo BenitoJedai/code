@@ -123,6 +123,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders.vNext\DisturbVertexShader.cs" />
     <Compile Include="Shaders.vNext\DisturbFragmentShader.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
