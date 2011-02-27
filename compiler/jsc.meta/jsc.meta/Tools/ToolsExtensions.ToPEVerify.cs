@@ -17,9 +17,18 @@ namespace jsc.meta.Tools
 
             // http://www.telerik.com/community/forums/orm/general-discussions/peverify-error.aspx
 
+            var Command = MicrosoftWindowsSDK + @"\bin\NETFX 4.0 Tools\PEVerify.exe";
+
+            Console.WriteLine(Command);
+
+            if (!File.Exists(Command))
+            {
+                Console.WriteLine("PEVerify was not found...");
+                return;
+            }
 
             var psi = new ProcessStartInfo(
-                MicrosoftWindowsSDK + @"\bin\NETFX 4.0 Tools\PEVerify.exe",
+                Command,
                 SourceAssembly.Name +  " /unique"
                 )
                 {
@@ -28,7 +37,6 @@ namespace jsc.meta.Tools
                     WorkingDirectory = SourceAssembly.Directory.FullName
                 };
 
-            Console.WriteLine(psi.FileName);
             Console.WriteLine(SourceAssembly.FullName);
 
             var p = Process.Start(psi);
