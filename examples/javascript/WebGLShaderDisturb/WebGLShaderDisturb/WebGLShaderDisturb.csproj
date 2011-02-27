@@ -86,10 +86,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Library40">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library40.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
@@ -122,9 +118,12 @@
     <Reference Include="WebGLShaderDisturb.UltraSource">
       <HintPath>bin\staging.UltraSource\WebGLShaderDisturb.UltraSource.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLShaderDisturb.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLShaderDisturb.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\vNext\DisturbFragmentShader.cs" />
+    <Compile Include="Shaders.vNext\DisturbFragmentShader.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -147,6 +146,12 @@ start /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFile
 if $(ConfigurationName)==Release (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true
+
+set jsc=C:\util\jsc\bin\jsc.meta.exe
+if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
+
+call %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

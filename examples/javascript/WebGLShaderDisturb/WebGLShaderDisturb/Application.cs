@@ -19,6 +19,7 @@ namespace WebGLShaderDisturb
     using gl = WebGLRenderingContext;
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
+    using WebGLShaderDisturb.Shaders;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -74,37 +75,30 @@ namespace WebGLShaderDisturb
             // Create Program
 
             #region createShader
-            Func<string, ulong, WebGLShader> createShader = (src, type) =>
+            Func<Shader, WebGLShader> createShader = (src) =>
             {
+                var shader = gl.createShader(src);
 
-                var shader = gl.createShader(type);
-
-                gl.shaderSource(shader, src);
-                gl.compileShader(shader);
-
+                // verify
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
-                    if (type == gl.VERTEX_SHADER)
-                        Native.Window.alert("VERTEX SHADER:\n" + gl.getShaderInfoLog(shader));
-                    else
-                        Native.Window.alert("FRAGMENT SHADER:\n" + gl.getShaderInfoLog(shader));
-                    return null;
+                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
 
+                    return null;
                 }
 
                 return shader;
-
             };
             #endregion
 
             #region createProgram
-            Func<string, string, WebGLProgram> createProgram = (vertex, fragment) =>
+            Func<WebGLProgram> createProgram = () =>
             {
 
                 var program = gl.createProgram();
 
-                var vs = createShader(vertex, gl.VERTEX_SHADER);
-                var fs = createShader("#ifdef GL_ES\nprecision highp float;\n#endif\n\n" + fragment, gl.FRAGMENT_SHADER);
+                var vs = createShader(new DisturbVertexShader());
+                var fs = createShader(new DisturbFragmentShader());
 
                 if (vs == null || fs == null) return null;
 
@@ -121,9 +115,8 @@ namespace WebGLShaderDisturb
 
                     Native.Window.alert("ERROR:\n" +
                     "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                    "ERROR: " + gl.getError() + "\n\n" +
-                    "- Vertex Shader -\n" + vertex + "\n\n" +
-                    "- Fragment Shader -\n" + fragment);
+                    "ERROR: " + gl.getError() + "\n\n"
+                   );
 
                     return null;
 
@@ -134,45 +127,7 @@ namespace WebGLShaderDisturb
             };
             #endregion
 
-            var currentProgram = createProgram(
-
-                @"
-	            attribute vec3 position;
- 
-			    void main() {
- 
-				    gl_Position = vec4( position, 1.0 );
- 
-			    }
-                "
-                ,
-
-                @"
-	            uniform float time;
-			    uniform vec2 resolution;
- 
-			    uniform sampler2D texture;
- 
-			    void main( void ) {
- 
-				    vec2 position = - 1.0 + 2.0 * gl_FragCoord.xy / resolution.xy;
- 
-				    float a = atan( position.y, position.x );
-				    float r = sqrt( dot( position, position ) );
- 
-				    vec2 uv;
-				    uv.x = cos( a ) / r;
-				    uv.y = sin( a ) / r;
-				    uv /= 10.0;
-				    uv += time * 0.05;
- 
-				    vec3 color = texture2D( texture, uv ).rgb;
- 
-				    gl_FragColor = vec4( color * r * 1.5, 1.0 );
- 
-			    }     
-                "
-            );
+            var currentProgram = createProgram();
 
             #region loadTexture
             Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
