@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\Extensions\WebGLExtensions.cs" />
     <Compile Include="JavaScript\Redux.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -208,6 +208,9 @@
     <Compile Include="JavaScript\DOM\XML\IXMLElement.cs" />
     <Compile Include="JavaScript\Native.cs" />
     <Compile Include="JavaScript\Runtime\StringWriter.cs" />
+    <Compile Include="JavaScript\WebGL\VertexShader.cs" />
+    <Compile Include="JavaScript\WebGL\FragmentShader.cs" />
+    <Compile Include="JavaScript\WebGL\Shader.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\ArrayList.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IDictionary.cs" />

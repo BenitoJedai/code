@@ -124,6 +124,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\vNext\SpiralFragmentShader.cs" />
+    <Compile Include="Shaders\vNext\SpiralVertexShader.cs" />
+    <Compile Include="__WebGLSpiral.AssetsLibrary__\Shaders\SpiralFragmentShader.cs" />
+    <Compile Include="__WebGLSpiral.AssetsLibrary__\Shaders\SpiralVertexShader.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -132,6 +136,10 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Images\Preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Spiral.frag" />
+    <None Include="Shaders\Spiral.vert" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
