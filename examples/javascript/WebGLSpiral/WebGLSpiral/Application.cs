@@ -59,7 +59,8 @@ namespace WebGLSpiral
         // 29. Enable PHP server in release build
         // 30. Test with Android Firefox 4
         // 31. Integrate with .frag and .vert files to generate types into AssetsLibrary
-
+        // 32. Add AssetsLibrary pre build event
+        // 33. Make sure JSC creates classes for frag and vert files
 
 
         public readonly ApplicationWebService service = new ApplicationWebService();

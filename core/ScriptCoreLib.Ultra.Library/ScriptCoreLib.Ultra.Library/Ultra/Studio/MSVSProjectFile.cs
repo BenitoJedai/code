@@ -19,14 +19,26 @@ namespace jsc.meta.Library
 
         public string DefaultNamespace;
 
-        public FileInfo[] NoneFiles;
-        public FileInfo[] ContentFiles;
+        public ProjectFileInfo[] NoneFiles;
+        public ProjectFileInfo[] ContentFiles;
 
         public Func<FileInfo, bool> HasReference;
 
         public Action<FileInfo, AssemblyName> AddReference;
 
         public Action Save;
+
+        public class ProjectFileInfo
+        {
+            public FileInfo File;
+
+            public static implicit operator FileInfo(ProjectFileInfo f)
+            {
+                return f.File;
+            }
+
+            public string NamespaceDirectory;
+        }
 
         public static MSVSProjectFile FromFile(string filepath)
         {
@@ -62,7 +74,7 @@ namespace jsc.meta.Library
                  select __AssemblyName.Value
             );
 
-            Func<XName, IEnumerable<FileInfo>> GetFilesByType =
+            Func<XName, IEnumerable<ProjectFileInfo>> GetFilesByType =
                 FileType =>
                       from ItemGroup in csproj.Root.Elements(nsItemGroup)
 
@@ -77,7 +89,7 @@ namespace jsc.meta.Library
 
                       let File = new FileInfo(Link != null ? Include : Path.Combine(ProjectFileName.Directory.FullName, Include))
 
-                      select File;
+                      select new ProjectFileInfo { File = File, NamespaceDirectory = Directory };
 
 
 
