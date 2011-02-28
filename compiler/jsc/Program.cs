@@ -80,7 +80,7 @@ namespace jsc
             CommandLineOptions options = sinfo.Options;
 
             if (options.IsAttachDebugger)
-            { 
+            {
                 Debugger.Launch();
                 Debugger.Break();
             }
@@ -149,8 +149,8 @@ namespace jsc
                     string name = new AssemblyName(args.Name).Name;
 
 
-                    string file_dll = options.TargetAssembly.DirectoryName + @"\" + name + ".dll";
-                    string file_exe = options.TargetAssembly.DirectoryName + @"\" + name + ".exe";
+                    string file_dll = Path.Combine(options.TargetAssembly.DirectoryName, name + ".dll");
+                    string file_exe = Path.Combine(options.TargetAssembly.DirectoryName, name + ".exe");
 
                     //Console.WriteLine("looking for :" + file_dll);
                     //Console.WriteLine("looking for :" + file_exe);
