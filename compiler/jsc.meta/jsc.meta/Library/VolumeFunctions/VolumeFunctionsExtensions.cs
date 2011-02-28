@@ -71,10 +71,11 @@ namespace jsc.meta.Library.VolumeFunctions
                     return n;
 
                 return new FileInfo(
-                    this.SourceDirectory.FullName + "/" + n.FullName.Substring(this.VirtualDirectory.FullName.Length)
+                   InternalCombinePath(n.FullName)
                 );
 
             }
+
 
             public DirectoryInfo FromVirtual(DirectoryInfo n)
             {
@@ -83,9 +84,25 @@ namespace jsc.meta.Library.VolumeFunctions
                 // and the directory name must be less than 248 characters.
 
                 return new DirectoryInfo(
-                    this.SourceDirectory.FullName + "/" + n.FullName.Substring(this.VirtualDirectory.FullName.Length)
+                    InternalCombinePath(n.FullName)
                 );
 
+            }
+
+
+            private string InternalCombinePath(string nFullName)
+            {
+                var w = new StringBuilder();
+
+                w.Append(this.SourceDirectory.FullName);
+
+                if (!this.SourceDirectory.FullName.EndsWith("\\"))
+                    w.Append("\\");
+
+
+                w.Append(nFullName.Substring(this.VirtualDirectory.FullName.Length));
+
+                return w.ToString();
             }
         }
 
@@ -101,7 +118,7 @@ namespace jsc.meta.Library.VolumeFunctions
 
                 // error?
 
-                this.VirtualFile = new FileInfo(Path.Combine(VirtualDrive, SourceFile.Name));
+                this.VirtualFile = new FileInfo(Path.Combine(VirtualDrive + "\\", SourceFile.Name));
 
 
 

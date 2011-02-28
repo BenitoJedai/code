@@ -1298,6 +1298,9 @@ namespace jsc.meta.Commands.Rewrite
 
                     if (ShouldCopyType(SourceType) && TypeDefinitionCache[SourceType] is TypeBuilder)
                     {
+
+
+
                         CopyType(
                             SourceType, a, m,
                             null,
@@ -1374,7 +1377,16 @@ namespace jsc.meta.Commands.Rewrite
                              }
                         );
 
-
+                        // we should also copy all the types marked with Script(Implements within the same assembly..
+                        // let's hope we wont break anything..
+                        var __Script_Implements = TypeCache[
+                            Enumerable.ToArray(
+                                from t in SourceType.Assembly.GetTypes()
+                                let ss = t.ToScriptAttributeOrDefault()
+                                where ss.Implements == SourceType
+                                select t
+                            )
+                        ];
                     }
                     else
                     {
@@ -1434,6 +1446,8 @@ namespace jsc.meta.Commands.Rewrite
 
             // ask for our primary types to be copied
             var kt = TypeCache[PrimaryTypes];
+
+            
 
             // did we define any type declarations which we did not actually create yet?
             // fixme: maybe we shold just close the unclosed TypeBuilders?
