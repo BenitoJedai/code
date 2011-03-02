@@ -11,6 +11,8 @@ namespace jsc.meta.Commands.Configuration
     {
         public FileInfo ProjectFileName;
 
+        public bool AutoApplicationRevision;
+
         public override void Invoke()
         {
             Console.WriteLine("ConfigurationIncrementApplicationVersion");
@@ -23,7 +25,11 @@ namespace jsc.meta.Commands.Configuration
 
             foreach (var item in csproj.Root.Elements(nsPropertyGroup).Elements(nsApplicationRevision))
             {
-                var n = int.Parse(item.Value) + 1;
+                var n = "" + (int.Parse(item.Value) + 1);
+
+                if (AutoApplicationRevision)
+                    n = DateTime.Now.ToString("yyyyMMdd");
+
                 Console.WriteLine("version: " + n);
 
                 item.Value = "" + n;

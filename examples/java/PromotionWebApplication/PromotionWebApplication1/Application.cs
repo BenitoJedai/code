@@ -66,6 +66,8 @@ namespace PromotionWebApplication1
             ss.WhenReady(y);
         }
 
+        // see: "Z:\jsc.internal.svn\tools\rebuild.installer.bat"
+        // see: "Z:\jsc.internal.svn\tools\rebuild.release.bat"
         PromotionWebApplication1.Assets.Publish __Assets;
 
         public Application(PromotionWebApplicationHome.HTML.Pages.IDefaultPage app)
