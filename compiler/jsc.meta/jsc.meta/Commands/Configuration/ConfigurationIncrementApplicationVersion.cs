@@ -22,17 +22,39 @@ namespace jsc.meta.Commands.Configuration
             XNamespace ns = "http://schemas.microsoft.com/developer/msbuild/2003";
             var nsPropertyGroup = ns + "PropertyGroup";
             var nsApplicationRevision = ns + "ApplicationRevision";
+            var nsApplicationVersion = ns + "ApplicationVersion";
 
-            foreach (var item in csproj.Root.Elements(nsPropertyGroup).Elements(nsApplicationRevision))
+            // <ApplicationRevision>20110302</ApplicationRevision>
+            // <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+
+            if (AutoApplicationRevision)
             {
-                var n = "" + (int.Parse(item.Value) + 1);
+                foreach (var item in csproj.Root.Elements(nsPropertyGroup).Elements(nsApplicationRevision))
+                {
+                    item.Value = "" 
+                        + (DateTime.Now.Hour * 60 + DateTime.Now.Minute);
+                }
 
-                if (AutoApplicationRevision)
-                    n = DateTime.Now.ToString("yyyyMMdd");
+                foreach (var item in csproj.Root.Elements(nsPropertyGroup).Elements(nsApplicationVersion))
+                {
+                    item.Value = "1."
 
-                Console.WriteLine("version: " + n);
+                        + DateTime.Now.ToString("yyyy") + "."
+                        + DateTime.Now.ToString("MMdd") + "."
+                        + (DateTime.Now.Hour * 60 + DateTime.Now.Minute);
+                }
+            }
+            else
+            {
 
-                item.Value = "" + n;
+                foreach (var item in csproj.Root.Elements(nsPropertyGroup).Elements(nsApplicationRevision))
+                {
+                    var n = "" + (int.Parse(item.Value) + 1);
+
+                    Console.WriteLine("version: " + n);
+
+                    item.Value = "" + n;
+                }
             }
 
             csproj.Save(ProjectFileName.FullName);

@@ -122,7 +122,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToUltraApplication
 			var _WebDevLocation = new[]
 			{
 				new FileInfo(@"C:\Windows\assembly\GAC_32\WebDev.WebHost\9.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost.dll"),
-				new FileInfo(@"C:\Windows\assembly\GAC_32\WebDev.WebHost20\10.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost20.dll")
+				new FileInfo(@"C:\Windows\assembly\GAC_32\WebDev.WebHost20\10.0.0.0__b03f5f7f11d50a3a\WebDev.WebHost20.dll"),
+                new FileInfo(@"C:\Windows\Microsoft.Net\assembly\GAC_32\WebDev.WebHost40\v4.0_10.0.0.0__b03f5f7f11d50a3a/WebDev.WebHost40.dll")
+
 			}.Where(k => k.Exists).First();
 
 
