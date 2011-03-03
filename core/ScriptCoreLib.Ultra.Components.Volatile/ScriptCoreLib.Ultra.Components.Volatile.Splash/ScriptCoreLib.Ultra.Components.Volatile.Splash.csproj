@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,7 +71,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false</PostBuildEvent>
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false
+
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

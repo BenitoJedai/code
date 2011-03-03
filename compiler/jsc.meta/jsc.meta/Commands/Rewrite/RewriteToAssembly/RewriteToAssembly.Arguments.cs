@@ -257,5 +257,7 @@ namespace jsc.meta.Commands.Rewrite
         public DirectoryInfo MicrosoftWindowsSDK = new DirectoryInfo(@"C:\Program Files\Microsoft SDKs\Windows\v7.0A");
 
         public bool Pause;
+
+        public bool DisableScriptImplementsDiscovery;
     }
 }

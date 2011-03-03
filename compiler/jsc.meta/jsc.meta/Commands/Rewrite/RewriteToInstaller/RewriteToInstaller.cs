@@ -97,6 +97,10 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
 
                     OutputStrongNameKeyPair = this.OutputStrongNameKeyPair,
 
+                    
+                    DisableScriptImplementsDiscovery = true,
+
+
                     PostAssemblyRewrite =
                         a =>
                         {

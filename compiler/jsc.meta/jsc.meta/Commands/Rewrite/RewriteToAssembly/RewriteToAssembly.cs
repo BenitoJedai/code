@@ -1379,14 +1379,17 @@ namespace jsc.meta.Commands.Rewrite
 
                         // we should also copy all the types marked with Script(Implements within the same assembly..
                         // let's hope we wont break anything..
-                        var __Script_Implements = TypeCache[
-                            Enumerable.ToArray(
-                                from t in SourceType.Assembly.GetTypes()
-                                let ss = t.ToScriptAttributeOrDefault()
-                                where ss.Implements == SourceType
-                                select t
-                            )
-                        ];
+                        if (!DisableScriptImplementsDiscovery)
+                        {
+                            var __Script_Implements = TypeCache[
+                                Enumerable.ToArray(
+                                    from t in SourceType.Assembly.GetTypes()
+                                    let ss = t.ToScriptAttributeOrDefault()
+                                    where ss.Implements == SourceType
+                                    select t
+                                )
+                            ];
+                        }
                     }
                     else
                     {
