@@ -499,7 +499,10 @@ namespace jsc.meta.Commands.Rewrite
 
 
                 #region asp.net
-                if (!IsWebServiceJava && !IsWebServicePHP)
+                var Is64Bit = Environment.Is64BitProcess;
+                // we cannot load 64bit webdev in current version
+
+                if (!IsWebServiceJava && !IsWebServicePHP && !Is64Bit)
                 {
                     //DirectoryInfo web = __VirtualTo.VirtualDirectory;
 
