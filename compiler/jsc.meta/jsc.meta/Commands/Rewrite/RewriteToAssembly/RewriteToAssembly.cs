@@ -1626,7 +1626,9 @@ namespace jsc.meta.Commands.Rewrite
             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
 
             a.Save(
-                assemblyFileName: _ct_SaveName
+                assemblyFileName: _ct_SaveName,
+                portableExecutableKind: Required32Bit ?  PortableExecutableKinds.Required32Bit : PortableExecutableKinds.ILOnly,
+                imageFileMachine: ImageFileMachine.I386
             );
 
             // The type definition of the global function is not completed.

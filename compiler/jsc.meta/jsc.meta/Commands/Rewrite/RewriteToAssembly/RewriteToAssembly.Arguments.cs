@@ -259,5 +259,7 @@ namespace jsc.meta.Commands.Rewrite
         public bool Pause;
 
         public bool DisableScriptImplementsDiscovery;
+
+        public bool Required32Bit;
     }
 }
