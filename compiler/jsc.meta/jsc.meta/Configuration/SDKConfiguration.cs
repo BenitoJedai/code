@@ -16,9 +16,9 @@ namespace jsc.meta.Configuration
             get
             {
                 if (Environment.Is64BitOperatingSystem)
-                    return new DirectoryInfo(@"C:\Program Files (x86)\Java\jdk1.6.0_21");
+                    return new DirectoryInfo(@"C:\Program Files (x86)\Java\jdk1.6.0_24");
 
-                return new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_21");
+                return new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_24");
             }
         }
 
