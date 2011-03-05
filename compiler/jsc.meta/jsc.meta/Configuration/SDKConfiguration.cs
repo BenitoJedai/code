@@ -11,7 +11,7 @@ namespace jsc.meta.Configuration
     {
         const string DefaultFile = @"c:\util\jsc\bin\jsc.SDKConfiguration.xml";
 
-        public DirectoryInfo JavaSDK
+        public static DirectoryInfo JavaSDK_x86
         {
             get
             {
@@ -22,8 +22,8 @@ namespace jsc.meta.Configuration
             }
         }
 
-
         public DirectoryInfo FlexSDK = new DirectoryInfo(@"C:\util\flex_sdk_4.1.0.16076");
+        public DirectoryInfo JavaSDK = JavaSDK_x86;
         public DirectoryInfo GoogleAppEngineJavaSDK = new DirectoryInfo(@"C:\util\appengine-java-sdk-1.4.2");
         public DirectoryInfo ApacheAntSDK = new DirectoryInfo(@"C:\util\apache-ant-1.8.2");
         public DirectoryInfo XAMPLite = new DirectoryInfo(@"C:\util\xampplite-win32-1.7.3");
