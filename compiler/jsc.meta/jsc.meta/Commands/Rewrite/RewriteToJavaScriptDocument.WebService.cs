@@ -676,6 +676,8 @@ namespace jsc.meta.Commands.Rewrite
                                         WorkingDirectory = ant_web.VirtualDirectory.FullName
                                     };
 
+                                    Console.WriteLine(new { JAVA_HOME = this.javahome.FullName });
+
                                     proccess_ant_info.EnvironmentVariables["JAVA_HOME"] = this.javahome.FullName;
 
 
