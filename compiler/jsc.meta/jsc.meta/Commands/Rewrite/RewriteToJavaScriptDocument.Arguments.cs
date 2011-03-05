@@ -28,7 +28,7 @@ namespace jsc.meta.Commands.Rewrite
 
 		// we should enable the use of settings files!
 
-		public DirectoryInfo javahome = SDKConfiguration.Default.JavaSDK; // new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_14");
+		public DirectoryInfo javahome = SDKConfiguration.Default.JavaSDK; 
 		// we probably do not need both :)
         //public DirectoryInfo javapath = new DirectoryInfo(@"c:\Program Files\Java\jdk1.6.0_14\bin");
 
