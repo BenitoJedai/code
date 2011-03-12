@@ -30,7 +30,19 @@ namespace FSharpWebGLSpiral
         *)
 
 
-        do ()
+
+        do
+            let Button1 = new IHTMLButton()
+
+            Button1.innerText <- "button 1"
+
+            Button1.add_onclick( 
+                fun (e) ->
+                    do Button1.style.color <- "red"
+            )
+            
+            do JavaScript.Extensions.Extensions.AttachTo(Button1, page.Content) |> ignore
+
         let service = new ApplicationWebService()
         do JavaScriptStringExtensions.ToDocumentTitle("Hello world") |> ignore
         // Send data from JavaScript to the server tier
