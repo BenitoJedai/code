@@ -203,7 +203,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
 								}.Concat(
                                     from f in g
                                     select (XObject)new XElement(ns_vstemplate + "ProjectItem",
-                                        new XAttribute("ReplaceParameters", ShouldReplaceParameters(f.ItemFile.Extension)),
+                                        new XAttribute("ReplaceParameters", f.Item.Name == nsCompile),
                                         new XAttribute("TargetFileName", f.ItemFile.Name),
                                         new XText(f.ItemFile.Name)
                                     )
@@ -214,7 +214,7 @@ namespace jsc.meta.Commands.Rewrite.RewriteToVSProjectTemplate
                             where g.Key == ""
                             from f in g
                             select (XObject)new XElement(ns_vstemplate + "ProjectItem",
-                                new XAttribute("ReplaceParameters", ShouldReplaceParameters(f.ItemFile.Extension)),
+                                new XAttribute("ReplaceParameters", f.Item.Name == nsCompile),
                                 new XAttribute("TargetFileName", f.ItemFile.Name),
                                 new XText(f.ItemFile.Name)
                             )
