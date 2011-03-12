@@ -20,6 +20,9 @@ namespace jsc.meta.Tools
             var Command = MicrosoftWindowsSDK + @"\bin\NETFX 4.0 Tools\PEVerify.exe";
 
             Console.WriteLine(Command);
+            //Console.WriteLine(new { Command, SourceAssembly.FullName, SourceAssembly.FullName.Length });
+
+
 
             if (!File.Exists(Command))
             {
@@ -29,7 +32,7 @@ namespace jsc.meta.Tools
 
             var psi = new ProcessStartInfo(
                 Command,
-                SourceAssembly.Name +  " /unique"
+                "\"" + SourceAssembly.Name +  "\" /unique"
                 )
                 {
                     UseShellExecute = false,
@@ -37,7 +40,6 @@ namespace jsc.meta.Tools
                     WorkingDirectory = SourceAssembly.Directory.FullName
                 };
 
-            Console.WriteLine(SourceAssembly.FullName);
 
             var p = Process.Start(psi);
 

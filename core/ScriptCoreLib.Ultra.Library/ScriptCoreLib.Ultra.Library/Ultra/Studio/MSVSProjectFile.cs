@@ -74,6 +74,11 @@ namespace jsc.meta.Library
                  select __AssemblyName.Value
             );
 
+
+            // emulate $safeprojectname$
+            DefaultNamespace = DefaultNamespace.Replace(" ", "_");
+
+
             Func<XName, IEnumerable<ProjectFileInfo>> GetFilesByType =
                 FileType =>
                       from ItemGroup in csproj.Root.Elements(nsItemGroup)

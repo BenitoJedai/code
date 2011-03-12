@@ -91,6 +91,11 @@ namespace jsc.meta.Commands.Reference
                  select __AssemblyName.Value
             );
 
+            // ::MSVSProjectFile
+            // emulate $safeprojectname$
+            DefaultNamespace = DefaultNamespace.Replace(" ", "_");
+
+
             // bin is assumed to being ignored by svn
             // we need to stage it
             var Staging = this.ProjectFileName.Directory.CreateSubdirectory("bin/staging." + UltraSource);
