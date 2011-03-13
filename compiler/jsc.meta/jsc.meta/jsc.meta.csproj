@@ -182,7 +182,7 @@
     </Reference>
     <Reference Include="ScriptCoreLib.YAML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\util\jsc\lib\ScriptCoreLib.YAML.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.YAML.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava, Version=1.2006.222.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
