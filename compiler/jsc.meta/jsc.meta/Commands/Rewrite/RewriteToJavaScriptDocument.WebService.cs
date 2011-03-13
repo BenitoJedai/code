@@ -818,7 +818,7 @@ RewriteRule ^(.*)$ index\.php [NC]";
 echo http://localhost:" + port + @" reload when server is loaded
 start ""web"" explorer ""http://localhost:" + port + @"/""
 subst B: " + "\"" + PHP_staging + "\"" + @"
-start /WAIT " + xampp + "\apache\bin\httpd.exe -w -f " + "\"" + __root.FullName + "/httpd.conf\"" + @"
+start /WAIT " + xampp + @"\apache\bin\httpd.exe -w -f " + "\"" + __root.FullName + "/httpd.conf\"" + @"
 subst B: /D
 "
                     );
