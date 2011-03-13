@@ -7,6 +7,11 @@ namespace ScriptCoreLib.GLSL
 {
     partial class Shader
     {
+        protected vec2 vec2(float x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
         protected vec4 vec4(vec2 x, float y, float z)
         {
             throw new NotImplementedException();

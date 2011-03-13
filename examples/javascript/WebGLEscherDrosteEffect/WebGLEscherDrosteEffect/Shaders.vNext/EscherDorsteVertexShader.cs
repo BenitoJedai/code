@@ -27,11 +27,6 @@ namespace WebGLEscherDrosteEffect.Shaders.vNext
             tc = vec2(position.x, position.y * h);
         }
 
-        #region to be added to ScriptCoreLib
-        vec2 vec2(float x, float y)
-        {
-            return default(vec2);
-        }
-        #endregion
+
     }
 }
