@@ -48,11 +48,6 @@ namespace WebGLEscherDrosteEffect.Shaders.vNext
             gl_FragColor = texture2D(texture, vec2(fu, fv - 0.35f - t * 0.1f));
         }
 
-        #region to be added to ScriptCoreLib
-        vec2 vec2(float x, float y)
-        {
-            return default(vec2);
-        }
-        #endregion
+
     }
 }

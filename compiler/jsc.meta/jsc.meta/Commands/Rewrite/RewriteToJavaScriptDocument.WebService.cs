@@ -34,6 +34,7 @@ using ScriptCoreLib.Ultra.WebService;
 using ScriptCoreLib.Ultra.Reflection;
 using ScriptCoreLib.Extensions;
 using jsc.meta.Library.Templates.PHP;
+using jsc.meta.Configuration;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -807,12 +808,17 @@ RewriteRule ^(.*)$ index\.php [NC]";
                     #endregion
 
                     #region run.bat
+                    var xampp = Path.Combine(SDKConfiguration.Default.XAMPLite.FullName, "xampp");
+
+                    if (!Directory.Exists(xampp))
+                        xampp = Path.Combine(SDKConfiguration.Default.XAMPLite.FullName, "xampplite");
+
                     File.WriteAllText(root.FullName + "/run.bat",
                         @"@echo off
 echo http://localhost:" + port + @" reload when server is loaded
 start ""web"" explorer ""http://localhost:" + port + @"/""
 subst B: " + "\"" + PHP_staging + "\"" + @"
-start /WAIT C:\util\xampplite-win32-1.7.3\xampplite\apache\bin\httpd.exe -w -f " + "\"" + __root.FullName + "/httpd.conf\"" + @"
+start /WAIT " + xampp + "\apache\bin\httpd.exe -w -f " + "\"" + __root.FullName + "/httpd.conf\"" + @"
 subst B: /D
 "
                     );
