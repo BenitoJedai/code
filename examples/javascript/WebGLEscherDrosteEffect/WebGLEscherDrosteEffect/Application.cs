@@ -25,7 +25,7 @@ namespace WebGLEscherDrosteEffect
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* Steps taken to create this example port of http://wakaba.c3.cx/w/escher_droste.html
          * 
@@ -82,6 +82,18 @@ namespace WebGLEscherDrosteEffect
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
+
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
 
             #region load_shader
             Func<Shader, WebGLShader> load_shader =
@@ -186,6 +198,9 @@ namespace WebGLEscherDrosteEffect
 
             Native.Window.onresize += delegate
             {
+                if (IsDisposed)
+                    return;
+
                 onWindowResize();
             };
 
@@ -215,6 +230,9 @@ namespace WebGLEscherDrosteEffect
 
             Action loop = delegate
             {
+                if (IsDisposed)
+                    return;
+
                 var t = (new IDate().getTime() - start_time) / 1000;
 
                 gl.uniform1f(gl.getUniformLocation(program, "t"), t);
@@ -233,6 +251,9 @@ namespace WebGLEscherDrosteEffect
                 value => value.ToDocumentTitle()
             );
         }
+
+        public readonly Action Dispose;
+
 
     }
 }
