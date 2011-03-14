@@ -24,7 +24,7 @@ namespace WebGLShaderDisturb
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -42,6 +42,18 @@ namespace WebGLShaderDisturb
             var parameters_screenHeight = 0;
 
             var canvas = new IHTMLCanvas();
+
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
@@ -218,14 +230,23 @@ namespace WebGLShaderDisturb
             Native.Window.onresize +=
                 delegate
                 {
+                    if (IsDisposed)
+                        return;
+
                     resize();
                 };
 
             resize();
 
             new ScriptCoreLib.JavaScript.Runtime.Timer(
-                delegate
+                t =>
                 {
+                    if (IsDisposed)
+                    {
+                        t.Stop();
+                        return;
+                    }
+
                     loop();
                 }
             ).StartInterval(1000 / 60);
@@ -238,6 +259,7 @@ namespace WebGLShaderDisturb
             );
         }
 
+        public readonly Action Dispose;
     }
 
 }

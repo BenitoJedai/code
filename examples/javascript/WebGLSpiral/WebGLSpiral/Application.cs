@@ -25,7 +25,7 @@ namespace WebGLSpiral
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         // This example shall implement a Rotating Spiral 
         // 01. http://www.brainjam.ca/stackoverflow/webglspiral.html
@@ -83,162 +83,178 @@ namespace WebGLSpiral
             var parameters_aspectX = 0.0f;
             var parameters_aspectY = 1.0f;
 
-            Action init = delegate
+
+            var canvas = new IHTMLCanvas().AttachToDocument();
+
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            canvas.style.SetLocation(0, 0);
+
+
+            // Initialise WebGL
+
+            var gl = default(WebGLRenderingContext);
+
+            try
             {
 
+                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
 
-                var canvas = new IHTMLCanvas().AttachToDocument();
+            }
+            catch { }
 
-                Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-                canvas.style.SetLocation(0, 0);
+            if (gl == null)
+            {
+                Native.Window.alert("WebGL not supported");
+                throw new InvalidOperationException("cannot create webgl context");
+            }
 
+            var IsDisposed = false;
 
-                // Initialise WebGL
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
 
-                var gl = default(WebGLRenderingContext);
+                IsDisposed = true;
 
-                try
-                {
-
-                    gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-                }
-                catch { }
-
-                if (gl == null)
-                {
-                    Native.Window.alert("WebGL not supported");
-                    throw new InvalidOperationException("cannot create webgl context");
-                }
-
-                // Create Vertex buffer (2 triangles)
-
-                var buffer = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
-
-
-                // Create Program
-
-                #region createProgram
-                Func<WebGLProgram> createProgram = () =>
-                {
-                    var program = gl.createProgram();
-
-                    #region createShader
-                    Func<Shader, WebGLShader> createShader = (src) =>
-                    {
-                        var shader = gl.createShader(src);
-
-                        // verify
-                        if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                        {
-                            Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                            return null;
-                        }
-
-                        return shader;
-                    };
-                    #endregion
-
-                    var vs = createShader(new SpiralVertexShader());
-                    var fs = createShader(new SpiralFragmentShader());
-
-                    if (vs == null || fs == null) return null;
-
-                    gl.attachShader(program, vs);
-                    gl.attachShader(program, fs);
-
-                    gl.deleteShader(vs);
-                    gl.deleteShader(fs);
-
-                    gl.linkProgram(program);
-
-                    if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
-                    {
-
-                        Native.Window.alert("ERROR:\n" +
-                      "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                      "ERROR: " + gl.getError() + "\n\n");
-
-                        return null;
-
-                    }
-
-                    return program;
-
-                };
-                #endregion
-
-
-                var currentProgram = createProgram();
-
-                #region onWindowResize
-                Action onWindowResize = delegate
-                {
-                    canvas.width = Native.Window.Width;
-                    canvas.height = Native.Window.Height;
-
-                    parameters_screenWidth = canvas.width;
-                    parameters_screenHeight = canvas.height;
-
-                    parameters_aspectX = canvas.width / canvas.height;
-                    parameters_aspectY = 1.0f;
-
-                    gl.viewport(0, 0, canvas.width, canvas.height);
-                };
-                #endregion
-
-                onWindowResize();
-
-                Native.Window.onresize += delegate
-                {
-                    onWindowResize();
-                };
-
-                Action loop = delegate
-                {
-
-                    if (currentProgram == null) return;
-
-                    parameters_time = new Date().getTime() - parameters_start_time;
-
-                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-                    // Load program into GPU
-
-                    gl.useProgram(currentProgram);
-
-                    // Get var locations
-
-                    var vertex_position = gl.getAttribLocation(currentProgram, "position");
-
-                    // Set values to program variables
-
-                    gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                    gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                    gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
-
-                    // Render geometry
-
-                    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                    gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
-                    gl.enableVertexAttribArray((ulong)vertex_position);
-                    gl.drawArrays(gl.TRIANGLES, 0, 6);
-                    gl.disableVertexAttribArray((ulong)vertex_position);
-
-                };
-
-                new ScriptCoreLib.JavaScript.Runtime.Timer(
-                    delegate
-                    {
-                        loop();
-                    }
-                ).StartInterval(1000 / 60);
+                canvas.Orphanize();
             };
 
-            init();
+            // Create Vertex buffer (2 triangles)
+
+            var buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
+
+
+            // Create Program
+
+            #region createProgram
+            Func<WebGLProgram> createProgram = () =>
+            {
+                var program = gl.createProgram();
+
+                #region createShader
+                Func<Shader, WebGLShader> createShader = (src) =>
+                {
+                    var shader = gl.createShader(src);
+
+                    // verify
+                    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+                    {
+                        Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+
+                        return null;
+                    }
+
+                    return shader;
+                };
+                #endregion
+
+                var vs = createShader(new SpiralVertexShader());
+                var fs = createShader(new SpiralFragmentShader());
+
+                if (vs == null || fs == null) return null;
+
+                gl.attachShader(program, vs);
+                gl.attachShader(program, fs);
+
+                gl.deleteShader(vs);
+                gl.deleteShader(fs);
+
+                gl.linkProgram(program);
+
+                if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
+                {
+
+                    Native.Window.alert("ERROR:\n" +
+                  "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
+                  "ERROR: " + gl.getError() + "\n\n");
+
+                    return null;
+
+                }
+
+                return program;
+
+            };
+            #endregion
+
+
+            var currentProgram = createProgram();
+
+            #region onWindowResize
+            Action onWindowResize = delegate
+            {
+                if (IsDisposed)
+                {
+                    return;
+                }
+
+                canvas.width = Native.Window.Width;
+                canvas.height = Native.Window.Height;
+
+                parameters_screenWidth = canvas.width;
+                parameters_screenHeight = canvas.height;
+
+                parameters_aspectX = canvas.width / canvas.height;
+                parameters_aspectY = 1.0f;
+
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            };
+            #endregion
+
+            onWindowResize();
+
+            Native.Window.onresize += delegate
+            {
+                onWindowResize();
+            };
+
+            Action loop = delegate
+            {
+
+                if (currentProgram == null) return;
+
+                parameters_time = new Date().getTime() - parameters_start_time;
+
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                // Load program into GPU
+
+                gl.useProgram(currentProgram);
+
+                // Get var locations
+
+                var vertex_position = gl.getAttribLocation(currentProgram, "position");
+
+                // Set values to program variables
+
+                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
+                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
+                gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
+
+                // Render geometry
+
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray((ulong)vertex_position);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                gl.disableVertexAttribArray((ulong)vertex_position);
+
+            };
+
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                t =>
+                {
+                    if (IsDisposed)
+                    {
+                        t.Stop();
+                        return;
+                    }
+                    loop();
+                }
+            ).StartInterval(1000 / 60);
 
 
 
@@ -251,6 +267,7 @@ namespace WebGLSpiral
             );
         }
 
+        public readonly Action Dispose;
     }
 
 
