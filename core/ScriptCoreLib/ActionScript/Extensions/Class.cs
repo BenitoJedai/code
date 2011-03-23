@@ -44,6 +44,11 @@ namespace ScriptCoreLib.ActionScript.Extensions
             return ((Class)e).ToBitmapAsset();
         }
 
+        public static implicit operator Sprite(__Class e)
+        {
+            return ((Class)e).ToSprite();
+        }
+
         #endregion
 
 
