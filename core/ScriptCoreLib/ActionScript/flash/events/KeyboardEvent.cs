@@ -9,6 +9,11 @@ namespace ScriptCoreLib.ActionScript.flash.events
     [Script(IsNative = true)]
     public class KeyboardEvent : Event
     {
+        public KeyboardEvent(string type, bool bubbles = true, bool cancelable = false, uint charCodeValue = 0, uint keyCodeValue = 0, uint keyLocationValue = 0, bool ctrlKeyValue = false, bool altKeyValue = false, bool shiftKeyValue = false/*, bool controlKeyValue = false, bool commandKeyValue = false*/) 
+        {
+
+        }
+
         #region Constants
         /// <summary>
         /// [static] Defines the value of the type property of a keyDown event object.
