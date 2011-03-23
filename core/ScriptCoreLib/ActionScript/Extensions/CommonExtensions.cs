@@ -247,6 +247,13 @@ namespace ScriptCoreLib.ActionScript.Extensions
 			return (BitmapAsset)c.CreateType();
 		}
 
+        public static Sprite ToSprite(this Class c)
+        {
+            if (c == null) return null;
+
+            return (Sprite)c.CreateType();
+        }
+
 		public static void CombineDelegate<T>(EventDispatcher _this, Action<T> value, string name)
 		// where T : Event
 		{
