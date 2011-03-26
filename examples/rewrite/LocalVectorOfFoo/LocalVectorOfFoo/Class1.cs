@@ -17,6 +17,16 @@ namespace LocalVectorOfFoo
     {
     }
 
+    class Bar
+    {
+    }
+
+    class Class2
+    {
+        Vector<Vector<Bar>> bar;
+    }
+
+
     public class Class1
     {
         public string Error
@@ -24,6 +34,7 @@ namespace LocalVectorOfFoo
             get
             {
                 var foo = new Vector<Foo>();
+                var bar = new Vector<Vector<Bar>>();
 
                 return "";
             }

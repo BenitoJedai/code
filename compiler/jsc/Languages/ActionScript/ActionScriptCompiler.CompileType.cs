@@ -196,7 +196,7 @@ namespace jsc.Languages.ActionScript
 							else
 								WriteKeyword(Keywords._this);
 							Write(".");
-							Write(item.Name);
+                            WriteSafeLiteralWithoutTypeNameClash(item.Name);
 							Write(";");
 							WriteLine();
 						}
@@ -222,7 +222,7 @@ namespace jsc.Languages.ActionScript
 							else
 								WriteKeyword(Keywords._this);
 							Write(".");
-							Write(item.Name);
+                            WriteSafeLiteralWithoutTypeNameClash(item.Name);
 							WriteAssignment();
 
 
