@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Reflection.Emit;
 using ScriptCoreLib.CSharp.Extensions;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.ActionScript;
 
 
 namespace jsc.Languages.ActionScript
@@ -27,8 +29,8 @@ namespace jsc.Languages.ActionScript
                 z.GetCustomAttributes<ScriptImportsTypeAttribute>().Select(i => i.Name)
             );
 
-			if (z.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().Any())
-				t.Add(this.ResolveEmbedResourcesCollector());
+            if (z.GetCustomAttributes<ScriptApplicationEntryPointAttribute>().Any())
+                t.Add(this.ResolveEmbedResourcesCollector());
 
             /*
             t.RemoveAll(delegate(Type x)
@@ -41,22 +43,22 @@ namespace jsc.Languages.ActionScript
             {
                 Type p = t[0];
 
-		
+
                 // optimize me
 
                 t.RemoveAll(
                     delegate(Type x)
                     {
-						if (x == null)
-							return true;
+                        if (x == null)
+                            return true;
 
                         return x.GUID == z.GUID || x.GUID == p.GUID;
                     }
                 );
 
 
-				if (p == null)
-					continue;
+                if (p == null)
+                    continue;
 
                 var a = ScriptAttribute.Of(p, false);
 
@@ -105,11 +107,11 @@ namespace jsc.Languages.ActionScript
 
                 WriteIndent();
 
-				WriteKeywordSpace(Keywords._import);
+                WriteKeywordSpace(Keywords._import);
 
-				var _namespace = string.Join(".", var.Split('.').Select(k => GetSafeLiteral(k)).ToArray());
+                var _namespace = string.Join(".", var.Split('.').Select(k => GetSafeLiteral(k)).ToArray());
 
-				Write(_namespace);
+                Write(_namespace);
 
 
                 WriteLine(";");
@@ -120,7 +122,7 @@ namespace jsc.Languages.ActionScript
         }
 
         internal readonly Dictionary<Type, IEnumerable<Type>> GetImportTypes_Cache =
-    new Dictionary<Type, IEnumerable<Type>>();
+            new Dictionary<Type, IEnumerable<Type>>();
 
         private IEnumerable<Type> GetImportTypes(Type t)
         {
@@ -138,19 +140,19 @@ namespace jsc.Languages.ActionScript
             if (t == typeof(object))
                 return new Type[] { };
 
-			var tinterfaces = t.GetInterfaces();
+            var tinterfaces = t.GetInterfaces();
 
             foreach (Type tinterface in tinterfaces)
                 imp.Add(tinterface);
 
             if (t.BaseType == typeof(MulticastDelegate))
             {
-				imp.Add(MySession.ResolveImplementation(typeof(IntPtr)));
+                imp.Add(MySession.ResolveImplementation(typeof(IntPtr)));
 
-				// keeping the compiler happy
-				// we need to import this so we can say we implement it
-				// even if it is currently just a marker interface
-				imp.Add(MySession.ResolveImplementation(typeof(global::System.Runtime.Serialization.ISerializable)));
+                // keeping the compiler happy
+                // we need to import this so we can say we implement it
+                // even if it is currently just a marker interface
+                imp.Add(MySession.ResolveImplementation(typeof(global::System.Runtime.Serialization.ISerializable)));
 
                 var _Invoke = t.GetMethod("Invoke");
 
@@ -162,7 +164,7 @@ namespace jsc.Languages.ActionScript
                 goto removesome;
             }
 
-    
+
 
 
             /*
@@ -208,14 +210,34 @@ namespace jsc.Languages.ActionScript
 
             var imp_types = new List<Type>();
 
-			imp.RemoveAll(i => i == null);
-			imp.RemoveAll(i => i == typeof(void));
+            imp.RemoveAll(i => i == null);
+            imp.RemoveAll(i => i == typeof(void));
             imp.RemoveAll(i => i.IsGenericParameter);
+
+            Func<IEnumerable<Type>, IEnumerable<Type>> FilterByGenericTypeDefinitionAttribute = null;
+
+            FilterByGenericTypeDefinitionAttribute = Types =>
+                from k in Types.ToArray()
+                where k.IsGenericType
+                where k.GetCustomAttributes<GenericTypeDefinitionAttribute>().Any()
+
+                let args = k.GetGenericArguments()
+
+                from kk in args.Concat( FilterByGenericTypeDefinitionAttribute(args))
+
+                select kk;
+
+            // we need to import Foo from Vector<Foo>
+            imp.AddRange(FilterByGenericTypeDefinitionAttribute(imp));
+
+                
+
+
 
             // todo: import only if used in code...
             imp.Add(GetArrayEnumeratorType());
 
-			imp.RemoveAll(i => i == null);
+            imp.RemoveAll(i => i == null);
 
             while (imp.Count > 0)
             {
@@ -293,12 +315,12 @@ namespace jsc.Languages.ActionScript
 
                     if (p_impl == null)
                     {
-						// is it a hidden type?
-						if (p.IsNotPublic)
-							continue;
+                        // is it a hidden type?
+                        if (p.IsNotPublic)
+                            continue;
 
-						if (p.DeclaringType != null && p.DeclaringType.IsNotPublic)
-							continue;
+                        if (p.DeclaringType != null && p.DeclaringType.IsNotPublic)
+                            continue;
 
                         //if (p.IsInterface)
                         //{
@@ -306,11 +328,12 @@ namespace jsc.Languages.ActionScript
                         //    continue;
                         //}
 
-						//CompilerBase.
-						WriteVisualStudioMessage(MessageType.warning, 1002,
-							"Are you running on a newer CLR? class import: no implementation for " + p.ToString() + " at " + t.FullName
-						);
-						continue;
+                        //CompilerBase.
+                        WriteVisualStudioMessage(MessageType.warning, 1002,
+                            "No implementation for " + p.ToString() + " at " + t.FullName
+                        );
+
+                        continue;
                     }
 
                     p = p_impl;
@@ -331,8 +354,8 @@ namespace jsc.Languages.ActionScript
                 select ia.ImplementationType
             );
 
-			imp_types.Add(ResolveImplementation(typeof(object)));
-			imp_types.RemoveAll(w => w == null);
+            imp_types.Add(ResolveImplementation(typeof(object)));
+            imp_types.RemoveAll(w => w == null);
 
             return GetImportTypes_Cache[t] = imp_types;
         }
@@ -388,8 +411,8 @@ namespace jsc.Languages.ActionScript
 
                     if (i == OpCodes.Castclass)
                     {
-						//imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
-						imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
+                        //imp.Add(MySession.ResolveImplementation(i.ReferencedType) ?? i.ReferencedType);
+                        imp.Add(MySession.ResolveImplementation(i.TargetType) ?? i.TargetType);
                         continue;
                     }
 
@@ -433,10 +456,10 @@ namespace jsc.Languages.ActionScript
 
                     if (i == OpCodes.Ldftn)
                     {
-						imp.Add(typeof(IntPtr));
+                        imp.Add(typeof(IntPtr));
 
-						if (i.TargetMethod != null)
-							imp.Add(i.TargetMethod.DeclaringType);
+                        if (i.TargetMethod != null)
+                            imp.Add(i.TargetMethod.DeclaringType);
 
                         continue;
                     }

@@ -156,6 +156,8 @@ namespace jsc.Languages.ActionScript
 
 			// Ideally we would use the escape sign like @ in c#
 			// we need to do that for each keyword and native type it seems...
+            
+            // see: http://forums.adobe.com/thread/782298
 
 			if (e == "Error")
 			{
