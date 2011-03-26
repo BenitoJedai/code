@@ -67,7 +67,7 @@
     <ManifestCertificateThumbprint>F96DD0E0CE2CF3865A2BD7D3DC9BCE1F606D15D4</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>jsc.configuration_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>..\..\..\jsc.configuration_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>jsc.ico</ApplicationIcon>
