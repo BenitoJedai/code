@@ -84,7 +84,7 @@
     <Project ToolsVersion="3.5" DefaultTargets="Build">
         <PropertyGroup>
             <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-            <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+            <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
             <ProductVersion>9.0.30729</ProductVersion>
             <SchemaVersion>2.0</SchemaVersion>
             <ProjectGuid>{0478BF11-A133-4914-BC29-B7F72E3B9535}</ProjectGuid>
@@ -97,7 +97,7 @@
             <StartupObject>
             </StartupObject>
         </PropertyGroup>
-        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
             <DebugSymbols>true</DebugSymbols>
             <DebugType>full</DebugType>
             <Optimize>false</Optimize>
@@ -105,22 +105,27 @@
             <DefineConstants>DEBUG;TRACE</DefineConstants>
             <ErrorReport>prompt</ErrorReport>
             <WarningLevel>4</WarningLevel>
+            <PlatformTarget>x86</PlatformTarget>
+            <UseVSHostingProcess>false</UseVSHostingProcess>
         </PropertyGroup>
-        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
             <DebugType>pdbonly</DebugType>
             <Optimize>false</Optimize>
             <OutputPath>bin\Release\</OutputPath>
             <DefineConstants>TRACE</DefineConstants>
             <ErrorReport>prompt</ErrorReport>
             <WarningLevel>4</WarningLevel>
+            <PlatformTarget>x86</PlatformTarget>
+            <UseVSHostingProcess>false</UseVSHostingProcess>
         </PropertyGroup>
-        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
             <DebugSymbols>true</DebugSymbols>
             <OutputPath>bin\Assets\</OutputPath>
             <Optimize>false</Optimize>
             <DefineConstants>DEBUG;TRACE</DefineConstants>
             <DebugType>full</DebugType>
-            <PlatformTarget>AnyCPU</PlatformTarget>
+            <PlatformTarget>x86</PlatformTarget>
+            <UseVSHostingProcess>false</UseVSHostingProcess>
             <ErrorReport>prompt</ErrorReport>
         </PropertyGroup>
         <ItemGroup>
@@ -225,7 +230,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
       <Project ToolsVersion="3.5" DefaultTargets="Build">
           <PropertyGroup>
               <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-              <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+              <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
               <ProductVersion>9.0.30729</ProductVersion>
               <SchemaVersion>2.0</SchemaVersion>
               <ProjectGuid>{0478BF11-A133-4914-BC29-B7F72E3B9535}</ProjectGuid>
@@ -238,7 +243,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
               <StartupObject>
               </StartupObject>
           </PropertyGroup>
-          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
               <DebugSymbols>true</DebugSymbols>
               <DebugType>full</DebugType>
               <Optimize>false</Optimize>
@@ -246,25 +251,30 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
               <OutputPath>bin\Debug\</OutputPath>
               <DefineConstants>DEBUG;TRACE</DefineConstants>
               <ErrorReport>prompt</ErrorReport>
+              <PlatformTarget>x86</PlatformTarget>
+              <UseVSHostingProcess>false</UseVSHostingProcess>
               <WarningLevel>4</WarningLevel>
           </PropertyGroup>
-          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
               <DebugType>pdbonly</DebugType>
               <Optimize>false</Optimize>
               <Tailcalls>false</Tailcalls>
               <OutputPath>bin\Release\</OutputPath>
               <DefineConstants>TRACE</DefineConstants>
               <ErrorReport>prompt</ErrorReport>
+              <PlatformTarget>x86</PlatformTarget>
+              <UseVSHostingProcess>false</UseVSHostingProcess>
               <WarningLevel>4</WarningLevel>
           </PropertyGroup>
-          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
+          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
               <DebugSymbols>true</DebugSymbols>
               <Optimize>false</Optimize>
               <Tailcalls>false</Tailcalls>
               <OutputPath>bin\Assets\</OutputPath>
               <DefineConstants>DEBUG;TRACE</DefineConstants>
               <DebugType>full</DebugType>
-              <PlatformTarget>AnyCPU</PlatformTarget>
+              <PlatformTarget>x86</PlatformTarget>
+              <UseVSHostingProcess>false</UseVSHostingProcess>
               <ErrorReport>prompt</ErrorReport>
           </PropertyGroup>
           <ItemGroup>
