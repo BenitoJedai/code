@@ -1627,7 +1627,9 @@ namespace jsc.meta.Commands.Rewrite
 
             a.Save(
                 assemblyFileName: _ct_SaveName,
-                portableExecutableKind: Required32Bit ?  PortableExecutableKinds.Required32Bit : PortableExecutableKinds.ILOnly,
+
+                // This will cause issues: IAT with more than 2 sections or a TLS section.
+                portableExecutableKind: /*Required32Bit ?  PortableExecutableKinds.Required32Bit :*/ PortableExecutableKinds.ILOnly,
                 imageFileMachine: ImageFileMachine.I386
             );
 
