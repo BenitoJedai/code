@@ -150,20 +150,25 @@ namespace PromotionBrandIntro
                                 if (AnimationAllBlack != null)
                                     AnimationAllBlack();
 
-                                Overlay.FadeOut(
+                                1000.AtDelay(
                                     delegate
                                     {
-                                        l.Hide();
-                                        OverlayWhite.FadeOut(
+                                        Overlay.FadeOut(
                                             delegate
                                             {
-                                                if (AnimationCompleted != null)
-                                                    AnimationCompleted();
+                                                l.Hide();
+                                                OverlayWhite.FadeOut(
+                                                    delegate
+                                                    {
+                                                        if (AnimationCompleted != null)
+                                                            AnimationCompleted();
+                                                    }
+                                                );
+
+                                                if (AnimationAllWhite != null)
+                                                    AnimationAllWhite();
                                             }
                                         );
-
-                                        if (AnimationAllWhite != null)
-                                            AnimationAllWhite();
                                     }
                                 );
                             }
@@ -188,24 +193,39 @@ namespace PromotionBrandIntro
 
                          Overlay.Opacity = 1;
                          OverlayWhite.Opacity = 1;
+
+                         Action AnimationLoop = delegate
+                         {
+                             Next = delegate
+                             {
+                                 var dd = aa.Dequeue();
+
+                                 dd(true);
+
+
+                                 (1000 / 24).AtDelay(
+                                     () =>
+                                     {
+                                         dd(false);
+                                         if (aa.Count > 0)
+                                         {
+                                             Next();
+                                         }
+
+                                     }
+                                 );
+                             };
+
+                             Next();
+                         };
+
                          Next = delegate
                          {
-                             var dd = aa.Dequeue();
-
-                             dd(true);
-
-
-                             (1000 / 30).AtDelay(
-                                 () =>
-                                 {
-                                     dd(false);
-                                     if (aa.Count > 0)
-                                     {
-                                         Next();
-                                     }
-
-                                 }
+                             3500.AtDelay(
+                                 AnimationLoop
                              );
+
+                           
                          };
 
                          Next();
