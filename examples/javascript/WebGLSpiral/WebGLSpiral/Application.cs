@@ -27,7 +27,7 @@ namespace WebGLSpiral
     /// </summary>
     public sealed class Application
     {
-        // This example shall implement a Rotating Spiral 
+        #region This example shall implement a Rotating Spiral
         // 01. http://www.brainjam.ca/stackoverflow/webglspiral.html
         // 02. Build this empty project to verify jsc does its thing.
         // 03. Running this project shows up as a web page
@@ -61,6 +61,8 @@ namespace WebGLSpiral
         // 31. Integrate with .frag and .vert files to generate types into AssetsLibrary
         // 32. Add AssetsLibrary pre build event
         // 33. Make sure JSC creates classes for frag and vert files
+        #endregion
+
 
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -259,10 +261,10 @@ namespace WebGLSpiral
 
 
 
-            @"Hello world".ToDocumentTitle();
+            @"WebGL loading..".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
-                @"A string from JavaScript.",
+                @"WebGL..",
                 value => value.ToDocumentTitle()
             );
         }
