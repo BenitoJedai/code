@@ -75,8 +75,8 @@ namespace ScriptCoreLib.JavaScript.Extensions
 		public static T Orphanize<T>(this T e)
 				where T : INode
 		{
-			if (e == null)
-				throw new NullReferenceException();
+            if (e == null)
+                return e;
 
 			INode n = e.parentNode;
 

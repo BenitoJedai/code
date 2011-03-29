@@ -6,6 +6,8 @@ using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
+    // see: http://www.w3.org/TR/DOM-Level-2-Style/idl-definitions.html
+
 	[Script(InternalConstructor = true)]
 	public partial class IStyleSheetRule
 	{
@@ -80,8 +82,30 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 		#endregion
 
+        #region RemoveRule
+        internal void removeRule(int i)
+        {
+        }
 
-		internal object addRule(string s, string d, int i)
+        internal void deleteRule(int i)
+        {
+        }
+
+        [Script(DefineAsStatic = true)]
+        public void RemoveRule(int index)
+        {
+            if (Expando.InternalIsMember(this, "removeRule"))
+                this.removeRule( index);
+            else if (Expando.InternalIsMember(this, "deleteRule"))
+                this.deleteRule( index);
+            else
+                throw new System.NotSupportedException("RemoveRule");
+
+        }
+        #endregion
+
+
+        internal object addRule(string s, string d, int i)
 		{
 			return null;
 		}
@@ -91,6 +115,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 			return null;
 		}
 
+   
 
 		// http://www.susaaland.dk/sharedoc/kdelibs-devel-3/khtml/html/classDOM_1_1CSSStyleSheet.html#a9
 		// http://www.javascriptkit.com/domref/stylesheet.shtml
@@ -133,8 +158,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 		}
 
 
-
-		internal DOM.HTML.IHTMLStyle owningElement;
+        #region Owner
+        internal DOM.HTML.IHTMLStyle owningElement;
 		internal DOM.HTML.IHTMLStyle ownerNode;
 
 		public DOM.HTML.IHTMLStyle Owner
@@ -150,8 +175,9 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 				throw new System.Exception("fault at IStyleSheet.Owner");
 			}
-		}
-	}
+        }
+        #endregion
+    }
 
 	[Script(HasNoPrototype = true)]
 	public partial class IStyle
