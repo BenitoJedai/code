@@ -10,12 +10,14 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor = true)]
     public class IHTMLStyle : IHTMLElement
     {
-        internal IStyleSheet sheet;
 
-        internal IStyleSheet styleSheet;
 
         public string media;
         public string type;
+
+        #region StyleSheet
+        internal IStyleSheet sheet;
+        internal IStyleSheet styleSheet;
 
         public IStyleSheet StyleSheet
         {
@@ -32,6 +34,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
                     Expando.InternalGetMemberNames(this));
             }
         }
+        #endregion
+
 
 
         #region Constructor

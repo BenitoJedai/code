@@ -1,5 +1,6 @@
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript;
+using ScriptCoreLib.JavaScript.Runtime;
 
 
 
@@ -39,5 +40,25 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 
+        #region StyleSheet
+        internal IStyleSheet sheet;
+        internal IStyleSheet styleSheet;
+
+        public IStyleSheet StyleSheet
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                if (Expando.InternalIsMember(this, "sheet"))
+                    return this.sheet;
+
+                if (Expando.InternalIsMember(this, "styleSheet"))
+                    return this.styleSheet;
+
+                throw new System.Exception("fault at IHTMLLink.StyleSheet, members: " +
+                    Expando.InternalGetMemberNames(this));
+            }
+        }
+        #endregion
 	}
 }
