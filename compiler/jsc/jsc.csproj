@@ -153,6 +153,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\jsc.internal.svn\compiler\jsc.internal\jsc.internal\Documents\Licensing.cs">
+      <Link>Documents\Licensing.cs</Link>
+    </Compile>
     <Compile Include="CodeModel\ILInstruction.InlineIfElseConstruct.cs" />
     <Compile Include="CodeModel\ILLoopConstruct.cs" />
     <Compile Include="CodeModel\TypeInfo.cs" />
