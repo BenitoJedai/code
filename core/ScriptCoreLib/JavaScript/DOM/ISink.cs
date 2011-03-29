@@ -24,6 +24,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             IFunction z = ((BCLImplementation.System.__Delegate)(object)e).InvokePointer;
 
+            // does IE9 define both functions?
+
             if (bAttach)
             {
                 if (Expando.InternalIsMember(this, "addEventListener"))
@@ -33,8 +35,7 @@ namespace ScriptCoreLib.JavaScript.DOM
                     if (n.EventListenerAlt != null)
                         addEventListener(n.EventListenerAlt, z, false);
                 }
-
-                if (Expando.InternalIsMember(this, "attachEvent"))
+                else if (Expando.InternalIsMember(this, "attachEvent"))
                 {
                     attachEvent(n.Event, z);
 
@@ -53,9 +54,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
                     if (n.EventListenerAlt != null)
                         removeEventListener(n.EventListenerAlt, z, false);
-                }
-
-                if (Expando.InternalIsMember(this, "detachEvent"))
+                } 
+                else if (Expando.InternalIsMember(this, "detachEvent"))
                 {
                     detachEvent(n.Event, z);
 
