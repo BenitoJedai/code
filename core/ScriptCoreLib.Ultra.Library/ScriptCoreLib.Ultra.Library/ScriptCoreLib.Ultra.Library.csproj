@@ -81,6 +81,7 @@
     <Compile Include="Desktop\AppDomainAssemblyResolve.cs" />
     <Compile Include="Desktop\MethodBaseExtensions.cs" />
     <Compile Include="Desktop\PEFileKindsReader.cs" />
+    <Compile Include="Desktop\Tools\DesktopToolsExtensions.ExtractJavaArchiveTo.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.ToJavaArchive.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />

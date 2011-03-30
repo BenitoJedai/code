@@ -7,12 +7,13 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using ScriptCoreLib.Ultra.Library;
+using ScriptCoreLib.Desktop.Tools;
 
 namespace jsc.meta.Tools
 {
     static partial class ToolsExtensions
     {
-       
+
 
         public static void ToJava(
             this FileInfo TargetAssembly,
@@ -52,7 +53,13 @@ namespace jsc.meta.Tools
             }
 
             var obj_web = Path.Combine(TargetAssembly.Directory.FullName, "web");
+            var obj_web_java = Path.Combine(obj_web, "java");
             var obj_web_bin = Path.Combine(obj_web, "bin");
+            var obj_web_release = Path.Combine(obj_web, "release");
+
+            if (Directory.Exists(obj_web_release))
+                Directory.Delete(obj_web_release, true);
+
             var bin_jar = new FileInfo(Path.Combine(obj_web_bin,
                 jarname ?? (Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
             ));
@@ -62,15 +69,29 @@ namespace jsc.meta.Tools
 
             #region javac
             Console.WriteLine("- javac");
-            var TargetSourceFiles = "java";
+
+            var TargetSourceFiles = "\"" + obj_web_java  + "\";release";
 
             // each jar file which has made it to the bin folder
             // needs to get referenced in our java build
-            foreach (var r in from k in Directory.GetFiles(obj_web_bin, "*.jar")
-                              where k != bin_jar.FullName
-                              select k)
+
+            var Libraries = Directory.GetFiles(obj_web, "*.jar", SearchOption.AllDirectories);
+
+
+            foreach (var item in Libraries)
             {
-                TargetSourceFiles += ";" + Path.Combine("bin", Path.GetFileName(r));
+                if (item == bin_jar.FullName)
+                    continue;
+
+                if (Path.GetDirectoryName(item) == obj_web_bin)
+                {
+                    TargetSourceFiles += ";\"" + item + "\"";
+                }
+                else
+                {
+                    // extract
+                    new FileInfo(item).ExtractJavaArchiveTo(obj_web_release, new FileInfo(Path.Combine(javapath.FullName, "jar.exe")));
+                }
             }
 
             // http://download.oracle.com/javase/6/docs/technotes/tools/windows/javac.html
@@ -84,10 +105,13 @@ namespace jsc.meta.Tools
             if (!string.IsNullOrEmpty(JavaSourceVersion))
                 proccess_javac_args += " -source " + JavaSourceVersion;
 
+            var javac = Path.Combine(javapath.FullName, "javac.exe");
 
+            Console.WriteLine("\"" + javac + "\" " + proccess_javac_args);
+ 
             var proccess_javac = Process.Start(
                 new ProcessStartInfo(
-                    Path.Combine(javapath.FullName, "javac.exe"),
+                    javac,
                     proccess_javac_args
                     )
                 {
