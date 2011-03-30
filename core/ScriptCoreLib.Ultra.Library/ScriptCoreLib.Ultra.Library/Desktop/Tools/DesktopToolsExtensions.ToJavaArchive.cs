@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Diagnostics;
+using System.Threading;
+
+namespace ScriptCoreLib.Desktop.Tools
+{
+    public static partial class DesktopToolsExtensions
+    {
+        public static void ToJavaArchive(this DirectoryInfo source, string target, FileInfo jar)
+        {
+
+
+
+            /*
+                Usage: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+                Options:
+                    -c  create new archive
+                    -t  list table of contents for archive
+                    -x  extract named (or all) files from archive
+                    -u  update existing archive
+                    -v  generate verbose output on standard output
+                    -f  specify archive file name
+                    -m  include manifest information from specified manifest file
+                    -e  specify application entry point for stand-alone application 
+                        bundled into an executable jar file
+                    -0  store only; use no ZIP compression
+                    -M  do not create a manifest file for the entries
+                    -i  generate index information for the specified jar files
+                    -C  change to the specified directory and include the following file
+                If any file is a directory then it is processed recursively.
+                The manifest file name, the archive file name and the entry point name are
+                specified in the same order as the 'm', 'f' and 'e' flags.
+
+                Example 1: to archive two class files into an archive called classes.jar: 
+                       jar cvf classes.jar Foo.class Bar.class 
+                Example 2: use an existing manifest file 'mymanifest' and archive all the
+                           files in the foo/ directory into 'classes.jar': 
+                       jar cvfm classes.jar mymanifest -C foo/ .             
+             */
+
+            var proccess_jar_args =
+                "cvfM"
+                // foo.jar
+                + " \"" + target + "\""
+                // root of class files
+                + " -C \"" + source.FullName + "\""
+                // root in the jar
+                + " .";
+
+            //Console.WriteLine(jar.FullName + " " + proccess_jar_args);
+
+            var proccess_jar =
+                new Process
+                {
+                    StartInfo = new ProcessStartInfo(
+                        jar.FullName,
+                        proccess_jar_args
+
+                    )
+                    {
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+
+                        WorkingDirectory = source.FullName,
+
+                        //RedirectStandardOutput = true,
+                    }
+                };
+
+            if (File.Exists(target))
+                File.Delete(target);
+
+
+            proccess_jar.Start();
+            proccess_jar.WaitForExit();
+
+            if (proccess_jar.ExitCode != 0)
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+}

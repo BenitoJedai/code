@@ -8,7 +8,10 @@ namespace ScriptCoreLib.Extensions
 {
     public static class IOExtensions
     {
-
+        public static byte[] ReadAllBytes(this FileInfo f)
+        {
+            return File.ReadAllBytes(f.FullName);
+        }
 
         public static string ToRelativePath(this FileInfo that, DirectoryInfo root)
         {

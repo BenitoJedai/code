@@ -81,6 +81,8 @@
     <Compile Include="Desktop\AppDomainAssemblyResolve.cs" />
     <Compile Include="Desktop\MethodBaseExtensions.cs" />
     <Compile Include="Desktop\PEFileKindsReader.cs" />
+    <Compile Include="Desktop\Tools\DesktopToolsExtensions.ToJavaArchive.cs" />
+    <Compile Include="Desktop\Tools\DesktopToolsExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Forms\FormsExtensions.cs" />
     <Compile Include="Extensions\IntPtrExtensions.cs" />

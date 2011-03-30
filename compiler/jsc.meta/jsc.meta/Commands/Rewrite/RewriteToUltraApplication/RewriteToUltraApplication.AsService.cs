@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Web;
 using System.IO;
 using jsc.meta.Library;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.Ultra.Library.Extensions;
 using ScriptCoreLib.Ultra.WebService;
 
