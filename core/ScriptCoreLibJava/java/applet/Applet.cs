@@ -14,6 +14,10 @@ namespace java.applet
 
         }
 
+        public virtual void start()
+        {
+
+        }
 
         public void showStatus(string e)
         {
