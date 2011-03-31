@@ -12,28 +12,36 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 	[Script(Implements = typeof(MethodBase))]
 	internal abstract class __MethodBase : __MemberInfo
 	{
-        public global::java.lang.reflect.Method InternalMethod;
 
-		public bool IsStatic { get { return Modifier.isStatic(InternalMethod.getModifiers()); } }
-		public bool IsPublic { get { return Modifier.isPublic(InternalMethod.getModifiers()); } }
+        public virtual bool InternalIsStatic()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool InternalIsPublic()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual object InternalInvoke(object obj, object[] parameters)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public bool IsStatic { get { return InternalIsStatic(); } }
+       
+
+        public bool IsPublic { get { return InternalIsPublic(); } }
+
 
 		public object Invoke(object obj, object[] parameters)
 		{
-			var n = default(object);
-
-			try
-			{
-				n = this.InternalMethod.invoke(obj, parameters);
-			}
-			catch (csharp.ThrowableException e)
-			{
-				((Throwable)(object)e).printStackTrace();
-
-				throw new csharp.RuntimeException(e.Message);
-			}
-
-			return n;
+            return InternalInvoke(obj, parameters);
 		}
+
+
 
 		public abstract ParameterInfo[] GetParameters();
 		
