@@ -44,6 +44,14 @@ namespace jsc.meta.Configuration
             }
         }
 
+        public FileInfo JavaSDK_bin_java
+        {
+            get
+            {
+                return new FileInfo(Path.Combine(JavaSDK.FullName, @"bin\java.exe"));
+            }
+        }
+
 
         public FileInfo ApacheAntSDK_ant
         {

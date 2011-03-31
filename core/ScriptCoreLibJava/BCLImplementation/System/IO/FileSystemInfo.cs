@@ -20,5 +20,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
 		}
 
 		public abstract string Name { get; }
-	}
+
+        public override string ToString()
+        {
+            return this.FullName;
+        }
+    }
+
+
 }
