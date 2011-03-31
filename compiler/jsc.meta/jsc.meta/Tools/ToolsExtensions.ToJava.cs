@@ -60,6 +60,9 @@ namespace jsc.meta.Tools
             if (Directory.Exists(obj_web_release))
                 Directory.Delete(obj_web_release, true);
 
+            Directory.CreateDirectory(obj_web_release);
+
+
             var bin_jar = new FileInfo(Path.Combine(obj_web_bin,
                 jarname ?? (Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
             ));
