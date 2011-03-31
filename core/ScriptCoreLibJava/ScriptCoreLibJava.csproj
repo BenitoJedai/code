@@ -126,6 +126,7 @@
     <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
     <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
     <Compile Include="BCLImplementation\System\Reflection\Assembly.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\ConstructorInfo.cs" />
     <Compile Include="BCLImplementation\System\Reflection\ICustomAttributeProvider.cs" />
     <Compile Include="BCLImplementation\System\Resources\ResourceManager.cs" />
     <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />

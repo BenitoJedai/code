@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using System.Reflection;
+using java.lang.reflect;
+using java.lang;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 {
 	[Script(Implements = typeof(MethodInfo))]
 	internal class __MethodInfo : __MethodBase
 	{
+        public global::java.lang.reflect.Method InternalMethod;
 
 		public override string Name
 		{
@@ -20,9 +23,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 		{
 			get
 			{
-				var h = (__RuntimeTypeHandle)InternalMethod.getDeclaringClass();
-
-				return __Type.GetTypeFromHandle((RuntimeTypeHandle)(object)h);
+                return (__Type)InternalMethod.getDeclaringClass();
 			}
 		}
 
@@ -55,5 +56,34 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 		{
 			return (MethodInfo)(object)m;
 		}
+
+
+        public override bool InternalIsStatic()
+        {
+            return Modifier.isStatic(InternalMethod.getModifiers());
+        }
+
+        public override bool InternalIsPublic()
+        {
+            return Modifier.isPublic(InternalMethod.getModifiers());
+        }
+
+        public override object InternalInvoke(object obj, object[] parameters)
+        {
+            var n = default(object);
+
+            try
+            {
+                n = this.InternalMethod.invoke(obj, parameters);
+            }
+            catch (csharp.ThrowableException e)
+            {
+                ((Throwable)(object)e).printStackTrace();
+
+                throw new csharp.RuntimeException(e.Message);
+            }
+
+            return n;
+        }
 	}
 }

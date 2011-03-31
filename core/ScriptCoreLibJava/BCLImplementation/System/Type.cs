@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLibJava.BCLImplementation.System.Reflection;
 using System.Reflection;
+using java.lang.reflect;
 
 namespace ScriptCoreLibJava.BCLImplementation.System
 {
@@ -18,11 +19,34 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
 		RuntimeTypeHandle _TypeHandle;
 
+        public virtual Type BaseType
+        {
+            get
+            {
+                return (__Type)this.InternalTypeDescription.getSuperclass();
+            }
+        }
+
+        public Type[] GetInterfaces()
+        {
+            return __Type.Of(this.InternalTypeDescription.getInterfaces());
+        }
+
+        private static Type[] Of(java.lang.Class[] p)
+        {
+            var n = new Type[p.Length];
+
+            for (int i = 0; i < p.Length; i++)
+            {
+                n[i] = (__Type)p[i];
+            }
+
+            return n;
+        }
+
 		public static Type GetTypeFromValue(object x)
 		{
-            object i = (__RuntimeTypeHandle)global::java.lang.Object.getClass(x);
-
-			return GetTypeFromHandle((RuntimeTypeHandle)i);
+            return (__Type)global::java.lang.Object.getClass(x); ;
 		}
 
 		public static Type GetTypeFromHandle(RuntimeTypeHandle TypeHandle)
@@ -86,6 +110,19 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 			}
 		}
 
+
+        public ConstructorInfo[] GetConstructors()
+        {
+            var a = this.InternalTypeDescription.getConstructors();
+            var n = new ConstructorInfo[a.Length];
+
+            for (int i = 0; i < a.Length; i++)
+            {
+                n[i] = (__ConstructorInfo)a[i];
+            }
+
+            return n;
+        }
 
 		public MethodInfo[] GetMethods()
 		{
@@ -276,6 +313,22 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		{
 			return ((__Type)t).InternalTypeDescription.isAssignableFrom(this.InternalTypeDescription);
 		}
+
+        public bool IsInterface
+        {
+            get
+            {
+                return Modifier.isInterface(this.InternalTypeDescription.getModifiers());
+            }
+        }
+
+        public bool IsPublic
+        {
+            get
+            {
+                return Modifier.isPublic(this.InternalTypeDescription.getModifiers());
+            }
+        }
 
 		public bool IsClass
 		{
