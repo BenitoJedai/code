@@ -233,7 +233,7 @@ namespace jsc.meta.Commands.Rewrite
         public bool DisableIsMarkedForMerge;
 
         /// <summary>
-        /// Only PrimaryTypes will be merged
+        /// If disabled a primary type in a mergeable assembly does not mean other types need to be merged
         /// </summary>
         public bool DisableShouldCopyAssemblyByPrimaryTypes;
 

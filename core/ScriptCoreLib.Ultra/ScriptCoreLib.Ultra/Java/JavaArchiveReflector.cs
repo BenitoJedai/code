@@ -15,43 +15,11 @@ using ScriptCoreLibJava.Extensions;
 
 namespace ScriptCoreLib.Java
 {
-    public interface IJavaArchiveReflector
-    {
-        string FileNameString { get; }
-
-        int Count { get; }
-
-        string GetTypeFullName(int index);
-    }
-
-    public class JavaArchiveReflector : IEnumerable, IJavaArchiveReflector
+    public partial class JavaArchiveReflector : IEnumerable, IJavaArchiveReflector
     {
         public delegate Type GetType();
 
-        public class Entry
-        {
-            public string Name;
-
-            public string TypeFullName;
-
-            public GetType InternalGetType;
-
-            Type InternalType;
-
-            public Type Type
-            {
-                get
-                {
-                    if (InternalGetType == null)
-                        return null;
-
-                    InternalType = InternalGetType();
-
-                    return InternalType;
-                }
-            }
-        }
-
+   
         public delegate DynamicEnumerator GetDynamicEnumeratorFunc();
         GetDynamicEnumeratorFunc GetDynamicEnumerator;
 
