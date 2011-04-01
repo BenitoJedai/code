@@ -6,7 +6,8 @@ using System.Threading;
 
 namespace ScriptCoreLib.Interop
 {
-    internal class InternalPollClosure
+    // internal can not be used?
+    public class InternalPollClosure
     {
         EventWaitHandle InternalFirstPollWait;
         EventWaitHandle InternalPollWait;
@@ -18,7 +19,7 @@ namespace ScriptCoreLib.Interop
 
         }
 
-        internal void InternalPoll()
+        public void InternalPoll()
         {
             //Console.WriteLine("InternalPoll");
 
@@ -43,7 +44,7 @@ namespace ScriptCoreLib.Interop
             InternalPollWait.WaitOne();
         }
 
-        internal void InternalBeginAsync()
+        public void InternalBeginAsync()
         {
             //Console.WriteLine("InternalBeginAsync");
 
@@ -55,7 +56,7 @@ namespace ScriptCoreLib.Interop
 
         }
 
-        internal void InternalEndAsync()
+        public void InternalEndAsync()
         {
             //Console.WriteLine("InternalEndAsync");
 
@@ -67,7 +68,7 @@ namespace ScriptCoreLib.Interop
             w.Set();
         }
 
-        internal void InternalInvokeCallback()
+        public void InternalInvokeCallback()
         {
             //Console.WriteLine("InternalInvokeCallback");
 
@@ -75,7 +76,7 @@ namespace ScriptCoreLib.Interop
             InternalInvokeWait.WaitOne();
         }
 
-        internal void InternalWaitForFirstPoll()
+        public void InternalWaitForFirstPoll()
         {
             // we need to make sure the polling thread is ready..
             InternalFirstPollWait.WaitOne();

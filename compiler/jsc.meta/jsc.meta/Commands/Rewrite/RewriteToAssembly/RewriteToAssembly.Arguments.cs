@@ -232,6 +232,14 @@ namespace jsc.meta.Commands.Rewrite
         /// </summary>
         public bool DisableIsMarkedForMerge;
 
+        /// <summary>
+        /// Only PrimaryTypes will be merged
+        /// </summary>
+        public bool DisableShouldCopyAssemblyByPrimaryTypes;
+
+        //public BCLImplementationMergeAssembly[] IgnoreIsMarkedForMerge = new BCLImplementationMergeAssembly[0];
+
+
         public bool DisableInvalidMergeCheck;
 
         public bool DisableHiddenEntryPoints = true;
