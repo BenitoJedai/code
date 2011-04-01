@@ -157,6 +157,7 @@
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
     <Compile Include="Java\Extensions\WindowsFormsExtensions.cs" />
+    <Compile Include="Java\JavaArchiveReflector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\RemotingToken.cs" />
     <Compile Include="Ultra\Library\CachedFileGenerator.cs" />

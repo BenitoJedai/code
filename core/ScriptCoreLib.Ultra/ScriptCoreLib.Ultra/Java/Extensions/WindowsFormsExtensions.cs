@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using java.awt;
-using java.applet;
 using System.Windows.Forms;
-using javax.swing;
+using java.applet;
+using java.awt;
 using java.awt.@event;
+using javax.swing;
 
 namespace ScriptCoreLib.Java.Extensions
 {
