@@ -98,6 +98,7 @@ namespace ScriptCoreLib.Java
                 }
                 catch
                 {
+                    Console.WriteLine("error @ ZipInputStream");
                 }
 
                 return (GetNextEntry)
