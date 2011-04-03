@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using ScriptCoreLib.Delegates;
+using ScriptCoreLib.Extensions;
 
 namespace ScriptCoreLib.Archive
 {
@@ -21,7 +22,10 @@ namespace ScriptCoreLib.Archive
             }
         }
 
-        public static IEnumerable<ZIPArchiveFile> GetEntries(Stream s)
+        public static IEnumerable<ZIPArchiveFile> GetEntries(
+            Stream s,
+            Action<long, long> NotifyArchiveBounds = null
+            )
         {
             var StartPosition = s.Position;
 
@@ -76,8 +80,11 @@ namespace ScriptCoreLib.Archive
                    let ZIP_file_comment_length = r.ReadUInt16()
                    let ZIP_file_comment = bytes(ZIP_file_comment_length)
 
+                   let end_of_archive = s.Position
+
                    let start_of_central_directory = p - Size_of_central_directory
                    let start_of_archive = start_of_central_directory - Offset_of_start_of_central_directory_relative_to_start_of_archive
+
 
                    let CDFH_Positions = new[] { start_of_central_directory }.ToList()
                    let CDFH_AddPosition = new Func<long>(() => { CDFH_Positions.Add(s.Position); return s.Position; })
@@ -101,6 +108,9 @@ namespace ScriptCoreLib.Archive
 
                    let ReadingFilesFromCentralDirectory = CentralDirectoryFound()
 
+                   let _NotifyArchiveBounds = NotifyArchiveBounds.InvokeUnit(
+                        start_of_archive, end_of_archive
+                   )
 
                    let CDFH_Position = s.Position - 4
 

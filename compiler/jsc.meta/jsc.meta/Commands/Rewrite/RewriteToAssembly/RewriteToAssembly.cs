@@ -152,7 +152,7 @@ namespace jsc.meta.Commands.Rewrite
                 this.productExtension = this.Output.Extension;
             }
 
-            
+
             var Product_Name = (!string.IsNullOrEmpty(this.product) ? this.product :
 
                 this.assembly != null ? this.assembly.Name + ".Rewrite" :
@@ -219,6 +219,7 @@ namespace jsc.meta.Commands.Rewrite
                         };
                 };
 
+            var PrimaryGlobalMethods = new List<MethodInfo>();
 
             #region PrimaryTypes AssemblyMerge
             if (this.PrimaryTypes.Length > 0)
@@ -253,6 +254,11 @@ namespace jsc.meta.Commands.Rewrite
                     if (this.AssemblyMergeLoadHint != null)
                         this.AssemblyMergeLoadHint(shadow_assembly);
 
+                    var GlobalMethods = shadow_assembly.GetModules().First().GetMethods();
+
+                    PrimaryGlobalMethods.AddRange(
+                        GlobalMethods
+                    );
 
                     if (!loaded)
                     {
@@ -1450,7 +1456,7 @@ namespace jsc.meta.Commands.Rewrite
             // ask for our primary types to be copied
             var kt = TypeCache[PrimaryTypes];
 
-            
+            var mt = MethodCache[PrimaryGlobalMethods.ToArray()];
 
             // did we define any type declarations which we did not actually create yet?
             // fixme: maybe we shold just close the unclosed TypeBuilders?

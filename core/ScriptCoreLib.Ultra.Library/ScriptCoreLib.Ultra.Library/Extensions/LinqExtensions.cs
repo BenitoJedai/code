@@ -8,6 +8,13 @@ namespace ScriptCoreLib.Extensions
 {
     public static class LinqExtensions
     {
+        public static object InvokeUnit<T1, T2>(this Action<T1, T2> h, T1 a1, T2 a2)
+        {
+            if (h != null)
+                h(a1, a2);
+            return new object();
+        }
+
         public static Queue<T> ToQueue<T>(this IEnumerable<T> source)
         {
             return new Queue<T>(source);

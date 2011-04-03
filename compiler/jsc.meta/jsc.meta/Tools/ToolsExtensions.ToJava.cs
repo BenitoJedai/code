@@ -62,6 +62,9 @@ namespace jsc.meta.Tools
 
             Directory.CreateDirectory(obj_web_release);
 
+            if (!Directory.Exists(obj_web_release))
+                throw new InvalidOperationException();
+
 
             var bin_jar = new FileInfo(Path.Combine(obj_web_bin,
                 jarname ?? (Path.GetFileNameWithoutExtension(TargetAssembly.Name) + @".jar")
