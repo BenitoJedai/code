@@ -4,6 +4,10 @@ using System.Text;
 using ScriptCoreLib;
 using jni;
 using ScriptCoreLibJava.BCLImplementation.System;
+using System.IO;
+using java.security;
+using java.net;
+using ScriptCoreLibJava.Extensions;
 
 namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 {
@@ -42,8 +46,46 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
             public readonly string EntryPoint;
             public Func(string DllName, string EntryPoint)
             {
-                this.DllName = DllName;
+                // java only allows to set the field once!
+
+                if ("dynamic" == DllName)
+                    this.DllName = GetCodeSourceLocation();
+                else
+                    this.DllName = DllName;
+
                 this.EntryPoint = EntryPoint;
+            }
+
+            static string f = default(string);
+
+            static string GetCodeSourceLocation()
+            {
+                if (f == null)
+                {
+                    try
+                    {
+                        var cls = typeof(Func).ToClass();
+
+                        ProtectionDomain pDomain = cls.getProtectionDomain();
+                        CodeSource cSource = pDomain.getCodeSource();
+                        URL loc = cSource.getLocation();
+
+
+                        var ff = loc.getFile();
+                        var prefix = "file:/";
+
+                        if (prefix == ff.Substring(0, prefix.Length))
+                            ff = ff.Substring(prefix.Length);
+
+                        f = new FileInfo(ff).FullName;
+                    }
+                    catch
+                    {
+                        throw new NotSupportedException();
+                    }
+                }
+
+                return f;
             }
 
             CFunc _Method;

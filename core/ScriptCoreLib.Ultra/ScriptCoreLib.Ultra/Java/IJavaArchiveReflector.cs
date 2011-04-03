@@ -28,6 +28,12 @@ namespace ScriptCoreLib.Java
         int GetMethodCount(int TypeIndex);
 
         string GetMethodName(int TypeIndex, int MethodIndex);
+
+        bool Method_IsStatic(int TypeIndex, int MethodIndex);
+
+        int Method_GetParameterCount(int TypeIndex, int MethodIndex);
+
+        string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition);
     }
 
     partial class JavaArchiveReflector
@@ -45,6 +51,22 @@ namespace ScriptCoreLib.Java
         public string GetMethodName(int TypeIndex, int MethodIndex)
         {
             return this.Entries[TypeIndex].Methods[MethodIndex].Name;
+        }
+
+        public bool Method_IsStatic(int TypeIndex, int MethodIndex)
+        {
+            // we should use the attributes instead?
+            return this.Entries[TypeIndex].Methods[MethodIndex].IsStatic;
+        }
+
+        public int Method_GetParameterCount(int TypeIndex, int MethodIndex)
+        {
+            return this.Entries[TypeIndex].Methods[MethodIndex].GetParameters().Length;
+        }
+
+        public string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition)
+        {
+            return this.Entries[TypeIndex].Methods[MethodIndex].GetParameters()[ParameterPosition].ParameterType.FullName;
         }
     }
 }

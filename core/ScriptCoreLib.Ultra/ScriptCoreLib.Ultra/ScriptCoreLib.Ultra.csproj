@@ -156,6 +156,7 @@
     <Compile Include="JavaScript\Remoting\PUltraComponent.cs" />
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
+    <Compile Include="Java\Interop\CodeSourceLocationProvider.cs" />
     <Compile Include="Java\JavaArchiveReflector.Entry.cs" />
     <Compile Include="Java\IJavaArchiveReflector.cs" />
     <Compile Include="Java\Extensions\WindowsFormsExtensions.cs" />
