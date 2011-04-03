@@ -9,7 +9,10 @@ namespace ScriptCoreLib.Archive.ZIP
 {
 	public class ZIPFileEntryHeader
 	{
+        // see also: http://en.wikipedia.org/wiki/ZIP_(file_format)
+        // "PK"0304
 		internal const int FileHeader = 0x04034b50;
+        internal const int ZIP_data_descriptor = 0x08074b50;
 
 		public int file_header_signature;
 		public short required_version;
@@ -32,10 +35,13 @@ namespace ScriptCoreLib.Archive.ZIP
 		public MemoryStream extra_field;
 		public MemoryStream file_data;
 
+        public override string ToString()
+        {
+            return this.file_name;
+        }
+
 		public static implicit operator ZIPFileEntryHeader(BinaryReader r)
 		{
-			const int FileHeader = 0x04034b50;
-
 			var p = r.BaseStream.Position;
 
 			var file_header_signature = r.ReadInt32();
@@ -57,7 +63,7 @@ namespace ScriptCoreLib.Archive.ZIP
 				// http://en.wikipedia.org/wiki/DEFLATE
 				// no compression implemented yet and
 				// the builtin variant does not seem to do the trick
-				compression_method = r.ReadInt16().AssertEqualsTo(UNCOMPRESSED),
+				compression_method = r.ReadInt16()/*.AssertEqualsTo(UNCOMPRESSED)*/,
 				last_modified_file_time = r.ReadInt16(),
 				last_modified_file_date = r.ReadInt16(),
 				crc_32 = r.ReadInt32(),
@@ -72,7 +78,24 @@ namespace ScriptCoreLib.Archive.ZIP
 			if (n.extra_field_length > 0)
 				n.extra_field = r.ReadToMemoryStream(n.extra_field_length);
 
-			n.file_data = r.ReadToMemoryStream((int)n.compressed_size);
+     
+            if (((n.general_purpose_bit_flag >> 3) & 1) == 1)
+            {
+                // If bit 3 (0x08) of the general-purpose flags field is set, then the CRC-32 and 
+                // file sizes are not known when the header is written. The fields in the local 
+                // header are filled with zero, and the CRC-32 and size are appended in a 12-byte 
+                // structure immediately after the compressed data:
+
+                var ZIP_data_descriptor_signature = r.ReadInt32();
+
+                var _crc_32 = ZIP_data_descriptor_signature == ZIP_data_descriptor ? r.ReadInt32() : ZIP_data_descriptor_signature;
+                var _compressed_size = r.ReadUInt32();
+                var _uncompressed_size = r.ReadUInt32();
+            }
+
+            if (n.compression_method == UNCOMPRESSED)
+                n.file_data = r.ReadToMemoryStream((int)n.compressed_size);
+
 
 			return n;
 		}

@@ -75,6 +75,8 @@
   <ItemGroup>
     <Compile Include="Amazon\EC2\AmazonEC2Client.cs" />
     <Compile Include="Amazon\EC2\Model\InstanceStateChange.cs" />
+    <Compile Include="Archive\ZIPArchive.cs" />
+    <Compile Include="Archive\ZIPArchiveFile.cs" />
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
     <Compile Include="Delegates\Async.cs" />

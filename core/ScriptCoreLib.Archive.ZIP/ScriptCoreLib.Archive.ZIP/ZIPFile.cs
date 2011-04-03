@@ -9,7 +9,7 @@ using System.Collections;
 namespace ScriptCoreLib.Archive.ZIP
 {
 	/// <summary>
-	/// ZIP file provieds the most basic functionality to compose a non compressed zip file.
+	/// ZIP file provides the most basic functionality to compose a non compressed zip file.
 	/// </summary>
 	public partial class ZIPFile : IEnumerable
 	{
@@ -109,6 +109,8 @@ namespace ScriptCoreLib.Archive.ZIP
 		public static implicit operator ZIPFile(BinaryReader s)
 		{
 			var n = new ZIPFile();
+
+            var StartPosition = s.BaseStream.Position;
 
 			#region read all files
 			while (s.BaseStream.Position < s.BaseStream.Length)
