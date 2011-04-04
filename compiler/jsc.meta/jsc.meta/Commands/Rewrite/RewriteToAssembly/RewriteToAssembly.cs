@@ -23,6 +23,10 @@ namespace jsc.meta.Commands.Rewrite
 {
     public partial class RewriteToAssembly : CommandBase
     {
+        // for component users...
+        public List<MethodInfo> PrimaryGlobalMethods = new List<MethodInfo>();
+
+
         public event Action<Assembly> AssemblyMergeLoadHint;
 
         public override void Invoke()
@@ -219,7 +223,6 @@ namespace jsc.meta.Commands.Rewrite
                         };
                 };
 
-            var PrimaryGlobalMethods = new List<MethodInfo>();
 
             #region PrimaryTypes AssemblyMerge
             if (this.PrimaryTypes.Length > 0)

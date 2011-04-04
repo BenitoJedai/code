@@ -56,11 +56,11 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
                 this.EntryPoint = EntryPoint;
             }
 
-            static string f = default(string);
+            static string ExportDirectory = default(string);
 
             static string GetCodeSourceLocation()
             {
-                if (f == null)
+                if (ExportDirectory == null)
                 {
                     try
                     {
@@ -77,7 +77,55 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
                         if (prefix == ff.Substring(0, prefix.Length))
                             ff = ff.Substring(prefix.Length);
 
-                        f = new FileInfo(ff).FullName;
+                        ExportDirectory = new FileInfo(ff).FullName;
+
+                        Console.WriteLine("ExportDirectory: " + ExportDirectory);
+
+                        if (Path.GetExtension(ExportDirectory) == ".exe")
+                        {
+                            Console.WriteLine("ExportDirectory is exe");
+
+                            {
+                                var alt = Path.ChangeExtension(ExportDirectory, ".dll");
+
+                                Console.WriteLine("ExportDirectory alt: " + alt);
+
+
+                                if (File.Exists(alt))
+                                {
+                                    ExportDirectory = alt;
+                                }
+                            }
+
+                            {
+                                var alt = Path.ChangeExtension(ExportDirectory, ".exports.dll");
+
+                                Console.WriteLine("ExportDirectory alt: " + alt);
+
+
+                                if (File.Exists(alt))
+                                {
+                                    ExportDirectory = alt;
+                                }
+                            }
+
+
+                            {
+                                var alt = Path.ChangeExtension(ExportDirectory, ".exports");
+
+                                Console.WriteLine("ExportDirectory alt: " + alt);
+
+
+                                if (File.Exists(alt))
+                                {
+                                    ExportDirectory = alt;
+                                }
+                            }
+
+                        }
+
+                        Console.WriteLine("ExportDirectory: " + ExportDirectory);
+
                     }
                     catch
                     {
@@ -85,7 +133,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
                     }
                 }
 
-                return f;
+                return ExportDirectory;
             }
 
             CFunc _Method;
