@@ -283,6 +283,8 @@ namespace jsc.meta.Commands.Rewrite
                     // Access is denied: 'WhyIncorrectFormat.C'.
 
                     // you better have CLR 4!
+                    // Could not load type 'IMAGE_DOS_HEADER' from assembly 'jsc.internal, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
+
                     t.CreateType();
 
 
