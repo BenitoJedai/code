@@ -6,15 +6,15 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.IO
 {
-	[Script(Implements = typeof(global::System.IO.Path))]
-	internal static class __Path
-	{
+    [Script(Implements = typeof(global::System.IO.Path))]
+    internal static class __Path
+    {
 
         public static string GetDirectoryName(string path)
         {
             var z = path.LastIndexOf(@"\");
             var y = path.LastIndexOf("/");
-            
+
             var i = z;
 
             if (y > z)
@@ -26,69 +26,92 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             return path.Substring(0, i + 1);
         }
 
-		public static bool HasExtension(string path)
-		{
-			var x = path.LastIndexOf(".");
+        public static string GetExtension(string path)
+        {
+            var p = path.Replace("/", "\\");
+            var i = p.LastIndexOf(".");
 
-			if (x < 0)
-				return false;
+            if (i < 0)
+                return "";
 
-			var z = path.LastIndexOf(@"\");
+            return p.Substring(i);
+        }
+
+        public static string ChangeExtension(string path, string extension)
+        {
+            var p = path.Replace("/", "\\");
+            var i = p.LastIndexOf(".");
+
+            // ?
+            if (i < 0)
+                return path + extension;
+
+            return p.Substring(0, i) + extension;
+        }
+
+        public static bool HasExtension(string path)
+        {
+            var x = path.LastIndexOf(".");
+
+            if (x < 0)
+                return false;
+
+            var z = path.LastIndexOf(@"\");
 
 
-			if (z > -1)
-				if (z > x)
-					return false;
+            if (z > -1)
+                if (z > x)
+                    return false;
 
-			var y = path.LastIndexOf("/");
+            var y = path.LastIndexOf("/");
 
-			if (y > -1)
-				if (y > x)
-					return false;
+            if (y > -1)
+                if (y > x)
+                    return false;
 
-			return true;
-		}
+            return true;
+        }
 
-		public static string GetFileName(string e)
-		{
-			// http://www.devx.com/tips/Tip/13804
+        public static string GetFileName(string e)
+        {
+            // http://www.devx.com/tips/Tip/13804
 
-			var f = new java.io.File(e);
-			var c = default(string);
+            var f = new java.io.File(e);
+            var c = default(string);
 
-			try
-			{
-				c = f.getName();
-			}
-			catch
-			{
-				throw new InvalidOperationException();
-			}
+            try
+            {
+                c = f.getName();
+            }
+            catch
+            {
+                throw new InvalidOperationException();
+            }
 
-			return c;
-		}
+            return c;
+        }
 
-		public static string GetFullPath(string e)
-		{
-			// http://www.devx.com/tips/Tip/13804
+        public static string GetFullPath(string e)
+        {
+            // http://www.devx.com/tips/Tip/13804
 
-			var f = new java.io.File(e);
-			var c = default(string);
+            var f = new java.io.File(e);
+            var c = default(string);
 
-			try
-			{
-				c = f.getCanonicalPath();
-			}
-			catch
-			{
-				throw new csharp.RuntimeException();
-			}
+            try
+            {
+                c = f.getCanonicalPath();
+            }
+            catch
+            {
+                throw new csharp.RuntimeException();
+            }
 
-			return c;
-		}
+            return c;
+        }
 
-		public static string Combine(string path1, string path2)
-		{
+        public static string Combine(string path1, string path2)
+        {
             if (path1.EndsWith("/"))
                 return path1 + path2;
 
@@ -96,7 +119,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
                 return path1 + path2;
 
 
-			return path1 + "/" + path2;
-		}
-	}
+            return path1 + "/" + path2;
+        }
+    }
 }
