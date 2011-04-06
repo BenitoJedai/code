@@ -57,6 +57,7 @@ namespace jsc.meta.Tools
             var obj_web_bin = Path.Combine(obj_web, "bin");
             var obj_web_release = Path.Combine(obj_web, "release");
 
+            // The directory is not empty.
             if (Directory.Exists(obj_web_release))
                 Directory.Delete(obj_web_release, true);
 

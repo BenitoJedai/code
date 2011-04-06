@@ -58,7 +58,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
             static string ExportDirectory = default(string);
 
-            static string GetCodeSourceLocation()
+            public static string GetCodeSourceLocation()
             {
                 if (ExportDirectory == null)
                 {
@@ -79,41 +79,16 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
                         ExportDirectory = new FileInfo(ff).FullName;
 
-                        Console.WriteLine("ExportDirectory: " + ExportDirectory);
+                        //Console.WriteLine("ExportDirectory: " + ExportDirectory);
 
                         if (Path.GetExtension(ExportDirectory) == ".exe")
                         {
-                            Console.WriteLine("ExportDirectory is exe");
-
-                            {
-                                var alt = Path.ChangeExtension(ExportDirectory, ".dll");
-
-                                Console.WriteLine("ExportDirectory alt: " + alt);
-
-
-                                if (File.Exists(alt))
-                                {
-                                    ExportDirectory = alt;
-                                }
-                            }
-
-                            {
-                                var alt = Path.ChangeExtension(ExportDirectory, ".exports.dll");
-
-                                Console.WriteLine("ExportDirectory alt: " + alt);
-
-
-                                if (File.Exists(alt))
-                                {
-                                    ExportDirectory = alt;
-                                }
-                            }
-
+                            //Console.WriteLine("ExportDirectory is exe");
 
                             {
                                 var alt = Path.ChangeExtension(ExportDirectory, ".exports");
 
-                                Console.WriteLine("ExportDirectory alt: " + alt);
+                                //Console.WriteLine("ExportDirectory alt: " + alt);
 
 
                                 if (File.Exists(alt))
@@ -124,7 +99,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
                         }
 
-                        Console.WriteLine("ExportDirectory: " + ExportDirectory);
+                        //Console.WriteLine("ExportDirectory: " + ExportDirectory);
 
                     }
                     catch

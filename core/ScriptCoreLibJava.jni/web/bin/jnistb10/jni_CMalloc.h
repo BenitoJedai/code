@@ -23,30 +23,6 @@ JNIEXPORT jlong JNICALL Java_jni_CMalloc_malloc
 JNIEXPORT void JNICALL Java_jni_CMalloc_free
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     jni_CMalloc
- * Method:    sizeof_jint
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_jni_CMalloc_sizeof_1jint
-  (JNIEnv *, jclass);
-
-/*
- * Class:     jni_CMalloc
- * Method:    sizeof_jbyte
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_jni_CMalloc_sizeof_1jbyte
-  (JNIEnv *, jclass);
-
-/*
- * Class:     jni_CMalloc
- * Method:    sizeof_jlong
- * Signature: ()I
- */
-JNIEXPORT jint JNICALL Java_jni_CMalloc_sizeof_1jlong
-  (JNIEnv *, jclass);
-
 #ifdef __cplusplus
 }
 #endif

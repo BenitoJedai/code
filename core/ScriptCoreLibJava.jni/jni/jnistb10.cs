@@ -15,6 +15,7 @@ using IDisposable = global::System.IDisposable;
 using ScriptCoreLibJava.BCLImplementation.System;
 using ScriptCoreLibJava.Extensions;
 using System.IO;
+using ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared;
 
 namespace jni
 {
@@ -197,11 +198,33 @@ namespace jni
         {
             try
             {
-                JavaSystem.loadLibrary(CPtrLibrary.LibraryPath);
+                //System.Console.WriteLine("InternalTryLoadLibrary");
+
+                var p = __PlatformInvocationServices.Func.GetCodeSourceLocation();
+
+                //System.Console.WriteLine("p: " + p);
+
+                var lib = Path.Combine(Path.GetDirectoryName(p), CPtrLibrary.LibraryPath);
+
+                var IsLibMissing = !File.Exists(lib);
+                var IsExtExports = p.EndsWith(".exports");
+
+
+                if (IsLibMissing && IsExtExports)
+                {
+                    JavaSystem.load(p);
+                }
+                else
+                {
+                    JavaSystem.loadLibrary(CPtrLibrary.LibraryPath);
+                }
 
             }
-            catch
+            catch //(csharp.ThrowableException ex)
             {
+                //System.Console.WriteLine("InternalTryLoadLibrary error");
+                //((Throwable)(object)ex).printStackTrace();
+
                 InternalTryLoadLibraryAtHint();
             }
 
