@@ -8,7 +8,7 @@ using System.Reflection;
 namespace ScriptCoreLib.Desktop
 {
     /// <summary>
-    /// If CLR is loaded into JVM process, it will look for references where java.exe was launched.
+    /// If CLR is loaded into JVM process, it will look for references where jar was launched.
     /// </summary>
     public static class AppDomainAssemblyResolve
     {
@@ -21,30 +21,31 @@ namespace ScriptCoreLib.Desktop
 
             InitializeDone = true;
 
-            AppDomain.CurrentDomain.AssemblyResolve +=
-                (_s, _a) =>
-                {
-                    var Directory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
-                    var AssemblyName = new AssemblyName(_a.Name).Name;
+            AppDomain.CurrentDomain.AssemblyResolve += __AssemblyResolve;
+        }
 
-                    var dll = Path.Combine(Directory, AssemblyName + ".dll");
+        private static Assembly __AssemblyResolve(object _s, ResolveEventArgs _a)
+        {
+            var Directory = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.FullName;
+            var AssemblyName = new AssemblyName(_a.Name).Name;
 
-                    //Console.WriteLine("looking for " + dll);
+            var dll = Path.Combine(Directory, AssemblyName + ".dll");
 
-                    if (File.Exists(dll))
-                        return Assembly.LoadFrom(dll);
+            //Console.WriteLine("looking for " + dll);
 
-                    var exe = Path.Combine(Directory, AssemblyName + ".exe");
+            if (File.Exists(dll))
+                return Assembly.LoadFrom(dll);
 
-                    //Console.WriteLine("looking for " + exe);
+            var exe = Path.Combine(Directory, AssemblyName + ".exe");
 
-                    if (File.Exists(exe))
-                        return Assembly.LoadFrom(exe);
+            //Console.WriteLine("looking for " + exe);
 
-                    //Console.WriteLine("missing!");
+            if (File.Exists(exe))
+                return Assembly.LoadFrom(exe);
 
-                    return null;
-                };
+            //Console.WriteLine("missing!");
+
+            return null;
         }
     }
 }

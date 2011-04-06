@@ -55,14 +55,6 @@ JNIEXPORT jdouble JNICALL Java_jni_CFunc_callDouble
 JNIEXPORT jobject JNICALL Java_jni_CFunc_callCPtr
   (JNIEnv *, jobject, jobjectArray);
 
-/*
- * Class:     jni_CFunc
- * Method:    SetVerbose
- * Signature: (Z)V
- */
-JNIEXPORT void JNICALL Java_jni_CFunc_SetVerbose
-  (JNIEnv *, jclass, jboolean);
-
 #ifdef __cplusplus
 }
 #endif
