@@ -37,8 +37,9 @@ namespace jsc.meta.Commands.Rewrite.RewriteToInstaller
                 foreach (var item in bin.GetFilesByPattern(
                     "*.exe",
                     //"*.pdb", 
-                    "*.exe.config", 
-                    "*.dll", 
+                    "*.exe.config",
+                    "*.dll",
+                    "*.exports", 
                     "*.xml", 
                     "*.rtf"
                     ))
