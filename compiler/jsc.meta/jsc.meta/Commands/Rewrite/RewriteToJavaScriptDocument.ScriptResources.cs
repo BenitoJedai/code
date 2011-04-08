@@ -52,7 +52,10 @@ namespace jsc.meta.Commands.Rewrite
 					where k.StartsWith(AssetPrefix)
 					let n = k.Substring(AssetPrefix.Length)
 
-					let Folder = Folders.First(f => n.StartsWith(f.Value.Replace("/", ".")))
+					let Folder = Folders.FirstOrDefault(f => n.StartsWith(f.Value.Replace("/", ".")))
+
+                    where Folder != null
+
 					let File = n.Substring(Folder.Value.Length + 1)
 
 					select Folder + "/" + File
