@@ -46,12 +46,17 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
             public readonly string EntryPoint;
             public Func(string DllName, string EntryPoint)
             {
+                //global::System.Console.WriteLine("Func " + DllName + "," + EntryPoint);
+
                 // java only allows to set the field once!
 
                 if ("dynamic" == DllName)
                     this.DllName = GetCodeSourceLocation();
                 else
                     this.DllName = DllName;
+
+                //global::System.Console.WriteLine("Func " + DllName + "," + EntryPoint);
+
 
                 this.EntryPoint = EntryPoint;
             }
@@ -72,10 +77,27 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
 
                         var ff = loc.getFile();
-                        var prefix = "file:/";
 
-                        if (prefix == ff.Substring(0, prefix.Length))
-                            ff = ff.Substring(prefix.Length);
+                        {
+                            var prefix = "file:/";
+
+                            if (prefix == ff.Substring(0, prefix.Length))
+                                ff = ff.Substring(prefix.Length);
+                        }
+
+                        // sometimes the prefix is shorter?
+                        {
+                            var prefix = "file:";
+
+                            if (prefix == ff.Substring(0, prefix.Length))
+                                ff = ff.Substring(prefix.Length);
+                        }
+
+
+                        // those jar loaders are adding !/ to the end?
+                        ff = ff.Substring(0, ff.IndexOf("!"));
+
+                        //global::System.Console.WriteLine("ff: " + ff);
 
                         ExportDirectory = new FileInfo(ff).FullName;
 
@@ -102,8 +124,9 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
                         //Console.WriteLine("ExportDirectory: " + ExportDirectory);
 
                     }
-                    catch
+                    catch (csharp.ThrowableException ex)
                     {
+                        ((java.lang.Throwable)(object)ex).printStackTrace();
                         throw new NotSupportedException();
                     }
                 }

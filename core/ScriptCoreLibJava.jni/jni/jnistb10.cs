@@ -196,6 +196,7 @@ namespace jni
 
         private static void InternalTryLoadLibrary()
         {
+            
             try
             {
                 //System.Console.WriteLine("InternalTryLoadLibrary");
