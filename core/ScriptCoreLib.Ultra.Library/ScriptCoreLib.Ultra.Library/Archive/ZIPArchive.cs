@@ -55,7 +55,7 @@ namespace ScriptCoreLib.Archive
                    // should we seek backwards?
                    let NextPosition = s.Position - 1
 
-                   
+                   where NextPosition < 0 ? CentralDirectoryFound() && false : true
 
                    let x50 = (byte)s.ReadByte()
                    where x50 == 0x50 ? true : seek_f(NextPosition)
