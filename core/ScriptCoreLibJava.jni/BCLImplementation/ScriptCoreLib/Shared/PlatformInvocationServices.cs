@@ -95,7 +95,13 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
 
                         // those jar loaders are adding !/ to the end?
-                        ff = ff.Substring(0, ff.IndexOf("!"));
+
+                        {
+                            var suffix = ff.IndexOf("!");
+
+                            if (suffix > 0)
+                                ff = ff.Substring(0, suffix);
+                        }
 
                         //global::System.Console.WriteLine("ff: " + ff);
 
@@ -266,7 +272,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
 
                 return e =>
                 {
-                     Method.callVoid(e);
+                    Method.callVoid(e);
                 };
             }
         }
@@ -278,6 +284,6 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
             f(e);
         }
         #endregion
-        
+
     }
 }

@@ -25,6 +25,10 @@ namespace ScriptCoreLib.Java
 
         string GetTypeFullName(int index);
 
+        int GetFieldCount(int TypeIndex);
+
+        string GetFieldName(int TypeIndex, int MemberIndex);
+
         int GetMethodCount(int TypeIndex);
 
         string GetMethodName(int TypeIndex, int MethodIndex);
@@ -42,6 +46,17 @@ namespace ScriptCoreLib.Java
         {
             return !string.IsNullOrEmpty(this.Entries[TypeIndex].TypeFullName); 
         }
+
+        public int GetFieldCount(int TypeIndex)
+        {
+            return this.Entries[TypeIndex].Fields.Length;
+        }
+
+        public string GetFieldName(int TypeIndex, int MemberIndex)
+        {
+            return this.Entries[TypeIndex].Fields[MemberIndex].Name;
+        }
+
 
         public int GetMethodCount(int TypeIndex)
         {

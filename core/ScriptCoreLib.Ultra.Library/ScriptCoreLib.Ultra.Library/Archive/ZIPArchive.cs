@@ -14,6 +14,29 @@ namespace ScriptCoreLib.Archive
         // ScriptCoreLib.Archive
         // ScriptCoreLib.Archive.ZIP
 
+        public ZIPArchiveFile[] Files;
+
+        public long ArchiveStartOffset;
+        public long ArchiveEndOffset;
+
+        public static ZIPArchive OpenArchive(string path)
+        {
+            var a = new ZIPArchive();
+
+            using (var r = File.OpenRead(path))
+            {
+                a.Files = GetEntries(r,
+                    (ArchiveStartOffset, ArchiveEndOffset) =>
+                    {
+                        a.ArchiveEndOffset = ArchiveEndOffset;
+                        a.ArchiveStartOffset = ArchiveStartOffset;
+                    }
+                ).ToArray();
+            }
+
+            return a;
+        }
+
         public static ZIPArchiveFile[] GetFiles(string path)
         {
             using (var r = File.OpenRead(path))

@@ -42,7 +42,10 @@ namespace jsc.meta.Commands.Reference
         public override void Invoke()
         {
             if (this.AttachDebugger)
+            {
                 Debugger.Launch();
+                Debugger.Break();
+            }
 
             var csproj = XDocument.Load(ProjectFileName.FullName);
             var csproj_dirty = false;

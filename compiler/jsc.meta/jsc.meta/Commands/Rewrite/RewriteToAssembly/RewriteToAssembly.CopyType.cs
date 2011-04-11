@@ -543,7 +543,14 @@ namespace jsc.meta.Commands.Rewrite
                     context.TypeRenameCache[SourceType] ?? SourceType.FullName;
 
 
+                var AnonymousTypePrefix = "<>f__AnonymousType";
 
+                if (TypeName.StartsWith(AnonymousTypePrefix))
+                {
+                    TypeName = AnonymousTypePrefix
+                        + "$" + context.TypeDefinitionCache.BaseDictionary.Count
+                        + "$" + TypeName.Substring(AnonymousTypePrefix.Length);
+                }
 
                 //var DeclaringTypeContinuation = default(Action);
 

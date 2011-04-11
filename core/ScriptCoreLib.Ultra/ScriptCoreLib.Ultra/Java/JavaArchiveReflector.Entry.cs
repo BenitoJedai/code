@@ -54,6 +54,19 @@ namespace ScriptCoreLib.Java
                     return InternalMethods;
                 }
             }
+
+            FieldInfo[] InternalFields;
+
+            public FieldInfo[] Fields
+            {
+                get
+                {
+                    if (InternalFields == null)
+                        InternalFields = this.Type.GetFields();
+
+                    return InternalFields;
+                }
+            }
         }
 
     }
