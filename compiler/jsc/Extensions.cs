@@ -465,6 +465,9 @@ namespace jsc //.Extensions
 
 		public static bool IsDelegate(this Type z)
 		{
+            if (z == null)
+                return false;
+
 			return z.BaseType == typeof(MulticastDelegate);
 		}
 
