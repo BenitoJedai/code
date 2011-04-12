@@ -8,6 +8,9 @@ namespace ObfuscateInternalVirtuals
 {
     public class Class1 : Core.Class1
     {
+        // promote to module?
+        public static object f;
+
         public override void Bar()
         {
             base.Bar();
