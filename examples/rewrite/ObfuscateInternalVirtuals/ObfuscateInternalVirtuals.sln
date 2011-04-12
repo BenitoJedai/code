@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObfuscateInternalVirtuals", "ObfuscateInternalVirtuals\ObfuscateInternalVirtuals.csproj", "{CF4E2CAE-84F2-4E39-A0B8-AD6FA67CB79C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObfuscateInternalVirtuals.Core", "ObfuscateInternalVirtuals.Core\ObfuscateInternalVirtuals.Core.csproj", "{37CF019B-4AE0-46DA-90FC-E8083FC2DAD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF4E2CAE-84F2-4E39-A0B8-AD6FA67CB79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF4E2CAE-84F2-4E39-A0B8-AD6FA67CB79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF4E2CAE-84F2-4E39-A0B8-AD6FA67CB79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF4E2CAE-84F2-4E39-A0B8-AD6FA67CB79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37CF019B-4AE0-46DA-90FC-E8083FC2DAD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37CF019B-4AE0-46DA-90FC-E8083FC2DAD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37CF019B-4AE0-46DA-90FC-E8083FC2DAD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37CF019B-4AE0-46DA-90FC-E8083FC2DAD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

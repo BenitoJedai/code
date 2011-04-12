@@ -26,7 +26,7 @@ namespace jsc.meta.Commands.Rewrite
                 this.AssemblyMerge.Any(k => new FileInfo(k.name).Name == new FileInfo(ContextAssembly.Location).Name);
         }
 
-        private bool ShouldCopyType(Type ContextType)
+        public bool ShouldCopyType(Type ContextType)
         {
             if (ContextType.IsGenericParameter)
                 return false;
