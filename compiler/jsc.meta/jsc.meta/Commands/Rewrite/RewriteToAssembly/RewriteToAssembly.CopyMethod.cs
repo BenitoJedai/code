@@ -85,7 +85,9 @@ namespace jsc.meta.Commands.Rewrite
                 select InterfaceMethodDeclaringType;
 
 
-            var IsNotObfuscateableVirtual = SourceMethod.IsVirtual
+            var IsNotObfuscateable =
+                SourceType.IsDelegate() ||
+                SourceMethod.IsVirtual
                 && (
                 !Command.ShouldCopyType(SourceMethod.GetBaseDefinition().DeclaringType)
                 || InterfacesNotMerged.Any()
@@ -94,7 +96,7 @@ namespace jsc.meta.Commands.Rewrite
 
 
 
-            if (IsNotObfuscateableVirtual)
+            if (IsNotObfuscateable)
             {
                 MethodName = SourceMethod.Name;
             }
