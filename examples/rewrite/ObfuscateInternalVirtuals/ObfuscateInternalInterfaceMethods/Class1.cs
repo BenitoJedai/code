@@ -5,6 +5,8 @@ using System.Text;
 
 namespace ObfuscateInternalInterfaceMethods
 {
+    public delegate void FooAction();
+
     public interface IFoo
     {
         void Foo();
