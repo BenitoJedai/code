@@ -75,6 +75,8 @@ namespace jsc.meta.Commands.Rewrite
 
             var InterfacesNotMerged =
                 from SourceInterface in SourceType.GetInterfaces()
+                where !SourceType.IsInterface
+                // 'this' type cannot be an interface itself.
                 let map = SourceType.GetInterfaceMap(SourceInterface)
                 from map_i in Enumerable.Range(0, map.TargetMethods.Length)
                 where map.TargetMethods[map_i] == SourceMethod
