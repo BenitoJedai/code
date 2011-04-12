@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ObfuscateInternalVirtuals.Core
 {
+
     public class Class1
     {
         public void Foo()

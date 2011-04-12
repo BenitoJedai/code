@@ -73,12 +73,26 @@ namespace jsc.meta.Commands.Rewrite
 
             var MethodName = default(string);
 
-            var IsNotObfuscateableVirtual = SourceMethod.IsVirtualMethod() && !Command.ShouldCopyType(SourceMethod.GetBaseDefinition().DeclaringType);
+            var InterfacesNotMerged =
+                from SourceInterface in SourceType.GetInterfaces()
+                let map = SourceType.GetInterfaceMap(SourceInterface)
+                from map_i in Enumerable.Range(0, map.TargetMethods.Length)
+                where map.TargetMethods[map_i] == SourceMethod
+                let InterfaceMethodDeclaringType = map.InterfaceMethods[map_i].DeclaringType
+                where !Command.ShouldCopyType(InterfaceMethodDeclaringType)
+                select InterfaceMethodDeclaringType;
+
+
+            var IsNotObfuscateableVirtual = SourceMethod.IsVirtual
+                && (
+                !Command.ShouldCopyType(SourceMethod.GetBaseDefinition().DeclaringType)
+                || InterfacesNotMerged.Any()
+                );
 
 
 
 
-            if (SourceMethod.GetMethodBody() == null || IsNotObfuscateableVirtual)
+            if (IsNotObfuscateableVirtual)
             {
                 MethodName = SourceMethod.Name;
             }
