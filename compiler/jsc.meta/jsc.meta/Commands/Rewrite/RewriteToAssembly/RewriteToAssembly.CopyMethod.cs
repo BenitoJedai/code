@@ -73,8 +73,10 @@ namespace jsc.meta.Commands.Rewrite
 
             var MethodName = default(string);
 
+
             var InterfacesNotMerged =
-                from SourceInterface in SourceType.GetInterfaces()
+
+                from SourceInterface in SourceType == null ? new Type[0] : SourceType.GetInterfaces()
                 let map = SourceType.GetInterfaceMap(SourceInterface)
                 from map_i in Enumerable.Range(0, map.TargetMethods.Length)
                 where map.TargetMethods[map_i] == SourceMethod
