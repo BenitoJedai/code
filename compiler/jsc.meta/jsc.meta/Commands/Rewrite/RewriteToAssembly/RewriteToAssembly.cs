@@ -18,6 +18,7 @@ using jsc.meta.Library.CodeTrace;
 using jsc.meta.Tools;
 using ScriptCoreLib.CSharp.Extensions;
 using ScriptCoreLib.Extensions;
+using System.Collections.Specialized;
 
 namespace jsc.meta.Commands.Rewrite
 {
@@ -116,13 +117,46 @@ namespace jsc.meta.Commands.Rewrite
                             n + "->"
                         );
                     }
-
-                    ObfuscatedName.Append((char)(0xFEFC - NameObfuscation.BaseDictionary.Count));
-
-                    for (int i = 0; i < salt_length; i++)
+                    else
                     {
-                        ObfuscatedName.Append((char)(0xFEFC - NameObfuscationRandom.Next(0x1000)));
+                        ObfuscatedName.Append("");
                     }
+
+                    var v = NameObfuscation.BaseDictionary.Count + 1;
+
+                    // http://www.sagehill.net/docbookxsl/SpecialChars.html
+                    var map = new [] { 
+                        '\u2000',
+                        '\u2001',
+                        '\u2002',
+                        '\u2003',
+                        '\u2004',
+                        '\u2005',
+                        '\u2006',
+                        '\u2007',
+                        '\u2008',
+                        '\u2009',
+                        '\u200A',
+                        '\u200B',
+                        '\u0020', // C 
+                        '\u00a0', // D 
+                        '\u202f', // E 
+                        '\ufefe' // F
+                    };
+
+                    while (v > 0)
+                    {
+                        ObfuscatedName.Append(map[v & 0xF]);
+                        v >>= 4;
+                    }
+
+
+                    //ObfuscatedName.Append((char)(0xFEFC - NameObfuscation.BaseDictionary.Count));
+
+                    //for (int i = 0; i < salt_length; i++)
+                    //{
+                    //    ObfuscatedName.Append((char)(0xFEFC - NameObfuscationRandom.Next(0x1000)));
+                    //}
 
                     NameObfuscation[n] = ObfuscatedName.ToString();
                 };
@@ -1760,7 +1794,7 @@ namespace jsc.meta.Commands.Rewrite
                     if (o.Exclude)
                         return InternalFullNameFixup(n);
 
-                return NameObfuscation[n];
+                return " ." + NameObfuscation[n];
             }
 
             return InternalFullNameFixup(n);

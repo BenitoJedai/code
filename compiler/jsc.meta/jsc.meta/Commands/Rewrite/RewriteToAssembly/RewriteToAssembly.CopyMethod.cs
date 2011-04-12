@@ -73,7 +73,12 @@ namespace jsc.meta.Commands.Rewrite
 
             var MethodName = default(string);
 
-            if (SourceMethod.GetMethodBody() == null || (SourceMethod.Attributes & MethodAttributes.Virtual) == MethodAttributes.Virtual)
+            var IsNotObfuscateableVirtual = SourceMethod.IsVirtualMethod() && !Command.ShouldCopyType(SourceMethod.GetBaseDefinition().DeclaringType);
+
+
+
+
+            if (SourceMethod.GetMethodBody() == null || IsNotObfuscateableVirtual)
             {
                 MethodName = SourceMethod.Name;
             }
@@ -354,7 +359,7 @@ namespace jsc.meta.Commands.Rewrite
             Action SetEntryPoint =
                 delegate
                 {
-                    
+
                     a.SetEntryPoint(
                         entryMethod: DeclaringMethod,
                         fileKind: SourceMethod.GetPEFileKinds()
@@ -402,7 +407,7 @@ namespace jsc.meta.Commands.Rewrite
             #endregion
 
 
-     
+
 
             #region EnableSwitchRewrite
             if (Command != null && Command.EnableSwitchRewrite)
