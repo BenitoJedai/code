@@ -11,14 +11,50 @@ namespace jsc.meta.Configuration
     {
         const string DefaultFile = @"c:\util\jsc\bin\jsc.SDKConfiguration.xml";
 
-        public static DirectoryInfo JavaSDK_x86
+        #region ProgramFiles_x86
+        public static DirectoryInfo ProgramFiles_x86
         {
             get
             {
                 if (Environment.Is64BitOperatingSystem)
-                    return new DirectoryInfo(@"C:\Program Files (x86)\Java\jdk1.6.0_24");
+                    return new DirectoryInfo(@"C:\Program Files (x86)");
 
-                return new DirectoryInfo(@"C:\Program Files\Java\jdk1.6.0_24");
+                return new DirectoryInfo(@"C:\Program Files");
+            }
+        }
+        #endregion
+
+        #region WindowsSDK_x86
+        public static DirectoryInfo WindowsSDK_x86
+        {
+            get
+            {
+                return new DirectoryInfo(Path.Combine(ProgramFiles_x86.FullName, @"Microsoft SDKs\Windows\v7.0A"));
+            }
+        }
+        #endregion
+
+        public FileInfo ildasm
+        {
+            get
+            {
+                return new FileInfo(Path.Combine(WindowsSDK_x86.FullName, @"bin\NETFX 4.0 Tools\ildasm.exe"));
+            }
+        }
+
+        public FileInfo PEVerify
+        {
+            get
+            {
+                return new FileInfo(Path.Combine(WindowsSDK_x86.FullName, @"bin\NETFX 4.0 Tools\PEVerify.exe"));
+            }
+        }
+
+        public static DirectoryInfo JavaSDK_x86
+        {
+            get
+            {
+                return new DirectoryInfo(Path.Combine(ProgramFiles_x86.FullName, @"Java\jdk1.6.0_24"));
             }
         }
 
