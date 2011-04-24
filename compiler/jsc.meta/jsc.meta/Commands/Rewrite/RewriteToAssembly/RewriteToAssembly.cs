@@ -125,7 +125,7 @@ namespace jsc.meta.Commands.Rewrite
                     var v = NameObfuscation.BaseDictionary.Count + 1;
 
                     // http://www.sagehill.net/docbookxsl/SpecialChars.html
-                    var map = new [] { 
+                    var map = new[] { 
                         '\u2000',
                         '\u2001',
                         '\u2002',
@@ -1671,8 +1671,10 @@ namespace jsc.meta.Commands.Rewrite
             a.Save(
                 assemblyFileName: _ct_SaveName,
 
-                // This will cause issues: IAT with more than 2 sections or a TLS section.
-                portableExecutableKind: /*Required32Bit ?  PortableExecutableKinds.Required32Bit :*/ PortableExecutableKinds.ILOnly,
+                // https://github.com/mono/mono/commit/2626e53a2ea89258cdacbf9bfa105afc994cca7c
+                portableExecutableKind: SetPlatformTo32Bit ? PortableExecutableKinds.Required32Bit | PortableExecutableKinds.ILOnly : PortableExecutableKinds.ILOnly,
+
+                // http://msdn.microsoft.com/en-us/library/ms145516(v=VS.100).aspx
                 imageFileMachine: ImageFileMachine.I386
             );
 
