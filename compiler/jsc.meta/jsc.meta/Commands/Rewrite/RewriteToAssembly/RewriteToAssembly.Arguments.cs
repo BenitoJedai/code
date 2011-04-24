@@ -268,6 +268,6 @@ namespace jsc.meta.Commands.Rewrite
 
         public bool DisableScriptImplementsDiscovery;
 
-        public bool Required32Bit;
+        public bool SetPlatformTo32Bit;
     }
 }
