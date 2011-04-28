@@ -293,7 +293,7 @@ namespace JVMLauncher
 
     unsafe static class Program
     {
-        [DllImport("kernel32", SetLastError = true)]
+        [DllImport("kernel32", EntryPoint = "LoadLibrary", SetLastError = true)]
         static extern IntPtr LoadLibrary(string lpFileName);
 
         [DllImport("KERNEL32.DLL", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true)]
@@ -303,9 +303,15 @@ namespace JVMLauncher
 
         static void Main(string[] args)
         {
-            var RUNTIME_DLL = "C:\\Program Files\\Java\\jdk1.6.0_24\\jre\\bin\\client\\jvm.dll";
-            var CLASS_PATH = "-Djava.class.path=Z:\\research\\20110427_jvmdll\\19065\\JavaDaemon\\HelloKNR\\HelloKNR.jar";
-            var CLASS_NAME = "com/doorul/HelloKNR";
+            var RUNTIME_DLL = @"C:\Program Files\Java\jdk1.6.0_24\jre\bin\client\jvm.dll";
+            
+            //var CLASS_PATH = @"-Djava.class.path=Z:\research\20110427_jvmdll\19065\JavaDaemon\HelloKNR\HelloKNR.jar";
+            //var CLASS_NAME = "com/doorul/HelloKNR";
+
+            var CLASS_PATH = @"-Djava.class.path=Z:\jsc.svn\examples\java\CLRJVMConsole\CLRJVMConsole\bin\Debug\staging\web\bin\CLRJVMConsole.dll";
+            var CLASS_NAME = "CLRJVMConsole/Program";
+
+
             var JNI_VERSION_1_4 = 0x00010004;
 
             var handle = LoadLibrary(RUNTIME_DLL);
@@ -315,9 +321,12 @@ namespace JVMLauncher
             // http://www.codeproject.com/KB/cs/DynamicInvokeCSharp.aspx
             var JNI_CreateJavaVM = (JNI_CreateJavaVM)Marshal.GetDelegateForFunctionPointer(__JNI_CreateJavaVM, typeof(JNI_CreateJavaVM));
 
-            var options = new JavaVMOption { optionString = 
-                CLASS_PATH };
-                //(void*)Marshal.StringToHGlobalAnsi(CLASS_PATH) };
+            var options = new JavaVMOption
+            {
+                optionString =
+                    CLASS_PATH
+            };
+            //(void*)Marshal.StringToHGlobalAnsi(CLASS_PATH) };
 
             var options_ptr_len = Marshal.SizeOf(options) + 64;
             IntPtr options_ptr = Marshal.AllocHGlobal(options_ptr_len);
@@ -357,7 +366,7 @@ namespace JVMLauncher
                 CLASS_NAME
                 );
 
-                //(void*)Marshal.StringToHGlobalAnsi(CLASS_NAME));
+            //(void*)Marshal.StringToHGlobalAnsi(CLASS_NAME));
 
 
             var GetStaticMethodID = (JNINativeInterface_GetStaticMethodID)Marshal.GetDelegateForFunctionPointer(
@@ -383,7 +392,7 @@ namespace JVMLauncher
             // http://www.velocityreviews.com/forums/t370129-java-native-interface-translate-java-call-to-jni.html
 
             ///* build the argument list */
-            //str = (*env)->FindClass(env, "java/lang/String");
+            var str = FindClass(env, "java/lang/String");
             //jargs = (*env)->NewObjectArray(env, num_args, str, NULL);
 
             ///* prefer to do this in a loop if args already in an array of char* */

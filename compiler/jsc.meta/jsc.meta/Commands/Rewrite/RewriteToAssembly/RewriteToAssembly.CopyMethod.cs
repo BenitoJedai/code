@@ -197,14 +197,15 @@ namespace jsc.meta.Commands.Rewrite
 
                 #region DefinePInvokeMethod
                 DeclaringMethod = DeclaringType.DefinePInvokeMethod(
-                    MethodName,
-                    DllImport__.Value,
-                    MethodAttributes__,
-                    SourceMethod.CallingConvention,
-                    ReturnType,
-                    ParametersTypes,
-                    DllImport__.CallingConvention,
-                    DllImport__.CharSet
+                    name: MethodName,
+                    entryName: DllImport__.EntryPoint,
+                    dllName: DllImport__.Value,
+                    attributes: MethodAttributes__,
+                    callingConvention: SourceMethod.CallingConvention,
+                    returnType: ReturnType,
+                    parameterTypes: ParametersTypes,
+                    nativeCallConv: DllImport__.CallingConvention,
+                    nativeCharSet: DllImport__.CharSet
                 );
                 #endregion
             }

@@ -5,13 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{77EA5AB7-243C-4AF0-9869-C3CA324B1A94}</ProjectGuid>
+    <ProjectGuid>{89E3D215-D5F7-45C4-8E45-E46B10D1AA54}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JVMLauncher</RootNamespace>
-    <AssemblyName>JVMLauncher</AssemblyName>
+    <RootNamespace>UnsafePointer</RootNamespace>
+    <AssemblyName>UnsafePointer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -48,12 +49,15 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>set jsc=C:\util\jsc\bin\jsc.meta.exe
 if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
 
-start /WAIT "jsc" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo.exe" /AssemblyMerge:"$(TargetPath)" /EntryPointAssembly:"$(TargetPath)" /obfuscate:true
+start /WAIT "jsc" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo.exe" /AssemblyMerge:"$(TargetPath)" /EntryPointAssembly:"$(TargetPath)" /AttachDebugger:true
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
