@@ -141,7 +141,7 @@ namespace jsc.meta.Commands.Rewrite
                         '\u0020', // C 
                         '\u00a0', // D 
                         '\u202f', // E 
-                        '\ufefe' // F
+                        '\u00a0' // F
                     };
 
                     while (v > 0)
@@ -1090,6 +1090,12 @@ namespace jsc.meta.Commands.Rewrite
                     if (SourceType.IsGenericParameter)
                     {
                         TypeDefinitionCache[SourceType] = SourceType;
+                        return;
+                    }
+
+                    if (SourceType.IsPointer)
+                    {
+                        TypeDefinitionCache[SourceType] = TypeDefinitionCache[SourceType.GetElementType()].MakePointerType();
                         return;
                     }
 

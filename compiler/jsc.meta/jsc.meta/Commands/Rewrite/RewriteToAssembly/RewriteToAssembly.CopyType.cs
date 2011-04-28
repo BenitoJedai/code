@@ -311,6 +311,9 @@ namespace jsc.meta.Commands.Rewrite
             AtTypeCreatedFilterAdd =
                 k =>
                 {
+                    if (k == null)
+                        return;
+
                     // no duplicates
                     if (AtTypeCreatedFilter.Contains(k))
                         return;
