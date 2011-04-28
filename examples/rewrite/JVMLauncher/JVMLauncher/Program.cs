@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace JVMLauncher
 {
+    [StructLayout(LayoutKind.Sequential)]
+    struct _jobjectArray
+    {
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct _jobject
+    {
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     struct _jclass
     {
@@ -16,9 +27,21 @@ namespace JVMLauncher
     {
     }
 
-    unsafe delegate _jclass* JNINativeInterface_FindClass(JNIENV* env, string name);
-    unsafe delegate _jmethodID* JNINativeInterface_GetStaticMethodID(JNIENV* env, _jclass* clazz, string name, string sig);
-    unsafe delegate void JNINativeInterface_CallStaticVoidMethodA(JNIENV* env, _jclass* clazz, _jmethodID* methodID, void* args);
+    [StructLayout(LayoutKind.Sequential)]
+    struct _jstring
+    {
+    }
+
+    unsafe delegate _jclass* JNINativeInterface_FindClass(JNIEnv* env, string name);
+    unsafe delegate _jmethodID* JNINativeInterface_GetStaticMethodID(JNIEnv* env, _jclass* clazz, string name, string sig);
+    unsafe delegate void JNINativeInterface_CallStaticVoidMethodA(JNIEnv* env, _jclass* clazz, _jmethodID* methodID, void* args);
+
+
+    unsafe delegate _jobjectArray* JNINativeInterface_NewObjectArray(JNIEnv* env, int len, _jclass* clazz, void* init);
+
+    unsafe delegate _jstring* JNINativeInterface_NewStringUTF(JNIEnv* env, string utf);
+    unsafe delegate void JNINativeInterface_SetObjectArrayElement(JNIEnv* env, _jobjectArray* array, int index, void* val);
+
 
     [StructLayout(LayoutKind.Sequential, Pack = 4, Size = 932)]
     unsafe struct JNINativeInterface
@@ -265,7 +288,7 @@ namespace JVMLauncher
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    unsafe struct JNIENV
+    unsafe struct JNIEnv
     {
         public JNINativeInterface* functions;
     }
@@ -288,7 +311,7 @@ namespace JVMLauncher
         public byte ignoreUnrecognized;
     }
 
-    unsafe delegate int JNI_CreateJavaVM(JavaVM** pvm, JNIENV** penv, IntPtr args);
+    unsafe delegate int JNI_CreateJavaVM(JavaVM** pvm, JNIEnv** penv, IntPtr args);
 
 
     unsafe static class Program
@@ -304,7 +327,7 @@ namespace JVMLauncher
         static void Main(string[] args)
         {
             var RUNTIME_DLL = @"C:\Program Files\Java\jdk1.6.0_24\jre\bin\client\jvm.dll";
-            
+
             //var CLASS_PATH = @"-Djava.class.path=Z:\research\20110427_jvmdll\19065\JavaDaemon\HelloKNR\HelloKNR.jar";
             //var CLASS_NAME = "com/doorul/HelloKNR";
 
@@ -343,7 +366,7 @@ namespace JVMLauncher
             };
 
             JavaVM* vm;
-            JNIENV* env;
+            JNIEnv* env;
 
 
 
@@ -354,7 +377,7 @@ namespace JVMLauncher
 
             Marshal.StructureToPtr(vm_args, vm_args_ptr, false);
 
-            var res = JNI_CreateJavaVM((JavaVM**)&vm, (JNIENV**)&env, vm_args_ptr);
+            var res = JNI_CreateJavaVM((JavaVM**)&vm, (JNIEnv**)&env, vm_args_ptr);
 
             var FindClass = (JNINativeInterface_FindClass)Marshal.GetDelegateForFunctionPointer(
                 env->functions->FindClass,
@@ -389,22 +412,53 @@ namespace JVMLauncher
                typeof(JNINativeInterface_CallStaticVoidMethodA)
            );
 
+            var NewObjectArray = (JNINativeInterface_NewObjectArray)Marshal.GetDelegateForFunctionPointer(
+               env->functions->NewObjectArray,
+               typeof(JNINativeInterface_NewObjectArray)
+            );
+
+            var NewStringUTF = (JNINativeInterface_NewStringUTF)Marshal.GetDelegateForFunctionPointer(
+               env->functions->NewStringUTF,
+               typeof(JNINativeInterface_NewStringUTF)
+            );
+            
+            var SetObjectArrayElement = (JNINativeInterface_SetObjectArrayElement)Marshal.GetDelegateForFunctionPointer(
+              env->functions->SetObjectArrayElement,
+              typeof(JNINativeInterface_SetObjectArrayElement)
+            );
+
             // http://www.velocityreviews.com/forums/t370129-java-native-interface-translate-java-call-to-jni.html
 
             ///* build the argument list */
             var str = FindClass(env, "java/lang/String");
-            //jargs = (*env)->NewObjectArray(env, num_args, str, NULL);
+            var num_args = 2;
+            var jargs = NewObjectArray(env, num_args, str, null);
 
             ///* prefer to do this in a loop if args already in an array of char* */
+            SetObjectArrayElement(env, jargs, 0, (void*)NewStringUTF(env, "hello"));
+            SetObjectArrayElement(env, jargs, 1, (void*)NewStringUTF(env, "world"));
+
             //(*env)->SetObjectArrayElement(env, jargs, 0, (*env)->NewStringUTF(env, "-fo"))
             //(*env)->SetObjectArrayElement(env, jargs, 1, (*env)->NewStringUTF(env, "Data.xml"))
             //(*env)->SetObjectArrayElement(env, jargs, 2, (*env)->NewStringUTF(env, "-c"))
             ///* etcetera */
 
             IntPtr __args = Marshal.AllocHGlobal(8);
-            Marshal.Copy(Enumerable.Range(0, 8).Select(k => (byte)0x00).ToArray(), 0, __args, 8);
+            var mm = new MemoryStream();
+            var mw = new BinaryWriter(mm);
 
+            var i = new IntPtr(jargs).ToInt32();
+
+            mw.Write(i);
+            mw.Write((int)0);
+
+            //Marshal.Copy(Enumerable.Range(0, 8).Select(k => (byte)0x00).ToArray(), 0, __args, 8);
+            Marshal.Copy(mm.ToArray(), 0, __args, 8);
+
+
+            //CallStaticVoidMethodA(env, cls, mid, (void*)__args);
             CallStaticVoidMethodA(env, cls, mid, (void*)__args);
         }
     }
+
 }
