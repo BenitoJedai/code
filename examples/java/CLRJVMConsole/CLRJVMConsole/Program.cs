@@ -18,6 +18,11 @@ namespace CLRJVMConsole
             else
             {
                 Console.WriteLine("args: " + args.Length);
+
+                for (int i = 0; i < args.Length; i++)
+                {
+                    Console.WriteLine("#" + i + " " + args[i]);
+                }
             }
 
             Console.WriteLine("CLR has loaded jvm.dll and created a new JVM");
@@ -37,7 +42,7 @@ namespace CLRJVMConsole
         {
             Console.WriteLine("running inside CLR");
 
-            Debugger.Break();
+            //Debugger.Break();
         }
     }
 }
