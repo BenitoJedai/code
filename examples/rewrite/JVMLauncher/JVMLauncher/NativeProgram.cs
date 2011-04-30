@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Reflection;
 
 namespace JVMLauncher
 {
@@ -44,6 +45,7 @@ namespace JVMLauncher
 
 
     [StructLayout(LayoutKind.Sequential, Pack = 4, Size = 932)]
+    //[Obfuscation(Exclude = true, ApplyToMembers = true)]
     unsafe struct JNINativeInterface
     {
         public IntPtr reserved0;
@@ -338,12 +340,15 @@ namespace JVMLauncher
 
             var JNI_VERSION_1_4 = 0x00010004;
 
+            //Console.WriteLine("LoadLibrary"); ;
             var handle = LoadLibrary(RUNTIME_DLL);
 
+            //Console.WriteLine("GetProcAddress"); ;
             var __JNI_CreateJavaVM = GetProcAddress(handle, "JNI_CreateJavaVM");
 
             // http://www.codeproject.com/KB/cs/DynamicInvokeCSharp.aspx
             var JNI_CreateJavaVM = (JNI_CreateJavaVM)Marshal.GetDelegateForFunctionPointer(__JNI_CreateJavaVM, typeof(JNI_CreateJavaVM));
+
 
             var options = new JavaVMOption
             {
@@ -378,6 +383,7 @@ namespace JVMLauncher
 
             Marshal.StructureToPtr(vm_args, vm_args_ptr, false);
 
+            //Console.WriteLine("JNI_CreateJavaVM"); ;
             var res = JNI_CreateJavaVM((JavaVM**)&vm, (JNIEnv**)&env, vm_args_ptr);
 
             var FindClass = (JNINativeInterface_FindClass)Marshal.GetDelegateForFunctionPointer(
@@ -385,6 +391,7 @@ namespace JVMLauncher
                 typeof(JNINativeInterface_FindClass)
             );
 
+            //Console.WriteLine("FindClass"); ;
 
             var cls = FindClass(env,
                 CLASS_NAME
@@ -400,6 +407,7 @@ namespace JVMLauncher
             );
 
 
+            //Console.WriteLine("GetStaticMethodID"); 
             var mid = GetStaticMethodID(
                 env,
                 cls,
@@ -431,14 +439,26 @@ namespace JVMLauncher
 
             // http://www.velocityreviews.com/forums/t370129-java-native-interface-translate-java-call-to-jni.html
 
+            //Console.WriteLine("FindClass"); 
+
             ///* build the argument list */
             var str = FindClass(env, "java/lang/String");
             var num_args = args.Length;
+            //Console.WriteLine("NewObjectArray");
             var jargs = NewObjectArray(env, num_args, str, null);
 
             for (int i = 0; i < args.Length; i++)
             {
-                SetObjectArrayElement(env, jargs, i, (void*)NewStringUTF(env, args[i]));
+                //Console.WriteLine("NewStringUTF");
+                //Console.WriteLine("NewStringUTF: " + env->functions->NewStringUTF.ToInt32().ToString("x8"));
+                //Console.WriteLine("env: " + new IntPtr(env).ToInt32().ToString("x8"));
+                //Console.WriteLine("i: " + i);
+                //Console.WriteLine("args[i]: " + args[i]);
+
+                var value = NewStringUTF(env, args[i]);
+                //Console.WriteLine("SetObjectArrayElement");
+
+                SetObjectArrayElement(env, jargs, i, (void*)value);
                 
             }
             ///* prefer to do this in a loop if args already in an array of char* */
@@ -462,6 +482,7 @@ namespace JVMLauncher
 
 
             //CallStaticVoidMethodA(env, cls, mid, (void*)__args);
+            //Console.WriteLine("CallStaticVoidMethodA");
             CallStaticVoidMethodA(env, cls, mid, (void*)__args);
         }
     }
