@@ -46,6 +46,7 @@ namespace jsc.meta.Loader
                 }
             }
 
+            /*
             var lib = new DirectoryInfo(Path.Combine(bin.FullName, @"..\lib"));
 
             if (!lib.Exists)
@@ -74,7 +75,7 @@ namespace jsc.meta.Loader
                     return Assembly.LoadFile(lib_exe);
                 }
             }
-
+            */
 
 
             return null;

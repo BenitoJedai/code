@@ -54,8 +54,10 @@
     <PostBuildEvent>set jsc=C:\util\jsc\bin\jsc.meta.exe
 if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
 
-start /WAIT "jsc" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo.exe" /AssemblyMerge:"$(TargetPath)" /EntryPointAssembly:"$(TargetPath)" /obfuscate:true
-</PostBuildEvent>
+start /WAIT "only obfuscate 1" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo0.exe" /AssemblyMerge:"$(TargetPath)" /EntryPointAssembly:"$(TargetPath)" /obfuscate:true
+start /WAIT "only obfuscate 2" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo.exe" /AssemblyMerge:"$(TargetPath).foo0.exe" /EntryPointAssembly:"$(TargetPath).foo0.exe" /obfuscate:true
+
+start /WAIT "hybrid" %25jsc%25  RewriteToHybridAssembly /Output:"$(TargetPath).bar.exe" /AssemblyMerge:"Z:\jsc.svn\examples\java\CLRJVMConsole\CLRJVMConsole\bin\Debug\staging\web\bin\CLRJVMConsole.dll" /AssemblyMerge:"$(TargetPath).foo.exe"  /EntryPointAssembly:"$(TargetPath).foo.exe" /DisableInvalidMergeCheck:true /DisableWorkerDomain /ObjectFiles:"Z:\jsc.svn\core\ScriptCoreLibJava.jni\web\bin\jnistb10\bin\lib_jnistb10.obj"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
