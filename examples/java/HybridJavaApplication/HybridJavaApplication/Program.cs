@@ -8,9 +8,11 @@ namespace HybridJavaApplication
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("this code is running inside JVM");
+
+            CLRProgram.CLRMain();
         }
     }
 
