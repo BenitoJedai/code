@@ -437,7 +437,7 @@ namespace jsc.meta.Commands.Rewrite
                 if (xb.Instructrions.Any(k => k.OpCode == OpCodes.Switch))
                 {
 
-
+                    // to be move to internals...
                     WriteSwitchRewrite(
                        SourceMethod,
                        DeclaringType,
