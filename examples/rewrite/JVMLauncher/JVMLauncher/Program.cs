@@ -12,7 +12,8 @@ namespace JVMLauncher
 
 
 
-    static class Program
+    [Obfuscation(Exclude = true, ApplyToMembers = true)]
+    public static class Program
     {
 
         static void Main(string[] args)
