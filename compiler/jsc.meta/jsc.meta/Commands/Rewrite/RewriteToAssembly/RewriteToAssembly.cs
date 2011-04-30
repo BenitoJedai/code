@@ -124,8 +124,14 @@ namespace jsc.meta.Commands.Rewrite
 
                     var v = NameObfuscation.BaseDictionary.Count + 1;
 
+                    // Obfuscated names shall be in the same sorting order 
+                    // for native sequential structs.
+
                     // http://www.sagehill.net/docbookxsl/SpecialChars.html
                     var map = new[] { 
+                        '\u0020',
+                        '\u00a0',
+
                         '\u2000',
                         '\u2001',
                         '\u2002',
@@ -138,10 +144,9 @@ namespace jsc.meta.Commands.Rewrite
                         '\u2009',
                         '\u200A',
                         '\u200B',
-                        '\u0020', // C 
-                        '\u00a0', // D 
-                        '\u202f', // E 
-                        '\u00a0' // F
+
+                        '\u202f',
+                        '\ufeff' 
                     };
 
                     while (v > 0)

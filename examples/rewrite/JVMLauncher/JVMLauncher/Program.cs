@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
 using Microsoft.Win32;
+using System.Reflection;
 
 namespace JVMLauncher
 {
@@ -25,10 +26,19 @@ namespace JVMLauncher
 
             var jvm = (string)jre.OpenSubKey((string)jre.GetValue("CurrentVersion")).GetValue("RuntimeLib");
 
+            var f = Path.GetFileName(Assembly.GetExecutingAssembly().Location);
+
+            Console.WriteLine(f);
+
+            
+            var CLASS_PATH = @"-Djava.class.path=Z:\jsc.svn\examples\java\CLRJVMConsole\CLRJVMConsole\bin\Debug\staging\web\bin\CLRJVMConsole.dll";
+
+            if (f == "JVMLauncher.exe.bar.exe")
+                CLASS_PATH = @"-Djava.class.path=" + Path.GetFullPath(Assembly.GetExecutingAssembly().Location); 
 
             NativeProgram.JVMMain(
                 RUNTIME_DLL: jvm,
-
+                CLASS_PATH: CLASS_PATH,
                 args:
                 new[]
                 {

@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JVMLauncher", "JVMLauncher\JVMLauncher.csproj", "{77EA5AB7-243C-4AF0-9869-C3CA324B1A94}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AABE4C83-8645-4312-ACBB-68141394D9A5} = {AABE4C83-8645-4312-ACBB-68141394D9A5}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRJVMConsole", "..\..\java\CLRJVMConsole\CLRJVMConsole\CLRJVMConsole.csproj", "{AABE4C83-8645-4312-ACBB-68141394D9A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +28,16 @@ Global
 		{77EA5AB7-243C-4AF0-9869-C3CA324B1A94}.Release|Win32.ActiveCfg = Release|x86
 		{77EA5AB7-243C-4AF0-9869-C3CA324B1A94}.Release|x86.ActiveCfg = Release|x86
 		{77EA5AB7-243C-4AF0-9869-C3CA324B1A94}.Release|x86.Build.0 = Release|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Debug|Win32.ActiveCfg = Debug|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Debug|x86.ActiveCfg = Debug|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Debug|x86.Build.0 = Debug|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Release|Win32.ActiveCfg = Release|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Release|x86.ActiveCfg = Release|x86
+		{AABE4C83-8645-4312-ACBB-68141394D9A5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
