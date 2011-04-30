@@ -64,6 +64,12 @@
     <Folder Include="web\java\" />
     <Folder Include="web\release\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="web\assets\ScriptCoreLibJava.jni\lib_jnistb10.obj" />
+    <None Include="z:\jsc.svn\core\ScriptCoreLibJava.jni\web\bin\jnistb10\bin\lib_jnistb10.obj">
+      <Link>assets\ScriptCoreLibJava.jni\lib_jnistb10.obj</Link>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
