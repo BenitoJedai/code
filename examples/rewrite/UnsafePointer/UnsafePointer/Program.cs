@@ -13,10 +13,15 @@ namespace UnsafePointer
 
     unsafe class Program
     {
-        Foo* foo;
+        static Foo* foo;
 
         static void Main(string[] args)
         {
+            Foo* foo0;
+            Foo* foo1;
+
+            foo0 = foo;
+            foo1 = foo0;
         }
     }
 }

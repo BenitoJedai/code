@@ -57,7 +57,7 @@
     <PostBuildEvent>set jsc=C:\util\jsc\bin\jsc.meta.exe
 if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
 
-start /WAIT "jsc" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo.exe" /AssemblyMerge:"$(TargetPath)" /EntryPointAssembly:"$(TargetPath)" /AttachDebugger:true
+start /WAIT "jsc" "%25jsc%25" RewriteToPlatformAssembly /Output:"$(TargetPath).foo.exe" /AssemblyMerge:"$(TargetPath)" /EntryPointAssembly:"$(TargetPath)" /xAttachDebugger:true
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1287,6 +1287,11 @@ namespace jsc.meta.Commands.Rewrite
                         return;
                     }
 
+                    if (SourceType.IsPointer)
+                    {
+                        TypeCache[SourceType] = TypeCache[SourceType.GetElementType()].MakePointerType();
+                        return;
+                    }
 
                     if (SourceType.IsByRef)
                     {
