@@ -789,10 +789,15 @@ namespace jsc.meta.Library
         public static Assembly ToAssemblyOrAppDomainAssembly(this FileInfo f)
         {
             var AlreadyLoadedAssembly = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(k => !(k is AssemblyBuilder))
+                // see: http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/0e8c075b-1cf5-4aa1-bed2-e3b484057db0/
+
+                .Where(k => !(k is AssemblyBuilder) && k.GetType().Name != "InternalAssemblyBuilder")
                 .SingleOrDefault(k =>
 
                     // we will not be able to load multiple assamblies with the same name later...
+                    
+                    // The invoked member is not supported in a dynamic assembly.
+
                     new FileInfo(k.Location).Name == f.Name
                 );
 
