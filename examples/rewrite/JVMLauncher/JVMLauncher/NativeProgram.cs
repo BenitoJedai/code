@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
+using Microsoft.Win32;
 
 namespace JVMLauncher
 {
@@ -316,7 +317,7 @@ namespace JVMLauncher
     unsafe delegate int JNI_CreateJavaVM(JavaVM** pvm, JNIEnv** penv, IntPtr args);
 
 
-    unsafe static class NativeProgram
+    unsafe static class JVMLauncher
     {
         [DllImport("kernel32", EntryPoint = "LoadLibrary", SetLastError = true)]
         static extern IntPtr LoadLibrary(string lpFileName);
@@ -325,8 +326,27 @@ namespace JVMLauncher
         static extern IntPtr GetProcAddress(IntPtr hModule, String lpProcName);
 
 
+        public static void Invoke(string Target, string EntryPointTypeName, params string[] args)
+        {
+            var jre = RegistryKey.OpenBaseKey(
+                RegistryHive.LocalMachine,
+                RegistryView.Registry32
+            ).OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment");
 
-        public static void JVMMain(
+            var jvm = (string)jre.OpenSubKey((string)jre.GetValue("CurrentVersion")).GetValue("RuntimeLib");
+
+            var CLASS_PATH = @"-Djava.class.path=" + Path.GetFullPath(Target);
+
+
+            JVMLauncher.InternalInvoke(
+                RUNTIME_DLL: jvm,
+                CLASS_PATH: CLASS_PATH,
+                CLASS_NAME: EntryPointTypeName.Replace(".", "/"),
+                args: args
+            );
+        }
+
+        public static void InternalInvoke(
             string RUNTIME_DLL = @"C:\Program Files\Java\jdk1.6.0_24\jre\bin\client\jvm.dll",
             string CLASS_PATH = @"-Djava.class.path=Z:\jsc.svn\examples\java\CLRJVMConsole\CLRJVMConsole\bin\Debug\staging\web\bin\CLRJVMConsole.dll",
             string CLASS_NAME = "CLRJVMConsole/Program",
@@ -397,7 +417,7 @@ namespace JVMLauncher
                 CLASS_NAME
                 );
 
-            
+
             //(void*)Marshal.StringToHGlobalAnsi(CLASS_NAME));
 
 
@@ -459,7 +479,7 @@ namespace JVMLauncher
                 //Console.WriteLine("SetObjectArrayElement");
 
                 SetObjectArrayElement(env, jargs, i, (void*)value);
-                
+
             }
             ///* prefer to do this in a loop if args already in an array of char* */
             //SetObjectArrayElement(env, jargs, 1, (void*)NewStringUTF(env, "world"));
