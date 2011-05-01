@@ -969,7 +969,8 @@ namespace jsc.meta.Commands.Rewrite
 
                         var SourceTypeObfuscation = SourceType == null ? null : SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
 
-                        if (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers))
+                        if (!SourceType.IsEnum &&
+                            (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers)))
                             FieldName = NameObfuscation[FieldName];
 
 
