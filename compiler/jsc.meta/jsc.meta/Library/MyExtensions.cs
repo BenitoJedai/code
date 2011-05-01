@@ -795,7 +795,7 @@ namespace jsc.meta.Library
                 .SingleOrDefault(k =>
 
                     // we will not be able to load multiple assamblies with the same name later...
-                    
+
                     // The invoked member is not supported in a dynamic assembly.
 
                     new FileInfo(k.Location).Name == f.Name
@@ -803,6 +803,20 @@ namespace jsc.meta.Library
 
             if (AlreadyLoadedAssembly != null)
                 return AlreadyLoadedAssembly;
+
+
+            // for some reason CLR 4 will autoload a binary from
+            // the current path instead of reusing already loaded library.
+
+            var CLR_GetSignature_Favorite = Path.Combine(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                f.Name
+            );
+
+            // will this fix backfire?
+            if (File.Exists(CLR_GetSignature_Favorite))
+                return Assembly.LoadFile(CLR_GetSignature_Favorite);
+
 
             return Assembly.LoadFile(f.FullName);
         }

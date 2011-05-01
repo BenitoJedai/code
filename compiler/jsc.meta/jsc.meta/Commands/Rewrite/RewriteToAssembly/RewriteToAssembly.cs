@@ -1485,6 +1485,8 @@ namespace jsc.meta.Commands.Rewrite
             // we cannot be rewriting initialized data types...
             PrimaryTypes = PrimaryTypes.Where(k => !k.IsInitializedDataFieldType()).ToArray();
 
+            PrimaryTypes = PrimaryTypes.OrderBy(k => k.FullName != "jsx.reflector.ReflectorWindow").ToArray();
+
             Console.WriteLine("");
             Console.WriteLine("rewriting... primary types: " + PrimaryTypes.Length);
             Console.WriteLine("");

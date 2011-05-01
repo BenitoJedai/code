@@ -18,6 +18,7 @@ namespace jsc.meta.Loader
 
         static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            Console.WriteLine("CurrentDomain_AssemblyResolve: " + args.Name);
             // already loaded? we might be loading once too many times :)
             var a = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(
                 k => k.GetName().FullName == new AssemblyName(args.Name).FullName
@@ -36,12 +37,14 @@ namespace jsc.meta.Loader
                 var lib_dll = Path.Combine(item.FullName, r.Name + ".dll");
                 if (File.Exists(lib_dll))
                 {
+                    Console.WriteLine("LoaderStrategyImplementation: " + lib_dll);
                     return Assembly.LoadFile(lib_dll);
                 }
 
                 var lib_exe = Path.Combine(item.FullName, r.Name + ".exe");
                 if (File.Exists(lib_exe))
                 {
+                    Console.WriteLine("LoaderStrategyImplementation: " + lib_exe);
                     return Assembly.LoadFile(lib_exe);
                 }
             }
