@@ -85,6 +85,11 @@ namespace jsc.meta.Commands.Rewrite
             {
                 return this.name.GetHashCode();
             }
+
+            public override bool Equals(object obj)
+            {
+                return obj.GetHashCode() == this.GetHashCode();
+            }
         }
 
         public AssemblyMergeInstruction[] AssemblyMergeExtension = new AssemblyMergeInstruction[0];
@@ -269,5 +274,7 @@ namespace jsc.meta.Commands.Rewrite
         public bool DisableScriptImplementsDiscovery;
 
         public bool SetPlatformTo32Bit;
+
+        public Action AtPrimaryTypesSelected;
     }
 }
