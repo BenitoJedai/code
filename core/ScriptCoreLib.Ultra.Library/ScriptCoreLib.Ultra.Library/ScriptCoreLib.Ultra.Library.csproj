@@ -258,7 +258,9 @@
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlAppletType.cs" />
     <Compile Include="Ultra\Studio\StockTypes\StockUserControlType.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Java\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
