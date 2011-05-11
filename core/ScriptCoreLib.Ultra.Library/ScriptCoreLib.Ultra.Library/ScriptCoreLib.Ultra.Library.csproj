@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Amazon\EC2\AmazonEC2Client.cs" />
     <Compile Include="Amazon\EC2\Model\InstanceStateChange.cs" />
+    <Compile Include="Archive\JavaArchiveExtensions.cs" />
     <Compile Include="Archive\ZIPArchive.cs" />
     <Compile Include="Archive\ZIPArchiveFile.cs" />
     <Compile Include="Avalon\AffineTransform.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Library\ToTouchEvents.cs" />
     <Compile Include="Library\TrivialWebRequest.cs" />
     <Compile Include="Desktop\Compiler\ISWCNativeTypeBuilder.cs" />
+    <Compile Include="Library\VirtualDictionary.cs" />
     <Compile Include="Ultra\Documentation\CompilationArchiveBase.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssembly.cs" />
     <Compile Include="Ultra\Documentation\CompilationAssemblyBase.cs" />
