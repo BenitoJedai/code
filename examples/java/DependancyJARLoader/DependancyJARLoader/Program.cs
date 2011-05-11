@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Windows.Forms;
 using java.lang;
 using ScriptCoreLib.Java;
+using ScriptCoreLib.Archive.ZIP;
+using ScriptCoreLib.Archive;
 
 namespace DependancyJARLoader
 {
@@ -19,43 +21,7 @@ namespace DependancyJARLoader
             try
             {
 
-                Console.WriteLine("this code is running inside JVM 1");
-
-
-                var x = new FileInfo(@"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-ec2.jar");
-
-                Console.WriteLine(x.FullName);
-
-                var r = new JavaArchiveReflector(x);
-
-                Console.WriteLine("files: " + r.Count);
-
-                foreach (JavaArchiveReflector.Entry item in r)
-                {
-                    if (item.Type != null)
-                    {
-                        Console.WriteLine(".class " + item.TypeFullName);
-
-
-                        foreach (var m in item.Methods)
-                        {
-                            Console.WriteLine("  .method " + m.Name);
-
-                            Console.WriteLine("    .return " + m.ReturnType.FullName);
-
-                            foreach (var p in m.GetParameters())
-                            {
-                                Console.WriteLine("    .param " + p.ParameterType.FullName);
-                            }
-                        }
-
-                        Console.WriteLine("first class done!");
-
-                        break;
-                    }
-
-
-                }
+                InternalMain();
             }
             catch (csharp.ThrowableException u)
             {
@@ -66,6 +32,63 @@ namespace DependancyJARLoader
 
 
             CLRProgram.CLRMain();
+        }
+
+        private static void InternalMain()
+        {
+            Console.WriteLine("this code is running inside JVM 1");
+
+
+            var x = new FileInfo(@"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-ec2.jar");
+
+            Console.WriteLine(x.FullName);
+
+            var r = new JavaArchiveReflector(x);
+
+            r.JavaArchiveResolve +=
+                name =>
+                {
+                    var xx = CLRProgram.JavaArchiveResolve(r.FileNameString, name);
+
+                    if (null == xx)
+                        return null;
+
+                    return new FileInfo(xx);
+                };
+
+            ToConsole(r);
+        }
+
+        private static void ToConsole(JavaArchiveReflector r)
+        {
+            Console.WriteLine("files: " + r.Count);
+
+            foreach (JavaArchiveReflector.Entry item in r)
+            {
+                if (item.Type != null)
+                {
+                    Console.WriteLine(".class " + item.Type.AssemblyQualifiedName);
+
+
+                    foreach (var m in item.Methods)
+                    {
+                        Console.WriteLine("  .method " + m.Name);
+
+                        Console.WriteLine("    .return " + m.ReturnType.AssemblyQualifiedName);
+
+                        foreach (var p in m.GetParameters())
+                        {
+                            Console.WriteLine("    .param " + p.ParameterType.AssemblyQualifiedName);
+                        }
+                    }
+
+                    Console.WriteLine("first class done!");
+
+                    break;
+                }
+
+
+            }
         }
     }
 
@@ -87,5 +110,32 @@ namespace DependancyJARLoader
 
             Console.WriteLine("done!");
         }
+
+        public static string JavaArchiveResolve(string context, string name)
+        {
+            var list = Directory.GetFiles(Path.GetDirectoryName(context), "*.jar");
+
+            var r = name.Replace(".", "/") + ".class";
+
+            foreach (var item in list)
+            {
+                Console.WriteLine(".jar " + Path.GetFileNameWithoutExtension(item));
+
+                var zip = ZIPArchive.GetFiles(item);
+
+                var u = zip.FirstOrDefault(k => k.Name == r);
+
+                if (u != null)
+                    return item;
+            }
+
+            //MessageBox.Show("@ JavaArchiveResolve: " + name);
+
+            //if (name == "com.amazonaws.AmazonWebServiceRequest")
+            //    return @"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-core.jar";
+
+            return null;
+        }
+
     }
 }
