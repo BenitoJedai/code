@@ -26,6 +26,17 @@ namespace ScriptCoreLibJava.BCLImplementation.System.IO
             return path.Substring(0, i + 1);
         }
 
+        public static string GetFileNameWithoutExtension(string path)
+        {
+            var x = GetFileName(path);
+            var i = x.LastIndexOf(".");
+
+            if (i < 0)
+                return x;
+
+            return x.Substring(0, i);
+        }
+
         public static string GetExtension(string path)
         {
             var p = path.Replace("/", "\\");

@@ -26,7 +26,7 @@ namespace ScriptCoreLib.Java
 
         protected override Class findClass(string name)
         {
-            Console.WriteLine("findClass: " + name);
+            //Console.WriteLine("findClass: " + name);
 
             var c = default(Class);
 
@@ -36,9 +36,9 @@ namespace ScriptCoreLib.Java
             }
             catch (csharp.ThrowableException ex)
             {
-                Console.WriteLine("error: " + ex);
+                //Console.WriteLine("error: " + ex);
 
-                c = findClass_catch(name, c);
+                c = findClass_catch(name);
             }
 
             return c;
@@ -46,38 +46,40 @@ namespace ScriptCoreLib.Java
 
         public ScriptCoreLib.Java.JavaArchiveReflector.JavaArchiveResolveHandler Resolve;
 
-        private Class findClass_catch(string name, Class c)
+        private Class findClass_catch(string name)
         {
             var f = Resolve(name);
+            var c = default(Class);
 
-            if (name == "com.amazonaws.AmazonWebServiceRequest")
+            //if (name == "com.amazonaws.AmazonWebServiceRequest")
+            if (f == null)
+                throw new InvalidOperationException();
+
+
+            //var x = @"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-core.jar";
+            var x = f.FullName;
+
+            //Console.WriteLine("will look into: " + x);
+
+            try
             {
-                var x = @"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-core.jar";
-
-                Console.WriteLine("will look into: " + x);
-
-                try
-                {
-                    var url = new java.io.File(x).toURL();
-                    this.addURL(url);
-                }
-                catch
-                {
-                    throw new InvalidOperationException();
-                }
-
-                c = __findClass(name);
+                var url = new java.io.File(x).toURL();
+                this.addURL(url);
             }
-            else
+            catch
             {
                 throw new InvalidOperationException();
             }
+
+            c = __findClass(name);
+
+
             return c;
         }
 
         protected Class __findClass(string name)
         {
-            Console.WriteLine("__findClass: " + name);
+            //Console.WriteLine("__findClass: " + name);
 
             var c = default(Class);
 
@@ -179,6 +181,16 @@ namespace ScriptCoreLib.Java
                 throw new InvalidOperationException();
             }
 
+            clazzLoader.Resolve =
+                name =>
+                {
+                    var f = default(FileInfo);
+
+                    if (this.JavaArchiveResolve != null)
+                        f = this.JavaArchiveResolve(name);
+
+                    return f;
+                };
 
             #region GetDynamicEnumerator
             this.GetDynamicEnumerator = () =>

@@ -71,41 +71,7 @@ namespace ScriptCoreLibJava.BCLImplementation.ScriptCoreLibA.Shared
                     {
                         var cls = typeof(Func).ToClass();
 
-                        ProtectionDomain pDomain = cls.getProtectionDomain();
-                        CodeSource cSource = pDomain.getCodeSource();
-                        URL loc = cSource.getLocation();
-
-
-                        var ff = loc.getFile();
-
-                        {
-                            var prefix = "file:/";
-
-                            if (prefix == ff.Substring(0, prefix.Length))
-                                ff = ff.Substring(prefix.Length);
-                        }
-
-                        // sometimes the prefix is shorter?
-                        {
-                            var prefix = "file:";
-
-                            if (prefix == ff.Substring(0, prefix.Length))
-                                ff = ff.Substring(prefix.Length);
-                        }
-
-
-                        // those jar loaders are adding !/ to the end?
-
-                        {
-                            var suffix = ff.IndexOf("!");
-
-                            if (suffix > 0)
-                                ff = ff.Substring(0, suffix);
-                        }
-
-                        //global::System.Console.WriteLine("ff: " + ff);
-
-                        ExportDirectory = new FileInfo(ff).FullName;
+                        ExportDirectory = ScriptCoreLibJava.Extensions.BCLImplementationExtensions.GetDeclaringFile(cls).FullName;
 
                         //Console.WriteLine("ExportDirectory: " + ExportDirectory);
 
