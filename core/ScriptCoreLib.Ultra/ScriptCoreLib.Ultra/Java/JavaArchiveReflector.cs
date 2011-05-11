@@ -12,21 +12,105 @@ using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLibJava.Extensions;
+using java.lang;
 
 namespace ScriptCoreLib.Java
 {
+    class InternalURLClassLoader : URLClassLoader
+    {
+        public InternalURLClassLoader(URL[] u)
+            : base(u)
+        {
+
+        }
+
+        protected override Class findClass(string name)
+        {
+            Console.WriteLine("findClass: " + name);
+
+            var c = default(Class);
+
+            try
+            {
+                c = base.findClass(name);
+            }
+            catch (csharp.ThrowableException ex)
+            {
+                Console.WriteLine("error: " + ex);
+
+                c = findClass_catch(name, c);
+            }
+
+            return c;
+        }
+
+        public ScriptCoreLib.Java.JavaArchiveReflector.JavaArchiveResolveHandler Resolve;
+
+        private Class findClass_catch(string name, Class c)
+        {
+            var f = Resolve(name);
+
+            if (name == "com.amazonaws.AmazonWebServiceRequest")
+            {
+                var x = @"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-core.jar";
+
+                Console.WriteLine("will look into: " + x);
+
+                try
+                {
+                    var url = new java.io.File(x).toURL();
+                    this.addURL(url);
+                }
+                catch
+                {
+                    throw new InvalidOperationException();
+                }
+
+                c = __findClass(name);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+            return c;
+        }
+
+        protected Class __findClass(string name)
+        {
+            Console.WriteLine("__findClass: " + name);
+
+            var c = default(Class);
+
+            try
+            {
+                c = base.findClass(name);
+            }
+            catch (csharp.ThrowableException ex)
+            {
+
+                Console.WriteLine("__findClass error: " + ex);
+                throw new InvalidOperationException();
+            }
+
+            return c;
+        }
+
+    }
+
     public partial class JavaArchiveReflector : IEnumerable, IJavaArchiveReflector
     {
         public delegate Type GetType();
 
-   
+
         public delegate DynamicEnumerator GetDynamicEnumeratorFunc();
         GetDynamicEnumeratorFunc GetDynamicEnumerator;
 
         public delegate Entry GetNextEntry();
 
+        public delegate FileInfo JavaArchiveResolveHandler(string name);
 
 
+        #region DynamicEnumerator
         public class DynamicEnumerator : IEnumerator
         {
             public object Current
@@ -62,31 +146,41 @@ namespace ScriptCoreLib.Java
                 throw new NotImplementedException();
             }
         }
+        #endregion
 
+        public event JavaArchiveResolveHandler JavaArchiveResolve;
 
         public JavaArchiveReflector(FileInfo jar)
         {
             this.FileName = jar;
 
-            var clazzLoader = default(URLClassLoader);
+            var clazzLoader = default(InternalURLClassLoader);
 
             try
             {
                 //var filePath = "jar:file://" + jar.FullName + "!/";
-                var filePath = jar.FullName;
-                var url = new java.io.File(filePath).toURL();
 
-                Console.WriteLine("JavaArchiveReflector url: " + url);
+                // http://download.oracle.com/javase/1.4.2/docs/api/java/io/File.html
+                // file:///C:/util/aws-android-sdk-0.2.0/lib/aws-android-sdk-0.2.0-ec2.jar
 
-                clazzLoader = new URLClassLoader(new URL[] { url });
+                // error @URLClassLoader: java.net.MalformedURLException: unknown protocol: c
+                var url = new java.io.File(jar.FullName).toURL();
+
+                // http://www.javakb.com/Uwe/Forum.aspx/java-programmer/34778/URLClassLoader-ClassNotFoundException
+                // http://www.chinaup.org/docs/reference/java/net/URLClassLoader.html
+                // http://www.docjar.com/html/api/sun/applet/AppletClassLoader.java.html
+
+                clazzLoader = new InternalURLClassLoader(new URL[] { url });
+
             }
-            catch
+            catch (csharp.ThrowableException ex)
             {
-                Console.WriteLine("error @URLClassLoader");
+                Console.WriteLine("error @URLClassLoader: " + ex);
+                throw new InvalidOperationException();
             }
 
 
-
+            #region GetDynamicEnumerator
             this.GetDynamicEnumerator = () =>
             {
 
@@ -99,6 +193,7 @@ namespace ScriptCoreLib.Java
                 catch
                 {
                     Console.WriteLine("error @ ZipInputStream");
+                    throw new InvalidOperationException();
                 }
 
                 return (GetNextEntry)
@@ -155,6 +250,8 @@ namespace ScriptCoreLib.Java
                         return n;
                     };
             };
+            #endregion
+
         }
 
         public IEnumerator GetEnumerator()

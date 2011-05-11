@@ -64,6 +64,7 @@ namespace MultitouchFingerTools
 
 - Javascript version for Firefox4 via jsc
 - Tested with 4 touch points on Dell Latitude XT
+- Galaxy S/ Galaxy Tab within browser have only 1 touchpoint
 "
 
 

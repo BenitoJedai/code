@@ -53,7 +53,7 @@ namespace java.lang
         /// <summary>
         /// Finds the specified class.
         /// </summary>
-        protected Class findClass(string name)
+        protected virtual Class findClass(string name)
         {
             return default(Class);
         }
