@@ -46,10 +46,23 @@ namespace ScriptCoreLib.Java
         string Type_GetBaseTypeFullName(string TypeName);
         string Type_GetAssemblyFullName(string TypeName);
         string Type_GetAssemblyLocation(string TypeName);
+
+        bool Type_IsInterface(string TypeName);
     }
 
     partial class JavaArchiveReflector
     {
+        public bool Type_IsInterface(string TypeName)
+        {
+            var i = IndexOf(TypeName);
+
+            if (i < 0)
+                return false;
+
+            return this.Entries[i].Type.IsInterface;
+        }
+
+
         public string Type_GetAssemblyLocation(string TypeName)
         {
             var i = IndexOf(TypeName);
