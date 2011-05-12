@@ -38,13 +38,81 @@ namespace ScriptCoreLib.Java
         int Method_GetParameterCount(int TypeIndex, int MethodIndex);
 
         string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition);
+        
+        string Field_GetFieldTypeFullName(string TypeName, string FieldName);
+
+        int IndexOfType(string TypeName);
+
+        string Type_GetBaseTypeFullName(string TypeName);
+        string Type_GetAssemblyFullName(string TypeName);
+        string Type_GetAssemblyLocation(string TypeName);
     }
 
     partial class JavaArchiveReflector
     {
+        public string Type_GetAssemblyLocation(string TypeName)
+        {
+            var i = IndexOf(TypeName);
+
+            if (i < 0)
+                return null;
+
+            return this.Entries[i].Type.Assembly.Location;
+        }
+
+        public string Type_GetAssemblyFullName(string TypeName)
+        {
+            var i = IndexOf(TypeName);
+
+            if (i < 0)
+                return null;
+
+
+            return this.Entries[i].Type.Assembly.FullName;
+        }
+
+        public string Type_GetBaseTypeFullName(string TypeName)
+        {
+            var BaseType = this.Entries[IndexOf(TypeName)].Type.BaseType;
+
+            if (BaseType == null)
+                return null;
+
+            return BaseType.FullName;
+        }
+
+        public string Field_GetFieldTypeFullName(string TypeName, string FieldName)
+        {
+            return this.Entries[IndexOf(TypeName)].Type.GetField(FieldName).FieldType.FullName;
+        }
+
+        public int IndexOfType(string TypeName)
+        {
+            var i = -1;
+
+            // JSC for Java does not yet support generics nor linq 
+            //foreach (var SourceTypeIndex in Enumerable.Range(0, Count))
+
+            for (int SourceTypeIndex = 0; SourceTypeIndex < Count; SourceTypeIndex++)
+            {
+                if (this.IsType(SourceTypeIndex))
+                {
+                    var SourceTypeFullName = this.GetTypeFullName(SourceTypeIndex);
+
+                    if (TypeName == SourceTypeFullName)
+                    {
+                        i = SourceTypeIndex;
+                        break;
+                    }
+                }
+            }
+
+            return i;
+        }
+
         public bool IsType(int TypeIndex)
         {
-            return !string.IsNullOrEmpty(this.Entries[TypeIndex].TypeFullName); 
+            return !string.IsNullOrEmpty(this.Entries[TypeIndex].TypeFullName);
         }
 
         public int GetFieldCount(int TypeIndex)
