@@ -44,28 +44,28 @@ namespace ScriptCoreLib.Java
         bool Type_IsArray(string TypeName);
         string Type_GetElementType(string TypeName);
 
-        __FieldInfo[] Type_GetFields(string TypeName);
-        __Constructor[] Type_GetConstructors(string TypeName);
+        JavaArchiveReflectorFieldInfo[] Type_GetFields(string TypeName);
+        JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName);
     }
 
-    public class __FieldInfo
+    public class JavaArchiveReflectorFieldInfo
     {
         public string FieldName;
         public string FieldType;
 
 
-        public __FieldInfo()
+        public JavaArchiveReflectorFieldInfo()
         {
 
         }
     }
 
-    public class __Constructor
+    public class JavaArchiveReflectorConstructor
     {
         public int ConstructorIndex;
         public string[] ParameterTypes;
 
-        public __Constructor()
+        public JavaArchiveReflectorConstructor()
         {
 
         }
@@ -73,16 +73,16 @@ namespace ScriptCoreLib.Java
 
     partial class JavaArchiveReflector
     {
-        public __Constructor[] Type_GetConstructors(string TypeName)
+        public JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName)
         {
             var t = this.clazzLoader.GetType(TypeName);
             var f = t.GetConstructors(); // what about protected members?
 
-            var y = new __Constructor[f.Length];
+            var y = new JavaArchiveReflectorConstructor[f.Length];
 
             for (int i = 0; i < f.Length; i++)
             {
-                y[i] = new __Constructor
+                y[i] = new JavaArchiveReflectorConstructor
                 {
                     ConstructorIndex = i,
 
@@ -93,16 +93,16 @@ namespace ScriptCoreLib.Java
             return y;
         }
 
-        public __FieldInfo[] Type_GetFields(string TypeName)
+        public JavaArchiveReflectorFieldInfo[] Type_GetFields(string TypeName)
         {
             var t = this.clazzLoader.GetType(TypeName);
             var f = t.GetFields(); // what about protected members?
 
-            var y = new __FieldInfo[f.Length];
+            var y = new JavaArchiveReflectorFieldInfo[f.Length];
 
             for (int i = 0; i < f.Length; i++)
             {
-                y[i] = new __FieldInfo
+                y[i] = new JavaArchiveReflectorFieldInfo
                 {
                     FieldName = f[i].Name,
                     FieldType = f[i].FieldType.FullName
