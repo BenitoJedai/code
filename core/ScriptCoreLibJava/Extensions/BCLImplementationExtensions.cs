@@ -67,8 +67,8 @@ namespace ScriptCoreLibJava.Extensions
 
 
 
-
-            var ff = loc.getFile();
+            // spaces are urlencoded?
+            var ff = loc.getFile().Replace("%20", " ");
 
             {
                 var prefix = "file:/";

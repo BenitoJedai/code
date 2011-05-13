@@ -592,6 +592,7 @@
     <Compile Include="java\io\StringReader.cs" />
     <Compile Include="java\io\StringWriter.cs" />
     <Compile Include="java\lang\Character.cs" />
+    <Compile Include="java\lang\Comparable.cs" />
     <Compile Include="java\lang\Number.cs" />
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
     <Compile Include="java\lang\reflect\InvocationTargetException.cs" />

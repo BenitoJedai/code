@@ -32,6 +32,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 		}
 
 
+        public __XAttribute()
+        {
+        }
+
 		public __XAttribute(XName name, object value)
 		{
 			this.Name = name;
