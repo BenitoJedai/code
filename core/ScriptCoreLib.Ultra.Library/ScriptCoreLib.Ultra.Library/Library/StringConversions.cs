@@ -7,15 +7,68 @@ using System.IO;
 
 namespace ScriptCoreLib.Library
 {
-    public static class StringConversions
+    public static partial class StringConversions
     {
+        #region code template
+        public class __ElementType
+        {
+            public static __ElementType FromString(string e)
+            {
+                throw new NotSupportedException();
+            }
+
+            public static string ToString(__ElementType e)
+            {
+                throw new NotSupportedException();
+            }
+
+            public static string ConvertElementTypeArrayToString(__ElementType[] e)
+            {
+                if (e == null)
+                    return null;
+
+                var xml = new XElement("array");
+
+                var Length = e.Length;
+
+                xml.Add(new XAttribute("c", "" + Length));
+
+                for (int i = 0; i < Length; i++)
+                {
+                    xml.Add(new XElement("i" + i, ToString(e[i])));
+                }
+
+                return ConvertXElementToString(xml);
+            }
+
+            public static __ElementType[] ConvertStringToElementTypeArray(string e)
+            {
+                if (string.IsNullOrEmpty(e))
+                    return null;
+
+                var xml = ConvertStringToXElement(e);
+
+                var Length = int.Parse(xml.Attribute("c").Value);
+
+                var y = new __ElementType[Length];
+
+                for (int i = 0; i < Length; i++)
+                {
+                    y[i] = FromString(xml.Element("i" + i).Value);
+                }
+
+                return y;
+            }
+        }
+        #endregion
+
         #region string[]
         public static string ConvertStringArrayToString(string[] e)
         {
             if (e == null)
                 return null;
 
-            var xml = new XElement("string");
+            var xml = new XElement("array");
 
             var Length = e.Length;
 
@@ -50,40 +103,6 @@ namespace ScriptCoreLib.Library
         }
         #endregion
 
-        #region XElement
-        public static string ConvertXElementToString(XElement e)
-        {
-            if (e == null)
-                return null;
-
-            return e.ToString();
-        }
-
-        public static XElement ConvertStringToXElement(string e)
-        {
-            if (string.IsNullOrEmpty(e))
-                return null;
-
-            return XElement.Parse(e);
-        }
-        #endregion
-
-        #region FileInfo
-        public static string ConvertFileInfoToString(FileInfo e)
-        {
-            if (e == null)
-                return null;
-
-            return e.FullName;
-        }
-
-        public static FileInfo ConvertStringToFileInfo(string e)
-        {
-            if (string.IsNullOrEmpty(e))
-                return null;
-
-            return new FileInfo(e);
-        }
-        #endregion
+      
     }
 }
