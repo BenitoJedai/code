@@ -20,7 +20,10 @@ namespace ScriptCoreLib.Java
     {
         string FileNameString { get; }
 
+        string[] PrimaryTypes { get; }
+
         int Count { get; }
+
 
         bool IsType(int TypeIndex);
 
@@ -35,9 +38,8 @@ namespace ScriptCoreLib.Java
         string GetMethodName(int TypeIndex, int MethodIndex);
 
         bool Method_IsStatic(int TypeIndex, int MethodIndex);
-
+        bool Method_IsPublic(int TypeIndex, int MethodIndex);
         int Method_GetParameterCount(int TypeIndex, int MethodIndex);
-
         string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition);
 
         string Field_GetFieldTypeFullName(string TypeName, string FieldName);
@@ -47,9 +49,7 @@ namespace ScriptCoreLib.Java
         string Type_GetBaseTypeFullName(string TypeName);
         string Type_GetAssemblyFullName(string TypeName);
         string Type_GetAssemblyLocation(string TypeName);
-
         bool Type_IsInterface(string TypeName);
-
         string[] Type_GetInterfaces(string TypeName);
         bool Type_IsArray(string TypeName);
         string Type_GetElementType(string TypeName);
@@ -57,7 +57,22 @@ namespace ScriptCoreLib.Java
 
     partial class JavaArchiveReflector
     {
-  
+        public string[] PrimaryTypes
+        {
+            get
+            {
+                var a = new ArrayList();
+
+                for (int i = 0; i < this.Count; i++)
+                {
+                    if (this.IsType(i))
+                        a.Add(this.Entries[i].Type.FullName);
+                }
+
+                return (string[])a.ToArray(typeof(string));
+            }
+        }
+
         public bool Type_IsArray(string TypeName)
         {
             return this.clazzLoader.GetType(TypeName).IsArray;
@@ -189,6 +204,12 @@ namespace ScriptCoreLib.Java
             return this.Entries[TypeIndex].Methods[MethodIndex].IsStatic;
         }
 
+        public bool Method_IsPublic(int TypeIndex, int MethodIndex)
+        {
+            // we should use the attributes instead?
+            return this.Entries[TypeIndex].Methods[MethodIndex].IsPublic;
+        }
+
         public int Method_GetParameterCount(int TypeIndex, int MethodIndex)
         {
             return this.Entries[TypeIndex].Methods[MethodIndex].GetParameters().Length;
@@ -196,7 +217,12 @@ namespace ScriptCoreLib.Java
 
         public string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition)
         {
-            return this.Entries[TypeIndex].Methods[MethodIndex].GetParameters()[ParameterPosition].ParameterType.FullName;
+            var m = this.Entries[TypeIndex].Methods[MethodIndex];
+
+            if (ParameterPosition < 0)
+                return m.ReturnType.FullName;
+
+            return m.GetParameters()[ParameterPosition].ParameterType.FullName;
         }
     }
 }

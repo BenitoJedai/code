@@ -10,7 +10,10 @@ namespace ScriptCoreLib.Archive
     {
         public static string ResolveJavaArchiveLoadRequest(string context, string name)
         {
-            var list = Directory.GetFiles(Path.GetDirectoryName(context), "*.jar");
+            var ContextPath = Path.GetDirectoryName(context);
+            var WiderContextPath = Directory.GetParent(ContextPath).FullName;
+
+            var list = Directory.GetFiles(WiderContextPath, "*.jar", SearchOption.AllDirectories).OrderByDescending(k => Path.GetDirectoryName(k) == ContextPath);
 
             var r = name.Replace(".", "/") + ".class";
 
