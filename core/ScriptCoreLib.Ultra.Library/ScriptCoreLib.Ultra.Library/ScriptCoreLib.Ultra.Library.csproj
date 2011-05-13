@@ -96,6 +96,7 @@
     <Compile Include="Extensions\IOGenericExtensions.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Extensions\MarshalExtensions.cs" />
+    <Compile Include="Extensions\MethodBaseExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Extensions\TouchExtensions.cs" />

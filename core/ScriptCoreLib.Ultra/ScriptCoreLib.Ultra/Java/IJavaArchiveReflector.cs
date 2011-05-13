@@ -22,16 +22,6 @@ namespace ScriptCoreLib.Java
 
         string[] PrimaryTypes { get; }
 
-        int Count { get; }
-
-
-        bool IsType(int TypeIndex);
-
-        string GetTypeFullName(int index);
-
-        int GetFieldCount(int TypeIndex);
-
-        string GetFieldName(int TypeIndex, int MemberIndex);
 
         int GetMethodCount(int TypeIndex);
 
@@ -53,10 +43,75 @@ namespace ScriptCoreLib.Java
         string[] Type_GetInterfaces(string TypeName);
         bool Type_IsArray(string TypeName);
         string Type_GetElementType(string TypeName);
+
+        __FieldInfo[] Type_GetFields(string TypeName);
+        __Constructor[] Type_GetConstructors(string TypeName);
+    }
+
+    public class __FieldInfo
+    {
+        public string FieldName;
+        public string FieldType;
+
+
+        public __FieldInfo()
+        {
+
+        }
+    }
+
+    public class __Constructor
+    {
+        public int ConstructorIndex;
+        public string[] ParameterTypes;
+
+        public __Constructor()
+        {
+
+        }
     }
 
     partial class JavaArchiveReflector
     {
+        public __Constructor[] Type_GetConstructors(string TypeName)
+        {
+            var t = this.clazzLoader.GetType(TypeName);
+            var f = t.GetConstructors(); // what about protected members?
+
+            var y = new __Constructor[f.Length];
+
+            for (int i = 0; i < f.Length; i++)
+            {
+                y[i] = new __Constructor
+                {
+                    ConstructorIndex = i,
+
+                    ParameterTypes = f[i].GetParameterTypeFullNames()
+                };
+            }
+
+            return y;
+        }
+
+        public __FieldInfo[] Type_GetFields(string TypeName)
+        {
+            var t = this.clazzLoader.GetType(TypeName);
+            var f = t.GetFields(); // what about protected members?
+
+            var y = new __FieldInfo[f.Length];
+
+            for (int i = 0; i < f.Length; i++)
+            {
+                y[i] = new __FieldInfo
+                {
+                    FieldName = f[i].Name,
+                    FieldType = f[i].FieldType.FullName
+                };
+            }
+
+            return y;
+        }
+
         public string[] PrimaryTypes
         {
             get
@@ -177,15 +232,15 @@ namespace ScriptCoreLib.Java
             return !string.IsNullOrEmpty(this.Entries[TypeIndex].TypeFullName);
         }
 
-        public int GetFieldCount(int TypeIndex)
-        {
-            return this.Entries[TypeIndex].Fields.Length;
-        }
+        //public int GetFieldCount(int TypeIndex)
+        //{
+        //    return this.Entries[TypeIndex].Fields.Length;
+        //}
 
-        public string GetFieldName(int TypeIndex, int MemberIndex)
-        {
-            return this.Entries[TypeIndex].Fields[MemberIndex].Name;
-        }
+        //public string GetFieldName(int TypeIndex, int MemberIndex)
+        //{
+        //    return this.Entries[TypeIndex].Fields[MemberIndex].Name;
+        //}
 
 
         public int GetMethodCount(int TypeIndex)
