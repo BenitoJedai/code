@@ -16,7 +16,7 @@ using java.lang;
 
 namespace ScriptCoreLib.Java
 {
-    class InternalURLClassLoader : URLClassLoader
+    public class InternalURLClassLoader : URLClassLoader
     {
         public InternalURLClassLoader(URL[] u)
             : base(u)
@@ -152,11 +152,15 @@ namespace ScriptCoreLib.Java
 
         public event JavaArchiveResolveHandler JavaArchiveResolve;
 
+
+        // readonly private ? :) javac would fail.. could jsc do the smart thing here?
+        public InternalURLClassLoader clazzLoader;
+
         public JavaArchiveReflector(FileInfo jar)
         {
             this.FileName = jar;
 
-            var clazzLoader = default(InternalURLClassLoader);
+            this.clazzLoader = default(InternalURLClassLoader);
 
             try
             {

@@ -11,6 +11,7 @@ using java.util.zip;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Java.Extensions;
 using ScriptCoreLibJava.Extensions;
 
 namespace ScriptCoreLib.Java
@@ -38,7 +39,7 @@ namespace ScriptCoreLib.Java
         int Method_GetParameterCount(int TypeIndex, int MethodIndex);
 
         string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition);
-        
+
         string Field_GetFieldTypeFullName(string TypeName, string FieldName);
 
         int IndexOfType(string TypeName);
@@ -48,10 +49,43 @@ namespace ScriptCoreLib.Java
         string Type_GetAssemblyLocation(string TypeName);
 
         bool Type_IsInterface(string TypeName);
+
+        string[] Type_GetInterfaces(string TypeName);
+        bool Type_IsArray(string TypeName);
+        string Type_GetElementType(string TypeName);
     }
 
     partial class JavaArchiveReflector
     {
+  
+        public bool Type_IsArray(string TypeName)
+        {
+            return this.clazzLoader.GetType(TypeName).IsArray;
+        }
+
+        public string Type_GetElementType(string TypeName)
+        {
+            return this.clazzLoader.GetType(TypeName).GetElementType().FullName;
+        }
+
+        public string[] Type_GetInterfaces(string TypeName)
+        {
+            var i = IndexOf(TypeName);
+
+            if (i < 0)
+                return new string[0];
+
+            var x = this.Entries[i].Type.GetInterfaces();
+            var y = new string[x.Length];
+
+            for (int j = 0; j < x.Length; j++)
+            {
+                y[j] = x[j].FullName;
+            }
+
+            return y;
+        }
+
         public bool Type_IsInterface(string TypeName)
         {
             var i = IndexOf(TypeName);

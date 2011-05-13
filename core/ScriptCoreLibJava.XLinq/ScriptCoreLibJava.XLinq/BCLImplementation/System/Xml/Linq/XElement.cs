@@ -7,69 +7,69 @@ using System.Xml.Linq;
 
 namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
 {
-	[Script(Implements = typeof(global::System.Xml.Linq.XElement))]
-	internal class __XElement : __XContainer
-	{
+    [Script(Implements = typeof(global::System.Xml.Linq.XElement))]
+    internal class __XElement : __XContainer
+    {
 
-		public __XElement()
-			: this(null)
-		{
-		}
+        public __XElement()
+            : this(null)
+        {
+        }
 
-		public __XElement(XName name)
-		{
-			InternalElementName = (__XName)(object)name;
-		}
+        public __XElement(XName name)
+        {
+            InternalElementName = (__XName)(object)name;
+        }
 
-		public __XElement(XName name, object item)
-		{
-			InternalElementName = (__XName)(object)name;
-			this.Add(item);
-		}
+        public __XElement(XName name, object item)
+        {
+            InternalElementName = (__XName)(object)name;
+            this.Add(item);
+        }
 
-		public __XElement(XName name, params object[] c)
-		{
-			InternalElementName = (__XName)(object)name;
-			foreach (var item in c)
-			{
-				this.Add(item);
-			}
-		}
+        public __XElement(XName name, params object[] c)
+        {
+            InternalElementName = (__XName)(object)name;
+            foreach (var item in c)
+            {
+                this.Add(item);
+            }
+        }
 
 
 
-		public static XElement Parse(string text)
-		{
-			return __XDocument.Parse(text).Root;
-		}
+        public static XElement Parse(string text)
+        {
+            return __XDocument.Parse(text).Root;
+        }
 
-		public string Value
-		{
-			get
-			{
-				var w = new StringBuilder();
+        public string Value
+        {
+            get
+            {
+                var w = new StringBuilder();
 
-				var f = this.InternalElement.getFirstChild();
+                var f = this.InternalElement.getFirstChild();
 
                 if (f == null)
                     return null;
 
-				// http://faq.javaranch.com/java/GetNodeValue
-				// http://java.sun.com/j2se/1.4.2/docs/api/constant-values.html#org.w3c.dom.Node.TEXT_NODE
-				if (f.getNodeType() == 3)
-				{
-					w.Append(f.getNodeValue());
-				}
+                // http://faq.javaranch.com/java/GetNodeValue
+                // http://java.sun.com/j2se/1.4.2/docs/api/constant-values.html#org.w3c.dom.Node.TEXT_NODE
+                if (f.getNodeType() == 3)
+                {
+                    w.Append(f.getNodeValue());
+                }
 
-				return w.ToString();
-			}
-			set
-			{
+                return w.ToString();
+            }
+            set
+            {
                 this.InternalEnsureElement();
-				this.RemoveNodes();
-				this.Add(value);
-			}
-		}
+                this.RemoveNodes();
+                this.Add(value);
+            }
+        }
 
         public void ReplaceAll(object content)
         {
@@ -77,5 +77,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Xml.Linq
             this.RemoveNodes();
             this.Add(content);
         }
-	}
+
+
+        public XAttribute Attribute(XName name)
+        {
+            if (this.InternalElement.hasAttribute(name.LocalName))
+                return new __XAttribute { InternalElement = this, Name = name };
+
+            return null;
+        }
+    }
 }
