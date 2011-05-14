@@ -31,6 +31,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
     {
         public __RuntimeException() { }
         public __RuntimeException(string e) { }
+        public __RuntimeException(string e, global::System.Exception cause) { }
 
     }
 

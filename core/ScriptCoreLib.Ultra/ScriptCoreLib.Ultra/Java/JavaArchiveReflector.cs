@@ -18,12 +18,43 @@ namespace ScriptCoreLib.Java
 {
     public class InternalURLClassLoader : URLClassLoader
     {
-        public InternalURLClassLoader(URL[] u)
-            : base(u)
+        // one of the jobs of any class loader is to protect the system name space.
+        // The normal ClassLoader heirarchy does address this by always delegating to the parent ClassLoader first,
+        // thus ensuring that duplicate classes are not loaded
+
+        // If you use custom ClassLoader, do not give the system one a chance to come into play.
+        // http://blog.cyberborean.org/2007/07/04/custom-classloaders-the-black-art-of-java
+
+        public InternalURLClassLoader(URL[] u, ClassLoader parent)
+            : base(u, parent)
         {
 
         }
 
+
+        protected override Class loadClass(string name, bool resolve)
+        {
+            Console.WriteLine(".loadClass: " + name);
+
+            var c = default(Class);
+
+            try
+            {
+                c = base.loadClass(name, resolve);
+            }
+            catch
+            {
+                throw;
+            }
+
+            Console.WriteLine(c.GetDeclaringFile());
+
+            return c;
+        }
+
+
+
+        #region findClass
         protected override Class findClass(string name)
         {
             //Console.WriteLine("findClass: " + name);
@@ -96,6 +127,8 @@ namespace ScriptCoreLib.Java
 
             return c;
         }
+        #endregion
+
 
     }
 
@@ -176,7 +209,11 @@ namespace ScriptCoreLib.Java
                 // http://www.chinaup.org/docs/reference/java/net/URLClassLoader.html
                 // http://www.docjar.com/html/api/sun/applet/AppletClassLoader.java.html
 
-                clazzLoader = new InternalURLClassLoader(new URL[] { url });
+
+                // http://www.docjar.com/html/api/java/net/URLClassLoader.java.html
+                // http://www.docjar.com/html/api/java/security/SecureClassLoader.java.html
+
+                clazzLoader = new InternalURLClassLoader(new URL[] { url }, null);
 
             }
             catch (csharp.ThrowableException ex)
@@ -185,6 +222,7 @@ namespace ScriptCoreLib.Java
                 throw new InvalidOperationException();
             }
 
+            #region Resolve
             clazzLoader.Resolve =
                 name =>
                 {
@@ -195,6 +233,10 @@ namespace ScriptCoreLib.Java
 
                     return f;
                 };
+            #endregion
+
+
+
 
             #region GetDynamicEnumerator
             this.GetDynamicEnumerator = () =>
@@ -250,6 +292,8 @@ namespace ScriptCoreLib.Java
 
                                     try
                                     {
+                                        Console.WriteLine(".deprecated loadClass: " + n.TypeFullName);
+
                                         c = clazzLoader.loadClass(n.TypeFullName);
                                     }
                                     catch (csharp.ThrowableException cc)
@@ -267,6 +311,15 @@ namespace ScriptCoreLib.Java
                     };
             };
             #endregion
+
+        }
+
+        public void LoadTypes()
+        {
+            // http://www.artima.com/insidejvm/ed2/linkmod5.html
+            // http://www.artima.com/javaseminars/modules/DynaExt/index.html
+            // http://www.javaworld.com/javaworld/jw-10-1996/jw-10-indepth.html
+            // http://www.javaworld.com/javaworld/jw-10-1996/indepth/indepth.src.html
 
         }
 

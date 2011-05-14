@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Java.Extensions
 {
     public static class ClassLoaderExtensions
     {
-        public static Type GetType(this ClassLoader loader, string TypeFullName)
+        public static Type GetType(this InternalURLClassLoader loader, string TypeFullName)
         {
             var c = default(Class);
 

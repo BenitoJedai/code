@@ -169,12 +169,7 @@ namespace ScriptCoreLib.Java
 
         public string Type_GetAssemblyLocation(string TypeName)
         {
-            var i = IndexOf(TypeName);
-
-            if (i < 0)
-                return null;
-
-            return this.Entries[i].Type.Assembly.Location;
+            return this.clazzLoader.GetType(TypeName).Assembly.Location;
         }
 
         public string Type_GetAssemblyFullName(string TypeName)
