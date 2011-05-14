@@ -1239,6 +1239,9 @@ namespace jsc.Languages.ActionScript
 			CIW[OpCodes.Throw] =
 				e =>
 				{
+                    // http://download.oracle.com/javase/tutorial/essential/exceptions/runtime.html
+                    // if we catch Throwable we might want to throw a RuntimeException instead
+                    // to bypass the dreaded java
 					Write("throw");
 					WriteSpace();
 

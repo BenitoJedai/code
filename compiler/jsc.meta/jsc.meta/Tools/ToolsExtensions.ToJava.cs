@@ -135,7 +135,13 @@ namespace jsc.meta.Tools
 
             // we should display the javac error!
             if (proccess_javac.ExitCode != 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("javac has faulted! " + proccess_javac.ExitCode);
+
                 throw new ArgumentOutOfRangeException();
+            }
+
             #endregion
 
 

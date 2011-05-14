@@ -189,7 +189,7 @@ namespace java.lang
         /// <summary>
         /// Loads the class with the specified name.
         /// </summary>
-        protected Class loadClass(string name, bool resolve)
+        protected virtual Class loadClass(string name, bool resolve)
         {
             return default(Class);
         }

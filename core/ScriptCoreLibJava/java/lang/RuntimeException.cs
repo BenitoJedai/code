@@ -7,7 +7,19 @@ namespace java.lang
     [Script(IsNative = true)]
     public class RuntimeException : Exception
     {
-       
+        public RuntimeException()
+        {
 
+        }
+
+        public RuntimeException(string m)
+        {
+
+        }
+
+        public RuntimeException(string m, global::java.lang.Exception cause)
+        {
+
+        }
     }
 }
