@@ -304,7 +304,7 @@ namespace jsc.meta.Commands.Rewrite
 
                     if (!loaded)
                     {
-                        var FolderToLoadFrom = Path.GetDirectoryName(k.name);
+                        var FolderToLoadFrom = Path.GetDirectoryName(/*Path.GetFullPath(*/k.name/*)*/);
 
                         if (string.IsNullOrEmpty(FolderToLoadFrom))
                         {
@@ -682,6 +682,8 @@ namespace jsc.meta.Commands.Rewrite
                         return;
                     }
 
+
+
                     // http://msdn.microsoft.com/en-us/library/system.reflection.memberinfo.declaringtype.aspx
                     // If the MemberInfo object is a global member, (that is, it was obtained from Module.GetMethods,
                     // which returns global methods on a module), then the returned DeclaringType will be a 
@@ -689,6 +691,32 @@ namespace jsc.meta.Commands.Rewrite
 
                     var SourceType = SourceMethod.DeclaringType;
                     var Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
+
+                    // let's do extension resolving..
+                    if (SourceType != null)
+                    {
+                        var ExtensionType = ExtensionTypes.Except(new[] { SourceType }).FirstOrDefault(k => k.FullName == SourceType.FullName);
+                        if (ExtensionType != null)
+                        {
+                            var ExtensionMethod = Enumerable.FirstOrDefault(
+                                from k in ExtensionType.GetMethods(Flags)
+                                where k.Name == SourceMethod.Name
+                                where TypeDefinitionCache[k.ReturnType] == TypeDefinitionCache[SourceMethod.ReturnType]
+                                let k_Parameters = TypeDefinitionCache[k.GetParameterTypes()]
+                                let s_Parameters = TypeDefinitionCache[SourceMethod.GetParameterTypes()]
+                                where k_Parameters.Length == s_Parameters.Length
+                                where s_Parameters.Zip(k_Parameters, (s_Parameter, k_Parameter) => s_Parameter == k_Parameter).All(kk => kk)
+                                select k
+                            );
+
+                            if (ExtensionMethod != null)
+                            {
+                                MethodCache[SourceMethod] = MethodCache[ExtensionMethod];
+                                return;
+                            }
+                        }
+                    }
+
 
                     #region MakeGenericMethod
                     if (SourceType != null)
@@ -752,7 +780,7 @@ namespace jsc.meta.Commands.Rewrite
                             }
                     #endregion
 
-
+                    #region global? MakeGenericMethod
                     if (SourceMethod.IsGenericMethod)
                         if (!SourceMethod.IsGenericMethodDefinition)
                         {
@@ -762,6 +790,7 @@ namespace jsc.meta.Commands.Rewrite
 
                             return;
                         }
+                    #endregion
 
 
                     var DeclaringType = (

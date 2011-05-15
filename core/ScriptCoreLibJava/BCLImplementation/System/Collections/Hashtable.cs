@@ -13,6 +13,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 
         readonly global::java.util.Hashtable InternalElement = new global::java.util.Hashtable();
 
+        public virtual bool ContainsKey(object key)
+        {
+            return this.InternalElement.containsKey(key);
+        }
+
         public object this[object key]
         {
             get
