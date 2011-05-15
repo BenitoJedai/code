@@ -157,6 +157,7 @@
     <Compile Include="JavaScript\UltraComponent.cs">
     </Compile>
     <Compile Include="Java\Extensions\ClassLoaderExtensions.cs" />
+    <Compile Include="Java\Extensions\ZipInputStreamExtensions.cs" />
     <Compile Include="Java\Interop\CodeSourceLocationProvider.cs" />
     <Compile Include="Java\JavaArchiveReflector.Entry.cs" />
     <Compile Include="Java\IJavaArchiveReflector.cs" />

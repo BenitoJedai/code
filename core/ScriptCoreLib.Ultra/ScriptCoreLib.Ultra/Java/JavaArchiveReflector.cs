@@ -9,6 +9,7 @@ using java.io;
 using java.net;
 using java.util.zip;
 using ScriptCoreLib;
+using ScriptCoreLib.Java.Extensions;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLibJava.Extensions;
@@ -34,20 +35,43 @@ namespace ScriptCoreLib.Java
 
         protected override Class loadClass(string name, bool resolve)
         {
-            Console.WriteLine(".loadClass: " + name);
+            //Console.WriteLine(".loadClass: " + name);
 
             var c = default(Class);
 
+
+
             try
             {
-                c = base.loadClass(name, resolve);
+                if (ClassCache.ContainsKey(name))
+                {
+                    var LoadedClass = (Class)ClassCache[name];
+
+                    c = LoadedClass;
+                }
+                else if (ClassBytes.ContainsKey(name))
+                {
+                    var Bytes = (sbyte[])ClassBytes[name];
+
+                    var DefineName = name;
+
+                    var LoadedClass = this.defineClass(DefineName, Bytes, 0, Bytes.Length);
+
+                    ClassCache[name] = LoadedClass;
+
+                    c = LoadedClass;
+                }
+                else
+                {
+                    c = base.loadClass(name, resolve);
+                }
             }
             catch
             {
                 throw;
             }
 
-            Console.WriteLine(c.GetDeclaringFile());
+            //Console.WriteLine(".loadClass: " + c.GetDeclaringFile());
 
             return c;
         }
@@ -130,9 +154,59 @@ namespace ScriptCoreLib.Java
         #endregion
 
 
+        public Hashtable ClassCache = new Hashtable();
+        public Hashtable ClassBytes = new Hashtable();
+
+        public void CacheClassBytes(FileInfo jar)
+        {
+            // experimental..
+            try
+            {
+                Console.WriteLine(".cache: " + jar.FullName);
+
+                var zip = default(ZipInputStream);
+
+
+                zip = new ZipInputStream(new FileInputStream(jar.FullName));
+
+
+                var Current = zip.getNextEntry();
+
+                while (Current != null)
+                {
+                    var Name = Current.getName();
+
+                    if (Name.EndsWith(".class"))
+                    {
+                        var TypeName = Name.Substring(0, Name.Length - ".class".Length).Replace("/", ".");
+
+                        if (TypeName.StartsWith("java."))
+                        {
+                            // we cannot use ClassLoader to load such class anyhow..
+                            // what we probably would need is a JVM parser now...
+                        }
+                        else
+                        {
+                            var Memory = zip.ReadToMemoryStream();
+
+                            this.ClassBytes[TypeName] = Memory.ToArray();
+                        }
+                    }
+
+                    Current = zip.getNextEntry();
+                }
+
+            }
+            catch (csharp.ThrowableException cc)
+            {
+                Console.WriteLine("error @CacheClassBytes: " + cc);
+
+                throw new InvalidOperationException();
+            }
+        }
     }
 
-    public partial class JavaArchiveReflector : IEnumerable, IJavaArchiveReflector
+    public partial class JavaArchiveReflector : IJavaArchiveReflector
     {
         public delegate Type GetType();
 
@@ -193,6 +267,7 @@ namespace ScriptCoreLib.Java
         {
             this.FileName = jar;
 
+            #region clazzLoader
             this.clazzLoader = default(InternalURLClassLoader);
 
             try
@@ -221,6 +296,10 @@ namespace ScriptCoreLib.Java
                 Console.WriteLine("error @URLClassLoader: " + ex);
                 throw new InvalidOperationException();
             }
+            #endregion
+
+
+            //clazzLoader.CacheClassBytes(jar);
 
             #region Resolve
             clazzLoader.Resolve =
@@ -229,7 +308,10 @@ namespace ScriptCoreLib.Java
                     var f = default(FileInfo);
 
                     if (this.JavaArchiveResolve != null)
+                    {
                         f = this.JavaArchiveResolve(name);
+                        //clazzLoader.CacheClassBytes(f);
+                    }
 
                     return f;
                 };
@@ -323,10 +405,10 @@ namespace ScriptCoreLib.Java
 
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            return GetDynamicEnumerator();
-        }
+        //public IEnumerator GetEnumerator()
+        //{
+        //    return GetDynamicEnumerator();
+        //}
 
         public FileInfo FileName
         {
@@ -348,8 +430,11 @@ namespace ScriptCoreLib.Java
                 {
                     var a = new ArrayList();
 
-                    foreach (Entry item in this)
+                    var e = this.GetDynamicEnumerator();
+
+                    while (e.MoveNext())
                     {
+                        var item = (Entry)e.Current;
                         a.Add(item);
                     }
 
