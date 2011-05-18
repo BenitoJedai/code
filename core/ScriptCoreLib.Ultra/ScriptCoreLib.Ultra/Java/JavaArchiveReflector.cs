@@ -374,7 +374,7 @@ namespace ScriptCoreLib.Java
 
                                     try
                                     {
-                                        Console.WriteLine(".deprecated loadClass: " + n.TypeFullName);
+                                        //Console.WriteLine(".deprecated loadClass: " + n.TypeFullName);
 
                                         c = clazzLoader.loadClass(n.TypeFullName);
                                     }
