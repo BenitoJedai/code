@@ -95,6 +95,7 @@ namespace jsc.meta.Commands.Rewrite
                 );
 
 
+            var MethodAttributes__ = context.MethodAttributesCache[SourceMethod];
 
 
             if (IsNotObfuscateable)
@@ -103,8 +104,11 @@ namespace jsc.meta.Commands.Rewrite
             }
             else
             {
+
                 var __MemberRenameCache = context.MemberRenameCache[SourceMethod];
                 MethodName = __MemberRenameCache ?? SourceMethod.Name;
+
+
 
                 var o = default(ObfuscationAttribute);
 
@@ -119,7 +123,35 @@ namespace jsc.meta.Commands.Rewrite
                     var SourceTypeObfuscation = SourceType == null ? null : SourceType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
 
                     if (SourceTypeObfuscation == null || !(SourceTypeObfuscation.Exclude && SourceTypeObfuscation.ApplyToMembers))
-                        MethodName = NameObfuscation[MethodName];
+                    {
+
+                        var SpecialNamePrefixes =
+                            new[] 
+                            {
+                                "get_",
+                                "set_",
+                                "add_",
+                                "remove_",
+                                "op_Implicit",
+                                "op_Explicit"
+                            };
+
+                        if ((MethodAttributes__ & MethodAttributes.SpecialName) == MethodAttributes.SpecialName &&
+                           SpecialNamePrefixes.Any(k => SourceMethod.Name.StartsWith(k)))
+                        {
+                            var CurrentPrefix = SpecialNamePrefixes.First(k => SourceMethod.Name.StartsWith(k));
+                            var CurrentNonSpecialName = SourceMethod.Name.Substring(CurrentPrefix.Length);
+
+                            if (CurrentNonSpecialName != "")
+                                CurrentNonSpecialName = NameObfuscation[CurrentNonSpecialName];
+
+                            MethodName = CurrentPrefix + CurrentNonSpecialName;
+                        }
+                        else
+                        {
+                            MethodName = NameObfuscation[MethodName];
+                        }
+                    }
                 }
             }
 
@@ -127,7 +159,6 @@ namespace jsc.meta.Commands.Rewrite
 
             var DeclaringMethod = default(MethodBuilder);
 
-            var MethodAttributes__ = context.MethodAttributesCache[SourceMethod];
 
             if (SourceMethod.IsStatic)
                 if ((MethodAttributes__ & MethodAttributes.Private) == MethodAttributes.Private)
