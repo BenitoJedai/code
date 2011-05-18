@@ -95,7 +95,7 @@ namespace jsc.meta.Commands.Rewrite
                 {
                     // PrivateImplementationDetails does not like obfuscation?
 
-                    if (!this.obfuscate || n.StartsWith("<PrivateImplementationDetails>"))
+                    if (!char.IsWhiteSpace(n[0]) && (!this.obfuscate || n.StartsWith("<PrivateImplementationDetails>")))
                     {
                         NameObfuscation[n] = n;
 
@@ -399,9 +399,9 @@ namespace jsc.meta.Commands.Rewrite
 
 
                     // so if there is a name match it is actually an extension to an existing type
-                    let IsExtensionType = 
+                    let IsExtensionType =
                         // obfuscated names will start with a namespace, we must exclude them
-                        !char.IsWhiteSpace(ExtensionTypeCandidate.Name[0]) 
+                        !char.IsWhiteSpace(ExtensionTypeCandidate.Name[0])
                         &&
                         AssemblyMergeTypes.Any(k => k.FullName == ExtensionTypeCandidate.FullName)
 
@@ -1867,6 +1867,13 @@ namespace jsc.meta.Commands.Rewrite
 
         public string FullNameFixup(string n, Type ContextType)
         {
+            // if we are merging two obfuscated libraries we will have to reobfuscate such types to prevent name clashes!
+
+            if (char.IsWhiteSpace(ContextType.Name[0]))
+            {
+                return " ." + NameObfuscation["__obfuscated__" + ContextType.AssemblyQualifiedName];
+            }
+
             if (this.obfuscate)
             {
                 var o = ContextType.GetCustomAttributes<ObfuscationAttribute>().FirstOrDefault();
