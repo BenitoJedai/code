@@ -94,6 +94,12 @@ namespace jsc.meta.Commands.Rewrite
                 n =>
                 {
                     // PrivateImplementationDetails does not like obfuscation?
+                    if (string.IsNullOrEmpty(n))
+                    {
+                        NameObfuscation[n] = n;
+
+                        return;
+                    }
 
                     if (!char.IsWhiteSpace(n[0]) && (!this.obfuscate || n.StartsWith("<PrivateImplementationDetails>")))
                     {
@@ -1871,7 +1877,7 @@ namespace jsc.meta.Commands.Rewrite
 
             if (char.IsWhiteSpace(ContextType.Name[0]))
             {
-                return " ." + NameObfuscation["__obfuscated__" + ContextType.AssemblyQualifiedName];
+                return " ." + NameObfuscation[ContextType.AssemblyQualifiedName];
             }
 
             if (this.obfuscate)
