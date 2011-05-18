@@ -56,7 +56,12 @@ namespace ScriptCoreLib
         Ruby,
 
         
-        ObjectiveC
+        ObjectiveC,
+
+        /// <summary>
+        /// New Google Language? http://blog.golang.org/
+        /// </summary>
+        Go
 	}
 
 }
