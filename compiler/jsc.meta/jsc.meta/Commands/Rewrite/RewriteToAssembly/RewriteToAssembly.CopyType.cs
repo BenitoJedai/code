@@ -285,6 +285,17 @@ namespace jsc.meta.Commands.Rewrite
                     // you better have CLR 4!
                     // Could not load type 'IMAGE_DOS_HEADER' from assembly 'jsc.internal, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null'.
 
+                    // http://www.koders.com/c/fid8892D3697395903872ECED821F857620C823409E.aspx
+                    // http://www.koders.com/noncode/fid37759BCD6CE6CD62687BB8F408121EBE4DC06523.aspx
+                    // BFA_BAD_RUNTIME_IMPL Bad use of Runtime Impl attribute.
+
+                    var DiagnosticsMembers = SourceType.GetMembers(
+                        BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                    );
+
+                    var DiagnosticsMemberMethods = DiagnosticsMembers.Select(k => k as MethodInfo).Where(k => k != null).ToArray();
+                    var DiagnosticsMemberMethodAttributes = DiagnosticsMemberMethods.Select(k => k.Attributes).ToArray();
+
                     t.CreateType();
 
 

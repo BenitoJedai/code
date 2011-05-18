@@ -129,9 +129,6 @@ namespace jsc.meta.Commands.Rewrite
 
                     // http://www.sagehill.net/docbookxsl/SpecialChars.html
                     var map = new[] { 
-                        '\u0020',
-                        '\u00a0',
-
                         '\u2000',
                         '\u2001',
                         '\u2002',
@@ -140,19 +137,45 @@ namespace jsc.meta.Commands.Rewrite
                         '\u2005',
                         '\u2006',
                         '\u2007',
-                        '\u2008',
-                        '\u2009',
-                        '\u200A',
-                        '\u200B',
 
-                        '\u202f',
-                        '\ufeff' 
+                        //'\u2008',
+                        //'\u2009',
+                        //'\u200A',
+                        //'\u200B',
+
+                        //'\u202f',
+                        //'\u0020',
+                        //'\ufeff', 
+                        //'\u00a0'
                     };
 
+                    // 2^4 items
+                    //var map = new[] { 
+                    //    'a',
+                    //    'b',
+
+                    //    'c',
+                    //    'd',
+                    //    'e',
+                    //    'f',
+                    //    'g',
+                    //    'h',
+                    //    'i',
+                    //    'j',
+                    //    'k',
+                    //    'l',
+                    //    'm',
+
+                    //    'n',
+                    //    'o',
+                    //    'p' 
+                    //};
+
+                    var BitsPerChar = 3;
                     while (v > 0)
                     {
-                        ObfuscatedName.Append(map[v & 0xF]);
-                        v >>= 4;
+                        ObfuscatedName.Append(map[v & ((int)Math.Pow(2, BitsPerChar) - 1)]);
+                        v >>= BitsPerChar;
                     }
 
 
@@ -374,8 +397,13 @@ namespace jsc.meta.Commands.Rewrite
                 var AssemblyMergeExtensionTypeCandidates = Enumerable.ToArray(
                     from ExtensionTypeCandidate in this.AssemblyMergeExtension.SelectMany(LoadTypesFromAssemblyMerge)
 
+
                     // so if there is a name match it is actually an extension to an existing type
-                    let IsExtensionType = AssemblyMergeTypes.Any(k => k.FullName == ExtensionTypeCandidate.FullName)
+                    let IsExtensionType = 
+                        // obfuscated names will start with a namespace, we must exclude them
+                        !char.IsWhiteSpace(ExtensionTypeCandidate.Name[0]) 
+                        &&
+                        AssemblyMergeTypes.Any(k => k.FullName == ExtensionTypeCandidate.FullName)
 
                     // as such in first phase we omit such extension types
                     select new { ExtensionTypeCandidate, IsExtensionType }
