@@ -315,6 +315,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return ((__Type)t).InternalTypeDescription.isAssignableFrom(this.InternalTypeDescription);
         }
 
+        public bool IsAbstract
+        {
+            get
+            {
+                return Modifier.isAbstract(this.InternalTypeDescription.getModifiers());
+            }
+        }
+
         public bool IsInterface
         {
             get

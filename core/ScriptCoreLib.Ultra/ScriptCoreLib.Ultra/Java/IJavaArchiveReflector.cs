@@ -40,6 +40,7 @@ namespace ScriptCoreLib.Java
         string Type_GetAssemblyFullName(string TypeName);
         string Type_GetAssemblyLocation(string TypeName);
         bool Type_IsInterface(string TypeName);
+        bool Type_IsAbstract(string TypeName);
         string[] Type_GetInterfaces(string TypeName);
         bool Type_IsArray(string TypeName);
         string Type_GetElementType(string TypeName);
@@ -156,14 +157,14 @@ namespace ScriptCoreLib.Java
             return y;
         }
 
+        public bool Type_IsAbstract(string TypeName)
+        {
+            return this.clazzLoader.GetType(TypeName).IsAbstract;
+        }
+
         public bool Type_IsInterface(string TypeName)
         {
-            var i = IndexOf(TypeName);
-
-            if (i < 0)
-                return false;
-
-            return this.Entries[i].Type.IsInterface;
+            return this.clazzLoader.GetType(TypeName).IsInterface;
         }
 
 
