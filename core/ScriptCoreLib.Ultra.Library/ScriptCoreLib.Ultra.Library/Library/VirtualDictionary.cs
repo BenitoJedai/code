@@ -61,7 +61,7 @@ namespace jsc.Library
 
         public TValue this[TKey k]
         {
-            [method: DebuggerStepThrough]
+            //[method: DebuggerStepThrough]
             get
             {
                 if (!BaseDictionary.ContainsKey(k))
