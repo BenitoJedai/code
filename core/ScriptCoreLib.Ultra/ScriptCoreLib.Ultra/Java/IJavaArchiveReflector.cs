@@ -175,18 +175,12 @@ namespace ScriptCoreLib.Java
 
         public string Type_GetAssemblyFullName(string TypeName)
         {
-            var i = IndexOf(TypeName);
-
-            if (i < 0)
-                return null;
-
-
-            return this.Entries[i].Type.Assembly.FullName;
+            return this.clazzLoader.GetType(TypeName).Assembly.FullName;
         }
 
         public string Type_GetBaseTypeFullName(string TypeName)
         {
-            var BaseType = this.Entries[IndexOf(TypeName)].Type.BaseType;
+            var BaseType = this.clazzLoader.GetType(TypeName).BaseType;
 
             if (BaseType == null)
                 return null;
@@ -196,7 +190,7 @@ namespace ScriptCoreLib.Java
 
         public string Field_GetFieldTypeFullName(string TypeName, string FieldName)
         {
-            return this.Entries[IndexOf(TypeName)].Type.GetField(FieldName).FieldType.FullName;
+            return this.clazzLoader.GetType(TypeName).GetField(FieldName).FieldType.FullName;
         }
 
         public int IndexOfType(string TypeName)
