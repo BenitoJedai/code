@@ -1,1 +1,0 @@
-﻿Folders "docs" and "Resx" shall be moved over here.

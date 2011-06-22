@@ -1,4 +1,0 @@
-﻿We are providing IL rewrite services in this namespace.
-
-Currently we do not emit actual IL as text to files like
-other language namespaces currently do.
