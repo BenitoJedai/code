@@ -18,23 +18,25 @@ namespace ScriptCoreLib.Java
 {
     public interface IJavaArchiveReflector
     {
+        /*
+         * Captains log:
+         *
+         * 2011/07/09:
+         *  The last run on rt.jar resulted in an error being able to get index for type.
+         *  We would not be able to get index for a type if its found at runtime and 
+         *  was not listed in jar file.
+         *  
+         *  - Lets make sure our interface method is named like XTypeX_XMethodX()
+         *  
+         */
+
+
         string FileNameString { get; }
 
         string[] PrimaryTypes { get; }
 
 
-        int GetMethodCount(int TypeIndex);
-
-        string GetMethodName(int TypeIndex, int MethodIndex);
-
-        bool Method_IsStatic(int TypeIndex, int MethodIndex);
-        bool Method_IsPublic(int TypeIndex, int MethodIndex);
-        int Method_GetParameterCount(int TypeIndex, int MethodIndex);
-        string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition);
-
-        string Field_GetFieldTypeFullName(string TypeName, string FieldName);
-
-        int IndexOfType(string TypeName);
+     
 
         string Type_GetBaseTypeFullName(string TypeName);
         string Type_GetAssemblyFullName(string TypeName);
@@ -47,9 +49,10 @@ namespace ScriptCoreLib.Java
 
         JavaArchiveReflectorFieldInfo[] Type_GetFields(string TypeName);
         JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName);
+        JavaArchiveReflectorMethod[] Type_GetMethods(string TypeName);
     }
 
-    public class JavaArchiveReflectorFieldInfo
+    public sealed class JavaArchiveReflectorFieldInfo
     {
         public string FieldName;
         public string FieldType;
@@ -61,7 +64,7 @@ namespace ScriptCoreLib.Java
         }
     }
 
-    public class JavaArchiveReflectorConstructor
+    public sealed class JavaArchiveReflectorConstructor
     {
         public int ConstructorIndex;
         public string[] ParameterTypes;
@@ -72,8 +75,51 @@ namespace ScriptCoreLib.Java
         }
     }
 
+    public sealed class JavaArchiveReflectorMethod
+    {
+        public int MethodIndex;
+        public string[] ParameterTypes;
+
+        public string MethodName;
+        public bool IsStatic;
+        public bool IsPublic;
+
+        public string ReturnType;
+
+        public JavaArchiveReflectorMethod()
+        {
+
+        }
+    }
+
     partial class JavaArchiveReflector
     {
+        public JavaArchiveReflectorMethod[] Type_GetMethods(string TypeName)
+        {
+            var t = this.clazzLoader.GetType(TypeName);
+            var f = t.GetMethods(); // what about protected members?
+
+            var y = new JavaArchiveReflectorMethod[f.Length];
+
+            for (int i = 0; i < f.Length; i++)
+            {
+                y[i] = new JavaArchiveReflectorMethod
+                {
+                    MethodIndex = i,
+
+                    ParameterTypes = f[i].GetParameterTypeFullNames(),
+                    ReturnType = f[i].ReturnType.FullName,
+
+                    MethodName = f[i].Name,
+
+                    IsPublic = f[i].IsPublic,
+                    IsStatic = f[i].IsStatic
+                };
+            }
+
+            return y;
+        }
+
         public JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName)
         {
             var t = this.clazzLoader.GetType(TypeName);
@@ -188,86 +234,12 @@ namespace ScriptCoreLib.Java
             return BaseType.FullName;
         }
 
-        public string Field_GetFieldTypeFullName(string TypeName, string FieldName)
-        {
-            return this.clazzLoader.GetType(TypeName).GetField(FieldName).FieldType.FullName;
-        }
-
-        public int IndexOfType(string TypeName)
-        {
-            var i = -1;
-
-            // JSC for Java does not yet support generics nor linq 
-            //foreach (var SourceTypeIndex in Enumerable.Range(0, Count))
-
-            for (int SourceTypeIndex = 0; SourceTypeIndex < Count; SourceTypeIndex++)
-            {
-                if (this.IsType(SourceTypeIndex))
-                {
-                    var SourceTypeFullName = this.GetTypeFullName(SourceTypeIndex);
-
-                    if (TypeName == SourceTypeFullName)
-                    {
-                        i = SourceTypeIndex;
-                        break;
-                    }
-                }
-            }
-
-            return i;
-        }
+      
 
         public bool IsType(int TypeIndex)
         {
             return !string.IsNullOrEmpty(this.Entries[TypeIndex].TypeFullName);
         }
 
-        //public int GetFieldCount(int TypeIndex)
-        //{
-        //    return this.Entries[TypeIndex].Fields.Length;
-        //}
-
-        //public string GetFieldName(int TypeIndex, int MemberIndex)
-        //{
-        //    return this.Entries[TypeIndex].Fields[MemberIndex].Name;
-        //}
-
-
-        public int GetMethodCount(int TypeIndex)
-        {
-            return this.Entries[TypeIndex].Methods.Length;
-        }
-
-        public string GetMethodName(int TypeIndex, int MethodIndex)
-        {
-            return this.Entries[TypeIndex].Methods[MethodIndex].Name;
-        }
-
-        public bool Method_IsStatic(int TypeIndex, int MethodIndex)
-        {
-            // we should use the attributes instead?
-            return this.Entries[TypeIndex].Methods[MethodIndex].IsStatic;
-        }
-
-        public bool Method_IsPublic(int TypeIndex, int MethodIndex)
-        {
-            // we should use the attributes instead?
-            return this.Entries[TypeIndex].Methods[MethodIndex].IsPublic;
-        }
-
-        public int Method_GetParameterCount(int TypeIndex, int MethodIndex)
-        {
-            return this.Entries[TypeIndex].Methods[MethodIndex].GetParameters().Length;
-        }
-
-        public string Method_GetParameterTypeFullName(int TypeIndex, int MethodIndex, int ParameterPosition)
-        {
-            var m = this.Entries[TypeIndex].Methods[MethodIndex];
-
-            if (ParameterPosition < 0)
-                return m.ReturnType.FullName;
-
-            return m.GetParameters()[ParameterPosition].ParameterType.FullName;
-        }
     }
 }
