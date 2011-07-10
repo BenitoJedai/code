@@ -36,13 +36,14 @@ namespace ScriptCoreLib.Java
         string[] PrimaryTypes { get; }
 
 
-     
+
 
         string Type_GetBaseTypeFullName(string TypeName);
         string Type_GetAssemblyFullName(string TypeName);
         string Type_GetAssemblyLocation(string TypeName);
         bool Type_IsInterface(string TypeName);
         bool Type_IsAbstract(string TypeName);
+        bool Type_IsNestedPublic(string TypeName);
         string[] Type_GetInterfaces(string TypeName);
         bool Type_IsArray(string TypeName);
         string Type_GetElementType(string TypeName);
@@ -203,6 +204,12 @@ namespace ScriptCoreLib.Java
             return y;
         }
 
+        public bool Type_IsNestedPublic(string TypeName)
+        {
+            return this.clazzLoader.GetType(TypeName).IsNestedPublic;
+        }
+
+
         public bool Type_IsAbstract(string TypeName)
         {
             return this.clazzLoader.GetType(TypeName).IsAbstract;
@@ -234,7 +241,7 @@ namespace ScriptCoreLib.Java
             return BaseType.FullName;
         }
 
-      
+
 
         public bool IsType(int TypeIndex)
         {
