@@ -217,7 +217,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public override Type DeclaringType
         {
-            get { return null; }
+            get { return (__Type)this.InternalTypeDescription.getDeclaringClass(); }
         }
 
         public static implicit operator Type(__Type e)
@@ -309,6 +309,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             return f;
         }
 
+        // http://msdn.microsoft.com/en-us/library/system.type.isnested.aspx
+        public bool IsNested
+        {
+            get
+            {
+                return this.InternalTypeDescription.getDeclaringClass() != null;
+            }
+        }
+
 
         public bool IsAssignableFrom(Type t)
         {
@@ -331,10 +340,30 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
+        // http://msdn.microsoft.com/en-us/library/system.type.isnestedpublic.aspx
+        public bool IsNestedPublic
+        {
+            get
+            {
+                // true if the class is nested and declared public; otherwise, false.
+
+                if (!IsNested)
+                    return false;
+
+                return Modifier.isPublic(this.InternalTypeDescription.getModifiers());
+            }
+        }
+
+        // http://msdn.microsoft.com/en-us/library/system.type.ispublic.aspx
         public bool IsPublic
         {
             get
             {
+                // true if the Type is declared public and is not a nested type; otherwise, false.
+
+                if (IsNested)
+                    return false;
+
                 return Modifier.isPublic(this.InternalTypeDescription.getModifiers());
             }
         }
