@@ -461,40 +461,14 @@ namespace ScriptCoreLib.Java
         }
 
 
-        public Entry this[string TypeFullName]
+        public Type this[string TypeFullName]
         {
             get
             {
-                var i = IndexOf(TypeFullName);
-
-                EnsureElementWasFound(i);
-
-                return this.Entries[i];
+                return this.clazzLoader.GetType(TypeFullName);
             }
         }
 
-        private static void EnsureElementWasFound(int i)
-        {
-            if (i < 0)
-                throw new InvalidOperationException();
-        }
-
-        public int IndexOf(string TypeFullName)
-        {
-            var i = -1;
-
-            for (int j = 0; j < this.Entries.Length; j++)
-            {
-                // fixme: JSC should drop the use of string.equals
-                if (TypeFullName == this.Entries[j].TypeFullName)
-                {
-                    i = j;
-                    break;
-                }
-            }
-
-            return i;
-        }
     }
 
 }

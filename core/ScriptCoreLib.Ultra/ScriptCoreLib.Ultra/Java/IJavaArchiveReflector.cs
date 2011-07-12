@@ -43,6 +43,8 @@ namespace ScriptCoreLib.Java
         string Type_GetAssemblyLocation(string TypeName);
         bool Type_IsInterface(string TypeName);
         bool Type_IsAbstract(string TypeName);
+        bool Type_IsPublic(string TypeName);
+        bool Type_IsNested(string TypeName);
         bool Type_IsNestedPublic(string TypeName);
         string[] Type_GetInterfaces(string TypeName);
         bool Type_IsArray(string TypeName);
@@ -188,12 +190,7 @@ namespace ScriptCoreLib.Java
 
         public string[] Type_GetInterfaces(string TypeName)
         {
-            var i = IndexOf(TypeName);
-
-            if (i < 0)
-                return new string[0];
-
-            var x = this.Entries[i].Type.GetInterfaces();
+            var x = this[TypeName].GetInterfaces();
             var y = new string[x.Length];
 
             for (int j = 0; j < x.Length; j++)
@@ -204,9 +201,19 @@ namespace ScriptCoreLib.Java
             return y;
         }
 
+        public bool Type_IsPublic(string TypeName)
+        {
+            return this[TypeName].IsPublic;
+        }
+
+        public bool Type_IsNested(string TypeName)
+        {
+            return this[TypeName].IsNested;
+        }
+
         public bool Type_IsNestedPublic(string TypeName)
         {
-            return this.clazzLoader.GetType(TypeName).IsNestedPublic;
+            return this[TypeName].IsNestedPublic;
         }
 
 
