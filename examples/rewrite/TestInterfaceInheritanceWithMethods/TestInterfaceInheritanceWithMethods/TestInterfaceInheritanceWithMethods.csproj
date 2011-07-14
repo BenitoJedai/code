@@ -54,7 +54,7 @@
     <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)"
 
 
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"Foo.dll" /AssemblyMergeExtension:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /Output:"$(TargetDir)$(TargetName).Rewrite.Augmented$(TargetExt)" /XAttachDebugger:true</PostBuildEvent>
+start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"Foo.dll" /AssemblyMergeExtension:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /Output:"$(TargetDir)$(TargetName).Rewrite.Augmented$(TargetExt)" /AttachDebugger:true</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace javacard.security
 {
 	[Script(IsNative = true)]
-	public class PublicKey : Key
+	public interface PublicKey : Key
 	{
 	}
 }
