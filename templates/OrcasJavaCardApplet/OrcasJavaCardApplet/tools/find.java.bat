@@ -16,7 +16,7 @@ if '%TargetJava%' == '' (
 ::set ReturnValue=C:\Progra~1\Java\jre1.6.0_07\bin\%TargetJava%
 ::if exist %ReturnValue% goto :eof
 
-set ReturnValue=C:\j2sdk1.4.2_17\bin\%TargetJava%
+set ReturnValue=C:\util\j2sdk1.4.2_19\bin\%TargetJava%
 if exist %ReturnValue% goto :eof
 
 

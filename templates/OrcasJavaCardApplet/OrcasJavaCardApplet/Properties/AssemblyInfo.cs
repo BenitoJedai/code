@@ -40,5 +40,5 @@ using ScriptCoreLibJavaCard;
 [assembly:
 	Script,
 	ScriptTypeFilter(ScriptType.Java, typeof(global::OrcasJavaCardApplet.Cafebabe)),
-	AID(0xA0A1A2A3A40002)
+	AID(0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0x00, 0x02)
 ]

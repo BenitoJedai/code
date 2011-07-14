@@ -37,11 +37,11 @@ using ScriptCoreLib;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly:
-	Script(IsCoreLib = true),
-	ScriptTypeFilter(ScriptType.Java, "*"),
-	ScriptNamespaceRename(
-		NativeNamespaceName = "ScriptCoreLibJavaCard",
-		VirtualNamespaceName = "",
-		FilterToIsNative = true
-	)
+    Script(IsCoreLib = true),
+    ScriptTypeFilter(ScriptType.Java),
+    //ScriptNamespaceRename(
+    //    NativeNamespaceName = "ScriptCoreLibJavaCard",
+    //    VirtualNamespaceName = "",
+    //    FilterToIsNative = true
+    //)
 ]

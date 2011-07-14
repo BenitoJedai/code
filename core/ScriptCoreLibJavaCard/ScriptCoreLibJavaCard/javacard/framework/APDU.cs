@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJavaCard.javacard.framework
+namespace javacard.framework
 {
 	[Script(IsNative = true)]
 	public sealed class APDU

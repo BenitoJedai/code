@@ -22,7 +22,13 @@ set TargetSourceFiles=java;C:\util\java_card_kit-2_2_1\lib\javacardframework.jar
 
 ::%TargetPath% -source 1.4 -target 1.4 -Xlint:all,-serial,-unchecked -cp %TargetSourceFiles% -d release  java\%CompilandNamespace0%\%CompilandType%.java
 ::%TargetPath% -source 1.4 -target 1.4 -classpath %TargetSourceFiles% -d release java\%CompilandNamespace0%\%CompilandType%.java
-%TargetPath% -g  -classpath %TargetSourceFiles% -d release java\%CompilandNamespace0%\%CompilandType%.java
+set __COMMAND=%TargetPath% -g  -classpath %TargetSourceFiles% -d release java\%CompilandNamespace0%\%CompilandType%.java
+
+echo before javac
+echo %__COMMAND%
+
+%__COMMAND%
+echo after javac
 
 endlocal
 popd
