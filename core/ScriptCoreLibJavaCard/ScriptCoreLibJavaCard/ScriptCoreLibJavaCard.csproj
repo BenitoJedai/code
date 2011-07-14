@@ -61,6 +61,7 @@
     <Compile Include="javacardx\crypto\Cipher.cs" />
     <Compile Include="javacard\framework\APDU.cs" />
     <Compile Include="javacard\framework\Applet.cs" />
+    <Compile Include="javacard\framework\OwnerPIN.cs" />
     <Compile Include="javacard\framework\ISO7816.cs" />
     <Compile Include="javacard\framework\ISOException.cs" />
     <Compile Include="javacard\framework\JCSystem.cs" />
