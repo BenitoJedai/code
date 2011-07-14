@@ -19,7 +19,12 @@ namespace TestInterfaceInheritanceWithMethods
 
 namespace Foo
 {
-    public class Class1 : PublicKey
+    public interface IClass1 : PublicKey
+    {
+
+    }
+
+    public class Class1 : IClass1
     {
         public void clearKey()
         {
