@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{65B7E6D5-D4FA-4400-9094-82F747032FB4}</ProjectGuid>
+    <ProjectGuid>{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestInterfaceInheritanceWithMethods</RootNamespace>
-    <AssemblyName>TestInterfaceInheritanceWithMethods</AssemblyName>
+    <RootNamespace>Foo</RootNamespace>
+    <AssemblyName>Foo</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,19 +43,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Foo\Foo.csproj">
-      <Project>{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}</Project>
-      <Name>Foo</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)"
-
-
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"Foo.dll" /AssemblyMergeExtension:"$(TargetDir)$(TargetName).Rewrite$(TargetExt)" /Output:"$(TargetDir)$(TargetName).Rewrite.Augmented$(TargetExt)" /XAttachDebugger:true</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
