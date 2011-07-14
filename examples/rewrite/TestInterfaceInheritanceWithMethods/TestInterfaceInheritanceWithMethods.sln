@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestInterfaceInheritanceWithMethods", "TestInterfaceInheritanceWithMethods\TestInterfaceInheritanceWithMethods.csproj", "{65B7E6D5-D4FA-4400-9094-82F747032FB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foo", "Foo\Foo.csproj", "{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{65B7E6D5-D4FA-4400-9094-82F747032FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65B7E6D5-D4FA-4400-9094-82F747032FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65B7E6D5-D4FA-4400-9094-82F747032FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE9A57CB-FC83-4C56-BD16-01CA5A7C0542}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
