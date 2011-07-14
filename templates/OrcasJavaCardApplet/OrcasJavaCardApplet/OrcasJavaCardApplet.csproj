@@ -33,11 +33,11 @@
   <ItemGroup>
     <Reference Include="ScriptCoreLibA, Version=3.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJavaCard, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\util\jsc\bin\ScriptCoreLibJavaCard.dll</HintPath>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJavaCard.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib;
+using ScriptCoreLibJavaCard;
 
-namespace ScriptCoreLibJavaCard.javacard.framework
+namespace javacard.framework
 {
 	[Script(IsNative = true)]
 	public abstract class Applet

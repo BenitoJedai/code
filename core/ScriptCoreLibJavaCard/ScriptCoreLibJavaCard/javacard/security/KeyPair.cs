@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJavaCard.javacard.security
+namespace javacard.security
 {
 	[Script(IsNative = true)]
 	public sealed class KeyPair

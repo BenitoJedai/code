@@ -8,6 +8,7 @@ using ScriptCoreLib.Library;
 using System.Runtime.InteropServices;
 
 using ScriptCoreLibJavaCard.APDUProxyGenerator.Library;
+using javacard.framework;
 
 namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 {
@@ -52,7 +53,8 @@ namespace ScriptCoreLibJavaCard.APDUProxyGenerator
 
 
 					#region .Dispatch.cs for card
-					w.Statement("using ScriptCoreLibJavaCard.javacard.framework;");
+                    //w.Statement("using ScriptCoreLibJavaCard.javacard.framework;");
+                    w.Statement("using " + typeof(Applet).Namespace + ";");
 
 					w.PartialTypeBlock(TargetType, null,
 						delegate

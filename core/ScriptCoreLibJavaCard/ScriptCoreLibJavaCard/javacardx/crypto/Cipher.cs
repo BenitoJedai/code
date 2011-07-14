@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibJavaCard.javacardx.crypto
+namespace javacardx.crypto
 {
 	[Script(IsNative = true)]
 	public class Cipher
