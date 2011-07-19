@@ -93,6 +93,12 @@ namespace ScriptCoreLib.Java
         {
 
         }
+
+
+        public override string ToString()
+        {
+            return MethodName;
+        }
     }
 
     partial class JavaArchiveReflector
