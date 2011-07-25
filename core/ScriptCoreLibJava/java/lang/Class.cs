@@ -273,9 +273,9 @@ namespace java.lang
 		/// <summary>
 		/// Gets the signers of this class.
 		/// </summary>
-		public Object[] getSigners()
+		public object[] getSigners()
 		{
-			return default(Object[]);
+			return default(object[]);
 		}
 
 		/// <summary>

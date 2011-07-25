@@ -20,9 +20,9 @@ namespace javax.swing
 		/// Returns an array of the keys defined in this <code>ActionMap</code> and
 		/// its parent.
 		/// </summary>
-		public Object[] allKeys()
+		public object[] allKeys()
 		{
-			return default(Object[]);
+			return default(object[]);
 		}
 
 		/// <summary>
@@ -52,9 +52,9 @@ namespace javax.swing
 		/// <summary>
 		/// Returns the <code>Action</code> names that are bound in this <code>ActionMap</code>.
 		/// </summary>
-		public Object[] keys()
+		public object[] keys()
 		{
-			return default(Object[]);
+			return default(object[]);
 		}
 
 		/// <summary>
