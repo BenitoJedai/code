@@ -8,7 +8,7 @@ namespace org.w3c.dom
 {
 	
 	[Script(IsNative = true)]
-	public class DocumentFragment
+	public interface DocumentFragment
 	{
 	
 	}
