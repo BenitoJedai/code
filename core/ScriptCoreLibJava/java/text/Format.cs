@@ -6,7 +6,7 @@ using java.util;
 namespace java.text
 {
     [Script(IsNative=true)]
-    public class Format
+    public abstract class Format
     {
 
     }

@@ -6,7 +6,7 @@ namespace javax.swing.plaf
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/MenuBarUI.html
 	[Script(IsNative = true)]
-	public class MenuBarUI : ComponentUI
+	public abstract class MenuBarUI : ComponentUI
 	{
 		/// <summary>
 		/// 

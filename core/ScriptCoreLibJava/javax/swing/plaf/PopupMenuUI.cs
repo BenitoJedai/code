@@ -8,7 +8,7 @@ namespace javax.swing.plaf
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/PopupMenuUI.html
 	[Script(IsNative = true)]
-	public class PopupMenuUI : ComponentUI
+	public abstract class PopupMenuUI : ComponentUI
 	{
 		/// <summary>
 		/// 

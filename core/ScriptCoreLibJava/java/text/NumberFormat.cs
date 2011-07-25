@@ -6,7 +6,7 @@ using java.util;
 namespace java.text
 {
     [Script(IsNative=true)]
-    public class NumberFormat
+    public abstract class NumberFormat
     {
         public string format(double e)
         {

@@ -8,7 +8,7 @@ namespace java.security
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/security/MessageDigestSpi.html
 	[Script(IsNative = true)]
-	public class MessageDigestSpi
+	public abstract class MessageDigestSpi
 	{
 	}
 }

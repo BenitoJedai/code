@@ -15,7 +15,7 @@ namespace javax.swing
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JComponent.html
 	[Script(IsNative = true)]
-	public class JComponent : Container
+	public abstract class JComponent : Container
 	{
 		/// <summary>
 		/// Default <code>JComponent</code> constructor.

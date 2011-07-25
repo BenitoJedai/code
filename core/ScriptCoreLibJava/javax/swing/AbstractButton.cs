@@ -12,7 +12,7 @@ namespace javax.swing
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/AbstractButton.html
 	[Script(IsNative = true)]
-	public class AbstractButton : JComponent
+	public abstract class AbstractButton : JComponent
 	{
 		/// <summary>
 		/// 

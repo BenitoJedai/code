@@ -10,7 +10,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/FontMetrics.html
 	[Script(IsNative = true)]
-	public class FontMetrics
+	public abstract class FontMetrics
 	{
 		/// <summary>
 		/// Creates a new <code>FontMetrics</code> object for finding out

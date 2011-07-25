@@ -4,7 +4,7 @@ namespace java.util
 {
 
     [Script(IsNative = true)]
-    public class ResourceBundle
+    public abstract class ResourceBundle
     {
 
     }

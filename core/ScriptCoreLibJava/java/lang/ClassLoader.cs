@@ -8,7 +8,7 @@ using java.util;
 namespace java.lang
 {
     [Script(IsNative=true)]
-    public class ClassLoader
+    public abstract class ClassLoader
     {
         #region methods
         /// <summary>
