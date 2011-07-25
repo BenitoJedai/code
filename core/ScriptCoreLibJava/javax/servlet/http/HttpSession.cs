@@ -72,7 +72,7 @@ namespace javax.servlet.http
 		/// <B>Deprecated.</B> <I>As of Version 2.2, this method is
 		/// replaced by <A HREF="../../../javax/servlet/http/HttpSession.html#getAttributeNames()"><CODE>getAttributeNames()</CODE></A></I>
 		/// </summary>
-		java.lang.String[] getValueNames();
+		string[] getValueNames();
 
 		/// <summary>
 		/// Invalidates this session then unbinds any objects bound

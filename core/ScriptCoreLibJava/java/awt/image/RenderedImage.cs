@@ -79,7 +79,7 @@ namespace java.awt.image
 		/// <A HREF="../../../java/awt/image/RenderedImage.html#getProperty(java.lang.String)"><CODE>getProperty(String)</CODE></A>
 		/// or <code>null</code>, if no property names are recognized.
 		/// </summary>
-		String[] getPropertyNames();
+		string[] getPropertyNames();
 
 		/// <summary>
 		/// Returns the SampleModel associated with this image.
