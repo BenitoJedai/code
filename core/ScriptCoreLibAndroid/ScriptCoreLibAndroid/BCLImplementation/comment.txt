@@ -1,0 +1,3 @@
+﻿Should we inherit BCLImplementation from ScriptCoreLibJava?
+
+Which BCLImplementation types would require android types?
