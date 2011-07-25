@@ -3,7 +3,7 @@ using ScriptCoreLib;
 namespace java.security
 {
     [Script(IsNative=true)]
-    public class PermissionCollection
+    public abstract class PermissionCollection
     {
     }
 }

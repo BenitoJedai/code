@@ -6,7 +6,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/FocusTraversalPolicy.html
 	[Script(IsNative = true)]
-	public class FocusTraversalPolicy
+	public abstract class FocusTraversalPolicy
 	{
 		/// <summary>
 		/// 

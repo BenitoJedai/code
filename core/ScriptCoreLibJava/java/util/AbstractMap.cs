@@ -6,7 +6,7 @@ namespace java.util
     /// http://java.sun.com/j2se/1.4.2/docs/api/java/util/AbstractMap.html
     /// </summary>
     [Script(IsNative = true)]
-    public class AbstractMap
+    public abstract class AbstractMap
     {
         public int size()
         {

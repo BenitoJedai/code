@@ -7,7 +7,7 @@ namespace java.awt.@event
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/event/InputEvent.html
 	[Script(IsNative = true)]
-	public class InputEvent : ComponentEvent
+	public abstract class InputEvent : ComponentEvent
 	{
 		public InputEvent() :  base(null, 0)
 		{

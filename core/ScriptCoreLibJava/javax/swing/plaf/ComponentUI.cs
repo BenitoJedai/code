@@ -9,7 +9,7 @@ namespace javax.swing.plaf
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/ComponentUI.html
 	[Script(IsNative = true)]
-	public class ComponentUI
+	public abstract class ComponentUI
 	{
 		/// <summary>
 		/// Sole constructor.

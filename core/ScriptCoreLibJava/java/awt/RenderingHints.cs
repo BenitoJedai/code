@@ -11,7 +11,7 @@ namespace java.awt
 	public class RenderingHints
 	{
 		[Script(IsNative = true)]
-		public class Key
+		public abstract class Key
 		{
 		}
 

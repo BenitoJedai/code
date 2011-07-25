@@ -4,7 +4,7 @@ namespace java.net
 {
 
     [Script(IsNative = true)]
-    public class SocketImplFactory
+    public interface SocketImplFactory
     {
 
     }

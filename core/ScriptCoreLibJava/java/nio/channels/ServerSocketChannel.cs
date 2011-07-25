@@ -7,7 +7,7 @@ namespace java.nio.channels
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/nio/channels/ServerSocketChannel.html
 	[Script(IsNative = true)]
-	public class ServerSocketChannel
+	public abstract class ServerSocketChannel
 	{
 		/// <summary>
 		/// Accepts a connection made to this channel's socket.

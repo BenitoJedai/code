@@ -7,7 +7,7 @@ namespace javax.accessibility
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/javax/accessibility/AccessibleBundle.html
 	[Script(IsNative = true)]
-	public class AccessibleBundle
+	public abstract class AccessibleBundle
 	{
 		/// <summary>
 		/// 

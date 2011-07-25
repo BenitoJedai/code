@@ -8,7 +8,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/GraphicsConfiguration.html
 	[Script(IsNative = true)]
-	public class GraphicsConfiguration
+	public abstract class GraphicsConfiguration
 	{
 		/// <summary>
 		/// This is an abstract class that cannot be instantiated directly.

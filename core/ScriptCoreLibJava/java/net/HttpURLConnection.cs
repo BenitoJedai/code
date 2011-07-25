@@ -7,7 +7,7 @@ namespace java.net
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/HttpURLConnection.html
 	[Script(IsNative = true)]
-	public class HttpURLConnection : URLConnection
+	public abstract class HttpURLConnection : URLConnection
 	{
 		/// <summary>
 		/// Sets whether HTTP redirects (requests with response code 3xx) should be automatically followed by this HttpURLConnection instance.
