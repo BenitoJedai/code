@@ -9,7 +9,7 @@ namespace org.w3c.dom
 {
 	
 	[Script(IsNative = true)]
-	public class ProcessingInstruction
+	public interface ProcessingInstruction
 	{
 	
 	}
