@@ -210,9 +210,9 @@ namespace java.awt.image
 		/// <A HREF="../../../java/awt/image/BufferedImage.html#getProperty(java.lang.String)"><CODE>getProperty(String)</CODE></A>
 		/// or <code>null</code>, if no property names are recognized.
 		/// </summary>
-		public String[] getPropertyNames()
+		public string[] getPropertyNames()
 		{
-			return default(String[]);
+			return default(string[]);
 		}
 
 		/// <summary>

@@ -102,7 +102,7 @@ namespace javax.servlet
 		/// all of the values the given request parameter has, or
 		/// <code>null</code> if the parameter does not exist.
 		/// </summary>
-		java.lang.String[] getParameterValues(string @name);
+		string[] getParameterValues(string @name);
 
 		/// <summary>
 		/// Returns the name and version of the protocol the request uses

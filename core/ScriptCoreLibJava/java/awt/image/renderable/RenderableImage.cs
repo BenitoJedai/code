@@ -53,7 +53,7 @@ namespace java.awt.image.renderable
 		/// <summary>
 		/// Returns a list of names recognized by getProperty.
 		/// </summary>
-		String[] getPropertyNames();
+		string[] getPropertyNames();
 
 		/// <summary>
 		/// Returns a vector of RenderableImages that are the sources of
