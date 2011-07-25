@@ -53,7 +53,7 @@ namespace java.lang
 		/// <summary>
 		/// Compares this <code>Double</code> object to another object.
 		/// </summary>
-		public int compareTo(Object @o)
+		public int compareTo(object @o)
 		{
 			return default(int);
 		}
@@ -90,7 +90,7 @@ namespace java.lang
 		/// <summary>
 		/// Compares this object against the specified object.
 		/// </summary>
-		public bool equals(Object @obj)
+		public bool equals(object @obj)
 		{
 			return default(bool);
 		}

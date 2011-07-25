@@ -324,9 +324,9 @@ namespace javax.swing
 		/// Returns an array (length 1) containing the label or
 		/// <code>null</code> if the button is not selected.
 		/// </summary>
-		public Object[] getSelectedObjects()
+		public object[] getSelectedObjects()
 		{
-			return default(Object[]);
+			return default(object[]);
 		}
 
 		/// <summary>

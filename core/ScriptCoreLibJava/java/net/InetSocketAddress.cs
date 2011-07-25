@@ -34,7 +34,7 @@ namespace java.net
 		/// <summary>
 		/// Compares this object against the specified object.
 		/// </summary>
-		public bool equals(Object @obj)
+		public bool equals(object @obj)
 		{
 			return default(bool);
 		}

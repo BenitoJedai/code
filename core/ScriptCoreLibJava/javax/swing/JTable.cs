@@ -39,7 +39,7 @@ namespace javax.swing
 		/// Constructs a <code>JTable</code> to display the values in the two dimensional array,
 		/// <code>rowData</code>, with column names, <code>columnNames</code>.
 		/// </summary>
-		public JTable(Object[][] @rowData, object[] @columnNames)
+		public JTable(object[][] @rowData, object[] @columnNames)
 		{
 		}
 
