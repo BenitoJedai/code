@@ -40,7 +40,7 @@ namespace java.util
 		/// <summary>
 		/// Compares the specified object with this set for equality.
 		/// </summary>
-		bool equals(object @o);
+		bool Equals(object @o);
 
 		/// <summary>
 		/// Returns the hash code value for this set.

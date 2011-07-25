@@ -52,7 +52,7 @@ namespace java.util
 		/// <summary>
 		/// Compares the specified object with this list for equality.
 		/// </summary>
-		public override bool equals(object @o)
+		public override bool Equals(object @o)
 		{
 			return default(bool);
 		}

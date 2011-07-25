@@ -18,7 +18,7 @@ namespace java.util
         /// <summary>
         /// Indicates whether some other object is "equal to" this Comparator.
         /// </summary>
-        bool equals(object obj);
+        bool Equals(object obj);
 
     }
 

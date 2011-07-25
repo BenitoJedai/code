@@ -63,7 +63,7 @@ namespace java.io
         /// <summary>
         /// Converts the buffer's contents into a string, translating bytes into characters according to the platform's default character encoding.
         /// </summary>
-        public string toString()
+        public string ToString()
         {
             return default(string);
         }
