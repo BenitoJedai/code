@@ -90,7 +90,7 @@ namespace java.lang
 		/// <summary>
 		/// Compares this object against the specified object.
 		/// </summary>
-		public bool equals(object @obj)
+		public bool Equals(object @obj)
 		{
 			return default(bool);
 		}

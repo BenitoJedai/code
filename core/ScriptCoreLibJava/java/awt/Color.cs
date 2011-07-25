@@ -114,7 +114,7 @@ namespace java.awt
 		/// Determines whether another object is equal to this
 		/// <code>Color</code>.
 		/// </summary>
-		public bool equals(object @obj)
+		public bool Equals(object @obj)
 		{
 			return default(bool);
 		}

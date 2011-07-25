@@ -16,7 +16,7 @@ namespace java.util
 		{
 		}
 
-		public abstract bool equals(object @o);
+		public abstract bool Equals(object @o);
 		
 		/// <summary>
 		/// Ensures that this collection contains the specified element (optional

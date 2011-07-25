@@ -37,7 +37,7 @@ namespace java.awt
 		/// <summary>
 		/// Determines whether or not two points are equal.
 		/// </summary>
-		public bool equals(object @obj)
+		public bool Equals(object @obj)
 		{
 			return default(bool);
 		}
