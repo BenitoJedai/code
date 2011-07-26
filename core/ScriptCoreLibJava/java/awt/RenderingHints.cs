@@ -8,7 +8,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/RenderingHints.html
 	[Script(IsNative = true)]
-	public class RenderingHints /*: Map*/
+	public class RenderingHints : Map
 	{
 		[Script(IsNative = true)]
 		public abstract class Key
