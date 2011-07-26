@@ -18,11 +18,13 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 		)]
 	internal class __Object
 	{
+        /* is this required anymore?
 		[Script(ExternalTarget = "toString")]
 		public new string ToString()
 		{
 			return default(string);
 		}
+         * */
 
 		[Script(DefineAsStatic = true)]
 		new public Type GetType()

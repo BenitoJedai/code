@@ -45,7 +45,7 @@ namespace java.util
         /// <summary>
         /// Returns the hash code value for this map.
         /// </summary>
-        int hashCode();
+        int GetHashCode();
 
         /// <summary>
         /// Returns
