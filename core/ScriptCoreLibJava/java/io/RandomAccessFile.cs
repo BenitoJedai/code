@@ -58,7 +58,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Reads a byte of data from this file.
+        /// Reads a sbyte of data from this file.
         /// </summary>
         public int read()
         {
@@ -122,14 +122,14 @@ namespace java.io
         }
 
         /// <summary>
-        /// Reads <code>b.length</code> bytes from this file into the byte  array, starting at the current file pointer.
+        /// Reads <code>b.length</code> bytes from this file into the sbyte  array, starting at the current file pointer.
         /// </summary>
         public void readFully(sbyte[] b)
         {
         }
 
         /// <summary>
-        /// Reads exactly <code>len</code> bytes from this file into the byte  array, starting at the current file pointer.
+        /// Reads exactly <code>len</code> bytes from this file into the sbyte  array, starting at the current file pointer.
         /// </summary>
         public void readFully(sbyte[] b, int off, int len)
         {
@@ -214,35 +214,35 @@ namespace java.io
         }
 
         /// <summary>
-        /// Writes <code>b.length</code> bytes from the specified byte array  to this file, starting at the current file pointer.
+        /// Writes <code>b.length</code> bytes from the specified sbyte array  to this file, starting at the current file pointer.
         /// </summary>
         public void write(sbyte[] b)
         {
         }
 
         /// <summary>
-        /// Writes <code>len</code> bytes from the specified byte array  starting at offset <code>off</code> to this file.
+        /// Writes <code>len</code> bytes from the specified sbyte array  starting at offset <code>off</code> to this file.
         /// </summary>
         public void write(sbyte[] b, int off, int len)
         {
         }
 
         /// <summary>
-        /// Writes the specified byte to this file.
+        /// Writes the specified sbyte to this file.
         /// </summary>
         public void write(int b)
         {
         }
 
         /// <summary>
-        /// Writes a <code>boolean</code> to the file as a one-byte value.
+        /// Writes a <code>boolean</code> to the file as a one-sbyte value.
         /// </summary>
         public void writeBoolean(bool v)
         {
         }
 
         /// <summary>
-        /// Writes a <code>byte</code> to the file as a one-byte value.
+        /// Writes a <code>sbyte</code> to the file as a one-sbyte value.
         /// </summary>
         public void writeByte(int v)
         {
@@ -256,7 +256,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Writes a <code>char</code> to the file as a two-byte value, high byte first.
+        /// Writes a <code>char</code> to the file as a two-sbyte value, high sbyte first.
         /// </summary>
         public void writeChar(int v)
         {
@@ -270,35 +270,35 @@ namespace java.io
         }
 
         /// <summary>
-        /// Converts the double argument to a <code>long</code> using the  <code>doubleToLongBits</code> method in class <code>Double</code>,  and then writes that <code>long</code> value to the file as an  eight-byte quantity, high byte first.
+        /// Converts the double argument to a <code>long</code> using the  <code>doubleToLongBits</code> method in class <code>Double</code>,  and then writes that <code>long</code> value to the file as an  eight-sbyte quantity, high sbyte first.
         /// </summary>
         public void writeDouble(double v)
         {
         }
 
         /// <summary>
-        /// Converts the float argument to an <code>int</code> using the  <code>floatToIntBits</code> method in class <code>Float</code>,  and then writes that <code>int</code> value to the file as a  four-byte quantity, high byte first.
+        /// Converts the float argument to an <code>int</code> using the  <code>floatToIntBits</code> method in class <code>Float</code>,  and then writes that <code>int</code> value to the file as a  four-sbyte quantity, high sbyte first.
         /// </summary>
         public void writeFloat(float v)
         {
         }
 
         /// <summary>
-        /// Writes an <code>int</code> to the file as four bytes, high byte first.
+        /// Writes an <code>int</code> to the file as four bytes, high sbyte first.
         /// </summary>
         public void writeInt(int v)
         {
         }
 
         /// <summary>
-        /// Writes a <code>long</code> to the file as eight bytes, high byte first.
+        /// Writes a <code>long</code> to the file as eight bytes, high sbyte first.
         /// </summary>
         public void writeLong(long v)
         {
         }
 
         /// <summary>
-        /// Writes a <code>short</code> to the file as two bytes, high byte first.
+        /// Writes a <code>short</code> to the file as two bytes, high sbyte first.
         /// </summary>
         public void writeShort(int v)
         {

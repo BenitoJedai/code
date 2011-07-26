@@ -76,7 +76,7 @@ namespace javax.sound.sampled
 		}
 
 		/// <summary>
-		/// Reads the next byte of data from the audio input stream.
+		/// Reads the next sbyte of data from the audio input stream.
 		/// </summary>
 		public override int read()
 		{
@@ -94,7 +94,7 @@ namespace javax.sound.sampled
 
 		/// <summary>
 		/// Reads up to a specified maximum number of bytes of data from the audio
-		/// stream, putting them into the given byte array.
+		/// stream, putting them into the given sbyte array.
 		/// </summary>
 		public int read(sbyte[] @b, int @off, int @len)
 		{

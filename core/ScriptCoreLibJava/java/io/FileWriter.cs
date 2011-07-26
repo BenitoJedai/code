@@ -4,7 +4,7 @@ using ScriptCoreLib;
 namespace java.io
 {
     /// <summary>
-    /// Convenience class for writing character files. The constructors of this class assume that the default character encoding and the default byte-buffer size are acceptable. To specify these values yourself, construct an OutputStreamWriter on a FileOutputStream. 
+    /// Convenience class for writing character files. The constructors of this class assume that the default character encoding and the default sbyte-buffer size are acceptable. To specify these values yourself, construct an OutputStreamWriter on a FileOutputStream. 
     /// </summary>
     [Script(IsNative = true)]
     public class FileWriter : OutputStreamWriter

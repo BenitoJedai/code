@@ -11,14 +11,14 @@ namespace java.io
 		/// <summary>
 		/// Writes to the output stream all the bytes in array <code>b</code>.
 		/// </summary>
-		void write(byte[] @b);
+		void write(sbyte[] @b);
 
 		/// <summary>
 		/// Writes <code>len</code> bytes from array
 		/// <code>b</code>, in order,  to
 		/// the output stream.
 		/// </summary>
-		void write(byte[] @b, int @off, int @len);
+		void write(sbyte[] @b, int @off, int @len);
 
 		/// <summary>
 		/// Writes to the output stream the eight

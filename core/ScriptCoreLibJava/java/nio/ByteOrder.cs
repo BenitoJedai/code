@@ -8,7 +8,7 @@ namespace java.nio
     {
         #region methods
         /// <summary>
-        /// Retrieves the native byte order of the underlying platform.
+        /// Retrieves the native sbyte order of the underlying platform.
         /// </summary>
         public static ByteOrder nativeOrder()
         {

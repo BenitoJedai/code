@@ -75,7 +75,7 @@ namespace javax.sound.sampled
 
 		/// <summary>
 		/// Indicates whether the audio data is stored in big-endian or little-endian
-		/// byte order.
+		/// sbyte order.
 		/// </summary>
 		public bool isBigEndian()
 		{

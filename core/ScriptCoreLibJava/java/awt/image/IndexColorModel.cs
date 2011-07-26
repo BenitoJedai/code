@@ -14,7 +14,7 @@ namespace java.awt.image
 		/// Constructs an <code>IndexColorModel</code> from the specified
 		/// arrays of red, green, and blue components.
 		/// </summary>
-		public IndexColorModel(int @bits, int @size, byte[] @r, byte[] @g, byte[] @b)
+		public IndexColorModel(int @bits, int @size, sbyte[] @r, sbyte[] @g, sbyte[] @b)
 			: base(0)
 		{
 		}
@@ -23,7 +23,7 @@ namespace java.awt.image
 		/// Constructs an <code>IndexColorModel</code> from the given
 		/// arrays of red, green, blue and alpha components.
 		/// </summary>
-		public IndexColorModel(int @bits, int @size, byte[] @r, byte[] @g, byte[] @b, byte[] @a)
+		public IndexColorModel(int @bits, int @size, sbyte[] @r, sbyte[] @g, sbyte[] @b, sbyte[] @a)
 			: base(0)
 		{
 		}
@@ -32,7 +32,7 @@ namespace java.awt.image
 		/// Constructs an <code>IndexColorModel</code> from the given arrays
 		/// of red, green, and blue components.
 		/// </summary>
-		public IndexColorModel(int @bits, int @size, byte[] @r, byte[] @g, byte[] @b, int @trans)
+		public IndexColorModel(int @bits, int @size, sbyte[] @r, sbyte[] @g, sbyte[] @b, int @trans)
 			: base(0)
 		{
 		}
@@ -42,7 +42,7 @@ namespace java.awt.image
 		/// array of interleaved red, green, blue and optional alpha
 		/// components.
 		/// </summary>
-		public IndexColorModel(int @bits, int @size, byte[] @cmap, int @start, bool @hasalpha)
+		public IndexColorModel(int @bits, int @size, sbyte[] @cmap, int @start, bool @hasalpha)
 			: base(0)
 		{
 		}
@@ -51,7 +51,7 @@ namespace java.awt.image
 		/// Constructs an <code>IndexColorModel</code> from a single array of
 		/// interleaved red, green, blue and optional alpha components.
 		/// </summary>
-		public IndexColorModel(int @bits, int @size, byte[] @cmap, int @start, bool @hasalpha, int @trans)
+		public IndexColorModel(int @bits, int @size, sbyte[] @cmap, int @start, bool @hasalpha, int @trans)
 			: base(0)
 		{
 		}
@@ -129,7 +129,7 @@ namespace java.awt.image
 		/// Copies the array of alpha transparency components into the
 		/// specified array.
 		/// </summary>
-		public void getAlphas(byte[] @a)
+		public void getAlphas(sbyte[] @a)
 		{
 		}
 
@@ -145,7 +145,7 @@ namespace java.awt.image
 		/// <summary>
 		/// Copies the array of blue color components into the specified array.
 		/// </summary>
-		public void getBlues(byte[] @b)
+		public void getBlues(sbyte[] @b)
 		{
 		}
 
@@ -217,7 +217,7 @@ namespace java.awt.image
 		/// <summary>
 		/// Copies the array of green color components into the specified array.
 		/// </summary>
-		public void getGreens(byte[] @g)
+		public void getGreens(sbyte[] @g)
 		{
 		}
 
@@ -242,7 +242,7 @@ namespace java.awt.image
 		/// <summary>
 		/// Copies the array of red color components into the specified array.
 		/// </summary>
-		public void getReds(byte[] @r)
+		public void getReds(sbyte[] @r)
 		{
 		}
 

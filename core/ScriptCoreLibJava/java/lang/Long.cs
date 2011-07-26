@@ -12,7 +12,7 @@ namespace java.lang
 
         #region methods
         /// <summary>
-        /// Returns the value of this <code>Long</code> as a <code>byte</code>.
+        /// Returns the value of this <code>Long</code> as a <code>sbyte</code>.
         /// </summary>
         public sbyte byteValue()
         {

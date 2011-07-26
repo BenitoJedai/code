@@ -26,7 +26,7 @@ namespace javax.xml.transform.stream
 		}
 
 		/// <summary>
-		/// Construct a StreamResult from a byte stream.
+		/// Construct a StreamResult from a sbyte stream.
 		/// </summary>
 		public StreamResult(OutputStream @outputStream)
 		{
@@ -47,7 +47,7 @@ namespace javax.xml.transform.stream
 		}
 
 		/// <summary>
-		/// Get the byte stream that was set with setOutputStream.
+		/// Get the sbyte stream that was set with setOutputStream.
 		/// </summary>
 		public OutputStream getOutputStream()
 		{
@@ -86,7 +86,7 @@ namespace javax.xml.transform.stream
 
 		/// <summary>
 		/// Set the systemID that may be used in association
-		/// with the byte or character stream, or, if neither is set, use
+		/// with the sbyte or character stream, or, if neither is set, use
 		/// this value as a writeable URI (probably a file name).
 		/// </summary>
 		public void setSystemId(string @systemId)

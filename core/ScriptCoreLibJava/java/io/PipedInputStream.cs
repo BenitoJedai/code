@@ -16,7 +16,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Reads the next byte of data from this piped input stream.
+        /// Reads the next sbyte of data from this piped input stream.
         /// </summary>
         public override int read()
         {
@@ -26,7 +26,7 @@ namespace java.io
 
 
         /// <summary>
-        /// Receives a byte of data.
+        /// Receives a sbyte of data.
         /// </summary>
         protected void receive(int b)
         {

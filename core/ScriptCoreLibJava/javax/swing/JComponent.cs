@@ -114,7 +114,7 @@ namespace javax.swing
 		/// <summary>
 		/// Reports a bound property change.
 		/// </summary>
-		public void firePropertyChange(string @propertyName, byte @oldValue, byte @newValue)
+		public void firePropertyChange(string @propertyName, sbyte @oldValue, sbyte @newValue)
 		{
 		}
 

@@ -25,7 +25,7 @@ namespace java.awt
 		/// Returns the total advance width for showing the specified array
 		/// of bytes in this <code>Font</code>.
 		/// </summary>
-		public int bytesWidth(byte[] @data, int @off, int @len)
+		public int bytesWidth(sbyte[] @data, int @off, int @len)
 		{
 			return default(int);
 		}

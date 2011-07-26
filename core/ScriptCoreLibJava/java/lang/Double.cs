@@ -26,12 +26,12 @@ namespace java.lang
 		}
 
 		/// <summary>
-		/// Returns the value of this <code>Double</code> as a <code>byte</code> (by
-		/// casting to a <code>byte</code>).
+		/// Returns the value of this <code>Double</code> as a <code>sbyte</code> (by
+		/// casting to a <code>sbyte</code>).
 		/// </summary>
-		public byte byteValue()
+		public sbyte byteValue()
 		{
-			return default(byte);
+			return default(sbyte);
 		}
 
 		/// <summary>

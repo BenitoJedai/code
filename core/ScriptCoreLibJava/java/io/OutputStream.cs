@@ -33,7 +33,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Writes <code>b.length</code> bytes from the specified byte array
+		/// Writes <code>b.length</code> bytes from the specified sbyte array
 		/// to this output stream.
 		/// </summary>
 		public void write(sbyte[] @b)
@@ -41,7 +41,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Writes <code>len</code> bytes from the specified byte array
+		/// Writes <code>len</code> bytes from the specified sbyte array
 		/// starting at offset <code>off</code> to this output stream.
 		/// </summary>
 		public void write(sbyte[] @b, int @off, int @len)
@@ -49,7 +49,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Writes the specified byte to this output stream.
+		/// Writes the specified sbyte to this output stream.
 		/// </summary>
 		abstract public void write(int @b);
 

@@ -63,137 +63,393 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs" />
+    <Compile Include="BCLImplementation\Microsoft\VisualBasic\CompilerServices\Operators.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="BCLImplementation\System\Action.cs" />
-    <Compile Include="BCLImplementation\System\Activator.cs" />
-    <Compile Include="BCLImplementation\System\Array.cs" />
-    <Compile Include="BCLImplementation\System\BitConverter.cs" />
-    <Compile Include="BCLImplementation\System\Boolean.cs" />
-    <Compile Include="BCLImplementation\System\Collections\ArrayList.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Hashtable.cs" />
-    <Compile Include="BCLImplementation\System\Collections\IDictionary.cs" />
-    <Compile Include="BCLImplementation\System\Collections\IEnumerator.cs" />
-    <Compile Include="BCLImplementation\System\Collections\IEnumerable.cs" />
-    <Compile Include="BCLImplementation\System\Collections\ICollection.cs" />
-    <Compile Include="BCLImplementation\System\Collections\IList.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Queue.cs" />
-    <Compile Include="BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
-    <Compile Include="BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\Component.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\ComponentCollection.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\Container.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\IContainer.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\IComponent.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\ISite.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs" />
-    <Compile Include="BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs" />
-    <Compile Include="BCLImplementation\System\Configuration\ApplicationSettingsBase.cs" />
-    <Compile Include="BCLImplementation\System\Configuration\SettingsBase.cs" />
-    <Compile Include="BCLImplementation\System\Console.cs" />
-    <Compile Include="BCLImplementation\System\Convert.cs" />
-    <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
-    <Compile Include="BCLImplementation\System\Attribute.cs" />
-    <Compile Include="BCLImplementation\System\Char.cs" />
-    <Compile Include="BCLImplementation\System\Diagnostics\Debugger.cs" />
-    <Compile Include="BCLImplementation\System\EventArgs.cs" />
+    <Compile Include="BCLImplementation\System\Activator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Array.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\AsyncCallback.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Attribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\BitConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Boolean.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Byte.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Char.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\ArrayList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Hashtable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\ICollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\IDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\IEnumerable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\IEnumerator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\IList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Queue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\ReadOnlyCollectionBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Specialized\NameObjectCollectionBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Specialized\NameValueCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Collections\Specialized\StringDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\CancelEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\Component.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\ComponentCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\Container.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\IComponent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\IContainer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\INotifyPropertyChanged.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\ISite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\ISynchronizeInvoke.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ComponentModel\MarshalByValueComponent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Configuration\ApplicationSettingsBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Configuration\SettingsBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Console.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Convert.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\DateTime.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Delegate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Diagnostics\Debugger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Diagnostics\Trace.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Double.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Environment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\EventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="BCLImplementation\System\EventHandler.cs" />
-    <Compile Include="BCLImplementation\System\Globalization\CultureInfo.cs" />
-    <Compile Include="BCLImplementation\System\IFormatProvider.cs" />
-    <Compile Include="BCLImplementation\System\IO\StreamReader.cs" />
-    <Compile Include="BCLImplementation\System\IO\Directory.cs" />
-    <Compile Include="BCLImplementation\System\IO\TextWriter.cs" />
-    <Compile Include="BCLImplementation\System\IServiceProvider.cs" />
-    <Compile Include="BCLImplementation\System\MarshalByRefObject.cs" />
-    <Compile Include="BCLImplementation\System\Net\Dns.cs" />
-    <Compile Include="BCLImplementation\System\Net\EndPoint.cs" />
-    <Compile Include="BCLImplementation\System\Net\IPEndPoint.cs" />
-    <Compile Include="BCLImplementation\System\Net\IPHostEntry.cs" />
-    <Compile Include="BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs" />
-    <Compile Include="BCLImplementation\System\Net\WebClient.cs" />
-    <Compile Include="BCLImplementation\System\NotSupportedException.cs" />
-    <Compile Include="BCLImplementation\System\Diagnostics\Stopwatch.cs" />
-    <Compile Include="BCLImplementation\System\IO\DirectoryInfo.cs" />
-    <Compile Include="BCLImplementation\System\IO\FileInfo.cs" />
-    <Compile Include="BCLImplementation\System\IO\FileSystemInfo.cs" />
-    <Compile Include="BCLImplementation\System\IO\Path.cs" />
-    <Compile Include="BCLImplementation\System\Net\IPAddress.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\NetworkStream.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\Socket.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs" />
-    <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\Assembly.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\ConstructorInfo.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\ICustomAttributeProvider.cs" />
-    <Compile Include="BCLImplementation\System\Resources\ResourceManager.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Assembly.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\Serialization\StreamingContext.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\RSAParameters.cs" />
-    <Compile Include="BCLImplementation\System\Security\IEvidenceFactory.cs" />
-    <Compile Include="BCLImplementation\System\Text\UTF8Encoding.cs" />
-    <Compile Include="BCLImplementation\System\Threading\EventWaitHandle.cs" />
-    <Compile Include="BCLImplementation\System\Threading\WaitHandle.cs" />
-    <Compile Include="BCLImplementation\System\TimeSpan.cs" />
-    <Compile Include="BCLImplementation\System\ValueType.cs" />
-    <Compile Include="BCLImplementation\System\UInt32.cs" />
-    <Compile Include="BCLImplementation\System\DateTime.cs" />
-    <Compile Include="BCLImplementation\System\InvalidOperationException.cs" />
-    <Compile Include="BCLImplementation\System\IO\BinaryWriter.cs" />
-    <Compile Include="BCLImplementation\System\SByte.cs" />
-    <Compile Include="BCLImplementation\System\Delegate.cs" />
-    <Compile Include="BCLImplementation\System\Diagnostics\Trace.cs" />
-    <Compile Include="BCLImplementation\System\Double.cs" />
-    <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
-    <Compile Include="BCLImplementation\System\IClonable.cs" />
-    <Compile Include="BCLImplementation\System\Int16.cs" />
-    <Compile Include="BCLImplementation\System\Int32.cs" />
-    <Compile Include="BCLImplementation\System\Int64.cs" />
-    <Compile Include="BCLImplementation\System\IntPtr.cs" />
-    <Compile Include="BCLImplementation\System\IOException.cs" />
-    <Compile Include="BCLImplementation\System\IO\BinaryReader.cs" />
-    <Compile Include="BCLImplementation\System\IO\StringReader.cs" />
-    <Compile Include="BCLImplementation\System\IO\TextReader.cs" />
-    <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
-    <Compile Include="BCLImplementation\System\Object.cs" />
-    <Compile Include="BCLImplementation\System\Environment.cs" />
-    <Compile Include="BCLImplementation\System\IO\File.cs" />
-    <Compile Include="BCLImplementation\System\IO\MemoryStream.cs" />
-    <Compile Include="BCLImplementation\System\IO\Stream.cs" />
-    <Compile Include="BCLImplementation\System\NotImplementedException.cs" />
-    <Compile Include="BCLImplementation\System\Exception.cs" />
-    <Compile Include="BCLImplementation\System\IDisposable.cs" />
-    <Compile Include="BCLImplementation\System\Math.cs" />
-    <Compile Include="BCLImplementation\System\Random.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\FieldInfo.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
-    <Compile Include="BCLImplementation\System\Reflection\ParameterInfo.cs" />
-    <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Attribute.cs" />
-    <Compile Include="BCLImplementation\System\Runtime\Serialization\ISerializable.cs" />
-    <Compile Include="BCLImplementation\System\Byte.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5.cs" />
-    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs" />
-    <Compile Include="BCLImplementation\System\String.cs" />
-    <Compile Include="BCLImplementation\System\Text\ASCIIEncoding.cs" />
-    <Compile Include="BCLImplementation\System\Text\Encoding.cs" />
-    <Compile Include="BCLImplementation\System\Text\StringBuilder.cs" />
-    <Compile Include="BCLImplementation\System\Threading\Thread.cs" />
+    <Compile Include="BCLImplementation\System\Exception.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Globalization\CultureInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IAsyncResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IClonable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IDisposable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IFormatProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Int16.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Int32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Int64.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IntPtr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\InvalidOperationException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IOException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\BinaryReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\BinaryWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\Directory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\DirectoryInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\File.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\FileInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\FileSystemInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\MemoryStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\Path.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\Stream.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\StreamReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\StringReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\TextReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IO\TextWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\IServiceProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\MarshalByRefObject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Math.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\MulticastDelegate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\Dns.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\EndPoint.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\IPAddress.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\IPEndPoint.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\IPHostEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\NetworkInformation\NetworkInterface.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\Sockets\NetworkStream.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\Sockets\Socket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\Sockets\TcpClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\Sockets\TcpListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Net\WebClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\NotImplementedException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\NotSupportedException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Object.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Random.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\Assembly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\ConstructorInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\FieldInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\ICustomAttributeProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Reflection\ParameterInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Resources\ResourceManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\RuntimeTypeHandle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Assembly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Runtime\InteropServices\_Attribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\IDeserializationCallback.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\ISerializable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\SerializationInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Runtime\Serialization\StreamingContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\SByte.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\AsymmetricAlgorithm.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\HashAlgorithm.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\MD5CryptoServiceProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\RSA.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\RSACryptoServiceProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\RSAParameters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\Cryptography\SHA1CryptoServiceProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Security\IEvidenceFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\String.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Text\ASCIIEncoding.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Text\Encoding.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Text\StringBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Text\UTF8Encoding.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Threading\EventWaitHandle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Threading\Thread.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="BCLImplementation\System\Threading\ThreadStart.cs" />
-    <Compile Include="BCLImplementation\System\Type.cs" />
-    <Compile Include="BCLImplementation\System\Uri.cs" />
+    <Compile Include="BCLImplementation\System\Threading\WaitHandle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\TimeSpan.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Type.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\UInt32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\Uri.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BCLImplementation\System\ValueType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\BCLImplementationExtensions.cs" />
     <Compile Include="Extensions\ConfigurationProvider.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />

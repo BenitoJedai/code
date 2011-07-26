@@ -49,7 +49,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Writes <code>len</code> bytes from the specified byte array
+		/// Writes <code>len</code> bytes from the specified sbyte array
 		/// starting at offset <code>off</code> to this piped output stream.
 		/// </summary>
 		public void write(sbyte[] @b, int @off, int @len)
@@ -57,7 +57,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Writes the specified <code>byte</code> to the piped output stream.
+		/// Writes the specified <code>sbyte</code> to the piped output stream.
 		/// </summary>
 		public override void write(int @b)
 		{

@@ -22,15 +22,15 @@ namespace java.io
 		/// <summary>
 		/// Writes an array of bytes.
 		/// </summary>
-		void write(byte[] @b);
+		void write(sbyte[] @b);
 
 		/// <summary>
 		/// Writes a sub array of bytes.
 		/// </summary>
-		void write(byte[] @b, int @off, int @len);
+		void write(sbyte[] @b, int @off, int @len);
 
 		/// <summary>
-		/// Writes a byte.
+		/// Writes a sbyte.
 		/// </summary>
 		void write(int @b);
 

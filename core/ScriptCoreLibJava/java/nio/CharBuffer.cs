@@ -113,7 +113,7 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Retrieves this buffer's byte order.
+        /// Retrieves this buffer's sbyte order.
         /// </summary>
         public abstract ByteOrder order();
 
