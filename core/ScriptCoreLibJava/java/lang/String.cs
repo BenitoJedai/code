@@ -199,7 +199,7 @@ namespace java.lang
 
 		/// <summary>
 		/// Encodes this <tt>String</tt> into a sequence of bytes using the
-		/// platform's default charset, storing the result into a new byte array.
+		/// platform's default charset, storing the result into a new sbyte array.
 		/// </summary>
 		public sbyte[] getBytes()
 		{
@@ -218,7 +218,7 @@ namespace java.lang
 
 		/// <summary>
 		/// Encodes this <tt>String</tt> into a sequence of bytes using the
-		/// named charset, storing the result into a new byte array.
+		/// named charset, storing the result into a new sbyte array.
 		/// </summary>
 		public sbyte[] getBytes(string @charsetName)
 		{

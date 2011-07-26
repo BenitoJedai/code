@@ -70,9 +70,9 @@ namespace java.lang
 		/// Returns the Unicode directionality property for the given
 		/// character.
 		/// </summary>
-		static public byte getDirectionality(char @ch)
+		static public sbyte getDirectionality(char @ch)
 		{
-			return default(byte);
+			return default(sbyte);
 		}
 
 		/// <summary>

@@ -30,11 +30,11 @@ namespace java.lang.reflect
 
 		/// <summary>
 		/// Returns the value of the indexed component in the specified
-		/// array object, as a <code>byte</code>.
+		/// array object, as a <code>sbyte</code>.
 		/// </summary>
-		static public byte getByte(object @array, int @index)
+		static public sbyte getByte(object @array, int @index)
 		{
-			return default(byte);
+			return default(sbyte);
 		}
 
 		/// <summary>
@@ -135,9 +135,9 @@ namespace java.lang.reflect
 
 		/// <summary>
 		/// Sets the value of the indexed component of the specified array
-		/// object to the specified <code>byte</code> value.
+		/// object to the specified <code>sbyte</code> value.
 		/// </summary>
-		static public void setByte(object @array, int @index, byte @b)
+		static public void setByte(object @array, int @index, sbyte @b)
 		{
 		}
 

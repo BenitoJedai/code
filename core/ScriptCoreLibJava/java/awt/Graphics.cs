@@ -73,10 +73,10 @@ namespace java.awt
 		abstract public void drawArc(int @x, int @y, int @width, int @height, int @startAngle, int @arcAngle);
 
 		/// <summary>
-		/// Draws the text given by the specified byte array, using this
+		/// Draws the text given by the specified sbyte array, using this
 		/// graphics context's current font and color.
 		/// </summary>
-		public void drawBytes(byte[] @data, int @offset, int @length, int @x, int @y)
+		public void drawBytes(sbyte[] @data, int @offset, int @length, int @x, int @y)
 		{
 		}
 

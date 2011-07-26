@@ -11,14 +11,14 @@ namespace java.awt.font
 		/// <summary>
 		/// Constructs a <code>GlyphMetrics</code> object.
 		/// </summary>
-		public GlyphMetrics(bool @horizontal, float @advanceX, float @advanceY, Rectangle2D @bounds, byte @glyphType)
+		public GlyphMetrics(bool @horizontal, float @advanceX, float @advanceY, Rectangle2D @bounds, sbyte @glyphType)
 		{
 		}
 
 		/// <summary>
 		/// Constructs a <code>GlyphMetrics</code> object.
 		/// </summary>
-		public GlyphMetrics(float @advance, Rectangle2D @bounds, byte @glyphType)
+		public GlyphMetrics(float @advance, Rectangle2D @bounds, sbyte @glyphType)
 		{
 		}
 

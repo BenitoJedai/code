@@ -7,7 +7,7 @@ namespace java.nio
     {
         #region methods
         /// <summary>
-        /// Allocates a new byte buffer.
+        /// Allocates a new sbyte buffer.
         /// </summary>
         public static ByteBuffer allocate(int capacity)
         {
@@ -15,7 +15,7 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Allocates a new direct byte buffer.
+        /// Allocates a new direct sbyte buffer.
         /// </summary>
         public static ByteBuffer allocateDirect(int capacity)
         {
@@ -23,7 +23,7 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Returns the byte array that backs this buffer  <i>(optional operation)</i>.
+        /// Returns the sbyte array that backs this buffer  <i>(optional operation)</i>.
         /// </summary>
         public sbyte[] array()
         {
@@ -39,37 +39,37 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Creates a view of this byte buffer as a char buffer.
+        /// Creates a view of this sbyte buffer as a char buffer.
         /// </summary>
         public abstract CharBuffer asCharBuffer();
 
         /// <summary>
-        /// Creates a view of this byte buffer as a double buffer.
+        /// Creates a view of this sbyte buffer as a double buffer.
         /// </summary>
         public abstract DoubleBuffer asDoubleBuffer();
 
         /// <summary>
-        /// Creates a view of this byte buffer as a float buffer.
+        /// Creates a view of this sbyte buffer as a float buffer.
         /// </summary>
         public abstract FloatBuffer asFloatBuffer();
 
         /// <summary>
-        /// Creates a view of this byte buffer as an int buffer.
+        /// Creates a view of this sbyte buffer as an int buffer.
         /// </summary>
         public abstract IntBuffer asIntBuffer();
 
         /// <summary>
-        /// Creates a view of this byte buffer as a long buffer.
+        /// Creates a view of this sbyte buffer as a long buffer.
         /// </summary>
         public abstract LongBuffer asLongBuffer();
 
         /// <summary>
-        /// Creates a new, read-only byte buffer that shares this buffer's content.
+        /// Creates a new, read-only sbyte buffer that shares this buffer's content.
         /// </summary>
         public abstract ByteBuffer asReadOnlyBuffer();
 
         /// <summary>
-        /// Creates a view of this byte buffer as a short buffer.
+        /// Creates a view of this sbyte buffer as a short buffer.
         /// </summary>
         public abstract ShortBuffer asShortBuffer();
 
@@ -87,7 +87,7 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Creates a new byte buffer that shares this buffer's content.
+        /// Creates a new sbyte buffer that shares this buffer's content.
         /// </summary>
         public abstract ByteBuffer duplicate();
 
@@ -178,7 +178,7 @@ namespace java.nio
         public abstract short getShort(int index);
 
         /// <summary>
-        /// Tells whether or not this buffer is backed by an accessible byte array.
+        /// Tells whether or not this buffer is backed by an accessible sbyte array.
         /// </summary>
         public bool hasArray()
         {
@@ -186,12 +186,12 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Tells whether or not this byte buffer is direct.
+        /// Tells whether or not this sbyte buffer is direct.
         /// </summary>
         public abstract bool isDirect();
 
         /// <summary>
-        /// Retrieves this buffer's byte order.
+        /// Retrieves this buffer's sbyte order.
         /// </summary>
         public ByteOrder order()
         {
@@ -199,7 +199,7 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Modifies this buffer's byte order.
+        /// Modifies this buffer's sbyte order.
         /// </summary>
         public ByteBuffer order(ByteOrder bo)
         {
@@ -301,12 +301,12 @@ namespace java.nio
         public abstract ByteBuffer putShort(short value);
 
         /// <summary>
-        /// Creates a new byte buffer whose content is a shared subsequence of this buffer's content.
+        /// Creates a new sbyte buffer whose content is a shared subsequence of this buffer's content.
         /// </summary>
         public abstract ByteBuffer slice();
 
         /// <summary>
-        /// Wraps a byte array into a buffer.
+        /// Wraps a sbyte array into a buffer.
         /// </summary>
         public static ByteBuffer wrap(sbyte[] array)
         {
@@ -314,7 +314,7 @@ namespace java.nio
         }
 
         /// <summary>
-        /// Wraps a byte array into a buffer.
+        /// Wraps a sbyte array into a buffer.
         /// </summary>
         public static ByteBuffer wrap(sbyte[] array, int offset, int length)
         {

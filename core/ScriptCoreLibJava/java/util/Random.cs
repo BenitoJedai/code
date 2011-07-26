@@ -43,9 +43,9 @@ namespace java.util
         }
 
         /// <summary>
-        /// Generates random bytes and places them into a user-supplied byte array.
+        /// Generates random bytes and places them into a user-supplied sbyte array.
         /// </summary>
-        public void nextBytes(byte[] bytes)
+        public void nextBytes(sbyte[] bytes)
         {
             return;
         }

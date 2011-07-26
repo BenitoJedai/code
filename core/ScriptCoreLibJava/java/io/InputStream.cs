@@ -38,7 +38,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Reads the next byte of data from the input stream.
+        /// Reads the next sbyte of data from the input stream.
         /// </summary>
         public abstract int read();
 

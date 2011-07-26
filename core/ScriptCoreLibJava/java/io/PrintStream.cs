@@ -196,7 +196,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Write <code>len</code> bytes from the specified byte array starting at
+		/// Write <code>len</code> bytes from the specified sbyte array starting at
 		/// offset <code>off</code> to this stream.
 		/// </summary>
 		public void write(sbyte[] @buf, int @off, int @len)
@@ -204,7 +204,7 @@ namespace java.io
 		}
 
 		/// <summary>
-		/// Write the specified byte to this stream.
+		/// Write the specified sbyte to this stream.
 		/// </summary>
 		public void write(int @b)
 		{

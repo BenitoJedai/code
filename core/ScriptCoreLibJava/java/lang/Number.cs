@@ -15,11 +15,11 @@ namespace java.lang
 		}
 
 		/// <summary>
-		/// Returns the value of the specified number as a <code>byte</code>.
+		/// Returns the value of the specified number as a <code>sbyte</code>.
 		/// </summary>
-		public byte byteValue()
+		public sbyte byteValue()
 		{
-			return default(byte);
+			return default(sbyte);
 		}
 
 		/// <summary>

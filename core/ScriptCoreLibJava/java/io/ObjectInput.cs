@@ -21,19 +21,19 @@ namespace java.io
 		void close();
 
 		/// <summary>
-		/// Reads a byte of data.
+		/// Reads a sbyte of data.
 		/// </summary>
 		int read();
 
 		/// <summary>
 		/// Reads into an array of bytes.
 		/// </summary>
-		int read(byte[] @b);
+		int read(sbyte[] @b);
 
 		/// <summary>
 		/// Reads into an array of bytes.
 		/// </summary>
-		int read(byte[] @b, int @off, int @len);
+		int read(sbyte[] @b, int @off, int @len);
 
 		/// <summary>
 		/// Read and return an object.

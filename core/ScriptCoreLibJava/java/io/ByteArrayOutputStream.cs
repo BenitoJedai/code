@@ -6,7 +6,7 @@ namespace java.io
     public class ByteArrayOutputStream
     {
         //   // Field Summary
-        //??? protected  byte[]buf 
+        //??? protected  sbyte[]buf 
         //    The buffer where data is stored.
 
         //??? protected  intcount 
@@ -14,14 +14,14 @@ namespace java.io
 
         // Constructor Summary
         /// <summary>
-        /// Creates a new byte array output stream.
+        /// Creates a new sbyte array output stream.
         /// </summary>
         public ByteArrayOutputStream()
         {
         }
 
         /// <summary>
-        /// Creates a new byte array output stream, with a buffer capacity of the specified size, in bytes.
+        /// Creates a new sbyte array output stream, with a buffer capacity of the specified size, in bytes.
         /// </summary>
         public ByteArrayOutputStream(int size)
         {
@@ -53,7 +53,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Creates a newly allocated byte array.
+        /// Creates a newly allocated sbyte array.
         /// </summary>
         public sbyte[] toByteArray()
         {
@@ -93,7 +93,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Writes the specified byte to this byte array output stream.
+        /// Writes the specified sbyte to this sbyte array output stream.
         /// </summary>
         public void write(int b)
         {
@@ -101,7 +101,7 @@ namespace java.io
         }
 
         /// <summary>
-        /// Writes the complete contents of this byte array output stream to the specified output stream argument, as if by calling the output stream's write method using
+        /// Writes the complete contents of this sbyte array output stream to the specified output stream argument, as if by calling the output stream's write method using
         /// </summary>
         public void writeTo(OutputStream _out)
         {

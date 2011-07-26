@@ -19,7 +19,7 @@ namespace javax.servlet
 		/// <summary>
 		/// Reads the input stream, one line at a time.
 		/// </summary>
-		public int readLine(byte[] @b, int @off, int @len)
+		public int readLine(sbyte[] @b, int @off, int @len)
 		{
 			return default(int);
 		}

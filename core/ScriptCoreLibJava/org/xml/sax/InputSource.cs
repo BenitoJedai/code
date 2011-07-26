@@ -16,7 +16,7 @@ namespace org.xml.sax
 
         #region methods
         /// <summary>
-        /// Get the byte stream for this input source.
+        /// Get the sbyte stream for this input source.
         /// </summary>
         public java.io.InputStream getByteStream()
         {
@@ -32,7 +32,7 @@ namespace org.xml.sax
         }
 
         /// <summary>
-        /// Get the character encoding for a byte stream or URI.
+        /// Get the character encoding for a sbyte stream or URI.
         /// </summary>
         public string getEncoding()
         {
@@ -56,7 +56,7 @@ namespace org.xml.sax
         }
 
         /// <summary>
-        /// Set the byte stream for this input source.
+        /// Set the sbyte stream for this input source.
         /// </summary>
         public void setByteStream(java.io.InputStream sbyteStream)
         {

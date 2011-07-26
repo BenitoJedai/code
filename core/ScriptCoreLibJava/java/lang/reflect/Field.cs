@@ -24,7 +24,7 @@ namespace java.lang.reflect
         }
 
         /// <summary>
-        /// Gets the value of a static or instance <code>byte</code> field.
+        /// Gets the value of a static or instance <code>sbyte</code> field.
         /// </summary>
         public sbyte getByte(object obj)
         {
@@ -126,7 +126,7 @@ namespace java.lang.reflect
         }
 
         /// <summary>
-        /// Sets the value of a field as a <code>byte</code> on the specified object.
+        /// Sets the value of a field as a <code>sbyte</code> on the specified object.
         /// </summary>
         public void setByte(object obj, sbyte b)
         {

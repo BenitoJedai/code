@@ -19,7 +19,7 @@ namespace java.lang
         }
 
         /// <summary>
-        /// <B>Deprecated.</B> <I>Replaced by <A HREF="../../java/lang/ClassLoader.html#defineClass(java.lang.String, byte[], int, int)"><CODE>defineClass(String, byte[], int, int)</CODE></A></I>
+        /// <B>Deprecated.</B> <I>Replaced by <A HREF="../../java/lang/ClassLoader.html#defineClass(java.lang.String, sbyte[], int, int)"><CODE>defineClass(String, sbyte[], int, int)</CODE></A></I>
         /// </summary>
         protected Class defineClass(sbyte[] b, int off, int len)
         {

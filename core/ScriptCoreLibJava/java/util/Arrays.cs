@@ -101,14 +101,14 @@ namespace java.util
         }
 
         /// <summary>
-        /// Assigns the specified byte value to each element of the specified array of bytes.
+        /// Assigns the specified sbyte value to each element of the specified array of bytes.
         /// </summary>
         public static void fill(sbyte[] a, sbyte val)
         {
         }
 
         /// <summary>
-        /// Assigns the specified byte value to each element of the specified  range of the specified array of bytes.
+        /// Assigns the specified sbyte value to each element of the specified  range of the specified array of bytes.
         /// </summary>
         public static void fill(sbyte[] a, int fromIndex, int toIndex, sbyte val)
         {

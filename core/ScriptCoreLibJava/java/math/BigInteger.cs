@@ -11,10 +11,10 @@ namespace java.math
 	public class BigInteger : Number
 	{
 		/// <summary>
-		/// Translates a byte array containing the two's-complement binary
+		/// Translates a sbyte array containing the two's-complement binary
 		/// representation of a BigInteger into a BigInteger.
 		/// </summary>
-		public BigInteger(byte[] @val)
+		public BigInteger(sbyte[] @val)
 		{
 		}
 
@@ -22,7 +22,7 @@ namespace java.math
 		/// Translates the sign-magnitude representation of a BigInteger into a
 		/// BigInteger.
 		/// </summary>
-		public BigInteger(int @signum, byte[] @magnitude)
+		public BigInteger(int @signum, sbyte[] @magnitude)
 		{
 		}
 
@@ -384,12 +384,12 @@ namespace java.math
 		}
 
 		/// <summary>
-		/// Returns a byte array containing the two's-complement
+		/// Returns a sbyte array containing the two's-complement
 		/// representation of this BigInteger.
 		/// </summary>
-		public byte[] toByteArray()
+		public sbyte[] toByteArray()
 		{
-			return default(byte[]);
+			return default(sbyte[]);
 		}
 
 		/// <summary>

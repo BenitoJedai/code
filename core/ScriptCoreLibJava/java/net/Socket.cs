@@ -230,7 +230,7 @@ namespace java.net
         }
 
         /// <summary>
-        /// Send one byte of urgent data on the socket.
+        /// Send one sbyte of urgent data on the socket.
         /// </summary>
         public void sendUrgentData(int data)
         {
