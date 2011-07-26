@@ -366,7 +366,7 @@ namespace javax.common.runtime
 
             b.append( whom.Substring(j + what.Length) );
 
-            return b.toString();
+            return b.ToString();
         }
 
         public static string ReplaceWhitespaces(string subject, string e)
