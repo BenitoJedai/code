@@ -41,7 +41,7 @@ namespace java.awt.@event
 		/// Returns a String describing the extended modifier keys and
 		/// mouse buttons, such as "Shift", "Button1", or "Ctrl+Shift".
 		/// </summary>
-		public string getModifiersExText(int @modifiers)
+		public static string getModifiersExText(int @modifiers)
 		{
 			return default(string);
 		}
