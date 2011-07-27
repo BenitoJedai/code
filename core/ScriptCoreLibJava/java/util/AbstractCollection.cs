@@ -112,18 +112,18 @@ namespace java.util
 		/// <summary>
 		/// Returns an array containing all of the elements in this collection.
 		/// </summary>
-		public System.Array toArray()
+		public object[] toArray()
 		{
-			return default(System.Array);
+            return default(object[]);
 		}
 
 		/// <summary>
 		/// Returns an array containing all of the elements in this collection;
 		/// the runtime type of the returned array is that of the specified array.
 		/// </summary>
-		public System.Array toArray(object[] a)
+		public object[] toArray(object[] a)
 		{
-			return default(System.Array);
+            return default(object[]);
 		}
 
 		/// <summary>

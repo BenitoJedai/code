@@ -4,7 +4,7 @@ namespace java.lang.reflect
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/reflect/Field.html
     [Script(IsNative=true)]
-    public class Field
+    public class Field : AccessibleObject
     {
         #region methods
         /// <summary>
