@@ -68,6 +68,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             return Modifier.isPublic(InternalMethod.getModifiers());
         }
 
+        public override bool InternalIsFamily()
+        {
+            return Modifier.isProtected(InternalMethod.getModifiers());
+        }
+
         public override object InternalInvoke(object obj, object[] parameters)
         {
             var n = default(object);

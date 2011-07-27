@@ -23,6 +23,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             throw new NotImplementedException();
         }
 
+        public virtual bool InternalIsFamily()
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual object InternalInvoke(object obj, object[] parameters)
         {
             throw new NotImplementedException();
@@ -31,10 +36,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
 
         public bool IsStatic { get { return InternalIsStatic(); } }
-       
 
         public bool IsPublic { get { return InternalIsPublic(); } }
 
+        public bool IsFamily { get { return InternalIsFamily(); } }
 
 		public object Invoke(object obj, object[] parameters)
 		{

@@ -84,8 +84,10 @@ namespace ScriptCoreLib.Java
         public string[] ParameterTypes;
 
         public string MethodName;
+
         public bool IsStatic;
         public bool IsPublic;
+        public bool IsFamily;
 
         public string ReturnType;
 
@@ -149,6 +151,7 @@ namespace ScriptCoreLib.Java
                     MethodName = f[i].Name,
 
                     IsPublic = f[i].IsPublic,
+                    IsFamily = f[i].IsFamily,
                     IsStatic = f[i].IsStatic
                 };
             }
