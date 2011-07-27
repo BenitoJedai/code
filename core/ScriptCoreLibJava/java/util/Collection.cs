@@ -84,13 +84,13 @@ namespace java.util
 		/// <summary>
 		/// Returns an array containing all of the elements in this collection.
 		/// </summary>
-		System.Array toArray();
+		object[] toArray();
 
 		/// <summary>
 		/// Returns an array containing all of the elements in this collection;
 		/// the runtime type of the returned array is that of the specified array.
 		/// </summary>
-		System.Array toArray(object[] a);
+		object[] toArray(object[] a);
 
 	}
 }
