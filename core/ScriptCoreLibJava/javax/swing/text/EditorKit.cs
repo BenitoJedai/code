@@ -47,12 +47,14 @@ namespace javax.swing.text
 		{
 		}
 
+        
 		/// <summary>
 		/// Fetches the set of commands that can be used
 		/// on a text component that is using a model and
 		/// view produced by this kit.
 		/// </summary>
 		abstract public Action[] getActions();
+        
 
 		/// <summary>
 		/// Gets the MIME type of the data that this
