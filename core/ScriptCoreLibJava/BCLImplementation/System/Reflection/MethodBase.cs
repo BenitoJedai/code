@@ -12,6 +12,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 	[Script(Implements = typeof(MethodBase))]
 	internal abstract class __MethodBase : __MemberInfo
 	{
+        public virtual bool InternalIsAbstract()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public virtual bool InternalIsStatic()
         {
@@ -33,7 +38,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             throw new NotImplementedException();
         }
 
-
+        public bool IsAbstract { get { return InternalIsAbstract(); } }
 
         public bool IsStatic { get { return InternalIsStatic(); } }
 

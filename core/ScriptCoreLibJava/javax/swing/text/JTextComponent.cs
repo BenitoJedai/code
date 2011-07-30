@@ -87,7 +87,7 @@ namespace javax.swing.text
 		/// <summary>
 		/// Fetches the command list for the editor.
 		/// </summary>
-		public Action[] getActions()
+		public virtual Action[] getActions()
 		{
 			return default(Action[]);
 		}

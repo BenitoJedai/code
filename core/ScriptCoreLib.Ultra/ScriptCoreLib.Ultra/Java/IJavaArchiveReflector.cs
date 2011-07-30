@@ -88,6 +88,7 @@ namespace ScriptCoreLib.Java
         public bool IsStatic;
         public bool IsPublic;
         public bool IsFamily;
+        public bool IsAbstract;
 
         public string ReturnType;
 
@@ -152,7 +153,8 @@ namespace ScriptCoreLib.Java
 
                     IsPublic = f[i].IsPublic,
                     IsFamily = f[i].IsFamily,
-                    IsStatic = f[i].IsStatic
+                    IsStatic = f[i].IsStatic,
+                    IsAbstract = f[i].IsAbstract
                 };
             }
 

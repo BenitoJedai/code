@@ -130,7 +130,7 @@ namespace javax.swing
 		/// <summary>
 		/// Fetches the command list for the editor.
 		/// </summary>
-		public Action[] getActions()
+		public override Action[] getActions()
 		{
 			return default(Action[]);
 		}
