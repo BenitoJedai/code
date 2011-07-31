@@ -41,25 +41,50 @@ namespace ScriptCoreLib.Java
         string Type_GetBaseTypeFullName(string TypeName);
         string Type_GetAssemblyFullName(string TypeName);
         string Type_GetAssemblyLocation(string TypeName);
+
         bool Type_IsInterface(string TypeName);
         bool Type_IsAbstract(string TypeName);
         bool Type_IsPublic(string TypeName);
         bool Type_IsNested(string TypeName);
         bool Type_IsNestedPublic(string TypeName);
-        string[] Type_GetInterfaces(string TypeName);
         bool Type_IsArray(string TypeName);
+
         string Type_GetElementType(string TypeName);
+
+
+        string[] Type_GetInterfaces(string TypeName);
+
+        JavaArchiveReflectorTypeInfo Type_Describe(string TypeName);
 
         JavaArchiveReflectorFieldInfo[] Type_GetFields(string TypeName);
         JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName);
         JavaArchiveReflectorMethod[] Type_GetMethods(string TypeName);
     }
 
+    public sealed class JavaArchiveReflectorTypeInfo
+    {
+        public bool IsInterface;
+        public bool IsAbstract;
+        public bool IsPublic;
+        public bool IsNested;
+        public bool IsNestedPublic;
+        public bool IsArray;
+        public bool IsSealed;
+
+        public JavaArchiveReflectorTypeInfo()
+        {
+
+        }
+    }
+
+
     public sealed class JavaArchiveReflectorFieldInfo
     {
         public string FieldName;
         public string FieldType;
 
+        public bool IsStatic;
+        public bool IsFamily;
 
         public JavaArchiveReflectorFieldInfo()
         {
@@ -133,6 +158,23 @@ namespace ScriptCoreLib.Java
 
     partial class JavaArchiveReflector
     {
+        public JavaArchiveReflectorTypeInfo Type_Describe(string TypeName)
+        {
+            var t = this.clazzLoader.GetType(TypeName);
+
+
+            return new JavaArchiveReflectorTypeInfo
+            {
+                IsAbstract = t.IsAbstract,
+                IsArray = t.IsArray,
+                IsInterface = t.IsInterface,
+                IsNested = t.IsNested,
+                IsNestedPublic = t.IsNestedPublic,
+                IsPublic = t.IsPublic,
+                IsSealed = t.IsSealed
+            };
+        }
+
         public JavaArchiveReflectorMethod[] Type_GetMethods(string TypeName)
         {
             var t = this.clazzLoader.GetType(TypeName);
@@ -193,7 +235,10 @@ namespace ScriptCoreLib.Java
                 y[i] = new JavaArchiveReflectorFieldInfo
                 {
                     FieldName = f[i].Name,
-                    FieldType = f[i].FieldType.FullName
+                    FieldType = f[i].FieldType.FullName,
+
+                    IsStatic = f[i].IsStatic,
+                    IsFamily = f[i].IsFamily
                 };
             }
 

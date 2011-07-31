@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace javacard.framework
 {
 	[Script(IsNative = true)]
-	public class JCSystem
+	public sealed class JCSystem
 	{
 		/// <summary>
 		/// This method is invoked by the applet to trigger the object deletion service of the Java Card runtime environment.
