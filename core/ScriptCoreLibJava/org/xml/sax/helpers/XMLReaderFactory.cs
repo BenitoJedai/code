@@ -4,7 +4,7 @@ using ScriptCoreLib;
 namespace org.xml.sax.helpers
 {
     [Script(IsNative = true)]
-    public class XMLReaderFactory
+    public sealed class XMLReaderFactory
     {
 
         #region methods

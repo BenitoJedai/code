@@ -8,7 +8,7 @@ namespace java.net
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/URL.html
     [Script(IsNative = true)]
-    public class URL
+    public sealed class URL
     {
 		/// <summary>
 		/// Returns a URLConnection object that represents a connection to the remote object referred to by the URL.

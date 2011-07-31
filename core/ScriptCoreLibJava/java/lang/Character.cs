@@ -6,7 +6,7 @@ namespace java.lang
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Character.html
 	[Script(IsNative = true)]
-	public class Character
+	public sealed class Character
 	{
 		/// <summary>
 		/// Constructs a newly allocated <code>Character</code> object that

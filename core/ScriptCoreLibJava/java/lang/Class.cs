@@ -10,7 +10,7 @@ namespace java.lang
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Class.html
 	[Script(IsNative = true)]
-	public class Class
+	public sealed class Class
 	{
  
 

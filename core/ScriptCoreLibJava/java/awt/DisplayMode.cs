@@ -6,7 +6,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/DisplayMode.html
 	[Script(IsNative = true)]
-	public class DisplayMode
+	public sealed class DisplayMode
 	{
 		/// <summary>
 		/// Create a new display mode object with the supplied parameters.

@@ -7,7 +7,7 @@ namespace java.awt.font
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/font/TextHitInfo.html
 	[Script(IsNative = true)]
-	public class TextHitInfo
+	public sealed class TextHitInfo
 	{
 		/// <summary>
 		/// Creates a <code>TextHitInfo</code> at the specified offset,

@@ -8,7 +8,7 @@ namespace java.lang
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/String.html
 	[Script(IsNative = true)]
-	public class String
+	public sealed class String
 	{
 		/// <summary>
 		/// Initializes a newly created <code>String</code> object so that it

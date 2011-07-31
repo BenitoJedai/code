@@ -9,7 +9,7 @@ namespace java.net
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/net/NetworkInterface.html
 	[Script(IsNative = true)]
-	public class NetworkInterface
+	public sealed class NetworkInterface
 	{
 		/// <summary>
 		/// Compares this object against the specified object.

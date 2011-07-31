@@ -3,7 +3,7 @@ using ScriptCoreLib;
 namespace java.util
 {
     [Script(IsNative=true)]
-    public class Locale
+    public sealed class Locale
     {
     }
 }
