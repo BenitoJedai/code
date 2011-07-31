@@ -59,7 +59,7 @@ namespace java.awt.datatransfer
 		/// Tests a <code>DataFlavor</code> to this <code>DataFlavor</code> for
 		/// equality.
 		/// </summary>
-		public bool Equals(DataFlavor @that)
+		public bool equals(DataFlavor @that)
 		{
 			return default(bool);
 		}
@@ -77,7 +77,7 @@ namespace java.awt.datatransfer
 		/// <B>Deprecated.</B> <I>As inconsistent with <code>hashCode()</code> contract,
 		/// use <code>isMimeTypeEqual(String)</code> instead.</I>
 		/// </summary>
-		public bool Equals(string @s)
+		public bool equals(string @s)
 		{
 			return default(bool);
 		}

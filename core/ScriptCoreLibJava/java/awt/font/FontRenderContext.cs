@@ -32,7 +32,7 @@ namespace java.awt.font
 		/// Return true if rhs has the same transform, antialiasing,
 		/// and fractional metrics values as this.
 		/// </summary>
-		public bool Equals(FontRenderContext @rhs)
+		public bool equals(FontRenderContext @rhs)
 		{
 			return default(bool);
 		}

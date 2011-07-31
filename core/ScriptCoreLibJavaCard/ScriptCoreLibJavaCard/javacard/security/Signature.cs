@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace javacard.security
 {
 	[Script(IsNative = true)]
-	public class Signature
+	public abstract class Signature
 	{
 		/// <summary>
 		/// Signature algorithm ALG_RSA_SHA_PKCS1 generates a 20-byte SHA digest, pads the digest according to the PKCS#1 (v1.5) scheme, and encrypts it using RSA. 

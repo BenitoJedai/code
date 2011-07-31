@@ -41,7 +41,7 @@ namespace java.awt.font
 		/// has the same <code>charIndex</code> and <code>isLeadingEdge</code>
 		/// as this <code>TextHitInfo</code>.
 		/// </summary>
-		public  bool Equals(TextHitInfo @hitInfo)
+		public  bool equals(TextHitInfo @hitInfo)
 		{
 			return default(bool);
 		}

@@ -28,7 +28,7 @@ namespace java.awt
 		/// equality is defined to mean that both MenuShortcuts use the same key
 		/// and both either use or don't use the SHIFT key.
 		/// </summary>
-		public bool Equals(MenuShortcut @s)
+		public bool equals(MenuShortcut @s)
 		{
 			return default(bool);
 		}

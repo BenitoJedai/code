@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace javacardx.crypto
 {
 	[Script(IsNative = true)]
-	public class Cipher
+	public abstract class Cipher
 	{
 		/// <summary>
 		/// Cipher algorithm ALG_DES_CBC_NOPAD provides a cipher using DES in CBC mode or triple DES in outer CBC mode, and does not pad input data.
