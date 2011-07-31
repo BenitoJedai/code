@@ -21,7 +21,7 @@ namespace java.awt.font
 		/// Tests if the specified <code>GlyphVector</code> exactly
 		/// equals this <code>GlyphVector</code>.
 		/// </summary>
-		abstract public bool Equals(GlyphVector @set);
+		abstract public bool equals(GlyphVector @set);
 
 		/// <summary>
 		/// Returns the <code>Font</code> associated with this

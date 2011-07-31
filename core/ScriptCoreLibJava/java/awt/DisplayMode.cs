@@ -18,7 +18,7 @@ namespace java.awt
 		/// <summary>
 		/// 
 		/// </summary>
-		public bool Equals(DisplayMode @dm)
+		public bool equals(DisplayMode @dm)
 		{
 			return default(bool);
 		}
