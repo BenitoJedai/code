@@ -368,6 +368,14 @@ namespace ScriptCoreLibJava.BCLImplementation.System
             }
         }
 
+        public bool IsSealed
+        {
+            get
+            {
+                return Modifier.isFinal(this.InternalTypeDescription.getModifiers());
+            }
+        }
+
         public bool IsClass
         {
             get

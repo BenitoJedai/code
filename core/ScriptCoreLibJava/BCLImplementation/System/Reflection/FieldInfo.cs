@@ -79,5 +79,12 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
             }
         }
 
+        public bool IsFamily
+        {
+            get
+            {
+                return Modifier.isProtected(this.InternalField.getModifiers());
+            }
+        }
     }
 }
