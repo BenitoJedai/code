@@ -8,7 +8,7 @@ namespace java.util.regex
     /// An engine that performs match operations on a character sequence by interpreting a Pattern. 
     /// </summary>
     [Script(IsNative = true)]
-    public class Matcher
+    public sealed class Matcher
     {
         // Method Summary
         /// <summary>

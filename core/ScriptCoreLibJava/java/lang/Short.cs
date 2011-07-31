@@ -4,7 +4,7 @@ using ScriptCoreLib;
 namespace java.lang
 {
     [Script(IsNative = true)]
-    public class Short
+    public sealed class Short
     {
         public Short(short i)
         {

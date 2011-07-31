@@ -4,7 +4,7 @@ using ScriptCoreLib;
 namespace java.nio
 {
     [Script(IsNative = true)]
-    public class ByteOrder
+    public sealed class ByteOrder
     {
         #region methods
         /// <summary>

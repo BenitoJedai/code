@@ -3,7 +3,7 @@ using ScriptCoreLib;
 namespace java.util.regex
 {
     [Script(IsNative=true)]
-    public class Pattern
+    public sealed class Pattern
     {
         public static Pattern compile(string e)
         {

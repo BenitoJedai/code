@@ -5,7 +5,7 @@ using java.lang;
 namespace java.net
 {
     [Script(IsNative=true)]
-    public class URI
+    public sealed class URI
     {
 
 

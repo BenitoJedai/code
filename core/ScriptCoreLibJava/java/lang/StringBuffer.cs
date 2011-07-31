@@ -6,7 +6,7 @@ namespace java.lang
     /// http://java.sun.com/j2se/1.5.0/docs/api/java/lang/StringBuffer.html
     /// </summary>
     [Script(IsNative = true)]
-    public class StringBuffer
+    public sealed class StringBuffer
     {
         // Constructor Summary
         /// <summary>

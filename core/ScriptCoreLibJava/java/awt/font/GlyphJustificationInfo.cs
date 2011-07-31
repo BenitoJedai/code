@@ -5,7 +5,7 @@ namespace java.awt.font
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/font/GlyphJustificationInfo.html
 	[Script(IsNative = true)]
-	public class GlyphJustificationInfo
+	public sealed class GlyphJustificationInfo
 	{
 		/// <summary>
 		/// Constructs information about the justification properties of a

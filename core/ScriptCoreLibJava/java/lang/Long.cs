@@ -3,7 +3,7 @@ using ScriptCoreLib;
 namespace java.lang
 {
     [Script(IsNative = true)]
-    public class Long
+    public sealed class Long
     {
         public Long(long e)
         {

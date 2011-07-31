@@ -6,7 +6,7 @@ namespace java.lang
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Double.html
 	[Script(IsNative = true)]
-	public class Double
+	public sealed class Double
 	{
 		/// <summary>
 		/// Constructs a newly allocated <code>Double</code> object that

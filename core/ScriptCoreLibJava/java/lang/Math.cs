@@ -7,7 +7,7 @@ namespace java.lang
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/lang/Math.html
 	[Script(IsNative = true)]
-	public class Math
+	public sealed class Math
 	{
 		/// <summary>
 		/// Returns the absolute value of a <code>double</code> value.

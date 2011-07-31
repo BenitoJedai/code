@@ -8,7 +8,7 @@ namespace java.awt
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/ComponentOrientation.html
 	[Script(IsNative = true)]
-	public class ComponentOrientation : Object
+	public sealed class ComponentOrientation : Object
 	{
 		/// <summary>
 		/// Returns the orientation that is appropriate for the given locale.

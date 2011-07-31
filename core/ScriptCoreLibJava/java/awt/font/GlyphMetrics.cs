@@ -6,7 +6,7 @@ namespace java.awt.font
 {
 	// http://java.sun.com/j2se/1.4.2/docs/api/java/awt/font/GlyphMetrics.html
 	[Script(IsNative = true)]
-	public class GlyphMetrics
+	public sealed class GlyphMetrics
 	{
 		/// <summary>
 		/// Constructs a <code>GlyphMetrics</code> object.
