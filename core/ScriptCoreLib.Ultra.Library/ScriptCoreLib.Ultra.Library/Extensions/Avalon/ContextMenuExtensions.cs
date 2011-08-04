@@ -14,7 +14,7 @@ namespace ScriptCoreLib.Extensions.Avalon
             var m = new MenuItem
             {
                 Icon = Icon,
-                Header = Header
+                Header = new TextBlock { Text = Header }
             };
 
             m.Click +=
