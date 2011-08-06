@@ -88,11 +88,39 @@ namespace ScriptCoreLib.Extensions
         }
 
         [System.Diagnostics.DebuggerStepThrough]
+        public static IEnumerable<T> WithSingle<T>(this IEnumerable<T> collection, Action<T> h) where T : class
+        {
+            if (collection != null)
+                if (h != null)
+                    collection.SingleOrDefault().With(h);
+
+            return collection;
+        }
+
+
+        [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T> WithEach<T>(this IEnumerable<T> collection, Action<T> h) where T : class
         {
             if (collection != null)
                 if (h != null)
                     InternalWithEach<T>(collection, h);
+
+            return collection;
+        }
+
+        [System.Diagnostics.DebuggerStepThrough]
+        public static IEnumerable<T> WithEachIndex<T>(this IEnumerable<T> collection, Action<T, int> h) where T : class
+        {
+            if (collection != null)
+                if (h != null)
+                {
+                    var i = -1;
+                    foreach (var item in collection.AsEnumerable())
+                    {
+                        i++;
+                        h(item, i);
+                    }
+                }
 
             return collection;
         }
