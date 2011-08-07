@@ -88,6 +88,16 @@ namespace ScriptCoreLib.Extensions
         }
 
         [System.Diagnostics.DebuggerStepThrough]
+        public static T Otherwise<T>(this T e, Action h) where T : class
+        {
+            if (e == null)
+                if (h != null)
+                    h();
+
+            return e;
+        }
+
+        [System.Diagnostics.DebuggerStepThrough]
         public static IEnumerable<T> WithSingle<T>(this IEnumerable<T> collection, Action<T> h) where T : class
         {
             if (collection != null)
