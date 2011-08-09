@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using java.io;
 using java.net;
 using java.util.zip;
 using ScriptCoreLib;
@@ -27,7 +26,7 @@ namespace ScriptCoreLib.Java
         // http://blog.cyberborean.org/2007/07/04/custom-classloaders-the-black-art-of-java
 
         public InternalURLClassLoader(URL[] u, ClassLoader parent)
-            : base(u, parent)
+            : base(urls: u, parent: parent)
         {
 
         }
@@ -167,7 +166,7 @@ namespace ScriptCoreLib.Java
                 var zip = default(ZipInputStream);
 
 
-                zip = new ZipInputStream(new FileInputStream(jar.FullName));
+                zip = new ZipInputStream(new java.io.FileInputStream(jar.FullName));
 
 
                 var Current = zip.getNextEntry();
@@ -328,7 +327,7 @@ namespace ScriptCoreLib.Java
 
                 try
                 {
-                    zip = new ZipInputStream(new FileInputStream(jar.FullName));
+                    zip = new ZipInputStream(new java.io.FileInputStream(jar.FullName));
                 }
                 catch
                 {
