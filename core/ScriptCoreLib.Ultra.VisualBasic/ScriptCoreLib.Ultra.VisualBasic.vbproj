@@ -71,6 +71,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\Internal\InternalTryFilterHandler.vb" />
     <Compile Include="Ultra\Data\VisualStudioTemplates.vb" />
     <Compile Include="Ultra\Studio\StockData\StockWebMethod2Data.vb" />
     <Compile Include="Ultra\Studio\StockPages\StockPageDefault.vb" />
