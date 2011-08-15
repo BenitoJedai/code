@@ -6,6 +6,8 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.Extensions
 {
+ 
+
     public static class LinqExtensions
     {
         public static object InvokeUnit<T1, T2>(this Action<T1, T2> h, T1 a1, T2 a2)
