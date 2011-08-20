@@ -26,7 +26,7 @@ namespace ScriptCoreLib.Java
         // http://blog.cyberborean.org/2007/07/04/custom-classloaders-the-black-art-of-java
 
         public InternalURLClassLoader(URL[] u, ClassLoader parent)
-            : base(urls: u, parent: parent)
+            : base(u, parent)
         {
 
         }

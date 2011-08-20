@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Media;
 using ScriptCoreLib.Avalon;
 using System.Windows.Media.Effects;
+using ScriptCoreLib.Desktop.Avalon.Extensions;
 
 namespace ScriptCoreLib.Avalon.Desktop
 {
@@ -85,7 +86,7 @@ namespace ScriptCoreLib.Avalon.Desktop
 
             //c.Container.Effect = new DropShadowEffect();
             //c.Container.BitmapEffect = new DropShadowBitmapEffect();
-
+            
             new System.Windows.Controls.TextBox
             {
                 IsReadOnly = true,
@@ -98,7 +99,7 @@ namespace ScriptCoreLib.Avalon.Desktop
                 FontFamily = new FontFamily("Microsoft Sans Serif"),
                 TextAlignment = System.Windows.TextAlignment.Right
             }.AttachTo(c).MoveTo(0, ImageCarouselCanvas.DefaultHeight - 96).SizeTo(ImageCarouselCanvas.DefaultWidth, 96);
-
+            
             var w = c.ToWindow();
 
             w.ToTransparentWindow();
@@ -116,6 +117,16 @@ namespace ScriptCoreLib.Avalon.Desktop
             w.ShowInTaskbar = false;
             w.Focusable = false;
 
+            //w.Loaded +=
+            //    delegate
+            //    {
+            //        4000.AtDelay(
+            //            delegate
+            //            {
+            //                w.RenderVisualTo(@"z:\jsc_logo.png", 900);
+            //            }
+            //        );
+            //    };
             w.ShowDialog();
         }
     }
