@@ -47,6 +47,10 @@
     <Reference Include="ScriptCoreLib.Ultra">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library, Version=4.0.4247.22840, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -71,7 +75,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false
+    <PostBuildEvent>rem start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false
 
 </PostBuildEvent>
   </PropertyGroup>

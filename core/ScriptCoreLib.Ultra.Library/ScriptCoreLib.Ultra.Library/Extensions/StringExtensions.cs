@@ -7,7 +7,13 @@ namespace ScriptCoreLib.Extensions
 {
 	public static class StringExtensions
 	{
-        
+        public static string ToCharacterEllipsis(this string e, int length = 48)
+        {
+            if (e.Length < length)
+                return e;
+
+            return e.Substring(0, length - 1) + "…";
+        }
 
 		public static string[] ToLines(this string e)
 		{
