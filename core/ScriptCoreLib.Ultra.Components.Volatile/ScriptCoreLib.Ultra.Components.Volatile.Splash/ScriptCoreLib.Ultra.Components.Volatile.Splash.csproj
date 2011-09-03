@@ -75,7 +75,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\jsc.splash.exe" /PrimaryAssembly:"$(TargetPath)" /EntryPoint:"ScriptCoreLib.Avalon.Desktop.JSCSolutionsNETCarouselProgram" /Obfuscate:false  /AttachDebugger:false /DisableIsMarkedForMerge:false
 
 </PostBuildEvent>
   </PropertyGroup>
