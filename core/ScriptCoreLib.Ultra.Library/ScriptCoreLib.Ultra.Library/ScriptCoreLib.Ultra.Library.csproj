@@ -103,6 +103,7 @@
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Extensions\TouchExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Extensions\XLinqExtensions.cs" />
     <Compile Include="Interop\InternalPollClosure.cs" />
