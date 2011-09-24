@@ -31,6 +31,7 @@ namespace ScriptCoreLib.Avalon
 
 			}
 		}
+
 		public JSCSolutionsNETCarouselCanvas()
 			: base(new JSCSolutionsNETArguments())
 		{
