@@ -38,9 +38,11 @@ namespace ScriptCoreLib.Avalon
 
             public Func<Image> CreateCenterImage;
 
-
         }
 
+        public bool DisableTimerShutdown;
+
+        public double StepSpeedToToggleSattelites = 0.12;
 
         public ImageCarouselCanvas(Arguments args)
         {
@@ -72,6 +74,7 @@ namespace ScriptCoreLib.Avalon
 
             var images = new List<XImage>();
 
+            #region AddImages
             Func<Image, XImage> Add =
                 i =>
                 {
@@ -94,6 +97,8 @@ namespace ScriptCoreLib.Avalon
                 };
 
             args.AddImages(Add);
+            #endregion
+
 
 
             var size = 64;
@@ -107,7 +112,8 @@ namespace ScriptCoreLib.Avalon
 
             var randomphase = Math.PI * 2 * new Random().NextDouble();
 
-            (1000 / 50).AtIntervalWithTimer(
+            #region AtIntervalWithTimer
+            var AnimationTimer = (1000 / 50).AtIntervalWithTimer(
                 t =>
                 {
                     var ms = s.ElapsedMilliseconds;
@@ -163,6 +169,7 @@ namespace ScriptCoreLib.Avalon
 
                 }
             );
+            #endregion
 
             var logo = args.CreateCenterImage();
 
@@ -202,10 +209,29 @@ namespace ScriptCoreLib.Avalon
 
 
             WaitAndAppear(200, 0.07, n => logo.Opacity = n);
+            SattelitesHidden = false;
 
             ShowSattelites(images, WaitAndAppear);
 
+            ShowSattelitesAgain =
+                delegate
+                {
+                    if (!SattelitesHidden)
+                        return;
 
+                    SattelitesHidden = false;
+
+                    if (AtSattelitesShownAgain != null)
+                        AtSattelitesShownAgain();
+
+                    foreach (var item__ in images.ToArray())
+                    {
+                        var item = item__;
+
+                        WaitAndAppear(0, StepSpeedToToggleSattelites, n => item.Opacity = n);
+                    }
+
+                };
 
             Canvas.SetZIndex(logo, Convert.ToInt32(500));
 
@@ -229,6 +255,7 @@ namespace ScriptCoreLib.Avalon
             );
             logo_hit.SizeTo(args.ImageDefaultWidth, args.ImageDefaultHeight);
 
+            #region MouseLeftButtonUp
             logo_hit.MouseLeftButtonUp +=
                 delegate
                 {
@@ -242,10 +269,14 @@ namespace ScriptCoreLib.Avalon
                         logo_hit.Orphanize();
                     }
                 };
+            #endregion
 
+            #region HideSattelites
             this.HideSattelites =
                 delegate
                 {
+                    SattelitesHidden = true;
+
                     Action TriggerClose = () => AtAnimation =
                         t =>
                         {
@@ -269,14 +300,26 @@ namespace ScriptCoreLib.Avalon
                             {
                                 var item = item__;
 
-                                WaitAndAppear(1 + 1000.Random(), 0.12, n => item.Opacity = 1 - n);
+                                var NextDelay = 1;
+
+                                if (!DisableTimerShutdown)
+                                    NextDelay = 1 + 1000.Random();
+
+                                WaitAndAppear(NextDelay, StepSpeedToToggleSattelites, n => item.Opacity = 1 - n);
                             }
 
-                            TriggerClose();
+                            if (DisableTimerShutdown)
+                            {
+                                AtAnimation = delegate { };
+                            }
+                            else
+                                TriggerClose();
                         };
 
 
                 };
+            #endregion
+
 
             this.Close =
                 delegate
@@ -286,6 +329,8 @@ namespace ScriptCoreLib.Avalon
                     HideSattelites();
                 };
         }
+
+        public bool SattelitesHidden { get; private set; }
 
         public bool CloseOnClick { get; set; }
 
@@ -298,7 +343,7 @@ namespace ScriptCoreLib.Avalon
             {
                 var item = item__;
 
-                WaitAndAppear(500 + ((ii + images.Count / 2) % images.Count) * 200, 0.07, n => item.Opacity = n);
+                WaitAndAppear(00 + ((ii + images.Count / 2) % images.Count) * 200, 0.07, n => item.Opacity = n);
                 ii++;
             }
             // we would be breaking jsc atm...
@@ -310,7 +355,10 @@ namespace ScriptCoreLib.Avalon
         public event Action AtClose;
 
         public readonly Action HideSattelites;
+        public readonly Action ShowSattelitesAgain;
         public readonly Action Close;
+
+        public event Action AtSattelitesShownAgain;
 
 
         #region ISupportsContainer Members

@@ -11,6 +11,8 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.CSharp.Avalon.Extensions
 {
+    // namespace to be renamed to ScriptCoreLib.Avalon.Desktop
+
 	public static class DesktopWindowManager
 	{
         // http://msdn.microsoft.com/en-us/magazine/cc163435.aspx
@@ -191,7 +193,6 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 			return true;
 		}
 
-		[Conditional("transparent")]
 		public static void WithGlass(this Window x)
 		{
 
@@ -245,6 +246,107 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 
 		}
+
+        /// <summary>Defines options that are used to set window visual style attributes.</summary>
+        [StructLayout(LayoutKind.Explicit)]
+        internal struct WTA_OPTIONS
+        {
+            // public static readonly uint Size = (uint)Marshal.SizeOf(typeof(WTA_OPTIONS));
+            public const uint Size = 8;
+
+            /// <summary>
+            /// A combination of flags that modify window visual style attributes.
+            /// Can be a combination of the WTNCA constants.
+            /// </summary>
+            [FieldOffset(0)]
+            public WTNCA dwFlags;
+
+            /// <summary>
+            /// A bitmask that describes how the values specified in dwFlags should be applied.
+            /// If the bit corresponding to a value in dwFlags is 0, that flag will be removed.
+            /// If the bit is 1, the flag will be added.
+            /// </summary>
+            [FieldOffset(4)]
+            public WTNCA dwMask;
+        }
+
+        /// <summary>
+        /// WindowThemeNonClientAttributes
+        /// </summary>
+        [Flags]
+        internal enum WTNCA : uint
+        {
+            /// <summary>Prevents the window caption from being drawn.</summary>
+            NODRAWCAPTION = 0x00000001,
+            /// <summary>Prevents the system icon from being drawn.</summary>
+            NODRAWICON = 0x00000002,
+            /// <summary>Prevents the system icon menu from appearing.</summary>
+            NOSYSMENU = 0x00000004,
+            /// <summary>Prevents mirroring of the question mark, even in right-to-left (RTL) layout.</summary>
+            NOMIRRORHELP = 0x00000008,
+            /// <summary> A mask that contains all the valid bits.</summary>
+            VALIDBITS = NODRAWCAPTION | NODRAWICON | NOMIRRORHELP | NOSYSMENU,
+        }
+
+
+        /// <summary>Specifies the type of visual style attribute to set on a window.</summary>
+        internal enum WINDOWTHEMEATTRIBUTETYPE : uint
+        {
+            /// <summary>Non-client area window attributes will be set.</summary>
+            WTA_NONCLIENT = 1,
+        }
+
+        [DllImport("uxtheme.dll", PreserveSig = false)]
+        internal static extern void SetWindowThemeAttribute([In] IntPtr hwnd, [In] WINDOWTHEMEATTRIBUTETYPE eAttribute, [In] ref WTA_OPTIONS pvAttribute, [In] uint cbAttribute);
+
+        public static void SetWindowThemeAttribute(System.Windows.Window window, bool showCaption, bool showIcon)
+        {
+            bool isGlassEnabled = DwmIsCompositionEnabled();
+
+            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+
+            var options = new WTA_OPTIONS
+            {
+                dwMask = (WTNCA.NODRAWCAPTION | WTNCA.NODRAWICON)
+            };
+            if (isGlassEnabled)
+            {
+                if (!showCaption)
+                {
+                    options.dwFlags |= WTNCA.NODRAWCAPTION;
+                }
+                if (!showIcon)
+                {
+                    options.dwFlags |= WTNCA.NODRAWICON;
+                }
+            }
+
+            SetWindowThemeAttribute(hwnd, WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT, ref options, WTA_OPTIONS.Size);
+        }
+
+        public static void MakeInteractive(this System.Windows.Window w, bool value = true)
+        {
+            IntPtr hwnd = new WindowInteropHelper(w).Handle;
+
+            // Change the extended window style to include WS_EX_TRANSPARENT
+            WindowExStyles extendedStyle = (WindowExStyles)GetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE);
+
+            if (value)
+            {
+                extendedStyle &= ~(WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
+
+            }
+            else
+            {
+
+                extendedStyle |= WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE;
+
+            }
+            SetWindowLong(hwnd, DesktopWindowManager.GWL_EXSTYLE, extendedStyle);
+        }
+
+
+
 
 	}
 }

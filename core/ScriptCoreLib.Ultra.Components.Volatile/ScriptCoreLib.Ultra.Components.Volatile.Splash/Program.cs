@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Avalon.Desktop
 {
     static class JSCSolutionsNETCarouselProgram
     {
+        static JSCBrandedWindow __ToBeIncludedForInstaller;
+
         public static Thread ShowDialogSplash()
         {
             return ShowDialog(c => 4500.AtDelay(c));
