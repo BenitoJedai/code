@@ -269,6 +269,11 @@
   <ItemGroup>
     <Folder Include="Java\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Desktop\Avalon\Extensions\ControlExtensions.Images.resx">
+      <DependentUpon>ControlExtensions.cs</DependentUpon>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
