@@ -30,12 +30,11 @@ namespace ScriptCoreLib.Desktop.Avalon.Extensions
                 Rect xbounds = VisualTreeHelper.GetDescendantBounds(target);
                 Rect bounds = VisualTreeHelper.GetDescendantBounds(target);
 
-                if (target is Control)
+                if (target is FrameworkElement)
                 {
-                    bounds.Width = (target as Control).ActualWidth;
-                    bounds.Height = (target as Control).ActualHeight;
+                    bounds.Width = (target as FrameworkElement).ActualWidth;
+                    bounds.Height = (target as FrameworkElement).ActualHeight;
                 }
-
                 RenderTargetBitmap rtb = new RenderTargetBitmap(
                     (Int32)(bounds.Width * resolution / 96.0),
                     (Int32)(bounds.Height * resolution / 96.0),
