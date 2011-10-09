@@ -80,6 +80,7 @@
     <Compile Include="Archive\ZIPArchiveFile.cs" />
     <Compile Include="Avalon\AffineTransform.cs" />
     <Compile Include="Avalon\AffineTransformBase.cs" />
+    <Compile Include="Avalon\FrameworkElementMarginExtensions.cs" />
     <Compile Include="Delegates\Async.cs" />
     <Compile Include="Desktop\AppDomainAssemblyResolve.cs" />
     <Compile Include="Desktop\Avalon\Extensions\ControlExtensions.cs" />
@@ -268,11 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Java\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Desktop\Avalon\Extensions\ControlExtensions.Images.resx">
-      <DependentUpon>ControlExtensions.cs</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
