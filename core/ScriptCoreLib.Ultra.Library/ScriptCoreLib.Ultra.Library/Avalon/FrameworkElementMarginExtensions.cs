@@ -8,6 +8,13 @@ namespace ScriptCoreLib.Avalon
 {
     public static class FrameworkElementMarginExtensions
     {
+        public static T WithSomeMarginBelow<T>(this T e) where T : FrameworkElement
+        {
+            e.Margin = new Thickness(0, 0, 0, 4);
+
+            return e;
+        }
+
         public static T WithSomeMarginAbove<T>(this T e) where T : FrameworkElement
         {
             e.Margin = new Thickness(0, 4, 0, 0);
