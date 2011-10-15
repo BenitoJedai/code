@@ -114,6 +114,16 @@ namespace ScriptCoreLib.Extensions
 			return e.Substring(0, i);
 		}
 
+        public static string TakeUntilLastOrNull(this string e, string u)
+        {
+            var i = e.LastIndexOf(u);
+
+            if (i < 0)
+                return null;
+
+            return e.Substring(0, i);
+        }
+
 		public static string ToHexString(this byte[] e)
 		{
 			var w = new StringBuilder();
