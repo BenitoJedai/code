@@ -13,26 +13,26 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 {
     // namespace to be renamed to ScriptCoreLib.Avalon.Desktop
 
-	public static class DesktopWindowManager
-	{
+    public static class DesktopWindowManager
+    {
         // http://msdn.microsoft.com/en-us/magazine/cc163435.aspx
 
         #region types
         [StructLayout(LayoutKind.Sequential)]
         public struct MARGINS
-		{
-			public MARGINS(Thickness t)
-			{
-				Left = (int)t.Left;
-				Right = (int)t.Right;
-				Top = (int)t.Top;
-				Bottom = (int)t.Bottom;
-			}
-			public int Left;
-			public int Right;
-			public int Top;
-			public int Bottom;
-		}
+        {
+            public MARGINS(Thickness t)
+            {
+                Left = (int)t.Left;
+                Right = (int)t.Right;
+                Top = (int)t.Top;
+                Bottom = (int)t.Bottom;
+            }
+            public int Left;
+            public int Right;
+            public int Top;
+            public int Bottom;
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public class DWM_THUMBNAIL_PROPERTIES
@@ -106,6 +106,28 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
         [DllImport("dwmapi.dll", PreserveSig = false)]
         public static extern bool DwmIsCompositionEnabled();
 
+        public static bool IsCompositionEnabled
+        {
+            get
+            {
+                var dwmapi = LoadLibrary("dwmapi.dll");
+
+                if (dwmapi == IntPtr.Zero)
+                {
+                    return false;
+                }
+
+                FreeLibrary(dwmapi);
+
+                return _DwmIsCompositionEnabled();
+            }
+        }
+
+        private static bool _DwmIsCompositionEnabled()
+        {
+            return DwmIsCompositionEnabled();
+        }
+
         [DllImport("dwmapi.dll", PreserveSig = false)]
         public static extern void DwmEnableComposition(bool bEnable);
 
@@ -130,122 +152,122 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
             IntPtr hThumbnail, out Size size);
 
         [DllImport("dwmapi.dll", PreserveSig = false)]
-		static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+        static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
 
 
-		[DllImport("kernel32")]
-		static extern IntPtr LoadLibrary(string lpFileName);
+        [DllImport("kernel32")]
+        static extern IntPtr LoadLibrary(string lpFileName);
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern bool FreeLibrary(IntPtr hModule);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool FreeLibrary(IntPtr hModule);
 
         #endregion
 
         public static bool ExtendGlassFrame(this Window window)
-		{
-			return ExtendGlassFrame(window, new Thickness(-1));
-		}
+        {
+            return ExtendGlassFrame(window, new Thickness(-1));
+        }
 
-		public static void ExtendGlassFrame(this Window window, Control e)
-		{
-			e.Background = System.Windows.Media.Brushes.White;
-			ExtendGlassFrame(window, e.Margin);
-		}
+        public static void ExtendGlassFrame(this Window window, Control e)
+        {
+            e.Background = System.Windows.Media.Brushes.White;
+            ExtendGlassFrame(window, e.Margin);
+        }
 
-		public static bool ExtendGlassFrame(this Window window, Thickness margin)
-		{
-			// http://www.experts-exchange.com/Programming/Languages/Visual_Basic/Q_22916254.html
+        public static bool ExtendGlassFrame(this Window window, Thickness margin)
+        {
+            // http://www.experts-exchange.com/Programming/Languages/Visual_Basic/Q_22916254.html
 
-			var dwmapi = LoadLibrary("dwmapi.dll");
+            var dwmapi = LoadLibrary("dwmapi.dll");
 
-			if (dwmapi == IntPtr.Zero)
-			{
-				return false;
-			}
-			else
-			{
-				FreeLibrary(dwmapi);
-				return InternalExtendGlassFrame(window, ref margin);
-			}
-		}
+            if (dwmapi == IntPtr.Zero)
+            {
+                return false;
+            }
+            else
+            {
+                FreeLibrary(dwmapi);
+                return InternalExtendGlassFrame(window, ref margin);
+            }
+        }
 
-		private static bool InternalExtendGlassFrame(Window window, ref Thickness margin)
-		{
+        private static bool InternalExtendGlassFrame(Window window, ref Thickness margin)
+        {
 #if NO_DWM
 			return false;
 #endif
-			if (!DwmIsCompositionEnabled())
-				return false;
+            if (!DwmIsCompositionEnabled())
+                return false;
 
-			IntPtr hwnd = new WindowInteropHelper(window).Handle;
-			if (hwnd == IntPtr.Zero)
-				throw new InvalidOperationException("The Window must be shown before extending glass.");
+            IntPtr hwnd = new WindowInteropHelper(window).Handle;
+            if (hwnd == IntPtr.Zero)
+                throw new InvalidOperationException("The Window must be shown before extending glass.");
 
-			// Set the background to transparent from both the WPF and Win32 perspectives
-			//SolidColorBrush background = new SolidColorBrush(Colors.Red);
-			//background.Opacity = 0.5;
-			window.Background = System.Windows.Media.Brushes.Transparent;
-			HwndSource.FromHwnd(hwnd).CompositionTarget.BackgroundColor = Colors.Transparent;
+            // Set the background to transparent from both the WPF and Win32 perspectives
+            //SolidColorBrush background = new SolidColorBrush(Colors.Red);
+            //background.Opacity = 0.5;
+            window.Background = System.Windows.Media.Brushes.Transparent;
+            HwndSource.FromHwnd(hwnd).CompositionTarget.BackgroundColor = Colors.Transparent;
 
-			MARGINS margins = new MARGINS(margin);
-			DwmExtendFrameIntoClientArea(hwnd, ref margins);
-			return true;
-		}
+            MARGINS margins = new MARGINS(margin);
+            DwmExtendFrameIntoClientArea(hwnd, ref margins);
+            return true;
+        }
 
-		public static void WithGlass(this Window x)
-		{
+        public static void WithGlass(this Window x)
+        {
 
-			x.SourceInitialized +=
-				delegate
-				{
-					ExtendGlassFrame(x);
-				};
-
-
-		}
-
-		public static void ExplicitWithGlass(this Window x)
-		{
-
-			x.SourceInitialized +=
-				delegate
-				{
-					ExtendGlassFrame(x);
-				};
+            x.SourceInitialized +=
+                delegate
+                {
+                    ExtendGlassFrame(x);
+                };
 
 
-		}
+        }
+
+        public static void ExplicitWithGlass(this Window x)
+        {
+
+            x.SourceInitialized +=
+                delegate
+                {
+                    ExtendGlassFrame(x);
+                };
 
 
-		public const int WS_EX_TRANSPARENT = 0x00000020;
-		public const int GWL_EXSTYLE = (-20);
-
-		[DllImport("user32.dll")]
-		public static extern int GetWindowLong(IntPtr hwnd, int index);
-
-		[DllImport("user32.dll")]
-		public static extern int SetWindowLong(IntPtr hwnd, int index, WindowExStyles newStyle);
+        }
 
 
+        public const int WS_EX_TRANSPARENT = 0x00000020;
+        public const int GWL_EXSTYLE = (-20);
 
-		public static void ToTransparentWindow(this Window x)
-		{
+        [DllImport("user32.dll")]
+        public static extern int GetWindowLong(IntPtr hwnd, int index);
 
-			x.SourceInitialized +=
-				delegate
-				{
-					// Get this window's handle
-					IntPtr hwnd = new WindowInteropHelper(x).Handle;
-
-					// Change the extended window style to include WS_EX_TRANSPARENT
-					WindowExStyles extendedStyle = (WindowExStyles)GetWindowLong(hwnd, GWL_EXSTYLE);
-
-					SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
-				};
+        [DllImport("user32.dll")]
+        public static extern int SetWindowLong(IntPtr hwnd, int index, WindowExStyles newStyle);
 
 
-		}
+
+        public static void ToTransparentWindow(this Window x)
+        {
+
+            x.SourceInitialized +=
+                delegate
+                {
+                    // Get this window's handle
+                    IntPtr hwnd = new WindowInteropHelper(x).Handle;
+
+                    // Change the extended window style to include WS_EX_TRANSPARENT
+                    WindowExStyles extendedStyle = (WindowExStyles)GetWindowLong(hwnd, GWL_EXSTYLE);
+
+                    SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WindowExStyles.WS_EX_TRANSPARENT | WindowExStyles.WS_EX_NOACTIVATE);
+                };
+
+
+        }
 
         /// <summary>Defines options that are used to set window visual style attributes.</summary>
         [StructLayout(LayoutKind.Explicit)]
@@ -301,7 +323,7 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
         public static void SetWindowThemeAttribute(System.Windows.Window window, bool showCaption, bool showIcon)
         {
-            bool isGlassEnabled = DwmIsCompositionEnabled();
+            bool isGlassEnabled = IsCompositionEnabled;
 
             IntPtr hwnd = new WindowInteropHelper(window).Handle;
 
@@ -348,5 +370,5 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
 
 
 
-	}
+    }
 }

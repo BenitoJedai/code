@@ -41,7 +41,11 @@ namespace ScriptCoreLib.Avalon.Desktop
         public JSCBrandedWindow()
         {
             this.Icon = new JSCSolutionsNETImage().Source;
+            
+            // dwmapi.dll will be missing on xp
             this.WithGlass();
+
+
             this.Title = "What do you want to create today?";
 
             var Overlay = new Window
