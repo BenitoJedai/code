@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace ScriptCoreLib.Extensions
 {
- 
+
 
     public static class LinqExtensions
     {
@@ -77,6 +77,17 @@ namespace ScriptCoreLib.Extensions
                             handler(e);
 
             return e;
+        }
+
+        [System.Diagnostics.DebuggerStepThrough]
+        public static T When<T>(this T e, Func<T, bool> h) where T : class
+        {
+            if (e != null)
+                if (h != null)
+                    if (h(e))
+                        return e;
+
+            return null;
         }
 
         [System.Diagnostics.DebuggerStepThrough]
