@@ -318,6 +318,8 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
             WTA_NONCLIENT = 1,
         }
 
+
+        // http://msdn.microsoft.com/en-us/library/windows/desktop/bb759829(v=vs.85).aspx
         [DllImport("uxtheme.dll", PreserveSig = false)]
         internal static extern void SetWindowThemeAttribute([In] IntPtr hwnd, [In] WINDOWTHEMEATTRIBUTETYPE eAttribute, [In] ref WTA_OPTIONS pvAttribute, [In] uint cbAttribute);
 
@@ -325,22 +327,25 @@ namespace ScriptCoreLib.CSharp.Avalon.Extensions
         {
             bool isGlassEnabled = IsCompositionEnabled;
 
+            if (!isGlassEnabled)
+                return;
+
+
             IntPtr hwnd = new WindowInteropHelper(window).Handle;
 
             var options = new WTA_OPTIONS
             {
                 dwMask = (WTNCA.NODRAWCAPTION | WTNCA.NODRAWICON)
             };
-            if (isGlassEnabled)
+
+            if (!showCaption)
             {
-                if (!showCaption)
-                {
-                    options.dwFlags |= WTNCA.NODRAWCAPTION;
-                }
-                if (!showIcon)
-                {
-                    options.dwFlags |= WTNCA.NODRAWICON;
-                }
+                options.dwFlags |= WTNCA.NODRAWCAPTION;
+            }
+
+            if (!showIcon)
+            {
+                options.dwFlags |= WTNCA.NODRAWICON;
             }
 
             SetWindowThemeAttribute(hwnd, WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT, ref options, WTA_OPTIONS.Size);
