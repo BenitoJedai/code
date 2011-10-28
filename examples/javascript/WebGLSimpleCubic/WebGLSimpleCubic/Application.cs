@@ -22,6 +22,7 @@ namespace WebGLSimpleCubic
     using Date = IDate;
     using WebGLSimpleCubic.Shaders;
     using WebGLSimpleCubic.Library;
+    using ScriptCoreLib.Shared.Drawing;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -128,8 +129,7 @@ namespace WebGLSimpleCubic
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(4, 4, size, size);
-            canvas.style.border = "1px solid red";
+            canvas.style.SetLocation(0, 0, size, size);
             #endregion
 
             #region gl - Initialise WebGL
@@ -151,30 +151,6 @@ namespace WebGLSimpleCubic
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
-
-            #region getShader
-            //function getShader ( gl, id ){
-            //   var shaderScript = document.getElementById ( id );
-            //   var str = "";
-            //   var k = shaderScript.firstChild;
-            //   while ( k ){
-            //     if ( k.nodeType == 3 ) str += k.textContent;
-            //     k = k.nextSibling;
-            //   }
-            //   var shader;
-            //   if ( shaderScript.type == "x-shader/x-fragment" )
-            //           shader = gl.createShader ( gl.FRAGMENT_SHADER );
-            //   else if ( shaderScript.type == "x-shader/x-vertex" )
-            //           shader = gl.createShader(gl.VERTEX_SHADER);
-            //   else return null;
-            //   gl.shaderSource(shader, str);
-            //   gl.compileShader(shader);
-            //   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == 0)
-            //      alert(id +"\n"+ gl.getShaderInfoLog(shader));
-            //   return shader;
-            //}
-            #endregion
-
 
 
 
@@ -334,236 +310,84 @@ namespace WebGLSimpleCubic
             var drag = 0;
             var xRot = 0;
             var yRot = 0;
-            var transl = -6;
-
-            #region drawScene
-            //  function drawScene(){
-            //    gl.useProgram(prog);
-            //    rotMat.rotate(xRot/5, 1,0,0);  rotMat.rotate(yRot/5, 0,1,0);
-            //    yRot = 0;  xRot = 0;
-
-            //    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-            //    gl.uniform4f( colorLoc, 1, 1, 0, 1 );
-            //    drawBall(1, 1, 1);   drawBall(-1, 1, 1);   drawBall(1, -1, 1);
-            //    drawBall(1, 1, -1);  drawBall(-1, -1, 1);  drawBall(-1, 1, -1);
-            //    drawBall(1, -1, -1); drawBall(-1, -1, -1);
-
-            //    mvMatrix.load( rotMat );
-            //    mvMatrix.translate(0, 0, transl);
-            //    gl.uniformMatrix4fv( mvMatLoc, false,
-            //      new Float32Array(mvMatrix.getAsArray()) );
-
-            //    gl.enable(gl.BLEND);
-            //    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-            //    gl.uniform4f( colorLoc, .0, .0, .9, .7 );
-            //    gl.depthMask(false);
-            //    gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
-            //    gl.depthMask(true);
-            //    gl.disable(gl.BLEND);
-
-            //    gl.useProgram(line_prog);
-            //    gl.uniformMatrix4fv( mvMatLineLoc, false,
-            //      new Float32Array(mvMatrix.getAsArray()) );
-            //    gl.drawArrays(gl.LINES, 0, 24);
-
-            //    gl.flush ();
-            //  }
-            #endregion
-
-
-            //   drawScene();
+            var transl = -6.0;
 
 
             #region drawBall
-            //  function drawBall(x, y, z){
-            //    mvMatrix.makeIdentity();
-            //    mvMatrix.translate(x, y, z);
-            //    mvMatrix.multRight( rotMat );
-            //    mvMatrix.translate(0, 0, transl);
-            //    gl.uniformMatrix4fv( mvMatLoc, false,
-            //      new Float32Array(mvMatrix.getAsArray()) );
-            //    gl.drawElements(gl.TRIANGLES, 6*nPhi*nTheta, gl.UNSIGNED_SHORT, 72);
-            //  }
-            #endregion
-
-            #region canvas.resize
-            //  canvas.resize = function (){
-            //    var size = Math.min(window.innerWidth, window.innerHeight) - 10;
-            //    canvas.width =  size;   canvas.height = size;
-            //    gl.viewport(0, 0, size, size);
-            //    drawScene();
-            //  }
-            #endregion
-
-            #region mouse
-            //  canvas.onmousedown = function ( ev ){
-            //     drag  = 1;
-            //     xOffs = ev.clientX;  yOffs = ev.clientY;
-            //  }
-            //  canvas.onmouseup = function ( ev ){
-            //     drag  = 0;
-            //     xOffs = ev.clientX;  yOffs = ev.clientY;
-            //  }
-            //  canvas.onmousemove = function ( ev ){
-            //     if ( drag == 0 ) return;
-            //     if ( ev.shiftKey ) {
-            //        transl *= 1 + (ev.clientY - yOffs)/1000;
-            //        yRot = - xOffs + ev.clientX; }
-            //     else {
-            //        yRot = - xOffs + ev.clientX;  xRot = - yOffs + ev.clientY; }
-            //     xOffs = ev.clientX;  yOffs = ev.clientY;
-            //     drawScene();
-            //  }
-            #endregion
-
-            #region wheelHandler
-            //  var wheelHandler = function(ev) {
-            //    var del = 1.1;
-            //    if (ev.shiftKey) del = 1.01;
-            //    var ds = ((ev.detail || ev.wheelDelta) > 0) ? del : (1 / del);
-            //    transl *= ds;
-            //    drawScene();
-            //    ev.preventDefault();
-            //  };
-            #endregion
-            //  canvas.addEventListener('DOMMouseScroll', wheelHandler, false);
-            //  canvas.addEventListener('mousewheel', wheelHandler, false);
-
-        }
-
-        private void InitializeContent()
-        {
-            // methods: 
-            // init, createProgram, createShader, onWindowResize, loop
-
-            //var effectDiv, sourceDiv, canvas, gl, buffer, vertex_shader, fragment_shader, currentProgram, vertex_position;
-
-            var parameters_start_time = new Date().getTime();
-            var parameters_time = 0L;
-            var parameters_screenWidth = 0;
-            var parameters_screenHeight = 0;
-            var parameters_aspectX = 0.0f;
-            var parameters_aspectY = 1.0f;
-
-
-            var canvas = new IHTMLCanvas().AttachToDocument();
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0);
-
-
-            // Initialise WebGL
-
-            var gl = default(WebGLRenderingContext);
-
-            try
+            Action<double, double, double> drawBall = (x, y, z) =>
             {
+                mvMatrix.makeIdentity();
+                mvMatrix.translate(x, y, z);
+                mvMatrix.multRight(rotMat);
+                mvMatrix.translate(0, 0, transl);
+                gl.uniformMatrix4fv(mvMatLoc, false,
+                  new Float32Array(mvMatrix.getAsArray()));
 
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-
-            var IsDisposed = false;
-
-            Dispose = delegate
-            {
-                if (IsDisposed)
-                    return;
-
-                IsDisposed = true;
-
-                canvas.Orphanize();
+                gl.drawElements(gl.TRIANGLES, 6 * nPhi * nTheta, gl.UNSIGNED_SHORT, 72);
             };
+            #endregion
 
-            // Create Vertex buffer (2 triangles)
-
-            var buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
-
-
-            // Create Program
-
-            #region createProgram
-            Func<WebGLProgram> createProgram = () =>
+            #region drawScene
+            Action drawScene = delegate
             {
-                var program = gl.createProgram();
+                gl.useProgram(prog);
 
-                #region createShader
-                Func<Shader, WebGLShader> createShader = (src) =>
-                {
-                    var shader = gl.createShader(src);
+                rotMat.rotate(xRot / 5, 1, 0, 0);
+                rotMat.rotate(yRot / 5, 0, 1, 0);
 
-                    // verify
-                    if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                    {
-                        Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                yRot = 0;
+                xRot = 0;
 
-                        return null;
-                    }
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                    return shader;
-                };
-                #endregion
+                gl.uniform4f(colorLoc, 1, 1, 0, 1);
 
-                var vs = createShader(new CubicVertexShader());
-                var fs = createShader(new CubicFragmentShader());
+                drawBall(1, 1, 1); drawBall(-1, 1, 1); drawBall(1, -1, 1);
+                drawBall(1, 1, -1); drawBall(-1, -1, 1); drawBall(-1, 1, -1);
+                drawBall(1, -1, -1); drawBall(-1, -1, -1);
 
-                if (vs == null || fs == null) return null;
+                mvMatrix.load(rotMat);
+                mvMatrix.translate(0, 0, transl);
 
-                gl.attachShader(program, vs);
-                gl.attachShader(program, fs);
+                gl.uniformMatrix4fv(mvMatLoc, false,
+                  new Float32Array(mvMatrix.getAsArray()));
 
-                gl.deleteShader(vs);
-                gl.deleteShader(fs);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                gl.uniform4f(colorLoc, .0f, .0f, .9f, .7f);
+                gl.depthMask(false);
+                gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
+                gl.depthMask(true);
+                gl.disable(gl.BLEND);
 
-                gl.linkProgram(program);
+                gl.useProgram(line_prog);
+                gl.uniformMatrix4fv(mvMatLineLoc, false,
+                  new Float32Array(mvMatrix.getAsArray()));
+                gl.drawArrays(gl.LINES, 0, 24);
 
-                if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
-                {
-
-                    Native.Window.alert("ERROR:\n" +
-                  "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                  "ERROR: " + gl.getError() + "\n\n");
-
-                    return null;
-
-                }
-
-                return program;
-
+                gl.flush();
             };
             #endregion
 
 
-            var currentProgram = createProgram();
+            drawScene();
+
+
 
             #region onWindowResize
             Action onWindowResize = delegate
             {
-                if (IsDisposed)
-                {
-                    return;
-                }
+                size = Math.Min(Native.Window.Width, Native.Window.Height);
+                canvas.width = size;
+                canvas.height = size;
+                canvas.style.SetLocation(
+                    (Native.Window.Width - size) / 2,
+                    (Native.Window.Height - size) / 2,
+                    size, size);
 
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
+                gl.viewport(0, 0, size, size);
 
-                parameters_screenWidth = canvas.width;
-                parameters_screenHeight = canvas.height;
-
-                parameters_aspectX = canvas.width / canvas.height;
-                parameters_aspectY = 1.0f;
-
-                gl.viewport(0, 0, canvas.width, canvas.height);
+                drawScene();
             };
             #endregion
 
@@ -574,50 +398,54 @@ namespace WebGLSimpleCubic
                 onWindowResize();
             };
 
-            Action loop = delegate
+
+            #region mouse
+            canvas.onmousedown += ev =>
             {
-
-                if (currentProgram == null) return;
-
-                parameters_time = new Date().getTime() - parameters_start_time;
-
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-                // Load program into GPU
-
-                gl.useProgram(currentProgram);
-
-                // Get var locations
-
-                var vertex_position = gl.getAttribLocation(currentProgram, "position");
-
-                // Set values to program variables
-
-                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
-
-                // Render geometry
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray((ulong)vertex_position);
-                gl.drawArrays(gl.TRIANGLES, 0, 6);
-                gl.disableVertexAttribArray((ulong)vertex_position);
-
+                drag = 1;
+                xOffs = ev.CursorX;
+                yOffs = ev.CursorY;
             };
 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
+            canvas.onmouseup += ev =>
+            {
+                drag = 0;
+                xOffs = ev.CursorX;
+                yOffs = ev.CursorY;
+            };
+
+            canvas.onmousemove += ev =>
+            {
+                if (drag == 0) return;
+                if (ev.shiftKey)
                 {
-                    if (IsDisposed)
-                    {
-                        t.Stop();
-                        return;
-                    }
-                    loop();
+                    transl *= 1 + (ev.CursorY - yOffs) / 1000;
+                    yRot = -xOffs + ev.CursorX;
                 }
-            ).StartInterval(1000 / 60);
+                else
+                {
+                    yRot = -xOffs + ev.CursorX; xRot = -yOffs + ev.CursorY;
+                }
+                xOffs = ev.CursorX; yOffs = ev.CursorY;
+                drawScene();
+            };
+            #endregion
+
+            canvas.onmousewheel +=
+                ev =>
+                {
+                    var del = 1.1;
+                    if (ev.shiftKey) del = 1.01;
+                    var ds = ((ev.WheelDirection) > 0) ? del : (1 / del);
+                    transl *= ds;
+                    drawScene();
+
+
+
+                    ev.PreventDefault();
+                };
+
+            Native.Document.body.style.backgroundColor = Color.FromRGB(0x80, 0xFF, 0x80);
         }
 
         public Action Dispose;
