@@ -32,6 +32,7 @@ namespace WebGLSimpleCubic
         // 02. New project has been set up with new shaders amd preview image
         // 03. Disable InitializeContent and confirm the project builds with release version
         // 04. Commit to svn
+        // 05. Add CanvasMatrix.js
         #endregion
 
         #region This example shall implement a Rotating Spiral
@@ -80,6 +81,20 @@ namespace WebGLSimpleCubic
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            new Library.CanvasMatrix().Content.With(
+                CanvasMatrix =>
+                {
+                    CanvasMatrix.onload +=
+                        delegate
+                        {
+                            new IFunction("alert(CanvasMatrix4);").apply(null);
+                        };
+
+                    CanvasMatrix.AttachToDocument();
+                }
+            );
+
+
             //InitializeContent();
 
 
