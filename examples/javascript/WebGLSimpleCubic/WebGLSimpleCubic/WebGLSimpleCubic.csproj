@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\CanvasMatrix.cs" />
     <Compile Include="Shaders.vNext\SpiralFragmentShader.cs" />
     <Compile Include="Shaders.vNext\SpiralVertexShader.cs" />
     <Content Include="Design\Default.htm" />
