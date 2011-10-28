@@ -33,6 +33,8 @@ namespace WebGLSimpleCubic
         // 03. Disable InitializeContent and confirm the project builds with release version
         // 04. Commit to svn
         // 05. Add CanvasMatrix.js
+        // 06. Rename Math.cos to Math.Cos
+        // 07. Make use of array.push
         #endregion
 
         #region This example shall implement a Rotating Spiral
@@ -175,52 +177,81 @@ namespace WebGLSimpleCubic
 
 
 
-            //   canvas = document.getElementById("canvas");
-            //   var size = Math.min(window.innerWidth, window.innerHeight) - 10;
-            //   canvas.width =  size;   canvas.height = size;
-            //   if (!window.WebGLRenderingContext){
-            //     alert("Your browser does not support WebGL. See http://get.webgl.org");
-            //     return;}
-            //   try { gl = canvas.getContext("experimental-webgl");
-            //   } catch(e) {}
-            //   if ( !gl ) {alert("Can't get WebGL"); return;}
-            //   gl.viewport(0, 0, size, size);
+            gl.viewport(0, 0, size, size);
 
-            //   var prog  = gl.createProgram();
-            //   gl.attachShader(prog, getShader( gl, "shader-vs" ));
-            //   gl.attachShader(prog, getShader( gl, "shader-fs" ));
-            //   var posLoc = 0;
-            //   gl.bindAttribLocation(prog, posLoc, "aPos");
-            //   var normLoc = 1;
-            //   gl.bindAttribLocation(prog, normLoc, "aNorm");
-            //   gl.linkProgram(prog);
-            //   gl.useProgram(prog);
+            var prog = gl.createProgram();
 
-            //   var a = 1;
-            //   var pt = [-a,-a,a, a,-a,a, -a,a,a, a,a,a,  // cubic
-            //     -a,a,a, a,a,a, -a,a,-a, a,a,-a,
-            //     -a,a,-a, a,a,-a, -a,-a,-a, a,-a,-a,  -a,-a,-a, a,-a,-a, -a,-a,a, a,-a,a,
-            //     a,a,a, a,a,-a, a,-a,a, a,-a,-a,  -a,a,a, -a,a,-a, -a,-a,a, -a,-a,-a];
-            //   var nt = [0,0,1, 0,0,1, 0,0,1, 0,0,1,  0,1,0, 0,1,0, 0,1,0, 0,1,0,
-            //     0,0,-1, 0,0,-1, 0,0,-1, 0,0,-1,  0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0,
-            //     1,0,0, 1,0,0, 1,0,0, 1,0,0,  -1,0,0, -1,0,0, -1,0,0, -1,0,0];
-            //   var ind = [0,1,2,1,2,3, 4,5,6,5,6,7, 8,9,10,9,10,11,
-            //     12,13,14,13,14,15, 16,17,18,17,18,19, 20,21,22,21,22,23];
+            #region createShader
+            Func<Shader, WebGLShader> createShader = (src) =>
+            {
+                var shader = gl.createShader(src);
 
-            //   var nPhi = 25, nTheta = 12, r = .15,
-            //     dPhi = 2*Math.PI/nPhi, dTheta = Math.PI/nTheta;
-            //   for (var j = 0; j <= nTheta; j++ ){
-            //      var Theta    = j * dTheta;
-            //      var cosTheta = Math.cos ( Theta );
-            //      var sinTheta = Math.sin ( Theta );
-            //      for (var i = 0; i <= nPhi; i++ ){
-            //         var Phi    = i * dPhi;
-            //         var cosPhi = Math.cos ( Phi );
-            //         var sinPhi = Math.sin ( Phi );
-            //         pt.push( r*cosPhi*sinTheta, -r*sinPhi*sinTheta,  r*cosTheta );
-            //         nt.push( cosPhi * sinTheta, -sinPhi * sinTheta,  cosTheta );
-            //      }
-            //   }
+                // verify
+                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+                {
+                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+
+                    return null;
+                }
+
+                return shader;
+            };
+            #endregion
+
+            var vs = createShader(new CubicVertexShader());
+            var fs = createShader(new CubicFragmentShader());
+
+            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
+
+            gl.attachShader(prog, vs);
+            gl.attachShader(prog, fs);
+
+
+            var posLoc = 0UL;
+            gl.bindAttribLocation(prog, posLoc, "aPos");
+            var normLoc = 1UL;
+            gl.bindAttribLocation(prog, normLoc, "aNorm");
+            gl.linkProgram(prog);
+            gl.useProgram(prog);
+
+            var a = 1.0; // where is it used? what shall be the type?
+            var pt = new double [] {-a,-a,a, a,-a,a, -a,a,a, a,a,a,  // cubic
+                 -a,a,a, a,a,a, -a,a,-a, a,a,-a,
+                 -a,a,-a, a,a,-a, -a,-a,-a, a,-a,-a,  -a,-a,-a, a,-a,-a, -a,-a,a, a,-a,a,
+                 a,a,a, a,a,-a, a,-a,a, a,-a,-a,  -a,a,a, -a,a,-a, -a,-a,a, -a,-a,-a};
+            var nt = new double[] {0,0,1, 0,0,1, 0,0,1, 0,0,1,  0,1,0, 0,1,0, 0,1,0, 0,1,0,
+                 0,0,-1, 0,0,-1, 0,0,-1, 0,0,-1,  0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0,
+                 1,0,0, 1,0,0, 1,0,0, 1,0,0,  -1,0,0, -1,0,0, -1,0,0, -1,0,0};
+            var ind = new[] {0,1,2,1,2,3, 4,5,6,5,6,7, 8,9,10,9,10,11,
+                 12,13,14,13,14,15, 16,17,18,17,18,19, 20,21,22,21,22,23};
+
+            var nPhi = 25;
+            var nTheta = 12;
+            var r = .15;
+            var dPhi = 2.0 * Math.PI / nPhi;
+            var dTheta = Math.PI / nTheta;
+
+            for (var j = 0; j <= nTheta; j++)
+            {
+                var Theta = j * dTheta;
+                var cosTheta = Math.Cos(Theta);
+                var sinTheta = Math.Sin(Theta);
+                for (var i = 0; i <= nPhi; i++)
+                {
+                    var Phi = i * dPhi;
+                    var cosPhi = Math.Cos(Phi);
+                    var sinPhi = Math.Sin(Phi);
+
+
+                    ((IArray<double>)(object)pt).push(r * cosPhi * sinTheta);
+                    ((IArray<double>)(object)pt).push(-r * sinPhi * sinTheta);
+                    ((IArray<double>)(object)pt).push(r * cosTheta);
+
+                    ((IArray<double>)(object)nt).push(cosPhi * sinTheta);
+                    ((IArray<double>)(object)nt).push(-sinPhi * sinTheta);
+                    ((IArray<double>)(object)nt).push(cosTheta);
+                }
+            }
             //   var n1 = nPhi + 1, off = 24;
             //   for ( i = 0; i < nTheta; i++ )
             //     for ( j = 0; j < nPhi; j++ )
