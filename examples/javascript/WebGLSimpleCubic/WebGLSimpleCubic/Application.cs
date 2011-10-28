@@ -21,6 +21,7 @@ namespace WebGLSimpleCubic
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
     using Date = IDate;
     using WebGLSimpleCubic.Shaders;
+    using WebGLSimpleCubic.Library;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -214,15 +215,16 @@ namespace WebGLSimpleCubic
             gl.linkProgram(prog);
             gl.useProgram(prog);
 
-            var a = 1.0; // where is it used? what shall be the type?
-            var pt = new double [] {-a,-a,a, a,-a,a, -a,a,a, a,a,a,  // cubic
+            #region data
+            var a = 1.0f; // where is it used? what shall be the type?
+            var pt0 = new float[] {-a,-a,a, a,-a,a, -a,a,a, a,a,a,  // cubic
                  -a,a,a, a,a,a, -a,a,-a, a,a,-a,
                  -a,a,-a, a,a,-a, -a,-a,-a, a,-a,-a,  -a,-a,-a, a,-a,-a, -a,-a,a, a,-a,a,
                  a,a,a, a,a,-a, a,-a,a, a,-a,-a,  -a,a,a, -a,a,-a, -a,-a,a, -a,-a,-a};
-            var nt = new double[] {0,0,1, 0,0,1, 0,0,1, 0,0,1,  0,1,0, 0,1,0, 0,1,0, 0,1,0,
+            var nt = new float[] {0,0,1, 0,0,1, 0,0,1, 0,0,1,  0,1,0, 0,1,0, 0,1,0, 0,1,0,
                  0,0,-1, 0,0,-1, 0,0,-1, 0,0,-1,  0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0,
                  1,0,0, 1,0,0, 1,0,0, 1,0,0,  -1,0,0, -1,0,0, -1,0,0, -1,0,0};
-            var ind = new[] {0,1,2,1,2,3, 4,5,6,5,6,7, 8,9,10,9,10,11,
+            var ind = new ushort[] {0,1,2,1,2,3, 4,5,6,5,6,7, 8,9,10,9,10,11,
                  12,13,14,13,14,15, 16,17,18,17,18,19, 20,21,22,21,22,23};
 
             var nPhi = 25;
@@ -243,75 +245,96 @@ namespace WebGLSimpleCubic
                     var sinPhi = Math.Sin(Phi);
 
 
-                    ((IArray<double>)(object)pt).push(r * cosPhi * sinTheta);
-                    ((IArray<double>)(object)pt).push(-r * sinPhi * sinTheta);
-                    ((IArray<double>)(object)pt).push(r * cosTheta);
+                    ((IArray<float>)(object)pt0).push((float)(r * cosPhi * sinTheta));
+                    ((IArray<float>)(object)pt0).push((float)(-r * sinPhi * sinTheta));
+                    ((IArray<float>)(object)pt0).push((float)(r * cosTheta));
 
-                    ((IArray<double>)(object)nt).push(cosPhi * sinTheta);
-                    ((IArray<double>)(object)nt).push(-sinPhi * sinTheta);
-                    ((IArray<double>)(object)nt).push(cosTheta);
+                    ((IArray<float>)(object)nt).push((float)(cosPhi * sinTheta));
+                    ((IArray<float>)(object)nt).push((float)(-sinPhi * sinTheta));
+                    ((IArray<float>)(object)nt).push((float)(cosTheta));
                 }
             }
-            //   var n1 = nPhi + 1, off = 24;
-            //   for ( i = 0; i < nTheta; i++ )
-            //     for ( j = 0; j < nPhi; j++ )
-            //       ind.push (i*n1+j+off, (i+1)*n1+j+1+off, i*n1+j+1+off, i*n1+j+off,
-            //         (i+1)*n1+j+off, (i+1)*n1+j+1+off );
+            var n1 = nPhi + 1;
+            var off = 24;
+            for (var i = 0; i < nTheta; i++)
+                for (var j = 0; j < nPhi; j++)
+                {
+                    ((IArray<int>)(object)ind).push(i * n1 + j + off);
+                    ((IArray<int>)(object)ind).push((i + 1) * n1 + j + 1 + off);
+                    ((IArray<int>)(object)ind).push(i * n1 + j + 1 + off);
+                    ((IArray<int>)(object)ind).push(i * n1 + j + off);
+                    ((IArray<int>)(object)ind).push((i + 1) * n1 + j + off);
+                    ((IArray<int>)(object)ind).push((i + 1) * n1 + j + 1 + off);
+                }
+            #endregion
 
-            //   gl.enableVertexAttribArray( posLoc );
-            //   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            //   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt), gl.STATIC_DRAW);
-            //   gl.vertexAttribPointer(posLoc, 3, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(posLoc);
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt0), gl.STATIC_DRAW);
+            gl.vertexAttribPointer(posLoc, 3, gl.FLOAT, false, 0, 0);
 
-            //   gl.enableVertexAttribArray( normLoc );
-            //   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            //   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nt), gl.STATIC_DRAW);
-            //   gl.vertexAttribPointer(normLoc, 3, gl.FLOAT, false, 0, 0);
+            gl.enableVertexAttribArray(normLoc);
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nt), gl.STATIC_DRAW);
+            gl.vertexAttribPointer(normLoc, 3, gl.FLOAT, false, 0, 0);
 
-            //   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-            //   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(ind),
-            //     gl.STATIC_DRAW);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(ind),
+              gl.STATIC_DRAW);
 
-            //   var prMatrix = new CanvasMatrix4();
-            //   prMatrix.perspective(45, 1, .1, 100);
-            //   gl.uniformMatrix4fv( gl.getUniformLocation(prog,"prMatrix"),
-            //      false, new Float32Array(prMatrix.getAsArray()) );
-            //   var mvMatrix = new CanvasMatrix4();
-            //   var rotMat = new CanvasMatrix4();
-            //   rotMat.makeIdentity();
-            //   rotMat.rotate(25, 1,1,0);
-            //   var mvMatLoc = gl.getUniformLocation(prog,"mvMatrix");
-            //   var colorLoc = gl.getUniformLocation(prog,"u_color");
+            var prMatrix = new CanvasMatrix4();
+            prMatrix.perspective(45, 1, .1, 100);
 
-            //   var line_prog  = gl.createProgram();
-            //   gl.attachShader(line_prog, getShader( gl, "line-vs" ));
-            //   gl.attachShader(line_prog, getShader( gl, "line-fs" ));
-            //   var lineLoc = 2;
-            //   gl.bindAttribLocation(line_prog, lineLoc, "aPos");
-            //   gl.linkProgram(line_prog);
-            //   gl.useProgram(line_prog);
-            //   gl.uniformMatrix4fv( gl.getUniformLocation(line_prog,"prMatrix"),
-            //      false, new Float32Array(prMatrix.getAsArray()) );
-            //   var mvMatLineLoc = gl.getUniformLocation(line_prog,"mvMatrix");
+            gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
+                  false, new Float32Array(prMatrix.getAsArray()));
 
-            //   var pt = [2,1,1, -2,1,1, 2,-1,1, -2,-1,1, 2,1,-1, -2,1,-1, 2,-1,-1, -2,-1,-1,
-            //     1,2,1, 1,-2,1, 1,2,-1, 1,-2,-1, -1,2,1, -1,-2,1, -1,2,-1, -1,-2,-1, 
-            //     1,1,2, 1,1,-2, -1,1,2, -1,1,-2, 1,-1,2, 1,-1,-2, -1,-1,2, -1,-1,-2
-            //   ];
-            //   gl.enableVertexAttribArray( lineLoc );
-            //   gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            //   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt), gl.STATIC_DRAW);
-            //   gl.vertexAttribPointer(lineLoc, 3, gl.FLOAT, false, 0, 0);
+            var mvMatrix = new CanvasMatrix4();
+            var rotMat = new CanvasMatrix4();
+            rotMat.makeIdentity();
+            rotMat.rotate(25, 1, 1, 0);
 
-            //   gl.enable(gl.DEPTH_TEST);
-            //   gl.depthFunc(gl.LEQUAL);
-            //   gl.clearDepth(1.0);
-            //   gl.clearColor(.5, 1., .5, 1);
-            //   gl.lineWidth( 2 );
-            //   var xOffs = yOffs = 0,  drag  = 0;
-            //   var xRot = yRot = 0;
-            //   var transl = -6;
-            //   drawScene();
+            var mvMatLoc = gl.getUniformLocation(prog, "mvMatrix");
+            var colorLoc = gl.getUniformLocation(prog, "u_color");
+
+            var line_prog = gl.createProgram();
+
+            var line_vs = createShader(new LineVertexShader());
+            var line_fs = createShader(new LineFragmentShader());
+
+            gl.attachShader(line_prog, line_vs);
+            gl.attachShader(line_prog, line_fs);
+
+            var lineLoc = 2UL;
+            gl.bindAttribLocation(line_prog, lineLoc, "aPos");
+
+            gl.linkProgram(line_prog);
+            gl.useProgram(line_prog);
+            gl.uniformMatrix4fv(gl.getUniformLocation(line_prog, "prMatrix"),
+               false, new Float32Array(prMatrix.getAsArray()));
+            var mvMatLineLoc = gl.getUniformLocation(line_prog, "mvMatrix");
+
+            var pt1 = new float[]{2,1,1, -2,1,1, 2,-1,1, -2,-1,1, 2,1,-1, -2,1,-1, 2,-1,-1, -2,-1,-1,
+                1,2,1, 1,-2,1, 1,2,-1, 1,-2,-1, -1,2,1, -1,-2,1, -1,2,-1, -1,-2,-1, 
+                1,1,2, 1,1,-2, -1,1,2, -1,1,-2, 1,-1,2, 1,-1,-2, -1,-1,2, -1,-1,-2
+            };
+
+            gl.enableVertexAttribArray(lineLoc);
+            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt1), gl.STATIC_DRAW);
+            gl.vertexAttribPointer(lineLoc, 3, gl.FLOAT, false, 0, 0);
+
+            gl.enable(gl.DEPTH_TEST);
+            gl.depthFunc(gl.LEQUAL);
+            gl.clearDepth(1.0f);
+            gl.clearColor(.5f, 1f, .5f, 1f);
+            gl.lineWidth(2);
+
+            var xOffs = 0;
+            var yOffs = 0;
+            var drag = 0;
+            var xRot = 0;
+            var yRot = 0;
+            var transl = -6;
 
             #region drawScene
             //  function drawScene(){
@@ -347,6 +370,10 @@ namespace WebGLSimpleCubic
             //    gl.flush ();
             //  }
             #endregion
+
+
+            //   drawScene();
+
 
             #region drawBall
             //  function drawBall(x, y, z){
