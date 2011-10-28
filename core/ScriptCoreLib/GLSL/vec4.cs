@@ -58,6 +58,13 @@ namespace ScriptCoreLib.GLSL
 
         // Dot products are to be to be generated!
         public vec3 rgb { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
-        
+
+        // Dot products are to be to be generated!
+        public vec3 xyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+        public static vec4 operator *(mat4 x, vec4 y)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

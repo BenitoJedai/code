@@ -38,5 +38,14 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        public static vec3 operator *(float x, vec3 y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public vec3(genType x, genType y, genType z)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

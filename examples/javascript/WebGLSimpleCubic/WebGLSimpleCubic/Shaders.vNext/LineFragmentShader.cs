@@ -8,14 +8,13 @@ using System.ComponentModel;
 namespace WebGLSimpleCubic.Shaders.vNext
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
-    class SpiralVertexShader : ScriptCoreLib.GLSL.VertexShader
+    class LineFragmentShader : ScriptCoreLib.GLSL.FragmentShader
     {
-        [attribute]
-        vec3 position;
-
+        [varying]
+        vec4 color;
         void main()
         {
-            gl_Position = vec4(position, 1.0f);
+            gl_FragColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);
         }
     }
 }
