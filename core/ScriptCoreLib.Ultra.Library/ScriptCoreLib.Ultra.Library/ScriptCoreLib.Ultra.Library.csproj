@@ -84,6 +84,7 @@
     <Compile Include="Delegates\Async.cs" />
     <Compile Include="Desktop\AppDomainAssemblyResolve.cs" />
     <Compile Include="Desktop\Avalon\Extensions\ControlExtensions.cs" />
+    <Compile Include="Desktop\Avalon\Extensions\WindowExtensions.cs" />
     <Compile Include="Desktop\MethodBaseExtensions.cs" />
     <Compile Include="Desktop\PEFileKindsReader.cs" />
     <Compile Include="Desktop\Tools\DesktopToolsExtensions.ExtractJavaArchiveTo.cs" />
