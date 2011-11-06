@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     using ScriptCoreLib.JavaScript.DOM;
 
     [Script(Implements = typeof(global::System.Delegate))]
-    public class __Delegate
+    internal class __Delegate
     {
         [ScriptDelegateDataHint(ScriptDelegateDataHintAttribute.FieldType.Target)]
         public object Target;

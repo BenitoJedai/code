@@ -7,7 +7,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
     using ScriptCoreLib.JavaScript.Runtime;
 
     [Script(InternalConstructor = true, Implements = typeof(global::System.Exception))]
-    public class __Exception
+    internal class __Exception
     {
 
         public string Message

@@ -6,15 +6,17 @@ namespace ScriptCoreLib.Shared
     //public delegate TRet EventHandler<TRet, var0, var1>(var0 e, var1 p);
     [Script]
     public delegate void EventHandler<var0, var1>(var0 e, var1 p);
+
     [Script]
     public delegate void EventHandler<var0>(var0 e);
+
     [Script]
     public delegate void EventHandler();
 
-    
+
     [Script]
     public delegate void InternalAction();
-    
+
 
 
     [Script]
@@ -26,10 +28,10 @@ namespace ScriptCoreLib.Shared
     [Script]
     public delegate T InternalFunc<A, B, T>(A a, B b);
 
-	[Script]
-	public delegate T InternalFunc<A, B, C, T>(A a, B b, C c);
+    [Script]
+    public delegate T InternalFunc<A, B, C, T>(A a, B b, C c);
 
-	
+
 
     //#if BLOAT
 

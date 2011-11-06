@@ -83,6 +83,7 @@
     <Reference Include="ScriptCoreLibJava">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <Aliases>global,jvm</Aliases>
     </Reference>
     <Reference Include="ScriptCoreLibJava.Drawing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -119,6 +120,7 @@
     <Compile Include="Archive\ZIP\ZIPFileWithXLinq.cs" />
     <Compile Include="Desktop\Avalon\Extensions\DesktopAvalonExtensions.cs" />
     <Compile Include="Desktop\Forms\Extensions\DesktopFormsExtensions.cs" />
+    <Compile Include="Desktop\JVM\JVMTypeExtensions.cs" />
     <Compile Include="Extensions\Avalon\AvalonUltraTimerExtensions.cs" />
     <Compile Include="Avalon\ImageCarouselCanvas.cs" />
     <Compile Include="Desktop\Extensions\DesktopAvalonExtensions.cs" />

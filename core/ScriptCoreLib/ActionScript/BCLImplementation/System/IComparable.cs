@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 {
     [Script(Implements = typeof(IComparable))]
-    public interface __IComparable
+    internal interface __IComparable
     {
         // Methods
         int CompareTo(object obj);
@@ -14,7 +14,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
 
     [Script(Implements = typeof(IComparable<>))]
-    public interface __IComparable<T>
+    internal interface __IComparable<T>
     {
         // Methods
         int CompareTo(T obj);
