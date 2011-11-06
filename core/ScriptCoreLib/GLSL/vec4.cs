@@ -9,7 +9,7 @@ namespace ScriptCoreLib.GLSL
     using System.Runtime.InteropServices;
 
     // http://ioctl.eu/browser/opengl/base/src/vec4.h
-    [Script]
+    [Script(IsNative = true)]
     [StructLayout(LayoutKind.Explicit)]
     public struct vec4
     {

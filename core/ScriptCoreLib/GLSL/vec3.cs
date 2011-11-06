@@ -8,7 +8,7 @@ namespace ScriptCoreLib.GLSL
     using genType = Single;
     using System.Runtime.InteropServices;
 
-    [Script]
+    [Script(IsNative = true)]
     [StructLayout(LayoutKind.Explicit)]
     public struct vec3
     {

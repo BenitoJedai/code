@@ -15,7 +15,7 @@ namespace ScriptCoreLib.GLSL
     /// of things that are very useful in computer graphics: colors, normals, positions, texture coordinates, texture
     /// lookup results and the like.
     /// </summary>
-    [Script]
+    [Script(IsNative = true)]
     [StructLayout(LayoutKind.Explicit)]
     public struct vec2
     {

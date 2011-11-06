@@ -10,11 +10,11 @@ using ScriptCoreLib.Shared;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCoreLib")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("The open source library for immersive web applications.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("neutronic")]
+[assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("ScriptCoreLib")]
-[assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
+[assembly: AssemblyCopyright("Copyright © 2011 ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
