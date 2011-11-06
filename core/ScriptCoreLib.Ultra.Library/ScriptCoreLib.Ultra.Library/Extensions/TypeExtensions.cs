@@ -9,9 +9,11 @@ namespace ScriptCoreLib.Extensions
     {
         public static Type TryGetGenericTypeDefinition(this Type t)
         {
-            if (t.IsGenericType)
-                if (!t.IsGenericTypeDefinition)
-                    return t.GetGenericTypeDefinition();
+
+            if (t != null)
+                if (t.IsGenericType)
+                    if (!t.IsGenericTypeDefinition)
+                        return t.GetGenericTypeDefinition();
 
             return t;
         }
