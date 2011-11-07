@@ -7,6 +7,8 @@ using System.Text;
 
 namespace ScriptCoreLib.Desktop.JVM
 {
+    using Enum = jvm::java.lang.Enum;
+
     public static class JVMTypeExtensions
     {
         /// <summary>
@@ -26,7 +28,7 @@ namespace ScriptCoreLib.Desktop.JVM
                 return true;
             }
 
-            return SourceType.BaseType != null && SourceType.BaseType.FullName == typeof(jvm::java.lang.Enum).FullName;
+            return SourceType.BaseType != null && SourceType.BaseType.FullName == typeof(Enum).FullName;
         }
     }
 }
