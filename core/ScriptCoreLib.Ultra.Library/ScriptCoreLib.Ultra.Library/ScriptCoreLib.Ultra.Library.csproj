@@ -94,6 +94,7 @@
     <Compile Include="Extensions\Avalon\DataObjectExtensions.cs" />
     <Compile Include="Extensions\Avalon\ItemCollectionExtensions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\EventInfoExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Forms\FormsExtensions.cs" />
     <Compile Include="Extensions\IntPtrExtensions.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Extensions\MarshalExtensions.cs" />
     <Compile Include="Extensions\MethodBaseExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Extensions\TouchExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />

@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Extensions
                         typeof(EventHandler),
                         typeof(EventHandler<>),
 
-                        //typeof(Action),
+                        typeof(Action),
                         typeof(Action<>),
                         typeof(Action<,>),
                         typeof(Action<,,>),
@@ -45,7 +45,7 @@ namespace ScriptCoreLib.Extensions
 
 
 
-                        //typeof(Func<>),
+                        typeof(Func<>),
                         typeof(Func<,>),
                         typeof(Func<,,>),
                         typeof(Func<,,,>),
