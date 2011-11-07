@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ScriptCorLibA")]
 [assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2010")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("jsc-solutions.net")]
+[assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("jsc")]
 [assembly: AssemblyCopyright("Copyright © jsc-solutions.net 2010")]
 [assembly: AssemblyTrademark("")]
