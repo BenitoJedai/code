@@ -10,255 +10,264 @@ using ScriptCoreLib.Shared.Lambda;
 
 namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
-	[Script]
-	public interface ISupportsContainer
-	{
-		Canvas Container { get; }
-	}
+    [Script]
+    public interface ISupportsContainer
+    {
+        Canvas Container { get; }
+    }
 
-	[Script]
-	public interface ISupportsLayout<T>
-		where T : UIElement
-	{
-		T Value { get; }
-		double Zoom { get; }
-
-
-	}
-
-	[Script]
-	public static class SupportsContainerExtensions
-	{
-		// javascript DOM will not reflect the latest position
-		// within the same callstack
-
-		public static void Show(this ISupportsContainer e)
-		{
-			e.Show(true);
-		}
-
-		public static void Hide(this ISupportsContainer e)
-		{
-			e.Show(false);
-		}
-
-		public static void Show(this ISupportsContainer e, bool value)
-		{
-			e.Container.Show(value);
-		}
+    [Script]
+    public interface ISupportsLayout<T>
+        where T : UIElement
+    {
+        T Value { get; }
+        double Zoom { get; }
 
 
-		public static BindingList<T> AttachTo<T, K>(this BindingList<T> e, Func<T, K> selector, IAddChild c)
-			where K : ISupportsContainer
-		{
-			e.ForEachNewOrExistingItem(k => selector(k).AttachContainerTo(c));
-			e.ForEachItemDeleted(k => selector(k).OrphanizeContainer());
+    }
 
-			return e;
-		}
+    [Script]
+    public static class SupportsContainerExtensions
+    {
+        // javascript DOM will not reflect the latest position
+        // within the same callstack
 
-		public static BindingList<T> AttachTo<T>(this BindingList<T> e, Func<IAddChild> GetContainer)
-			where T : ISupportsContainer
-		{
-			e.ForEachNewOrExistingItem(
-				k =>
-				{
-					var c = GetContainer();
+        public static void Show(this ISupportsContainer e)
+        {
+            e.Show(true);
+        }
 
-					if (c != null)
-						k.AttachContainerTo(c);
-				}
-			);
-			e.ForEachItemDeleted(
-				k =>
-				{
-					var c = GetContainer();
+        public static void Hide(this ISupportsContainer e)
+        {
+            e.Show(false);
+        }
 
-					if (c != null)
-						k.OrphanizeContainer();
-				}
-			);
-
-			return e;
-		}
+        public static void Show(this ISupportsContainer e, bool value)
+        {
+            e.Container.Show(value);
+        }
 
 
-		public static BindingList<T> AttachTo<T>(this BindingList<T> e, IAddChild c)
-			where T : ISupportsContainer
-		{
-			e.ForEachNewOrExistingItem(k => k.AttachContainerTo(c));
-			e.ForEachItemDeleted(k => k.OrphanizeContainer());
+        public static BindingList<T> AttachTo<T, K>(this BindingList<T> e, Func<T, K> selector, IAddChild c)
+            where K : ISupportsContainer
+        {
+            e.ForEachNewOrExistingItem(k => selector(k).AttachContainerTo(c));
+            e.ForEachItemDeleted(k => selector(k).OrphanizeContainer());
 
-			return e;
-		}
+            return e;
+        }
 
-		public static BindingList<T> AttachToFrameworkElement<T>(this BindingList<T> e, IAddChild c)
-		where T : FrameworkElement
-		{
-			e.ForEachNewOrExistingItem(k => k.AttachTo(c));
-			e.ForEachItemDeleted(k => k.Orphanize());
+        public static BindingList<T> AttachTo<T>(this BindingList<T> e, Func<IAddChild> GetContainer)
+            where T : ISupportsContainer
+        {
+            e.ForEachNewOrExistingItem(
+                k =>
+                {
+                    var c = GetContainer();
 
-			return e;
-		}
+                    if (c != null)
+                        k.AttachContainerTo(c);
+                }
+            );
+            e.ForEachItemDeleted(
+                k =>
+                {
+                    var c = GetContainer();
 
-		public static void AttachTo<T, F>(this BindingList<T> a, Func<T, BindingList<F>> selector, IAddChild c)
-			where F : ISupportsContainer
-		{
-			var ea = a.WithEvents();
-			var cache = new List<BindingListWithEvents<F>>();
+                    if (c != null)
+                        k.OrphanizeContainer();
+                }
+            );
 
-			Action<T, int> Added =
-				(n, i) =>
-				{
-					var x = selector(n).WithEvents();
-
-					x.Added +=
-						(k, j) =>
-						{
-							k.AttachContainerTo(c);
-						};
-
-					x.Removed +=
-						(k, j) =>
-						{
-							(k).OrphanizeContainer();
-						};
-
-					x.Source.ForEach(k => (k).AttachContainerTo(c));
-
-					cache.Add(x);
-				};
-
-			ea.Added += Added;
-				
-			ea.Removed +=
-				(n, i) =>
-				{
-					var x = cache[i];
-
-					x.Source.ForEach(k => (k).OrphanizeContainer());
-
-					cache.RemoveAt(i);
-
-					x.Dispose();
-				};
-
-			a.ForEach(Added);
-		}
-
-		public static T BringContainerToFront<T>(this T e)
-			where T : ISupportsContainer
-		{
-			if (e == null)
-				return e;
-
-			e.Container.BringToFront();
-
-			return e;
-		}
-
-		public static Panel GetParentPanel<T>(this T e)
-			where T : FrameworkElement
-		{
-			var p = e.Parent;
-
-			if (p == null)
-				return null;
-
-			var Panel = p as Panel;
-
-			if (Panel == null)
-				throw new NotImplementedException("Parent should have been a Panel");
-
-			return Panel;
-		}
-
-		public static T BringToFront<T>(this T e)
-			where T : FrameworkElement
-		{
-			if (e == null)
-				return e;
+            return e;
+        }
 
 
-			var Panel = e.GetParentPanel();
+        public static BindingList<T> AttachTo<T>(this BindingList<T> e, IAddChild c)
+            where T : ISupportsContainer
+        {
+            e.ForEachNewOrExistingItem(k => k.AttachContainerTo(c));
+            e.ForEachItemDeleted(k => k.OrphanizeContainer());
 
-			if (Panel == null)
-				return e;
+            return e;
+        }
 
-			Panel.Children.Remove(e);
-			Panel.Children.Add(e);
+        public static BindingList<T> AttachToFrameworkElement<T>(this BindingList<T> e, IAddChild c)
+        where T : FrameworkElement
+        {
+            e.ForEachNewOrExistingItem(k => k.AttachTo(c));
+            e.ForEachItemDeleted(k => k.Orphanize());
 
-			return e;
-		}
+            return e;
+        }
 
-		[Script]
-		internal class SupportsLayout<T> : ISupportsLayout<T>
-		where T : UIElement
-		{
-			public T Value { get; set; }
-			public double Zoom { get; set; }
+        public static void AttachTo<T, F>(this BindingList<T> a, Func<T, BindingList<F>> selector, IAddChild c)
+            where F : ISupportsContainer
+        {
+            var ea = a.WithEvents();
+            var cache = new List<BindingListWithEvents<F>>();
 
-			public SupportsLayout(T Value, double Zoom)
-			{
-				this.Value = Value;
-				this.Zoom = Zoom;
-			}
-		}
+            Action<T, int> Added =
+                (n, i) =>
+                {
+                    var x = selector(n).WithEvents();
 
-		public static ISupportsLayout<T> WithZoom<T>(this T e, double Zoom)
-		where T : UIElement
-		{
-			return new SupportsLayout<T>(e, Zoom);
-		}
+                    x.Added +=
+                        (k, j) =>
+                        {
+                            k.AttachContainerTo(c);
+                        };
 
-		public static T MoveTo<T>(this T e, double x, double y)
-					where T : UIElement
-		{
-			Canvas.SetLeft(e, x);
-			Canvas.SetTop(e, y);
+                    x.Removed +=
+                        (k, j) =>
+                        {
+                            (k).OrphanizeContainer();
+                        };
 
-			return e;
-		}
+                    x.Source.ForEach(k => (k).AttachContainerTo(c));
 
-		public static ISupportsLayout<T> MoveTo<T>(this ISupportsLayout<T> e, double x, double y)
-				where T : UIElement
-		{
-			Canvas.SetLeft(e.Value, x * e.Zoom);
-			Canvas.SetTop(e.Value, y * e.Zoom);
+                    cache.Add(x);
+                };
 
-			return e;
-		}
+            ea.Added += Added;
 
-		public static ISupportsLayout<T> MoveTo<T>(this ISupportsLayout<T> e, int x, int y)
-			where T : UIElement
-		{
-			Canvas.SetLeft(e.Value, x * e.Zoom);
-			Canvas.SetTop(e.Value, y * e.Zoom);
+            ea.Removed +=
+                (n, i) =>
+                {
+                    var x = cache[i];
 
-			return e;
-		}
+                    x.Source.ForEach(k => (k).OrphanizeContainer());
 
-		public static T MoveTo<T>(this T e, Point p)
-		where T : UIElement
-		{
-			Canvas.SetLeft(e, p.X);
-			Canvas.SetTop(e, p.Y);
+                    cache.RemoveAt(i);
 
-			return e;
-		}
+                    x.Dispose();
+                };
 
-		public static T MoveTo<T>(this T e, int x, int y)
-			where T : UIElement
-		{
-			Canvas.SetLeft(e, x);
-			Canvas.SetTop(e, y);
+            a.ForEach(Added);
+        }
 
-			return e;
-		}
+        public static T BringContainerToFront<T>(this T e)
+            where T : ISupportsContainer
+        {
+            if (e == null)
+                return e;
 
-		public static T SizeTo<T>(this T e, int w, int h)
-			where T : FrameworkElement
-		{
+            e.Container.BringToFront();
+
+            return e;
+        }
+
+        public static Panel GetParentPanel<T>(this T e)
+            where T : FrameworkElement
+        {
+            var p = e.Parent;
+
+            if (p == null)
+                return null;
+
+            var Panel = p as Panel;
+
+            if (Panel == null)
+                throw new NotImplementedException("Parent should have been a Panel");
+
+            return Panel;
+        }
+
+        public static T BringToFront<T>(this T e)
+            where T : FrameworkElement
+        {
+            if (e == null)
+                return e;
+
+
+            var Panel = e.GetParentPanel();
+
+            if (Panel == null)
+                return e;
+
+            Panel.Children.Remove(e);
+            Panel.Children.Add(e);
+
+            return e;
+        }
+
+        [Script]
+        internal class SupportsLayout<T> : ISupportsLayout<T>
+        where T : UIElement
+        {
+            public T Value { get; set; }
+            public double Zoom { get; set; }
+
+            public SupportsLayout(T Value, double Zoom)
+            {
+                this.Value = Value;
+                this.Zoom = Zoom;
+            }
+        }
+
+        public static ISupportsLayout<T> WithZoom<T>(this T e, double Zoom)
+        where T : UIElement
+        {
+            return new SupportsLayout<T>(e, Zoom);
+        }
+
+        public static T MoveTo<T>(this T e, double x, double y)
+                    where T : UIElement
+        {
+            if (e != default(UIElement))
+            {
+                Canvas.SetLeft(e, x);
+                Canvas.SetTop(e, y);
+            }
+
+            return e;
+        }
+
+        public static ISupportsLayout<T> MoveTo<T>(this ISupportsLayout<T> e, double x, double y)
+                where T : UIElement
+        {
+            Canvas.SetLeft(e.Value, x * e.Zoom);
+            Canvas.SetTop(e.Value, y * e.Zoom);
+
+            return e;
+        }
+
+        public static ISupportsLayout<T> MoveTo<T>(this ISupportsLayout<T> e, int x, int y)
+            where T : UIElement
+        {
+            Canvas.SetLeft(e.Value, x * e.Zoom);
+            Canvas.SetTop(e.Value, y * e.Zoom);
+
+            return e;
+        }
+
+        public static T MoveTo<T>(this T e, Point p)
+        where T : UIElement
+        {
+            if (e != default(UIElement))
+            {
+                Canvas.SetLeft(e, p.X);
+                Canvas.SetTop(e, p.Y);
+            }
+
+            return e;
+        }
+
+        public static T MoveTo<T>(this T e, int x, int y)
+            where T : UIElement
+        {
+            if (e != default(UIElement))
+            {
+                Canvas.SetLeft(e, x);
+                Canvas.SetTop(e, y);
+            }
+
+            return e;
+        }
+
+        public static T SizeTo<T>(this T e, int w, int h)
+            where T : FrameworkElement
+        {
             if (w < 0)
                 w = 0;
 
@@ -266,209 +275,209 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
                 h = 0;
 
 
-			e.Width = w;
-			e.Height = h;
+            e.Width = w;
+            e.Height = h;
 
 
-			return e;
-		}
+            return e;
+        }
 
 
-		public static T SizeTo<T>(this T e, double w, double h)
-			where T : FrameworkElement
-		{
+        public static T SizeTo<T>(this T e, double w, double h)
+            where T : FrameworkElement
+        {
             if (w < 0)
                 w = 0;
 
             if (h < 0)
                 h = 0;
 
-			e.Width = w;
-			e.Height = h;
+            e.Width = w;
+            e.Height = h;
 
-			return e;
-		}
+            return e;
+        }
 
-		public static ISupportsLayout<T> SizeTo<T>(this ISupportsLayout<T> e, double w, double h)
-			where T : FrameworkElement
-		{
-			e.Value.Width = e.Zoom * w;
-			e.Value.Height = e.Zoom * h;
-
-
-			return e;
-		}
-
-		public static ISupportsLayout<T> SizeTo<T>(this ISupportsLayout<T> e, int w, int h)
-		where T : FrameworkElement
-		{
-			e.Value.Width = e.Zoom * w;
-			e.Value.Height = e.Zoom * h;
+        public static ISupportsLayout<T> SizeTo<T>(this ISupportsLayout<T> e, double w, double h)
+            where T : FrameworkElement
+        {
+            e.Value.Width = e.Zoom * w;
+            e.Value.Height = e.Zoom * h;
 
 
-			return e;
-		}
+            return e;
+        }
 
-		public static T MoveContainerTo<T>(this T e, int x, int y)
-			where T : ISupportsContainer
-		{
-			var c = e.Container;
-
-			Canvas.SetLeft(c, x);
-			Canvas.SetTop(c, y);
-
-			return e;
-		}
-
-		public static T MoveContainerTo<T>(this T e, double x, double y)
-			where T : ISupportsContainer
-		{
-			var c = e.Container;
-
-			Canvas.SetLeft(c, x);
-			Canvas.SetTop(c, y);
-
-			return e;
-		}
-
-		public static void AttachTo<T>(this T[] e, IAddChild c)
-			where T : UIElement
-		{
+        public static ISupportsLayout<T> SizeTo<T>(this ISupportsLayout<T> e, int w, int h)
+        where T : FrameworkElement
+        {
+            e.Value.Width = e.Zoom * w;
+            e.Value.Height = e.Zoom * h;
 
 
-			foreach (var k in e)
-			{
-				k.AttachTo(c);
-			}
+            return e;
+        }
 
-		}
+        public static T MoveContainerTo<T>(this T e, int x, int y)
+            where T : ISupportsContainer
+        {
+            var c = e.Container;
 
-		public static T AttachTo<T>(this T e, IAddChild c)
-			where T : UIElement
-		{
-			if (e == null)
-				return e;
+            Canvas.SetLeft(c, x);
+            Canvas.SetTop(c, y);
 
-			UIElement x = e;
+            return e;
+        }
 
-			c.AddChild(x);
+        public static T MoveContainerTo<T>(this T e, double x, double y)
+            where T : ISupportsContainer
+        {
+            var c = e.Container;
 
-			return e;
-		}
+            Canvas.SetLeft(c, x);
+            Canvas.SetTop(c, y);
 
-		public static T AttachContainerTo<T>(this T e, IAddChild c)
-			where T : ISupportsContainer
-		{
-			if (e == null)
-				return e;
+            return e;
+        }
 
-			e.Container.AttachTo(c);
+        public static void AttachTo<T>(this T[] e, IAddChild c)
+            where T : UIElement
+        {
 
-			return e;
-		}
 
-		public static T[] AttachContainerTo<T>(this T[] e, ISupportsContainer c)
-			where T : ISupportsContainer
-		{
-			if (e == null)
-				return e;
+            foreach (var k in e)
+            {
+                k.AttachTo(c);
+            }
 
-			foreach (var v in e)
-			{
-				v.Container.AttachTo(c.Container);
-			}
+        }
 
-			return e;
-		}
+        public static T AttachTo<T>(this T e, IAddChild c)
+            where T : UIElement
+        {
+            if (e == null)
+                return e;
 
-		public static T[] AttachContainerTo<T>(this T[] e, IAddChild c)
-			where T : ISupportsContainer
-		{
-			if (e == null)
-				return e;
+            UIElement x = e;
 
-			foreach (var v in e)
-			{
-				v.Container.AttachTo(c);
-			}
+            c.AddChild(x);
 
-			return e;
-		}
+            return e;
+        }
 
-		public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
-			where T : ISupportsContainer
-		{
-			if (e == null)
-				return e;
+        public static T AttachContainerTo<T>(this T e, IAddChild c)
+            where T : ISupportsContainer
+        {
+            if (e == null)
+                return e;
 
-			e.Container.AttachTo(c.Container);
+            e.Container.AttachTo(c);
 
-			return e;
-		}
+            return e;
+        }
 
-		public static T AttachTo<T>(this T e, ISupportsContainer c)
-			where T : UIElement
-		{
-			if (e == null)
-				return e;
+        public static T[] AttachContainerTo<T>(this T[] e, ISupportsContainer c)
+            where T : ISupportsContainer
+        {
+            if (e == null)
+                return e;
 
-			e.AttachTo(c.Container);
+            foreach (var v in e)
+            {
+                v.Container.AttachTo(c.Container);
+            }
 
-			return e;
-		}
+            return e;
+        }
 
-		public static T Orphanize<T>(this T e)
-			where T : FrameworkElement
-		{
-			if (e == null)
-				return default(T);
+        public static T[] AttachContainerTo<T>(this T[] e, IAddChild c)
+            where T : ISupportsContainer
+        {
+            if (e == null)
+                return e;
 
-			var p = e.Parent;
+            foreach (var v in e)
+            {
+                v.Container.AttachTo(c);
+            }
 
-			if (p == null)
-				return e;
+            return e;
+        }
 
-			var Panel = p as Panel;
+        public static T AttachContainerTo<T>(this T e, ISupportsContainer c)
+            where T : ISupportsContainer
+        {
+            if (e == null)
+                return e;
 
-			if (Panel == null)
-				throw new NotImplementedException("Parent should have been a Panel");
+            e.Container.AttachTo(c.Container);
 
-			Panel.Children.Remove(e);
+            return e;
+        }
 
-			return e;
-		}
+        public static T AttachTo<T>(this T e, ISupportsContainer c)
+            where T : UIElement
+        {
+            if (e == null)
+                return e;
 
-		public static T OrphanizeContainer<T>(this T e)
-			where T : ISupportsContainer
-		{
-			if (e == null)
-				return e;
+            e.AttachTo(c.Container);
 
-			e.Container.Orphanize();
+            return e;
+        }
 
-			return e;
-		}
+        public static T Orphanize<T>(this T e)
+            where T : FrameworkElement
+        {
+            if (e == null)
+                return default(T);
 
-		public static T[] Orphanize<T>(this T[] e)
-			where T : FrameworkElement
-		{
-			foreach (var v in e)
-			{
-				v.Orphanize();
-			}
+            var p = e.Parent;
 
-			return e;
-		}
+            if (p == null)
+                return e;
 
-		public static IEnumerable<T> Orphanize<T>(this IEnumerable<T> e)
-				where T : FrameworkElement
-		{
-			foreach (var v in e)
-			{
-				v.Orphanize();
-			}
+            var Panel = p as Panel;
 
-			return e;
-		}
-	}
+            if (Panel == null)
+                throw new NotImplementedException("Parent should have been a Panel");
+
+            Panel.Children.Remove(e);
+
+            return e;
+        }
+
+        public static T OrphanizeContainer<T>(this T e)
+            where T : ISupportsContainer
+        {
+            if (e == null)
+                return e;
+
+            e.Container.Orphanize();
+
+            return e;
+        }
+
+        public static T[] Orphanize<T>(this T[] e)
+            where T : FrameworkElement
+        {
+            foreach (var v in e)
+            {
+                v.Orphanize();
+            }
+
+            return e;
+        }
+
+        public static IEnumerable<T> Orphanize<T>(this IEnumerable<T> e)
+                where T : FrameworkElement
+        {
+            foreach (var v in e)
+            {
+                v.Orphanize();
+            }
+
+            return e;
+        }
+    }
 }
