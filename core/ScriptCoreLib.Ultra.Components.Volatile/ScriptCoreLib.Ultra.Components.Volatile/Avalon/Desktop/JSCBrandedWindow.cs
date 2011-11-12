@@ -38,6 +38,8 @@ namespace ScriptCoreLib.Avalon.Desktop
             }
         }
 
+        public Window BrandedOverlay;
+
         public JSCBrandedWindow()
         {
             this.Icon = new JSCSolutionsNETImage().Source;
@@ -60,7 +62,7 @@ namespace ScriptCoreLib.Avalon.Desktop
 
 
             };
-
+            BrandedOverlay = Overlay;
 
             Overlay.SourceInitialized +=
               delegate
