@@ -39,6 +39,8 @@ namespace AnimatedToolbar.Library
         public BindingList<AnimatedToolbarItem> Items;
 
         public event Action<AnimatedToolbarItem> ItemClicked;
+        public event Action<AnimatedToolbarItem> ItemMouseEnter;
+        public event Action<AnimatedToolbarItem> ItemMouseLeave;
 
         public int MaxItems = 4;
 
@@ -72,6 +74,24 @@ namespace AnimatedToolbar.Library
                         {
                             if (ItemClicked != null)
                                 ItemClicked(AddedSource);
+                        };
+                    #endregion
+
+                    #region ItemMouseEnter
+                    AddedSource.Button.MouseEnter +=
+                        delegate
+                        {
+                            if (ItemMouseEnter != null)
+                                ItemMouseEnter(AddedSource);
+                        };
+                    #endregion
+
+                    #region ItemMouseLeave
+                    AddedSource.Button.MouseLeave +=
+                        delegate
+                        {
+                            if (ItemMouseLeave != null)
+                                ItemMouseLeave(AddedSource);
                         };
                     #endregion
 
