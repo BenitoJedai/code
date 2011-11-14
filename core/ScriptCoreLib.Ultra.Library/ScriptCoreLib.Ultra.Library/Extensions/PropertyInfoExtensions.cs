@@ -8,6 +8,14 @@ namespace ScriptCoreLib.Extensions
 {
     public static class PropertyInfoExtensions
     {
+        public static bool IsTransparentIdentifier(this PropertyInfo e)
+        {
+            if (e.Name.StartsWith("<>"))
+                return e.Name.Contains("TransparentIdentifier");
+
+            return false;
+        }
+
         public static bool IsStaticProperty(this PropertyInfo e)
         {
             var _get = e.GetGetMethod(true);
