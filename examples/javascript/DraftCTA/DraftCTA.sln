@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DraftCTA", "DraftCTA\DraftCTA.csproj", "{681F2731-F799-4DBD-B77F-120F22B8CFD2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|x86 = Assets|x86
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{681F2731-F799-4DBD-B77F-120F22B8CFD2}.Assets|x86.ActiveCfg = Assets|x86
+		{681F2731-F799-4DBD-B77F-120F22B8CFD2}.Assets|x86.Build.0 = Assets|x86
+		{681F2731-F799-4DBD-B77F-120F22B8CFD2}.Debug|x86.ActiveCfg = Debug|x86
+		{681F2731-F799-4DBD-B77F-120F22B8CFD2}.Debug|x86.Build.0 = Debug|x86
+		{681F2731-F799-4DBD-B77F-120F22B8CFD2}.Release|x86.ActiveCfg = Release|x86
+		{681F2731-F799-4DBD-B77F-120F22B8CFD2}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
