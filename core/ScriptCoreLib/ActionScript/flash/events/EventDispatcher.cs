@@ -18,26 +18,26 @@ namespace ScriptCoreLib.ActionScript.flash.events
         {
         }
 
-        /// <summary>
-        /// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
-        /// </summary>
-        public void addEventListener(string type, Function listener, bool useCapture, int priority)
-        {
-        }
+        ///// <summary>
+        ///// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+        ///// </summary>
+        //public void addEventListener(string type, Function listener, bool useCapture, int priority)
+        //{
+        //}
 
-        /// <summary>
-        /// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
-        /// </summary>
-        public void addEventListener(string type, Function listener, bool useCapture)
-        {
-        }
+        ///// <summary>
+        ///// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+        ///// </summary>
+        //public void addEventListener(string type, Function listener, bool useCapture)
+        //{
+        //}
 
-        /// <summary>
-        /// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
-        /// </summary>
-        public void addEventListener(string type, Function listener)
-        {
-        }
+        ///// <summary>
+        ///// Registers an event listener object with an EventDispatcher object so that the listener receives notification of an event.
+        ///// </summary>
+        //public void addEventListener(string type, Function listener)
+        //{
+        //}
 
         /// <summary>
         /// Dispatches an event into the event flow.
@@ -62,12 +62,12 @@ namespace ScriptCoreLib.ActionScript.flash.events
         {
         }
 
-        /// <summary>
-        /// Removes a listener from the EventDispatcher object.
-        /// </summary>
-        public void removeEventListener(string type, Function listener)
-        {
-        }
+        ///// <summary>
+        ///// Removes a listener from the EventDispatcher object.
+        ///// </summary>
+        //public void removeEventListener(string type, Function listener)
+        //{
+        //}
 
         /// <summary>
         /// Checks whether an event listener is registered with this EventDispatcher object or any of its ancestors for the specified event type.

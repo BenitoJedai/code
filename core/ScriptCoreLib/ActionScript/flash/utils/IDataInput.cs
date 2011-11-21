@@ -46,15 +46,15 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         /// </summary>
         void readBytes(ByteArray bytes, uint offset, uint length);
 
-        /// <summary>
-        /// Reads the number of data bytes, specified by the length parameter, from the file stream, byte stream, or byte array.
-        /// </summary>
-        void readBytes(ByteArray bytes, uint offset);
+        ///// <summary>
+        ///// Reads the number of data bytes, specified by the length parameter, from the file stream, byte stream, or byte array.
+        ///// </summary>
+        //void readBytes(ByteArray bytes, uint offset);
 
-        /// <summary>
-        /// Reads the number of data bytes, specified by the length parameter, from the file stream, byte stream, or byte array.
-        /// </summary>
-        void readBytes(ByteArray bytes);
+        ///// <summary>
+        ///// Reads the number of data bytes, specified by the length parameter, from the file stream, byte stream, or byte array.
+        ///// </summary>
+        //void readBytes(ByteArray bytes);
 
         /// <summary>
         /// Reads an IEEE 754 double-precision floating point number from the file stream, byte stream, or byte array.

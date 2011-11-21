@@ -56,7 +56,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.IO
 				o.writeByte(buffer[offset + i] & 0xff);
 			}
 
-			Buffer.writeBytes(o);
+			Buffer.writeBytes(o, 0, 0);
 		}
 
 		public virtual byte[] ToArray()

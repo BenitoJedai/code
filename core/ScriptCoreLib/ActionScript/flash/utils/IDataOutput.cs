@@ -42,15 +42,15 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         /// </summary>
         void writeBytes(ByteArray bytes, uint offset, uint length);
 
-        /// <summary>
-        /// Writes a sequence of bytes from the specified byte array, bytes, starting offset(zero-based index) bytes with a length specified by length, into the file stream, byte stream, or byte array.
-        /// </summary>
-        void writeBytes(ByteArray bytes, uint offset);
+        ///// <summary>
+        ///// Writes a sequence of bytes from the specified byte array, bytes, starting offset(zero-based index) bytes with a length specified by length, into the file stream, byte stream, or byte array.
+        ///// </summary>
+        //void writeBytes(ByteArray bytes, uint offset);
 
-        /// <summary>
-        /// Writes a sequence of bytes from the specified byte array, bytes, starting offset(zero-based index) bytes with a length specified by length, into the file stream, byte stream, or byte array.
-        /// </summary>
-        void writeBytes(ByteArray bytes);
+        ///// <summary>
+        ///// Writes a sequence of bytes from the specified byte array, bytes, starting offset(zero-based index) bytes with a length specified by length, into the file stream, byte stream, or byte array.
+        ///// </summary>
+        //void writeBytes(ByteArray bytes);
 
         /// <summary>
         /// Writes an IEEE 754 double-precision (64-bit) floating point number.

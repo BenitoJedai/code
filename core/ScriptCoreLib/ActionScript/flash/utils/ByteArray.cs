@@ -73,19 +73,19 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         {
         }
 
-        /// <summary>
-        /// Reads the number of data bytes, specified by the length parameter, from the byte stream.
-        /// </summary>
-        public void readBytes(ByteArray bytes, uint offset)
-        {
-        }
+        ///// <summary>
+        ///// Reads the number of data bytes, specified by the length parameter, from the byte stream.
+        ///// </summary>
+        //public void readBytes(ByteArray bytes, uint offset)
+        //{
+        //}
 
-        /// <summary>
-        /// Reads the number of data bytes, specified by the length parameter, from the byte stream.
-        /// </summary>
-        public void readBytes(ByteArray bytes)
-        {
-        }
+        ///// <summary>
+        ///// Reads the number of data bytes, specified by the length parameter, from the byte stream.
+        ///// </summary>
+        //public void readBytes(ByteArray bytes)
+        //{
+        //}
 
         /// <summary>
         /// Reads an IEEE 754 double-precision (64-bit) floating-point number from the byte stream.
@@ -203,19 +203,19 @@ namespace ScriptCoreLib.ActionScript.flash.utils
         {
         }
 
-        /// <summary>
-        /// Writes a sequence of length bytes from the specified byte array, bytes, starting offset (zero-based index) bytes into the byte stream.
-        /// </summary>
-        public void writeBytes(ByteArray bytes, uint offset)
-        {
-        }
+        ///// <summary>
+        ///// Writes a sequence of length bytes from the specified byte array, bytes, starting offset (zero-based index) bytes into the byte stream.
+        ///// </summary>
+        //public void writeBytes(ByteArray bytes, uint offset)
+        //{
+        //}
 
-        /// <summary>
-        /// Writes a sequence of length bytes from the specified byte array, bytes, starting offset (zero-based index) bytes into the byte stream.
-        /// </summary>
-        public void writeBytes(ByteArray bytes)
-        {
-        }
+        ///// <summary>
+        ///// Writes a sequence of length bytes from the specified byte array, bytes, starting offset (zero-based index) bytes into the byte stream.
+        ///// </summary>
+        //public void writeBytes(ByteArray bytes)
+        //{
+        //}
 
         /// <summary>
         /// Writes an IEEE 754 double-precision (64-bit) floating-point number to the byte stream.
