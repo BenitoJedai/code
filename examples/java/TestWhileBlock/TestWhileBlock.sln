@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWhileBlock", "TestWhileBlock\TestWhileBlock.csproj", "{B3EBDD53-36F3-4E50-8333-8B0816142D1E}"
 EndProject
 Global
