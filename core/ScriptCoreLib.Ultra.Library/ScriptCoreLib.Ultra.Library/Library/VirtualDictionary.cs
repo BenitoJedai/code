@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.Ultra.Library;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace jsc.Library
 {
+    [Obfuscation(Exclude = true)]
     public abstract class VirtualDictionaryBase
     {
         public abstract IDisposable ToTransientTransaction();
@@ -29,6 +31,7 @@ namespace jsc.Library
     //    }
     //}
 
+    [Obfuscation(Exclude = true)]
     public class VirtualDictionary<TKey, TValue> : VirtualDictionaryBase
     {
         public Dictionary<TKey, TValue> BaseDictionary = new Dictionary<TKey, TValue>();
