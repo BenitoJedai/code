@@ -34,6 +34,16 @@ namespace WebGLLesson03.Library
         }
 
 
+
+        internal void set(Float32Array mvMatrix, Float32Array copy)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void rotate(Float32Array mvMatrix, float p, float[] p_2)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     [Script]
