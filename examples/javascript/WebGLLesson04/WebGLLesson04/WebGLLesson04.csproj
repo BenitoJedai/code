@@ -86,10 +86,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Library40">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library40.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
@@ -125,6 +121,12 @@
     <Reference Include="WebGLLesson04.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLLesson04\bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WebGLLesson04.UltraSource">
+      <HintPath>bin\staging.UltraSource\WebGLLesson04.UltraSource.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGLLesson04.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.htm" />
@@ -144,7 +146,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
 )
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true

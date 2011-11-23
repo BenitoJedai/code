@@ -188,63 +188,166 @@ namespace WebGLLesson04
 
 
             #region init buffers
-            var triangleVertexPositionBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+
+            #region pyramid
+            var pyramidVertexPositionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
             var vertices = new[]{
-                     0.0f,  1.0f,  0.0f,
-                    -1.0f, -1.0f,  0.0f,
-                     1.0f, -1.0f,  0.0f
-                };
+                // Front face
+                 0.0f,  1.0f,  0.0f,
+                -1.0f, -1.0f,  1.0f,
+                 1.0f, -1.0f,  1.0f,
+
+                // Right face
+                 0.0f,  1.0f,  0.0f,
+                 1.0f, -1.0f,  1.0f,
+                 1.0f, -1.0f, -1.0f,
+
+                // Back face
+                 0.0f,  1.0f,  0.0f,
+                 1.0f, -1.0f, -1.0f,
+                -1.0f, -1.0f, -1.0f,
+
+                // Left face
+                 0.0f,  1.0f,  0.0f,
+                -1.0f, -1.0f, -1.0f,
+                -1.0f, -1.0f,  1.0f
+            };
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-            var triangleVertexPositionBuffer_itemSize = 3;
-            var triangleVertexPositionBuffer_numItems = 3;
+            var pyramidVertexPositionBuffer_itemSize = 3;
+            var pyramidVertexPositionBuffer_numItems = 12;
 
-            #region new in lesson 02
 
-            var triangleVertexColorBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
+            var pyramidVertexColorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
 
             var colors = new[]{
+                // Front face
                 1.0f, 0.0f, 0.0f, 1.0f,
                 0.0f, 1.0f, 0.0f, 1.0f,
-                0.0f, 0.0f, 1.0f, 1.0f
+                0.0f, 0.0f, 1.0f, 1.0f,
+
+                // Right face
+                1.0f, 0.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f, 1.0f,
+                0.0f, 1.0f, 0.0f, 1.0f,
+
+                // Back face
+                1.0f, 0.0f, 0.0f, 1.0f,
+                0.0f, 1.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f, 1.0f,
+
+                // Left face
+                1.0f, 0.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f, 1.0f,
+                0.0f, 1.0f, 0.0f, 1.0f
+
             };
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-            var triangleVertexColorBuffer_itemSize = 4;
-            var triangleVertexColorBuffer_numItems = 3;
+            var pyramidVertexColorBuffer_itemSize = 4;
+            var pyramidVertexColorBuffer_numItems = 12;
             #endregion
 
-
-            var squareVertexPositionBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+            #region cube
+            var cubeVertexPositionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
             vertices = new[]{
-                     1.0f,  1.0f,  0.0f,
-                    -1.0f,  1.0f,  0.0f,
-                     1.0f, -1.0f,  0.0f,
-                    -1.0f, -1.0f,  0.0f
-                };
+                // Front face
+                -1.0f, -1.0f,  1.0f,
+                 1.0f, -1.0f,  1.0f,
+                 1.0f,  1.0f,  1.0f,
+                -1.0f,  1.0f,  1.0f,
+
+                // Back face
+                -1.0f, -1.0f, -1.0f,
+                -1.0f,  1.0f, -1.0f,
+                 1.0f,  1.0f, -1.0f,
+                 1.0f, -1.0f, -1.0f,
+
+                // Top face
+                -1.0f,  1.0f, -1.0f,
+                -1.0f,  1.0f,  1.0f,
+                 1.0f,  1.0f,  1.0f,
+                 1.0f,  1.0f, -1.0f,
+
+                // Bottom face
+                -1.0f, -1.0f, -1.0f,
+                 1.0f, -1.0f, -1.0f,
+                 1.0f, -1.0f,  1.0f,
+                -1.0f, -1.0f,  1.0f,
+
+                // Right face
+                 1.0f, -1.0f, -1.0f,
+                 1.0f,  1.0f, -1.0f,
+                 1.0f,  1.0f,  1.0f,
+                 1.0f, -1.0f,  1.0f,
+
+                // Left face
+                -1.0f, -1.0f, -1.0f,
+                -1.0f, -1.0f,  1.0f,
+                -1.0f,  1.0f,  1.0f,
+                -1.0f,  1.0f, -1.0f
+            };
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
-            var squareVertexPositionBuffer_itemSize = 3;
-            var squareVertexPositionBuffer_numItems = 4;
+            var cubeVertexPositionBuffer_itemSize = 3;
+            var cubeVertexPositionBuffer_numItems = 24;
 
-            #region new in lesson 02
             var squareVertexColorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-            #region loop unrolled :)
             colors = new[]{
-                0.5f, 0.5f, 1.0f, 1.0f,
-                0.5f, 0.5f, 1.0f, 1.0f,
-                0.5f, 0.5f, 1.0f, 1.0f,
-                0.5f, 0.5f, 1.0f, 1.0f
+                1.0f, 0.0f, 0.0f, 1.0f, // Front face
+                1.0f, 0.0f, 0.0f, 1.0f, // Front face
+                1.0f, 0.0f, 0.0f, 1.0f, // Front face
+                1.0f, 0.0f, 0.0f, 1.0f, // Front face
+
+                1.0f, 1.0f, 0.0f, 1.0f, // Back face
+                1.0f, 1.0f, 0.0f, 1.0f, // Back face
+                1.0f, 1.0f, 0.0f, 1.0f, // Back face
+                1.0f, 1.0f, 0.0f, 1.0f, // Back face
+
+                0.0f, 1.0f, 0.0f, 1.0f, // Top face
+                0.0f, 1.0f, 0.0f, 1.0f, // Top face
+                0.0f, 1.0f, 0.0f, 1.0f, // Top face
+                0.0f, 1.0f, 0.0f, 1.0f, // Top face
+
+                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
+
+                1.0f, 0.0f, 1.0f, 1.0f, // Right face
+                1.0f, 0.0f, 1.0f, 1.0f, // Right face
+                1.0f, 0.0f, 1.0f, 1.0f, // Right face
+                1.0f, 0.0f, 1.0f, 1.0f, // Right face
+
+                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
+                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
+                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
+                0.0f, 0.0f, 1.0f, 1.0f  // Left face
             };
-            #endregion
 
 
 
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-            var squareVertexColorBuffer_itemSize = 4;
-            var squareVertexColorBuffer_numItems = 4;
+            var cubeVertexColorBuffer_itemSize = 4;
+            var cubeVertexColorBuffer_numItems = 24;
+
+            var cubeVertexIndexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+            var cubeVertexIndices = new UInt16[]{
+                0, 1, 2,      0, 2, 3,    // Front face
+                4, 5, 6,      4, 6, 7,    // Back face
+                8, 9, 10,     8, 10, 11,  // Top face
+                12, 13, 14,   12, 14, 15, // Bottom face
+                16, 17, 18,   16, 18, 19, // Right face
+                20, 21, 22,   20, 22, 23  // Left face
+            };
+
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
+            var cubeVertexIndexBuffer_itemSize = 1;
+            var cubeVertexIndexBuffer_numItems = 36;
+
             #endregion
 
             #endregion
@@ -255,10 +358,10 @@ namespace WebGLLesson04
             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.enable(gl.DEPTH_TEST);
 
-            #region new in lesson 03
+            #region new in lesson 04
 
-            var rTri = 0f;
-            var rSquare = 0f;
+            var rPyramid = 0f;
+            var rCube = 0f;
 
             var lastTime = 0L;
             Action animate = delegate
@@ -268,8 +371,8 @@ namespace WebGLLesson04
                 {
                     var elapsed = timeNow - lastTime;
 
-                    rTri += (90 * elapsed) / 1000.0f;
-                    rSquare += (75 * elapsed) / 1000.0f;
+                    rPyramid += (90 * elapsed) / 1000.0f;
+                    rCube -= (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
             };
@@ -296,23 +399,19 @@ namespace WebGLLesson04
                 mvPushMatrix();
                 // we�re changing our current rotation state as stored in the model-view matrix
                 // MVC? :)
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rTri), new float[] { 0f, 1f, 0f });
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(rPyramid), new float[] { 0f, 1f, 0f });
                 #endregion
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, pyramidVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
 
-                #region new in lesson 02
-                gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, triangleVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                #endregion
-
+                gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, pyramidVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
 
                 setMatrixUniforms();
-                gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
+                gl.drawArrays(gl.TRIANGLES, 0, pyramidVertexPositionBuffer_numItems);
 
                 #region new in lesson 03
                 mvPopMatrix();
@@ -320,24 +419,21 @@ namespace WebGLLesson04
 
                 __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
 
-                #region new in lesson 03
+                #region new in lesson 04
                 mvPushMatrix();
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rSquare), new float[] { 1f, 0f, 0f });
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube), new float[] { 1f, 1f, 1f });
                 #endregion
 
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                #region new in lesson 02
                 gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, squareVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                #endregion
-
-
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                 setMatrixUniforms();
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
+                gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
 
                 #region new in lesson 03
                 mvPopMatrix();
