@@ -21,6 +21,7 @@ namespace WebGLLesson02
     using ScriptCoreLib.Shared.Drawing;
     using WebGLLesson02.Shaders;
     using WebGLLesson02.Library;
+    using System.Collections.Generic;
 
 
     /// <summary>
@@ -78,6 +79,9 @@ namespace WebGLLesson02
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, size, size);
+
+            canvas.width = size;
+            canvas.height = size;
             #endregion
 
             #region gl - Initialise WebGL
@@ -142,6 +146,10 @@ namespace WebGLLesson02
 
             gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
 
+            // new in lesson 02
+            var shaderProgram_vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+            gl.enableVertexAttribArray((ulong)shaderProgram_vertexColorAttribute);
+
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 
@@ -174,6 +182,22 @@ namespace WebGLLesson02
             var triangleVertexPositionBuffer_itemSize = 3;
             var triangleVertexPositionBuffer_numItems = 3;
 
+            #region new in lesson 02
+
+            var triangleVertexColorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
+
+            var colors = new[]{
+                1.0f, 0.0f, 0.0f, 1.0f,
+                0.0f, 1.0f, 0.0f, 1.0f,
+                0.0f, 0.0f, 1.0f, 1.0f
+            };
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+            var triangleVertexColorBuffer_itemSize = 4;
+            var triangleVertexColorBuffer_numItems = 3;
+            #endregion
+
+
             var squareVertexPositionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
             vertices = new[]{
@@ -187,6 +211,24 @@ namespace WebGLLesson02
             var squareVertexPositionBuffer_itemSize = 3;
             var squareVertexPositionBuffer_numItems = 4;
 
+            #region new in lesson 02
+            var squareVertexColorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+            #region loop unrolled :)
+            colors = new[]{
+                0.5f, 0.5f, 1.0f, 1.0f,
+                0.5f, 0.5f, 1.0f, 1.0f,
+                0.5f, 0.5f, 1.0f, 1.0f,
+                0.5f, 0.5f, 1.0f, 1.0f
+            };
+            #endregion
+
+
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+            var squareVertexColorBuffer_itemSize = 4;
+            var squareVertexColorBuffer_numItems = 4;
+            #endregion
 
             #endregion
 
@@ -207,6 +249,16 @@ namespace WebGLLesson02
             __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
             gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
             gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+
+            #region new in lesson 02
+            gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
+            gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, triangleVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+            #endregion
+
+
+
             setMatrixUniforms();
             gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
@@ -214,6 +266,14 @@ namespace WebGLLesson02
             __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
             gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
             gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+            #region new in lesson 02
+            gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+            gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, squareVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+            #endregion
+
+
             setMatrixUniforms();
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
             #endregion
