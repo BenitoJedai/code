@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{25011337-6813-4216-95E9-2B9BE5EB4611}</ProjectGuid>
+    <ProjectGuid>{BF62DAEB-044B-427B-A2DA-68423BD48005}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebGLLesson01</RootNamespace>
-    <AssemblyName>WebGLLesson01</AssemblyName>
+    <RootNamespace>WebGLLesson02</RootNamespace>
+    <AssemblyName>WebGLLesson02</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>WebGLLesson01.Program</StartupObject>
+    <StartupObject>WebGLLesson02.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -119,11 +119,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLLesson01.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLLesson01.UltraSource.dll</HintPath>
+    <Reference Include="WebGLLesson02.UltraSource">
+      <HintPath>bin\staging.UltraSource\WebGLLesson02.UltraSource.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLLesson01.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLLesson01.AssetsLibrary.dll</HintPath>
+    <Reference Include="WebGLLesson02.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLLesson02.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +145,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
 )
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
