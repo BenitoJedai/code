@@ -282,12 +282,41 @@ namespace WebGLLesson03
             drawScene();
             #endregion
 
+            #region requestAnimFrame
+            var requestAnimFrame = (IFunction)new IFunction(
+                @"return window.requestAnimationFrame ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame ||
+         window.oRequestAnimationFrame ||
+         window.msRequestAnimationFrame ||
+         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+           window.setTimeout(callback, 1000/60);
+         };"
+            ).apply(null);
+            #endregion
+
+        
+            var c = 0;
+
             #region tick - new in lesson 03
+            var tick = default(Action);
 
+            tick = delegate
+            {
+                c++;
 
+                Native.Document.title = "" + c;
 
+                drawScene();
+                // animate
+                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+            };
+
+            tick();
             #endregion
         }
 
     }
+
+
 }
