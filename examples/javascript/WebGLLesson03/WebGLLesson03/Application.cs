@@ -156,7 +156,24 @@ namespace WebGLLesson03
 
 
             var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrixStack = new Stack<Float32Array>();
+
             var pMatrix = __glMatrix.mat4.create();
+
+            #region new in lesson 03
+            Action mvPushMatrix = delegate
+            {
+                var copy = __glMatrix.mat4.create();
+                __glMatrix.mat4.set(mvMatrix, copy);
+                mvMatrixStack.Push(copy);
+            };
+
+            Action mvPopMatrix = delegate
+            {
+                mvMatrix = mvMatrixStack.Pop();
+            };
+            #endregion
+
 
             #region setMatrixUniforms
             Action setMatrixUniforms =
@@ -238,6 +255,31 @@ namespace WebGLLesson03
             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.enable(gl.DEPTH_TEST);
 
+            #region new in lesson 03
+
+            var rTri = 0f;
+            var rSquare = 0f;
+
+            var lastTime = 0L;
+            Action animate = delegate
+            {
+                var timeNow = new IDate().getTime();
+                if (lastTime != 0)
+                {
+                    var elapsed = timeNow - lastTime;
+
+                    rTri += (90 * elapsed) / 1000.0f;
+                    rSquare += (75 * elapsed) / 1000.0f;
+                }
+                lastTime = timeNow;
+            };
+
+            Func<float, float> degToRad = (degrees) =>
+            {
+                return degrees * (f)Math.PI / 180f;
+            };
+            #endregion
+
             #region drawScene
             Action drawScene = delegate
             {
@@ -249,6 +291,14 @@ namespace WebGLLesson03
                 __glMatrix.mat4.identity(mvMatrix);
 
                 __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+
+                #region new in lesson 03
+                mvPushMatrix();
+                // we’re changing our current rotation state as stored in the model-view matrix
+                // MVC? :)
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(rTri), new float[] { 0f, 1f, 0f });
+                #endregion
+
                 gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
@@ -264,8 +314,18 @@ namespace WebGLLesson03
                 setMatrixUniforms();
                 gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
+                #region new in lesson 03
+                mvPopMatrix();
+                #endregion
 
                 __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+
+                #region new in lesson 03
+                mvPushMatrix();
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(rSquare), new float[] { 1f, 0f, 0f });
+                #endregion
+
+
                 gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
@@ -278,6 +338,11 @@ namespace WebGLLesson03
 
                 setMatrixUniforms();
                 gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
+
+                #region new in lesson 03
+                mvPopMatrix();
+                #endregion
+
             };
             drawScene();
             #endregion
@@ -295,7 +360,7 @@ namespace WebGLLesson03
             ).apply(null);
             #endregion
 
-        
+
             var c = 0;
 
             #region tick - new in lesson 03
@@ -308,7 +373,8 @@ namespace WebGLLesson03
                 Native.Document.title = "" + c;
 
                 drawScene();
-                // animate
+                animate();
+
                 requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
             };
 
