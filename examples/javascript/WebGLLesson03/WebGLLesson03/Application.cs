@@ -29,7 +29,7 @@ namespace WebGLLesson03
     /// </summary>
     internal sealed class Application
     {
-        /* This example will be a port of http://learningwebgl.com/blog/?p=134 by Giles
+        /* This example will be a port of http://learningwebgl.com/blog/?p=239 by Giles
          * 
          * 01. Created a new project of type Web Application
          * 02. initGL
@@ -239,43 +239,53 @@ namespace WebGLLesson03
             gl.enable(gl.DEPTH_TEST);
 
             #region drawScene
-            gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
-            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            Action drawScene = delegate
+            {
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-            __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                __glMatrix.mat4.perspective(45f, (float)gl_viewportWidth / (float)gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-            __glMatrix.mat4.identity(mvMatrix);
+                __glMatrix.mat4.identity(mvMatrix);
 
-            __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
-            gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-            gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+                gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
 
-            #region new in lesson 02
-            gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-            gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, triangleVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                #region new in lesson 02
+                gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, triangleVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
+                #endregion
+
+
+
+                setMatrixUniforms();
+                gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
+
+
+                __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
+                gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                #region new in lesson 02
+                gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, squareVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                #endregion
+
+
+                setMatrixUniforms();
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
+            };
+            drawScene();
             #endregion
 
+            #region tick - new in lesson 03
 
 
-            setMatrixUniforms();
-            gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
-
-            __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
-            gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-            gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-            #region new in lesson 02
-            gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-            gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, squareVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-            #endregion
-
-
-            setMatrixUniforms();
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
             #endregion
         }
 
