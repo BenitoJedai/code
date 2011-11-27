@@ -7,6 +7,8 @@ namespace ScriptCoreLib.Extensions
 {
 	internal static class InternalXMLExtensions
 	{
+        // 2011/11/27 we should have that by now. Testing needed :)
+
 		// once all platforms implement xml then we may
 		// skip these methods...
 
