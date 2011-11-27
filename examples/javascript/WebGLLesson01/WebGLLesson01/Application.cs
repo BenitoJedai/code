@@ -78,6 +78,9 @@ namespace WebGLLesson01
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
             canvas.style.SetLocation(0, 0, size, size);
+
+            canvas.width = size;
+            canvas.height = size;
             #endregion
 
             #region gl - Initialise WebGL
