@@ -86,10 +86,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
-    <Reference Include="ScriptCoreLib.Ultra.Library40">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library40.dll</HintPath>
-    </Reference>
     <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
@@ -135,6 +131,7 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Compile Include="Library\glMatrix.cs" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Library\glMatrix.js" />
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +153,7 @@ set jsc=C:\util\jsc\bin\jsc.meta.exe
 if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
 
 
-start /MAX /WAIT %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
+start /MIN /WAIT %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
 
 
 
