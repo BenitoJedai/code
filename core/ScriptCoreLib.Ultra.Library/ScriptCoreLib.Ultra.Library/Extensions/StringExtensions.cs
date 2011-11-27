@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ScriptCoreLib.Extensions
 {
@@ -183,4 +184,71 @@ namespace ScriptCoreLib.Extensions
 	}
 
 	public delegate void AtIndeciesDelegate(AtIndeciesArguments a);
+
+
+
+    public static class StringAsFilePathExtensions
+    {
+        public static Uri GetNearestRepositryLocation(this string path)
+        {
+            var p = path;
+            var u = default(Uri);
+
+            while (p != null)
+            {
+                u = p.GetRepositryLocation();
+
+                if (u != null)
+                    break;
+
+                p = p.TakeUntilLastOrNull(@"\");
+            }
+
+            return u;
+        }
+
+        public static Uri GetRepositryLocation(this string path)
+        {
+            return path.GetRepositryLocation(".git/config", k => k.SkipUntilOrEmpty("url = ")) ??
+            path.GetRepositryLocation(".hg/hgrc", k => k.SkipUntilOrEmpty("default = ")) ??
+            path.GetRepositryLocation(".svn/entries", k => k.SkipUntilOrEmpty("\n").SkipUntilOrEmpty("\n").SkipUntilOrEmpty("\n").SkipUntilOrEmpty("\n"));
+        }
+
+        public static Uri GetRepositryLocation(this string path, string FileNamePartialHint, Func<string, string> SkipToServerHint)
+        {
+            if (path.EndsWith("\\"))
+                path = path.Substring(0, path.Length - 1);
+
+            var FileNameHint = Path.Combine(path, FileNamePartialHint);
+
+            var ParentFile = Directory.GetParent(path);
+
+            if (!File.Exists(FileNameHint))
+                return null;
+            if (ParentFile != null)
+            {
+                var ParentFileNameHint = Path.Combine(ParentFile.FullName, FileNamePartialHint);
+
+                if (File.Exists(ParentFileNameHint))
+                    return null;
+            }
+
+            var data = File.ReadAllText(FileNameHint);
+            var value = SkipToServerHint(data)
+                .TakeUntilOrEmpty("\n")
+                .Trim();
+
+
+
+            if (string.IsNullOrEmpty(value))
+                return null;
+
+            // file:///Y:/opensource/%23codeplex/sfeir/GoogleSite/.git/config
+            if (value.Contains("@"))
+                return null;
+
+
+            return new Uri(value);
+        }
+    }
 }
