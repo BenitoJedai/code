@@ -10,6 +10,7 @@ using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.text;
+using ScriptCoreLib.Shared.Lambda;
 
 namespace FlashTowerDefense.ActionScript.Actors
 {
