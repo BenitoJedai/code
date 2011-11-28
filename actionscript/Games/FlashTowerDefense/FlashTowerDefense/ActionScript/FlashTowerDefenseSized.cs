@@ -381,12 +381,14 @@ namespace FlashTowerDefense.ActionScript
             Action Reorder =
                 delegate
                 {
-
+#if Z
                     GetWarzone().Children().OrderBy(i => (double)i.y).
                        ForEach(
                         (k, i) =>
                             k.parent.setChildIndex(k, i)
                     );
+#endif
+
                 };
 
             Action ReorderThrottle = Reorder.ThrottleTo(1000);
