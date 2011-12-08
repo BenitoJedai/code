@@ -522,6 +522,8 @@ namespace WebGLHand
 
             var c = 0;
 
+
+
             #region pinky
             page.f0.onmousedown +=
                 delegate
@@ -640,6 +642,37 @@ namespace WebGLHand
                  };
             #endregion
 
+            #region fFist
+            page.fFist.onmousedown +=
+                delegate
+                {
+                    page.fRock.style.color = Color.Blue;
+                    fdeg_state[0] = 88;
+                    fdeg_state[1] = 88;
+                    fdeg_state[2] = 88;
+                    fdeg_state[3] = 88;
+                    fdeg_state[4] = 88;
+
+                    fdeg_relax[0] = 0;
+                    fdeg_relax[1] = 0;
+                    fdeg_relax[2] = 0;
+                    fdeg_relax[3] = 0;
+                    fdeg_relax[4] = 0;
+                };
+
+            page.fFist.onmouseup +=
+                 delegate
+                 {
+                     page.fFist.style.color = Color.None;
+
+                     fdeg_relax[0] = 1;
+                     fdeg_relax[1] = 1;
+                     fdeg_relax[2] = 1;
+                     fdeg_relax[3] = 1;
+                     fdeg_relax[4] = 1;
+                 };
+            #endregion
+
             #region electric
             page.fElectric.onmousedown +=
                 delegate
@@ -671,6 +704,17 @@ namespace WebGLHand
                  };
             #endregion
 
+            page.fRelax.onclick +=
+             delegate
+             {
+                 page.fElectric.style.color = Color.None;
+
+                 fdeg_relax[0] = 1;
+                 fdeg_relax[1] = 1;
+                 fdeg_relax[2] = 1;
+                 fdeg_relax[3] = 1;
+                 fdeg_relax[4] = 1;
+             };
 
             #region tick - new in lesson 03
             var tick = default(Action);
