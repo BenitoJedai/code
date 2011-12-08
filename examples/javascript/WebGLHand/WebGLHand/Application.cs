@@ -326,6 +326,28 @@ namespace WebGLHand
             };
             #endregion
 
+            // jsc error
+            //var fdeg_state = new float[5];
+
+            var fdeg_state = new int[5];
+            // int array not initialized?
+
+            fdeg_state[0] = 0;
+            fdeg_state[1] = 66;
+            fdeg_state[2] = 66;
+            fdeg_state[3] = 0;
+            fdeg_state[4] = 66;
+
+            var fdeg_relax = new int[5];
+
+
+            fdeg_relax[0] = 0;
+            fdeg_relax[1] = 0;
+            fdeg_relax[2] = 0;
+            fdeg_relax[3] = 0;
+            fdeg_relax[4] = 0;
+
+
             #region drawScene
             Action drawScene = delegate
             {
@@ -432,12 +454,12 @@ namespace WebGLHand
 
 
                 // pinky
-                DrawFinger(0, 0);
-                DrawFinger(1, 66);
+                DrawFinger(0, fdeg_state[0]);
+                DrawFinger(1, fdeg_state[1]);
                 // middle
-                DrawFinger(2, 66);
+                DrawFinger(2, fdeg_state[2]);
                 // index
-                DrawFinger(3, 0);
+                DrawFinger(3, fdeg_state[3]);
 
 
                 mvPushMatrix();
@@ -450,7 +472,7 @@ namespace WebGLHand
 
 
                 // the thumb
-                DrawFinger(4, 66);
+                DrawFinger(4, fdeg_state[4]);
 
                 mvPopMatrix();
 
@@ -492,12 +514,93 @@ namespace WebGLHand
 
             var c = 0;
 
+            #region pinky
+            page.f0.onmousedown +=
+                delegate
+                {
+                    page.f0.style.color = Color.Blue;
+                    fdeg_state[0] = 80;
+                    fdeg_relax[0] = 0;
+                };
+
+            page.f0.onmouseup +=
+                 delegate
+                 {
+                     page.f0.style.color = Color.None;
+                     //fdeg_state[0] = 11;
+                     fdeg_relax[0] = 1;
+                 };
+            #endregion
+
+            #region index
+            page.f3.onmousedown +=
+                delegate
+                {
+                    page.f3.style.color = Color.Blue;
+                    fdeg_state[3] = 80;
+                    fdeg_relax[3] = 0;
+                };
+
+            page.f3.onmouseup +=
+                 delegate
+                 {
+                     page.f3.style.color = Color.None;
+                     //fdeg_state[3] = 11;
+                     fdeg_relax[3] = 1;
+                 };
+            #endregion
+
+            #region electric
+            page.fElectric.onmousedown +=
+                delegate
+                {
+                    page.fElectric.style.color = Color.Blue;
+                    fdeg_state[0] = 0;
+                    fdeg_state[1] = 0;
+                    fdeg_state[2] = 0;
+                    fdeg_state[3] = 0;
+                    fdeg_state[4] = 0;
+
+                    fdeg_relax[0] = 0;
+                    fdeg_relax[1] = 0;
+                    fdeg_relax[2] = 0;
+                    fdeg_relax[3] = 0;
+                    fdeg_relax[4] = 0;
+                };
+
+            page.fElectric.onmouseup +=
+                 delegate
+                 {
+                     page.fElectric.style.color = Color.None;
+                     //fdeg_state[3] = 11;
+                     fdeg_relax[3] = 1;
+                 };
+            #endregion
+
+
             #region tick - new in lesson 03
             var tick = default(Action);
 
             tick = delegate
             {
                 c++;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    if (fdeg_relax[i] > 0)
+                    {
+                        // Math.Sign(int) does not exist.
+
+                        var a = (fdeg_state[i] - 11);
+
+                        if (a > 4)
+                            fdeg_state[i] -= 3;
+
+                        if (a < -4)
+                            fdeg_state[i] += 3;
+
+                    }
+                }
 
                 Native.Document.title = "" + c;
 
