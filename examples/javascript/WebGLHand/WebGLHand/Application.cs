@@ -193,7 +193,7 @@ namespace WebGLHand
             #region cube
             var cubeVertexPositionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-            var cubesize = 1.0f * 0.05f;
+            var cubesize = 1.0f * 0.10f;
             var vertices = new[]{
                 // Front face
                 -cubesize, -cubesize,  cubesize,
@@ -347,6 +347,14 @@ namespace WebGLHand
             fdeg_relax[3] = 0;
             fdeg_relax[4] = 0;
 
+            var fdeg_relaxstate = new int[5];
+
+
+            fdeg_relaxstate[0] = 11;
+            fdeg_relaxstate[1] = 11;
+            fdeg_relaxstate[2] = 11;
+            fdeg_relaxstate[3] = 11;
+            fdeg_relaxstate[4] = 33;
 
             #region drawScene
             Action drawScene = delegate
@@ -532,6 +540,40 @@ namespace WebGLHand
                  };
             #endregion
 
+            #region finger
+            page.f1.onmousedown +=
+                delegate
+                {
+                    page.f0.style.color = Color.Blue;
+                    fdeg_state[1] = 80;
+                    fdeg_relax[1] = 0;
+                };
+
+            page.f1.onmouseup +=
+                 delegate
+                 {
+                     page.f1.style.color = Color.None;
+                     fdeg_relax[1] = 1;
+                 };
+            #endregion
+
+            #region middle
+            page.f2.onmousedown +=
+                delegate
+                {
+                    page.f0.style.color = Color.Blue;
+                    fdeg_state[2] = 80;
+                    fdeg_relax[2] = 0;
+                };
+
+            page.f2.onmouseup +=
+                 delegate
+                 {
+                     page.f1.style.color = Color.None;
+                     fdeg_relax[2] = 1;
+                 };
+            #endregion
+
             #region index
             page.f3.onmousedown +=
                 delegate
@@ -545,8 +587,56 @@ namespace WebGLHand
                  delegate
                  {
                      page.f3.style.color = Color.None;
-                     //fdeg_state[3] = 11;
                      fdeg_relax[3] = 1;
+                 };
+            #endregion
+
+            #region thumb
+            page.f4.onmousedown +=
+                delegate
+                {
+                    page.f4.style.color = Color.Blue;
+                    fdeg_state[4] = 80;
+                    fdeg_relax[4] = 0;
+                };
+
+            page.f4.onmouseup +=
+                 delegate
+                 {
+                     page.f4.style.color = Color.None;
+                     fdeg_relax[4] = 1;
+                 };
+            #endregion
+
+
+            #region rock
+            page.fRock.onmousedown +=
+                delegate
+                {
+                    page.fRock.style.color = Color.Blue;
+                    fdeg_state[0] = 0;
+                    fdeg_state[1] = 77;
+                    fdeg_state[2] = 77;
+                    fdeg_state[3] = 0;
+                    fdeg_state[4] = 77;
+
+                    fdeg_relax[0] = 0;
+                    fdeg_relax[1] = 0;
+                    fdeg_relax[2] = 0;
+                    fdeg_relax[3] = 0;
+                    fdeg_relax[4] = 0;
+                };
+
+            page.fRock.onmouseup +=
+                 delegate
+                 {
+                     page.fRock.style.color = Color.None;
+
+                     fdeg_relax[0] = 1;
+                     fdeg_relax[1] = 1;
+                     fdeg_relax[2] = 1;
+                     fdeg_relax[3] = 1;
+                     fdeg_relax[4] = 1;
                  };
             #endregion
 
@@ -572,8 +662,12 @@ namespace WebGLHand
                  delegate
                  {
                      page.fElectric.style.color = Color.None;
-                     //fdeg_state[3] = 11;
+
+                     fdeg_relax[0] = 1;
+                     fdeg_relax[1] = 1;
+                     fdeg_relax[2] = 1;
                      fdeg_relax[3] = 1;
+                     fdeg_relax[4] = 1;
                  };
             #endregion
 
@@ -591,7 +685,7 @@ namespace WebGLHand
                     {
                         // Math.Sign(int) does not exist.
 
-                        var a = (fdeg_state[i] - 11);
+                        var a = (fdeg_state[i] - fdeg_relaxstate[i]);
 
                         if (a > 4)
                             fdeg_state[i] -= 3;
