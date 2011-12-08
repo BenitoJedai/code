@@ -383,13 +383,14 @@ namespace WebGLHand
                     }
                 }
 
-                Action<int> DrawFinger =
-                    x =>
+                #region DrawFinger
+                Action<int, float> DrawFinger =
+                    (x, fdeg) =>
                     {
                         mvPushMatrix();
 
-                        
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(33), new float[] { 1f, 0f, 0f });
+
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
 
                         // 01.34.67.89.01
                         DrawCubeAt(3 * x + 0, -2);
@@ -399,31 +400,60 @@ namespace WebGLHand
 
                         mvPushMatrix();
 
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(33), new float[] { 1f, 0f, 0f });
+                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (5), 0 });
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
+                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (-5), 0 });
 
                         DrawCubeAt(3 * x + 0, -5);
                         DrawCubeAt(3 * x + 1, -5);
                         DrawCubeAt(3 * x + 0, -6);
                         DrawCubeAt(3 * x + 1, -6);
 
+                        mvPushMatrix();
+
+                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (8), 0 });
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(fdeg), new float[] { 1f, 0f, 0f });
+                        __glMatrix.mat4.translate(mvMatrix, new float[] { 0, 2 * cubesize * (-8), 0 });
+
                         DrawCubeAt(3 * x + 0, -8);
                         DrawCubeAt(3 * x + 1, -8);
                         DrawCubeAt(3 * x + 0, -9);
                         DrawCubeAt(3 * x + 1, -9);
 
+
+                        mvPopMatrix();
                         mvPopMatrix();
                         mvPopMatrix();
                     };
+                #endregion
 
 
 
 
 
+                // pinky
+                DrawFinger(0, 0);
+                DrawFinger(1, 66);
+                // middle
+                DrawFinger(2, 66);
+                // index
+                DrawFinger(3, 0);
 
-                DrawFinger(0);
-                DrawFinger(1);
-                DrawFinger(2);
-                DrawFinger(3);
+
+                mvPushMatrix();
+
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(-90), new float[] { 0f, 0f, 1f });
+                // we have misplaced it now. lets put it into its place:)
+                __glMatrix.mat4.translate(mvMatrix, new float[] { 2 * cubesize * -4, 2 * cubesize * 11, 0 });
+
+
+
+
+                // the thumb
+                DrawFinger(4, 66);
+
+                mvPopMatrix();
+
 
                 mvPopMatrix();
 
