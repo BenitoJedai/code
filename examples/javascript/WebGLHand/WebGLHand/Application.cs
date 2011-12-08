@@ -238,26 +238,28 @@ namespace WebGLHand
 
             var cubeVertexColorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer);
+
+            // 216, 191, 18
             var colors = new[]{
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
 
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
 
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
 
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
 
                 1.0f, 0.0f, 1.0f, 1.0f, // Right face
                 1.0f, 0.0f, 1.0f, 1.0f, // Right face
