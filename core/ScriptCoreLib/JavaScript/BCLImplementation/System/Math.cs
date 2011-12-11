@@ -41,6 +41,13 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return 1;
         }
 
+        public static int Sign(int d)
+        {
+            if (d == 0) return 0;
+            if (d < 0) return -1;
+            return 1;
+        }
+
         public static double Pow(double e, double x)
         {
             return m.pow(e, x);
