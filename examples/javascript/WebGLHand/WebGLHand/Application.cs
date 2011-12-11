@@ -730,6 +730,7 @@ namespace WebGLHand
                     if (fdeg_relax[i] > 0)
                     {
                         // Math.Sign(int) does not exist.
+                        // next release should have it!
 
                         var a = (fdeg_state[i] - fdeg_relaxstate[i]);
 
