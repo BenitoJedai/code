@@ -56,6 +56,11 @@ namespace WebGLHand.Library
     {
         // this should be generated via assets build :)
 
+        // accessing this variable the first time could
+        // trigger dynamic loading of this library
+        // or actually just using this from Application should trigger the download
+        // before app launch
+
         [Script(ExternalTarget = "mat4")]
         static public mat4 mat4;
     }
