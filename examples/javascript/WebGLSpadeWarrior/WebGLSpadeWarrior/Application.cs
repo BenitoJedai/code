@@ -368,7 +368,10 @@ namespace WebGLSpadeWarrior
                 return degrees * (f)Math.PI / 180f;
             };
 
-         
+            var ego_x = -1.5f;
+            var ego_y = 0f;
+            var ego_z = -7f;
+
 
             #region drawScene
             Action drawScene = delegate
@@ -392,7 +395,7 @@ namespace WebGLSpadeWarrior
 
 
 
-                __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
+                __glMatrix.mat4.translate(mvMatrix, new float[] { ego_x, ego_y, ego_z });
 
                 mvPushMatrix();
 
@@ -476,7 +479,7 @@ namespace WebGLSpadeWarrior
                         rect(3, 3, 8);
                         rect(3, 3, 9);
 
-                  
+
                         mvPopMatrix();
                         #endregion
 
@@ -586,8 +589,8 @@ namespace WebGLSpadeWarrior
             {
                 c++;
 
-                
-                Native.Document.title = "" + c;
+
+                Native.Document.title = "" + c + " " + degToRad(rCube) + " ";
 
                 drawScene();
                 animate();
@@ -598,6 +601,7 @@ namespace WebGLSpadeWarrior
             tick();
             #endregion
 
+            #region onkeydown
             Native.Document.body.onkeydown +=
                 (e) =>
                 {
@@ -633,7 +637,30 @@ namespace WebGLSpadeWarrior
 
                         // right
                     }
+
+                    if (e.KeyCode == 38)
+                    {
+                        // mat aint working ..
+
+                        //ego_y += (float)Math.Cos(rCube) * 0.1f;
+                        //ego_x += (float)Math.Sin(rCube) * 0.1f;
+
+                        ego_x += 0.1f;
+
+                        // right
+                    }
+
+
+
+                    if (e.KeyCode == 40)
+                    {
+                        ego_x -= 0.1f;
+
+                        // right
+                    }
                 };
+            #endregion
+
         }
 
     }
