@@ -193,7 +193,7 @@ namespace WebGLSpadeWarrior
             #region cube
             var cubeVertexPositionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-            var cubesize = 1.0f * 0.10f;
+            var cubesize = 1.0f * 0.04f;
             var vertices = new[]{
                 // Front face
                 -cubesize, -cubesize,  cubesize,
@@ -421,7 +421,7 @@ namespace WebGLSpadeWarrior
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
                 #endregion
 
-            
+
 
 
                 __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
@@ -433,8 +433,8 @@ namespace WebGLSpadeWarrior
                 __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { -1f, 0.5f, 0f });
 
 
-                #region DrawCubeAt
-                Action<float, float, float> DrawCubeAt =
+                #region draw
+                Action<float, float, float> cube =
                     (x, y, z) =>
                     {
                         mvPushMatrix();
@@ -448,6 +448,99 @@ namespace WebGLSpadeWarrior
                         gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                         mvPopMatrix();
                     };
+
+                Action<int, int, int> rect =
+                    (ix, iy, z) =>
+                    {
+                        for (int y = 0; y < ix; y++)
+                        {
+                            for (int x = 0; x < iy; x++)
+                            {
+                                cube(x, y, z);
+                            }
+                        }
+                    };
+
+                Action<int> leg =
+                    y =>
+                    {
+                        mvPushMatrix();
+                        __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                            2 * cubesize * 1, 
+                            2 * cubesize * y, 
+                            2 * cubesize  * 0});
+
+
+                        #region color
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        #endregion
+
+
+                        #region lower leg
+                        rect(3, 5, 0);
+                        rect(3, 5, 1);
+                        rect(3, 5, 2);
+                        rect(3, 3, 3);
+                        #endregion
+
+
+
+                        #region color
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        #endregion
+
+                        rect(3, 3, 4);
+                        rect(3, 3, 5);
+                        rect(3, 3, 6);
+
+                        #region upper leg
+                        mvPushMatrix();
+                        __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                            2 * cubesize * 1, 
+                            2 * cubesize * 0, 
+                            2 * cubesize  * 0});
+
+                        rect(3, 3, 7);
+                        rect(3, 3, 8);
+                        rect(3, 3, 9);
+
+                  
+                        mvPopMatrix();
+                        #endregion
+
+                        #region hips
+                        rect(3, 4, 10);
+                        //rect(3, 4, 11);
+                        #endregion
+
+                        mvPopMatrix();
+                    };
+                #endregion
+
+                leg(-2);
+                leg(2);
+
+                #region body
+                mvPushMatrix();
+                __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                            2 * cubesize * 1, 
+                            2 * cubesize * -2, 
+                            2 * cubesize  * 0});
+
+                rect(7, 4, 11);
+                rect(7, 4, 12);
+                rect(7, 4, 13);
+
+                rect(7, 4, 14);
+                rect(7, 4, 15);
+                rect(7, 4, 16);
+                
+                rect(7, 4, 17);
+                rect(7, 4, 18);
+                rect(7, 4, 19);
+                mvPopMatrix();
                 #endregion
 
 
@@ -456,25 +549,28 @@ namespace WebGLSpadeWarrior
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                 #endregion
 
-                DrawCubeAt(0, 0, 0);
-                DrawCubeAt(0, 1, 1);
-                DrawCubeAt(1, 0, 1);
-                DrawCubeAt(0, 0, 2);
-                
+                mvPushMatrix();
+                __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                            2 * cubesize * 1, 
+                            2 * cubesize * -1, 
+                            2 * cubesize  * 20});
+
+                rect(5, 4, 0);
+                rect(5, 4, 1);
+                rect(5, 4, 2);
+
                 #region color
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                 #endregion
 
-                DrawCubeAt(0, 1, 3);
-                DrawCubeAt(1, 0, 3);
-                DrawCubeAt(0, 0, 4);
-
-         
-
+                rect(5, 4, 3);
+                rect(5, 4, 4);
+                rect(5, 4, 5);
 
 
                 mvPopMatrix();
+
 
 
                 #region original cube
