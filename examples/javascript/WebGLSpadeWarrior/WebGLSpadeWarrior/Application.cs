@@ -347,7 +347,6 @@ namespace WebGLSpadeWarrior
             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.enable(gl.DEPTH_TEST);
 
-            #region new in lesson 04
 
             var rCube = 0f;
 
@@ -359,7 +358,7 @@ namespace WebGLSpadeWarrior
                 {
                     var elapsed = timeNow - lastTime;
 
-                    rCube -= (75 * elapsed) / 1000.0f;
+                    //rCube -= (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
             };
@@ -368,7 +367,6 @@ namespace WebGLSpadeWarrior
             {
                 return degrees * (f)Math.PI / 180f;
             };
-            #endregion
 
          
 
@@ -513,7 +511,7 @@ namespace WebGLSpadeWarrior
                 mvPopMatrix();
                 #endregion
 
-
+                #region head
                 #region color
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
@@ -540,6 +538,8 @@ namespace WebGLSpadeWarrior
 
 
                 mvPopMatrix();
+                #endregion
+
 
 
 
@@ -597,6 +597,43 @@ namespace WebGLSpadeWarrior
 
             tick();
             #endregion
+
+            Native.Document.body.onkeydown +=
+                (e) =>
+                {
+                    // see also: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+
+                    e.PreventDefault();
+
+                    var turnspeed = 50;
+
+                    if (e.KeyCode == 37)
+                    {
+                        // left
+                        rCube += turnspeed;
+                    }
+
+                    if (e.KeyCode == 65)
+                    {
+                        // left
+                        rCube += turnspeed;
+                    }
+
+
+                    if (e.KeyCode == 39)
+                    {
+                        rCube -= turnspeed;
+
+                        // right
+                    }
+
+                    if (e.KeyCode == 68)
+                    {
+                        rCube -= turnspeed;
+
+                        // right
+                    }
+                };
         }
 
     }
