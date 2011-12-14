@@ -234,7 +234,7 @@ namespace WebGLHand
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
             var cubeVertexPositionBuffer_itemSize = 3;
-            var cubeVertexPositionBuffer_numItems = 24;
+            var cubeVertexPositionBuffer_numItems = 36;
 
             var cubeVertexColorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer);
@@ -261,15 +261,16 @@ namespace WebGLHand
                 1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
                 1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
 
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
+                
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
 
-                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
-                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
-                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
-                0.0f, 0.0f, 1.0f, 1.0f  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f,  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f,  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f,  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f  // Left face
             };
 
 
