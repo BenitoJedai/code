@@ -193,7 +193,7 @@ namespace WebGLSpadeWarrior
             #region cube
             var cubeVertexPositionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-            var cubesize = 1.0f * 0.04f;
+            var cubesize = 1.0f * 0.03f;
             var vertices = new[]{
                 // Front face
                 -cubesize, -cubesize,  cubesize,
@@ -349,7 +349,6 @@ namespace WebGLSpadeWarrior
 
             #region new in lesson 04
 
-            var rPyramid = 0f;
             var rCube = 0f;
 
             var lastTime = 0L;
@@ -360,7 +359,6 @@ namespace WebGLSpadeWarrior
                 {
                     var elapsed = timeNow - lastTime;
 
-                    rPyramid += (90 * elapsed) / 1000.0f;
                     rCube -= (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
@@ -372,35 +370,7 @@ namespace WebGLSpadeWarrior
             };
             #endregion
 
-            // jsc error
-            //var fdeg_state = new float[5];
-
-            var fdeg_state = new int[5];
-            // int array not initialized?
-
-            fdeg_state[0] = 0;
-            fdeg_state[1] = 66;
-            fdeg_state[2] = 66;
-            fdeg_state[3] = 0;
-            fdeg_state[4] = 66;
-
-            var fdeg_relax = new int[5];
-
-
-            fdeg_relax[0] = 0;
-            fdeg_relax[1] = 0;
-            fdeg_relax[2] = 0;
-            fdeg_relax[3] = 0;
-            fdeg_relax[4] = 0;
-
-            var fdeg_relaxstate = new int[5];
-
-
-            fdeg_relaxstate[0] = 11;
-            fdeg_relaxstate[1] = 11;
-            fdeg_relaxstate[2] = 11;
-            fdeg_relaxstate[3] = 11;
-            fdeg_relaxstate[4] = 33;
+         
 
             #region drawScene
             Action drawScene = delegate
@@ -430,7 +400,9 @@ namespace WebGLSpadeWarrior
 
 
                 // rotate all of it
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { -1f, 0.5f, 0f });
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(-66), new float[] { 1f, 0f, 0f });
+                //__glMatrix.mat4.rotate(mvMatrix, degToRad(-33), new float[] { 0f, 1f, 0f });
+                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { 0f, 0f, 1f });
 
 
                 #region draw
@@ -520,26 +492,24 @@ namespace WebGLSpadeWarrior
                 #endregion
 
                 leg(-2);
-                leg(2);
+                leg(3);
 
                 #region body
                 mvPushMatrix();
                 __glMatrix.mat4.translate(mvMatrix, new float[] { 
                             2 * cubesize * 1, 
-                            2 * cubesize * -2, 
+                            2 * cubesize * -3, 
                             2 * cubesize  * 0});
 
-                rect(7, 4, 11);
-                rect(7, 4, 12);
-                rect(7, 4, 13);
-
-                rect(7, 4, 14);
-                rect(7, 4, 15);
-                rect(7, 4, 16);
-                
-                rect(7, 4, 17);
-                rect(7, 4, 18);
-                rect(7, 4, 19);
+                rect(10, 4, 11);
+                rect(10, 4, 12);
+                rect(10, 4, 13);
+                rect(10, 4, 14);
+                rect(10, 4, 15);
+                rect(10, 4, 16);
+                rect(10, 4, 17);
+                rect(10, 4, 18);
+                rect(10, 4, 19);
                 mvPopMatrix();
                 #endregion
 
@@ -551,22 +521,22 @@ namespace WebGLSpadeWarrior
 
                 mvPushMatrix();
                 __glMatrix.mat4.translate(mvMatrix, new float[] { 
-                            2 * cubesize * 1, 
+                            2 * cubesize * 0, 
                             2 * cubesize * -1, 
                             2 * cubesize  * 20});
 
-                rect(5, 4, 0);
-                rect(5, 4, 1);
-                rect(5, 4, 2);
+                rect(6, 6, 0);
+                rect(6, 6, 1);
+                rect(6, 6, 2);
 
                 #region color
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                 #endregion
 
-                rect(5, 4, 3);
-                rect(5, 4, 4);
-                rect(5, 4, 5);
+                rect(6, 6, 3);
+                rect(6, 6, 4);
+                rect(6, 6, 5);
 
 
                 mvPopMatrix();
@@ -616,24 +586,7 @@ namespace WebGLSpadeWarrior
             {
                 c++;
 
-                for (int i = 0; i < 5; i++)
-                {
-                    if (fdeg_relax[i] > 0)
-                    {
-                        // Math.Sign(int) does not exist.
-                        // next release should have it!
-
-                        var a = (fdeg_state[i] - fdeg_relaxstate[i]);
-
-                        if (a > 4)
-                            fdeg_state[i] -= 3;
-
-                        if (a < -4)
-                            fdeg_state[i] += 3;
-
-                    }
-                }
-
+                
                 Native.Document.title = "" + c;
 
                 drawScene();
