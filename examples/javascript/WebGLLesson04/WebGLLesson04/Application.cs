@@ -130,6 +130,7 @@ namespace WebGLLesson04
             };
             #endregion
 
+            #region initShaders
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
@@ -152,6 +153,7 @@ namespace WebGLLesson04
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            #endregion
 
 
 
@@ -252,37 +254,38 @@ namespace WebGLLesson04
             var cubeVertexPositionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
             vertices = new[]{
-                // Front face
+
+                // Front face RED
                 -1.0f, -1.0f,  1.0f,
                  1.0f, -1.0f,  1.0f,
                  1.0f,  1.0f,  1.0f,
                 -1.0f,  1.0f,  1.0f,
 
-                // Back face
+                // Back face YELLOW
                 -1.0f, -1.0f, -1.0f,
                 -1.0f,  1.0f, -1.0f,
                  1.0f,  1.0f, -1.0f,
                  1.0f, -1.0f, -1.0f,
 
-                // Top face
+                // Top face GREEN
                 -1.0f,  1.0f, -1.0f,
                 -1.0f,  1.0f,  1.0f,
                  1.0f,  1.0f,  1.0f,
                  1.0f,  1.0f, -1.0f,
 
-                // Bottom face
+                // Bottom face BEIGE
                 -1.0f, -1.0f, -1.0f,
                  1.0f, -1.0f, -1.0f,
                  1.0f, -1.0f,  1.0f,
                 -1.0f, -1.0f,  1.0f,
 
-                // Right face
+                // Right face PURPLE
                  1.0f, -1.0f, -1.0f,
                  1.0f,  1.0f, -1.0f,
                  1.0f,  1.0f,  1.0f,
                  1.0f, -1.0f,  1.0f,
 
-                // Left face
+                // Left face BLUE
                 -1.0f, -1.0f, -1.0f,
                 -1.0f, -1.0f,  1.0f,
                 -1.0f,  1.0f,  1.0f,
@@ -291,21 +294,24 @@ namespace WebGLLesson04
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
             var cubeVertexPositionBuffer_itemSize = 3;
-            var cubeVertexPositionBuffer_numItems = 24;
+            var cubeVertexPositionBuffer_numItems = 6 * 6;
 
-            var squareVertexColorBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+            var cubeVertexColorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer);
             colors = new[]{
+                // RED
                 1.0f, 0.0f, 0.0f, 1.0f, // Front face
                 1.0f, 0.0f, 0.0f, 1.0f, // Front face
                 1.0f, 0.0f, 0.0f, 1.0f, // Front face
                 1.0f, 0.0f, 0.0f, 1.0f, // Front face
 
+                // YELLOW
                 1.0f, 1.0f, 0.0f, 1.0f, // Back face
                 1.0f, 1.0f, 0.0f, 1.0f, // Back face
                 1.0f, 1.0f, 0.0f, 1.0f, // Back face
                 1.0f, 1.0f, 0.0f, 1.0f, // Back face
 
+                // GREEN
                 0.0f, 1.0f, 0.0f, 1.0f, // Top face
                 0.0f, 1.0f, 0.0f, 1.0f, // Top face
                 0.0f, 1.0f, 0.0f, 1.0f, // Top face
@@ -346,7 +352,7 @@ namespace WebGLLesson04
 
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
             var cubeVertexIndexBuffer_itemSize = 1;
-            var cubeVertexIndexBuffer_numItems = 36;
+            var cubeVertexIndexBuffer_numItems = cubeVertexPositionBuffer_numItems;
 
             #endregion
 
@@ -428,12 +434,12 @@ namespace WebGLLesson04
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer);
                 gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                 setMatrixUniforms();
-                gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+                gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
 
                 #region new in lesson 03
                 mvPopMatrix();
