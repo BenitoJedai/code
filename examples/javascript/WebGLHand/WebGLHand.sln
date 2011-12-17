@@ -5,17 +5,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLHand", "WebGLHand\WebG
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Assets|Any CPU = Assets|Any CPU
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Assets|x86 = Assets|x86
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
-		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Assets|Any CPU.Build.0 = Assets|Any CPU
-		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Assets|x86.ActiveCfg = Assets|x86
+		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Assets|x86.Build.0 = Assets|x86
+		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Debug|x86.ActiveCfg = Debug|x86
+		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Debug|x86.Build.0 = Debug|x86
+		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Release|x86.ActiveCfg = Release|x86
+		{FEE6FF6C-7CE4-4DD8-9BB8-C522D9FAE2D5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

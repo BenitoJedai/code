@@ -327,7 +327,7 @@ namespace WebGLSpadeWarrior
             #endregion
 
             #region colors3
-            var colors3 = new[]{
+            var colors_green = new[]{
                 0.0f, 1.0f, 0.0f, 1.0f, // Front face
                 0.0f, 1.0f, 0.0f, 1.0f, // Front face
                 0.0f, 1.0f, 0.0f, 1.0f, // Front face
@@ -361,10 +361,45 @@ namespace WebGLSpadeWarrior
             };
 
 
-            var cubeVertexColorBuffer3 = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer3);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors3), gl.STATIC_DRAW);
+            var cubeVertexColorBuffer_green = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_green);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors_green), gl.STATIC_DRAW);
             #endregion
+
+            #region colors_black
+            var colors_black = new[]{
+                0.0f, 0.0f, 0.0f, 1.0f, // Front face
+                0.0f, 0.0f, 0.0f, 1.0f, // Front face
+                0.0f, 0.0f, 0.0f, 1.0f, // Front face
+                0.0f, 0.0f, 0.0f, 1.0f, // Front face
+                0.0f, 0.0f, 0.0f, 1.0f, // Back face
+                0.0f, 0.0f, 0.0f, 1.0f, // Back face
+                0.0f, 0.0f, 0.0f, 1.0f, // Back face
+                0.0f, 0.0f, 0.0f, 1.0f, // Back face
+                0.0f, 0.0f, 0.0f, 1.0f, // Top face
+                0.0f, 0.0f, 0.0f, 1.0f, // Top face
+                0.0f, 0.0f, 0.0f, 1.0f, // Top face
+                0.0f, 0.0f, 0.0f, 1.0f, // Top face
+                0.0f, 0.0f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.0f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.0f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.0f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.0f, 0.0f, 1.0f, // Right face
+                0.0f, 0.0f, 0.0f, 1.0f, // Right face
+                0.0f, 0.0f, 0.0f, 1.0f, // Right face
+                0.0f, 0.0f, 0.0f, 1.0f, // Right face
+                0.0f, 0.0f, 0.0f, 1.0f,  // Left face
+                0.0f, 0.0f, 0.0f, 1.0f,  // Left face
+                0.0f, 0.0f, 0.0f, 1.0f,  // Left face
+                0.0f, 0.0f, 0.0f, 1.0f  // Left face
+            };
+
+
+            var cubeVertexColorBuffer_black = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_black);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors_black), gl.STATIC_DRAW);
+            #endregion
+
 
             var cubeVertexColorBuffer_itemSize = 4;
             var cubeVertexColorBuffer_numItems = 24;
@@ -394,6 +429,14 @@ namespace WebGLSpadeWarrior
             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.enable(gl.DEPTH_TEST);
 
+            var IsWalking = false;
+            var WalkMultiplier = 0.0f;
+
+
+            var ego_x = 0f;
+            var ego_y = 0f;
+            var ego_z = 0f;
+            var ego_za = 0f;
 
             var rCube = 0f;
             var raCube = 0f;
@@ -406,6 +449,19 @@ namespace WebGLSpadeWarrior
                 {
                     var elapsed = timeNow - lastTime;
 
+                    var u = ego_z + ego_za * (elapsed) / 1000.0f;
+
+                    // script: error JSC1000: No implementation found for this native method, please implement [static System.Math.Min(System.Single, System.Single)]
+
+                    if (u < 0)
+                        ego_z = (float)Math.Min((double)ego_z, (double)0);
+                    else
+                        ego_z = u;
+
+
+                    ego_za -= 3.2f * (elapsed) / 1000.0f;
+
+
                     raCube += (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
@@ -416,9 +472,6 @@ namespace WebGLSpadeWarrior
                 return degrees * (f)Math.PI / 180f;
             };
 
-            var ego_x = 0f;
-            var ego_y = 0f;
-            var ego_z = 0f;
 
             var c = 0;
 
@@ -478,13 +531,13 @@ namespace WebGLSpadeWarrior
                         #region grid
 
                         #region color
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer3);
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_green);
                         gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                         #endregion
 
 
 
-                        var GridZoom = 0.5f;
+                        var GridZoom = 0.3f;
 
                         Action<float> WriteYLine =
                             x =>
@@ -660,95 +713,75 @@ namespace WebGLSpadeWarrior
                                   };
                               #endregion
 
-                              var seed = (raCube * 1.1f);
+                              var seed = (raCube * WalkMultiplier * 5);
 
-                              #region animated leg
+                              #region animated_leg
+                              Action<int, int> animated_leg = (seed_offset, x) =>
                               {
-                                  var seed_180 = (float)(seed % 180f);
+                                  var seed_180 = (float)((seed + seed_offset) % 180f);
 
                                   var left_hip = 30f;
                                   var left_knee = 0f;
 
 
-
-                                  left_hip = seed_180;
-
-                                  if (left_hip > 90)
+                                  if (ego_z < 0)
                                   {
-                                      left_hip = 180 - left_hip;
-                                      // -60 should be 0 -  front
-                                      // 0 should be 60
-                                      // 30 should be 0 - back
-
-
-                                      var v = (90 - left_hip) - 70;
-
-
-
-                                      if (v < 0)
-                                          left_knee = 70 + v;
-                                      else if (v == 0)
-                                          left_knee = 70;
-                                      else if (v > 0)
-                                          left_knee = (20 - v) * (70 / 20);
-
-
-
-                                      //page.Data1.innerText = "" + new { left_hip, v, left_knee };
+                                      // crouch
+                                      left_hip = -66;
+                                      left_knee = left_hip * -2;
+                                  }
+                                  else if (ego_z > 0)
+                                  {
+                                      // crouch
+                                      left_hip = 10;
+                                      left_knee = 10;
+                                  }
+                                  else if (!IsWalking)
+                                  {
+                                      left_hip = 0;
+                                      left_knee = 0;
                                   }
                                   else
                                   {
+                                      left_hip = seed_180;
+
+                                      if (left_hip > 90)
+                                      {
+                                          left_hip = 180 - left_hip;
+                                          // -60 should be 0 -  front
+                                          // 0 should be 60
+                                          // 30 should be 0 - back
+
+
+                                          var v = (90 - left_hip) - 70;
+
+
+
+                                          if (v < 0)
+                                              left_knee = 70 + v;
+                                          else if (v == 0)
+                                              left_knee = 70;
+                                          else if (v > 0)
+                                              left_knee = (20 - v) * (70 / 20);
+
+
+
+                                          //page.Data1.innerText = "" + new { left_hip, v, left_knee };
+                                      }
+                                      else
+                                      {
+                                      }
+
+                                      left_hip -= 45;
                                   }
 
-                                  left_hip -= 45;
-
-                                  leg(-2, left_hip, left_knee);
-                              }
+                                  leg(x, left_hip, left_knee);
+                              };
                               #endregion
 
-                              #region animated leg
-                              {
-                                  var seed_180 = (float)((seed + 90) % 180f);
+                              animated_leg(0, -2);
+                              animated_leg(90, 3);
 
-                                  var left_hip = 30f;
-                                  var left_knee = 0f;
-
-
-
-                                  left_hip = seed_180;
-
-                                  if (left_hip > 90)
-                                  {
-                                      left_hip = 180 - left_hip;
-                                      // -60 should be 0 -  front
-                                      // 0 should be 60
-                                      // 30 should be 0 - back
-
-
-                                      var v = (90 - left_hip) - 70;
-
-
-
-                                      if (v < 0)
-                                          left_knee = 70 + v;
-                                      else if (v == 0)
-                                          left_knee = 70;
-                                      else if (v > 0)
-                                          left_knee = (20 - v) * (70 / 20);
-
-
-
-                                      //page.Data1.innerText = "" + new { left_hip, v, left_knee };
-                                  }
-                                  else
-                                  {
-                                  }
-
-                                  left_hip -= 45;
-
-                                  leg(3, left_hip, left_knee);
-                              }
-                              #endregion
 
 
 
@@ -803,32 +836,64 @@ namespace WebGLSpadeWarrior
                               #endregion
 
                               #region head
-                              #region color
-                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
-                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-                              #endregion
 
-                              mvPushMatrix();
-                              __glMatrix.mat4.translate(mvMatrix, new float[] { 
+
+                              mvMatrixScope(
+                                  delegate
+                                  {
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
                                         2 * cubesize * 0, 
                                         2 * cubesize * -1, 
                                         2 * cubesize  * 20});
 
-                              rect(6, 6, 0);
-                              rect(6, 6, 1);
-                              rect(6, 6, 2);
-
-                              #region color
-                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-                              #endregion
-
-                              rect(6, 6, 3);
-                              rect(6, 6, 4);
-                              rect(6, 6, 5);
+                                      #region color
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_black);
+                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      #endregion
 
 
-                              mvPopMatrix();
+                                      cube(5, 4, 2);
+                                      cube(5, 1, 2);
+
+
+                                      #region color
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
+                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      #endregion
+
+
+
+
+                                      rect(6, 6, 0);
+                                      rect(6, 6, 1);
+
+                                      cube(3, 0, 2);
+                                      cube(4, 0, 2);
+                                      cube(5, 0, 2);
+                                      cube(5, 2, 2);
+                                      cube(5, 3, 2);
+                                      cube(5, 5, 2);
+                                      cube(4, 5, 2);
+                                      cube(3, 5, 2);
+
+                                      //rect(6, 2, 2);
+
+                                      #region color
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      #endregion
+
+
+                                      // 3 or 3?? :)
+                                      rect(6, 3, 2);
+
+                                      rect(6, 6, 3);
+                                      rect(6, 6, 4);
+                                      rect(6, 6, 5);
+
+
+                                  }
+                              );
                               #endregion
 
 
@@ -867,7 +932,7 @@ namespace WebGLSpadeWarrior
                 c++;
 
 
-                Native.Document.title = "" + c + " " + (rCube) + " ";
+                Native.Document.title = "" + c + " " + (rCube) + " " + ego_z + " " + ego_za;
 
                 drawScene();
                 animate();
@@ -876,6 +941,39 @@ namespace WebGLSpadeWarrior
             };
 
             tick();
+            #endregion
+
+            #region onkeyup
+            Native.Document.body.onkeyup +=
+                (e) =>
+                {
+                    if (e.KeyCode == 17)
+                    {
+                        ego_z = 0;
+                    }
+
+                    if (e.KeyCode == 32)
+                    {
+                        ego_z = 0;
+                        ego_za = 2;
+                    }
+
+                    if (e.KeyCode == 38)
+                    {
+                        IsWalking = false;
+
+
+
+
+                    }
+
+
+
+                    if (e.KeyCode == 40)
+                    {
+                        IsWalking = false;
+                    }
+                };
             #endregion
 
             #region onkeydown
@@ -917,26 +1015,57 @@ namespace WebGLSpadeWarrior
                     }
                     #endregion
 
-                    if (e.KeyCode == 38)
+                    if (e.KeyCode == 17)
                     {
-                        // mat aint working ..
-
-                        ego_y += (float)Math.Sin(rCube) * 0.1f;
-                        ego_x += (float)Math.Cos(rCube) * 0.1f;
-
-                        //ego_x += 0.1f;
-
-                        // right
+                        ego_z = -cubesize * 6;
                     }
 
-
-
-                    if (e.KeyCode == 40)
+                    if (e.KeyCode == 32)
                     {
-                        ego_y += (float)Math.Sin(rCube) * -0.1f;
-                        ego_x += (float)Math.Cos(rCube) * -0.1f;
+                        ego_z = -cubesize * 6;
+                    }
 
-                        // right
+                    if (ego_z > 0)
+                    {
+                        // not on ground. cant walk :)
+                    }
+                    else
+                    {
+                        if (e.KeyCode == 38)
+                        {
+                            IsWalking = true;
+
+                            // mat aint working ..
+
+
+                            if (!e.shiftKey)
+                            {
+                                WalkMultiplier = 0.1f;
+                            }
+                            else
+                            {
+                                WalkMultiplier = 0.04f;
+
+
+
+                            }
+
+                            ego_y += (float)Math.Sin(rCube) * WalkMultiplier;
+                            ego_x += (float)Math.Cos(rCube) * WalkMultiplier;
+                        }
+
+
+
+                        if (e.KeyCode == 40)
+                        {
+                            IsWalking = true;
+                            WalkMultiplier = 0.04f;
+
+                            ego_y -= (float)Math.Sin(rCube) * WalkMultiplier;
+                            ego_x -= (float)Math.Cos(rCube) * WalkMultiplier;
+
+                        }
+
                     }
                 };
             #endregion
