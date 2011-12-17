@@ -367,7 +367,7 @@ namespace WebGLSpadeWarrior
                 {
                     var elapsed = timeNow - lastTime;
 
-                    raCube -= (75 * elapsed) / 1000.0f;
+                    raCube += (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
             };
@@ -495,7 +495,7 @@ namespace WebGLSpadeWarrior
                               __glMatrix.mat4.rotate(mvMatrix, rCube, new float[] { 0f, 0f, 1f });
 
 
-                              #region draw
+                              #region cube
                               Action<float, float, float> cube =
                                   (x, y, z) =>
                                   {
@@ -510,6 +510,9 @@ namespace WebGLSpadeWarrior
                                       gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                                       mvPopMatrix();
                                   };
+                              #endregion cube
+
+                              #region draw
 
                               Action<int, int, int> rect =
                                   (ix, iy, z) =>
@@ -522,7 +525,9 @@ namespace WebGLSpadeWarrior
                                           }
                                       }
                                   };
+                              #endregion draw
 
+                              #region leg
                               Action<int, float, float> leg =
                                   (y, hiprotation, kneerotation) =>
                                   {
@@ -618,10 +623,96 @@ namespace WebGLSpadeWarrior
                                   };
                               #endregion
 
+                              var seed = (raCube * 1.0f);
+
+                              #region animated leg
+                              {
+                                  var seed_180 = (float)(seed % 180f);
+
+                                  var left_hip = 30f;
+                                  var left_knee = 0f;
 
 
-                              leg(-2, 33, 0);
-                              leg(3, -60, c);
+
+                                  left_hip = seed_180;
+
+                                  if (left_hip > 90)
+                                  {
+                                      left_hip = 180 - left_hip;
+                                      // -60 should be 0 -  front
+                                      // 0 should be 60
+                                      // 30 should be 0 - back
+
+
+                                      var v = (90 - left_hip) - 70;
+
+
+
+                                      if (v < 0)
+                                          left_knee = 70 + v;
+                                      else if (v == 0)
+                                          left_knee = 60;
+                                      else if (v > 0)
+                                          left_knee = (20 - v) * 6;
+
+
+
+                                      page.Data1.innerText = "" + new { left_hip, v, left_knee };
+                                  }
+                                  else
+                                  {
+                                  }
+
+                                  left_hip -= 45;
+
+                                  leg(-2, left_hip, left_knee);
+                              }
+                              #endregion
+
+                              #region animated leg
+                              {
+                                  var seed_180 = (float)((seed + 90) % 180f);
+
+                                  var left_hip = 30f;
+                                  var left_knee = 0f;
+
+
+
+                                  left_hip = seed_180;
+
+                                  if (left_hip > 90)
+                                  {
+                                      left_hip = 180 - left_hip;
+                                      // -60 should be 0 -  front
+                                      // 0 should be 60
+                                      // 30 should be 0 - back
+
+
+                                      var v = (90 - left_hip) - 70;
+
+
+
+                                      if (v < 0)
+                                          left_knee = 70 + v;
+                                      else if (v == 0)
+                                          left_knee = 60;
+                                      else if (v > 0)
+                                          left_knee = (20 - v) * 6;
+
+
+
+                                      page.Data1.innerText = "" + new { left_hip, v, left_knee };
+                                  }
+                                  else
+                                  {
+                                  }
+
+                                  left_hip -= 45;
+
+                                  leg(3, left_hip, left_knee);
+                              }
+                              #endregion
+
 
 
 
@@ -630,18 +721,18 @@ namespace WebGLSpadeWarrior
                               mvPushMatrix();
                               __glMatrix.mat4.translate(mvMatrix, new float[] { 
                                         2 * cubesize * 1, 
-                                        2 * cubesize * -3, 
+                                        2 * cubesize * -2, 
                                         2 * cubesize  * 0});
 
-                              rect(10, 4, 11);
-                              rect(10, 4, 12);
-                              rect(10, 4, 13);
-                              rect(10, 4, 14);
-                              rect(10, 4, 15);
-                              rect(10, 4, 16);
-                              rect(10, 4, 17);
-                              rect(10, 4, 18);
-                              rect(10, 4, 19);
+                              rect(8, 4, 11);
+                              rect(8, 4, 12);
+                              rect(8, 4, 13);
+                              rect(8, 4, 14);
+                              rect(8, 4, 15);
+                              rect(8, 4, 16);
+                              rect(8, 4, 17);
+                              rect(8, 4, 18);
+                              rect(8, 4, 19);
                               mvPopMatrix();
                               #endregion
 
@@ -729,6 +820,7 @@ namespace WebGLSpadeWarrior
 
                     e.PreventDefault();
 
+                    #region turnspeed
                     var turnspeed = 0.05f;
 
                     if (e.KeyCode == 37)
@@ -757,6 +849,7 @@ namespace WebGLSpadeWarrior
 
                         // right
                     }
+                    #endregion
 
                     if (e.KeyCode == 38)
                     {
