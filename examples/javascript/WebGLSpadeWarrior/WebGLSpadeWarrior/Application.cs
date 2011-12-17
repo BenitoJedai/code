@@ -161,7 +161,7 @@ namespace WebGLSpadeWarrior
             var pMatrix = __glMatrix.mat4.create();
 
 
-            #region new in lesson 03
+            #region mvMatrixScope
             Action mvPushMatrix = delegate
             {
                 var copy = __glMatrix.mat4.create();
@@ -173,7 +173,6 @@ namespace WebGLSpadeWarrior
             {
                 mvMatrix = mvMatrixStack.Pop();
             };
-            #endregion
 
             Action<Action> mvMatrixScope =
                 h =>
@@ -182,6 +181,7 @@ namespace WebGLSpadeWarrior
                     h();
                     mvPopMatrix();
                 };
+            #endregion
 
             #region setMatrixUniforms
             Action setMatrixUniforms =
@@ -326,6 +326,45 @@ namespace WebGLSpadeWarrior
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors2), gl.STATIC_DRAW);
             #endregion
 
+            #region colors3
+            var colors3 = new[]{
+                0.0f, 1.0f, 0.0f, 1.0f, // Front face
+                0.0f, 1.0f, 0.0f, 1.0f, // Front face
+                0.0f, 1.0f, 0.0f, 1.0f, // Front face
+                0.0f, 1.0f, 0.0f, 1.0f, // Front face
+
+                0.0f, 0.4f, 0.0f, 1.0f, // Back face
+                0.0f, 0.4f, 0.0f, 1.0f, // Back face
+                0.0f, 0.4f, 0.0f, 1.0f, // Back face
+                0.0f, 0.4f, 0.0f, 1.0f, // Back face
+
+                0.0f, 0.5f, 0.0f, 1.0f, // Top face
+                0.0f, 0.5f, 0.0f, 1.0f, // Top face
+                0.0f, 0.5f, 0.0f, 1.0f, // Top face
+                0.0f, 0.5f, 0.0f, 1.0f, // Top face
+
+                0.0f, 0.7f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.7f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.7f, 0.0f, 1.0f, // Bottom face
+                0.0f, 0.7f, 0.0f, 1.0f, // Bottom face
+
+                
+                0.0f, 0.8f, 0.0f, 1.0f, // Right face
+                0.0f, 0.8f, 0.0f, 1.0f, // Right face
+                0.0f, 0.8f, 0.0f, 1.0f, // Right face
+                0.0f, 0.8f, 0.0f, 1.0f, // Right face
+
+                0.0f, 0.9f, 0.0f, 1.0f,  // Left face
+                0.0f, 0.9f, 0.0f, 1.0f,  // Left face
+                0.0f, 0.9f, 0.0f, 1.0f,  // Left face
+                0.0f, 0.9f, 0.0f, 1.0f  // Left face
+            };
+
+
+            var cubeVertexColorBuffer3 = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer3);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors3), gl.STATIC_DRAW);
+            #endregion
 
             var cubeVertexColorBuffer_itemSize = 4;
             var cubeVertexColorBuffer_numItems = 24;
@@ -433,37 +472,35 @@ namespace WebGLSpadeWarrior
                             - 1.5f, 
                             0, 
                              - 7f});
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-66), new float[] { 1f, 0f, 0f });
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-80), new float[] { 1f, 0f, 0f });
 
 
                         #region grid
-                        OriginalCubeAt(-1f, 0, 0);
-                        OriginalCubeAt(0, 0, 0);
-                        OriginalCubeAt(1f, 0, 0);
-                        OriginalCubeAt(2f, 0, 0);
-                        OriginalCubeAt(3f, 0, 0);
-                        OriginalCubeAt(4f, 0, 0);
+
+                        #region color
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer3);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        #endregion
 
 
+
+                        var GridZoom = 0.5f;
 
                         Action<float> WriteYLine =
                             x =>
                             {
+                                for (int i = -8; i < 12; i++)
+                                {
+                                    OriginalCubeAt(x * GridZoom, (i) * GridZoom, 0);
 
-                                OriginalCubeAt(x, 3f, 0);
-                                OriginalCubeAt(x, 2f, 0);
-                                OriginalCubeAt(x, 1f, 0);
-                                OriginalCubeAt(x, -1f, 0);
-                                OriginalCubeAt(x, -2f, 0);
-                                OriginalCubeAt(x, -3f, 0);
+                                }
                             };
 
-                        WriteYLine(-1);
-                        WriteYLine(0);
-                        WriteYLine(1);
-                        WriteYLine(2);
-                        WriteYLine(3);
-                        WriteYLine(4);
+                        for (int i = -2; i < 12; i++)
+                            WriteYLine(i);
+
+
+
                         #endregion
 
                         {
@@ -623,7 +660,7 @@ namespace WebGLSpadeWarrior
                                   };
                               #endregion
 
-                              var seed = (raCube * 1.0f);
+                              var seed = (raCube * 1.1f);
 
                               #region animated leg
                               {
@@ -651,13 +688,13 @@ namespace WebGLSpadeWarrior
                                       if (v < 0)
                                           left_knee = 70 + v;
                                       else if (v == 0)
-                                          left_knee = 60;
+                                          left_knee = 70;
                                       else if (v > 0)
-                                          left_knee = (20 - v) * 6;
+                                          left_knee = (20 - v) * (70 / 20);
 
 
 
-                                      page.Data1.innerText = "" + new { left_hip, v, left_knee };
+                                      //page.Data1.innerText = "" + new { left_hip, v, left_knee };
                                   }
                                   else
                                   {
@@ -695,13 +732,13 @@ namespace WebGLSpadeWarrior
                                       if (v < 0)
                                           left_knee = 70 + v;
                                       else if (v == 0)
-                                          left_knee = 60;
+                                          left_knee = 70;
                                       else if (v > 0)
-                                          left_knee = (20 - v) * 6;
+                                          left_knee = (20 - v) * (70 / 20);
 
 
 
-                                      page.Data1.innerText = "" + new { left_hip, v, left_knee };
+                                      //page.Data1.innerText = "" + new { left_hip, v, left_knee };
                                   }
                                   else
                                   {
@@ -716,24 +753,53 @@ namespace WebGLSpadeWarrior
 
 
 
-
                               #region body
-                              mvPushMatrix();
-                              __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                              mvMatrixScope(
+                                  delegate
+                                  {
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
                                         2 * cubesize * 1, 
                                         2 * cubesize * -2, 
-                                        2 * cubesize  * 0});
+                                        2 * cubesize  * 11});
 
-                              rect(8, 4, 11);
-                              rect(8, 4, 12);
-                              rect(8, 4, 13);
-                              rect(8, 4, 14);
-                              rect(8, 4, 15);
-                              rect(8, 4, 16);
-                              rect(8, 4, 17);
-                              rect(8, 4, 18);
-                              rect(8, 4, 19);
-                              mvPopMatrix();
+                                      rect(8, 4, 0);
+                                      rect(8, 4, 1);
+                                      rect(8, 4, 2);
+                                      rect(8, 4, 3);
+                                      rect(8, 4, 4);
+                                      rect(8, 4, 5);
+                                      rect(8, 4, 6);
+                                      rect(8, 4, 7);
+                                      rect(8, 4, 8);
+
+                                      mvMatrixScope(
+                                         delegate
+                                         {
+                                             __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                                2 * cubesize * 0, 
+                                                2 * cubesize * -2, 
+                                                2 * cubesize  * 7});
+
+                                             rect(2, 14, 0);
+                                             rect(2, 14, 1);
+                                         }
+                                     );
+
+                                      mvMatrixScope(
+                                      delegate
+                                      {
+
+                                          __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                                2 * cubesize * 0, 
+                                                2 * cubesize * 8, 
+                                                2 * cubesize  * 7});
+
+                                          rect(2, 14, 0);
+                                          rect(2, 14, 1);
+                                      }
+                                    );
+                                  }
+                              );
                               #endregion
 
                               #region head
