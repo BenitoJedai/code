@@ -160,6 +160,7 @@ namespace WebGLSpadeWarrior
 
             var pMatrix = __glMatrix.mat4.create();
 
+
             #region new in lesson 03
             Action mvPushMatrix = delegate
             {
@@ -174,6 +175,13 @@ namespace WebGLSpadeWarrior
             };
             #endregion
 
+            Action<Action> mvMatrixScope =
+                h =>
+                {
+                    mvPushMatrix();
+                    h();
+                    mvPopMatrix();
+                };
 
             #region setMatrixUniforms
             Action setMatrixUniforms =
@@ -193,7 +201,7 @@ namespace WebGLSpadeWarrior
             #region cube
             var cubeVertexPositionBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-            var cubesize = 1.0f * 0.03f;
+            var cubesize = 1.0f * 0.02f;
             var vertices = new[]{
                 // Front face
                 -cubesize, -cubesize,  cubesize,
@@ -349,6 +357,7 @@ namespace WebGLSpadeWarrior
 
 
             var rCube = 0f;
+            var raCube = 0f;
 
             var lastTime = 0L;
             Action animate = delegate
@@ -358,7 +367,7 @@ namespace WebGLSpadeWarrior
                 {
                     var elapsed = timeNow - lastTime;
 
-                    //rCube -= (75 * elapsed) / 1000.0f;
+                    raCube -= (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
             };
@@ -368,10 +377,11 @@ namespace WebGLSpadeWarrior
                 return degrees * (f)Math.PI / 180f;
             };
 
-            var ego_x = -1.5f;
+            var ego_x = 0f;
             var ego_y = 0f;
-            var ego_z = -7f;
+            var ego_z = 0f;
 
+            var c = 0;
 
             #region drawScene
             Action drawScene = delegate
@@ -393,172 +403,283 @@ namespace WebGLSpadeWarrior
                 #endregion
 
 
-
-
-                __glMatrix.mat4.translate(mvMatrix, new float[] { ego_x, ego_y, ego_z });
-
-                mvPushMatrix();
-
-
-                // rotate all of it
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(-66), new float[] { 1f, 0f, 0f });
                 //__glMatrix.mat4.rotate(mvMatrix, degToRad(-33), new float[] { 0f, 1f, 0f });
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.05f), new float[] { 0f, 0f, 1f });
+                //__glMatrix.mat4.rotate(mvMatrix, rCube, new float[] { 1f, 0f, 0f });
 
 
-                #region draw
-                Action<float, float, float> cube =
+
+                #region OriginalCubeAt
+                Action<float, float, float> OriginalCubeAt =
                     (x, y, z) =>
                     {
-                        mvPushMatrix();
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 
-                            2 * cubesize * x, 
-                            2 * cubesize * y, 
-                            2 * cubesize  * z});
-
-                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
-                        setMatrixUniforms();
-                        gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
-                        mvPopMatrix();
-                    };
-
-                Action<int, int, int> rect =
-                    (ix, iy, z) =>
-                    {
-                        for (int y = 0; y < ix; y++)
-                        {
-                            for (int x = 0; x < iy; x++)
+                        mvMatrixScope(
+                            delegate
                             {
-                                cube(x, y, z);
+                                __glMatrix.mat4.translate(mvMatrix, new float[] { x, y, z });
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(raCube), new float[] { 1f, 1f, 1f });
+
+                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+                                setMatrixUniforms();
+                                gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                             }
-                        }
+                        );
                     };
+                #endregion
 
-                Action<int> leg =
-                    y =>
+                mvMatrixScope(
+                    delegate
                     {
-                        mvPushMatrix();
                         __glMatrix.mat4.translate(mvMatrix, new float[] { 
-                            2 * cubesize * 1, 
-                            2 * cubesize * y, 
-                            2 * cubesize  * 0});
+                            - 1.5f, 
+                            0, 
+                             - 7f});
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-66), new float[] { 1f, 0f, 0f });
 
 
-                        #region color
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        #region grid
+                        OriginalCubeAt(-1f, 0, 0);
+                        OriginalCubeAt(0, 0, 0);
+                        OriginalCubeAt(1f, 0, 0);
+                        OriginalCubeAt(2f, 0, 0);
+                        OriginalCubeAt(3f, 0, 0);
+                        OriginalCubeAt(4f, 0, 0);
+
+
+
+                        Action<float> WriteYLine =
+                            x =>
+                            {
+
+                                OriginalCubeAt(x, 3f, 0);
+                                OriginalCubeAt(x, 2f, 0);
+                                OriginalCubeAt(x, 1f, 0);
+                                OriginalCubeAt(x, -1f, 0);
+                                OriginalCubeAt(x, -2f, 0);
+                                OriginalCubeAt(x, -3f, 0);
+                            };
+
+                        WriteYLine(-1);
+                        WriteYLine(0);
+                        WriteYLine(1);
+                        WriteYLine(2);
+                        WriteYLine(3);
+                        WriteYLine(4);
                         #endregion
 
+                        {
+                            var _y = (float)Math.Cos(raCube * 0.05f) * 0.1f;
+                            var _x = (float)Math.Sin(raCube * 0.05f) * 0.1f;
 
-                        #region lower leg
-                        rect(3, 5, 0);
-                        rect(3, 5, 1);
-                        rect(3, 5, 2);
-                        rect(3, 3, 3);
-                        #endregion
+                            OriginalCubeAt(_x, _y, 0);
+                        }
 
+                        {
+                            var _y = (float)Math.Sin(rCube) * 0.2f;
+                            var _x = (float)Math.Cos(rCube) * 0.2f;
 
-
-                        #region color
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-                        #endregion
-
-                        rect(3, 3, 4);
-                        rect(3, 3, 5);
-                        rect(3, 3, 6);
-
-                        #region upper leg
-                        mvPushMatrix();
-                        __glMatrix.mat4.translate(mvMatrix, new float[] { 
-                            2 * cubesize * 1, 
-                            2 * cubesize * 0, 
-                            2 * cubesize  * 0});
-
-                        rect(3, 3, 7);
-                        rect(3, 3, 8);
-                        rect(3, 3, 9);
+                            OriginalCubeAt(_x, _y, 0);
+                        }
 
 
-                        mvPopMatrix();
-                        #endregion
-
-                        #region hips
-                        rect(3, 4, 10);
-                        //rect(3, 4, 11);
-                        #endregion
-
-                        mvPopMatrix();
-                    };
-                #endregion
-
-                leg(-2);
-                leg(3);
-
-                #region body
-                mvPushMatrix();
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 
-                            2 * cubesize * 1, 
-                            2 * cubesize * -3, 
-                            2 * cubesize  * 0});
-
-                rect(10, 4, 11);
-                rect(10, 4, 12);
-                rect(10, 4, 13);
-                rect(10, 4, 14);
-                rect(10, 4, 15);
-                rect(10, 4, 16);
-                rect(10, 4, 17);
-                rect(10, 4, 18);
-                rect(10, 4, 19);
-                mvPopMatrix();
-                #endregion
-
-                #region head
-                #region color
-                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-                #endregion
-
-                mvPushMatrix();
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 
-                            2 * cubesize * 0, 
-                            2 * cubesize * -1, 
-                            2 * cubesize  * 20});
-
-                rect(6, 6, 0);
-                rect(6, 6, 1);
-                rect(6, 6, 2);
-
-                #region color
-                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-                #endregion
-
-                rect(6, 6, 3);
-                rect(6, 6, 4);
-                rect(6, 6, 5);
+                        mvMatrixScope(
+                          delegate
+                          {
+                              // where are we
+                              __glMatrix.mat4.translate(mvMatrix, new float[] { ego_x, ego_y, ego_z });
 
 
-                mvPopMatrix();
-                #endregion
+                              // rotate all of it
+                              //__glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 1f, 0f, 0f });
+
+                              // which way are we looking at?
+                              __glMatrix.mat4.rotate(mvMatrix, rCube, new float[] { 0f, 0f, 1f });
+
+
+                              #region draw
+                              Action<float, float, float> cube =
+                                  (x, y, z) =>
+                                  {
+                                      mvPushMatrix();
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * x, 
+                                        2 * cubesize * y, 
+                                        2 * cubesize  * z});
+
+                                      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+                                      setMatrixUniforms();
+                                      gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+                                      mvPopMatrix();
+                                  };
+
+                              Action<int, int, int> rect =
+                                  (ix, iy, z) =>
+                                  {
+                                      for (int y = 0; y < ix; y++)
+                                      {
+                                          for (int x = 0; x < iy; x++)
+                                          {
+                                              cube(x, y, z);
+                                          }
+                                      }
+                                  };
+
+                              Action<int, float, float> leg =
+                                  (y, hiprotation, kneerotation) =>
+                                  {
+                                      mvPushMatrix();
+
+                                      #region hiprotation
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * 2, 
+                                        2 * cubesize * 0, 
+                                        2 * cubesize * 11});
+
+                                      __glMatrix.mat4.rotate(mvMatrix, degToRad(hiprotation), new float[] { 0f, 1f, 0f });
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * -2, 
+                                        2 * cubesize * 0, 
+                                        2 * cubesize * -11});
+                                      #endregion
 
 
 
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * 1, 
+                                        2 * cubesize * y, 
+                                        2 * cubesize  * 0});
 
-                #region original cube
-                __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
 
-                mvPushMatrix();
+                                      mvPushMatrix();
 
-                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube), new float[] { 1f, 1f, 1f });
+                                      #region kneerotation
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * 1, 
+                                        2 * cubesize * 0, 
+                                        2 * cubesize * 6f});
 
-                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
-                setMatrixUniforms();
-                gl.drawElements(gl.TRIANGLES, cubeVertexPositionBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+                                      __glMatrix.mat4.rotate(mvMatrix, degToRad(kneerotation), new float[] { 0f, 1f, 0f });
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * -1, 
+                                        2 * cubesize * 0, 
+                                        2 * cubesize * -6f});
+                                      #endregion
 
-                mvPopMatrix();
-                #endregion
+                                      #region color
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
+                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      #endregion
+
+
+                                      #region lower leg
+                                      rect(3, 5, 0);
+                                      rect(3, 5, 1);
+                                      rect(3, 5, 2);
+                                      rect(3, 3, 3);
+                                      #endregion
+
+
+
+                                      #region color
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      #endregion
+
+                                      rect(3, 3, 4);
+                                      rect(3, 3, 5);
+                                      rect(3, 3, 6);
+
+                                      mvPopMatrix();
+
+
+                                      #region upper leg
+                                      mvPushMatrix();
+                                      __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * 1, 
+                                        2 * cubesize * 0, 
+                                        2 * cubesize  * 0});
+
+                                      rect(3, 3, 7);
+                                      rect(3, 3, 8);
+                                      rect(3, 3, 9);
+
+
+                                      mvPopMatrix();
+                                      #endregion
+
+                                      #region hips
+                                      rect(3, 4, 10);
+                                      //rect(3, 4, 11);
+                                      #endregion
+
+                                      mvPopMatrix();
+
+
+
+                                  };
+                              #endregion
+
+
+
+                              leg(-2, 33, 0);
+                              leg(3, -60, c);
+
+
+
+
+                              #region body
+                              mvPushMatrix();
+                              __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * 1, 
+                                        2 * cubesize * -3, 
+                                        2 * cubesize  * 0});
+
+                              rect(10, 4, 11);
+                              rect(10, 4, 12);
+                              rect(10, 4, 13);
+                              rect(10, 4, 14);
+                              rect(10, 4, 15);
+                              rect(10, 4, 16);
+                              rect(10, 4, 17);
+                              rect(10, 4, 18);
+                              rect(10, 4, 19);
+                              mvPopMatrix();
+                              #endregion
+
+                              #region head
+                              #region color
+                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
+                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                              #endregion
+
+                              mvPushMatrix();
+                              __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                        2 * cubesize * 0, 
+                                        2 * cubesize * -1, 
+                                        2 * cubesize  * 20});
+
+                              rect(6, 6, 0);
+                              rect(6, 6, 1);
+                              rect(6, 6, 2);
+
+                              #region color
+                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                              #endregion
+
+                              rect(6, 6, 3);
+                              rect(6, 6, 4);
+                              rect(6, 6, 5);
+
+
+                              mvPopMatrix();
+                              #endregion
+
+
+
+                          }
+                      );
+                    }
+                );
 
             };
             drawScene();
@@ -578,7 +699,6 @@ namespace WebGLSpadeWarrior
             #endregion
 
 
-            var c = 0;
 
 
 
@@ -590,7 +710,7 @@ namespace WebGLSpadeWarrior
                 c++;
 
 
-                Native.Document.title = "" + c + " " + degToRad(rCube) + " ";
+                Native.Document.title = "" + c + " " + (rCube) + " ";
 
                 drawScene();
                 animate();
@@ -609,7 +729,7 @@ namespace WebGLSpadeWarrior
 
                     e.PreventDefault();
 
-                    var turnspeed = 50;
+                    var turnspeed = 0.05f;
 
                     if (e.KeyCode == 37)
                     {
@@ -642,10 +762,10 @@ namespace WebGLSpadeWarrior
                     {
                         // mat aint working ..
 
-                        //ego_y += (float)Math.Cos(rCube) * 0.1f;
-                        //ego_x += (float)Math.Sin(rCube) * 0.1f;
+                        ego_y += (float)Math.Sin(rCube) * 0.1f;
+                        ego_x += (float)Math.Cos(rCube) * 0.1f;
 
-                        ego_x += 0.1f;
+                        //ego_x += 0.1f;
 
                         // right
                     }
@@ -654,7 +774,8 @@ namespace WebGLSpadeWarrior
 
                     if (e.KeyCode == 40)
                     {
-                        ego_x -= 0.1f;
+                        ego_y += (float)Math.Sin(rCube) * -0.1f;
+                        ego_x += (float)Math.Cos(rCube) * -0.1f;
 
                         // right
                     }
