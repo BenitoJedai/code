@@ -247,7 +247,7 @@ namespace WebGLSpadeWarrior
 
             // 216, 191, 18
             #region colors1
-            var colors1 = new[]{
+            var colors_orange = new[]{
                 1.0f, 0.6f, 0.0f, 1.0f, // Front face
                 1.0f, 0.6f, 0.0f, 1.0f, // Front face
                 1.0f, 0.6f, 0.0f, 1.0f, // Front face
@@ -281,9 +281,9 @@ namespace WebGLSpadeWarrior
             };
 
 
-            var cubeVertexColorBuffer1 = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors1), gl.STATIC_DRAW);
+            var cubeVertexColorBuffer_orange = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors_orange), gl.STATIC_DRAW);
             #endregion
 
             #region colors2
@@ -478,6 +478,12 @@ namespace WebGLSpadeWarrior
             #region drawScene
             Action drawScene = delegate
             {
+                if (ego_x < 0)
+                    ego_x = 0;
+
+                if (ego_y > 0)
+                    ego_y = 0;
+
                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -542,18 +548,35 @@ namespace WebGLSpadeWarrior
                         Action<float> WriteYLine =
                             x =>
                             {
-                                for (int i = -8; i < 12; i++)
+                                for (int i = -12; i < -1; i++)
                                 {
                                     OriginalCubeAt(x * GridZoom, (i) * GridZoom, 0);
+
 
                                 }
                             };
 
-                        for (int i = -2; i < 12; i++)
+                        for (int i = 1; i < 12; i++)
                             WriteYLine(i);
 
 
+                        #region color
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        #endregion
 
+                        for (int i = 1; i < 12; i++)
+                            OriginalCubeAt(i * GridZoom, 0, 0);
+
+                        for (int i = -12; i < 0; i++)
+                            OriginalCubeAt(0, (i) * GridZoom, 0);
+
+
+                        #endregion
+
+                        #region color
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                         #endregion
 
                         {
@@ -660,7 +683,7 @@ namespace WebGLSpadeWarrior
                                       #endregion
 
                                       #region color
-                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
                                       gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
@@ -713,7 +736,7 @@ namespace WebGLSpadeWarrior
                                   };
                               #endregion
 
-                              var seed = (raCube * WalkMultiplier * 5);
+                              var seed = (raCube * WalkMultiplier * 16);
 
                               #region animated_leg
                               Action<int, int> animated_leg = (seed_offset, x) =>
@@ -813,10 +836,57 @@ namespace WebGLSpadeWarrior
                                                 2 * cubesize * -2, 
                                                 2 * cubesize  * 7});
 
-                                             rect(2, 14, 0);
-                                             rect(2, 14, 1);
+                                             rect(2, 10, 0);
+                                             rect(2, 10, 1);
                                          }
                                      );
+
+
+                                      mvMatrixScope(
+                                          delegate
+                                          {
+                                              #region color
+                                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
+                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              #endregion
+
+                                              __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                                    2 * cubesize * 10, 
+                                                    2 * cubesize * -2, 
+                                                    2 * cubesize  * 7});
+
+                                              rect(2, 2, 0);
+                                              rect(2, 2, 1);
+
+                                              #region color
+                                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              #endregion
+                                          }
+                                      );
+
+                                      mvMatrixScope(
+                                          delegate
+                                          {
+                                              #region color
+                                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
+                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              #endregion
+
+                                              __glMatrix.mat4.translate(mvMatrix, new float[] { 
+                                                    2 * cubesize * 10, 
+                                                    2 * cubesize * 8, 
+                                                    2 * cubesize  * 7});
+
+                                              rect(2, 2, 0);
+                                              rect(2, 2, 1);
+
+                                              #region color
+                                              gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
+                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              #endregion
+                                          }
+                                      );
 
                                       mvMatrixScope(
                                       delegate
@@ -827,10 +897,13 @@ namespace WebGLSpadeWarrior
                                                 2 * cubesize * 8, 
                                                 2 * cubesize  * 7});
 
-                                          rect(2, 14, 0);
-                                          rect(2, 14, 1);
+                                          rect(2, 10, 0);
+                                          rect(2, 10, 1);
                                       }
                                     );
+
+
+
                                   }
                               );
                               #endregion
@@ -855,26 +928,48 @@ namespace WebGLSpadeWarrior
                                       cube(5, 4, 2);
                                       cube(5, 1, 2);
 
+                                      cube(3, 0, 0);
+                                      cube(3, 0, 1);
+                                      cube(3, 0, 2);
+                                      cube(3, 5, 0);
+                                      cube(3, 5, 1);
+                                      cube(3, 5, 2);
 
                                       #region color
-                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer1);
+                                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
                                       gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
 
 
 
-                                      rect(6, 6, 0);
-                                      rect(6, 6, 1);
+                                      rect(6, 3, 0);
+                                      rect(6, 3, 1);
 
-                                      cube(3, 0, 2);
                                       cube(4, 0, 2);
                                       cube(5, 0, 2);
                                       cube(5, 2, 2);
                                       cube(5, 3, 2);
                                       cube(5, 5, 2);
                                       cube(4, 5, 2);
-                                      cube(3, 5, 2);
+
+                                      cube(4, 0, 1);
+                                      cube(5, 0, 1);
+                                      cube(5, 1, 1);
+                                      cube(5, 2, 1);
+                                      cube(5, 3, 1);
+                                      cube(5, 4, 1);
+                                      cube(5, 5, 1);
+                                      cube(4, 5, 1);
+
+                                      cube(4, 0, 0);
+                                      cube(5, 0, 0);
+                                      cube(5, 1, 0);
+                                      cube(5, 2, 0);
+                                      cube(5, 3, 0);
+                                      cube(5, 4, 0);
+                                      cube(5, 5, 0);
+                                      cube(4, 5, 0);
 
                                       //rect(6, 2, 2);
 
@@ -1040,11 +1135,11 @@ namespace WebGLSpadeWarrior
 
                             if (!e.shiftKey)
                             {
-                                WalkMultiplier = 0.1f;
+                                WalkMultiplier = 0.04f;
                             }
                             else
                             {
-                                WalkMultiplier = 0.04f;
+                                WalkMultiplier = 0.02f;
 
 
 
@@ -1059,7 +1154,7 @@ namespace WebGLSpadeWarrior
                         if (e.KeyCode == 40)
                         {
                             IsWalking = true;
-                            WalkMultiplier = 0.04f;
+                            WalkMultiplier = 0.02f;
 
                             ego_y -= (float)Math.Sin(rCube) * WalkMultiplier;
                             ego_x -= (float)Math.Cos(rCube) * WalkMultiplier;
