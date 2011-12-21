@@ -1038,10 +1038,13 @@ namespace WebGLSpadeWarrior
             tick();
             #endregion
 
+
             #region onkeyup
             Native.Document.body.onkeyup +=
                 (e) =>
                 {
+                    //Native.Document.title = "" + new { e.KeyCode };
+
                     if (e.KeyCode == 17)
                     {
                         ego_z = 0;
