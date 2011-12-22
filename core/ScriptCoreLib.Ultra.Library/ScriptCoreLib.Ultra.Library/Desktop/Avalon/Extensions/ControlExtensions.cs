@@ -20,6 +20,7 @@ namespace ScriptCoreLib.Desktop.Avalon.Extensions
 
 
 
+    
         public static void RenderVisualTo(this Visual target, string filePath, double resolution = 96)
         {
 
