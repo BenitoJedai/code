@@ -25,5 +25,13 @@ namespace ScriptCoreLib.Extensions
 
 			return x;
 		}
+
+        public static int ReadByteAtPosition(this Stream s, long p)
+        {
+            s.Position = p;
+
+            return s.ReadByte();
+        }
 	}
 }
+
