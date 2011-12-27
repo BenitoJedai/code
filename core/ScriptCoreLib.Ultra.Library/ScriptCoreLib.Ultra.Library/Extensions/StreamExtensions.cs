@@ -28,6 +28,10 @@ namespace ScriptCoreLib.Extensions
 
         public static int ReadByteAtPosition(this Stream s, long p)
         {
+            // cant go below zero. check your data.
+            if (p < 0)
+                return -1;
+
             s.Position = p;
 
             return s.ReadByte();
