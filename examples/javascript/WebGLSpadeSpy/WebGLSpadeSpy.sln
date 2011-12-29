@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeSpy", "WebGLSpadeSpy\WebGLSpadeSpy.csproj", "{BD81FD96-6934-4660-B88C-DDCC47BE5F16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeSpy.Study", "WebGLSpadeSpy.Study\WebGLSpadeSpy.Study.csproj", "{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Assets|Any CPU = Assets|Any CPU
+		Assets|x86 = Assets|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Assets|Any CPU.ActiveCfg = Assets|Any CPU
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Assets|Any CPU.Build.0 = Assets|Any CPU
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Assets|x86.ActiveCfg = Assets|x86
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Assets|x86.Build.0 = Assets|x86
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Debug|x86.ActiveCfg = Debug|x86
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Debug|x86.Build.0 = Debug|x86
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Release|x86.ActiveCfg = Release|x86
+		{BD81FD96-6934-4660-B88C-DDCC47BE5F16}.Release|x86.Build.0 = Release|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Assets|Any CPU.ActiveCfg = Release|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Assets|x86.ActiveCfg = Release|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Assets|x86.Build.0 = Release|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Debug|x86.ActiveCfg = Debug|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Debug|x86.Build.0 = Debug|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Release|Any CPU.ActiveCfg = Release|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Release|x86.ActiveCfg = Release|x86
+		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
