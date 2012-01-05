@@ -45,7 +45,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName) -java</PostBuildEvent>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName) -java
+"C:\Program Files\Java\jdk1.6.0_24\bin\javac.exe" web/java/TestJavaNativesWithReferences/Class1.java web/java/TestJavaNativesWithReferences/Class2.java</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
