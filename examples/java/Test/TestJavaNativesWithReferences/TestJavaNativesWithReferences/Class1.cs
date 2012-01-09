@@ -13,6 +13,8 @@ namespace TestJavaNativesWithReferences
         public Class2 field2;
     }
 
+
+
     public class Class2
     {
         public Class1 field1;

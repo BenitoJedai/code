@@ -45,8 +45,18 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetFileName) -java
-"C:\Program Files\Java\jdk1.6.0_24\bin\javac.exe" web/java/TestJavaNativesWithReferences/Class1.java web/java/TestJavaNativesWithReferences/Class2.java</PostBuildEvent>
+    <PostBuildEvent>echo compile .net to java
+c:\util\jsc\bin\jsc.exe $(TargetFileName) -java
+
+echo compile java to class
+"C:\Program Files\Java\jdk1.6.0_24\bin\javac.exe" web/java/TestJavaNativesWithReferences/Class1.java web/java/TestJavaNativesWithReferences/Class2.java
+
+
+pushd web\java
+echo class to jar
+"C:\Program Files\Java\jdk1.6.0_24\bin\jar.exe" -cf ..\..\TestJavaNativesWithReferences.Class1.jar TestJavaNativesWithReferences/Class1.class
+"C:\Program Files\Java\jdk1.6.0_24\bin\jar.exe" -cf ..\..\TestJavaNativesWithReferences.Class2.jar TestJavaNativesWithReferences/Class2.class
+popd</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

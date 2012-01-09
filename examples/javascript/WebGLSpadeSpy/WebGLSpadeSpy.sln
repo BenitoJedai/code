@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeSpy", "WebGLSpade
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeSpy.Study", "WebGLSpadeSpy.Study\WebGLSpadeSpy.Study.csproj", "{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLSpadeSpy.StudyViaAvalon", "WebGLSpadeSpy.StudyViaAvalon\WebGLSpadeSpy.StudyViaAvalon.csproj", "{107AC1E3-A835-4418-AF40-ADD138E6658A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -36,6 +38,15 @@ Global
 		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Release|Any CPU.ActiveCfg = Release|x86
 		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Release|x86.ActiveCfg = Release|x86
 		{9753AEB9-23FD-4F6D-AD0A-FD8F4B2EDBA3}.Release|x86.Build.0 = Release|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Assets|Any CPU.ActiveCfg = Assets|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Assets|x86.ActiveCfg = Assets|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Assets|x86.Build.0 = Assets|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Debug|x86.ActiveCfg = Debug|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Debug|x86.Build.0 = Debug|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Release|Any CPU.ActiveCfg = Release|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Release|x86.ActiveCfg = Release|x86
+		{107AC1E3-A835-4418-AF40-ADD138E6658A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
