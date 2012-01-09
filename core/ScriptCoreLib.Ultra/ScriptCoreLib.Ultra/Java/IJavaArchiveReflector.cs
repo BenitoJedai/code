@@ -30,6 +30,7 @@ namespace ScriptCoreLib.Java
          *  
          */
 
+        void LoadFile(string jar);
 
         string FileNameString { get; }
 
@@ -251,7 +252,7 @@ namespace ScriptCoreLib.Java
             {
                 var a = new ArrayList();
 
-                for (int i = 0; i < this.Count; i++)
+                for (int i = 0; i < this.Entries.Length; i++)
                 {
                     if (this.IsType(i))
                         a.Add(this.Entries[i].Type.FullName);

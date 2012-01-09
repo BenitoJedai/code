@@ -95,7 +95,7 @@ namespace WebGLSpadeSpy.Study
             };
             #endregion
 
-
+            #region print_map
             Action<string> print_map =
                 vxl =>
                 {
@@ -179,6 +179,8 @@ namespace WebGLSpadeSpy.Study
                     }
                     Console.WriteLine();
                 };
+            #endregion
+
 
             print_map(@"Z:\media\Program Files\Ace of Spades\vxl\normandie.vxl");
             print_map(@"Z:\media\Program Files\Ace of Spades\vxl\island.vxl");

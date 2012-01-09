@@ -264,6 +264,15 @@ namespace ScriptCoreLib.Java
 
         public JavaArchiveReflector(FileInfo jar)
         {
+            LoadFile(jar.FullName);
+
+        }
+
+        public void LoadFile(string path)
+        {
+            InternalEntries = null;
+
+            var jar = new FileInfo(path);
             this.FileName = jar;
 
             #region clazzLoader
@@ -392,22 +401,11 @@ namespace ScriptCoreLib.Java
                     };
             };
             #endregion
-
         }
 
-        public void LoadTypes()
-        {
-            // http://www.artima.com/insidejvm/ed2/linkmod5.html
-            // http://www.artima.com/javaseminars/modules/DynaExt/index.html
-            // http://www.javaworld.com/javaworld/jw-10-1996/jw-10-indepth.html
-            // http://www.javaworld.com/javaworld/jw-10-1996/indepth/indepth.src.html
+   
 
-        }
-
-        //public IEnumerator GetEnumerator()
-        //{
-        //    return GetDynamicEnumerator();
-        //}
+  
 
         public FileInfo FileName
         {
@@ -444,21 +442,9 @@ namespace ScriptCoreLib.Java
             }
         }
 
-        public int Count
-        {
-            get
-            {
+  
 
-                return Entries.Length;
-            }
-        }
-
-
-        public string GetTypeFullName(int index)
-        {
-            return this.Entries[index].TypeFullName;
-        }
-
+      
 
         public Type this[string TypeFullName]
         {

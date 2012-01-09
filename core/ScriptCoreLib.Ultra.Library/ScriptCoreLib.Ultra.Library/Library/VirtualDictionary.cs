@@ -12,6 +12,19 @@ namespace jsc.Library
     public abstract class VirtualDictionaryBase
     {
         public abstract IDisposable ToTransientTransaction();
+
+        public static VirtualDictionary<TKey, TValue> Create<TKey, TValue>(Func<TKey, TValue> handler)
+        {
+            var v = new VirtualDictionary<TKey, TValue>();
+
+            v.Resolve +=
+                e =>
+                {
+                    v[e] = handler(e);
+                };
+
+            return v;
+        }
     }
 
     //class InternalTypeGUIDComparer : IEqualityComparer<Type>
