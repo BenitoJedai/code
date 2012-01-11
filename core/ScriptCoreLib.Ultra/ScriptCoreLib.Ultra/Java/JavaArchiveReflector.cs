@@ -65,9 +65,14 @@ namespace ScriptCoreLib.Java
                     c = base.loadClass(name, resolve);
                 }
             }
-            catch
+            catch (csharp.ThrowableException cc)
             {
-                throw;
+                Console.WriteLine("InternalURLClassLoader.loadClass error, name: " + name + "; " + cc);
+
+                // what should we do with the missing types?
+                c = typeof(object).ToClass();
+
+                //throw new InvalidOperationException();
             }
 
             //Console.WriteLine(".loadClass: " + c.GetDeclaringFile());
@@ -120,18 +125,20 @@ namespace ScriptCoreLib.Java
                 var url = new java.io.File(x).toURL();
                 this.addURL(url);
             }
-            catch
+            catch(csharp.ThrowableException cc)
             {
+                Console.WriteLine("InternalURLClassLoader.findClass_catch error, x: " + x + "; " + cc);
+                
                 throw new InvalidOperationException();
             }
 
-            c = __findClass(name);
+            c = __findClass(name, x);
 
 
             return c;
         }
 
-        protected Class __findClass(string name)
+        protected Class __findClass(string name, string x)
         {
             //Console.WriteLine("__findClass: " + name);
 
@@ -144,7 +151,7 @@ namespace ScriptCoreLib.Java
             catch (csharp.ThrowableException ex)
             {
 
-                Console.WriteLine("__findClass error: " + ex);
+                Console.WriteLine("InternalURLClassLoader.__findClass error, name: " + name + ", x: " + x + "; " + ex);
                 throw new InvalidOperationException();
             }
 
@@ -202,6 +209,28 @@ namespace ScriptCoreLib.Java
 
                 throw new InvalidOperationException();
             }
+        }
+    }
+
+    static class CharExtensions
+    {
+        public static bool StartsWithNumber(this string c)
+        {
+            if (c == null)
+                return false;
+
+            if (c.Length == 0)
+                return false;
+
+            return c[0].IsNumber();
+        }
+
+        public static bool IsNumber(this char c)
+        {
+            if (c >= '0')
+                if (c <= '9') return true;
+
+            return false;
         }
     }
 
@@ -370,31 +399,50 @@ namespace ScriptCoreLib.Java
                         if (clazzLoader != null)
                             if (n.Name.EndsWith(".class"))
                             {
+                                var TypeFullName = n.Name.Substring(0, n.Name.Length - ".class".Length).Replace("/", ".");
 
-                                n.TypeFullName = n.Name.Substring(0, n.Name.Length - ".class".Length).Replace("/", ".");
+                                var NestedTypeName = TypeFullName.SkipUntilLastOrEmpty("$");
 
+                                var NestedTypeNameStartsWithNumber = NestedTypeName.StartsWithNumber();
 
-                                n.InternalGetType = delegate
+                                if (NestedTypeNameStartsWithNumber)
+                                {
+                                    // we should skip nested types with only numbers
+                                    // as we might not be able to load them
+
+                                }
+                                else
                                 {
 
-                                    var c = default(java.lang.Class);
+                                    n.TypeFullName = TypeFullName;
 
 
-                                    try
+                                    n.InternalGetType = delegate
                                     {
-                                        //Console.WriteLine(".deprecated loadClass: " + n.TypeFullName);
 
-                                        c = clazzLoader.loadClass(n.TypeFullName);
-                                    }
-                                    catch (csharp.ThrowableException cc)
-                                    {
-                                        Console.WriteLine("error @loadClass: " + n.TypeFullName + "; " + cc);
+                                        var c = default(java.lang.Class);
 
-                                        throw new InvalidOperationException();
-                                    }
 
-                                    return c.ToType();
-                                };
+                                        try
+                                        {
+                                            //Console.WriteLine(".deprecated loadClass: " + n.TypeFullName);
+
+                                            c = clazzLoader.loadClass(n.TypeFullName);
+                                        }
+                                        catch (csharp.ThrowableException cc)
+                                        {
+                                            Console.WriteLine("** JavaArchiveReflector.Loadfile - error loadClass: " + n.TypeFullName + "; " + cc);
+
+                                            //throw new InvalidOperationException();
+                                        }
+
+                                        // what if we need javax.jms.MessageListener ?
+                                        if (c == null)
+                                            return null;
+
+                                        return c.ToType();
+                                    };
+                                }
                             }
 
                         return n;
@@ -403,9 +451,9 @@ namespace ScriptCoreLib.Java
             #endregion
         }
 
-   
 
-  
+
+
 
         public FileInfo FileName
         {
@@ -442,9 +490,9 @@ namespace ScriptCoreLib.Java
             }
         }
 
-  
 
-      
+
+
 
         public Type this[string TypeFullName]
         {

@@ -178,27 +178,44 @@ namespace ScriptCoreLib.Java
 
         public JavaArchiveReflectorMethod[] Type_GetMethods(string TypeName)
         {
+            var y = default(JavaArchiveReflectorMethod[]);
+            var f = default(System.Reflection.MethodInfo[]);
+
             var t = this.clazzLoader.GetType(TypeName);
-            var f = t.GetMethods(); // what about protected members?
 
-            var y = new JavaArchiveReflectorMethod[f.Length];
-
-            for (int i = 0; i < f.Length; i++)
+            try
             {
-                y[i] = new JavaArchiveReflectorMethod
+                f = t.GetMethods(); // what about protected members?
+            }
+            catch
+            {
+                System.Console.WriteLine("JavaArchiveReflector.Type_GetMethods error, TypeName: " + TypeName);
+
+                // we did not find a type. skip constructors..
+                y = new JavaArchiveReflectorMethod[0];
+            }
+
+            if (y == null)
+            {
+                y = new JavaArchiveReflectorMethod[f.Length];
+
+                for (int i = 0; i < f.Length; i++)
                 {
-                    MethodIndex = i,
+                    y[i] = new JavaArchiveReflectorMethod
+                    {
+                        MethodIndex = i,
 
-                    ParameterTypes = f[i].GetParameterTypeFullNames(),
-                    ReturnType = f[i].ReturnType.FullName,
+                        ParameterTypes = f[i].GetParameterTypeFullNames(),
+                        ReturnType = f[i].ReturnType.FullName,
 
-                    MethodName = f[i].Name,
+                        MethodName = f[i].Name,
 
-                    IsPublic = f[i].IsPublic,
-                    IsFamily = f[i].IsFamily,
-                    IsStatic = f[i].IsStatic,
-                    IsAbstract = f[i].IsAbstract
-                };
+                        IsPublic = f[i].IsPublic,
+                        IsFamily = f[i].IsFamily,
+                        IsStatic = f[i].IsStatic,
+                        IsAbstract = f[i].IsAbstract
+                    };
+                }
             }
 
             return y;
@@ -206,19 +223,36 @@ namespace ScriptCoreLib.Java
 
         public JavaArchiveReflectorConstructor[] Type_GetConstructors(string TypeName)
         {
+            var y = default(JavaArchiveReflectorConstructor[]);
+            var f = default(System.Reflection.ConstructorInfo[]);
+
             var t = this.clazzLoader.GetType(TypeName);
-            var f = t.GetConstructors(); // what about protected members?
 
-            var y = new JavaArchiveReflectorConstructor[f.Length];
-
-            for (int i = 0; i < f.Length; i++)
+            try
             {
-                y[i] = new JavaArchiveReflectorConstructor
-                {
-                    ConstructorIndex = i,
+                f = t.GetConstructors(); // what about protected members?
+            }
+            catch
+            {
+                System.Console.WriteLine("JavaArchiveReflector.Type_GetConstructors error, TypeName: " + TypeName);
 
-                    ParameterTypes = f[i].GetParameterTypeFullNames()
-                };
+                // we did not find a type. skip constructors..
+                y = new JavaArchiveReflectorConstructor[0];
+            }
+
+            if (y == null)
+            {
+                y = new JavaArchiveReflectorConstructor[f.Length];
+
+                for (int i = 0; i < f.Length; i++)
+                {
+                    y[i] = new JavaArchiveReflectorConstructor
+                    {
+                        ConstructorIndex = i,
+
+                        ParameterTypes = f[i].GetParameterTypeFullNames()
+                    };
+                }
             }
 
             return y;
@@ -226,21 +260,38 @@ namespace ScriptCoreLib.Java
 
         public JavaArchiveReflectorFieldInfo[] Type_GetFields(string TypeName)
         {
+            var y = default(JavaArchiveReflectorFieldInfo[]);
+            var f = default(System.Reflection.FieldInfo[]);
+
             var t = this.clazzLoader.GetType(TypeName);
-            var f = t.GetFields(); // what about protected members?
 
-            var y = new JavaArchiveReflectorFieldInfo[f.Length];
-
-            for (int i = 0; i < f.Length; i++)
+            try
             {
-                y[i] = new JavaArchiveReflectorFieldInfo
-                {
-                    FieldName = f[i].Name,
-                    FieldType = f[i].FieldType.FullName,
+                f = t.GetFields(); // what about protected members?
+            }
+            catch
+            {
+                System.Console.WriteLine("JavaArchiveReflector.Type_GetFields error, TypeName: " + TypeName);
 
-                    IsStatic = f[i].IsStatic,
-                    IsFamily = f[i].IsFamily
-                };
+                // we did not find a type. skip constructors..
+                y = new JavaArchiveReflectorFieldInfo[0];
+            }
+
+            if (y == null)
+            {
+                y = new JavaArchiveReflectorFieldInfo[f.Length];
+
+                for (int i = 0; i < f.Length; i++)
+                {
+                    y[i] = new JavaArchiveReflectorFieldInfo
+                    {
+                        FieldName = f[i].Name,
+                        FieldType = f[i].FieldType.FullName,
+
+                        IsStatic = f[i].IsStatic,
+                        IsFamily = f[i].IsFamily
+                    };
+                }
             }
 
             return y;
@@ -255,7 +306,12 @@ namespace ScriptCoreLib.Java
                 for (int i = 0; i < this.Entries.Length; i++)
                 {
                     if (this.IsType(i))
-                        a.Add(this.Entries[i].Type.FullName);
+                    {
+                        var Type = this.Entries[i].Type;
+
+                        if (Type != null)
+                            a.Add(Type.FullName);
+                    }
                 }
 
                 return (string[])a.ToArray(typeof(string));
