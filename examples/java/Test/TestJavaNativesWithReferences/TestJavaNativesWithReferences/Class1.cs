@@ -11,6 +11,8 @@ namespace TestJavaNativesWithReferences
     public interface Class1
     {
         Class2 method2();
+
+        string GetDescription();
     }
 
 
@@ -20,10 +22,12 @@ namespace TestJavaNativesWithReferences
         #region fields
         public Class1 field1;
 
+#if WithMissingReference
         /// <summary>
         /// This will cause all fields be missing
         /// </summary>
         public MissingClass1 MissingField;
+#endif
         #endregion
 
         #region methods
@@ -33,6 +37,7 @@ namespace TestJavaNativesWithReferences
             return null;
         }
 
+#if WithMissingReference
         /// <summary>
         /// This will cause all methods to be missing
         /// </summary>
@@ -40,10 +45,17 @@ namespace TestJavaNativesWithReferences
         public void MissingMethod(MissingClass1 e)
         {
         }
+#endif
         #endregion
+
+
+        public string GetDescription()
+        {
+            return "hello world";
+        }
     }
 
-    
+
 
     public class MissingClass1
     {
