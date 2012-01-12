@@ -67,11 +67,11 @@ namespace ScriptCoreLib.Java
             }
             catch (csharp.ThrowableException cc)
             {
-                Console.WriteLine("InternalURLClassLoader.loadClass error, name: " + name + "; " + cc);
+                Console.WriteLine("InternalURLClassLoader.loadClass error, name: " + name + "; " + cc + "; " + cc.Message );
 
                 // what should we do with the missing types?
-                c = typeof(object).ToClass();
-
+                // we can only return null as it is going to gail anyhow
+                
                 //throw new InvalidOperationException();
             }
 
