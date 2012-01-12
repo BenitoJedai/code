@@ -8,22 +8,31 @@ namespace ScriptCoreLib.Archive
 {
     public static class JavaArchiveExtensions
     {
+        static Dictionary<string, string[]> FileContentLookup = new Dictionary<string, string[]>();
+
+
         public static string ResolveJavaArchiveLoadRequest(string context, string name)
         {
-            var ContextPath = Path.GetDirectoryName(context);
-            var WiderContextPath = Directory.GetParent(ContextPath).FullName;
-
-            var list = Directory.GetFiles(WiderContextPath, "*.jar", SearchOption.AllDirectories).OrderByDescending(k => Path.GetDirectoryName(k) == ContextPath);
+            var list = ContextToFileArray(context);
 
             var r = name.Replace(".", "/") + ".class";
 
             foreach (var item in list)
             {
-                Console.WriteLine(".jar " + Path.GetFileNameWithoutExtension(item));
+                var c = default(string[]);
 
-                var zip = ZIPArchive.GetFiles(item);
+                if (!FileContentLookup.ContainsKey(item))
+                {
+                    Console.WriteLine(".jar " + Path.GetFileNameWithoutExtension(item));
 
-                var u = zip.FirstOrDefault(k => k.Name == r);
+                    var zip = ZIPArchive.GetFiles(item);
+
+                    FileContentLookup[item] = zip.Select(k => k.Name).ToArray();    
+                }
+
+                c = FileContentLookup[item];
+
+                var u = c.FirstOrDefault(k => k == r);
 
                 if (u != null)
                     return item;
@@ -35,6 +44,15 @@ namespace ScriptCoreLib.Archive
             //    return @"C:\util\aws-android-sdk-0.2.0\lib\aws-android-sdk-0.2.0-core.jar";
 
             return null;
+        }
+
+        private static string[] ContextToFileArray(string context)
+        {
+            var ContextPath = Path.GetDirectoryName(context);
+            var WiderContextPath = Directory.GetParent(ContextPath).FullName;
+
+            var list = Directory.GetFiles(WiderContextPath, "*.jar", SearchOption.AllDirectories).OrderByDescending(k => Path.GetDirectoryName(k) == ContextPath).ToArray();
+            return list;
         }
     }
 }
