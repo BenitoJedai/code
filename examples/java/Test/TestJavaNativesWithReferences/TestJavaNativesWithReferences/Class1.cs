@@ -53,6 +53,11 @@ namespace TestJavaNativesWithReferences
         {
             return "hello world";
         }
+
+        public static string GetSomething()
+        {
+            return "something";
+        }
     }
 
 
