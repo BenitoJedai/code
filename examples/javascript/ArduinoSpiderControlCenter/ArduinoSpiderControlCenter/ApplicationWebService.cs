@@ -36,6 +36,8 @@ namespace ArduinoSpiderControlCenter
 
         static COM46()
         {
+            Line = "waiting...";
+
             var ports = SerialPort.GetPortNames();
 
             // http://binglongx.wordpress.com/2011/10/26/arduino-serial-port-communication/

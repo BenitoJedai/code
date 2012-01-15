@@ -41,6 +41,18 @@ namespace ArduinoSpiderControlCenter
             LeftLR.style.width = "4em";
             LeftLR.AttachToDocument();
 
+            var LeftIR = new IHTMLDiv();
+
+            LeftIR.style.position = IStyle.PositionEnum.absolute;
+            LeftIR.style.left = "0";
+            LeftIR.style.top = "0";
+            LeftIR.style.height = "1em";
+            LeftIR.style.width = "4em";
+            LeftIR.AttachToDocument();
+            LeftIR.style.backgroundColor = JSColor.FromRGB(0xB0, 0, 0);
+
+
+
             var RightLR = new IHTMLDiv();
 
             RightLR.style.position = IStyle.PositionEnum.absolute;
@@ -49,6 +61,18 @@ namespace ArduinoSpiderControlCenter
             RightLR.style.bottom = "0";
             RightLR.style.width = "4em";
             RightLR.AttachToDocument();
+
+
+            var RightIR = new IHTMLDiv();
+
+            RightIR.style.position = IStyle.PositionEnum.absolute;
+            RightIR.style.right = "0";
+            RightIR.style.top = "0";
+            RightIR.style.height = "1em";
+            RightIR.style.width = "4em";
+            RightIR.AttachToDocument();
+            RightIR.style.backgroundColor = JSColor.FromRGB(0xB0, 0, 0);
+
 
 
             LeftLR.style.backgroundColor = JSColor.FromRGB(0x80, 0, 0);
@@ -90,7 +114,9 @@ namespace ArduinoSpiderControlCenter
                                             // jsc: please do the masking when casting to byte yyourself, thanks :)
                                             var ivalue = (byte)((255 * value_1024 / 1024) & 0xff);
 
-                                            RightLR.innerText = "" + ivalue;
+                                            ivalue = (byte)Math.Min(255, ivalue * 4);
+
+                                            //RightLR.innerText = "" + ivalue;
                                             RightLR.style.backgroundColor = JSColor.FromGray(ivalue);
 
                                         }
@@ -104,8 +130,47 @@ namespace ArduinoSpiderControlCenter
                                             // jsc: please do the masking when casting to byte yyourself, thanks :)
                                             var ivalue = (byte)((255 * value_1024 / 1024) & 0xff);
 
-                                            LeftLR.innerText = "" + ivalue;
+                                            ivalue = (byte)Math.Min(255, ivalue * 4);
+
+                                            //LeftLR.innerText = "" + ivalue;
                                             LeftLR.style.backgroundColor = JSColor.FromGray(ivalue);
+
+                                        }
+
+                                        if (key == "LeftIR")
+                                        {
+
+                                            var value_int32 = int.Parse(_value);
+
+                                            if (value_int32 > 400)
+                                                LeftIR.style.backgroundColor = JSColor.Red;
+                                            else
+                                                if (value_int32 > 200)
+                                                    LeftIR.style.backgroundColor = JSColor.Yellow;
+                                                else
+                                                    LeftIR.style.backgroundColor = JSColor.Green;
+
+                                            LeftIR.style.height = value_int32 + "px";
+
+                                        }
+
+
+                                        if (key == "RightIR")
+                                        {
+
+                                            var value_int32 = int.Parse(_value);
+                                            
+                                            if (value_int32 > 400)
+                                                RightIR.style.backgroundColor = JSColor.Red;
+                                            else
+                                                if (value_int32 > 200)
+                                                    RightIR.style.backgroundColor = JSColor.Yellow;
+                                                else
+                                                    RightIR.style.backgroundColor = JSColor.Green;
+
+
+
+                                            RightIR.style.height = value_int32 + "px";
 
                                         }
 
