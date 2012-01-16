@@ -4,6 +4,8 @@ using System.IO.Ports;
 using ScriptCoreLib.Extensions;
 using System.Collections.Generic;
 using System.Threading;
+using System.Net;
+using System.Net.NetworkInformation;
 
 namespace ArduinoSpiderControlCenter
 {
@@ -15,11 +17,9 @@ namespace ArduinoSpiderControlCenter
 
         public static void Main(string[] args)
         {
-            
 
 
-            
-
+          
 
             RewriteToUltraApplication.AsProgram.Launch(typeof(Application));
         }

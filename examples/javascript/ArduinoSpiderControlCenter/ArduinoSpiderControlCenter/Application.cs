@@ -81,6 +81,8 @@ namespace ArduinoSpiderControlCenter
             new Timer(
                 t =>
                 {
+                    Native.Document.title = "#" + t.Counter;
+
                     // Send data from JavaScript to the server tier
                     service.WebMethod2(
                         @"A string from JavaScript.",
@@ -114,10 +116,12 @@ namespace ArduinoSpiderControlCenter
                                             // jsc: please do the masking when casting to byte yyourself, thanks :)
                                             var ivalue = (byte)((255 * value_1024 / 1024) & 0xff);
 
-                                            ivalue = (byte)Math.Min(255, ivalue * 4);
+                                            ivalue = (byte)Math.Min(255, ivalue * 2);
 
-                                            //RightLR.innerText = "" + ivalue;
-                                            RightLR.style.backgroundColor = JSColor.FromGray(ivalue);
+                                            if (ivalue == 255)
+                                                RightLR.style.backgroundColor = JSColor.Cyan;
+                                            else
+                                                RightLR.style.backgroundColor = JSColor.FromGray(ivalue);
 
                                         }
 
@@ -130,10 +134,14 @@ namespace ArduinoSpiderControlCenter
                                             // jsc: please do the masking when casting to byte yyourself, thanks :)
                                             var ivalue = (byte)((255 * value_1024 / 1024) & 0xff);
 
-                                            ivalue = (byte)Math.Min(255, ivalue * 4);
+                                            ivalue = (byte)Math.Min(255, ivalue * 2);
 
                                             //LeftLR.innerText = "" + ivalue;
-                                            LeftLR.style.backgroundColor = JSColor.FromGray(ivalue);
+
+                                            if (ivalue == 255)
+                                                LeftLR.style.backgroundColor = JSColor.Cyan;
+                                            else
+                                                LeftLR.style.backgroundColor = JSColor.FromGray(ivalue);
 
                                         }
 
@@ -159,7 +167,7 @@ namespace ArduinoSpiderControlCenter
                                         {
 
                                             var value_int32 = int.Parse(_value);
-                                            
+
                                             if (value_int32 > 400)
                                                 RightIR.style.backgroundColor = JSColor.Red;
                                             else
