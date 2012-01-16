@@ -105,6 +105,7 @@
     <Compile Include="Extensions\MethodBaseExtensions.cs" />
     <Compile Include="Extensions\OpCodeExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
+    <Compile Include="Extensions\TcpListenerExtensions.cs" />
     <Compile Include="Extensions\ThreadExtensions.cs" />
     <Compile Include="Extensions\TouchExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />

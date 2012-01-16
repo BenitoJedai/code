@@ -32,7 +32,7 @@ namespace ArduinoSpiderControlCenter
 
     public static class COM46
     {
-        public static string Line = "?";
+        public static string Line = "not ready..";
 
         static COM46()
         {
@@ -62,7 +62,7 @@ namespace ArduinoSpiderControlCenter
                     while (true)
                     {
                         i++;
-                        COM46.Line = s.ReadLine();
+                            COM46.Line = s.ReadLine();
                     }
                 }
             ).Start();
