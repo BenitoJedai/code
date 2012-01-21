@@ -74,6 +74,8 @@ namespace ScriptCoreLib.Extensions
                     {
                         var c = x.AcceptTcpClient();
                         ClientCounter++;
+                        
+                        Console.WriteLine("BridgeConnectionToPort #" + ClientCounter);
 
                         var y = new TcpClient();
 
