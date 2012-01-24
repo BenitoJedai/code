@@ -2,7 +2,8 @@ using ScriptCoreLib;
 
 namespace java.lang.reflect
 {
-    [Script(IsNative=true)]
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/reflect/Method.html
+    [Script(IsNative = true)]
     public sealed class Method : AccessibleObject
     {
         #region methods

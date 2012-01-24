@@ -27,6 +27,8 @@ namespace CLRJVMConsole
                 }
             }
 
+            Console.WriteLine("string is " + typeof(string).FullName);
+
             Console.WriteLine("CLR has loaded jvm.dll and created a new JVM");
             Console.WriteLine("this code is running inside JVM");
             Console.WriteLine("code within JVM will PInvoke into CLR code");

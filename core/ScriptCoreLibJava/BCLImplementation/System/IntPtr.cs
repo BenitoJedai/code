@@ -123,38 +123,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         public static __IntPtr Of(global::java.lang.Class Target, string MethodName, global::java.lang.Class[] Parameters)
         {
             var MethodToken = default(Method);
-            var Methods = Target.getDeclaredMethods();
 
-            foreach (var m in Methods)
+            try
             {
-                if (MethodToken != null)
-                    break;
-
-                if (m.getName() == MethodName)
-                {
-
-                    var p = m.getParameterTypes();
-
-                    if (p.Length == Parameters.Length)
-                    {
-                        MethodToken = m;
-
-                        for (int i = 0; i < Parameters.Length; i++)
-                        {
-                            // name by name comparision... might not be that great!
-                            if (Parameters[i].getName() != p[i].getName())
-                            {
-                                MethodToken = null;
-                                break;
-                            }
-                        }
-                    }
-                }
+                MethodToken = Target.getDeclaredMethod(MethodName, Parameters);
             }
-
-            // should we worry about return type overloads too?
-            // this wont work in applet viewer!
-            // MethodToken.setAccessible(true);
+            catch
+            {
+                throw new InvalidOperationException();
+            }
 
             return new __IntPtr { MethodToken = MethodToken };
         }
