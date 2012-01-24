@@ -12,6 +12,11 @@ namespace HybridReflectionExample
 {
     class Foo
     {
+        public void Method2()
+        {
+            Console.WriteLine("this is Method2");
+        }
+
         public void Method1(Foo f)
         {
 
@@ -24,9 +29,31 @@ namespace HybridReflectionExample
         {
             Console.WriteLine("this code is running inside JVM");
 
+            ToConsole(args);
+            ToConsole(CLRProgram.GetVMContinuationSupport());
+
+            var Handlers = new Action[] { 
+                new Foo().Method2
+            };
+
+            Handlers[0]();
+
             CLRProgram.CLRMain(
                 new TypeBroker { Target = typeof(Foo) }
             );
+        }
+
+        private static void ToConsole(string[] args)
+        {
+            if (args == null)
+                Console.WriteLine("ToConsole null");
+
+            foreach (var item in args)
+            {
+                Console.WriteLine("- " + item);
+                
+            }
+
         }
     }
 
@@ -48,6 +75,11 @@ namespace HybridReflectionExample
     [SwitchToCLRContext]
     public static class CLRProgram
     {
+        public static string[] GetVMContinuationSupport()
+        {
+            return VMContinuationSupport.__value();
+        }
+
         [STAThread]
         public static void CLRMain(IBroker b)
         {
@@ -67,5 +99,10 @@ namespace HybridReflectionExample
 
             Console.WriteLine("done!");
         }
+    }
+
+    public static class VMContinuationSupport
+    {
+        public static Func<string[]> __value = () => null;
     }
 }

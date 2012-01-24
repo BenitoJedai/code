@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HybridReflectionExample", "HybridReflectionExample\HybridReflectionExample.csproj", "{971693D3-31F3-41ED-A539-10BE1350C049}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HybridReflectionExampleLauncher", "HybridReflectionExampleLauncher\HybridReflectionExampleLauncher.csproj", "{F84B6E2A-602B-437E-95FE-7E2AD252548C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{971693D3-31F3-41ED-A539-10BE1350C049}.Debug|x86.Build.0 = Debug|x86
 		{971693D3-31F3-41ED-A539-10BE1350C049}.Release|x86.ActiveCfg = Release|x86
 		{971693D3-31F3-41ED-A539-10BE1350C049}.Release|x86.Build.0 = Release|x86
+		{F84B6E2A-602B-437E-95FE-7E2AD252548C}.Debug|x86.ActiveCfg = Debug|x86
+		{F84B6E2A-602B-437E-95FE-7E2AD252548C}.Debug|x86.Build.0 = Debug|x86
+		{F84B6E2A-602B-437E-95FE-7E2AD252548C}.Release|x86.ActiveCfg = Release|x86
+		{F84B6E2A-602B-437E-95FE-7E2AD252548C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
