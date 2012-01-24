@@ -9,9 +9,9 @@ using ScriptCoreLib;
 [assembly: AssemblyTitle("ScriptCoreLibAndroid")]
 [assembly: AssemblyDescription("http://www.jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("ScriptCoreLibAndroid")]
-[assembly: AssemblyCopyright("Copyright ©  2011")]
+[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
