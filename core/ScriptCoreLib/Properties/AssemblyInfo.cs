@@ -14,7 +14,8 @@ using ScriptCoreLib.Shared;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("ScriptCoreLib")]
-[assembly: AssemblyCopyright("Copyright © 2011 ")]
+[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
+[assembly: AssemblyTrademark("jsc")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

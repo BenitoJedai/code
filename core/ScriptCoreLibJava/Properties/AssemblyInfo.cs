@@ -9,10 +9,10 @@ using ScriptCoreLib;
 [assembly: AssemblyTitle("ScriptCoreLibJava")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("neutronic")]
+[assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("ScriptCoreLibJava")]
-[assembly: AssemblyCopyright("Copyright © neutronic 2006")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
+[assembly: AssemblyTrademark("jsc")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
