@@ -16,7 +16,6 @@ using ScriptCoreLib.Shared;
 [assembly: AssemblyProduct("ScriptCoreLib")]
 [assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
 [assembly: AssemblyTrademark("jsc")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
