@@ -15,6 +15,7 @@ using WebGLLesson07.HTML.Pages;
 
 namespace WebGLLesson07
 {
+
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using ScriptCoreLib.Shared.Lambda;
@@ -40,6 +41,7 @@ namespace WebGLLesson07
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+
             new __glMatrix().Content.With(
                source =>
                {
@@ -139,17 +141,34 @@ namespace WebGLLesson07
             gl.linkProgram(shaderProgram);
             gl.useProgram(shaderProgram);
 
-            var shaderProgram_vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            #region getAttribLocation
+            Func<string, long> getAttribLocation =
+                    name => gl.getAttribLocation(shaderProgram, name); 
+
+            var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
             gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
 
-            var shaderProgram_textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+            var shaderProgram_vertexNormalAttribute = getAttribLocation("aVertexNormal");
+            gl.enableVertexAttribArray((ulong)shaderProgram_vertexNormalAttribute);
+
+            var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
             gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+            #endregion
 
-            var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-            var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            #region getUniformLocation
+            Func<string, WebGLUniformLocation> getUniformLocation =
+                name => gl.getUniformLocation(shaderProgram, name);
 
-            // new in lesson 05
-            var shaderProgram_samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+            var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
+            var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
+            var shaderProgram_nMatrixUniform = getUniformLocation("uNMatrix");
+            var shaderProgram_samplerUniform = getUniformLocation("uSampler");
+            var shaderProgram_useLightingUniform = getUniformLocation("uUseLighting");
+            var shaderProgram_ambientColorUniform = getUniformLocation("uAmbientColor");
+            var shaderProgram_lightingDirectionUniform = getUniformLocation("uLightingDirection");
+            var shaderProgram_directionalColorUniform = getUniformLocation("uDirectionalColor");
+            #endregion
+
             #endregion
 
 
@@ -180,6 +199,13 @@ namespace WebGLLesson07
                 {
                     gl.uniformMatrix4fv(shaderProgram_pMatrixUniform, false, pMatrix);
                     gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, mvMatrix);
+
+                    #region new in lesson 07
+                    var normalMatrix = __glMatrix.mat3.create();
+                    __glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
+                    __glMatrix.mat3.transpose(normalMatrix);
+                    gl.uniformMatrix3fv(shaderProgram_nMatrixUniform, false, normalMatrix);
+                    #endregion
                 };
             #endregion
 
@@ -235,6 +261,54 @@ namespace WebGLLesson07
             var cubeVertexPositionBuffer_itemSize = 3;
             var cubeVertexPositionBuffer_numItems = 6 * 6;
             #endregion
+
+            #region cubeVertexNormalBuffer - new in lesson 07
+            var cubeVertexNormalBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
+            var vertexNormals = new[]{
+              // Front face
+               0.0f,  0.0f,  1.0f,
+               0.0f,  0.0f,  1.0f,
+               0.0f,  0.0f,  1.0f,
+               0.0f,  0.0f,  1.0f,
+
+              // Back face
+               0.0f,  0.0f, -1.0f,
+               0.0f,  0.0f, -1.0f,
+               0.0f,  0.0f, -1.0f,
+               0.0f,  0.0f, -1.0f,
+
+              // Top face
+               0.0f,  1.0f,  0.0f,
+               0.0f,  1.0f,  0.0f,
+               0.0f,  1.0f,  0.0f,
+               0.0f,  1.0f,  0.0f,
+
+              // Bottom face
+               0.0f, -1.0f,  0.0f,
+               0.0f, -1.0f,  0.0f,
+               0.0f, -1.0f,  0.0f,
+               0.0f, -1.0f,  0.0f,
+
+              // Right face
+               1.0f,  0.0f,  0.0f,
+               1.0f,  0.0f,  0.0f,
+               1.0f,  0.0f,  0.0f,
+               1.0f,  0.0f,  0.0f,
+
+              // Left face
+              -1.0f,  0.0f,  0.0f,
+              -1.0f,  0.0f,  0.0f,
+              -1.0f,  0.0f,  0.0f,
+              -1.0f,  0.0f,  0.0f,
+            };
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexNormals), gl.STATIC_DRAW);
+
+            var cubeVertexNormalBuffer_itemSize = 3;
+            var cubeVertexNormalBuffer_numItems = 24;
+            #endregion
+
 
             #region cubeVertexTextureCoordBuffer
 
@@ -309,15 +383,15 @@ namespace WebGLLesson07
                 gl.createTexture(),
             };
 
-            var xRot = 0f;
-            var xSpeed = 0f;
+            var xRot = 0.0f;
+            var xSpeed = 2.1f;
 
-            var yRot = 0f;
-            var ySpeed = 0f;
+            var yRot = 0.0f;
+            var ySpeed = 2.1f;
 
             var z = -5.0f;
 
-            var filter = 0;
+            var filter = 2;
 
             var currentlyPressedKeys = new Dictionary<int, bool>
             {
@@ -427,6 +501,11 @@ namespace WebGLLesson07
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                         gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
+                        #region new in lesson 07
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        #endregion
+
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
                         gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
@@ -435,6 +514,37 @@ namespace WebGLLesson07
                         gl.bindTexture(gl.TEXTURE_2D, textures[filter]);
                         gl.uniform1i(shaderProgram_samplerUniform, 0);
 
+                        #region new in lesson 07
+                        var lighting = page.lighting.@checked;
+                        gl.uniform1i(shaderProgram_useLightingUniform, lighting.ToInt32());
+                        if (lighting)
+                        {
+                            gl.uniform3f(
+                                shaderProgram_ambientColorUniform,
+                                page.ambientR.ToFloat(),
+                                page.ambientG.ToFloat(),
+                                page.ambientB.ToFloat()
+                            );
+
+                            var lightingDirection = new[]{
+                                page.lightDirectionX.ToFloat(),
+                                page.lightDirectionY.ToFloat(),
+                                page.lightDirectionZ.ToFloat()
+                            };
+                            var adjustedLD = __glMatrix.vec3.create();
+                            __glMatrix.vec3.normalize(lightingDirection, adjustedLD);
+                            __glMatrix.vec3.scale(adjustedLD, -1);
+                            gl.uniform3fv(shaderProgram_lightingDirectionUniform, adjustedLD);
+
+                            gl.uniform3f(
+                                shaderProgram_directionalColorUniform,
+                                page.directionalR.ToFloat(),
+                                page.directionalG.ToFloat(),
+                                page.directionalB.ToFloat()
+                            );
+                        }
+
+                        #endregion
 
                         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                         setMatrixUniforms();

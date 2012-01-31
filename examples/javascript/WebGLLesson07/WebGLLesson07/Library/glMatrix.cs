@@ -4,7 +4,38 @@ using ScriptCoreLib.JavaScript.WebGL;
 
 namespace WebGLLesson07.Library
 {
+    [Script(HasNoPrototype = true, ExternalTarget = "mat3")]
+    internal class mat3
+    {
+        internal Float32Array create()
+        {
+            throw new NotImplementedException();
+        }
 
+        internal void transpose(object normalMatrix)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [Script(HasNoPrototype = true, ExternalTarget = "vec3")]
+    internal class vec3
+    {
+        internal Float32Array create()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal  void normalize(float[] lightingDirection, object adjustedLD)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal  void scale(object adjustedLD, int p)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     [Script(HasNoPrototype = true, ExternalTarget = "mat4")]
     internal class mat4
@@ -44,6 +75,11 @@ namespace WebGLLesson07.Library
         {
             throw new NotImplementedException();
         }
+
+        internal void toInverseMat3(Float32Array mvMatrix, object normalMatrix)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     [Script]
@@ -53,6 +89,12 @@ namespace WebGLLesson07.Library
 
         [Script(ExternalTarget = "mat4")]
         static public mat4 mat4;
+
+        [Script(ExternalTarget = "mat3")]
+        static public mat3 mat3;
+
+        [Script(ExternalTarget = "vec3")]
+        static public vec3 vec3;
     }
 
 }
