@@ -167,7 +167,7 @@
     <Compile Include="Library\glMatrix.cs">
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\crate.gif" />
+    <Content Include="Design\Images\glass.gif" />
     <Content Include="Design\Preview.png" />
     <Content Include="Library\glMatrix.js">
     </Content>
@@ -179,7 +179,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
 )
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true

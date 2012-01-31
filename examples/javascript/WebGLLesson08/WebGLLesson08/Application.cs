@@ -167,6 +167,7 @@ namespace WebGLLesson08
             var shaderProgram_ambientColorUniform = getUniformLocation("uAmbientColor");
             var shaderProgram_lightingDirectionUniform = getUniformLocation("uLightingDirection");
             var shaderProgram_directionalColorUniform = getUniformLocation("uDirectionalColor");
+            var shaderProgram_alphaUniform = getUniformLocation("uAlpha");
             #endregion
 
             #endregion
@@ -425,7 +426,7 @@ namespace WebGLLesson08
                    currentlyPressedKeys[e.KeyCode] = false;
                };
 
-            new WebGLLesson08.HTML.Images.FromAssets.crate().InvokeOnComplete(
+            new WebGLLesson08.HTML.Images.FromAssets.glass().InvokeOnComplete(
                 texture_image =>
                 {
                     #region handleLoadedTexture - new in lesson 06
@@ -513,6 +514,22 @@ namespace WebGLLesson08
                         gl.activeTexture(gl.TEXTURE0);
                         gl.bindTexture(gl.TEXTURE_2D, textures[filter]);
                         gl.uniform1i(shaderProgram_samplerUniform, 0);
+
+                        #region new in lesson 08
+
+                        var blending = page.blending.@checked;
+                        if (blending) {
+                            gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+                            gl.enable(gl.BLEND);
+                            gl.disable(gl.DEPTH_TEST);
+                            gl.uniform1f(shaderProgram_alphaUniform, page.alpha.ToFloat());
+                        } else {
+                            gl.disable(gl.BLEND);
+                            gl.enable(gl.DEPTH_TEST);
+                        }
+
+                        #endregion
+
 
                         #region new in lesson 07
                         var lighting = page.lighting.@checked;
