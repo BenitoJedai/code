@@ -124,8 +124,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders.vNext\EscherDorsteFragmentShader.cs" />
-    <Compile Include="Shaders.vNext\EscherDorsteVertexShader.cs" />
+    <Compile Include="Shaders\EscherDorsteFragmentShader.cs" >
+      <DependentUpon>EscherDorste.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\EscherDorsteVertexShader.cs" >
+      <DependentUpon>EscherDorste.vert</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />

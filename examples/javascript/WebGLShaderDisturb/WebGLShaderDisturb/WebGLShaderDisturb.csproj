@@ -121,8 +121,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders.vNext\DisturbVertexShader.cs" />
-    <Compile Include="Shaders.vNext\DisturbFragmentShader.cs" />
+    <Compile Include="Shaders\DisturbVertexShader.cs" >
+      <DependentUpon>Disturb.vert</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\DisturbFragmentShader.cs" >
+      <DependentUpon>Disturb.frag</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
