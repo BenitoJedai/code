@@ -389,5 +389,37 @@ namespace ScriptCoreLib.JavaScript.DOM
 		/// see: http://creativepark.net/blog/entry/id/1191
 		/// </summary>
 		public IFunction openDatabase;
+
+
+
+
+        public event System.Action requestAnimationFrame
+		{
+			[Script(DefineAsStatic = true)]
+			add
+			{
+                // https://developer.mozilla.org/en/DOM/window.requestAnimationFrame
+
+                #region requestAnimFrame
+                var requestAnimFrame = (IFunction)new IFunction(
+                    @"return window.requestAnimationFrame ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame ||
+         window.oRequestAnimationFrame ||
+         window.msRequestAnimationFrame ||
+         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+           window.setTimeout(callback, 1000/60);
+         };"
+                ).apply(null);
+                #endregion
+
+                requestAnimFrame.apply(null, IFunction.OfDelegate(value));
+			}
+			[Script(DefineAsStatic = true)]
+			remove
+			{
+				throw new System.NotSupportedException();
+			}
+		}
     }
 }
