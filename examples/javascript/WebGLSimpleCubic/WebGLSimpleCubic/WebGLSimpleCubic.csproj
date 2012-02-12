@@ -126,11 +126,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\CanvasMatrix.cs" />
-    <Compile Include="Shaders.vNext\LineFragmentShader.cs" />
-    <Compile Include="Shaders.vNext\LineVertexShader.cs" />
-    <Compile Include="Shaders.vNext\CubicFragmentShader.cs" />
-    <Compile Include="Shaders.vNext\CubicVertexShader.cs" />
+    <Compile Include="Library\CanvasMatrix.cs" >
+      <DependentUpon>CanvasMatrix.js</DependentUpon>
+    </Compile>
+    
+    <Compile Include="Shaders\LineFragmentShader.cs" >
+      <DependentUpon>Line.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\LineVertexShader.cs" >
+      <DependentUpon>Line.vert</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\CubicFragmentShader.cs" >
+      <DependentUpon>Cubic.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\CubicVertexShader.cs" >
+      <DependentUpon>Cubic.vert</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
