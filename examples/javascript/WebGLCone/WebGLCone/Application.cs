@@ -220,10 +220,10 @@ namespace WebGLCone
 
             Action drawScene = delegate
             {
-                rotMat.rotate(xRot / 5, 1, 0, 0); 
+                rotMat.rotate(xRot / 5, 1, 0, 0);
                 rotMat.rotate(yRot / 5, 0, 1, 0);
 
-                yRot = 0; 
+                yRot = 0;
                 xRot = 0;
 
                 mvMatrix.load(rotMat);
@@ -235,19 +235,6 @@ namespace WebGLCone
                 gl.flush();
             };
 
-
-            #region requestAnimFrame
-            var requestAnimFrame = (IFunction)new IFunction(
-                @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-            ).apply(null);
-            #endregion
 
 
 
@@ -272,7 +259,7 @@ namespace WebGLCone
                 drawScene();
                 //animate();
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                Native.Window.requestAnimationFrame += tick;
             };
 
             tick();

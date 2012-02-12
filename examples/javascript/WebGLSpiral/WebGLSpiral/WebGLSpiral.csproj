@@ -126,8 +126,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders.vNext\SpiralFragmentShader.cs" />
-    <Compile Include="Shaders.vNext\SpiralVertexShader.cs" />
+    <Compile Include="Shaders\SpiralFragmentShader.cs">
+      <DependentUpon>Spiral.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\SpiralVertexShader.cs">
+      <DependentUpon>Spiral.vert</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -142,6 +146,7 @@
     <None Include="Shaders\Spiral.frag" />
     <None Include="Shaders\Spiral.vert" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
