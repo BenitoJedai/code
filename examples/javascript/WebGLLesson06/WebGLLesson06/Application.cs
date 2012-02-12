@@ -310,14 +310,14 @@ namespace WebGLLesson06
             };
 
             var xRot = 0f;
-            var xSpeed = 0f;
+            var xSpeed = 2.0f;
 
             var yRot = 0f;
-            var ySpeed = 0f;
+            var ySpeed = 2.0f;
 
             var z = -5.0f;
 
-            var filter = 0;
+            var filter = 2;
 
             var currentlyPressedKeys = new Dictionary<int, bool>
             {
@@ -446,18 +446,7 @@ namespace WebGLLesson06
                     drawScene();
                     #endregion
 
-                    #region requestAnimFrame
-                    var requestAnimFrame = (IFunction)new IFunction(
-                        @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-                    ).apply(null);
-                    #endregion
+     
 
                     #region handleKeys
                     Action handleKeys =
@@ -513,7 +502,7 @@ namespace WebGLLesson06
                         drawScene();
                         animate();
 
-                        requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                        Native.Window.requestAnimationFrame += tick;
                     };
 
                     tick();

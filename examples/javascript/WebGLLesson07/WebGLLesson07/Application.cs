@@ -143,7 +143,7 @@ namespace WebGLLesson07
 
             #region getAttribLocation
             Func<string, long> getAttribLocation =
-                    name => gl.getAttribLocation(shaderProgram, name); 
+                    name => gl.getAttribLocation(shaderProgram, name);
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
             gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
@@ -384,10 +384,10 @@ namespace WebGLLesson07
             };
 
             var xRot = 0.0f;
-            var xSpeed = 2.1f;
+            var xSpeed = 2.0f;
 
             var yRot = 0.0f;
-            var ySpeed = 2.1f;
+            var ySpeed = 2.0f;
 
             var z = -5.0f;
 
@@ -556,18 +556,7 @@ namespace WebGLLesson07
                     drawScene();
                     #endregion
 
-                    #region requestAnimFrame
-                    var requestAnimFrame = (IFunction)new IFunction(
-                        @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-                    ).apply(null);
-                    #endregion
+
 
                     #region handleKeys
                     Action handleKeys =
@@ -623,7 +612,7 @@ namespace WebGLLesson07
                         drawScene();
                         animate();
 
-                        requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                        Native.Window.requestAnimationFrame += tick;
                     };
 
                     tick();

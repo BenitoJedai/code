@@ -7,22 +7,29 @@ namespace ScriptCoreLib.GLSL
 {
     partial class Shader
     {
-        protected vec2 vec2(float x, float y)
+        // see the "new" keyword :)
+
+        static protected vec2 vec2(float x, float y)
         {
             throw new NotImplementedException();
         }
 
-        protected vec4 vec4(vec2 x, float y, float z)
+        static protected vec3 vec3(float x, float y, float z)
         {
             throw new NotImplementedException();
         }
 
-        protected vec4 vec4(vec3 x, float y)
+        static protected vec4 vec4(vec2 x, float y, float z)
         {
             throw new NotImplementedException();
         }
 
-        protected vec4 vec4(float x, float y, float z, float w)
+        static protected vec4 vec4(vec3 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
+        static protected vec4 vec4(float x, float y, float z, float w)
         {
             throw new NotImplementedException();
         }
