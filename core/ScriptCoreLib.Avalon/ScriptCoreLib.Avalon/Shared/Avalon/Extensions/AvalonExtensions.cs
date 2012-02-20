@@ -16,127 +16,134 @@ namespace ScriptCoreLib.Shared.Avalon.Extensions
 {
 
 
-	// reimplement for target languages
-	public static class AvalonExtensions
-	{
+    // reimplement for target languages
+    public static class AvalonExtensions
+    {
 
 
-		public static AvalonSoundChannel ToSound(this string asset)
-		{
-			return new AvalonSoundChannel();
-		}
+        public static AvalonSoundChannel ToSound(this string asset)
+        {
+            return new AvalonSoundChannel();
+        }
 
-		public static AvalonSoundChannel PlaySound(this string asset)
-		{
-			return new AvalonSoundChannel();
-		}
+        public static AvalonSoundChannel PlaySound(this string asset)
+        {
+            return new AvalonSoundChannel();
+        }
 
-		public static void NavigateTo(this Uri e, DependencyObject context)
-		{
-			if (context != null)
-			{
-				var s = NavigationService.GetNavigationService(context);
+        public static void NavigateTo(this Uri e, DependencyObject context)
+        {
+            if (context != null)
+            {
+                var s = NavigationService.GetNavigationService(context);
 
-				if (s != null)
-				{
-					// http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/6810d6f6-ea51-4efd-a9d4-f75319691a3b/
+                if (s != null)
+                {
+                    // http://social.msdn.microsoft.com/Forums/en-US/wpf/thread/6810d6f6-ea51-4efd-a9d4-f75319691a3b/
 
-					s.Navigate(e);
+                    s.Navigate(e);
 
-					return;
-				}
-			}
+                    return;
+                }
+            }
 
-			NavigateToViaDefaultBrowser(e);
-		}
+            NavigateToViaDefaultBrowser(e);
+        }
 
-		private static void NavigateToViaDefaultBrowser(Uri e)
-		{
-			// http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=910999&SiteID=1
-			// http://msdn.microsoft.com/en-us/library/system.windows.documents.hyperlink.navigateuri.aspx
-			// http://msdn.microsoft.com/en-us/library/ms750478.aspx
-			global::System.Diagnostics.Process.Start(e.ToString());
-		}
+        private static void NavigateToViaDefaultBrowser(Uri e)
+        {
+            // http://forums.microsoft.com/MSDN/ShowPost.aspx?PostID=910999&SiteID=1
+            // http://msdn.microsoft.com/en-us/library/system.windows.documents.hyperlink.navigateuri.aspx
+            // http://msdn.microsoft.com/en-us/library/ms750478.aspx
+            global::System.Diagnostics.Process.Start(e.ToString());
+        }
 
-		public static void ToStringAsset(this string e, Action<string> h)
-		{
-			var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
+        public static void ToStringAsset(this string e, Action<string> h)
+        {
+            var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
 
-			var s = e.ToManifestResourceStream(context);
+            var s = e.ToManifestResourceStream(context);
 
-			s.Stream.Position = 0;
+            s.Stream.Position = 0;
 
-			var b = new byte[s.Stream.Length];
-			s.Stream.Read(b, 0, b.Length);
+            var b = new byte[s.Stream.Length];
+            s.Stream.Read(b, 0, b.Length);
 
-			var v = Encoding.UTF8.GetString(b);
+            var v = Encoding.UTF8.GetString(b);
 
-			h(v);
-		}
+            h(v);
+        }
 
-		public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
-		{
-			var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
-			var s = e.ToManifestResourceStream(context);
+        public static void ToMemoryStreamAsset(this string e, Action<MemoryStream> h)
+        {
+            var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
+            var s = e.ToManifestResourceStream(context);
 
-			s.Stream.Position = 0;
+            s.Stream.Position = 0;
 
-			var b = new byte[s.Stream.Length];
-			s.Stream.Read(b, 0, b.Length);
+            var b = new byte[s.Stream.Length];
+            s.Stream.Read(b, 0, b.Length);
 
-			h(new MemoryStream(b));
-		}
+            h(new MemoryStream(b));
+        }
 
-		internal static ImageSource ToSource(this EmbeddedResourcesExtensions.ManifestResourceEntry fileStream)
-		{
-			var ext = fileStream.File.ToLower();
-			var s = fileStream.Stream;
+        internal static ImageSource ToSource(this EmbeddedResourcesExtensions.ManifestResourceEntry fileStream)
+        {
+            var ext = fileStream.File.ToLower();
+            var s = fileStream.Stream;
 
-			return ToImageSource(ext, s);
+            return ToImageSource(ext, s);
 
-		}
+        }
 
-		internal static BitmapSource ToImageSource(string ext, Stream s)
-		{
-			if (ext.EndsWith(".png"))
-			{
-				var bitmapDecoder = new PngBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
-				return bitmapDecoder.Frames[0];
-			}
+        internal static BitmapSource ToImageSource(string ext, Stream s)
+        {
+            if (ext.EndsWith(".png"))
+            {
+                var bitmapDecoder = new PngBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
+                return bitmapDecoder.Frames[0];
+            }
 
-			if (ext.EndsWith(".gif"))
-			{
-				var bitmapDecoder = new GifBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
-				return bitmapDecoder.Frames[0];
-			}
+            if (ext.EndsWith(".gif"))
+            {
+                var bitmapDecoder = new GifBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
+                return bitmapDecoder.Frames[0];
+            }
 
-			if (ext.EndsWith(".jpg"))
-			{
-				var bitmapDecoder = new JpegBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
-				return bitmapDecoder.Frames[0];
-			}
+            if (ext.EndsWith(".jpg"))
+            {
+                var bitmapDecoder = new JpegBitmapDecoder(s, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
+                return bitmapDecoder.Frames[0];
+            }
+
+            // http://stackoverflow.com/questions/2835502/rotating-cursor-according-to-rotated-textbox
+            // http://stackoverflow.com/questions/46805/custom-cursor-in-wpf
+            // http://stackoverflow.com/questions/2284353/is-there-a-good-way-to-convert-between-bitmapsource-and-bitmap
+            // http://www.gdgsoft.com/anituner/help/aniformat.htm
 
 
-			throw new NotSupportedException(ext);
-		}
+
+            // http://msdn.microsoft.com/en-us/library/ms608877.aspx
+            throw new NotSupportedException(ext);
+        }
 
 
 
-		public static ImageSource ToSource(this string e)
-		{
-			var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
-			// EmbeddedResource?
+        public static ImageSource ToSource(this string e)
+        {
+            var context = new StackFrame(1).GetMethod().DeclaringType.Assembly;
+            // EmbeddedResource?
 
-			return e.ToManifestResourceStream(context).ToSource();
-		}
+            return e.ToManifestResourceStream(context).ToSource();
+        }
 
-		public static BitmapSource ToSource(this Stream e)
-		{
+        public static BitmapSource ToSource(this Stream e)
+        {
 
-			return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-				new System.Drawing.Bitmap(e).GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
-				System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions()
-			);
-		}
-	}
+            return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                new System.Drawing.Bitmap(e).GetHbitmap(), IntPtr.Zero, Int32Rect.Empty,
+                System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions()
+            );
+        }
+    }
 }
