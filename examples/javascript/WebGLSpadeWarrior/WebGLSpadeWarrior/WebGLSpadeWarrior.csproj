@@ -156,6 +156,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\GeometryFragmentShader.cs" >
+      <DependentUpon>Geometry.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\GeometryVertexShader.cs" >
+      <DependentUpon>Geometry.vert</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />

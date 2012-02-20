@@ -228,19 +228,24 @@ namespace WebGLEscherDrosteEffect
 
             var start_time = new IDate().getTime();
 
-            Action loop = delegate
-            {
-                if (IsDisposed)
-                    return;
+            Action loop = null;
 
-                var t = (new IDate().getTime() - start_time) / 1000;
+            loop = delegate
+             {
+                 if (IsDisposed)
+                     return;
 
-                gl.uniform1f(gl.getUniformLocation(program, "t"), t);
-                gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
-                gl.flush();
-            };
+                 var t = (new IDate().getTime() - start_time) / 1000;
 
-            loop.AtInterval(1000 / 60);
+                 gl.uniform1f(gl.getUniformLocation(program, "t"), t);
+                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
+                 gl.flush();
+
+                 Native.Window.requestAnimationFrame += loop;
+
+             };
+
+            loop();
 
 
 
