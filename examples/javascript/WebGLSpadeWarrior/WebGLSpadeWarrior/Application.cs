@@ -1002,19 +1002,7 @@ namespace WebGLSpadeWarrior
             drawScene();
             #endregion
 
-            #region requestAnimFrame
-            var requestAnimFrame = (IFunction)new IFunction(
-                @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-            ).apply(null);
-            #endregion
-
+       
 
 
 
@@ -1032,7 +1020,7 @@ namespace WebGLSpadeWarrior
                 drawScene();
                 animate();
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                Native.Window.requestAnimationFrame += tick;
             };
 
             tick();
@@ -1040,7 +1028,7 @@ namespace WebGLSpadeWarrior
 
 
             #region onkeyup
-            Native.Document.body.onkeyup +=
+            Native.Document.onkeyup +=
                 (e) =>
                 {
                     //Native.Document.title = "" + new { e.KeyCode };
@@ -1075,7 +1063,7 @@ namespace WebGLSpadeWarrior
             #endregion
 
             #region onkeydown
-            Native.Document.body.onkeydown +=
+            Native.Document.onkeydown +=
                 (e) =>
                 {
                     // see also: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes

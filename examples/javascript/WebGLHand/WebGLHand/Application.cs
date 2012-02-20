@@ -509,19 +509,6 @@ namespace WebGLHand
             drawScene();
             #endregion
 
-            #region requestAnimFrame
-            var requestAnimFrame = (IFunction)new IFunction(
-                @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-            ).apply(null);
-            #endregion
-
 
             var c = 0;
 
@@ -749,7 +736,7 @@ namespace WebGLHand
                 drawScene();
                 animate();
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                Native.Window.requestAnimationFrame += tick;
             };
 
             tick();
