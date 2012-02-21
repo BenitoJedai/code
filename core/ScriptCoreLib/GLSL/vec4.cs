@@ -49,6 +49,20 @@ namespace ScriptCoreLib.GLSL
         public genType q;
         #endregion
 
+        #region []
+        public vec3 this[int i]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        #endregion
+
 
         // see
         // http://www.opengl.org/wiki/GLSL_:_common_mistakes

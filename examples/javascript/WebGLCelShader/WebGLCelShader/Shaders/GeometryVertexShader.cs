@@ -10,16 +10,26 @@ namespace WebGLCelShader.Shaders
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __GeometryVertexShader : ScriptCoreLib.GLSL.VertexShader
     {
-[uniform] mat4 objectMatrix;
-[uniform] mat4 modelViewMatrix;
-[uniform] mat4 projectionMatrix;
-[uniform] mat4 viewMatrix;
-[uniform] mat3 normalMatrix;
-[uniform] vec3 cameraPosition;
-[attribute] vec3 position;
-[attribute] vec3 normal;
-[attribute] vec2 uv;
-[attribute] vec2 uv2;
+        [uniform]
+        mat4 objectMatrix;
+        [uniform]
+        mat4 modelViewMatrix;
+        [uniform]
+        mat4 projectionMatrix;
+        [uniform]
+        mat4 viewMatrix;
+        [uniform]
+        mat3 normalMatrix;
+        [uniform]
+        vec3 cameraPosition;
+        [attribute]
+        vec3 position;
+        [attribute]
+        vec3 normal;
+        [attribute]
+        vec2 uv;
+        [attribute]
+        vec2 uv2;
 
         [varying]
         vec3 vNormal;
