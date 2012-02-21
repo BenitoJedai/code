@@ -9,6 +9,11 @@ namespace ScriptCoreLib.GLSL
     {
         // see the "new" keyword :)
 
+        static protected mat3 mat3(float x, float y, float z)
+        {
+            throw new NotImplementedException();
+        }
+
         static protected vec2 vec2(float x, float y)
         {
             throw new NotImplementedException();
@@ -35,5 +40,9 @@ namespace ScriptCoreLib.GLSL
         }
 
      
+        // are those valid?
+
+        protected float length(float x) { throw new NotImplementedException(); }
+
     }
 }

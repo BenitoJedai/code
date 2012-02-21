@@ -10,8 +10,10 @@ namespace WebGLCelShader.Shaders
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __GeometryFragmentShader : FragmentShader
     {
-        [uniform] mat4 viewMatrix;
-        [uniform] vec3 cameraPosition;
+        [uniform]
+        mat4 viewMatrix;
+        [uniform]
+        vec3 cameraPosition;
 
         [uniform]
         vec3 uBaseColor;
@@ -40,7 +42,7 @@ namespace WebGLCelShader.Shaders
             intensity += length(lightWeighting) * 0.2f;
 
             float cameraWeighting = dot(normalize(vNormal), vRefract);
-            intensity += pow(1.0 - length(cameraWeighting), 6.0f);
+            intensity += pow(1.0f - length(cameraWeighting), 6.0f);
             intensity = intensity * 0.2f + 0.3f;
 
             if (intensity < 0.50)

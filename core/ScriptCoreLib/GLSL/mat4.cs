@@ -10,6 +10,20 @@ namespace ScriptCoreLib.GLSL
     {
         // see also: http://cgkit.sourceforge.net/doc2/mat4.html
 
+        #region []
+        public mat3 this[int i]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+        #endregion
+
         public static mat4 operator *(mat4 x, mat4 y)
         {
             throw new NotImplementedException();

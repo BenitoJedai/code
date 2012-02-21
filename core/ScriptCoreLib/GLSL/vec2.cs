@@ -39,6 +39,7 @@ namespace ScriptCoreLib.GLSL
         public genType t;
         #endregion
 
+        #region []
         public genType this[int i]
         {
             get
@@ -50,6 +51,8 @@ namespace ScriptCoreLib.GLSL
                 throw new NotImplementedException();
             }
         }
+        #endregion
+
 
         public static vec2 operator *(float x, vec2 y)
         {
