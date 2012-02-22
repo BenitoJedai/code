@@ -78,6 +78,11 @@ namespace WebGLCelShader.Library.THREE
         {
             throw new NotImplementedException();
         }
+
+        internal void setSize(int size, int size_2)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     sealed class MeshShaderMaterialArguments
