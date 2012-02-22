@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLCelShader.HTML.Pages;
+using WebGLCelShader.Library;
 
 namespace WebGLCelShader
 {
@@ -22,6 +23,7 @@ namespace WebGLCelShader
     using WebGLCelShader.Shaders;
     using WebGLCelShader.Library;
     using System.Collections.Generic;
+    using THREE = WebGLCelShader.Library.THREE;
 
 
     /// <summary>
@@ -41,17 +43,19 @@ namespace WebGLCelShader
         public Application(IDefaultPage page)
         {
             #region ThreeExtras
-            new ThreeExtras().Content.With(
+            new WebGLCelShader.Library.THREE.__ThreeExtras().Content.With(
                source =>
                {
                    source.onload +=
                        delegate
                        {
-                           new Target().Content.With(
-                                source2 =>
-                                {
-                                }
-                            ).AttachToDocument();
+                           InitializeContent(page);
+
+                           //new Target().Content.With(
+                           //     source2 =>
+                           //     {
+                           //     }
+                           // ).AttachToDocument();
                        };
 
                }
@@ -67,94 +71,100 @@ namespace WebGLCelShader
             );
         }
 
+        sealed class MyUniforms
+        {
+            public sealed class MyUniform
+            {
+                public string type;
+                public object value;
+
+            }
+
+            public MyUniform uDirLightPos = new MyUniform { type = "v3", value = new THREE.Vector3() };
+            public MyUniform uDirLightColor = new MyUniform { type = "c", value = new THREE.Color(0xeeeeee) };
+            public MyUniform uAmbientLightColor = new MyUniform { type = "c", value = new THREE.Color(0x050505) };
+            public MyUniform uBaseColor = new MyUniform { type = "c", value = new THREE.Color(0xff0000) };
+        }
+
         void InitializeContent(IDefaultPage page)
         {
             page.PageContainer.style.color = Color.Blue;
 
-            var size = 500;
+            var windowHalfX = Native.Window.Width / 2;
+            var windowHalfY = Native.Window.Height / 2;
 
-            #region canvas
-            var canvas = new IHTMLCanvas().AttachToDocument();
+            ///////////////////////////////
+            var container = page.container;
+            var camera = new THREE.Camera(40, windowHalfX / windowHalfY, 1, 3000);
+            camera.position.z = 1000;
 
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            var scene = new THREE.Scene();
 
-            canvas.width = size;
-            canvas.height = size;
-            #endregion
+            var light = new THREE.DirectionalLight(0xffffff);
+            light.position.x = 1;
+            light.position.y = 0;
+            light.position.z = 1;
+            scene.addLight(light);
 
-            #region gl - Initialise WebGL
+            var renderer = new THREE.WebGLRenderer();
+            container.appendChild(renderer.domElement);
 
+            var geometry = new THREE.Torus(50, 20, 15, 15);
 
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-            #endregion
+            var uniforms = new MyUniforms();
 
 
-
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
-
-
-            var h = 1f;
-            var r1 = .5f;
-            var r2 = .2f;
-            var nPhi = 500;
-
-
-            var prog = gl.createProgram();
-
-
-            #region createShader
-            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+            var material_base = new THREE.MeshShaderMaterial(
+                new THREE.MeshShaderMaterialArguments
                 {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    uniforms = THREE.__ThreeExtras.Uniforms.clone(uniforms),
+                    vertex_shader = new GeometryVertexShader().ToString(),
+                    fragment_shader = new GeometryFragmentShader().ToString()
                 }
+            );
 
-                return shader;
-            };
-            #endregion
+            renderer.initMaterial(material_base, scene.lights, scene.fog);
 
-            var vs = createShader(new GeometryVertexShader());
-            var fs = createShader(new GeometryFragmentShader());
-
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
-
-            gl.attachShader(prog, vs);
-            gl.attachShader(prog, fs);
+            var r = new Random();
+            Func<float> Math_random = () => (float)r.NextDouble();
 
 
-            gl.linkProgram(prog);
-            gl.useProgram(prog);
+            for (var i = 0; i < 100; i++)
+            {
+                var material_uniforms = (MyUniforms)THREE.__ThreeExtras.Uniforms.clone(uniforms);
+
+                var material = new THREE.MeshShaderMaterial(
+                     new THREE.MeshShaderMaterialArguments
+                     {
+                         uniforms = material_uniforms,
+                         vertex_shader = new GeometryVertexShader().ToString(),
+                         fragment_shader = new GeometryFragmentShader().ToString()
+                     }
+                 );
 
 
+                material.program = material_base.program;
 
+                material_uniforms.uDirLightPos.value = light.position;
+                material_uniforms.uDirLightColor.value = light.color;
+                material_uniforms.uBaseColor.value = new THREE.Color((int)(Math_random() * 0xffffff));
 
+                var mesh = new THREE.Mesh(geometry, material);
+                mesh.position.x = Math_random() * 800f - 400f;
+                mesh.position.y = Math_random() * 800f - 400f;
+                mesh.position.z = Math_random() * 800f - 400f;
 
+                mesh.rotation.x = Math_random() * 360f * (float)Math.PI / 180f;
+                mesh.rotation.y = Math_random() * 360f * (float)Math.PI / 180f;
+                mesh.rotation.z = Math_random() * 360f * (float)Math.PI / 180f;
+
+                scene.addObject(mesh);
+
+            }
+
+            ///////////////////////////////
 
             var c = 0;
-
-
 
 
             #region tick - new in lesson 03
@@ -168,7 +178,26 @@ namespace WebGLCelShader
 
                 Native.Document.title = "" + c;
 
-             
+                var time = new IDate().getTime() * 0.0004;
+
+                var l = scene.objects.Length;
+
+                for (var i = 0; i < l; i++)
+                {
+
+                    scene.objects[i].rotation.x += 0.01f;
+                    scene.objects[i].rotation.y += 0.01f;
+
+                }
+
+                /*
+                light.position.x = Math.sin( time );
+                light.position.z = Math.cos( time );
+                light.position.y = 0.5;
+                light.position.normalize();
+                */
+
+                renderer.render(scene, camera);
 
                 Native.Window.requestAnimationFrame += tick;
             };
