@@ -1,5 +1,5 @@
-﻿uniform mat4 viewMatrix;
-uniform vec3 cameraPosition;
+﻿//uniform mat4 viewMatrix;
+//uniform vec3 cameraPosition;
 uniform vec3 uBaseColor;
 
 uniform vec3 uDirLightPos;

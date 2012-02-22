@@ -90,11 +90,17 @@ namespace WebGLCelShader
         {
             page.PageContainer.style.color = Color.Blue;
 
-            var windowHalfX = Native.Window.Width / 2;
-            var windowHalfY = Native.Window.Height / 2;
+            var size = 600;
+
+            
+            var windowHalfX = size / 2;
+            var windowHalfY = size / 2;
 
             ///////////////////////////////
             var container = page.container;
+
+            container.style.SetSize(size, size);
+
             var camera = new THREE.Camera(40, windowHalfX / windowHalfY, 1, 3000);
             camera.position.z = 1000;
 
@@ -166,6 +172,7 @@ namespace WebGLCelShader
 
             var c = 0;
 
+            renderer.setSize(size, size);
 
             #region tick - new in lesson 03
             var tick = default(Action);
