@@ -22,7 +22,6 @@ namespace WebGLCelShader
     using WebGLCelShader.Shaders;
     using WebGLCelShader.Library;
     using System.Collections.Generic;
-    using WebGLSimpleCubic.Library;
 
 
     /// <summary>
@@ -150,95 +149,6 @@ namespace WebGLCelShader
 
 
 
-            var pt = new IArray<float>();
-            var nt = new IArray<float>();
-            var Phi = 0.0;
-            var dPhi = 2 * Math.PI / (nPhi - 1);
-
-            var Nx = r1 - r2;
-            var Ny = h;
-            var N = (float)Math.Sqrt(Nx * Nx + Ny * Ny);
-
-            Nx /= N;
-            Ny /= N;
-
-            for (var i = 0; i < nPhi; i++)
-            {
-                var cosPhi = Math.Cos(Phi);
-                var sinPhi = Math.Sin(Phi);
-                var cosPhi2 = Math.Cos(Phi + dPhi / 2);
-                var sinPhi2 = Math.Sin(Phi + dPhi / 2);
-
-                pt.push(-h / 2);
-                pt.push((float)(cosPhi * r1));
-                pt.push((float)(sinPhi * r1));   // points
-
-                nt.push(Nx);
-                nt.push((float)(Ny * cosPhi));
-                nt.push((float)(Ny * sinPhi));         // normals
-
-                pt.push(h / 2);
-                pt.push((float)(cosPhi2 * r2));
-                pt.push((float)(sinPhi2 * r2));  // points
-
-                nt.push(Nx);
-                nt.push((float)(Ny * cosPhi2));
-                nt.push((float)(Ny * sinPhi2));       // normals
-
-                Phi += dPhi;
-            }
-
-            var posLoc = gl.getAttribLocation(prog, "aPos");
-            gl.enableVertexAttribArray((ulong)posLoc);
-            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt.ToArray()), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((ulong)posLoc, 3, gl.FLOAT, false, 0, 0);
-
-            var normLoc = gl.getAttribLocation(prog, "aNorm");
-            gl.enableVertexAttribArray((ulong)normLoc);
-            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nt), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((ulong)normLoc, 3, gl.FLOAT, false, 0, 0);
-
-            var prMatrix = new CanvasMatrix4();
-            prMatrix.perspective(45, 1, .1, 100);
-            gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
-               false, new Float32Array(prMatrix.getAsArray()));
-            var mvMatrix = new CanvasMatrix4();
-            var rotMat = new CanvasMatrix4();
-            rotMat.makeIdentity();
-            rotMat.rotate(-40, 0, 1, 0);
-            var mvMatLoc = gl.getUniformLocation(prog, "mvMatrix");
-
-            gl.enable(gl.DEPTH_TEST);
-            gl.depthFunc(gl.LEQUAL);
-            gl.clearDepth(1.0f);
-            gl.clearColor(0, 0, .5f, 1);
-            var xOffs = 0;
-            var yOffs = 0;
-            var drag = 0;
-            var xRot = 0;
-            var yRot = 0;
-            var transl = -1.5;
-
-            Action drawScene = delegate
-            {
-                rotMat.rotate(xRot / 5, 1, 0, 0);
-                rotMat.rotate(yRot / 5, 0, 1, 0);
-
-                yRot = 0;
-                xRot = 0;
-
-                mvMatrix.load(rotMat);
-                mvMatrix.translate(0, 0, transl);
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-                gl.uniformMatrix4fv(mvMatLoc, false,
-                  new Float32Array(mvMatrix.getAsArray()));
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 2 * nPhi);
-                gl.flush();
-            };
-
-
 
 
 
@@ -254,13 +164,11 @@ namespace WebGLCelShader
             {
                 c++;
 
-                xRot += 2;
-                yRot += 3;
+
 
                 Native.Document.title = "" + c;
 
-                drawScene();
-                //animate();
+             
 
                 Native.Window.requestAnimationFrame += tick;
             };

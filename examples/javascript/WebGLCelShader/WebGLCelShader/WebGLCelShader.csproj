@@ -129,6 +129,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\ThreeExtras.cs">
+      <DependentUpon>ThreeExtras.js</DependentUpon>
+    </Compile>
     <Compile Include="Shaders\GeometryFragmentShader.cs">
       <DependentUpon>Geometry.frag</DependentUpon>
     </Compile>
@@ -136,9 +139,6 @@
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\CanvasMatrix.cs">
-      <DependentUpon>CanvasMatrix.js</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -146,7 +146,6 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Library\CanvasMatrix.js" />
     <Content Include="Library\Target.js" />
     <Content Include="Library\ThreeExtras.js" />
   </ItemGroup>
