@@ -1,27 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
 using WebGLLesson04.HTML.Pages;
+using WebGLLesson04.Library;
+using WebGLLesson04.Shaders;
 
 namespace WebGLLesson04
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLLesson04.Shaders;
-    using WebGLLesson04.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
@@ -449,18 +450,7 @@ namespace WebGLLesson04
             drawScene();
             #endregion
 
-            #region requestAnimFrame
-            var requestAnimFrame = (IFunction)new IFunction(
-                @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-            ).apply(null);
-            #endregion
+        
 
 
             var c = 0;
@@ -477,7 +467,7 @@ namespace WebGLLesson04
                 drawScene();
                 animate();
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                Native.Window.requestAnimationFrame += tick;
             };
 
             tick();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib;
 
 namespace WebGLTunnel.References
 {
@@ -14,5 +15,36 @@ namespace WebGLTunnel.References
         // or actually just using this from Application should trigger the download
         // before app launch
 
+        [Script(ExternalTarget = "Vector")]
+        static public Vector Vector;
+
+        [Script(ExternalTarget = "Matrix")]
+        static public Matrix Matrix;
+    }
+
+    [Script(HasNoPrototype = true, ExternalTarget = "Vector")]
+    internal partial class Vector
+    {
+        internal Vector create(float[] p)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    // http://sylvester.jcoglan.com/api/matrix
+    [Script(HasNoPrototype = true, ExternalTarget = "Matrix")]
+    internal partial class Matrix
+    {
+
+        // static
+        internal Matrix I(int p)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Matrix x(Matrix m)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
