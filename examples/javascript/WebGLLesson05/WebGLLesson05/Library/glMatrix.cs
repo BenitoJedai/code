@@ -4,7 +4,14 @@ using ScriptCoreLib.JavaScript.WebGL;
 
 namespace WebGLLesson05.Library
 {
+    [Script]
+    internal class __glMatrix : glMatrix
+    {
+        // this should be generated via assets build :)
 
+        [Script(ExternalTarget = "mat4")]
+        static public mat4 mat4;
+    }
 
     [Script(HasNoPrototype = true, ExternalTarget = "mat4")]
     internal class mat4
@@ -46,13 +53,6 @@ namespace WebGLLesson05.Library
         }
     }
 
-    [Script]
-    internal class __glMatrix : glMatrix
-    {
-        // this should be generated via assets build :)
 
-        [Script(ExternalTarget = "mat4")]
-        static public mat4 mat4;
-    }
 
 }
