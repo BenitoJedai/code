@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using WebGLTunnel.HTML.Pages;
 using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript.WebGL;
+using WebGLTunnel.Library;
 
 namespace WebGLTunnel
 {
@@ -20,6 +21,7 @@ namespace WebGLTunnel
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
     using WebGLTunnel.Shaders;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -36,220 +38,32 @@ namespace WebGLTunnel
         {
             // view-source:http://www.rozengain.com/files/webgl/tunnel/
 
-            var parameters_start_time = new IDate().getTime();
-            var parameters_time = 0L;
-            var parameters_screenWidth = 0;
-            var parameters_screenHeight = 0;
+            #region __sylvester -> __glUtils -> InitializeContent
+            new WebGLTunnel.References.__sylvester().Content.With(
+               source =>
+               {
+                   source.onload +=
+                       delegate
+                       {
+                           new WebGLTunnel.References.__glUtils().Content.With(
+                               source2 =>
+                               {
+                                   source2.onload +=
+                                       delegate
+                                       {
+                                           InitializeContent(page);
 
-            var canvas = new IHTMLCanvas();
 
-            var IsDisposed = false;
+                                       };
+                               }
+                            ).AttachToDocument();
 
-            Dispose = delegate
-            {
-                if (IsDisposed)
-                    return;
 
-                IsDisposed = true;
-
-                canvas.Orphanize();
-            };
-
-            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-
-            canvas.AttachToDocument();
-            canvas.style.SetLocation(0, 0);
-
-            // Initialise WebGL
-
-            var gl = default(WebGLRenderingContext);
-
-            try
-            {
-
-                gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
-
-            }
-            catch { }
-
-            if (gl == null)
-            {
-                Native.Window.alert("WebGL not supported");
-                throw new InvalidOperationException("cannot create webgl context");
-            }
-
-            // Create Vertex buffer (2 triangles)
-
-            var buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f), gl.STATIC_DRAW);
-
-            // Create Program
-
-            #region createShader
-            Func<Shader, WebGLShader> createShader = (src) =>
-            {
-                var shader = gl.createShader(src);
-
-                // verify
-                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
-                {
-                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
-                }
-
-                return shader;
-            };
+                       };
+               }
+            ).AttachToDocument();
             #endregion
 
-            #region createProgram
-            Func<WebGLProgram> createProgram = () =>
-            {
-
-                var program = gl.createProgram();
-
-                var vs = createShader(new DisturbVertexShader());
-                var fs = createShader(new DisturbFragmentShader());
-
-                if (vs == null || fs == null) return null;
-
-                gl.attachShader(program, vs);
-                gl.attachShader(program, fs);
-
-                gl.deleteShader(vs);
-                gl.deleteShader(fs);
-
-                gl.linkProgram(program);
-
-                if (gl.getProgramParameter(program, gl.LINK_STATUS) == null)
-                {
-
-                    Native.Window.alert("ERROR:\n" +
-                    "VALIDATE_STATUS: " + gl.getProgramParameter(program, gl.VALIDATE_STATUS) + "\n" +
-                    "ERROR: " + gl.getError() + "\n\n"
-                   );
-
-                    return null;
-
-                }
-
-                return program;
-
-            };
-            #endregion
-
-            var currentProgram = createProgram();
-
-            #region loadTexture
-            Func<IHTMLImage, WebGLTexture> loadTexture = (image) =>
-            {
-
-                var texture_ = gl.createTexture();
-
-                image.InvokeOnComplete(
-                    delegate
-                    {
-
-                        gl.enable(gl.TEXTURE_2D);
-                        gl.bindTexture(gl.TEXTURE_2D, texture_);
-                        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (long)gl.REPEAT);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (long)gl.REPEAT);
-                        gl.generateMipmap(gl.TEXTURE_2D);
-                        gl.bindTexture(gl.TEXTURE_2D, null);
-
-
-                    }
-                );
-
-                return texture_;
-
-            };
-            #endregion
-
-
-            var texture = loadTexture(new HTML.Images.FromAssets.disturb());
-
-
-            var vertexPositionLocation = default(long);
-            var textureLocation = default(WebGLUniformLocation);
-
-            #region loop
-            Action loop = delegate
-            {
-
-                if (currentProgram == null) return;
-
-                parameters_time = new IDate().getTime() - parameters_start_time;
-
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-                // Load program into GPU
-
-                gl.useProgram(currentProgram);
-
-                // Get var locations
-
-                vertexPositionLocation = gl.getAttribLocation(currentProgram, "position");
-                textureLocation = gl.getUniformLocation(currentProgram, "texture");
-
-                // Set values to program variables
-
-                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-
-                gl.uniform1i(textureLocation, 0);
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, texture);
-
-                // Render geometry
-
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.vertexAttribPointer((ulong)vertexPositionLocation, 2, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray((ulong)vertexPositionLocation);
-                gl.drawArrays(gl.TRIANGLES, 0, 6);
-                gl.disableVertexAttribArray((ulong)vertexPositionLocation);
-
-            };
-            #endregion
-
-            Action resize = delegate
-            {
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
-
-                parameters_screenWidth = canvas.width;
-                parameters_screenHeight = canvas.height;
-
-                gl.viewport(0, 0, canvas.width, canvas.height);
-            };
-
-            Native.Window.onresize +=
-                delegate
-                {
-                    if (IsDisposed)
-                        return;
-
-                    resize();
-                };
-
-            resize();
-
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
-                {
-                    if (IsDisposed)
-                    {
-                        t.Stop();
-                        return;
-                    }
-
-                    loop();
-                }
-            ).StartInterval(1000 / 60);
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -260,6 +74,76 @@ namespace WebGLTunnel
         }
 
         public readonly Action Dispose;
+
+        void InitializeContent(IDefaultPage page)
+        {
+            var vertices = new List<double>();
+            var indices = new List<double>();
+            var colors = new List<double>();
+            var uvs = new List<double>();
+
+            var radius = 7;
+            var currentRadius = radius;
+            var segments = 24;
+            var spacing = 2;
+            var numRings = 18;
+            var index = 0;
+            var currentTime = 0;
+            var drawingMode = 0;
+
+
+            #region generateGeometry
+            Action generateGeometry = delegate
+            {
+                for (var ring = 0; ring < numRings; ring++)
+                {
+                    for (var segment = 0; segment < segments; segment++)
+                    {
+                        var degrees = (360 / segments) * segment;
+                        var radians = (Math.PI / 180) * degrees;
+                        var x = Math.Cos(radians) * currentRadius;
+                        var y = Math.Sin(radians) * currentRadius;
+                        var z = ring * -spacing;
+
+                        vertices.Add(x, y, z);
+
+                        if (segment < (segments - 1) / 2)
+                        {
+                            uvs.Add((1.0 / (segments)) * segment * 2, (1.0 / 4) * ring);
+                        }
+                        else
+                        {
+                            uvs.Add(2.0 - ((1.0 / (segments)) * segment * 2), (1.0 / 4) * ring);
+                        }
+
+                        var color = 1.0 - ((1.0 / (numRings - 1)) * ring);
+                        colors.Add(color, color, color, 1.0);
+
+                        if (ring < numRings - 1)
+                        {
+                            if (segment < segments - 1)
+                            {
+                                indices.Add(index, index + segments + 1, index + segments);
+                                indices.Add(index, index + 1, index + segments + 1);
+                            }
+                            else
+                            {
+                                indices.Add(index, index + 1, index + segments);
+                                indices.Add(index, index - segments + 1, index + 1);
+                            }
+                        }
+
+                        index++;
+                    }
+                    currentRadius -= radius / numRings;
+                }
+            };
+            #endregion
+
+
+            generateGeometry();
+
+        }
     }
 
 }
