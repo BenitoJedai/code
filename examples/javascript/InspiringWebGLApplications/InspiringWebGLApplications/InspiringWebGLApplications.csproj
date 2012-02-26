@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{98BF0944-D845-42E1-9D49-6BCDD08A6EC4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InspiringWebGLApplications</RootNamespace>
+    <AssemblyName>InspiringWebGLApplications</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>InspiringWebGLApplications.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Assets\</OutputPath>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ScriptCoreLib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Query">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Windows.Forms">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.XLinq">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Components">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.VisualBasic">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.VisualBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="InspiringWebGLApplications.UltraSource">
+      <HintPath>bin\staging.UltraSource\InspiringWebGLApplications.UltraSource.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\10_fps_-_Google_Chrome-2012-02-26_21.35.27.png" />
+    <Content Include="Design\2D_noise_-_Google_Chrome-2012-02-26_21.42.04.png" />
+    <Content Include="Design\3dgames_-_Owietlenie_globalne_oraz_wiato_kierunkowe_w_WebGL_-_Google_Chrome-2012-02-26_20.43.55.png" />
+    <Content Include="Design\65fps_-_Google_Chrome-2012-02-26_21.33.33.png" />
+    <Content Include="Design\Asteroids_WebGL_Game_with_HTML_5_Audio_-_Google_Chrome-2012-02-26_20.34.20.png" />
+    <Content Include="Design\Beanstalk_-_Google_Chrome-2012-02-26_21.59.18.jpg" />
+    <Content Include="Design\blackberry.github.comWebGL-Samplestunneltilt_-_Google_Chrome-2012-02-26_20.37.21.png" />
+    <Content Include="Design\blog.thejit.orgassetsmarching-cubes1index.html_-_Google_Chrome-2012-02-26_20.09.00.png" />
+    <Content Include="Design\Brain_Surface_and_Tractography_Viewer_-_Google_Chrome-2012-02-26_20.31.31.png" />
+    <Content Include="Design\C-Cab_night_drive_WebGL_Three.js_example__Stickman_Ventures_-_Google_Chrome-2012-02-26_20.19.45.png" />
+    <Content Include="Design\Cars_Editor_WebGL_-_Google_Chrome-2012-02-26_19.44.39.png" />
+    <Content Include="Design\CubicVR.js_Dynamic_VBO_wave_pool_hold_spacebar_for_larger_waves_-_Google_Chrome-2012-02-26_19.35.05.png" />
+    <Content Include="Design\Cubic_Bezier_spline_flower_-_Google_Chrome-2012-02-26_21.45.21.png" />
+    <Content Include="Design\Cuboctahedron_-_Google_Chrome-2012-02-26_21.49.24.png" />
+    <Content Include="Design\Cycleblob_-_A_WebGL_lightcycle_game_-_Google_Chrome-2012-02-26_20.22.38.png" />
+    <Content Include="Design\Default.htm" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ApplicationWebService.cs" />
+    <Compile Include="Application.cs" />
+    <Compile Include="Program.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Content Include="Design\Demo_WebGL_Photo_Album_-_Google_Chrome-2012-02-26_21.37.12.jpg" />
+    <Content Include="Design\Endless_Forest_-_Google_Chrome-2012-02-26_20.59.20.png" />
+    <Content Include="Design\Endless_Tunnel_-_Google_Chrome-2012-02-26_19.32.26.jpg" />
+    <Content Include="Design\Ethanol_molecule_-_Google_Chrome-2012-02-26_21.41.33.png" />
+    <Content Include="Design\Explosion_-_Google_Chrome-2012-02-26_19.36.43.png" />
+    <Content Include="Design\four_-_Wloom_-_Google_Chrome-2012-02-26_20.49.36.png" />
+    <Content Include="Design\Futurama_-_Google_Chrome-2012-02-26_21.00.47.png" />
+    <Content Include="Design\GaN_crystal_-_Google_Chrome-2012-02-26_21.47.46.png" />
+    <Content Include="Design\gdd11-webgl.appspot.comthreethree_11.html_-_Google_Chrome-2012-02-26_20.12.59.png" />
+    <Content Include="Design\gdd11-webgl.appspot.comthreethree_8.html_-_Google_Chrome-2012-02-26_20.11.56.png" />
+    <Content Include="Design\GLSL_Sandbox_-_Google_Chrome-2012-02-26_19.53.07.png" />
+    <Content Include="Design\HelloRacer_WebGL_-_Google_Chrome-2012-02-26_19.54.48.png" />
+    <Content Include="Design\IEWebGL_-_WebGL_for_Internet_Explorer_-_Render_To_Texture_Sample_-_Google_Chrome-2012-02-26_19.28.11.png" />
+    <Content Include="Design\js_cloth_-_Google_Chrome-2012-02-26_22.04.06.png" />
+    <Content Include="Design\Life_under_a_magnifying_glass_-_Google_Chrome-2012-02-26_21.53.20.png" />
+    <Content Include="Design\Lowpoly_army_-_Google_Chrome-2012-02-26_21.02.10.png" />
+    <Content Include="Design\Many_Planets_Deep_-_Google_Chrome-2012-02-26_20.03.29.png" />
+    <Content Include="Design\mapHills_-_Wloom_-_Google_Chrome-2012-02-26_21.30.55.png" />
+    <Content Include="Design\MD2Morphtarget_example_-_Google_Chrome-2012-02-26_21.07.28.png" />
+    <Content Include="Design\NaCl_crystal_-_Google_Chrome-2012-02-26_21.39.36.png" />
+    <Content Include="Design\OpenCloth_WebGL_Demo_by_Movania_Muhammad_Mobeen_-_Google_Chrome-2012-02-26_20.47.05.png" />
+    <Content Include="Design\Pacmaze_-_a_pacman_in_a_maze_-_Google_Chrome-2012-02-26_22.03.20.jpg" />
+    <Content Include="Design\PDE_on_GPU_-_Google_Chrome-2012-02-26_21.56.04.png" />
+    <Content Include="Design\Petors_WebGL-Spielplatz_-_Google_Chrome-2012-02-26_21.32.02.png" />
+    <Content Include="Design\Phthalocyanine_molecule_-_Google_Chrome-2012-02-26_21.42.49.png" />
+    <Content Include="Design\possan.sejunkwebglassindex.html_-_Google_Chrome-2012-02-26_21.24.26.png" />
+    <Content Include="Design\ProjectX_WebGL_Demo_-_Google_Chrome-2012-02-26_20.24.04.png" />
+    <Content Include="Design\ROCKETMANs.NET_Javascript_WebGL_Apache_simulation_landscape_terrain_voxel_experiment_-_Google_Chrome-2012-02-26_19.59.49.png" />
+    <Content Include="Design\Rutt-Etra-Izer_-_Google_Chrome-2012-02-26_20.54.15.png" />
+    <Content Include="Design\Shadow_Mapping_-_Google_Chrome-2012-02-26_19.18.00.png" />
+    <Content Include="Design\Ship_-_shapeWright.com_-_Google_Chrome-2012-02-26_20.18.51.png" />
+    <Content Include="Design\ShowWebGL_-_Google_Chrome-2012-02-26_20.15.34.png" />
+    <Content Include="Design\Sierpinski_Pyramid_in_WebGL_-_Google_Chrome-2012-02-26_21.28.17.png" />
+    <Content Include="Design\Small_stellated_dodecahedron_-_Google_Chrome-2012-02-26_21.40.31.png" />
+    <Content Include="Design\SpiderGL_-_Shadow_Mapping_-_Google_Chrome-2012-02-26_20.56.57.png" />
+    <Content Include="Design\Sproingies_in_WebGL_-_Google_Chrome-2012-02-26_21.29.09.png" />
+    <Content Include="Design\Surface_-_Google_Chrome-2012-02-26_22.00.15.png" />
+    <Content Include="Design\Tankworld_-Stencil_shadow_demo_-_Google_Chrome-2012-02-26_21.21.50.png" />
+    <Content Include="Design\Terrain_-_Google_Chrome-2012-02-26_21.03.38.jpg" />
+    <Content Include="Design\three.js_-_geometry_-_vertex_colors_-_Google_Chrome-2012-02-26_21.14.32.png" />
+    <Content Include="Design\three.js_webgl_-_city_-_Google_Chrome-2012-02-26_21.12.32.png" />
+    <Content Include="Design\three.js_webgl_-_geometry_-_minecraft_-_ao_-_Google_Chrome-2012-02-26_19.47.12.png" />
+    <Content Include="Design\three.js_webgl_-_geometry_-_terrain__fog_-_Google_Chrome-2012-02-26_20.25.20.png" />
+    <Content Include="Design\three.js_webgl_-_geometry_-_text_-_Google_Chrome-2012-02-26_20.17.28.png" />
+    <Content Include="Design\three.js_webgl_-_materials_-_cube_reflection_cars_-_Google_Chrome-2012-02-26_20.36.01.jpg" />
+    <Content Include="Design\Tunnel_-_Google_Chrome-2012-02-26_20.58.16.jpg" />
+    <Content Include="Design\Vehicle_Soccer_-_Google_Chrome-2012-02-26_20.39.19.png" />
+    <Content Include="Design\Voxel_Rain_-_Google_Chrome-2012-02-26_20.00.50.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_20.48.06.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_21.17.06.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_21.17.45.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_21.18.19.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_21.22.53.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_21.26.22.png" />
+    <Content Include="Design\WebGL_-_Google_Chrome-2012-02-26_22.05.14.png" />
+    <Content Include="Design\WebGL_8x8_board_games_-_Google_Chrome-2012-02-26_20.44.52.png" />
+    <Content Include="Design\WebGL_Aquarium_-_Google_Chrome-2012-02-26_19.56.41.jpg" />
+    <Content Include="Design\WebGL_Field_-_Google_Chrome-2012-02-26_21.58.05.jpg" />
+    <Content Include="Design\WebGL_Filter_-_Google_Chrome-2012-02-26_19.30.37.jpg" />
+    <Content Include="Design\WebGL_Terrain_-_Google_Chrome-2012-02-26_20.04.36.png" />
+    <Content Include="Design\WebGL_Zombies_vs_Cow_-_Google_Chrome-2012-02-26_19.41.58.png" />
+    <Content Include="Design\WebRTS_-_Google_Chrome-2012-02-26_19.20.59.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+if $(ConfigurationName)==Release (
+rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
+)</PostBuildEvent>
+    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+  </PropertyGroup>
+</Project>
