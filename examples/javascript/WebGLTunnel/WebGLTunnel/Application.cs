@@ -39,6 +39,7 @@ namespace WebGLTunnel
         public Application(IDefaultPage page)
         {
             // view-source:http://www.rozengain.com/files/webgl/tunnel/
+            // http://www.rozengain.com/blog/2010/08/10/using-webgl-glsl-shaders-to-create-a-tunnel-effect/
 
             #region __sylvester -> __glUtils -> InitializeContent
             new WebGLTunnel.References.__sylvester().Content.With(
