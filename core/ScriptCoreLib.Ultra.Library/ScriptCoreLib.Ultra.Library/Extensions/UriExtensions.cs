@@ -22,5 +22,15 @@ namespace ScriptCoreLib.Extensions
             var uri = u.ToString();
             return SyndicationFeed.Load(XmlReader.Create(uri));
         }
+
+        public static string GetHostName(this Uri u)
+        {
+            var TLD = u.Host.SkipUntilLastOrEmpty(".");
+
+            var WithoutTLD = u.Host.TakeUntilLastOrEmpty(".");
+            var HostName = WithoutTLD.SkipUntilLastIfAny(".");
+
+            return HostName + "." + TLD;
+        }
     }
 }
