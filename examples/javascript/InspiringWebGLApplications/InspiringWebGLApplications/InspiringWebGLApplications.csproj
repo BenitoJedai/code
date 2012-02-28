@@ -196,6 +196,7 @@
     <Content Include="Design\Pacmaze_-_a_pacman_in_a_maze_-_Google_Chrome-2012-02-26_22.03.20.jpg" />
     <Content Include="Design\PDE_on_GPU_-_Google_Chrome-2012-02-26_21.56.04.png" />
     <Content Include="Design\Petors_WebGL-Spielplatz_-_Google_Chrome-2012-02-26_21.32.02.png" />
+    <Content Include="Design\PhiloGL_-_Surface_Explorer_-_Google_Chrome-2012-02-28_15.28.34.png" />
     <Content Include="Design\Phthalocyanine_molecule_-_Google_Chrome-2012-02-26_21.42.49.png" />
     <Content Include="Design\possan.sejunkwebglassindex.html_-_Google_Chrome-2012-02-26_21.24.26.png" />
     <Content Include="Design\ProjectX_WebGL_Demo_-_Google_Chrome-2012-02-26_20.24.04.png" />
@@ -251,6 +252,6 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /xAttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
   </PropertyGroup>
 </Project>
