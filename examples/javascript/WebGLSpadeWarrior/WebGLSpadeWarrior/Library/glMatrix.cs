@@ -1,10 +1,24 @@
 using ScriptCoreLib;
 using System;
 using ScriptCoreLib.JavaScript.WebGL;
+using System.ComponentModel;
 
 namespace WebGLSpadeWarrior.Library
 {
+    [Script]
+    [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
+    internal class __glMatrix : glMatrix
+    {
+        // this should be generated via assets build :)
 
+        // accessing this variable the first time could
+        // trigger dynamic loading of this library
+        // or actually just using this from Application should trigger the download
+        // before app launch
+
+        [Script(ExternalTarget = "mat4")]
+        static public mat4 mat4;
+    }
 
     [Script(HasNoPrototype = true, ExternalTarget = "mat4")]
     internal class mat4
@@ -51,18 +65,6 @@ namespace WebGLSpadeWarrior.Library
         }
     }
 
-    [Script]
-    internal class __glMatrix : glMatrix
-    {
-        // this should be generated via assets build :)
 
-        // accessing this variable the first time could
-        // trigger dynamic loading of this library
-        // or actually just using this from Application should trigger the download
-        // before app launch
-
-        [Script(ExternalTarget = "mat4")]
-        static public mat4 mat4;
-    }
 
 }
