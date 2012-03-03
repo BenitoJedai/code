@@ -45,15 +45,13 @@ namespace WebGLLesson04
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            #region __glMatrix ->InitializeContent
+            #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
                source =>
                {
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 

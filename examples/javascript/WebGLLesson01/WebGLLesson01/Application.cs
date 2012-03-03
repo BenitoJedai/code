@@ -43,21 +43,20 @@ namespace WebGLLesson01
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
                source =>
                {
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 
                    source.AttachToDocument();
                }
            );
-
+            #endregion
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
