@@ -44,6 +44,7 @@ namespace WebGLWindWheel
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            #region __glMatrix -> InitializeContent
             new __glMatrix().Content.With(
                source =>
                {
@@ -58,6 +59,7 @@ namespace WebGLWindWheel
                    source.AttachToDocument();
                }
            );
+            #endregion
 
 
             @"Hello world".ToDocumentTitle();
@@ -235,7 +237,7 @@ namespace WebGLWindWheel
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
             var cubeVertexPositionBuffer_itemSize = 3;
-            var cubeVertexPositionBuffer_numItems = 24;
+            var cubeVertexPositionBuffer_numItems = 6 * 6;
 
             var squareVertexColorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
@@ -546,18 +548,7 @@ namespace WebGLWindWheel
             drawScene();
             #endregion
 
-            #region requestAnimFrame
-            var requestAnimFrame = (IFunction)new IFunction(
-                @"return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-           window.setTimeout(callback, 1000/60);
-         };"
-            ).apply(null);
-            #endregion
+       
 
 
             var c = 0;
@@ -574,7 +565,7 @@ namespace WebGLWindWheel
                 drawScene();
                 animate();
 
-                requestAnimFrame.apply(null, IFunction.OfDelegate(tick));
+                Native.Window.requestAnimationFrame += tick;
             };
 
             tick();
