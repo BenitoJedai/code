@@ -41,7 +41,7 @@ namespace WebGLLesson08
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-
+            #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
                source =>
                {
@@ -56,6 +56,8 @@ namespace WebGLLesson08
                    source.AttachToDocument();
                }
            );
+            #endregion
+
 
 
             @"Hello world".ToDocumentTitle();
@@ -518,12 +520,15 @@ namespace WebGLLesson08
                         #region new in lesson 08
 
                         var blending = page.blending.@checked;
-                        if (blending) {
+                        if (blending)
+                        {
                             gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
                             gl.enable(gl.BLEND);
                             gl.disable(gl.DEPTH_TEST);
                             gl.uniform1f(shaderProgram_alphaUniform, page.alpha.ToFloat());
-                        } else {
+                        }
+                        else
+                        {
                             gl.disable(gl.BLEND);
                             gl.enable(gl.DEPTH_TEST);
                         }
@@ -573,7 +578,7 @@ namespace WebGLLesson08
                     drawScene();
                     #endregion
 
-                  
+
 
                     #region handleKeys
                     Action handleKeys =

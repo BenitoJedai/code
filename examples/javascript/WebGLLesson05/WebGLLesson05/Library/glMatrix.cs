@@ -1,10 +1,12 @@
 using ScriptCoreLib;
 using System;
 using ScriptCoreLib.JavaScript.WebGL;
+using System.ComponentModel;
 
 namespace WebGLLesson05.Library
 {
     [Script]
+    [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     internal class __glMatrix : glMatrix
     {
         // this should be generated via assets build :)

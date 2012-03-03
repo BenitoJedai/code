@@ -1,9 +1,26 @@
 using ScriptCoreLib;
 using System;
 using ScriptCoreLib.JavaScript.WebGL;
+using System.ComponentModel;
 
 namespace WebGLLesson07.Library
 {
+    [Script]
+    [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
+    internal class __glMatrix : glMatrix
+    {
+        // this should be generated via assets build :)
+
+        [Script(ExternalTarget = "mat4")]
+        static public mat4 mat4;
+
+        [Script(ExternalTarget = "mat3")]
+        static public mat3 mat3;
+
+        [Script(ExternalTarget = "vec3")]
+        static public vec3 vec3;
+    }
+
     [Script(HasNoPrototype = true, ExternalTarget = "mat3")]
     internal class mat3
     {
@@ -82,19 +99,6 @@ namespace WebGLLesson07.Library
         }
     }
 
-    [Script]
-    internal class __glMatrix : glMatrix
-    {
-        // this should be generated via assets build :)
-
-        [Script(ExternalTarget = "mat4")]
-        static public mat4 mat4;
-
-        [Script(ExternalTarget = "mat3")]
-        static public mat3 mat3;
-
-        [Script(ExternalTarget = "vec3")]
-        static public vec3 vec3;
-    }
+ 
 
 }

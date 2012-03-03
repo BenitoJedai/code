@@ -1,10 +1,20 @@
 using ScriptCoreLib;
 using System;
 using ScriptCoreLib.JavaScript.WebGL;
+using System.ComponentModel;
 
 namespace WebGLLesson01.Library
 {
+    [Script]
+    [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
+    internal class __glMatrix : glMatrix
+    {
+        // this should be generated via assets build :)
 
+        [Script(ExternalTarget = "mat4")]
+        static public mat4 mat4;
+    }
+    
 
     [Script(HasNoPrototype = true, ExternalTarget = "mat4")]
     internal class mat4
@@ -36,13 +46,5 @@ namespace WebGLLesson01.Library
 
     }
 
-    [Script]
-    internal class __glMatrix : glMatrix
-    {
-        // this should be generated via assets build :)
-
-        [Script(ExternalTarget = "mat4")]
-        static public mat4 mat4;
-    }
-    
+  
 }
