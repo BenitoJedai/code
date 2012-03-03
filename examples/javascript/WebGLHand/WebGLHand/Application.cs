@@ -44,6 +44,7 @@ namespace WebGLHand
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
                source =>
                {
@@ -58,6 +59,7 @@ namespace WebGLHand
                    source.AttachToDocument();
                }
            );
+            #endregion
 
 
             @"Hello world".ToDocumentTitle();

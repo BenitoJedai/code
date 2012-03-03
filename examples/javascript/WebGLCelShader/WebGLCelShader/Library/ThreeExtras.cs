@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System.ComponentModel;
 
 namespace WebGLCelShader.Library.THREE
 {
+    [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     internal class __ThreeExtras : ThreeExtras
     {
         // this should be generated via assets build :)

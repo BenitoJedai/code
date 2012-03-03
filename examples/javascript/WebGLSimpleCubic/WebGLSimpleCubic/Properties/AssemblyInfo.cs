@@ -7,7 +7,7 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle(@"Web Application WebGL Simple Cubic")]
+[assembly: AssemblyTitle(@"WebGL Simple Cubic")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"WebGLSimpleCubic")]

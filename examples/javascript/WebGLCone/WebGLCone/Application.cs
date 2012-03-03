@@ -41,7 +41,7 @@ namespace WebGLCone
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            #region CanvasMatrix
+            #region CanvasMatrix.js -> InitializeContent
             new CanvasMatrix().Content.With(
                source =>
                {
