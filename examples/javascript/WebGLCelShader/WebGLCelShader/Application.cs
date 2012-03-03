@@ -29,7 +29,7 @@ namespace WebGLCelShader
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* Source: http://www.ro.me/tech/demos/6/index.html
          */
@@ -40,7 +40,7 @@ namespace WebGLCelShader
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region ThreeExtras
             new WebGLCelShader.Library.THREE.__ThreeExtras().Content.With(
@@ -86,18 +86,28 @@ namespace WebGLCelShader
             public MyUniform uBaseColor = new MyUniform { type = "c", value = new THREE.Color(0xff0000) };
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
+
 
             var size = 600;
 
-            
+
             var windowHalfX = size / 2;
             var windowHalfY = size / 2;
 
             ///////////////////////////////
-            var container = page.container;
+            IHTMLElement container = Native.Document.body;
+
+            page.With(
+                delegate
+                {
+                    container = page.container;
+
+                    page.PageContainer.style.color = Color.Blue;
+                }
+            );
+
 
             container.style.SetSize(size, size);
 
@@ -174,11 +184,27 @@ namespace WebGLCelShader
 
             renderer.setSize(size, size);
 
-            #region tick - new in lesson 03
+
+
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                renderer.domElement.Orphanize();
+            };
+
             var tick = default(Action);
 
             tick = delegate
             {
+                if (IsDisposed)
+                    return;
+
                 c++;
 
 
@@ -210,8 +236,9 @@ namespace WebGLCelShader
             };
 
             tick();
-            #endregion
         }
+
+        public Action Dispose;
 
     }
 
