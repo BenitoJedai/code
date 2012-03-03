@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // could a post build extend a type via IDL ? :)
     [System.ComponentModel.Description(@"
 // http://dev.w3.org/html5/spec/the-canvas-element.html
 
@@ -21,6 +22,11 @@ interface HTMLCanvasElement : HTMLElement {
     [Script(InternalConstructor = true)]
     public class IHTMLCanvas : IHTMLElement
     {
+        public string toDataURL(string type)
+        {
+            return default(string);
+        }
+
         public object getContext(string contextId)
         {
             return default(object);

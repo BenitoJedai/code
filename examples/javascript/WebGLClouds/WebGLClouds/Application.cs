@@ -29,7 +29,7 @@ namespace WebGLClouds
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* Source: view-source:http://mrdoob.com/lab/javascript/webgl/clouds/
          */
@@ -96,9 +96,8 @@ namespace WebGLClouds
 
         void InitializeContent(IDefaultPage page)
         {
-            page.PageContainer.style.color = Color.Blue;
+            //page.PageContainer.style.color = Color.Blue;
 
-            var size = 600;
 
 
             // Bg gradient
@@ -116,7 +115,6 @@ namespace WebGLClouds
             context.fillStyle = gradient;
             context.fillRect(0, 0, canvas.width, canvas.height);
 
-            Native.Document.body.style.background = "url(" + canvas.toDataURL("image/png") + ")";
 
             // Clouds
 
@@ -130,15 +128,32 @@ namespace WebGLClouds
             var windowHalfX = Native.Window.Width / 2;
             var windowHalfY = Native.Window.Height / 2;
 
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            var container = new IHTMLDiv();
+
+            container.AttachToDocument();
+            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            container.style.background = "url(" + canvas.toDataURL("image/png") + ")";
+
+            #region Dispose
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                container.Orphanize();
+            };
+            #endregion
 
 
             Action init = () =>
             {
 
-                var container = new IHTMLDiv();
 
-                container.AttachToDocument();
-                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
                 var camera = new THREE.Camera(30, Native.Window.Width / Native.Window.Height, 1, 3000);
                 camera.position.z = 6000;
@@ -249,6 +264,9 @@ namespace WebGLClouds
 
                 animate = delegate
                 {
+                    if (IsDisposed)
+                        return;
+
                     render();
 
                     Native.Window.requestAnimationFrame += animate;
@@ -268,6 +286,7 @@ namespace WebGLClouds
 
             init();
         }
+        public Action Dispose;
 
     }
 

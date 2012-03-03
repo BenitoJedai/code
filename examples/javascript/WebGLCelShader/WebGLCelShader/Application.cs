@@ -24,6 +24,7 @@ namespace WebGLCelShader
     using WebGLCelShader.Library;
     using System.Collections.Generic;
     using THREE = WebGLCelShader.Library.THREE;
+    using ScriptCoreLib.JavaScript.Runtime;
 
 
     /// <summary>
@@ -97,19 +98,15 @@ namespace WebGLCelShader
             var windowHalfY = size / 2;
 
             ///////////////////////////////
-            IHTMLElement container = Native.Document.body;
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            var container = new IHTMLDiv();
 
-            page.With(
-                delegate
-                {
-                    container = page.container;
+            container.AttachToDocument();
+            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
-                    page.PageContainer.style.color = Color.Blue;
-                }
-            );
+            container.style.backgroundColor = JSColor.Black;
+      
 
-
-            container.style.SetSize(size, size);
 
             var camera = new THREE.Camera(40, windowHalfX / windowHalfY, 1, 3000);
             camera.position.z = 1000;
@@ -123,7 +120,6 @@ namespace WebGLCelShader
             scene.addLight(light);
 
             var renderer = new THREE.WebGLRenderer();
-            container.appendChild(renderer.domElement);
 
             var geometry = new THREE.Torus(50, 20, 15, 15);
 
@@ -141,6 +137,7 @@ namespace WebGLCelShader
 
             renderer.initMaterial(material_base, scene.lights, scene.fog);
 
+            #region addObject
             var r = new Random();
             Func<float> Math_random = () => (float)r.NextDouble();
 
@@ -177,15 +174,36 @@ namespace WebGLCelShader
                 scene.addObject(mesh);
 
             }
+            #endregion
+
 
             ///////////////////////////////
 
             var c = 0;
 
-            renderer.setSize(size, size);
+            container.appendChild(renderer.domElement);
 
+            Action AtResize = delegate
+            {
+                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
+                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.updateProjectionMatrix();
 
+                renderer.setSize(Native.Window.Width, Native.Window.Height);
+            };
+
+            #region onresize
+            Native.Window.onresize +=
+                delegate
+                {
+                    AtResize();
+                };
+            #endregion
+
+            AtResize();
+
+            #region IsDisposed
             var IsDisposed = false;
 
             Dispose = delegate
@@ -197,7 +215,9 @@ namespace WebGLCelShader
 
                 renderer.domElement.Orphanize();
             };
+            #endregion
 
+            #region tick
             var tick = default(Action);
 
             tick = delegate
@@ -236,6 +256,8 @@ namespace WebGLCelShader
             };
 
             tick();
+            #endregion
+
         }
 
         public Action Dispose;

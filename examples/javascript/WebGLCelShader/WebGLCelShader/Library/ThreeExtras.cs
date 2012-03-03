@@ -148,6 +148,12 @@ namespace WebGLCelShader.Library.THREE
         }
 
         public Vector3 position;
+        public int aspect;
+
+        internal void updateProjectionMatrix()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
