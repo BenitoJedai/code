@@ -136,7 +136,10 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\glMatrix.cs" />
+    <Compile Include="Library\glMatrix.cs" >
+      <DependentUpon>glMatrix.js</DependentUpon>
+    </Compile>
+    
     <Content Include="Design\Images\x33333.jpg" />
     <Content Include="Design\Images\windwheel.png" />
     <Content Include="Library\glMatrix.js" />
