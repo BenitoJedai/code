@@ -306,6 +306,7 @@ namespace WebGLTunnel
 
 
 
+            #region IsDisposed
             var IsDisposed = false;
 
             Dispose = delegate
@@ -317,6 +318,7 @@ namespace WebGLTunnel
 
                 canvas.Orphanize();
             };
+            #endregion
 
 
             new HTML.Images.FromAssets.texture().InvokeOnComplete(
@@ -372,7 +374,26 @@ namespace WebGLTunnel
 
 
 
+                    Action AtResize = delegate
+                    {
+                        gl_viewportWidth = Native.Window.Width;
+                        gl_viewportHeight = Native.Window.Height;
 
+                        canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+
+                        canvas.width = Native.Window.Width;
+                        canvas.height = Native.Window.Height;
+                    };
+
+                    #region onresize
+                    Native.Window.onresize +=
+                        delegate
+                        {
+                            AtResize();
+                        };
+                    #endregion
+
+                    AtResize();
 
 
                     var rCube = 0;
