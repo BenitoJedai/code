@@ -36,7 +36,7 @@ namespace WebGLTunnel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             // view-source:http://www.rozengain.com/files/webgl/tunnel/
             // http://www.rozengain.com/blog/2010/08/10/using-webgl-glsl-shaders-to-create-a-tunnel-effect/
@@ -76,9 +76,9 @@ namespace WebGLTunnel
             );
         }
 
-        public readonly Action Dispose;
+        public  Action Dispose;
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
             var vertices = new List<float>();
             var indices = new List<ushort>();
@@ -187,11 +187,16 @@ namespace WebGLTunnel
             #region drawingMode
             var drawingMode = gl.TRIANGLES;
 
-            page.triangles.onchange +=
+            page.With(
                 delegate
                 {
-                    drawingMode = drawingMode == gl.TRIANGLES ? gl.LINE_STRIP : gl.TRIANGLES;
-                };
+                    page.triangles.onchange +=
+                        delegate
+                        {
+                            drawingMode = drawingMode == gl.TRIANGLES ? gl.LINE_STRIP : gl.TRIANGLES;
+                        };
+                }
+            );
             #endregion
 
             var shaderProgram = gl.createProgram();
@@ -301,6 +306,17 @@ namespace WebGLTunnel
 
 
 
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
 
 
             new HTML.Images.FromAssets.texture().InvokeOnComplete(
@@ -366,6 +382,9 @@ namespace WebGLTunnel
 
                     drawScene = delegate
                     {
+                        if (IsDisposed)
+                            return;
+
                         gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
