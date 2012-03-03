@@ -92,7 +92,7 @@ namespace WebGLSpiral
             canvas.style.SetLocation(0, 0);
 
 
-            // Initialise WebGL
+            #region Initialise WebGL
 
             var gl = default(WebGLRenderingContext);
 
@@ -109,6 +109,8 @@ namespace WebGLSpiral
                 Native.Window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
             }
+            #endregion
+
 
             var IsDisposed = false;
 
@@ -213,50 +215,47 @@ namespace WebGLSpiral
                 onWindowResize();
             };
 
-            Action loop = delegate
-            {
+            Action loop = null;
 
-                if (currentProgram == null) return;
+            loop = delegate
+             {
+                 if (IsDisposed)
+                     return;
 
-                parameters_time = new Date().getTime() - parameters_start_time;
+                 if (currentProgram == null) return;
 
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                 parameters_time = new Date().getTime() - parameters_start_time;
 
-                // Load program into GPU
+                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                gl.useProgram(currentProgram);
+                 // Load program into GPU
 
-                // Get var locations
+                 gl.useProgram(currentProgram);
 
-                var vertex_position = gl.getAttribLocation(currentProgram, "position");
+                 // Get var locations
 
-                // Set values to program variables
+                 var vertex_position = gl.getAttribLocation(currentProgram, "position");
 
-                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
+                 // Set values to program variables
 
-                // Render geometry
+                 gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
+                 gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
+                 gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
 
-                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray((ulong)vertex_position);
-                gl.drawArrays(gl.TRIANGLES, 0, 6);
-                gl.disableVertexAttribArray((ulong)vertex_position);
+                 // Render geometry
 
-            };
+                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                 gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
+                 gl.enableVertexAttribArray((ulong)vertex_position);
+                 gl.drawArrays(gl.TRIANGLES, 0, 6);
+                 gl.disableVertexAttribArray((ulong)vertex_position);
 
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
-                {
-                    if (IsDisposed)
-                    {
-                        t.Stop();
-                        return;
-                    }
-                    loop();
-                }
-            ).StartInterval(1000 / 60);
+                 Native.Window.requestAnimationFrame += loop;
+
+             };
+
+            Native.Window.requestAnimationFrame += loop;
+
 
 
 

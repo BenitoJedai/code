@@ -245,7 +245,8 @@ namespace WebGLEscherDrosteEffect
 
              };
 
-            loop();
+            Native.Window.requestAnimationFrame += loop;
+
 
 
 

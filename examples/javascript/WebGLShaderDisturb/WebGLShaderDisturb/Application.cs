@@ -60,7 +60,7 @@ namespace WebGLShaderDisturb
             canvas.AttachToDocument();
             canvas.style.SetLocation(0, 0);
 
-            // Initialise WebGL
+            #region Initialise WebGL
 
             var gl = default(WebGLRenderingContext);
 
@@ -77,6 +77,7 @@ namespace WebGLShaderDisturb
                 Native.Window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
             }
+            #endregion
 
             // Create Vertex buffer (2 triangles)
 
@@ -177,9 +178,34 @@ namespace WebGLShaderDisturb
             var vertexPositionLocation = default(long);
             var textureLocation = default(WebGLUniformLocation);
 
-            #region loop
-            Action loop = delegate
+            Action resize = delegate
             {
+                canvas.width = Native.Window.Width;
+                canvas.height = Native.Window.Height;
+
+                parameters_screenWidth = canvas.width;
+                parameters_screenHeight = canvas.height;
+
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            };
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    resize();
+                };
+
+            resize();
+
+            Action loop = null;
+
+            loop = delegate
+            {
+                if (IsDisposed)
+                    return;
 
                 if (currentProgram == null) return;
 
@@ -213,43 +239,16 @@ namespace WebGLShaderDisturb
                 gl.drawArrays(gl.TRIANGLES, 0, 6);
                 gl.disableVertexAttribArray((ulong)vertexPositionLocation);
 
-            };
-            #endregion
 
-            Action resize = delegate
-            {
-                canvas.width = Native.Window.Width;
-                canvas.height = Native.Window.Height;
 
-                parameters_screenWidth = canvas.width;
-                parameters_screenHeight = canvas.height;
 
-                gl.viewport(0, 0, canvas.width, canvas.height);
+                Native.Window.requestAnimationFrame += loop;
+
             };
 
-            Native.Window.onresize +=
-                delegate
-                {
-                    if (IsDisposed)
-                        return;
+            Native.Window.requestAnimationFrame += loop;
 
-                    resize();
-                };
 
-            resize();
-
-            new ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
-                {
-                    if (IsDisposed)
-                    {
-                        t.Stop();
-                        return;
-                    }
-
-                    loop();
-                }
-            ).StartInterval(1000 / 60);
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
