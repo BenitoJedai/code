@@ -18,7 +18,7 @@ namespace ArduinoSpiderControlCenter
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    internal sealed class Application 
     {
         // could we make use of a tab/ipad later?
 
@@ -30,6 +30,11 @@ namespace ArduinoSpiderControlCenter
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            var SpiderModelContent = new SpiderModel.ApplicationContent();
+
+            page.PageContainer.AttachToDocument();
+            page.PageContainer.style.color = JSColor.White;
+
             @"Hello world".ToDocumentTitle();
 
             var LeftLR = new IHTMLDiv();

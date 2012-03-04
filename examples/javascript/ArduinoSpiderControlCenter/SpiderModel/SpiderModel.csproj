@@ -2,48 +2,49 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2E5BD9AF-6CF4-4C30-8B15-8D235BC5D0A5}</ProjectGuid>
+    <ProjectGuid>{3DE096E7-B756-452A-B853-BF732ACABD70}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArduinoSpiderControlCenter</RootNamespace>
-    <AssemblyName>ArduinoSpiderControlCenter</AssemblyName>
+    <RootNamespace>SpiderModel</RootNamespace>
+    <AssemblyName>SpiderModel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ArduinoSpiderControlCenter.Program</StartupObject>
+    <StartupObject>SpiderModel.Program</StartupObject>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Assets|x86'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Assets\</OutputPath>
-    <Optimize>false</Optimize>
+    <OutputPath>bin\x86\Assets\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc.meta">
@@ -100,7 +101,8 @@
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
-      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -119,11 +121,26 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ArduinoSpiderControlCenter.UltraSource">
-      <HintPath>bin\staging.UltraSource\ArduinoSpiderControlCenter.UltraSource.dll</HintPath>
+    <Reference Include="SpiderModel.UltraSource">
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\SpiderModel\bin\staging.UltraSource\SpiderModel.UltraSource.dll</HintPath>
+    </Reference>
+    <Reference Include="SpiderModel.AssetsLibrary">
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\SpiderModel\bin\staging.AssetsLibrary\SpiderModel.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SpiderModel.UltraSource">
+      <HintPath>bin\staging.UltraSource\SpiderModel.UltraSource.dll</HintPath>
+    </Reference>
+    <Reference Include="SpiderModel.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\SpiderModel.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\GeometryFragmentShader.cs">
+      <DependentUpon>Geometry.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\GeometryVertexShader.cs">
+      <DependentUpon>Geometry.vert</DependentUpon>
+    </Compile>
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -131,23 +148,39 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Compile Include="Library\glMatrix.cs">
+      <DependentUpon>glMatrix.js</DependentUpon>
+    </Compile>
+    <Content Include="Design\Preview.png" />
+    <Content Include="Library\glMatrix.js">
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="arduino.exe - Shortcut.lnk" />
-    <None Include="ArduinoSketches\spiderwalk2\spiderwalk2.ino" />
+    <None Include="Shaders\Geometry.vert" />
+    <None Include="Shaders\Geometry.frag" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SpiderModel\SpiderModel.csproj">
-      <Project>{3DE096E7-B756-452A-B853-BF732ACABD70}</Project>
-      <Name>SpiderModel</Name>
-    </ProjectReference>
+    <Folder Include="Timeline\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+)
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>start /WAIT /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true /DisableWorkerDomain
+
+
+set jsc=C:\util\jsc\bin\jsc.meta.exe
+if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
+
+
+start /MIN /WAIT %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
+
+
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
