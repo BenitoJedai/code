@@ -22,6 +22,7 @@ namespace SpiderModel
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.Shared.Avalon.Tween;
 
 
 
@@ -45,7 +46,33 @@ namespace SpiderModel
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page = null)
         {
-            new ApplicationContent();
+            new ApplicationContent().With(
+                Content =>
+                {
+                    Native.Document.onmousemove +=
+                        e =>
+                        {
+                            var x = e.CursorX / Native.Window.Width;
+                            var y = e.CursorY / Native.Window.Height;
+                            var cx = 1f - x;
+                            var cy = 1f - y;
+
+                            if (x < 0.2)
+                            {
+                                Content.red_obstacle_L_y = (cy) * 30f;
+                            }
+                            else if (cx < 0.2)
+                            {
+                                Content.red_obstacle_R_y = (cy) * 30f;
+                            }
+                            else
+                            {
+                                Content.white_arrow_x = (x - 0.5f) * 30f;
+                                Content.white_arrow_y = (cy) * 30f;
+                            }
+                        };
+                }
+            );
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -60,9 +87,11 @@ namespace SpiderModel
 
     public class ApplicationContent
     {
+        public IHTMLCanvas canvas = new IHTMLCanvas();
+
         public ApplicationContent()
         {
-            var canvas = new IHTMLCanvas().AttachToDocument();
+            canvas.AttachToDocument();
 
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -79,8 +108,57 @@ namespace SpiderModel
            );
             #endregion
 
+            NumericEmitter.OfDouble(
+                (value, reserved) => red_obstacle_L_y = (f)value
+            ).With(
+                e =>
+                {
+                    tween_red_obstacle_L_y = (value) => e(value, 0);
+                }
+            );
 
+            NumericEmitter.OfDouble(
+               (value, reserved) => red_obstacle_R_y = (f)value
+           ).With(
+               e =>
+               {
+                   tween_red_obstacle_R_y = (value) => e(value, 0);
+               }
+           );
+
+            NumericEmitter.OfDouble(
+             (value, reserved) => white_arrow_x = (f)value
+         ).With(
+             e =>
+             {
+                 tween_white_arrow_x = (value) => e(value, 0);
+             }
+         );
+
+            NumericEmitter.OfDouble(
+      (value, reserved) => white_arrow_y = (f)value
+  ).With(
+      e =>
+      {
+          tween_white_arrow_y = (value) => e(value, 0);
+      }
+  );
         }
+
+        // 0..30
+
+
+        public f white_arrow_x;
+        public f white_arrow_y = 30f;
+
+        public Action<f> tween_white_arrow_x;
+        public Action<f> tween_white_arrow_y;
+        public Action<f> tween_red_obstacle_L_y;
+        public Action<f> tween_red_obstacle_R_y;
+
+        public f red_obstacle_L_y = 20f;
+        public f red_obstacle_R_y = 16f;
+
 
         void InitializeContent(IHTMLCanvas canvas)
         {
@@ -196,7 +274,7 @@ namespace SpiderModel
 
 
 
-            var size = 0.06f;
+            var size = 0.04f;
 
 
             #region cube
@@ -287,6 +365,47 @@ namespace SpiderModel
 
 
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors_orange), gl.STATIC_DRAW);
+            #endregion
+
+            #region colors_cyan
+            var cubeVertexColorBuffer_cyan = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_cyan);
+            var colors_cyan = new[]{
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+
+
+                 0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+                0.0f, 1.0f, 1.0f, 1.0f, 
+            };
+
+
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors_cyan), gl.STATIC_DRAW);
             #endregion
 
             #region colors_white
@@ -484,6 +603,48 @@ namespace SpiderModel
                      mvPopMatrix();
                  };
 
+                #region colors
+                Action red =
+                    delegate
+                    {
+                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_red);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                    };
+
+                Action green =
+                  delegate
+                  {
+                      gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_green);
+                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                  };
+
+                Action orange =
+                delegate
+                {
+                    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
+                    gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                };
+
+                Action white =
+                 delegate
+                 {
+                     gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_white);
+                     gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                 };
+
+                Action cyan =
+                delegate
+                {
+                    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_cyan);
+                    gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                };
+                #endregion
+
 
                 mw(
                     delegate
@@ -539,12 +700,13 @@ namespace SpiderModel
                         };
                         #endregion
 
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_white);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
+                        if (white_arrow_y < 8)
+                            cyan();
+                        else
+                            white();
 
                         #region white arrow
-                        at(0, 32, 1,
+                        at(white_arrow_x, white_arrow_y, 1,
                             delegate
                             {
 
@@ -562,7 +724,7 @@ namespace SpiderModel
                                 draw(-1, 0, 1);
                                 draw(1, 0, 1);
 
-                           
+
 
                                 #endregion
                                 #region // XXXXX
@@ -572,7 +734,7 @@ namespace SpiderModel
                                 draw(1, 0, 2);
                                 draw(2, 0, 2);
 
-                         
+
                                 #endregion
                                 #region // __X__
                                 draw(0, 0, 3);
@@ -588,8 +750,6 @@ namespace SpiderModel
                         #endregion
 
                         #region draw_obstacle
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_red);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
 
                         drawElements_mode = gl.LINE_STRIP;
@@ -603,54 +763,87 @@ namespace SpiderModel
                             draw(1, 0, 2);
                         };
 
+                        if (red_obstacle_L_y < 8)
+                            red();
+                        else if (red_obstacle_L_y < 16)
+                            orange();
+                        else
+                            green();
+
                         // red
-                        at(-6, 16, 0, draw_obstacle);
-                        at(-2, 16, 0, draw_obstacle);
-                        at(2, 16, 0, draw_obstacle);
-                        at(6, 16, 0, draw_obstacle);
+                        at(-10, red_obstacle_L_y, 0, draw_obstacle);
+                        at(-6, red_obstacle_L_y, 0, draw_obstacle);
+                        at(-2, (red_obstacle_L_y + red_obstacle_L_y + red_obstacle_R_y) / 3, 0, draw_obstacle);
+
+                        if (red_obstacle_R_y < 8)
+                            red();
+                        else if (red_obstacle_R_y < 16)
+                            orange();
+                        else
+                            green();
+
+                        at(2, (red_obstacle_R_y + red_obstacle_R_y + red_obstacle_L_y) / 3, 0, draw_obstacle);
+                        at(6, red_obstacle_R_y, 0, draw_obstacle);
+                        at(10, red_obstacle_R_y, 0, draw_obstacle);
                         #endregion
 
 
                         drawElements_mode = gl.TRIANGLES;
 
 
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        orange();
+
+                        at(0, -4, 0,
+                            delegate
+                            {
+                                draw(4, 7, 0);
+                                draw(4, 6, 0);
+                                draw(4, 5, 0);
+                                draw(4, 4, 1);
+                                draw(4, 3, 1);
+
+                                draw(2, 1, 2);
+                                draw(3, 1, 2);
+                                draw(2, 2, 2);
+                                draw(3, 2, 2);
 
 
-                        draw(4, 7, 0);
-                        draw(4, 6, 0);
-                        draw(4, 5, 0);
-                        draw(4, 4, 0);
-                        draw(4, 3, 0);
+                                #region leg left back
+                                draw(-4, -7, 0);
+                                draw(-4, -6, 0);
+                                draw(-4, -5, 0);
+                                draw(-4, -4, 1);
+                                draw(-4, -3, 1);
 
-                        draw(2, 1, 1);
-                        draw(3, 1, 1);
-                        draw(2, 2, 1);
-                        draw(3, 2, 1);
+                                draw(-2, -1, 2);
+                                draw(-3, -1, 2);
+                                draw(-2, -2, 2);
+                                draw(-3, -2, 2);
+                                #endregion
 
-                        #region body
-                        gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_green);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                #region body
+                                green();
 
-                        at(0, 0, 2,
-                          delegate
-                          {
-
-
-
-                              draw(-1, 0, 0);
-                              draw(0, -1, 0);
-
-                              draw(0, 0, 0);
-
-                              draw(1, 0, 0);
-                              draw(0, 1, 0);
+                                at(0, 0, 3,
+                                  delegate
+                                  {
 
 
-                          }
-                      );
-                        #endregion
+
+                                      draw(-1, 0, 0);
+                                      draw(0, -1, 0);
+
+                                      draw(0, 0, 0);
+
+                                      draw(1, 0, 0);
+                                      draw(0, 1, 0);
+
+
+                                  }
+                              );
+                                #endregion
+                            }
+                       );
 
                     }
                 );
@@ -691,7 +884,7 @@ namespace SpiderModel
             {
                 c++;
 
-                Native.Document.title = "" + c;
+                //Native.Document.title = "" + c;
 
                 drawScene();
                 animate();
@@ -702,7 +895,7 @@ namespace SpiderModel
             tick();
             #endregion
 
-            canvas.ondblclick +=
+            Native.Document.body.ondblclick +=
                 delegate
                 {
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
@@ -721,7 +914,7 @@ namespace SpiderModel
                     "
                     );
 
-                    request.apply(canvas);
+                    request.apply(Native.Document.body);
                 };
 
         }
