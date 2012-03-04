@@ -24,6 +24,8 @@ namespace ArduinoSpiderControlCenter
         {
             // Send it back to the caller.
             var x = COM46.Line;
+            COM46.Rx++;
+            Console.WriteLine("WebMethod2: #" + COM46.Rx + " @" + Thread.CurrentThread.ManagedThreadId);
 
             y(x);
         }
@@ -32,6 +34,7 @@ namespace ArduinoSpiderControlCenter
 
     public static class COM46
     {
+        public static int Rx;
         public static string Line = "not ready..";
 
         static COM46()

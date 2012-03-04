@@ -18,7 +18,7 @@ namespace ArduinoSpiderControlCenter
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application 
+    internal sealed class Application
     {
         // could we make use of a tab/ipad later?
 
@@ -32,7 +32,7 @@ namespace ArduinoSpiderControlCenter
         {
             var SpiderModelContent = new SpiderModel.ApplicationContent();
 
-      
+
 
 
             @"Hello world".ToDocumentTitle();
@@ -54,6 +54,7 @@ namespace ArduinoSpiderControlCenter
             LeftIR.style.top = "0";
             LeftIR.style.height = "1em";
             LeftIR.style.width = "4em";
+            LeftIR.style.Opacity = 0.8;
             LeftIR.AttachToDocument();
             LeftIR.style.backgroundColor = JSColor.FromRGB(0xB0, 0, 0);
 
@@ -77,6 +78,7 @@ namespace ArduinoSpiderControlCenter
             RightIR.style.top = "0";
             RightIR.style.height = "1em";
             RightIR.style.width = "4em";
+            RightIR.style.Opacity = 0.8;
             RightIR.AttachToDocument();
             RightIR.style.backgroundColor = JSColor.FromRGB(0xB0, 0, 0);
 
@@ -87,7 +89,8 @@ namespace ArduinoSpiderControlCenter
 
             page.PageContainer.AttachToDocument();
             page.PageContainer.style.color = JSColor.White;
-
+            page.PageContainer.style.textShadow = "#000 0px 0px 3px";
+            page.ElShadow.style.textShadow = "#000 0px 0px 3px";
 
             #region AtResize
             Action AtResize = delegate
@@ -102,22 +105,37 @@ namespace ArduinoSpiderControlCenter
             Native.Window.onresize += delegate { AtResize(); };
             #endregion
 
-            new Timer(
-                t =>
+            var t = new Timer(
+                delegate
                 {
-                    Native.Document.title = "#" + t.Counter;
+                    Native.Document.body.style.cursor = IStyle.CursorEnum.wait;
+                }
+            );
+
+            Action poll = null;
+
+            poll = delegate
+                {
+                    t.StartTimeout(400);
 
                     // Send data from JavaScript to the server tier
                     service.WebMethod2(
                         @"A string from JavaScript.",
                         COM46_Line =>
                         {
+                            Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
+                            t.Stop();
+
                             page.Content.innerText = COM46_Line;
 
                             // jsc: why string.split with each not working??
 
                             var a = COM46_Line.Split(';');
 
+                            byte RightLR_value = 0;
+                            byte LeftLR_value = 0;
+
+                            #region parse RightLR, LeftLS, LeftIR, RightIR
                             for (int i = 0; i < a.Length; i++)
                             {
                                 var u = a[i];
@@ -130,7 +148,7 @@ namespace ArduinoSpiderControlCenter
                                         // 1024 is dark
 
 
-
+                                        #region RightLR
                                         if (key == "RightLR")
                                         {
 
@@ -138,17 +156,18 @@ namespace ArduinoSpiderControlCenter
                                             var value_1024 = (1024 - Math.Min(int.Parse(_value), 1024));
 
                                             // jsc: please do the masking when casting to byte yyourself, thanks :)
-                                            var ivalue = (byte)((255 * value_1024 / 1024) & 0xff);
+                                            RightLR_value = (byte)((255 * value_1024 / 1024) & 0xff);
+                                            RightLR_value = (byte)Math.Min(255, RightLR_value * 2);
 
-                                            ivalue = (byte)Math.Min(255, ivalue * 2);
-
-                                            if (ivalue == 255)
+                                            if (RightLR_value == 255)
                                                 RightLR.style.backgroundColor = JSColor.Cyan;
                                             else
-                                                RightLR.style.backgroundColor = JSColor.FromGray(ivalue);
+                                                RightLR.style.backgroundColor = JSColor.FromGray(RightLR_value);
 
                                         }
+                                        #endregion
 
+                                        #region LeftLS
                                         if (key == "LeftLS")
                                         {
 
@@ -156,19 +175,20 @@ namespace ArduinoSpiderControlCenter
                                             var value_1024 = (1024 - Math.Min(int.Parse(_value), 1024));
 
                                             // jsc: please do the masking when casting to byte yyourself, thanks :)
-                                            var ivalue = (byte)((255 * value_1024 / 1024) & 0xff);
-
-                                            ivalue = (byte)Math.Min(255, ivalue * 2);
+                                            LeftLR_value = (byte)((255 * value_1024 / 1024) & 0xff);
+                                            LeftLR_value = (byte)Math.Min(255, LeftLR_value * 2);
 
                                             //LeftLR.innerText = "" + ivalue;
 
-                                            if (ivalue == 255)
+                                            if (LeftLR_value == 255)
                                                 LeftLR.style.backgroundColor = JSColor.Cyan;
                                             else
-                                                LeftLR.style.backgroundColor = JSColor.FromGray(ivalue);
+                                                LeftLR.style.backgroundColor = JSColor.FromGray(LeftLR_value);
 
                                         }
+                                        #endregion
 
+                                        #region LeftIR
                                         if (key == "LeftIR")
                                         {
 
@@ -184,9 +204,11 @@ namespace ArduinoSpiderControlCenter
 
                                             LeftIR.style.height = value_int32 + "px";
 
+                                            SpiderModelContent.tween_red_obstacle_L_y((1 - value_int32 / 600) * 24);
                                         }
+                                        #endregion
 
-
+                                        #region RightIR
                                         if (key == "RightIR")
                                         {
 
@@ -203,17 +225,43 @@ namespace ArduinoSpiderControlCenter
 
 
                                             RightIR.style.height = value_int32 + "px";
+                                            SpiderModelContent.tween_red_obstacle_R_y((1 - value_int32 / 600) * 24);
 
                                         }
+                                        #endregion
 
                                     }
                                 );
                             }
+                            #endregion
 
+                            #region next
+                            new Timer(
+                               delegate
+                               {
+                                   Native.Window.requestAnimationFrame += poll;
+                               }
+                           ).StartTimeout(200);
+                            #endregion
+
+
+                            // dark 70 .. 255 bright
+
+                            SpiderModelContent.tween_white_arrow_y(
+                                50 * (1 - ((Math.Max(LeftLR_value, RightLR_value) - 70) / (255 - 70)))
+                            );
+
+                            SpiderModelContent.tween_white_arrow_x(
+                                (LeftLR_value - 60) * -20f / (255 - 60)
+                            + (RightLR_value - 60) * 20f / (255 - 60)
+                            );
+
+                            Native.Document.title = LeftLR_value + " " + RightLR_value;
                         }
                     );
-                }
-            ).StartInterval();
+                };
+
+            Native.Window.requestAnimationFrame += poll;
 
         }
 
