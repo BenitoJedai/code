@@ -32,8 +32,8 @@ namespace ArduinoSpiderControlCenter
         {
             var SpiderModelContent = new SpiderModel.ApplicationContent();
 
-            page.PageContainer.AttachToDocument();
-            page.PageContainer.style.color = JSColor.White;
+      
+
 
             @"Hello world".ToDocumentTitle();
 
@@ -44,6 +44,7 @@ namespace ArduinoSpiderControlCenter
             LeftLR.style.top = "0";
             LeftLR.style.bottom = "0";
             LeftLR.style.width = "4em";
+            LeftLR.style.Opacity = 0.5;
             LeftLR.AttachToDocument();
 
             var LeftIR = new IHTMLDiv();
@@ -64,6 +65,7 @@ namespace ArduinoSpiderControlCenter
             RightLR.style.right = "0";
             RightLR.style.top = "0";
             RightLR.style.bottom = "0";
+            RightLR.style.Opacity = 0.5;
             RightLR.style.width = "4em";
             RightLR.AttachToDocument();
 
@@ -82,6 +84,23 @@ namespace ArduinoSpiderControlCenter
 
             LeftLR.style.backgroundColor = JSColor.FromRGB(0x80, 0, 0);
             RightLR.style.backgroundColor = JSColor.FromRGB(0x80, 0, 0);
+
+            page.PageContainer.AttachToDocument();
+            page.PageContainer.style.color = JSColor.White;
+
+
+            #region AtResize
+            Action AtResize = delegate
+            {
+                page.PageContainer.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+
+
+            };
+
+            AtResize();
+
+            Native.Window.onresize += delegate { AtResize(); };
+            #endregion
 
             new Timer(
                 t =>

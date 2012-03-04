@@ -42,10 +42,13 @@ namespace ArduinoSpiderControlCenter
 
             // http://binglongx.wordpress.com/2011/10/26/arduino-serial-port-communication/
             // Arduino Serial uses: Data_bits=8, Stop_bits=1, Parity=None, Flow_control=None
+            var portName = "COM46";
 
+            if (!ports.Contains(portName))
+                return;
 
             var s = new SerialPort(
-                portName: "COM46",
+                portName: portName,
                 baudRate: 9600,
                 parity: Parity.None,
                 dataBits: 8,
@@ -62,7 +65,7 @@ namespace ArduinoSpiderControlCenter
                     while (true)
                     {
                         i++;
-                            COM46.Line = s.ReadLine();
+                        COM46.Line = s.ReadLine();
                     }
                 }
             ).Start();

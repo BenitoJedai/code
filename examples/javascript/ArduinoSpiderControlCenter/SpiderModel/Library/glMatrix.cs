@@ -49,7 +49,7 @@ namespace SpiderModel.Library
             throw new NotImplementedException();
         }
 
-        internal void rotate(Float32Array mvMatrix, float p, float[] p_2)
+        internal void rotate(Float32Array mvMatrix, float p, params float[] p_2)
         {
             throw new NotImplementedException();
         }
