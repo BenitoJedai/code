@@ -190,11 +190,13 @@ namespace SpiderModel
             }
         }
 
+        public f cyclecount = 6;
+
         public f cycle
         {
             get
             {
-                return (f)(Math.Floor((t % (Math.PI * 4)) / (Math.PI * 0.5)));
+                return (f)(Math.Floor((t / Math.PI) % cyclecount));
             }
         }
 
@@ -315,7 +317,7 @@ namespace SpiderModel
 
 
 
-            var size = 0.03f;
+            var size = 0.04f;
 
 
             #region cube
@@ -762,17 +764,18 @@ namespace SpiderModel
 
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * -0.5f), 0f, 0f, 1f);
 
+                                var cc = (cyclecount - cycle) - 1;
 
                                 #region // __X__
-                                if (cycle == 7)
+                                if (cc == 0)
                                     green();
                                 else
                                     white();
                                 draw(0, 0, 0);
                                 #endregion
                                 #region // _XXX_
-                                if (cycle == 6)
-                                    green();
+                                if (cc == 1)
+                                    red();
                                 else
                                     white();
 
@@ -787,8 +790,8 @@ namespace SpiderModel
 
                                 #endregion
                                 #region // XXXXX
-                                if (cycle == 5)
-                                    red();
+                                if (cc == 2)
+                                    orange();
                                 else
                                     white();
 
@@ -804,7 +807,7 @@ namespace SpiderModel
 
                                 #endregion
                                 #region //XXXXXXX
-                                if (cycle == 4)
+                                if (cc == 3)
                                     red();
                                 else
                                     white();
@@ -824,7 +827,7 @@ namespace SpiderModel
                                 #endregion
                                 #region // __X__
 
-                                if (cycle == 3)
+                                if (cc == 4)
                                     orange();
                                 else
                                     white();
@@ -833,7 +836,7 @@ namespace SpiderModel
                                 #endregion
                                 #region // __X__
 
-                                if (cycle == 2)
+                                if (cc == 5)
                                     orange();
                                 else
                                     white();
@@ -841,14 +844,14 @@ namespace SpiderModel
                                 draw(0, 0, 5);
                                 #endregion
                                 #region // __X__
-                                if (cycle == 1)
+                                if (cc == 6)
                                     orange();
                                 else
                                     white();
                                 draw(0, 0, 6);
                                 #endregion
                                 #region // __X__
-                                if (cycle == 0)
+                                if (cc == 7)
                                     orange();
                                 else
                                     white();
@@ -946,33 +949,29 @@ namespace SpiderModel
                         #endregion
 
                         #region program_leg0
-                        Action<f> program_leg0 = tphase =>
+                        Action<f, Action<f, f>> program_leg0 = (tphase, notify) =>
                         {
                             var sidewaysrange = 22;
 
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
-                                  0
-                                  + (f)(Math.Cos(tphase) * sidewaysrange)
+                            var deg_sideway = (f)(Math.Cos(tphase) * sidewaysrange);
+                            var deg_vertical = (float)Math.Max(0, Math.Sin(tphase) * 45);
 
-                              ), new float[] { 0f, 0f, 1f });
 
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
-                             (float)Math.Max(0, Math.Sin(tphase) * 45)
+                            if (notify == null)
+                            {
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_sideway), 0f, 0f, 1f);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_vertical), 1f, 0f, 0);
+                                return;
+                            }
 
-                             ), 1f, 0f, 0);
+                            notify(deg_sideway, deg_vertical);
                         };
                         #endregion
 
-                        #region program_leg1
-                        Action<f> program_leg1 = phase =>
-                        {
-                            program_leg0(t + phase);
 
-                        };
-                        #endregion
 
-                        #region program_leg5
-                        Action<int, int> program_leg5 = (delay, hold) =>
+                        #region program_leg_delay_move_hold_commit
+                        Action<int, int, Action<f, f>> program_leg_delay_move_hold_commit = (delay, hold, notify) =>
                         {
                             var phase = t % (Math.PI * (delay + 1 + hold + 1));
 
@@ -980,7 +979,7 @@ namespace SpiderModel
                             if (phase < (Math.PI * delay))
                             {
                                 // delay
-                                program_leg0(0);
+                                program_leg0(0, notify);
                                 return;
                             }
 
@@ -991,7 +990,7 @@ namespace SpiderModel
                             if (phase < (Math.PI))
                             {
                                 // move
-                                program_leg0((f)phase);
+                                program_leg0((f)phase, notify);
                                 return;
                             }
 
@@ -1003,7 +1002,7 @@ namespace SpiderModel
                             if (phase < (Math.PI * hold))
                             {
                                 // delay
-                                program_leg0((f)(Math.PI));
+                                program_leg0((f)(Math.PI), notify);
                                 return;
                             }
 
@@ -1011,64 +1010,34 @@ namespace SpiderModel
                             #endregion
 
                             #region commit
-                            program_leg0((f)(Math.PI + phase));
+                            program_leg0((f)(Math.PI + phase), notify);
                             #endregion
                         };
                         #endregion
 
-                        #region right front - RED
-                        mw(
-                            delegate
+                        #region legx
+                        Action<Action, Action, f, f, f> legx =
+                            (wirecolor, fillcolor, x, deg_sideway, deg_vertical) =>
                             {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
-                                program_leg5(1, 2);
-                                leg(red, orange);
-                            }
-                        );
+                                mw(
+                                    delegate
+                                    {
+                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(x), new float[] { 0f, 0f, 1f });
+
+
+                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_sideway), 0f, 0f, 1f);
+                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_vertical), 1f, 0f, 0);
+
+                                        leg(wirecolor, fillcolor);
+                                    }
+                                );
+                            };
                         #endregion
 
-
-                        #region left front - GREEN
-                        mw(
-                            delegate
-                            {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
-                                program_leg5(3, 0);
-                                leg(green, orange);
-                            }
-                        );
-                        #endregion
-
-
-                        #region leg right back - BLUE
-                        mw(
-                            delegate
-                            {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45 + 180), new float[] { 0f, 0f, 1f });
-                                program_leg5(2, 1);
-                                leg(cyan, green);
-                            }
-                        );
-                        #endregion
-
-                        #region leg left back - WHITE
-                        mw(delegate
-                             {
-                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(180 * 0.75f), 0f, 0f, 1f);
-                                 program_leg5(0, 3);
-                                 leg(white, green);
-                             }
-                         );
-                        #endregion
-
-
-
-
+                        #region body
                         at(0, 0, 0.5f,
                               delegate
                               {
-                                  #region body
-
                                   green();
 
                                   draw(-1, 0, 0);
@@ -1078,15 +1047,67 @@ namespace SpiderModel
 
                                   draw(0, -1, 0);
                                   draw(0, 1, 0);
-
-
-
-
-                                  #endregion
                               }
                           );
+                        #endregion
 
 
+
+                        #region programs
+                        Action program_13_turn_left =
+                            delegate
+                            {
+                                program_leg_delay_move_hold_commit(1, 2,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(3, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_deg = deg_vertical;
+                                    }
+                                );
+                            };
+                        #endregion
+
+                        program_13_turn_left();
+
+                        #region right front - RED - leg1
+                        legx(red, orange, -45, leg1up_sideway_deg, leg1down_deg);
+                        #endregion
+
+                        #region left front - GREEN - leg2
+                        legx(green, orange, 45, leg2up_sideway_deg, leg2down_deg);
+                        #endregion
+
+                        #region leg right back - BLUE - leg3
+                        legx(green, green, 45 + 180, leg3up_sideway_deg, leg3down_deg);
+                        #endregion
+
+                        #region leg left back - WHITE - leg4
+                        legx(cyan, green, -45 + 180, leg4up_sideway_deg, leg4down_deg);
+                        #endregion
 
                     }
                 );
@@ -1112,15 +1133,18 @@ namespace SpiderModel
             Native.Window.onresize += delegate { AtResize(); };
             #endregion
 
+            #region onmousewheel
             Native.Document.body.onmousewheel +=
                 e =>
                 {
                     camera_z += e.WheelDirection * 0.1f;
                 };
+            #endregion
 
-            var c = 0;
+
 
             #region tick
+            var c = 0;
             var tick = default(Action);
 
             tick = delegate
@@ -1188,5 +1212,14 @@ namespace SpiderModel
 
         }
 
+        public f leg1down_deg = 0.0f;
+        public f leg2down_deg = 0.0f;
+        public f leg3down_deg = 0.0f;
+        public f leg4down_deg = 0.0f;
+
+        public f leg1up_sideway_deg = 0.0f;
+        public f leg2up_sideway_deg = 0.0f;
+        public f leg3up_sideway_deg = 0.0f;
+        public f leg4up_sideway_deg = 0.0f;
     }
 }
