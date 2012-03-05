@@ -118,45 +118,31 @@ namespace ArduinoSpiderControlCenter
 
             Action COM46_Line_value_loop = null;
 
-            var leg1down_pos = 0.0;
-            var leg2down_pos = 0.0;
-            var leg3down_pos = 0.0;
-            var leg4down_pos = 0.0;
+  
 
             COM46_Line_value_loop = delegate
             {
-                var pi = 3.14;
                 var t = SpiderModelContent.t;
-                var f = 0.1;
-
-                if (t > 30)
-                    if (t < 120)
-                    {
-                        leg1down_pos = 10 * sin(2 * pi * f * t + 0.5 * pi) + 110 - 10;
-                        leg2down_pos = 10 * sin(2 * pi * f * t - 0.5 * pi) + 60 + 10;
-                        leg3down_pos = 20 * sin(2 * pi * f * t - 0.5 * pi) + 80 + 10;
-                        leg4down_pos = 20 * sin(2 * pi * f * t + 0.5 * pi) + 100 - 10;
-                    }
-
+          
                 page.Content.innerText = COM46_Line_value
                     + "\nt: \t" + System.Convert.ToInt32((double)t)
-                    + "\nRED leg1down_pos: \t" + System.Convert.ToInt32(leg1down_pos)
-                    + "\nGREEN leg2down_pos: \t" + System.Convert.ToInt32(leg2down_pos)
-                    + "\nBLUE leg3down_pos: \t" + System.Convert.ToInt32(leg3down_pos)
-                + "\nWHITE leg4down_pos: \t" + System.Convert.ToInt32(leg4down_pos);
+                    + "\n" 
+                    + "\nRED leg1down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
+                    + "\nGREEN leg2down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)
+                    + "\nBLUE leg3down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg3down_vertical_deg)
+                    + "\nWHITE leg4down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg4down_vertical_deg)
+                    + "\n"
+                    + "\nRED leg1up_sideway_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1up_sideway_deg)
+                    + "\nGREEN leg2up_sideway_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2up_sideway_deg)
+                    + "\nBLUE leg3up_sideway_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg3up_sideway_deg)
+                    + "\nWHITE leg4up_sideway_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg4up_sideway_deg);
 
                 Native.Window.requestAnimationFrame += COM46_Line_value_loop;
             };
 
             Native.Window.requestAnimationFrame += COM46_Line_value_loop;
 
-            //Native.Window.onfocus +=
-            //    delegate
-            //    {
-            //        "AtFocus".ToDocumentTitle();
-            //        service.AtFocus();
-            //    };
-
+          
             page.Connect.onclick +=
             delegate
             {

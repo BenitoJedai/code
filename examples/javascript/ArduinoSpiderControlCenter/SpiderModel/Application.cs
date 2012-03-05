@@ -24,7 +24,7 @@ namespace SpiderModel
     using ScriptCoreLib.Shared.Avalon.Tween;
     using System.Windows;
 
-
+    using notify = Action<float, float>;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -196,7 +196,7 @@ namespace SpiderModel
         {
             get
             {
-                return (f)(Math.Floor((t / Math.PI) % cyclecount));
+                return (f)(Math.Ceiling((t / Math.PI) % cyclecount));
             }
         }
 
@@ -705,8 +705,8 @@ namespace SpiderModel
                     delegate
                     {
                         __glMatrix.mat4.translate(mvMatrix, 0f, 0.0f, -4f);
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-70), new float[] { 1f, 0f, 0f });
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.1f), new float[] { 0f, 0f, 1f });
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-70), 1f, 0f, 0f);
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.1f), 0f, 0f, 1f);
                         __glMatrix.mat4.translate(mvMatrix, 0f, camera_z, 0f);
 
 
@@ -808,7 +808,7 @@ namespace SpiderModel
                                 #endregion
                                 #region //XXXXXXX
                                 if (cc == 3)
-                                    red();
+                                    orange();
                                 else
                                     white();
                                 draw(-3, 0, 3);
@@ -936,6 +936,8 @@ namespace SpiderModel
                                 drawElements_mode = gl.TRIANGLES;
                             };
 
+
+
                         Action<Action, Action> leg =
                             (legcolor, fillcolor) =>
                             {
@@ -948,72 +950,250 @@ namespace SpiderModel
 
                         #endregion
 
+                        var sidewaysrange = 16;
+                        var verticalrange = 16;
+
+
+                        f pi = (f)Math.PI;
+                        Func<f, f> cos = x => (f)Math.Cos(x);
+                        Func<f, f> sin = x => (f)Math.Sin(x);
+                        Func<f, f, f> max = (x, y) => (f)Math.Max((double)x, (double)y);
+                        // http://arduino.cc/en/Reference/max
+
                         #region program_leg0
-                        Action<f, Action<f, f>> program_leg0 = (tphase, notify) =>
-                        {
-                            var sidewaysrange = 22;
-
-                            var deg_sideway = (f)(Math.Cos(tphase) * sidewaysrange);
-                            var deg_vertical = (float)Math.Max(0, Math.Sin(tphase) * 45);
-
-
-                            if (notify == null)
+                        Action<f, Action<f, f>> program_leg0 =
+                            /* void program_leg0 */ (float tphase, notify notify) =>
                             {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_sideway), 0f, 0f, 1f);
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_vertical), 1f, 0f, 0);
-                                return;
+                                float deg_sideway = (cos(tphase) * sidewaysrange);
+                                float deg_vertical = max(0, sin(tphase) * verticalrange);
+
+                                notify(deg_sideway, deg_vertical);
                             }
-
-                            notify(deg_sideway, deg_vertical);
-                        };
+                            ;
                         #endregion
-
 
 
                         #region program_leg_delay_move_hold_commit
-                        Action<int, int, Action<f, f>> program_leg_delay_move_hold_commit = (delay, hold, notify) =>
+                        Action<int, int, int, Action<f, f>> program_leg_delay_move_hold_commit =
+
+                        /* void program_leg_delay_move_hold_commit */ (int delay, int hold, int reverse, notify notify) =>
                         {
-                            var phase = t % (Math.PI * (delay + 1 + hold + 1));
+                            float t_accelerated = t * 4;
+                            float mod = (pi * (delay + 1 + hold + 1));
 
-                            #region delay
-                            if (phase < (Math.PI * delay))
+                            // error: invalid operands of types 'float' and 'float' to binary 'operator%'
+                            float phase = (float)((int)(t_accelerated * 100) % (int)(mod * 100)) * 0.01f;
+
+                            // delay
+                            if (phase < (pi * delay))
                             {
-                                // delay
-                                program_leg0(0, notify);
+                                if (reverse > 0)
+                                    phase = pi;
+                                else
+                                    phase = 0;
+
+                                program_leg0(phase, notify);
                                 return;
                             }
 
-                            phase -= (Math.PI * delay);
-                            #endregion
+                            phase -= (pi * delay);
 
-                            #region move
-                            if (phase < (Math.PI))
+
+                            // move
+                            if (phase < (pi))
                             {
-                                // move
-                                program_leg0((f)phase, notify);
+                                if (reverse > 0)
+                                    phase = pi - phase;
+
+                                program_leg0(phase, notify);
                                 return;
                             }
 
-                            phase -= (Math.PI);
-                            #endregion
+                            phase -= (pi);
 
 
-                            #region hold
-                            if (phase < (Math.PI * hold))
+
+                            // delay
+                            if (phase < (pi * hold))
                             {
-                                // delay
-                                program_leg0((f)(Math.PI), notify);
+                                if (reverse > 0)
+                                    phase = 0;
+                                else
+                                    phase = pi;
+
+                                program_leg0(phase, notify);
                                 return;
                             }
 
-                            phase -= (Math.PI * hold);
-                            #endregion
+                            phase -= (pi * hold);
 
-                            #region commit
-                            program_leg0((f)(Math.PI + phase), notify);
-                            #endregion
-                        };
+                            if (reverse >0)
+                                phase = pi - phase;
+
+                            // commit
+                            program_leg0((pi + phase), notify);
+
+                        }
+                        ;
                         #endregion
+
+
+
+
+
+                        #region program_23_high_five_calibration_far
+                        Action program_23_high_five_calibration_far =
+                            delegate
+                            {
+                                leg1up_sideway_deg = sidewaysrange;
+                                leg2up_sideway_deg = -sidewaysrange;
+                                leg3up_sideway_deg = -sidewaysrange;
+                                leg4up_sideway_deg = sidewaysrange;
+
+                                leg1down_vertical_deg = verticalrange;
+                                leg2down_vertical_deg = verticalrange;
+                                leg3down_vertical_deg = verticalrange;
+                                leg4down_vertical_deg = verticalrange;
+                            };
+                        #endregion
+
+                        #region program_33_high_five_calibration
+                        Action program_33_high_five_calibration =
+                            delegate
+                            {
+                                leg1up_sideway_deg = -sidewaysrange;
+                                leg2up_sideway_deg = sidewaysrange;
+                                leg3up_sideway_deg = sidewaysrange;
+                                leg4up_sideway_deg = -sidewaysrange;
+
+                                leg1down_vertical_deg = verticalrange;
+                                leg2down_vertical_deg = verticalrange;
+                                leg3down_vertical_deg = verticalrange;
+                                leg4down_vertical_deg = verticalrange;
+                            };
+                        #endregion
+
+                        #region program_43_high_five_calibration_stand
+                        Action program_43_high_five_calibration_stand =
+                            delegate
+                            {
+                                leg1up_sideway_deg = -sidewaysrange;
+                                leg2up_sideway_deg = sidewaysrange;
+                                leg3up_sideway_deg = sidewaysrange;
+                                leg4up_sideway_deg = -sidewaysrange;
+
+                                leg1down_vertical_deg = 0;
+                                leg2down_vertical_deg = 0;
+                                leg3down_vertical_deg = 0;
+                                leg4down_vertical_deg = 0;
+                            };
+                        #endregion
+
+
+
+                        #region program_53_mayday
+                        Action program_53_mayday =
+                            delegate
+                            {
+                                leg1down_vertical_deg = verticalrange;
+                                leg2down_vertical_deg = verticalrange;
+                                leg3down_vertical_deg = verticalrange;
+                                leg4down_vertical_deg = verticalrange;
+
+                                leg1up_sideway_deg = -cos(t * 6) * sidewaysrange;
+                                leg2up_sideway_deg = cos(t * 6) * sidewaysrange;
+                                leg3up_sideway_deg = cos(t * 6) * sidewaysrange;
+                                leg4up_sideway_deg = -cos(t * 6) * sidewaysrange;
+
+
+                            };
+                        #endregion
+
+
+                        #region program_13_turn_left
+                        Action program_13_turn_left =
+                            /* void program_13_turn_left */ () =>
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(3, 0, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1, 0,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_vertical_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_vertical_deg = deg_vertical;
+                                    }
+                                );
+                            }
+                            ;
+                        #endregion
+
+                        #region program_14_turn_right
+                        Action program_14_turn_right =
+                            /* void program_13_turn_left */ () =>
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(3, 0, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1, 1,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_vertical_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_vertical_deg = deg_vertical;
+                                    }
+                                );
+                            }
+                            ;
+                        #endregion
+
+                        //program_43_high_five_calibration_stand();
+                        //program_53_mayday();
+                        //program_23_high_five_calibration_far();
+                        program_13_turn_left();
+                        program_14_turn_right();
+
 
                         #region legx
                         Action<Action, Action, f, f, f> legx =
@@ -1022,11 +1202,11 @@ namespace SpiderModel
                                 mw(
                                     delegate
                                     {
-                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(x), new float[] { 0f, 0f, 1f });
 
-
+                                        __glMatrix.mat4.rotate(mvMatrix, degToRad(x), 0f, 0f, 1f);
                                         __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_sideway), 0f, 0f, 1f);
                                         __glMatrix.mat4.rotate(mvMatrix, degToRad(deg_vertical), 1f, 0f, 0);
+
 
                                         leg(wirecolor, fillcolor);
                                     }
@@ -1051,62 +1231,24 @@ namespace SpiderModel
                           );
                         #endregion
 
-
-
-                        #region programs
-                        Action program_13_turn_left =
-                            delegate
-                            {
-                                program_leg_delay_move_hold_commit(1, 2,
-                                    (deg_sideway, deg_vertical) =>
-                                    {
-                                        leg1up_sideway_deg = deg_sideway;
-                                        leg1down_deg = deg_vertical;
-                                    }
-                                );
-
-                                program_leg_delay_move_hold_commit(3, 0,
-                                    (deg_sideway, deg_vertical) =>
-                                    {
-                                        leg2up_sideway_deg = deg_sideway;
-                                        leg2down_deg = deg_vertical;
-                                    }
-                                );
-
-                                program_leg_delay_move_hold_commit(2, 1,
-                                     (deg_sideway, deg_vertical) =>
-                                     {
-                                         leg3up_sideway_deg = deg_sideway;
-                                         leg3down_deg = deg_vertical;
-                                     }
-                                 );
-
-                                program_leg_delay_move_hold_commit(0, 3,
-                                    (deg_sideway, deg_vertical) =>
-                                    {
-                                        leg4up_sideway_deg = deg_sideway;
-                                        leg4down_deg = deg_vertical;
-                                    }
-                                );
-                            };
-                        #endregion
-
-                        program_13_turn_left();
-
-                        #region right front - RED - leg1
-                        legx(red, orange, -45, leg1up_sideway_deg, leg1down_deg);
-                        #endregion
-
                         #region left front - GREEN - leg2
-                        legx(green, orange, 45, leg2up_sideway_deg, leg2down_deg);
+                        legx(green, orange, 45, leg2up_sideway_deg, leg2down_vertical_deg);
                         #endregion
+
+
+                        //legx_y = -2;
 
                         #region leg right back - BLUE - leg3
-                        legx(green, green, 45 + 180, leg3up_sideway_deg, leg3down_deg);
+                        legx(cyan, green, 45 + 180, leg3up_sideway_deg, leg3down_vertical_deg);
                         #endregion
 
                         #region leg left back - WHITE - leg4
-                        legx(cyan, green, -45 + 180, leg4up_sideway_deg, leg4down_deg);
+                        legx(white, green, -45 + 180, leg4up_sideway_deg, leg4down_vertical_deg);
+                        #endregion
+
+
+                        #region right front - RED - leg1
+                        legx(red, orange, -45, leg1up_sideway_deg, leg1down_vertical_deg);
                         #endregion
 
                     }
@@ -1212,10 +1354,10 @@ namespace SpiderModel
 
         }
 
-        public f leg1down_deg = 0.0f;
-        public f leg2down_deg = 0.0f;
-        public f leg3down_deg = 0.0f;
-        public f leg4down_deg = 0.0f;
+        public f leg1down_vertical_deg = 0.0f;
+        public f leg2down_vertical_deg = 0.0f;
+        public f leg3down_vertical_deg = 0.0f;
+        public f leg4down_vertical_deg = 0.0f;
 
         public f leg1up_sideway_deg = 0.0f;
         public f leg2up_sideway_deg = 0.0f;
