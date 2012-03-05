@@ -30,6 +30,15 @@ namespace ArduinoSpiderControlCenter
             y(x);
         }
 
+        public void AtFocus()
+        {
+            COM46.AtFocus();
+        }
+
+        public void AtBlur()
+        {
+            COM46.AtBlur();
+        }
     }
 
     public static class COM46
@@ -37,42 +46,84 @@ namespace ArduinoSpiderControlCenter
         public static int Rx;
         public static string Line = "not ready..";
 
+        public static Action AtBlur = delegate { };
+        public static Action AtFocus = delegate { };
+
+         static void InitAtFocus()
+        {
+            AtFocus = delegate
+            {
+                Line = "AtFocus...";
+                Console.Title = "AtFocus";
+
+                var ports = SerialPort.GetPortNames();
+
+                // http://binglongx.wordpress.com/2011/10/26/arduino-serial-port-communication/
+                // Arduino Serial uses: Data_bits=8, Stop_bits=1, Parity=None, Flow_control=None
+                var portName = "COM46";
+
+                if (!ports.Contains(portName))
+                    return;
+
+                AtFocus = delegate
+                {
+                };
+
+                var s = new SerialPort(
+                    portName: portName,
+                    baudRate: 9600,
+                    parity: Parity.None,
+                    dataBits: 8,
+                    stopBits: StopBits.One
+                );
+
+                s.Open();
+
+                var y = true;
+
+                AtBlur = delegate
+                {
+                    Console.Title = "AtBlur";
+                    y = false;
+                    AtBlur = delegate
+                    {
+
+                    };
+                };
+
+                var i = 0;
+
+                new Thread(
+                    delegate()
+                    {
+                        try
+                        {
+                            while (y)
+                            {
+                                i++;
+                                COM46.Line = s.ReadLine();
+                            }
+
+                            s.Close();
+                        }
+                        finally
+                        {
+                            s.Dispose();
+                        }
+
+                        Line = "AtBlur...";
+
+                        InitAtFocus();
+                    }
+                ).Start();
+            };
+
+        }
+
         static COM46()
         {
-            Line = "waiting...";
-
-            var ports = SerialPort.GetPortNames();
-
-            // http://binglongx.wordpress.com/2011/10/26/arduino-serial-port-communication/
-            // Arduino Serial uses: Data_bits=8, Stop_bits=1, Parity=None, Flow_control=None
-            var portName = "COM46";
-
-            if (!ports.Contains(portName))
-                return;
-
-            var s = new SerialPort(
-                portName: portName,
-                baudRate: 9600,
-                parity: Parity.None,
-                dataBits: 8,
-                stopBits: StopBits.One
-            );
-
-            s.Open();
-
-            var i = 0;
-
-            new Thread(
-                delegate()
-                {
-                    while (true)
-                    {
-                        i++;
-                        COM46.Line = s.ReadLine();
-                    }
-                }
-            ).Start();
-
+            InitAtFocus();
+            
 
             //StartConsoleMonitoring();
 

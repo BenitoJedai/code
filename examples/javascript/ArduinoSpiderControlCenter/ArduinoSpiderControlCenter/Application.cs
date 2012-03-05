@@ -105,18 +105,78 @@ namespace ArduinoSpiderControlCenter
             Native.Window.onresize += delegate { AtResize(); };
             #endregion
 
-            var t = new Timer(
+            var delay = new Timer(
                 delegate
                 {
                     Native.Document.body.style.cursor = IStyle.CursorEnum.wait;
                 }
             );
 
+            var COM46_Line_value = "";
+
+            Func<double, double> sin = Math.Sin;
+
+            Action COM46_Line_value_loop = null;
+
+            var leg1down_pos = 0.0;
+            var leg2down_pos = 0.0;
+            var leg3down_pos = 0.0;
+            var leg4down_pos = 0.0;
+
+            COM46_Line_value_loop = delegate
+            {
+                var pi = 3.14;
+                var t = SpiderModelContent.t;
+                var f = 0.1;
+
+                if (t > 30)
+                    if (t < 120)
+                    {
+                        leg1down_pos = 10 * sin(2 * pi * f * t + 0.5 * pi) + 110 - 10;
+                        leg2down_pos = 10 * sin(2 * pi * f * t - 0.5 * pi) + 60 + 10;
+                        leg3down_pos = 20 * sin(2 * pi * f * t - 0.5 * pi) + 80 + 10;
+                        leg4down_pos = 20 * sin(2 * pi * f * t + 0.5 * pi) + 100 - 10;
+                    }
+
+                page.Content.innerText = COM46_Line_value
+                    + "\nt: \t" + System.Convert.ToInt32((double)t)
+                    + "\nRED leg1down_pos: \t" + System.Convert.ToInt32(leg1down_pos)
+                    + "\nGREEN leg2down_pos: \t" + System.Convert.ToInt32(leg2down_pos)
+                    + "\nBLUE leg3down_pos: \t" + System.Convert.ToInt32(leg3down_pos)
+                + "\nWHITE leg4down_pos: \t" + System.Convert.ToInt32(leg4down_pos);
+
+                Native.Window.requestAnimationFrame += COM46_Line_value_loop;
+            };
+
+            Native.Window.requestAnimationFrame += COM46_Line_value_loop;
+
+            Native.Window.onfocus +=
+                delegate
+                {
+                    "AtFocus".ToDocumentTitle();
+                    service.AtFocus();
+                };
+
+            Native.Document.onclick +=
+            delegate
+            {
+                "AtFocus".ToDocumentTitle();
+                service.AtFocus();
+            };
+
+            Native.Window.onblur +=
+                delegate
+                {
+                    "AtBlur".ToDocumentTitle();
+                    service.AtBlur();
+                };
+
+
             Action poll = null;
 
             poll = delegate
                 {
-                    t.StartTimeout(400);
+                    delay.StartTimeout(400);
 
                     // Send data from JavaScript to the server tier
                     service.WebMethod2(
@@ -124,9 +184,9 @@ namespace ArduinoSpiderControlCenter
                         COM46_Line =>
                         {
                             Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
-                            t.Stop();
+                            delay.Stop();
 
-                            page.Content.innerText = COM46_Line;
+                            COM46_Line_value = COM46_Line.Replace("\t", "\n");
 
                             // jsc: why string.split with each not working??
 
@@ -134,6 +194,7 @@ namespace ArduinoSpiderControlCenter
 
                             byte RightLR_value = 0;
                             byte LeftLR_value = 0;
+                            var t = 0f;
 
                             #region parse RightLR, LeftLS, LeftIR, RightIR
                             for (int i = 0; i < a.Length; i++)
@@ -230,10 +291,19 @@ namespace ArduinoSpiderControlCenter
                                         }
                                         #endregion
 
+                                        if (key == "t")
+                                        {
+                                            t = (float)double.Parse(_value);
+                                        }
                                     }
                                 );
                             }
                             #endregion
+
+                            if (t != 0)
+                                if (SpiderModelContent.t_local != 0)
+                                    if (SpiderModelContent.t_fix == 0)
+                                        SpiderModelContent.t_fix = t - SpiderModelContent.t_local;
 
                             #region next
                             new Timer(
@@ -256,7 +326,7 @@ namespace ArduinoSpiderControlCenter
                             + (RightLR_value - 60) * 20f / (255 - 60)
                             );
 
-                            Native.Document.title = LeftLR_value + " " + RightLR_value;
+                            //Native.Document.title = LeftLR_value + " " + RightLR_value;
                         }
                     );
                 };
