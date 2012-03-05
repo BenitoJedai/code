@@ -157,17 +157,18 @@ namespace ArduinoSpiderControlCenter
             //        service.AtFocus();
             //    };
 
-            Native.Document.onclick +=
+            page.Connect.onclick +=
             delegate
             {
-                "AtFocus".ToDocumentTitle();
+                "Connect".ToDocumentTitle();
                 service.AtFocus();
             };
 
-            Native.Window.onblur +=
+
+            page.Disconnect.onclick +=
                 delegate
                 {
-                    "AtBlur".ToDocumentTitle();
+                    "Disconnect".ToDocumentTitle();
                     service.AtBlur();
                 };
 

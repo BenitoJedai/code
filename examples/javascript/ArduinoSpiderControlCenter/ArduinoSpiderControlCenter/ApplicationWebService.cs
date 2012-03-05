@@ -53,8 +53,8 @@ namespace ArduinoSpiderControlCenter
         {
             AtFocus = delegate
             {
-                Line = "AtFocus...";
-                Console.Title = "AtFocus";
+                Line = "Connect...";
+                Console.Title = "Connect";
 
                 var ports = SerialPort.GetPortNames();
 
@@ -84,7 +84,7 @@ namespace ArduinoSpiderControlCenter
 
                 AtBlur = delegate
                 {
-                    Console.Title = "AtBlur";
+                    Console.Title = "Disconnect";
                     y = false;
                     AtBlur = delegate
                     {
@@ -112,6 +112,7 @@ namespace ArduinoSpiderControlCenter
                         }
                         finally
                         {
+                            Console.Title = "Closed";
                             s.Close();
 
                             s.Dispose();
