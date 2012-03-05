@@ -150,12 +150,12 @@ namespace ArduinoSpiderControlCenter
 
             Native.Window.requestAnimationFrame += COM46_Line_value_loop;
 
-            Native.Window.onfocus +=
-                delegate
-                {
-                    "AtFocus".ToDocumentTitle();
-                    service.AtFocus();
-                };
+            //Native.Window.onfocus +=
+            //    delegate
+            //    {
+            //        "AtFocus".ToDocumentTitle();
+            //        service.AtFocus();
+            //    };
 
             Native.Document.onclick +=
             delegate

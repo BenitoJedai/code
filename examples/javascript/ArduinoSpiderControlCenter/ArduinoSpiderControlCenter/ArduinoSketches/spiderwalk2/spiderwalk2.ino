@@ -139,7 +139,7 @@ void Walk01()
      }
 
      if (t > 13.2)
-       Walk01_both_down_onside();
+       Walk01_both_down();
      else if (t > 12.8)
        Walk01_both_up();
      else if (t > 12.4)
@@ -156,6 +156,8 @@ void Walk01()
        Walk01_L_up();
      else if (t > 10.0)
        Walk01_R_up();       
+     else if (t > 5.0)
+       Walk01_both_down();
 }
 
 void Walk01_L_up()
@@ -208,7 +210,9 @@ void Walk01_both_down()
       leg2up.write(90 /* leg to front */ + 30);
       
       leg3down.write(70);
+      leg3up.write(90 + 30);      
       leg4down.write(109);
+      leg4up.write(90 - 30);
 }
 
 void Walk01_both_down_onside()

@@ -77,6 +77,7 @@ namespace ArduinoSpiderControlCenter
                     stopBits: StopBits.One
                 );
 
+                // Access to the port 'COM46' is denied.
                 s.Open();
 
                 var y = true;
@@ -104,14 +105,19 @@ namespace ArduinoSpiderControlCenter
                                 COM46.Line = s.ReadLine();
                             }
 
-                            s.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
                         }
                         finally
                         {
+                            s.Close();
+
                             s.Dispose();
                         }
 
-                        Line = "AtBlur...";
+                        Line = "closed...";
 
                         InitAtFocus();
                     }
