@@ -765,14 +765,14 @@ namespace SpiderModel
 
                                 #region // __X__
                                 if (cycle == 7)
-                                    orange();
+                                    green();
                                 else
                                     white();
                                 draw(0, 0, 0);
                                 #endregion
                                 #region // _XXX_
                                 if (cycle == 6)
-                                    orange();
+                                    green();
                                 else
                                     white();
 
@@ -788,7 +788,7 @@ namespace SpiderModel
                                 #endregion
                                 #region // XXXXX
                                 if (cycle == 5)
-                                    orange();
+                                    red();
                                 else
                                     white();
 
@@ -805,7 +805,7 @@ namespace SpiderModel
                                 #endregion
                                 #region //XXXXXXX
                                 if (cycle == 4)
-                                    orange();
+                                    red();
                                 else
                                     white();
                                 draw(-3, 0, 3);
@@ -945,159 +945,120 @@ namespace SpiderModel
 
                         #endregion
 
-                        #region program_leg1
-                        Action<f> program_leg1 = phase =>
+                        #region program_leg0
+                        Action<f> program_leg0 = tphase =>
                         {
+                            var sidewaysrange = 22;
+
                             __glMatrix.mat4.rotate(mvMatrix, degToRad(
                                   0
-                                  + (f)(Math.Cos(t + phase) * 45)
+                                  + (f)(Math.Cos(tphase) * sidewaysrange)
 
                               ), new float[] { 0f, 0f, 1f });
 
                             __glMatrix.mat4.rotate(mvMatrix, degToRad(
-                             (float)Math.Max(0, Math.Sin(t + phase) * 45)
+                             (float)Math.Max(0, Math.Sin(tphase) * 45)
 
                              ), 1f, 0f, 0);
                         };
                         #endregion
 
-                        #region program_leg1_duet
-                        Action<f, f> program_leg1_duet = (phase, sidewaysrange) =>
+                        #region program_leg1
+                        Action<f> program_leg1 = phase =>
                         {
-                            var tphase = t + phase;
+                            program_leg0(t + phase);
 
-                            var up = Math.Max(0, Math.Sign(Math.Sin(tphase / 2)));
-                            var sideways = Math.Max(0, Math.Sign(Math.Cos(tphase / 2)));
+                        };
+                        #endregion
 
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
-                                  0
-                                  + (f)(
+                        #region program_leg5
+                        Action<int, int> program_leg5 = (delay, hold) =>
+                        {
+                            var phase = t % (Math.PI * (delay + 1 + hold + 1));
 
-                                        (
-                                            ((1 - sideways) * -1) +
-                                            sideways * Math.Cos(tphase)
-                                        )
-                                        * sidewaysrange
-                                    )
+                            #region delay
+                            if (phase < (Math.PI * delay))
+                            {
+                                // delay
+                                program_leg0(0);
+                                return;
+                            }
 
-                              ), 0f, 0f, 1f);
+                            phase -= (Math.PI * delay);
+                            #endregion
 
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
-                             (float)Math.Max(0, up * Math.Sin(tphase) * 45)
+                            #region move
+                            if (phase < (Math.PI))
+                            {
+                                // move
+                                program_leg0((f)phase);
+                                return;
+                            }
 
-                             ), 1f, 0f, 0);
+                            phase -= (Math.PI);
+                            #endregion
+
+
+                            #region hold
+                            if (phase < (Math.PI * hold))
+                            {
+                                // delay
+                                program_leg0((f)(Math.PI));
+                                return;
+                            }
+
+                            phase -= (Math.PI * hold);
+                            #endregion
+
+                            #region commit
+                            program_leg0((f)(Math.PI + phase));
+                            #endregion
                         };
                         #endregion
 
                         #region right front - RED
-                        legpart_fill = false;
                         mw(
                             delegate
                             {
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
-
+                                program_leg5(1, 2);
                                 leg(red, orange);
-
-                            }
-                        );
-                        legpart_fill = true;
-                        mw(
-                            delegate
-                            {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
-                                program_leg1_duet(0, 33);
-
-
-
-                                leg(red, orange);
-
                             }
                         );
                         #endregion
 
 
-
                         #region left front - GREEN
-                        legpart_fill = false;
                         mw(
                             delegate
                             {
-
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
-
+                                program_leg5(3, 0);
                                 leg(green, orange);
-
-                            }
-                        );
-                        legpart_fill = true;
-                        mw(
-                            delegate
-                            {
-
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
-                                program_leg1_duet(0, 33);
-
-                                leg(green, orange);
-
                             }
                         );
                         #endregion
 
 
                         #region leg right back - BLUE
-                        legpart_fill = false;
                         mw(
                             delegate
                             {
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(45 + 180), new float[] { 0f, 0f, 1f });
-
-                        
-                                leg(cyan, green);
-                            }
-                        );
-                        legpart_fill = true;
-                        mw(
-                            delegate
-                            {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45 + 180), new float[] { 0f, 0f, 1f });
-                                program_leg1_duet(0, 33);
-
-
+                                program_leg5(2, 1);
                                 leg(cyan, green);
                             }
                         );
                         #endregion
 
                         #region leg left back - WHITE
-
-                        legpart_fill = false;
-                        mw(delegate
-                        {
-                            // 0.5 180
-                            // 0.25 90
-                            // 0.125 45
-
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(180 * 0.75f), 0f, 0f, 1f);
-                            leg(white, green);
-                        }
-                     );
-                        legpart_fill = true;
-
                         mw(delegate
                              {
-                                 // 0.5 180
-                                 // 0.25 90
-                                 // 0.125 45
-
                                  __glMatrix.mat4.rotate(mvMatrix, degToRad(180 * 0.75f), 0f, 0f, 1f);
-                                 program_leg1_duet(0, 33);
+                                 program_leg5(0, 3);
                                  leg(white, green);
                              }
                          );
-
-
-
-
                         #endregion
 
 
