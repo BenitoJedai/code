@@ -49,6 +49,17 @@ namespace SpiderModel
             new ApplicationContent().With(
                 Content =>
                 {
+                    Content.AtTick +=
+                        delegate
+                        {
+                            Native.Document.title = "" + Content.cycle;
+                        };
+
+                    Native.Document.onclick +=
+                        e =>
+                        {
+                        };
+
                     Native.Document.onmousemove +=
                         e =>
                         {
@@ -178,6 +189,17 @@ namespace SpiderModel
                 return t_local + t_fix;
             }
         }
+
+        public f cycle
+        {
+            get
+            {
+                return (f)(Math.Floor((t % (Math.PI * 4)) / (Math.PI * 0.5)));
+            }
+        }
+
+
+        public event Action AtTick;
 
         void InitializeContent(IHTMLCanvas canvas)
         {
@@ -431,36 +453,41 @@ namespace SpiderModel
             var cubeVertexColorBuffer_white = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_white);
             var colors_white = new[]{
-                1.0f, 1.0f, 1.0f, 1.0f, // Front face
-                1.0f, 1.0f, 1.0f, 1.0f, // Front face
-                1.0f, 1.0f, 1.0f, 1.0f, // Front face
-                1.0f, 1.0f, 1.0f, 1.0f, // Front face
+                1.0f, 1.0f, 1.0f, 1.0f, 
+                1.0f, 1.0f, 1.0f, 1.0f, 
+                1.0f, 1.0f, 1.0f, 1.0f, 
+                1.0f, 1.0f, 1.0f, 1.0f, 
 
-                0.8f, 0.4f, 0.0f, 1.0f, // Back face
-                0.8f, 0.4f, 0.0f, 1.0f, // Back face
-                0.8f, 0.4f, 0.0f, 1.0f, // Back face
-                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+             
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
 
-                1.0f, 1.0f, 1.0f, 1.0f, // Top face
-                1.0f, 1.0f, 1.0f, 1.0f, // Top face
-                1.0f, 1.0f, 1.0f, 1.0f, // Top face
-                1.0f, 1.0f, 1.0f, 1.0f, // Top face
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
 
-                1.0f, 1.0f, 1.0f, 1.0f, // Bottom face
-                1.0f, 1.0f, 1.0f, 1.0f, // Bottom face
-                1.0f, 1.0f, 1.0f, 1.0f, // Bottom face
-                1.0f, 1.0f, 1.0f, 1.0f, // Bottom face
+                 1.0f, 1.0f, 1.0f, 1.0f, 
+                1.0f, 1.0f, 1.0f, 1.0f, 
+                1.0f, 1.0f, 1.0f, 1.0f, 
+                1.0f, 1.0f, 1.0f, 1.0f, 
+
+             
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
+                1.0f, 1.0f, 1.0f, 1.0f,
 
                 
-                0.9f, 0.9f, 0.9f, 1.0f, // Right face
-                0.9f, 0.9f, 0.9f, 1.0f, // Right face
-                0.9f, 0.9f, 0.9f, 1.0f, // Right face
-                0.9f, 0.9f, 0.9f, 1.0f, // Right face
-
-                0.9f, 0.9f, 0.9f, 1.0f,  // Left face
-                0.9f, 0.9f, 0.9f, 1.0f,  // Left face
-                0.9f, 0.9f, 0.9f, 1.0f,  // Left face
-                0.9f, 0.9f, 0.9f, 1.0f  // Left face
+            
+            
             };
 
 
@@ -737,33 +764,95 @@ namespace SpiderModel
 
 
                                 #region // __X__
+                                if (cycle == 7)
+                                    orange();
+                                else
+                                    white();
                                 draw(0, 0, 0);
                                 #endregion
                                 #region // _XXX_
-                                draw(0, 0, 1);
+                                if (cycle == 6)
+                                    orange();
+                                else
+                                    white();
+
                                 draw(-1, 0, 1);
                                 draw(1, 0, 1);
 
 
 
+                                draw(0, 0, 1);
+
+
+
                                 #endregion
                                 #region // XXXXX
-                                draw(0, 0, 2);
+                                if (cycle == 5)
+                                    orange();
+                                else
+                                    white();
+
                                 draw(-2, 0, 2);
+                                draw(2, 0, 2);
                                 draw(-1, 0, 2);
                                 draw(1, 0, 2);
-                                draw(2, 0, 2);
+
+
+
+                                draw(0, 0, 2);
 
 
                                 #endregion
-                                #region // __X__
+                                #region //XXXXXXX
+                                if (cycle == 4)
+                                    orange();
+                                else
+                                    white();
+                                draw(-3, 0, 3);
+                                draw(-2, 0, 3);
+                                draw(2, 0, 3);
+                                draw(3, 0, 3);
+                                draw(-1, 0, 3);
+                                draw(1, 0, 3);
+
+
+
+
                                 draw(0, 0, 3);
+
+
                                 #endregion
                                 #region // __X__
+
+                                if (cycle == 3)
+                                    orange();
+                                else
+                                    white();
+
                                 draw(0, 0, 4);
                                 #endregion
                                 #region // __X__
+
+                                if (cycle == 2)
+                                    orange();
+                                else
+                                    white();
+
                                 draw(0, 0, 5);
+                                #endregion
+                                #region // __X__
+                                if (cycle == 1)
+                                    orange();
+                                else
+                                    white();
+                                draw(0, 0, 6);
+                                #endregion
+                                #region // __X__
+                                if (cycle == 0)
+                                    orange();
+                                else
+                                    white();
+                                draw(0, 0, 7);
                                 #endregion
                             };
                         #endregion
@@ -824,114 +913,200 @@ namespace SpiderModel
 
                         orange();
 
+                        bool legpart_fill = true;
 
+                        #region leg
+                        Action<Action, Action, f, f, f> legpart =
+                            (legcolor, fillcolor, x, y, z) =>
+                            {
+                                if (legpart_fill)
+                                {
+                                    drawElements_mode = gl.TRIANGLES;
+                                    fillcolor();
+                                    draw(x, y, z);
+                                }
+
+                                drawElements_mode = gl.LINE_STRIP;
+                                legcolor();
+                                draw(x, y, z);
+                                fillcolor();
+                                drawElements_mode = gl.TRIANGLES;
+                            };
+
+                        Action<Action, Action> leg =
+                            (legcolor, fillcolor) =>
+                            {
+                                legpart(legcolor, fillcolor, 0, 6, 0);
+                                legpart(legcolor, fillcolor, 0, 5, 1);
+                                legpart(legcolor, fillcolor, 0, 4, 2);
+                                legpart(legcolor, fillcolor, 0, 3, 2);
+                                legpart(legcolor, fillcolor, 0, 2, 1);
+                            };
+
+                        #endregion
+
+                        #region program_leg1
+                        Action<f> program_leg1 = phase =>
+                        {
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
+                                  0
+                                  + (f)(Math.Cos(t + phase) * 45)
+
+                              ), new float[] { 0f, 0f, 1f });
+
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
+                             (float)Math.Max(0, Math.Sin(t + phase) * 45)
+
+                             ), 1f, 0f, 0);
+                        };
+                        #endregion
+
+                        #region program_leg1_duet
+                        Action<f, f> program_leg1_duet = (phase, sidewaysrange) =>
+                        {
+                            var tphase = t + phase;
+
+                            var up = Math.Max(0, Math.Sign(Math.Sin(tphase / 2)));
+                            var sideways = Math.Max(0, Math.Sign(Math.Cos(tphase / 2)));
+
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
+                                  0
+                                  + (f)(
+
+                                        (
+                                            ((1 - sideways) * -1) +
+                                            sideways * Math.Cos(tphase)
+                                        )
+                                        * sidewaysrange
+                                    )
+
+                              ), 0f, 0f, 1f);
+
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(
+                             (float)Math.Max(0, up * Math.Sin(tphase) * 45)
+
+                             ), 1f, 0f, 0);
+                        };
+                        #endregion
+
+                        #region right front - RED
+                        legpart_fill = false;
                         mw(
                             delegate
                             {
-
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
 
-                                #region right front - RED
-                                orange();
-                                draw(0, 7, 0);
-                                drawElements_mode = gl.LINE_STRIP;
-                                red();
-                                draw(0, 7, 0);
-                                orange();
-                                drawElements_mode = gl.TRIANGLES;
-                                draw(0, 6, 1);
-                                draw(0, 5, 2);
-                                draw(0, 4, 2);
-                                draw(0, 3, 1);
-
-
-                                #endregion
+                                leg(red, orange);
 
                             }
                         );
-
+                        legpart_fill = true;
                         mw(
-                        delegate
+                            delegate
+                            {
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
+                                program_leg1_duet(0, 33);
+
+
+
+                                leg(red, orange);
+
+                            }
+                        );
+                        #endregion
+
+
+
+                        #region left front - GREEN
+                        legpart_fill = false;
+                        mw(
+                            delegate
+                            {
+
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
+
+                                leg(green, orange);
+
+                            }
+                        );
+                        legpart_fill = true;
+                        mw(
+                            delegate
+                            {
+
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
+                                program_leg1_duet(0, 33);
+
+                                leg(green, orange);
+
+                            }
+                        );
+                        #endregion
+
+
+                        #region leg right back - BLUE
+                        legpart_fill = false;
+                        mw(
+                            delegate
+                            {
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45 + 180), new float[] { 0f, 0f, 1f });
+
+                        
+                                leg(cyan, green);
+                            }
+                        );
+                        legpart_fill = true;
+                        mw(
+                            delegate
+                            {
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45 + 180), new float[] { 0f, 0f, 1f });
+                                program_leg1_duet(0, 33);
+
+
+                                leg(cyan, green);
+                            }
+                        );
+                        #endregion
+
+                        #region leg left back - WHITE
+
+                        legpart_fill = false;
+                        mw(delegate
                         {
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
+                            // 0.5 180
+                            // 0.25 90
+                            // 0.125 45
 
-                            #region leg right back - BLUE
-                            green();
-                            draw(0, -7, 0);
-                            cyan();
-                            drawElements_mode = gl.LINE_STRIP;
-                            draw(0, -7, 0);
-                            green();
-                            drawElements_mode = gl.TRIANGLES;
-                            draw(0, -6, 1);
-                            draw(0, -5, 2);
-                            draw(0, -4, 2);
-                            draw(0, -3, 1);
-                            #endregion
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(180 * 0.75f), 0f, 0f, 1f);
+                            leg(white, green);
                         }
-                        );
+                     );
+                        legpart_fill = true;
 
-                        mw(
-                            delegate
-                            {
+                        mw(delegate
+                             {
+                                 // 0.5 180
+                                 // 0.25 90
+                                 // 0.125 45
 
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
-
-                                #region left front - GREEN
-                                orange();
-                                draw(0, 7, 0);
-                                green();
-                                drawElements_mode = gl.LINE_STRIP;
-                                draw(0, 7, 0);
-                                orange();
-                                drawElements_mode = gl.TRIANGLES;
-                                draw(0, 7, 0);
-                                draw(0, 6, 1);
-                                draw(0, 5, 2);
-                                draw(0, 4, 2);
-                                draw(0, 3, 1);
-
-
-                                #endregion
-                            }
-                        );
-
-                        mw(
-                            delegate
-                            {
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
-
-                                #region leg left back - WHITE
-                                green();
-                                draw(0, -7, 0);
-                                white();
-                                drawElements_mode = gl.LINE_STRIP;
-                                draw(0, -7, 0);
-                                green();
-                                drawElements_mode = gl.TRIANGLES;
-                                draw(0, -6, 1);
-                                draw(0, -5, 2);
-                                draw(0, -4, 2);
-                                draw(0, -3, 1);
-
-
-                                #endregion
-                            }
-                        );
+                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(180 * 0.75f), 0f, 0f, 1f);
+                                 program_leg1_duet(0, 33);
+                                 leg(white, green);
+                             }
+                         );
 
 
 
 
-                        at(0, 0, 1,
+                        #endregion
+
+
+
+
+                        at(0, 0, 0.5f,
                               delegate
                               {
                                   #region body
-
-
-                                  //draw(-1, 1, 0);
-                                  //draw(1, -1, 0);
-                                  //draw(-1, -1, 0);
-                                  //draw(1, 1, 0);
 
                                   green();
 
@@ -984,7 +1159,7 @@ namespace SpiderModel
 
             var c = 0;
 
-            #region tick - new in lesson 03
+            #region tick
             var tick = default(Action);
 
             tick = delegate
@@ -996,12 +1171,16 @@ namespace SpiderModel
                 drawScene();
                 animate();
 
+                if (AtTick != null)
+                    AtTick();
+
                 Native.Window.requestAnimationFrame += tick;
             };
 
             tick();
             #endregion
 
+            #region white_arrows
             new ScriptCoreLib.JavaScript.Runtime.Timer(
                 delegate
                 {
@@ -1018,13 +1197,16 @@ namespace SpiderModel
 
                 }
             ).StartInterval(1000 / 15);
+            #endregion
+
 
             Native.Document.body.ondblclick +=
                 delegate
                 {
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    var request = new IFunction(@"
+                    #region requestFullscreen
+                    var requestFullscreen = new IFunction(@"
 		if (this.requestFullscreen) {
 		    this.requestFullscreen();
 		}
@@ -1038,9 +1220,12 @@ namespace SpiderModel
                     "
                     );
 
-                    request.apply(Native.Document.body);
+                    requestFullscreen.apply(Native.Document.body);
+                    #endregion
+
                 };
 
         }
+
     }
 }
