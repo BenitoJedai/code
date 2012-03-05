@@ -41,7 +41,7 @@ int LeftLSValue = 0;
 int RightLSValue = 0;
 long FrontUSValue = 0;
  
-int p = 1;
+int p = 23;
 
 void setup() 
 { 
@@ -117,217 +117,180 @@ void ReadUltraSound()
   }
 }
 
-void Walk01()
+                        int sidewaysrange = 14;
+                        int verticalrange = 24;
+                        
+float leg1up_sideway_deg;
+float leg2up_sideway_deg;
+float leg3up_sideway_deg;
+float leg4up_sideway_deg;
+
+float leg1down_vertical_deg ;
+float leg2down_vertical_deg ;
+float leg3down_vertical_deg ;
+float leg4down_vertical_deg; 
+
+
+                        
+void program_23_high_five_calibration_far()
 {
-     if (t > 120)
-     {
+                                leg1up_sideway_deg = sidewaysrange;
+                                leg2up_sideway_deg = -sidewaysrange;
+                                leg3up_sideway_deg = -sidewaysrange;
+                                leg4up_sideway_deg = sidewaysrange;
+
+                                leg1down_vertical_deg = verticalrange;
+                                leg2down_vertical_deg = verticalrange;
+                                leg3down_vertical_deg = verticalrange;
+                                leg4down_vertical_deg = verticalrange;
+    
+}
+
+void program_33_high_five_calibration()
+{
+      
+                                leg1up_sideway_deg = -sidewaysrange;
+                                leg2up_sideway_deg = sidewaysrange;
+                                leg3up_sideway_deg = sidewaysrange;
+                                leg4up_sideway_deg = -sidewaysrange;
+      
+                                leg1down_vertical_deg = verticalrange;
+                                leg2down_vertical_deg = verticalrange;
+                                leg3down_vertical_deg = verticalrange;
+                                leg4down_vertical_deg = verticalrange;
+  
+    
+}
+
+ void program_43_high_five_calibration_stand()
+                            {
+                                leg1up_sideway_deg = -sidewaysrange;
+                                leg2up_sideway_deg = sidewaysrange;
+                                leg3up_sideway_deg = sidewaysrange;
+                                leg4up_sideway_deg = -sidewaysrange;
+
+                                leg1down_vertical_deg = 0;
+                                leg2down_vertical_deg = 0;
+                                leg3down_vertical_deg = 0;
+                                leg4down_vertical_deg = 0;
+                            }
+
+    void program_53_mayday()
+                            {
+                                leg1down_vertical_deg = verticalrange;
+                                leg2down_vertical_deg = verticalrange;
+                                leg3down_vertical_deg = verticalrange;
+                                leg4down_vertical_deg = verticalrange;
+
+                                leg1up_sideway_deg = -cos(t * 6) * sidewaysrange;
+                                leg2up_sideway_deg = cos(t * 6) * sidewaysrange;
+                                leg3up_sideway_deg = cos(t * 6) * sidewaysrange;
+                                leg4up_sideway_deg = -cos(t * 6) * sidewaysrange;
+
+                                
+                            }
+
+
+  void program_leg0 (float tphase, float* notify_x, float* notify_y) 
+  {
+      float deg_sideway = (cos(tphase) * sidewaysrange);
+      float deg_vertical = max(0, sin(tphase) * verticalrange);
+
+      *notify_x = deg_sideway;
+      *notify_y = deg_vertical;
+
+  }
+         
+         
+ void program_leg_delay_move_hold_commit  (int delay, int hold, int reverse, float* notify_x, float* notify_y) 
+                        {
+                 float t_accelerated = t * 4;
+                            float mod = (pi * (delay + 1 + hold + 1));
+
+                            // error: invalid operands of types 'float' and 'float' to binary 'operator%'
+                            float phase = (float)((int)(t_accelerated * 100) % (int)(mod * 100)) * 0.01f;
+
+                            // delay
+                            if (phase < (pi * delay))
+                            {
+                              if (reverse > 0)
+                                    phase = pi;
+                                else
+                                    phase = 0;
+
+                                program_leg0(phase, notify_x, notify_y);
+                                return;
+                            }
+
+                            phase -= (pi * delay);
+
+
+                            // move
+                            if (phase < (pi))
+                            {
+                                if (reverse > 0)
+                                    phase = pi - phase;
+                                program_leg0(phase, notify_x, notify_y);
+                                return;
+                            }
+
+                            phase -= (pi);
+
+
+
+                            // delay
+                            if (phase < (pi * hold))
+                            {
+                                if (reverse > 0)
+                                    phase = 0;
+                                else
+                                    phase = pi;
+
+                                program_leg0(phase, notify_x, notify_y);
+                                return;
+                            }
+
+                            phase -= (pi * hold);
+
+                            if (reverse >0)
+                                phase = pi - phase;
+
+                            // commit
+                            program_leg0((pi + phase), notify_x, notify_y);
+
+                        }         
+                            
+ void program_13_turn_left  () 
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg_delay_move_hold_commit(3, 0, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg_delay_move_hold_commit(2, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg_delay_move_hold_commit(0, 3, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
+                            
+                        
+                            }
+                            
+void program()
+{
+  // if (p == 23) 
+  program_13_turn_left();
+//  program_43_high_five_calibration_stand();
+  // program_53_mayday();
+//   program_23_high_five_calibration_far();
+   // program_33_high_five_calibration();
+   
        // yay :) nothing to do anymore
-      leg1down.write(109 - 25); // raise RED leg
-      leg2down.write(60); // put that leg more into dirt
-      leg3down.write(70);
-      leg4down.write(109);       
-       return;  
-     }
-     
-   
-     if (t > 40)
-     {
-       // waiting for my time:) 
-       // load your debugger!
-       p = 2;
-       return;
-     }
-
-     if (t > 13.2)
-       Walk01_both_down();
-     else if (t > 12.8)
-       Walk01_both_up();
-     else if (t > 12.4)
-       Walk01_both_down();
-     else if (t > 12)
-       Walk01_both_up();
-     else if (t > 11.6)
-       Walk01_both_down();
-     else  if (t > 11.2)
-       Walk01_L_up();
-     else if (t > 10.8)
-       Walk01_R_up();
-     else    if (t > 10.4)
-       Walk01_L_up();
-     else if (t > 10.0)
-       Walk01_R_up();       
-     else if (t > 5.0)
-       Walk01_both_down();
-}
-
-void Walk01_L_up()
-{
-         // lets get up before working out..
-      leg1down.write(109 /* leg up */ - 15 * 1);
-      leg1up.write(85 /* leg to front */  - 30);
+      leg1down.write(leg1down_pos + 12 - leg1down_vertical_deg); // RED
+      leg1up.write(leg1up_pos - 14 - leg1up_sideway_deg);
       
-      leg2down.write(60 /* leg up */ - 15 * 0);
-      leg2up.write(90 /* leg to front */ + 30);
+      leg2down.write(leg2down_pos - 12 + leg2down_vertical_deg); // GREEN
+      leg2up.write(leg2up_pos + 14 - leg2up_sideway_deg);
       
-      leg3down.write(70);
-      leg4down.write(109);
-
-}
-
-void Walk01_R_up()
-{
-    // lets get up before working out..
-      leg1down.write(109 /* leg up */ - 15 * 0);
-      leg1up.write(85 /* leg to front */  - 30);
+      leg3down.write(leg3down_pos - 14 + leg3down_vertical_deg); // BLUE
+      leg3up.write(leg3up_pos + 14 - leg3up_sideway_deg);
       
-      leg2down.write(60 /* leg up */ + 15 * 1);
-      leg2up.write(90 /* leg to front */ + 30);
-      
-      leg3down.write(70);
-      leg4down.write(109);
-}
-
-void Walk01_both_up()
-{
-    // lets get up before working out..
-      leg1down.write(109 /* leg up */ - 15 * 1);
-      leg1up.write(85 /* leg to front */  - 30);
-      
-      leg2down.write(60 /* leg up */ + 15 * 1);
-      leg2up.write(90 /* leg to front */ + 30);
-      
-      leg3down.write(70);
-      leg4down.write(109);
-}
-
-void Walk01_both_down()
-{
-    // lets get up before working out..
-      leg1down.write(109 /* leg up */ - 15 * 0);
-      leg1up.write(85 /* leg to front */  - 30);
-      
-      leg2down.write(60 /* leg up */ + 15 * 0);
-      leg2up.write(90 /* leg to front */ + 30);
-      
-      leg3down.write(70);
-      leg3up.write(90 + 30);      
-      leg4down.write(109);
-      leg4up.write(90 - 30);
-}
-
-void Walk01_both_down_onside()
-{
-    // lets get up before working out..
-      leg1down.write(109 /* leg up */ - 15 * 0);
-      leg1up.write(85 /* leg to front */  - 30 * 0);
-      
-      leg2down.write(60 /* leg up */ + 15 * 0);
-      leg2up.write(90 /* leg to front */ + 30 * 0);
-      
-      leg3down.write(70);
-      leg4down.write(109);
-}
-
-void Walk00()
-{
-     if (t > 160)
-     {
-       p = 1;
-       return;
-     }
-   
-    // RED: OK
-//     leg1up_pos=20*sin(2*pi*f*t)+90;
-    leg1down_pos=30*sin(2*pi*f*t+0.5*pi)+110;
-    
-    // GREEN: // this is in reverse
-//    leg2up_pos=20*sin(2*pi*f*t)+90;
-    leg2down_pos=30*sin(2*pi*f*t-0.5*pi)+60;
-    
-    
-    
-    
-    // BLUE: OK // this is in reverse
-//    leg3up_pos=30*sin(2*pi*f*t)+110;
-    leg3down_pos=30*sin(2*pi*f*t-0.5*pi)+80;
-    
-    // WHITE OK:
-//    leg4up_pos=20*sin(2*pi*f*t)+90;
-    leg4down_pos=30*sin(2*pi*f*t+0.5*pi)+100;
-    
-    
-    
-  
-    // RED    
-    //leg1up.write(leg1up_pos);    
-    leg1down.write(leg1down_pos);
-          
-    
-    // GREEN
-    //leg2up.write(leg2up_pos);        
-    leg2down.write(leg2down_pos);
-
-
-    // BLUE    
-    //leg3up.write(leg3up_pos);    
-    leg3down.write(leg3down_pos);
-            
-    
-    // WHITE
-    //    leg4up.write(leg4up_pos);      
-    leg4down.write(leg4down_pos);
-	
-}
-
-void Walk02()
-{
-     if (t > 120)
-     {
-       p = 1;
-       return;
-     }
-   
-    // RED: OK
-//     leg1up_pos=20*sin(2*pi*f*t)+90;
-    leg1down_pos=10*sin(2*pi*f*t+0.5*pi)+110-10;
-    
-    // GREEN: // this is in reverse
-//    leg2up_pos=20*sin(2*pi*f*t)+90;
-    leg2down_pos=10*sin(2*pi*f*t-0.5*pi)+60+10;
-    
-    
-    
-    
-    // BLUE: OK // this is in reverse
-//    leg3up_pos=30*sin(2*pi*f*t)+110;
-    leg3down_pos=20*sin(2*pi*f*t-0.5*pi)+80+10;
-    
-    // WHITE OK:
-//    leg4up_pos=20*sin(2*pi*f*t)+90;
-    leg4down_pos=20*sin(2*pi*f*t+0.5*pi)+100-10;
-    
-    
-    
-  
-    // RED    
-    //leg1up.write(leg1up_pos);    
-    leg1down.write(leg1down_pos);
-          
-    
-    // GREEN
-    //leg2up.write(leg2up_pos);        
-    leg2down.write(leg2down_pos);
-
-
-    // BLUE    
-    //leg3up.write(leg3up_pos);    
-    leg3down.write(leg3down_pos);
-            
-    
-    // WHITE
-    //    leg4up.write(leg4up_pos);      
-    leg4down.write(leg4down_pos);
-	
+      leg4down.write(leg4down_pos + 14 - leg4down_vertical_deg); // WHITE    
+      leg4up.write(leg4up_pos - 14 - leg4up_sideway_deg);
 }
 
 void loop() 
@@ -338,8 +301,7 @@ void loop()
 //    ReadUltraSound();
     PrintValues();
     
-    if (p == 0) Walk00();
-    if (p == 1) Walk01();
-    if (p == 2) Walk02();
+   
 
+  program();
 } 
