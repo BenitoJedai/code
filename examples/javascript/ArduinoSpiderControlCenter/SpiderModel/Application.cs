@@ -12,7 +12,6 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
-using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using SpiderModel.HTML.Pages;
 using SpiderModel.Library;
@@ -23,6 +22,7 @@ namespace SpiderModel
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using ScriptCoreLib.Shared.Avalon.Tween;
+    using System.Windows;
 
 
 
@@ -108,6 +108,7 @@ namespace SpiderModel
            );
             #endregion
 
+            #region tween
             NumericEmitter.OfDouble(
                 (value, reserved) => red_obstacle_L_y = (f)value
             ).With(
@@ -143,13 +144,21 @@ namespace SpiderModel
           tween_white_arrow_y = (value) => e(value, 0);
       }
   );
+            #endregion
+
         }
 
         // 0..30
+        public sealed class vec2
+        {
+            public f x;
+            public f y;
+        }
 
+        public Queue<vec2> white_arrows = new Queue<vec2>();
 
         public f white_arrow_x;
-        public f white_arrow_y = 30f;
+        public f white_arrow_y = 20f;
 
         public Action<f> tween_white_arrow_x;
         public Action<f> tween_white_arrow_y;
@@ -159,6 +168,16 @@ namespace SpiderModel
         public f red_obstacle_L_y = 20f;
         public f red_obstacle_R_y = 16f;
 
+        public f t_local = 0;
+        public f t_fix = 0;
+
+        public f t
+        {
+            get
+            {
+                return t_local + t_fix;
+            }
+        }
 
         void InitializeContent(IHTMLCanvas canvas)
         {
@@ -274,7 +293,7 @@ namespace SpiderModel
 
 
 
-            var size = 0.04f;
+            var size = 0.03f;
 
 
             #region cube
@@ -562,6 +581,8 @@ namespace SpiderModel
             var rPyramid = 0f;
             var rCube = 0f;
 
+            var t_start = new IDate().getTime();
+
             var lastTime = 0L;
             Action animate = delegate
             {
@@ -574,6 +595,11 @@ namespace SpiderModel
                     rCube -= (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
+
+                t_local = (timeNow - t_start) / 1000;
+
+
+                //Native.Document.title = "t: " + t;
             };
 
             Func<float, float> degToRad = (degrees) =>
@@ -700,16 +726,10 @@ namespace SpiderModel
                         };
                         #endregion
 
-                        if (white_arrow_y < 8)
-                            cyan();
-                        else
-                            white();
-
-                        #region white arrow
-                        at(white_arrow_x, white_arrow_y, 1,
+                        #region arrow
+                        Action arrow =
                             delegate
                             {
-
                                 __glMatrix.mat4.translate(mvMatrix, 0, 0, (float)(Math.Sin(rCube * 0.1) * size));
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.1f), 0f, 0f, -1f);
 
@@ -745,14 +765,25 @@ namespace SpiderModel
                                 #region // __X__
                                 draw(0, 0, 5);
                                 #endregion
-                            }
-                        );
+                            };
+                        #endregion
+
+
+                        if (white_arrow_y < 8)
+                            cyan();
+                        else
+                            white();
+
+                        #region white arrow
+                        at(white_arrow_x, white_arrow_y, 1, arrow);
                         #endregion
 
                         #region draw_obstacle
 
 
                         drawElements_mode = gl.LINE_STRIP;
+                        white();
+                        white_arrows.WithEach(p => at(p.x, p.y, 1, arrow));
 
                         Action draw_obstacle = delegate
                         {
@@ -793,57 +824,133 @@ namespace SpiderModel
 
                         orange();
 
-                        at(0, -4, 0,
+
+                        mw(
                             delegate
                             {
-                                draw(4, 7, 0);
-                                draw(4, 6, 0);
-                                draw(4, 5, 0);
-                                draw(4, 4, 1);
-                                draw(4, 3, 1);
 
-                                draw(2, 1, 2);
-                                draw(3, 1, 2);
-                                draw(2, 2, 2);
-                                draw(3, 2, 2);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
+
+                                #region right front - RED
+                                orange();
+                                draw(0, 7, 0);
+                                drawElements_mode = gl.LINE_STRIP;
+                                red();
+                                draw(0, 7, 0);
+                                orange();
+                                drawElements_mode = gl.TRIANGLES;
+                                draw(0, 6, 1);
+                                draw(0, 5, 2);
+                                draw(0, 4, 2);
+                                draw(0, 3, 1);
 
 
-                                #region leg left back
-                                draw(-4, -7, 0);
-                                draw(-4, -6, 0);
-                                draw(-4, -5, 0);
-                                draw(-4, -4, 1);
-                                draw(-4, -3, 1);
-
-                                draw(-2, -1, 2);
-                                draw(-3, -1, 2);
-                                draw(-2, -2, 2);
-                                draw(-3, -2, 2);
                                 #endregion
 
-                                #region body
+                            }
+                        );
+
+                        mw(
+                        delegate
+                        {
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(-45), new float[] { 0f, 0f, 1f });
+
+                            #region leg right back - BLUE
+                            green();
+                            draw(0, -7, 0);
+                            cyan();
+                            drawElements_mode = gl.LINE_STRIP;
+                            draw(0, -7, 0);
+                            green();
+                            drawElements_mode = gl.TRIANGLES;
+                            draw(0, -6, 1);
+                            draw(0, -5, 2);
+                            draw(0, -4, 2);
+                            draw(0, -3, 1);
+                            #endregion
+                        }
+                        );
+
+                        mw(
+                            delegate
+                            {
+
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
+
+                                #region left front - GREEN
+                                orange();
+                                draw(0, 7, 0);
                                 green();
-
-                                at(0, 0, 3,
-                                  delegate
-                                  {
-
-
-
-                                      draw(-1, 0, 0);
-                                      draw(0, -1, 0);
-
-                                      draw(0, 0, 0);
-
-                                      draw(1, 0, 0);
-                                      draw(0, 1, 0);
+                                drawElements_mode = gl.LINE_STRIP;
+                                draw(0, 7, 0);
+                                orange();
+                                drawElements_mode = gl.TRIANGLES;
+                                draw(0, 7, 0);
+                                draw(0, 6, 1);
+                                draw(0, 5, 2);
+                                draw(0, 4, 2);
+                                draw(0, 3, 1);
 
 
-                                  }
-                              );
                                 #endregion
                             }
-                       );
+                        );
+
+                        mw(
+                            delegate
+                            {
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(45), new float[] { 0f, 0f, 1f });
+
+                                #region leg left back - WHITE
+                                green();
+                                draw(0, -7, 0);
+                                white();
+                                drawElements_mode = gl.LINE_STRIP;
+                                draw(0, -7, 0);
+                                green();
+                                drawElements_mode = gl.TRIANGLES;
+                                draw(0, -6, 1);
+                                draw(0, -5, 2);
+                                draw(0, -4, 2);
+                                draw(0, -3, 1);
+
+
+                                #endregion
+                            }
+                        );
+
+
+
+
+                        at(0, 0, 1,
+                              delegate
+                              {
+                                  #region body
+
+
+                                  //draw(-1, 1, 0);
+                                  //draw(1, -1, 0);
+                                  //draw(-1, -1, 0);
+                                  //draw(1, 1, 0);
+
+                                  green();
+
+                                  draw(-1, 0, 0);
+                                  draw(1, 0, 0);
+
+                                  orange();
+
+                                  draw(0, -1, 0);
+                                  draw(0, 1, 0);
+
+
+
+
+                                  #endregion
+                              }
+                          );
+
+
 
                     }
                 );
@@ -894,6 +1001,23 @@ namespace SpiderModel
 
             tick();
             #endregion
+
+            new ScriptCoreLib.JavaScript.Runtime.Timer(
+                delegate
+                {
+                    white_arrows.Enqueue(
+                        new vec2
+                        {
+                            x = white_arrow_x,
+                            y = white_arrow_y
+                        }
+                    );
+
+                    if (white_arrows.Count > 12)
+                        white_arrows.Dequeue();
+
+                }
+            ).StartInterval(1000 / 15);
 
             Native.Document.body.ondblclick +=
                 delegate

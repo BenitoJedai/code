@@ -3,7 +3,7 @@
 
 float pi = 3.14;
 float t = 0;
-float f = 0.5;
+float f = 0.1;
 long LastUStime = 0; 
 int USperiod = 500;
  
@@ -41,6 +41,8 @@ int LeftLSValue = 0;
 int RightLSValue = 0;
 long FrontUSValue = 0;
  
+int p = 1;
+
 void setup() 
 { 
   leg1up.attach(5);
@@ -86,6 +88,10 @@ void PrintValues()
   Serial.print(LeftLSValue);
   Serial.print(";\t RightLR: ");
   Serial.print(RightLSValue);
+  Serial.print(";\t t: ");
+  Serial.print(t);
+  Serial.print(";\t p: ");
+  Serial.print(p);  
   Serial.println(";");
 }
 
@@ -111,36 +117,225 @@ void ReadUltraSound()
   }
 }
 
-void Walk(float time)
+void Walk01()
 {
+     if (t > 120)
+     {
+       // yay :) nothing to do anymore
+      leg1down.write(109 - 25); // raise RED leg
+      leg2down.write(60); // put that leg more into dirt
+      leg3down.write(70);
+      leg4down.write(109);       
+       return;  
+     }
      
-    leg1up_pos=20*sin(2*pi*f*t)+90;
-    leg1down_pos=20*sin(2*pi*f*t+0.5*pi)+90;
-    leg2up_pos=20*sin(2*pi*f*t)+90;
-    leg2down_pos=20*sin(2*pi*f*t+0.5*pi)+90;
-    leg3up_pos=20*sin(2*pi*f*t)+90;
-    leg3down_pos=20*sin(2*pi*f*t-0.5*pi)+90;
-    leg4up_pos=20*sin(2*pi*f*t)+90;
-    leg4down_pos=20*sin(2*pi*f*t-0.5*pi)+90;
-    
-    
-    leg1up.write(leg1up_pos);               
-    leg1down.write(leg1down_pos);
-    leg2up.write(leg2up_pos);              
-    leg2down.write(leg2down_pos);
-    leg3up.write(leg3up_pos);              
-    leg3down.write(leg3down_pos);
-    leg4up.write(leg4up_pos);              
-    leg4down.write(leg4down_pos);
+   
+     if (t > 40)
+     {
+       // waiting for my time:) 
+       // load your debugger!
+       p = 2;
+       return;
+     }
+
+     if (t > 13.2)
+       Walk01_both_down_onside();
+     else if (t > 12.8)
+       Walk01_both_up();
+     else if (t > 12.4)
+       Walk01_both_down();
+     else if (t > 12)
+       Walk01_both_up();
+     else if (t > 11.6)
+       Walk01_both_down();
+     else  if (t > 11.2)
+       Walk01_L_up();
+     else if (t > 10.8)
+       Walk01_R_up();
+     else    if (t > 10.4)
+       Walk01_L_up();
+     else if (t > 10.0)
+       Walk01_R_up();       
 }
- 
+
+void Walk01_L_up()
+{
+         // lets get up before working out..
+      leg1down.write(109 /* leg up */ - 15 * 1);
+      leg1up.write(85 /* leg to front */  - 30);
+      
+      leg2down.write(60 /* leg up */ - 15 * 0);
+      leg2up.write(90 /* leg to front */ + 30);
+      
+      leg3down.write(70);
+      leg4down.write(109);
+
+}
+
+void Walk01_R_up()
+{
+    // lets get up before working out..
+      leg1down.write(109 /* leg up */ - 15 * 0);
+      leg1up.write(85 /* leg to front */  - 30);
+      
+      leg2down.write(60 /* leg up */ + 15 * 1);
+      leg2up.write(90 /* leg to front */ + 30);
+      
+      leg3down.write(70);
+      leg4down.write(109);
+}
+
+void Walk01_both_up()
+{
+    // lets get up before working out..
+      leg1down.write(109 /* leg up */ - 15 * 1);
+      leg1up.write(85 /* leg to front */  - 30);
+      
+      leg2down.write(60 /* leg up */ + 15 * 1);
+      leg2up.write(90 /* leg to front */ + 30);
+      
+      leg3down.write(70);
+      leg4down.write(109);
+}
+
+void Walk01_both_down()
+{
+    // lets get up before working out..
+      leg1down.write(109 /* leg up */ - 15 * 0);
+      leg1up.write(85 /* leg to front */  - 30);
+      
+      leg2down.write(60 /* leg up */ + 15 * 0);
+      leg2up.write(90 /* leg to front */ + 30);
+      
+      leg3down.write(70);
+      leg4down.write(109);
+}
+
+void Walk01_both_down_onside()
+{
+    // lets get up before working out..
+      leg1down.write(109 /* leg up */ - 15 * 0);
+      leg1up.write(85 /* leg to front */  - 30 * 0);
+      
+      leg2down.write(60 /* leg up */ + 15 * 0);
+      leg2up.write(90 /* leg to front */ + 30 * 0);
+      
+      leg3down.write(70);
+      leg4down.write(109);
+}
+
+void Walk00()
+{
+     if (t > 160)
+     {
+       p = 1;
+       return;
+     }
+   
+    // RED: OK
+//     leg1up_pos=20*sin(2*pi*f*t)+90;
+    leg1down_pos=30*sin(2*pi*f*t+0.5*pi)+110;
+    
+    // GREEN: // this is in reverse
+//    leg2up_pos=20*sin(2*pi*f*t)+90;
+    leg2down_pos=30*sin(2*pi*f*t-0.5*pi)+60;
+    
+    
+    
+    
+    // BLUE: OK // this is in reverse
+//    leg3up_pos=30*sin(2*pi*f*t)+110;
+    leg3down_pos=30*sin(2*pi*f*t-0.5*pi)+80;
+    
+    // WHITE OK:
+//    leg4up_pos=20*sin(2*pi*f*t)+90;
+    leg4down_pos=30*sin(2*pi*f*t+0.5*pi)+100;
+    
+    
+    
+  
+    // RED    
+    //leg1up.write(leg1up_pos);    
+    leg1down.write(leg1down_pos);
+          
+    
+    // GREEN
+    //leg2up.write(leg2up_pos);        
+    leg2down.write(leg2down_pos);
+
+
+    // BLUE    
+    //leg3up.write(leg3up_pos);    
+    leg3down.write(leg3down_pos);
+            
+    
+    // WHITE
+    //    leg4up.write(leg4up_pos);      
+    leg4down.write(leg4down_pos);
+	
+}
+
+void Walk02()
+{
+     if (t > 120)
+     {
+       p = 1;
+       return;
+     }
+   
+    // RED: OK
+//     leg1up_pos=20*sin(2*pi*f*t)+90;
+    leg1down_pos=10*sin(2*pi*f*t+0.5*pi)+110-10;
+    
+    // GREEN: // this is in reverse
+//    leg2up_pos=20*sin(2*pi*f*t)+90;
+    leg2down_pos=10*sin(2*pi*f*t-0.5*pi)+60+10;
+    
+    
+    
+    
+    // BLUE: OK // this is in reverse
+//    leg3up_pos=30*sin(2*pi*f*t)+110;
+    leg3down_pos=20*sin(2*pi*f*t-0.5*pi)+80+10;
+    
+    // WHITE OK:
+//    leg4up_pos=20*sin(2*pi*f*t)+90;
+    leg4down_pos=20*sin(2*pi*f*t+0.5*pi)+100-10;
+    
+    
+    
+  
+    // RED    
+    //leg1up.write(leg1up_pos);    
+    leg1down.write(leg1down_pos);
+          
+    
+    // GREEN
+    //leg2up.write(leg2up_pos);        
+    leg2down.write(leg2down_pos);
+
+
+    // BLUE    
+    //leg3up.write(leg3up_pos);    
+    leg3down.write(leg3down_pos);
+            
+    
+    // WHITE
+    //    leg4up.write(leg4up_pos);      
+    leg4down.write(leg4down_pos);
+	
+}
+
 void loop() 
 { 
     t = float(millis()) / 1000;
     
     ReadSensors();
-    ReadUltraSound();
+//    ReadUltraSound();
     PrintValues();
-    //Walk(t);
+    
+    if (p == 0) Walk00();
+    if (p == 1) Walk01();
+    if (p == 2) Walk02();
 
 } 
