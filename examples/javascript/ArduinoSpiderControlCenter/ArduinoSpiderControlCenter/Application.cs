@@ -32,7 +32,19 @@ namespace ArduinoSpiderControlCenter
         {
             var SpiderModelContent = new SpiderModel.ApplicationContent();
 
+            page.program_13_turn_left.onmouseover += delegate { SpiderModelContent.po = 13; };
+            page.program_14_turn_right.onmouseover += delegate { SpiderModelContent.po = 14; };
+            page.program_15_go_backwards.onmouseover += delegate { SpiderModelContent.po = 15; };
+            page.program_16_go_forwards.onmouseover += delegate { SpiderModelContent.po = 16; };
+            page.program_53_mayday.onmouseover += delegate { SpiderModelContent.po = 53; };
+            page.program_43_high_five_calibration_stand.onmouseover += delegate { SpiderModelContent.po = 43; };
 
+            page.program_13_turn_left.onmouseout += delegate { SpiderModelContent.po = 0; };
+            page.program_14_turn_right.onmouseout += delegate { SpiderModelContent.po = 0; };
+            page.program_15_go_backwards.onmouseout += delegate { SpiderModelContent.po = 0; };
+            page.program_16_go_forwards.onmouseout += delegate { SpiderModelContent.po = 0; };
+            page.program_53_mayday.onmouseout += delegate { SpiderModelContent.po = 0; };
+            page.program_43_high_five_calibration_stand.onmouseout += delegate { SpiderModelContent.po = 0; };
 
 
             @"Hello world".ToDocumentTitle();
@@ -125,7 +137,8 @@ namespace ArduinoSpiderControlCenter
                 var t = SpiderModelContent.t;
           
                 page.Content.innerText = COM46_Line_value
-                    + "\nt: \t" + System.Convert.ToInt32((double)t)
+                    + "\nt: \t" + System.Convert.ToInt32((double)SpiderModelContent.t)
+                   + "\ncamera_z: \t" + System.Convert.ToInt32((double)SpiderModelContent.camera_z)
                     + "\n" 
                     + "\nRED leg1down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
                     + "\nGREEN leg2down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)

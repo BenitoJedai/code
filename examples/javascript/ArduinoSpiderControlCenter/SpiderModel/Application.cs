@@ -200,7 +200,9 @@ namespace SpiderModel
             }
         }
 
-
+        public float a = 0f;
+        public float camera_z = -1.7f;
+        
         public event Action AtTick;
 
         void InitializeContent(IHTMLCanvas canvas)
@@ -317,7 +319,7 @@ namespace SpiderModel
 
 
 
-            var size = 0.04f;
+            var size = 0.06f;
 
 
             #region cube
@@ -607,8 +609,6 @@ namespace SpiderModel
 
             #region new in lesson 04
 
-            var rPyramid = 0f;
-            var rCube = 0f;
 
             var t_start = new IDate().getTime();
 
@@ -620,8 +620,7 @@ namespace SpiderModel
                 {
                     var elapsed = timeNow - lastTime;
 
-                    rPyramid += (90 * elapsed) / 1000.0f;
-                    rCube -= (75 * elapsed) / 1000.0f;
+                    a -= (75 * elapsed) / 1000.0f;
                 }
                 lastTime = timeNow;
 
@@ -637,7 +636,7 @@ namespace SpiderModel
             };
             #endregion
 
-            var camera_z = 0f;
+            
 
             #region drawScene
             Action drawScene = delegate
@@ -706,7 +705,7 @@ namespace SpiderModel
                     {
                         __glMatrix.mat4.translate(mvMatrix, 0f, 0.0f, -4f);
                         __glMatrix.mat4.rotate(mvMatrix, degToRad(-70), 1f, 0f, 0f);
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.1f), 0f, 0f, 1f);
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad((f)(Math.Sin(a * 0.0003f) * 33)), 0f, 0f, 1f);
                         __glMatrix.mat4.translate(mvMatrix, 0f, camera_z, 0f);
 
 
@@ -759,10 +758,10 @@ namespace SpiderModel
                         Action arrow =
                             delegate
                             {
-                                __glMatrix.mat4.translate(mvMatrix, 0, 0, (float)(Math.Sin(rCube * 0.1) * size));
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * 0.1f), 0f, 0f, -1f);
+                                __glMatrix.mat4.translate(mvMatrix, 0, 0, (float)(Math.Sin(a * 0.1) * size));
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(a * 0.1f), 0f, 0f, -1f);
 
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(rCube * -0.5f), 0f, 0f, 1f);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(a * -0.5f), 0f, 0f, 1f);
 
                                 var cc = (cyclecount - cycle) - 1;
 
@@ -976,16 +975,16 @@ namespace SpiderModel
                         #region program_leg_delay_move_hold_commit
                         Action<int, int, int, Action<f, f>> program_leg_delay_move_hold_commit =
 
-                        /* void program_leg_delay_move_hold_commit */ (int delay, int hold, int reverse, notify notify) =>
+                        /* void program_leg_delay_move_hold_commit */ (int _delay, int hold, int reverse, notify notify) =>
                         {
-                            float t_accelerated = t * 4;
-                            float mod = (pi * (delay + 1 + hold + 1));
+                            float t_accelerated = t * 8;
+                            float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
                             float phase = (float)((int)(t_accelerated * 100) % (int)(mod * 100)) * 0.01f;
 
                             // delay
-                            if (phase < (pi * delay))
+                            if (phase < (pi * _delay))
                             {
                                 if (reverse > 0)
                                     phase = pi;
@@ -996,7 +995,7 @@ namespace SpiderModel
                                 return;
                             }
 
-                            phase -= (pi * delay);
+                            phase -= (pi * _delay);
 
 
                             // move
@@ -1027,7 +1026,7 @@ namespace SpiderModel
 
                             phase -= (pi * hold);
 
-                            if (reverse >0)
+                            if (reverse > 0)
                                 phase = pi - phase;
 
                             // commit
@@ -1188,12 +1187,92 @@ namespace SpiderModel
                             ;
                         #endregion
 
-                        //program_43_high_five_calibration_stand();
-                        //program_53_mayday();
-                        //program_23_high_five_calibration_far();
-                        program_13_turn_left();
-                        program_14_turn_right();
+                        #region program_15_go_backwards
+                        Action program_15_go_backwards =
+                            /* void program_13_turn_left */ () =>
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_vertical_deg = deg_vertical;
+                                    }
+                                );
 
+                                program_leg_delay_move_hold_commit(3, 0, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1, 0,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_vertical_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_vertical_deg = deg_vertical;
+                                    }
+                                );
+                            }
+                            ;
+                        #endregion
+
+                        #region program_16_go_forwards
+                        Action program_16_go_forwards =
+                            /* void program_13_turn_left */ () =>
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(3, 0, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1, 1,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_vertical_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_vertical_deg = deg_vertical;
+                                    }
+                                );
+                            }
+                            ;
+                        #endregion
+
+                        //program_23_high_five_calibration_far();
+
+                        if (po == 43) program_43_high_five_calibration_stand();
+                        if (po == 53) program_53_mayday();
+                        if (po == 13) program_13_turn_left();
+                        if (po == 14) program_14_turn_right();
+                        if (po == 15) program_15_go_backwards();
+                        if (po == 16) program_16_go_forwards();
 
                         #region legx
                         Action<Action, Action, f, f, f> legx =
@@ -1353,6 +1432,8 @@ namespace SpiderModel
                 };
 
         }
+
+        public int po = 0;
 
         public f leg1down_vertical_deg = 0.0f;
         public f leg2down_vertical_deg = 0.0f;
