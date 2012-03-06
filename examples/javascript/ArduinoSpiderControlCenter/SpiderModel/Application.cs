@@ -977,7 +977,7 @@ namespace SpiderModel
 
                         /* void program_leg_delay_move_hold_commit */ (int _delay, int hold, int reverse, notify notify) =>
                         {
-                            float t_accelerated = t * 8;
+                            float t_accelerated = t * 16;
                             float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
@@ -1265,6 +1265,84 @@ namespace SpiderModel
                             ;
                         #endregion
 
+                        #region program_17_go_left
+                        Action program_17_go_left =
+                            /* void program_17_go_left */ () =>
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(3, 0, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1, 0,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_vertical_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_vertical_deg = deg_vertical;
+                                    }
+                                );
+                            }
+                            ;
+                        #endregion
+
+                        #region program_18_go_right
+                        Action program_18_go_right =
+                            /* void program_18_go_right */ () =>
+                            {
+                                program_leg_delay_move_hold_commit(1, 2, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg1up_sideway_deg = deg_sideway;
+                                        leg1down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(3, 0, 0,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg2up_sideway_deg = deg_sideway;
+                                        leg2down_vertical_deg = deg_vertical;
+                                    }
+                                );
+
+                                program_leg_delay_move_hold_commit(2, 1, 1,
+                                     (deg_sideway, deg_vertical) =>
+                                     {
+                                         leg3up_sideway_deg = deg_sideway;
+                                         leg3down_vertical_deg = deg_vertical;
+                                     }
+                                 );
+
+                                program_leg_delay_move_hold_commit(0, 3, 1,
+                                    (deg_sideway, deg_vertical) =>
+                                    {
+                                        leg4up_sideway_deg = deg_sideway;
+                                        leg4down_vertical_deg = deg_vertical;
+                                    }
+                                );
+                            }
+                            ;
+                        #endregion
+
                         //program_23_high_five_calibration_far();
                     
 
@@ -1274,6 +1352,10 @@ namespace SpiderModel
                         if (pp == 14) program_14_turn_right();
                         if (pp == 15) program_15_go_backwards();
                         if (pp == 16) program_16_go_forwards();
+                        if (pp == 17) program_17_go_left();
+                        if (pp == 18) program_18_go_right();
+
+                        
 
                         #region legx
                         Action<Action, Action, f, f, f> legx =

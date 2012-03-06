@@ -42,6 +42,10 @@ int RightLSValue = 0;
 long FrontUSValue = 0;
  
 int p = 43;
+int po = 0;
+int pp = 0;
+
+int counter = 0;
 
 void setup() 
 { 
@@ -76,8 +80,17 @@ void ReadSensors()
 
 void PrintValues()
 {
-  Serial.print("Front: ");
-  Serial.print(FrontUSValue);
+      Serial.print(";\t counter: ");
+      Serial.print(counter);
+    Serial.print(";\t t: ");
+  Serial.print(t);
+  Serial.print(";\t p: ");
+  Serial.print(p);  
+  Serial.print(";\t po: ");
+  Serial.print(po);  
+  Serial.print(";\t pp: ");
+  Serial.print(pp);    
+
   Serial.print(";\t LeftIR: ");
   Serial.print(LeftIRValue);
   Serial.print(";\t RightIR: ");
@@ -88,10 +101,7 @@ void PrintValues()
   Serial.print(LeftLSValue);
   Serial.print(";\t RightLR: ");
   Serial.print(RightLSValue);
-  Serial.print(";\t t: ");
-  Serial.print(t);
-  Serial.print(";\t p: ");
-  Serial.print(p);  
+
   Serial.println(";");
 }
 
@@ -204,7 +214,7 @@ void program_33_high_five_calibration()
          
  void program_leg__delay_move_hold_commit  (int _delay, int hold, int reverse, float* notify_x, float* notify_y) 
                         {
-                 float t_accelerated = t * 8;
+                 float t_accelerated = t * 16;
                             float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
@@ -290,8 +300,22 @@ void program_33_high_five_calibration()
                                 program_leg__delay_move_hold_commit(2, 1, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
                                 program_leg__delay_move_hold_commit(0, 3, 0, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
                             }                
-                            
-     int po;
+                      
+void program_17_go_left  () 
+                            {
+                                program_leg__delay_move_hold_commit(1, 2, 1, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg__delay_move_hold_commit(3, 0, 1, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg__delay_move_hold_commit(2, 1, 0, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg__delay_move_hold_commit(0, 3, 0, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
+                            }                         
+      void program_18_go_right  () 
+                            {
+                                program_leg__delay_move_hold_commit(1, 2, 0, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg__delay_move_hold_commit(3, 0, 0, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg__delay_move_hold_commit(2, 1, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg__delay_move_hold_commit(0, 3, 1, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
+                            }                        
+     
      
 void program()
 {
@@ -301,17 +325,22 @@ void program()
                 // read the incoming byte:
                  po = Serial.read();
         }
-        
+
+        if (p != 0)
+            pp = p;
+            
         if (po != 0)
-            p = po;
+            pp = po;
         
 
-        if (p == 43) program_43_high_five_calibration_stand();
-        if (p == 53) program_53_mayday();
-        if (p == 13) program_13_turn_left();
-        if (p == 14) program_14_turn_right();
-        if (p == 15) program_15_go_backwards();
-        if (p == 16) program_16_go_forwards();
+                        if (pp == 43) program_43_high_five_calibration_stand();
+                        if (pp == 53) program_53_mayday();
+                        if (pp == 13) program_13_turn_left();
+                        if (pp == 14) program_14_turn_right();
+                        if (pp == 15) program_15_go_backwards();
+                        if (pp == 16) program_16_go_forwards();
+                        if (pp == 17) program_17_go_left();
+                        if (pp == 18) program_18_go_right();
                         
   // if (p == 23) 
 //  program_16_go_forwards ();
@@ -340,6 +369,8 @@ void program()
 void loop() 
 { 
     t = float(millis()) / 1000;
+
+    counter = ((int)t) % 24;
     
     ReadSensors();
 //    ReadUltraSound();

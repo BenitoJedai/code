@@ -32,17 +32,27 @@ namespace ArduinoSpiderControlCenter
         {
             var SpiderModelContent = new SpiderModel.ApplicationContent();
 
+            var po_reset = new Timer(
+                delegate
+                {
+                    SpiderModelContent.po = 0;
+                }
+            );
+
+
             page.program_13_turn_left.onclick += delegate { SpiderModelContent.po = 13; };
             page.program_14_turn_right.onclick += delegate { SpiderModelContent.po = 14; };
             page.program_15_go_backwards.onclick += delegate { SpiderModelContent.po = 15; };
             page.program_16_go_forwards.onclick += delegate { SpiderModelContent.po = 16; };
             page.program_53_mayday.onclick += delegate { SpiderModelContent.po = 53; };
             page.program_43_high_five_calibration_stand.onclick += delegate { SpiderModelContent.po = 43; };
+            page.stop.onclick += delegate { SpiderModelContent.po = 0; ; };
 
-       
+
 
             @"Hello world".ToDocumentTitle();
 
+            #region sidebars
             var LeftLR = new IHTMLDiv();
 
             LeftLR.style.position = IStyle.PositionEnum.absolute;
@@ -92,6 +102,7 @@ namespace ArduinoSpiderControlCenter
 
             LeftLR.style.backgroundColor = JSColor.FromRGB(0x80, 0, 0);
             RightLR.style.backgroundColor = JSColor.FromRGB(0x80, 0, 0);
+            #endregion
 
             page.PageContainer.AttachToDocument();
             page.PageContainer.style.color = JSColor.White;
@@ -122,7 +133,6 @@ namespace ArduinoSpiderControlCenter
 
             Func<double, double> sin = Math.Sin;
 
-            Action COM46_Line_value_loop = null;
 
             var gamma = 0.0;
             var beta = 0.0;
@@ -141,6 +151,8 @@ namespace ArduinoSpiderControlCenter
                     if (gamma < -30) SpiderModelContent.po = 13;
                 };
 
+            #region COM46_Line_value_loop
+            Action COM46_Line_value_loop = null;
 
             COM46_Line_value_loop = delegate
             {
@@ -149,11 +161,12 @@ namespace ArduinoSpiderControlCenter
                 page.Content.innerText = COM46_Line_value
                     //+ "\n: \t" + 
                     + "\nt: \t" + System.Convert.ToInt32((double)SpiderModelContent.t)
-                    + "\np: \t" + SpiderModelContent.pp
+                    + "\np: \t" + SpiderModelContent.p
+                    + "\npo: \t" + SpiderModelContent.po
                    + "\ncamera_z: \t" + System.Convert.ToInt32((double)SpiderModelContent.camera_z)
-                   + "\nalpha: \t" + alpha
-                   + "\nbeta: \t" + beta
-                   + "\ngamma: \t" + gamma
+                    //+ "\nalpha: \t" + alpha
+                    //+ "\nbeta: \t" + beta
+                    //+ "\ngamma: \t" + gamma
                     + "\n"
                     + "\nRED leg1down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
                     + "\nGREEN leg2down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)
@@ -169,12 +182,14 @@ namespace ArduinoSpiderControlCenter
             };
 
             Native.Window.requestAnimationFrame += COM46_Line_value_loop;
+            #endregion
 
 
             page.Connect.onclick +=
             delegate
             {
                 "Connect".ToDocumentTitle();
+                SpiderModelContent.po = 0; ;
                 service.AtFocus();
             };
 
@@ -183,6 +198,7 @@ namespace ArduinoSpiderControlCenter
                 delegate
                 {
                     "Disconnect".ToDocumentTitle();
+                    SpiderModelContent.po = 0; ;
                     service.AtBlur();
                 };
 
@@ -311,7 +327,7 @@ namespace ArduinoSpiderControlCenter
                                             t = (float)double.Parse(_value);
                                         }
 
-                                        if (key == "p")
+                                        if (key == "pp")
                                         {
                                             SpiderModelContent.p = int.Parse(_value);
                                         }
@@ -325,14 +341,6 @@ namespace ArduinoSpiderControlCenter
                                     if (SpiderModelContent.t_fix == 0)
                                         SpiderModelContent.t_fix = t - SpiderModelContent.t_local;
 
-                            #region next
-                            new Timer(
-                               delegate
-                               {
-                                   Native.Window.requestAnimationFrame += poll;
-                               }
-                           ).StartTimeout(200);
-                            #endregion
 
 
                             // dark 70 .. 255 bright
@@ -346,14 +354,35 @@ namespace ArduinoSpiderControlCenter
                             + (RightLR_value - 60) * 20f / (255 - 60)
                             );
 
-                            //Native.Document.title = LeftLR_value + " " + RightLR_value;
+
+                            #region next
+                            new Timer(
+                               delegate
+                               {
+                                   Native.Window.requestAnimationFrame += poll;
+                               }
+                           ).StartTimeout(UpdateSpeed);
+                            #endregion
+
                         }
                     );
+
+                    page.FastUpdates.onclick += delegate
+                    {
+                        UpdateSpeed = 50;
+                    };
+
+                    page.SlowUpdates.onclick += delegate
+                    {
+                        UpdateSpeed = 500;
+                    };
                 };
 
             Native.Window.requestAnimationFrame += poll;
 
         }
+
+        int UpdateSpeed = 500;
 
         [Script(ExternalTarget = "window")]
         public static IWindow2 Window;
