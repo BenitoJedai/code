@@ -8,25 +8,42 @@
     <div id='PageContainer'>
         <div id='ElShadow' style='padding-left: 9em; padding-right: 9em;'>
             <h5>
-                Note: <u>Loose legs</u> may need to be <u>re-attached</u> while <code>'program_33_high_five_calibration'</code>
-                is running!</h5>
+                Note: <u>Loose legs</u> may need to be <u>re-attached</u> while cable is removed for reset or program is stopped.</h5> After arduino sketch upload replug the cable!
             <div style='float: right;'>
                 <button id='Connect' style='color: Blue; font-weight: bold;'>
                     Connect</button>
                 <button id='Disconnect' style='color: red; font-weight: bold;'>
                     Disconnect</button>
             </div>
+              <div style='float: right;'>
+                <button id='FastUpdates' style='color: green; font-weight: bold;'>
+                    Fast Updates</button>
+                <button id='SlowUpdates' style='color: orange; font-weight: bold;'>
+                    Slow Updates</button>
+            </div>
+
             <h1 id='Header'>
                 Arduino Spider Control Center
             </h1>
             <h5>
-                Since your last visit this spider has learned to <button style='color: Blue; cursor: pointer;'
-                    id='program_16_go_forwards'>walk forwards</button>, <button style='color: Blue; cursor: pointer;'
-                        id='program_15_go_backwards'>walk backwards</button>, <button style='color: Blue; cursor: pointer;'
-                            id='program_43_high_five_calibration_stand'>just stand</button>, <button style='color: Blue;
-                                cursor: pointer;' id='program_13_turn_left'>turn left</button>, <button style='color: Blue;
-                                    cursor: pointer;' id='program_14_turn_right'>turn right</button>
-                and even <button style='color: Blue; cursor: pointer;' id='program_53_mayday'>dance</button>.
+                Since your last visit this spider has learned to
+               
+                <button style='cursor: pointer;' id='program_16_go_forwards'>
+                    walk forwards</button>,
+                <button style='cursor: pointer;' id='program_15_go_backwards'>
+                    walk backwards</button>,
+                <button style='cursor: pointer;' id='program_43_high_five_calibration_stand'>
+                    just stand</button>,
+                <button style='cursor: pointer;' id='program_13_turn_left'>
+                    turn left</button>,
+                <button style='cursor: pointer;' id='program_14_turn_right'>
+                    turn right</button>
+                and even
+                <button style='cursor: pointer;' id='program_53_mayday'>
+                    dance</button>.
+
+                     <button style='cursor: pointer; color: Red;'  id='stop'>
+                    stop</button>
             </h5>
             <pre id='Content' style='float: right; padding: 2em; color: #8080ff; text-align: right;'>?</pre>
         </div>

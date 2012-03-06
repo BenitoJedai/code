@@ -46,7 +46,7 @@ namespace ArduinoSpiderControlCenter
     {
         public static int po = 0;
         public static int Rx;
-        public static string Line = "not ready..";
+        public static string Line = "not connected..";
 
         public static Action AtBlur = delegate { };
         public static Action AtFocus = delegate { };
@@ -55,8 +55,7 @@ namespace ArduinoSpiderControlCenter
         {
             AtFocus = delegate
             {
-                Line = "Connect...";
-                Console.Title = "Connect";
+                Line = "connect...";
 
                 var ports = SerialPort.GetPortNames();
 
@@ -65,7 +64,11 @@ namespace ArduinoSpiderControlCenter
                 var portName = "COM46";
 
                 if (!ports.Contains(portName))
+                {
+                    Line = "no port...";
+
                     return;
+                }
 
                 AtFocus = delegate
                 {
@@ -81,6 +84,7 @@ namespace ArduinoSpiderControlCenter
 
                 // Access to the port 'COM46' is denied.
                 s.Open();
+                Console.Title = "Connect";
 
                 var y = true;
 
