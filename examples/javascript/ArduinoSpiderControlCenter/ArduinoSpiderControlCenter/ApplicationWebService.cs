@@ -103,13 +103,21 @@ namespace ArduinoSpiderControlCenter
                 new Thread(
                     delegate()
                     {
+                        int po_prev = 0;
+
                         try
                         {
                             while (y)
                             {
                                 i++;
-                                s.BaseStream.WriteByte((byte)po);
-                                s.BaseStream.Flush();
+
+                                if (po_prev != po)
+                                {
+                                    po_prev = po;
+
+                                    s.BaseStream.WriteByte((byte)po);
+                                    s.BaseStream.Flush();
+                                }
 
                                 COM46.Line = s.ReadLine();
                             }

@@ -47,6 +47,21 @@ int pp = 0;
 
 int counter = 0;
 
+
+                        int sidewaysrange = 14;
+                        int verticalrange = 20;
+                        
+float leg1up_sideway_deg;
+float leg2up_sideway_deg;
+float leg3up_sideway_deg;
+float leg4up_sideway_deg;
+
+float leg1down_vertical_deg ;
+float leg2down_vertical_deg ;
+float leg3down_vertical_deg ;
+float leg4down_vertical_deg; 
+
+
 void setup() 
 { 
   leg1up.attach(5);
@@ -102,6 +117,26 @@ void PrintValues()
   Serial.print(";\t RightLR: ");
   Serial.print(RightLSValue);
 
+  Serial.print(";");
+  Serial.print(";\t leg1down_vertical_deg: ");
+  Serial.print(leg1down_vertical_deg);
+  Serial.print(";\t leg2down_vertical_deg: ");
+  Serial.print(leg2down_vertical_deg);
+  Serial.print(";\t leg3down_vertical_deg: ");
+  Serial.print(leg3down_vertical_deg);
+  Serial.print(";\t leg4down_vertical_deg: ");
+  Serial.print(leg4down_vertical_deg);  
+  Serial.print(";");
+  
+  Serial.print(";");
+  Serial.print(";\t leg1up_sideway_deg: ");
+  Serial.print(leg1up_sideway_deg);
+  Serial.print(";\t leg2up_sideway_deg: ");
+  Serial.print(leg2up_sideway_deg);
+  Serial.print(";\t leg3up_sideway_deg: ");
+  Serial.print(leg3up_sideway_deg);
+  Serial.print(";\t leg4up_sideway_deg: ");
+  Serial.print(leg4up_sideway_deg);  
   Serial.println(";");
 }
 
@@ -126,19 +161,6 @@ void ReadUltraSound()
     LastUStime = millis();
   }
 }
-
-                        int sidewaysrange = 14;
-                        int verticalrange = 22;
-                        
-float leg1up_sideway_deg;
-float leg2up_sideway_deg;
-float leg3up_sideway_deg;
-float leg4up_sideway_deg;
-
-float leg1down_vertical_deg ;
-float leg2down_vertical_deg ;
-float leg3down_vertical_deg ;
-float leg4down_vertical_deg; 
 
 
                         
@@ -214,7 +236,7 @@ void program_33_high_five_calibration()
          
  void program_leg__delay_move_hold_commit  (int _delay, int hold, int reverse, float* notify_x, float* notify_y) 
                         {
-                 float t_accelerated = t * 16;
+                 float t_accelerated = t * 12;
                             float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
