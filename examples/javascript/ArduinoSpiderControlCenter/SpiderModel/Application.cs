@@ -1381,7 +1381,14 @@ namespace SpiderModel
                 if (AtTick != null)
                     AtTick();
 
-                Native.Window.requestAnimationFrame += tick;
+                if (Native.Screen.width < 1024)
+                {
+                    // mobile device
+                }
+                else
+                {
+                    Native.Window.requestAnimationFrame += tick;
+                }
             };
 
             tick();
