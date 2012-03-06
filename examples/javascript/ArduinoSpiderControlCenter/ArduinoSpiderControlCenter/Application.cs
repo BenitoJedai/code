@@ -32,20 +32,14 @@ namespace ArduinoSpiderControlCenter
         {
             var SpiderModelContent = new SpiderModel.ApplicationContent();
 
-            page.program_13_turn_left.onmouseover += delegate { SpiderModelContent.po = 13; };
-            page.program_14_turn_right.onmouseover += delegate { SpiderModelContent.po = 14; };
-            page.program_15_go_backwards.onmouseover += delegate { SpiderModelContent.po = 15; };
-            page.program_16_go_forwards.onmouseover += delegate { SpiderModelContent.po = 16; };
-            page.program_53_mayday.onmouseover += delegate { SpiderModelContent.po = 53; };
-            page.program_43_high_five_calibration_stand.onmouseover += delegate { SpiderModelContent.po = 43; };
+            page.program_13_turn_left.onclick += delegate { SpiderModelContent.po = 13; };
+            page.program_14_turn_right.onclick += delegate { SpiderModelContent.po = 14; };
+            page.program_15_go_backwards.onclick += delegate { SpiderModelContent.po = 15; };
+            page.program_16_go_forwards.onclick += delegate { SpiderModelContent.po = 16; };
+            page.program_53_mayday.onclick += delegate { SpiderModelContent.po = 53; };
+            page.program_43_high_five_calibration_stand.onclick += delegate { SpiderModelContent.po = 43; };
 
-            page.program_13_turn_left.onmouseout += delegate { SpiderModelContent.po = 0; };
-            page.program_14_turn_right.onmouseout += delegate { SpiderModelContent.po = 0; };
-            page.program_15_go_backwards.onmouseout += delegate { SpiderModelContent.po = 0; };
-            page.program_16_go_forwards.onmouseout += delegate { SpiderModelContent.po = 0; };
-            page.program_53_mayday.onmouseout += delegate { SpiderModelContent.po = 0; };
-            page.program_43_high_five_calibration_stand.onmouseout += delegate { SpiderModelContent.po = 0; };
-
+       
 
             @"Hello world".ToDocumentTitle();
 
@@ -130,6 +124,22 @@ namespace ArduinoSpiderControlCenter
 
             Action COM46_Line_value_loop = null;
 
+            var gamma = 0.0;
+            var beta = 0.0;
+            var alpha = 0.0;
+
+            Window.deviceorientation +=
+                e =>
+                {
+                    gamma = e.gamma;
+                    beta = e.beta;
+                    alpha = e.alpha;
+
+                    if (beta < 20) SpiderModelContent.po = 16;
+                    if (beta > 60) SpiderModelContent.po = 15;
+                    if (gamma > 30) SpiderModelContent.po = 14;
+                    if (gamma < -30) SpiderModelContent.po = 13;
+                };
 
 
             COM46_Line_value_loop = delegate
@@ -137,9 +147,13 @@ namespace ArduinoSpiderControlCenter
                 var t = SpiderModelContent.t;
 
                 page.Content.innerText = COM46_Line_value
+                    //+ "\n: \t" + 
                     + "\nt: \t" + System.Convert.ToInt32((double)SpiderModelContent.t)
                     + "\np: \t" + SpiderModelContent.pp
                    + "\ncamera_z: \t" + System.Convert.ToInt32((double)SpiderModelContent.camera_z)
+                   + "\nalpha: \t" + alpha
+                   + "\nbeta: \t" + beta
+                   + "\ngamma: \t" + gamma
                     + "\n"
                     + "\nRED leg1down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
                     + "\nGREEN leg2down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)
@@ -341,5 +355,64 @@ namespace ArduinoSpiderControlCenter
 
         }
 
+        [Script(ExternalTarget = "window")]
+        public static IWindow2 Window;
+    }
+
+
+    [Script(HasNoPrototype = true)]
+    public class IWindow2 : global::ScriptCoreLib.JavaScript.DOM.IWindow
+    {
+        // http://caniuse.com/deviceorientation
+        // http://www.htmlfivewow.com/slide50
+        // http://dev.w3.org/geo/api/spec-source-orientation.html
+        // http://www.html5rocks.com/en/tutorials/device/orientation/
+        // http://ajaxian.com/archives/iphone-windowonorientationchange-code
+
+        #region event orientationchange
+        public event Action<IEvent> onorientationchange
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "orientationchange");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "orientationchange");
+            }
+        }
+        #endregion
+
+        public int orientation;   // updates the angle: 0, 90, 180, or -90
+
+
+
+        #region event deviceorientation
+        public event Action<DeviceOrientationEvent> deviceorientation
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "deviceorientation");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "deviceorientation");
+            }
+        }
+        #endregion
+    }
+
+    // http://dev.w3.org/geo/api/spec-source-orientation.html#deviceorientation
+    [Script(HasNoPrototype = true)]
+    public class DeviceOrientationEvent : IEvent
+    {
+        public double alpha;
+        public double beta;
+        public double gamma;
+        public bool absolute;
     }
 }
