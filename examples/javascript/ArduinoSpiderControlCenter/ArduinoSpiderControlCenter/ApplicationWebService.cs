@@ -20,12 +20,13 @@ namespace ArduinoSpiderControlCenter
         /// </summary>
         /// <param name="e">A parameter from javascript. JSC supports string data type for all platforms.</param>
         /// <param name="y">A callback to javascript. In the future all platforms will allow Action&lt;XElementConvertable&gt; delegates.</param>
-        public void WebMethod2(string e, StringAction y)
+        public void WebMethod2(string po, StringAction y)
         {
             // Send it back to the caller.
+            COM46.po = int.Parse(po);
             var x = COM46.Line;
             COM46.Rx++;
-            Console.WriteLine("WebMethod2: #" + COM46.Rx + " @" + Thread.CurrentThread.ManagedThreadId);
+            //Console.WriteLine("WebMethod2: #" + COM46.Rx + " @" + Thread.CurrentThread.ManagedThreadId);
 
             y(x);
         }
@@ -43,13 +44,14 @@ namespace ArduinoSpiderControlCenter
 
     public static class COM46
     {
+        public static int po = 0;
         public static int Rx;
         public static string Line = "not ready..";
 
         public static Action AtBlur = delegate { };
         public static Action AtFocus = delegate { };
 
-         static void InitAtFocus()
+        static void InitAtFocus()
         {
             AtFocus = delegate
             {
@@ -102,6 +104,9 @@ namespace ArduinoSpiderControlCenter
                             while (y)
                             {
                                 i++;
+                                s.BaseStream.WriteByte((byte)po);
+                                s.BaseStream.Flush();
+
                                 COM46.Line = s.ReadLine();
                             }
 
@@ -130,7 +135,7 @@ namespace ArduinoSpiderControlCenter
         static COM46()
         {
             InitAtFocus();
-            
+
 
             //StartConsoleMonitoring();
 
