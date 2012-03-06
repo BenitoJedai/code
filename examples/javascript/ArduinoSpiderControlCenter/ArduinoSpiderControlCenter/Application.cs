@@ -130,16 +130,17 @@ namespace ArduinoSpiderControlCenter
 
             Action COM46_Line_value_loop = null;
 
-  
+
 
             COM46_Line_value_loop = delegate
             {
                 var t = SpiderModelContent.t;
-          
+
                 page.Content.innerText = COM46_Line_value
                     + "\nt: \t" + System.Convert.ToInt32((double)SpiderModelContent.t)
+                    + "\np: \t" + SpiderModelContent.pp
                    + "\ncamera_z: \t" + System.Convert.ToInt32((double)SpiderModelContent.camera_z)
-                    + "\n" 
+                    + "\n"
                     + "\nRED leg1down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
                     + "\nGREEN leg2down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)
                     + "\nBLUE leg3down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg3down_vertical_deg)
@@ -155,7 +156,7 @@ namespace ArduinoSpiderControlCenter
 
             Native.Window.requestAnimationFrame += COM46_Line_value_loop;
 
-          
+
             page.Connect.onclick +=
             delegate
             {
@@ -180,7 +181,7 @@ namespace ArduinoSpiderControlCenter
 
                     // Send data from JavaScript to the server tier
                     service.WebMethod2(
-                        @"A string from JavaScript.",
+                        "" + SpiderModelContent.po,
                         COM46_Line =>
                         {
                             Native.Document.body.style.cursor = IStyle.CursorEnum.@default;
@@ -294,6 +295,11 @@ namespace ArduinoSpiderControlCenter
                                         if (key == "t")
                                         {
                                             t = (float)double.Parse(_value);
+                                        }
+
+                                        if (key == "p")
+                                        {
+                                            SpiderModelContent.p = int.Parse(_value);
                                         }
                                     }
                                 );

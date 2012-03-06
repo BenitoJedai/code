@@ -202,7 +202,7 @@ namespace SpiderModel
 
         public float a = 0f;
         public float camera_z = -1.7f;
-        
+
         public event Action AtTick;
 
         void InitializeContent(IHTMLCanvas canvas)
@@ -636,7 +636,7 @@ namespace SpiderModel
             };
             #endregion
 
-            
+
 
             #region drawScene
             Action drawScene = delegate
@@ -1266,13 +1266,14 @@ namespace SpiderModel
                         #endregion
 
                         //program_23_high_five_calibration_far();
+                    
 
-                        if (po == 43) program_43_high_five_calibration_stand();
-                        if (po == 53) program_53_mayday();
-                        if (po == 13) program_13_turn_left();
-                        if (po == 14) program_14_turn_right();
-                        if (po == 15) program_15_go_backwards();
-                        if (po == 16) program_16_go_forwards();
+                        if (pp == 43) program_43_high_five_calibration_stand();
+                        if (pp == 53) program_53_mayday();
+                        if (pp == 13) program_13_turn_left();
+                        if (pp == 14) program_14_turn_right();
+                        if (pp == 15) program_15_go_backwards();
+                        if (pp == 16) program_16_go_forwards();
 
                         #region legx
                         Action<Action, Action, f, f, f> legx =
@@ -1433,7 +1434,23 @@ namespace SpiderModel
 
         }
 
+        /// <summary>
+        /// Program Override
+        /// </summary>
         public int po = 0;
+
+        public int p = 0;
+
+
+        public int pp
+        {
+            get
+            {
+                if (po == 0)
+                    return p;
+                return po;
+            }
+        }
 
         public f leg1down_vertical_deg = 0.0f;
         public f leg2down_vertical_deg = 0.0f;

@@ -41,7 +41,7 @@ int LeftLSValue = 0;
 int RightLSValue = 0;
 long FrontUSValue = 0;
  
-int p = 23;
+int p = 43;
 
 void setup() 
 { 
@@ -290,10 +290,31 @@ void program_33_high_five_calibration()
                                 program_leg__delay_move_hold_commit(2, 1, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
                                 program_leg__delay_move_hold_commit(0, 3, 0, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
                             }                
+                            
+     int po;
+     
 void program()
 {
+  
+  // send data only when you receive data:
+        if (Serial.available() > 0) {
+                // read the incoming byte:
+                 po = Serial.read();
+        }
+        
+        if (po != 0)
+            p = po;
+        
+
+        if (p == 43) program_43_high_five_calibration_stand();
+        if (p == 53) program_53_mayday();
+        if (p == 13) program_13_turn_left();
+        if (p == 14) program_14_turn_right();
+        if (p == 15) program_15_go_backwards();
+        if (p == 16) program_16_go_forwards();
+                        
   // if (p == 23) 
-  program_16_go_forwards ();
+//  program_16_go_forwards ();
 //  program_15_go_backwards();
 //  program_13_turn_left();
     // program_14_turn_right();
