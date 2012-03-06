@@ -118,7 +118,7 @@ void ReadUltraSound()
 }
 
                         int sidewaysrange = 14;
-                        int verticalrange = 24;
+                        int verticalrange = 22;
                         
 float leg1up_sideway_deg;
 float leg2up_sideway_deg;
@@ -202,16 +202,16 @@ void program_33_high_five_calibration()
   }
          
          
- void program_leg_delay_move_hold_commit  (int delay, int hold, int reverse, float* notify_x, float* notify_y) 
+ void program_leg__delay_move_hold_commit  (int _delay, int hold, int reverse, float* notify_x, float* notify_y) 
                         {
-                 float t_accelerated = t * 4;
-                            float mod = (pi * (delay + 1 + hold + 1));
+                 float t_accelerated = t * 8;
+                            float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
                             float phase = (float)((int)(t_accelerated * 100) % (int)(mod * 100)) * 0.01f;
 
-                            // delay
-                            if (phase < (pi * delay))
+                            // _delay
+                            if (phase < (pi * _delay))
                             {
                               if (reverse > 0)
                                     phase = pi;
@@ -222,7 +222,7 @@ void program_33_high_five_calibration()
                                 return;
                             }
 
-                            phase -= (pi * delay);
+                            phase -= (pi * _delay);
 
 
                             // move
@@ -238,7 +238,7 @@ void program_33_high_five_calibration()
 
 
 
-                            // delay
+                            // _delay
                             if (phase < (pi * hold))
                             {
                                 if (reverse > 0)
@@ -262,34 +262,57 @@ void program_33_high_five_calibration()
                             
  void program_13_turn_left  () 
                             {
-                                program_leg_delay_move_hold_commit(1, 2, &leg1up_sideway_deg , &leg1down_vertical_deg );
-                                program_leg_delay_move_hold_commit(3, 0, &leg2up_sideway_deg , &leg2down_vertical_deg );
-                                program_leg_delay_move_hold_commit(2, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
-                                program_leg_delay_move_hold_commit(0, 3, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
-                            
-                        
+                                program_leg__delay_move_hold_commit(1, 2, 0, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg__delay_move_hold_commit(3, 0, 0, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg__delay_move_hold_commit(2, 1, 0, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg__delay_move_hold_commit(0, 3, 0, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
                             }
-                            
+
+ void program_14_turn_right  () 
+                            {
+                                program_leg__delay_move_hold_commit(1, 2, 1, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg__delay_move_hold_commit(3, 0, 1, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg__delay_move_hold_commit(2, 1, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg__delay_move_hold_commit(0, 3, 1, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
+                            }
+
+         void program_15_go_backwards  () 
+                            {
+                                program_leg__delay_move_hold_commit(1, 2, 0, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg__delay_move_hold_commit(3, 0, 1, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg__delay_move_hold_commit(2, 1, 0, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg__delay_move_hold_commit(0, 3, 1, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
+                            }
+      void program_16_go_forwards  () 
+                            {
+                                program_leg__delay_move_hold_commit(1, 2, 1, &leg1up_sideway_deg , &leg1down_vertical_deg );
+                                program_leg__delay_move_hold_commit(3, 0, 0, &leg2up_sideway_deg , &leg2down_vertical_deg );
+                                program_leg__delay_move_hold_commit(2, 1, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
+                                program_leg__delay_move_hold_commit(0, 3, 0, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
+                            }                
 void program()
 {
   // if (p == 23) 
-  program_13_turn_left();
+  program_16_go_forwards ();
+//  program_15_go_backwards();
+//  program_13_turn_left();
+    // program_14_turn_right();
 //  program_43_high_five_calibration_stand();
   // program_53_mayday();
 //   program_23_high_five_calibration_far();
-   // program_33_high_five_calibration();
+// program_33_high_five_calibration();
    
        // yay :) nothing to do anymore
-      leg1down.write(leg1down_pos + 12 - leg1down_vertical_deg); // RED
+      leg1down.write(leg1down_pos + 13 - leg1down_vertical_deg); // RED
       leg1up.write(leg1up_pos - 14 - leg1up_sideway_deg);
       
-      leg2down.write(leg2down_pos - 12 + leg2down_vertical_deg); // GREEN
+      leg2down.write(leg2down_pos - 13 + leg2down_vertical_deg); // GREEN
       leg2up.write(leg2up_pos + 14 - leg2up_sideway_deg);
       
-      leg3down.write(leg3down_pos - 14 + leg3down_vertical_deg); // BLUE
+      leg3down.write(leg3down_pos - 13 + leg3down_vertical_deg); // BLUE
       leg3up.write(leg3up_pos + 14 - leg3up_sideway_deg);
       
-      leg4down.write(leg4down_pos + 14 - leg4down_vertical_deg); // WHITE    
+      leg4down.write(leg4down_pos + 13 - leg4down_vertical_deg); // WHITE    
       leg4up.write(leg4up_pos - 14 - leg4up_sideway_deg);
 }
 
