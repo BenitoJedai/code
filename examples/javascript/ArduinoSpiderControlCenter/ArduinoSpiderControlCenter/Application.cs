@@ -32,13 +32,6 @@ namespace ArduinoSpiderControlCenter
         {
             var SpiderModelContent = new SpiderModel.ApplicationContent();
 
-            var po_reset = new Timer(
-                delegate
-                {
-                    SpiderModelContent.po = 0;
-                }
-            );
-
 
             page.program_13_turn_left.onclick += delegate { SpiderModelContent.po = 13; };
             page.program_14_turn_right.onclick += delegate { SpiderModelContent.po = 14; };
@@ -48,7 +41,142 @@ namespace ArduinoSpiderControlCenter
             page.program_43_high_five_calibration_stand.onclick += delegate { SpiderModelContent.po = 43; };
             page.stop.onclick += delegate { SpiderModelContent.po = 0; ; };
 
+            new Timer(
+                tttt =>
+                {
+                    var pp = SpiderModelContent.pp;
 
+                    if (tttt.Counter % 2 == 0)
+                        pp = 0;
+
+                    if (pp == 13)
+                        page.program_13_turn_left.style.color = JSColor.Blue;
+                    else
+                        page.program_13_turn_left.style.color = JSColor.None;
+
+                    if (pp == 14)
+                        page.program_14_turn_right.style.color = JSColor.Blue;
+                    else
+                        page.program_14_turn_right.style.color = JSColor.None;
+
+                    if (pp== 15)
+                        page.program_15_go_backwards.style.color = JSColor.Blue;
+                    else
+                        page.program_15_go_backwards.style.color = JSColor.None;
+
+
+                    if (pp == 16)
+                        page.program_16_go_forwards.style.color = JSColor.Blue;
+                    else
+                        page.program_16_go_forwards.style.color = JSColor.None;
+                },
+                300,
+                150
+            );
+
+            #region program_60
+            page.program_60.onclick += delegate
+            {
+                #region po
+                Action<int> po =
+                    v =>
+                    {
+                        page.program_60.innerText = "program_60: " + v;
+                        SpiderModelContent.po = v;
+                    };
+                #endregion
+
+
+
+                #region po_to_po
+                Action<int, int> po_to_po =
+                    (from, to) =>
+                    {
+                        if (SpiderModelContent.po != from)
+                            return;
+
+                        po(to);
+                    };
+                #endregion
+
+
+
+                #region po_to_po_at
+                Action<int, int, int> po_to_po_at =
+                    (from, to, xdelay) =>
+                    {
+                        new Timer(delegate { po_to_po(from, to); }, xdelay * 1000, 0);
+                    };
+                #endregion
+
+                // turn left until 3
+                po(13);
+
+                // wait 3 sec and go backwards until 6
+                po_to_po_at(13, 15, 3);
+
+                // wait 6 sec and turn right
+                po_to_po_at(15, 14, 3 + 6);
+
+                // wait 6 sec and go forwards until 6
+                po_to_po_at(14, 16, 3 + 6 + 6);
+
+                // wait 3 sec and stop
+                po_to_po_at(16, 0, 3 + 6 + 6 + 6);
+            };
+            #endregion
+
+            #region program_61
+            page.program_61.onclick += delegate
+            {
+                #region po
+                Action<int> po =
+                    v =>
+                    {
+                        page.program_61.innerText = "program_61: " + v;
+                        SpiderModelContent.po = v;
+                    };
+                #endregion
+
+
+
+                #region po_to_po
+                Action<int, int> po_to_po =
+                    (from, to) =>
+                    {
+                        if (SpiderModelContent.po != from)
+                            return;
+
+                        po(to);
+                    };
+                #endregion
+
+
+
+                #region po_to_po_at
+                Action<int, int, int> po_to_po_at =
+                    (from, to, xdelay) =>
+                    {
+                        new Timer(delegate { po_to_po(from, to); }, xdelay * 1000, 0);
+                    };
+                #endregion
+
+                // turn left until 3
+                po(14);
+
+                // wait 3 sec and go backwards until 6
+                po_to_po_at(14, 15, 3);
+
+                // wait 6 sec and turn right
+                po_to_po_at(15, 13, 3 + 6);
+
+                // wait 6 sec and go forwards until 6
+                po_to_po_at(13, 16, 3 + 6 + 6);
+
+                // wait 3 sec and stop
+                po_to_po_at(16, 0, 3 + 6 + 6 + 6);
+            };
+            #endregion
 
             @"Hello world".ToDocumentTitle();
 
@@ -133,7 +261,7 @@ namespace ArduinoSpiderControlCenter
 
             Func<double, double> sin = Math.Sin;
 
-
+            #region deviceorientation
             var gamma = 0.0;
             var beta = 0.0;
             var alpha = 0.0;
@@ -150,6 +278,8 @@ namespace ArduinoSpiderControlCenter
                     if (gamma > 30) SpiderModelContent.po = 14;
                     if (gamma < -30) SpiderModelContent.po = 13;
                 };
+            #endregion
+
 
             #region COM46_Line_value_loop
             Action COM46_Line_value_loop = null;
@@ -158,7 +288,9 @@ namespace ArduinoSpiderControlCenter
             {
                 var t = SpiderModelContent.t;
 
-                page.Content.innerText = COM46_Line_value
+                page.Content2.innerText = COM46_Line_value;
+
+                page.Content.innerText = ""
                     //+ "\n: \t" + 
                     + "\nt: \t" + System.Convert.ToInt32((double)SpiderModelContent.t)
                     + "\np: \t" + SpiderModelContent.p
@@ -168,10 +300,10 @@ namespace ArduinoSpiderControlCenter
                     //+ "\nbeta: \t" + beta
                     //+ "\ngamma: \t" + gamma
                     + "\n"
-                    + "\nRED leg1down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
-                    + "\nGREEN leg2down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)
-                    + "\nBLUE leg3down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg3down_vertical_deg)
-                    + "\nWHITE leg4down_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg4down_vertical_deg)
+                    + "\nRED leg1down_vertical_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1down_vertical_deg)
+                    + "\nGREEN leg2down_vertical_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2down_vertical_deg)
+                    + "\nBLUE leg3down_vertical_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg3down_vertical_deg)
+                    + "\nWHITE leg4down_vertical_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg4down_vertical_deg)
                     + "\n"
                     + "\nRED leg1up_sideway_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg1up_sideway_deg)
                     + "\nGREEN leg2up_sideway_deg: \t" + System.Convert.ToInt32((double)SpiderModelContent.leg2up_sideway_deg)
@@ -185,15 +317,18 @@ namespace ArduinoSpiderControlCenter
             #endregion
 
 
+            #region Connect
             page.Connect.onclick +=
             delegate
             {
+                SpiderModelContent.t_fix = 0;
                 "Connect".ToDocumentTitle();
                 SpiderModelContent.po = 0; ;
                 service.AtFocus();
             };
+            #endregion
 
-
+            #region Disconnect
             page.Disconnect.onclick +=
                 delegate
                 {
@@ -201,6 +336,7 @@ namespace ArduinoSpiderControlCenter
                     SpiderModelContent.po = 0; ;
                     service.AtBlur();
                 };
+            #endregion
 
 
             Action poll = null;

@@ -236,7 +236,7 @@ void program_33_high_five_calibration()
          
  void program_leg__delay_move_hold_commit  (int _delay, int hold, int reverse, float* notify_x, float* notify_y) 
                         {
-                 float t_accelerated = t * 12;
+                 float t_accelerated = t * 16;
                             float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
@@ -343,6 +343,7 @@ void program()
 {
   
   // send data only when you receive data:
+  /*
         if (Serial.available() > 0) {
                 // read the incoming byte:
                  po = Serial.read();
@@ -363,13 +364,14 @@ void program()
                         if (pp == 16) program_16_go_forwards();
                         if (pp == 17) program_17_go_left();
                         if (pp == 18) program_18_go_right();
+                        */
                         
   // if (p == 23) 
-//  program_16_go_forwards ();
+  // program_16_go_forwards ();
 //  program_15_go_backwards();
 //  program_13_turn_left();
     // program_14_turn_right();
-//  program_43_high_five_calibration_stand();
+  program_43_high_five_calibration_stand();
   // program_53_mayday();
 //   program_23_high_five_calibration_far();
 // program_33_high_five_calibration();
@@ -396,7 +398,7 @@ void loop()
     
     ReadSensors();
 //    ReadUltraSound();
-    PrintValues();
+//    PrintValues();
     
    
 

@@ -319,7 +319,7 @@ namespace SpiderModel
 
 
 
-            var size = 0.06f;
+            var size = 0.03f;
 
 
             #region cube
@@ -949,8 +949,8 @@ namespace SpiderModel
 
                         #endregion
 
-                        var sidewaysrange = 16;
-                        var verticalrange = 16;
+                        var sidewaysrange = 14;
+                        var verticalrange = 20;
 
 
                         f pi = (f)Math.PI;
@@ -977,7 +977,7 @@ namespace SpiderModel
 
                         /* void program_leg_delay_move_hold_commit */ (int _delay, int hold, int reverse, notify notify) =>
                         {
-                            float t_accelerated = t * 16;
+                            float t_accelerated = t * 12;
                             float mod = (pi * (_delay + 1 + hold + 1));
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
