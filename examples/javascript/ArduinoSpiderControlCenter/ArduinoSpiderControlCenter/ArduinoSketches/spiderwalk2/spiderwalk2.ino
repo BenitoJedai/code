@@ -28,7 +28,7 @@ int leg2up_pos = 90;
 int leg2down_pos = 80;
 int leg3up_pos = 80;    
 int leg3down_pos = 90;
-int leg4up_pos = 90;    
+int leg4up_pos = 75;    
 int leg4down_pos = 90;
 
 int legtotal=90;
@@ -41,15 +41,17 @@ int LeftLSValue = 0;
 int RightLSValue = 0;
 long FrontUSValue = 0;
  
-int p = 43;
+ // stand? // 70 avoid // go to light 60
+int p = 70;
+ // walk?
 int po = 0;
 int pp = 0;
 
 int counter = 0;
 
 
-                        int sidewaysrange = 14;
-                        int verticalrange = 20;
+                        int sidewaysrange = 20;
+                        int verticalrange = 30;
                         
 float leg1up_sideway_deg;
 float leg2up_sideway_deg;
@@ -93,12 +95,30 @@ void ReadSensors()
   RightLSValue = analogRead(RightLSpin);
 }
 
+int skip = 0;
+
 void PrintValues()
 {
+  skip++;
+  
+  if (skip < 90)
+     return;
+  
+  skip = 0;
+  
+  // Serial API will cost CPU!
+
+
+  
+  /*
       Serial.print(";\t counter: ");
       Serial.print(counter);
+      */
     Serial.print(";\t t: ");
   Serial.print(t);
+  
+  
+  
   Serial.print(";\t p: ");
   Serial.print(p);  
   Serial.print(";\t po: ");
@@ -106,38 +126,18 @@ void PrintValues()
   Serial.print(";\t pp: ");
   Serial.print(pp);    
 
-  Serial.print(";\t LeftIR: ");
+  Serial.print(";\t LI: ");
   Serial.print(LeftIRValue);
-  Serial.print(";\t RightIR: ");
+  Serial.print(";\t RI: ");
   Serial.print(RightIRValue);
   
   // 0 is light, 900 is dark
-  Serial.print(";\t LeftLS: ");
+  Serial.print(";\t LS: ");
   Serial.print(LeftLSValue);
-  Serial.print(";\t RightLR: ");
+  Serial.print(";\t RS: ");
   Serial.print(RightLSValue);
 
-  Serial.print(";");
-  Serial.print(";\t leg1down_vertical_deg: ");
-  Serial.print(leg1down_vertical_deg);
-  Serial.print(";\t leg2down_vertical_deg: ");
-  Serial.print(leg2down_vertical_deg);
-  Serial.print(";\t leg3down_vertical_deg: ");
-  Serial.print(leg3down_vertical_deg);
-  Serial.print(";\t leg4down_vertical_deg: ");
-  Serial.print(leg4down_vertical_deg);  
-  Serial.print(";");
-  
-  Serial.print(";");
-  Serial.print(";\t leg1up_sideway_deg: ");
-  Serial.print(leg1up_sideway_deg);
-  Serial.print(";\t leg2up_sideway_deg: ");
-  Serial.print(leg2up_sideway_deg);
-  Serial.print(";\t leg3up_sideway_deg: ");
-  Serial.print(leg3up_sideway_deg);
-  Serial.print(";\t leg4up_sideway_deg: ");
-  Serial.print(leg4up_sideway_deg);  
-  Serial.println(";");
+    Serial.println(";");
 }
 
 void ReadUltraSound()
@@ -236,11 +236,14 @@ void program_33_high_five_calibration()
          
  void program_leg__delay_move_hold_commit  (int _delay, int hold, int reverse, float* notify_x, float* notify_y) 
                         {
-                 float t_accelerated = t * 16;
-                            float mod = (pi * (_delay + 1 + hold + 1));
+                          float speedup = 12;
+                 float t_accelerated = t * 1;
+                            float mod = (pi * (_delay + 1 + hold + 1)) / 9;
 
                             // error: invalid operands of types 'float' and 'float' to binary 'operator%'
                             float phase = (float)((int)(t_accelerated * 100) % (int)(mod * 100)) * 0.01f;
+
+                            phase = phase * 9;
 
                             // _delay
                             if (phase < (pi * _delay))
@@ -337,13 +340,149 @@ void program_17_go_left  ()
                                 program_leg__delay_move_hold_commit(2, 1, 1, &leg3up_sideway_deg , &leg3down_vertical_deg );
                                 program_leg__delay_move_hold_commit(0, 3, 1, &leg4up_sideway_deg , &leg4down_vertical_deg );                                
                             }                        
+
+int program_60_walk_to_light_skip = 0;
+
+ void program_60_walk_to_light  () 
+          {
+            // light on right: LS: 956;	 RS: 777;
+
+if (LeftLSValue < 600 || RightLSValue < 600)
+{
+ program_43_high_five_calibration_stand();
+return; 
+}
+
+
+int sensitivity = 200;
+
+if ((LeftLSValue - RightLSValue) > sensitivity)
+{
+                        program_14_turn_right();  
+return;
+}
+
+
+if ((LeftLSValue - RightLSValue) < -sensitivity)
+{
+                              program_13_turn_left();
+return;
+}
+
+
+
+            program_16_go_forwards();
+          }
+          
+     int program_70_walk_or_mayday_skip = 0;
+     int program_70_walk_or_mayday_avoid = 0;
      
+ void program_70_walk_or_mayday  () 
+          {
+/* obstacle on left
+ t: 100.16;
+ p: 16;
+ po: 43;
+ pp: 43;
+ LI: 240;
+ RI: 64;
+ LS: 826;
+ RS: 892;
+ 
+ on right:
+ ;
+ t: 147.36;
+ p: 16;
+ po: 43;
+ pp: 43;
+ LI: 18;
+ RI: 204;
+ LS: 895;
+ RS: 865
+ 
+ on both:
+ ;
+ t: 184.00;
+ p: 16;
+ po: 43;
+ pp: 43;
+ LI: 211;
+ RI: 218;
+ LS: 836;
+ RS: 866;
+*/ 
+
+
+           if (LeftIRValue > 200 || RightIRValue > 200)
+           {
+             program_70_walk_or_mayday_skip = min(80, program_70_walk_or_mayday_skip + 1);
+             
+           }
+            else
+            {
+               program_70_walk_or_mayday_skip = max(0, program_70_walk_or_mayday_skip - 3);
+             
+          }             
+
+if (program_70_walk_or_mayday_avoid != 0)          
+{
+      program_71_avoid_collision  () ;
+      return;
+}
+          
+          if (program_70_walk_or_mayday_skip < 40)
+              program_60_walk_to_light();
+              else
+              program_71_avoid_collision  () ;
+           
+           
+}
+
+
+void program_71_avoid_collision  () 
+{
+  // /;)
+  
+
+if (program_70_walk_or_mayday_avoid == 0)
+{
+   if (           LeftIRValue < RightIRValue)
+  program_70_walk_or_mayday_avoid = -2000;
+  else
+    program_70_walk_or_mayday_avoid = 2000;
+}
+else
+{
+  if (program_70_walk_or_mayday_avoid < 0)
+    program_70_walk_or_mayday_avoid =   min(0, program_70_walk_or_mayday_avoid + 1);
+  else
+  program_70_walk_or_mayday_avoid =   max(0, program_70_walk_or_mayday_avoid - 1);
+}
+
+  if (abs(program_70_walk_or_mayday_avoid) < 1500 && abs(program_70_walk_or_mayday_avoid) > 500)
+  {
+
+  if (           program_70_walk_or_mayday_avoid < 0)
+    program_13_turn_left();
+                        else 
+                        program_14_turn_right();  
+
+  }
+  else
+  {
+program_43_high_five_calibration_stand();
+  }
+  return;
+  
+  
+}
      
 void program()
 {
   
   // send data only when you receive data:
-  /*
+  
+  // is this causing freeze bug?
         if (Serial.available() > 0) {
                 // read the incoming byte:
                  po = Serial.read();
@@ -364,14 +503,17 @@ void program()
                         if (pp == 16) program_16_go_forwards();
                         if (pp == 17) program_17_go_left();
                         if (pp == 18) program_18_go_right();
-                        */
+if (pp == 60) program_60_walk_to_light();
+if (pp == 70) program_70_walk_or_mayday();
+                        
+                        
                         
   // if (p == 23) 
   // program_16_go_forwards ();
 //  program_15_go_backwards();
 //  program_13_turn_left();
     // program_14_turn_right();
-  program_43_high_five_calibration_stand();
+//  program_43_high_five_calibration_stand();
   // program_53_mayday();
 //   program_23_high_five_calibration_far();
 // program_33_high_five_calibration();
@@ -394,11 +536,11 @@ void loop()
 { 
     t = float(millis()) / 1000;
 
-    counter = ((int)t) % 24;
+   // counter = ((int)t) % 24;
     
     ReadSensors();
 //    ReadUltraSound();
-//    PrintValues();
+    PrintValues();
     
    
 

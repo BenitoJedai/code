@@ -377,7 +377,7 @@ namespace ArduinoSpiderControlCenter
 
 
                                         #region RightLR
-                                        if (key == "RightLR")
+                                        if (key == "RS")
                                         {
 
                                             var value_int32 = int.Parse(_value);
@@ -396,7 +396,7 @@ namespace ArduinoSpiderControlCenter
                                         #endregion
 
                                         #region LeftLS
-                                        if (key == "LeftLS")
+                                        if (key == "LS")
                                         {
 
                                             var value_int32 = int.Parse(_value);
@@ -417,7 +417,7 @@ namespace ArduinoSpiderControlCenter
                                         #endregion
 
                                         #region LeftIR
-                                        if (key == "LeftIR")
+                                        if (key == "LI")
                                         {
 
                                             var value_int32 = int.Parse(_value);
@@ -437,7 +437,7 @@ namespace ArduinoSpiderControlCenter
                                         #endregion
 
                                         #region RightIR
-                                        if (key == "RightIR")
+                                        if (key == "RI")
                                         {
 
                                             var value_int32 = int.Parse(_value);
