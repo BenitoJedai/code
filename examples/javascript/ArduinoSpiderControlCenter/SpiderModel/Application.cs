@@ -25,6 +25,7 @@ namespace SpiderModel
     using System.Windows;
 
     using notify = Action<float, float>;
+    using ScriptCoreLib.JavaScript.Runtime;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -49,10 +50,60 @@ namespace SpiderModel
             new ApplicationContent().With(
                 Content =>
                 {
+                    var hh = new IHTMLDiv();
+
+                    hh.AttachToDocument();
+                    hh.style.SetLocation(64, 32);
+                    hh.style.color = JSColor.White;
+                    hh.style.fontSize = "30px";
+
+
+                    var vv = new IHTMLIFrame
+                    {
+                        src = "http://www.youtube.com/v/hKksAVmekAE"
+                    };
+
+                    vv.style.position = IStyle.PositionEnum.absolute;
+                    vv.style.left = "0px";
+                    vv.style.width = "40em";
+                    vv.style.bottom = "0px";
+                    vv.style.height = "20em";
+                    vv.AttachToDocument();
+
+
+                    new ScriptCoreLib.JavaScript.Runtime.Timer(
+                        t =>
+                        {
+                            var c = t.Counter % 10;
+
+                            Action<int, int> rewire =
+                                (_c, _po) =>
+                                {
+                                    if (c == _c)
+                                    {
+                                        Content.po = _po;
+                                        hh.innerText = "Spider Control Center Program Override Code: " + _po;
+                                    }
+                                };
+
+                            rewire(1, 43);
+                            rewire(2, 53);
+                            rewire(3, 13);
+                            rewire(4, 14);
+                            rewire(5, 15);
+                            rewire(6, 16);
+                            rewire(7, 17);
+                            rewire(8, 18);
+                            rewire(9, 23);
+                        },
+                        0,
+                        2000
+                    );
+
                     Content.AtTick +=
                         delegate
                         {
-                            Native.Document.title = "" + Content.cycle;
+                            // ?
                         };
 
                     Native.Document.onclick +=
@@ -949,8 +1000,8 @@ namespace SpiderModel
 
                         #endregion
 
-                        var sidewaysrange = 14;
-                        var verticalrange = 20;
+                        var sidewaysrange = 20;
+                        var verticalrange = 30;
 
 
                         f pi = (f)Math.PI;
@@ -1343,9 +1394,10 @@ namespace SpiderModel
                             ;
                         #endregion
 
-                        //program_23_high_five_calibration_far();
-                    
+                        //();
 
+
+                        if (pp == 23) program_23_high_five_calibration_far();
                         if (pp == 43) program_43_high_five_calibration_stand();
                         if (pp == 53) program_53_mayday();
                         if (pp == 13) program_13_turn_left();
@@ -1355,7 +1407,7 @@ namespace SpiderModel
                         if (pp == 17) program_17_go_left();
                         if (pp == 18) program_18_go_right();
 
-                        
+
 
                         #region legx
                         Action<Action, Action, f, f, f> legx =
