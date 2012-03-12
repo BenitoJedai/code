@@ -60,14 +60,21 @@ namespace SpiderModel
 
                     var vv = new IHTMLIFrame
                     {
-                        src = "http://www.youtube.com/v/hKksAVmekAE"
+                        border = "0",
+
+                        // http://stackoverflow.com/questions/5845484/force-html5-youtube-video
+                        //src = "http://www.youtube.com/embed/hKksAVmekAE?html5=1"
+
+                        src = "http://www.youtube.com/embed/hKksAVmekAE"
                     };
 
                     vv.style.position = IStyle.PositionEnum.absolute;
                     vv.style.left = "0px";
-                    vv.style.width = "40em";
+                    vv.style.width = "20em";
                     vv.style.bottom = "0px";
-                    vv.style.height = "20em";
+                    vv.style.height = "10em";
+                    vv.style.border = "0";
+
                     vv.AttachToDocument();
 
 
