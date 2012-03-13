@@ -909,9 +909,28 @@ namespace PromotionWebApplication1
                 var href = "http://www.jsc-solutions.net/download/setup.exe";
 
                 var html = @"
-                    <meta http-equiv='Refresh' content='0;url=" + href + @"' />
+                    <meta http-equiv='Refresh' target='_top' content='1;url=" + href + @"' />
 
-                    <br /><center>Thank you for downloading <a href='" + href + "'>jsc!</a></center>";
+                    
+                    <center>
+                    
+                    <br />
+                    <br />
+                    <br />
+
+<a href='" + href + @"'></a>
+                     
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+
+<div><i>Note that recent versions of <b>Google Chrome</b> may need additional time to verify this Microsoft ClickOnce Application.</i></div>                  
+                                       
+                                       </center>";
+
+                h.Context.Response.ContentType = "text/html";
 
                 var bytes = Encoding.UTF8.GetBytes(html);
                 h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
