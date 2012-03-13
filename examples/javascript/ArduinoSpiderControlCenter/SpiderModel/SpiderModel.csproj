@@ -156,6 +156,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Documents\spider.pdf">
+      <DependentUpon>spider.tex</DependentUpon>
+    </None>
+    <None Include="Documents\spider.tex" />
     <None Include="Shaders\Geometry.vert" />
     <None Include="Shaders\Geometry.frag" />
   </ItemGroup>
@@ -163,7 +167,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
 )
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
