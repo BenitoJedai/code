@@ -896,7 +896,10 @@ namespace PromotionWebApplication1
 
             if (path == "/download")
             {
-                h.Context.Response.Redirect("/download/jsc.configuration.application");
+                //h.Context.Response.Redirect("/download/jsc.configuration.application");
+
+                // F# redist
+                h.Context.Response.Redirect("/download/setup.exe");
                 h.CompleteRequest();
                 return;
             }
