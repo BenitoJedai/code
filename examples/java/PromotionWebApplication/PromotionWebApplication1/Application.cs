@@ -713,7 +713,7 @@ namespace PromotionWebApplication1
 
                     }
             }
-            #endregion
+        #endregion
 
 
             Analytics =
@@ -807,7 +807,7 @@ namespace PromotionWebApplication1
 
 
 
-        #if Bulldog
+#if Bulldog
         public void CodeGenerator(WebServiceHandler h)
         {
 
@@ -882,7 +882,7 @@ namespace PromotionWebApplication1
 
             h.CompleteRequest();
         }
-        #endif
+#endif
     }
 
     public static class DownloadSDKFunction
@@ -905,7 +905,19 @@ namespace PromotionWebApplication1
             }
 
             if (path == "/download/")
-                path = "/download/publish.htm";
+            {
+                var href = "http://www.jsc-solutions.net/download/setup.exe";
+
+                var html = @"
+                    <meta http-equiv='Refresh' content='0;url=" + href + @"' />
+
+                    <br /><center>Thank you for downloading <a href='" + href + "'>jsc!</a></center>";
+
+                var bytes = Encoding.UTF8.GetBytes(html);
+                h.Context.Response.OutputStream.Write(bytes, 0, bytes.Length);
+                h.CompleteRequest();
+                return;
+            }
 
 
             // we will compare the win32 relative paths here...
