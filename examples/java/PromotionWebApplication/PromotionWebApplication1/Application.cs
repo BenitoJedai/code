@@ -899,14 +899,20 @@ namespace PromotionWebApplication1
                 //h.Context.Response.Redirect("/download/jsc.configuration.application");
 
                 // F# redist
-                h.Context.Response.Redirect("/download/setup.exe");
+                h.Context.Response.Redirect("/download/jsc-web-installer.exe");
                 h.CompleteRequest();
                 return;
             }
 
+            if (path == "/download/jsc-web-installer.exe")
+            {
+                // is chrome happier if we rename it?
+                path = "/download/setup.exe";
+            }
+
             if (path == "/download/")
             {
-                var href = "http://www.jsc-solutions.net/download/setup.exe";
+                var href = "http://www.jsc-solutions.net/download/jsc-web-installer.exe";
 
                 var html = @"
                     <meta http-equiv='Refresh' target='_top' content='1;url=" + href + @"' />
@@ -926,7 +932,7 @@ namespace PromotionWebApplication1
                     <br />
                     <br />
 
-<div><i>Note that recent versions of <b>Google Chrome</b> may need additional time to verify this Microsoft ClickOnce Application.</i></div>                  
+<div><i>Note that recent versions of <b>Google Chrome</b> may need additional time to verify.</i></div>                  
                                        
                                        </center>";
 
