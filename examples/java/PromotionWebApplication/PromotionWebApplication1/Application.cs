@@ -918,7 +918,7 @@ namespace PromotionWebApplication1
                     <br />
                     <br />
 
-<a href='" + href + @"'></a>
+<a href='" + href + @"'>Thank you for downloading JSC!</a>
                      
                     <br />
                     <br />
