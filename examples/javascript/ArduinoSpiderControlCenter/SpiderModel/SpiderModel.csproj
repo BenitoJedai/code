@@ -152,6 +152,8 @@
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
+    <Content Include="Documents\Images\jsc_-_Google_Chrome-2012-03-14_14.33.04.png" />
+    <Content Include="Documents\Images\New_Project-2012-03-13_09.19.10.png" />
     <Content Include="Library\glMatrix.js">
     </Content>
   </ItemGroup>

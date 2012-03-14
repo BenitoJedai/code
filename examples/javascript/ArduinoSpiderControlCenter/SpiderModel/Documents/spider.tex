@@ -3,14 +3,16 @@
 \documentclass[12pt,leqno]{book}
 
 \usepackage{graphicx}
+
 % \includegraphics
 
 \newcommand{\png}[1]{\includegraphics[type=png,ext=.png,read=.png,width=\textwidth]{#1}}
-
 \newcommand{\figpng}[2]{\begin{figure}[htb]\centering\png{#1}\caption{#2}\end{figure}}
 
-\title{WebGL Spider\\ \large JSC Application}
+\usepackage{framed}
 
+
+\title{WebGL Spider}
 \author{Arvo Sulakatko}
 
 \begin{document}
@@ -20,20 +22,26 @@
 \tableofcontents
 \listoffigures
 
+% why what how
 \chapter{Why}
 
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. \marginpar{This note will appear in the margin.} Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
-\chapter{Hands on!}
-In this chapter we shall have a look at how to build on this example on your machine. 
 
-\section{Extend WebGL Spider}
-For those of you who are new to JSC please refer to the next section to install it.
+\marginpar{[...] people don't buy what you do. people buy why you do it!}
+In 2011 I took a course. It was a course on biomechanics. During this course we had to come up with 3D visualizations of different models. As a final task we had to come up with a mechanic spider. My part was to make it move. I had never programmed a robot before. 
+
+\chapter{What - Create a WebGL Spider}
+In this chapter we shall have a look at how to build on this example on your machine.
+
+\begin{framed}
+!!! For those of you who are new to JSC please refer to the next section to install it.
+\end{framed}
+
 
 \figpng{Images/New_Project-2012-03-13_09.19.10}
 {Visual Studio Web Developer Express - New Project}
 
-\section{Install JSC}
+\chapter{How - Install JSC}
 
 get jsc
 
