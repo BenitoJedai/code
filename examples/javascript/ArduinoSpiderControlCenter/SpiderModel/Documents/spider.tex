@@ -2,18 +2,21 @@
 % part chapter  section subsection
 \documentclass[12pt,leqno]{book}
 
+\usepackage{url}
+\usepackage{hyperref}
+
 \usepackage{graphicx}
 
 % \includegraphics
 
 \newcommand{\png}[1]{\includegraphics[type=png,ext=.png,read=.png,width=\textwidth]{#1}}
-\newcommand{\figpng}[2]{\begin{figure}[htb]\centering\png{#1}\caption{#2}\end{figure}}
+\newcommand{\figpng}[2]{\begin{figure}[H!tb]\centering\png{#1}\caption{#2}\end{figure}}
 
 \usepackage{framed}
 
 
 \title{WebGL Spider}
-\author{\includegraphics{../Design/Preview.png} \\ \\ \\ Arvo Sulakatko }
+\author{\includegraphics{../Design/Preview.png} \\ \\ \\ Arvo Sulakatko \\ \\ \href{http://www.jsc-solutions.net}{jsc-solutions.net} }
 
 \begin{document}
 
@@ -44,17 +47,27 @@ I was given a piece of hardware which had a few sensors and four legs.
 \figpng{Images/parts}
 {What can we see on the spider}
 
+
+
+
 \section{Goal}
-For every project to be succesful a goal needs to be set.
+For every project to be succesful a goal needs to be set. 
+Avoid obstacles
+Go to thee light
+Stop when there
+
+
+
+
 
 
 \chapter{The What - Create a WebGL Spider}
 \section{3D Visualization}
+
+\marginpar{Refer to the next section to install jsc!}
+
 In this chapter we shall have a look at how to build on this example on your machine.
 
-\begin{framed}
-!!! For those of you who are new to JSC please refer to the next section to install it.
-\end{framed}
 
 
 \figpng{Images/New_Project-2012-03-13_09.19.10}
@@ -66,18 +79,46 @@ In this chapter we shall have a look at how to build on this example on your mac
 \figpng{Images/A_string_from_JavaScript._-_Google_Chrome-2012-03-14_16.12.04}
 {Program 23}
 
+\figpng{Images/aboutgpu_-_Google_Chrome-2012-03-14_17.56.30}
+{Make sure your device is supprting WebGL}
+
+\begin{framed}
+chrome.exe -enable-webgl -enable-apps -ignore-gpu-blacklist
+\end{framed}
+
+
+
+
+
 \section{Arduino}
-For details contact.
+Although this document briefly describes Arduino related development it is considered out of scope and is not part of the default \textbf{jsc eXperience}.
+
+At this time jsc does not support any languages that target Arduino platform. As such I had to make use of Arduino programming language. Otherwise I could of had my CSharp code compiled to Arduino. This would of had allowed me to use the same code in the visualization and on the chip.
+
+\figpng{Images/spiderwalk2__Arduino_1.0-2012-03-14_18.04.43}
+{Arduino - spiderwalk2.ino}
+
+
+\subsection{Lessons learned}
+While programming for Arduino I had to manually port my code I had written for the visualizer to the Arduino platform. In doing so I discovered that the int is considered to be 16 bits and that I cannot make use of function pointers. To overcome that I had to divide before I did my multiplication. Yes I had to track down an overflow bug before I realized this. The callbacks I used were simple. They only had a few parameters. This allowed me to replace the function pointer with pointer to variable and have the same behaviour of code.
+
+
+
 
 \chapter{The How - Install JSC}
 
-get jsc
-
 \figpng{Images/jsc_-_Google_Chrome-2012-03-14_14.33.04}
-{Download JSC at http://download.jsc-solutions.net}
+{Download JSC at \url{http://download.jsc-solutions.net}}
+
+Installing JSC is easy. Before you do make sure you have installed Visual Studio 2010 Web Developer Express.
+
+
 
 
 \chapter{References}
+
+\url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/SpiderModel/Documents/spider.tex}
+
 
 Source
 Video
