@@ -114,33 +114,54 @@ The project template is part of the JSC experience and as such you will be able 
 {Program 23}
 
 
+
 \subsection{Program 23 - Calibration}
+Calibration mode was used to figure out how much should the legs be able to turn and in what range. Basically I had to tweak the
+source code of the Arduino Sketch later due to differences with the model.
+\subsection{Program 43 - Stand}
+While working with the spider the legs were constantly falling off. They had to be reattached to the servo motors. To know which
+leg I was referring to in code I had to color code them. I used colors RED, GREEN, BLUE and WHITE. In this program the spider 
+would just stand and try to lift itself up just a bit. It was a known state where I knew in which direction the legs needed to be reattached. Had I not had a known state the legs might have been attached at a wrong angle only to realize the mistake while
+powering the device itself.
+\subsection{Program 53 - Mayday}
+Within mayday program the spider sits down and starts wawing all legs at the same time up in the air. It looks like a dance and was used during testing. For example if the spider sensed an obstacle it could just stop and do the mayday dance instead.
+\subsection{Program 13 - Turn Left}
+One by one all four legs are moved into a new position at left and then the move is finalized by turning all of them into default angle.
+\subsection{Program 14 - Turn Right}
+One by one all four legs are moved into a new position at right and then the move is finalized by turning all of them into default angle.
+\subsection{Program 15 - Go Backwards}
+While the spider cannot sense anything at his back it can walk in reverse. This was used while testing.
+\subsection{Program 16 - Go Forwards}
+The most popular yet not that interesting movement is just to go forwards.
+\subsection{Program 17 - Go Left}
+While the model can visualize movement to the left it was not used as the physical model did not go left.
+\subsection{Program 18 - Go Right}
+While the model can visualize movement to the right it was not used as the physical model did not go right.
 
 
 
 
-
-\section{Arduino}
-Although this document briefly describes Arduino related development it is considered out of scope and is not part of the default \textbf{jsc eXperience}.
-
-At this time jsc does not support any languages that target Arduino platform. As such I had to make use of Arduino programming language. Otherwise I could of had my CSharp code compiled to Arduino. This would of had allowed me to use the same code in the visualization and on the chip.
-
-\figpng{Images/spiderwalk2__Arduino_1.0-2012-03-14_18.04.43}
-{Arduino - spiderwalk2.ino}
-
-
-\subsection{Lessons learned}
-While programming for Arduino I had to manually port my code I had written for the visualizer to the Arduino platform. In doing so I discovered that the int is considered to be 16 bits and that I cannot make use of function pointers. To overcome that I had to divide before I did my multiplication. Yes I had to track down an overflow bug before I realized this. The callbacks I used were simple. They only had a few parameters. This allowed me to replace the function pointer with pointer to variable and have the same behaviour of code.
 
 
 
 
 \chapter{The How - Install JSC}
 
+\figpng{Images/jscpromotion1}
+{JSC The .NET cross compiler for web platforms}
+
+Installing JSC is easy. Before you do make sure you have installed Visual Studio 2010 Web Developer Express.
+
 \figpng{Images/jsc_-_Google_Chrome-2012-03-14_14.33.04}
 {Download JSC at \url{http://download.jsc-solutions.net}}
 
-Installing JSC is easy. Before you do make sure you have installed Visual Studio 2010 Web Developer Express.
+\figpng{Images/jsc-2012-03-14_14.45.41}
+{JSC Web Installer}
+
+
+
+
+
 
 \section{Browser}
 
@@ -153,11 +174,43 @@ chrome.exe -enable-webgl -enable-apps -ignore-gpu-blacklist
 \figpng{Images/aboutgpu_-_Google_Chrome-2012-03-14_17.56.30}
 {Make sure your device is supprting WebGL}
 
-\chapter{Connecting model with a data cable to Arduino}
 
+
+
+
+\chapter{Arduino}
+
+Although this document briefly describes Arduino related development it is considered out of scope and is not part of the default \textbf{jsc eXperience}.
+
+\figpng{Images/withusb}
+{Client Server Application Model with USB Serial Connection to Arduino}
+
+\section{Connecting model with a data cable to Arduino}
 This model was extended in a related project to connect to the Arduino via USB Serial Port. 
 The spider is listening for Program Override code. This allows to issue specific commands to the spider
 and test out new ideas.
+
+\figpng{Images/Hello_world_-_Google_Chrome-2012-03-15_08.11.17}
+{Control Center - Disconnected}
+
+
+
+
+At this time jsc does not support any languages that target Arduino platform. As such I had to make use of Arduino programming language. Otherwise I could of had my CSharp code compiled to Arduino. This would of had allowed me to use the same code in the visualization and on the chip.
+
+\figpng{Images/spiderwalk2__Arduino_1.0-2012-03-14_18.04.43}
+{Arduino - spiderwalk2.ino}
+
+
+\subsection{Lessons learned - int}
+While programming for Arduino I had to manually port my code I had written for the visualizer to the Arduino platform. In doing so I discovered that the int is considered to be 16 bits.  To overcome that I had to divide before I did my multiplication. Yes I had to track down an overflow bug before I realized this.
+
+\subsection{Lessons learned - function pointers}
+At some point I realized that I cannot make use of function pointers with current hardware version. The callbacks I used were simple. They only had a few parameters. This allowed me to replace the function pointer with pointer to variable and have the same behaviour of code.
+
+\subsection{Lessons learned - Serial Port}
+
+When a new Arduino Sketch was uploaded to the device the USB cable had to be reseated. Otherwise the connection was showing garbage data. Printing to the serial is expensive. While debugging the spider I was printing out so many bytes that a smooth walking animation almost came to a halt. The workaround is to print as little data as possible to the serial.
 
 
 
@@ -180,6 +233,6 @@ and test out new ideas.
 \url{http://www.jsc-solutions.net}
 
 \section{Blog}
-\url{http://zproxy.wordpress.comt}
+\url{http://zproxy.wordpress.com}
 
 \end{document}
