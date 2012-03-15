@@ -96,7 +96,7 @@ Next, lets have a look what was built to visualize spider movement.
 \figpng{Images/New_Project-2012-03-13_09.19.10}
 {Visual Studio Web Developer Express - New Project}
 
-\section{3D Visualization}
+
 While taking this project I wanted to make use of the WebGL technolodgy. During the course itself I had learned how to make a few simple models. This time I had to do four legs and also add sensor visualization. The project itself is written in CSharp. The JSC compiler will translate it JavaScript to run in a WebGL capable web browser.
 
 \marginpar{Refer to the next section to install jsc!}
@@ -107,13 +107,21 @@ The project template is part of the JSC experience and as such you will be able 
 
 
 
-\figpng{Images/SpiderModel_-_Microsoft_Visual_Studio-2012-03-14_15.39.19}
-{Solution Explorer}
-
-\figpng{Images/A_string_from_JavaScript._-_Google_Chrome-2012-03-14_16.12.04}
-{Program 23}
 
 
+\section{Sensors}
+
+\subsection{Light sensors}
+Within the visualization view we have a white arrow. It will move around based on the two light sensors. Less light detected means the light source is far away. If a strong light signal is to be detected the arrow turns cyan. This would mean spider had reached its destination and should stop. Direction of the light source is inferred by the balance of light signals in the two sensors.
+
+\subsection{Infrared sensors}
+Within the visualization view we have a wall in front of the spider. The wall moves near and far based on the signal from both sensors.
+If for example the lef sensor detected almost near or near obstacle the left part of the wall would move and colorcode itself yellow or red respectivly. Otherwise the wall is green and means there is nothing in the way.
+
+\section{Programs}
+
+\figpng{Images/A_string_from_JavaScript._-_Google_Chrome-2012-03-15_07.01.55}
+{Program 18}
 
 \subsection{Program 23 - Calibration}
 Calibration mode was used to figure out how much should the legs be able to turn and in what range. Basically I had to tweak the
@@ -140,24 +148,53 @@ While the model can visualize movement to the right it was not used as the physi
 
 
 
+\section{Visual Studio Solution Description}
 
+\figpng{Images/SpiderModel_-_Microsoft_Visual_Studio-2012-03-14_15.39.19}
+{Solution Explorer}
 
+\subsection{Design/Default.htm}
+Each client server web application begins with a default HTML page with the initial design. If the bowser supports JavaScript the client side code will be loaded and it has the freedom to dynamically change the document. In our case we created a 3D canvas.
 
+\subsection{Library/glMatrix.js}
+While JSC has the concept of ScriptCoreLib where all frequently used code is hosted it does not yet have 3D math support.
+The glMatrix library allows us to do our Vector and Matrix calculations.
 
+\subsection{Shaders/Geometry.frag}
+Until now code in the client ran on a CPU. With WebGL we can run code on a GPU. The fragment and vertex shaders are somewhat simple programs to be run on the client GPU.
+
+\subsection{Application.cs}
+This is the client side code compiled into JavaScript. It is also responsible for the 3D visualization.
+
+\subsection{ApplicationWebService.cs}
+This is the server side code. We are not actually using it in this example.
 
 \chapter{The How - Install JSC}
+
+\marginpar{JSC will allow to program WebGL applications in CSharp}
 
 \figpng{Images/jscpromotion1}
 {JSC The .NET cross compiler for web platforms}
 
-Installing JSC is easy. Before you do make sure you have installed Visual Studio 2010 Web Developer Express.
+Installing JSC is easy. Before you do make sure you have installed Microsoft Visual Web Developer 2010 Express.
+
+\section{Download}
+At our webpage we have a link to JSC Web Installer. It is a ClickOnce application and supports features like prerequiste installation and updates.
 
 \figpng{Images/jsc_-_Google_Chrome-2012-03-14_14.33.04}
 {Download JSC at \url{http://download.jsc-solutions.net}}
 
+\subsection{Agreement and Configuration}
+At this time JSC is distributed for evaluation purposes. You will be asked to read and agree the license. Later you will find new project templates for Visual Studio. WebGL Spider Model being one of them. After installation some configuration options will become available. JSC integrates with third party compilers and SDKs like Adobe Flash and Oracle Java. Unfortunatly this will be out of scope of this document. 
+
 \figpng{Images/jsc-2012-03-14_14.45.41}
 {JSC Web Installer}
 
+\subsection{Start using it}
+Refer back to the previous chapter to work with a JSC Web Application project for more details.
+
+\figpng{Images/SpiderModel_-_Microsoft_Visual_Web_Developer_2010_Express-2012-03-15_08.34.00}
+{Microsoft Visual Web Developer 2010 Express}
 
 
 
@@ -173,6 +210,7 @@ chrome.exe -enable-webgl -enable-apps -ignore-gpu-blacklist
 
 \figpng{Images/aboutgpu_-_Google_Chrome-2012-03-14_17.56.30}
 {Make sure your device is supprting WebGL}
+
 
 
 
@@ -214,9 +252,13 @@ When a new Arduino Sketch was uploaded to the device the USB cable had to be res
 
 
 
+
+
+
+
 \chapter{References}
 
-\section{Document source}
+\section{Document Source}
 
 \url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/SpiderModel/Documents/spider.tex}
 
