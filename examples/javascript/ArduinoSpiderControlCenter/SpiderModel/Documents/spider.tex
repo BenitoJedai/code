@@ -10,12 +10,12 @@
 % \includegraphics
 
 \newcommand{\png}[1]{\includegraphics[type=png,ext=.png,read=.png,width=\textwidth]{#1}}
-\newcommand{\figpng}[2]{\begin{figure}[H!tb]\centering\png{#1}\caption{#2}\end{figure}}
+\newcommand{\figpng}[2]{\begin{figure}[htb]\centering\png{#1}\caption{#2}\end{figure}}
 
 \usepackage{framed}
 
 
-\title{WebGL Spider}
+\title{WebGL Spider Model}
 \author{\includegraphics{../Design/Preview.png} \\ \\ \\ Arvo Sulakatko \\ \\ \href{http://www.jsc-solutions.net}{jsc-solutions.net} }
 
 \begin{document}
@@ -50,28 +50,62 @@ I was given a piece of hardware which had a few sensors and four legs.
 
 
 
-\section{Goal}
-For every project to be succesful a goal needs to be set. 
-Avoid obstacles
-Go to thee light
-Stop when there
+\section{Goals}
+
+For a project to be succesful goals needs to be set.
+
+\begin{itemize}
+\item Avoid obstacles
+\item Go to the light
+\item Stop when there
+\end{itemize}
+
+With the current setup we are able to sense light on both sides, sense distance and move servo motors to move the legs. Additionally the spider has to move without a data cable. It can have a power cable attached but cannot have the data cable.
+
+
+The movement of the legs shall be time dependant. Legs can have different types of movement. We will name them as programs.
+
+\marginpar{Program code was selected at random. Keyboard codes were also considered.}
+
+
+\begin{itemize}
+\item Program 23 - Calibration
+\item Program 43 - Stand
+\item Program 53 - Mayday
+\item Program 13 - Turn Left
+\item Program 14 - Turn Right
+\item Program 15 - Go Backwards
+\item Program 16 - Go Forwards
+\item Program 17 - Go Left
+\item Program 18 - Go Right
+\end{itemize}
+
+While within our model we can visualize any movement we want to we will be limited by the physical version of the spider.
+For example movements to the left and right will not have the expected outcome. 
+
+Next, lets have a look what was built to visualize spider movement.
 
 
 
 
 
 
-\chapter{The What - Create a WebGL Spider}
+
+
+\chapter{The What - Create a WebGL Spider Model}
+\figpng{Images/New_Project-2012-03-13_09.19.10}
+{Visual Studio Web Developer Express - New Project}
+
 \section{3D Visualization}
+While taking this project I wanted to make use of the WebGL technolodgy. During the course itself I had learned how to make a few simple models. This time I had to do four legs and also add sensor visualization. The project itself is written in CSharp. The JSC compiler will translate it JavaScript to run in a WebGL capable web browser.
 
 \marginpar{Refer to the next section to install jsc!}
 
 In this chapter we shall have a look at how to build on this example on your machine.
 
+The project template is part of the JSC experience and as such you will be able to create a new project and go from there.
 
 
-\figpng{Images/New_Project-2012-03-13_09.19.10}
-{Visual Studio Web Developer Express - New Project}
 
 \figpng{Images/SpiderModel_-_Microsoft_Visual_Studio-2012-03-14_15.39.19}
 {Solution Explorer}
@@ -79,12 +113,8 @@ In this chapter we shall have a look at how to build on this example on your mac
 \figpng{Images/A_string_from_JavaScript._-_Google_Chrome-2012-03-14_16.12.04}
 {Program 23}
 
-\figpng{Images/aboutgpu_-_Google_Chrome-2012-03-14_17.56.30}
-{Make sure your device is supprting WebGL}
 
-\begin{framed}
-chrome.exe -enable-webgl -enable-apps -ignore-gpu-blacklist
-\end{framed}
+\subsection{Program 23 - Calibration}
 
 
 
@@ -112,18 +142,44 @@ While programming for Arduino I had to manually port my code I had written for t
 
 Installing JSC is easy. Before you do make sure you have installed Visual Studio 2010 Web Developer Express.
 
+\section{Browser}
+
+For older machines WebGL might need additional manual configuration.
+
+\begin{framed}
+chrome.exe -enable-webgl -enable-apps -ignore-gpu-blacklist
+\end{framed}
+
+\figpng{Images/aboutgpu_-_Google_Chrome-2012-03-14_17.56.30}
+{Make sure your device is supprting WebGL}
+
+\chapter{Connecting model with a data cable to Arduino}
+
+This model was extended in a related project to connect to the Arduino via USB Serial Port. 
+The spider is listening for Program Override code. This allows to issue specific commands to the spider
+and test out new ideas.
 
 
 
 \chapter{References}
 
+\section{Document source}
+
 \url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/SpiderModel/Documents/spider.tex}
 
+\section{Project Source}
+\url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/SpiderModel/}
 
-Source
-Video
-Installer
-Website
-Blog
+\section{Video}
+\url{http://www.youtube.com/v/hKksAVmekAE}
+
+\section{JSC Web Installer}
+\url{http://download.jsc-solutions.net}
+
+\section{Website}
+\url{http://www.jsc-solutions.net}
+
+\section{Blog}
+\url{http://zproxy.wordpress.comt}
 
 \end{document}
