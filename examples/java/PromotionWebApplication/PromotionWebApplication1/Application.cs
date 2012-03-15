@@ -906,6 +906,7 @@ namespace PromotionWebApplication1
 
             if (path == "/download/jsc-web-installer.exe")
             {
+                // http://msdn.microsoft.com/en-us/library/h4k032e1.aspx
                 // is chrome happier if we rename it?
                 path = "/download/setup.exe";
             }
