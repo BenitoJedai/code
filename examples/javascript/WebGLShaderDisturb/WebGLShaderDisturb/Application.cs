@@ -1,25 +1,18 @@
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
-using ScriptCoreLib.Extensions;
+using System;
+using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLShaderDisturb.HTML.Pages;
-using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript.WebGL;
+using WebGLShaderDisturb.HTML.Pages;
+using WebGLShaderDisturb.Shaders;
 
 namespace WebGLShaderDisturb
 {
     using gl = WebGLRenderingContext;
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
-    using WebGLShaderDisturb.Shaders;
 
     /// <summary>
     /// This type will run as JavaScript.

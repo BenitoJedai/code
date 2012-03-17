@@ -29,10 +29,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
         public static byte Max(byte e, byte x) { return (byte)m.max(e, x); }
         public static int Max(int e, int x) { return m.max(e, x); }
         public static double Max(double e, double x) { return m.max(e, x); }
+        public static float Max(float e, float x) { return m.max(e, x); }
 
         public static byte Min(byte e, byte x) { return (byte)m.min(e, x); }
         public static int Min(int e, int x) { return m.min(e, x); }
         public static double Min(double e, double x) { return m.min(e, x); }
+        public static float Min(float e, float x) { return m.min(e, x); }
 
         public static int Sign(double d)
         {

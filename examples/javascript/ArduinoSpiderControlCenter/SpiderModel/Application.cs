@@ -1,24 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.WebGL;
-using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Avalon.Tween;
 using SpiderModel.HTML.Pages;
 using SpiderModel.Library;
 using SpiderModel.Shaders;
-using ScriptCoreLib.Shared.Avalon.Tween;
-using System.Windows;
-using ScriptCoreLib.JavaScript.Runtime;
 
 namespace SpiderModel
 {
@@ -1012,7 +1004,7 @@ namespace SpiderModel
                         f pi = (f)Math.PI;
                         Func<f, f> cos = x => (f)Math.Cos(x);
                         Func<f, f> sin = x => (f)Math.Sin(x);
-                        Func<f, f, f> max = (x, y) => (f)Math.Max((double)x, (double)y);
+                        Func<f, f, f> max = (x, y) => (f)Math.Max(x, y);
                         // http://arduino.cc/en/Reference/max
 
                         #region program_leg0

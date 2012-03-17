@@ -28,12 +28,14 @@ namespace ScriptCoreLib.JavaScript.DOM
         
         public int max(int e, int f) { return default(int); }
         public double max(double e, double f) { return default(double); }
+        public float max(float e, float f) { return default(float); }
 
 
 
         
         public int min(int e, int f) { return default(int); }
         public double min(double e, double f) { return default(double); }
+        public float min(float e, float f) { return default(float); }
 
         public double pow(double e, double f) { return default(double); }
 

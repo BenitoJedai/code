@@ -1,26 +1,18 @@
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
-using ScriptCoreLib.Extensions;
+using System;
+using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLSpiral.HTML.Pages;
-using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript.WebGL;
+using WebGLSpiral.HTML.Pages;
+using WebGLSpiral.Shaders;
 
 namespace WebGLSpiral
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
-    using Date = IDate;
-    using WebGLSpiral.Shaders;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -78,7 +70,7 @@ namespace WebGLSpiral
 
             //var effectDiv, sourceDiv, canvas, gl, buffer, vertex_shader, fragment_shader, currentProgram, vertex_position;
 
-            var parameters_start_time = new Date().getTime();
+            var parameters_start_time = new IDate().getTime();
             var parameters_time = 0L;
             var parameters_screenWidth = 0;
             var parameters_screenHeight = 0;
@@ -225,7 +217,7 @@ namespace WebGLSpiral
 
                  if (currentProgram == null) return;
 
-                 parameters_time = new Date().getTime() - parameters_start_time;
+                 parameters_time = new IDate().getTime() - parameters_start_time;
 
                  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

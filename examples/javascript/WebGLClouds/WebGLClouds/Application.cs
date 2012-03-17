@@ -1,28 +1,16 @@
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
+using System;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using WebGLClouds.HTML.Pages;
-using WebGLClouds.Library;
+using WebGLClouds.Shaders;
 
 namespace WebGLClouds
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLClouds.Shaders;
-    using WebGLClouds.Library;
-    using System.Collections.Generic;
     using THREE = WebGLClouds.Library.THREE;
 
 
