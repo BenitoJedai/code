@@ -224,6 +224,7 @@
     <Compile Include="JavaScript\Runtime\Convert.cs" />
     <Compile Include="JavaScript\Runtime\Fader.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\BCLImplementation\System\Uri.cs" />
     <Compile Include="Shared\Drawing\Rectangle.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
