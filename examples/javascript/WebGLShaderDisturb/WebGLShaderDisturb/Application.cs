@@ -178,6 +178,7 @@ namespace WebGLShaderDisturb
             var vertexPositionLocation = default(long);
             var textureLocation = default(WebGLUniformLocation);
 
+            #region resize
             Action resize = delegate
             {
                 canvas.width = Native.Window.Width;
@@ -199,7 +200,10 @@ namespace WebGLShaderDisturb
                 };
 
             resize();
+            #endregion
 
+
+            #region loop
             Action loop = null;
 
             loop = delegate
@@ -247,7 +251,22 @@ namespace WebGLShaderDisturb
             };
 
             Native.Window.requestAnimationFrame += loop;
+            #endregion
 
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
 
 
             @"Hello world".ToDocumentTitle();
