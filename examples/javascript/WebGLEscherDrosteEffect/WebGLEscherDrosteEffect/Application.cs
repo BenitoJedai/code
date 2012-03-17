@@ -1,18 +1,11 @@
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
-using ScriptCoreLib.Extensions;
+using System;
+using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLEscherDrosteEffect.HTML.Pages;
 using ScriptCoreLib.JavaScript.WebGL;
-using ScriptCoreLib.GLSL;
+using WebGLEscherDrosteEffect.HTML.Pages;
 using WebGLEscherDrosteEffect.Shaders;
 
 namespace WebGLEscherDrosteEffect
@@ -20,7 +13,6 @@ namespace WebGLEscherDrosteEffect
     using gl = WebGLRenderingContext;
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
-
 
     /// <summary>
     /// This type will run as JavaScript.

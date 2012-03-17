@@ -1,20 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
-using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using WebGLTunnel.HTML.Pages;
 using WebGLTunnel.Library;
+using WebGLTunnel.References;
 using WebGLTunnel.Shaders;
 
 namespace WebGLTunnel
@@ -22,7 +16,6 @@ namespace WebGLTunnel
     using gl = WebGLRenderingContext;
     using WebGLFloatArray = Float32Array;
     using WebGLUnsignedShortArray = Uint16Array;
-    using WebGLTunnel.References;
 
 
     /// <summary>

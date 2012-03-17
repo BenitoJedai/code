@@ -1,30 +1,18 @@
-using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
+using System;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.Runtime;
 using WebGLCelShader.HTML.Pages;
-using WebGLCelShader.Library;
+using WebGLCelShader.Shaders;
 
 namespace WebGLCelShader
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLCelShader.Shaders;
-    using WebGLCelShader.Library;
-    using System.Collections.Generic;
     using THREE = WebGLCelShader.Library.THREE;
-    using ScriptCoreLib.JavaScript.Runtime;
 
 
     /// <summary>
@@ -51,12 +39,6 @@ namespace WebGLCelShader
                        delegate
                        {
                            InitializeContent(page);
-
-                           //new Target().Content.With(
-                           //     source2 =>
-                           //     {
-                           //     }
-                           // ).AttachToDocument();
                        };
 
                }
