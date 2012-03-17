@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using ScriptCoreLib;
-using ScriptCoreLib.Shared.BCLImplementation.System;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -13,7 +12,7 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("neutronic")]
 [assembly: AssemblyProduct("ScriptCoreLib.Query")]
-[assembly: AssemblyCopyright("Copyright ? neutronic 2008")]
+[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -46,16 +45,18 @@ using ScriptCoreLib.Shared.BCLImplementation.System;
 
 	ScriptTypeFilter(ScriptType.ActionScript, "*.ActionScript"),
 	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Lambda"),
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(__Func<>)),
+    ScriptTypeFilter(ScriptType.ActionScript, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
 
 	ScriptTypeFilter(ScriptType.JavaScript, "*.JavaScript"),
 	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
-	ScriptTypeFilter(ScriptType.JavaScript, typeof(__Func<>)),
+    ScriptTypeFilter(ScriptType.JavaScript, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
 
 	ScriptTypeFilter(ScriptType.CSharp2, "*.CSharp2"),
 
 	ScriptTypeFilter(ScriptType.PHP, "*.PHP"),
-	ScriptTypeFilter(ScriptType.PHP, typeof(__Func<>)),
+    ScriptTypeFilter(ScriptType.PHP, typeof(ScriptCoreLib.Shared.BCLImplementation.System.Linq.__DefinedError)),
 
+    // note that __DefinedError may soon be moved to ScriptCoreLib as Func was..
+    
 ]
 
