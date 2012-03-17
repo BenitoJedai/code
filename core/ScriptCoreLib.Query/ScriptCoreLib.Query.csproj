@@ -70,7 +70,6 @@
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
     <Compile Include="CSharp2\BCLImplementation\System\Func.cs" />
     <Compile Include="JavaScript\Extensions\QueryExtensions.cs" />
-    <Compile Include="Shared\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\Lambda\BindingListWithEvents.cs" />
     <Compile Include="Shared\Lambda\Lambda.Concat.cs" />
     <Compile Include="Shared\Lambda\Lambda.ToFlaggable.cs" />
