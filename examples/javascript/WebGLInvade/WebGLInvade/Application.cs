@@ -266,6 +266,21 @@ namespace WebGLInvade
             AtResize();
             #endregion
 
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
         }
 
         public Action Dispose;

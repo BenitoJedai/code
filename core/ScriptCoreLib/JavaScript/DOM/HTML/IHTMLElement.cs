@@ -863,5 +863,27 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 
 
+
+        [Script(DefineAsStatic = true)]
+        public void requestFullscreen()
+        {
+            // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+            var requestFullscreen = new IFunction(@"
+		if (this.requestFullscreen) {
+		    this.requestFullscreen();
+		}
+		else if (this.mozRequestFullScreen) {
+		    this.mozRequestFullScreen();
+		}
+		else if (this.webkitRequestFullScreen) {
+		    this.webkitRequestFullScreen();
+		}
+                    
+                    "
+            );
+
+            requestFullscreen.apply(this);
+        }
 	}
 }

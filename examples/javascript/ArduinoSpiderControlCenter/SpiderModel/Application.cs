@@ -16,28 +16,24 @@ using ScriptCoreLib.Shared.Lambda;
 using SpiderModel.HTML.Pages;
 using SpiderModel.Library;
 using SpiderModel.Shaders;
+using ScriptCoreLib.Shared.Avalon.Tween;
+using System.Windows;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace SpiderModel
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Avalon.Tween;
-    using System.Windows;
+
 
     using notify = Action<float, float>;
-    using ScriptCoreLib.JavaScript.Runtime;
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
     internal sealed class Application
     {
-        /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
-         * 
-         * 01. Created a new project of type Web Application
-         * 02. initGL
-         * 03. initShaders
-         */
+        public Action Dispose;
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -50,9 +46,11 @@ namespace SpiderModel
             new ApplicationContent().With(
                 Content =>
                 {
+                    Dispose = Content.Dispose;
+
                     var hh = new IHTMLDiv();
 
-                    hh.AttachToDocument();
+                    //hh.AttachToDocument();
                     hh.style.SetLocation(64, 32);
                     hh.style.color = JSColor.White;
                     hh.style.fontSize = "30px";
@@ -75,7 +73,7 @@ namespace SpiderModel
                     vv.style.height = "10em";
                     vv.style.border = "0";
 
-                    vv.AttachToDocument();
+                    //vv.AttachToDocument();
 
 
                     new ScriptCoreLib.JavaScript.Runtime.Timer(
@@ -1479,6 +1477,20 @@ namespace SpiderModel
             drawScene();
             #endregion
 
+            #region IsDisposed
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
             #region AtResize
             Action AtResize = delegate
             {
@@ -1512,6 +1524,9 @@ namespace SpiderModel
 
             tick = delegate
             {
+                if (IsDisposed)
+                    return;
+
                 c++;
 
                 //Native.Document.title = "" + c;
@@ -1555,30 +1570,21 @@ namespace SpiderModel
             #endregion
 
 
+            #region requestFullscreen
             Native.Document.body.ondblclick +=
                 delegate
                 {
+                    if (IsDisposed)
+                        return;
+
                     // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    #region requestFullscreen
-                    var requestFullscreen = new IFunction(@"
-		if (this.requestFullscreen) {
-		    this.requestFullscreen();
-		}
-		else if (this.mozRequestFullScreen) {
-		    this.mozRequestFullScreen();
-		}
-		else if (this.webkitRequestFullScreen) {
-		    this.webkitRequestFullScreen();
-		}
-                    
-                    "
-                    );
+                    Native.Document.body.requestFullscreen();
 
-                    requestFullscreen.apply(Native.Document.body);
-                    #endregion
 
                 };
+            #endregion
+
 
         }
 
@@ -1609,5 +1615,7 @@ namespace SpiderModel
         public f leg2up_sideway_deg = 0.0f;
         public f leg3up_sideway_deg = 0.0f;
         public f leg4up_sideway_deg = 0.0f;
+
+        public Action Dispose;
     }
 }
