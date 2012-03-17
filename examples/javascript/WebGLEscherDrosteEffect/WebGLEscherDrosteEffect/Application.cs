@@ -225,7 +225,7 @@ namespace WebGLEscherDrosteEffect
 
 
 
-
+            #region loop
             var start_time = new IDate().getTime();
 
             Action loop = null;
@@ -246,8 +246,22 @@ namespace WebGLEscherDrosteEffect
              };
 
             Native.Window.requestAnimationFrame += loop;
+            #endregion
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
 
 
+                };
+            #endregion
 
 
             @"Hello world".ToDocumentTitle();

@@ -24,6 +24,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -124,10 +125,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\EscherDorsteFragmentShader.cs" >
+    <Compile Include="Shaders\EscherDorsteFragmentShader.cs">
       <DependentUpon>EscherDorste.frag</DependentUpon>
     </Compile>
-    <Compile Include="Shaders\EscherDorsteVertexShader.cs" >
+    <Compile Include="Shaders\EscherDorsteVertexShader.cs">
       <DependentUpon>EscherDorste.vert</DependentUpon>
     </Compile>
     <Content Include="Design\Default.htm" />

@@ -215,6 +215,7 @@ namespace WebGLSpiral
                 onWindowResize();
             };
 
+            #region loop
             Action loop = null;
 
             loop = delegate
@@ -255,10 +256,23 @@ namespace WebGLSpiral
              };
 
             Native.Window.requestAnimationFrame += loop;
+            #endregion
 
 
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
 
 
+                };
+            #endregion
 
             @"WebGL loading..".ToDocumentTitle();
             // Send data from JavaScript to the server tier

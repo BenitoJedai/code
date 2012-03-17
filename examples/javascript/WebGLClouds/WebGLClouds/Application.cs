@@ -150,141 +150,153 @@ namespace WebGLClouds
             #endregion
 
 
-            Action init = () =>
-            {
 
 
 
-                var camera = new THREE.Camera(30, Native.Window.Width / Native.Window.Height, 1, 3000);
-                camera.position.z = 6000;
+            var camera = new THREE.Camera(30, Native.Window.Width / Native.Window.Height, 1, 3000);
+            camera.position.z = 6000;
 
-                var scene = new THREE.Scene();
+            var scene = new THREE.Scene();
 
-                var geometry = new THREE.Geometry();
+            var geometry = new THREE.Geometry();
 
-                var texture = THREE.__ThreeExtras.ImageUtils.loadTexture(new HTML.Images.FromAssets.cloud10().src);
+            var texture = THREE.__ThreeExtras.ImageUtils.loadTexture(new HTML.Images.FromAssets.cloud10().src);
 
-                var THREE_LinearMipMapLinearFilter = 8;
-
-
-                texture.magFilter = THREE_LinearMipMapLinearFilter;
-                texture.minFilter = THREE_LinearMipMapLinearFilter;
-
-                var fog = new THREE.Fog(0x4584b4, -100, 3000);
-
-                #region material
-                var material = new THREE.MeshShaderMaterial(
-
-                    new THREE.MeshShaderMaterialArguments39
-                    {
-                        uniforms = new MyUniforms
-                        {
-                            map = new MyUniforms.MyUniform { type = "t", value = 2, texture = texture },
-                            fogColor = new MyUniforms.MyUniform { type = "c", value = fog.color },
-                            fogNear = new MyUniforms.MyUniform { type = "f", value = fog.near },
-                            fogFar = new MyUniforms.MyUniform { type = "f", value = fog.far },
-                        },
-
-                        vertexShader = new GeometryVertexShader().ToString(),
-                        fragmentShader = new GeometryFragmentShader().ToString(),
-                        depthTest = false
-
-                    }
-                );
-                #endregion
+            var THREE_LinearMipMapLinearFilter = 8;
 
 
-                var r = new Random();
-                Func<float> Math_random = () => (float)r.NextDouble();
+            texture.magFilter = THREE_LinearMipMapLinearFilter;
+            texture.minFilter = THREE_LinearMipMapLinearFilter;
 
-                var plane = new THREE.Mesh(new THREE.Plane(64, 64));
+            var fog = new THREE.Fog(0x4584b4, -100, 3000);
 
-                for (var i = 0; i < 8000; i++)
+            #region material
+            var material = new THREE.MeshShaderMaterial(
+
+                new THREE.MeshShaderMaterialArguments39
                 {
+                    uniforms = new MyUniforms
+                    {
+                        map = new MyUniforms.MyUniform { type = "t", value = 2, texture = texture },
+                        fogColor = new MyUniforms.MyUniform { type = "c", value = fog.color },
+                        fogNear = new MyUniforms.MyUniform { type = "f", value = fog.near },
+                        fogFar = new MyUniforms.MyUniform { type = "f", value = fog.far },
+                    },
 
-                    plane.position.x = Math_random() * 1000 - 500;
-                    plane.position.y = -Math_random() * Math_random() * 200 - 15;
-                    plane.position.z = i;
-                    plane.rotation.z = (f)(Math_random() * Math.PI);
-                    plane.scale.x = Math_random() * Math_random() * 1.5f + 0.5f;
-                    plane.scale.y = plane.scale.x;
-
-                    THREE.__ThreeExtras.GeometryUtils.merge(geometry, plane);
+                    vertexShader = new GeometryVertexShader().ToString(),
+                    fragmentShader = new GeometryFragmentShader().ToString(),
+                    depthTest = false
 
                 }
-
-                var mesh = new THREE.Mesh(geometry, material);
-                scene.addObject(mesh);
-
-                mesh = new THREE.Mesh(geometry, material);
-                mesh.position.z = -8000;
-                scene.addObject(mesh);
-
-                var renderer = new THREE.WebGLRenderer(new THREE.WebGLRendererArguments { antialias = false });
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
-                container.appendChild(renderer.domElement);
+            );
+            #endregion
 
 
-                #region onresize
-                Native.Window.onresize +=
-                    delegate
-                    {
-                        container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            var r = new Random();
+            Func<float> Math_random = () => (float)r.NextDouble();
 
-                        camera.aspect = Native.Window.Width / Native.Window.Height;
-                        camera.updateProjectionMatrix();
+            var plane = new THREE.Mesh(new THREE.Plane(64, 64));
 
-                        renderer.setSize(Native.Window.Width, Native.Window.Height);
-                    };
-                #endregion
+            for (var i = 0; i < 8000; i++)
+            {
+
+                plane.position.x = Math_random() * 1000 - 500;
+                plane.position.y = -Math_random() * Math_random() * 200 - 15;
+                plane.position.z = i;
+                plane.rotation.z = (f)(Math_random() * Math.PI);
+                plane.scale.x = Math_random() * Math_random() * 1.5f + 0.5f;
+                plane.scale.y = plane.scale.x;
+
+                THREE.__ThreeExtras.GeometryUtils.merge(geometry, plane);
+
+            }
+
+            var mesh = new THREE.Mesh(geometry, material);
+            scene.addObject(mesh);
+
+            mesh = new THREE.Mesh(geometry, material);
+            mesh.position.z = -8000;
+            scene.addObject(mesh);
+
+            var renderer = new THREE.WebGLRenderer(new THREE.WebGLRendererArguments { antialias = false });
+            renderer.setSize(Native.Window.Width, Native.Window.Height);
+            container.appendChild(renderer.domElement);
 
 
-                #region render
-                Action render = () =>
+            #region onresize
+            Native.Window.onresize +=
+                delegate
                 {
+                    container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
-                    var position = ((new IDate().getTime() - start_time) * 0.03) % 8000;
+                    camera.aspect = Native.Window.Width / Native.Window.Height;
+                    camera.updateProjectionMatrix();
 
-                    camera.position.x += (float)((mouseX - camera.target.position.x) * 0.01);
-                    camera.position.y += (float)((-mouseY - camera.target.position.y) * 0.01);
-                    camera.position.z = (f)(-position + 8000);
-
-                    camera.target.position.x = camera.position.x;
-                    camera.target.position.y = camera.position.y;
-                    camera.target.position.z = camera.position.z - 1000;
-
-                    renderer.render(scene, camera);
-
+                    renderer.setSize(Native.Window.Width, Native.Window.Height);
                 };
-                #endregion
+            #endregion
 
 
-                #region animate
-                Action animate = null;
+            #region render
+            Action render = () =>
+            {
 
-                animate = delegate
+                var position = ((new IDate().getTime() - start_time) * 0.03) % 8000;
+
+                camera.position.x += (float)((mouseX - camera.target.position.x) * 0.01);
+                camera.position.y += (float)((-mouseY - camera.target.position.y) * 0.01);
+                camera.position.z = (f)(-position + 8000);
+
+                camera.target.position.x = camera.position.x;
+                camera.target.position.y = camera.position.y;
+                camera.target.position.z = camera.position.z - 1000;
+
+                renderer.render(scene, camera);
+
+            };
+            #endregion
+
+
+            #region animate
+            Action animate = null;
+
+            animate = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                render();
+
+                Native.Window.requestAnimationFrame += animate;
+            };
+
+            Native.Window.requestAnimationFrame += animate;
+            #endregion
+
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    mouseX = (float)((e.CursorX - windowHalfX) * 0.25);
+                    mouseY = (float)((e.CursorY - windowHalfY) * 0.15);
+                };
+
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
                 {
                     if (IsDisposed)
                         return;
 
-                    render();
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
 
-                    Native.Window.requestAnimationFrame += animate;
+                    Native.Document.body.requestFullscreen();
+
+
                 };
+            #endregion
 
-                Native.Window.requestAnimationFrame += animate;
-                #endregion
-
-                Native.Document.onmousemove +=
-                    e =>
-                    {
-                            mouseX = (float)(( e.CursorX - windowHalfX ) * 0.25);
-                            mouseY = (float)(( e.CursorY - windowHalfY ) * 0.15);
-                    };
-            };
-
-
-            init();
         }
         public Action Dispose;
 

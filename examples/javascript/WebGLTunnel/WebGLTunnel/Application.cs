@@ -76,7 +76,7 @@ namespace WebGLTunnel
             );
         }
 
-        public  Action Dispose;
+        public Action Dispose;
 
         void InitializeContent(IDefaultPage page = null)
         {
@@ -415,7 +415,7 @@ namespace WebGLTunnel
                         mvTranslate(new[] { 0.0f, 0.0f, -8.0f });
 
                         mvPushMatrix();
-                        mvRotate(rCube, new []{1f, 1f, 1f});
+                        mvRotate(rCube, new[] { 1f, 1f, 1f });
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                         gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
@@ -445,6 +445,20 @@ namespace WebGLTunnel
                     drawScene();
                     #endregion
 
+                    #region requestFullscreen
+                    Native.Document.body.ondblclick +=
+                        delegate
+                        {
+                            if (IsDisposed)
+                                return;
+
+                            // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                            Native.Document.body.requestFullscreen();
+
+
+                        };
+                    #endregion
                 }
             );
 

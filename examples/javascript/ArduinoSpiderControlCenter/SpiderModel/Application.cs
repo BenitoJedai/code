@@ -31,7 +31,7 @@ namespace SpiderModel
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public Action Dispose;
 
@@ -46,7 +46,7 @@ namespace SpiderModel
             new ApplicationContent().With(
                 Content =>
                 {
-                    Dispose = Content.Dispose;
+                    Dispose = () => Content.Dispose();
 
                     var hh = new IHTMLDiv();
 
