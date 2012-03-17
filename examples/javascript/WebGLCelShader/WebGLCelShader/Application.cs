@@ -183,6 +183,7 @@ namespace WebGLCelShader
 
             container.appendChild(renderer.domElement);
 
+            #region AtResize
             Action AtResize = delegate
             {
                 container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
@@ -193,15 +194,14 @@ namespace WebGLCelShader
                 renderer.setSize(Native.Window.Width, Native.Window.Height);
             };
 
-            #region onresize
             Native.Window.onresize +=
                 delegate
                 {
                     AtResize();
                 };
-            #endregion
 
             AtResize();
+            #endregion
 
             #region IsDisposed
             var IsDisposed = false;

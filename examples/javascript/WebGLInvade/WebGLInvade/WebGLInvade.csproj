@@ -129,15 +129,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\ThreeExtras.cs">
-      <DependentUpon>ThreeExtras.js</DependentUpon>
-    </Compile>
-    <Compile Include="Shaders\GeometryFragmentShader.cs">
-      <DependentUpon>Geometry.frag</DependentUpon>
-    </Compile>
-    <Compile Include="Shaders\GeometryVertexShader.cs">
-      <DependentUpon>Geometry.vert</DependentUpon>
-    </Compile>
+    <Compile Include="Library\__Three.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -154,11 +146,6 @@
     <Content Include="Library\postprocessing\ShaderPass.js" />
     <Content Include="Library\ShaderExtras.js" />
     <Content Include="Library\Three.js" />
-    <Content Include="Library\ThreeExtras.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\Geometry.vert" />
-    <None Include="Shaders\Geometry.frag" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
