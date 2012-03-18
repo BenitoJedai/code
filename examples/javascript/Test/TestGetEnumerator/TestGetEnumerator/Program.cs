@@ -37,14 +37,17 @@ namespace TestGetEnumerator
             var t_int = typeof(System.Collections.Generic.IEnumerable<int>);
 
 
-            var builde_server = 0x60002b0;
-            var pc = 0x60002c2;
 
 
 
             WriteSpecialBase64(WriteGUIDAndToken64(t.GetMethods()[0]));
             WriteSpecialBase64(WriteGUIDAndToken64(t_int.GetMethods()[0]));
 
+            var pc_method = typeof(System.Collections.Generic.IEnumerable<int>).Module.ResolveMethod(0x60002c2);
+            WriteSpecialBase64(WriteGUIDAndToken64(pc_method));
+
+            var builde_server_method = typeof(System.Collections.Generic.IEnumerable<int>).Module.ResolveMethod(0x60002b0);
+            WriteSpecialBase64(WriteGUIDAndToken64(builde_server_method));
 
             Console.ReadKey(true);
         }
@@ -72,7 +75,7 @@ namespace TestGetEnumerator
         private static byte[] WriteGUIDAndToken64(MemberInfo x)
         {
             Console.WriteLine();
-            Console.WriteLine(x.DeclaringType.AssemblyQualifiedName);
+            Console.WriteLine(x.DeclaringType.Assembly.ImageRuntimeVersion);
 
 
             var Generic = ToGenericDefinition(x.DeclaringType);
