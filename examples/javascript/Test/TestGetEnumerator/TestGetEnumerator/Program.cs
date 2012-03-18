@@ -9,9 +9,14 @@ namespace TestGetEnumerator
 {
     namespace JavaScript
     {
+        //  error CS0695: 'TestGetEnumerator.JavaScript.__List<T,Y>' cannot implement both 
+        // 'System.Collections.Generic.IEnumerable<T>' and 
+        // 'System.Collections.Generic.IEnumerable<Y>' because they may unify for some type parameter substitutions
+
         [Script]
         class __List<T> : System.Collections.Generic.IEnumerable<T>
         {
+         
             System.Collections.Generic.IEnumerator<T> System.Collections.Generic.IEnumerable<T>.GetEnumerator()
             {
                 throw null;
@@ -28,33 +33,18 @@ namespace TestGetEnumerator
     {
         public static void Main(string[] args)
         {
-            System.Collections.Generic.IEnumerable<object> o = new TestGetEnumerator.JavaScript.__List<object>();
             var t = typeof(System.Collections.Generic.IEnumerable<object>);
-
-            var g = t.GetGenericTypeDefinition();
-
-            Func<System.Collections.Generic.IEnumerator<object>> m = o.GetEnumerator;
+            var t_int = typeof(System.Collections.Generic.IEnumerable<int>);
 
 
+            var builde_server = 0x60002b0;
+            var pc = 0x60002c2;
 
-            {
-                var bytes = WriteGUIDAndToken64(m.Method);
 
-                Console.WriteLine("TestGetEnumerator.JavaScript.__List.GetEnumerator");
-                WriteSpecialBase64(bytes);
 
-                var GUID = g.GUID;
-                var MetadataToken = m.Method.MetadataToken;
-            }
+            WriteSpecialBase64(WriteGUIDAndToken64(t.GetMethods()[0]));
+            WriteSpecialBase64(WriteGUIDAndToken64(t_int.GetMethods()[0]));
 
-            {
-                var Methods = t.GetMethods();
-                var bytes = WriteGUIDAndToken64(Methods[0]);
-
-                Console.WriteLine("System.Collections.Generic.IEnumerable.GetEnumerator");
-                WriteSpecialBase64(bytes);
-
-            }
 
             Console.ReadKey(true);
         }
@@ -81,7 +71,14 @@ namespace TestGetEnumerator
 
         private static byte[] WriteGUIDAndToken64(MemberInfo x)
         {
+            Console.WriteLine();
+            Console.WriteLine(x.DeclaringType.AssemblyQualifiedName);
+
+
             var Generic = ToGenericDefinition(x.DeclaringType);
+
+            Console.WriteLine(Generic.FullName + "." + x.Name);
+
             var GUID = Generic.GUID;
             var GUID_bytes = GUID.ToByteArray();
 
