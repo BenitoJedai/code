@@ -31,11 +31,12 @@ namespace ScriptCoreLib.Ultra.Library
             var CacheFolder = new DirectoryInfo(
                 Path.Combine(
                     CommonApplicationData,
-                    "jsc/cache-source/"
+                    "jsc/"
+                    + "cache/"
                     + Environment.Version.ToString()
-                    + "/" 
-                    + this.ConstructorArguments.AssamblyFile.Name 
-                    + "/" 
+                    + "/"
+                    + this.ConstructorArguments.AssamblyFile.Name
+                    + "/"
                     + this.ConstructorArguments.Language.ToString()
                 )
             );
@@ -129,14 +130,19 @@ namespace ScriptCoreLib.Ultra.Library
 
                     zip.WriteToFile(Cache);
 
-                    
+
                     #region SDK
                     if (this.SDK != null)
                     {
                         var SDKCacheFolder = new DirectoryInfo(
                               Path.Combine(
                                   SDK.FullName,
-                                  "cache/" + this.ConstructorArguments.AssamblyFile.Name + "/" + this.ConstructorArguments.Language.ToString()
+                                   "cache/"
+                                    + Environment.Version.ToString()
+                                    + "/"
+                                  + this.ConstructorArguments.AssamblyFile.Name
+                                  + "/"
+                                  + this.ConstructorArguments.Language.ToString()
                               )
                           );
 
@@ -149,7 +155,7 @@ namespace ScriptCoreLib.Ultra.Library
                                 this.ConstructorArguments.AssamblyFile.Name + ".zip"
                             )
                         );
-                  
+
 
                         zip.WriteToFile(SDKCache);
 

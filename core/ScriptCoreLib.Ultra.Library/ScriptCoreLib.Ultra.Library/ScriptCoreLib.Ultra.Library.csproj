@@ -94,6 +94,7 @@
     <Compile Include="Extensions\Avalon\DataObjectExtensions.cs" />
     <Compile Include="Extensions\Avalon\ItemCollectionExtensions.cs" />
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\SHA1CryptographyExtensions.cs" />
     <Compile Include="Extensions\EventInfoExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\Forms\FormsExtensions.cs" />
