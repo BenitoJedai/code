@@ -81,11 +81,22 @@ namespace TestGetEnumerator
 
         private static byte[] WriteGUIDAndToken64(MemberInfo x)
         {
-            MemoryStream m = new MemoryStream(
-                ToGenericDefinition(x.DeclaringType).GUID.ToByteArray());
+            var Generic = ToGenericDefinition(x.DeclaringType);
+            var GUID = Generic.GUID;
+            var GUID_bytes = GUID.ToByteArray();
 
+            var m = new MemoryStream(GUID_bytes);
+
+            Console.WriteLine("GUID:");
+            foreach (var item in GUID_bytes)
+            {
+                Console.Write(item.ToString("x2"));
+            }
+            Console.WriteLine();
            
             int m_token = x.MetadataToken;
+            Console.WriteLine("MetadataToken:");
+            Console.WriteLine(m_token.ToString("x2"));
 
             do
             {
