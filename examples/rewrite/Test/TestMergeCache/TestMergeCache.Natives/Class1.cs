@@ -10,6 +10,7 @@ namespace TestMergeCache
         public void AddedMethod()
         {
 
+
         }
     }
 }

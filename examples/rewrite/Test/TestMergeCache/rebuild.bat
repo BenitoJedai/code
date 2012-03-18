@@ -4,7 +4,7 @@ setlocal
 
 set msbuild=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
 
-set flags=/nologo /verbosity:q
+set flags=/nologo
 
 call :build TestMergeCache.sln
 
