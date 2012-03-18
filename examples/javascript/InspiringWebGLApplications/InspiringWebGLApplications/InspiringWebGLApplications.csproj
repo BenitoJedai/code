@@ -125,6 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Design\004__Glass__Refraction_reflection_fresnel_chromatic_dispersion__J3D_-_Google_Chrome-2012-03-18_02.23.45.png" />
     <Content Include="Design\10_fps_-_Google_Chrome-2012-02-26_21.35.27.png" />
     <Content Include="Design\173.236.100.226scjdesigWebGL_CCcoppercube.html_-_Google_Chrome-2012-03-03_22.23.04.png" />
     <Content Include="Design\2D_noise_-_Google_Chrome-2012-02-26_21.42.04.png" />
@@ -145,6 +146,7 @@
     <Content Include="Design\Cubes_spin_stresstest_-_Google_Chrome-2012-02-26_22.09.08.png" />
     <Content Include="Design\CubicVR.js_Dynamic_VBO_wave_pool_hold_spacebar_for_larger_waves_-_Google_Chrome-2012-02-26_19.35.05.png" />
     <Content Include="Design\Cubic_Bezier_spline_flower_-_Google_Chrome-2012-02-26_21.45.21.png" />
+    <Content Include="Design\Cubic_Bezier_spline_lotos_-_Google_Chrome-2012-03-18_03.16.21.png" />
     <Content Include="Design\Cuboctahedron_-_Google_Chrome-2012-02-26_21.49.24.png" />
     <Content Include="Design\Cycleblob_-_A_WebGL_lightcycle_game_-_Google_Chrome-2012-02-26_20.22.38.png" />
     <Content Include="Design\Default.htm" />
@@ -164,6 +166,7 @@
     <Content Include="Design\Explosion_-_Google_Chrome-2012-02-26_19.36.43.png" />
     <Content Include="Design\Fish_-_Google_Chrome-2012-02-26_22.24.07.png" />
     <Content Include="Design\four_-_Wloom_-_Google_Chrome-2012-02-26_20.49.36.png" />
+    <Content Include="Design\Fragment_Shader_Framework__Lewpen.com_-_Google_Chrome-2012-03-18_02.38.23.png" />
     <Content Include="Design\Futurama_-_Google_Chrome-2012-02-26_21.00.47.png" />
     <Content Include="Design\GaN_crystal_-_Google_Chrome-2012-02-26_21.47.46.png" />
     <Content Include="Design\gdd11-webgl.appspot.comthreethree_11.html_-_Google_Chrome-2012-02-26_20.12.59.png" />
@@ -212,6 +215,7 @@
     <Content Include="Design\Rutt-Etra-Izer_-_Google_Chrome-2012-02-26_20.54.15.png" />
     <Content Include="Design\scenejs.orgdistv2.0.0extrexamplesseymour-planeindex.html_-_Google_Chrome-2012-03-03_21.51.10.png" />
     <Content Include="Design\Shadow_Mapping_-_Google_Chrome-2012-02-26_19.18.00.png" />
+    <Content Include="Design\shatterquest.comgame_-_Google_Chrome-2012-03-18_03.10.47.png" />
     <Content Include="Design\Ship_-_shapeWright.com_-_Google_Chrome-2012-02-26_20.18.51.png" />
     <Content Include="Design\ShowWebGL_-_Google_Chrome-2012-02-26_20.15.34.png" />
     <Content Include="Design\Sierpinski_Pyramid_in_WebGL_-_Google_Chrome-2012-02-26_21.28.17.png" />
@@ -249,6 +253,7 @@
     <Content Include="Design\WebGL_Action_RPG_-_Google_Chrome-2012-03-03_22.04.13.jpg" />
     <Content Include="Design\WebGL_Aquarium_-_Google_Chrome-2012-02-26_19.56.41.jpg" />
     <Content Include="Design\WebGL_Earth_-_Google_Chrome-2012-02-26_23.04.36.png" />
+    <Content Include="Design\WebGL_Electric_Flower_-_Google_Chrome-2012-03-18_03.00.04.png" />
     <Content Include="Design\WebGL_Field_-_Google_Chrome-2012-02-26_21.58.05.jpg" />
     <Content Include="Design\WebGL_Filter_-_Google_Chrome-2012-02-26_19.30.37.jpg" />
     <Content Include="Design\WebGL_Globe_-_Google_Chrome-2012-02-26_23.05.47.png" />
@@ -256,6 +261,7 @@
     <Content Include="Design\WebGL_Terrain_-_Google_Chrome-2012-02-26_20.04.36.png" />
     <Content Include="Design\WebGL_Zombies_vs_Cow_-_Google_Chrome-2012-02-26_19.41.58.png" />
     <Content Include="Design\WebRTS_-_Google_Chrome-2012-02-26_19.20.59.png" />
+    <Content Include="Design\www.mandreel.comdemossailboatwebglindex.html_-_Google_Chrome-2012-03-18_02.29.10.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
