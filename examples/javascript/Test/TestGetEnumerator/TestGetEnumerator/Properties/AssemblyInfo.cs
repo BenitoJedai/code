@@ -14,4 +14,3 @@ using System.Reflection;
 [assembly: AssemblyCopyright(@"Copyright © jsc-solutions.net 2012")]
 [assembly: AssemblyVersion(@"1.0.0.0")]
 [assembly: AssemblyFileVersion(@"1.0.0.0")]
-[assembly: Obfuscation(Feature = @"script")]
