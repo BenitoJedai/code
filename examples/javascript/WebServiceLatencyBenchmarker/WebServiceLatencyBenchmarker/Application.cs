@@ -45,6 +45,17 @@ namespace WebServiceLatencyBenchmarker
             };
 
             Do();
+
+            bool once = false;
+
+            Native.Window.onfocus +=
+                e =>
+                {
+                    if (once)
+                        return;
+                    once = true;
+                    Native.Document.body.requestFullscreen();
+                };
         }
 
         void WriteLine(string e)
