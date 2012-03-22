@@ -22,7 +22,7 @@ namespace SpaceInvaders.source.js.Controls
 
 
     [Script]
-    public class SpaceInvaders : SpawnControlBase
+    public class SpaceInvaders // : SpawnControlBase
     {
         //public const string Alias = "SpaceInvaders";
 
@@ -40,7 +40,7 @@ namespace SpaceInvaders.source.js.Controls
         }
 
         public SpaceInvaders(IHTMLElement placeholder, string resx)
-            : base(placeholder)
+            //: base(placeholder)
         {
             Console.WriteLine("resx: " + resx);
 

@@ -10,6 +10,7 @@ using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.DOM;
 
 namespace TextScreenSaver.js
 {
