@@ -16,8 +16,8 @@ namespace UltraRaycast6
 
 				Verbose = true,
 
-				mxmlc = new FileInfo(@"C:\util\flex4\bin\mxmlc.exe"),
-				flashplayer = new FileInfo(@"C:\util\flex4\runtimes\player\10\win\FlashPlayer.exe"),
+                //mxmlc = new FileInfo(@"C:\util\flex4\bin\mxmlc.exe"),
+				flashplayer = new FileInfo(@"C:\util\flex_sdk_4.6.0.23201B\runtimes\player\11.1\win\FlashPlayerDebugger.exe"),
 
 			}.Launch();
 		}
