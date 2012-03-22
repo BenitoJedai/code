@@ -32,7 +32,7 @@ namespace PrettyGlowingLines
         {
             var canvas = new IHTMLCanvas().AttachTo(page.Content);
 
-            AddTransform(canvas);
+            //AddTransform(canvas);
 
             canvas.style.SetSize(400, 400);
 
@@ -76,7 +76,7 @@ namespace PrettyGlowingLines
                                       context.canvas.height * random(),
                                       lastX, lastY);
 
-                hue = hue + Convert.ToInt32(10 * random());
+                hue = hue + Convert.ToInt32((double)(10 * random()));
                 context.strokeStyle = "hsl(" + hue + ", 50%, 50%)";
                 context.shadowColor = "white";
                 context.shadowBlur = 10;
