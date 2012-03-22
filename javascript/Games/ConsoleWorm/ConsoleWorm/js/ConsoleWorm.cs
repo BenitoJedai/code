@@ -284,7 +284,7 @@ namespace ConsoleWorm.js
                      var worm = new Worm
                      {
                          Wrapper = Wrapper,
-                         Location = new Point { X = 4, Y = 8 },
+                         Location = new Point( 4, 8 ),
                          GetZoom = () => zoom,
                          Canvas = canvas,
                          Vector = new Point(0, 1),

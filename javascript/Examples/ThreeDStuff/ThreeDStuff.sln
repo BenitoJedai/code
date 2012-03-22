@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreeDStuff", "ThreeDStuff\ThreeDStuff.csproj", "{6510DBBE-F9DF-4180-AC24-498FD5EA39B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolbar", "Toolbar\Toolbar.csproj", "{DD5A74AC-6212-4C10-B0E5-2745273C2C68}"

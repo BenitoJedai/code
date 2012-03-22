@@ -5,6 +5,7 @@ using System.Text;
 
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Shared;
 
 [assembly: ScriptResources(LightsOut.web.assets.LocalAsset.LocalRelativePath)]
 
