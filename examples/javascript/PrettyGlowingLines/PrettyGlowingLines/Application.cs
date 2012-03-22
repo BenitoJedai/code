@@ -54,7 +54,7 @@ namespace PrettyGlowingLines
             );
 
             var r = new Random();
-            Func<double> random = r.NextDouble;
+            Func<float> random = () => (float)r.NextDouble();
 
             var lastX = context.canvas.width * random();
             var lastY = context.canvas.height * random();
@@ -63,10 +63,10 @@ namespace PrettyGlowingLines
             {
                 context.save();
                 context.translate(context.canvas.width / 2, context.canvas.height / 2);
-                context.scale(0.9, 0.9);
+                context.scale(0.9f, 0.9f);
                 context.translate(-context.canvas.width / 2, -context.canvas.height / 2);
                 context.beginPath();
-                context.lineWidth = 5 + random() * 10;
+                context.lineWidth = 5f + random() * 10f;
                 context.moveTo(lastX, lastY);
                 lastX = context.canvas.width * random();
                 lastY = context.canvas.height * random();
