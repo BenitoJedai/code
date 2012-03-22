@@ -62,13 +62,15 @@ namespace ButterFly.source.js
 
                     try
                     {
-                        IStyleSheet.Default.AddRule("*", "cursor: url('" + new global::ButterFly.HTML.Images.FromAssets.nocursor().src + "'), auto;", 0);
+                        //IStyleSheet.Default.AddRule("*", "cursor: none, url('" + new global::ButterFly.HTML.Images.FromAssets.nocursor().src + "'), auto;", 0);
+                        IStyleSheet.Default.AddRule("*", "cursor: none;", 0);
                     }
                     catch (Exception exc)
                     {
                         new IHTMLElement(IHTMLElement.HTMLElementEnum.pre, exc.Message).AttachToDocument();
                     }
 
+                 
                     e.style.backgroundImage = "url(" + img.src + ")";
                     e.style.backgroundRepeat = "no-repeat";
 

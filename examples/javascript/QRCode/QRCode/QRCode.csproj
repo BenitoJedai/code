@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8A11634A-BB26-4F7A-BB7F-0501AEB04522}</ProjectGuid>
+    <ProjectGuid>{06C8DCD9-E3E1-46FC-AFB8-255B6A4F6EDA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ButterFly</RootNamespace>
-    <AssemblyName>ButterFly</AssemblyName>
+    <RootNamespace>QRCode</RootNamespace>
+    <AssemblyName>QRCode</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>ButterFly.Program</StartupObject>
+    <StartupObject>QRCode.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -120,26 +120,27 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="ButterFly.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\ButterFly\bin\staging.UltraSource\ButterFly.UltraSource.dll</HintPath>
+    <Reference Include="QRCode.UltraSource">
+      <HintPath>bin\staging.UltraSource\QRCode.UltraSource.dll</HintPath>
     </Reference>
-    <Reference Include="ButterFly.UltraSource">
-      <HintPath>bin\staging.UltraSource\ButterFly.UltraSource.dll</HintPath>
+    <Reference Include="QRCode.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\QRCode.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\Images.htm" />
     <Content Include="Design\Default.htm" />
-    <Compile Include="Library\Butterfly.cs" />
+    <Compile Include="Design\qr.cs">
+      <DependentUpon>qr.js</DependentUpon>
+    </Compile>
+    <Compile Include="Library\QRCodeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\buttryfly.gif" />
-    <Content Include="Design\Images\nocursor.cur" />
     <Content Include="Design\Preview.png" />
+    <Content Include="Design\qr.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -150,6 +151,11 @@ start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /Proje
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /xAttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
+    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true
+
+set jsc=C:\util\jsc\bin\jsc.meta.exe
+if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
+start /MIN /WAIT %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

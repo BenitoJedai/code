@@ -23,6 +23,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return (int)global::System.Math.Floor(value);
         }
 
+        public static int ToInt32(float value)
+        {
+            return (int)global::System.Math.Floor(value);
+        }
+
 		public static byte ToByte(int value)
 		{
 			return (byte)(value & 0xff);
