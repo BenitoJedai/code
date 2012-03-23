@@ -194,8 +194,8 @@ namespace NatureBoyTestPad.js
             Func<DudeAnimationInfo> GetSelectedArsenal =
                 () =>
                 {
-                    if (arsenal.ContainsKey(combo.value))
-                        return arsenal[combo.value];
+                    if (arsenal.ContainsKey(combo[combo.selectedIndex].value))
+                        return arsenal[combo[combo.selectedIndex].value];
 
                     return null;
                 };
@@ -409,7 +409,7 @@ namespace NatureBoyTestPad.js
 
                                 arsenal.Add(n, x);
                                 combo.Add(n);
-                                combo.value = n;
+                                //combo.value = n;
                                 Refresh();
                             };
 
