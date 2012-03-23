@@ -14,7 +14,7 @@ namespace TestJVMGenerics
         public Class1<int> __int;
         public Class1<string> __string;
         public Class1<bool> __bool;
-        public Class1<ReferencedByGenericParameter> __bool;
+        public Class1<ReferencedByGenericParameter> __ref;
 
         public Class1(Class1<bool> value)
         {
@@ -30,13 +30,35 @@ namespace TestJVMGenerics
             return e.get();
         }
 
-        public event GenericAction<string, long> AtGenericAction;
+        public event GenericAction<string, long> AtGenericActionInstanceEvent;
+
+        static GenericAction<string, long> __AtGenericActionManuallyDefined;
+
+        public static event GenericAction<string, long> AtGenericActionManuallyDefined
+        {
+            add
+            {
+                __AtGenericActionManuallyDefined = ((GenericAction<string, long>)(Delegate.Combine(__AtGenericActionManuallyDefined, value)));
+            }
+            remove
+            {
+                __AtGenericActionManuallyDefined = ((GenericAction<string, long>)(Delegate.Remove(__AtGenericActionManuallyDefined, value)));
+            }
+        }
+
+
+
+        public static event GenericAction<string, long> AtGenericAction;
 
         public static T Cast<T>(object e)
         {
             var u = e;
 
             var r = (T)u;
+
+
+            if (AtGenericAction != null)
+                AtGenericAction("hello world");
 
             return r;
         }
@@ -76,6 +98,6 @@ namespace TestJVMGenerics
 
     interface IAssemblyReferenceToken : ScriptCoreLibJava.IAssemblyReferenceToken
     {
-        
+
     }
 }
