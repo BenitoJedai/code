@@ -14,6 +14,7 @@ namespace TestJVMGenerics
         public Class1<int> __int;
         public Class1<string> __string;
         public Class1<bool> __bool;
+        public Class1<ReferencedByGenericParameter> __bool;
 
         public Class1(Class1<bool> value)
         {
@@ -29,12 +30,26 @@ namespace TestJVMGenerics
             return e.get();
         }
 
+        public event GenericAction<string, long> AtGenericAction;
 
+        public static T Cast<T>(object e)
+        {
+            var u = e;
+
+            var r = (T)u;
+
+            return r;
+        }
     }
 
     [Script]
     public delegate T GenericAction<T0, T>(T0 t0);
 
+    [Script]
+    public class ReferencedByGenericParameter
+    {
+
+    }
 
     [Script]
     public class Class1<T>
