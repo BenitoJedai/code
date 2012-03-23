@@ -22,6 +22,18 @@ namespace TestThreadLock
             }
         }
 
+        object e1;
+
+        void Foo1()
+        {
+            // http://www.danielmoth.com/Blog/NET-4-MonitorEnter-Replaced-By-MonitorEnter.aspx
+
+            lock (e1)
+            {
+                S1();
+            }
+        }
+
         static void S1()
         {
         }
