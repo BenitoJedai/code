@@ -20,8 +20,21 @@ namespace TestJVMGenerics
             __int = new Class1<int>();
             __string = new Class1<string>();
             __bool = value;
+
+            var x = get(value);
         }
+
+        public static T get<T>(Class1<T> e)
+        {
+            return e.get();
+        }
+
+
     }
+
+    [Script]
+    public delegate T GenericAction<T0, T>(T0 t0);
+
 
     [Script]
     public class Class1<T>
@@ -42,5 +55,12 @@ namespace TestJVMGenerics
         {
             return t;
         }
+
+
+    }
+
+    interface IAssemblyReferenceToken : ScriptCoreLibJava.IAssemblyReferenceToken
+    {
+        
     }
 }
