@@ -228,6 +228,7 @@
     <Content Include="Design\Ship_-_shapeWright.com_-_Google_Chrome-2012-02-26_20.18.51.png" />
     <Content Include="Design\ShowWebGL_-_Google_Chrome-2012-02-26_20.15.34.png" />
     <Content Include="Design\Sierpinski_Pyramid_in_WebGL_-_Google_Chrome-2012-02-26_21.28.17.png" />
+    <Content Include="Design\Simons_Tech_Blog_Spherical_Harmonic_Lighting_-_Google_Chrome-2012-03-23_09.56.27.png" />
     <Content Include="Design\Small_stellated_dodecahedron_-_Google_Chrome-2012-02-26_21.40.31.png" />
     <Content Include="Design\SpiderGL_-_Shadow_Mapping_-_Google_Chrome-2012-02-26_20.56.57.png" />
     <Content Include="Design\Sproingies_in_WebGL_-_Google_Chrome-2012-02-26_21.29.09.png" />
@@ -276,6 +277,8 @@
     <Content Include="Design\WebGL_Terrain_-_Google_Chrome-2012-02-26_20.04.36.png" />
     <Content Include="Design\WebGL_Zombies_vs_Cow_-_Google_Chrome-2012-02-26_19.41.58.png" />
     <Content Include="Design\WebRTS_-_Google_Chrome-2012-02-26_19.20.59.png" />
+    <Content Include="Design\www.flexxcode.nlwebglprojects3main.html_-_Google_Chrome-2012-03-23_09.58.20.png" />
+    <Content Include="Design\www.irrlicht3d.orgplaygroundlighttest2inblog.html_-_Google_Chrome-2012-03-23_09.38.54.png" />
     <Content Include="Design\www.mandreel.comdemossailboatwebglindex.html_-_Google_Chrome-2012-03-18_02.29.10.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
