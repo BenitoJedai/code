@@ -95,5 +95,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
             return n;
         }
+
+        public static bool operator == (__MethodInfo a, __MethodInfo b)
+        {
+            return a.InternalMethod == b.InternalMethod;
+        }
+
+        public static bool operator !=(__MethodInfo a, __MethodInfo b)
+        {
+            return a.InternalMethod != b.InternalMethod;
+        }
 	}
 }
