@@ -11,6 +11,36 @@ namespace TestJVMGenerics
     [Script]
     public class Class1
     {
+        public Class1<int> __int;
+        public Class1<string> __string;
+        public Class1<bool> __bool;
 
+        public Class1(Class1<bool> value)
+        {
+            __int = new Class1<int>();
+            __string = new Class1<string>();
+            __bool = value;
+        }
+    }
+
+    [Script]
+    public class Class1<T>
+    {
+        // see also: http://docs.oracle.com/javase/tutorial/java/generics/index.html
+        // see also: http://en.wikipedia.org/wiki/Generics_in_Java
+        // see also: http://docs.oracle.com/javase/tutorial/java/generics/gentypes.html
+
+        // T stands for "Type"
+        private T t;
+
+        public void add(T t)
+        {
+            this.t = t;
+        }
+
+        public T get()
+        {
+            return t;
+        }
     }
 }
