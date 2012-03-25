@@ -218,6 +218,9 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
     <Compile Include="PHP\BCLImplementation\System\InvalidOperationException.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Text\UTF8Encoding.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="PHP\Native.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JavaScript\Runtime\Color.cs" />

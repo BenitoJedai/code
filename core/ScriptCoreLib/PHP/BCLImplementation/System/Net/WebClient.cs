@@ -9,6 +9,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Net
 	[Script(Implements = typeof(global::System.Net.WebClient))]
 	internal class __WebClient : __Component
 	{
+        public Encoding Encoding { get; set; }
+
         public string DownloadString(string u)
         {
             var content = Native.API.file_get_contents(u);
