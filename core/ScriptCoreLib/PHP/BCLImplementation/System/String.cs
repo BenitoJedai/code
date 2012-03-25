@@ -388,6 +388,38 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 			return Native.API.explode(new string(separator[0], 1), this);
 		}
 
+        [Script(DefineAsStatic = true)]
+        public string[] Split(string[] e, global::System.StringSplitOptions o)
+        {
+            var a = new global::System.Collections.ArrayList();
+            var x = (string)(object)this;
+
+            var i = x.IndexOf(e[0]);
+
+            if (i < 0)
+            {
+                // all in
+                a.Add(x);
+            }
+            else
+            {
+                var j = 0;
+
+                while (i >= 0)
+                {
+                    a.Add(x.Substring(j, i - j));
+                    j = i + e[0].Length;
+                    i = x.IndexOf(e[0], j);
+                }
+
+                a.Add(x.Substring(j));
+
+            }
+
+
+            return (string[])a.ToArray(typeof(string));
+        }
+
 		[Script(DefineAsStatic = true)]
 		public char[] ToCharArray()
 		{
