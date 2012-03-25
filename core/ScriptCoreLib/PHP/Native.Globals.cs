@@ -193,7 +193,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables set by the web server or otherwise directly related to the execution environment of the current script. Analogous to the old $HTTP_SERVER_VARS array (which is still available, but deprecated).    
             /// </summary>    
-            static readonly public IArray<ServerVariables, string> Server = (IArray<ServerVariables, string>)Globals["_SERVER"];
+            static readonly public IArray<ServerVariables, string> Server;
 
             #endregion
 
@@ -202,7 +202,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables provided to the script via URL query string. Analogous to the old $HTTP_GET_VARS array (which is still available, but deprecated).    
             /// </summary>    
-            static readonly public IArray<string, string> Get = (IArray<string, string>)Globals["_GET"];
+            static readonly public IArray<string, string> Get;
 
 
             #endregion
@@ -211,7 +211,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables provided to the script via HTTP POST. Analogous to the old $HTTP_POST_VARS array (which is still available, but deprecated).    
             /// </summary>    
-            static readonly public IArray<string, string> Post = (IArray<string, string>)Globals["_POST"];
+            static readonly public IArray<string, string> Post;
 
 
             #endregion
@@ -220,7 +220,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables provided to the script via HTTP cookies. Analogous to the old $HTTP_COOKIE_VARS array (which is still available, but deprecated).    
             /// </summary>    
-            static readonly public IArray<string, string> Cookie = (IArray<string, string>)Globals["_COOKIE"];
+            static readonly public IArray<string, string> Cookie;
 
 
             #endregion
@@ -229,7 +229,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables provided to the script via HTTP post file uploads. Analogous to the old $HTTP_POST_FILES array (which is still available, but deprecated). See POST method uploads for more information.    
             /// </summary>    
-            static readonly public IArray Files = Globals["_FILES"];
+            static readonly public IArray Files;
 
 
             #endregion
@@ -238,7 +238,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables provided to the script via the environment. Analogous to the old $HTTP_ENV_VARS array (which is still available, but deprecated).    
             /// </summary>    
-            static readonly public IArray Env = Globals["_ENV"];
+            static readonly public IArray Env;
 
 
             #endregion
@@ -247,7 +247,7 @@ return $GLOBALS;")]
             /// <summary>    
             /// Variables provided to the script via the GET, POST, and COOKIE input mechanisms, and which therefore cannot be trusted. The presence and order of variable inclusion in this array is defined according to the PHP variables_order configuration directive. This array has no direct analogue in versions of PHP prior to 4.1.0. See also import_request_variables().    
             /// </summary>    
-            static readonly public IArray Request = Globals["_REQUEST"];
+            static readonly public IArray Request;
 
             #endregion
             #region $_SESSION
@@ -275,6 +275,14 @@ return $GLOBALS;")]
             static SuperGlobals()
             {
                 Globals = InternalGetGlobals();
+
+                Server = (IArray<ServerVariables, string>)Globals["_SERVER"];
+                Get = (IArray<string, string>)Globals["_GET"];
+                Post = (IArray<string, string>)Globals["_POST"];
+                Cookie = (IArray<string, string>)Globals["_COOKIE"];
+                Files = Globals["_FILES"];
+                Env = Globals["_ENV"];
+                Request = Globals["_REQUEST"];
             }
         }
     }
