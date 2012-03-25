@@ -14,4 +14,10 @@ namespace TestResolveImplementation
     {
         public static event Func<Action<FileInfo>, Func<Action<DirectoryInfo>, Class1>> ComplexHandler;
     }
+
+
+    interface IAssemblyReferenceToken : ScriptCoreLibJava.IAssemblyReferenceToken
+    {
+
+    }
 }
