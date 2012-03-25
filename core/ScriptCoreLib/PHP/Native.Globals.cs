@@ -19,9 +19,13 @@ namespace ScriptCoreLib.PHP
             /// <summary>    
             /// Contains a reference to every variable which is currently available within the global scope of the script. The keys of this array are the names of the global variables. $GLOBALS has existed since PHP 3.    
             /// </summary>    
-            static public IArray<string, IArray> Globals
-            {
-                [Script(OptimizedCode = @"
+            static public readonly IArray<string, IArray> Globals;
+
+            #region InternalGetGlobals
+            [Script(OptimizedCode = @"
+/* now we do need the session */
+@session_start();
+
 /* for some reason globals will be empty if we do not mention them on xampp */
 $_SERVER;
 $_GET;
@@ -33,11 +37,12 @@ $_REQUEST;
 $_SESSION;
 
 return $GLOBALS;")]
-                get
-                {
-                    return default(IArray<string, IArray>);
-                }
+            static IArray<string, IArray> InternalGetGlobals()
+            {
+                return default(IArray<string, IArray>);
             }
+            #endregion
+
 
             #endregion
 
@@ -267,6 +272,10 @@ return $GLOBALS;")]
 
             #endregion
 
+            static SuperGlobals()
+            {
+                Globals = InternalGetGlobals();
+            }
         }
     }
 }
