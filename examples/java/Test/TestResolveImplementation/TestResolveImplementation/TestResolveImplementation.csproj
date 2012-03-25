@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{15C5FA23-361F-405B-9D67-04F8EE47CF80}</ProjectGuid>
+    <ProjectGuid>{F3BBA8DD-D451-4A96-AFC3-1FF5C835E997}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestJVMGenerics</RootNamespace>
-    <AssemblyName>TestJVMGenerics</AssemblyName>
+    <RootNamespace>TestResolveImplementation</RootNamespace>
+    <AssemblyName>TestResolveImplementation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -51,12 +51,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem start /WAIT c:\util\jsc\bin\jsc.exe "$(TargetPath)"  -java -Xattachdebugger
-
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetPath)" /Output:"$(TargetDir)$(TargetName).foo0$(TargetExt)"
-start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"$(TargetDir)$(TargetName).foo0$(TargetExt)" /Output:"$(TargetDir)$(TargetName).foo1$(TargetExt)"
-
-start /WAIT c:\util\jsc\bin\jsc.exe "$(TargetDir)$(TargetName).foo1$(TargetExt)"  -java -Xattachdebugger</PostBuildEvent>
+    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.exe "$(TargetPath)"  -java -attachdebugger</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
