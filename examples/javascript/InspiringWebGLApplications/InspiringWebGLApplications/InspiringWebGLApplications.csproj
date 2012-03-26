@@ -299,6 +299,7 @@
     <Content Include="Design\WebGL_Action_RPG_-_Google_Chrome-2012-03-03_22.04.13.jpg" />
     <Content Include="Design\WebGL_Action_RPG_-_Google_Chrome-2012-03-23_09.19.39.png" />
     <Content Include="Design\WebGL_Aquarium_-_Google_Chrome-2012-02-26_19.56.41.jpg" />
+    <Content Include="Design\WebGL_Chaser_-_Google_Chrome-2012-03-26_09.16.31.png" />
     <Content Include="Design\WebGL_Earth_-_Google_Chrome-2012-02-26_23.04.36.png" />
     <Content Include="Design\WebGL_Electric_Flower_-_Google_Chrome-2012-03-18_03.00.04.png" />
     <Content Include="Design\WebGL_Field_-_Google_Chrome-2012-02-26_21.58.05.jpg" />
@@ -327,6 +328,6 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /xAttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
+    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
   </PropertyGroup>
 </Project>

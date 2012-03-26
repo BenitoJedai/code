@@ -20,9 +20,29 @@ namespace TestFormGenerics
 
         private void button1_Click(object sender, System.EventArgs e)
         {
+
             if (SendStringViaGeneric != null)
                 SendStringViaGeneric("hello world");
         }
 
+        void S0()
+        {
+            try
+            {
+                S1();
+            }
+            catch (csharp.ThrowableException t)
+            {
+                // jsc: just "throw" does not yet seem to work? :)
+                // jsc: just "throw t" does not yet seem to work? :)
+
+                throw new InvalidOperationException();
+            }
+        }
+
+        void S1()
+        {
+
+        }
     }
 }
