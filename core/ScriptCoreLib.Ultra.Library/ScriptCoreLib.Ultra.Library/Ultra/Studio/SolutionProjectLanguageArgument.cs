@@ -13,6 +13,11 @@ namespace ScriptCoreLib.Ultra.Studio
 
 		public SolutionProjectLanguageType Type;
 
+        public static implicit operator SolutionProjectLanguageArgument(SolutionProjectLanguageType Type)
+        {
+            return new SolutionProjectLanguageArgument { Type = Type };
+        }
+
         public static implicit operator SolutionProjectLanguageArgument(string Name)
         {
             return new SolutionProjectLanguageArgument { Name = Name };

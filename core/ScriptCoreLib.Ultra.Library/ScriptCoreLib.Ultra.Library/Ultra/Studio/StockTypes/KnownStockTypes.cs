@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.Ultra.Studio.StockTypes
 {
+    [Description("Namespace and Extension management")]
     public static class KnownStockTypes
     {
         // we are making hard assumptions on ScriptCoreLib types here.
@@ -14,7 +16,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         // unless we want to use some ficttional type names?
 
 
-
+        #region java.applet.Applet
         public static class java
         {
             public static class applet
@@ -29,6 +31,90 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
             }
         }
+        #endregion
+
+
+        #region ScriptCoreLib.DOM.HTML.IHTMLElement
+        public static partial class ScriptCoreLib
+        {
+            public static partial class JavaScript
+            {
+                public static class DOM
+                {
+                    public static class HTML
+                    {
+                        public class IHTMLElement : SolutionProjectLanguageType
+                        {
+                            public IHTMLElement()
+                            {
+                                Namespace = "ScriptCoreLib.JavaScript.DOM.HTML";
+                                Name = "IHTMLElement";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region ScriptCoreLib.ActionScript.flash.display.DisplayObject
+        public static partial class ScriptCoreLib
+        {
+            public static partial class ActionScript
+            {
+                public static partial class flash
+                {
+                    public static partial class display
+                    {
+                        public class DisplayObject : SolutionProjectLanguageType
+                        {
+                            public DisplayObject()
+                            {
+                                Namespace = "ScriptCoreLib.ActionScript.flash.display";
+                                Name = "DisplayObject";
+                            }
+
+                            public class get_stage : SolutionProjectLanguageMethod
+                            {
+                                public get_stage()
+                                {
+                                    Name = "get_stage";
+                                    IsProperty = true;
+                                    DeclaringType = new DisplayObject();
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region ScriptCoreLib.ActionScript.flash.display.Sprite
+        public static partial class ScriptCoreLib
+        {
+            public static partial class ActionScript
+            {
+                public static partial class flash
+                {
+                    public static partial class display
+                    {
+                        public class Sprite : SolutionProjectLanguageType
+                        {
+                            public Sprite()
+                            {
+                                Namespace = "ScriptCoreLib.ActionScript.flash.display";
+                                Name = "Sprite";
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
 
         public static class System
         {
@@ -229,9 +315,23 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
 
             }
+
+            public class ActionOfString : SolutionProjectLanguageType
+            {
+                public ActionOfString()
+                {
+                    Namespace = "System";
+                    Name = "Action";
+
+                    Arguments.Add(
+                        new KnownStockTypes.System.String()
+                    );
+                }
+            }
         }
 
-        public static class ScriptCoreLib
+
+        public static partial class ScriptCoreLib
         {
             public static class Desktop
             {
@@ -333,7 +433,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
             }
 
-            public static class JavaScript
+            public static partial class JavaScript
             {
                 public static class Windows
                 {
@@ -372,20 +472,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                     }
                 }
 
-                public static class DOM
-                {
-                    public static class HTML
-                    {
-                        public class IHTMLElement : SolutionProjectLanguageType
-                        {
-                            public IHTMLElement()
-                            {
-                                Namespace = "ScriptCoreLib.JavaScript.DOM.HTML";
-                                Name = "IHTMLElement";
-                            }
-                        }
-                    }
-                }
+
 
                 public static class Extensions
                 {
@@ -520,7 +607,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
             }
 
-            public static class ActionScript
+            public static partial class ActionScript
             {
                 const string Namespace = "ScriptCoreLib.ActionScript";
 
@@ -591,41 +678,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                     }
                 }
 
-                public static class flash
-                {
-                    public static class display
-                    {
-                        public class DisplayObject : SolutionProjectLanguageType
-                        {
-                            public DisplayObject()
-                            {
-                                Namespace = "ScriptCoreLib.ActionScript.flash.display";
-                                Name = "DisplayObject";
-                            }
 
-                            public class get_stage : SolutionProjectLanguageMethod
-                            {
-                                public get_stage()
-                                {
-                                    Name = "get_stage";
-                                    IsProperty = true;
-                                    DeclaringType = new DisplayObject();
-                                }
-                            }
-                        }
-
-                        public class Sprite : SolutionProjectLanguageType
-                        {
-                            public Sprite()
-                            {
-                                Namespace = "ScriptCoreLib.ActionScript.flash.display";
-                                Name = "Sprite";
-                            }
-
-                        }
-                    }
-
-                }
 
             }
 
