@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="BCLImplementation\System\Windows\Forms\Application.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\Button.cs" />
     <Compile Include="BCLImplementation\System\Windows\Forms\ButtonBase.cs" />

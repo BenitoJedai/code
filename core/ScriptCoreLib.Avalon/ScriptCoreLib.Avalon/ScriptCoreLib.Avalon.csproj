@@ -84,6 +84,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Canvas.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\ContentControl.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Windows\Controls\Control.cs" />

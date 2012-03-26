@@ -59,6 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\Extensions.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XAttribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\XML\XLinq\XName.cs" />

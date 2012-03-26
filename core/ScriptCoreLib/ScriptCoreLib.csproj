@@ -226,6 +226,7 @@
     <Compile Include="JavaScript\Runtime\Color.cs" />
     <Compile Include="JavaScript\Runtime\Convert.cs" />
     <Compile Include="JavaScript\Runtime\Fader.cs" />
+    <Compile Include="Properties\AbstractatechInfo.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
     <Compile Include="Shared\BCLImplementation\System\Func.cs" />
     <Compile Include="Shared\BCLImplementation\System\Uri.cs" />

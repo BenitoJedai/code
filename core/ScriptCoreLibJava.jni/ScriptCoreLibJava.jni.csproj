@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="BCLImplementation\ScriptCoreLib\Shared\PlatformInvocationServices.cs" />
     <Compile Include="BCLImplementation\System\Runtime\InteropServices\Marshal.cs" />
     <Compile Include="jni\IAssemblyReferenceToken.cs" />

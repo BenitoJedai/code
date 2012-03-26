@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="BCLImplementation\System\Drawing\Color.cs" />
     <Compile Include="BCLImplementation\System\Drawing\Font.cs" />
     <Compile Include="BCLImplementation\System\Drawing\Point.cs" />
