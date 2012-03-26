@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="BCLImplementation\System\Xml\Linq\XNamespace.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\XDocument.cs" />
     <Compile Include="BCLImplementation\System\Xml\Linq\Extensions.cs" />
