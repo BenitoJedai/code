@@ -4,5 +4,5 @@
 	
 	void main(void) {
 		//gl_FragColor = vec4(1,1,1,1);
-		gl_FragColor = vColor * vec4( vLightWeighting.xyz, 1.0 );
+		gl_FragColor = vColor * vec4( vLightWeighting, 1.0 );
 	}
