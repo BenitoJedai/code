@@ -118,16 +118,7 @@
             <PlatformTarget>x86</PlatformTarget>
             <UseVSHostingProcess>false</UseVSHostingProcess>
         </PropertyGroup>
-        <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
-            <DebugSymbols>true</DebugSymbols>
-            <OutputPath>bin\Assets\</OutputPath>
-            <Optimize>false</Optimize>
-            <DefineConstants>DEBUG;TRACE</DefineConstants>
-            <DebugType>full</DebugType>
-            <PlatformTarget>x86</PlatformTarget>
-            <UseVSHostingProcess>false</UseVSHostingProcess>
-            <ErrorReport>prompt</ErrorReport>
-        </PropertyGroup>
+
         <ItemGroup>
             <Reference Include="System"/>
         </ItemGroup>
@@ -183,16 +174,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
         <OutputPath>bin\Release\</OutputPath>
         <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
-        <PlatformTarget>x86</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <DefineDebug>true</DefineDebug>
-        <DefineTrace>true</DefineTrace>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    </PropertyGroup>
+
     <PropertyGroup>
         <OptionExplicit>On</OptionExplicit>
     </PropertyGroup>
@@ -266,17 +248,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
               <UseVSHostingProcess>false</UseVSHostingProcess>
               <WarningLevel>4</WarningLevel>
           </PropertyGroup>
-          <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|x86' ">
-              <DebugSymbols>true</DebugSymbols>
-              <Optimize>false</Optimize>
-              <Tailcalls>false</Tailcalls>
-              <OutputPath>bin\Assets\</OutputPath>
-              <DefineConstants>DEBUG;TRACE</DefineConstants>
-              <DebugType>full</DebugType>
-              <PlatformTarget>x86</PlatformTarget>
-              <UseVSHostingProcess>false</UseVSHostingProcess>
-              <ErrorReport>prompt</ErrorReport>
-          </PropertyGroup>
+
           <ItemGroup>
               <Reference Include="System"/>
           </ItemGroup>
