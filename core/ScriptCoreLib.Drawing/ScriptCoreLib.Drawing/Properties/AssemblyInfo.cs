@@ -8,12 +8,8 @@ using ScriptCoreLib;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCoreLib.Drawing")]
-[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
 [assembly: AssemblyProduct("ScriptCoreLib.Drawing")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2007")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

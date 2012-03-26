@@ -7,12 +7,8 @@ using ScriptCoreLib;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCoreLib.Avalon.Integration")]
-[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ScriptCoreLib.Avalon.Integration")]
-[assembly: AssemblyCopyright("Copyright ©  2009")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

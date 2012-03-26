@@ -66,6 +66,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Color.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\Font.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Drawing\SizeF.cs" />

@@ -10,13 +10,9 @@ using ScriptCoreLib.Shared;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCoreLib")]
-[assembly: AssemblyDescription("The open source library for immersive web applications.")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("ScriptCoreLib")]
-[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
-[assembly: AssemblyTrademark("jsc")]
 [assembly: AssemblyCulture("")]
+[assembly: AssemblyConfiguration("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM componenets.  If you need to access a type in this assembly from 

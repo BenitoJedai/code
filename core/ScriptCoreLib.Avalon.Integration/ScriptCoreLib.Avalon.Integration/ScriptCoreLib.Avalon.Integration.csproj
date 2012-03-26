@@ -88,6 +88,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="JavaScript\BCLImplementation\System\Windows\Forms\Integration\ElementHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Avalon\Integration\IAssemblyReferenceToken.cs" />

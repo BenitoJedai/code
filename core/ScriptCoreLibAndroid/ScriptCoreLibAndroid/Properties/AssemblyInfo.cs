@@ -7,12 +7,8 @@ using ScriptCoreLib;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCoreLibAndroid")]
-[assembly: AssemblyDescription("http://www.jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Abstractatech OÜ")]
 [assembly: AssemblyProduct("ScriptCoreLibAndroid")]
-[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
-[assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

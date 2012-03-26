@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
+      <Link>Properties\AbstractatechInfo.cs</Link>
+    </Compile>
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Sum.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Take.MoveNext.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Linq\Enumerable.Take.cs" />
