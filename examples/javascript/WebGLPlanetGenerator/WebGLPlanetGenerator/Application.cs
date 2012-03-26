@@ -7,14 +7,15 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using WebGLPlanetGenerator.HTML.Pages;
 using WebGLPlanetGenerator.Shaders;
+using ScriptCoreLib.JavaScript.WebGL;
+using WebGLPlanetGenerator.Design;
+using System.Collections.Generic;
 
 namespace WebGLPlanetGenerator
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.WebGL;
-    using WebGLPlanetGenerator.Design;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
@@ -70,20 +71,6 @@ namespace WebGLPlanetGenerator
         void InitializeContent(IDefaultPage page = null)
         {
 
-            #region Dispose
-            var IsDisposed = false;
-
-            Dispose = delegate
-            {
-                if (IsDisposed)
-                    return;
-
-                IsDisposed = true;
-
-                //container.Orphanize();
-            };
-            #endregion
-
 
             var gl_viewportWidth = 800;
             var gl_viewportHeight = 640;
@@ -117,6 +104,22 @@ namespace WebGLPlanetGenerator
                 Native.Window.alert("WebGL not supported");
                 throw new InvalidOperationException("cannot create webgl context");
             }
+            #endregion
+
+
+
+            #region Dispose
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
             #endregion
 
 
@@ -341,6 +344,21 @@ namespace WebGLPlanetGenerator
             #endregion
 
             AtResize();
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
 
         }
         public Action Dispose;
