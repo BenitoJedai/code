@@ -25,7 +25,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
             var _y = new SolutionProjectLanguageArgument
             {
-                Type = new KnownStockTypes.ScriptCoreLib.Delegates.StringAction(),
+                Type = new KnownStockTypes.System.ActionOfString(),
 
                 Name = "y",
                 Summary = "A callback to javascript. In the future all platforms will allow Action<XElementConvertable> delegates."
