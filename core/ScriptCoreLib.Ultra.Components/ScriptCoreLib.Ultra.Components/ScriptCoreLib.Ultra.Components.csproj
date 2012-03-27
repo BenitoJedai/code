@@ -238,6 +238,7 @@
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForHTMLDocument.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForJavaApplet.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForJavaAppletFormsControl.png" />
+    <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageForWebGLComponent.png" />
     <Content Include="Ultra\Studio\StockToolboxImages\StockToolboxImageTransparent64.png" />
   </ItemGroup>
   <ItemGroup>
