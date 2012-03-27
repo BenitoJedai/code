@@ -10,7 +10,9 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 {
 	public class StockToolboxTabsForHTMLDocument : IEnumerable<SolutionToolboxListViewTab>
 	{
-		public readonly SolutionToolboxListViewTab Page;
+        public readonly SolutionToolboxListViewTab WebGLComponent;
+
+        public readonly SolutionToolboxListViewTab Page;
 
 		public readonly SolutionToolboxListViewTab UserControl;
 
@@ -28,6 +30,14 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 
 		public StockToolboxTabsForHTMLDocument()
 		{
+            WebGLComponent = new SolutionToolboxListViewTab
+            {
+                Icon = new StockToolboxImageForWebGLComponent(),
+                Name = "WebGLComponent1",
+                Title = "WebGL Component",
+                Text = "WebGL Component"
+            };
+
 			Page = new SolutionToolboxListViewTab
 			{
 				Icon = new StockToolboxImageForHTMLDocument(),
@@ -95,6 +105,7 @@ namespace ScriptCoreLib.JavaScript.Studio.StockToolboxTabs
 
 			InternalArray = new[]
 			{
+                WebGLComponent,
 				Page,
 				UserControl,
 				Canvas,
