@@ -136,8 +136,11 @@
     <Compile Include="Design\glUtils.cs">
       <DependentUpon>glUtils.js</DependentUpon>
     </Compile>
+    <Content Include="Design\sylvester.js">
+    </Content>
     <Compile Include="Design\sylvester.cs">
-      <DependentUpon>sylvester.cs</DependentUpon>
+      <DependentUpon>sylvester.js</DependentUpon>
+
     </Compile>
     <Compile Include="Shaders\GeometryFragmentShader.cs">
       <DependentUpon>Geometry.frag</DependentUpon>
@@ -156,7 +159,6 @@
     <Content Include="Design\particle_terrain.js" />
     <Content Include="Design\planet.js" />
     <Content Include="Design\Preview.png" />
-    <Content Include="Design\sylvester.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
