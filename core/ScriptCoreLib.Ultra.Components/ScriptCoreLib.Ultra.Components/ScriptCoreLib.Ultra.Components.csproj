@@ -156,6 +156,7 @@
     <Content Include="My.UltraSource\Images\Reflection\SolutionProjectFormsControl.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionProjectProperties.png" />
     <Content Include="My.UltraSource\Images\Reflection\SolutionTwentyTen.png" />
+    <Content Include="My.UltraSource\Images\Reflection\StyleSheetFile.png" />
     <Content Include="My.UltraSource\Images\Reflection\VistaTreeNodePage.htm" />
     <Content Include="My.UltraSource\HorizontalSplitPage.htm" />
     <Content Include="My.UltraSource\HorizontalSplitAreaPage.htm" />

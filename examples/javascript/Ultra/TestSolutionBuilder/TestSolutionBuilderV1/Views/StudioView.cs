@@ -610,6 +610,7 @@ namespace TestSolutionBuilderV1.Views
 
             var About = new AboutPage();
 
+            #region UpdateFile1Text
             Action UpdateFile1Text =
                 delegate
                 {
@@ -625,10 +626,11 @@ namespace TestSolutionBuilderV1.Views
 
 
                 };
+            #endregion
 
 
 
-
+            #region Update
             Action Update =
                 delegate
                 {
@@ -639,6 +641,8 @@ namespace TestSolutionBuilderV1.Views
                     _Project.Clear();
                     UpdateTree(sln, CodeSourceBView, _Solution, _Project);
                 };
+            #endregion
+
 
             var PreviousVersion = default(string);
 
@@ -716,6 +720,7 @@ namespace TestSolutionBuilderV1.Views
             );
             #endregion
 
+            #region CodeSourceBView.FileChanged
             CodeSourceBView.FileChanged +=
                 delegate
                 {
@@ -781,6 +786,8 @@ namespace TestSolutionBuilderV1.Views
 
 
                 };
+            #endregion
+
 
             //AddSaveButton(WorkspaceHeader, i => Save = i);
 
@@ -826,6 +833,7 @@ namespace TestSolutionBuilderV1.Views
 
             Update();
 
+            #region CreateLanguageButton
             Action<IHTMLImage, string, SolutionProjectLanguage, string> CreateLanguageButton =
                 (Icon, Text, Language, Name) =>
                 {
@@ -849,6 +857,8 @@ namespace TestSolutionBuilderV1.Views
                         }
                     );
                 };
+            #endregion
+
 
             CreateLanguageButton(new VisualCSharpProject(), "View as C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
             CreateLanguageButton(new VisualFSharpProject(), "View as F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
@@ -856,6 +866,7 @@ namespace TestSolutionBuilderV1.Views
 
             var ListOfCreateProjectTypeButton = new List<IHTMLButton>();
 
+            #region CreateProjectTypeButton
             Action<string, Action> CreateProjectTypeButton =
               (Text, Handler) =>
               {
@@ -881,7 +892,9 @@ namespace TestSolutionBuilderV1.Views
                       }
                   );
               };
+            #endregion
 
+            #region ToSpecificProjectType
             Action<string, Action> ToSpecificProjectType =
                 (Text, Handler) =>
                 {
@@ -904,7 +917,9 @@ namespace TestSolutionBuilderV1.Views
                         }
                     );
                 };
+            #endregion
 
+            #region Avalon, Forms
             ToSpecificProjectType("Convert to Browser Avalon Application",
                 delegate
                 {
@@ -936,6 +951,8 @@ namespace TestSolutionBuilderV1.Views
 
                }
             );
+            #endregion
+
         }
 
 
@@ -1052,6 +1069,8 @@ namespace TestSolutionBuilderV1.Views
                         n.WithIcon(() => new VisualFSharpProject());
                     else if (Extension == ".htm")
                         n.WithIcon(() => new HTMLDocument());
+                    else if (Extension == ".css")
+                        n.WithIcon(() => new StyleSheetFile());
 
                     if (f.ContextType != null)
                     {
