@@ -113,9 +113,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLTunnel.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLTunnel.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLTunnel.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLTunnel.AssetsLibrary.dll</HintPath>
     </Reference>
