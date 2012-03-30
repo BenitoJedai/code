@@ -119,9 +119,6 @@
     <Reference Include="WebGLInvade.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLInvade\bin\staging.AssetsLibrary\WebGLInvade.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLInvade.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLInvade.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLInvade.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLInvade.AssetsLibrary.dll</HintPath>
     </Reference>

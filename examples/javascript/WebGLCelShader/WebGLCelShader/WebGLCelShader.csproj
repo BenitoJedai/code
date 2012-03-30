@@ -119,9 +119,6 @@
     <Reference Include="WebGLCelShader.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLCelShader\bin\staging.AssetsLibrary\WebGLCelShader.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLCelShader.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLCelShader.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLCelShader.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLCelShader.AssetsLibrary.dll</HintPath>
     </Reference>

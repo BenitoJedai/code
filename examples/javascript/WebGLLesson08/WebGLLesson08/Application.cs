@@ -12,17 +12,18 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLLesson08.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLLesson08.Shaders;
+using WebGLLesson08.Library;
+using System.Collections.Generic;
 
 namespace WebGLLesson08
 {
 
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLLesson08.Shaders;
-    using WebGLLesson08.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
@@ -104,6 +105,8 @@ namespace WebGLLesson08
             }
             #endregion
 
+            page.Toolbar.AttachToDocument();
+            page.Toolbar.style.textShadow = "#6374AB 2px 2px 2px;";
 
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
