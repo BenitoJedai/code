@@ -119,9 +119,6 @@
     <Reference Include="WebGLClouds.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLClouds\bin\staging.AssetsLibrary\WebGLClouds.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLClouds.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLClouds.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLClouds.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLClouds.AssetsLibrary.dll</HintPath>
     </Reference>
