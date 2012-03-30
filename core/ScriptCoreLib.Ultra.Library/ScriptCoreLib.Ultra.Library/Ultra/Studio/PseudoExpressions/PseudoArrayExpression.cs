@@ -10,6 +10,7 @@ namespace ScriptCoreLib.Ultra.Studio.PseudoExpressions
 	{
 		public SolutionProjectLanguageType ElementType;
 
+        // ahh. now java will soon support List<T> too :)
 		public readonly ArrayList Items = new ArrayList();
 	}
 }
