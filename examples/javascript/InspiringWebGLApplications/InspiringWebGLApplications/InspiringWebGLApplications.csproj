@@ -263,6 +263,7 @@
     <Content Include="Design\Surface_-_Google_Chrome-2012-02-26_22.00.15.png" />
     <Content Include="Design\Swampy_Camaro_-_Google_Chrome-2012-02-26_22.12.38.jpg" />
     <Content Include="Design\Tankworld_-Stencil_shadow_demo_-_Google_Chrome-2012-02-26_21.21.50.png" />
+    <Content Include="Design\tat-tvam-asi.in_-_WebGL_Experiment_-_Hole_in_a_Quad_-_Google_Chrome-2012-03-29_16.55.21.png" />
     <Content Include="Design\Terrain_-_Google_Chrome-2012-02-26_21.03.38.jpg" />
     <Content Include="Design\Terrain_Generation_using_the_diamond-square_algorithm_Three.js_and_WebGL_%28Live_demo%29_-_srchea.com_-_Google_Chrome-2012-03-25_18.30.05.png" />
     <Content Include="Design\Tetris_in_XML3D_-_Google_Chrome-2012-03-22_18.56.13.png" />
@@ -280,6 +281,9 @@
     <Content Include="Design\three.js_webgl_-_io_blender_-_vertex_colors_-_Google_Chrome-2012-03-25_18.26.48.png" />
     <Content Include="Design\three.js_webgl_-_materials_-_cube_reflection_cars_-_Google_Chrome-2012-02-26_20.36.01.jpg" />
     <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_11.49.28.png" />
+    <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_14.21.57.png" />
+    <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_14.56.14.png" />
+    <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_15.10.20.png" />
     <Content Include="Design\three.js_webgl_-_very_simple_platform_game_starter_-_Google_Chrome-2012-03-25_18.52.11.png" />
     <Content Include="Design\Tiananmen_1989_-_Google_Chrome-2012-03-25_18.55.01.png" />
     <Content Include="Design\Tornado_Demo_-_Google_Chrome-2012-03-03_22.37.44.png" />
@@ -320,6 +324,7 @@
     <Content Include="Design\WebGL_Template_-_Google_Chrome-2012-03-25_15.42.59.png" />
     <Content Include="Design\WebGL_Terrain_-_Google_Chrome-2012-02-26_20.04.36.png" />
     <Content Include="Design\WebGL_Zombies_vs_Cow_-_Google_Chrome-2012-02-26_19.41.58.png" />
+    <Content Include="Design\WebGL__Recursive_Tree_Generation_-_Google_Chrome-2012-03-29_17.18.07.png" />
     <Content Include="Design\WebRTS_-_Google_Chrome-2012-02-26_19.20.59.png" />
     <Content Include="Design\www-past.igd.fraunhofer.deigd-a2ifxdemoairplane.xhtml_-_Google_Chrome-2012-03-25_19.36.52.png" />
     <Content Include="Design\www.ambiera.atcoppercubedemosversion3backyardembedwebgl.html_-_Google_Chrome-2012-03-25_16.34.19.png" />
