@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra.Library
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptCoreLib.Ultra", "..\..\..\..\core\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra\ScriptCoreLib.Ultra.csproj", "{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ScriptCoreLib.Ultra.VisualBasic", "..\..\..\..\core\ScriptCoreLib.Ultra.VisualBasic\ScriptCoreLib.Ultra.VisualBasic.vbproj", "{9CF379F4-DC30-4793-B379-653AF2E2F0FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Assets|Any CPU = Assets|Any CPU
@@ -182,6 +184,21 @@ Global
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Assets|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Assets|Any CPU.Build.0 = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Assets|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Assets|Mixed Platforms.Build.0 = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Assets|x86.ActiveCfg = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,5 +206,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{132EB43F-19B4-42AC-8025-3249B129867A} = {241E69F6-F125-4111-B29C-DA66A7419241}
 		{E1C195A9-73EB-458A-AFC4-F8C9995E0E4F} = {241E69F6-F125-4111-B29C-DA66A7419241}
+		{9CF379F4-DC30-4793-B379-653AF2E2F0FA} = {241E69F6-F125-4111-B29C-DA66A7419241}
 	EndGlobalSection
 EndGlobal

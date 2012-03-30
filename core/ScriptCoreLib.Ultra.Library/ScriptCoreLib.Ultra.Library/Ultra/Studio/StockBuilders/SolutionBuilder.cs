@@ -87,13 +87,20 @@ namespace ScriptCoreLib.Ultra.Studio
                     VisualStudioTemplates.VisualCSharpProjectReferences.Elements().Select(k => new XElement(k))
                 );
 
-                var Reference =
-                    new XElement("Reference",
+
+                var UltraSource = new XElement("Reference",
                         new XAttribute("Include", Name + ".UltraSource"),
                         new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".UltraSource.dll")
-                    );
+                );
 
-                a.Add(Reference);
+                a.Add(UltraSource);
+
+                var AssetsLibrary = new XElement("Reference",
+                    new XAttribute("Include", Name + ".AssetsLibrary"),
+                    new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".AssetsLibrary.dll")
+                );
+
+                a.Add(AssetsLibrary);
 
                 return a.ToArray();
             }
@@ -164,8 +171,8 @@ namespace ScriptCoreLib.Ultra.Studio
                 StartupType =>
                 {
                     proj_Content.Elements("PropertyGroup").Elements("StartupObject").ReplaceContentWith(
-                        
-                        StartupType.FullName 
+
+                        StartupType.FullName
                     );
                 }
             );

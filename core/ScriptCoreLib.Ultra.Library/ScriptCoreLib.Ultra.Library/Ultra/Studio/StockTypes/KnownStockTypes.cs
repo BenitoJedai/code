@@ -116,6 +116,170 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         #endregion
 
 
+        #region ScriptCoreLib.JavaScript.Extensions
+        public static partial class ScriptCoreLib
+        {
+            public static partial class JavaScript
+            {
+                public static class Extensions
+                {
+                    public class AppletExtensions : SolutionProjectLanguageType
+                    {
+                        public AppletExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "AppletExtensions";
+                        }
+
+                        public class AttachAppletTo : SolutionProjectLanguageMethod
+                        {
+                            public AttachAppletTo()
+                            {
+                                Name = "AttachAppletTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AppletExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+
+                        public class AutoSizeAppletTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeAppletTo()
+                            {
+                                Name = "AutoSizeAppletTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AppletExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
+                    public class SpriteExtensions : SolutionProjectLanguageType
+                    {
+                        public SpriteExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "SpriteExtensions";
+                        }
+
+                        public class AutoSizeSpriteTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeSpriteTo()
+                            {
+                                Name = "AutoSizeSpriteTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonUltraExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+
+                        public class AttachSpriteTo : SolutionProjectLanguageMethod
+                        {
+                            public AttachSpriteTo()
+                            {
+                                Name = "AttachSpriteTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonUltraExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
+                    public class AvalonUltraExtensions : SolutionProjectLanguageType
+                    {
+                        public AvalonUltraExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "AvalonUltraExtensions";
+                        }
+
+                        public class AutoSizeTo : SolutionProjectLanguageMethod
+                        {
+                            public AutoSizeTo()
+                            {
+                                Name = "AutoSizeTo";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonUltraExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
+                    public class AvalonExtensions : SolutionProjectLanguageType
+                    {
+                        public AvalonExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "AvalonExtensions";
+                        }
+
+                        public class AttachToContainer : SolutionProjectLanguageMethod
+                        {
+                            public AttachToContainer()
+                            {
+                                Name = "AttachToContainer";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new AvalonExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
+
+
+                    public class INodeExtensions : SolutionProjectLanguageType
+                    {
+                        public INodeExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "INodeExtensions";
+                        }
+
+                        public class AttachToHead : SolutionProjectLanguageMethod
+                        {
+                            public AttachToHead()
+                            {
+                                Name = "AttachToHead";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.INodeExtensions();
+                                ReturnType = new KnownStockTypes.System.Object();
+                            }
+                        }
+                    }
+
+                    public class JavaScriptStringExtensions : SolutionProjectLanguageType
+                    {
+                        public JavaScriptStringExtensions()
+                        {
+                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
+                            Name = "JavaScriptStringExtensions";
+                        }
+
+                        public class ToDocumentTitle : SolutionProjectLanguageMethod
+                        {
+                            public ToDocumentTitle()
+                            {
+                                Name = "ToDocumentTitle";
+                                IsExtensionMethod = true;
+                                IsStatic = true;
+                                DeclaringType = new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.JavaScriptStringExtensions();
+                                ReturnType = new KnownStockTypes.System.String();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+
         public static class System
         {
             public static class Windows
@@ -331,6 +495,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         }
 
 
+
         public static partial class ScriptCoreLib
         {
             public static class Desktop
@@ -474,137 +639,6 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 
 
 
-                public static class Extensions
-                {
-                    public class AppletExtensions : SolutionProjectLanguageType
-                    {
-                        public AppletExtensions()
-                        {
-                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
-                            Name = "AppletExtensions";
-                        }
-
-                        public class AttachAppletTo : SolutionProjectLanguageMethod
-                        {
-                            public AttachAppletTo()
-                            {
-                                Name = "AttachAppletTo";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new AppletExtensions();
-                                ReturnType = new KnownStockTypes.System.Object();
-                            }
-                        }
-
-                        public class AutoSizeAppletTo : SolutionProjectLanguageMethod
-                        {
-                            public AutoSizeAppletTo()
-                            {
-                                Name = "AutoSizeAppletTo";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new AppletExtensions();
-                                ReturnType = new KnownStockTypes.System.Object();
-                            }
-                        }
-                    }
-
-                    public class SpriteExtensions : SolutionProjectLanguageType
-                    {
-                        public SpriteExtensions()
-                        {
-                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
-                            Name = "SpriteExtensions";
-                        }
-
-                        public class AutoSizeSpriteTo : SolutionProjectLanguageMethod
-                        {
-                            public AutoSizeSpriteTo()
-                            {
-                                Name = "AutoSizeSpriteTo";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new AvalonUltraExtensions();
-                                ReturnType = new KnownStockTypes.System.Object();
-                            }
-                        }
-
-                        public class AttachSpriteTo : SolutionProjectLanguageMethod
-                        {
-                            public AttachSpriteTo()
-                            {
-                                Name = "AttachSpriteTo";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new AvalonUltraExtensions();
-                                ReturnType = new KnownStockTypes.System.Object();
-                            }
-                        }
-                    }
-
-                    public class AvalonUltraExtensions : SolutionProjectLanguageType
-                    {
-                        public AvalonUltraExtensions()
-                        {
-                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
-                            Name = "AvalonUltraExtensions";
-                        }
-
-                        public class AutoSizeTo : SolutionProjectLanguageMethod
-                        {
-                            public AutoSizeTo()
-                            {
-                                Name = "AutoSizeTo";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new AvalonUltraExtensions();
-                                ReturnType = new KnownStockTypes.System.Object();
-                            }
-                        }
-                    }
-
-                    public class AvalonExtensions : SolutionProjectLanguageType
-                    {
-                        public AvalonExtensions()
-                        {
-                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
-                            Name = "AvalonExtensions";
-                        }
-
-                        public class AttachToContainer : SolutionProjectLanguageMethod
-                        {
-                            public AttachToContainer()
-                            {
-                                Name = "AttachToContainer";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new AvalonExtensions();
-                                ReturnType = new KnownStockTypes.System.Object();
-                            }
-                        }
-                    }
-
-                    public class JavaScriptStringExtensions : SolutionProjectLanguageType
-                    {
-                        public JavaScriptStringExtensions()
-                        {
-                            Namespace = "ScriptCoreLib.JavaScript.Extensions";
-                            Name = "JavaScriptStringExtensions";
-                        }
-
-                        public class ToDocumentTitle : SolutionProjectLanguageMethod
-                        {
-                            public ToDocumentTitle()
-                            {
-                                Name = "ToDocumentTitle";
-                                IsExtensionMethod = true;
-                                IsStatic = true;
-                                DeclaringType = new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.JavaScriptStringExtensions();
-                                ReturnType = new KnownStockTypes.System.String();
-                            }
-                        }
-                    }
-                }
             }
 
             public static partial class ActionScript

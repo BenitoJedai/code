@@ -51,7 +51,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                new SolutionFile
                {
                    Name = ToProjectFile("Styles/Default.css"),
-                   Content = ".h1 { color: blue; }"
+                   Content = "h1 { color: blue; }"
                };
 
             ItemGroupForCompile.Add(
@@ -340,10 +340,21 @@ associated with an assembly."
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
+            ApplicationType.UsingNamespaces.Add(Context.Name + ".Styles");
 
-          
+            // css
 
-            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive);
+            var DefaultStyle = new SolutionProjectLanguageType
+            {
+                Name = "DefaultStyle"
+            };
+
+            var DefaultStyleField = DefaultStyle.ToInitializedField("style");
+            ApplicationType.Fields.Add(DefaultStyleField);
+
+
+
+            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive, DefaultStyleField);
 
             ApplicationType.Methods.Add(ApplicationConstructor);
 

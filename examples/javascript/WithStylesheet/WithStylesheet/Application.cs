@@ -106,14 +106,14 @@ namespace WithStylesheet
             page.Bar.onclick +=
                 delegate
                 {
-                    apply(page.Bar, "Boo.css", () => new WithStylesheet.Styles.Boo().Content);
+                    apply(page.Bar, "Boo.css", () => new WithStylesheet.Styles.BooStyle().Content);
                 };
 
 
             page.Foo.onclick +=
                 delegate
                 {
-                    apply(page.Foo, "Foo.css", () => new WithStylesheet.Styles.Foo().Content);
+                    apply(page.Foo, "Foo.css", () => new WithStylesheet.Styles.FooStyle().Content);
                 };
 
 

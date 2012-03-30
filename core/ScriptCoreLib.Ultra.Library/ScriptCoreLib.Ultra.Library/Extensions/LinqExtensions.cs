@@ -8,8 +8,21 @@ namespace ScriptCoreLib.Extensions
 {
 
 
+
     public static class LinqExtensions
     {
+        // java does not support much of generics just yet
+
+        [System.Diagnostics.DebuggerStepThrough]
+        public static T With<T>(this T e, Action<T> h) where T : class
+        {
+            if (e != null)
+                if (h != null)
+                    h(e);
+
+            return e;
+        }
+
         public static object InvokeUnit<T1, T2>(this Action<T1, T2> h, T1 a1, T2 a2)
         {
             if (h != null)
@@ -90,15 +103,7 @@ namespace ScriptCoreLib.Extensions
             return null;
         }
 
-        [System.Diagnostics.DebuggerStepThrough]
-        public static T With<T>(this T e, Action<T> h) where T : class
-        {
-            if (e != null)
-                if (h != null)
-                    h(e);
-
-            return e;
-        }
+    
 
         [System.Diagnostics.DebuggerStepThrough]
         public static T Otherwise<T>(this T e, Action h) where T : class
