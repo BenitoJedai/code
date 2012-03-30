@@ -45,8 +45,26 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
             #endregion
 
 
-      
 
+            #region Styles/Default.css
+            var DesignStyle =
+               new SolutionFile
+               {
+                   Name = ToProjectFile("Styles/Default.css"),
+                   Content = ".h1 { color: blue; }"
+               };
+
+            ItemGroupForCompile.Add(
+                new XElement("Content",
+                    new XAttribute("Include",
+                        @"Styles\Default.css"
+                    )
+                )
+            );
+
+            AddFile(DesignStyle);
+
+            #endregion
 
             #region DefaultPage
             var DefaultPageElement =
