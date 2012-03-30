@@ -34,14 +34,7 @@ namespace WithStylesheet
 
                     var Content = css();
 
-                    #region AttatchToHead
-                    var h = Native.Document.getElementsByTagName("head");
-
-                    if (h.Length > 0)
-                        h[0].appendChild(Content);
-                    else
-                        Content.AttachToDocument();
-                    #endregion
+                    Content.AttachToHead();
 
 
                     var AddDynamicRule = new IHTMLButton

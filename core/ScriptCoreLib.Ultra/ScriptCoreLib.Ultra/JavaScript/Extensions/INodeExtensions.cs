@@ -125,6 +125,18 @@ namespace ScriptCoreLib.JavaScript.Extensions
 			parent.Clear();
 			parent.Add(value);
 		}
+
+        public static T AttachToHead<T>(this T Content) where T : IHTMLElement
+        {
+            var h = Native.Document.getElementsByTagName("head");
+
+            if (h.Length > 0)
+                h[0].appendChild(Content);
+            else
+                Content.AttachToDocument();
+
+            return Content;
+        }
 	}
 
 
