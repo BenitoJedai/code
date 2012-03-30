@@ -88,16 +88,11 @@ namespace ScriptCoreLib.Ultra.Studio
                 );
 
 
-                var UltraSource = new XElement("Reference",
-                        new XAttribute("Include", Name + ".UltraSource"),
-                        new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".UltraSource.dll")
-                );
-
-                a.Add(UltraSource);
+        
 
                 var AssetsLibrary = new XElement("Reference",
                     new XAttribute("Include", Name + ".AssetsLibrary"),
-                    new XElement("HintPath", @"bin\staging.UltraSource\" + Name + ".AssetsLibrary.dll")
+                    new XElement("HintPath", @"bin\staging.AssetsLibrary\" + Name + ".AssetsLibrary.dll")
                 );
 
                 a.Add(AssetsLibrary);
