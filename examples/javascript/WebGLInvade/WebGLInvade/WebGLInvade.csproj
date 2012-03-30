@@ -116,9 +116,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLInvade.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLInvade\bin\staging.UltraSource\WebGLInvade.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLInvade.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLInvade\bin\staging.AssetsLibrary\WebGLInvade.AssetsLibrary.dll</HintPath>
     </Reference>

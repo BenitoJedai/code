@@ -117,9 +117,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLEscherDrosteEffect.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLEscherDrosteEffect.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLEscherDrosteEffect.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLEscherDrosteEffect.AssetsLibrary.dll</HintPath>
     </Reference>

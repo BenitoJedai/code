@@ -116,9 +116,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLCelShader.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLCelShader\bin\staging.UltraSource\WebGLCelShader.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLCelShader.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLCelShader\bin\staging.AssetsLibrary\WebGLCelShader.AssetsLibrary.dll</HintPath>
     </Reference>

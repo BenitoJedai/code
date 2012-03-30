@@ -122,9 +122,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="SpiderModel.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\SpiderModel\bin\staging.UltraSource\SpiderModel.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="SpiderModel.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\SpiderModel\bin\staging.AssetsLibrary\SpiderModel.AssetsLibrary.dll</HintPath>
     </Reference>
