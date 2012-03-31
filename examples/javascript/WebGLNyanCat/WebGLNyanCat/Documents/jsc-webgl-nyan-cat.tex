@@ -1,1 +1,73 @@
-﻿
+﻿% TexWorks
+% part chapter  section subsection
+\documentclass[12pt,leqno]{book}
+
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{graphicx}
+
+% \includegraphics
+
+\newcommand{\png}[1]{\includegraphics[type=png,ext=.png,read=.png,width=\textwidth]{#1}}
+\newcommand{\figpng}[2]{\begin{figure}[htb]\centering\png{#1}\caption{#2}\end{figure}}
+
+\usepackage{framed}
+
+
+\title{WebGL Nyan Cat}
+\author{\includegraphics{../Design/Preview.png} \\ \\ \\ Arvo Sulakatko \\ \\ \href{http://www.jsc-solutions.net}{jsc-solutions.net} }
+
+\begin{document}
+
+\maketitle
+
+
+
+\tableofcontents
+\listoffigures
+
+% why what how
+
+\chapter{The Why}
+\marginpar{[...] people don't buy what you do. people buy why you do it!}
+
+% \figpng{Images/www.youtube.comvhKksAVmekAE_-_Google_Chrome-2012-03-14_16.27.22}
+% {Physical Spider To Be Programmed}
+
+\subsection{Creating a preview image}
+
+See also: http://dl.dropbox.com/u/6213850/WebGL/nyanCat/nyan.html
+
+\section{Intro}
+
+
+
+
+
+\chapter{References}
+
+\section{Document Source}
+
+\url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/SpiderModel/Documents/spider.tex}
+
+\section{Project Source}
+\url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/SpiderModel/}
+
+\section{Arduino Sketch Source}
+\url{https://jsc.svn.sourceforge.net/svnroot/jsc/examples/javascript/ArduinoSpiderControlCenter/ArduinoSpiderControlCenter/ArduinoSketches/spiderwalk2/spiderwalk2.ino}
+
+
+\section{Video}
+\url{http://www.youtube.com/v/hKksAVmekAE}
+
+\section{JSC Web Installer}
+\url{http://download.jsc-solutions.net}
+
+\section{Website}
+\url{http://www.jsc-solutions.net}
+
+\section{Blog}
+\url{http://zproxy.wordpress.com}
+
+\end{document}
