@@ -28,8 +28,22 @@ namespace WebGLNyanCat
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
+            new WebGLNyanCat.Design.__Three().Content.With(
+                source =>
+                {
+                    source.onload +=
+                        delegate
+                        {
+                            InitializeContent(page);
+
+
+                        };
+
+                }
+            ).AttachToDocument();
+
             style.Content.AttachToHead();
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -39,5 +53,9 @@ namespace WebGLNyanCat
             );
         }
 
+        void InitializeContent(IDefaultPage page = null)
+        {
+
+        }
     }
 }
