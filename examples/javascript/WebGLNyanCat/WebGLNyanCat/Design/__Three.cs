@@ -19,6 +19,26 @@ namespace WebGLNyanCat.Design
     }
 
     #region THREE natives from Three.js
+
+    #region no namespace
+
+
+    [Script(HasNoPrototype = true, ExternalTarget = "Torus")]
+    class Torus
+    {
+
+    }
+
+    [Script(HasNoPrototype = true, ExternalTarget = "Uniforms")]
+    class Uniforms
+    {
+        public object clone(object e)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
+
     namespace THREE
     {
         sealed class MeshLambertMaterialArguments
@@ -27,7 +47,7 @@ namespace WebGLNyanCat.Design
         }
 
 
-        [Script(HasNoPrototype = true, ExternalTarget = "MeshLambertMaterial")]
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.MeshLambertMaterial")]
         class MeshLambertMaterial
         {
             public MeshLambertMaterial(MeshLambertMaterialArguments a)
@@ -37,7 +57,7 @@ namespace WebGLNyanCat.Design
         }
 
 
-        [Script(HasNoPrototype = true, ExternalTarget = "CubeGeometry")]
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.CubeGeometry")]
         class CubeGeometry
         {
 
@@ -48,13 +68,8 @@ namespace WebGLNyanCat.Design
 
         }
 
-        [Script(HasNoPrototype = true, ExternalTarget = "Torus")]
-        class Torus
-        {
 
-        }
-
-        [Script(HasNoPrototype = true, ExternalTarget = "Object3D")]
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.Object3D")]
         class Object3D
         {
             public Vector3 position;
@@ -65,15 +80,7 @@ namespace WebGLNyanCat.Design
             }
         }
 
-        [Script(HasNoPrototype = true, ExternalTarget = "Uniforms")]
-        class Uniforms
-        {
-            public object clone(object e)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+   
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.Vector3")]
         class Vector3
         {
