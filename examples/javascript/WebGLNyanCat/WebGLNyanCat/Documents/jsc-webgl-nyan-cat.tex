@@ -102,6 +102,11 @@ We need to add the Three.js, nyanlooped.mp3 and nyanslow.mp3 to our project to b
 \figpng{Images/A_string_from_JavaScript._-_Google_Chrome-2012-03-31_13.54.10}
 {Application running inside Chrome with audio}
 
+\subsection{Implement InitializeContent}
+By now we are ready to port the application code. The inline JavaScript shall be rewritten to C# and into InitializeContent.
+
+First thing we do is we comment out everything and put them into named region for outlining. We have to reorder statements such as the init function call actually happens after the function has been defined. The first function to convert will be mouse down which will switch between songs.
+
 
 \subsection{Adding fullscreen and dispose}
 xxx
