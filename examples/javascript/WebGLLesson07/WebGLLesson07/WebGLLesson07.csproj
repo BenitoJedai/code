@@ -118,9 +118,6 @@
     <Reference Include="WebGLLesson07.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLLesson07\bin\staging.AssetsLibrary\WebGLLesson07.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLLesson07.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLLesson07.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLLesson07.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLLesson07.AssetsLibrary.dll</HintPath>
     </Reference>

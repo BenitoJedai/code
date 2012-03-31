@@ -130,6 +130,7 @@
     <Content Include="Design\173.236.100.226scjdesigWebGL_CCcoppercube.html_-_Google_Chrome-2012-03-03_22.23.04.png" />
     <Content Include="Design\2D_noise_-_Google_Chrome-2012-02-26_21.42.04.png" />
     <Content Include="Design\3dgames_-_Owietlenie_globalne_oraz_wiato_kierunkowe_w_WebGL_-_Google_Chrome-2012-02-26_20.43.55.png" />
+    <Content Include="Design\3D_car_configurator_using_Stage3D_and_WebGL_created_in_CopperCube_-_Google_Chrome-2012-03-31_22..png" />
     <Content Include="Design\3D_Nyan_Cat!!!!_-_Google_Chrome-2012-02-26_22.40.57.png" />
     <Content Include="Design\3D_Reconstruction_-_Google_Chrome-2012-03-30_22.01.08.png" />
     <Content Include="Design\65fps_-_Google_Chrome-2012-02-26_21.33.33.png" />
@@ -270,6 +271,7 @@
     <Content Include="Design\Terrain_-_Google_Chrome-2012-02-26_21.03.38.jpg" />
     <Content Include="Design\Terrain_Generation_using_the_diamond-square_algorithm_Three.js_and_WebGL_%28Live_demo%29_-_srchea.com_-_Google_Chrome-2012-03-25_18.30.05.png" />
     <Content Include="Design\Tetris_in_XML3D_-_Google_Chrome-2012-03-22_18.56.13.png" />
+    <Content Include="Design\Tetris_v0.2__phillihps_tech_blog__Phils_Tech_Blog_-_Google_Chrome-2012-03-31_21.25.01.png" />
     <Content Include="Design\Texture_Mapping_-_Bump_Maps_-_Google_Chrome-2012-02-26_22.53.31.jpg" />
     <Content Include="Design\three.js_-_geometry_-_marching_cubes_-_webgl_-_Google_Chrome-2012-03-03_22.52.38.png" />
     <Content Include="Design\three.js_-_geometry_-_vertex_colors_-_Google_Chrome-2012-02-26_21.14.32.png" />
@@ -331,9 +333,11 @@
     <Content Include="Design\WebRTS_-_Google_Chrome-2012-02-26_19.20.59.png" />
     <Content Include="Design\www-past.igd.fraunhofer.deigd-a2ifxdemoairplane.xhtml_-_Google_Chrome-2012-03-25_19.36.52.png" />
     <Content Include="Design\www.ambiera.atcoppercubedemosversion3backyardembedwebgl.html_-_Google_Chrome-2012-03-25_16.34.19.png" />
+    <Content Include="Design\www.ambiera.atcoppercubedemosversion3hummerembedwebgl.html_-_Google_Chrome-2012-03-31_22.20.05.png" />
     <Content Include="Design\www.flexxcode.nlwebglprojects3main.html_-_Google_Chrome-2012-03-23_09.58.20.png" />
     <Content Include="Design\www.irrlicht3d.orgplaygroundlighttest2inblog.html_-_Google_Chrome-2012-03-23_09.38.54.png" />
     <Content Include="Design\www.mandreel.comdemossailboatwebglindex.html_-_Google_Chrome-2012-03-18_02.29.10.png" />
+    <Content Include="Design\www.noobody.orgBBPMonkey3DEarthDemoMonkeyGame.html_-_Google_Chrome-2012-03-31_21.49.06.png" />
     <Content Include="Design\XTK_LESSON_05_-_Google_Chrome-2012-03-25_18.49.42.png" />
     <Content Include="Design\yet_demo_-_World_Wide_WebGL_-_Google_Chrome-2012-03-25_18.05.55.png" />
   </ItemGroup>
