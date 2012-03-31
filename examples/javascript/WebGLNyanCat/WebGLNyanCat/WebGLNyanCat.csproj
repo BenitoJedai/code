@@ -121,6 +121,9 @@
     <Content Include="Design\Three.js" />
     <Content Include="Styles\Default.css" />
     <Content Include="Design\Default.htm" />
+      <Compile Include="Design\__Three.cs" >
+          <DependentUpon>Three.js</DependentUpon>
+      </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />

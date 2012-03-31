@@ -84,7 +84,7 @@ Now we should test JSC. Without changing anything else let's just run the projec
 
 
 \subsection{Inspecting the original}
-Now we are ready to start. JSC does not only support looking at .NET assemblies. It also supports looking at Web Applications. At this time however the HTML parser is unforgiving and does not help us. We need to do manual code review of the original Web Application to replicate it. Reading the source code reveals it makes use of of some JavaScript libraries, some of which we may choose to ignore. There are also two audio files. 
+Now we are ready to start. JSC does not only support looking at .NET assemblies. It also supports looking at Web Applications. At this time however the HTML parser is unforgiving and does not help us. We need to do manual code review of the original Web Application to replicate it. Reading the source code reveals it makes use of of some JavaScript libraries, some of which we may choose to ignore. There are also two audio files. No explicit shaders.
 
 \figpng{Images/eXplore-2012-03-31_13.12.27}
 {JSC eXplore - Web Application}
@@ -116,6 +116,18 @@ Future versions of JSC shall consider merging ScriptCoreLibr assemblies to keep 
 
 \subsection{Exclude from Project Template}
 Some files should be excluded from project template. 
+
+\subsection{Implicit preload of js and css}
+At this time we have to dynamically and explicitly load css and js. In the future we should
+be able to do that implicitly either if they were defined inline or only linked from HTML.
+
+
+
+
+
+
+
+
 
 \chapter{References}
 
