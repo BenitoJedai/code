@@ -70,10 +70,10 @@ namespace WebGLNyanCat
 //            var mouseX = 0, mouseY = 0;
 //            var windowHalfX = window.innerWidth / 2;
 //            var windowHalfY = window.innerHeight / 2;
-//            var clock = new THREE.Clock(), deltaSum=0, tick=0, frame=0, running=true;
+//            var clock = new THREE.Clock(), deltaSum=0, tick=0, frame=0
+            var running = true;
 //            var song = document.createElement('audio'), song2 = document.createElement('audio');
 //            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-//            document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
 
             #region helper
@@ -322,16 +322,21 @@ namespace WebGLNyanCat
             #endregion
 
             #region onDocumentMouseDown
-            //            function onDocumentMouseDown(event) {
-//                running=!running;
-//                if(running){
-//                    song.play();
-//                    song2.pause();
-//                }else{
-//                    song.pause();
-//                    song2.play();
-//                }
-            //            }
+            Native.Document.onmousedown +=
+                e =>
+                {
+                    running = !running;
+                    if (running)
+                    {
+                        page.song.play();
+                        page.song2.pause();
+                    }
+                    else
+                    {
+                        page.song.pause();
+                        page.song2.play();
+                    }
+                };
             #endregion
 
             #region animate
