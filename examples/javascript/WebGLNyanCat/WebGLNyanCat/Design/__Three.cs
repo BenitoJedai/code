@@ -98,6 +98,7 @@ namespace WebGLNyanCat.Design
             public object lights;
             public object fog;
             public Mesh[] objects;
+            public Vector3 position;
 
             internal void addLight(DirectionalLight light)
             {
@@ -115,6 +116,11 @@ namespace WebGLNyanCat.Design
             }
 
             internal void add(Object3D poptart)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void add(PointLight pointLight)
             {
                 throw new NotImplementedException();
             }
@@ -195,6 +201,21 @@ namespace WebGLNyanCat.Design
             }
         }
 
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.Clock")]
+        class Clock
+        {
+            public Clock()
+            {
+
+            }
+
+            internal float getDelta()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.DirectionalLight")]
         class DirectionalLight
         {
@@ -238,6 +259,11 @@ namespace WebGLNyanCat.Design
             }
 
             internal void updateMatrix()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void lookAt(Vector3 vector3)
             {
                 throw new NotImplementedException();
             }

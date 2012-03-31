@@ -18,6 +18,7 @@ namespace WebGLNyanCat
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using THREE = WebGLNyanCat.Design.THREE;
+    using System.Collections.Generic;
 
 
     /// <summary>
@@ -81,19 +82,27 @@ namespace WebGLNyanCat
 //            var stars, 
             var numStars = 10;
             var numRainChunks=30;
-//            var mouseX = 0, mouseY = 0;
-//            var windowHalfX = window.innerWidth / 2;
-//            var windowHalfY = window.innerHeight / 2;
-//            var clock = new THREE.Clock(), deltaSum=0, tick=0, frame=0
+            var mouseX = 0;
+            var mouseY = 0;
+            var windowHalfX = Native.Window.Width / 2;
+            var windowHalfY = Native.Window.Height / 2;
+            var clock = new THREE.Clock();
+            var deltaSum=0f;
+            //tick=0, 
+            var frame = 0;
+
             var running = true;
 //            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 
             #region onDocumentMouseMove
-            //            function onDocumentMouseMove(event) {
-//                mouseX = ( event.clientX - windowHalfX );
-//                mouseY = ( event.clientY - windowHalfY );
-            //            }
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    mouseX = ( e.CursorX - windowHalfX );
+                    mouseY = ( e.CursorY - windowHalfY );
+                };
+
             #endregion
 
             #region onmousedown
@@ -184,10 +193,13 @@ namespace WebGLNyanCat
             var r = new Random();
             Func<f> Math_random = () => r.NextFloat();
 
+            var stars = new List<List<THREE.Object3D>>();
+
             #region init
             Action init =
                 delegate
                 {
+                    #region before init
                     var camera = new THREE.PerspectiveCamera( 45,
                     Native.Window.Width / Native.Window.Height, .1f, 10000);
 
@@ -347,20 +359,21 @@ namespace WebGLNyanCat
 
 
 
-                    //                stars=new Array();
                     for (var state = 0; state < 6; state++)
                     {
-                    //stars.push(new Array());
-                    for (var c = 0; c < numStars; c++)
-                    {
-                        var star = new THREE.Object3D();
-                        star.position.x = Math_random() * 200 - 100;
-                        star.position.y = Math_random() * 200 - 100;
-                        star.position.z = Math_random() * 200 - 100;
-                        buildStar(star, state);
-                        scene.add(star);
-                        //stars[state].push(star);
-                    }
+
+                        stars.Add(new List<THREE.Object3D>());
+
+                        for (var c = 0; c < numStars; c++)
+                        {
+                            var star = new THREE.Object3D();
+                            star.position.x = Math_random() * 200 - 100;
+                            star.position.y = Math_random() * 200 - 100;
+                            star.position.z = Math_random() * 200 - 100;
+                            buildStar(star, state);
+                            scene.add(star);
+                            stars[state].Add(star);
+                        }
                     }
                     #endregion
 
@@ -371,124 +384,140 @@ namespace WebGLNyanCat
                     var renderer = new THREE.WebGLRenderer();
                     renderer.setSize(Native.Window.Width, Native.Window.Height);
                     container.appendChild(renderer.domElement);
+                    #endregion
 
-       
+
+                    #region render
+                    Action render =
+                        delegate
+                        {
+                            f delta = clock.getDelta();
+
+                            if (running) deltaSum += delta;
+
+                            if (deltaSum > .07)
+                            {
+                                deltaSum = deltaSum % .07f;
+                                frame = (frame + 1) % 12;
+                                for (var c = 0; c < numStars; c++)
+                                {
+                                    var tempX = stars[5][c].position.x;
+                                    var tempY = stars[5][c].position.y;
+                                    var tempZ = stars[5][c].position.z;
+                                    for (var state = 5; state > 0; state--)
+                                    {
+                                        var star = stars[state][c];
+                                        var star2 = stars[state - 1][c];
+                                        star.position.x = star2.position.x - 8;
+                                        star.position.y = star2.position.y;
+                                        star.position.z = star2.position.z;
+
+                                        if (star.position.x < -100)
+                                        {
+                                            star.position.x += 200;
+                                            star.position.y = Math_random() * 200 - 100;
+                                            star.position.z = Math_random() * 200 - 100;
+                                        }
+                                    }
+                                    stars[0][c].position.x = tempX;
+                                    stars[0][c].position.y = tempY;
+                                    stars[0][c].position.z = tempZ;
+                                }
+                                switch (frame)
+                                {
+                                    case 0://2nd frame
+                                        face.position.x++;
+                                        feet.position.x++;
+                                        break;
+                                    case 1:
+                                        face.position.y--;
+                                        feet.position.x++;
+                                        feet.position.y--;
+                                        poptart.position.y--;
+                                        rainbow.position.x -= 9;
+                                        rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
+                                        break;
+                                    case 2:
+                                        feet.position.x--;
+                                        break;
+                                    case 3:
+                                        face.position.x--;
+                                        feet.position.x--;
+                                        rainbow.position.x += 9;
+                                        rainChunk.position.x -= (8 * (numRainChunks - 1)) - 1;
+                                        break;
+                                    case 4:
+                                        face.position.y++;
+                                        break;
+                                    case 5:
+                                        poptart.position.y++;
+                                        feet.position.y++;
+                                        rainbow.position.x -= 9;
+                                        rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
+                                        break;
+                                    case 6://8th frame
+                                        face.position.x++;
+                                        feet.position.x++;
+                                        break;
+                                    case 7:
+                                        poptart.position.y--;
+                                        face.position.y--;
+                                        feet.position.x++;
+                                        feet.position.y--;
+                                        rainbow.position.x += 9;
+                                        rainChunk.position.x -= (8 * (numRainChunks - 1)) - 1;
+                                        break;
+                                    case 8:
+                                        feet.position.x--;
+                                        break;
+                                    case 9:
+                                        face.position.x--;
+                                        feet.position.x--;
+                                        rainbow.position.x -= 9;
+                                        rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
+                                        break;
+                                    case 10:
+                                        face.position.y++;
+                                        break;
+                                    case 11://1st frame
+                                        poptart.position.y++;
+                                        feet.position.y++;
+                                        rainbow.position.x += 9;
+                                        rainChunk.position.x -= (8 * (numRainChunks - 1)) - 1;
+                                        break;
+                                }
+                            }
+                            camera.position.x += (mouseX - camera.position.x) * .005f;
+                            camera.position.y += (-mouseY - camera.position.y) * .005f;
+                            camera.lookAt(scene.position);
+                            renderer.render(scene, camera);
                         };
+
+                    #endregion
+
+
+
+                    #region animate
+                    Action animate = null;
+
+                    animate = delegate
+                    {
+                        render();
+
+                        Native.Window.requestAnimationFrame += animate;
+                    };
+                    #endregion
+
+
+                    animate();
+                };
             #endregion
 
 
             init();
 
 
-            #region render
-            //            function render() {
-            //                var delta = clock.getDelta();
-            //                if(running) deltaSum+=delta;
-            //                if(deltaSum>.07){
-            //                    deltaSum=deltaSum%.07;
-            //                    frame=(frame+1)%12;
-            //                    for(var c=0;c<numStars;c++){
-            //                        var tempX=stars[5][c].position.x,
-            //                            tempY=stars[5][c].position.y,
-            //                            tempZ=stars[5][c].position.z;
-            //                        for(var state=5;state>0;state--){
-            //                            var star=stars[state][c];
-            //                            var star2=stars[state-1][c];
-            //                            star.position.x=star2.position.x-8;
-            //                            star.position.y=star2.position.y;
-            //                            star.position.z=star2.position.z;
-
-            //                            if(star.position.x<-100){
-            //                                star.position.x+=200;
-            //                                star.position.y = Math.random() * 200 - 100;
-            //                                star.position.z = Math.random() * 200 - 100;
-            //                            }
-            //                        }
-            //                        stars[0][c].position.x=tempX;
-            //                        stars[0][c].position.y=tempY;
-            //                        stars[0][c].position.z=tempZ;
-            //                    }
-            //                    switch(frame){
-            //                        case 0://2nd frame
-            //                            face.position.x++;
-            //                            feet.position.x++;
-            //                            break;
-            //                        case 1:
-            //                            face.position.y--;
-            //                            feet.position.x++;
-            //                            feet.position.y--;
-            //                            poptart.position.y--;
-            //                            rainbow.position.x-=9;
-            //                            rainChunk.position.x+=(8*(numRainChunks-1))-1;
-            //                            break;
-            //                        case 2:
-            //                            feet.position.x--;
-            //                            break;
-            //                        case 3:
-            //                            face.position.x--;
-            //                            feet.position.x--;
-            //                            rainbow.position.x+=9;
-            //                            rainChunk.position.x-=(8*(numRainChunks-1))-1;
-            //                            break;
-            //                        case 4:
-            //                            face.position.y++;
-            //                            break;
-            //                        case 5:
-            //                            poptart.position.y++;
-            //                            feet.position.y++;
-            //                            rainbow.position.x-=9;
-            //                            rainChunk.position.x+=(8*(numRainChunks-1))-1;
-            //                            break;
-            //                        case 6://8th frame
-            //                            face.position.x++;
-            //                            feet.position.x++;
-            //                            break;
-            //                        case 7:
-            //                            poptart.position.y--;
-            //                            face.position.y--;
-            //                            feet.position.x++;
-            //                            feet.position.y--;
-            //                            rainbow.position.x+=9;
-            //                            rainChunk.position.x-=(8*(numRainChunks-1))-1;
-            //                            break;
-            //                        case 8:
-            //                            feet.position.x--;
-            //                            break;
-            //                        case 9:
-            //                            face.position.x--;
-            //                            feet.position.x--;
-            //                            rainbow.position.x-=9;
-            //                            rainChunk.position.x+=(8*(numRainChunks-1))-1;
-            //                            break;
-            //                        case 10:
-            //                            face.position.y++;
-            //                            break;
-            //                        case 11://1st frame
-            //                            poptart.position.y++;
-            //                            feet.position.y++;
-            //                            rainbow.position.x+=9;
-            //                            rainChunk.position.x-=(8*(numRainChunks-1))-1;
-            //                            break;
-            //                    }
-            //                }
-            //                camera.position.x += ( mouseX - camera.position.x ) * .005;
-            //                camera.position.y += ( - mouseY - camera.position.y ) * .005;
-            //                camera.lookAt( scene.position );
-            //                renderer.render( scene, camera );
-            //            }
-            #endregion
-
-
-
-            #region animate
-            //            function animate() {
-            //                requestAnimationFrame( animate );
-            //                render();
-            //            }
-            #endregion
-
-
-            //            animate();
+           
         }
     }
 }
