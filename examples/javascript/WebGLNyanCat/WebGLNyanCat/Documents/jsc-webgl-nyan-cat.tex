@@ -30,14 +30,24 @@
 
 % why what how
 
-\chapter{The Why}
+\chapter{The Beginning}
 
 
 
-\subsection{Creating a preview image}
 
-See also: http://dl.dropbox.com/u/6213850/WebGL/nyanCat/nyan.html
+\subsection{Creating a new Web Application}
 
+Let's create a new project "WebGL Nyan Cat".
+
+\figpng{Images/Add_New_Item_-_WebGLNyanCat-2012-03-31_12.14.47}
+{New Project}
+
+
+
+
+\subsection{Creating a new preview image}
+
+In this document we shall  port the example at http://dl.dropbox.com/u/6213850/WebGL/nyanCat/nyan.html to CSharp.
 
 
 
@@ -64,8 +74,45 @@ At this time the most important type generated for us is the WebGLNyanCat.HTML.P
 {JSC eXplore - WebGLNyanCat.AssetsLibrary}
 
 
+\subsection{Start Debugging}
+Now we should test JSC. Without changing anything else let's just run the project. A web broswer will be started once the build is ready.
 
 
+
+\figpng{Images/A_string_from_JavaScript._-_Google_Chrome-2012-03-31_13.00.11}
+{Application running inside Chrome}
+
+
+\subsection{Inspecting the original}
+Now we are ready to start. JSC does not only support looking at .NET assemblies. It also supports looking at Web Applications. At this time however the HTML parser is unforgiving and does not help us. We need to do manual code review of the original Web Application to replicate it. Reading the source code reveals it makes use of of some JavaScript libraries, some of which we may choose to ignore. There are also two audio files. 
+
+\figpng{Images/eXplore-2012-03-31_13.12.27}
+{JSC eXplore - Web Application}
+
+
+\subsection{Preparing the assets}
+We need to add the Three.js, nyanlooped.mp3 and nyanslow.mp3 to our project to be dynamically loaded on demand while the application is running.
+
+\figpng{Images/WebGLNyanCat_-_Microsoft_Visual_Web_Developer_2010_Express-2012-03-31_13.24.27}
+{Solution Explorer - New Assets}
+
+
+
+
+
+\subsection{Adding fullscreen and dispose}
+xxx
+
+
+
+
+\chapter{Notes for future work}
+
+\subsection{Less references}
+Future versions of JSC shall consider merging ScriptCoreLibr assemblies to keep the number low.
+
+\subsection{Exclude from Project Template}
+Some files should be excluded from project template. 
 
 \chapter{References}
 
