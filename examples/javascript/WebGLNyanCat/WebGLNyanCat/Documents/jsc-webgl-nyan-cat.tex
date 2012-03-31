@@ -31,19 +31,40 @@
 % why what how
 
 \chapter{The Why}
-\marginpar{[...] people don't buy what you do. people buy why you do it!}
 
-% \figpng{Images/www.youtube.comvhKksAVmekAE_-_Google_Chrome-2012-03-14_16.27.22}
-% {Physical Spider To Be Programmed}
+
 
 \subsection{Creating a preview image}
 
 See also: http://dl.dropbox.com/u/6213850/WebGL/nyanCat/nyan.html
 
 
+
+
+
 \subsection{Setting up TeXworks for LaTex documentation}
 
 \webdev needs some additional configuration. While creating new commands in latex one needs to remember they cannot have numbers in the name.
+
+\figpng{Images/jsc-webgl-nyan-cat.pdf_-_TeXworks-2012-03-31_12.31.15}
+{TeXworks}
+
+
+
+\subsection{Prebuild event}
+Just when our PDF is being generated we are ready to test run the project.
+First we should do a project rebuild. This is where JSC will generate the AssetsLibrary during the prebuild event.
+
+\figpng{Images/WebGLNyanCat_-_Microsoft_Visual_Web_Developer_2010_Express-2012-03-31_12.37.24}
+{Solution Explorer}
+
+At this time the most important type generated for us is the WebGLNyanCat.HTML.Pages.DefaultPage type. Essentially it will give us a typed access to all HTML elements within the HTML document with id attributes. We may however choose to ignore it and just attach to document instead.
+
+\figpng{Images/eXplore-2012-03-31_12.41.39}
+{JSC eXplore - WebGLNyanCat.AssetsLibrary}
+
+
+
 
 
 \chapter{References}
