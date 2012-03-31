@@ -9,6 +9,11 @@ namespace QRCode.Library
 {
     public static class QRCodeExtensions
     {
+        public static IHTMLImage ToQRCode(this IHTMLDocument value)
+        {
+            return (value.location + "").ToQRCode();
+        }
+
         public static IHTMLImage ToQRCode(this string value)
         {
             return __qr.qr.image(
