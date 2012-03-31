@@ -124,9 +124,6 @@
     <Reference Include="WebGLLesson04.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLLesson04\bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLLesson04.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLLesson04.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLLesson04.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLLesson04.AssetsLibrary.dll</HintPath>
     </Reference>
