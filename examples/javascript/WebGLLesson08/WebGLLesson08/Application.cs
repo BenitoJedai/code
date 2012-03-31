@@ -23,24 +23,27 @@ namespace WebGLLesson08
 
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.JavaScript.Runtime;
 
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=684 by Giles
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public Action Dispose;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -69,9 +72,8 @@ namespace WebGLLesson08
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
 
             var size = 500;
 
@@ -105,8 +107,18 @@ namespace WebGLLesson08
             }
             #endregion
 
-            page.Toolbar.AttachToDocument();
-            page.Toolbar.style.textShadow = "#6374AB 2px 2px 2px;";
+            if (page != null)
+            {
+                page.Toolbar.AttachToDocument();
+                page.Toolbar.style.position = IStyle.PositionEnum.absolute;
+                page.Toolbar.style.right = "0";
+                page.Toolbar.style.color = JSColor.White;
+                page.Toolbar.style.textShadow = "#6374AB 2px 2px 2px;";
+            }
+            else
+            {
+                page = new DefaultPage();
+            }
 
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
@@ -399,6 +411,7 @@ namespace WebGLLesson08
 
             var filter = 2;
 
+            #region currentlyPressedKeys
             var currentlyPressedKeys = new Dictionary<int, bool>
             {
                 {33, false},
@@ -424,12 +437,66 @@ namespace WebGLLesson08
                         }
                     }
                 };
+            #endregion
+
 
             Native.Document.onkeyup +=
                e =>
                {
                    currentlyPressedKeys[e.KeyCode] = false;
                };
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
 
             new WebGLLesson08.HTML.Images.FromAssets.glass().InvokeOnComplete(
                 texture_image =>
@@ -629,6 +696,9 @@ namespace WebGLLesson08
 
                     tick = delegate
                     {
+                        if (IsDisposed)
+                            return;
+
                         c++;
 
                         Native.Document.title = "" + new { c, filter };
