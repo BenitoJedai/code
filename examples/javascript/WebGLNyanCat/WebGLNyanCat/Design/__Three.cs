@@ -1,4 +1,6 @@
-﻿using System;
+﻿#pragma warning disable 649
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,16 +18,50 @@ namespace WebGLNyanCat.Design
 
     }
 
+    #region THREE natives from Three.js
     namespace THREE
     {
+        sealed class MeshLambertMaterialArguments
+        {
+            public int color;
+        }
 
-        #region JavaScript natives
+
+        [Script(HasNoPrototype = true, ExternalTarget = "MeshLambertMaterial")]
+        class MeshLambertMaterial
+        {
+            public MeshLambertMaterial(MeshLambertMaterialArguments a)
+            {
+
+            }
+        }
+
+
+        [Script(HasNoPrototype = true, ExternalTarget = "CubeGeometry")]
+        class CubeGeometry
+        {
+
+            public CubeGeometry(float w, float h, float d, int p, int p_2, int p_3)
+            {
+
+            }
+
+        }
+
         [Script(HasNoPrototype = true, ExternalTarget = "Torus")]
         class Torus
         {
-            public Torus(int x, int y, int a, int b)
-            {
 
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "Object3D")]
+        class Object3D
+        {
+            public Vector3 position;
+
+            internal void add(Mesh mesh)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -77,6 +113,11 @@ namespace WebGLNyanCat.Design
             {
                 throw new NotImplementedException();
             }
+
+            internal void add(Object3D poptart)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.WebGLRenderer")]
@@ -90,7 +131,7 @@ namespace WebGLNyanCat.Design
                 throw new NotImplementedException();
             }
 
-            internal void render(Scene scene, Camera camera)
+            internal void render(Scene scene, PerspectiveCamera camera)
             {
                 throw new NotImplementedException();
             }
@@ -167,10 +208,23 @@ namespace WebGLNyanCat.Design
 
         }
 
-        [Script(HasNoPrototype = true, ExternalTarget = "THREE.Camera")]
-        class Camera
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.PointLight")]
+        class PointLight
         {
-            public Camera(int x, int y, int a, int b)
+            public PointLight(int value)
+            {
+
+            }
+
+            public Vector3 position;
+            public object color;
+
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.PerspectiveCamera")]
+        class PerspectiveCamera
+        {
+            public PerspectiveCamera(int x, int y, float a, int b)
             {
 
             }
@@ -205,7 +259,7 @@ namespace WebGLNyanCat.Design
         class RenderPass
         {
 
-            public RenderPass(Scene scene, Camera camera)
+            public RenderPass(Scene scene, PerspectiveCamera camera)
             {
             }
 
@@ -223,6 +277,15 @@ namespace WebGLNyanCat.Design
             }
 
 
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.FogExp2")]
+        class FogExp2
+        {
+            public FogExp2(float a, float b)
+            {
+
+            }
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.EffectComposer")]
@@ -274,7 +337,7 @@ namespace WebGLNyanCat.Design
                 throw new NotImplementedException();
             }
         }
-        #endregion
 
     }
+    #endregion
 }
