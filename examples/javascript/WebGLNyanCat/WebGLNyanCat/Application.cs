@@ -92,10 +92,9 @@ namespace WebGLNyanCat
             var frame = 0;
 
             var running = true;
-//            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 
-            #region onDocumentMouseMove
+            #region onmousemove
             Native.Document.onmousemove +=
                 e =>
                 {
@@ -143,34 +142,35 @@ namespace WebGLNyanCat
             Action<THREE.Object3D, int>  buildStar =
                 (star, state) =>
                 {
-                    // JSC switch - how good do we support that yet? :)
-                    // need to test it more!
-
-                    switch (state)
+                    #region  dear JSC, please start supporting switch!
+                    if (state == 0)
                     {
-                        case 0:
                             helper(star, 0, 0, 0, 1, 1, 1, 0xffffff);
-                            break;
-                        case 1:
+                    }
+                    else  if (state == 1)
+                    {
                             helper(star, 1, 0, 0, 1, 1, 1, 0xffffff);
                             helper(star, -1, 0, 0, 1, 1, 1, 0xffffff);
                             helper(star, 0, 1, 0, 1, 1, 1, 0xffffff);
                             helper(star, 0, -1, 0, 1, 1, 1, 0xffffff);
-                            break;
-                        case 2:
+                    }
+                    else  if (state == 2)
+                    {
                             helper(star, 1, 0, 0, 2, 1, 1, 0xffffff);
                             helper(star, -2, 0, 0, 2, 1, 1, 0xffffff);
                             helper(star, 0, 2, 0, 1, 2, 1, 0xffffff);
                             helper(star, 0, -1, 0, 1, 2, 1, 0xffffff);
-                            break;
-                        case 3:
+                    }
+                    else  if (state == 3)
+                    {
                             helper(star, 0, 0, 0, 1, 1, 1, 0xffffff);
                             helper(star, 2, 0, 0, 2, 1, 1, 0xffffff);
                             helper(star, -3, 0, 0, 2, 1, 1, 0xffffff);
                             helper(star, 0, 3, 0, 1, 2, 1, 0xffffff);
                             helper(star, 0, -2, 0, 1, 2, 1, 0xffffff);
-                            break;
-                        case 4:
+                    }
+                    else  if (state == 4)
+                    {
                             helper(star, 0, 3, 0, 1, 1, 1, 0xffffff);
                             helper(star, 2, 2, 0, 1, 1, 1, 0xffffff);
                             helper(star, 3, 0, 0, 1, 1, 1, 0xffffff);
@@ -179,14 +179,15 @@ namespace WebGLNyanCat
                             helper(star, -2, -2, 0, 1, 1, 1, 0xffffff);
                             helper(star, -3, 0, 0, 1, 1, 1, 0xffffff);
                             helper(star, -2, 2, 0, 1, 1, 1, 0xffffff);
-                            break;
-                        case 5:
+                    }
+                    else  if (state == 4)
+                    {
                             helper(star, 2, 0, 0, 1, 1, 1, 0xffffff);
                             helper(star, -2, 0, 0, 1, 1, 1, 0xffffff);
                             helper(star, 0, 2, 0, 1, 1, 1, 0xffffff);
                             helper(star, 0, -2, 0, 1, 1, 1, 0xffffff);
-                            break;
                     }
+                    #endregion
                 };
             #endregion
 
@@ -423,69 +424,86 @@ namespace WebGLNyanCat
                                     stars[0][c].position.y = tempY;
                                     stars[0][c].position.z = tempZ;
                                 }
-                                switch (frame)
-                                {
-                                    case 0://2nd frame
-                                        face.position.x++;
-                                        feet.position.x++;
-                                        break;
-                                    case 1:
-                                        face.position.y--;
-                                        feet.position.x++;
-                                        feet.position.y--;
-                                        poptart.position.y--;
-                                        rainbow.position.x -= 9;
-                                        rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
-                                        break;
-                                    case 2:
+
+#region  dear JSC, please start supporting switch!
+
+                                        if (frame == 0)
+                                        {
+                                            face.position.x++;
+                                            feet.position.x++;
+                                        }
+                                        else  if (frame == 1)
+                                        {
+                                            face.position.y--;
+                                            feet.position.x++;
+                                            feet.position.y--;
+                                            poptart.position.y--;
+                                            rainbow.position.x -= 9;
+                                            rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
+                                        }
+                                    else  if (frame == 2)
+                                        {
                                         feet.position.x--;
-                                        break;
-                                    case 3:
+                                    }
+                                    else  if (frame == 3)
+                                        {
                                         face.position.x--;
                                         feet.position.x--;
                                         rainbow.position.x += 9;
                                         rainChunk.position.x -= (8 * (numRainChunks - 1)) - 1;
-                                        break;
-                                    case 4:
+                                        
+                                    }
+                                    else  if (frame == 4)
+                                        {
                                         face.position.y++;
-                                        break;
-                                    case 5:
+                                    }
+                                    else  if (frame == 5)
+                                        {
                                         poptart.position.y++;
                                         feet.position.y++;
                                         rainbow.position.x -= 9;
                                         rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
-                                        break;
-                                    case 6://8th frame
+                                    }
+                                    else  if (frame == 6)
+                                        {
+
                                         face.position.x++;
                                         feet.position.x++;
-                                        break;
-                                    case 7:
+                                    }
+                                    else  if (frame == 7)
+                                        {
                                         poptart.position.y--;
                                         face.position.y--;
                                         feet.position.x++;
                                         feet.position.y--;
                                         rainbow.position.x += 9;
                                         rainChunk.position.x -= (8 * (numRainChunks - 1)) - 1;
-                                        break;
-                                    case 8:
+                                    }
+                                    else  if (frame == 8)
+                                        {
                                         feet.position.x--;
-                                        break;
-                                    case 9:
+                                    }
+                                    else  if (frame == 9)
+
+                                        {
                                         face.position.x--;
                                         feet.position.x--;
                                         rainbow.position.x -= 9;
                                         rainChunk.position.x += (8 * (numRainChunks - 1)) - 1;
-                                        break;
-                                    case 10:
+                                    }
+                                    else  if (frame == 10)
+                                        {
                                         face.position.y++;
-                                        break;
-                                    case 11://1st frame
+                                    }
+                                    else  if (frame == 11)
+                                        {
                                         poptart.position.y++;
                                         feet.position.y++;
                                         rainbow.position.x += 9;
                                         rainChunk.position.x -= (8 * (numRainChunks - 1)) - 1;
-                                        break;
-                                }
+                                        }
+#endregion
+
                             }
                             camera.position.x += (mouseX - camera.position.x) * .005f;
                             camera.position.y += (-mouseY - camera.position.y) * .005f;
