@@ -121,9 +121,9 @@
     <Content Include="Design\Three.js" />
     <Content Include="Styles\Default.css" />
     <Content Include="Design\Default.htm" />
-      <Compile Include="Design\__Three.cs" >
-          <DependentUpon>Three.js</DependentUpon>
-      </Compile>
+    <Compile Include="Design\__Three.cs">
+      <DependentUpon>Three.js</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -131,13 +131,12 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Documents\jsc-webgl-nyan-cat.pdf" />
-    <None Include="Documents\jsc-webgl-nyan-cat.tex" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+)
+
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
