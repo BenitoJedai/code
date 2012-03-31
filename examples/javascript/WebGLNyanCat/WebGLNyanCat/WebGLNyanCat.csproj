@@ -115,7 +115,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\nyanlooped.mp3" />
+    <Content Include="Audio\nyanslow.mp3" />
     <Content Include="Design\Preview.png" />
+    <Content Include="Design\Three.js" />
     <Content Include="Styles\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,6 +129,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Documents\jsc-webgl-nyan-cat.pdf" />
     <None Include="Documents\jsc-webgl-nyan-cat.tex" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -136,8 +140,8 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /AttachDebugger:true
 
-            </PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
