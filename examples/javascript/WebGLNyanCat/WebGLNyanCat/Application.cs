@@ -58,7 +58,12 @@ namespace WebGLNyanCat
 
         void InitializeContent(IDefaultPage page = null)
         {
-//if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+            #region make sure we atleast have our invisible DOM 
+            if (page == null)
+                page = new HTML.Pages.DefaultPage();
+            #endregion
+
+            //if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 //            var statsEnabled = false, container, stats;
 //            var camera, scene, renderer, poptart, face, feet, tail;
 //            var stars, numStars=10, rainbow, rainChunk, numRainChunks=30;
@@ -70,9 +75,9 @@ namespace WebGLNyanCat
 //            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 //            document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
-//            init();
-//            animate();
-//            function helper(o, x, y, z, w, h, d, c){
+
+            #region helper
+            //            function helper(o, x, y, z, w, h, d, c){
 //                var material = new THREE.MeshLambertMaterial( { color: c} );
 //                var geometry = new THREE.CubeGeometry(w, h, d, 1, 1, 1);
 //                var mesh = new THREE.Mesh( geometry, material );
@@ -80,8 +85,11 @@ namespace WebGLNyanCat
 //                mesh.position.y=y-(h/2);
 //                mesh.position.z=z+(d/2);
 //                o.add( mesh );
-//            }
-//            function init() {
+            //            }
+            #endregion
+
+            #region init
+            //            function init() {
 //                song.setAttribute('src', 'nyanlooped.mp3');
 //                song.setAttribute('loop', 'true');
 //                song2.setAttribute('src', 'nyanslow.mp3');
@@ -258,8 +266,11 @@ namespace WebGLNyanCat
 //                    stats.domElement.style.zIndex = 100;
 //                    container.appendChild( stats.domElement );
 //                }
-//            }
-//            function buildStar(star, state) {
+            //            }
+            #endregion
+
+            #region buildStar
+            //            function buildStar(star, state) {
 //                switch(state){
 //                    case 0:
 //                        helper( star, 0, 0, 0, 1, 1, 1, 0xffffff);
@@ -300,12 +311,18 @@ namespace WebGLNyanCat
 //                        helper( star, 0,-2, 0, 1, 1, 1, 0xffffff);
 //                        break;
 //                }
-//            }
-//            function onDocumentMouseMove(event) {
+            //            }
+            #endregion
+
+            #region onDocumentMouseMove
+            //            function onDocumentMouseMove(event) {
 //                mouseX = ( event.clientX - windowHalfX );
 //                mouseY = ( event.clientY - windowHalfY );
-//            }
-//            function onDocumentMouseDown(event) {
+            //            }
+            #endregion
+
+            #region onDocumentMouseDown
+            //            function onDocumentMouseDown(event) {
 //                running=!running;
 //                if(running){
 //                    song.play();
@@ -314,13 +331,19 @@ namespace WebGLNyanCat
 //                    song.pause();
 //                    song2.play();
 //                }
-//            }
-//            function animate() {
+            //            }
+            #endregion
+
+            #region animate
+            //            function animate() {
 //                requestAnimationFrame( animate );
 //                render();
 //                if ( statsEnabled ) stats.update();
-//            }
-//            function render() {
+            //            }
+            #endregion
+
+            #region render
+            //            function render() {
 //                var delta = clock.getDelta();
 //                if(running) deltaSum+=delta;
 //                if(deltaSum>.07){
@@ -414,7 +437,12 @@ namespace WebGLNyanCat
 //                camera.position.y += ( - mouseY - camera.position.y ) * .005;
 //                camera.lookAt( scene.position );
 //                renderer.render( scene, camera );
-//            }
+            //            }
+            #endregion
+
+
+            //            init();
+            //            animate();
         }
     }
 }
