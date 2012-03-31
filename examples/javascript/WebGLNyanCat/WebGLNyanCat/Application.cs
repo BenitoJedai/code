@@ -25,7 +25,7 @@ namespace WebGLNyanCat
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         // see also: http://dl.dropbox.com/u/6213850/WebGL/nyanCat/nyan.html 
 
@@ -81,15 +81,15 @@ namespace WebGLNyanCat
             container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
             #endregion
 
-            //            var statsEnabled = false, container, stats;
-            //            var camera, scene, renderer, poptart, face, feet, tail;
-            //            var stars, 
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(Native.Window.Width, Native.Window.Height);
+            renderer.domElement.AttachTo(container);
+
             var numStars = 10;
             var numRainChunks = 30;
             var mouseX = 0;
             var mouseY = 0;
-            var windowHalfX = Native.Window.Width / 2;
-            var windowHalfY = Native.Window.Height / 2;
+
             var clock = new THREE.Clock();
             var deltaSum = 0f;
             //tick=0, 
@@ -102,6 +102,12 @@ namespace WebGLNyanCat
             Native.Document.onmousemove +=
                 e =>
                 {
+                    if (IsDisposed)
+                        return;
+
+                    var windowHalfX = Native.Window.Width / 2;
+                    var windowHalfY = Native.Window.Height / 2;
+
                     mouseX = (e.CursorX - windowHalfX);
                     mouseY = (e.CursorY - windowHalfY);
                 };
@@ -112,6 +118,10 @@ namespace WebGLNyanCat
             Native.Document.onmousedown +=
                 e =>
                 {
+                    if (IsDisposed)
+                        return;
+
+
                     running = !running;
                     if (running)
                     {
@@ -201,7 +211,7 @@ namespace WebGLNyanCat
             var stars = new List<List<THREE.Object3D>>();
 
 
-            #region before init
+            #region  init
             var camera = new THREE.PerspectiveCamera(45,
             Native.Window.Width / Native.Window.Height, .1f, 10000);
 
@@ -383,9 +393,9 @@ namespace WebGLNyanCat
             var pointLight = new THREE.PointLight(0xFFFFFF);
             pointLight.position.z = 1000;
             scene.add(pointLight);
-            var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(Native.Window.Width, Native.Window.Height);
-            container.appendChild(renderer.domElement);
+            
+    
+
             #endregion
 
 
@@ -514,7 +524,6 @@ namespace WebGLNyanCat
             #endregion
 
             #region IsDisposed
-            var IsDisposed = false;
 
             Dispose = delegate
             {
@@ -526,7 +535,7 @@ namespace WebGLNyanCat
                 page.song.pause();
                 page.song2.pause();
 
-                renderer.domElement.Orphanize();
+                container.Orphanize();
             };
             #endregion
 
@@ -584,6 +593,8 @@ namespace WebGLNyanCat
 
 
         }
+
+        bool IsDisposed = false;
 
         public Action Dispose;
 
