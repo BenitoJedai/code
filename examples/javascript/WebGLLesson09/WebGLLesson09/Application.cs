@@ -117,7 +117,7 @@ namespace WebGLLesson09
             #endregion
 
 
-
+            #region init shaders
             var vs = createShader(new Shaders.GeometryVertexShader());
             var fs = createShader(new Shaders.GeometryFragmentShader());
 
@@ -153,6 +153,7 @@ namespace WebGLLesson09
             var shaderProgram_samplerUniform = getUniformLocation("uSampler");
             var shaderProgram_Color = getUniformLocation("uColor");
 
+            #endregion
 
 
 
@@ -220,223 +221,111 @@ namespace WebGLLesson09
 
             #endregion
 
+            var zoom = -15f;
 
-            //var zoom = -15;
-
-
-            //var tilt = 90;
+            var tilt = 90f;
             //var spin = 0;
 
 
-            //function handleKeys() {
-            //    if (currentlyPressedKeys[33]) {
-            //        // Page Up
-            //        zoom -= 0.1;
-            //    }
-            //    if (currentlyPressedKeys[34]) {
-            //        // Page Down
-            //        zoom += 0.1;
-            //    }
-            //    if (currentlyPressedKeys[38]) {
-            //        // Up cursor key
-            //        tilt += 2;
-            //    }
-            //    if (currentlyPressedKeys[40]) {
-            //        // Down cursor key
-            //        tilt -= 2;
-            //    }
-            //}
+            #region handleKeys
+            Action handleKeys =
+                delegate
+                {
+                    if (currentlyPressedKeys[33])
+                    {
+                        // Page Up
+                        zoom -= 0.1f;
+                    }
+                    if (currentlyPressedKeys[34])
+                    {
+                        // Page Down
+                        zoom += 0.1f;
+                    }
+                    if (currentlyPressedKeys[38])
+                    {
+                        // Up cursor key
+                        tilt += 2;
+                    }
+                    if (currentlyPressedKeys[40])
+                    {
+                        // Down cursor key
+                        tilt -= 2;
+                    }
+                };
+            #endregion
+
+            #region initBuffers
+            var starVertexPositionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
+            var vertices = new f[]{
+                    -1.0f, -1.0f,  0.0f,
+                     1.0f, -1.0f,  0.0f,
+                    -1.0f,  1.0f,  0.0f,
+                     1.0f,  1.0f,  0.0f
+                };
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+            var starVertexPositionBuffer_itemSize = 3;
+            var starVertexPositionBuffer_numItems = 4;
+
+            var starVertexTextureCoordBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
+            var textureCoords = new f[]{
+                    0.0f, 0.0f,
+                    1.0f, 0.0f,
+                    0.0f, 1.0f,
+                    1.0f, 1.0f
+                };
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+            var starVertexTextureCoordBuffer_itemSize = 2;
+            var starVertexTextureCoordBuffer_numItems = 4;
+            #endregion
 
 
-            //var starVertexPositionBuffer;
-            //var starVertexTextureCoordBuffer;
+            #region initWorldObjects
+            var stars = new List<Star>();
+            var numStars = 50f;
 
-            //function initBuffers() {
-            //    starVertexPositionBuffer = gl.createBuffer();
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
-            //    vertices = [
-            //        -1.0, -1.0,  0.0,
-            //         1.0, -1.0,  0.0,
-            //        -1.0,  1.0,  0.0,
-            //         1.0,  1.0,  0.0
-            //    ];
-            //    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-            //    starVertexPositionBuffer.itemSize = 3;
-            //    starVertexPositionBuffer.numItems = 4;
-
-            //    starVertexTextureCoordBuffer = gl.createBuffer();
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
-            //    var textureCoords = [
-            //        0.0, 0.0,
-            //        1.0, 0.0,
-            //        0.0, 1.0,
-            //        1.0, 1.0
-            //    ];
-            //    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
-            //    starVertexTextureCoordBuffer.itemSize = 2;
-            //    starVertexTextureCoordBuffer.numItems = 4;
-            //}
-
-
-            //function drawStar() {
-            //    gl.activeTexture(gl.TEXTURE0);
-            //    gl.bindTexture(gl.TEXTURE_2D, starTexture);
-            //    gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
-            //    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, starVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
-            //    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, starVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            //    setMatrixUniforms();
-            //    gl.drawArrays(gl.TRIANGLE_STRIP, 0, starVertexPositionBuffer.numItems);
-            //}
-
-
-
-            //function Star(startingDistance, rotationSpeed) {
-            //    this.angle = 0;
-            //    this.dist = startingDistance;
-            //    this.rotationSpeed = rotationSpeed;
-
-            //    // Set the colors to a starting value.
-            //    this.randomiseColors();
-            //}
-
-            //Star.prototype.draw = function (tilt, spin, twinkle) {
-            //    mvPushMatrix();
-
-            //    // Move to the star's position
-            //    mat4.rotate(mvMatrix, degToRad(this.angle), [0.0, 1.0, 0.0]);
-            //    mat4.translate(mvMatrix, [this.dist, 0.0, 0.0]);
-
-            //    // Rotate back so that the star is facing the viewer
-            //    mat4.rotate(mvMatrix, degToRad(-this.angle), [0.0, 1.0, 0.0]);
-            //    mat4.rotate(mvMatrix, degToRad(-tilt), [1.0, 0.0, 0.0]);
-
-            //    if (twinkle) {
-            //        // Draw a non-rotating star in the alternate "twinkling" color
-            //        gl.uniform3f(shaderProgram.colorUniform, this.twinkleR, this.twinkleG, this.twinkleB);
-            //        drawStar();
-            //    }
-
-            //    // All stars spin around the Z axis at the same rate
-            //    mat4.rotate(mvMatrix, degToRad(spin), [0.0, 0.0, 1.0]);
-
-            //    // Draw the star in its main color
-            //    gl.uniform3f(shaderProgram.colorUniform, this.r, this.g, this.b);
-            //    drawStar()
-
-            //    mvPopMatrix();
-            //};
-
-
-            //var effectiveFPMS = 60 / 1000;
-            //Star.prototype.animate = function (elapsedTime) {
-            //    this.angle += this.rotationSpeed * effectiveFPMS * elapsedTime;
-
-            //    // Decrease the distance, resetting the star to the outside of
-            //    // the spiral if it's at the center.
-            //    this.dist -= 0.01 * effectiveFPMS * elapsedTime;
-            //    if (this.dist < 0.0) {
-            //        this.dist += 5.0;
-            //        this.randomiseColors();
-            //    }
-
-            //};
-
-
-            //Star.prototype.randomiseColors = function () {
-            //    // Give the star a random color for normal
-            //    // circumstances...
-            //    this.r = Math.random();
-            //    this.g = Math.random();
-            //    this.b = Math.random();
-
-            //    // When the star is twinkling, we draw it twice, once
-            //    // in the color below (not spinning) and then once in the
-            //    // main color defined above.
-            //    this.twinkleR = Math.random();
-            //    this.twinkleG = Math.random();
-            //    this.twinkleB = Math.random();
-            //};
+            for (var i = 0; i < numStars; i++)
+            {
+                stars.Add(new Star((i / numStars) * 5.0f, i / numStars));
+            }
+            #endregion
 
 
 
-            //var stars = [];
-
-            //function initWorldObjects() {
-            //    var numStars = 50;
-
-            //    for (var i=0; i < numStars; i++) {
-            //        stars.push(new Star((i / numStars) * 5.0, i / numStars));
-            //    }
-            //}
 
 
-            //function drawScene() {
-            //    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-            //    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+            #region animate
+            var lastTime = 0L;
 
-            //    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+            Action animate = () =>
+            {
+                var timeNow = new IDate().getTime();
+                if (lastTime != 0)
+                {
+                    var elapsed = timeNow - lastTime;
 
-            //    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-            //    gl.enable(gl.BLEND);
+                    foreach (var star in stars)
+                    {
+                        star.animate(elapsed);
+                    }
+                }
+                lastTime = timeNow;
 
-            //    mat4.identity(mvMatrix);
-            //    mat4.translate(mvMatrix, [0.0, 0.0, zoom]);
-            //    mat4.rotate(mvMatrix, degToRad(tilt), [1.0, 0.0, 0.0]);
-
-            //    var twinkle = document.getElementById("twinkle").checked;
-            //    for (var i in stars) {
-            //        stars[i].draw(tilt, spin, twinkle);
-            //        spin += 0.1;
-            //    }
-
-            //}
-
-
-            //var lastTime = 0;
-
-            //function animate() {
-            //    var timeNow = new Date().getTime();
-            //    if (lastTime != 0) {
-            //        var elapsed = timeNow - lastTime;
-
-            //        for (var i in stars) {
-            //            stars[i].animate(elapsed);
-            //        }
-            //    }
-            //    lastTime = timeNow;
-
-            //}
-
-
-            //function tick() {
-            //    requestAnimFrame(tick);
-            //    handleKeys();
-            //    drawScene();
-            //    animate();
-            //}
+            };
+            #endregion
 
 
 
-            //function webGLStart() {
-            //    var canvas = document.getElementById("lesson09-canvas");
-            //    initGL(canvas);
-            //    initShaders();
-            //    initBuffers();
-            //    initTexture();
-            //    initWorldObjects();
 
-            //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
             //    document.onkeydown = handleKeyDown;
             //    document.onkeyup = handleKeyUp;
 
-            //    tick();
-            //}
+
+
+
 
             new HTML.Images.FromAssets.star().InvokeOnComplete(
                texture_image =>
@@ -453,10 +342,143 @@ namespace WebGLLesson09
                    gl.bindTexture(gl.TEXTURE_2D, null);
                    #endregion
 
+                   #region drawStar
+                   Action drawStar = () =>
+                   {
+                       gl.activeTexture(gl.TEXTURE0);
+                       gl.bindTexture(gl.TEXTURE_2D, starTexture);
+                       gl.uniform1i(shaderProgram_samplerUniform, 0);
 
+                       gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
+                       gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, starVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
+                       gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
+                       gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, starVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                       setMatrixUniforms();
+                       gl.drawArrays(gl.TRIANGLE_STRIP, 0, starVertexPositionBuffer_numItems);
+                   };
+                   #endregion
+
+                   #region drawScene
+                   Action drawScene = delegate
+                   {
+                       gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+                       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+                       __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+
+                       gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+                       gl.enable(gl.BLEND);
+
+                       __glMatrix.mat4.identity(mvMatrix);
+                       __glMatrix.mat4.translate(mvMatrix, 0.0f, 0.0f, zoom);
+                       __glMatrix.mat4.rotate(mvMatrix, degToRad(tilt), 1.0f, 0.0f, 0.0f);
+
+                       //var twinkle = document.getElementById("twinkle").checked;
+                       //for (var i in stars) {
+                       //    stars[i].draw(tilt, spin, twinkle);
+                       //    spin += 0.1;
+                       //}
+
+                   };
+                   #endregion
+
+                   #region tick
+                   Action tick = null;
+
+                   tick = () =>
+                   {
+                       handleKeys();
+                       drawScene();
+                       animate();
+
+                       Native.Window.requestAnimationFrame += tick;
+                   };
+
+                   tick();
+                   #endregion
                }
             );
         }
     }
+
+    public class Star
+    {
+        public Star(f startingDistance, f rotationSpeed)
+        {
+
+        }
+
+        //function Star(startingDistance, rotationSpeed) {
+        //    this.angle = 0;
+        //    this.dist = startingDistance;
+        //    this.rotationSpeed = rotationSpeed;
+
+        //    // Set the colors to a starting value.
+        //    this.randomiseColors();
+        //}
+
+        //Star.prototype.draw = function (tilt, spin, twinkle) {
+        //    mvPushMatrix();
+
+        //    // Move to the star's position
+        //    mat4.rotate(mvMatrix, degToRad(this.angle), [0.0, 1.0, 0.0]);
+        //    mat4.translate(mvMatrix, [this.dist, 0.0, 0.0]);
+
+        //    // Rotate back so that the star is facing the viewer
+        //    mat4.rotate(mvMatrix, degToRad(-this.angle), [0.0, 1.0, 0.0]);
+        //    mat4.rotate(mvMatrix, degToRad(-tilt), [1.0, 0.0, 0.0]);
+
+        //    if (twinkle) {
+        //        // Draw a non-rotating star in the alternate "twinkling" color
+        //        gl.uniform3f(shaderProgram.colorUniform, this.twinkleR, this.twinkleG, this.twinkleB);
+        //        drawStar();
+        //    }
+
+        //    // All stars spin around the Z axis at the same rate
+        //    mat4.rotate(mvMatrix, degToRad(spin), [0.0, 0.0, 1.0]);
+
+        //    // Draw the star in its main color
+        //    gl.uniform3f(shaderProgram.colorUniform, this.r, this.g, this.b);
+        //    drawStar()
+
+        //    mvPopMatrix();
+        //};
+
+
+        //var effectiveFPMS = 60 / 1000;
+
+        public void animate(long elapsedTime)
+        {
+            //    this.angle += this.rotationSpeed * effectiveFPMS * elapsedTime;
+
+            //    // Decrease the distance, resetting the star to the outside of
+            //    // the spiral if it's at the center.
+            //    this.dist -= 0.01 * effectiveFPMS * elapsedTime;
+            //    if (this.dist < 0.0) {
+            //        this.dist += 5.0;
+            //        this.randomiseColors();
+            //    }
+
+        }
+
+
+        //Star.prototype.randomiseColors = function () {
+        //    // Give the star a random color for normal
+        //    // circumstances...
+        //    this.r = Math.random();
+        //    this.g = Math.random();
+        //    this.b = Math.random();
+
+        //    // When the star is twinkling, we draw it twice, once
+        //    // in the color below (not spinning) and then once in the
+        //    // main color defined above.
+        //    this.twinkleR = Math.random();
+        //    this.twinkleG = Math.random();
+        //    this.twinkleB = Math.random();
+        //};
+    }
+
+
 }

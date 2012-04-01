@@ -68,7 +68,7 @@ namespace WebGLLesson09.Design
             throw new NotImplementedException();
         }
 
-        public void translate(Float32Array mvMatrix, float[] p)
+        public void translate(Float32Array mvMatrix, params float[] p)
         {
             throw new NotImplementedException();
         }
@@ -90,7 +90,7 @@ namespace WebGLLesson09.Design
             throw new NotImplementedException();
         }
 
-        internal void rotate(Float32Array mvMatrix, float p, float[] p_2)
+        internal void rotate(Float32Array mvMatrix, float p, params float[] p_2)
         {
             throw new NotImplementedException();
         }
