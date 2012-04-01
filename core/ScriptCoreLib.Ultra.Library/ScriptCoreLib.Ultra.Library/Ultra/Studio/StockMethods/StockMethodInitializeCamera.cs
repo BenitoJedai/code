@@ -23,8 +23,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
             var camera_setMode =new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Camera.setMode().ToCallExpression(
                   camera,
-                (PseudoInt32ConstantExpression)500,
-                (PseudoInt32ConstantExpression)400,
+                        (PseudoInt32ConstantExpression)ScriptApplicationEntryPointAttribute.DefaultWidth,
+                        (PseudoInt32ConstantExpression)ScriptApplicationEntryPointAttribute.DefaultHeight,
                 (PseudoInt32ConstantExpression)(1000 / 24)
             );
 

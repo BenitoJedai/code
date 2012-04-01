@@ -70,10 +70,10 @@ namespace ScriptCoreLib.Ultra.Studio
             this.ApplicationType = new SolutionProjectLanguageType
             {
                 IsSealed = true,
-                IsInternal = true,
+                //IsInternal = true,
 
                 Name = "Application",
-                Summary = "This type will run as JavaScript.",
+                Summary = "Your client side code running inside a web browser as JavaScript.",
 
             };
 

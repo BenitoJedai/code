@@ -76,7 +76,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public static SolutionBuilder WithJavaApplet(this SolutionBuilder that)
         {
-            Func<StockAppletType> GetType = () => new StockAppletType(that.Name + ".Components", "MyApplet1");
+            Func<StockAppletType> GetType = () => new StockAppletType(that.Name , "ApplicationApplet");
 
             that.Interactive.GenerateTypes +=
                 AddType =>
