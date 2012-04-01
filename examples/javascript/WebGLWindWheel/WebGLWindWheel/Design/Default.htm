@@ -3,25 +3,18 @@
     <title>DefaultPage</title>
 </head>
 <body>
+    <img style='float: right;' src='Images/Preview.png' />
+
     <div id='PageContainer'>
         <!-- images not yet included to project file should be included by jsc instead of crashing :) -->
-        <img src='Images/windwheel.png' />
         <p>
             Please wait, while the shader program is being prepared...</p>
     </div>
-    <div id='Mission'>
-        <pre>
-1)	Using quadratics make the modelling of a Wind Wheel 
-2)	Implement in OpenGL 
-3)	Use linked hierarchy model 
-4)	Each wheel to be divided at least in 4 parts 
-5)	Each of the 3 wheels run with difference of speedy related to its size 
-6)	Wind can turn the base of the wheels 
-    <button id='WindLeft'>to the left</button> or  <button id='WindRight'>to the right</button>
-7)	Interactive: when user press key 
-    <button id='SpeedSlow'>1: slow motion</button>,  2: faster,  <button id='SpeedFast'>3: hurricane really fast</button>  
-        </pre>
-        <img src='Images/x33333.jpg' />
+    <div id='Mission' style='color: white;'>
+        <button id='WindLeft'>turn to the left</button>
+        <button id='WindRight'>turn to the right</button>
+        <button id='SpeedSlow'>slow motion</button>
+        <button id='SpeedFast'>fast</button>
     </div>
     <!-- .webm shall be HTML5Video element -->
 </body>

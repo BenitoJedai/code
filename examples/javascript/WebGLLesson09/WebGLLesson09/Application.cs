@@ -24,13 +24,16 @@ namespace WebGLLesson09
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         // based on http://learningwebgl.com/lessons/lesson09/index.html
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
         public readonly DefaultStyle style = new DefaultStyle();
+
+        public Action Dispose;
+
 
         /// <summary>
         /// This is a javascript application.
@@ -65,6 +68,8 @@ namespace WebGLLesson09
 
         void InitializeContent(IDefaultPage page = null)
         {
+
+           
             var gl_viewportWidth = Native.Window.Width;
             var gl_viewportHeight = Native.Window.Height;
 
@@ -97,6 +102,37 @@ namespace WebGLLesson09
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
+
 
 
             #region createShader
@@ -147,11 +183,10 @@ namespace WebGLLesson09
             Func<string, WebGLUniformLocation> getUniformLocation =
                 name => gl.getUniformLocation(shaderProgram, name);
             #endregion
-
             var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
             var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
             var shaderProgram_samplerUniform = getUniformLocation("uSampler");
-            var shaderProgram_Color = getUniformLocation("uColor");
+            var shaderProgram_colorUniform = getUniformLocation("uColor");
 
             #endregion
 
@@ -224,7 +259,7 @@ namespace WebGLLesson09
             var zoom = -15f;
 
             var tilt = 90f;
-            //var spin = 0;
+            var spin = 0f;
 
 
             #region handleKeys
@@ -320,10 +355,28 @@ namespace WebGLLesson09
 
             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-            //    document.onkeydown = handleKeyDown;
-            //    document.onkeyup = handleKeyUp;
 
 
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
 
 
 
@@ -376,10 +429,25 @@ namespace WebGLLesson09
                        __glMatrix.mat4.rotate(mvMatrix, degToRad(tilt), 1.0f, 0.0f, 0.0f);
 
                        //var twinkle = document.getElementById("twinkle").checked;
-                       //for (var i in stars) {
-                       //    stars[i].draw(tilt, spin, twinkle);
-                       //    spin += 0.1;
-                       //}
+                       var twinkle = false;
+
+                       foreach (var star in stars)
+                       {
+                           star.draw(
+                               tilt,
+                               spin,
+                               twinkle,
+                               mvPushMatrix,
+                               mvPopMatrix,
+                               mvMatrix,
+                               drawStar,
+                               shaderProgram_colorUniform,
+                               gl
+
+
+                               );
+                           spin += 0.1f;
+                       }
 
                    };
                    #endregion
@@ -389,6 +457,9 @@ namespace WebGLLesson09
 
                    tick = () =>
                    {
+                       if (IsDisposed)
+                           return;
+
                        handleKeys();
                        drawScene();
                        animate();
@@ -403,81 +474,103 @@ namespace WebGLLesson09
         }
     }
 
-    public class Star
+    public sealed class Star
     {
+        private f angle;
+        private f dist;
+        private f rotationSpeed;
+        private f r;
+        private f g;
+        private f b;
+        private f twinkleR;
+        private f twinkleG;
+        private f twinkleB;
+
         public Star(f startingDistance, f rotationSpeed)
         {
+            this.angle = 0;
+            this.dist = startingDistance;
+            this.rotationSpeed = rotationSpeed;
 
+            //    // Set the colors to a starting value.
+            this.randomiseColors();
         }
 
-        //function Star(startingDistance, rotationSpeed) {
-        //    this.angle = 0;
-        //    this.dist = startingDistance;
-        //    this.rotationSpeed = rotationSpeed;
+        public void randomiseColors()
+        {
+            var r = new Random();
+            Func<float> Math_random = () => (float)r.NextDouble();
 
-        //    // Set the colors to a starting value.
-        //    this.randomiseColors();
-        //}
+            // Give the star a random color for normal
+            // circumstances...
+            this.r = Math_random();
+            this.g = Math_random();
+            this.b = Math_random();
 
-        //Star.prototype.draw = function (tilt, spin, twinkle) {
-        //    mvPushMatrix();
-
-        //    // Move to the star's position
-        //    mat4.rotate(mvMatrix, degToRad(this.angle), [0.0, 1.0, 0.0]);
-        //    mat4.translate(mvMatrix, [this.dist, 0.0, 0.0]);
-
-        //    // Rotate back so that the star is facing the viewer
-        //    mat4.rotate(mvMatrix, degToRad(-this.angle), [0.0, 1.0, 0.0]);
-        //    mat4.rotate(mvMatrix, degToRad(-tilt), [1.0, 0.0, 0.0]);
-
-        //    if (twinkle) {
-        //        // Draw a non-rotating star in the alternate "twinkling" color
-        //        gl.uniform3f(shaderProgram.colorUniform, this.twinkleR, this.twinkleG, this.twinkleB);
-        //        drawStar();
-        //    }
-
-        //    // All stars spin around the Z axis at the same rate
-        //    mat4.rotate(mvMatrix, degToRad(spin), [0.0, 0.0, 1.0]);
-
-        //    // Draw the star in its main color
-        //    gl.uniform3f(shaderProgram.colorUniform, this.r, this.g, this.b);
-        //    drawStar()
-
-        //    mvPopMatrix();
-        //};
+            // When the star is twinkling, we draw it twice, once
+            // in the color below (not spinning) and then once in the
+            // main color defined above.
+            this.twinkleR = Math_random();
+            this.twinkleG = Math_random();
+            this.twinkleB = Math_random();
+        }
 
 
-        //var effectiveFPMS = 60 / 1000;
+        public void draw(f tilt, f spin, bool twinkle, Action mvPushMatrix, Action mvPopMatrix, Float32Array mvMatrix, Action drawStar, WebGLUniformLocation shaderProgram_colorUniform, WebGLRenderingContext gl)
+        {
+            #region degToRad
+            Func<float, float> degToRad = (degrees) =>
+            {
+                return degrees * (f)Math.PI / 180f;
+            };
+            #endregion
+
+            mvPushMatrix();
+
+            // Move to the star's position
+            __glMatrix.mat4.rotate(mvMatrix, degToRad(this.angle), 0.0f, 1.0f, 0.0f);
+            __glMatrix.mat4.translate(mvMatrix, this.dist, 0.0f, 0.0f);
+
+            // Rotate back so that the star is facing the viewer
+            __glMatrix.mat4.rotate(mvMatrix, degToRad(-this.angle), 0.0f, 1.0f, 0.0f);
+            __glMatrix.mat4.rotate(mvMatrix, degToRad(-tilt), 1.0f, 0.0f, 0.0f);
+
+            //if (twinkle) {
+            //    // Draw a non-rotating star in the alternate "twinkling" color
+            //    gl.uniform3f(shaderProgram_colorUniform, this.twinkleR, this.twinkleG, this.twinkleB);
+            //    drawStar();
+            //}
+
+            // All stars spin around the Z axis at the same rate
+            __glMatrix.mat4.rotate(mvMatrix, degToRad(spin), 0.0f, 0.0f, 1.0f);
+
+            // Draw the star in its main color
+            gl.uniform3f(shaderProgram_colorUniform, this.r, this.g, this.b);
+            drawStar();
+
+            mvPopMatrix();
+        }
+
+
+        const f effectiveFPMS = 60f / 1000f;
 
         public void animate(long elapsedTime)
         {
-            //    this.angle += this.rotationSpeed * effectiveFPMS * elapsedTime;
+            this.angle += this.rotationSpeed * effectiveFPMS * elapsedTime;
 
-            //    // Decrease the distance, resetting the star to the outside of
-            //    // the spiral if it's at the center.
-            //    this.dist -= 0.01 * effectiveFPMS * elapsedTime;
-            //    if (this.dist < 0.0) {
-            //        this.dist += 5.0;
-            //        this.randomiseColors();
-            //    }
+            // Decrease the distance, resetting the star to the outside of
+            // the spiral if it's at the center.
+            this.dist -= 0.01f * effectiveFPMS * elapsedTime;
+            if (this.dist < 0.0f)
+            {
+                this.dist += 5.0f;
+                this.randomiseColors();
+            }
 
         }
 
 
-        //Star.prototype.randomiseColors = function () {
-        //    // Give the star a random color for normal
-        //    // circumstances...
-        //    this.r = Math.random();
-        //    this.g = Math.random();
-        //    this.b = Math.random();
 
-        //    // When the star is twinkling, we draw it twice, once
-        //    // in the color below (not spinning) and then once in the
-        //    // main color defined above.
-        //    this.twinkleR = Math.random();
-        //    this.twinkleG = Math.random();
-        //    this.twinkleB = Math.random();
-        //};
     }
 
 
