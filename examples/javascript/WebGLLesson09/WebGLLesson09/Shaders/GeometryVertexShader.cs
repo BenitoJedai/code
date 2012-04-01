@@ -13,43 +13,20 @@ namespace WebGLLesson08.Shaders
         [attribute]
         vec3 aVertexPosition;
         [attribute]
-        vec3 aVertexNormal;
-        [attribute]
         vec2 aTextureCoord;
+
         [uniform]
         mat4 uMVMatrix;
         [uniform]
         mat4 uPMatrix;
-        [uniform]
-        mat3 uNMatrix;
-        [uniform]
-        vec3 uAmbientColor;
-        [uniform]
-        vec3 uLightingDirection;
-        [uniform]
-        vec3 uDirectionalColor;
-        [uniform]
-        bool uUseLighting;
+
         [varying]
         vec2 vTextureCoord;
-        [varying]
-        vec3 vLightWeighting;
 
         void main()
         {
             gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0f);
             vTextureCoord = aTextureCoord;
-
-            if (!uUseLighting)
-            {
-                vLightWeighting = vec3(1.0f, 1.0f, 1.0f);
-            }
-            else
-            {
-                vec3 transformedNormal = uNMatrix * aVertexNormal;
-                float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0f);
-                vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
-            }
         }
     }
 }

@@ -133,6 +133,7 @@
     <Content Include="Design\3D_car_configurator_using_Stage3D_and_WebGL_created_in_CopperCube_-_Google_Chrome-2012-03-31_22..png" />
     <Content Include="Design\3D_Nyan_Cat!!!!_-_Google_Chrome-2012-02-26_22.40.57.png" />
     <Content Include="Design\3D_Reconstruction_-_Google_Chrome-2012-03-30_22.01.08.png" />
+    <Content Include="Design\3D_Viewer_Advanced_Crew_Escape_Suit_%28ACES%29_-_Google_Chrome-2012-04-01_09.57.45.png" />
     <Content Include="Design\65fps_-_Google_Chrome-2012-02-26_21.33.33.png" />
     <Content Include="Design\aleksandarrodic.compnyc_-_Google_Chrome-2012-03-25_18.40.04.png" />
     <Content Include="Design\Anisotropic_Filtering_-_Google_Chrome-2012-03-25_18.41.53.png" />
@@ -161,6 +162,7 @@
     <Content Include="Design\Cuboctahedron_-_Google_Chrome-2012-02-26_21.49.24.png" />
     <Content Include="Design\Custom_Environment_Map_-_Google_Chrome-2012-03-25_17.48.21.png" />
     <Content Include="Design\Cycleblob_-_A_WebGL_lightcycle_game_-_Google_Chrome-2012-02-26_20.22.38.png" />
+    <Content Include="Design\DeathPaint_beta_-_Google_Chrome-2012-04-01_10.02.06.png" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
