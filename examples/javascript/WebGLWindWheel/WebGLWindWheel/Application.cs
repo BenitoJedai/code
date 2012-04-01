@@ -12,22 +12,23 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLWindWheel.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLWindWheel.Shaders;
+using WebGLWindWheel.Library;
+using System.Collections.Generic;
 
 namespace WebGLWindWheel
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLWindWheel.Shaders;
-    using WebGLWindWheel.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
          * 
@@ -42,7 +43,7 @@ namespace WebGLWindWheel
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region __glMatrix -> InitializeContent
             new __glMatrix().Content.With(
@@ -51,8 +52,6 @@ namespace WebGLWindWheel
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 
@@ -70,10 +69,8 @@ namespace WebGLWindWheel
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
-
             var size = 600;
 
             #region canvas
@@ -241,36 +238,39 @@ namespace WebGLWindWheel
 
             var squareVertexColorBuffer = gl.createBuffer();
             gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+
+            // 216, 191, 18
             var colors = new[]{
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
-                1.0f, 0.0f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
+                1.0f, 0.6f, 0.0f, 1.0f, // Front face
 
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
-                1.0f, 1.0f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
+                0.8f, 0.4f, 0.0f, 1.0f, // Back face
 
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
-                0.0f, 1.0f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
+                0.9f, 0.5f, 0.0f, 1.0f, // Top face
 
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
-                1.0f, 0.5f, 0.5f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
+                1.0f, 0.5f, 0.0f, 1.0f, // Bottom face
 
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
-                1.0f, 0.0f, 1.0f, 1.0f, // Right face
+                
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
+                1.0f, 0.8f, 0.0f, 1.0f, // Right face
 
-                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
-                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
-                0.0f, 0.0f, 1.0f, 1.0f,  // Left face
-                0.0f, 0.0f, 1.0f, 1.0f  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f,  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f,  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f,  // Left face
+                1.0f, 0.8f, 0.0f, 1.0f  // Left face
             };
 
 
@@ -301,65 +301,70 @@ namespace WebGLWindWheel
 
 
 
-            gl.clearColor(0.0f, 0.0f, 0.0f, alpha: 0.6f);
+            gl.clearColor(0.0f, 0.0f, 0.0f, alpha: 0.9f);
             gl.enable(gl.DEPTH_TEST);
 
 
             var rWindDelta = 0.0f;
             var rCubeDelta = 1.0f;
 
-            #region WindLeft
-            page.WindLeft.onmousedown +=
-                delegate
-                {
-                    rWindDelta = -2.0f;
-                };
-            page.WindLeft.onmouseup +=
-             delegate
-             {
-                 rWindDelta = 0.0f;
-             };
-            #endregion
+            if (page != null)
+            {
 
-            #region WindRight
-            page.WindRight.onmousedown +=
-                delegate
-                {
-                    rWindDelta = 2.0f;
-                };
-            page.WindRight.onmouseup +=
-             delegate
-             {
-                 rWindDelta = 0.0f;
-             };
-            #endregion
+                #region WindLeft
+                page.WindLeft.onmousedown +=
+                    delegate
+                    {
+                        rWindDelta = -2.0f;
+                    };
+                page.WindLeft.onmouseup +=
+                 delegate
+                 {
+                     rWindDelta = 0.0f;
+                 };
+                #endregion
+
+                #region WindRight
+                page.WindRight.onmousedown +=
+                    delegate
+                    {
+                        rWindDelta = 2.0f;
+                    };
+                page.WindRight.onmouseup +=
+                 delegate
+                 {
+                     rWindDelta = 0.0f;
+                 };
+                #endregion
 
 
-            #region SpeedSlow
-            page.SpeedSlow.onmousedown +=
-                delegate
-                {
-                    rCubeDelta = 0.1f;
-                };
-            page.SpeedSlow.onmouseup +=
-             delegate
-             {
-                 rCubeDelta = 1.0f;
-             };
-            #endregion
+                #region SpeedSlow
+                page.SpeedSlow.onmousedown +=
+                    delegate
+                    {
+                        rCubeDelta = 0.1f;
+                    };
+                page.SpeedSlow.onmouseup +=
+                 delegate
+                 {
+                     rCubeDelta = 1.0f;
+                 };
+                #endregion
 
-            #region SpeedFast
-            page.SpeedFast.onmousedown +=
-              delegate
-              {
-                  rCubeDelta = 4.0f;
-              };
-            page.SpeedFast.onmouseup +=
-             delegate
-             {
-                 rCubeDelta = 1.0f;
-             };
-            #endregion
+                #region SpeedFast
+                page.SpeedFast.onmousedown +=
+                  delegate
+                  {
+                      rCubeDelta = 4.0f;
+                  };
+                page.SpeedFast.onmouseup +=
+                 delegate
+                 {
+                     rCubeDelta = 1.0f;
+                 };
+                #endregion
+            }
+
 
             #region animate
             var rCube = 0f;
@@ -380,10 +385,13 @@ namespace WebGLWindWheel
             };
             #endregion
 
+            #region degToRad
             Func<float, float> degToRad = (degrees) =>
             {
                 return degrees * (f)Math.PI / 180f;
             };
+            #endregion
+
 
             #region drawScene
             Action drawScene = delegate
@@ -548,16 +556,71 @@ namespace WebGLWindWheel
             drawScene();
             #endregion
 
-       
+
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
+
 
 
             var c = 0;
 
-            #region tick - new in lesson 03
+            #region tick
             var tick = default(Action);
 
             tick = delegate
             {
+                if (IsDisposed)
+                    return;
+
                 c++;
 
                 Native.Document.title = "" + c;
@@ -571,9 +634,11 @@ namespace WebGLWindWheel
             tick();
             #endregion
 
-
-            page.Mission.Orphanize().AttachToDocument().style.SetLocation(left: size - 56, top: 16);
+            if (page != null)
+                page.Mission.Orphanize().AttachToDocument().style.SetLocation(left: size - 56, top: 16);
         }
+
+        public Action Dispose;
 
     }
 

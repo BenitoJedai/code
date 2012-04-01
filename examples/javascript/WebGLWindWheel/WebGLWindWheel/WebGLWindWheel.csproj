@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -115,14 +116,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLWindWheel.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLWindWheel\bin\staging.UltraSource\WebGLWindWheel.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLWindWheel.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLWindWheel\bin\staging.AssetsLibrary\WebGLWindWheel.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLWindWheel.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLWindWheel.UltraSource.dll</HintPath>
     </Reference>
     <Reference Include="WebGLWindWheel.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLWindWheel.AssetsLibrary.dll</HintPath>
@@ -136,12 +131,10 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\glMatrix.cs" >
+    <Compile Include="Library\glMatrix.cs">
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
-    
-    <Content Include="Design\Images\x33333.jpg" />
-    <Content Include="Design\Images\windwheel.png" />
+    <Content Include="Design\Images\Preview.png" />
     <Content Include="Library\glMatrix.js" />
   </ItemGroup>
   <ItemGroup>
@@ -152,21 +145,14 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
 )
 if $(ConfigurationName)==Release (
 c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
 )</PostBuildEvent>
-    <PreBuildEvent>start /WAIT /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true /DisableWorkerDomain
+    <PreBuildEvent>
 
-
-set jsc=C:\util\jsc\bin\jsc.meta.exe
-if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
-
-
-start /MAX /WAIT %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
-
-
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
 </PreBuildEvent>
   </PropertyGroup>
