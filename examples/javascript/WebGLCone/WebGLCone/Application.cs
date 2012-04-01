@@ -12,23 +12,24 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLCone.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLCone.Shaders;
+using WebGLCone.Library;
+using System.Collections.Generic;
+using WebGLSimpleCubic.Library;
 
 namespace WebGLCone
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLCone.Shaders;
-    using WebGLCone.Library;
-    using System.Collections.Generic;
-    using WebGLSimpleCubic.Library;
+
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* Source: http://www.ibiblio.org/e-notes/webgl/gpu/make_cone.htm
          */
@@ -69,16 +70,18 @@ namespace WebGLCone
         {
             page.PageContainer.style.color = Color.Blue;
 
-            var size = 500;
+
+            var gl_viewportWidth = 500;
+            var gl_viewportHeight = 500;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = gl_viewportWidth;
+            canvas.height = gl_viewportHeight;
             #endregion
 
             #region gl - Initialise WebGL
@@ -103,8 +106,7 @@ namespace WebGLCone
 
 
 
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
+
 
 
             var h = 1f;
@@ -201,6 +203,7 @@ namespace WebGLCone
             prMatrix.perspective(45, 1, .1, 100);
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                false, new Float32Array(prMatrix.getAsArray()));
+
             var mvMatrix = new CanvasMatrix4();
             var rotMat = new CanvasMatrix4();
             rotMat.makeIdentity();
@@ -211,6 +214,7 @@ namespace WebGLCone
             gl.depthFunc(gl.LEQUAL);
             gl.clearDepth(1.0f);
             gl.clearColor(0, 0, .5f, 1);
+
             var xOffs = 0;
             var yOffs = 0;
             var drag = 0;
@@ -220,6 +224,10 @@ namespace WebGLCone
 
             Action drawScene = delegate
             {
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+
                 rotMat.rotate(xRot / 5, 1, 0, 0);
                 rotMat.rotate(yRot / 5, 0, 1, 0);
 
@@ -228,7 +236,7 @@ namespace WebGLCone
 
                 mvMatrix.load(rotMat);
                 mvMatrix.translate(0, 0, transl);
-                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
                 gl.uniformMatrix4fv(mvMatLoc, false,
                   new Float32Array(mvMatrix.getAsArray()));
                 gl.drawArrays(gl.TRIANGLE_STRIP, 0, 2 * nPhi);
@@ -237,6 +245,35 @@ namespace WebGLCone
 
 
 
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
 
 
             var c = 0;
@@ -244,11 +281,14 @@ namespace WebGLCone
 
 
 
-            #region tick - new in lesson 03
+            #region tick
             var tick = default(Action);
 
             tick = delegate
             {
+                if (IsDisposed)
+                    return;
+
                 c++;
 
                 xRot += 2;
@@ -264,8 +304,35 @@ namespace WebGLCone
 
             tick();
             #endregion
+
+
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+
+
         }
 
+        public Action Dispose;
     }
 
 
