@@ -7,11 +7,12 @@ using ScriptCoreLib.Ultra.Studio.Languages;
 using ScriptCoreLib.Ultra.Studio.InteractiveExpressions;
 using ScriptCoreLib.Ultra.Studio.StockTypes;
 using System.Xml.Linq;
+using ScriptCoreLib.Ultra.Studio.StockMethods;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
-	public static class SolutionBuilderWithAdobeFlash
-	{
+    public static class SolutionBuilderWithAdobeFlash
+    {
         class CreateMySprite : PseudoCallExpression
         {
             public CreateMySprite(StockSpriteType Type)
@@ -75,7 +76,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public static SolutionBuilder WithAdobeFlash(this SolutionBuilder that)
         {
-            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name + ".Components", "MySprite1");
+            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name + ".Components", "ApplicationSprite");
 
             that.Interactive.GenerateTypes +=
                 AddType =>
@@ -91,5 +92,50 @@ namespace ScriptCoreLib.Ultra.Studio
 
             return that;
         }
-	}
+
+        public static SolutionBuilder WithAdobeFlashCamera(this SolutionBuilder that)
+        {
+            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name + ".Components", "ApplicationSprite");
+
+            that.Interactive.GenerateTypes +=
+                AddType =>
+                {
+                    var sprite = GetType();
+
+                    #region video <- new Video(500, 400)
+                    var VideoType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Video();
+                    var video = VideoType.ToInitializedField("video");
+
+                    video.FieldConstructor.ParameterExpressions = new[]
+                    {
+                        (PseudoInt32ConstantExpression)500,
+                        (PseudoInt32ConstantExpression)400
+                    };
+
+                    sprite.Fields.Add(video);
+                    #endregion
+
+
+                    var Camera_getCamera = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Camera.getCamera().ToCallExpression();
+
+                    var LinqExtensions_With = new KnownStockTypes.ScriptCoreLib.Extensions.LinqExtensions.With().ToCallExpression(
+                        Camera_getCamera,
+                        new StockMethodInitializeCamera(video)
+                    );
+
+                    sprite.Constructor.Code.Add(LinqExtensions_With);
+
+
+                    AddType(sprite);
+                };
+
+            that.Interactive.GenerateApplicationExpressions +=
+                AddCode =>
+                {
+                    AddCode(new CreateMySprite(GetType()));
+                };
+
+            return that;
+        }
+    }
 }
