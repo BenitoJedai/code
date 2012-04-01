@@ -10,19 +10,19 @@ namespace FlashCamera.Components
         public const int DefaultWidth = 640;
         public const int DefaultHeight = 480;
 
+        readonly Video video = new Video(DefaultWidth, DefaultHeight);
+
         public MySprite1()
         {
             Camera.getCamera().With(InitializeContent);
         }
 
-        private void InitializeContent(Camera cam1)
+        private void InitializeContent(Camera camera)
         {
-            cam1.setMode(DefaultWidth, DefaultHeight, 1000 / 24);
+            camera.setMode(DefaultWidth, DefaultHeight, 1000 / 24);
 
-            var vid1 = new Video(DefaultWidth, DefaultHeight);
-
-            vid1.attachCamera(cam1);
-            vid1.AttachTo(this);
+            video.attachCamera(camera);
+            video.AttachTo(this);
         }
 
     }

@@ -57,6 +57,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         }
         #endregion
 
+
         #region ScriptCoreLib.ActionScript.flash.display.DisplayObject
         public static partial class ScriptCoreLib
         {
@@ -91,6 +92,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         }
         #endregion
 
+
         #region ScriptCoreLib.ActionScript.flash.display.Sprite
         public static partial class ScriptCoreLib
         {
@@ -115,6 +117,106 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         }
         #endregion
 
+        public static partial class ScriptCoreLib
+        {
+            public static partial class Extensions
+            {
+                public class LinqExtensions : SolutionProjectLanguageType
+                {
+                    public LinqExtensions()
+                    {
+                        Namespace = "ScriptCoreLib.Extensions";
+                        Name = "LinqExtensions";
+                    }
+
+                    public class With : SolutionProjectLanguageMethod
+                    {
+                        public With()
+                        {
+                            Name = "With";
+                            IsStatic = true;
+                            IsExtensionMethod = true;
+                            DeclaringType = new KnownStockTypes.ScriptCoreLib.Extensions.LinqExtensions();
+                        }
+                    }
+                }
+            }
+        }
+
+        #region ScriptCoreLib.ActionScript.flash.media.Camera
+        public static partial class ScriptCoreLib
+        {
+            public static partial class ActionScript
+            {
+                public static partial class flash
+                {
+                    public static partial class media
+                    {
+                        public class Camera : SolutionProjectLanguageType
+                        {
+                            public Camera()
+                            {
+                                Namespace = "ScriptCoreLib.ActionScript.flash.media";
+                                Name = "Camera";
+                            }
+
+
+                            public class setMode : SolutionProjectLanguageMethod
+                            {
+                                public setMode()
+                                {
+                                    Name = "setMode";
+                                    DeclaringType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Camera();
+                                }
+                            }
+
+                            public class getCamera : SolutionProjectLanguageMethod
+                            {
+                                public getCamera()
+                                {
+                                    Name = "getCamera";
+                                    IsStatic = true;
+                                    DeclaringType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Camera();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region ScriptCoreLib.ActionScript.flash.media.Camera
+        public static partial class ScriptCoreLib
+        {
+            public static partial class ActionScript
+            {
+                public static partial class flash
+                {
+                    public static partial class media
+                    {
+                        public class Video : SolutionProjectLanguageType
+                        {
+                            public Video()
+                            {
+                                Namespace = "ScriptCoreLib.ActionScript.flash.media";
+                                Name = "Video";
+                            }
+
+                            public class attachCamera : SolutionProjectLanguageMethod
+                            {
+                                public attachCamera()
+                                {
+                                    Name = "attachCamera";
+                                    DeclaringType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Video();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
 
         #region ScriptCoreLib.JavaScript.Extensions
         public static partial class ScriptCoreLib

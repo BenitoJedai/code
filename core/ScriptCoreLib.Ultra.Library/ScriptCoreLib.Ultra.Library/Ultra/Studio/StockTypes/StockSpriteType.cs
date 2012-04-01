@@ -8,6 +8,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 {
 	public class StockSpriteType : SolutionProjectLanguageType
 	{
+        public SolutionProjectLanguageMethod Constructor;
+
         public StockSpriteType(string Namespace, string Name, SolutionProjectLanguageField Content = null)
 		{
 			this.Namespace = Namespace;
@@ -18,15 +20,16 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.IsSealed = true;
             this.IsInternal = true;
 
-            var ctor = GetDefaultConstructorDefinition();
+            this.Constructor = GetDefaultConstructorDefinition();
+            this.Constructor.Code = new SolutionProjectLanguageCode
+            {
+
+            };
 
             this.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+
+
             
-       
-            ctor.Code = new SolutionProjectLanguageCode
-            {
-               
-            };
 
             if (Content != null)
             {
@@ -57,7 +60,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                     }
                 };
 
-                ctor.Code.Add(
+                this.Constructor.Code.Add(
                      new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.CommonExtensions.InvokeWhenStageIsReady().ToCallExpression(
                         new PseudoThisExpression(),
                         handler
@@ -65,7 +68,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 );
             }
 
-			this.Methods.Add(ctor);
+            this.Methods.Add(this.Constructor);
 		}
 
 	

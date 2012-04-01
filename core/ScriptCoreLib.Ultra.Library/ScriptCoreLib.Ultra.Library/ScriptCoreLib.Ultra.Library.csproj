@@ -192,6 +192,7 @@
     <Compile Include="Ultra\Studio\StockBuilders\SolutionBuilder.cs" />
     <Compile Include="Ultra\Studio\SolutionFileExtensions.cs" />
     <Compile Include="Ultra\Studio\SolutionProjectLanguageMethod.cs" />
+    <Compile Include="Ultra\Studio\StockMethods\StockMethodInitializeCamera.cs" />
     <Compile Include="Ultra\Studio\StockMethods\StockMethodApplication.cs" />
     <Compile Include="Ultra\Studio\StockMethods\StockMethodWebMethod.cs" />
     <Compile Include="Ultra\Studio\StockMethods\StockMethodMain.cs" />

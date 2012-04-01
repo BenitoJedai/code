@@ -81,13 +81,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                             return;
                         }
                     }
-
-                    if (m.IsLambda)
-                    {
-                        File.WriteSpace(Keywords.@delegate);
-                    }
                     else
                     {
+                        #region not lambda
                         File.WriteIndent();
 
                         if (m.IsPrivate)
@@ -123,12 +119,16 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                         {
                             File.WriteSpace(Keywords.@void).Write(m.Name);
                         }
+                        #endregion
                     }
 
-                    File.Write("(");
-
                     {
+
                         var Parameters = m.Parameters.ToArray();
+
+                        if (Parameters.Length > 1)
+                            File.Write("(");
+
 
                         for (int i = 0; i < Parameters.Length; i++)
                         {
@@ -137,13 +137,19 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                 File.WriteSpace(",");
                             }
 
-                            this.WriteTypeName(File, Parameters[i].Type);
+                            //this.WriteTypeName(File, Parameters[i].Type);
 
-                            File.WriteSpace();
+                            //File.WriteSpace();
                             File.Write(Parameters[i].Name);
                         }
+
+                        if (Parameters.Length > 1)
+                            File.Write(")");
+
+                        File.Write(" => ");
+
                     }
-                    File.Write(")");
+
                     if (m.Code == null)
                     {
                         File.WriteLine(";");

@@ -842,7 +842,7 @@ namespace TestSolutionBuilderV1.Views
                     span.style.marginLeft = "0.7em";
                     span.style.marginRight = "0.7em";
 
-                    new IHTMLButton { Icon, span }.AttachTo(WorkspaceHeaderTab1).With(
+                    new IHTMLButton { Icon /*, span */ }.AttachTo(WorkspaceHeaderTab1).With(
                         btn =>
                         {
                             btn.onclick +=
@@ -853,16 +853,16 @@ namespace TestSolutionBuilderV1.Views
                                     Update();
                                 };
 
-                            btn.style.display = IStyle.DisplayEnum.block;
+                            //btn.style.display = IStyle.DisplayEnum.block;
                         }
                     );
                 };
             #endregion
 
 
-            CreateLanguageButton(new VisualCSharpProject(), "View as C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
-            CreateLanguageButton(new VisualFSharpProject(), "View as F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
-            CreateLanguageButton(new VisualBasicProject(), "View as Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
+            CreateLanguageButton(new VisualCSharpProject(), "C#", KnownLanguages.VisualCSharp, "VisualCSharpProject1");
+            CreateLanguageButton(new VisualFSharpProject(), "F#", KnownLanguages.VisualFSharp, "VisualFSharpProject1");
+            CreateLanguageButton(new VisualBasicProject(), "Visual Basic", KnownLanguages.VisualBasic, "VisualBasicProject1");
 
             var ListOfCreateProjectTypeButton = new List<IHTMLButton>();
 
@@ -888,7 +888,7 @@ namespace TestSolutionBuilderV1.Views
                                   Handler();
                               };
 
-                          btn.style.display = IStyle.DisplayEnum.block;
+                          //btn.style.display = IStyle.DisplayEnum.block;
                       }
                   );
               };
@@ -920,7 +920,7 @@ namespace TestSolutionBuilderV1.Views
             #endregion
 
             #region Avalon, Forms
-            ToSpecificProjectType("Convert to Browser Avalon Application",
+            ToSpecificProjectType("Avalon App",
                 delegate
                 {
                     sln.WithCanvas();
@@ -928,7 +928,7 @@ namespace TestSolutionBuilderV1.Views
             );
 
 
-            ToSpecificProjectType("Convert to Browser Avalon Application With Adobe Flash",
+            ToSpecificProjectType("Avalon Flash App",
                delegate
                {
                    sln.WithCanvasAdobeFlash();
@@ -936,7 +936,7 @@ namespace TestSolutionBuilderV1.Views
                }
             );
 
-            ToSpecificProjectType("Convert to Browser Forms Application",
+            ToSpecificProjectType("Forms App",
                 delegate
                 {
                     sln.WithForms();
@@ -944,7 +944,7 @@ namespace TestSolutionBuilderV1.Views
             );
 
 
-            ToSpecificProjectType("Convert to Browser Forms Application With Java Applet",
+            ToSpecificProjectType("Forms Applet App",
                delegate
                {
                    sln.WithFormsApplet();
@@ -953,6 +953,26 @@ namespace TestSolutionBuilderV1.Views
             );
             #endregion
 
+            ToSpecificProjectType("Flash App",
+              delegate
+              {
+                  sln.WithAdobeFlash();
+              }
+            );
+
+            ToSpecificProjectType("Flash Camera App",
+                delegate
+                {
+                    sln.WithAdobeFlashCamera();
+                }
+              );
+
+            ToSpecificProjectType("Applet App",
+              delegate
+              {
+                  sln.WithJavaApplet();
+              }
+            );
         }
 
 

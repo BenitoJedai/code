@@ -106,16 +106,16 @@ namespace ScriptCoreLib.Ultra.Studio
         public SolutionProjectLanguageMethod GetDefaultConstructorDefinition()
         {
             return new SolutionProjectLanguageMethod
-                       {
-                           Name = SolutionProjectLanguageMethod.ConstructorName,
+            {
+                Name = SolutionProjectLanguageMethod.ConstructorName,
 
-                           DeclaringType = this,
-                           ReturnType = this,
+                DeclaringType = this,
+                ReturnType = this,
 
-                           Code = new SolutionProjectLanguageCode
-                       {
-                       }
-                       };
+                Code = new SolutionProjectLanguageCode
+                {
+                }
+            };
         }
 
         public PseudoCallExpression GetDefaultConstructor()
