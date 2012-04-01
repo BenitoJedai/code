@@ -19,6 +19,7 @@ namespace WebGLLesson09
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using System.Collections.Generic;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -98,81 +99,126 @@ namespace WebGLLesson09
             #endregion
 
 
+            #region createShader
+            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
+            {
+                var shader = gl.createShader(src);
 
-            //         var shaderProgram;
+                // verify
+                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+                {
+                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
 
-            //function initShaders() {
-            //    var fragmentShader = getShader(gl, "shader-fs");
-            //    var vertexShader = getShader(gl, "shader-vs");
+                    return null;
+                }
 
-            //    shaderProgram = gl.createProgram();
-            //    gl.attachShader(shaderProgram, vertexShader);
-            //    gl.attachShader(shaderProgram, fragmentShader);
-            //    gl.linkProgram(shaderProgram);
-
-            //    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            //        alert("Could not initialise shaders");
-            //    }
-
-            //    gl.useProgram(shaderProgram);
-
-            //    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-            //    gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-
-            //    shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-            //    gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
-
-            //    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-            //    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-            //    shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-            //    shaderProgram.colorUniform = gl.getUniformLocation(shaderProgram, "uColor");
-            //}
+                return shader;
+            };
+            #endregion
 
 
 
+            var vs = createShader(new Shaders.GeometryVertexShader());
+            var fs = createShader(new Shaders.GeometryFragmentShader());
+
+            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
+
+            var shaderProgram = gl.createProgram();
+
+            gl.attachShader(shaderProgram, vs);
+            gl.attachShader(shaderProgram, fs);
+
+
+            gl.linkProgram(shaderProgram);
+            gl.useProgram(shaderProgram);
+
+            #region getAttribLocation
+            Func<string, long> getAttribLocation =
+                    name => gl.getAttribLocation(shaderProgram, name);
+            #endregion
+
+            var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
+            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+
+            var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
+            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+
+            #region getUniformLocation
+            Func<string, WebGLUniformLocation> getUniformLocation =
+                name => gl.getUniformLocation(shaderProgram, name);
+            #endregion
+
+            var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
+            var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
+            var shaderProgram_samplerUniform = getUniformLocation("uSampler");
+            var shaderProgram_Color = getUniformLocation("uColor");
 
 
 
 
-            //var mvMatrix = mat4.create();
-            //var mvMatrixStack = [];
-            //var pMatrix = mat4.create();
+            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrixStack = new Stack<Float32Array>();
 
-            //function mvPushMatrix() {
-            //    var copy = mat4.create();
-            //    mat4.set(mvMatrix, copy);
-            //    mvMatrixStack.push(copy);
-            //}
+            var pMatrix = __glMatrix.mat4.create();
 
-            //function mvPopMatrix() {
-            //    if (mvMatrixStack.length == 0) {
-            //        throw "Invalid popMatrix!";
-            //    }
-            //    mvMatrix = mvMatrixStack.pop();
-            //}
+            #region mvPushMatrix
+            Action mvPushMatrix = delegate
+            {
+                var copy = __glMatrix.mat4.create();
+                __glMatrix.mat4.set(mvMatrix, copy);
+                mvMatrixStack.Push(copy);
+            };
+            #endregion
 
-
-            //function setMatrixUniforms() {
-            //    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-            //    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
-            //}
+            #region mvPopMatrix
+            Action mvPopMatrix = delegate
+            {
+                mvMatrix = mvMatrixStack.Pop();
+            };
+            #endregion
 
 
-            //function degToRad(degrees) {
-            //    return degrees * Math.PI / 180;
-            //}
+            #region setMatrixUniforms
+            Action setMatrixUniforms =
+                delegate
+                {
+                    gl.uniformMatrix4fv(shaderProgram_pMatrixUniform, false, pMatrix);
+                    gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, mvMatrix);
+                };
+            #endregion
+
+            #region degToRad
+            Func<float, float> degToRad = (degrees) =>
+            {
+                return degrees * (f)Math.PI / 180f;
+            };
+            #endregion
 
 
-            //var currentlyPressedKeys = {};
+            #region currentlyPressedKeys
+            var currentlyPressedKeys = new Dictionary<int, bool>
+            {
+                {33, false},
+                {34, false},
+                {37, false},
+                {39, false},
+                {38, false},
+                {40, false}
+            };
 
-            //function handleKeyDown(event) {
-            //    currentlyPressedKeys[event.keyCode] = true;
-            //}
+            Native.Document.onkeydown +=
+                e =>
+                {
+                    currentlyPressedKeys[e.KeyCode] = true;
+                };
 
+            Native.Document.onkeyup +=
+               e =>
+               {
+                   currentlyPressedKeys[e.KeyCode] = false;
+               };
 
-            //function handleKeyUp(event) {
-            //    currentlyPressedKeys[event.keyCode] = false;
-            //}
+            #endregion
 
 
             //var zoom = -15;

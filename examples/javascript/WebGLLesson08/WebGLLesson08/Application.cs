@@ -161,6 +161,7 @@ namespace WebGLLesson08
             #region getAttribLocation
             Func<string, long> getAttribLocation =
                     name => gl.getAttribLocation(shaderProgram, name);
+            #endregion
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
             gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
@@ -170,7 +171,6 @@ namespace WebGLLesson08
 
             var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
             gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
-            #endregion
 
             #region getUniformLocation
             Func<string, WebGLUniformLocation> getUniformLocation =
@@ -437,14 +437,17 @@ namespace WebGLLesson08
                         }
                     }
                 };
-            #endregion
-
 
             Native.Document.onkeyup +=
                e =>
                {
                    currentlyPressedKeys[e.KeyCode] = false;
                };
+
+            #endregion
+
+
+            
 
             #region AtResize
             Action AtResize =
