@@ -340,7 +340,7 @@ associated with an assembly."
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
-            ApplicationType.UsingNamespaces.Add(Context.Name + ".Styles");
+            ApplicationType.UsingNamespaces.Add(Context.Name + ".Design.Styles");
 
             // css
 

@@ -76,7 +76,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public static SolutionBuilder WithAdobeFlash(this SolutionBuilder that)
         {
-            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name + ".Components", "ApplicationSprite");
+            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name , "ApplicationSprite");
 
             that.Interactive.GenerateTypes +=
                 AddType =>
@@ -95,7 +95,7 @@ namespace ScriptCoreLib.Ultra.Studio
 
         public static SolutionBuilder WithAdobeFlashCamera(this SolutionBuilder that)
         {
-            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name + ".Components", "ApplicationSprite");
+            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name, "ApplicationSprite");
 
             that.Interactive.GenerateTypes +=
                 AddType =>
@@ -108,8 +108,8 @@ namespace ScriptCoreLib.Ultra.Studio
 
                     video.FieldConstructor.ParameterExpressions = new[]
                     {
-                        (PseudoInt32ConstantExpression)500,
-                        (PseudoInt32ConstantExpression)400
+                        (PseudoInt32ConstantExpression)ScriptApplicationEntryPointAttribute.DefaultWidth,
+                        (PseudoInt32ConstantExpression)ScriptApplicationEntryPointAttribute.DefaultHeight
                     };
 
                     sprite.Fields.Add(video);

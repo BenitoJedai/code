@@ -27,13 +27,13 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
             };
 
             this.UsingNamespaces.Add("ScriptCoreLib.Extensions");
+            this.UsingNamespaces.Add("ScriptCoreLib.ActionScript.Extensions");
 
 
             
 
             if (Content != null)
             {
-                this.UsingNamespaces.Add("ScriptCoreLib.ActionScript.Extensions");
 
                 var AttachToContainer =
                       new KnownStockTypes.ScriptCoreLib.ActionScript.Extensions.AvalonExtensions.AttachToContainer().ToCallExpression(

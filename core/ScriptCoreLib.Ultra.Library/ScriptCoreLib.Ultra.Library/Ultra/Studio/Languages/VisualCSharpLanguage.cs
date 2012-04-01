@@ -54,79 +54,9 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                 {
                     if (m.IsLambda)
                     {
-                        if (m.Code.History.Count == 1)
-                        {
-                            var Parameters = m.Parameters.ToArray();
-
-                            if (Parameters.Length != 1)
-                                File.Write("(");
-
-
-                            for (int i = 0; i < Parameters.Length; i++)
-                            {
-                                if (i > 0)
-                                {
-                                    File.WriteSpace(",");
-                                }
-
-                                File.Write(Parameters[i].Name);
-                            }
-
-                            if (Parameters.Length != 1)
-                                File.WriteSpace(")");
-
-                            File.WriteSpace("=>");
-
-                            this.WriteMethodBody(File, m.Code, Context);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        #region not lambda
-                        File.WriteIndent();
-
-                        if (m.IsPrivate)
-                        {
-                            File.Write(Keywords.@private);
-                        }
-                        else if (m.IsProtected)
-                        {
-                            File.Write(Keywords.@protected);
-                        }
-                        else
-                        {
-                            File.Write(Keywords.@public);
-                        }
-                        File.WriteSpace();
-
-                        if (m.IsOverride)
-                        {
-                            File.WriteSpace(Keywords.@override);
-                        }
-
-
-                        if (m.IsStatic)
-                        {
-                            File.WriteSpace(Keywords.@static);
-                        }
-
-                        if (m.IsConstructor)
-                        {
-                            WriteTypeName(File, m.DeclaringType);
-                        }
-                        else
-                        {
-                            File.WriteSpace(Keywords.@void).Write(m.Name);
-                        }
-                        #endregion
-                    }
-
-                    {
-
                         var Parameters = m.Parameters.ToArray();
 
-                        if (Parameters.Length > 1)
+                        if (Parameters.Length != 1)
                             File.Write("(");
 
 
@@ -137,17 +67,85 @@ namespace ScriptCoreLib.Ultra.Studio.Languages
                                 File.WriteSpace(",");
                             }
 
-                            //this.WriteTypeName(File, Parameters[i].Type);
-
-                            //File.WriteSpace();
                             File.Write(Parameters[i].Name);
                         }
 
-                        if (Parameters.Length > 1)
-                            File.Write(")");
+                        if (Parameters.Length != 1)
+                            File.WriteSpace(")");
+                        else
+                            File.WriteSpace();
 
-                        File.Write(" => ");
+                        File.WriteSpace("=>");
 
+                        if (m.Code.History.Count != 1)
+                            File.WriteLine();
+
+                        this.WriteMethodBody(File, m.Code, Context);
+
+                        return;
+
+                    }
+                    #region not lambda
+                    File.WriteIndent();
+
+                    if (m.IsPrivate)
+                    {
+                        File.Write(Keywords.@private);
+                    }
+                    else if (m.IsProtected)
+                    {
+                        File.Write(Keywords.@protected);
+                    }
+                    else
+                    {
+                        File.Write(Keywords.@public);
+                    }
+                    File.WriteSpace();
+
+                    if (m.IsOverride)
+                    {
+                        File.WriteSpace(Keywords.@override);
+                    }
+
+
+                    if (m.IsStatic)
+                    {
+                        File.WriteSpace(Keywords.@static);
+                    }
+
+                    if (m.IsConstructor)
+                    {
+                        WriteTypeName(File, m.DeclaringType);
+                    }
+                    else
+                    {
+                        File.WriteSpace(Keywords.@void).Write(m.Name);
+                    }
+                    #endregion
+
+                    {
+
+                        var Parameters = m.Parameters.ToArray();
+
+
+                        File.Write("(");
+
+
+                        for (int i = 0; i < Parameters.Length; i++)
+                        {
+                            if (i > 0)
+                            {
+                                File.WriteSpace(",");
+                            }
+
+                            this.WriteTypeName(File, Parameters[i].Type);
+
+                            File.WriteSpace();
+                            File.Write(Parameters[i].Name);
+                        }
+
+
+                        File.Write(")");
                     }
 
                     if (m.Code == null)
