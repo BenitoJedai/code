@@ -115,19 +115,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-      <Compile Include="Design\glMatrix.cs" >
-          <DependentUpon>glMatrix-0.9.5.min.js</DependentUpon>
-      </Compile>
+    <Compile Include="Design\glMatrix.cs">
+      <DependentUpon>glMatrix-0.9.5.min.js</DependentUpon>
+    </Compile>
     <Compile Include="Shaders\GeometryFragmentShader.cs">
       <DependentUpon>Geometry.frag</DependentUpon>
     </Compile>
     <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
-      <Content Include="Design\glMatrix-0.9.5.min.js" >
-          
-      </Content>
+    <Content Include="Design\glMatrix-0.9.5.min.js">
+    </Content>
     <Content Include="Design\Preview.png" />
+    <Content Include="Design\star.gif" />
     <Content Include="Styles\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
