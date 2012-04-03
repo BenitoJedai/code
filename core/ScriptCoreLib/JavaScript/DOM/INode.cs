@@ -8,7 +8,7 @@ using ScriptCoreLib.JavaScript.Query;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-
+    // http://mxr.mozilla.org/mozilla-central/source/dom/interfaces/core/nsIDOMElement.idl
 	[Script(HasNoPrototype = true)]
 	public class INode : ISink, IEnumerable<INode>
 	{
