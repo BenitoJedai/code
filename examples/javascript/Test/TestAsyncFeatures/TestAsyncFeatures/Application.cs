@@ -10,8 +10,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using AsyncResearch.Design.Styles;
-using AsyncResearch.HTML.Pages;
+using TestAsyncFeatures.Design.Styles;
+using TestAsyncFeatures.HTML.Pages;
 
 namespace AsyncResearch
 {
