@@ -23,15 +23,23 @@ namespace ScriptCoreLib.Archive
         {
             var a = new ZIPArchive();
 
-            using (var r = File.OpenRead(path))
+            try
             {
-                a.Files = GetEntries(r,
-                    (ArchiveStartOffset, ArchiveEndOffset) =>
-                    {
-                        a.ArchiveEndOffset = ArchiveEndOffset;
-                        a.ArchiveStartOffset = ArchiveStartOffset;
-                    }
-                ).ToArray();
+
+                using (var r = File.OpenRead(path))
+                {
+                    a.Files = GetEntries(r,
+                        (ArchiveStartOffset, ArchiveEndOffset) =>
+                        {
+                            a.ArchiveEndOffset = ArchiveEndOffset;
+                            a.ArchiveStartOffset = ArchiveStartOffset;
+                        }
+                    ).ToArray();
+                }
+            }
+            catch
+            {
+                a = null;
             }
 
             return a;
