@@ -69,6 +69,8 @@ namespace AsyncResearch
             // see -- no "return" here!!
         }
 
+        // Error	2	The return type of an async method must be 
+        // void, Task or Task<T>
         public async Task<int> WebMethod16(string e, Action<string> y)
         {
             // see also: http://www.i-programmer.info/programming/c/1514-async-await-and-the-ui-problem.html
