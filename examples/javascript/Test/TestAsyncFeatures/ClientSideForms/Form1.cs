@@ -24,5 +24,13 @@ namespace ClientSideForms
 
             a.WebMethod2(button1.Text, x => button1.Text = x);
         }
+
+        int c = 0;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            c++;
+            this.button1.ForeColor = (c % 2) == 0 ? Color.Red : SystemColors.WindowText;
+            this.button2.ForeColor = (c % 2) != 0 ? Color.Red : SystemColors.WindowText;
+        }
     }
 }
