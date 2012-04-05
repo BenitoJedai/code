@@ -28,16 +28,24 @@ namespace AsyncResearch
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+         public Application(IDefaultPage page)
         {
             style.Content.AttachToHead();
-            @"Hello world".ToDocumentTitle();
-            // Send data from JavaScript to the server tier
-            service.WebMethod2(
-                @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
-            );
+            @"before".ToDocumentTitle();
+
+            Initialize();
+
+            @"after".ToDocumentTitle();
+
         }
 
+        async void Initialize()
+        {
+            // Send data from JavaScript to the server tier
+            var value = await service.WebMethod0("in");
+
+            value.ToDocumentTitle();
+
+        }
     }
 }
