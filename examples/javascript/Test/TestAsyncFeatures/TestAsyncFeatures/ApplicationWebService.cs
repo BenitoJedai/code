@@ -15,6 +15,11 @@ namespace AsyncResearch
     /// </summary>
     public sealed class ApplicationWebService
     {
+        public async Task<string> WebMethod0(string e)
+        {
+            return "hi";
+        }
+
         public void WebMethod2(string e, Action<string> y)
         {
             #region noticeable slow down so that windows will display (Not Responding)
