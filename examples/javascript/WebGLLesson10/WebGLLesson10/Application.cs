@@ -26,7 +26,7 @@ namespace WebGLLesson10
     /// </summary>
     public sealed class Application
     {
-        // based on http://learningwebgl.com/lessons/lesson09/index.html
+        // based on http://learningwebgl.com/lessons/lesson10/index.html
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -68,8 +68,6 @@ namespace WebGLLesson10
 
         void InitializeContent(IDefaultPage page = null)
         {
-
-
             var gl_viewportWidth = Native.Window.Width;
             var gl_viewportHeight = Native.Window.Height;
 
@@ -132,9 +130,6 @@ namespace WebGLLesson10
                 };
             #endregion
 
-
-
-
             #region createShader
             Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
             {
@@ -173,404 +168,343 @@ namespace WebGLLesson10
                     name => gl.getAttribLocation(shaderProgram, name);
             #endregion
 
-            var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
-
-            var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
-            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
-
             #region getUniformLocation
             Func<string, WebGLUniformLocation> getUniformLocation =
                 name => gl.getUniformLocation(shaderProgram, name);
             #endregion
-            var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
-            var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
-            var shaderProgram_samplerUniform = getUniformLocation("uSampler");
-            var shaderProgram_colorUniform = getUniformLocation("uColor");
 
             #endregion
 
 
 
-            var mvMatrix = __glMatrix.mat4.create();
-            var mvMatrixStack = new Stack<Float32Array>();
 
-            var pMatrix = __glMatrix.mat4.create();
 
-            #region mvPushMatrix
-            Action mvPushMatrix = delegate
-            {
-                var copy = __glMatrix.mat4.create();
-                __glMatrix.mat4.set(mvMatrix, copy);
-                mvMatrixStack.Push(copy);
-            };
-            #endregion
-
-            #region mvPopMatrix
-            Action mvPopMatrix = delegate
-            {
-                mvMatrix = mvMatrixStack.Pop();
-            };
-            #endregion
-
-
-            #region setMatrixUniforms
-            Action setMatrixUniforms =
-                delegate
-                {
-                    gl.uniformMatrix4fv(shaderProgram_pMatrixUniform, false, pMatrix);
-                    gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, mvMatrix);
-                };
-            #endregion
-
-            #region degToRad
-            Func<float, float> degToRad = (degrees) =>
-            {
-                return degrees * (f)Math.PI / 180f;
-            };
-            #endregion
-
-
-            #region currentlyPressedKeys
-            var currentlyPressedKeys = new Dictionary<int, bool>
-            {
-                {33, false},
-                {34, false},
-                {37, false},
-                {39, false},
-                {38, false},
-                {40, false}
-            };
-
-            Native.Document.onkeydown +=
-                e =>
-                {
-                    currentlyPressedKeys[e.KeyCode] = true;
-                };
-
-            Native.Document.onkeyup +=
-               e =>
-               {
-                   currentlyPressedKeys[e.KeyCode] = false;
-               };
-
-            #endregion
-
-            var zoom = -15f;
-
-            var tilt = 90f;
-            var spin = 0f;
-
-
-            #region handleKeys
-            Action handleKeys =
-                delegate
-                {
-                    if (currentlyPressedKeys[33])
-                    {
-                        // Page Up
-                        zoom -= 0.1f;
-                    }
-                    if (currentlyPressedKeys[34])
-                    {
-                        // Page Down
-                        zoom += 0.1f;
-                    }
-                    if (currentlyPressedKeys[38])
-                    {
-                        // Up cursor key
-                        tilt += 2;
-                    }
-                    if (currentlyPressedKeys[40])
-                    {
-                        // Down cursor key
-                        tilt -= 2;
-                    }
-                };
-            #endregion
-
-            #region initBuffers
-            var starVertexPositionBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
-            var vertices = new f[]{
-                    -1.0f, -1.0f,  0.0f,
-                     1.0f, -1.0f,  0.0f,
-                    -1.0f,  1.0f,  0.0f,
-                     1.0f,  1.0f,  0.0f
-                };
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-            var starVertexPositionBuffer_itemSize = 3;
-            var starVertexPositionBuffer_numItems = 4;
-
-            var starVertexTextureCoordBuffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
-            var textureCoords = new f[]{
-                    0.0f, 0.0f,
-                    1.0f, 0.0f,
-                    0.0f, 1.0f,
-                    1.0f, 1.0f
-                };
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
-            var starVertexTextureCoordBuffer_itemSize = 2;
-            var starVertexTextureCoordBuffer_numItems = 4;
-            #endregion
-
-
-            #region initWorldObjects
-            var stars = new List<Star>();
-            var numStars = 50f;
-
-            for (var i = 0; i < numStars; i++)
-            {
-                stars.Add(new Star((i / numStars) * 5.0f, i / numStars));
-            }
-            #endregion
-
-
-
-
-
-            #region animate
-            var lastTime = 0L;
-
-            Action animate = () =>
-            {
-                var timeNow = new IDate().getTime();
-                if (lastTime != 0)
-                {
-                    var elapsed = timeNow - lastTime;
-
-                    foreach (var star in stars)
-                    {
-                        star.animate(elapsed);
-                    }
-                }
-                lastTime = timeNow;
-
-            };
-            #endregion
-
-
-
-
-            gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-
-
-            #region AtResize
-            Action AtResize =
-                delegate
-                {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
-
-                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-                    canvas.width = gl_viewportWidth;
-                    canvas.height = gl_viewportHeight;
-                };
-
-            Native.Window.onresize +=
-                e =>
-                {
-                    AtResize();
-                };
-            AtResize();
-            #endregion
-
-
-
-            new HTML.Images.FromAssets.star().InvokeOnComplete(
-               texture_image =>
-               {
-                   var starTexture = gl.createTexture();
-
-                   #region handleLoadedTexture
-                   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-                   gl.bindTexture(gl.TEXTURE_2D, starTexture);
-                   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
-
-                   gl.bindTexture(gl.TEXTURE_2D, null);
-                   #endregion
-
-                   #region drawStar
-                   Action drawStar = () =>
-                   {
-                       gl.activeTexture(gl.TEXTURE0);
-                       gl.bindTexture(gl.TEXTURE_2D, starTexture);
-                       gl.uniform1i(shaderProgram_samplerUniform, 0);
-
-                       gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
-                       gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, starVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                       gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
-                       gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, starVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                       setMatrixUniforms();
-                       gl.drawArrays(gl.TRIANGLE_STRIP, 0, starVertexPositionBuffer_numItems);
-                   };
-                   #endregion
-
-                   #region drawScene
-                   Action drawScene = delegate
-                   {
-                       gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
-                       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-                       __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
-
-                       gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-                       gl.enable(gl.BLEND);
-
-                       __glMatrix.mat4.identity(mvMatrix);
-                       __glMatrix.mat4.translate(mvMatrix, 0.0f, 0.0f, zoom);
-                       __glMatrix.mat4.rotate(mvMatrix, degToRad(tilt), 1.0f, 0.0f, 0.0f);
-
-                       //var twinkle = document.getElementById("twinkle").checked;
-                       var twinkle = false;
-
-                       foreach (var star in stars)
-                       {
-                           star.draw(
-                               tilt,
-                               spin,
-                               twinkle,
-                               mvPushMatrix,
-                               mvPopMatrix,
-                               mvMatrix,
-                               drawStar,
-                               shaderProgram_colorUniform,
-                               gl
-
-
-                               );
-                           spin += 0.1f;
-                       }
-
-                   };
-                   #endregion
-
-                   #region tick
-                   Action tick = null;
-
-                   tick = () =>
-                   {
-                       if (IsDisposed)
-                           return;
-
-                       handleKeys();
-                       drawScene();
-                       animate();
-
-                       Native.Window.requestAnimationFrame += tick;
-                   };
-
-                   tick();
-                   #endregion
-               }
-            );
-        }
-    }
-
-    public sealed class Star
-    {
-        private f angle;
-        private f dist;
-        private f rotationSpeed;
-        private f r;
-        private f g;
-        private f b;
-        private f twinkleR;
-        private f twinkleG;
-        private f twinkleB;
-
-        public Star(f startingDistance, f rotationSpeed)
-        {
-            this.angle = 0;
-            this.dist = startingDistance;
-            this.rotationSpeed = rotationSpeed;
-
-            //    // Set the colors to a starting value.
-            this.randomiseColors();
-        }
-
-        public void randomiseColors()
-        {
-            var r = new Random();
-            Func<float> Math_random = () => (float)r.NextDouble();
-
-            // Give the star a random color for normal
-            // circumstances...
-            this.r = Math_random();
-            this.g = Math_random();
-            this.b = Math_random();
-
-            // When the star is twinkling, we draw it twice, once
-            // in the color below (not spinning) and then once in the
-            // main color defined above.
-            this.twinkleR = Math_random();
-            this.twinkleG = Math_random();
-            this.twinkleB = Math_random();
-        }
-
-
-        public void draw(f tilt, f spin, bool twinkle, Action mvPushMatrix, Action mvPopMatrix, Float32Array mvMatrix, Action drawStar, WebGLUniformLocation shaderProgram_colorUniform, WebGLRenderingContext gl)
-        {
-            #region degToRad
-            Func<float, float> degToRad = (degrees) =>
-            {
-                return degrees * (f)Math.PI / 180f;
-            };
-            #endregion
-
-            mvPushMatrix();
-
-            // Move to the star's position
-            __glMatrix.mat4.rotate(mvMatrix, degToRad(this.angle), 0.0f, 1.0f, 0.0f);
-            __glMatrix.mat4.translate(mvMatrix, this.dist, 0.0f, 0.0f);
-
-            // Rotate back so that the star is facing the viewer
-            __glMatrix.mat4.rotate(mvMatrix, degToRad(-this.angle), 0.0f, 1.0f, 0.0f);
-            __glMatrix.mat4.rotate(mvMatrix, degToRad(-tilt), 1.0f, 0.0f, 0.0f);
-
-            //if (twinkle) {
-            //    // Draw a non-rotating star in the alternate "twinkling" color
-            //    gl.uniform3f(shaderProgram_colorUniform, this.twinkleR, this.twinkleG, this.twinkleB);
-            //    drawStar();
+            //var gl;
+
+            //function initGL(canvas) {
+            //    try {
+            //        gl = canvas.getContext("experimental-webgl");
+            //        gl.viewportWidth = canvas.width;
+            //        gl.viewportHeight = canvas.height;
+            //    } catch (e) {
+            //    }
+            //    if (!gl) {
+            //        alert("Could not initialise WebGL, sorry :-(");
+            //    }
             //}
 
-            // All stars spin around the Z axis at the same rate
-            __glMatrix.mat4.rotate(mvMatrix, degToRad(spin), 0.0f, 0.0f, 1.0f);
 
-            // Draw the star in its main color
-            gl.uniform3f(shaderProgram_colorUniform, this.r, this.g, this.b);
-            drawStar();
+            //function getShader(gl, id) {
+            //    var shaderScript = document.getElementById(id);
+            //    if (!shaderScript) {
+            //        return null;
+            //    }
 
-            mvPopMatrix();
+            //    var str = "";
+            //    var k = shaderScript.firstChild;
+            //    while (k) {
+            //        if (k.nodeType == 3) {
+            //            str += k.textContent;
+            //        }
+            //        k = k.nextSibling;
+            //    }
+
+            //    var shader;
+            //    if (shaderScript.type == "x-shader/x-fragment") {
+            //        shader = gl.createShader(gl.FRAGMENT_SHADER);
+            //    } else if (shaderScript.type == "x-shader/x-vertex") {
+            //        shader = gl.createShader(gl.VERTEX_SHADER);
+            //    } else {
+            //        return null;
+            //    }
+
+            //    gl.shaderSource(shader, str);
+            //    gl.compileShader(shader);
+
+            //    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+            //        alert(gl.getShaderInfoLog(shader));
+            //        return null;
+            //    }
+
+            //    return shader;
+            //}
+
+
+            //var shaderProgram;
+
+            //function initShaders() {
+            //    var fragmentShader = getShader(gl, "shader-fs");
+            //    var vertexShader = getShader(gl, "shader-vs");
+
+            //    shaderProgram = gl.createProgram();
+            //    gl.attachShader(shaderProgram, vertexShader);
+            //    gl.attachShader(shaderProgram, fragmentShader);
+            //    gl.linkProgram(shaderProgram);
+
+            //    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+            //        alert("Could not initialise shaders");
+            //    }
+
+            //    gl.useProgram(shaderProgram);
+
+            //    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            //    gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+            //    shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
+            //    gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
+
+            //    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+            //    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            //    shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+            //}
+
+
+            //function handleLoadedTexture(texture) {
+            //    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            //    gl.bindTexture(gl.TEXTURE_2D, texture);
+            //    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+            //    gl.bindTexture(gl.TEXTURE_2D, null);
+            //}
+
+
+            //var mudTexture;
+
+            //function initTexture() {
+            //    mudTexture = gl.createTexture();
+            //    mudTexture.image = new Image();
+            //    mudTexture.image.onload = function () {
+            //        handleLoadedTexture(mudTexture)
+            //    }
+
+            //    mudTexture.image.src = "mud.gif";
+            //}
+
+
+            //var mvMatrix = mat4.create();
+            //var mvMatrixStack = [];
+            //var pMatrix = mat4.create();
+
+            //function mvPushMatrix() {
+            //    var copy = mat4.create();
+            //    mat4.set(mvMatrix, copy);
+            //    mvMatrixStack.push(copy);
+            //}
+
+            //function mvPopMatrix() {
+            //    if (mvMatrixStack.length == 0) {
+            //        throw "Invalid popMatrix!";
+            //    }
+            //    mvMatrix = mvMatrixStack.pop();
+            //}
+
+
+            //function setMatrixUniforms() {
+            //    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+            //    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+            //}
+
+
+            //function degToRad(degrees) {
+            //    return degrees * Math.PI / 180;
+            //}
+
+
+
+            //var currentlyPressedKeys = {};
+
+            //function handleKeyDown(event) {
+            //    currentlyPressedKeys[event.keyCode] = true;
+            //}
+
+
+            //function handleKeyUp(event) {
+            //    currentlyPressedKeys[event.keyCode] = false;
+            //}
+
+
+            //var pitch = 0;
+            //var pitchRate = 0;
+
+            //var yaw = 0;
+            //var yawRate = 0;
+
+            //var xPos = 0;
+            //var yPos = 0.4;
+            //var zPos = 0;
+
+            //var speed = 0;
+
+            //function handleKeys() {
+            //    if (currentlyPressedKeys[33]) {
+            //        // Page Up
+            //        pitchRate = 0.1;
+            //    } else if (currentlyPressedKeys[34]) {
+            //        // Page Down
+            //        pitchRate = -0.1;
+            //    } else {
+            //        pitchRate = 0;
+            //    }
+
+            //    if (currentlyPressedKeys[37] || currentlyPressedKeys[65]) {
+            //        // Left cursor key or A
+            //        yawRate = 0.1;
+            //    } else if (currentlyPressedKeys[39] || currentlyPressedKeys[68]) {
+            //        // Right cursor key or D
+            //        yawRate = -0.1;
+            //    } else {
+            //        yawRate = 0;
+            //    }
+
+            //    if (currentlyPressedKeys[38] || currentlyPressedKeys[87]) {
+            //        // Up cursor key or W
+            //        speed = 0.003;
+            //    } else if (currentlyPressedKeys[40] || currentlyPressedKeys[83]) {
+            //        // Down cursor key
+            //        speed = -0.003;
+            //    } else {
+            //        speed = 0;
+            //    }
+
+            //}
+
+
+            //var worldVertexPositionBuffer = null;
+            //var worldVertexTextureCoordBuffer = null;
+
+            //function handleLoadedWorld(data) {
+            //    var lines = data.split("\n");
+            //    var vertexCount = 0;
+            //    var vertexPositions = [];
+            //    var vertexTextureCoords = [];
+            //    for (var i in lines) {
+            //        var vals = lines[i].replace(/^\s+/, "").split(/\s+/);
+            //        if (vals.length == 5 && vals[0] != "//") {
+            //            // It is a line describing a vertex; get X, Y and Z first
+            //            vertexPositions.push(parseFloat(vals[0]));
+            //            vertexPositions.push(parseFloat(vals[1]));
+            //            vertexPositions.push(parseFloat(vals[2]));
+
+            //            // And then the texture coords
+            //            vertexTextureCoords.push(parseFloat(vals[3]));
+            //            vertexTextureCoords.push(parseFloat(vals[4]));
+
+            //            vertexCount += 1;
+            //        }
+            //    }
+
+            //    worldVertexPositionBuffer = gl.createBuffer();
+            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+            //    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositions), gl.STATIC_DRAW);
+            //    worldVertexPositionBuffer.itemSize = 3;
+            //    worldVertexPositionBuffer.numItems = vertexCount;
+
+            //    worldVertexTextureCoordBuffer = gl.createBuffer();
+            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+            //    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTextureCoords), gl.STATIC_DRAW);
+            //    worldVertexTextureCoordBuffer.itemSize = 2;
+            //    worldVertexTextureCoordBuffer.numItems = vertexCount;
+
+            //    document.getElementById("loadingtext").textContent = "";
+            //}
+
+
+            //function loadWorld() {
+            //    var request = new XMLHttpRequest();
+            //    request.open("GET", "world.txt");
+            //    request.onreadystatechange = function () {
+            //        if (request.readyState == 4) {
+            //            handleLoadedWorld(request.responseText);
+            //        }
+            //    }
+            //    request.send();
+            //}
+
+
+
+            //function drawScene() {
+            //    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+            //    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+            //    if (worldVertexTextureCoordBuffer == null || worldVertexPositionBuffer == null) {
+            //        return;
+            //    }
+
+            //    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+            //    mat4.identity(mvMatrix);
+
+            //    mat4.rotate(mvMatrix, degToRad(-pitch), [1, 0, 0]);
+            //    mat4.rotate(mvMatrix, degToRad(-yaw), [0, 1, 0]);
+            //    mat4.translate(mvMatrix, [-xPos, -yPos, -zPos]);
+
+            //    gl.activeTexture(gl.TEXTURE0);
+            //    gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+            //    gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+            //    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, worldVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+            //    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, worldVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+            //    setMatrixUniforms();
+            //    gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer.numItems);
+            //}
+
+
+            //var lastTime = 0;
+            //// Used to make us "jog" up and down as we move forward.
+            //var joggingAngle = 0;
+
+            //function animate() {
+            //    var timeNow = new Date().getTime();
+            //    if (lastTime != 0) {
+            //        var elapsed = timeNow - lastTime;
+
+            //        if (speed != 0) {
+            //            xPos -= Math.sin(degToRad(yaw)) * speed * elapsed;
+            //            zPos -= Math.cos(degToRad(yaw)) * speed * elapsed;
+
+            //            joggingAngle += elapsed * 0.6; // 0.6 "fiddle factor" - makes it feel more realistic :-)
+            //            yPos = Math.sin(degToRad(joggingAngle)) / 20 + 0.4
+            //        }
+
+            //        yaw += yawRate * elapsed;
+            //        pitch += pitchRate * elapsed;
+
+            //    }
+            //    lastTime = timeNow;
+            //}
+
+
+            //function tick() {
+            //    requestAnimFrame(tick);
+            //    handleKeys();
+            //    drawScene();
+            //    animate();
+            //}
+
+
+
+            //function webGLStart() {
+            //    var canvas = document.getElementById("lesson10-canvas");
+            //    initGL(canvas);
+            //    initShaders();
+            //    initTexture();
+            //    loadWorld();
+
+            //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            //    gl.enable(gl.DEPTH_TEST);
+
+            //    document.onkeydown = handleKeyDown;
+            //    document.onkeyup = handleKeyUp;
+
+            //    tick();
+            //}
         }
-
-
-        const f effectiveFPMS = 60f / 1000f;
-
-        public void animate(long elapsedTime)
-        {
-            this.angle += this.rotationSpeed * effectiveFPMS * elapsedTime;
-
-            // Decrease the distance, resetting the star to the outside of
-            // the spiral if it's at the center.
-            this.dist -= 0.01f * effectiveFPMS * elapsedTime;
-            if (this.dist < 0.0f)
-            {
-                this.dist += 5.0f;
-                this.randomiseColors();
-            }
-
-        }
-
-
-
     }
 
 
