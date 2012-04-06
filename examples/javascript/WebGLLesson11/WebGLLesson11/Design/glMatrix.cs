@@ -99,6 +99,16 @@ namespace WebGLLesson11.Design
         {
             throw new NotImplementedException();
         }
+
+        internal void multiply(Float32Array newRotationMatrix, Float32Array moonRotationMatrix, Float32Array moonRotationMatrix_2)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void multiply(Float32Array mvMatrix, Float32Array moonRotationMatrix)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

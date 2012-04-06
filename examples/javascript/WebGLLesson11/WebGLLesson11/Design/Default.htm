@@ -1,19 +1,73 @@
 <html>
-	<head>
-		<title>DefaultPage</title>
-	</head>
-	<body>
-		<noscript>Error: This Application requires JavaScript.</noscript>
-
-        <img src="Preview.png" style='float: right;' />
-		<div id='PageContainer'>
-			<h1 id='Header'>JSC - The .NET crosscompiler for web platforms.</h1>
-			<p id='Content' style='padding: 2em;
-				color: blue;'>Hello world</p>
-		</div>
-
-        <img src="moon.gif" />
-
-
-	</body>
+<head>
+    <title>DefaultPage</title>
+</head>
+<body>
+    <noscript>
+        Error: This Application requires JavaScript.</noscript>
+    <img src="Preview.png" style='float: right;' />
+    <div id='Toolbar' style='position: absolute; right: 0px; bottom: 0px;'>
+        <input id="lighting" checked='checked' style="" type="checkbox" /><span style=""><span>&nbsp;</span>Use
+            lighting</span><br />
+        <span style="">Spin the moon by dragging it with the mouse.<span>&nbsp;</span></span><br
+            style="" />
+        <h2 style="">
+            Directional light:</h2>
+        <table style="">
+            <tr>
+                <td>
+                    <b>Direction:</b>
+                </td>
+                <td>
+                    X:<span>&nbsp;</span><input id="lightDirectionX" type="text" value="-1.0" />
+                </td>
+                <td>
+                    Y:<span>&nbsp;</span><input id="lightDirectionY" type="text" value="-1.0" />
+                </td>
+                <td>
+                    Z:<span>&nbsp;</span><input id="lightDirectionZ" type="text" value="-1.0" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>Colour:</b>
+                </td>
+                <td>
+                    R:<span>&nbsp;</span><input id="directionalR" type="text" value="0.8" />
+                </td>
+                <td>
+                    G:<span>&nbsp;</span><input id="directionalG" type="text" value="0.8" />
+                </td>
+                <td>
+                    B:<span>&nbsp;</span><input id="directionalB" type="text" value="0.8" />
+                </td>
+            </tr>
+        </table>
+        <h2 style="">
+            Ambient light:</h2>
+        <table style="">
+            <tr>
+                <td>
+                    <b>Colour:</b>
+                </td>
+                <td>
+                    R:<span>&nbsp;</span><input id="ambientR" type="text" value="0.2" />
+                </td>
+                <td>
+                    G:<span>&nbsp;</span><input id="ambientG" type="text" value="0.2" />
+                </td>
+                <td>
+                    B:<span>&nbsp;</span><input id="ambientB" type="text" value="0.2" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id='PageContainer'>
+        <h1 id='Header'>
+            JSC - The .NET crosscompiler for web platforms.</h1>
+        <p id='Content' style='padding: 2em; color: blue;'>
+            Hello world</p>
+    </div>
+    <img src="moon.gif" />
+</body>
 </html>
