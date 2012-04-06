@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -7,19 +12,14 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using WebGLLesson11.Design;
 using WebGLLesson11.HTML.Pages;
 using WebGLLesson11.Styles;
-using WebGLLesson11.Design;
 
 namespace WebGLLesson11
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using System.Collections.Generic;
 
     /// <summary>
     /// This type will run as JavaScript.

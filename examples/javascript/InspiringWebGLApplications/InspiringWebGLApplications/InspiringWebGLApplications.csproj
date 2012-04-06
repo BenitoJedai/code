@@ -170,6 +170,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
+    <Content Include="Design\Demonixis.Net_Labs_-_Maze_3D_WebGL_-_Google_Chrome-2012-04-07_02.02.16.png" />
     <Content Include="Design\Demo_WebGL_Photo_Album_-_Google_Chrome-2012-02-26_21.37.12.jpg" />
     <Content Include="Design\Dollhouse_From_Octane_-_Google_Chrome-2012-02-27_00.13.15.png" />
     <Content Include="Design\Earth_and_Mars_-_Google_Chrome-2012-02-26_22.43.50.png" />
