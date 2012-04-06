@@ -10,16 +10,15 @@ namespace WebGLLesson08.Shaders
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __GeometryFragmentShader : FragmentShader
     {
+        [varying] vec2 vTextureCoord;
+        [varying] vec3 vLightWeighting;
 
-        [varying]
-        vec2 vTextureCoord;
+        [uniform] sampler2D uSampler;
 
-        [uniform]
-        sampler2D uSampler;
-
-        void main()
+        void main() 
         {
-            gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+            vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+            gl_FragColor = vec4(textureColor.rgb * vLightWeighting, textureColor.a);
         }
     }
 }

@@ -115,6 +115,28 @@ namespace WebGLLesson11
             };
             #endregion
 
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+
             #region requestFullscreen
             Native.Document.body.ondblclick +=
                 delegate
@@ -175,7 +197,7 @@ namespace WebGLLesson11
 
             #endregion
 
-
+          
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
             gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
@@ -328,27 +350,7 @@ namespace WebGLLesson11
             #endregion
 
 
-            #region AtResize
-            Action AtResize =
-                delegate
-                {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
-
-                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-                    canvas.width = gl_viewportWidth;
-                    canvas.height = gl_viewportHeight;
-                };
-
-            Native.Window.onresize +=
-                e =>
-                {
-                    AtResize();
-                };
-            AtResize();
-            #endregion
-
+        
 
             new HTML.Images.FromAssets.mud().InvokeOnComplete(
                 mud =>
