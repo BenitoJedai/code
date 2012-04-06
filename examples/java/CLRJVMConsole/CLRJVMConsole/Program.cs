@@ -6,9 +6,21 @@ using ScriptCoreLib;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using ScriptCoreLibJava.Extensions;
 
 namespace CLRJVMConsole
 {
+    sealed class FooAttribute : Attribute
+    {
+       
+    }
+
+    [Foo]
+    class Bar
+    {
+
+    }
+
     public class Program
     {
         public static void Main(string[] args)
@@ -34,7 +46,22 @@ namespace CLRJVMConsole
             Console.WriteLine("code within JVM will PInvoke into CLR code");
             Console.WriteLine("JVM cannot PInvoke into exe and this we shall use .exports mirror");
 
+            ShowAnnotations();
+
             CLRProgram.CLRMain();
+        }
+
+        private static void ShowAnnotations()
+        {
+            var x = new Bar();
+
+            var t = x.GetType();
+            var c = t.ToClass();
+
+            foreach (var item in c.getAnnotations())
+            {
+                Console.WriteLine("@" + item.annotationType().ToType().FullName);
+            }
         }
     }
 
