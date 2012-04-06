@@ -188,265 +188,480 @@ namespace WebGLLesson10
             var shaderProgram_samplerUniform = getUniformLocation("uSampler");
 
 
+
+
+
+            var mvMatrix = __glMatrix.mat4.create();
+            var mvMatrixStack = new Stack<Float32Array>();
+
+            var pMatrix = __glMatrix.mat4.create();
+
+            #region mvPushMatrix
+            Action mvPushMatrix = delegate
+            {
+                var copy = __glMatrix.mat4.create();
+                __glMatrix.mat4.set(mvMatrix, copy);
+                mvMatrixStack.Push(copy);
+            };
+            #endregion
+
+            #region mvPopMatrix
+            Action mvPopMatrix = delegate
+            {
+                mvMatrix = mvMatrixStack.Pop();
+            };
+            #endregion
+
+
+
+            #region setMatrixUniforms
+            Action setMatrixUniforms =
+                delegate
+                {
+                    gl.uniformMatrix4fv(shaderProgram_pMatrixUniform, false, pMatrix);
+                    gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, mvMatrix);
+                };
+            #endregion
+
+            #region degToRad
+            Func<float, float> degToRad = (degrees) =>
+            {
+                return degrees * (f)Math.PI / 180f;
+            };
+            #endregion
+
+
+
          
+            var pitch = 0f;
+            var pitchRate = 0f;
+
+            var yaw = 0f;
+            var yawRate = 0f;
+
+            var xPos = 0f;
+            var yPos = 0.4f;
+            var zPos = 0f;
+
+            var speed = 0f;
+
+            #region currentlyPressedKeys
+            var currentlyPressedKeys = new Dictionary<int, bool>
+            {
+                {33, false},
+                {34, false},
+                {37, false},
+                {39, false},
+                {38, false},
+                {40, false},
+                {83, false},
+                {87, false},
+                {65, false},
+                {68, false},
+            };
+
+            Native.Document.onkeydown +=
+                e =>
+                {
+                    currentlyPressedKeys[e.KeyCode] = true;
+                };
+
+            Native.Document.onkeyup +=
+               e =>
+               {
+                   currentlyPressedKeys[e.KeyCode] = false;
+               };
+
+            #endregion
+
+
+            #region handleKeys
+            Action handleKeys =
+                delegate
+                {
+                    if (currentlyPressedKeys[33])
+                    {
+                                // Page Up
+                                pitchRate = 0.1f;
+                    }
+                    else if (currentlyPressedKeys[34])
+                    {
+                        // Page Down
+                        pitchRate = -0.1f;
+                    }
+                    else
+                    {
+                        pitchRate = 0;
+                    }
+
+
+                    if (currentlyPressedKeys[37] || currentlyPressedKeys[65])
+                    {
+                        // Left cursor key or A
+                        yawRate = 0.1f;
+                    }
+                    else if (currentlyPressedKeys[39] || currentlyPressedKeys[68])
+                    {
+                        // Right cursor key or D
+                        yawRate = -0.1f;
+                    }
+                    else
+                    {
+                        yawRate = 0;
+                    }
+
+                    if (currentlyPressedKeys[38] || currentlyPressedKeys[87])
+                    {
+                        // Up cursor key or W
+                        speed = 0.003f;
+                    }
+                    else if (currentlyPressedKeys[40] || currentlyPressedKeys[83])
+                    {
+                        // Down cursor key
+                        speed = -0.003f;
+                    }
+                    else
+                    {
+                        speed = 0;
+                    }
+                };
+            #endregion
+
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
 
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            //var mvMatrix = mat4.create();
-            //var mvMatrixStack = [];
-            //var pMatrix = mat4.create();
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
 
-            //function mvPushMatrix() {
-            //    var copy = mat4.create();
-            //    mat4.set(mvMatrix, copy);
-            //    mvMatrixStack.push(copy);
-            //}
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
 
-            //function mvPopMatrix() {
-            //    if (mvMatrixStack.length == 0) {
-            //        throw "Invalid popMatrix!";
-            //    }
-            //    mvMatrix = mvMatrixStack.pop();
-            //}
 
+            new HTML.Images.FromAssets.mud().InvokeOnComplete(
+                mud =>
+                {
+                    var mudTexture = gl.createTexture();
 
-            //function setMatrixUniforms() {
-            //    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-            //    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
-            //}
+                    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+                    gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mud);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
 
+                    gl.bindTexture(gl.TEXTURE_2D, null);
 
-            //function degToRad(degrees) {
-            //    return degrees * Math.PI / 180;
-            //}
 
 
 
-            //var currentlyPressedKeys = {};
+                    Func<string, f> parseFloat = x => (f)double.Parse(x);
 
-            //function handleKeyDown(event) {
-            //    currentlyPressedKeys[event.keyCode] = true;
-            //}
+                    var lines = data.Split('\n');
+                    var vertexCount = 0;
+                    var vertexPositions = new List<f>();
+                    var vertexTextureCoords = new List<f>();
+                    foreach (var i in lines)
+                    {
+                        var vals = i.Trim().Replace("   ", "  ").Replace("  ", " ").Split(' ');
 
+                        if (vals.Length == 5 && vals[0] != "//")
+                        {
+                            // It is a line describing a vertex; get X, Y and Z first
+                            vertexPositions.Add(parseFloat(vals[0]));
+                            vertexPositions.Add(parseFloat(vals[1]));
+                            vertexPositions.Add(parseFloat(vals[2]));
 
-            //function handleKeyUp(event) {
-            //    currentlyPressedKeys[event.keyCode] = false;
-            //}
+                            // And then the texture coords
+                            vertexTextureCoords.Add(parseFloat(vals[3]));
+                            vertexTextureCoords.Add(parseFloat(vals[4]));
 
+                            vertexCount += 1;
+                        }
+                    }
 
-            //var pitch = 0;
-            //var pitchRate = 0;
+                    var worldVertexPositionBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositions.ToArray()), gl.STATIC_DRAW);
+                    var worldVertexPositionBuffer_itemSize = 3;
+                    var worldVertexPositionBuffer_numItems = vertexCount;
 
-            //var yaw = 0;
-            //var yawRate = 0;
+                    var worldVertexTextureCoordBuffer = gl.createBuffer();
+                    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTextureCoords.ToArray()), gl.STATIC_DRAW);
+                    var worldVertexTextureCoordBuffer_itemSize = 2;
+                    var worldVertexTextureCoordBuffer_numItems = vertexCount;
 
-            //var xPos = 0;
-            //var yPos = 0.4;
-            //var zPos = 0;
 
-            //var speed = 0;
 
-            //function handleKeys() {
-            //    if (currentlyPressedKeys[33]) {
-            //        // Page Up
-            //        pitchRate = 0.1;
-            //    } else if (currentlyPressedKeys[34]) {
-            //        // Page Down
-            //        pitchRate = -0.1;
-            //    } else {
-            //        pitchRate = 0;
-            //    }
 
-            //    if (currentlyPressedKeys[37] || currentlyPressedKeys[65]) {
-            //        // Left cursor key or A
-            //        yawRate = 0.1;
-            //    } else if (currentlyPressedKeys[39] || currentlyPressedKeys[68]) {
-            //        // Right cursor key or D
-            //        yawRate = -0.1;
-            //    } else {
-            //        yawRate = 0;
-            //    }
 
-            //    if (currentlyPressedKeys[38] || currentlyPressedKeys[87]) {
-            //        // Up cursor key or W
-            //        speed = 0.003;
-            //    } else if (currentlyPressedKeys[40] || currentlyPressedKeys[83]) {
-            //        // Down cursor key
-            //        speed = -0.003;
-            //    } else {
-            //        speed = 0;
-            //    }
+                    gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
+                    gl.enable(gl.DEPTH_TEST);
 
-            //}
+                
 
 
-           
+                    var lastTime = 0L;
+                    // Used to make us "jog" up and down as we move forward.
+                    var joggingAngle = 0f;
 
+                    #region animate
+                    Action animate = () =>
+                    {
+                        var timeNow = new IDate().getTime();
+                        if (lastTime != 0)
+                        {
+                            var elapsed = timeNow - lastTime;
 
-      
+                            if (speed != 0)
+                            {
+                                xPos -= (f)Math.Sin(degToRad(yaw)) * speed * elapsed;
+                                zPos -= (f)Math.Cos(degToRad(yaw)) * speed * elapsed;
 
+                                joggingAngle += elapsed * 0.6f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
+                                yPos = (f)Math.Sin(degToRad(joggingAngle)) / 20 + 0.4f;
+                            }
 
+                            yaw += yawRate * elapsed;
+                            pitch += pitchRate * elapsed;
 
+                        }
+                        lastTime = timeNow;
+                    };
+                    #endregion
 
-   
 
+                    #region drawScene
+                    Action drawScene = () =>
+                    {
+                            gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+                            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+                            if (worldVertexTextureCoordBuffer == null || worldVertexPositionBuffer == null) {
+                                return;
+                            }
 
-            //    initGL(canvas);
-            //    initShaders();
+                            __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-            //function handleLoadedTexture(texture) {
-            //    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-            //    gl.bindTexture(gl.TEXTURE_2D, texture);
-            //    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
-            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                            __glMatrix.mat4.identity(mvMatrix);
 
-            //    gl.bindTexture(gl.TEXTURE_2D, null);
-            //}
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), 1, 0, 0);
+                            __glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), 0, 1, 0);
+                            __glMatrix.mat4.translate(mvMatrix, -xPos, -yPos, -zPos);
 
+                            gl.activeTexture(gl.TEXTURE0);
+                            gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+                            gl.uniform1i(shaderProgram_samplerUniform, 0);
 
-            //var mudTexture;
+                            gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+                            gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, worldVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-            //function initTexture() {
-            //    mudTexture = gl.createTexture();
-            //    mudTexture.image = new Image();
-            //    mudTexture.image.onload = function () {
-            //        handleLoadedTexture(mudTexture)
-            //    }
+                            gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+                            gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, worldVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-            //    mudTexture.image.src = "mud.gif";
-            //}
+                            setMatrixUniforms();
+                            gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer_numItems);
+                    };
+                    #endregion
 
-            //    initTexture();
 
-            //var worldVertexPositionBuffer = null;
-            //var worldVertexTextureCoordBuffer = null;
+                    #region tick
+                    Action tick = null;
 
-            //function handleLoadedWorld(data) {
-            //    var lines = data.split("\n");
-            //    var vertexCount = 0;
-            //    var vertexPositions = [];
-            //    var vertexTextureCoords = [];
-            //    for (var i in lines) {
-            //        var vals = lines[i].replace(/^\s+/, "").split(/\s+/);
-            //        if (vals.length == 5 && vals[0] != "//") {
-            //            // It is a line describing a vertex; get X, Y and Z first
-            //            vertexPositions.push(parseFloat(vals[0]));
-            //            vertexPositions.push(parseFloat(vals[1]));
-            //            vertexPositions.push(parseFloat(vals[2]));
+                    tick = () =>
+                    {
+                        if (IsDisposed)
+                            return;
 
-            //            // And then the texture coords
-            //            vertexTextureCoords.push(parseFloat(vals[3]));
-            //            vertexTextureCoords.push(parseFloat(vals[4]));
+                        handleKeys();
+                        drawScene();
+                        animate();
 
-            //            vertexCount += 1;
-            //        }
-            //    }
+                        Native.Window.requestAnimationFrame += tick;
+                    };
 
-            //    worldVertexPositionBuffer = gl.createBuffer();
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
-            //    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositions), gl.STATIC_DRAW);
-            //    worldVertexPositionBuffer.itemSize = 3;
-            //    worldVertexPositionBuffer.numItems = vertexCount;
+                    tick();
+                    #endregion
 
-            //    worldVertexTextureCoordBuffer = gl.createBuffer();
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
-            //    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTextureCoords), gl.STATIC_DRAW);
-            //    worldVertexTextureCoordBuffer.itemSize = 2;
-            //    worldVertexTextureCoordBuffer.numItems = vertexCount;
 
-            //    document.getElementById("loadingtext").textContent = "";
-            //}
-
-            //function loadWorld() {
-            //    var request = new XMLHttpRequest();
-            //    request.open("GET", "world.txt");
-            //    request.onreadystatechange = function () {
-            //        if (request.readyState == 4) {
-            //            handleLoadedWorld(request.responseText);
-            //        }
-            //    }
-            //    request.send();
-            //}
-
-
-            //    loadWorld();
-
-            //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            //    gl.enable(gl.DEPTH_TEST);
-
-            //    document.onkeydown = handleKeyDown;
-            //    document.onkeyup = handleKeyUp;
-
-
-
-            //var lastTime = 0;
-            //// Used to make us "jog" up and down as we move forward.
-            //var joggingAngle = 0;
-
-            //function animate() {
-            //    var timeNow = new Date().getTime();
-            //    if (lastTime != 0) {
-            //        var elapsed = timeNow - lastTime;
-
-            //        if (speed != 0) {
-            //            xPos -= Math.sin(degToRad(yaw)) * speed * elapsed;
-            //            zPos -= Math.cos(degToRad(yaw)) * speed * elapsed;
-
-            //            joggingAngle += elapsed * 0.6; // 0.6 "fiddle factor" - makes it feel more realistic :-)
-            //            yPos = Math.sin(degToRad(joggingAngle)) / 20 + 0.4
-            //        }
-
-            //        yaw += yawRate * elapsed;
-            //        pitch += pitchRate * elapsed;
-
-            //    }
-            //    lastTime = timeNow;
-            //}
-
-
-
-
-            //function drawScene() {
-            //    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-            //    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-            //    if (worldVertexTextureCoordBuffer == null || worldVertexPositionBuffer == null) {
-            //        return;
-            //    }
-
-            //    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
-
-            //    mat4.identity(mvMatrix);
-
-            //    mat4.rotate(mvMatrix, degToRad(-pitch), [1, 0, 0]);
-            //    mat4.rotate(mvMatrix, degToRad(-yaw), [0, 1, 0]);
-            //    mat4.translate(mvMatrix, [-xPos, -yPos, -zPos]);
-
-            //    gl.activeTexture(gl.TEXTURE0);
-            //    gl.bindTexture(gl.TEXTURE_2D, mudTexture);
-            //    gl.uniform1i(shaderProgram.samplerUniform, 0);
-
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
-            //    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, worldVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            //    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
-            //    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, worldVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            //    setMatrixUniforms();
-            //    gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer.numItems);
-            //}
-
-
-            //function tick() {
-            //    requestAnimFrame(tick);
-            //    handleKeys();
-            //    drawScene();
-            //    animate();
-            //}
-
-            //    tick();
+                }
+            );
         }
+
+        public static readonly string data = @"
+ NUMPOLLIES 36
+
+  // Floor 1
+  -3.0  0.0 -3.0 0.0 6.0
+  -3.0  0.0  3.0 0.0 0.0
+  3.0  0.0  3.0 6.0 0.0
+
+  -3.0  0.0 -3.0 0.0 6.0
+  3.0  0.0 -3.0 6.0 6.0
+  3.0  0.0  3.0 6.0 0.0
+
+  // Ceiling 1
+  -3.0  1.0 -3.0 0.0 6.0
+  -3.0  1.0  3.0 0.0 0.0
+  3.0  1.0  3.0 6.0 0.0
+  -3.0  1.0 -3.0 0.0 6.0
+  3.0  1.0 -3.0 6.0 6.0
+  3.0  1.0  3.0 6.0 0.0
+
+  // A1
+
+  -2.0  1.0  -2.0 0.0 1.0
+  -2.0  0.0  -2.0 0.0 0.0
+  -0.5  0.0  -2.0 1.5 0.0
+  -2.0  1.0  -2.0 0.0 1.0
+  -0.5  1.0  -2.0 1.5 1.0
+  -0.5  0.0  -2.0 1.5 0.0
+
+  // A2
+
+  2.0  1.0  -2.0 2.0 1.0
+  2.0  0.0  -2.0 2.0 0.0
+  0.5  0.0  -2.0 0.5 0.0
+  2.0  1.0  -2.0 2.0 1.0
+  0.5  1.0  -2.0 0.5 1.0
+  0.5  0.0  -2.0 0.5 0.0
+
+  // B1
+
+  -2.0  1.0  2.0 2.0  1.0
+  -2.0  0.0   2.0 2.0 0.0
+  -0.5  0.0   2.0 0.5 0.0
+  -2.0  1.0  2.0 2.0  1.0
+  -0.5  1.0  2.0 0.5  1.0
+  -0.5  0.0   2.0 0.5 0.0
+
+  // B2
+
+  2.0  1.0  2.0 2.0  1.0
+  2.0  0.0   2.0 2.0 0.0
+  0.5  0.0   2.0 0.5 0.0
+  2.0  1.0  2.0 2.0  1.0
+  0.5  1.0  2.0 0.5  1.0
+  0.5  0.0   2.0 0.5 0.0
+
+  // C1
+
+  -2.0  1.0  -2.0 0.0  1.0
+  -2.0  0.0   -2.0 0.0 0.0
+  -2.0  0.0   -0.5 1.5 0.0
+  -2.0  1.0  -2.0 0.0  1.0
+  -2.0  1.0  -0.5 1.5  1.0
+  -2.0  0.0   -0.5 1.5 0.0
+
+  // C2
+
+  -2.0  1.0   2.0 2.0 1.0
+  -2.0  0.0   2.0 2.0 0.0
+  -2.0  0.0   0.5 0.5 0.0
+  -2.0  1.0  2.0 2.0 1.0
+  -2.0  1.0  0.5 0.5 1.0
+  -2.0  0.0   0.5 0.5 0.0
+
+  // D1
+
+  2.0  1.0  -2.0 0.0 1.0
+  2.0  0.0   -2.0 0.0 0.0
+  2.0  0.0   -0.5 1.5 0.0
+  2.0  1.0  -2.0 0.0 1.0
+  2.0  1.0  -0.5 1.5 1.0
+  2.0  0.0   -0.5 1.5 0.0
+
+  // D2
+
+  2.0  1.0  2.0 2.0 1.0
+  2.0  0.0   2.0 2.0 0.0
+  2.0  0.0   0.5 0.5 0.0
+  2.0  1.0  2.0 2.0 1.0
+  2.0  1.0  0.5 0.5 1.0
+  2.0  0.0   0.5 0.5 0.0
+
+  // Upper hallway - L
+  -0.5  1.0  -3.0 0.0 1.0
+  -0.5  0.0   -3.0 0.0 0.0
+  -0.5  0.0   -2.0 1.0 0.0
+  -0.5  1.0  -3.0 0.0 1.0
+  -0.5  1.0  -2.0 1.0 1.0
+  -0.5  0.0   -2.0 1.0 0.0
+
+  // Upper hallway - R
+  0.5  1.0  -3.0 0.0 1.0
+  0.5  0.0   -3.0 0.0 0.0
+  0.5  0.0   -2.0 1.0 0.0
+  0.5  1.0  -3.0 0.0 1.0
+  0.5  1.0  -2.0 1.0 1.0
+  0.5  0.0   -2.0 1.0 0.0
+
+  // Lower hallway - L
+  -0.5  1.0  3.0 0.0 1.0
+  -0.5  0.0   3.0 0.0 0.0
+  -0.5  0.0   2.0 1.0 0.0
+  -0.5  1.0  3.0 0.0 1.0
+  -0.5  1.0  2.0 1.0 1.0
+  -0.5  0.0   2.0 1.0 0.0
+
+  // Lower hallway - R
+  0.5  1.0  3.0 0.0 1.0
+  0.5  0.0   3.0 0.0 0.0
+  0.5  0.0   2.0 1.0 0.0
+  0.5  1.0  3.0 0.0 1.0
+  0.5  1.0  2.0 1.0 1.0
+  0.5  0.0   2.0 1.0 0.0
+
+
+  // Left hallway - Lw
+
+  -3.0  1.0  0.5 1.0 1.0
+  -3.0  0.0   0.5 1.0 0.0
+  -2.0  0.0   0.5 0.0 0.0
+  -3.0  1.0  0.5 1.0 1.0
+  -2.0  1.0  0.5 0.0 1.0
+  -2.0  0.0   0.5 0.0 0.0
+
+  // Left hallway - Hi
+
+  -3.0  1.0  -0.5 1.0 1.0
+  -3.0  0.0   -0.5 1.0 0.0
+  -2.0  0.0   -0.5 0.0 0.0
+  -3.0  1.0  -0.5 1.0 1.0
+  -2.0  1.0  -0.5 0.0 1.0
+  -2.0  0.0   -0.5 0.0 0.0
+
+  // Right hallway - Lw
+
+  3.0  1.0  0.5 1.0 1.0
+  3.0  0.0   0.5 1.0 0.0
+  2.0  0.0   0.5 0.0 0.0
+  3.0  1.0  0.5 1.0 1.0
+  2.0  1.0  0.5 0.0 1.0
+  2.0  0.0   0.5 0.0 0.0
+
+  // Right hallway - Hi
+
+  3.0  1.0  -0.5 1.0 1.0
+  3.0  0.0   -0.5 1.0 0.0
+  2.0  0.0   -0.5 0.0 0.0
+  3.0  1.0  -0.5 1.0 1.0
+  2.0  1.0 -0.5 0.0 1.0
+  2.0  0.0   -0.5 0.0 0.0
+
+";
     }
 
 
