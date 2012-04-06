@@ -6,12 +6,8 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ScriptCorLibA")]
-[assembly: AssemblyDescription("C# to JavaScript, ActionScript, PHP, Java, C and C# by Arvo Sulakatko 2010")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Abstractatech OÜ")]
-[assembly: AssemblyProduct("jsc")]
-[assembly: AssemblyCopyright("Copyright © Abstractatech OÜ 2012")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyProduct("ScriptCorLibA")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -2,11 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace ScriptCoreLib.Extensions
 {
     public static class TypeExtensions
     {
+        public static MethodBase TryGetGenericMethodDefinition(this MethodBase t)
+        {
+            if (t is MethodInfo)
+                return TryGetGenericMethodDefinition((MethodInfo)t);
+
+            return t;
+        }
+
+        public static MethodInfo TryGetGenericMethodDefinition(this MethodInfo t)
+        {
+
+            if (t != null)
+                if (t.IsGenericMethod)
+                    if (!t.IsGenericMethodDefinition)
+                        return t.GetGenericMethodDefinition();
+
+            return t;
+        }
+
+
         public static Type TryGetGenericTypeDefinition(this Type t)
         {
 
