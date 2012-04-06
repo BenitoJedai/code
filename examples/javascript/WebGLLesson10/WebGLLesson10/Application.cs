@@ -177,110 +177,18 @@ namespace WebGLLesson10
 
 
 
+            var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
+            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+
+            var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
+            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+
+            var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
+            var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
+            var shaderProgram_samplerUniform = getUniformLocation("uSampler");
 
 
-            //var gl;
-
-            //function initGL(canvas) {
-            //    try {
-            //        gl = canvas.getContext("experimental-webgl");
-            //        gl.viewportWidth = canvas.width;
-            //        gl.viewportHeight = canvas.height;
-            //    } catch (e) {
-            //    }
-            //    if (!gl) {
-            //        alert("Could not initialise WebGL, sorry :-(");
-            //    }
-            //}
-
-
-            //function getShader(gl, id) {
-            //    var shaderScript = document.getElementById(id);
-            //    if (!shaderScript) {
-            //        return null;
-            //    }
-
-            //    var str = "";
-            //    var k = shaderScript.firstChild;
-            //    while (k) {
-            //        if (k.nodeType == 3) {
-            //            str += k.textContent;
-            //        }
-            //        k = k.nextSibling;
-            //    }
-
-            //    var shader;
-            //    if (shaderScript.type == "x-shader/x-fragment") {
-            //        shader = gl.createShader(gl.FRAGMENT_SHADER);
-            //    } else if (shaderScript.type == "x-shader/x-vertex") {
-            //        shader = gl.createShader(gl.VERTEX_SHADER);
-            //    } else {
-            //        return null;
-            //    }
-
-            //    gl.shaderSource(shader, str);
-            //    gl.compileShader(shader);
-
-            //    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            //        alert(gl.getShaderInfoLog(shader));
-            //        return null;
-            //    }
-
-            //    return shader;
-            //}
-
-
-            //var shaderProgram;
-
-            //function initShaders() {
-            //    var fragmentShader = getShader(gl, "shader-fs");
-            //    var vertexShader = getShader(gl, "shader-vs");
-
-            //    shaderProgram = gl.createProgram();
-            //    gl.attachShader(shaderProgram, vertexShader);
-            //    gl.attachShader(shaderProgram, fragmentShader);
-            //    gl.linkProgram(shaderProgram);
-
-            //    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            //        alert("Could not initialise shaders");
-            //    }
-
-            //    gl.useProgram(shaderProgram);
-
-            //    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-            //    gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-
-            //    shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-            //    gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
-
-            //    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-            //    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-            //    shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-            //}
-
-
-            //function handleLoadedTexture(texture) {
-            //    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-            //    gl.bindTexture(gl.TEXTURE_2D, texture);
-            //    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
-            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-            //    gl.bindTexture(gl.TEXTURE_2D, null);
-            //}
-
-
-            //var mudTexture;
-
-            //function initTexture() {
-            //    mudTexture = gl.createTexture();
-            //    mudTexture.image = new Image();
-            //    mudTexture.image.onload = function () {
-            //        handleLoadedTexture(mudTexture)
-            //    }
-
-            //    mudTexture.image.src = "mud.gif";
-            //}
+         
 
 
             //var mvMatrix = mat4.create();
@@ -371,6 +279,46 @@ namespace WebGLLesson10
             //}
 
 
+           
+
+
+      
+
+
+
+
+   
+
+
+
+            //    initGL(canvas);
+            //    initShaders();
+
+            //function handleLoadedTexture(texture) {
+            //    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            //    gl.bindTexture(gl.TEXTURE_2D, texture);
+            //    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            //    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+            //    gl.bindTexture(gl.TEXTURE_2D, null);
+            //}
+
+
+            //var mudTexture;
+
+            //function initTexture() {
+            //    mudTexture = gl.createTexture();
+            //    mudTexture.image = new Image();
+            //    mudTexture.image.onload = function () {
+            //        handleLoadedTexture(mudTexture)
+            //    }
+
+            //    mudTexture.image.src = "mud.gif";
+            //}
+
+            //    initTexture();
+
             //var worldVertexPositionBuffer = null;
             //var worldVertexTextureCoordBuffer = null;
 
@@ -410,7 +358,6 @@ namespace WebGLLesson10
             //    document.getElementById("loadingtext").textContent = "";
             //}
 
-
             //function loadWorld() {
             //    var request = new XMLHttpRequest();
             //    request.open("GET", "world.txt");
@@ -421,6 +368,42 @@ namespace WebGLLesson10
             //    }
             //    request.send();
             //}
+
+
+            //    loadWorld();
+
+            //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            //    gl.enable(gl.DEPTH_TEST);
+
+            //    document.onkeydown = handleKeyDown;
+            //    document.onkeyup = handleKeyUp;
+
+
+
+            //var lastTime = 0;
+            //// Used to make us "jog" up and down as we move forward.
+            //var joggingAngle = 0;
+
+            //function animate() {
+            //    var timeNow = new Date().getTime();
+            //    if (lastTime != 0) {
+            //        var elapsed = timeNow - lastTime;
+
+            //        if (speed != 0) {
+            //            xPos -= Math.sin(degToRad(yaw)) * speed * elapsed;
+            //            zPos -= Math.cos(degToRad(yaw)) * speed * elapsed;
+
+            //            joggingAngle += elapsed * 0.6; // 0.6 "fiddle factor" - makes it feel more realistic :-)
+            //            yPos = Math.sin(degToRad(joggingAngle)) / 20 + 0.4
+            //        }
+
+            //        yaw += yawRate * elapsed;
+            //        pitch += pitchRate * elapsed;
+
+            //    }
+            //    lastTime = timeNow;
+            //}
+
 
 
 
@@ -455,31 +438,6 @@ namespace WebGLLesson10
             //}
 
 
-            //var lastTime = 0;
-            //// Used to make us "jog" up and down as we move forward.
-            //var joggingAngle = 0;
-
-            //function animate() {
-            //    var timeNow = new Date().getTime();
-            //    if (lastTime != 0) {
-            //        var elapsed = timeNow - lastTime;
-
-            //        if (speed != 0) {
-            //            xPos -= Math.sin(degToRad(yaw)) * speed * elapsed;
-            //            zPos -= Math.cos(degToRad(yaw)) * speed * elapsed;
-
-            //            joggingAngle += elapsed * 0.6; // 0.6 "fiddle factor" - makes it feel more realistic :-)
-            //            yPos = Math.sin(degToRad(joggingAngle)) / 20 + 0.4
-            //        }
-
-            //        yaw += yawRate * elapsed;
-            //        pitch += pitchRate * elapsed;
-
-            //    }
-            //    lastTime = timeNow;
-            //}
-
-
             //function tick() {
             //    requestAnimFrame(tick);
             //    handleKeys();
@@ -487,23 +445,7 @@ namespace WebGLLesson10
             //    animate();
             //}
 
-
-
-            //function webGLStart() {
-            //    var canvas = document.getElementById("lesson10-canvas");
-            //    initGL(canvas);
-            //    initShaders();
-            //    initTexture();
-            //    loadWorld();
-
-            //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-            //    gl.enable(gl.DEPTH_TEST);
-
-            //    document.onkeydown = handleKeyDown;
-            //    document.onkeyup = handleKeyUp;
-
             //    tick();
-            //}
         }
     }
 
