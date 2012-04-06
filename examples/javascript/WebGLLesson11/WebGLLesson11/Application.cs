@@ -68,6 +68,7 @@ namespace WebGLLesson11
 
         void InitializeContent(IDefaultPage page = null)
         {
+            
             var gl_viewportWidth = Native.Window.Width;
             var gl_viewportHeight = Native.Window.Height;
 
@@ -100,6 +101,12 @@ namespace WebGLLesson11
                 throw new InvalidOperationException("cannot create webgl context");
             }
             #endregion
+
+            if (page != null)
+                page.Toolbar.Orphanize().AttachToDocument();
+
+            if (page == null)
+                page = new DefaultPage();
 
             #region IsDisposed
             var IsDisposed = false;
@@ -197,7 +204,7 @@ namespace WebGLLesson11
 
             #endregion
 
-          
+
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
             gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
@@ -205,9 +212,17 @@ namespace WebGLLesson11
             var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
             gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
 
-            var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
-            var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
-            var shaderProgram_samplerUniform = getUniformLocation("uSampler");
+            var shaderProgram_vertexNormalAttribute = getAttribLocation("aVertexNormal");
+            gl.enableVertexAttribArray((ulong)shaderProgram_vertexNormalAttribute);
+
+            var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+            var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            var shaderProgram_nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
+            var shaderProgram_samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+            var shaderProgram_useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
+            var shaderProgram_ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
+            var shaderProgram_lightingDirectionUniform = gl.getUniformLocation(shaderProgram, "uLightingDirection");
+            var shaderProgram_directionalColorUniform = gl.getUniformLocation(shaderProgram, "uDirectionalColor");
 
 
 
@@ -242,6 +257,11 @@ namespace WebGLLesson11
                 {
                     gl.uniformMatrix4fv(shaderProgram_pMatrixUniform, false, pMatrix);
                     gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, mvMatrix);
+
+                    var normalMatrix = __glMatrix.mat3.create();
+                    __glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
+                    __glMatrix.mat3.transpose(normalMatrix);
+                    gl.uniformMatrix3fv(shaderProgram_nMatrixUniform, false, normalMatrix);
                 };
             #endregion
 
@@ -253,115 +273,152 @@ namespace WebGLLesson11
             #endregion
 
 
+            #region mouseDown
+            var mouseDown = false;
+            var lastMouseX = 0L;
+            var lastMouseY = 0L;
 
+            var moonRotationMatrix = __glMatrix.mat4.create();
+            __glMatrix.mat4.identity(moonRotationMatrix);
 
-            var pitch = 0f;
-            var pitchRate = 0f;
-
-            var yaw = 0f;
-            var yawRate = 0f;
-
-            var xPos = 0f;
-            var yPos = 0.4f;
-            var zPos = 0f;
-
-            var speed = 0f;
-
-            #region currentlyPressedKeys
-            var currentlyPressedKeys = new Dictionary<int, bool>
-            {
-                {33, false},
-                {34, false},
-                {37, false},
-                {39, false},
-                {38, false},
-                {40, false},
-                {83, false},
-                {87, false},
-                {65, false},
-                {68, false},
-            };
-
-            Native.Document.onkeydown +=
+            canvas.onmousedown +=
                 e =>
                 {
-                    currentlyPressedKeys[e.KeyCode] = true;
+                    mouseDown = true;
+                    lastMouseX = e.CursorX;
+                    lastMouseY = e.CursorY;
                 };
 
-            Native.Document.onkeyup +=
-               e =>
-               {
-                   currentlyPressedKeys[e.KeyCode] = false;
-               };
-
-            #endregion
-
-
-            #region handleKeys
-            Action handleKeys =
-                delegate
+            Native.Document.onmouseup +=
+                e =>
                 {
-                    if (currentlyPressedKeys[33])
-                    {
-                        // Page Up
-                        pitchRate = 0.1f;
-                    }
-                    else if (currentlyPressedKeys[34])
-                    {
-                        // Page Down
-                        pitchRate = -0.1f;
-                    }
-                    else
-                    {
-                        pitchRate = 0;
-                    }
+                    mouseDown = false;
 
+                };
 
-                    if (currentlyPressedKeys[37] || currentlyPressedKeys[65])
+            Native.Document.onmousemove +=
+                e =>
+                {
+                    if (!mouseDown)
                     {
-                        // Left cursor key or A
-                        yawRate = 0.1f;
+                        return;
                     }
-                    else if (currentlyPressedKeys[39] || currentlyPressedKeys[68])
-                    {
-                        // Right cursor key or D
-                        yawRate = -0.1f;
-                    }
-                    else
-                    {
-                        yawRate = 0;
-                    }
+                    var newX = e.CursorX;
+                    var newY = e.CursorY;
 
-                    if (currentlyPressedKeys[38] || currentlyPressedKeys[87])
-                    {
-                        // Up cursor key or W
-                        speed = 0.003f;
-                    }
-                    else if (currentlyPressedKeys[40] || currentlyPressedKeys[83])
-                    {
-                        // Down cursor key
-                        speed = -0.003f;
-                    }
-                    else
-                    {
-                        speed = 0;
-                    }
+                    var deltaX = newX - lastMouseX;
+                    var newRotationMatrix = __glMatrix.mat4.create();
+                    __glMatrix.mat4.identity(newRotationMatrix);
+                    __glMatrix.mat4.rotate(newRotationMatrix, degToRad(deltaX / 10), 0, 1, 0);
+
+                    var deltaY = newY - lastMouseY;
+                    __glMatrix.mat4.rotate(newRotationMatrix, degToRad(deltaY / 10), 1, 0, 0);
+
+                    __glMatrix.mat4.multiply(newRotationMatrix, moonRotationMatrix, moonRotationMatrix);
+
+                    lastMouseX = newX;
+                    lastMouseY = newY;
                 };
             #endregion
 
 
-        
 
-            new HTML.Images.FromAssets.mud().InvokeOnComplete(
+
+
+
+
+
+            var latitudeBands = 30;
+            var longitudeBands = 30;
+            var radius = 2;
+
+            var vertexPositionData = new List<f>();
+            var normalData = new List<f>();
+            var textureCoordData = new List<f>();
+            for (var latNumber = 0; latNumber <= latitudeBands; latNumber++)
+            {
+                var theta = latNumber * Math.PI / latitudeBands;
+                var sinTheta = (f)Math.Sin(theta);
+                var cosTheta = (f)Math.Cos(theta);
+
+                for (var longNumber = 0; longNumber <= longitudeBands; longNumber++)
+                {
+                    var phi = longNumber * 2 * Math.PI / longitudeBands;
+                    var sinPhi = (f)Math.Sin(phi);
+                    var cosPhi = (f)Math.Cos(phi);
+
+                    var x = cosPhi * sinTheta;
+                    var y = cosTheta;
+                    var z = sinPhi * sinTheta;
+                    var u = 1 - (longNumber / longitudeBands);
+                    var v = 1 - (latNumber / latitudeBands);
+
+                    normalData.Add(x);
+                    normalData.Add(y);
+                    normalData.Add(z);
+                    textureCoordData.Add(u);
+                    textureCoordData.Add(v);
+                    vertexPositionData.Add(radius * x);
+                    vertexPositionData.Add(radius * y);
+                    vertexPositionData.Add(radius * z);
+                }
+            }
+
+            var indexData = new List<ushort>();
+            for (var latNumber = 0; latNumber < latitudeBands; latNumber++)
+            {
+                for (var longNumber = 0; longNumber < longitudeBands; longNumber++)
+                {
+                    var first = (latNumber * (longitudeBands + 1)) + longNumber;
+                    var second = first + longitudeBands + 1;
+                    indexData.Add((ushort)first);
+                    indexData.Add((ushort)second);
+                    indexData.Add((ushort)(first + 1));
+
+                    indexData.Add((ushort)second);
+                    indexData.Add((ushort)(second + 1));
+                    indexData.Add((ushort)(first + 1));
+                }
+            }
+
+            var moonVertexNormalBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData.ToArray()), gl.STATIC_DRAW);
+            var moonVertexNormalBuffer_itemSize = 3;
+            var moonVertexNormalBuffer_numItems = normalData.Count / 3;
+
+            var moonVertexTextureCoordBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordData.ToArray()), gl.STATIC_DRAW);
+            var moonVertexTextureCoordBuffer_itemSize = 2;
+            var moonVertexTextureCoordBuffer_numItems = textureCoordData.Count / 2;
+
+            var moonVertexPositionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositionData.ToArray()), gl.STATIC_DRAW);
+            var moonVertexPositionBuffer_itemSize = 3;
+            var moonVertexPositionBuffer_numItems = vertexPositionData.Count / 3;
+
+            var moonVertexIndexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indexData.ToArray()), gl.STATIC_DRAW);
+            var moonVertexIndexBuffer_itemSize = 1;
+            var moonVertexIndexBuffer_numItems = indexData.Count;
+
+
+
+
+            new HTML.Images.FromAssets.moon().InvokeOnComplete(
                 mud =>
                 {
-                    var mudTexture = gl.createTexture();
+                    var moonTexture = gl.createTexture();
 
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-                    gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+                    gl.bindTexture(gl.TEXTURE_2D, moonTexture);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mud);
                     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                    gl.generateMipmap(gl.TEXTURE_2D);
 
                     gl.bindTexture(gl.TEXTURE_2D, null);
 
@@ -369,43 +426,6 @@ namespace WebGLLesson11
 
 
                     Func<string, f> parseFloat = x => (f)double.Parse(x);
-
-                    var lines = data.Split('\n');
-                    var vertexCount = 0;
-                    var vertexPositions = new List<f>();
-                    var vertexTextureCoords = new List<f>();
-                    foreach (var i in lines)
-                    {
-                        var vals = i.Trim().Replace("   ", "  ").Replace("  ", " ").Split(' ');
-
-                        if (vals.Length == 5 && vals[0] != "//")
-                        {
-                            // It is a line describing a vertex; get X, Y and Z first
-                            vertexPositions.Add(parseFloat(vals[0]));
-                            vertexPositions.Add(parseFloat(vals[1]));
-                            vertexPositions.Add(parseFloat(vals[2]));
-
-                            // And then the texture coords
-                            vertexTextureCoords.Add(parseFloat(vals[3]));
-                            vertexTextureCoords.Add(parseFloat(vals[4]));
-
-                            vertexCount += 1;
-                        }
-                    }
-
-                    var worldVertexPositionBuffer = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositions.ToArray()), gl.STATIC_DRAW);
-                    var worldVertexPositionBuffer_itemSize = 3;
-                    var worldVertexPositionBuffer_numItems = vertexCount;
-
-                    var worldVertexTextureCoordBuffer = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
-                    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTextureCoords.ToArray()), gl.STATIC_DRAW);
-                    var worldVertexTextureCoordBuffer_itemSize = 2;
-                    var worldVertexTextureCoordBuffer_numItems = vertexCount;
-
-
 
 
 
@@ -415,69 +435,68 @@ namespace WebGLLesson11
 
 
 
-                    var lastTime = 0L;
-                    // Used to make us "jog" up and down as we move forward.
-                    var joggingAngle = 0f;
 
-                    #region animate
-                    Action animate = () =>
-                    {
-                        var timeNow = new IDate().getTime();
-                        if (lastTime != 0)
-                        {
-                            var elapsed = timeNow - lastTime;
-
-                            if (speed != 0)
-                            {
-                                xPos -= (f)Math.Sin(degToRad(yaw)) * speed * elapsed;
-                                zPos -= (f)Math.Cos(degToRad(yaw)) * speed * elapsed;
-
-                                joggingAngle += elapsed * 0.6f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
-                                yPos = (f)Math.Sin(degToRad(joggingAngle)) / 20 + 0.4f;
-                            }
-
-                            yaw += yawRate * elapsed;
-                            pitch += pitchRate * elapsed;
-
-                        }
-                        lastTime = timeNow;
-                    };
-                    #endregion
-
-
-                    #region drawScene
                     Action drawScene = () =>
                     {
                         gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                        if (worldVertexTextureCoordBuffer == null || worldVertexPositionBuffer == null)
-                        {
-                            return;
-                        }
-
                         __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+
+                        var lighting = page.lighting.@checked;
+                        gl.uniform1i(shaderProgram_useLightingUniform, Convert.ToInt32(lighting));
+                        if (lighting)
+                        {
+                            gl.uniform3f(
+                                shaderProgram_ambientColorUniform,
+                                parseFloat(page.ambientR.value),
+                                parseFloat(page.ambientG.value),
+                                parseFloat(page.ambientB.value)
+                            );
+
+                            var lightingDirection = new[]{
+                                    parseFloat(page.lightDirectionX.value),
+                                    parseFloat(page.lightDirectionY.value),
+                                    parseFloat(page.lightDirectionZ.value)
+                                };
+
+                            var adjustedLD = __glMatrix.vec3.create();
+                            __glMatrix.vec3.normalize(lightingDirection, adjustedLD);
+                            __glMatrix.vec3.scale(adjustedLD, -1);
+                            gl.uniform3fv(shaderProgram_lightingDirectionUniform, adjustedLD);
+
+                            gl.uniform3f(
+                                shaderProgram_directionalColorUniform,
+                                parseFloat(page.directionalR.value),
+                                parseFloat(page.directionalG.value),
+                                parseFloat(page.directionalB.value)
+                            );
+                        }
 
                         __glMatrix.mat4.identity(mvMatrix);
 
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), 1, 0, 0);
-                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), 0, 1, 0);
-                        __glMatrix.mat4.translate(mvMatrix, -xPos, -yPos, -zPos);
+                        __glMatrix.mat4.translate(mvMatrix, 0, 0, -6);
+
+                        __glMatrix.mat4.multiply(mvMatrix, moonRotationMatrix);
 
                         gl.activeTexture(gl.TEXTURE0);
-                        gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+                        gl.bindTexture(gl.TEXTURE_2D, moonTexture);
                         gl.uniform1i(shaderProgram_samplerUniform, 0);
 
-                        gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, worldVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                        gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, worldVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
+                        gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
+                        gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
                         setMatrixUniforms();
-                        gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer_numItems);
+                        gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                     };
-                    #endregion
+
 
 
                     #region tick
@@ -488,9 +507,9 @@ namespace WebGLLesson11
                         if (IsDisposed)
                             return;
 
-                        handleKeys();
+
                         drawScene();
-                        animate();
+
 
                         Native.Window.requestAnimationFrame += tick;
                     };
