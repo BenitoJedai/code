@@ -8,6 +8,11 @@ namespace ScriptCoreLib.Avalon
 {
     public static class FrameworkElementMarginExtensions
     {
+        public static IEnumerable<T> WithSomeMargins<T>(this IEnumerable<T> e) where T : FrameworkElement
+        {
+            return e.WithSomeMarginBelow().WithSomeMarginAbove();
+        }
+
         public static IEnumerable<T> WithSomeMarginAbove<T>(this IEnumerable<T> e) where T : FrameworkElement
         {
             var x = e.ToArray();
