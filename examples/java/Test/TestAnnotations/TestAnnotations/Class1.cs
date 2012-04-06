@@ -16,9 +16,42 @@ namespace OtherNamespace
 
 }
 
+namespace java.lang.annotation
+{
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Annotation.html
+    [Script(IsNative = true)]
+    public interface Annotation
+    {
+
+    }
+
+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/annotation/Documented.html
+    [Script(IsNative = true)]
+    public interface Documented : Annotation
+    {
+
+    }
+
+    [Script]
+    public class DocumentedAttribute : Attribute
+    {
+        // not implemented here? :)
+    }
+}
+
+namespace java
+{
+    [Script]
+    class ThisClassWillBeRedirectedTo_javax_Namespace
+    {
+        
+    }
+}
+
 namespace TestAnnotations
 {
     using OtherNamespace;
+    using java.lang.annotation;
 
     [Script(Implements = typeof(global::System.Runtime.InteropServices._Attribute))]
     internal interface ___Attribute
@@ -46,7 +79,7 @@ namespace TestAnnotations
     
 
     [Script]
-    [Foo(Text = "hello world"), ZooAttribute, Bar]
+    [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
     public class Class1
     {
         
