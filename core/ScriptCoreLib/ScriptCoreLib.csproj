@@ -101,6 +101,7 @@
     <Compile Include="ActionScript\flash\net\NetGroupInfo.cs" />
     <Compile Include="ActionScript\flash\sensors\Accelerometer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NullReferenceException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\IFormattable.cs" />
