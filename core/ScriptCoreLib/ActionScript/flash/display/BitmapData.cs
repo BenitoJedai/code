@@ -8,7 +8,7 @@ using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://livedocs.adobe.com/flex/3/langref/flash/display/BitmapData.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/BitmapData.html
     [Script(IsNative = true)]
     public class BitmapData : IBitmapDrawable
     {
