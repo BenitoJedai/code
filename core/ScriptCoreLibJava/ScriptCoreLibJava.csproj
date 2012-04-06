@@ -852,6 +852,8 @@
     <Compile Include="java\io\Serializable.cs" />
     <Compile Include="java\io\StringReader.cs" />
     <Compile Include="java\io\StringWriter.cs" />
+    <Compile Include="java\lang\annotation\Annotation.cs" />
+    <Compile Include="java\lang\annotation\Documented.cs" />
     <Compile Include="java\lang\Character.cs" />
     <Compile Include="java\lang\Comparable.cs" />
     <Compile Include="java\lang\Enum.cs" />

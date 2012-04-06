@@ -6,7 +6,7 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.net
 {
-    // http://livedocs.adobe.com/flex/3/langref/flash/net/NetConnection.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/net/NetConnection.html
     [Script(IsNative = true)]
     public class NetConnection : EventDispatcher
     {
@@ -136,6 +136,10 @@ namespace ScriptCoreLib.ActionScript.flash.net
         /// Creates a bidirectional connection between a Flash Player or AIR an AIR application and a Flash Media Server application.
         /// </summary>
         public void connect(string command, /* params */ object arguments)
+        {
+        }
+
+        public void connect(string command, /* params */ object arguments0, object arguments1)
         {
         }
 
