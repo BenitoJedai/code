@@ -173,6 +173,7 @@
     <Content Include="Design\Demo_WebGL_Photo_Album_-_Google_Chrome-2012-02-26_21.37.12.jpg" />
     <Content Include="Design\Dollhouse_From_Octane_-_Google_Chrome-2012-02-27_00.13.15.png" />
     <Content Include="Design\Earth_and_Mars_-_Google_Chrome-2012-02-26_22.43.50.png" />
+    <Content Include="Design\easy_does_it_-_Google_Chrome-2012-04-06_12.12.08.png" />
     <Content Include="Design\egraether_-_booleans_-_Google_Chrome-2012-02-26_22.56.49.png" />
     <Content Include="Design\Endless_Forest_-_Google_Chrome-2012-02-26_20.59.20.png" />
     <Content Include="Design\Endless_Tunnel_-_Google_Chrome-2012-02-26_19.32.26.jpg" />
@@ -185,12 +186,14 @@
     <Content Include="Design\Fragment_Shader_Framework__Lewpen.com_-_Google_Chrome-2012-03-18_02.38.23.png" />
     <Content Include="Design\Futurama_-_Google_Chrome-2012-02-26_21.00.47.png" />
     <Content Include="Design\GaN_crystal_-_Google_Chrome-2012-02-26_21.47.46.png" />
+    <Content Include="Design\GCode_Viewer_-_Google_Chrome-2012-04-06_12.40.54.png" />
     <Content Include="Design\gdd11-webgl.appspot.comthreethree_11.html_-_Google_Chrome-2012-02-26_20.12.59.png" />
     <Content Include="Design\gdd11-webgl.appspot.comthreethree_8.html_-_Google_Chrome-2012-02-26_20.11.56.png" />
     <Content Include="Design\Glass_Moulding_-_Google_Chrome-2012-02-26_22.32.06.jpg" />
     <Content Include="Design\GLmol_-_Molecular_Viewer_on_WebGLJavascript_-_Google_Chrome-2012-03-25_12.50.43.png" />
     <Content Include="Design\glMonsterMaze_-_antonmills_-_Google_Chrome-2012-03-25_19.05.13.png" />
     <Content Include="Design\GLSL_Sandbox_-_Google_Chrome-2012-02-26_19.53.07.png" />
+    <Content Include="Design\Gunslinger_3dgames_WebGL_-_Google_Chrome-2012-04-06_12.35.01.png" />
     <Content Include="Design\HelloRacer_WebGL_-_Google_Chrome-2012-02-26_19.54.48.png" />
     <Content Include="Design\Hero_of_Crystalmire_-_Google_Chrome-2012-03-30_19.16.30.png" />
     <Content Include="Design\html5canvastutorials.comdemoslabshtml5_canvas_webgl_3d_world_-_Google_Chrome-2012-03-25_17.54.50.png" />
@@ -255,6 +258,7 @@
     <Content Include="Design\Rutt-Etra-Izer_-_Google_Chrome-2012-02-26_20.54.15.png" />
     <Content Include="Design\scenejs.orgdistv2.0.0extrexamplesseymour-planeindex.html_-_Google_Chrome-2012-03-03_21.51.10.png" />
     <Content Include="Design\scenejs.orgdistv2.0.0extrexamplestexture-layersindex.html_-_Google_Chrome-2012-03-22_20.21.58.png" />
+    <Content Include="Design\SENSILIA_-_3D_visualisation_tools_for_designers_-_Google_Chrome-2012-04-06_12.32.04.png" />
     <Content Include="Design\Shadow_Mapping_-_Google_Chrome-2012-02-26_19.18.00.png" />
     <Content Include="Design\shatterquest.comgame_-_Google_Chrome-2012-03-18_03.10.47.png" />
     <Content Include="Design\Ship_-_shapeWright.com_-_Google_Chrome-2012-02-26_20.18.51.png" />
@@ -267,6 +271,7 @@
     <Content Include="Design\SpiderGL_-_Shadow_Mapping_-_Google_Chrome-2012-03-25_19.02.25.png" />
     <Content Include="Design\Spinning_WebGL_Box_-_Google_Chrome-2012-03-25_18.20.05.png" />
     <Content Include="Design\Sproingies_in_WebGL_-_Google_Chrome-2012-02-26_21.29.09.png" />
+    <Content Include="Design\Sunglass_-_Google_Chrome-2012-04-06_12.54.51.png" />
     <Content Include="Design\Surface_-_Google_Chrome-2012-02-26_22.00.15.png" />
     <Content Include="Design\Swampy_Camaro_-_Google_Chrome-2012-02-26_22.12.38.jpg" />
     <Content Include="Design\Tankworld_-Stencil_shadow_demo_-_Google_Chrome-2012-02-26_21.21.50.png" />
@@ -292,6 +297,7 @@
     <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_14.21.57.png" />
     <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_14.56.14.png" />
     <Content Include="Design\three.js_webgl_-_morph_targets_-_horse_-_Google_Chrome-2012-03-29_15.10.20.png" />
+    <Content Include="Design\three.js_webgl_-_ribbons_-_Google_Chrome-2012-04-06_12.23.31.png" />
     <Content Include="Design\three.js_webgl_-_very_simple_platform_game_starter_-_Google_Chrome-2012-03-25_18.52.11.png" />
     <Content Include="Design\Tiananmen_1989_-_Google_Chrome-2012-03-25_18.55.01.png" />
     <Content Include="Design\Tornado_Demo_-_Google_Chrome-2012-03-03_22.37.44.png" />
