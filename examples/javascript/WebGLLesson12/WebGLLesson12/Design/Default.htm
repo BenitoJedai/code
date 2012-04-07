@@ -2,30 +2,32 @@
 <head>
     <title>DefaultPage</title>
 </head>
-<body>
+<body style=' color: White; background-color: Black;'>
     <noscript>
         Error: This Application requires JavaScript.</noscript>
     <img src="Preview.png" style='float: right;' />
     <div id='Toolbar' style='position: absolute; right: 0px; bottom: 0px;'>
-        <input id="lighting" checked='checked' style="" type="checkbox" /><span style=""><span>&nbsp;</span>Use
-            lighting</span><br />
-        <span style="">Spin the moon by dragging it with the mouse.<span>&nbsp;</span></span><br
-            style="" />
-        <h2 style="">
-            Directional light:</h2>
-        <table style="">
+        <input type="checkbox" id="lighting" checked='checked' />
+        Use lighting<br />
+        <br />
+        <h2>
+            Point light:</h2>
+        <table style="border: 0; padding: 10px;">
             <tr>
                 <td>
-                    <b>Direction:</b>
+                    <b>Location:</b>
                 </td>
                 <td>
-                    X:<span>&nbsp;</span><input id="lightDirectionX" type="text" value="-1.0" />
+                    X:
+                    <input type="text" id="lightPositionX" value="0.0" />
                 </td>
                 <td>
-                    Y:<span>&nbsp;</span><input id="lightDirectionY" type="text" value="-1.0" />
+                    Y:
+                    <input type="text" id="lightPositionY" value="0.0" />
                 </td>
                 <td>
-                    Z:<span>&nbsp;</span><input id="lightDirectionZ" type="text" value="-1.0" />
+                    Z:
+                    <input type="text" id="lightPositionZ" value="-20.0" />
                 </td>
             </tr>
             <tr>
@@ -33,31 +35,37 @@
                     <b>Colour:</b>
                 </td>
                 <td>
-                    R:<span>&nbsp;</span><input id="directionalR" type="text" value="0.8" />
+                    R:
+                    <input type="text" id="pointR" value="0.8" />
                 </td>
                 <td>
-                    G:<span>&nbsp;</span><input id="directionalG" type="text" value="0.8" />
+                    G:
+                    <input type="text" id="pointG" value="0.8" />
                 </td>
                 <td>
-                    B:<span>&nbsp;</span><input id="directionalB" type="text" value="0.8" />
+                    B:
+                    <input type="text" id="pointB" value="0.8" />
                 </td>
             </tr>
         </table>
-        <h2 style="">
+        <h2>
             Ambient light:</h2>
-        <table style="">
+        <table style="border: 0; padding: 10px;">
             <tr>
                 <td>
                     <b>Colour:</b>
                 </td>
                 <td>
-                    R:<span>&nbsp;</span><input id="ambientR" type="text" value="0.2" />
+                    R:
+                    <input type="text" id="ambientR" value="0.2" />
                 </td>
                 <td>
-                    G:<span>&nbsp;</span><input id="ambientG" type="text" value="0.2" />
+                    G:
+                    <input type="text" id="ambientG" value="0.2" />
                 </td>
                 <td>
-                    B:<span>&nbsp;</span><input id="ambientB" type="text" value="0.2" />
+                    B:
+                    <input type="text" id="ambientB" value="0.2" />
                 </td>
             </tr>
         </table>
