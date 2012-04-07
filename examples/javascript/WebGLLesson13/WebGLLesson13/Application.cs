@@ -19,6 +19,7 @@ namespace WebGLLesson13
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using ScriptCoreLib.GLSL;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -176,19 +177,41 @@ namespace WebGLLesson13
             #endregion
 
 
-            #region init shaders
-            var vs = createShader(new Shaders.GeometryVertexShader());
-            var fs = createShader(new Shaders.GeometryFragmentShader());
+            var programs = new[]
+            {
+                new 
+                { 
+                    vs = (FragmentShader)new Shaders.PerFragmentLightingFragmentShader(),
+                    fs = (VertexShader)new Shaders.PerFragmentLightingVertexShader()
+                },
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
+                new 
+                { 
+                    vs = (FragmentShader)new Shaders.PerVertexLightingFragmentShader(),
+                    fs = (VertexShader)new Shaders.PerVertexLightingVertexShader()
+                }
+            };
 
-            var shaderProgram = gl.createProgram();
+            Func<FragmentShader, VertexShader, WebGLProgram> createProgram =
+                (_fs, _vs) =>
+                {
+                    var vs = createShader(new Shaders.PerFragmentLightingFragmentShader());
+                    var fs = createShader(new Shaders.PerFragmentLightingVertexShader());
 
-            gl.attachShader(shaderProgram, vs);
-            gl.attachShader(shaderProgram, fs);
+                    if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
+
+                    var shaderProgram = gl.createProgram();
+
+                    gl.attachShader(shaderProgram, vs);
+                    gl.attachShader(shaderProgram, fs);
+
+                    gl.linkProgram(shaderProgram);
 
 
-            gl.linkProgram(shaderProgram);
+                    return shaderProgram;
+                };
+
+
             gl.useProgram(shaderProgram);
 
             #region getAttribLocation
@@ -201,7 +224,6 @@ namespace WebGLLesson13
                 name => gl.getUniformLocation(shaderProgram, name);
             #endregion
 
-            #endregion
 
 
 
