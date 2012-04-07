@@ -89,6 +89,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 			
 		}
 
+        public static float ToSingle(string value)
+        {
+            return float.Parse(value);
+
+        }
+
 		public static bool ToBoolean(int value)
 		{
 			return value != 0;
