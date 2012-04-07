@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Web Developer Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLLesson12", "WebGLLesson12\WebGLLesson12.csproj", "{C6005E06-BB80-4820-B322-18AE40C52190}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6005E06-BB80-4820-B322-18AE40C52190}.Debug|x86.ActiveCfg = Debug|x86
+		{C6005E06-BB80-4820-B322-18AE40C52190}.Debug|x86.Build.0 = Debug|x86
+		{C6005E06-BB80-4820-B322-18AE40C52190}.Release|x86.ActiveCfg = Release|x86
+		{C6005E06-BB80-4820-B322-18AE40C52190}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
