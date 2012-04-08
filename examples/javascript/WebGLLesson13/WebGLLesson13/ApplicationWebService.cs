@@ -4,12 +4,11 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using System.ComponentModel;
 
 namespace WebGLLesson13
 {
-    /// <summary>
-    /// Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.
-    /// </summary>
+    [Description("Methods defined in this type can be used from JavaScript. The method calls will seamlessly be proxied to the server.")]
     public sealed class ApplicationWebService
     {
         /// <summary>
