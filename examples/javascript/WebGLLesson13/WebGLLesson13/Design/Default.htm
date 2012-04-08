@@ -6,78 +6,7 @@
     <noscript>
         Error: This Application requires JavaScript.</noscript>
     <img src="Preview.png" style='float: right;' />
-    <div id='Toolbar' style='position: absolute; right: 0px; bottom: 0px;'>
 
-
-        <input type="checkbox" id="lighting" checked='checked' />
-        Use lighting<br />
-        <!-- jsc does not like dash in the name, why? -->
-        <input type="checkbox" id="per_fragment" checked='checked' />
-        Per-fragment lighting<br />
-        <input type="checkbox" id="textures" checked='checked' />
-        Use textures<br />
-        <br />
-        <br />
-        <h2>
-            Point light:</h2>
-        <table style="border: 0; padding: 10px;">
-            <tr>
-                <td>
-                    <b>Location:</b>
-                </td>
-                <td>
-                    X:
-                    <input type="text" id="lightPositionX" value="0.0" />
-                </td>
-                <td>
-                    Y:
-                    <input type="text" id="lightPositionY" value="0.0" />
-                </td>
-                <td>
-                    Z:
-                    <input type="text" id="lightPositionZ" value="-20.0" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>Colour:</b>
-                </td>
-                <td>
-                    R:
-                    <input type="text" id="pointR" value="0.8" />
-                </td>
-                <td>
-                    G:
-                    <input type="text" id="pointG" value="0.8" />
-                </td>
-                <td>
-                    B:
-                    <input type="text" id="pointB" value="0.8" />
-                </td>
-            </tr>
-        </table>
-        <h2>
-            Ambient light:</h2>
-        <table style="border: 0; padding: 10px;">
-            <tr>
-                <td>
-                    <b>Colour:</b>
-                </td>
-                <td>
-                    R:
-                    <input type="text" id="ambientR" value="0.2" />
-                </td>
-                <td>
-                    G:
-                    <input type="text" id="ambientG" value="0.2" />
-                </td>
-                <td>
-                    B:
-                    <input type="text" id="ambientB" value="0.2" />
-                </td>
-            </tr>
-        </table>
-    </div>
     <div id='PageContainer'>
         <h1 id='Header'>
             JSC - The .NET crosscompiler for web platforms.</h1>

@@ -102,11 +102,14 @@ namespace WebGLLesson13
             }
             #endregion
 
-            if (page != null)
-                page.Toolbar.Orphanize().AttachToDocument();
+            var toolbar = new ToolbarPage();
 
-            if (page == null)
-                page = new DefaultPage();
+            if (page != null)
+            {
+                toolbar.Container.AttachToDocument();
+                toolbar.Container.style.Opacity = 0.7;
+
+            }
 
             #region IsDisposed
             var IsDisposed = false;
@@ -177,7 +180,7 @@ namespace WebGLLesson13
             #endregion
 
             #region programs
-            var programs = 
+            var programs =
                 new[]
                 {
                     new 
@@ -250,8 +253,8 @@ namespace WebGLLesson13
 
 
 
-            var perVertexProgram = programs.First();
-            var perFragmentProgram = programs.Last();
+            var perVertexProgram = programs.Last();
+            var perFragmentProgram = programs.First();
 
             var currentProgram = perVertexProgram;
 
@@ -295,13 +298,21 @@ namespace WebGLLesson13
                             Action setMatrixUniforms =
                                 delegate
                                 {
+                                    #region [uniform] mat4 uPMatrix <- pMatrix
                                     gl.uniformMatrix4fv(currentProgram.pMatrixUniform, false, pMatrix);
+                                    #endregion
+
+                                    #region [uniform] mat4 uMVMatrix <- mvMatrix
                                     gl.uniformMatrix4fv(currentProgram.mvMatrixUniform, false, mvMatrix);
+                                    #endregion
 
                                     var normalMatrix = __glMatrix.mat3.create();
                                     __glMatrix.mat4.toInverseMat3(mvMatrix, normalMatrix);
                                     __glMatrix.mat3.transpose(normalMatrix);
+
+                                    #region [uniform] mat3 uNMatrix <- normalMatrix
                                     gl.uniformMatrix3fv(currentProgram.nMatrixUniform, false, normalMatrix);
+                                    #endregion
                                 };
                             #endregion
 
@@ -310,42 +321,42 @@ namespace WebGLLesson13
                             gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
                             var vertices = new f[]
                                    {
-                                       // Front face
-                                       -1.0f, -1.0f,  1.0f,
-                                        1.0f, -1.0f,  1.0f,
-                                        1.0f,  1.0f,  1.0f,
-                                       -1.0f,  1.0f,  1.0f,
+                                  // Front face
+            -1.0f, -1.0f,  1.0f,
+             1.0f, -1.0f,  1.0f,
+             1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
 
-                                       // Back face
-                                       -1.0f, -1.0f, -1.0f,
-                                       -1.0f,  1.0f, -1.0f,
-                                        1.0f,  1.0f, -1.0f,
-                                        1.0f, -1.0f, -1.0f,
+            // Back face
+            -1.0f, -1.0f, -1.0f,
+            -1.0f,  1.0f, -1.0f,
+             1.0f,  1.0f, -1.0f,
+             1.0f, -1.0f, -1.0f,
 
-                                       // Top face
-                                       -1.0f,  1.0f, -1.0f,
-                                       -1.0f,  1.0f,  1.0f,
-                                        1.0f,  1.0f,  1.0f,
-                                        1.0f,  1.0f, -1.0f,
+            // Top face
+            -1.0f,  1.0f, -1.0f,
+            -1.0f,  1.0f,  1.0f,
+             1.0f,  1.0f,  1.0f,
+             1.0f,  1.0f, -1.0f,
 
-                                       // Bottom face
-                                       -1.0f, -1.0f, -1.0f,
-                                        1.0f, -1.0f, -1.0f,
-                                        1.0f, -1.0f,  1.0f,
-                                       -1.0f, -1.0f,  1.0f,
+            // Bottom face
+            -1.0f, -1.0f, -1.0f,
+             1.0f, -1.0f, -1.0f,
+             1.0f, -1.0f,  1.0f,
+            -1.0f, -1.0f,  1.0f,
 
-                                       // Right face
-                                        1.0f, -1.0f, -1.0f,
-                                        1.0f,  1.0f, -1.0f,
-                                        1.0f,  1.0f,  1.0f,
-                                        1.0f, -1.0f,  1.0f,
+            // Right face
+             1.0f, -1.0f, -1.0f,
+             1.0f,  1.0f, -1.0f,
+             1.0f,  1.0f,  1.0f,
+             1.0f, -1.0f,  1.0f,
 
-                                       // Left face
-                                       -1.0f, -1.0f, -1.0f,
-                                       -1.0f, -1.0f,  1.0f,
-                                       -1.0f,  1.0f,  1.0f,
-                                       -1.0f,  1.0f, -1.0f
-                                   };
+            // Left face
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f,  1.0f,
+            -1.0f,  1.0f,  1.0f,
+            -1.0f,  1.0f, -1.0f,
+                                };
 
                             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
                             var cubeVertexPositionBuffer_itemSize = 3;
@@ -462,7 +473,7 @@ namespace WebGLLesson13
                             #region moon
                             var latitudeBands = 30;
                             var longitudeBands = 30;
-                            var radius = 2;
+                            var radius = 1;
 
                             var vertexPositionData = new List<f>();
                             var normalData = new List<f>();
@@ -539,7 +550,7 @@ namespace WebGLLesson13
                             #endregion
 
 
-                            
+
 
                             #region handleLoadedTexture
                             Action<WebGLTexture, IHTMLImage> handleLoadedTexture = (texture, texture_image) =>
@@ -555,7 +566,7 @@ namespace WebGLLesson13
                             };
                             #endregion
 
-                        
+
 
 
                             var moonTexture = gl.createTexture();
@@ -596,159 +607,125 @@ namespace WebGLLesson13
                             Func<string, f> parseFloat = x => float.Parse(x);
 
 
-
+                            #region drawScene
                             Action drawScene = () =>
                             {
-                                    gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
-                                    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                                gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+                                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                                    __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                                __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                                    #region useProgram
-                                    var perFragmentLighting = page.per_fragment.@checked;
-                                    if (perFragmentLighting) {
-                                        currentProgram = perFragmentProgram;
-                                    } else {
-                                        currentProgram = perVertexProgram;
-                                    }
-                                    gl.useProgram(currentProgram.program);
+                                #region useProgram
+                                var perFragmentLighting = toolbar.per_fragment.@checked;
+                                if (perFragmentLighting)
+                                {
+                                    currentProgram = perFragmentProgram;
+                                }
+                                else
+                                {
+                                    currentProgram = perVertexProgram;
+                                }
+                                gl.useProgram(currentProgram.program);
+                                #endregion
+
+                                var lighting = toolbar.lighting.@checked;
+
+                                #region [uniform] uUseLighting <- lighting
+                                gl.uniform1i(currentProgram.useLightingUniform, Convert.ToInt32(lighting));
+                                #endregion
+
+                                if (lighting)
+                                {
+                                    #region [uniform] vec3 uAmbientColor <- (f ambientR, f ambientG, f ambientB)
+                                    gl.uniform3f(
+                                        currentProgram.ambientColorUniform,
+                                        parseFloat(toolbar.ambientR.value),
+                                        parseFloat(toolbar.ambientG.value),
+                                        parseFloat(toolbar.ambientB.value)
+                                    );
                                     #endregion
 
-                                    var lighting = page.lighting.@checked;
-
-                                    #region [uniform] uUseLighting <- lighting
-                                    gl.uniform1i(currentProgram.useLightingUniform, Convert.ToInt32( lighting));
+                                    #region [uniform] vec3 uPointLightingLocation <- (f lightPositionX, f lightPositionY, f lightPositionZ)
+                                    gl.uniform3f(
+                                        currentProgram.pointLightingLocationUniform,
+                                        parseFloat(toolbar.lightPositionX.value),
+                                        parseFloat(toolbar.lightPositionY.value),
+                                        parseFloat(toolbar.lightPositionZ.value)
+                                    );
                                     #endregion
 
-                                    if (lighting)
-                                    {
-                                        #region [uniform] vec3 uAmbientColor <- (f ambientR, f ambientG, f ambientB)
-                                        gl.uniform3f(
-                                            currentProgram.ambientColorUniform,
-                                            parseFloat(page.ambientR.value),
-                                            parseFloat(page.ambientG.value),
-                                            parseFloat(page.ambientB.value)
-                                        );
-                                        #endregion
-
-                                        #region [uniform] vec3 uPointLightingLocation <- (f lightPositionX, f lightPositionY, f lightPositionZ)
-                                        gl.uniform3f(
-                                            currentProgram.pointLightingLocationUniform,
-                                            parseFloat(page.lightPositionX.value),
-                                            parseFloat(page.lightPositionY.value),
-                                            parseFloat(page.lightPositionZ.value)
-                                        );
-                                        #endregion
-
-                                        #region [uniform] vec3 uPointLightingColor <- (f pointR, f pointG, f pointB)
-                                        gl.uniform3f(
-                                            currentProgram.pointLightingColorUniform,
-                                            parseFloat(page.pointR.value),
-                                            parseFloat(page.pointG.value),
-                                            parseFloat(page.pointB.value)
-                                        );
-                                        #endregion
-                                    }
-
-                                    var textures = page.textures.@checked;
-
-                                    #region [uniform] uUseTextures <- (bool) textures
-                                    gl.uniform1i(currentProgram.useTexturesUniform, Convert.ToInt32( textures));
+                                    #region [uniform] vec3 uPointLightingColor <- (f pointR, f pointG, f pointB)
+                                    gl.uniform3f(
+                                        currentProgram.pointLightingColorUniform,
+                                        parseFloat(toolbar.pointR.value),
+                                        parseFloat(toolbar.pointG.value),
+                                        parseFloat(toolbar.pointB.value)
+                                    );
                                     #endregion
+                                }
 
-                                //    mat4.identity(mvMatrix);
+                                var textures = toolbar.textures.@checked;
 
-                                //    mat4.translate(mvMatrix, [0, 0, -5]);
+                                #region [uniform] uUseTextures <- (bool) textures
+                                gl.uniform1i(currentProgram.useTexturesUniform, Convert.ToInt32(textures));
+                                #endregion
 
-                                //    mat4.rotate(mvMatrix, degToRad(30), [1, 0, 0]);
+                                __glMatrix.mat4.identity(mvMatrix);
 
-                                //    mvPushMatrix();
-                                //    mat4.rotate(mvMatrix, degToRad(moonAngle), [0, 1, 0]);
-                                //    mat4.translate(mvMatrix, [2, 0, 0]);
-                                //    gl.activeTexture(gl.TEXTURE0);
-                                //    gl.bindTexture(gl.TEXTURE_2D, moonTexture);
-                                //    gl.uniform1i(currentProgram.samplerUniform, 0);
+                                __glMatrix.mat4.translate(mvMatrix, 0, 0, -5);
 
-                                //    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
-                                //    gl.vertexAttribPointer(currentProgram.vertexPositionAttribute, moonVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(30), 1, 0, 0);
 
-                                //    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
-                                //    gl.vertexAttribPointer(currentProgram.textureCoordAttribute, moonVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                                #region cube
+                                mvPushMatrix();
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(moonAngle), 0, 1, 0);
+                                __glMatrix.mat4.translate(mvMatrix, 2, 0, 0);
+                                gl.activeTexture(gl.TEXTURE0);
+                                gl.bindTexture(gl.TEXTURE_2D, moonTexture);
+                                gl.uniform1i(currentProgram.samplerUniform, 0);
 
-                                //    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
-                                //    gl.vertexAttribPointer(currentProgram.vertexNormalAttribute, moonVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
+                                gl.vertexAttribPointer((ulong)currentProgram.vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                //    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
-                                //    setMatrixUniforms();
-                                //    gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-                                //    mvPopMatrix();
+                                gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
+                                gl.vertexAttribPointer((ulong)currentProgram.textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                                gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
+                                gl.vertexAttribPointer((ulong)currentProgram.vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
+                                setMatrixUniforms();
+                                gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+                                mvPopMatrix();
+                                #endregion
 
 
-                                //    mvPushMatrix();
-                                //    mat4.rotate(mvMatrix, degToRad(cubeAngle), [0, 1, 0]);
-                                //    mat4.translate(mvMatrix, [1.25, 0, 0]);
-                                //    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-                                //    gl.vertexAttribPointer(currentProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-                                //    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
-                                //    gl.vertexAttribPointer(currentProgram.vertexNormalAttribute, cubeVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                                #region cube
+                                mvPushMatrix();
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(cubeAngle), 0, 1, 0);
+                                __glMatrix.mat4.translate(mvMatrix, 1.25f, 0, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+                                gl.vertexAttribPointer((ulong)currentProgram.vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                //    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
-                                //    gl.vertexAttribPointer(currentProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
+                                gl.vertexAttribPointer((ulong)currentProgram.vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                //    gl.activeTexture(gl.TEXTURE0);
-                                //    gl.bindTexture(gl.TEXTURE_2D, crateTexture);
-                                //    gl.uniform1i(currentProgram.samplerUniform, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
+                                gl.vertexAttribPointer((ulong)currentProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                //    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
-                                //    setMatrixUniforms();
-                                //    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-                                //    mvPopMatrix();
+                                gl.activeTexture(gl.TEXTURE0);
+                                gl.bindTexture(gl.TEXTURE_2D, crateTexture);
+                                gl.uniform1i(currentProgram.samplerUniform, 0);
+
+                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+                                setMatrixUniforms();
+                                gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+                                mvPopMatrix();
+                                #endregion
+
                             };
-
-
-
-   
-
-
-    //function tick() {
-    //    requestAnimFrame(tick);
-    //    drawScene();
-    //    animate();
-    //}
-
-
-    //function webGLStart() {
-    //    var canvas = document.getElementById("lesson13-canvas");
-    //    initGL(canvas);
-    //    initShaders();
-    //    initBuffers();
-    //    initTextures();
-
-    //    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    //    gl.enable(gl.DEPTH_TEST);
-
-    //    tick();
-    //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                            #endregion
 
 
 
@@ -763,7 +740,7 @@ namespace WebGLLesson13
 
 
                                 animate();
-                                //drawScene();
+                                drawScene();
 
 
                                 Native.Window.requestAnimationFrame += tick;
