@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib.GLSL;
 using System.ComponentModel;
 
-namespace WebGLLesson08.Shaders
+namespace WebGLLesson09.Shaders
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __GeometryFragmentShader : FragmentShader

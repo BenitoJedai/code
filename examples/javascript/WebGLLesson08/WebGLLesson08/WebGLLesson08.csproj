@@ -129,6 +129,7 @@
     <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
+    <Content Include="Design\Toolbar.htm" />
     <Content Include="Design\Images.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Library\MyExtensions.cs" />

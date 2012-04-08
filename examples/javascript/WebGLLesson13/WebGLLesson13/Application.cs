@@ -630,7 +630,7 @@ namespace WebGLLesson13
 
                                 var lighting = toolbar.lighting.@checked;
 
-                                #region [uniform] uUseLighting <- lighting
+                                #region [uniform] bool uUseLighting <- lighting
                                 gl.uniform1i(currentProgram.useLightingUniform, Convert.ToInt32(lighting));
                                 #endregion
 
@@ -666,7 +666,7 @@ namespace WebGLLesson13
 
                                 var textures = toolbar.textures.@checked;
 
-                                #region [uniform] uUseTextures <- (bool) textures
+                                #region [uniform] bool uUseTextures <- textures
                                 gl.uniform1i(currentProgram.useTexturesUniform, Convert.ToInt32(textures));
                                 #endregion
 

@@ -39,7 +39,7 @@ namespace WebGLLesson07
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -48,8 +48,6 @@ namespace WebGLLesson07
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 
@@ -68,10 +66,9 @@ namespace WebGLLesson07
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
-
+            
             var size = 500;
 
             #region canvas
@@ -108,6 +105,13 @@ namespace WebGLLesson07
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
 
+            var toolbar = new ToolbarPage();
+
+            if (page != null)
+            {
+                toolbar.Container.style.Opacity = 0.7;
+                toolbar.Container.AttachToDocument();
+            }
 
 
             var shaderProgram = gl.createProgram();
@@ -395,6 +399,7 @@ namespace WebGLLesson07
 
             var filter = 2;
 
+            #region currentlyPressedKeys
             var currentlyPressedKeys = new Dictionary<int, bool>
             {
                 {33, false},
@@ -426,11 +431,35 @@ namespace WebGLLesson07
                {
                    currentlyPressedKeys[e.KeyCode] = false;
                };
+            #endregion
+
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
 
             new WebGLLesson07.HTML.Images.FromAssets.crate().InvokeOnComplete(
                 texture_image =>
                 {
-                    #region handleLoadedTexture - new in lesson 06
+                    #region handleLoadedTexture
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
 
                     gl.bindTexture(gl.TEXTURE_2D, textures[0]);
@@ -461,7 +490,7 @@ namespace WebGLLesson07
 
 
 
-
+                    #region animate
                     var lastTime = 0L;
                     Action animate = delegate
                     {
@@ -475,6 +504,8 @@ namespace WebGLLesson07
                         }
                         lastTime = timeNow;
                     };
+                    #endregion
+
 
                     Func<float, float> degToRad = (degrees) =>
                     {
@@ -517,21 +548,21 @@ namespace WebGLLesson07
                         gl.uniform1i(shaderProgram_samplerUniform, 0);
 
                         #region new in lesson 07
-                        var lighting = page.lighting.@checked;
+                        var lighting = toolbar.lighting.@checked;
                         gl.uniform1i(shaderProgram_useLightingUniform, lighting.ToInt32());
                         if (lighting)
                         {
                             gl.uniform3f(
                                 shaderProgram_ambientColorUniform,
-                                page.ambientR.ToFloat(),
-                                page.ambientG.ToFloat(),
-                                page.ambientB.ToFloat()
+                                toolbar.ambientR.ToFloat(),
+                                toolbar.ambientG.ToFloat(),
+                                toolbar.ambientB.ToFloat()
                             );
 
                             var lightingDirection = new[]{
-                                page.lightDirectionX.ToFloat(),
-                                page.lightDirectionY.ToFloat(),
-                                page.lightDirectionZ.ToFloat()
+                                toolbar.lightDirectionX.ToFloat(),
+                                toolbar.lightDirectionY.ToFloat(),
+                                toolbar.lightDirectionZ.ToFloat()
                             };
                             var adjustedLD = __glMatrix.vec3.create();
                             __glMatrix.vec3.normalize(lightingDirection, adjustedLD);
@@ -540,9 +571,9 @@ namespace WebGLLesson07
 
                             gl.uniform3f(
                                 shaderProgram_directionalColorUniform,
-                                page.directionalR.ToFloat(),
-                                page.directionalG.ToFloat(),
-                                page.directionalB.ToFloat()
+                                toolbar.directionalR.ToFloat(),
+                                toolbar.directionalG.ToFloat(),
+                                toolbar.directionalB.ToFloat()
                             );
                         }
 
@@ -599,9 +630,9 @@ namespace WebGLLesson07
 
 
 
-                    var c = 0;
 
-                    #region tick - new in lesson 03
+                    #region tick
+                    var c = 0;
                     var tick = default(Action);
 
                     tick = delegate

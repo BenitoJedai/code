@@ -124,6 +124,7 @@
     <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
+    <Content Include="Design\Toolbar.htm" />
     <Content Include="Design\crate.gif" />
     <Content Include="Design\glMatrix-0.9.5.min.js">
     </Content>
