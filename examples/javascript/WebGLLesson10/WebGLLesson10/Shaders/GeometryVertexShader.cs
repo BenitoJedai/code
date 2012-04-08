@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using ScriptCoreLib.GLSL;
 
-namespace WebGLLesson08.Shaders
+namespace WebGLLesson10.Shaders
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __GeometryVertexShader : ScriptCoreLib.GLSL.VertexShader

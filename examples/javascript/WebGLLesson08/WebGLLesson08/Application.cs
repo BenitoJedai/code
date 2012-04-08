@@ -17,13 +17,13 @@ using ScriptCoreLib.Shared.Drawing;
 using WebGLLesson08.Shaders;
 using WebGLLesson08.Library;
 using System.Collections.Generic;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace WebGLLesson08
 {
 
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.JavaScript.Runtime;
 
 
 
@@ -32,8 +32,8 @@ namespace WebGLLesson08
     /// </summary>
     public sealed class Application
     {
-        /* This example will be a port of http://learningwebgl.com/blog/?p=684 by Giles
-         */
+        // reference implementation: http://learningwebgl.com/lessons/lesson08/index.html
+
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -107,18 +107,14 @@ namespace WebGLLesson08
             }
             #endregion
 
+            var toolbar = new ToolbarPage();
+
             if (page != null)
             {
-                page.Toolbar.AttachToDocument();
-                page.Toolbar.style.position = IStyle.PositionEnum.absolute;
-                page.Toolbar.style.right = "0";
-                page.Toolbar.style.color = JSColor.White;
-                page.Toolbar.style.textShadow = "#6374AB 2px 2px 2px;";
+                toolbar.Container.style.Opacity = 0.7;
+                toolbar.Container.AttachToDocument();
             }
-            else
-            {
-                page = new DefaultPage();
-            }
+
 
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
@@ -592,13 +588,13 @@ namespace WebGLLesson08
 
                         #region new in lesson 08
 
-                        var blending = page.blending.@checked;
+                        var blending = toolbar.blending.@checked;
                         if (blending)
                         {
                             gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
                             gl.enable(gl.BLEND);
                             gl.disable(gl.DEPTH_TEST);
-                            gl.uniform1f(shaderProgram_alphaUniform, page.alpha.ToFloat());
+                            gl.uniform1f(shaderProgram_alphaUniform, toolbar.alpha.ToFloat());
                         }
                         else
                         {
@@ -609,22 +605,21 @@ namespace WebGLLesson08
                         #endregion
 
 
-                        #region new in lesson 07
-                        var lighting = page.lighting.@checked;
+                        var lighting = toolbar.lighting.@checked;
                         gl.uniform1i(shaderProgram_useLightingUniform, lighting.ToInt32());
                         if (lighting)
                         {
                             gl.uniform3f(
                                 shaderProgram_ambientColorUniform,
-                                page.ambientR.ToFloat(),
-                                page.ambientG.ToFloat(),
-                                page.ambientB.ToFloat()
+                                toolbar.ambientR.ToFloat(),
+                                toolbar.ambientG.ToFloat(),
+                                toolbar.ambientB.ToFloat()
                             );
 
                             var lightingDirection = new[]{
-                                page.lightDirectionX.ToFloat(),
-                                page.lightDirectionY.ToFloat(),
-                                page.lightDirectionZ.ToFloat()
+                                toolbar.lightDirectionX.ToFloat(),
+                                toolbar.lightDirectionY.ToFloat(),
+                                toolbar.lightDirectionZ.ToFloat()
                             };
                             var adjustedLD = __glMatrix.vec3.create();
                             __glMatrix.vec3.normalize(lightingDirection, adjustedLD);
@@ -633,13 +628,12 @@ namespace WebGLLesson08
 
                             gl.uniform3f(
                                 shaderProgram_directionalColorUniform,
-                                page.directionalR.ToFloat(),
-                                page.directionalG.ToFloat(),
-                                page.directionalB.ToFloat()
+                                toolbar.directionalR.ToFloat(),
+                                toolbar.directionalG.ToFloat(),
+                                toolbar.directionalB.ToFloat()
                             );
                         }
 
-                        #endregion
 
                         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
                         setMatrixUniforms();

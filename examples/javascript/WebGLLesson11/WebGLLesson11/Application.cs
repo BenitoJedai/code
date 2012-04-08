@@ -102,11 +102,14 @@ namespace WebGLLesson11
             }
             #endregion
 
-            if (page != null)
-                page.Toolbar.Orphanize().AttachToDocument();
+            var toolbar = new ToolbarPage();
 
-            if (page == null)
-                page = new DefaultPage();
+            if (page != null)
+            {
+                toolbar.Container.style.Opacity = 0.7;
+                toolbar.Container.AttachToDocument();
+            }
+
 
             #region IsDisposed
             var IsDisposed = false;
@@ -443,34 +446,45 @@ namespace WebGLLesson11
 
                         __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                        var lighting = page.lighting.@checked;
+                        var lighting = toolbar.lighting.@checked;
+                        #region [uniform] bool uUseLighting <- lighting
                         gl.uniform1i(shaderProgram_useLightingUniform, Convert.ToInt32(lighting));
+                        #endregion
+
                         if (lighting)
                         {
+                            #region [uniform] vec3 uAmbientColor <- (f ambientR, f ambientG, f ambientB)
                             gl.uniform3f(
                                 shaderProgram_ambientColorUniform,
-                                parseFloat(page.ambientR.value),
-                                parseFloat(page.ambientG.value),
-                                parseFloat(page.ambientB.value)
+                                parseFloat(toolbar.ambientR.value),
+                                parseFloat(toolbar.ambientG.value),
+                                parseFloat(toolbar.ambientB.value)
                             );
+                            #endregion
 
                             var lightingDirection = new[]{
-                                    parseFloat(page.lightDirectionX.value),
-                                    parseFloat(page.lightDirectionY.value),
-                                    parseFloat(page.lightDirectionZ.value)
+                                    parseFloat(toolbar.lightDirectionX.value),
+                                    parseFloat(toolbar.lightDirectionY.value),
+                                    parseFloat(toolbar.lightDirectionZ.value)
                                 };
 
                             var adjustedLD = __glMatrix.vec3.create();
                             __glMatrix.vec3.normalize(lightingDirection, adjustedLD);
                             __glMatrix.vec3.scale(adjustedLD, -1);
-                            gl.uniform3fv(shaderProgram_lightingDirectionUniform, adjustedLD);
 
+                            #region [uniform] vec3 uLightingDirection <- vec3
+                            gl.uniform3fv(shaderProgram_lightingDirectionUniform, adjustedLD);
+                            #endregion
+
+                            #region [uniform] vec3 uDirectionalColor <- (f directionalR, f directionalG, f directionalB)
                             gl.uniform3f(
                                 shaderProgram_directionalColorUniform,
-                                parseFloat(page.directionalR.value),
-                                parseFloat(page.directionalG.value),
-                                parseFloat(page.directionalB.value)
+                                parseFloat(toolbar.directionalR.value),
+                                parseFloat(toolbar.directionalG.value),
+                                parseFloat(toolbar.directionalB.value)
                             );
+                            #endregion
+
                         }
 
                         __glMatrix.mat4.identity(mvMatrix);
@@ -522,168 +536,7 @@ namespace WebGLLesson11
             );
         }
 
-        public static readonly string data = @"
- NUMPOLLIES 36
-
-  // Floor 1
-  -3.0  0.0 -3.0 0.0 6.0
-  -3.0  0.0  3.0 0.0 0.0
-  3.0  0.0  3.0 6.0 0.0
-
-  -3.0  0.0 -3.0 0.0 6.0
-  3.0  0.0 -3.0 6.0 6.0
-  3.0  0.0  3.0 6.0 0.0
-
-  // Ceiling 1
-  -3.0  1.0 -3.0 0.0 6.0
-  -3.0  1.0  3.0 0.0 0.0
-  3.0  1.0  3.0 6.0 0.0
-  -3.0  1.0 -3.0 0.0 6.0
-  3.0  1.0 -3.0 6.0 6.0
-  3.0  1.0  3.0 6.0 0.0
-
-  // A1
-
-  -2.0  1.0  -2.0 0.0 1.0
-  -2.0  0.0  -2.0 0.0 0.0
-  -0.5  0.0  -2.0 1.5 0.0
-  -2.0  1.0  -2.0 0.0 1.0
-  -0.5  1.0  -2.0 1.5 1.0
-  -0.5  0.0  -2.0 1.5 0.0
-
-  // A2
-
-  2.0  1.0  -2.0 2.0 1.0
-  2.0  0.0  -2.0 2.0 0.0
-  0.5  0.0  -2.0 0.5 0.0
-  2.0  1.0  -2.0 2.0 1.0
-  0.5  1.0  -2.0 0.5 1.0
-  0.5  0.0  -2.0 0.5 0.0
-
-  // B1
-
-  -2.0  1.0  2.0 2.0  1.0
-  -2.0  0.0   2.0 2.0 0.0
-  -0.5  0.0   2.0 0.5 0.0
-  -2.0  1.0  2.0 2.0  1.0
-  -0.5  1.0  2.0 0.5  1.0
-  -0.5  0.0   2.0 0.5 0.0
-
-  // B2
-
-  2.0  1.0  2.0 2.0  1.0
-  2.0  0.0   2.0 2.0 0.0
-  0.5  0.0   2.0 0.5 0.0
-  2.0  1.0  2.0 2.0  1.0
-  0.5  1.0  2.0 0.5  1.0
-  0.5  0.0   2.0 0.5 0.0
-
-  // C1
-
-  -2.0  1.0  -2.0 0.0  1.0
-  -2.0  0.0   -2.0 0.0 0.0
-  -2.0  0.0   -0.5 1.5 0.0
-  -2.0  1.0  -2.0 0.0  1.0
-  -2.0  1.0  -0.5 1.5  1.0
-  -2.0  0.0   -0.5 1.5 0.0
-
-  // C2
-
-  -2.0  1.0   2.0 2.0 1.0
-  -2.0  0.0   2.0 2.0 0.0
-  -2.0  0.0   0.5 0.5 0.0
-  -2.0  1.0  2.0 2.0 1.0
-  -2.0  1.0  0.5 0.5 1.0
-  -2.0  0.0   0.5 0.5 0.0
-
-  // D1
-
-  2.0  1.0  -2.0 0.0 1.0
-  2.0  0.0   -2.0 0.0 0.0
-  2.0  0.0   -0.5 1.5 0.0
-  2.0  1.0  -2.0 0.0 1.0
-  2.0  1.0  -0.5 1.5 1.0
-  2.0  0.0   -0.5 1.5 0.0
-
-  // D2
-
-  2.0  1.0  2.0 2.0 1.0
-  2.0  0.0   2.0 2.0 0.0
-  2.0  0.0   0.5 0.5 0.0
-  2.0  1.0  2.0 2.0 1.0
-  2.0  1.0  0.5 0.5 1.0
-  2.0  0.0   0.5 0.5 0.0
-
-  // Upper hallway - L
-  -0.5  1.0  -3.0 0.0 1.0
-  -0.5  0.0   -3.0 0.0 0.0
-  -0.5  0.0   -2.0 1.0 0.0
-  -0.5  1.0  -3.0 0.0 1.0
-  -0.5  1.0  -2.0 1.0 1.0
-  -0.5  0.0   -2.0 1.0 0.0
-
-  // Upper hallway - R
-  0.5  1.0  -3.0 0.0 1.0
-  0.5  0.0   -3.0 0.0 0.0
-  0.5  0.0   -2.0 1.0 0.0
-  0.5  1.0  -3.0 0.0 1.0
-  0.5  1.0  -2.0 1.0 1.0
-  0.5  0.0   -2.0 1.0 0.0
-
-  // Lower hallway - L
-  -0.5  1.0  3.0 0.0 1.0
-  -0.5  0.0   3.0 0.0 0.0
-  -0.5  0.0   2.0 1.0 0.0
-  -0.5  1.0  3.0 0.0 1.0
-  -0.5  1.0  2.0 1.0 1.0
-  -0.5  0.0   2.0 1.0 0.0
-
-  // Lower hallway - R
-  0.5  1.0  3.0 0.0 1.0
-  0.5  0.0   3.0 0.0 0.0
-  0.5  0.0   2.0 1.0 0.0
-  0.5  1.0  3.0 0.0 1.0
-  0.5  1.0  2.0 1.0 1.0
-  0.5  0.0   2.0 1.0 0.0
-
-
-  // Left hallway - Lw
-
-  -3.0  1.0  0.5 1.0 1.0
-  -3.0  0.0   0.5 1.0 0.0
-  -2.0  0.0   0.5 0.0 0.0
-  -3.0  1.0  0.5 1.0 1.0
-  -2.0  1.0  0.5 0.0 1.0
-  -2.0  0.0   0.5 0.0 0.0
-
-  // Left hallway - Hi
-
-  -3.0  1.0  -0.5 1.0 1.0
-  -3.0  0.0   -0.5 1.0 0.0
-  -2.0  0.0   -0.5 0.0 0.0
-  -3.0  1.0  -0.5 1.0 1.0
-  -2.0  1.0  -0.5 0.0 1.0
-  -2.0  0.0   -0.5 0.0 0.0
-
-  // Right hallway - Lw
-
-  3.0  1.0  0.5 1.0 1.0
-  3.0  0.0   0.5 1.0 0.0
-  2.0  0.0   0.5 0.0 0.0
-  3.0  1.0  0.5 1.0 1.0
-  2.0  1.0  0.5 0.0 1.0
-  2.0  0.0   0.5 0.0 0.0
-
-  // Right hallway - Hi
-
-  3.0  1.0  -0.5 1.0 1.0
-  3.0  0.0   -0.5 1.0 0.0
-  2.0  0.0   -0.5 0.0 0.0
-  3.0  1.0  -0.5 1.0 1.0
-  2.0  1.0 -0.5 0.0 1.0
-  2.0  0.0   -0.5 0.0 0.0
-
-";
+        
     }
 
 

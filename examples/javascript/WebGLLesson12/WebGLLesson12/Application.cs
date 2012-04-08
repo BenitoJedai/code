@@ -102,12 +102,15 @@ namespace WebGLLesson12
             }
             #endregion
 
+            var toolbar = new ToolbarPage();
+
             if (page != null)
-                page.Toolbar.Orphanize().AttachToDocument();
+            {
+                toolbar.Container.style.Opacity = 0.7;
+                toolbar.Container.AttachToDocument();
+            }
 
-            if (page == null)
-                page = new DefaultPage();
-
+         
             #region IsDisposed
             var IsDisposed = false;
 
@@ -570,36 +573,48 @@ namespace WebGLLesson12
 
                                 __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                                var lighting = page.lighting.@checked;
+                                var lighting = toolbar.lighting.@checked;
+
+                                #region [uniform] bool uUseLighting <- lighting
                                 gl.uniform1i(shaderProgram_useLightingUniform, Convert.ToInt32(lighting));
+                                #endregion
+
                                 if (lighting)
                                 {
+                                    #region [uniform] vec3 uAmbientColor <- (f ambientR, f ambientG, f ambientB)
                                     gl.uniform3f(
                                         shaderProgram_ambientColorUniform,
-                                        parseFloat(page.ambientR.value),
-                                        parseFloat(page.ambientG.value),
-                                        parseFloat(page.ambientB.value)
+                                        parseFloat(toolbar.ambientR.value),
+                                        parseFloat(toolbar.ambientG.value),
+                                        parseFloat(toolbar.ambientB.value)
                                     );
+                                    #endregion
 
+                                    #region [uniform] vec3 uPointLightingLocation <- (f lightPositionX, f lightPositionY, f lightPositionZ)
                                     gl.uniform3f(
                                         shaderProgram_pointLightingLocationUniform,
-                                        parseFloat(page.lightPositionX.value),
-                                        parseFloat(page.lightPositionY.value),
-                                        parseFloat(page.lightPositionZ.value)
+                                        parseFloat(toolbar.lightPositionX.value),
+                                        parseFloat(toolbar.lightPositionY.value),
+                                        parseFloat(toolbar.lightPositionZ.value)
                                     );
+                                    #endregion
 
+                                    #region [uniform] vec3 uPointLightingColor <- (f pointR, f pointG, f pointB)
                                     gl.uniform3f(
                                         shaderProgram_pointLightingColorUniform,
-                                        parseFloat(page.pointR.value),
-                                        parseFloat(page.pointG.value),
-                                        parseFloat(page.pointB.value)
+                                        parseFloat(toolbar.pointR.value),
+                                        parseFloat(toolbar.pointG.value),
+                                        parseFloat(toolbar.pointB.value)
                                     );
+                                    #endregion
+
                                 }
 
                                 __glMatrix.mat4.identity(mvMatrix);
 
                                 __glMatrix.mat4.translate(mvMatrix, 0, 0, -20);
 
+                                #region moon
                                 mvPushMatrix();
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(moonAngle), 0, 1, 0);
                                 __glMatrix.mat4.translate(mvMatrix, 5, 0, 0);
@@ -620,7 +635,9 @@ namespace WebGLLesson12
                                 setMatrixUniforms();
                                 gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                                 mvPopMatrix();
+                                #endregion
 
+                                #region cube
                                 mvPushMatrix();
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(cubeAngle), 0, 1, 0);
                                 __glMatrix.mat4.translate(mvMatrix, 5, 0, 0);
@@ -641,6 +658,8 @@ namespace WebGLLesson12
                                 setMatrixUniforms();
                                 gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
                                 mvPopMatrix();
+                                #endregion
+
                             };
                             #endregion
 
