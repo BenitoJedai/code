@@ -15,6 +15,9 @@ namespace AsyncResearch
     /// </summary>
     public sealed class ApplicationWebService
     {
+        // see also: https://gist.github.com/1961087
+        // see also: http://haacked.com/archive/2012/04/09/reactive-extensions-sample.aspx?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+haacked+%28you%27ve+been+HAACKED%29
+
         public async Task<string> WebMethod0(string e)
         {
             return "hi";
