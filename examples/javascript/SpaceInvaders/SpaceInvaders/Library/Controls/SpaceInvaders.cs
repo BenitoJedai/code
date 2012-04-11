@@ -1,22 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ScriptCoreLib;
-
-using ScriptCoreLib.JavaScript.Controls;
-using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript;
-
-//using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.Serialized;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-//using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.DOM;
-
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 
-namespace SpaceInvaders.source.js.Controls
+namespace SpaceInvaders.Library.Controls
 {
     using fbool = Func<bool>;
 
@@ -31,7 +24,7 @@ namespace SpaceInvaders.source.js.Controls
         public SpaceInvaders()
         {
 
-            gfx.ImageResources gfx = "http://server/";
+            ImageResources gfx = "http://server/";
 
             var overlay = new Overlay();
 
@@ -748,7 +741,7 @@ namespace SpaceInvaders.source.js.Controls
             {
                 var a = new List<Concrete>();
 
-                EventHandler<int, int> Add =
+                System.Action<int, int> Add =
                     delegate(int x, int y)
                     {
                         var c = new Concrete();
@@ -894,7 +887,7 @@ namespace SpaceInvaders.source.js.Controls
                 }
             }
 
-            public MainMenu(EnemyDirectory MyEnemyDirectory, gfx.ImageResources gfx)
+            public MainMenu(EnemyDirectory MyEnemyDirectory, ImageResources gfx)
             {
                 Func<string, Color, IHTMLSpan> GetText2 =
                            delegate(string text, Color color)
@@ -1010,9 +1003,9 @@ namespace SpaceInvaders.source.js.Controls
             public readonly EnemyInfo A, B, C, UFO;
 
 
-            public EnemyDirectory(gfx.ImageResources gfx)
+            public EnemyDirectory(ImageResources gfx)
             {
-                Func<gfx.ImageResources.Item, int, EnemyInfo> ctor =
+                Func<ImageResources.Item, int, EnemyInfo> ctor =
                     (Image, Points) => new EnemyInfo { Image = Image, Points = Points };
 
                 this.A = ctor(gfx.aenemy, 4);
@@ -1028,7 +1021,7 @@ namespace SpaceInvaders.source.js.Controls
         [Script]
         public class EnemyInfo
         {
-            public gfx.ImageResources.Item Image;
+            public ImageResources.Item Image;
 
             public int Points;
         }
@@ -1170,7 +1163,7 @@ namespace SpaceInvaders.source.js.Controls
             }
 
 
-            public ScoreBoard(gfx.ImageResources gfx)
+            public ScoreBoard(ImageResources gfx)
             {
                 Life1 = gfx.biggun.Clone();
                 Life2 = gfx.biggun.Clone();
