@@ -84,7 +84,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
 
         public Point CurrentCanvasPosition = Point.Zero;
 
-        public event ScriptCoreLib.Shared.EventHandler<Rectangle> CanvasViewChanged;
+        public event System.Action<Rectangle> CanvasViewChanged;
 
         protected void InternalSetCanvasPosition(Point p)
         {
@@ -324,7 +324,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 };
         }
 
-        public event ScriptCoreLib.Shared.EventHandler<Point> MouseMove;
+        public event System.Action<Point> MouseMove;
 
         public int SelectionMinimumSize = 4;
 
@@ -368,7 +368,7 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
             var selection_end = Point.Zero;
             var selection_rect = new Rectangle();
 
-            ScriptCoreLib.Shared.EventHandler UpdateSelection =
+            System.Action UpdateSelection =
                 delegate
                 {
                     var size = selection_end - selection_start;
@@ -496,9 +496,9 @@ namespace ScriptCoreLib.JavaScript.Controls.LayeredControl
                 };
         }
 
-        public event EventHandler<Point, IEvent> SelectionClick;
+        public event System.Action<Point, IEvent> SelectionClick;
 
-        public event EventHandler<Rectangle, IEvent> ApplySelection;
+        public event System.Action<Rectangle, IEvent> ApplySelection;
         public event Action<Point, Point, IEvent> ApplyPointsSelection;
 
         public void DrawTextToInfo(string text, Point p, Color c)
