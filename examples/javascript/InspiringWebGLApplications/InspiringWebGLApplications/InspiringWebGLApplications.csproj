@@ -224,6 +224,7 @@
     <Content Include="Design\Lowpoly_army_-_Google_Chrome-2012-02-26_21.02.10.png" />
     <Content Include="Design\Many_Planets_Deep_-_Google_Chrome-2012-02-26_20.03.29.png" />
     <Content Include="Design\mapHills_-_Wloom_-_Google_Chrome-2012-02-26_21.30.55.png" />
+    <Content Include="Design\Marble_Soccer_-_Google_Chrome-2012-04-12_00.56.06.png" />
     <Content Include="Design\Maybe_WebGL_-_Google_Chrome-2012-03-25_19.25.49.png" />
     <Content Include="Design\Maze_-_Google_Chrome-2012-03-28_15.11.55.png" />
     <Content Include="Design\MD2Morphtarget_example_-_Google_Chrome-2012-02-26_21.07.28.png" />
@@ -238,6 +239,7 @@
     <Content Include="Design\Moon_-_made_with_three.js_%28webGL__GLSL%29_-_Google_Chrome-2012-04-06_18.37.58.png" />
     <Content Include="Design\MSA_2_beta_-_Google_Chrome-2012-03-22_19.56.00.png" />
     <Content Include="Design\NaCl_crystal_-_Google_Chrome-2012-02-26_21.39.36.png" />
+    <Content Include="Design\nicolas-bonnel.github.comWARPGindex.html_-_Google_Chrome-2012-04-12_00.54.17.png" />
     <Content Include="Design\NK_Ball_-_Google_Chrome-2012-02-26_22.10.01.png" />
     <Content Include="Design\Obj_Load_and_Simple_WebGL_-_Google_Chrome-2012-03-25_18.17.24.png" />
     <Content Include="Design\OpenCloth_WebGL_Demo_by_Movania_Muhammad_Mobeen_-_Google_Chrome-2012-02-26_20.47.05.png" />
@@ -271,6 +273,7 @@
     <Content Include="Design\Sierpinski_Pyramid_in_WebGL_-_Google_Chrome-2012-02-26_21.28.17.png" />
     <Content Include="Design\Simons_Tech_Blog_Spherical_Harmonic_Lighting_-_Google_Chrome-2012-03-23_09.56.27.png" />
     <Content Include="Design\Small_stellated_dodecahedron_-_Google_Chrome-2012-02-26_21.40.31.png" />
+    <Content Include="Design\Solar_Position_Calculator_-_Google_Chrome-2012-04-12_00.48.53.png" />
     <Content Include="Design\SpiderGL_-_Basic_Mesh_Rendering_-_Google_Chrome-2012-03-25_18.59.36.png" />
     <Content Include="Design\SpiderGL_-_Shadow_Mapping_-_Google_Chrome-2012-02-26_20.56.57.png" />
     <Content Include="Design\SpiderGL_-_Shadow_Mapping_-_Google_Chrome-2012-03-25_19.02.25.png" />
@@ -291,6 +294,7 @@
     <Content Include="Design\three.js_-_webgl_fresnel_-_Google_Chrome-2012-02-26_22.45.22.jpg" />
     <Content Include="Design\three.js_webgl_-_animation_-_skinning_-_Google_Chrome-2012-03-25_19.07.58.png" />
     <Content Include="Design\three.js_webgl_-_city_-_Google_Chrome-2012-02-26_21.12.32.png" />
+    <Content Include="Design\three.js_webgl_-_collada_-_Google_Chrome-2012-04-12_00.45.11.png" />
     <Content Include="Design\three.js_webgl_-_geometry_-_minecraft_-_ao_-_Google_Chrome-2012-02-26_19.47.12.png" />
     <Content Include="Design\three.js_webgl_-_geometry_-_terrain_-_Google_Chrome-2012-03-25_18.03.56.png" />
     <Content Include="Design\three.js_webgl_-_geometry_-_terrain__fog_-_Google_Chrome-2012-02-26_20.25.20.png" />
