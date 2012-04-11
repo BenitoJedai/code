@@ -17,9 +17,9 @@ namespace ScriptCoreLib.JavaScript.Net
 
         public string Url;
 
-        public event EventHandler<ClientTansport<TType>> BeforeSend;
-        public event EventHandler<ClientTansport<TType>> Complete;
-        public event EventHandler<ClientTansport<TType>> Working;
+        public event System.Action<ClientTansport<TType>> BeforeSend;
+        public event System.Action<ClientTansport<TType>> Complete;
+        public event System.Action<ClientTansport<TType>> Working;
 
         public IXMLHttpRequest Request;
 
@@ -112,7 +112,7 @@ namespace ScriptCoreLib.JavaScript.Net
         {
             Url = url + "?" + query;
             Descriptor = new MyTransportDescriptor<TType>();
-            Worker.Tick += new EventHandler<Timer>(Worker_Tick);
+            Worker.Tick += new System.Action<Timer>(Worker_Tick);
 
             if (fileupload)
             {
@@ -293,8 +293,8 @@ namespace ScriptCoreLib.JavaScript.Net
 
 
 
-        public static void Send(string query, 
-            EventHandler<ClientTansport<TType>> before)
+        public static void Send(string query,
+            System.Action<ClientTansport<TType>> before)
  
         {
             ClientTansport<TType> c = new ClientTansport<TType>(query);
