@@ -13,7 +13,7 @@ using ScriptCoreLib.JavaScript.BCLImplementation.System.ComponentModel;
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
 
-    using DOMHandler = Shared.EventHandler<DOM.IEvent>;
+    using DOMHandler = global::System.Action<DOM.IEvent>;
 
 
 
@@ -550,9 +550,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         EventHandler EventMouseLeave;
 
-        Shared.EventHandler<DOM.IEvent> EventMouseLeaveInternal;
+        global::System.Action<DOM.IEvent> EventMouseLeaveInternal;
 
-        public event EventHandler MouseLeave
+        public event global::System.EventHandler MouseLeave
         {
             add
             {
@@ -581,9 +581,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         #endregion
 
         #region MouseEnter
-        EventHandler EventMouseEnter;
+        global::System.EventHandler EventMouseEnter;
 
-        Shared.EventHandler<DOM.IEvent> EventMouseEnterInternal;
+        global::System.Action<DOM.IEvent> EventMouseEnterInternal;
 
         public event EventHandler MouseEnter
         {
@@ -738,7 +738,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        ScriptCoreLib.Shared.InternalAction _Capture;
+        global::System.Action _Capture;
         int _CaptureCount;
 
         #region MouseDown

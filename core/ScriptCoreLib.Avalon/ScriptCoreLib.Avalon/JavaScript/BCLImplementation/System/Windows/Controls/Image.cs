@@ -66,7 +66,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
 
 				var alias = v.InternalManifestResourceAlias;
 
-				Shared.EventHandler<IHTMLImage> Apply =
+				global::System.Action<IHTMLImage> Apply =
 					img =>
 					{
 						InternalSprite.removeChildren();
