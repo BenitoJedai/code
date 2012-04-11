@@ -113,7 +113,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 				}
 			}
 
-			public EventHandler<T> Changed;
+            public System.Action<T> Changed;
 
 
 			public bool IsHot;
@@ -185,7 +185,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 
 			}
 
-			public EventHandler BeforeShow;
+			public System.Action BeforeShow;
 
 			System.Func<bool> IsFadeEnabled;
 
@@ -755,7 +755,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 		}
 
 
-		public ToolbarButton AddButton(IHTMLImage img, string text, EventHandler h)
+        public ToolbarButton AddButton(IHTMLImage img, string text, System.Action h)
 		{
 			var x = CreateButton();
 
@@ -885,7 +885,7 @@ namespace ScriptCoreLib.JavaScript.Controls
 			return z;
 		}
 
-		public ToolbarButton AddButton(IHTMLImage img, EventHandler<IHTMLButton> h)
+        public ToolbarButton AddButton(IHTMLImage img, System.Action<IHTMLButton> h)
 		{
 			var z = CreateButton(img);
 
