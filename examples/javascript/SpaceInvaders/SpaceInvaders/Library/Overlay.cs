@@ -1,25 +1,11 @@
 using ScriptCoreLib;
-
-using ScriptCoreLib;
-using ScriptCoreLib.Shared;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-//using ScriptCoreLib.JavaScript.Net;
-
-using ScriptCoreLib.JavaScript.Controls;
-using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Runtime;
-using ScriptCoreLib.JavaScript.Serialized;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-//using ScriptCoreLib.JavaScript.DOM.XML;
 using ScriptCoreLib.JavaScript.DOM;
-
-using ScriptCoreLib.Shared;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared.Drawing;
 
-namespace SpaceInvaders.source.js
+namespace SpaceInvaders.Library
 {
     using TweenDataDouble = ScriptCoreLib.JavaScript.Controls.Effects.TweenDataDouble;
 

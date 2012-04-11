@@ -1,15 +1,15 @@
-using ScriptCoreLib;
-using ScriptCoreLib.Shared;
-using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.DOM.HTML;
 using System;
 using System.Linq;
+using ScriptCoreLib;
+using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Drawing;
 using SpaceInvaders.HTML.Images.FromAssets;
 
 
 
-namespace SpaceInvaders.source.js.gfx
+namespace SpaceInvaders.Library
 {
     [Script]
     public class ImageResources

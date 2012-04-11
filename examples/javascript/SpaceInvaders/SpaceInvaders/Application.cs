@@ -1,5 +1,4 @@
 using ScriptCoreLib;
-using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
@@ -32,7 +31,7 @@ namespace SpaceInvaders
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new SpaceInvaders.source.js.Controls.SpaceInvaders();
+            new SpaceInvaders.Library.Controls.SpaceInvaders();
 
             style.Content.AttachToHead();
             @"Hello world".ToDocumentTitle();

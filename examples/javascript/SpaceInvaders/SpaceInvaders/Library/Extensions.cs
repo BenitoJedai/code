@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using ScriptCoreLib;
-using ScriptCoreLib.JavaScript.Runtime;
 using ScriptCoreLib.JavaScript.DOM;
-//using ScriptCoreLib.Shared;
+using ScriptCoreLib.JavaScript.Runtime;
 
-namespace SpaceInvaders.source.js
+namespace SpaceInvaders.Library
 {
     [Script]
     static class Extensions
