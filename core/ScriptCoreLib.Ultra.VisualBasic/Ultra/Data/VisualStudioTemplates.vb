@@ -37,6 +37,10 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>C:\util\jsc\bin\ScriptCoreLib.XLinq.dll</HintPath>
         </Reference>
+        <Reference Include="ScriptCoreLib.Extensions">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>c:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+        </Reference>
         <Reference Include="ScriptCoreLib.Ultra">
             <SpecificVersion>False</SpecificVersion>
             <HintPath>c:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
