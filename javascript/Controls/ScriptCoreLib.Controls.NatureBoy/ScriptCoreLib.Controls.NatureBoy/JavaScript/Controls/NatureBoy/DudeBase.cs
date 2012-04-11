@@ -400,7 +400,7 @@ namespace ScriptCoreLib.JavaScript.Controls.NatureBoy
         {
 
 
-            ScriptCoreLib.Shared.EventHandler<IEvent> h =
+            System.Action<IEvent> h =
                 delegate(IEvent ev)
                 {
 
