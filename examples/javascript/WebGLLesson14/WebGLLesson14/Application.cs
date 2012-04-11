@@ -297,7 +297,7 @@ namespace WebGLLesson14
             new HTML.Images.FromAssets.earth().InvokeOnComplete(
                 earth =>
                     new HTML.Images.FromAssets.arroway_de_metal_structure_06_d100_flat().InvokeOnComplete(
-                        moon =>
+                        metal =>
                         {
                             #region setMatrixUniforms
                             Action setMatrixUniforms =
