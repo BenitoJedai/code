@@ -9,7 +9,7 @@ using ScriptCoreLib.JavaScript.Extensions;
 
 namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
-    using DOMHandler = Shared.EventHandler<DOM.IEvent>;
+    using DOMHandler = global::System.Action<DOM.IEvent>;
 
 
     [Script(Implements=typeof(RadioButton))]
@@ -174,7 +174,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         Handler<EventHandler, DOMHandler> _CheckedChanged = new Handler<EventHandler, DOMHandler>();
 
 
-        public event EventHandler CheckedChanged
+        public event global::System.EventHandler CheckedChanged
         {
             add
             {

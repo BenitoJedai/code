@@ -9,7 +9,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 {
     using ScriptCoreLib.JavaScript.DOM.HTML;
 
-    using DOMHandler = Shared.EventHandler<DOM.IEvent>;
+    using DOMHandler = global::System.Action<DOM.IEvent>;
 
     [Script(Implements = typeof(global::System.Windows.Forms.CheckBox))]
     internal class __CheckBox : __ButtonBase
@@ -113,10 +113,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
         #region CheckedChanged
-        Handler<EventHandler, DOMHandler> _CheckedChanged = new Handler<EventHandler, DOMHandler>();
+        Handler<global::System.EventHandler, DOMHandler> _CheckedChanged = new Handler<global::System.EventHandler, DOMHandler>();
 
 
-        public event EventHandler CheckedChanged
+        public event global::System.EventHandler CheckedChanged
         {
             add
             {

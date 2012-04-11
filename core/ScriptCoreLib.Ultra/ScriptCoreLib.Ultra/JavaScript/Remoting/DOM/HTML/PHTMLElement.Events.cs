@@ -50,7 +50,7 @@ namespace ScriptCoreLib.JavaScript.Remoting.DOM.HTML.Remoting
 		}
 		#endregion
 
-		private static ScriptCoreLib.Shared.EventHandler<ScriptCoreLib.JavaScript.DOM.IEvent> ToEventHandler(PEventAction value)
+		private static global::System.Action<ScriptCoreLib.JavaScript.DOM.IEvent> ToEventHandler(PEventAction value)
 		{
 			return e =>
 			{
