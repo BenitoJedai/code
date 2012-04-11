@@ -42,7 +42,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             Value = IDate.Now;
         }
 
-        internal void Invoke(EventHandler h)
+        internal void Invoke(System.Action h)
         {
             if (!IsValid)
                 return;

@@ -8,7 +8,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
     [Script]
     public class Timer
     {
-        public event EventHandler<Timer> Tick;
+        public event System.Action<Timer> Tick;
 
         int id;
 
@@ -26,12 +26,12 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         }
 
-        public Timer(EventHandler<Timer> e)
+        public Timer(System.Action<Timer> e)
         {
             Tick += e;
         }
 
-        public Timer(EventHandler<Timer> e, int duetime, int interval)
+        public Timer(System.Action<Timer> e, int duetime, int interval)
         {
             Tick += e;
 
@@ -78,7 +78,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        public static Timer Interval(EventHandler<Timer> e, int i)
+        public static Timer Interval(System.Action<Timer> e, int i)
         {
             Timer t = new Timer();
 
@@ -146,14 +146,14 @@ namespace ScriptCoreLib.JavaScript.Runtime
             Counter = 0;
         }
 
-        public static void Do(ScriptCoreLib.JavaScript.DOM.IArray<EventHandler> dx, int duetime, int interval)
+        public static void Do(ScriptCoreLib.JavaScript.DOM.IArray<System.Action> dx, int duetime, int interval)
         {
             new Timer(
                 delegate(Timer timer)
                 {
                     if (dx.length > 0)
                     {
-                        EventHandler h = dx.shift();
+                        var h = dx.shift();
 
                         if (h != null)
                             h();
@@ -165,7 +165,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 }, duetime, interval);
         }
 
-        public static void DoAsync(EventHandler h)
+        public static void DoAsync(System.Action h)
         {
             new Timer(delegate { h();  }, 1, 0);
 
@@ -173,11 +173,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public const int DefaultTriggerTTL = 30;
 
-        public static Timer Trigger(EventHandler<Predicate> p, EventHandler h)
+        public static Timer Trigger(System.Action<Predicate> p, System.Action h)
         {
             Timer timer = null;
 
-            EventHandler<Timer> tick =
+            System.Action<Timer> tick =
                 delegate
                 {
                     if (Predicate.Is(p))

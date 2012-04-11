@@ -325,7 +325,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 
 		#region event onclick
-		public event EventHandler<IEvent> onclick
+		public event System.Action<IEvent> onclick
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -340,7 +340,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 		#region event ondblclick
-		public event EventHandler<IEvent> ondblclick
+        public event System.Action<IEvent> ondblclick
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -355,7 +355,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 		#region event onmouseover
-		public event EventHandler<IEvent> onmouseover
+        public event System.Action<IEvent> onmouseover
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -370,7 +370,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 		#region event onmouseout
-		public event EventHandler<IEvent> onmouseout
+        public event System.Action<IEvent> onmouseout
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -385,7 +385,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 		#region event onmousedown
-		public event EventHandler<IEvent> onmousedown
+        public event System.Action<IEvent> onmousedown
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -400,7 +400,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 		#region event onmouseup
-		public event EventHandler<IEvent> onmouseup
+        public event System.Action<IEvent> onmouseup
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -416,7 +416,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
 		#region event onmousemove
-		public event EventHandler<IEvent> onmousemove
+        public event System.Action<IEvent> onmousemove
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -432,7 +432,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
 		#region event onmousemove
-		public event EventHandler<IEvent> onmousewheel
+        public event System.Action<IEvent> onmousewheel
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -463,7 +463,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
 		#region event oncontextmenu
-		public event EventHandler<IEvent> oncontextmenu
+        public event System.Action<IEvent> oncontextmenu
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -480,7 +480,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onselectstart
-		public event EventHandler<IEvent> onselectstart
+        public event System.Action<IEvent> onselectstart
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -496,7 +496,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
 		#region event onscroll
-		public event EventHandler<IEvent> onscroll
+        public event System.Action<IEvent> onscroll
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -513,7 +513,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onresize
-		public event EventHandler<IEvent> onresize
+        public event System.Action<IEvent> onresize
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -530,7 +530,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event ondragdrop
-		public event EventHandler<IEvent> ondragdrop
+        public event System.Action<IEvent> ondragdrop
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -548,7 +548,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onchange
-		public event EventHandler<IEvent> onchange
+        public event System.Action<IEvent> onchange
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -567,7 +567,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onfocus
-		public event EventHandler<IEvent> onfocus
+        public event System.Action<IEvent> onfocus
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -585,7 +585,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onblur
-		public event EventHandler<IEvent> onblur
+        public event System.Action<IEvent> onblur
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -602,7 +602,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onkeypress
-		public event EventHandler<IEvent> onkeypress
+        public event System.Action<IEvent> onkeypress
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -620,7 +620,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onkeyup
-		public event EventHandler<IEvent> onkeyup
+        public event System.Action<IEvent> onkeyup
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -638,7 +638,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onkeydown
-		public event EventHandler<IEvent> onkeydown
+        public event System.Action<IEvent> onkeydown
 		{
 			[Script(DefineAsStatic = true)]
 			add
@@ -653,8 +653,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 		#endregion
 
-        #region event onkeydown
-        public event EventHandler<ITouchEvent> ontouchstart
+        #region event ontouchstart
+        public event System.Action<ITouchEvent> ontouchstart
         {
             [Script(DefineAsStatic = true)]
             add
@@ -669,8 +669,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
 
-        #region event onkeydown
-        public event EventHandler<ITouchEvent> ontouchmove
+        #region event ontouchmove
+        public event System.Action<ITouchEvent> ontouchmove
         {
             [Script(DefineAsStatic = true)]
             add
@@ -691,8 +691,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
 
-        #region event onkeydown
-        public event EventHandler<ITouchEvent> ontouchend
+        #region event ontouchend
+        public event System.Action<ITouchEvent> ontouchend
         {
             [Script(DefineAsStatic = true)]
             add
@@ -796,7 +796,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 		static string[] InternalCaptureMouseEvents = new string[] { "click", "mousedown", "mouseup", "mousemove", "mouseover", "mouseout" };
 
-		static InternalAction InternalCaptureMouse(IHTMLElement self)
+        static System.Action InternalCaptureMouse(IHTMLElement self)
 		{
 			// http://www.activewidgets.com/javascript.forum.8933.28/problems-with-version-1-0.html
 
@@ -816,7 +816,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 			bool flag = false;
 
-			EventHandler<IEvent> _capture =
+            System.Action<IEvent> _capture =
 				delegate(IEvent e)
 				{
 					if (flag)
@@ -852,7 +852,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		}
 
 		[Script(DefineAsStatic = true)]
-		public InternalAction CaptureMouse()
+        public System.Action CaptureMouse()
 		{
 			return InternalCaptureMouse(this);
 		}

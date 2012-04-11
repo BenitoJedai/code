@@ -369,7 +369,7 @@ namespace ScriptCoreLib.PHP.Runtime
     {
         public IArray<int, TItem> BaseList = new IArray<int, TItem>();
 
-        public event EventHandler<TItem> ItemAdded;
+        public event System.Action<TItem> ItemAdded;
 
         public int IndexOf(TItem e)
         {
@@ -404,7 +404,7 @@ namespace ScriptCoreLib.PHP.Runtime
             Helper.Invoke(ItemAdded, e);
         }
 
-        public TItem[] ToArray(EventHandler< Predicate<TItem>> h)
+        public TItem[] ToArray(System.Action<Predicate<TItem>> h)
         {
             IArray<int, TItem> a = new IArray<int, TItem>();
 
@@ -438,7 +438,7 @@ namespace ScriptCoreLib.PHP.Runtime
             }
         }
 
-        public TItem Find<TValue>(EventHandler<Predicate<TItem, TValue>> convert, TValue value)
+        public TItem Find<TValue>(System.Action<Predicate<TItem, TValue>> convert, TValue value)
         {
             TItem r = default(TItem);
 
@@ -472,7 +472,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
         }
 
-        public TItem Find(EventHandler<Predicate<TItem>> h)
+        public TItem Find(System.Action<Predicate<TItem>> h)
         {
             Predicate<TItem> x = new Predicate<TItem>();
 
@@ -541,7 +541,7 @@ namespace ScriptCoreLib.PHP.Runtime
             return u;
         }
 
-        public List<T> Convert<T>(EventHandler<Predicate<TItem, T>> h)
+        public List<T> Convert<T>(System.Action<Predicate<TItem, T>> h)
             //where T : class
         {
             List<T> ret = new List<T>();

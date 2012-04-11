@@ -89,12 +89,12 @@ namespace ScriptCoreLib.JavaScript.DOM
             return Expando.Of(Native.Window).GetMember<IFunction>(name);
         }
 
-        public static IFunction Of(EventHandler h)
+        public static IFunction Of(System.Action h)
         {
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
 
-        public static IFunction Of<TArg>(EventHandler<TArg> h)
+        public static IFunction Of<TArg>(System.Action<TArg> h)
         {
             return ((BCLImplementation.System.__Delegate)(object)h).InvokePointer;
         }
@@ -111,7 +111,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             Expando.ExportCallback(name, this);
         }
 
-        public static void Export(string name, EventHandler h)
+        public static void Export(string name, System.Action h)
         {
             IFunction.Of(h).Export(name);
         }

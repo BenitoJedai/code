@@ -53,7 +53,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		#endregion
 
 
-		public static IHTMLButton Create(string p, EventHandler h)
+        public static IHTMLButton Create(string p, System.Action h)
 		{
 			var b = new IHTMLButton(p);
 

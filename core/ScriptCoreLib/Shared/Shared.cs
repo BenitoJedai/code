@@ -5,16 +5,20 @@ namespace ScriptCoreLib.Shared
     //[Script]
     //public delegate TRet EventHandler<TRet, var0, var1>(var0 e, var1 p);
     [Script]
+    [System.Obsolete("System.Func<>", true)]
     public delegate void EventHandler<var0, var1>(var0 e, var1 p);
 
     [Script]
+    [System.Obsolete("System.Func<>", true)]
     public delegate void EventHandler<var0>(var0 e);
 
     [Script]
+    [System.Obsolete("System.Func<>", true)]
     public delegate void EventHandler();
 
 
     [Script]
+    [System.Obsolete("System.Func<>", true)]
     public delegate void InternalAction();
 
 
@@ -26,9 +30,11 @@ namespace ScriptCoreLib.Shared
 
 
     [Script]
+    [System.Obsolete("System.Func<>", true)]
     public delegate T InternalFunc<A, B, T>(A a, B b);
 
     [Script]
+    [System.Obsolete("System.Func<>", true)]
     public delegate T InternalFunc<A, B, C, T>(A a, B b, C c);
 
 
@@ -38,7 +44,7 @@ namespace ScriptCoreLib.Shared
     [Script]
     public class ConvertTo<TIn, TOut> : Predicate<TIn, TOut>
     {
-        public EventHandler<Predicate<TIn, TIn>> TargetInComparer;
+        public System.Action<Predicate<TIn, TIn>> TargetInComparer;
 
 
 
@@ -54,12 +60,12 @@ namespace ScriptCoreLib.Shared
             }
         }
 
-        public void Invoke(EventHandler<ConvertTo<TIn, TOut>> h)
+        public void Invoke(System.Action<ConvertTo<TIn, TOut>> h)
         {
             Helper.Invoke(h, this);
         }
 
-        public static TOut Convert(TIn v, EventHandler<ConvertTo<TIn, TOut>> h)
+        public static TOut Convert(TIn v, System.Action<ConvertTo<TIn, TOut>> h)
         {
             var c = new ConvertTo<TIn, TOut>();
 
@@ -77,7 +83,7 @@ namespace ScriptCoreLib.Shared
         public TIn TargetIn;
         public TOut TargetOut;
 
-        public static bool Invoke(TIn a, TOut b, EventHandler<Predicate<TIn, TOut>> h)
+        public static bool Invoke(TIn a, TOut b, System.Action<Predicate<TIn, TOut>> h)
         {
             var p = Predicate<TIn, TOut>.Of(a, b);
 
@@ -97,7 +103,7 @@ namespace ScriptCoreLib.Shared
         }
 
 
-        public void Invoke(EventHandler<Predicate<TIn, TOut>> h)
+        public void Invoke(System.Action<Predicate<TIn, TOut>> h)
         {
             Helper.Invoke(h, this);
         }
@@ -109,7 +115,7 @@ namespace ScriptCoreLib.Shared
         public T Target;
 
 
-        public void Invoke(EventHandler<Predicate<T>> h)
+        public void Invoke(System.Action<Predicate<T>> h)
         {
             Helper.Invoke(h, this);
         }
@@ -126,19 +132,19 @@ namespace ScriptCoreLib.Shared
     {
         public bool Value;
 
-        public void Invoke(EventHandler<Predicate> h)
+        public void Invoke(System.Action<Predicate> h)
         {
             Helper.Invoke(h, this);
         }
 
 
 
-        public static bool Is(EventHandler<Predicate> h)
+        public static bool Is(System.Action<Predicate> h)
         {
             return Is(h, false);
         }
 
-        public static bool Is(EventHandler<Predicate> h, bool value)
+        public static bool Is(System.Action<Predicate> h, bool value)
         {
             var p = new Predicate();
 
@@ -149,7 +155,7 @@ namespace ScriptCoreLib.Shared
             return p.Value;
         }
 
-        public static bool Invoke<T>(T a, EventHandler<Predicate<T>> h)
+        public static bool Invoke<T>(T a, System.Action<Predicate<T>> h)
         {
             var p = new Predicate<T>();
 
@@ -159,7 +165,7 @@ namespace ScriptCoreLib.Shared
             return p.Value;
         }
 
-        public static bool Invoke<TIn, TOut>(TIn a, TOut b, EventHandler<Predicate<TIn, TOut>> h)
+        public static bool Invoke<TIn, TOut>(TIn a, TOut b, System.Action<Predicate<TIn, TOut>> h)
         {
             var p = Predicate<TIn, TOut>.Of(a, b);
 

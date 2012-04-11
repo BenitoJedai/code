@@ -257,7 +257,7 @@ namespace ScriptCoreLib.PHP.Runtime
             return Native.API.base64_encode(p);
         }
 
-        public static TReturn To<TArg, TReturn>(EventHandler<Predicate<TArg, TReturn>> h, TArg x)
+        public static TReturn To<TArg, TReturn>(System.Action<Predicate<TArg, TReturn>> h, TArg x)
         {
             Predicate<TArg, TReturn> p = new Predicate<TArg, TReturn>();
 

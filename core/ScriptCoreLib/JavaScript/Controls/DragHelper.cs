@@ -26,23 +26,23 @@ namespace ScriptCoreLib.JavaScript.Controls
         public Point OffsetPosition = new Point(0, 0);
 
 
-        public event EventHandler<Predicate> DragStartValidate;
-        public event EventHandler DragStart;
-        public event EventHandler DragMove;
+        public event System.Action<Predicate> DragStartValidate;
+        public event System.Action DragStart;
+        public event System.Action DragMove;
 
 //         public event EventHandler Hover;
-        
-        public event EventHandler MiddleClick;
+
+        public event System.Action MiddleClick;
 
         public TimeFilter DragMoveFilter = new TimeFilter(30);
 
-        public event EventHandler DragStop;
+        public event System.Action DragStop;
 
         IHTMLElement Control;
 
-        EventHandler<IEvent> ondocumentmousemove;
-        EventHandler<IEvent> ondocumentmouseup;
-        EventHandler<IEvent> onmousedown;
+        System.Action<IEvent> ondocumentmousemove;
+        System.Action<IEvent> ondocumentmouseup;
+        System.Action<IEvent> onmousedown;
 
         // needs to be updated to BCL List
         public global::System.Collections.Generic.List<Point> History;

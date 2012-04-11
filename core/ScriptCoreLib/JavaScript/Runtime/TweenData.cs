@@ -36,11 +36,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
             );
         }
 
-        protected event EventHandler Tick;
+        protected event System.Action Tick;
 
-        public event EventHandler Done;
+        public event System.Action Done;
 
-        protected EventHandler<Predicate> IsCloseEnoughHandler;
+        protected System.Action<Predicate> IsCloseEnoughHandler;
 
         protected bool IsCloseEnough
         {
@@ -50,9 +50,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        protected event EventHandler FutureValueChanged;
+        protected event System.Action FutureValueChanged;
 
-        public event EventHandler ValueChanged;
+        public event System.Action ValueChanged;
 
         public int Speed = 50;
 

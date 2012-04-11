@@ -54,7 +54,7 @@ q.WebkitTransform = ""matrix("" + m[0] + "","" + m[1] + "","" + m[2] + "","" + m
 
 
         [Script(DefineAsStatic = true)]
-        public void Apply(EventHandler<IStyle> e)
+        public void Apply(System.Action<IStyle> e)
         {
             e(this);
         }

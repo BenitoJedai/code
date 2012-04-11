@@ -123,7 +123,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        internal int setTimeout(EventHandler code, int time)
+        internal int setTimeout(System.Action code, int time)
         {
             return setTimeout(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
         }
@@ -141,7 +141,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        internal int setInterval(EventHandler code, int time)
+        internal int setInterval(System.Action code, int time)
         {
             return setInterval(((BCLImplementation.System.__Delegate)((object)code)).InvokePointer, time);
         }
@@ -164,7 +164,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
         #region event onfocus
-        public event EventHandler<IEvent> onfocus
+        public event System.Action<IEvent> onfocus
         {
             [Script(DefineAsStatic = true)]
             add
@@ -180,7 +180,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region event onblur
-        public event EventHandler<IEvent> onblur
+        public event System.Action<IEvent> onblur
         {
             [Script(DefineAsStatic = true)]
             add
@@ -196,7 +196,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region event onload
-        public event EventHandler<IEvent> onload
+        public event System.Action<IEvent> onload
         {
             [Script(DefineAsStatic = true)]
             add
@@ -212,7 +212,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region event onunload
-        public event EventHandler<IEvent> onunload
+        public event System.Action<IEvent> onunload
         {
             [Script(DefineAsStatic = true)]
             add
@@ -278,7 +278,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region event onresize
-        public event EventHandler<IEvent> onresize
+        public event System.Action<IEvent> onresize
         {
             [Script(DefineAsStatic = true)]
             add
@@ -294,7 +294,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         #endregion
 
         #region event onscroll
-        public event EventHandler<IEvent> onscroll
+        public event System.Action<IEvent> onscroll
         {
             [Script(DefineAsStatic = true)]
             add

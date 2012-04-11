@@ -439,7 +439,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 TypeName = t;
             }
 
-            public EventHandler<TypeActivator> this[string e]
+            public System.Action<TypeActivator> this[string e]
             {
                 set
                 {
@@ -447,7 +447,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 }
                 get
                 {
-                    return MemberActivator.GetMember<EventHandler<TypeActivator>>(e);
+                    return MemberActivator.GetMember<System.Action<TypeActivator>>(e);
                 }
             }
         }
@@ -555,7 +555,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         public readonly Expando prototype;
 
         [Script(DefineAsStatic = true)]
-        public FindArgs<T> Find<T>(EventHandler<FindArgs<T>> e)
+        public FindArgs<T> Find<T>(System.Action<FindArgs<T>> e)
         {
             ExpandoMember[] m = GetMembers();
 
@@ -976,7 +976,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             Expando.Of(Native.Window).SetMember(name, f);
         }
 
-        public static void ExportCallback<TArg>(string name, EventHandler<TArg> h)
+        public static void ExportCallback<TArg>(string name, System.Action<TArg> h)
         {
             ExportCallback(name, IFunction.Of(h));
         }

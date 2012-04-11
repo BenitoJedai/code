@@ -15,7 +15,7 @@ namespace ScriptCoreLib.PHP.Runtime
     [Script]
     public class CustomSwitch<TOwner, TIndex>
     {
-        public EventHandler<EventHandlerArgs> this[TIndex e]
+        public System.Action<EventHandlerArgs> this[TIndex e]
         {
             get
             {
@@ -33,7 +33,7 @@ namespace ScriptCoreLib.PHP.Runtime
         public bool IsVerbose;
 
 
-        public EventHandler<EventHandlerArgs> this[params TIndex[] e]
+        public System.Action<EventHandlerArgs> this[params TIndex[] e]
         {
             set
             {
@@ -65,10 +65,10 @@ namespace ScriptCoreLib.PHP.Runtime
             }
         }
 
-        public readonly IArray<TIndex, EventHandler<EventHandlerArgs>> List = new IArray<TIndex, EventHandler<EventHandlerArgs>>();
+        public readonly IArray<TIndex, System.Action<EventHandlerArgs>> List = new IArray<TIndex, System.Action<EventHandlerArgs>>();
 
 
-        public void Apply(IArray<TIndex, EventHandler<EventHandlerArgs>> e)
+        public void Apply(IArray<TIndex, System.Action<EventHandlerArgs>> e)
         {
             foreach (TIndex v in e.Keys)
             {
@@ -88,7 +88,7 @@ namespace ScriptCoreLib.PHP.Runtime
         protected bool Run(TOwner sender, TIndex p)
         {
 
-            EventHandler<EventHandlerArgs> h = this[p];
+            System.Action<EventHandlerArgs> h = this[p];
 
             if (h == null)
             {
