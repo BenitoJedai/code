@@ -8,7 +8,7 @@ using ScriptCoreLib.Extensions;
 
 namespace jsPDF.Library
 {
-    public class MyEextensions
+    public static class MyExtensions
     {
         public static void WhenAvailable(this IHTMLScript s, Action h)
         {
