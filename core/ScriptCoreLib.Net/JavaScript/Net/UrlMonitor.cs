@@ -18,10 +18,10 @@ namespace  ScriptCoreLib.JavaScript.Net
     {
         public readonly Timer MonitorTimer = new Timer();
 
-        public event EventHandler<UrlMonitor> ETagChanged;
-        public event EventHandler<UrlMonitor> RequestComplete;
+        public event System.Action<UrlMonitor> ETagChanged;
+        public event System.Action<UrlMonitor> RequestComplete;
 
-        public static EventHandler<UrlMonitor> ReloadDocument =
+        public static System.Action<UrlMonitor> ReloadDocument =
             delegate
             {
                 Native.Document.location.reload();
@@ -35,7 +35,7 @@ namespace  ScriptCoreLib.JavaScript.Net
         /// <param name="url"></param>
         /// <param name="interval"></param>
         /// <param name="ETagChanged"></param>
-        public UrlMonitor(string url, int interval, EventHandler<UrlMonitor> ETagChanged)
+        public UrlMonitor(string url, int interval, System.Action<UrlMonitor> ETagChanged)
             : this(url, interval)
         {
             this.ETagChanged += ETagChanged;
@@ -46,7 +46,7 @@ namespace  ScriptCoreLib.JavaScript.Net
         public UrlMonitor(string url, int interval)
         {
 
-            MonitorTimer.Tick += new EventHandler<Timer>(t_Tick);
+            MonitorTimer.Tick += new System.Action<Timer>(t_Tick);
 
             this.Url = url;
             this.Interval = interval;
