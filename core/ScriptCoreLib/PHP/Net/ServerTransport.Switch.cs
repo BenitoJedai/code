@@ -10,7 +10,7 @@ namespace ScriptCoreLib.PHP.Net
         [Script]
         public class Switch<TContext>
         {
-            public Switch(string FORMStreamName, string JSONStreamName, EventHandler<Predicate<TType, TContext>> _ValueToContext)
+            public Switch(string FORMStreamName, string JSONStreamName, System.Action<Predicate<TType, TContext>> _ValueToContext)
             {
                 this.StreamType[FORMStreamName] = true;
                 this.StreamType[JSONStreamName] = false;
@@ -25,9 +25,9 @@ namespace ScriptCoreLib.PHP.Net
 
 
 
-     
 
-            public EventHandler<ServerTransport<TType>> this[params TContext[] e]
+
+            public System.Action<ServerTransport<TType>> this[params TContext[] e]
             {
                 set
                 {
@@ -39,7 +39,7 @@ namespace ScriptCoreLib.PHP.Net
                 }
             }
 
-            public EventHandler<Predicate<TType, TContext>> ValueToContext;
+            public System.Action<Predicate<TType, TContext>> ValueToContext;
 
 
             ServerTransport<TType> InternalHandler;

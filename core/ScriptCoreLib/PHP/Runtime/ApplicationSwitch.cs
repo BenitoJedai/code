@@ -6,11 +6,11 @@ namespace ScriptCoreLib.PHP.Runtime
 	[Script, System.Obsolete]
     internal class ApplicationSwitch<TItem> : ApplicationSwitch
     {
-        public EventHandler<EventHandlerArgs<TItem>> this[List<TItem> range, EventHandler<Predicate<TItem, string>> convert]
+        public System.Action<EventHandlerArgs<TItem>> this[List<TItem> range, System.Action<Predicate<TItem, string>> convert]
         {
             set
             {
-                EventHandler<ApplicationSwitch.EventHandlerArgs> _handler =
+                System.Action<ApplicationSwitch.EventHandlerArgs> _handler =
                     delegate(ApplicationSwitch.EventHandlerArgs args)
                     {
                         TItem v = range.Find(convert, args.Index);

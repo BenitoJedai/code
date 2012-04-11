@@ -11,7 +11,7 @@ namespace ScriptCoreLib.JavaScript.DOM
     public class IArray<TItem>
     {
         [Script(DefineAsStatic = true)]
-        public TItem Find(EventHandler<Expando.FindArgs<TItem>> e) 
+        public TItem Find(System.Action<Expando.FindArgs<TItem>> e) 
         {
             Expando.FindArgs<TItem> m = FindMember(e);
             
@@ -22,7 +22,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public Expando.FindArgs<TItem> FindMember(EventHandler<Expando.FindArgs<TItem>> e)
+        public Expando.FindArgs<TItem> FindMember(System.Action<Expando.FindArgs<TItem>> e)
         {
             return Expando.Of(this).Find(e);
         }
@@ -43,7 +43,7 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 
 
-        public IArray(TItem[] source, EventHandler<IncludeArgs> predicate)
+        public IArray(TItem[] source, System.Action<IncludeArgs> predicate)
         {
 
         }
@@ -54,7 +54,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             return default(IArray<TItem>);
         }
 
-        static IArray<TItem> InternalConstructor(TItem[] source, EventHandler<IncludeArgs> predicate)
+        static IArray<TItem> InternalConstructor(TItem[] source, System.Action<IncludeArgs> predicate)
         {
             IArray<TItem> n = new IArray<TItem>();
 
@@ -81,7 +81,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public void ForEach(EventHandler<TItem> handler)
+        [System.Obsolete("use extension method WithEach() instead")]
+        public void ForEach(System.Action<TItem> handler)
         {
             foreach (TItem x in ToArray())
             {
@@ -201,7 +202,7 @@ namespace ScriptCoreLib.JavaScript.DOM
         }
 
         [Script(DefineAsStatic = true)]
-        public void sort(InternalFunc<TItem, TItem, int> e)
+        public void sort(System.Func<TItem, TItem, int> e)
         {
             sort(((BCLImplementation.System.__Delegate)(object)e).InvokePointer);
         }

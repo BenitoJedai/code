@@ -8,7 +8,7 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 namespace ScriptCoreLib
 {
     // http://www.devguru.com/Technologies/ecmascript/quickref/js_property.html
-    using SpawnItem = Pair<string, EventHandler<IHTMLElement>>;
+    using SpawnItem = Pair<string, System.Action<IHTMLElement>>;
 
 
     namespace JavaScript
@@ -33,7 +33,7 @@ namespace ScriptCoreLib
             static public IScreen Screen;
 
 			[System.Obsolete("To be moved out of CoreLib or removed")]
-            public static EventHandler<IEvent> DisabledEventHandler
+            public static System.Action<IEvent> DisabledEventHandler
             {
                 get
                 {
@@ -55,7 +55,7 @@ namespace ScriptCoreLib
             {
                 foreach (var x in e)
                 {
-                     Native.Spawn(x.A, x.B);
+                    Native.Spawn(x.A, x.B);
                 }
             }
 
@@ -64,7 +64,7 @@ namespace ScriptCoreLib
             /// </summary>
             /// <param name="e">className</param>
             /// <param name="Spawn">delegate with owner element</param>
-            public static void Spawn(string id, EventHandler<IHTMLElement> Spawn)
+            public static void Spawn(string id, System.Action<IHTMLElement> Spawn)
             {
                 System.Console.WriteLine("spawn on load: " + id);
 
@@ -85,7 +85,7 @@ namespace ScriptCoreLib
             }
 
 
-            public static void Spawn(string id, EventHandler<IHTMLElement, string> s)
+            public static void Spawn(string id, System.Action<IHTMLElement, string> s)
             {
                 System.Console.WriteLine("spawn on load: " + id);
 
@@ -110,7 +110,7 @@ namespace ScriptCoreLib
                     };
             }
 
-            internal static void SpawnInline(string classname, EventHandler<IHTMLElement> h)
+            internal static void SpawnInline(string classname, System.Action<IHTMLElement> h)
             {
                 Native.Document.getElementsByClassName(classname + ":inline").ForEach(h);
             }

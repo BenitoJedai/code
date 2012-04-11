@@ -231,7 +231,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         }
 
        // #if BLOAT
-        public static TRet To<TArg, TRet>(TArg e, TRet def, EventHandler<ConvertTo<TArg, TRet>> h)
+        public static TRet To<TArg, TRet>(TArg e, TRet def, System.Action<ConvertTo<TArg, TRet>> h)
         {
             var p = new ConvertTo<TArg, TRet>();
 

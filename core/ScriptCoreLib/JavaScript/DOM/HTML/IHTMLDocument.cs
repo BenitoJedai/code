@@ -11,6 +11,7 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+
     [Script(HasNoPrototype = true)]
     public class IHTMLDocument : IDocument<IHTMLElement>
     {
@@ -127,9 +128,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
 
         [Script(DefineAsStatic = true)]
-        public void ForEachClassName(string className, EventHandler<IHTMLElement> handler)
+        [System.Obsolete("To be refactored.", true)]
+        public void ForEachClassName(string className, System.Action<IHTMLElement> handler)
         {
-            getElementsByClassName(className).ForEach(handler);
+            throw new System.NotImplementedException(); 
+            //getElementsByClassName(className).ForEach(handler);
         }
 
         [Script(DefineAsStatic = true)]
@@ -152,7 +155,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
         #region event onclick
-        public event EventHandler<IEvent> onclick
+        public event System.Action<IEvent> onclick
         {
             [Script(DefineAsStatic = true)]
             add
@@ -171,7 +174,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
         #region event onkeydown
-        public event EventHandler<IEvent> onkeydown
+        public event System.Action<IEvent> onkeydown
         {
             [Script(DefineAsStatic = true)]
             add
@@ -187,7 +190,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
         #region event onkeypress
-        public event EventHandler<IEvent> onkeypress
+        public event System.Action<IEvent> onkeypress
         {
             [Script(DefineAsStatic = true)]
             add
@@ -204,7 +207,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
         #region event onkeypress
-        public event EventHandler<IEvent> onkeyup
+        public event System.Action<IEvent> onkeyup
         {
             [Script(DefineAsStatic = true)]
             add
@@ -220,7 +223,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         #endregion
 
         #region event onmousemove
-        public event EventHandler<IEvent> onmousemove
+        public event System.Action<IEvent> onmousemove
         {
             [Script(DefineAsStatic = true)]
             add
@@ -235,7 +238,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
         #region event onmousedown
-        public event EventHandler<IEvent> onmousedown
+        public event System.Action<IEvent> onmousedown
         {
             [Script(DefineAsStatic = true)]
             add
@@ -250,7 +253,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
         #region event onmouseup
-        public event EventHandler<IEvent> onmouseup
+        public event System.Action<IEvent> onmouseup
         {
             [Script(DefineAsStatic = true)]
             add
@@ -265,7 +268,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
         #region event onmouseover
-        public event EventHandler<IEvent> onmouseover
+        public event System.Action<IEvent> onmouseover
         {
             [Script(DefineAsStatic = true)]
             add
@@ -280,7 +283,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
         #region event onmouseout
-        public event EventHandler<IEvent> onmouseout
+        public event System.Action<IEvent> onmouseout
         {
             [Script(DefineAsStatic = true)]
             add
@@ -295,7 +298,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
         #region event oncontextmenu
-        public event EventHandler<IEvent> oncontextmenu
+        public event System.Action<IEvent> oncontextmenu
         {
             [Script(DefineAsStatic = true)]
             add

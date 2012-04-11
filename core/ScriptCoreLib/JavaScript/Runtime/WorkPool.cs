@@ -39,14 +39,14 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
         public WorkPool()
         {
-            Worker.Tick += new EventHandler<Timer>(Worker_Tick);
+            Worker.Tick += new System.Action<Timer>(Worker_Tick);
         }
 
         /// <summary>
         /// abort event will be called if the last job entry took longer than the time specified in the timeout field
         /// </summary>
-        public event EventHandler<WorkPool> Abort;
-        public event EventHandler<global::System.Exception> Error;
+        public event System.Action<WorkPool> Abort;
+        public event System.Action<global::System.Exception> Error;
 
         void Worker_Tick(Timer e)
         {

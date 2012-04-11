@@ -20,9 +20,9 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
         }
 
-        EventHandler<Predicate<T>> _spawn_helper;
+        System.Action<Predicate<T>> _spawn_helper;
 
-        public Cookie(string e,  EventHandler<Predicate<T>> def)
+        public Cookie(string e, System.Action<Predicate<T>> def)
             : base(e)
         {
             _spawn_helper = def;

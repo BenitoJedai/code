@@ -39,7 +39,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
         #region event onload
-        public event EventHandler<IEvent> onload
+        public event System.Action<IEvent> onload
         {
             [Script(DefineAsStatic = true)]
             add

@@ -55,7 +55,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
 
 		#region event onerror
-		public event EventHandler<IEvent> onerror
+        public event System.Action<IEvent> onerror
 		{
 			[Script(DefineAsStatic = true)]
 			add

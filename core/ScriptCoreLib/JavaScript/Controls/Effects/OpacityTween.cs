@@ -16,7 +16,7 @@ namespace ScriptCoreLib.JavaScript.Controls.Effects
     [Script]
     public class TweenDataPoint : TweenData<Point>
     {
-        public TweenDataPoint(EventHandler e)
+        public TweenDataPoint(System.Action e)
             : this()
         {
             this.ValueChanged += e;
@@ -79,7 +79,7 @@ namespace ScriptCoreLib.JavaScript.Controls.Effects
     [Script]
     public class TweenDataDouble : TweenData<double>
     {
-        public TweenDataDouble(EventHandler e)
+        public TweenDataDouble(System.Action e)
             : this()
         {
             this.ValueChanged += e;

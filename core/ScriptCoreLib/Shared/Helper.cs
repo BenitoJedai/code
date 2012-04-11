@@ -49,7 +49,7 @@ namespace ScriptCoreLib.Shared
         /// <typeparam name="TArg"></typeparam>
         /// <param name="h"></param>
         /// <param name="x"></param>
-        public static TArg Invoke<TArg>(EventHandler<TArg> h, TArg x)
+        public static TArg Invoke<TArg>(System.Action<TArg> h, TArg x)
         {
             if (h != null)
                 h(x);
@@ -58,7 +58,7 @@ namespace ScriptCoreLib.Shared
             
         }
 
-        public static void Invoke(EventHandler h)
+        public static void Invoke(System.Action h)
         {
             if (h == null)
                 return;
@@ -98,7 +98,7 @@ namespace ScriptCoreLib.Shared
             return default(bool);
         }
 
-        public static bool InvokeTry(EventHandler p)
+        public static bool InvokeTry(System.Action p)
         {
             bool b = true;
 
