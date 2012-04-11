@@ -33,16 +33,23 @@ namespace jsPDF
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new Design.jspdf().Content.When(
-                 source =>
+            new Design.base64().Content.WhenAvailable(
+                 delegate
                  {
-                     source.onload +=
-                       delegate
-                       {
-                           InitializeContent(page);
-                       };
 
-                     source.AttachToDocument();
+                     new Design.sprintf().Content.WhenAvailable(
+                          delegate
+                          {
+
+                              new Design.jspdf().Content.WhenAvailable(
+                                 delegate
+                                 {
+
+                                     InitializeContent(page);
+                                 }
+                              );
+                          }
+                       );
                  }
               );
 
@@ -77,7 +84,52 @@ namespace jsPDF
                     // Output as Data URI
                     doc.output("datauri");
                 };
+
+
+            page.fonts.onclick +=
+               delegate
+               {
+                  var doc = new Design.jsPDF();
+                    doc.setFontSize(22);
+                    doc.text(20, 20, "This is a title");
+
+                    doc.setFontSize(16);
+                    doc.text(20, 30, "This is some normal sized text underneath.");	
+
+                    // Output as Data URI
+                    doc.output("datauri");
+               };
+
+            page.metadata.onclick +=
+                delegate
+                {
+                    var doc = new Design.jsPDF();
+
+                    doc.text(20, 20, "This PDF has a title, subject, author, keywords and a creator.");
+
+                    // Optional - set properties on the document
+                    doc.setProperties(new jsPDFProperties {
+	                    title= "Title",
+	                    subject= "This is the subject",
+	                    author= "James Hall",
+	                    keywords= "generated, javascript, web 2.0, ajax",
+	                    creator= "MEEE"
+                    });
+
+                    // Output as Data URI
+                    doc.output("datauri");
+                };
         }
 
+    }
+
+    sealed class jsPDFProperties
+    {
+        public string
+            title,
+            subject,
+            author,
+            keywords,
+            creator;
     }
 }

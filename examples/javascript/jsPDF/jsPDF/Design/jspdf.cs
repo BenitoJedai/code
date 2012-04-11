@@ -23,5 +23,15 @@ namespace jsPDF.Design
         {
             throw new NotImplementedException();
         }
+
+        internal void setFontSize(int p)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void setProperties(jsPDFProperties jsPDFProperties)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
