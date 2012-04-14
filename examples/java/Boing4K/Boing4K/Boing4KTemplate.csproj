@@ -8,11 +8,11 @@
     <ProjectGuid>{DDCA8E8B-93F0-44E8-A9E7-8C6D9E575739}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Boing4K</RootNamespace>
-    <AssemblyName>Boing4K</AssemblyName>
+    <RootNamespace>Boing4KTemplate</RootNamespace>
+    <AssemblyName>Boing4KTemplate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>Boing4K.Program</StartupObject>
+    <StartupObject>Boing4KTemplate.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -101,8 +101,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="Boing4K.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\Boing4K.AssetsLibrary.dll</HintPath>
+    <Reference Include="Boing4KTemplate.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\Boing4KTemplate.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

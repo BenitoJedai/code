@@ -1,6 +1,6 @@
 using java.applet;
 
-//namespace Boing4K
+//namespace Boing4KTemplate
 //{
     // todo: JSC should demote classes that use java top level classes.. 
 
