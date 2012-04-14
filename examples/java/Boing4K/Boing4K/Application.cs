@@ -1,6 +1,6 @@
-using Boing4K;
-using Boing4K.Design.Styles;
-using Boing4K.HTML.Pages;
+using Boing4KTemplate;
+using Boing4KTemplate.Design.Styles;
+using Boing4KTemplate.HTML.Pages;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace Boing4K
+namespace Boing4KTemplate
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
