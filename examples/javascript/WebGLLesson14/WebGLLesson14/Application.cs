@@ -34,6 +34,16 @@ namespace WebGLLesson14
 
         public Action Dispose;
 
+        public sealed class TeapotType
+        {
+            public f[] vertexNormals;
+            public f[] vertexPositions;
+            public f[] vertexTextureCoords;
+            public ushort[] indices;
+        }
+
+        [Script(ExternalTarget = "Teapot")]
+        public static TeapotType Teapot;
 
         /// <summary>
         /// This is a javascript application.
@@ -41,14 +51,27 @@ namespace WebGLLesson14
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            #region await __glMatrix then do InitializeContent
+            #region await __glMatrix
             new __glMatrix().Content.With(
               source =>
               {
                   source.onload +=
                     delegate
                     {
-                        InitializeContent(page);
+                        #region await Teapot
+                        new WebGLLesson14.Data.Teapot().Content.With(
+                          source2 =>
+                          {
+                              source2.onload +=
+                                delegate
+                                {
+                                    InitializeContent(page);
+                                };
+
+                              source2.AttachToDocument();
+                          }
+                       );
+                        #endregion
                     };
 
                   source.AttachToDocument();
@@ -293,12 +316,14 @@ namespace WebGLLesson14
             };
             #endregion
 
-
+            // await earth
             new HTML.Images.FromAssets.earth().InvokeOnComplete(
                 earth =>
+                    // await metail
                     new HTML.Images.FromAssets.arroway_de_metal_structure_06_d100_flat().InvokeOnComplete(
                         metal =>
                         {
+
                             #region setMatrixUniforms
                             Action setMatrixUniforms =
                                 delegate
@@ -321,242 +346,18 @@ namespace WebGLLesson14
                                 };
                             #endregion
 
-                            #region cubeVertexPositionBuffer
-                            var cubeVertexPositionBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-                            var vertices = new f[]
-                                   {
-                                  // Front face
-            -1.0f, -1.0f,  1.0f,
-             1.0f, -1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-
-            // Back face
-            -1.0f, -1.0f, -1.0f,
-            -1.0f,  1.0f, -1.0f,
-             1.0f,  1.0f, -1.0f,
-             1.0f, -1.0f, -1.0f,
-
-            // Top face
-            -1.0f,  1.0f, -1.0f,
-            -1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f,  1.0f, -1.0f,
-
-            // Bottom face
-            -1.0f, -1.0f, -1.0f,
-             1.0f, -1.0f, -1.0f,
-             1.0f, -1.0f,  1.0f,
-            -1.0f, -1.0f,  1.0f,
-
-            // Right face
-             1.0f, -1.0f, -1.0f,
-             1.0f,  1.0f, -1.0f,
-             1.0f,  1.0f,  1.0f,
-             1.0f, -1.0f,  1.0f,
-
-            // Left face
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f,  1.0f,
-            -1.0f,  1.0f,  1.0f,
-            -1.0f,  1.0f, -1.0f,
-                                };
-
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-                            var cubeVertexPositionBuffer_itemSize = 3;
-                            var cubeVertexPositionBuffer_numItems = 24;
-                            #endregion
-
-                            #region cubeVertexNormalBuffer
-                            var cubeVertexNormalBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
-                            var vertexNormals = new f[]
-                            {
-                                // Front face
-                                0.0f,  0.0f,  1.0f,
-                                0.0f,  0.0f,  1.0f,
-                                0.0f,  0.0f,  1.0f,
-                                0.0f,  0.0f,  1.0f,
-
-                                // Back face
-                                0.0f,  0.0f, -1.0f,
-                                0.0f,  0.0f, -1.0f,
-                                0.0f,  0.0f, -1.0f,
-                                0.0f,  0.0f, -1.0f,
-
-                                // Top face
-                                0.0f,  1.0f,  0.0f,
-                                0.0f,  1.0f,  0.0f,
-                                0.0f,  1.0f,  0.0f,
-                                0.0f,  1.0f,  0.0f,
-
-                                // Bottom face
-                                0.0f, -1.0f,  0.0f,
-                                0.0f, -1.0f,  0.0f,
-                                0.0f, -1.0f,  0.0f,
-                                0.0f, -1.0f,  0.0f,
-
-                                // Right face
-                                1.0f,  0.0f,  0.0f,
-                                1.0f,  0.0f,  0.0f,
-                                1.0f,  0.0f,  0.0f,
-                                1.0f,  0.0f,  0.0f,
-
-                                // Left face
-                                -1.0f,  0.0f,  0.0f,
-                                -1.0f,  0.0f,  0.0f,
-                                -1.0f,  0.0f,  0.0f,
-                                -1.0f,  0.0f,  0.0f,
-                            };
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexNormals), gl.STATIC_DRAW);
-                            var cubeVertexNormalBuffer_itemSize = 3;
-                            var cubeVertexNormalBuffer_numItems = 24;
-                            #endregion
-
-                            #region cubeVertexTextureCoordBuffer
-                            var cubeVertexTextureCoordBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
-                            var textureCoords = new f[]
-                                   {
-                                       // Front face
-                                       0.0f, 0.0f,
-                                       1.0f, 0.0f,
-                                       1.0f, 1.0f,
-                                       0.0f, 1.0f,
-
-                                       // Back face
-                                       1.0f, 0.0f,
-                                       1.0f, 1.0f,
-                                       0.0f, 1.0f,
-                                       0.0f, 0.0f,
-
-                                       // Top face
-                                       0.0f, 1.0f,
-                                       0.0f, 0.0f,
-                                       1.0f, 0.0f,
-                                       1.0f, 1.0f,
-
-                                       // Bottom face
-                                       1.0f, 1.0f,
-                                       0.0f, 1.0f,
-                                       0.0f, 0.0f,
-                                       1.0f, 0.0f,
-
-                                       // Right face
-                                       1.0f, 0.0f,
-                                       1.0f, 1.0f,
-                                       0.0f, 1.0f,
-                                       0.0f, 0.0f,
-
-                                       // Left face
-                                       0.0f, 0.0f,
-                                       1.0f, 0.0f,
-                                       1.0f, 1.0f,
-                                       0.0f, 1.0f,
-                                   };
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
-                            var cubeVertexTextureCoordBuffer_itemSize = 2;
-                            #endregion
-
-                            #region cubeVertexIndexBuffer
-                            var cubeVertexIndexBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
-                            var cubeVertexIndices = new ushort[]{
-                                       0, 1, 2,      0, 2, 3,    // Front face
-                                       4, 5, 6,      4, 6, 7,    // Back face
-                                       8, 9, 10,     8, 10, 11,  // Top face
-                                       12, 13, 14,   12, 14, 15, // Bottom face
-                                       16, 17, 18,   16, 18, 19, // Right face
-                                       20, 21, 22,   20, 22, 23  // Left face
-                                   };
-                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
-                            var cubeVertexIndexBuffer_itemSize = 1;
-                            var cubeVertexIndexBuffer_numItems = 36;
-                            #endregion
-
-                            #region moon
-                            var latitudeBands = 30;
-                            var longitudeBands = 30;
-                            var radius = 1;
-
-                            var vertexPositionData = new List<f>();
-                            var normalData = new List<f>();
-                            var textureCoordData = new List<f>();
-                            for (var latNumber = 0; latNumber <= latitudeBands; latNumber++)
-                            {
-                                var theta = latNumber * Math.PI / latitudeBands;
-                                var sinTheta = (f)Math.Sin(theta);
-                                var cosTheta = (f)Math.Cos(theta);
-
-                                for (var longNumber = 0; longNumber <= longitudeBands; longNumber++)
-                                {
-                                    var phi = longNumber * 2 * Math.PI / longitudeBands;
-                                    var sinPhi = (f)Math.Sin(phi);
-                                    var cosPhi = (f)Math.Cos(phi);
-
-                                    var x = cosPhi * sinTheta;
-                                    var y = cosTheta;
-                                    var z = sinPhi * sinTheta;
-                                    var u = 1 - (longNumber / longitudeBands);
-                                    var v = 1 - (latNumber / latitudeBands);
-
-                                    normalData.Add(x);
-                                    normalData.Add(y);
-                                    normalData.Add(z);
-                                    textureCoordData.Add(u);
-                                    textureCoordData.Add(v);
-                                    vertexPositionData.Add(radius * x);
-                                    vertexPositionData.Add(radius * y);
-                                    vertexPositionData.Add(radius * z);
-                                }
-                            }
-
-                            var indexData = new List<ushort>();
-                            for (var latNumber = 0; latNumber < latitudeBands; latNumber++)
-                            {
-                                for (var longNumber = 0; longNumber < longitudeBands; longNumber++)
-                                {
-                                    var first = (latNumber * (longitudeBands + 1)) + longNumber;
-                                    var second = first + longitudeBands + 1;
-                                    indexData.Add((ushort)first);
-                                    indexData.Add((ushort)second);
-                                    indexData.Add((ushort)(first + 1));
-
-                                    indexData.Add((ushort)second);
-                                    indexData.Add((ushort)(second + 1));
-                                    indexData.Add((ushort)(first + 1));
-                                }
-                            }
-
-                            var moonVertexNormalBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData.ToArray()), gl.STATIC_DRAW);
-                            var moonVertexNormalBuffer_itemSize = 3;
-                            var moonVertexNormalBuffer_numItems = normalData.Count / 3;
-
-                            var moonVertexTextureCoordBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordData.ToArray()), gl.STATIC_DRAW);
-                            var moonVertexTextureCoordBuffer_itemSize = 2;
-                            var moonVertexTextureCoordBuffer_numItems = textureCoordData.Count / 2;
-
-                            var moonVertexPositionBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositionData.ToArray()), gl.STATIC_DRAW);
-                            var moonVertexPositionBuffer_itemSize = 3;
-                            var moonVertexPositionBuffer_numItems = vertexPositionData.Count / 3;
-
-                            var moonVertexIndexBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
-                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indexData.ToArray()), gl.STREAM_DRAW);
-                            var moonVertexIndexBuffer_itemSize = 1;
-                            var moonVertexIndexBuffer_numItems = indexData.Count;
-                            #endregion
+                         
 
 
 
 
+
+
+
+
+
+
+                            
                             #region handleLoadedTexture
                             Action<WebGLTexture, IHTMLImage> handleLoadedTexture = (texture, texture_image) =>
                             {
@@ -573,13 +374,46 @@ namespace WebGLLesson14
 
 
 
+              
+                              var earthTexture = gl.createTexture();
+                              handleLoadedTexture(earthTexture, earth);
 
-                            var moonTexture = gl.createTexture();
-                            handleLoadedTexture(moonTexture, moon);
+                                 
+                              var galvanizedTexture = gl.createTexture();
+                              handleLoadedTexture(galvanizedTexture, metal);
 
 
-                            var crateTexture = gl.createTexture();
-                            handleLoadedTexture(crateTexture, crate);
+                              #region loadTeapot
+                              var teapotData = Application.Teapot;
+
+                            var teapotVertexNormalBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexNormalBuffer);
+                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(teapotData.vertexNormals), gl.STATIC_DRAW);
+                            var teapotVertexNormalBuffer_itemSize = 3;
+                            var teapotVertexNormalBuffer_numItems = teapotData.vertexNormals.Length / 3;
+
+                            var teapotVertexTextureCoordBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexTextureCoordBuffer);
+                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(teapotData.vertexTextureCoords), gl.STATIC_DRAW);
+                            var teapotVertexTextureCoordBuffer_itemSize = 2;
+                            var teapotVertexTextureCoordBuffer_numItems = teapotData.vertexTextureCoords.Length / 2;
+
+                            var teapotVertexPositionBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
+                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(teapotData.vertexPositions), gl.STATIC_DRAW);
+                            var teapotVertexPositionBuffer_itemSize = 3;
+                            var teapotVertexPositionBuffer_numItems = teapotData.vertexPositions.Length / 3;
+
+                            var teapotVertexIndexBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, teapotVertexIndexBuffer);
+                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(teapotData.indices), gl.STATIC_DRAW);
+                            var teapotVertexIndexBuffer_itemSize = 1;
+                            var teapotVertexIndexBuffer_numItems = teapotData.indices.Length;
+
+                              #endregion
+
+
+
 
 
 
@@ -587,8 +421,7 @@ namespace WebGLLesson14
                             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
                             gl.enable(gl.DEPTH_TEST);
 
-                            var moonAngle = 180f;
-                            var cubeAngle = 0f;
+                            var teapotAngle = 180f;
 
                             var lastTime = 0L;
 
@@ -600,13 +433,13 @@ namespace WebGLLesson14
                                 {
                                     var elapsed = timeNow - lastTime;
 
-                                    moonAngle += 0.05f * elapsed;
-                                    cubeAngle += 0.05f * elapsed;
+                                    teapotAngle += 0.05f * elapsed;
                                 }
                                 lastTime = timeNow;
                             };
                             #endregion
 
+                           
 
                             //Func<string, f> parseFloat = Convert.ToSingle;
                             Func<string, f> parseFloat = x => float.Parse(x);
@@ -615,119 +448,103 @@ namespace WebGLLesson14
                             #region drawScene
                             Action drawScene = () =>
                             {
+
                                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+                                if (teapotVertexPositionBuffer == null || teapotVertexNormalBuffer == null || teapotVertexTextureCoordBuffer == null || teapotVertexIndexBuffer == null) {
+                                    return;
+                                }
+
                                 __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                                #region useProgram
-                                var perFragmentLighting = toolbar.per_fragment.@checked;
-                                if (perFragmentLighting)
-                                {
-                                    currentProgram = perFragmentProgram;
-                                }
-                                else
-                                {
-                                    currentProgram = perVertexProgram;
-                                }
-                                gl.useProgram(currentProgram.program);
+                                var shaderProgram = currentProgram;
+
+                                var specularHighlights = toolbar.specular.@checked;
+
+                                #region [uniform] bool uShowSpecularHighlights <-  toolbar.specular.@checked
+                                gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, Convert.ToInt32( specularHighlights));
                                 #endregion
 
                                 var lighting = toolbar.lighting.@checked;
 
-                                #region [uniform] bool uUseLighting <- lighting
-                                gl.uniform1i(currentProgram.useLightingUniform, Convert.ToInt32(lighting));
+                                #region [uniform] bool uUseLighting <- toolbar.lighting.@checked
+                                gl.uniform1i(shaderProgram.useLightingUniform, Convert.ToInt32( lighting));
                                 #endregion
 
                                 if (lighting)
                                 {
-                                    #region [uniform] vec3 uAmbientColor <- (f ambientR, f ambientG, f ambientB)
+
+                                    #region [uniform] uAmbientColor <- ambientR, ambientG, ambientB
                                     gl.uniform3f(
-                                        currentProgram.ambientColorUniform,
+                                        shaderProgram.ambientColorUniform,
                                         parseFloat(toolbar.ambientR.value),
                                         parseFloat(toolbar.ambientG.value),
                                         parseFloat(toolbar.ambientB.value)
                                     );
                                     #endregion
 
-                                    #region [uniform] vec3 uPointLightingLocation <- (f lightPositionX, f lightPositionY, f lightPositionZ)
+                                    #region [uniform] uPointLightingLocation <- lightPositionX, lightPositionY, lightPositionZ
                                     gl.uniform3f(
-                                        currentProgram.pointLightingLocationUniform,
+                                        shaderProgram.pointLightingLocationUniform,
                                         parseFloat(toolbar.lightPositionX.value),
                                         parseFloat(toolbar.lightPositionY.value),
                                         parseFloat(toolbar.lightPositionZ.value)
                                     );
                                     #endregion
 
-                                    #region [uniform] vec3 uPointLightingColor <- (f pointR, f pointG, f pointB)
+                                    #region [uniform] uPointLightingSpecularColor <- specularR, specularG, specularB
                                     gl.uniform3f(
-                                        currentProgram.pointLightingColorUniform,
-                                        parseFloat(toolbar.pointR.value),
-                                        parseFloat(toolbar.pointG.value),
-                                        parseFloat(toolbar.pointB.value)
+                                        shaderProgram.pointLightingSpecularColorUniform,
+                                        parseFloat(toolbar.specularR.value),
+                                        parseFloat(toolbar.specularG.value),
+                                        parseFloat(toolbar.specularB.value)
                                     );
                                     #endregion
+
+                                    #region [uniform] uPointLightingDiffuseColor <- diffuseR, diffuseG, diffuseB
+                                    gl.uniform3f(
+                                        shaderProgram.pointLightingDiffuseColorUniform,
+                                        parseFloat(toolbar.diffuseR.value),
+                                        parseFloat(toolbar.diffuseG.value),
+                                        parseFloat(toolbar.diffuseB.value)
+                                    );
+                                    #endregion
+
                                 }
 
-                                var textures = toolbar.textures.@checked;
-
-                                #region [uniform] bool uUseTextures <- textures
-                                gl.uniform1i(currentProgram.useTexturesUniform, Convert.ToInt32(textures));
-                                #endregion
+                                var texture = toolbar.texture[ toolbar.texture.selectedIndex].value;
+                                gl.uniform1i(shaderProgram.useTexturesUniform, Convert.ToInt32( texture != "none"));
 
                                 __glMatrix.mat4.identity(mvMatrix);
 
-                                __glMatrix.mat4.translate(mvMatrix, 0, 0, -5);
-
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(30), 1, 0, 0);
-
-                                #region cube
-                                mvPushMatrix();
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(moonAngle), 0, 1, 0);
-                                __glMatrix.mat4.translate(mvMatrix, 2, 0, 0);
-                                gl.activeTexture(gl.TEXTURE0);
-                                gl.bindTexture(gl.TEXTURE_2D, moonTexture);
-                                gl.uniform1i(currentProgram.samplerUniform, 0);
-
-                                gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)currentProgram.vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                                gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)currentProgram.textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                                gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)currentProgram.vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
-                                setMatrixUniforms();
-                                gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
-                                mvPopMatrix();
-                                #endregion
-
-
-
-                                #region cube
-                                mvPushMatrix();
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(cubeAngle), 0, 1, 0);
-                                __glMatrix.mat4.translate(mvMatrix, 1.25f, 0, 0);
-                                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)currentProgram.vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)currentProgram.vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
-
-                                gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)currentProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                __glMatrix.mat4.translate(mvMatrix, 0, 0, -40);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(23.4f), 1, 0, -1);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(teapotAngle), 0, 1, 0);
 
                                 gl.activeTexture(gl.TEXTURE0);
-                                gl.bindTexture(gl.TEXTURE_2D, crateTexture);
-                                gl.uniform1i(currentProgram.samplerUniform, 0);
+                                if (texture == "earth") {
+                                    gl.bindTexture(gl.TEXTURE_2D, earthTexture);
+                                } else if (texture == "galvanized") {
+                                    gl.bindTexture(gl.TEXTURE_2D, galvanizedTexture);
+                                }
+                                gl.uniform1i(shaderProgram.samplerUniform, 0);
 
-                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+                                gl.uniform1f(shaderProgram.materialShininessUniform, parseFloat(toolbar.shininess.value));
+
+                                gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
+                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                                gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexTextureCoordBuffer);
+                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, teapotVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                                gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexNormalBuffer);
+                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, teapotVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+
+                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, teapotVertexIndexBuffer);
                                 setMatrixUniforms();
-                                gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
-                                mvPopMatrix();
-                                #endregion
+                                gl.drawElements(gl.TRIANGLES, teapotVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
+
 
                             };
                             #endregion
