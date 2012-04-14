@@ -17,7 +17,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         class EntryItem
         {
             public string Key;
-            public EventHandler Handler;
+            public System.Action Handler;
         }
 
         List<EntryItem> List = new List<EntryItem>();
@@ -80,14 +80,14 @@ namespace ScriptCoreLib.JavaScript.Runtime
             Touch();
         }
 
-        public static WorkPool operator +(WorkPool a, EventHandler h)
+        public static WorkPool operator +(WorkPool a, System.Action h)
         {
             a.Add(h);
 
             return a;
         }
 
-        public void Add(EventHandler h)
+        public void Add(System.Action h)
         {
             EntryItem i = new EntryItem();
 
@@ -103,7 +103,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public EventHandler this[string key]
+        public System.Action this[string key]
         {
             set
             {
@@ -117,7 +117,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         /// </summary>
         /// <param name="h"></param>
         /// <param name="key"></param>
-        public void Add(EventHandler h, string key)
+        public void Add(System.Action h, string key)
         {
             EntryItem i = new EntryItem();
 

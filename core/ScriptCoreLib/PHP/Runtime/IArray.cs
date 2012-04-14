@@ -496,7 +496,7 @@ namespace ScriptCoreLib.PHP.Runtime
             return r;
         }
 
-        public void Remove(EventHandler< Predicate<TItem>> p)
+        public void Remove(System.Action<Predicate<TItem>> p)
         {
             if (p == null)
                 return;
@@ -521,7 +521,7 @@ namespace ScriptCoreLib.PHP.Runtime
             }
         }
 
-        public int CountOf(EventHandler<Predicate<TItem>> p)
+        public int CountOf(System.Action<Predicate<TItem>> p)
         {
             int u = 0;
 

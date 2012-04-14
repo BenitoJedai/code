@@ -59,7 +59,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
         /// <param name="waittime"></param>
         /// <param name="fadetime"></param>
         /// <param name="done"></param>
-        static public void Fade(IHTMLElement target, int waittime, int fadetime, EventHandler done)
+        static public void Fade(IHTMLElement target, int waittime, int fadetime, System.Action done)
         {
             // if IE
             target.style.height = target.clientHeight + "px";
