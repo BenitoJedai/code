@@ -44,7 +44,7 @@ namespace java
     [Script]
     class ThisClassWillBeRedirectedTo_javax_Namespace
     {
-        
+
     }
 }
 
@@ -76,12 +76,40 @@ namespace TestAnnotations
     }
 
 
-    
+
+
+    [Script]
+    public class Class1
+    {
+        [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
+        public void FooMethod()
+        {
+        }
+
+    }
+
+    [Script]
+    public class Class3
+    {
+        [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
+        public string Foo;
+
+    }
 
     [Script]
     [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
-    public class Class1
+    public class Class2
     {
-        
+        [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
+        public string Foo;
+
+
+        [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
+        public int Bar;
+
+        [Foo(Text = "hello world"), ZooAttribute, Bar, Documented]
+        public void FooMethod()
+        {
+        }
     }
 }
