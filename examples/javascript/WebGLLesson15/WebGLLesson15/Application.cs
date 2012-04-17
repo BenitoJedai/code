@@ -240,11 +240,10 @@ namespace WebGLLesson15
                         var pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
                         var mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
                         var nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
-                        var samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-                        var materialShininessUniform = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
-                        var showSpecularHighlightsUniform = gl.getUniformLocation(shaderProgram, "uShowSpecularHighlights");
-                        var useTexturesUniform = gl.getUniformLocation(shaderProgram, "uUseTextures");
-                        var useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
+                        var colorMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uColorMapSampler");
+                        var specularMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uSpecularMapSampler");
+                        var useColorMapUniform = gl.getUniformLocation(shaderProgram, "uUseColorMap");
+                        var useSpecularMapUniform = gl.getUniformLocation(shaderProgram, "uUseSpecularMap");
                         var ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
                         var pointLightingLocationUniform = gl.getUniformLocation(shaderProgram, "uPointLightingLocation");
                         var pointLightingSpecularColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingSpecularColor");
@@ -261,11 +260,10 @@ namespace WebGLLesson15
                             pMatrixUniform,
                             mvMatrixUniform,
                             nMatrixUniform,
-                            samplerUniform,
-                            materialShininessUniform,
-                            showSpecularHighlightsUniform,
-                            useTexturesUniform,
-                            useLightingUniform,
+                            colorMapSamplerUniform,
+                            specularMapSamplerUniform,
+                            useColorMapUniform,
+                            useSpecularMapUniform,
                             ambientColorUniform,
                             pointLightingLocationUniform,
                             pointLightingSpecularColorUniform,
@@ -379,8 +377,8 @@ namespace WebGLLesson15
                             handleLoadedTexture(earthTexture, earth);
 
 
-                            var galvanizedTexture = gl.createTexture();
-                            handleLoadedTexture(galvanizedTexture, metal);
+                            var earth_specularTexture = gl.createTexture();
+                            handleLoadedTexture(earth_specularTexture, earth_specular);
 
 
                             #region loadTeapot
