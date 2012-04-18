@@ -19,7 +19,7 @@ namespace ScriptCoreLib.ActionScript.mx.graphics
         /// <summary>
         /// Starts the fill.
         /// </summary>
-        public void begin(Graphics target, Rectangle rc)
+        public void begin(Graphics target, Rectangle targetBounds, Point targetOrigin)
         {
         }
 

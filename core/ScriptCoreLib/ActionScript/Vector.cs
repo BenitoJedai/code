@@ -76,6 +76,234 @@ namespace ScriptCoreLib.ActionScript
 
             }
         }
+
+        /// <summary>
+        /// Concatenates the Vectors specified in the parameters list with the elements in this Vector and creates a new Vector.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <returns></returns>
+        Vector<T> concat(object arg1)
+        {
+            return default(Vector<T>);
+        }
+
+
+        /// <summary>
+        /// Executes a test function on each item in the Vector until an item is reached that returns false for the specified function.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="thisObject"></param>
+        /// <returns></returns>
+        bool every(Function callback, Object thisObject = null)
+        {
+            return default(bool);
+        }
+
+        /// <summary>
+        /// Executes a test function on each item in the Vector and returns a new Vector containing all items that return true for the specified function.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="thisObject"></param>
+        /// <returns></returns>
+        Vector<T> filter(Function callback, Object thisObject = null)
+        {
+            return default(Vector<T>);
+        }
+
+
+
+        /// <summary>
+        /// Executes a function on each item in the Vector.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="thisObject"></param>
+        /// <returns></returns>
+        void forEach(Function callback, Object thisObject = null)
+        {
+        }
+
+
+        /// <summary>
+        /// Searches for an item in the Vector and returns the index position of the item.
+        /// </summary>
+        /// <param name="searchElement"></param>
+        /// <param name="fromIndex"></param>
+        /// <returns></returns>
+        int indexOf(T searchElement, int fromIndex = 0)
+        {
+            return default(int);
+        }
+
+        /// <summary>
+        /// Converts the elements in the Vector to strings, inserts the specified separator between the elements, concatenates them, and returns the resulting string.
+        /// </summary>
+        /// <param name="sep"></param>
+        /// <returns></returns>
+        string join(string sep = ",")
+        {
+            return default(string);
+        }
+
+
+        /// <summary>
+        ///Searches for an item in the Vector, working backward from the specified index position, and returns the index position of the matching item.
+        /// 
+        /// </summary>
+        /// <param name="searchElement"></param>
+        /// <param name="fromIndex"></param>
+        /// <returns></returns>
+        int lastIndexOf(T searchElement, int fromIndex = 0x7fffffff)
+        {
+            return default(int);
+        }
+
+
+        /// <summary>
+        /// Executes a function on each item in the Vector, and returns a new Vector of items corresponding to the results of calling the function on each item in this Vector.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="thisObject"></param>
+        /// <returns></returns>
+        Vector<T> map(Function callback, Object thisObject = null)
+        {
+            return default(Vector<T>);
+        }
+
+
+        /// <summary>
+        /// Reverses the order of the elements in the Vector.
+        /// </summary>
+        /// <returns></returns>
+        Vector<T> reverse()
+        {
+            return default(Vector<T>);
+        }
+
+        /// <summary>
+        /// Removes the first element from the Vector and returns that element.
+        /// </summary>
+        /// <returns></returns>
+        T shift()
+        {
+            return default(T);
+        }
+
+        /// <summary>
+        /// Returns a new Vector that consists of a range of elements from the original Vector, without modifying the original Vector.
+        /// </summary>
+        /// <param name="startIndex"></param>
+        /// <param name="endIndex"></param>
+        /// <returns></returns>
+        Vector<T> slice(int startIndex = 0, int endIndex = 16777215)
+        {
+            return default(Vector<T>);
+        }
+
+        /// <summary>
+        /// Executes a test function on each item in the Vector until an item is reached that returns true.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="thisObject"></param>
+        /// <returns></returns>
+        bool some(Function callback, Object thisObject = null)
+        {
+            return default(bool);
+        }
+
+        /// <summary>
+        /// Sorts the elements in the Vector object, and also returns a sorted Vector object.
+        /// </summary>
+        /// <param name="sortBehavior"></param>
+        /// <returns></returns>
+        Vector<T> sort(object sortBehavior)
+        {
+            return default(Vector<T>);
+        }
+
+        /// <summary>
+        ///         Adds elements to and removes elements from the Vector.
+
+        /// </summary>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null)
+        {
+            return default(Vector<T>);
+        }
+
+        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null)
+        {
+            return default(Vector<T>);
+        }
+
+        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null)
+        {
+            return default(Vector<T>);
+        }
+
+
+        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null, object item4 = null)
+        {
+            return default(Vector<T>);
+        }
+
+
+        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null, object item4 = null, object item5 = null)
+        {
+            return default(Vector<T>);
+        }
+
+        /// <summary>
+        /// Returns a string that represents the elements in the specified Vector.
+        /// </summary>
+        /// <returns></returns>
+        string toLocaleString()
+        {
+            return default(string);
+        }
+
+        /// <summary>
+        ///  Returns a string that represents the elements in the Vector.
+        /// </summary>
+        /// <returns></returns>
+        string toString()
+        {
+            return default(string);
+        }
+
+
+        /// <summary>
+        /// Adds one or more elements to the beginning of the Vector and returns the new length of the Vector.
+        /// </summary>
+        /// <param name="arg1"></param>
+        /// <returns></returns>
+        uint unshift(object arg1)
+        {
+            return default(uint);
+        }
+
+        uint unshift(object arg1, object arg2)
+        {
+            return default(uint);
+        }
+
+        uint unshift(object arg1, object arg2, object arg3)
+        {
+            return default(uint);
+        }
+
+        uint unshift(object arg1, object arg2, object arg3, object arg4)
+        {
+            return default(uint);
+        }
+
+        uint unshift(object arg1, object arg2, object arg3, object arg4, object arg5)
+        {
+            return default(uint);
+        }
+
+
+
     }
 
 }
