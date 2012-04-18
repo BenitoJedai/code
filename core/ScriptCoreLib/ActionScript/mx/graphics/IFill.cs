@@ -7,10 +7,11 @@ using ScriptCoreLib.ActionScript.flash.geom;
 
 namespace ScriptCoreLib.ActionScript.mx.graphics
 {
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/mx/graphics/IFill.html
     [Script(IsNative=true)]
     public interface IFill
     {
-         void begin(Graphics target, Rectangle rc);
+         void begin(Graphics target, Rectangle rc, Point p);
         
          void end(Graphics target);
     }
