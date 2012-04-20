@@ -55,10 +55,58 @@ namespace ScriptCoreLib.ActionScript
         /// Adds one or more elements to the end of the Vector and returns the new length of the Vector.
         /// </summary>
         /// <param name="a"></param>
-        public void push(T a)
+        public uint push(T arg0)
         {
-
+            return default(uint);
         }
+
+        public uint push(T arg0, T arg1)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2, T arg3)
+        {
+            return default(uint);
+        }
+
+
+        public uint push(T arg0, T arg1, T arg2, T arg3, T arg4)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2, T arg3, T arg4, T arg5)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2, T arg3, T arg4, T arg5, T arg6)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2, T arg3, T arg4, T arg5, T arg6, T arg7)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2, T arg3, T arg4, T arg5, T arg6, T arg7, T arg8)
+        {
+            return default(uint);
+        }
+
+        public uint push(T arg0, T arg1, T arg2, T arg3, T arg4, T arg5, T arg6, T arg7, T arg8, T arg9)
+        {
+            return default(uint);
+        }
+
+
 
         public static implicit operator Vector<T>(T[] e)
         {
@@ -82,7 +130,7 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         /// <param name="arg1"></param>
         /// <returns></returns>
-        Vector<T> concat(object arg1)
+        public Vector<T> concat(object arg1)
         {
             return default(Vector<T>);
         }
@@ -94,7 +142,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="callback"></param>
         /// <param name="thisObject"></param>
         /// <returns></returns>
-        bool every(Function callback, Object thisObject = null)
+        public bool every(Function callback, Object thisObject = null)
         {
             return default(bool);
         }
@@ -105,7 +153,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="callback"></param>
         /// <param name="thisObject"></param>
         /// <returns></returns>
-        Vector<T> filter(Function callback, Object thisObject = null)
+        public Vector<T> filter(Function callback, Object thisObject = null)
         {
             return default(Vector<T>);
         }
@@ -118,7 +166,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="callback"></param>
         /// <param name="thisObject"></param>
         /// <returns></returns>
-        void forEach(Function callback, Object thisObject = null)
+        public void forEach(Function callback, Object thisObject = null)
         {
         }
 
@@ -129,7 +177,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="searchElement"></param>
         /// <param name="fromIndex"></param>
         /// <returns></returns>
-        int indexOf(T searchElement, int fromIndex = 0)
+        public int indexOf(T searchElement, int fromIndex = 0)
         {
             return default(int);
         }
@@ -139,7 +187,7 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         /// <param name="sep"></param>
         /// <returns></returns>
-        string join(string sep = ",")
+        public string join(string sep = ",")
         {
             return default(string);
         }
@@ -152,7 +200,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="searchElement"></param>
         /// <param name="fromIndex"></param>
         /// <returns></returns>
-        int lastIndexOf(T searchElement, int fromIndex = 0x7fffffff)
+        public int lastIndexOf(T searchElement, int fromIndex = 0x7fffffff)
         {
             return default(int);
         }
@@ -164,7 +212,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="callback"></param>
         /// <param name="thisObject"></param>
         /// <returns></returns>
-        Vector<T> map(Function callback, Object thisObject = null)
+        public Vector<T> map(Function callback, Object thisObject = null)
         {
             return default(Vector<T>);
         }
@@ -174,7 +222,7 @@ namespace ScriptCoreLib.ActionScript
         /// Reverses the order of the elements in the Vector.
         /// </summary>
         /// <returns></returns>
-        Vector<T> reverse()
+        public Vector<T> reverse()
         {
             return default(Vector<T>);
         }
@@ -183,7 +231,7 @@ namespace ScriptCoreLib.ActionScript
         /// Removes the first element from the Vector and returns that element.
         /// </summary>
         /// <returns></returns>
-        T shift()
+        public T shift()
         {
             return default(T);
         }
@@ -194,7 +242,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="startIndex"></param>
         /// <param name="endIndex"></param>
         /// <returns></returns>
-        Vector<T> slice(int startIndex = 0, int endIndex = 16777215)
+        public Vector<T> slice(int startIndex = 0, int endIndex = 16777215)
         {
             return default(Vector<T>);
         }
@@ -205,7 +253,7 @@ namespace ScriptCoreLib.ActionScript
         /// <param name="callback"></param>
         /// <param name="thisObject"></param>
         /// <returns></returns>
-        bool some(Function callback, Object thisObject = null)
+        public bool some(Function callback, Object thisObject = null)
         {
             return default(bool);
         }
@@ -215,7 +263,7 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         /// <param name="sortBehavior"></param>
         /// <returns></returns>
-        Vector<T> sort(object sortBehavior)
+        public Vector<T> sort(object sortBehavior)
         {
             return default(Vector<T>);
         }
@@ -226,29 +274,34 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         /// <param name="?"></param>
         /// <returns></returns>
-        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null)
+        public Vector<T> splice(int startIndex, uint deleteCount = 4294967295)
         {
             return default(Vector<T>);
         }
 
-        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null)
+        public Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null)
         {
             return default(Vector<T>);
         }
 
-        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null)
+        public Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null)
+        {
+            return default(Vector<T>);
+        }
+
+        public Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null)
         {
             return default(Vector<T>);
         }
 
 
-        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null, object item4 = null)
+        public Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null, object item4 = null)
         {
             return default(Vector<T>);
         }
 
 
-        Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null, object item4 = null, object item5 = null)
+        public Vector<T> splice(int startIndex, uint deleteCount = 4294967295, object item1 = null, object item2 = null, object item3 = null, object item4 = null, object item5 = null)
         {
             return default(Vector<T>);
         }
@@ -257,7 +310,7 @@ namespace ScriptCoreLib.ActionScript
         /// Returns a string that represents the elements in the specified Vector.
         /// </summary>
         /// <returns></returns>
-        string toLocaleString()
+        public string toLocaleString()
         {
             return default(string);
         }
@@ -266,7 +319,7 @@ namespace ScriptCoreLib.ActionScript
         ///  Returns a string that represents the elements in the Vector.
         /// </summary>
         /// <returns></returns>
-        string toString()
+        public string toString()
         {
             return default(string);
         }
@@ -277,27 +330,32 @@ namespace ScriptCoreLib.ActionScript
         /// </summary>
         /// <param name="arg1"></param>
         /// <returns></returns>
-        uint unshift(object arg1)
+        public uint unshift()
         {
             return default(uint);
         }
 
-        uint unshift(object arg1, object arg2)
+        public uint unshift(object arg1)
         {
             return default(uint);
         }
 
-        uint unshift(object arg1, object arg2, object arg3)
+        public uint unshift(object arg1, object arg2)
         {
             return default(uint);
         }
 
-        uint unshift(object arg1, object arg2, object arg3, object arg4)
+        public uint unshift(object arg1, object arg2, object arg3)
         {
             return default(uint);
         }
 
-        uint unshift(object arg1, object arg2, object arg3, object arg4, object arg5)
+        public uint unshift(object arg1, object arg2, object arg3, object arg4)
+        {
+            return default(uint);
+        }
+
+        public uint unshift(object arg1, object arg2, object arg3, object arg4, object arg5)
         {
             return default(uint);
         }
