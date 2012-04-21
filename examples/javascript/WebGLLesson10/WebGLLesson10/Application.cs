@@ -12,14 +12,13 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLLesson10.HTML.Pages;
-using WebGLLesson10.Styles;
 using WebGLLesson10.Design;
+using System.Collections.Generic;
 
 namespace WebGLLesson10
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using System.Collections.Generic;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -425,13 +424,18 @@ namespace WebGLLesson10
                         {
                             var elapsed = timeNow - lastTime;
 
+                            joggingAngle += elapsed * 0.6f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
+
                             if (speed != 0)
                             {
                                 xPos -= (f)Math.Sin(degToRad(yaw)) * speed * elapsed;
                                 zPos -= (f)Math.Cos(degToRad(yaw)) * speed * elapsed;
 
-                                joggingAngle += elapsed * 0.6f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
                                 yPos = (f)Math.Sin(degToRad(joggingAngle)) / 20 + 0.4f;
+                            }
+                            else
+                            {
+                                yPos = (f)Math.Sin(degToRad(joggingAngle)) / 200 + 0.4f;
                             }
 
                             yaw += yawRate * elapsed;
