@@ -11,9 +11,9 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 //using wolfenstein4k.Components;
-using wolfenstein4k.HTML.Pages;
+using wolfenstein4kTemplate.HTML.Pages;
 
-namespace wolfenstein4k
+namespace wolfenstein4kTemplate
 {
     /// <summary>
     /// This type will run as JavaScript.

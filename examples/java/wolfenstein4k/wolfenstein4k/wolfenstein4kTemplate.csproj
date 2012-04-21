@@ -8,11 +8,11 @@
     <ProjectGuid>{6B93965D-80DB-48DF-8FB5-D7AC0D5C88C3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>wolfenstein4k</RootNamespace>
-    <AssemblyName>wolfenstein4k</AssemblyName>
+    <RootNamespace>wolfenstein4kTemplate</RootNamespace>
+    <AssemblyName>wolfenstein4kTemplate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>wolfenstein4k.Program</StartupObject>
+    <StartupObject>wolfenstein4kTemplate.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -120,18 +123,15 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="wolfenstein4k.UltraSource">
-      <HintPath>bin\staging.UltraSource\wolfenstein4k.UltraSource.dll</HintPath>
-    </Reference>
-    <Reference Include="wolfenstein4k.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\wolfenstein4k.AssetsLibrary.dll</HintPath>
+    <Reference Include="wolfenstein4kTemplate.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\wolfenstein4kTemplate.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Applets\wolfenstein4k\a.java" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Components\MyApplet1.cs" />
+    <Compile Include="ApplicationApplet.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
     <Compile Include="Program.cs">
@@ -145,10 +145,10 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true
+    <PreBuildEvent>
 
-    set jsc=C:\util\jsc\bin\jsc.meta.exe
-    if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
-    call %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true</PreBuildEvent>
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
