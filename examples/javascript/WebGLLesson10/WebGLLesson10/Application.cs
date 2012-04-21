@@ -424,17 +424,18 @@ namespace WebGLLesson10
                         {
                             var elapsed = timeNow - lastTime;
 
-                            joggingAngle += elapsed * 0.6f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
 
                             if (speed != 0)
                             {
                                 xPos -= (f)Math.Sin(degToRad(yaw)) * speed * elapsed;
                                 zPos -= (f)Math.Cos(degToRad(yaw)) * speed * elapsed;
 
+                                joggingAngle += elapsed * 0.6f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
                                 yPos = (f)Math.Sin(degToRad(joggingAngle)) / 20 + 0.4f;
                             }
                             else
                             {
+                                joggingAngle += elapsed * 0.06f; // 0.6 "fiddle factor" - makes it feel more realistic :-)
                                 yPos = (f)Math.Sin(degToRad(joggingAngle)) / 200 + 0.4f;
                             }
 
