@@ -12,13 +12,13 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
-using WebGLLesson14.Design;
-using WebGLLesson14.HTML.Pages;
+using WebGLLesson16.Design;
+using WebGLLesson16.HTML.Pages;
 using ScriptCoreLib.GLSL;
 using System.ComponentModel;
 
 
-namespace WebGLLesson14
+namespace WebGLLesson16
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
@@ -26,7 +26,7 @@ namespace WebGLLesson14
     [Description("This type will run as JavaScript.")]
     public sealed class Application
     {
-        // based on view-source:http://learningwebgl.com/lessons/lesson14/index.html
+        // based on http://learningwebgl.com/lessons/lesson16/index.html
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -34,7 +34,7 @@ namespace WebGLLesson14
 
         public Action Dispose;
 
-        public sealed class TeapotType
+        public sealed class DataType
         {
             public f[] vertexNormals;
             public f[] vertexPositions;
@@ -42,8 +42,8 @@ namespace WebGLLesson14
             public ushort[] indices;
         }
 
-        [Script(ExternalTarget = "Teapot")]
-        public static TeapotType Teapot;
+        [Script(ExternalTarget = "macbook")]
+        public static DataType macbook;
 
         /// <summary>
         /// This is a javascript application.
@@ -59,7 +59,7 @@ namespace WebGLLesson14
                     delegate
                     {
                         #region await Teapot
-                        new WebGLLesson14.Data.Teapot().Content.With(
+                        new Data.macbook().Content.With(
                           source2 =>
                           {
                               source2.onload +=
@@ -72,6 +72,7 @@ namespace WebGLLesson14
                           }
                        );
                         #endregion
+
                     };
 
                   source.AttachToDocument();
@@ -125,15 +126,7 @@ namespace WebGLLesson14
             }
             #endregion
 
-            var toolbar = new ToolbarPage();
-
-            if (page != null)
-            {
-                toolbar.Container.AttachToDocument();
-                toolbar.Container.style.Opacity = 0.7;
-
-            }
-
+          
             #region IsDisposed
             var IsDisposed = false;
 
@@ -240,11 +233,12 @@ namespace WebGLLesson14
                         var pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
                         var mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
                         var nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
-                        var samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-                        var materialShininessUniform = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
-                        var showSpecularHighlightsUniform = gl.getUniformLocation(shaderProgram, "uShowSpecularHighlights");
-                        var useTexturesUniform = gl.getUniformLocation(shaderProgram, "uUseTextures");
+                        var colorMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uColorMapSampler");
+                        var specularMapSamplerUniform = gl.getUniformLocation(shaderProgram, "uSpecularMapSampler");
+                        var useColorMapUniform = gl.getUniformLocation(shaderProgram, "uUseColorMap");
+                        var useSpecularMapUniform = gl.getUniformLocation(shaderProgram, "uUseSpecularMap");
                         var useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
+
                         var ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
                         var pointLightingLocationUniform = gl.getUniformLocation(shaderProgram, "uPointLightingLocation");
                         var pointLightingSpecularColorUniform = gl.getUniformLocation(shaderProgram, "uPointLightingSpecularColor");
@@ -261,15 +255,16 @@ namespace WebGLLesson14
                             pMatrixUniform,
                             mvMatrixUniform,
                             nMatrixUniform,
-                            samplerUniform,
-                           materialShininessUniform ,
-                           showSpecularHighlightsUniform ,
-                           useTexturesUniform ,
-                           useLightingUniform ,
-                           ambientColorUniform ,
-                           pointLightingLocationUniform , 
-                           pointLightingSpecularColorUniform,
-                           pointLightingDiffuseColorUniform
+                            colorMapSamplerUniform,
+                            specularMapSamplerUniform,
+                            useColorMapUniform,
+                            useSpecularMapUniform,
+                            useLightingUniform,
+
+                            ambientColorUniform,
+                            pointLightingLocationUniform,
+                            pointLightingSpecularColorUniform,
+                            pointLightingDiffuseColorUniform
 
 
 
@@ -283,7 +278,7 @@ namespace WebGLLesson14
 
 
 
-          
+
             var currentProgram = programs.First();
 
             var mvMatrix = __glMatrix.mat4.create();
@@ -319,9 +314,9 @@ namespace WebGLLesson14
             // await earth
             new HTML.Images.FromAssets.earth().InvokeOnComplete(
                 earth =>
-                    // await metail
-                    new HTML.Images.FromAssets.arroway_de_metal_structure_06_d100_flat().InvokeOnComplete(
-                        metal =>
+                    // await earth_specular
+                    new HTML.Images.FromAssets.earth_specular().InvokeOnComplete(
+                        earth_specular =>
                         {
 
                             #region setMatrixUniforms
@@ -346,18 +341,7 @@ namespace WebGLLesson14
                                 };
                             #endregion
 
-                         
 
-
-
-
-
-
-
-
-
-
-                            
                             #region handleLoadedTexture
                             Action<WebGLTexture, IHTMLImage> handleLoadedTexture = (texture, texture_image) =>
                             {
@@ -372,56 +356,97 @@ namespace WebGLLesson14
                             };
                             #endregion
 
+                            var earthColorMapTexture = gl.createTexture();
+                            handleLoadedTexture(earthColorMapTexture, earth);
 
+                            var earthSpecularMapTexture = gl.createTexture();
+                            handleLoadedTexture(earthSpecularMapTexture, earth_specular);
 
-              
-                              var earthTexture = gl.createTexture();
-                              handleLoadedTexture(earthTexture, earth);
+                            #region initBuffers
+                            var latitudeBands = 30;
+                            var longitudeBands = 30;
+                            var radius = 13;
 
-                                 
-                              var galvanizedTexture = gl.createTexture();
-                              handleLoadedTexture(galvanizedTexture, metal);
+                            var vertexPositionData = new List<f>();
+                            var normalData = new List<f>();
+                            var textureCoordData = new List<f>();
+                            for (var latNumber = 0; latNumber <= latitudeBands; latNumber++)
+                            {
+                                var theta = latNumber * Math.PI / latitudeBands;
+                                var sinTheta = (f)Math.Sin(theta);
+                                var cosTheta = (f)Math.Cos(theta);
 
+                                for (var longNumber = 0; longNumber <= longitudeBands; longNumber++)
+                                {
+                                    var phi = longNumber * 2 * Math.PI / longitudeBands;
+                                    var sinPhi = (f)Math.Sin(phi);
+                                    var cosPhi = (f)Math.Cos(phi);
 
-                              #region loadTeapot
-                              var teapotData = Application.Teapot;
+                                    var x = cosPhi * sinTheta;
+                                    var y = cosTheta;
+                                    var z = sinPhi * sinTheta;
+                                    var u = 1 - (longNumber / longitudeBands);
+                                    var v = 1 - (latNumber / latitudeBands);
 
-                            var teapotVertexNormalBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexNormalBuffer);
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(teapotData.vertexNormals), gl.STATIC_DRAW);
-                            var teapotVertexNormalBuffer_itemSize = 3;
-                            var teapotVertexNormalBuffer_numItems = teapotData.vertexNormals.Length / 3;
+                                    normalData.Add(x);
+                                    normalData.Add(y);
+                                    normalData.Add(z);
+                                    textureCoordData.Add(u);
+                                    textureCoordData.Add(v);
+                                    vertexPositionData.Add(radius * x);
+                                    vertexPositionData.Add(radius * y);
+                                    vertexPositionData.Add(radius * z);
+                                }
+                            }
 
-                            var teapotVertexTextureCoordBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexTextureCoordBuffer);
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(teapotData.vertexTextureCoords), gl.STATIC_DRAW);
-                            var teapotVertexTextureCoordBuffer_itemSize = 2;
-                            var teapotVertexTextureCoordBuffer_numItems = teapotData.vertexTextureCoords.Length / 2;
+                            var indexData = new List<ushort>();
+                            for (var latNumber = 0; latNumber < latitudeBands; latNumber++)
+                            {
+                                for (var longNumber = 0; longNumber < longitudeBands; longNumber++)
+                                {
+                                    var first = (latNumber * (longitudeBands + 1)) + longNumber;
+                                    var second = first + longitudeBands + 1;
+                                    indexData.Add((ushort)first);
+                                    indexData.Add((ushort)second);
+                                    indexData.Add((ushort)(first + 1));
 
-                            var teapotVertexPositionBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
-                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(teapotData.vertexPositions), gl.STATIC_DRAW);
-                            var teapotVertexPositionBuffer_itemSize = 3;
-                            var teapotVertexPositionBuffer_numItems = teapotData.vertexPositions.Length / 3;
+                                    indexData.Add((ushort)second);
+                                    indexData.Add((ushort)(second + 1));
+                                    indexData.Add((ushort)(first + 1));
+                                }
+                            }
 
-                            var teapotVertexIndexBuffer = gl.createBuffer();
-                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, teapotVertexIndexBuffer);
-                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(teapotData.indices), gl.STATIC_DRAW);
-                            var teapotVertexIndexBuffer_itemSize = 1;
-                            var teapotVertexIndexBuffer_numItems = teapotData.indices.Length;
+                            var sphereVertexNormalBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexNormalBuffer);
+                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normalData.ToArray()), gl.STATIC_DRAW);
+                            var sphereVertexNormalBuffer_itemSize = 3;
+                            var sphereVertexNormalBuffer_numItems = normalData.Count / 3;
 
-                              #endregion
+                            var sphereVertexTextureCoordBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexTextureCoordBuffer);
+                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordData.ToArray()), gl.STATIC_DRAW);
+                            var sphereVertexTextureCoordBuffer_itemSize = 2;
+                            var sphereVertexTextureCoordBuffer_numItems = textureCoordData.Count / 2;
 
+                            var sphereVertexPositionBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexPositionBuffer);
+                            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositionData.ToArray()), gl.STATIC_DRAW);
+                            var sphereVertexPositionBuffer_itemSize = 3;
+                            var sphereVertexPositionBuffer_numItems = vertexPositionData.Count / 3;
 
-
-
+                            var sphereVertexIndexBuffer = gl.createBuffer();
+                            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereVertexIndexBuffer);
+                            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indexData.ToArray()), gl.STREAM_DRAW);
+                            var sphereVertexIndexBuffer_itemSize = 1;
+                            var sphereVertexIndexBuffer_numItems = indexData.Count;
+                            #endregion
 
 
 
                             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
                             gl.enable(gl.DEPTH_TEST);
 
-                            var teapotAngle = 180f;
+                            var earthAngle = 180f;
 
                             var lastTime = 0L;
 
@@ -433,13 +458,13 @@ namespace WebGLLesson14
                                 {
                                     var elapsed = timeNow - lastTime;
 
-                                    teapotAngle += 0.05f * elapsed;
+                                    earthAngle += 0.05f * elapsed;
                                 }
                                 lastTime = timeNow;
                             };
                             #endregion
 
-                           
+
 
                             //Func<string, f> parseFloat = Convert.ToSingle;
                             Func<string, f> parseFloat = x => float.Parse(x);
@@ -448,34 +473,33 @@ namespace WebGLLesson14
                             #region drawScene
                             Action drawScene = () =>
                             {
-                                gl.useProgram(currentProgram.program);
+                                var shaderProgram = currentProgram;
+
+                                gl.useProgram(shaderProgram.program);
 
                                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                                //if (teapotVertexPositionBuffer == null || teapotVertexNormalBuffer == null || teapotVertexTextureCoordBuffer == null || teapotVertexIndexBuffer == null) {
-                                //    return;
-                                //}
-
                                 __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                                var shaderProgram = currentProgram;
-
-                                var specularHighlights = toolbar.specular.@checked;
-
-                                #region [uniform] bool uShowSpecularHighlights <-  toolbar.specular.@checked
-                                gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, Convert.ToInt32( specularHighlights));
+                                #region [uniform] uUseColorMap <- color_map
+                                var useColorMap = toolbar.color_map.@checked;
+                                gl.uniform1i(shaderProgram.useColorMapUniform, Convert.ToInt32(useColorMap));
                                 #endregion
 
+                                #region [uniform] uUseSpecularMap <- specular_map
+                                var useSpecularMap = toolbar.specular_map.@checked;
+                                gl.uniform1i(shaderProgram.useSpecularMapUniform, Convert.ToInt32(useSpecularMap));
+                                #endregion
+
+                                #region [uniform] uUseLighting <- lighting
                                 var lighting = toolbar.lighting.@checked;
-
-                                #region [uniform] bool uUseLighting <- toolbar.lighting.@checked
-                                gl.uniform1i(shaderProgram.useLightingUniform, Convert.ToInt32( lighting));
+                                gl.uniform1i(shaderProgram.useLightingUniform, Convert.ToInt32(lighting));
                                 #endregion
+
 
                                 if (lighting)
                                 {
-
                                     #region [uniform] uAmbientColor <- ambientR, ambientG, ambientB
                                     gl.uniform3f(
                                         shaderProgram.ambientColorUniform,
@@ -485,6 +509,7 @@ namespace WebGLLesson14
                                     );
                                     #endregion
 
+
                                     #region [uniform] uPointLightingLocation <- lightPositionX, lightPositionY, lightPositionZ
                                     gl.uniform3f(
                                         shaderProgram.pointLightingLocationUniform,
@@ -493,6 +518,7 @@ namespace WebGLLesson14
                                         parseFloat(toolbar.lightPositionZ.value)
                                     );
                                     #endregion
+
 
                                     #region [uniform] uPointLightingSpecularColor <- specularR, specularG, specularB
                                     gl.uniform3f(
@@ -514,38 +540,32 @@ namespace WebGLLesson14
 
                                 }
 
-                                var texture = toolbar.texture[ toolbar.texture.selectedIndex].value;
-                                gl.uniform1i(shaderProgram.useTexturesUniform, Convert.ToInt32( texture != "none"));
-
                                 __glMatrix.mat4.identity(mvMatrix);
 
                                 __glMatrix.mat4.translate(mvMatrix, 0, 0, -40);
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(23.4f), 1, 0, -1);
-                                __glMatrix.mat4.rotate(mvMatrix, degToRad(teapotAngle), 0, 1, 0);
+                                __glMatrix.mat4.rotate(mvMatrix, degToRad(earthAngle), 0, 1, 0);
 
                                 gl.activeTexture(gl.TEXTURE0);
-                                if (texture == "earth") {
-                                    gl.bindTexture(gl.TEXTURE_2D, earthTexture);
-                                } else if (texture == "galvanized") {
-                                    gl.bindTexture(gl.TEXTURE_2D, galvanizedTexture);
-                                }
-                                gl.uniform1i(shaderProgram.samplerUniform, 0);
+                                gl.bindTexture(gl.TEXTURE_2D, earthColorMapTexture);
+                                gl.uniform1i(shaderProgram.colorMapSamplerUniform, 0);
 
-                                gl.uniform1f(shaderProgram.materialShininessUniform, parseFloat(toolbar.shininess.value));
+                                gl.activeTexture(gl.TEXTURE1);
+                                gl.bindTexture(gl.TEXTURE_2D, earthSpecularMapTexture);
+                                gl.uniform1i(shaderProgram.specularMapSamplerUniform, 1);
 
-                                gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexPositionBuffer);
+                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, sphereVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, teapotVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexTextureCoordBuffer);
+                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, sphereVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, teapotVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexNormalBuffer);
+                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, sphereVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, teapotVertexIndexBuffer);
+                                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereVertexIndexBuffer);
                                 setMatrixUniforms();
-                                gl.drawElements(gl.TRIANGLES, teapotVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
-
+                                gl.drawElements(gl.TRIANGLES, sphereVertexIndexBuffer_numItems, gl.UNSIGNED_SHORT, 0);
 
                             };
                             #endregion
@@ -578,7 +598,6 @@ namespace WebGLLesson14
 
             );
         }
-
 
     }
 
