@@ -14,7 +14,6 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using WebGLLesson11.Design;
 using WebGLLesson11.HTML.Pages;
-using WebGLLesson11.Styles;
 
 namespace WebGLLesson11
 {
@@ -39,7 +38,7 @@ namespace WebGLLesson11
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region await __glMatrix then do InitializeContent
             new __glMatrix().Content.With(
@@ -108,6 +107,13 @@ namespace WebGLLesson11
             {
                 toolbar.Container.style.Opacity = 0.7;
                 toolbar.Container.AttachToDocument();
+
+                toolbar.HideButton.onclick +=
+                 delegate
+                 {
+                     // ScriptCoreLib.Extensions
+                     toolbar.HideTarget.ToggleVisible();
+                 };
             }
 
 

@@ -8,6 +8,8 @@ using ScriptCoreLib.ActionScript.flash.utils;
 
 namespace ScriptCoreLib.ActionScript.com.adobe.utils
 {
+	// http://code.google.com/p/citrus-engine/source/browse/trunk/com/adobe/utils/AGALMiniAssembler.as?r=11
+	
     // http://barliesque.com/easy_agal/docs/com/adobe/utils/AGALMiniAssembler.html
     /// <summary>
     /// </summary>

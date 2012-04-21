@@ -129,7 +129,7 @@
     </Content>
     <Content Include="Design\mud.gif" />
     <Content Include="Design\Preview.png" />
-    <Content Include="Styles\Default.css" />
+    <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
