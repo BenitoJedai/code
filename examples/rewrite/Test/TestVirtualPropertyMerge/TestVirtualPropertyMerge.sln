@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestVirtualPropertyMerge", "TestVirtualPropertyMerge\TestVirtualPropertyMerge.csproj", "{61674958-7C69-49E6-945B-06DBDE9E1E1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestVirtualPropertyMerge.Extensions", "TestVirtualPropertyMerge.Extensions\TestVirtualPropertyMerge.Extensions.csproj", "{20D4D2BE-F1E7-4A24-9F56-F10AB5F3155D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61674958-7C69-49E6-945B-06DBDE9E1E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61674958-7C69-49E6-945B-06DBDE9E1E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61674958-7C69-49E6-945B-06DBDE9E1E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61674958-7C69-49E6-945B-06DBDE9E1E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20D4D2BE-F1E7-4A24-9F56-F10AB5F3155D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20D4D2BE-F1E7-4A24-9F56-F10AB5F3155D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20D4D2BE-F1E7-4A24-9F56-F10AB5F3155D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20D4D2BE-F1E7-4A24-9F56-F10AB5F3155D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
