@@ -12,28 +12,34 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLLesson07.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLLesson07.Shaders;
+using WebGLLesson07.Library;
+using System.Collections.Generic;
+using WebGLLesson07.Design;
 
 namespace WebGLLesson07
 {
 
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLLesson07.Shaders;
-    using WebGLLesson07.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=684 by Giles
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
+
+
+        public Action Dispose;
+
 
         /// <summary>
         /// This is a javascript application.
@@ -68,17 +74,17 @@ namespace WebGLLesson07
 
         void InitializeContent(IDefaultPage page = null)
         {
-            
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = gl_viewportWidth;
+            canvas.height = gl_viewportHeight;
             #endregion
 
             #region gl - Initialise WebGL
@@ -101,9 +107,56 @@ namespace WebGLLesson07
             }
             #endregion
 
+            #region IsDisposed
+            var IsDisposed = false;
 
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
 
             var toolbar = new ToolbarPage();
 
@@ -111,10 +164,16 @@ namespace WebGLLesson07
             {
                 toolbar.Container.style.Opacity = 0.7;
                 toolbar.Container.AttachToDocument();
+
+                toolbar.HideButton.onclick +=
+                     delegate
+                     {
+                         // ScriptCoreLib.Extensions
+                         toolbar.HideTarget.ToggleVisible();
+                     };
             }
 
 
-            var shaderProgram = gl.createProgram();
 
 
             #region createShader
@@ -139,6 +198,7 @@ namespace WebGLLesson07
             var fs = createShader(new GeometryFragmentShader());
 
             if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
+            var shaderProgram = gl.createProgram();
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
@@ -434,26 +494,7 @@ namespace WebGLLesson07
             #endregion
 
 
-            #region AtResize
-            Action AtResize =
-                delegate
-                {
-                    gl_viewportWidth = Native.Window.Width;
-                    gl_viewportHeight = Native.Window.Height;
-
-                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
-
-                    canvas.width = gl_viewportWidth;
-                    canvas.height = gl_viewportHeight;
-                };
-
-            Native.Window.onresize +=
-                e =>
-                {
-                    AtResize();
-                };
-            AtResize();
-            #endregion
+         
 
 
             new WebGLLesson07.HTML.Images.FromAssets.crate().InvokeOnComplete(

@@ -12,33 +12,36 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLLesson06.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLLesson06.Shaders;
+using WebGLLesson06.Design;
+using System.Collections.Generic;
 
 namespace WebGLLesson06
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLLesson06.Shaders;
-    using WebGLLesson06.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=571 by Giles
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public Action Dispose;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -66,20 +69,19 @@ namespace WebGLLesson06
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
-
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = gl_viewportWidth;
+            canvas.height = gl_viewportHeight;
             #endregion
 
             #region gl - Initialise WebGL
@@ -103,12 +105,57 @@ namespace WebGLLesson06
             #endregion
 
 
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
 
 
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
 
-            var shaderProgram = gl.createProgram();
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
 
 
             #region createShader
@@ -134,6 +181,7 @@ namespace WebGLLesson06
 
             if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
+            var shaderProgram = gl.createProgram();
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
 
@@ -388,6 +436,7 @@ namespace WebGLLesson06
 
 
 
+                    #region animate
                     var lastTime = 0L;
                     Action animate = delegate
                     {
@@ -401,6 +450,8 @@ namespace WebGLLesson06
                         }
                         lastTime = timeNow;
                     };
+                    #endregion
+
 
                     Func<float, float> degToRad = (degrees) =>
                     {
@@ -496,6 +547,9 @@ namespace WebGLLesson06
 
                     tick = delegate
                     {
+                        if (IsDisposed)
+                            return;
+
                         c++;
 
                         Native.Document.title = "" + new { c, filter };
