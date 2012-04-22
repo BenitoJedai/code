@@ -182,6 +182,7 @@
     <Content Include="Design\Explosion_-_Google_Chrome-2012-02-26_19.36.43.png" />
     <Content Include="Design\Fish_-_Google_Chrome-2012-02-26_22.24.07.png" />
     <Content Include="Design\Fish_-_Google_Chrome-2012-04-02_00.01.26.png" />
+    <Content Include="Design\Fissure_-_Google_Chrome-2012-04-22_12.59.32.png" />
     <Content Include="Design\fooo.frvjeuxgithubjsWoWModelViewermodelviewer.html_-_Google_Chrome-2012-03-22_22.34.03.png" />
     <Content Include="Design\four_-_Wloom_-_Google_Chrome-2012-02-26_20.49.36.png" />
     <Content Include="Design\Fragment_Shader_Framework__Lewpen.com_-_Google_Chrome-2012-03-18_02.38.23.png" />
@@ -196,6 +197,7 @@
     <Content Include="Design\GLSL_Sandbox_-_Google_Chrome-2012-02-26_19.53.07.png" />
     <Content Include="Design\Gunslinger_3dgames_WebGL_-_Google_Chrome-2012-04-06_12.35.01.png" />
     <Content Include="Design\HelloRacer_WebGL_-_Google_Chrome-2012-02-26_19.54.48.png" />
+    <Content Include="Design\Hell_Giraffe_%28JS_WebGL%29_-_Google_Chrome-2012-04-22_12.40.28.png" />
     <Content Include="Design\Hero_of_Crystalmire_-_Google_Chrome-2012-03-30_19.16.30.png" />
     <Content Include="Design\html5canvastutorials.comdemoslabshtml5_canvas_webgl_3d_world_-_Google_Chrome-2012-03-25_17.54.50.png" />
     <Content Include="Design\httpss3.amazonaws.comInsideTheFactorywebglgeodesic_Project_3v.rvt.js.html_-_Google_Chrome-2012-03-26_22.01.53.png" />
@@ -222,6 +224,7 @@
     <Content Include="Design\Life_under_a_magnifying_glass_-_Google_Chrome-2012-02-26_21.53.20.png" />
     <Content Include="Design\Lighting_Demo_-_Google_Chrome-2012-02-27_00.12.15.png" />
     <Content Include="Design\LiteWerx_-_Anaemia_-_Google_Chrome-2012-03-23_09.13.43.png" />
+    <Content Include="Design\LiteWerx_-_Anaemia_-_Google_Chrome-2012-04-22_12.56.16.png" />
     <Content Include="Design\Lost_at_sea_-_Google_Chrome-2012-02-26_22.20.43.jpg" />
     <Content Include="Design\Lowpoly_army_-_Google_Chrome-2012-02-26_21.02.10.png" />
     <Content Include="Design\Many_Planets_Deep_-_Google_Chrome-2012-02-26_20.03.29.png" />
@@ -289,6 +292,7 @@
     <Content Include="Design\Swampy_Camaro_-_Google_Chrome-2012-02-26_22.12.38.jpg" />
     <Content Include="Design\Tankworld_-Stencil_shadow_demo_-_Google_Chrome-2012-02-26_21.21.50.png" />
     <Content Include="Design\tat-tvam-asi.in_-_WebGL_Experiment_-_Hole_in_a_Quad_-_Google_Chrome-2012-03-29_16.55.21.png" />
+    <Content Include="Design\tat-tvam-asi.in_-_WebGL_Experiment_-_Sphere_Shader_-_Google_Chrome-2012-04-22_13.03.27.png" />
     <Content Include="Design\Terrain_-_Google_Chrome-2012-02-26_21.03.38.jpg" />
     <Content Include="Design\Terrain_Generation_using_the_diamond-square_algorithm_Three.js_and_WebGL_%28Live_demo%29_-_srchea.com_-_Google_Chrome-2012-03-25_18.30.05.png" />
     <Content Include="Design\Tetris_in_XML3D_-_Google_Chrome-2012-03-22_18.56.13.png" />
@@ -350,10 +354,12 @@
     <Content Include="Design\WebGL_made_easy_-_Google_Chrome-2012-04-02_00.05.32.png" />
     <Content Include="Design\WebGL_Minigolf_-_Google_Chrome-2012-03-22_20.12.52.png" />
     <Content Include="Design\WebGL_Nature_Scene_-_Google_Chrome-2012-03-03_21.08.36.png" />
+    <Content Include="Design\WebGL_Sample_-_Google_Chrome-2012-04-22_12.19.18.png" />
     <Content Include="Design\WebGL_SpaceRocks_-_Google_Chrome-2012-03-25_18.11.33.png" />
     <Content Include="Design\WebGL_TDL_Example_-_Google_Chrome-2012-03-25_18.23.07.png" />
     <Content Include="Design\WebGL_Template_-_Google_Chrome-2012-03-25_15.42.59.png" />
     <Content Include="Design\WebGL_Terrain_-_Google_Chrome-2012-02-26_20.04.36.png" />
+    <Content Include="Design\WebGL_VGA_-_Google_Chrome-2012-04-22_12.34.32.png" />
     <Content Include="Design\WebGL_Zombies_vs_Cow_-_Google_Chrome-2012-02-26_19.41.58.png" />
     <Content Include="Design\WebGL__Recursive_Tree_Generation_-_Google_Chrome-2012-03-29_17.18.07.png" />
     <Content Include="Design\WebRTS_-_Google_Chrome-2012-02-26_19.20.59.png" />
