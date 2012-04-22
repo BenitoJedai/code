@@ -1,4 +1,5 @@
 using ScriptCoreLib;
+using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
@@ -9,21 +10,17 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using SpaceInvaders.HTML.Pages;
-using SpaceInvaders.Design;
+//using OutRun4KTemplate.Components;
+using OutRun4KTemplate.HTML.Pages;
 
-namespace SpaceInvaders
+namespace OutRun4KTemplate
 {
     /// <summary>
-    /// Your client side code running inside a web browser as JavaScript.
+    /// This type will run as JavaScript.
     /// </summary>
-    public sealed class Application
+    internal sealed class Application
     {
-        // port from: Z:\jsc.svn\javascript\Games\SpaceInvaders\source\js\Controls\SpaceInvaders.cs
-
         public readonly ApplicationWebService service = new ApplicationWebService();
-
-        public readonly DefaultStyle style = new DefaultStyle();
 
         /// <summary>
         /// This is a javascript application.
@@ -31,9 +28,21 @@ namespace SpaceInvaders
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new SpaceInvaders.Library.Controls.SpaceInvaders();
+            // Initialize MyApplet1
+            var a = new OutRun4KTemplate_Components_MyApplet1();
 
-            style.Content.AttachToHead();
+            a.AttachAppletTo(page.Content);
+
+            var btn = new IHTMLButton("get the damn string");
+
+            btn.AttachToDocument();
+
+            btn.onclick +=
+                delegate
+                {
+                    Native.Window.alert(a.FooMethodX());
+                };
+
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(

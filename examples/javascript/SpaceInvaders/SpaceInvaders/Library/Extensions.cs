@@ -8,7 +8,6 @@ using ScriptCoreLib.JavaScript.Runtime;
 
 namespace SpaceInvaders.Library
 {
-    [Script]
     static class Extensions
     {
         public static bool IsSpaceOrEnterKey(this IEvent e)
