@@ -207,8 +207,10 @@
     <Content Include="Design\Inside_a_striped_Torus_-_Google_Chrome-2012-02-26_22.17.20.png" />
     <Content Include="Design\Instanced_Geometry_-_Google_Chrome-2012-02-26_22.55.09.png" />
     <Content Include="Design\JaHOVA_OS_Demo_-_Google_Chrome-2012-03-28_00.28.10.png" />
+    <Content Include="Design\Joshua_Perez__Experiments__Marbles_-_Google_Chrome-2012-04-22_11.37.50.png" />
     <Content Include="Design\JSSokoban_3D_-_Google_Chrome-2012-03-25_16.48.54.png" />
     <Content Include="Design\js_cloth_-_Google_Chrome-2012-02-26_22.04.06.png" />
+    <Content Include="Design\Kamiori_-_Google_Chrome-2012-04-22_11.28.05.png" />
     <Content Include="Design\Kuda_Hello_World_-_Google_Chrome-2012-02-27_00.07.36.png" />
     <Content Include="Design\Kuda_Pressure_House_B_-_Google_Chrome-2012-02-27_00.15.27.png" />
     <Content Include="Design\Kuda_Tiny_House_Demo_-_Google_Chrome-2012-02-27_00.14.44.png" />
@@ -227,6 +229,7 @@
     <Content Include="Design\Marble_Soccer_-_Google_Chrome-2012-04-12_00.56.06.png" />
     <Content Include="Design\Maybe_WebGL_-_Google_Chrome-2012-03-25_19.25.49.png" />
     <Content Include="Design\Maze_-_Google_Chrome-2012-03-28_15.11.55.png" />
+    <Content Include="Design\Maze_-_Google_Chrome-2012-04-22_11.31.58.png" />
     <Content Include="Design\MD2Morphtarget_example_-_Google_Chrome-2012-02-26_21.07.28.png" />
     <Content Include="Design\MD2Morphtarget_Stresstest_-_Google_Chrome-2012-02-26_22.28.31.png" />
     <Content Include="Design\Md2__Animation_-_Google_Chrome-2012-02-26_22.19.19.png" />
@@ -371,6 +374,6 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
+    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /xAttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
   </PropertyGroup>
 </Project>
