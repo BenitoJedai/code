@@ -5,12 +5,19 @@ using System.Text;
 
 namespace TestVirtualPropertyMerge
 {
+    public class Vector<T>
+    {
+
+        public void Extension2()
+        { }
+    }
+
     public class Class1
     {
-        public event Action Handler;
+        public event Action<int> Handler;
 
 
-        public int MyProperty { get; set; }
+        public Vector<Action> MyProperty { get; set; }
         public virtual int MyVirtualProperty { get; set; }
 
         public void Extension1()

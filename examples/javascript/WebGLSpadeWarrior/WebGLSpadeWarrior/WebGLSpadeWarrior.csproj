@@ -89,6 +89,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -142,9 +145,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLSpadeWarrior.UltraSource">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLSpadeWarrior\bin\staging.UltraSource\WebGLSpadeWarrior.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLSpadeWarrior.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLSpadeWarrior\bin\staging.AssetsLibrary\WebGLSpadeWarrior.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -156,10 +156,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\GeometryFragmentShader.cs" >
+    <Compile Include="Shaders\GeometryFragmentShader.cs">
       <DependentUpon>Geometry.frag</DependentUpon>
     </Compile>
-    <Compile Include="Shaders\GeometryVertexShader.cs" >
+    <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
     <Content Include="Design\Default.htm" />
@@ -169,11 +169,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\glMatrix.cs">
+    <Compile Include="Design\glMatrix.cs">
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Library\glMatrix.js" />
+    <Content Include="Design\glMatrix.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
@@ -187,16 +187,9 @@ start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /Proje
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /WAIT /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true /DisableWorkerDomain
+    <PreBuildEvent>
 
-
-set jsc=C:\util\jsc\bin\jsc.meta.exe
-if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
-
-
-start /MIN /WAIT %25jsc%25 ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /XAttachDebugger:true
-
-
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
 
 </PreBuildEvent>
   </PropertyGroup>
