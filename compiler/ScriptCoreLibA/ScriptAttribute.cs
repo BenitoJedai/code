@@ -298,6 +298,8 @@ namespace ScriptCoreLib
 
 		public static ScriptAttribute OfProvider(ICustomAttributeProvider m)
 		{
+            // first call to this method shall prepare the cache for all types in the same assembly
+
 			if (m == null)
 				return null;
 
