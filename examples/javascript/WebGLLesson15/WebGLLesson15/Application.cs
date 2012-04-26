@@ -104,7 +104,7 @@ namespace WebGLLesson15
             }
             #endregion
 
-            var toolbar = new ToolbarPage();
+            var toolbar = new Toolbar();
 
             if (page != null)
             {
@@ -174,7 +174,7 @@ namespace WebGLLesson15
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
 
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -197,7 +197,6 @@ namespace WebGLLesson15
                         var vs = createShader(p.vs);
                         var fs = createShader(p.fs);
 
-                        if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
                         var shaderProgram = gl.createProgram();
 
