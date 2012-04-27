@@ -12,7 +12,7 @@ namespace WebGLCelShader
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using THREE = WebGLCelShader.Library.THREE;
+    using THREE = WebGLCelShader.Design.THREE;
 
 
     /// <summary>
@@ -32,7 +32,7 @@ namespace WebGLCelShader
         public Application(IDefaultPage page = null)
         {
             #region ThreeExtras
-            new WebGLCelShader.Library.THREE.__ThreeExtras().Content.With(
+            new WebGLCelShader.Design.THREE.__ThreeExtras().Content.With(
                source =>
                {
                    source.onload +=

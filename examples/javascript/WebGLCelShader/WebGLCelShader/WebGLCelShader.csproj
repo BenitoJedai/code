@@ -63,6 +63,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -124,7 +127,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\ThreeExtras.cs">
+    <Compile Include="Design\ThreeExtras.cs">
       <DependentUpon>ThreeExtras.js</DependentUpon>
     </Compile>
     <Compile Include="Shaders\GeometryFragmentShader.cs">
@@ -141,11 +144,14 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Library\ThreeExtras.js" />
+    <Content Include="Design\ThreeExtras.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
     <None Include="Shaders\Geometry.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Library\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

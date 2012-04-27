@@ -6,7 +6,7 @@ using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using System.ComponentModel;
 
-namespace WebGLCelShader.Library.THREE
+namespace WebGLCelShader.Design.THREE
 {
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     internal class __ThreeExtras : ThreeExtras
