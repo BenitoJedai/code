@@ -65,6 +65,11 @@ namespace WebGLSpiral
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            InitializeContent();
+        }
+
+        private void InitializeContent()
+        {
             // methods: 
             // init, createProgram, createShader, onWindowResize, loop
 
@@ -84,7 +89,7 @@ namespace WebGLSpiral
             canvas.style.SetLocation(0, 0);
 
 
-            #region Initialise WebGL
+            #region gl
 
             var gl = default(WebGLRenderingContext);
 
@@ -103,7 +108,7 @@ namespace WebGLSpiral
             }
             #endregion
 
-
+            #region Dispose
             var IsDisposed = false;
 
             Dispose = delegate
@@ -115,6 +120,8 @@ namespace WebGLSpiral
 
                 canvas.Orphanize();
             };
+            #endregion
+
 
             // Create Vertex buffer (2 triangles)
 
@@ -139,8 +146,7 @@ namespace WebGLSpiral
                     if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                     {
                         Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                        return null;
+                        throw new InvalidOperationException("shader");
                     }
 
                     return shader;
@@ -150,7 +156,6 @@ namespace WebGLSpiral
                 var vs = createShader(new SpiralVertexShader());
                 var fs = createShader(new SpiralFragmentShader());
 
-                if (vs == null || fs == null) return null;
 
                 gl.attachShader(program, vs);
                 gl.attachShader(program, fs);
@@ -179,8 +184,8 @@ namespace WebGLSpiral
 
             var currentProgram = createProgram();
 
-            #region onWindowResize
-            Action onWindowResize = delegate
+            #region AtResize
+            Action AtResize = delegate
             {
                 if (IsDisposed)
                 {
@@ -198,54 +203,55 @@ namespace WebGLSpiral
 
                 gl.viewport(0, 0, canvas.width, canvas.height);
             };
-            #endregion
 
-            onWindowResize();
+            AtResize();
 
             Native.Window.onresize += delegate
             {
-                onWindowResize();
+                AtResize();
             };
+            #endregion
+
 
             #region loop
             Action loop = null;
 
             loop = delegate
-             {
-                 if (IsDisposed)
-                     return;
+            {
+                if (IsDisposed)
+                    return;
 
-                 if (currentProgram == null) return;
+                if (currentProgram == null) return;
 
-                 parameters_time = new IDate().getTime() - parameters_start_time;
+                parameters_time = new IDate().getTime() - parameters_start_time;
 
-                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                 // Load program into GPU
+                // Load program into GPU
 
-                 gl.useProgram(currentProgram);
+                gl.useProgram(currentProgram);
 
-                 // Get var locations
+                // Get var locations
 
-                 var vertex_position = gl.getAttribLocation(currentProgram, "position");
+                var vertex_position = gl.getAttribLocation(currentProgram, "position");
 
-                 // Set values to program variables
+                // Set values to program variables
 
-                 gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
-                 gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
-                 gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
+                gl.uniform1f(gl.getUniformLocation(currentProgram, "time"), parameters_time / 1000);
+                gl.uniform2f(gl.getUniformLocation(currentProgram, "resolution"), parameters_screenWidth, parameters_screenHeight);
+                gl.uniform2f(gl.getUniformLocation(currentProgram, "aspect"), parameters_aspectX, parameters_aspectY);
 
-                 // Render geometry
+                // Render geometry
 
-                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                 gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
-                 gl.enableVertexAttribArray((ulong)vertex_position);
-                 gl.drawArrays(gl.TRIANGLES, 0, 6);
-                 gl.disableVertexAttribArray((ulong)vertex_position);
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray((ulong)vertex_position);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                gl.disableVertexAttribArray((ulong)vertex_position);
 
-                 Native.Window.requestAnimationFrame += loop;
+                Native.Window.requestAnimationFrame += loop;
 
-             };
+            };
 
             Native.Window.requestAnimationFrame += loop;
             #endregion
@@ -274,7 +280,7 @@ namespace WebGLSpiral
             );
         }
 
-        public readonly Action Dispose;
+        public  Action Dispose;
     }
 
 

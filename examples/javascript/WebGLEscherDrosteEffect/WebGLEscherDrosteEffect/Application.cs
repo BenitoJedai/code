@@ -75,6 +75,7 @@ namespace WebGLEscherDrosteEffect
             }
             #endregion
 
+            #region Dispose
             var IsDisposed = false;
 
             Dispose = delegate
@@ -86,6 +87,8 @@ namespace WebGLEscherDrosteEffect
 
                 canvas.Orphanize();
             };
+            #endregion
+
 
             #region load_shader
             Func<Shader, WebGLShader> load_shader =
@@ -97,8 +100,7 @@ namespace WebGLEscherDrosteEffect
                     if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                     {
                         Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                        return null;
+                        throw new InvalidOperationException("shader");
                     }
 
                     return shader;
@@ -114,7 +116,6 @@ namespace WebGLEscherDrosteEffect
             var vs = load_shader(new EscherDorsteVertexShader());
             var fs = load_shader(new EscherDorsteFragmentShader());
 
-            if (vs == null || fs == null) return;
 
             gl.attachShader(program, vs);
             gl.attachShader(program, fs);
@@ -168,8 +169,8 @@ namespace WebGLEscherDrosteEffect
 
             var texture = loadTexture(new HTML.Images.FromAssets.escher());
 
-            #region onWindowResize
-            Action onWindowResize = delegate
+            #region AtResize
+            Action AtResize = delegate
             {
                 canvas.width = Native.Window.Width;
                 canvas.height = Native.Window.Height;
@@ -184,17 +185,17 @@ namespace WebGLEscherDrosteEffect
                 var h = height / width;
                 gl.uniform1f(gl.getUniformLocation(program, "h"), h);
             };
-            #endregion
 
-            onWindowResize();
+            AtResize();
 
             Native.Window.onresize += delegate
             {
                 if (IsDisposed)
                     return;
 
-                onWindowResize();
+                AtResize();
             };
+            #endregion
 
             gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
 

@@ -1,27 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
 using WebGLSpadeWarrior.HTML.Pages;
+using WebGLSpadeWarrior.Design;
+using WebGLSpadeWarrior.Shaders;
 
 namespace WebGLSpadeWarrior
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLSpadeWarrior.Shaders;
-    using WebGLSpadeWarrior.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
@@ -29,12 +30,7 @@ namespace WebGLSpadeWarrior
     /// </summary>
     internal sealed class Application
     {
-        /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
-         * 
-         * 01. Created a new project of type Web Application
-         * 02. initGL
-         * 03. initShaders
-         */
+
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
@@ -51,8 +47,6 @@ namespace WebGLSpadeWarrior
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 
@@ -125,8 +119,7 @@ namespace WebGLSpadeWarrior
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -136,7 +129,6 @@ namespace WebGLSpadeWarrior
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);

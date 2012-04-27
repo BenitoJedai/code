@@ -57,6 +57,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -119,7 +122,7 @@
     <Content Include="Audio\nyanslow.mp3" />
     <Content Include="Design\Preview.png" />
     <Content Include="Design\Three.js" />
-    <Content Include="Styles\Default.css" />
+    <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Design\__Three.cs">
       <DependentUpon>Three.js</DependentUpon>

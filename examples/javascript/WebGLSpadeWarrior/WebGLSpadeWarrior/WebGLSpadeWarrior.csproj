@@ -148,9 +148,6 @@
     <Reference Include="WebGLSpadeWarrior.AssetsLibrary">
       <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLSpadeWarrior\bin\staging.AssetsLibrary\WebGLSpadeWarrior.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="WebGLSpadeWarrior.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLSpadeWarrior.UltraSource.dll</HintPath>
-    </Reference>
     <Reference Include="WebGLSpadeWarrior.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLSpadeWarrior.AssetsLibrary.dll</HintPath>
     </Reference>
@@ -189,7 +186,7 @@ rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(Target
 )</PostBuildEvent>
     <PreBuildEvent>
 
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
 
 </PreBuildEvent>
   </PropertyGroup>
