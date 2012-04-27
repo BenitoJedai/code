@@ -67,6 +67,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -256,6 +260,7 @@
     <Content Include="Design\Pacmaze_-_a_pacman_in_a_maze_-_Google_Chrome-2012-02-26_22.03.20.jpg" />
     <Content Include="Design\PandurII_em_WebGL_-_Google_Chrome-2012-03-04_12.04.21.png" />
     <Content Include="Design\PDE_on_GPU_-_Google_Chrome-2012-02-26_21.56.04.png" />
+    <Content Include="Design\Pendulum_Waves_WebGL_-_Google_Chrome-2012-04-27_19.13.31.png" />
     <Content Include="Design\Petors_WebGL-Spielplatz_-_Google_Chrome-2012-02-26_21.32.02.png" />
     <Content Include="Design\PhiloGL_-_Surface_Explorer_-_Google_Chrome-2012-02-28_15.28.34.png" />
     <Content Include="Design\PhiloGL_-_World_temperature_changes_from_1880_to_2011_-_Google_Chrome-2012-04-21_23.46.30.png" />
@@ -325,6 +330,7 @@
     <Content Include="Design\Twisters_-_Google_Chrome-2012-02-26_22.25.03.jpg" />
     <Content Include="Design\unplant_spaces_-_demo_-_Google_Chrome-2012-04-01_23.40.25.png" />
     <Content Include="Design\Untitled_Document_-_Google_Chrome-2012-03-03_23.16.45.png" />
+    <Content Include="Design\USGS_Geography_in_WebGL_-_Google_Chrome-2012-04-27_21.45.00.png" />
     <Content Include="Design\Varying_text_in_WebGL_with_Phong_Light_-_Google_Chrome-2012-02-26_22.44.40.png" />
     <Content Include="Design\Vehicle_Soccer_-_Google_Chrome-2012-02-26_20.39.19.png" />
     <Content Include="Design\View_any_skin_in_full_3D!_-_League_of_Legends_Skin_Viewer_-_Google_Chrome-2012-03-25_16.23.13.png" />
