@@ -5,7 +5,7 @@ using System.Text;
 using ScriptCoreLib;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 
-namespace WebGLClouds.Library.THREE
+namespace WebGLClouds.Design.THREE
 {
     internal class __ThreeWebGL : ThreeWebGL
     {

@@ -11,7 +11,7 @@ namespace WebGLClouds
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using THREE = WebGLClouds.Library.THREE;
+    using THREE = WebGLClouds.Design.THREE;
 
 
     /// <summary>
@@ -31,14 +31,14 @@ namespace WebGLClouds
         public Application(IDefaultPage page)
         {
             #region ThreeExtras - InitializeContent
-            new WebGLClouds.Library.THREE.__ThreeWebGL().Content.With(
+            new WebGLClouds.Design.THREE.__ThreeWebGL().Content.With(
                source2 =>
                {
                    source2.onload +=
                        delegate
                        {
 
-                           new WebGLClouds.Library.THREE.__ThreeExtras().Content.With(
+                           new WebGLClouds.Design.THREE.__ThreeExtras().Content.With(
                               source =>
                               {
                                   source.onload +=
