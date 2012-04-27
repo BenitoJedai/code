@@ -12,15 +12,16 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using WebGLLesson01.HTML.Pages;
+using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLLesson01.Shaders;
+using WebGLLesson01.Design;
 
 namespace WebGLLesson01
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLLesson01.Shaders;
-    using WebGLLesson01.Library;
+
 
 
     /// <summary>
@@ -68,8 +69,6 @@ namespace WebGLLesson01
 
         void InitializeContent(IDefaultPage page)
         {
-            page.PageContainer.style.color = Color.Blue;
-
             var size = 500;
 
             #region canvas
@@ -120,6 +119,7 @@ namespace WebGLLesson01
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    throw new InvalidOperationException("shader failed");
 
                     return null;
                 }
@@ -131,7 +131,6 @@ namespace WebGLLesson01
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
