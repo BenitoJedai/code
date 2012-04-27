@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace ScriptCoreLib.GLSL
 {
@@ -28,6 +29,7 @@ namespace ScriptCoreLib.GLSL
         //typeof(mat3),
         //typeof(mat4)
         )]
+    [Description("Recommended max: 16 attributes")]
     public sealed class attribute : Attribute
     {
 
