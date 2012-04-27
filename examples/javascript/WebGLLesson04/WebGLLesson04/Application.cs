@@ -15,7 +15,7 @@ using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
 using WebGLLesson04.HTML.Pages;
-using WebGLLesson04.Library;
+using WebGLLesson04.Design;
 using WebGLLesson04.Shaders;
 
 namespace WebGLLesson04
@@ -125,7 +125,7 @@ namespace WebGLLesson04
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
 
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -136,7 +136,6 @@ namespace WebGLLesson04
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
