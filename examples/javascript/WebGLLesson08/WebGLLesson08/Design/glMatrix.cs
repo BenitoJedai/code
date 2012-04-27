@@ -3,7 +3,7 @@ using System;
 using ScriptCoreLib.JavaScript.WebGL;
 using System.ComponentModel;
 
-namespace WebGLLesson08.Library
+namespace WebGLLesson08.Design
 {
     [Script]
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]

@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -7,13 +12,8 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLLesson10.HTML.Pages;
 using WebGLLesson10.Design;
-using System.Collections.Generic;
+using WebGLLesson10.HTML.Pages;
 
 namespace WebGLLesson10
 {
@@ -138,8 +138,7 @@ namespace WebGLLesson10
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -151,7 +150,6 @@ namespace WebGLLesson10
             var vs = createShader(new Shaders.GeometryVertexShader());
             var fs = createShader(new Shaders.GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             var shaderProgram = gl.createProgram();
 
@@ -231,7 +229,7 @@ namespace WebGLLesson10
 
 
 
-         
+
             var pitch = 0f;
             var pitchRate = 0f;
 
@@ -274,14 +272,29 @@ namespace WebGLLesson10
             #endregion
 
 
+            #region currentlyPressedKeysEitherOf
+            Func<int, int, bool> currentlyPressedKeysEitherOf =
+                (a, b) =>
+                {
+                    if (currentlyPressedKeys[a])
+                        return true;
+
+                    if (currentlyPressedKeys[b])
+                        return true;
+
+                    return false;
+                };
+            #endregion
+
+
             #region handleKeys
             Action handleKeys =
                 delegate
                 {
                     if (currentlyPressedKeys[33])
                     {
-                                // Page Up
-                                pitchRate = 0.1f;
+                        // Page Up
+                        pitchRate = 0.1f;
                     }
                     else if (currentlyPressedKeys[34])
                     {
@@ -294,12 +307,12 @@ namespace WebGLLesson10
                     }
 
 
-                    if (currentlyPressedKeys[37] || currentlyPressedKeys[65])
+                    if (currentlyPressedKeysEitherOf(37, 65))
                     {
                         // Left cursor key or A
                         yawRate = 0.1f;
                     }
-                    else if (currentlyPressedKeys[39] || currentlyPressedKeys[68])
+                    else if (currentlyPressedKeysEitherOf(39, 68))
                     {
                         // Right cursor key or D
                         yawRate = -0.1f;
@@ -309,12 +322,12 @@ namespace WebGLLesson10
                         yawRate = 0;
                     }
 
-                    if (currentlyPressedKeys[38] || currentlyPressedKeys[87])
+                    if (currentlyPressedKeysEitherOf(38, 87))
                     {
                         // Up cursor key or W
                         speed = 0.003f;
                     }
-                    else if (currentlyPressedKeys[40] || currentlyPressedKeys[83])
+                    else if (currentlyPressedKeysEitherOf(40, 83))
                     {
                         // Down cursor key
                         speed = -0.003f;
@@ -375,19 +388,20 @@ namespace WebGLLesson10
                     {
                         var vals = i.Trim().Replace("   ", "  ").Replace("  ", " ").Split(' ');
 
-                        if (vals.Length == 5 && vals[0] != "//")
-                        {
-                            // It is a line describing a vertex; get X, Y and Z first
-                            vertexPositions.Add(parseFloat(vals[0]));
-                            vertexPositions.Add(parseFloat(vals[1]));
-                            vertexPositions.Add(parseFloat(vals[2]));
+                        if (vals.Length == 5)
+                            if (vals[0] != "//")
+                            {
+                                // It is a line describing a vertex; get X, Y and Z first
+                                vertexPositions.Add(parseFloat(vals[0]));
+                                vertexPositions.Add(parseFloat(vals[1]));
+                                vertexPositions.Add(parseFloat(vals[2]));
 
-                            // And then the texture coords
-                            vertexTextureCoords.Add(parseFloat(vals[3]));
-                            vertexTextureCoords.Add(parseFloat(vals[4]));
+                                // And then the texture coords
+                                vertexTextureCoords.Add(parseFloat(vals[3]));
+                                vertexTextureCoords.Add(parseFloat(vals[4]));
 
-                            vertexCount += 1;
-                        }
+                                vertexCount += 1;
+                            }
                     }
 
                     var worldVertexPositionBuffer = gl.createBuffer();
@@ -409,7 +423,7 @@ namespace WebGLLesson10
                     gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
                     gl.enable(gl.DEPTH_TEST);
 
-                
+
 
 
                     var lastTime = 0L;
@@ -451,33 +465,31 @@ namespace WebGLLesson10
                     #region drawScene
                     Action drawScene = () =>
                     {
-                            gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
-                            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+                        gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+                        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-                            if (worldVertexTextureCoordBuffer == null || worldVertexPositionBuffer == null) {
-                                return;
-                            }
+                    
 
-                            __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
+                        __glMatrix.mat4.perspective(45, gl_viewportWidth / gl_viewportHeight, 0.1f, 100.0f, pMatrix);
 
-                            __glMatrix.mat4.identity(mvMatrix);
+                        __glMatrix.mat4.identity(mvMatrix);
 
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), 1, 0, 0);
-                            __glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), 0, 1, 0);
-                            __glMatrix.mat4.translate(mvMatrix, -xPos, -yPos, -zPos);
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-pitch), 1, 0, 0);
+                        __glMatrix.mat4.rotate(mvMatrix, degToRad(-yaw), 0, 1, 0);
+                        __glMatrix.mat4.translate(mvMatrix, -xPos, -yPos, -zPos);
 
-                            gl.activeTexture(gl.TEXTURE0);
-                            gl.bindTexture(gl.TEXTURE_2D, mudTexture);
-                            gl.uniform1i(shaderProgram_samplerUniform, 0);
+                        gl.activeTexture(gl.TEXTURE0);
+                        gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+                        gl.uniform1i(shaderProgram_samplerUniform, 0);
 
-                            gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
-                            gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, worldVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+                        gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, worldVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                            gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
-                            gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, worldVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+                        gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, worldVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
-                            setMatrixUniforms();
-                            gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer_numItems);
+                        setMatrixUniforms();
+                        gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer_numItems);
                     };
                     #endregion
 

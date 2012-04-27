@@ -177,8 +177,7 @@ namespace WebGLLesson11
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -190,7 +189,6 @@ namespace WebGLLesson11
             var vs = createShader(new Shaders.GeometryVertexShader());
             var fs = createShader(new Shaders.GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             var shaderProgram = gl.createProgram();
 

@@ -101,7 +101,7 @@ namespace WebGLLesson12
             }
             #endregion
 
-            var toolbar = new ToolbarPage();
+            var toolbar = new Toolbar();
 
             if (page != null)
             {
@@ -178,8 +178,8 @@ namespace WebGLLesson12
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    throw new InvalidOperationException("shader failed");
 
-                    return null;
                 }
 
                 return shader;
@@ -191,7 +191,6 @@ namespace WebGLLesson12
             var vs = createShader(new Shaders.GeometryVertexShader());
             var fs = createShader(new Shaders.GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             var shaderProgram = gl.createProgram();
 

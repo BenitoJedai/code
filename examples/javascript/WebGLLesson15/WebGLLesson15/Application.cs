@@ -110,7 +110,12 @@ namespace WebGLLesson15
             {
                 toolbar.Container.AttachToDocument();
                 toolbar.Container.style.Opacity = 0.7;
-
+                toolbar.HideButton.onclick +=
+                 delegate
+                 {
+                     // ScriptCoreLib.Extensions
+                     toolbar.HideTarget.ToggleVisible();
+                 };
             }
 
             #region IsDisposed

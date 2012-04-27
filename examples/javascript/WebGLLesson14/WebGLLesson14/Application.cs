@@ -125,13 +125,18 @@ namespace WebGLLesson14
             }
             #endregion
 
-            var toolbar = new ToolbarPage();
+            var toolbar = new Toolbar();
 
             if (page != null)
             {
                 toolbar.Container.AttachToDocument();
                 toolbar.Container.style.Opacity = 0.7;
-
+                toolbar.HideButton.onclick +=
+                    delegate
+                    {
+                        // ScriptCoreLib.Extensions
+                        toolbar.HideTarget.ToggleVisible();
+                    };
             }
 
             #region IsDisposed
@@ -194,8 +199,7 @@ namespace WebGLLesson14
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -218,7 +222,6 @@ namespace WebGLLesson14
                         var vs = createShader(p.vs);
                         var fs = createShader(p.fs);
 
-                        if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
                         var shaderProgram = gl.createProgram();
 
