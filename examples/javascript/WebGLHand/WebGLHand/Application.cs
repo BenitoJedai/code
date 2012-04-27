@@ -1,48 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
+using WebGLHand.Design;
 using WebGLHand.HTML.Pages;
+using WebGLHand.Shaders;
 
 namespace WebGLHand
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using ScriptCoreLib.Shared.Lambda;
-    using ScriptCoreLib.Shared.Drawing;
-    using WebGLHand.Shaders;
-    using WebGLHand.Library;
-    using System.Collections.Generic;
+
 
 
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
-        /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
-         * 
-         * 01. Created a new project of type Web Application
-         * 02. initGL
-         * 03. initShaders
-         */
-
         public readonly ApplicationWebService service = new ApplicationWebService();
+
+        public Action Dispose;
 
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -51,8 +47,6 @@ namespace WebGLHand
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 
@@ -70,20 +64,19 @@ namespace WebGLHand
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
-
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = gl_viewportWidth;
+            canvas.height = gl_viewportHeight;
             #endregion
 
             #region gl - Initialise WebGL
@@ -106,13 +99,73 @@ namespace WebGLHand
             }
             #endregion
 
+            #region toolbar
+            var toolbar = new Toolbar();
 
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
+            if (page != null)
+            {
+                toolbar.Container.AttachToDocument();
+                toolbar.Container.style.Opacity = 0.7;
+                toolbar.HideButton.onclick +=
+                 delegate
+                 {
+                     // ScriptCoreLib.Extensions
+                     toolbar.HideTarget.ToggleVisible();
+                 };
+            }
+            #endregion
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
 
 
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
 
-            var shaderProgram = gl.createProgram();
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
 
 
             #region createShader
@@ -124,18 +177,19 @@ namespace WebGLHand
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
             };
             #endregion
 
+            #region shaderProgram
+            var shaderProgram = gl.createProgram();
+
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
@@ -154,6 +208,7 @@ namespace WebGLHand
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            #endregion
 
 
 
@@ -185,12 +240,6 @@ namespace WebGLHand
                     gl.uniformMatrix4fv(shaderProgram_mvMatrixUniform, false, mvMatrix);
                 };
             #endregion
-
-
-
-
-            #region init buffers
-
 
             #region cube
             var cubeVertexPositionBuffer = gl.createBuffer();
@@ -297,11 +346,6 @@ namespace WebGLHand
             var cubeVertexIndexBuffer_numItems = 36;
 
             #endregion
-
-            #endregion
-
-
-
 
             gl.clearColor(0.0f, 0.0f, 0.0f, 1.0f);
             gl.enable(gl.DEPTH_TEST);
@@ -517,97 +561,97 @@ namespace WebGLHand
 
 
             #region pinky
-            page.f0.onmousedown +=
+            toolbar.f0.onmousedown +=
                 delegate
                 {
-                    page.f0.style.color = Color.Blue;
+                    toolbar.f0.style.color = Color.Blue;
                     fdeg_state[0] = 80;
                     fdeg_relax[0] = 0;
                 };
 
-            page.f0.onmouseup +=
+            toolbar.f0.onmouseup +=
                  delegate
                  {
-                     page.f0.style.color = Color.None;
+                     toolbar.f0.style.color = Color.None;
                      //fdeg_state[0] = 11;
                      fdeg_relax[0] = 1;
                  };
             #endregion
 
             #region finger
-            page.f1.onmousedown +=
+            toolbar.f1.onmousedown +=
                 delegate
                 {
-                    page.f0.style.color = Color.Blue;
+                    toolbar.f0.style.color = Color.Blue;
                     fdeg_state[1] = 80;
                     fdeg_relax[1] = 0;
                 };
 
-            page.f1.onmouseup +=
+            toolbar.f1.onmouseup +=
                  delegate
                  {
-                     page.f1.style.color = Color.None;
+                     toolbar.f1.style.color = Color.None;
                      fdeg_relax[1] = 1;
                  };
             #endregion
 
             #region middle
-            page.f2.onmousedown +=
+            toolbar.f2.onmousedown +=
                 delegate
                 {
-                    page.f0.style.color = Color.Blue;
+                    toolbar.f0.style.color = Color.Blue;
                     fdeg_state[2] = 80;
                     fdeg_relax[2] = 0;
                 };
 
-            page.f2.onmouseup +=
+            toolbar.f2.onmouseup +=
                  delegate
                  {
-                     page.f1.style.color = Color.None;
+                     toolbar.f1.style.color = Color.None;
                      fdeg_relax[2] = 1;
                  };
             #endregion
 
             #region index
-            page.f3.onmousedown +=
+            toolbar.f3.onmousedown +=
                 delegate
                 {
-                    page.f3.style.color = Color.Blue;
+                    toolbar.f3.style.color = Color.Blue;
                     fdeg_state[3] = 80;
                     fdeg_relax[3] = 0;
                 };
 
-            page.f3.onmouseup +=
+            toolbar.f3.onmouseup +=
                  delegate
                  {
-                     page.f3.style.color = Color.None;
+                     toolbar.f3.style.color = Color.None;
                      fdeg_relax[3] = 1;
                  };
             #endregion
 
             #region thumb
-            page.f4.onmousedown +=
+            toolbar.f4.onmousedown +=
                 delegate
                 {
-                    page.f4.style.color = Color.Blue;
+                    toolbar.f4.style.color = Color.Blue;
                     fdeg_state[4] = 80;
                     fdeg_relax[4] = 0;
                 };
 
-            page.f4.onmouseup +=
+            toolbar.f4.onmouseup +=
                  delegate
                  {
-                     page.f4.style.color = Color.None;
+                     toolbar.f4.style.color = Color.None;
                      fdeg_relax[4] = 1;
                  };
             #endregion
 
 
             #region rock
-            page.fRock.onmousedown +=
+            toolbar.fRock.onmousedown +=
                 delegate
                 {
-                    page.fRock.style.color = Color.Blue;
+                    toolbar.fRock.style.color = Color.Blue;
                     fdeg_state[0] = 0;
                     fdeg_state[1] = 77;
                     fdeg_state[2] = 77;
@@ -621,10 +665,10 @@ namespace WebGLHand
                     fdeg_relax[4] = 0;
                 };
 
-            page.fRock.onmouseup +=
+            toolbar.fRock.onmouseup +=
                  delegate
                  {
-                     page.fRock.style.color = Color.None;
+                     toolbar.fRock.style.color = Color.None;
 
                      fdeg_relax[0] = 1;
                      fdeg_relax[1] = 1;
@@ -635,10 +679,10 @@ namespace WebGLHand
             #endregion
 
             #region fFist
-            page.fFist.onmousedown +=
+            toolbar.fFist.onmousedown +=
                 delegate
                 {
-                    page.fRock.style.color = Color.Blue;
+                    toolbar.fRock.style.color = Color.Blue;
                     fdeg_state[0] = 88;
                     fdeg_state[1] = 88;
                     fdeg_state[2] = 88;
@@ -652,10 +696,10 @@ namespace WebGLHand
                     fdeg_relax[4] = 0;
                 };
 
-            page.fFist.onmouseup +=
+            toolbar.fFist.onmouseup +=
                  delegate
                  {
-                     page.fFist.style.color = Color.None;
+                     toolbar.fFist.style.color = Color.None;
 
                      fdeg_relax[0] = 1;
                      fdeg_relax[1] = 1;
@@ -666,10 +710,10 @@ namespace WebGLHand
             #endregion
 
             #region electric
-            page.fElectric.onmousedown +=
+            toolbar.fElectric.onmousedown +=
                 delegate
                 {
-                    page.fElectric.style.color = Color.Blue;
+                    toolbar.fElectric.style.color = Color.Blue;
                     fdeg_state[0] = 0;
                     fdeg_state[1] = 0;
                     fdeg_state[2] = 0;
@@ -683,10 +727,10 @@ namespace WebGLHand
                     fdeg_relax[4] = 0;
                 };
 
-            page.fElectric.onmouseup +=
+            toolbar.fElectric.onmouseup +=
                  delegate
                  {
-                     page.fElectric.style.color = Color.None;
+                     toolbar.fElectric.style.color = Color.None;
 
                      fdeg_relax[0] = 1;
                      fdeg_relax[1] = 1;
@@ -696,10 +740,11 @@ namespace WebGLHand
                  };
             #endregion
 
-            page.fRelax.onclick +=
+            #region fRelax
+            toolbar.fRelax.onclick +=
              delegate
              {
-                 page.fElectric.style.color = Color.None;
+                 toolbar.fElectric.style.color = Color.None;
 
                  fdeg_relax[0] = 1;
                  fdeg_relax[1] = 1;
@@ -707,8 +752,9 @@ namespace WebGLHand
                  fdeg_relax[3] = 1;
                  fdeg_relax[4] = 1;
              };
+            #endregion
 
-            #region tick - new in lesson 03
+            #region tick 
             var tick = default(Action);
 
             tick = delegate

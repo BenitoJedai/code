@@ -93,6 +93,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -160,6 +163,7 @@
     <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
+    <Content Include="Design\Toolbar.htm" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
@@ -167,11 +171,11 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\glMatrix.cs">
+    <Compile Include="Design\glMatrix.cs">
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Library\glMatrix.js" />
+    <Content Include="Design\glMatrix.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />

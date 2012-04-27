@@ -1,28 +1,28 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
+using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLSimpleCubic.HTML.Pages;
-using ScriptCoreLib.GLSL;
 using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Shared.Drawing;
+using WebGLSimpleCubic.Design;
+using WebGLSimpleCubic.HTML.Pages;
+using WebGLSimpleCubic.Shaders;
 
 namespace WebGLSimpleCubic
 {
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
-    using Date = IDate;
-    using WebGLSimpleCubic.Shaders;
-    using WebGLSimpleCubic.Library;
-    using ScriptCoreLib.Shared.Drawing;
+
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -85,15 +85,13 @@ namespace WebGLSimpleCubic
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            new Library.CanvasMatrix().Content.With(
+            new CanvasMatrix().Content.With(
                 CanvasMatrix =>
                 {
                     CanvasMatrix.onload +=
                         delegate
                         {
-                            //new IFunction("alert(CanvasMatrix4);").apply(null);
-
-                            InitializeSimpleCubicContent();
+                            InitializeContent();
                         };
 
                     CanvasMatrix.AttachToDocument();
@@ -114,7 +112,7 @@ namespace WebGLSimpleCubic
             );
         }
 
-        private void InitializeSimpleCubicContent()
+        private void InitializeContent(IDefaultPage page = null)
         {
             // functions to port manually
             // * webGLStart
@@ -156,7 +154,6 @@ namespace WebGLSimpleCubic
 
             gl.viewport(0, 0, size, size);
 
-            var prog = gl.createProgram();
 
             #region createShader
             Func<Shader, WebGLShader> createShader = (src) =>
@@ -167,18 +164,17 @@ namespace WebGLSimpleCubic
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
             };
             #endregion
 
+            var prog = gl.createProgram();
             var vs = createShader(new CubicVertexShader());
             var fs = createShader(new CubicFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(prog, vs);
             gl.attachShader(prog, fs);
@@ -374,8 +370,8 @@ namespace WebGLSimpleCubic
 
 
 
-            #region onWindowResize
-            Action onWindowResize = delegate
+            #region AtResize
+            Action AtResize = delegate
             {
                 size = Math.Min(Native.Window.Width, Native.Window.Height);
                 canvas.width = size;
@@ -389,14 +385,14 @@ namespace WebGLSimpleCubic
 
                 drawScene();
             };
-            #endregion
 
-            onWindowResize();
+            AtResize();
 
             Native.Window.onresize += delegate
             {
-                onWindowResize();
+                AtResize();
             };
+            #endregion
 
 
             #region mouse
@@ -416,7 +412,9 @@ namespace WebGLSimpleCubic
 
             canvas.onmousemove += ev =>
             {
-                if (drag == 0) return;
+                if (drag == 0)
+                    return;
+
                 if (ev.shiftKey)
                 {
                     transl *= 1 + (ev.CursorY - yOffs) / 1000;
@@ -424,9 +422,12 @@ namespace WebGLSimpleCubic
                 }
                 else
                 {
-                    yRot = -xOffs + ev.CursorX; xRot = -yOffs + ev.CursorY;
+                    yRot = -xOffs + ev.CursorX;
+                    xRot = -yOffs + ev.CursorY;
                 }
-                xOffs = ev.CursorX; yOffs = ev.CursorY;
+
+                xOffs = ev.CursorX;
+                yOffs = ev.CursorY;
                 drawScene();
             };
             #endregion
@@ -435,9 +436,15 @@ namespace WebGLSimpleCubic
                 ev =>
                 {
                     var del = 1.1;
-                    if (ev.shiftKey) del = 1.01;
-                    var ds = ((ev.WheelDirection) > 0) ? del : (1 / del);
-                    transl *= ds;
+
+                    if (ev.shiftKey)
+                        del = 1.01;
+
+                    if (ev.WheelDirection > 0)
+                        transl *= del;
+                    else
+                        transl *= (1 / del);
+
                     drawScene();
 
 

@@ -36,18 +36,6 @@ namespace WebGLShaderDisturb
 
             var canvas = new IHTMLCanvas();
 
-            var IsDisposed = false;
-
-            Dispose = delegate
-            {
-                if (IsDisposed)
-                    return;
-
-                IsDisposed = true;
-
-                canvas.Orphanize();
-            };
-
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
 
             canvas.AttachToDocument();
@@ -72,6 +60,21 @@ namespace WebGLShaderDisturb
             }
             #endregion
 
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
             // Create Vertex buffer (2 triangles)
 
             var buffer = gl.createBuffer();
@@ -89,8 +92,7 @@ namespace WebGLShaderDisturb
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader");
                 }
 
                 return shader;
@@ -106,7 +108,6 @@ namespace WebGLShaderDisturb
                 var vs = createShader(new DisturbVertexShader());
                 var fs = createShader(new DisturbFragmentShader());
 
-                if (vs == null || fs == null) return null;
 
                 gl.attachShader(program, vs);
                 gl.attachShader(program, fs);

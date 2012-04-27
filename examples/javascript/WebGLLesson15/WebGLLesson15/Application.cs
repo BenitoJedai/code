@@ -104,6 +104,7 @@ namespace WebGLLesson15
             }
             #endregion
 
+            #region toolbar
             var toolbar = new Toolbar();
 
             if (page != null)
@@ -117,6 +118,7 @@ namespace WebGLLesson15
                      toolbar.HideTarget.ToggleVisible();
                  };
             }
+            #endregion
 
             #region IsDisposed
             var IsDisposed = false;

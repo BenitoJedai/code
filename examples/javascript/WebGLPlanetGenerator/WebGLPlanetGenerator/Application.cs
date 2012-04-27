@@ -1,15 +1,15 @@
 using System;
+using System.Collections.Generic;
 using ScriptCoreLib.Extensions;
-using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
+using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Shared.Lambda;
+using WebGLPlanetGenerator.Design;
 using WebGLPlanetGenerator.HTML.Pages;
 using WebGLPlanetGenerator.Shaders;
-using ScriptCoreLib.JavaScript.WebGL;
-using WebGLPlanetGenerator.Design;
-using System.Collections.Generic;
 
 namespace WebGLPlanetGenerator
 {
@@ -123,7 +123,6 @@ namespace WebGLPlanetGenerator
             #endregion
 
 
-            var shaderProgram = gl.createProgram();
 
 
             #region createShader
@@ -135,8 +134,8 @@ namespace WebGLPlanetGenerator
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    throw new InvalidOperationException("shader failed");
 
-                    return null;
                 }
 
                 return shader;
@@ -144,10 +143,10 @@ namespace WebGLPlanetGenerator
             #endregion
 
             #region initShaders
+            var shaderProgram = gl.createProgram();
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
@@ -299,6 +298,7 @@ namespace WebGLPlanetGenerator
                 };
             #endregion
 
+            #region animate
             Action animate = () =>
             {
                 var timeNow = new IDate().getTime();
@@ -309,6 +309,8 @@ namespace WebGLPlanetGenerator
                 }
                 lastTime = timeNow;
             };
+            #endregion
+
 
             #region tick
             Action tick = null;
@@ -324,6 +326,7 @@ namespace WebGLPlanetGenerator
             Native.Window.requestAnimationFrame += tick;
             #endregion
 
+            #region AtResize
             Action AtResize = delegate
             {
                 gl_viewportWidth = Native.Window.Width;
@@ -344,6 +347,8 @@ namespace WebGLPlanetGenerator
             #endregion
 
             AtResize();
+            #endregion
+
 
             #region requestFullscreen
             Native.Document.body.ondblclick +=
