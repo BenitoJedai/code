@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
@@ -7,19 +12,13 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLLesson09.HTML.Pages;
-using WebGLLesson09.Styles;
 using WebGLLesson09.Design;
+using WebGLLesson09.HTML.Pages;
 
 namespace WebGLLesson09
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using System.Collections.Generic;
 
     /// <summary>
     /// This type will run as JavaScript.
@@ -144,8 +143,8 @@ namespace WebGLLesson09
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    throw new InvalidOperationException("shader failed");
 
-                    return null;
                 }
 
                 return shader;
@@ -157,7 +156,6 @@ namespace WebGLLesson09
             var vs = createShader(new Shaders.GeometryVertexShader());
             var fs = createShader(new Shaders.GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             var shaderProgram = gl.createProgram();
 
