@@ -1,23 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLLesson07.HTML.Pages;
-using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
-using WebGLLesson07.Shaders;
-using WebGLLesson07.Library;
-using System.Collections.Generic;
+using ScriptCoreLib.Shared.Lambda;
 using WebGLLesson07.Design;
+using WebGLLesson07.HTML.Pages;
+using WebGLLesson07.Library;
+using WebGLLesson07.Shaders;
 
 namespace WebGLLesson07
 {
@@ -185,8 +185,7 @@ namespace WebGLLesson07
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -197,7 +196,6 @@ namespace WebGLLesson07
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
             var shaderProgram = gl.createProgram();
 
             gl.attachShader(shaderProgram, vs);

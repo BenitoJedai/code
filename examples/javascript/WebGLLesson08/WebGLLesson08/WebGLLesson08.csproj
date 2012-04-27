@@ -142,12 +142,12 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Compile Include="Library\glMatrix.cs">
+    <Compile Include="Design\glMatrix.cs">
       <DependentUpon>glMatrix.js</DependentUpon>
     </Compile>
     <Content Include="Design\Images\glass.gif" />
     <Content Include="Design\Preview.png" />
-    <Content Include="Library\glMatrix.js">
+    <Content Include="Design\glMatrix.js">
     </Content>
   </ItemGroup>
   <ItemGroup>

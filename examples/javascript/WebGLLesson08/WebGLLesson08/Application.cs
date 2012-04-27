@@ -1,23 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLLesson08.HTML.Pages;
-using ScriptCoreLib.Shared.Lambda;
-using ScriptCoreLib.Shared.Drawing;
-using WebGLLesson08.Shaders;
-using WebGLLesson08.Library;
-using System.Collections.Generic;
 using ScriptCoreLib.JavaScript.Runtime;
+using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.Shared.Drawing;
+using ScriptCoreLib.Shared.Lambda;
+using WebGLLesson08.Design;
+using WebGLLesson08.HTML.Pages;
+using WebGLLesson08.Library;
+using WebGLLesson08.Shaders;
 
 namespace WebGLLesson08
 {
@@ -107,12 +108,19 @@ namespace WebGLLesson08
             }
             #endregion
 
-            var toolbar = new ToolbarPage();
+            var toolbar = new Toolbar();
 
             if (page != null)
             {
                 toolbar.Container.style.Opacity = 0.7;
                 toolbar.Container.AttachToDocument();
+
+                toolbar.HideButton.onclick +=
+                     delegate
+                     {
+                         // ScriptCoreLib.Extensions
+                         toolbar.HideTarget.ToggleVisible();
+                     };
             }
 
 
@@ -133,8 +141,7 @@ namespace WebGLLesson08
                 if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
                 {
                     Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
-
-                    return null;
+                    throw new InvalidOperationException("shader failed");
                 }
 
                 return shader;
@@ -145,7 +152,6 @@ namespace WebGLLesson08
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
-            if (vs == null || fs == null) throw new InvalidOperationException("shader failed");
 
             gl.attachShader(shaderProgram, vs);
             gl.attachShader(shaderProgram, fs);
