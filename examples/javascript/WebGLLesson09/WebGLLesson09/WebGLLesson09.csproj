@@ -131,7 +131,7 @@
     </Content>
     <Content Include="Design\Preview.png" />
     <Content Include="Design\star.gif" />
-    <Content Include="Styles\Default.css" />
+    <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
