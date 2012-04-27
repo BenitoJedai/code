@@ -63,6 +63,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Query">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Query.dll</HintPath>
@@ -124,10 +127,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\ThreeExtras.cs">
+    <Compile Include="Design\ThreeExtras.cs">
       <DependentUpon>ThreeExtras.js</DependentUpon>
     </Compile>
-    <Compile Include="Library\ThreeWebGL.cs">
+    <Compile Include="Design\ThreeWebGL.cs">
       <DependentUpon>ThreeWebGL.js</DependentUpon>
     </Compile>
     <Compile Include="Shaders\GeometryFragmentShader.cs">
@@ -145,8 +148,8 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
     <Content Include="Design\Preview.png" />
-    <Content Include="Library\ThreeExtras.js" />
-    <Content Include="Library\ThreeWebGL.js" />
+    <Content Include="Design\ThreeExtras.js" />
+    <Content Include="Design\ThreeWebGL.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
