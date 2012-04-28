@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace ScriptCoreLib.Extensions
 {
@@ -98,7 +99,23 @@ namespace ScriptCoreLib.Extensions
                 return false;
             }
 
-            return e == x;
+            // what about generics?
+            if (e.IsGenericType && !e.IsGenericTypeDefinition)
+            {
+                var g = e.TryGetGenericTypeDefinition().TypeEqualsOrElementTypeEquals(x.TryGetGenericTypeDefinition());
+
+                if (!g)
+                    return false;
+
+
+                return e.GetGenericArguments().Zip(x.GetGenericArguments(),
+                    (_e, _x) =>
+                        _e.TypeEqualsOrElementTypeEquals(_x)
+                ).All(k => k);
+            }
+
+
+            return e.FullName == x.FullName;
         }
     }
 }

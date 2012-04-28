@@ -51,7 +51,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"TestVirtualPropertyMerge.dll" /AssemblyMergeExtension:"TestVirtualPropertyMerge.Extensions.dll" /Output:"TestVirtualPropertyMergeX.dll"</PostBuildEvent>
+    <PostBuildEvent>call c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /AssemblyMerge:"TestVirtualPropertyMerge.dll" /AssemblyMergeExtension:"TestVirtualPropertyMerge.Extensions.dll" /Output:"TestVirtualPropertyMergeX.dll" /AttachDebugger:true</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
