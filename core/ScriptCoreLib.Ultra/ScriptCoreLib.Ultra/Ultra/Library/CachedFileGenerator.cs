@@ -20,7 +20,12 @@ namespace ScriptCoreLib.Ultra.Library
             return new CachedFileGenerator(Arguments);
         }
 
-        public CachedFileGenerator(CachedFileGeneratorBase.Arguments Arguments)
+        public static new CachedFileGeneratorBase CreateForUnqualifiedEnvironment(CachedFileGeneratorBase.Arguments Arguments)
+        {
+            return new CachedFileGenerator(Arguments, true);
+        }
+
+        public CachedFileGenerator(CachedFileGeneratorBase.Arguments Arguments, bool UnqualifiedEnvironment = false)
             : base(Arguments)
         {
             // http://stackoverflow.com/questions/867485/c-getting-the-path-of-appdata
@@ -28,12 +33,19 @@ namespace ScriptCoreLib.Ultra.Library
 
             var CommonApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
+            var Version = Environment.Version.ToString();
+
+            if (UnqualifiedEnvironment)
+            {
+                Version = Version.TakeUntilLastIfAny(".");
+            }
+
             var CacheFolder = new DirectoryInfo(
                 Path.Combine(
                     CommonApplicationData,
                     "jsc/"
                     + "cache/"
-                    + Environment.Version.ToString()
+                    + Version
                     + "/"
                     + this.ConstructorArguments.AssamblyFile.Name
                     + "/"
@@ -138,7 +150,7 @@ namespace ScriptCoreLib.Ultra.Library
                               Path.Combine(
                                   SDK.FullName,
                                    "cache/"
-                                    + Environment.Version.ToString()
+                                    + Version 
                                     + "/"
                                   + this.ConstructorArguments.AssamblyFile.Name
                                   + "/"

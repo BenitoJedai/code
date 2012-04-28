@@ -30,7 +30,7 @@ namespace ScriptCoreLib
 
                     foreach (var item in Types)
                     {
-                        CachedOfProvider[item] = InternalOfProvider(m);
+                        CachedOfProvider[item] = InternalOfProvider(item);
                     }
                 }
 
