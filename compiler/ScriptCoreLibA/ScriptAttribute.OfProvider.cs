@@ -12,9 +12,35 @@ namespace ScriptCoreLib
 {
     partial class ScriptAttribute
     {
-        static Dictionary<ICustomAttributeProvider, ScriptAttribute> CachedOfProvider = new Dictionary<ICustomAttributeProvider, ScriptAttribute>();
+        static Dictionary<Type, ScriptAttribute> CachedOfProvider = new Dictionary<Type, ScriptAttribute>();
 
         public static ScriptAttribute OfProvider(ICustomAttributeProvider m)
+        {
+
+            if (m is Type)
+            {
+                var t = m as Type;
+
+                if (!CachedOfProvider.ContainsKey(t))
+                {
+                    // ah must be the first time.
+                    // let's cache all types.. are we breaking anything by doing this?
+
+                    var Types = t.Assembly.GetTypes();
+
+                    foreach (var item in Types)
+                    {
+                        CachedOfProvider[item] = InternalOfProvider(m);
+                    }
+                }
+
+                return CachedOfProvider[t];
+            }
+
+            return InternalOfProvider(m);
+        }
+
+        static ScriptAttribute InternalOfProvider(ICustomAttributeProvider m)
         {
             // first call to this method shall prepare the cache for all types in the same assembly
 
