@@ -17,8 +17,7 @@ namespace ScriptCoreLib.GLSL
     /// http://www.opengl.org/wiki/GLSL_Uniforms
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-    [Description("Vertex Shader max: 254 vectors, 1016 floats")]
-    [Description("Fragment Shader max: 29 vectors, 116 floats")]
+    [Description("Vertex Shader max: 254 vectors, 1016 floats, Fragment Shader max: 29 vectors, 116 floats")]
     public sealed class uniform : Attribute
     {
 

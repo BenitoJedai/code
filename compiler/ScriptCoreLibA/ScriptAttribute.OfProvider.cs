@@ -1,0 +1,99 @@
+using System.Runtime.CompilerServices;
+
+using System;
+using System.Reflection;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+
+using ScriptCoreLib.CSharp.Extensions;
+
+namespace ScriptCoreLib
+{
+    partial class ScriptAttribute
+    {
+        static Dictionary<ICustomAttributeProvider, ScriptAttribute> CachedOfProvider = new Dictionary<ICustomAttributeProvider, ScriptAttribute>();
+
+        public static ScriptAttribute OfProvider(ICustomAttributeProvider m)
+        {
+            // first call to this method shall prepare the cache for all types in the same assembly
+
+            if (m == null)
+                return null;
+
+            try
+            {
+                if (m is Type)
+                {
+                    // a context assembly can define any type to not be translated
+                    // we might want to cache this
+                    if (OfProviderContext.Any(k => k.NonScriptTypes.Contains(m)))
+                        return null;
+                }
+
+                ScriptAttribute[] s = m.GetCustomAttributes(typeof(ScriptAttribute), false) as ScriptAttribute[];
+
+                var x = s.Length == 0 ? null : s[0];
+
+                var t = m as Type;
+                if (t != null)
+                {
+                    var ts = t.Assembly.ToScriptAttributeOrDefault();
+
+                    if (ts.NonScriptTypes != null && ts.NonScriptTypes.Contains(t))
+                        return null;
+
+                    if (ts.IsScriptLibrary)
+                    {
+                        // we should not be overriding the script attribute if it already exists.
+
+                        if (x == null)
+                            x = new ScriptAttribute();
+                    }
+
+                }
+
+                if (x == null)
+                {
+                    if (IsScriptLibraryViaObfuscationAttribute(m))
+                        x = new ScriptAttribute();
+                }
+
+
+                // Whatif a corelib was marked as a IsScriptLib
+                // this will confuse jsc currently...
+
+                //if (x == null)
+
+                if (x == null)
+                    if (t != null)
+                        if (Enumerable.Any(
+                            from p in OfProviderContext
+                            let ScriptLibraries = p.Context.ToScriptAttributeOrDefault().ScriptLibraries
+                            where ScriptLibraries != null
+                            from l in ScriptLibraries
+
+                            // A library which takes matters in its own hand
+                            // should keep doing that...
+
+                            where l.Assembly.GetCustomAttributes(typeof(ScriptAttribute), false).Length == 0
+                            where l.Assembly == t.Assembly
+
+                            select new { p, l }
+                            ))
+                            x = new ScriptAttribute();
+
+
+                return x;
+            }
+            catch (Exception exc)
+            {
+                throw exc;
+            }
+        }
+
+    }
+
+
+
+}
