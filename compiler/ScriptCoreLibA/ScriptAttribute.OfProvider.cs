@@ -7,6 +7,7 @@ using System.Text;
 using System.Linq;
 
 using ScriptCoreLib.CSharp.Extensions;
+using System.Diagnostics;
 
 namespace ScriptCoreLib
 {
@@ -21,6 +22,17 @@ namespace ScriptCoreLib
             {
                 var t = m as Type;
 
+            
+                if (t.IsArray)
+                    t = t.GetElementType();
+
+                if (t.IsGenericParameter)
+                    return null;
+
+                if (t.IsGenericType && !t.IsGenericTypeDefinition)
+                    t = t.GetGenericTypeDefinition();
+
+
                 if (!CachedOfProvider.ContainsKey(t))
                 {
                     // ah must be the first time.
@@ -28,10 +40,30 @@ namespace ScriptCoreLib
 
                     var Types = t.Assembly.GetTypes();
 
+                    Action<Type> f = null;
+
+                    f = item =>
+                        {
+                            CachedOfProvider[item] = InternalOfProvider(item);
+
+                            foreach (var item2 in item.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic))
+	                        {
+                                f(item2);
+	                        }
+                           
+                        };
+
+
+
                     foreach (var item in Types)
                     {
-                        CachedOfProvider[item] = InternalOfProvider(item);
+                        f(item);
                     }
+                }
+
+                if (!CachedOfProvider.ContainsKey(t))
+                {
+                    Debugger.Break();
                 }
 
                 return CachedOfProvider[t];
