@@ -21,5 +21,10 @@ namespace TestVirtualPropertyMerge
     public class Class2 : Class1
     {
         public override int MyVirtualProperty { get; set; }
+
+        void ReferenceGenric(Vector<Class1> u)
+        {
+
+        }
     }
 }

@@ -33,5 +33,9 @@ namespace TestVirtualPropertyMerge
         public void Extension2()
         { }
 
+        void ReferenceGenric(Vector<Class1> u)
+        {
+            Extension2();
+        }
     }
 }
