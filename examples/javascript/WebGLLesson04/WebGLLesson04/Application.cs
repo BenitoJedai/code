@@ -28,7 +28,7 @@ namespace WebGLLesson04
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
          * 
@@ -39,11 +39,13 @@ namespace WebGLLesson04
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public Action Dispose;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -70,20 +72,19 @@ namespace WebGLLesson04
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
-
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = gl_viewportWidth;
+            canvas.height = gl_viewportHeight;
             #endregion
 
             #region gl - Initialise WebGL
@@ -107,12 +108,60 @@ namespace WebGLLesson04
             #endregion
 
 
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
 
 
 
-            var shaderProgram = gl.createProgram();
 
 
             #region createShader
@@ -133,6 +182,7 @@ namespace WebGLLesson04
             #endregion
 
             #region initShaders
+            var shaderProgram = gl.createProgram();
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
 
