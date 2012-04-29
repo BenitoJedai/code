@@ -59,14 +59,14 @@ namespace ScriptCoreLib
                     {
                         f(item);
                     }
+
+                    
                 }
 
-                if (!CachedOfProvider.ContainsKey(t))
+                if (CachedOfProvider.ContainsKey(t))
                 {
-                    Debugger.Break();
+                    return CachedOfProvider[t];
                 }
-
-                return CachedOfProvider[t];
             }
 
             return InternalOfProvider(m);
