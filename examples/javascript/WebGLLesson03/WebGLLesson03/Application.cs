@@ -1,22 +1,22 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
 using ScriptCoreLib;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
 using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
-using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
-using System;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using WebGLLesson03.HTML.Pages;
-using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
-using WebGLLesson03.Shaders;
+using ScriptCoreLib.Shared.Lambda;
 using WebGLLesson03.Design;
-using System.Collections.Generic;
+using WebGLLesson03.HTML.Pages;
+using WebGLLesson03.Shaders;
 
 namespace WebGLLesson03
 {
@@ -28,7 +28,7 @@ namespace WebGLLesson03
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=239 by Giles
          * 
@@ -39,11 +39,13 @@ namespace WebGLLesson03
 
         public readonly ApplicationWebService service = new ApplicationWebService();
 
+        public Action Dispose;
+
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -52,8 +54,6 @@ namespace WebGLLesson03
                    source.onload +=
                        delegate
                        {
-                           //new IFunction("alert(CanvasMatrix4);").apply(null);
-
                            InitializeContent(page);
                        };
 
@@ -70,20 +70,19 @@ namespace WebGLLesson03
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
-
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
-            canvas.width = size;
-            canvas.height = size;
+            canvas.width = gl_viewportWidth;
+            canvas.height = gl_viewportHeight;
             #endregion
 
             #region gl - Initialise WebGL
@@ -107,12 +106,62 @@ namespace WebGLLesson03
             #endregion
 
 
-            var gl_viewportWidth = size;
-            var gl_viewportHeight = size;
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
 
 
 
-            var shaderProgram = gl.createProgram();
+
+
 
 
             #region createShader
@@ -131,6 +180,8 @@ namespace WebGLLesson03
                 return shader;
             };
             #endregion
+
+            var shaderProgram = gl.createProgram();
 
             var vs = createShader(new GeometryVertexShader());
             var fs = createShader(new GeometryFragmentShader());
