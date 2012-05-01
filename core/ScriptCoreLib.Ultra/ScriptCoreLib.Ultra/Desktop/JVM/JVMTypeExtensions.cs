@@ -19,6 +19,9 @@ namespace ScriptCoreLib.Desktop.JVM
         /// <returns></returns>
         public static bool IsJVMEnum(this Type SourceType)
         {
+            if (SourceType == null)
+                return false;
+
             if (SourceType.IsInterface && SourceType.GetFields(
                 System.Reflection.BindingFlags.Public
                 | System.Reflection.BindingFlags.DeclaredOnly
