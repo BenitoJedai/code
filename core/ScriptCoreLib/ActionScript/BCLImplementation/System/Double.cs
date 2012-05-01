@@ -33,7 +33,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
             return 0;
         }
 
- 
+        // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/package.html#isNaN()
+        [Script(OptimizedCode = "return Number.NaN;")]
+        static public double NaN;
 
 
         [Script(DefineAsStatic = true)]
