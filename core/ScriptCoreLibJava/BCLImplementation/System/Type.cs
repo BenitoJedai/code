@@ -314,7 +314,20 @@ namespace ScriptCoreLibJava.BCLImplementation.System
         {
             get
             {
-                return this.InternalTypeDescription.getDeclaringClass() != null;
+                // java.lang.IncompatibleClassChangeError: com.sun.java.swing.plaf.nimbus.AbstractRegionPainter and com.sun.java.swing.plaf.nimbus.AbstractRegionPainter$PaintContext disagree on InnerClasses attribute
+                // java.lang.Class.getDeclaringClass(Native Method)
+
+                var c = default(java.lang.Class);
+
+                try
+                {
+                    c = this.InternalTypeDescription.getDeclaringClass();
+                }
+                catch
+                {
+                }
+
+                return c != null;
             }
         }
 
