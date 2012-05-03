@@ -33,8 +33,22 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLib.Extensions">
       <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
@@ -44,14 +58,20 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="HelloAndroidActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivity.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Foo.cs" />
+    <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="R.cs" />
     <Compile Include="HelloAndroidActivity.cs" />
     <Compile Include="Program.cs" />
@@ -60,16 +80,26 @@
   <ItemGroup>
     <None Include="staging\HelloAndroidActivity\build.bat" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="staging\HelloAndroidActivity\src\" />
+    <Content Include="Design\Images.htm" />
+    <Content Include="Design\jsc.png" />
+    <Content Include="staging\HelloAndroidActivity\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rem c:\util\jsc\bin\jsc.exe $(TargetPath) -java
-rem xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
 pushd $(ProjectDir)\staging\$(ProjectName)\
 call build.bat
 popd</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
