@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib;
 using ScriptCoreLib.ActionScript.flash.display;
+
+[assembly: Script]
+[assembly: ScriptTypeFilter(ScriptType.ActionScript)]
+
+
 
 namespace ScriptCoreLib.ActionScript.Extensions.flash.display
 {
@@ -14,11 +20,11 @@ namespace ScriptCoreLib.ActionScript.Extensions.flash.display
     {
         #region Implementation for methods marked with [Script(NotImplementedHere = true)]
 
-        public static void add_click(InteractiveObject that, Action<object> value)
+        public static void add_click(InteractiveObject that, Action value)
         {
         }
 
-        public static void remove_click(InteractiveObject that, Action<object> value)
+        public static void remove_click(InteractiveObject that, Action  value)
         {
         }
         #endregion
@@ -35,13 +41,26 @@ namespace ScriptCoreLib.ActionScript.flash.display
         /// Dispatched when a user presses and releases the main button of the user's pointing device over the same InteractiveObject.
         /// </summary>
         [method: Script(NotImplementedHere = true)]
-        public event Action<object> click;
+        public event Action click;
     }
 }
 
 namespace TestEventMembers
 {
+    [Script]
     public class Class1
     {
+        static void Main()
+        {
+            var i = new InteractiveObject();
+
+            i.click += delegate
+            {
+
+            };
+        }
     }
 }
+
+
+
