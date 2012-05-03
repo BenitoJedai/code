@@ -579,3 +579,48 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
 
     }
 }
+
+namespace ScriptCoreLib.ActionScript.flash.display
+{
+    // http://livedocs.adobe.com/flex/201/langref/flash/display/DisplayObjectContainer.html
+    [Script(IsNative = true)]
+    public class DisplayObjectContainer : InteractiveObject
+    { }
+}
+
+namespace ScriptCoreLib.ActionScript.flash.display
+{
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/Stage.html
+    [Script(IsNative = true)]
+    public class Stage : DisplayObjectContainer
+    {
+        /// <summary>
+        /// Dispatched when the Stage object enters, or leaves, full-screen mode.
+        /// </summary>
+        [method: Script(NotImplementedHere = true)]
+        public event Action fullScreen;
+
+    }
+}
+
+
+namespace ScriptCoreLib.ActionScript.Extensions.flash.display
+{
+    // if a type implements a type that is set to be native, then only implementation
+    // which is marked with NotImplementedHere applies
+
+
+    [Script(Implements = typeof(Stage))]
+    internal static class __Stage
+    {
+        #region fullScreen
+        public static void add_fullScreen(Stage that, Action value)
+        {
+        }
+
+        public static void remove_fullScreen(Stage that, Action value)
+        {
+        }
+        #endregion
+    }
+}
