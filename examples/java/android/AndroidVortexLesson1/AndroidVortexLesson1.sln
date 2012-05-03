@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Web Developer Express 11
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloAndroidActivityTemplate", "HelloAndroidActivity\HelloAndroidActivityTemplate.csproj", "{9D280B94-A86D-496D-940A-7C0C1C270590}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidVortexLesson1", "AndroidVortexLesson1\AndroidVortexLesson1.csproj", "{9D280B94-A86D-496D-940A-7C0C1C270590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
