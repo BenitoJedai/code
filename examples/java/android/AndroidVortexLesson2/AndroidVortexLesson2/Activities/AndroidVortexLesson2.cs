@@ -8,28 +8,28 @@ using android.opengl;
 using android.provider;
 using android.webkit;
 using android.widget;
-using AndroidVortexLesson1.Library;
+using AndroidVortexLesson2.Library;
 using java.lang;
 using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 
-namespace AndroidVortexLesson1.Activities
+namespace AndroidVortexLesson2.Activities
 {
     // A package name must be constitued of two Java identifiers.
 
     [Script]
-    public class VortexActivity : Activity
+    public class AndroidVortexLesson2 : Activity
     {
-        // port from http://www.droidnova.com/android-3d-game-tutorial-part-i,312.html
+        // port from http://www.droidnova.com/android-3d-game-tutorial-part-ii,328.html
 
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidVortexLesson1.Activities --activity VortexActivity  --target 2  --path Z:\jsc.svn\examples\java\android\AndroidVortexLesson1\AndroidVortexLesson1\staging
+        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidVortexLesson2.Activities --activity VortexActivity  --target 2  --path Z:\jsc.svn\examples\java\android\AndroidVortexLesson2\AndroidVortexLesson2\staging
 
         // http://developer.android.com/guide/developing/device.html#setting-up
 
         // running it in emulator:
         // C:\util\android-sdk-windows\tools\android.bat avd
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "Z:\jsc.svn\examples\java\android\AndroidVortexLesson1\AndroidVortexLesson1\staging\bin\VortexActivity-debug.apk"
+        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "Z:\jsc.svn\examples\java\android\AndroidVortexLesson2\AndroidVortexLesson2\staging\bin\VortexActivity-debug.apk"
 
         // note: rebuild could auto reinstall
 
@@ -48,17 +48,17 @@ namespace AndroidVortexLesson1.Activities
             private float _blue = 0.2f;
 
 
-            public  void onSurfaceCreated(GL10 gl, EGLConfig config)
+            public void onSurfaceCreated(GL10 gl, EGLConfig config)
             {
                 // Do nothing special.
             }
 
-            public  void onSurfaceChanged(GL10 gl, int w, int h)
+            public void onSurfaceChanged(GL10 gl, int w, int h)
             {
                 gl.glViewport(0, 0, w, h);
             }
 
-            public  void onDrawFrame(GL10 gl)
+            public void onDrawFrame(GL10 gl)
             {
                 // define the color we want to be displayed as the "clipping wall"
                 gl.glClearColor(_red, _green, _blue, 1.0f);
@@ -77,7 +77,8 @@ namespace AndroidVortexLesson1.Activities
         {
             public VortexRenderer _renderer;
 
-            public VortexView(Context context) : base(context)
+            public VortexView(Context context)
+                : base(context)
             {
                 _renderer = new VortexRenderer();
                 setRenderer(_renderer);
