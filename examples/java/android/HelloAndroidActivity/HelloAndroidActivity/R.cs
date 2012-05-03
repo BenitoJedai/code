@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace HelloAndroidActivity
+namespace com.example.helloandroid
 {
     [Script(IsNative = true)]
     public static class R

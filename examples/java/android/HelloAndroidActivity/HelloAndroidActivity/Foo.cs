@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib;
 
 namespace com.example.helloandroid
 {
-    class Program
+    [Script]
+    class Foo
     {
-        public static void Main(string[] e)
-        {
-
-        }
     }
 }
