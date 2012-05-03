@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using ScriptCoreLib;
 
-[assembly: AssemblyTitle(@"Android Vortex Lesson 1")]
+[assembly: AssemblyTitle(@"Android Vortex Lesson 2")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
 [assembly: AssemblyProduct(@"WebApplication")]
