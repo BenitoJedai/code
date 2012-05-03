@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>com.example.helloandroid</RootNamespace>
-    <AssemblyName>AndroidVortexLesson2</AssemblyName>
+    <AssemblyName>AndroidVortexLesson3</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -69,8 +69,8 @@
     <Reference Include="HelloAndroidActivity.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivity.AssetsLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="AndroidVortexLesson2.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidVortexLesson2.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidVortexLesson3.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidVortexLesson3.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
