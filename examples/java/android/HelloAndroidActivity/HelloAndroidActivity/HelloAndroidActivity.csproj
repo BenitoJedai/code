@@ -65,9 +65,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java
-xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
-</PostBuildEvent>
+    <PostBuildEvent>rem c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+rem xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
+pushd $(ProjectDir)\staging\$(ProjectName)\
+call build.bat
+popd</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
