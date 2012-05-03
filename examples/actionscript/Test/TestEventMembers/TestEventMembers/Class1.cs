@@ -52,12 +52,32 @@ namespace TestEventMembers
     {
         static void Main()
         {
-            var i = new InteractiveObject();
-
-            i.click += delegate
             {
+                var i = new InteractiveObject();
 
-            };
+                i.click += delegate
+                {
+
+                };
+            }
+
+            {
+                var i = new Stage();
+
+                i.fullScreen += delegate
+                {
+
+                };
+            }
+
+            {
+                var i = new Stage();
+
+                i.click += delegate
+                {
+
+                };
+            }
         }
     }
 }
