@@ -7,7 +7,7 @@
     <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelloAndroidActivity</RootNamespace>
+    <RootNamespace>com.example.helloandroid</RootNamespace>
     <AssemblyName>HelloAndroidActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -51,12 +51,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Foo.cs" />
     <Compile Include="R.cs" />
     <Compile Include="HelloAndroidActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\HelloAndroidActivity\build.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="staging\HelloAndroidActivity\src\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
+</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
