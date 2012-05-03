@@ -74,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\MyExtensions.cs" />
-    <Compile Include="VortexActivity.cs" />
+    <Compile Include="Activities\VortexActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -85,12 +85,13 @@
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
+    <Content Include="staging\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java
-xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
-pushd $(ProjectDir)\staging\$(ProjectName)\
+xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\src /Y /E
+pushd $(ProjectDir)\staging\
 call build.bat
 popd
 

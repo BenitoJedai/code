@@ -18,11 +18,6 @@ namespace AndroidVortexLesson1.Activities
     {
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidVortexLesson1.Activities --activity VortexActivity  --target 2  --path Z:\jsc.svn\examples\java\android\AndroidVortexLesson1\AndroidVortexLesson1\staging
 
-
-        // JSC should not explicity import all interfaces like Callback if not being defined 
-        // see also: 
-        // http://stackoverflow.com/questions/4055634/simple-java-question
-        // http://developer.android.com/guide/developing/building/building-cmdline.html
         // http://developer.android.com/guide/developing/device.html#setting-up
 
         // running it in emulator:
@@ -42,7 +37,6 @@ namespace AndroidVortexLesson1.Activities
             // http://www.dreamincode.net/forums/topic/130521-android-part-iii-dynamic-layouts/
 
             base.onCreate(savedInstanceState);
-            //setContentView(R.layout.main);
 
 
             ScrollView sv = new ScrollView(this);
@@ -52,19 +46,6 @@ namespace AndroidVortexLesson1.Activities
             ll.setOrientation(LinearLayout.VERTICAL);
 
             sv.addView(ll);
-
-            //// http://stackoverflow.com/questions/9784570/webview-inside-scrollview-disappears-after-zooming
-            //// http://stackoverflow.com/questions/8123804/unable-to-add-web-view-dynamically
-            //// http://developer.android.com/reference/android/webkit/WebView.html
-            //WebView web = new WebView(this);
-            ////web.setId(1);
-            //web.getSettings().setJavaScriptEnabled(true);
-            //web.setWebViewClient(new HelloWebViewClient());
-
-            //web.loadUrl("http://www.jsc-solutions.net");
-
-            //ll.addView(web);
-
 
 
 
@@ -93,29 +74,11 @@ namespace AndroidVortexLesson1.Activities
 
 
 
-            for (int i = 0; i < 20; i++)
-            {
-
-                CheckBox cb = new CheckBox(this);
-
-                cb.setText("I'm dynamic!");
-
-                ll.addView(cb);
-
-            }
 
             this.setContentView(sv);
 
         }
 
-        [Script]
-        private class HelloWebViewClient : WebViewClient
-        {
-            public bool shouldOverrideUrlLoading(WebView view, string url)
-            {
-                view.loadUrl(url);
-                return true;
-            }
-        }
+     
     }
 }
