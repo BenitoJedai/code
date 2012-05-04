@@ -36,6 +36,7 @@ namespace HelloOpenGLES20Activity.Activities
         //List of devices attached
         //3330A17632C000EC        device 
 
+        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "y:\jsc.svn\examples\java\android\HelloOpenGLES20Activity\HelloOpenGLES20Activity\staging\bin\HelloOpenGLES20Activity-debug.apk"
 
 
 
@@ -90,7 +91,7 @@ namespace HelloOpenGLES20Activity.Activities
 
 
         [Script]
-        public class HelloOpenGLES20Renderer : GLSurfaceView.Renderer
+        public partial class HelloOpenGLES20Renderer : GLSurfaceView.Renderer
         {
 
             public void onSurfaceCreated(GL10 unused, EGLConfig config)
@@ -100,6 +101,20 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // initialize the triangle vertex array
                 initShapes();
+
+
+
+
+                int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
+                int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+
+                mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
+                GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
+                GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
+                GLES20.glLinkProgram(mProgram);                  // creates OpenGL program executables
+
+                // get handle to the vertex shader's vPosition member
+                maPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
             }
 
             public void onDrawFrame(GL10 unused)
@@ -107,6 +122,18 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // Redraw background color
                 GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+
+
+
+                // Add program to OpenGL environment
+                GLES20.glUseProgram(mProgram);
+
+                // Prepare the triangle data
+                GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false, 12, triangleVB);
+                GLES20.glEnableVertexAttribArray(maPositionHandle);
+
+                // Draw the triangle
+                GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
             }
 
             public void onSurfaceChanged(GL10 unused, int width, int height)
@@ -147,6 +174,43 @@ namespace HelloOpenGLES20Activity.Activities
         }
         #endregion
 
+
+
+        #region Draw the Triange
+        partial class HelloOpenGLES20Renderer
+        {
+            public const string vertexShaderCode =
+        "attribute vec4 vPosition; \n" +
+        "void main(){              \n" +
+        " gl_Position = vPosition; \n" +
+        "}                         \n";
+
+            public const string fragmentShaderCode =
+        "precision mediump float;  \n" +
+        "void main(){              \n" +
+        " gl_FragColor = vec4 (0.63671875, 0.76953125, 0.22265625, 1.0); \n" +
+        "}                         \n";
+
+
+            private int loadShader(int type, String shaderCode)
+            {
+
+                // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
+                // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
+                int shader = GLES20.glCreateShader(type);
+
+                // add the source code to the shader and compile it
+                GLES20.glShaderSource(shader, shaderCode);
+                GLES20.glCompileShader(shader);
+
+                return shader;
+            }
+
+
+            private int mProgram;
+            private int maPositionHandle;
+        }
+        #endregion
     }
 
 
