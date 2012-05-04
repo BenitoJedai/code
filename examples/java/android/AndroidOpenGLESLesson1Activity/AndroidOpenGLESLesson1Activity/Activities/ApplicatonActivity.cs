@@ -24,7 +24,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
     [Script]
     public class AndroidOpenGLESLesson1Activity : Activity
     {
-        // port from http://developer.android.com/resources/tutorials/opengl/opengl-es20.html
+        // port from http://www.learnopengles.com/android-lesson-one-getting-started/
 
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenGLESLesson1Activity.Activities --activity AndroidOpenGLESLesson1Activity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson1Activity\AndroidOpenGLESLesson1Activity\staging
 
@@ -40,6 +40,12 @@ namespace AndroidOpenGLESLesson1Activity.Activities
         //3330A17632C000EC        device 
 
         // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson1Activity\AndroidOpenGLESLesson1Activity\staging\bin\AndroidOpenGLESLesson1Activity-debug.apk"
+
+
+
+
+        /** Hold a reference to our GLSurfaceView */
+        private GLSurfaceView mGLSurfaceView;
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
