@@ -19,6 +19,8 @@ using ScriptCoreLib;
 
 namespace HelloOpenGLES20Activity.Activities
 {
+    using gl = GLES20;
+
     [Script]
     public class HelloOpenGLES20Activity : Activity
     {
@@ -103,7 +105,7 @@ namespace HelloOpenGLES20Activity.Activities
             public void onSurfaceCreated(GL10 unused, EGLConfig config)
             {
                 // Set the background frame color
-                GLES20.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+                gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
                 // initialize the triangle vertex array
                 initShapes();
@@ -111,41 +113,36 @@ namespace HelloOpenGLES20Activity.Activities
 
 
 
-                int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, vertexShaderCode);
-                int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShaderCode);
+                int vertexShader = loadShader(gl.GL_VERTEX_SHADER, vertexShaderCode);
+                int fragmentShader = loadShader(gl.GL_FRAGMENT_SHADER, fragmentShaderCode);
 
-                mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
-                GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
-                GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
-                GLES20.glLinkProgram(mProgram);                  // creates OpenGL program executables
+                mProgram = gl.glCreateProgram();             // create empty OpenGL Program
+                gl.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
+                gl.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
+                gl.glLinkProgram(mProgram);                  // creates OpenGL program executables
 
                 // get handle to the vertex shader's vPosition member
-                maPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
+                maPositionHandle = gl.glGetAttribLocation(mProgram, "vPosition");
             }
 
             public void onDrawFrame(GL10 unused)
             {
 
                 // Redraw background color
-                GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+                gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
 
 
 
                 // Add program to OpenGL environment
-                GLES20.glUseProgram(mProgram);
+                gl.glUseProgram(mProgram);
 
                 // Prepare the triangle data
-                GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false, 12, triangleVB);
-                GLES20.glEnableVertexAttribArray(maPositionHandle);
+                gl.glVertexAttribPointer(maPositionHandle, 3, gl.GL_FLOAT, false, 12, triangleVB);
+                gl.glEnableVertexAttribArray(maPositionHandle);
 
 
 
-                // Apply a ModelView Projection transformation
-                Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
-                GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
-
-
+    
 
 
 
@@ -159,16 +156,17 @@ namespace HelloOpenGLES20Activity.Activities
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
 
                 // Apply a ModelView Projection transformation
-                GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
+                #region [uniform] uMVPMatrix <- mMVPMatrix
+                gl.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                #endregion
 
                 // Draw the triangle
-                GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
+                gl.glDrawArrays(gl.GL_TRIANGLES, 0, 3);
             }
 
             public void onSurfaceChanged(GL10 unused, int width, int height)
             {
-                GLES20.glViewport(0, 0, width, height);
+                gl.glViewport(0, 0, width, height);
 
                 float ratio = (float)width / height;
 
@@ -176,7 +174,7 @@ namespace HelloOpenGLES20Activity.Activities
                 // in the onDrawFrame() method
                 Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
 
-                muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+                muMVPMatrixHandle = gl.glGetUniformLocation(mProgram, "uMVPMatrix");
 
                 Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             }
@@ -232,11 +230,11 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
                 // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-                int shader = GLES20.glCreateShader(type);
+                int shader = gl.glCreateShader(type);
 
                 // add the source code to the shader and compile it
-                GLES20.glShaderSource(shader, shaderCode);
-                GLES20.glCompileShader(shader);
+                gl.glShaderSource(shader, shaderCode);
+                gl.glCompileShader(shader);
 
                 return shader;
             }
