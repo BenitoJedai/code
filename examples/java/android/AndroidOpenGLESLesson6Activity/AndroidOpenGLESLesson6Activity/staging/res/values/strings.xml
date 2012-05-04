@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android OpenGL ES Lesson 6</string>
+
+  <string name="lesson_six_set_min_filter">Set min. filter</string>
+  <string name="lesson_six_set_mag_filter">Set mag. filter</string>
+</resources>
