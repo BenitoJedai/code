@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using ScriptCoreLib.GLSL;
 
-namespace AndroidOpenGLESLesson4Activity.Shaders
+namespace AndroidOpenGLESLesson6Activity.Shaders
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
     class __per_pixelVertexShader : VertexShader
@@ -12,18 +12,14 @@ namespace AndroidOpenGLESLesson4Activity.Shaders
         mat4 u_MVMatrix;		// A constant representing the combined model/view matrix.       		
 
         [attribute]
-        vec4 a_Position;		// Per-vertex position information we will pass in.   				
-        [attribute]
-        vec4 a_Color;			// Per-vertex color information we will pass in. 				
+        vec4 a_Position;		// Per-vertex position information we will pass in.   							
         [attribute]
         vec3 a_Normal;		// Per-vertex normal information we will pass in.      
         [attribute]
         vec2 a_TexCoordinate; // Per-vertex texture coordinate information we will pass in. 		
 
         [varying]
-        vec3 v_Position;		// This will be passed into the fragment shader.       		
-        [varying]
-        vec4 v_Color;			// This will be passed into the fragment shader.          		
+        vec3 v_Position;		// This will be passed into the fragment shader.       		          		
         [varying]
         vec3 v_Normal;			// This will be passed into the fragment shader.  
         [varying]
@@ -34,9 +30,6 @@ namespace AndroidOpenGLESLesson4Activity.Shaders
         {
             // Transform the vertex into eye space. 	
             v_Position = vec3(u_MVMatrix * a_Position);
-
-            // Pass through the color.
-            v_Color = a_Color;
 
             // Pass through the texture coordinate.
             v_TexCoordinate = a_TexCoordinate;
