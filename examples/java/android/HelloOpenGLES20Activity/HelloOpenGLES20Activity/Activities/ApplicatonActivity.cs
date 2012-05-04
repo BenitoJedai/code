@@ -152,6 +152,7 @@ namespace HelloOpenGLES20Activity.Activities
                 // in the onDrawFrame() method
                 Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
 
+                muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
                 Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             }
@@ -248,6 +249,10 @@ namespace HelloOpenGLES20Activity.Activities
         
         "}  \n";
         }
+        #endregion
+
+
+        #region Add Motion
         #endregion
 
     }
