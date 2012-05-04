@@ -20,6 +20,7 @@ using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
+    using System.ComponentModel;
     //using WebGLRenderingContext = GLES20; 
     using gl = GLES20;
 
@@ -88,18 +89,16 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             ShowToast(savedInstanceState);
         }
 
+        [Description("C# 5 has rendered the || operation unsupported in current version of JSC.")]
         private void ShowToast(global::android.os.Bundle savedInstanceState)
         {
             // Show a short help message to the user.
-            var value = savedInstanceState == null;
-            var value2 = !savedInstanceState.getBoolean(SHOWED_TOAST, false);
 
-            value = value || value2;
+            if (savedInstanceState != null)
+                if (savedInstanceState.getBoolean(SHOWED_TOAST, false))
+                    return;
 
-            if (value)
-            {
-                Toast.makeText(this, (CharSequence)(object)"Tap the screen to switch between blended and normal mode.", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, (CharSequence)(object)"Tap the screen to switch between blended and normal mode.", Toast.LENGTH_SHORT).show();
         }
 
         #region pause
@@ -125,7 +124,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
         [Script]
         class LessonFiveGLSurfaceView : GLSurfaceView
         {
-            private LessonFiveRenderer mRenderer;
+            public LessonFiveRenderer mRenderer;
 
             public LessonFiveGLSurfaceView(Context context)
                 : base(context)
