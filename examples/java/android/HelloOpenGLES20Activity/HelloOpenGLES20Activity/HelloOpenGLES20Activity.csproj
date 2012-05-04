@@ -75,10 +75,10 @@
     <Compile Include="Activities\ApplicatonActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shaders\TriangleVertexShader.cs" >
+    <Compile Include="Shaders\TriangleVertexShader.cs">
       <DependentUpon>Triangle.vert</DependentUpon>
     </Compile>
-    <Compile Include="Shaders\TriangleFragmentShader.cs" >
+    <Compile Include="Shaders\TriangleFragmentShader.cs">
       <DependentUpon>Triangle.frag</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -102,7 +102,7 @@ call build.bat
 popd
 
 if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
