@@ -494,7 +494,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
                 int pointVertexShaderHandle = compileShader(gl.GL_VERTEX_SHADER, pointVertexShader);
                 int pointFragmentShaderHandle = compileShader(gl.GL_FRAGMENT_SHADER, pointFragmentShader);
                 mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle,
-                        new String[] { "a_Position" });
+                         "a_Position" );
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
@@ -692,7 +692,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
              * @param attributes Attributes that need to be bound to the program.
              * @return An OpenGL handle to the program.
              */
-            private int createAndLinkProgram(int vertexShaderHandle, int fragmentShaderHandle, string[] attributes)
+            private int createAndLinkProgram(int vertexShaderHandle, int fragmentShaderHandle, params string[] attributes)
             {
                 int programHandle = gl.glCreateProgram();
 

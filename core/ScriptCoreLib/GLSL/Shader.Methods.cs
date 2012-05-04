@@ -24,6 +24,12 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        static protected vec3 vec3(vec4 v)
+        {
+            throw new NotImplementedException();
+        }
+
+
         static protected vec4 vec4(vec2 x, float y, float z)
         {
             throw new NotImplementedException();

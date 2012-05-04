@@ -81,7 +81,22 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        public static vec4 operator *(vec4 x, mat4 y)
+        {
+            throw new NotImplementedException();
+        }
+
         public static vec4 operator *(vec4 x, vec4 y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static vec4 operator *(float x, vec4 y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static vec4 operator *(vec4 x, float y)
         {
             throw new NotImplementedException();
         }
