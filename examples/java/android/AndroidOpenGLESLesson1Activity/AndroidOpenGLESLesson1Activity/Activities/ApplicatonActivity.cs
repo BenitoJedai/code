@@ -19,6 +19,7 @@ using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson1Activity.Activities
 {
+    using android.content.pm;
     using gl = GLES20;
 
     [Script]
@@ -52,9 +53,98 @@ namespace AndroidOpenGLESLesson1Activity.Activities
         {
             base.onCreate(savedInstanceState);
 
+            mGLSurfaceView = new GLSurfaceView(this);
+
+            // Check if the system supports OpenGL ES 2.0.
+            ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+            ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+            var supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
+
+            if (supportsEs2)
+            {
+                // Request an OpenGL ES 2.0 compatible context.
+                mGLSurfaceView.setEGLContextClientVersion(2);
+
+                // Set the renderer to our demo renderer, defined below.
+                mGLSurfaceView.setRenderer(new LessonOneRenderer());
+            }
+            else
+            {
+                // This is where you could create an OpenGL ES 1.x compatible
+                // renderer if you wanted to support both ES 1 and ES 2.
+                return;
+            }
+
+            setContentView(mGLSurfaceView);
+
 
         }
 
+        #region pause
+
+        protected override void onResume()
+        {
+            // The activity must call the GL surface view's onResume() on activity onResume().
+            base.onResume();
+            mGLSurfaceView.onResume();
+        }
+
+
+        protected override void onPause()
+        {
+            // The activity must call the GL surface view's onPause() on activity onPause().
+            base.onPause();
+            mGLSurfaceView.onPause();
+        }
+
+        #endregion
+
+        [Script]
+        class LessonOneRenderer : GLSurfaceView.Renderer
+        {
+
+            // New class members
+            /** Store our model data in a float buffer. */
+            private FloatBuffer mTriangle1Vertices;
+            private FloatBuffer mTriangle2Vertices;
+            private FloatBuffer mTriangle3Vertices;
+
+            /** How many bytes per float. */
+            private int mBytesPerFloat = 4;
+
+            /**
+             * Initialize the model data.
+             */
+            public LessonOneRenderer()
+            {
+                // This triangle is red, green, and blue.
+                float[] triangle1VerticesData = {
+                    // X, Y, Z,
+                    // R, G, B, A
+                    -0.5f, -0.25f, 0.0f,
+                    1.0f, 0.0f, 0.0f, 1.0f,
+ 
+                    0.5f, -0.25f, 0.0f,
+                    0.0f, 0.0f, 1.0f, 1.0f,
+ 
+                    0.0f, 0.559016994f, 0.0f,
+                    0.0f, 1.0f, 0.0f, 1.0f
+                                                };
+
+
+                // Initialize the buffers.
+                mTriangle1Vertices = ByteBuffer.allocateDirect(triangle1VerticesData.Length * mBytesPerFloat)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
+
+
+                mTriangle1Vertices.put(triangle1VerticesData).position(0);
+
+            }
+
+
+
+            
+        }
     }
 
 
