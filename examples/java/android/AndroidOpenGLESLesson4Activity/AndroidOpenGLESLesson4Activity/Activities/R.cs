@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib;
 
-namespace AndroidOpenGLESLesson4Activity
+namespace AndroidOpenGLESLesson4Activity.Activities
 {
-    [Script(IsNative=true)]
+    [Script(IsNative = true)]
     public static class R
     {
         [Script(IsNative = true)]

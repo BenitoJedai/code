@@ -56,7 +56,7 @@ namespace AndroidOpenGLESLesson4Activity.Library
          * @param attributes Attributes that need to be bound to the program.
          * @return An OpenGL handle to the program.
          */
-        public static int createAndLinkProgram(int vertexShaderHandle, int fragmentShaderHandle, string[] attributes)
+        public static int createAndLinkProgram(int vertexShaderHandle, int fragmentShaderHandle, params string[] attributes)
         {
             int programHandle = GLES20.glCreateProgram();
 
