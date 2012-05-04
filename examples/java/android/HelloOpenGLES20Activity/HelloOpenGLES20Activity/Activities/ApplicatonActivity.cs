@@ -132,6 +132,12 @@ namespace HelloOpenGLES20Activity.Activities
                 GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false, 12, triangleVB);
                 GLES20.glEnableVertexAttribArray(maPositionHandle);
 
+
+
+                // Apply a ModelView Projection transformation
+                Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
+                GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
                 // Draw the triangle
                 GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
             }
@@ -139,6 +145,15 @@ namespace HelloOpenGLES20Activity.Activities
             public void onSurfaceChanged(GL10 unused, int width, int height)
             {
                 GLES20.glViewport(0, 0, width, height);
+
+                float ratio = (float)width / height;
+
+                // this projection matrix is applied to object coodinates
+                // in the onDrawFrame() method
+                Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+
+
+                Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             }
 
 
@@ -179,11 +194,6 @@ namespace HelloOpenGLES20Activity.Activities
         #region Draw the Triange
         partial class HelloOpenGLES20Renderer
         {
-            public const string vertexShaderCode =
-        "attribute vec4 vPosition; \n" +
-        "void main(){              \n" +
-        " gl_Position = vPosition; \n" +
-        "}                         \n";
 
             public const string fragmentShaderCode =
         "precision mediump float;  \n" +
@@ -211,6 +221,35 @@ namespace HelloOpenGLES20Activity.Activities
             private int maPositionHandle;
         }
         #endregion
+
+
+
+
+        #region Apply Projection and Camera View
+        partial class HelloOpenGLES20Renderer
+        {
+            private int muMVPMatrixHandle;
+            private float[] mMVPMatrix = new float[16];
+            private float[] mMMatrix = new float[16];
+            private float[] mVMatrix = new float[16];
+            private float[] mProjMatrix = new float[16];
+
+
+            private const string vertexShaderCode = 
+        // This matrix member variable provides a hook to manipulate
+        // the coordinates of the objects that use this vertex shader
+        "uniform mat4 uMVPMatrix;   \n" +
+        
+        "attribute vec4 vPosition;  \n" +
+        "void main(){               \n" +
+        
+        // the matrix must be included as a modifier of gl_Position
+        " gl_Position = uMVPMatrix * vPosition; \n" +
+        
+        "}  \n";
+        }
+        #endregion
+
     }
 
 
