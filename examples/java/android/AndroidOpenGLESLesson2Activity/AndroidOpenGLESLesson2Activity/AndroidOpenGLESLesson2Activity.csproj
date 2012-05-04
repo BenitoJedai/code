@@ -93,6 +93,12 @@
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
     <Content Include="staging\AndroidManifest.xml" />
+    <Content Include="staging\res\drawable-hdpi\ic_launcher.png" />
+    <Content Include="staging\res\drawable-ldpi\ic_launcher.png" />
+    <Content Include="staging\res\drawable-mdpi\ic_launcher.png" />
+    <Content Include="staging\res\drawable-xhdpi\ic_launcher.png" />
+    <Content Include="staging\res\layout\main.xml" />
+    <Content Include="staging\res\values\strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -20,6 +20,7 @@ using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson2Activity.Activities
 {
+    //using WebGLRenderingContext = GLES20; 
     using gl = GLES20;
 
     [Script]
@@ -32,7 +33,8 @@ namespace AndroidOpenGLESLesson2Activity.Activities
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenGLESLesson2Activity.Activities --activity AndroidOpenGLESLesson2Activity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson2Activity\AndroidOpenGLESLesson2Activity\staging
 
         // http://developer.android.com/guide/developing/device.html#setting-up
-        // Caution: OpenGL ES 2.0 is currently not supported by the Android Emulator. You must have a physical test device running Android 2.2 (API Level 8) or higher in order to run and test the example code in this tutorial.
+        // running it in emulator:
+        // C:\util\android-sdk-windows\tools\android.bat avd
 
         // note: rebuild could auto reinstall
 
@@ -46,6 +48,8 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
         // screenshot: home+back
         // at "F:\ScreenCapture\SC20120504-153450.png"
+
+        // http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-launcher.html#foreground.type=image&foreground.space.trim=0&foreground.space.pad=-0.1&crop=1&backgroundShape=none&backColor=ff0000%2C100&foreColor=000000%2C0
 
 
         /** Hold a reference to our GLSurfaceView */
@@ -189,167 +193,167 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
                 // X, Y, Z
                 float[] cubePositionData =
-		{
-				// In OpenGL counter-clockwise winding is default. This means that when we look at a triangle, 
-				// if the points are counter-clockwise we are looking at the "front". If not we are looking at
-				// the back. OpenGL has an optimization where all back-facing triangles are culled, since they
-				// usually represent the backside of an object and aren't visible anyways.
+		        {
+				        // In OpenGL counter-clockwise winding is default. This means that when we look at a triangle, 
+				        // if the points are counter-clockwise we are looking at the "front". If not we are looking at
+				        // the back. OpenGL has an optimization where all back-facing triangles are culled, since they
+				        // usually represent the backside of an object and aren't visible anyways.
 				
-				// Front face
-				-1.0f, 1.0f, 1.0f,				
-				-1.0f, -1.0f, 1.0f,
-				1.0f, 1.0f, 1.0f, 
-				-1.0f, -1.0f, 1.0f, 				
-				1.0f, -1.0f, 1.0f,
-				1.0f, 1.0f, 1.0f,
+				        // Front face
+				        -1.0f, 1.0f, 1.0f,				
+				        -1.0f, -1.0f, 1.0f,
+				        1.0f, 1.0f, 1.0f, 
+				        -1.0f, -1.0f, 1.0f, 				
+				        1.0f, -1.0f, 1.0f,
+				        1.0f, 1.0f, 1.0f,
 				
-				// Right face
-				1.0f, 1.0f, 1.0f,				
-				1.0f, -1.0f, 1.0f,
-				1.0f, 1.0f, -1.0f,
-				1.0f, -1.0f, 1.0f,				
-				1.0f, -1.0f, -1.0f,
-				1.0f, 1.0f, -1.0f,
+				        // Right face
+				        1.0f, 1.0f, 1.0f,				
+				        1.0f, -1.0f, 1.0f,
+				        1.0f, 1.0f, -1.0f,
+				        1.0f, -1.0f, 1.0f,				
+				        1.0f, -1.0f, -1.0f,
+				        1.0f, 1.0f, -1.0f,
 				
-				// Back face
-				1.0f, 1.0f, -1.0f,				
-				1.0f, -1.0f, -1.0f,
-				-1.0f, 1.0f, -1.0f,
-				1.0f, -1.0f, -1.0f,				
-				-1.0f, -1.0f, -1.0f,
-				-1.0f, 1.0f, -1.0f,
+				        // Back face
+				        1.0f, 1.0f, -1.0f,				
+				        1.0f, -1.0f, -1.0f,
+				        -1.0f, 1.0f, -1.0f,
+				        1.0f, -1.0f, -1.0f,				
+				        -1.0f, -1.0f, -1.0f,
+				        -1.0f, 1.0f, -1.0f,
 				
-				// Left face
-				-1.0f, 1.0f, -1.0f,				
-				-1.0f, -1.0f, -1.0f,
-				-1.0f, 1.0f, 1.0f, 
-				-1.0f, -1.0f, -1.0f,				
-				-1.0f, -1.0f, 1.0f, 
-				-1.0f, 1.0f, 1.0f, 
+				        // Left face
+				        -1.0f, 1.0f, -1.0f,				
+				        -1.0f, -1.0f, -1.0f,
+				        -1.0f, 1.0f, 1.0f, 
+				        -1.0f, -1.0f, -1.0f,				
+				        -1.0f, -1.0f, 1.0f, 
+				        -1.0f, 1.0f, 1.0f, 
 				
-				// Top face
-				-1.0f, 1.0f, -1.0f,				
-				-1.0f, 1.0f, 1.0f, 
-				1.0f, 1.0f, -1.0f, 
-				-1.0f, 1.0f, 1.0f, 				
-				1.0f, 1.0f, 1.0f, 
-				1.0f, 1.0f, -1.0f,
+				        // Top face
+				        -1.0f, 1.0f, -1.0f,				
+				        -1.0f, 1.0f, 1.0f, 
+				        1.0f, 1.0f, -1.0f, 
+				        -1.0f, 1.0f, 1.0f, 				
+				        1.0f, 1.0f, 1.0f, 
+				        1.0f, 1.0f, -1.0f,
 				
-				// Bottom face
-				1.0f, -1.0f, -1.0f,				
-				1.0f, -1.0f, 1.0f, 
-				-1.0f, -1.0f, -1.0f,
-				1.0f, -1.0f, 1.0f, 				
-				-1.0f, -1.0f, 1.0f,
-				-1.0f, -1.0f, -1.0f,
-		};
+				        // Bottom face
+				        1.0f, -1.0f, -1.0f,				
+				        1.0f, -1.0f, 1.0f, 
+				        -1.0f, -1.0f, -1.0f,
+				        1.0f, -1.0f, 1.0f, 				
+				        -1.0f, -1.0f, 1.0f,
+				        -1.0f, -1.0f, -1.0f,
+		        };
 
                 // R, G, B, A
                 float[] cubeColorData =
-		{				
-				// Front face (red)
-				1.0f, 0.0f, 0.0f, 1.0f,				
-				1.0f, 0.0f, 0.0f, 1.0f,
-				1.0f, 0.0f, 0.0f, 1.0f,
-				1.0f, 0.0f, 0.0f, 1.0f,				
-				1.0f, 0.0f, 0.0f, 1.0f,
-				1.0f, 0.0f, 0.0f, 1.0f,
+		        {				
+				        // Front face (red)
+				        1.0f, 0.0f, 0.0f, 1.0f,				
+				        1.0f, 0.0f, 0.0f, 1.0f,
+				        1.0f, 0.0f, 0.0f, 1.0f,
+				        1.0f, 0.0f, 0.0f, 1.0f,				
+				        1.0f, 0.0f, 0.0f, 1.0f,
+				        1.0f, 0.0f, 0.0f, 1.0f,
 				
-				// Right face (green)
-				0.0f, 1.0f, 0.0f, 1.0f,				
-				0.0f, 1.0f, 0.0f, 1.0f,
-				0.0f, 1.0f, 0.0f, 1.0f,
-				0.0f, 1.0f, 0.0f, 1.0f,				
-				0.0f, 1.0f, 0.0f, 1.0f,
-				0.0f, 1.0f, 0.0f, 1.0f,
+				        // Right face (green)
+				        0.0f, 1.0f, 0.0f, 1.0f,				
+				        0.0f, 1.0f, 0.0f, 1.0f,
+				        0.0f, 1.0f, 0.0f, 1.0f,
+				        0.0f, 1.0f, 0.0f, 1.0f,				
+				        0.0f, 1.0f, 0.0f, 1.0f,
+				        0.0f, 1.0f, 0.0f, 1.0f,
 				
-				// Back face (blue)
-				0.0f, 0.0f, 1.0f, 1.0f,				
-				0.0f, 0.0f, 1.0f, 1.0f,
-				0.0f, 0.0f, 1.0f, 1.0f,
-				0.0f, 0.0f, 1.0f, 1.0f,				
-				0.0f, 0.0f, 1.0f, 1.0f,
-				0.0f, 0.0f, 1.0f, 1.0f,
+				        // Back face (blue)
+				        0.0f, 0.0f, 1.0f, 1.0f,				
+				        0.0f, 0.0f, 1.0f, 1.0f,
+				        0.0f, 0.0f, 1.0f, 1.0f,
+				        0.0f, 0.0f, 1.0f, 1.0f,				
+				        0.0f, 0.0f, 1.0f, 1.0f,
+				        0.0f, 0.0f, 1.0f, 1.0f,
 				
-				// Left face (yellow)
-				1.0f, 1.0f, 0.0f, 1.0f,				
-				1.0f, 1.0f, 0.0f, 1.0f,
-				1.0f, 1.0f, 0.0f, 1.0f,
-				1.0f, 1.0f, 0.0f, 1.0f,				
-				1.0f, 1.0f, 0.0f, 1.0f,
-				1.0f, 1.0f, 0.0f, 1.0f,
+				        // Left face (yellow)
+				        1.0f, 1.0f, 0.0f, 1.0f,				
+				        1.0f, 1.0f, 0.0f, 1.0f,
+				        1.0f, 1.0f, 0.0f, 1.0f,
+				        1.0f, 1.0f, 0.0f, 1.0f,				
+				        1.0f, 1.0f, 0.0f, 1.0f,
+				        1.0f, 1.0f, 0.0f, 1.0f,
 				
-				// Top face (cyan)
-				0.0f, 1.0f, 1.0f, 1.0f,				
-				0.0f, 1.0f, 1.0f, 1.0f,
-				0.0f, 1.0f, 1.0f, 1.0f,
-				0.0f, 1.0f, 1.0f, 1.0f,				
-				0.0f, 1.0f, 1.0f, 1.0f,
-				0.0f, 1.0f, 1.0f, 1.0f,
+				        // Top face (cyan)
+				        0.0f, 1.0f, 1.0f, 1.0f,				
+				        0.0f, 1.0f, 1.0f, 1.0f,
+				        0.0f, 1.0f, 1.0f, 1.0f,
+				        0.0f, 1.0f, 1.0f, 1.0f,				
+				        0.0f, 1.0f, 1.0f, 1.0f,
+				        0.0f, 1.0f, 1.0f, 1.0f,
 				
-				// Bottom face (magenta)
-				1.0f, 0.0f, 1.0f, 1.0f,				
-				1.0f, 0.0f, 1.0f, 1.0f,
-				1.0f, 0.0f, 1.0f, 1.0f,
-				1.0f, 0.0f, 1.0f, 1.0f,				
-				1.0f, 0.0f, 1.0f, 1.0f,
-				1.0f, 0.0f, 1.0f, 1.0f
-		};
+				        // Bottom face (magenta)
+				        1.0f, 0.0f, 1.0f, 1.0f,				
+				        1.0f, 0.0f, 1.0f, 1.0f,
+				        1.0f, 0.0f, 1.0f, 1.0f,
+				        1.0f, 0.0f, 1.0f, 1.0f,				
+				        1.0f, 0.0f, 1.0f, 1.0f,
+				        1.0f, 0.0f, 1.0f, 1.0f
+		        };
 
                 // X, Y, Z
                 // The normal is used in light calculations and is a vector which points
                 // orthogonal to the plane of the surface. For a cube model, the normals
                 // should be orthogonal to the points of each face.
                 float[] cubeNormalData =
-		{												
-				// Front face
-				0.0f, 0.0f, 1.0f,				
-				0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,				
-				0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,
+		        {												
+				        // Front face
+				        0.0f, 0.0f, 1.0f,				
+				        0.0f, 0.0f, 1.0f,
+				        0.0f, 0.0f, 1.0f,
+				        0.0f, 0.0f, 1.0f,				
+				        0.0f, 0.0f, 1.0f,
+				        0.0f, 0.0f, 1.0f,
 				
-				// Right face 
-				1.0f, 0.0f, 0.0f,				
-				1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f,				
-				1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f,
+				        // Right face 
+				        1.0f, 0.0f, 0.0f,				
+				        1.0f, 0.0f, 0.0f,
+				        1.0f, 0.0f, 0.0f,
+				        1.0f, 0.0f, 0.0f,				
+				        1.0f, 0.0f, 0.0f,
+				        1.0f, 0.0f, 0.0f,
 				
-				// Back face 
-				0.0f, 0.0f, -1.0f,				
-				0.0f, 0.0f, -1.0f,
-				0.0f, 0.0f, -1.0f,
-				0.0f, 0.0f, -1.0f,				
-				0.0f, 0.0f, -1.0f,
-				0.0f, 0.0f, -1.0f,
+				        // Back face 
+				        0.0f, 0.0f, -1.0f,				
+				        0.0f, 0.0f, -1.0f,
+				        0.0f, 0.0f, -1.0f,
+				        0.0f, 0.0f, -1.0f,				
+				        0.0f, 0.0f, -1.0f,
+				        0.0f, 0.0f, -1.0f,
 				
-				// Left face 
-				-1.0f, 0.0f, 0.0f,				
-				-1.0f, 0.0f, 0.0f,
-				-1.0f, 0.0f, 0.0f,
-				-1.0f, 0.0f, 0.0f,				
-				-1.0f, 0.0f, 0.0f,
-				-1.0f, 0.0f, 0.0f,
+				        // Left face 
+				        -1.0f, 0.0f, 0.0f,				
+				        -1.0f, 0.0f, 0.0f,
+				        -1.0f, 0.0f, 0.0f,
+				        -1.0f, 0.0f, 0.0f,				
+				        -1.0f, 0.0f, 0.0f,
+				        -1.0f, 0.0f, 0.0f,
 				
-				// Top face 
-				0.0f, 1.0f, 0.0f,			
-				0.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,				
-				0.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,
+				        // Top face 
+				        0.0f, 1.0f, 0.0f,			
+				        0.0f, 1.0f, 0.0f,
+				        0.0f, 1.0f, 0.0f,
+				        0.0f, 1.0f, 0.0f,				
+				        0.0f, 1.0f, 0.0f,
+				        0.0f, 1.0f, 0.0f,
 				
-				// Bottom face 
-				0.0f, -1.0f, 0.0f,			
-				0.0f, -1.0f, 0.0f,
-				0.0f, -1.0f, 0.0f,
-				0.0f, -1.0f, 0.0f,				
-				0.0f, -1.0f, 0.0f,
-				0.0f, -1.0f, 0.0f
-		};
+				        // Bottom face 
+				        0.0f, -1.0f, 0.0f,			
+				        0.0f, -1.0f, 0.0f,
+				        0.0f, -1.0f, 0.0f,
+				        0.0f, -1.0f, 0.0f,				
+				        0.0f, -1.0f, 0.0f,
+				        0.0f, -1.0f, 0.0f
+		        };
 
                 // Initialize the buffers.
                 mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
@@ -422,13 +426,13 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
             {
                 // Set the background clear color to black.
-                GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // Use culling to remove back faces.
-                GLES20.glEnable(GLES20.GL_CULL_FACE);
+                gl.glEnable(gl.GL_CULL_FACE);
 
                 // Enable depth testing
-                GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+                gl.glEnable(gl.GL_DEPTH_TEST);
 
                 // Position the eye in front of the origin.
                 float eyeX = 0.0f;
@@ -453,8 +457,8 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 string vertexShader = getVertexShader();
                 string fragmentShader = getFragmentShader();
 
-                int vertexShaderHandle = compileShader(GLES20.GL_VERTEX_SHADER, vertexShader);
-                int fragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
+                int vertexShaderHandle = compileShader(gl.GL_VERTEX_SHADER, vertexShader);
+                int fragmentShaderHandle = compileShader(gl.GL_FRAGMENT_SHADER, fragmentShader);
 
                 mPerVertexProgramHandle = createAndLinkProgram(vertexShaderHandle, fragmentShaderHandle,
                         new String[] { "a_Position", "a_Color", "a_Normal" });
@@ -478,8 +482,8 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                   + "   1.0, 1.0, 1.0);             \n"
                   + "}                              \n";
 
-                int pointVertexShaderHandle = compileShader(GLES20.GL_VERTEX_SHADER, pointVertexShader);
-                int pointFragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
+                int pointVertexShaderHandle = compileShader(gl.GL_VERTEX_SHADER, pointVertexShader);
+                int pointFragmentShaderHandle = compileShader(gl.GL_FRAGMENT_SHADER, pointFragmentShader);
                 mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle,
                         new String[] { "a_Position" });
             }
@@ -487,7 +491,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
             {
                 // Set the OpenGL viewport to the same size as the surface.
-                GLES20.glViewport(0, 0, width, height);
+                gl.glViewport(0, 0, width, height);
 
                 // Create a new perspective projection matrix. The height will stay the same
                 // while the width will vary as per aspect ratio.
@@ -504,22 +508,22 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+                gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
                 float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
 
                 // Set our per-vertex lighting program.
-                GLES20.glUseProgram(mPerVertexProgramHandle);
+                gl.glUseProgram(mPerVertexProgramHandle);
 
                 // Set program handles for cube drawing.
-                mMVPMatrixHandle = GLES20.glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
-                mMVMatrixHandle = GLES20.glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
-                mLightPosHandle = GLES20.glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
-                mPositionHandle = GLES20.glGetAttribLocation(mPerVertexProgramHandle, "a_Position");
-                mColorHandle = GLES20.glGetAttribLocation(mPerVertexProgramHandle, "a_Color");
-                mNormalHandle = GLES20.glGetAttribLocation(mPerVertexProgramHandle, "a_Normal");
+                mMVPMatrixHandle = gl.glGetUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
+                mMVMatrixHandle = gl.glGetUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
+                mLightPosHandle = gl.glGetUniformLocation(mPerVertexProgramHandle, "u_LightPos");
+                mPositionHandle = gl.glGetAttribLocation(mPerVertexProgramHandle, "a_Position");
+                mColorHandle = gl.glGetAttribLocation(mPerVertexProgramHandle, "a_Color");
+                mNormalHandle = gl.glGetAttribLocation(mPerVertexProgramHandle, "a_Normal");
 
                 // Calculate position of the light. Rotate and then push into the distance.
                 Matrix.setIdentityM(mLightModelMatrix, 0);
@@ -556,7 +560,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 drawCube();
 
                 // Draw a point to indicate the light.
-                GLES20.glUseProgram(mPointProgramHandle);
+                gl.glUseProgram(mPointProgramHandle);
                 drawLight();
             }
 
@@ -567,44 +571,44 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             {
                 // Pass in the position information
                 mCubePositions.position(0);
-                GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false,
+                gl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, gl.GL_FLOAT, false,
                         0, mCubePositions);
 
-                GLES20.glEnableVertexAttribArray(mPositionHandle);
+                gl.glEnableVertexAttribArray(mPositionHandle);
 
                 // Pass in the color information
                 mCubeColors.position(0);
-                GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, GLES20.GL_FLOAT, false,
+                gl.glVertexAttribPointer(mColorHandle, mColorDataSize, gl.GL_FLOAT, false,
                         0, mCubeColors);
 
-                GLES20.glEnableVertexAttribArray(mColorHandle);
+                gl.glEnableVertexAttribArray(mColorHandle);
 
                 // Pass in the normal information
                 mCubeNormals.position(0);
-                GLES20.glVertexAttribPointer(mNormalHandle, mNormalDataSize, GLES20.GL_FLOAT, false,
+                gl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, gl.GL_FLOAT, false,
                         0, mCubeNormals);
 
-                GLES20.glEnableVertexAttribArray(mNormalHandle);
+                gl.glEnableVertexAttribArray(mNormalHandle);
 
                 // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                 // (which currently contains model * view).
                 Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
 
                 // Pass in the modelview matrix.
-                GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.glUniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
 
                 // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
                 // (which now contains model * view * projection).
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
                 // Pass in the combined matrix.
-                GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                 // Pass in the light position in eye space.        
-                GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
+                gl.glUniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
 
                 // Draw the cube.
-                GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
+                gl.glDrawArrays(gl.GL_TRIANGLES, 0, 36);
             }
 
             /**
@@ -612,22 +616,22 @@ namespace AndroidOpenGLESLesson2Activity.Activities
              */
             private void drawLight()
             {
-                int pointMVPMatrixHandle = GLES20.glGetUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-                int pointPositionHandle = GLES20.glGetAttribLocation(mPointProgramHandle, "a_Position");
+                int pointMVPMatrixHandle = gl.glGetUniformLocation(mPointProgramHandle, "u_MVPMatrix");
+                int pointPositionHandle = gl.glGetAttribLocation(mPointProgramHandle, "a_Position");
 
                 // Pass in the position.
-                GLES20.glVertexAttrib3f(pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
+                gl.glVertexAttrib3f(pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
 
                 // Since we are not using a buffer object, disable vertex arrays for this attribute.
-                GLES20.glDisableVertexAttribArray(pointPositionHandle);
+                gl.glDisableVertexAttribArray(pointPositionHandle);
 
                 // Pass in the transformation matrix.
                 Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mLightModelMatrix, 0);
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-                GLES20.glUniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.glUniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                 // Draw the point.
-                GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
+                gl.glDrawArrays(gl.GL_POINTS, 0, 1);
             }
 
             /** 
@@ -639,25 +643,25 @@ namespace AndroidOpenGLESLesson2Activity.Activities
              */
             private int compileShader(int shaderType, string shaderSource)
             {
-                int shaderHandle = GLES20.glCreateShader(shaderType);
+                int shaderHandle = gl.glCreateShader(shaderType);
 
                 if (shaderHandle != 0)
                 {
                     // Pass in the shader source.
-                    GLES20.glShaderSource(shaderHandle, shaderSource);
+                    gl.glShaderSource(shaderHandle, shaderSource);
 
                     // Compile the shader.
-                    GLES20.glCompileShader(shaderHandle);
+                    gl.glCompileShader(shaderHandle);
 
                     // Get the compilation status.
                     var compileStatus = new int[1];
-                    GLES20.glGetShaderiv(shaderHandle, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
+                    gl.glGetShaderiv(shaderHandle, gl.GL_COMPILE_STATUS, compileStatus, 0);
 
                     // If the compilation failed, delete the shader.
                     if (compileStatus[0] == 0)
                     {
-                        //Log.e(TAG, "Error compiling shader: " + GLES20.glGetShaderInfoLog(shaderHandle));
-                        GLES20.glDeleteShader(shaderHandle);
+                        //Log.e(TAG, "Error compiling shader: " + gl.glGetShaderInfoLog(shaderHandle));
+                        gl.glDeleteShader(shaderHandle);
                         shaderHandle = 0;
                     }
                 }
@@ -681,15 +685,15 @@ namespace AndroidOpenGLESLesson2Activity.Activities
              */
             private int createAndLinkProgram(int vertexShaderHandle, int fragmentShaderHandle, string[] attributes)
             {
-                int programHandle = GLES20.glCreateProgram();
+                int programHandle = gl.glCreateProgram();
 
                 if (programHandle != 0)
                 {
                     // Bind the vertex shader to the program.
-                    GLES20.glAttachShader(programHandle, vertexShaderHandle);
+                    gl.glAttachShader(programHandle, vertexShaderHandle);
 
                     // Bind the fragment shader to the program.
-                    GLES20.glAttachShader(programHandle, fragmentShaderHandle);
+                    gl.glAttachShader(programHandle, fragmentShaderHandle);
 
                     // Bind attributes
                     if (attributes != null)
@@ -697,22 +701,22 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                         int size = attributes.Length;
                         for (int i = 0; i < size; i++)
                         {
-                            GLES20.glBindAttribLocation(programHandle, i, attributes[i]);
+                            gl.glBindAttribLocation(programHandle, i, attributes[i]);
                         }
                     }
 
                     // Link the two shaders together into a program.
-                    GLES20.glLinkProgram(programHandle);
+                    gl.glLinkProgram(programHandle);
 
                     // Get the link status.
                     var linkStatus = new int[1];
-                    GLES20.glGetProgramiv(programHandle, GLES20.GL_LINK_STATUS, linkStatus, 0);
+                    gl.glGetProgramiv(programHandle, gl.GL_LINK_STATUS, linkStatus, 0);
 
                     // If the link failed, delete the program.
                     if (linkStatus[0] == 0)
                     {
-                        //Log.e(TAG, "Error compiling program: " + GLES20.glGetProgramInfoLog(programHandle));
-                        GLES20.glDeleteProgram(programHandle);
+                        //Log.e(TAG, "Error compiling program: " + gl.glGetProgramInfoLog(programHandle));
+                        gl.glDeleteProgram(programHandle);
                         programHandle = 0;
                     }
                 }
