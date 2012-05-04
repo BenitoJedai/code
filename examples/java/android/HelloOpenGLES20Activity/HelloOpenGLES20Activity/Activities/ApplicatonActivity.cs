@@ -5,6 +5,7 @@ using System.Text;
 using android.app;
 using android.content;
 using android.opengl;
+using android.os;
 using android.provider;
 using android.view;
 using android.webkit;
@@ -75,7 +76,7 @@ namespace HelloOpenGLES20Activity.Activities
 
 
         [Script]
-        public class HelloOpenGLES20SurfaceView : GLSurfaceView
+        public partial class HelloOpenGLES20SurfaceView : GLSurfaceView
         {
 
             public HelloOpenGLES20SurfaceView(Context context)
@@ -84,8 +85,13 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // Create an OpenGL ES 2.0 context.
                 setEGLContextClientVersion(2);
-                // Set the Renderer for drawing on the GLSurfaceView
-                setRenderer(new HelloOpenGLES20Renderer());
+
+                // set the mRenderer member
+                mRenderer = new HelloOpenGLES20Renderer();
+                setRenderer(mRenderer);
+
+                // Render the view only when there is a change
+                setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
             }
         }
 
@@ -137,6 +143,24 @@ namespace HelloOpenGLES20Activity.Activities
                 // Apply a ModelView Projection transformation
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
                 GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
+
+
+
+
+
+                // Create a rotation for the triangle (Boring! Comment this out:)
+                // long time = SystemClock.uptimeMillis() % 4000L;
+                // float angle = 0.090f * ((int) time);
+
+                // Use the mAngle member as the rotation value
+                Matrix.setRotateM(mMMatrix, 0, mAngle, 0, 0, 1.0f);
+                Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, mMMatrix, 0);
+                Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+
+                // Apply a ModelView Projection transformation
+                GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
 
                 // Draw the triangle
                 GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
@@ -231,30 +255,91 @@ namespace HelloOpenGLES20Activity.Activities
         {
             private int muMVPMatrixHandle;
             private float[] mMVPMatrix = new float[16];
-            private float[] mMMatrix = new float[16];
             private float[] mVMatrix = new float[16];
             private float[] mProjMatrix = new float[16];
 
 
-            private const string vertexShaderCode = 
-        // This matrix member variable provides a hook to manipulate
-        // the coordinates of the objects that use this vertex shader
+            private const string vertexShaderCode =
+                // This matrix member variable provides a hook to manipulate
+                // the coordinates of the objects that use this vertex shader
         "uniform mat4 uMVPMatrix;   \n" +
-        
+
         "attribute vec4 vPosition;  \n" +
         "void main(){               \n" +
-        
+
         // the matrix must be included as a modifier of gl_Position
         " gl_Position = uMVPMatrix * vPosition; \n" +
-        
+
         "}  \n";
         }
         #endregion
 
 
         #region Add Motion
+        partial class HelloOpenGLES20Renderer
+        {
+            private float[] mMMatrix = new float[16];
+        }
         #endregion
 
+
+        #region Respond to Touch Events
+        partial class HelloOpenGLES20Renderer
+        {
+
+            public float mAngle;
+
+
+
+        }
+
+        partial class HelloOpenGLES20SurfaceView
+        {
+
+            private const float TOUCH_SCALE_FACTOR = 180.0f / 320;
+            private HelloOpenGLES20Renderer mRenderer;
+            private float mPreviousX;
+            private float mPreviousY;
+
+
+
+            public override bool onTouchEvent(MotionEvent e)
+            {
+                // MotionEvent reports input details from the touch screen
+                // and other input controls. In this case, you are only
+                // interested in events where the touch position changed.
+
+                float x = e.getX();
+                float y = e.getY();
+
+                if (e.getAction() == MotionEvent.ACTION_MOVE)
+                {
+
+                    float dx = x - mPreviousX;
+                    float dy = y - mPreviousY;
+
+                    // reverse direction of rotation above the mid-line
+                    if (y > getHeight() / 2)
+                    {
+                        dx = dx * -1;
+                    }
+
+                    // reverse direction of rotation to left of the mid-line
+                    if (x < getWidth() / 2)
+                    {
+                        dy = dy * -1;
+                    }
+
+                    mRenderer.mAngle += (dx + dy) * TOUCH_SCALE_FACTOR;
+                    requestRender();
+                }
+
+                mPreviousX = x;
+                mPreviousY = y;
+                return true;
+            }
+        }
+        #endregion
     }
 
 
