@@ -76,18 +76,14 @@ namespace ScriptCoreLib.Android
             GLES20.glUniformMatrix4fv(u.value, p1, p2, mMVPMatrix, p3);
         }
 
-        public void vertexAttribPointer(WebGLUniformLocation u, int size, int type, bool normalized, int stride, java.nio.FloatBuffer ptr)
-        {
-            // http://developer.android.com/reference/android/opengl/GLES20.html#glVertexAttribPointer(int, int, int, boolean, int, java.nio.Buffer)
-
-            GLES20.glVertexAttribPointer(u.value, size, type, normalized, stride, ptr);
-        }
-
+ 
         // shall we also redefine the constants?
 
-        public void enableVertexAttribArray(WebGLUniformLocation u)
+ 
+
+        internal int getAttribLocation(WebGLProgram program, string name)
         {
-            GLES20.glEnableVertexAttribArray(u.value);
+            return GLES20.glGetAttribLocation(program.value, name);
         }
     }
 
