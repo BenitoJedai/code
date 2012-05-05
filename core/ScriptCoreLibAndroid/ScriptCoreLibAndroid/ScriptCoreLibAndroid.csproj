@@ -47,6 +47,7 @@
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
     <Compile Include="android\app\Application.cs" />
+    <Compile Include="android\app\Activity.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
