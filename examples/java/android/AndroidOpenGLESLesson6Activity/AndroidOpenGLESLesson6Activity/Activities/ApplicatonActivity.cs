@@ -1,10 +1,12 @@
 
+using System.ComponentModel;
 using android.app;
 using android.content;
 using android.content.pm;
 using android.opengl;
 using android.os;
 using android.provider;
+using android.util;
 using android.view;
 using android.webkit;
 using android.widget;
@@ -17,8 +19,7 @@ using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
-    using System.ComponentModel;
-    using android.util;
+
     //using WebGLRenderingContext = GLES20; 
     using gl = GLES20;
 
@@ -63,8 +64,8 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         public int mMagSetting = -1;
 
 
-        public static string MIN_SETTING = "min_setting";
-        public static string MAG_SETTING = "mag_setting";
+        public const string MIN_SETTING = "min_setting";
+        public const string MAG_SETTING = "mag_setting";
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
@@ -121,7 +122,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         }
 
         
-        [Script]
         class button_set_min_filter_onclick : android.view.View.OnClickListener
         {
             public AndroidOpenGLESLesson6Activity __this;
@@ -132,7 +132,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             }
         }
 
-        [Script]
         class button_set_mag_filter_onclick : android.view.View.OnClickListener
         {
             public AndroidOpenGLESLesson6Activity __this;
@@ -172,7 +171,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             outState.putInt(MAG_SETTING, mMagSetting);
         }
 
-        [Script]
         class setMinSettingHandler : Runnable
         {
             public AndroidOpenGLESLesson6Activity __this;
@@ -222,7 +220,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
 
 
-        [Script]
         class setMagSettingHandler : Runnable
         {
             public AndroidOpenGLESLesson6Activity __this;
@@ -252,7 +249,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             mGLSurfaceView.queueEvent(new setMagSettingHandler { __this = this, item = item });
         }
 
-        [Script]
         class lesson_six_min_filter_types_onclick : DialogInterface_OnClickListener
         {
             public AndroidOpenGLESLesson6Activity __this;
@@ -263,7 +259,6 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             }
         }
 
-        [Script]
         class lesson_six_mag_filter_types_onclick : DialogInterface_OnClickListener
         {
             public AndroidOpenGLESLesson6Activity __this;
@@ -338,8 +333,8 @@ namespace AndroidOpenGLESLesson6Activity.Activities
     }
 
 
-    [Script]
-    public class LessonSixRenderer : GLSurfaceView.Renderer // why is it missing in rewrite?
+    //[PayMe(100€)]
+    public class LessonSixRenderer : GLSurfaceView.Renderer 
     {
 
 
@@ -458,115 +453,115 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             // X, Y, Z
             float[] cubePositionData =
-		{
-				// In OpenGL counter-clockwise winding is default. This means that when we look at a triangle, 
-				// if the points are counter-clockwise we are looking at the "front". If not we are looking at
-				// the back. OpenGL has an optimization where all back-facing triangles are culled, since they
-				// usually represent the backside of an object and aren't visible anyways.
+		    {
+				    // In OpenGL counter-clockwise winding is default. This means that when we look at a triangle, 
+				    // if the points are counter-clockwise we are looking at the "front". If not we are looking at
+				    // the back. OpenGL has an optimization where all back-facing triangles are culled, since they
+				    // usually represent the backside of an object and aren't visible anyways.
 				
-				// Front face
-				-1.0f, 1.0f, 1.0f,				
-				-1.0f, -1.0f, 1.0f,
-				1.0f, 1.0f, 1.0f, 
-				-1.0f, -1.0f, 1.0f, 				
-				1.0f, -1.0f, 1.0f,
-				1.0f, 1.0f, 1.0f,
+				    // Front face
+				    -1.0f, 1.0f, 1.0f,				
+				    -1.0f, -1.0f, 1.0f,
+				    1.0f, 1.0f, 1.0f, 
+				    -1.0f, -1.0f, 1.0f, 				
+				    1.0f, -1.0f, 1.0f,
+				    1.0f, 1.0f, 1.0f,
 				
-				// Right face
-				1.0f, 1.0f, 1.0f,				
-				1.0f, -1.0f, 1.0f,
-				1.0f, 1.0f, -1.0f,
-				1.0f, -1.0f, 1.0f,				
-				1.0f, -1.0f, -1.0f,
-				1.0f, 1.0f, -1.0f,
+				    // Right face
+				    1.0f, 1.0f, 1.0f,				
+				    1.0f, -1.0f, 1.0f,
+				    1.0f, 1.0f, -1.0f,
+				    1.0f, -1.0f, 1.0f,				
+				    1.0f, -1.0f, -1.0f,
+				    1.0f, 1.0f, -1.0f,
 				
-				// Back face
-				1.0f, 1.0f, -1.0f,				
-				1.0f, -1.0f, -1.0f,
-				-1.0f, 1.0f, -1.0f,
-				1.0f, -1.0f, -1.0f,				
-				-1.0f, -1.0f, -1.0f,
-				-1.0f, 1.0f, -1.0f,
+				    // Back face
+				    1.0f, 1.0f, -1.0f,				
+				    1.0f, -1.0f, -1.0f,
+				    -1.0f, 1.0f, -1.0f,
+				    1.0f, -1.0f, -1.0f,				
+				    -1.0f, -1.0f, -1.0f,
+				    -1.0f, 1.0f, -1.0f,
 				
-				// Left face
-				-1.0f, 1.0f, -1.0f,				
-				-1.0f, -1.0f, -1.0f,
-				-1.0f, 1.0f, 1.0f, 
-				-1.0f, -1.0f, -1.0f,				
-				-1.0f, -1.0f, 1.0f, 
-				-1.0f, 1.0f, 1.0f, 
+				    // Left face
+				    -1.0f, 1.0f, -1.0f,				
+				    -1.0f, -1.0f, -1.0f,
+				    -1.0f, 1.0f, 1.0f, 
+				    -1.0f, -1.0f, -1.0f,				
+				    -1.0f, -1.0f, 1.0f, 
+				    -1.0f, 1.0f, 1.0f, 
 				
-				// Top face
-				-1.0f, 1.0f, -1.0f,				
-				-1.0f, 1.0f, 1.0f, 
-				1.0f, 1.0f, -1.0f, 
-				-1.0f, 1.0f, 1.0f, 				
-				1.0f, 1.0f, 1.0f, 
-				1.0f, 1.0f, -1.0f,
+				    // Top face
+				    -1.0f, 1.0f, -1.0f,				
+				    -1.0f, 1.0f, 1.0f, 
+				    1.0f, 1.0f, -1.0f, 
+				    -1.0f, 1.0f, 1.0f, 				
+				    1.0f, 1.0f, 1.0f, 
+				    1.0f, 1.0f, -1.0f,
 				
-				// Bottom face
-				1.0f, -1.0f, -1.0f,				
-				1.0f, -1.0f, 1.0f, 
-				-1.0f, -1.0f, -1.0f,
-				1.0f, -1.0f, 1.0f, 				
-				-1.0f, -1.0f, 1.0f,
-				-1.0f, -1.0f, -1.0f,
-		};
+				    // Bottom face
+				    1.0f, -1.0f, -1.0f,				
+				    1.0f, -1.0f, 1.0f, 
+				    -1.0f, -1.0f, -1.0f,
+				    1.0f, -1.0f, 1.0f, 				
+				    -1.0f, -1.0f, 1.0f,
+				    -1.0f, -1.0f, -1.0f,
+		    };
 
             // X, Y, Z
             // The normal is used in light calculations and is a vector which points
             // orthogonal to the plane of the surface. For a cube model, the normals
             // should be orthogonal to the points of each face.
             float[] cubeNormalData =
-		{												
-				// Front face
-				0.0f, 0.0f, 1.0f,				
-				0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,				
-				0.0f, 0.0f, 1.0f,
-				0.0f, 0.0f, 1.0f,
+		    {												
+				    // Front face
+				    0.0f, 0.0f, 1.0f,				
+				    0.0f, 0.0f, 1.0f,
+				    0.0f, 0.0f, 1.0f,
+				    0.0f, 0.0f, 1.0f,				
+				    0.0f, 0.0f, 1.0f,
+				    0.0f, 0.0f, 1.0f,
 				
-				// Right face 
-				1.0f, 0.0f, 0.0f,				
-				1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f,				
-				1.0f, 0.0f, 0.0f,
-				1.0f, 0.0f, 0.0f,
+				    // Right face 
+				    1.0f, 0.0f, 0.0f,				
+				    1.0f, 0.0f, 0.0f,
+				    1.0f, 0.0f, 0.0f,
+				    1.0f, 0.0f, 0.0f,				
+				    1.0f, 0.0f, 0.0f,
+				    1.0f, 0.0f, 0.0f,
 				
-				// Back face 
-				0.0f, 0.0f, -1.0f,				
-				0.0f, 0.0f, -1.0f,
-				0.0f, 0.0f, -1.0f,
-				0.0f, 0.0f, -1.0f,				
-				0.0f, 0.0f, -1.0f,
-				0.0f, 0.0f, -1.0f,
+				    // Back face 
+				    0.0f, 0.0f, -1.0f,				
+				    0.0f, 0.0f, -1.0f,
+				    0.0f, 0.0f, -1.0f,
+				    0.0f, 0.0f, -1.0f,				
+				    0.0f, 0.0f, -1.0f,
+				    0.0f, 0.0f, -1.0f,
 				
-				// Left face 
-				-1.0f, 0.0f, 0.0f,				
-				-1.0f, 0.0f, 0.0f,
-				-1.0f, 0.0f, 0.0f,
-				-1.0f, 0.0f, 0.0f,				
-				-1.0f, 0.0f, 0.0f,
-				-1.0f, 0.0f, 0.0f,
+				    // Left face 
+				    -1.0f, 0.0f, 0.0f,				
+				    -1.0f, 0.0f, 0.0f,
+				    -1.0f, 0.0f, 0.0f,
+				    -1.0f, 0.0f, 0.0f,				
+				    -1.0f, 0.0f, 0.0f,
+				    -1.0f, 0.0f, 0.0f,
 				
-				// Top face 
-				0.0f, 1.0f, 0.0f,			
-				0.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,				
-				0.0f, 1.0f, 0.0f,
-				0.0f, 1.0f, 0.0f,
+				    // Top face 
+				    0.0f, 1.0f, 0.0f,			
+				    0.0f, 1.0f, 0.0f,
+				    0.0f, 1.0f, 0.0f,
+				    0.0f, 1.0f, 0.0f,				
+				    0.0f, 1.0f, 0.0f,
+				    0.0f, 1.0f, 0.0f,
 				
-				// Bottom face 
-				0.0f, -1.0f, 0.0f,			
-				0.0f, -1.0f, 0.0f,
-				0.0f, -1.0f, 0.0f,
-				0.0f, -1.0f, 0.0f,				
-				0.0f, -1.0f, 0.0f,
-				0.0f, -1.0f, 0.0f
-		};
+				    // Bottom face 
+				    0.0f, -1.0f, 0.0f,			
+				    0.0f, -1.0f, 0.0f,
+				    0.0f, -1.0f, 0.0f,
+				    0.0f, -1.0f, 0.0f,				
+				    0.0f, -1.0f, 0.0f,
+				    0.0f, -1.0f, 0.0f
+		    };
 
             // S, T (or X, Y)
             // Texture coordinate data.
@@ -574,55 +569,55 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             // OpenGL has a Y axis pointing upward, we adjust for that here by flipping the Y axis.
             // What's more is that the texture coordinates are the same for every face.
             float[] cubeTextureCoordinateData =
-		{												
-				// Front face
-				0.0f, 0.0f, 				
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 1.0f,
-				1.0f, 0.0f,				
+		    {												
+				    // Front face
+				    0.0f, 0.0f, 				
+				    0.0f, 1.0f,
+				    1.0f, 0.0f,
+				    0.0f, 1.0f,
+				    1.0f, 1.0f,
+				    1.0f, 0.0f,				
 				
-				// Right face 
-				0.0f, 0.0f, 				
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 1.0f,
-				1.0f, 0.0f,	
+				    // Right face 
+				    0.0f, 0.0f, 				
+				    0.0f, 1.0f,
+				    1.0f, 0.0f,
+				    0.0f, 1.0f,
+				    1.0f, 1.0f,
+				    1.0f, 0.0f,	
 				
-				// Back face 
-				0.0f, 0.0f, 				
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 1.0f,
-				1.0f, 0.0f,	
+				    // Back face 
+				    0.0f, 0.0f, 				
+				    0.0f, 1.0f,
+				    1.0f, 0.0f,
+				    0.0f, 1.0f,
+				    1.0f, 1.0f,
+				    1.0f, 0.0f,	
 				
-				// Left face 
-				0.0f, 0.0f, 				
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 1.0f,
-				1.0f, 0.0f,	
+				    // Left face 
+				    0.0f, 0.0f, 				
+				    0.0f, 1.0f,
+				    1.0f, 0.0f,
+				    0.0f, 1.0f,
+				    1.0f, 1.0f,
+				    1.0f, 0.0f,	
 				
-				// Top face 
-				0.0f, 0.0f, 				
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 1.0f,
-				1.0f, 0.0f,	
+				    // Top face 
+				    0.0f, 0.0f, 				
+				    0.0f, 1.0f,
+				    1.0f, 0.0f,
+				    0.0f, 1.0f,
+				    1.0f, 1.0f,
+				    1.0f, 0.0f,	
 				
-				// Bottom face 
-				0.0f, 0.0f, 				
-				0.0f, 1.0f,
-				1.0f, 0.0f,
-				0.0f, 1.0f,
-				1.0f, 1.0f,
-				1.0f, 0.0f
-		};
+				    // Bottom face 
+				    0.0f, 0.0f, 				
+				    0.0f, 1.0f,
+				    1.0f, 0.0f,
+				    0.0f, 1.0f,
+				    1.0f, 1.0f,
+				    1.0f, 0.0f
+		    };
 
             // S, T (or X, Y)
             // Texture coordinate data.
@@ -630,55 +625,55 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             // OpenGL has a Y axis pointing upward, we adjust for that here by flipping the Y axis.
             // What's more is that the texture coordinates are the same for every face.
             float[] cubeTextureCoordinateDataForPlane =
-		{												
-				// Front face
-				0.0f, 0.0f, 				
-				0.0f, 25.0f,
-				25.0f, 0.0f,
-				0.0f, 25.0f,
-				25.0f, 25.0f,
-				25.0f, 0.0f,				
+		    {												
+				    // Front face
+				    0.0f, 0.0f, 				
+				    0.0f, 25.0f,
+				    25.0f, 0.0f,
+				    0.0f, 25.0f,
+				    25.0f, 25.0f,
+				    25.0f, 0.0f,				
 				
-				// Right face 
-				0.0f, 0.0f, 				
-				0.0f, 25.0f,
-				25.0f, 0.0f,
-				0.0f, 25.0f,
-				25.0f, 25.0f,
-				25.0f, 0.0f,	
+				    // Right face 
+				    0.0f, 0.0f, 				
+				    0.0f, 25.0f,
+				    25.0f, 0.0f,
+				    0.0f, 25.0f,
+				    25.0f, 25.0f,
+				    25.0f, 0.0f,	
 				
-				// Back face 
-				0.0f, 0.0f, 				
-				0.0f, 25.0f,
-				25.0f, 0.0f,
-				0.0f, 25.0f,
-				25.0f, 25.0f,
-				25.0f, 0.0f,	
+				    // Back face 
+				    0.0f, 0.0f, 				
+				    0.0f, 25.0f,
+				    25.0f, 0.0f,
+				    0.0f, 25.0f,
+				    25.0f, 25.0f,
+				    25.0f, 0.0f,	
 				
-				// Left face 
-				0.0f, 0.0f, 				
-				0.0f, 25.0f,
-				25.0f, 0.0f,
-				0.0f, 25.0f,
-				25.0f, 25.0f,
-				25.0f, 0.0f,	
+				    // Left face 
+				    0.0f, 0.0f, 				
+				    0.0f, 25.0f,
+				    25.0f, 0.0f,
+				    0.0f, 25.0f,
+				    25.0f, 25.0f,
+				    25.0f, 0.0f,	
 				
-				// Top face 
-				0.0f, 0.0f, 				
-				0.0f, 25.0f,
-				25.0f, 0.0f,
-				0.0f, 25.0f,
-				25.0f, 25.0f,
-				25.0f, 0.0f,	
+				    // Top face 
+				    0.0f, 0.0f, 				
+				    0.0f, 25.0f,
+				    25.0f, 0.0f,
+				    0.0f, 25.0f,
+				    25.0f, 25.0f,
+				    25.0f, 0.0f,	
 				
-				// Bottom face 
-				0.0f, 0.0f, 				
-				0.0f, 25.0f,
-				25.0f, 0.0f,
-				0.0f, 25.0f,
-				25.0f, 25.0f,
-				25.0f, 0.0f
-		};
+				    // Bottom face 
+				    0.0f, 0.0f, 				
+				    0.0f, 25.0f,
+				    25.0f, 0.0f,
+				    0.0f, 25.0f,
+				    25.0f, 25.0f,
+				    25.0f, 0.0f
+		    };
 
             // Initialize the buffers.
             mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
@@ -698,83 +693,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             mCubeTextureCoordinatesForPlane.put(cubeTextureCoordinateDataForPlane).position(0);
         }
 
-
-        protected string getVertexShader()
-        {
-            return new Shaders.per_pixel_tex_and_lightVertexShader().ToString();
-            return @"
-uniform mat4 u_MVPMatrix;		// A constant representing the combined model/view/projection matrix.      		       
-uniform mat4 u_MVMatrix;		// A constant representing the combined model/view matrix.       		
-		  			
-attribute vec4 a_Position;		// Per-vertex position information we will pass in.   							
-attribute vec3 a_Normal;		// Per-vertex normal information we will pass in.      
-attribute vec2 a_TexCoordinate; // Per-vertex texture coordinate information we will pass in. 		
-		  
-varying vec3 v_Position;		// This will be passed into the fragment shader.       		          		
-varying vec3 v_Normal;			// This will be passed into the fragment shader.  
-varying vec2 v_TexCoordinate;   // This will be passed into the fragment shader.    		
-		  
-// The entry point for our vertex shader.  
-void main()                                                 	
-{                                                         
-	// Transform the vertex into eye space. 	
-	v_Position = vec3(u_MVMatrix * a_Position);            		
-	
-	// Pass through the texture coordinate.
-	v_TexCoordinate = a_TexCoordinate;                                      
-	
-	// Transform the normal's orientation into eye space.
-    v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));
-          
-	// gl_Position is a special variable used to store the final position.
-	// Multiply the vertex by the matrix to get the final point in normalized screen coordinates.
-	gl_Position = u_MVPMatrix * a_Position;                       		  
-}                                                                                                          
-
-";
-        }
-
-        protected string getFragmentShader()
-        {
-            return @"
-
-precision mediump float;       	// Set the default precision to medium. We don't need as high of a 
-								// precision in the fragment shader.
-uniform vec3 u_LightPos;       	// The position of the light in eye space.
-uniform sampler2D u_Texture;    // The input texture.
-  
-varying vec3 v_Position;		// Interpolated position for this fragment.
-varying vec3 v_Normal;         	// Interpolated normal for this fragment.
-varying vec2 v_TexCoordinate;   // Interpolated texture coordinate per fragment.
-  
-// The entry point for our fragment shader.
-void main()                    		
-{                              
-	// Will be used for attenuation.
-    float distance = length(u_LightPos - v_Position);                  
-	
-	// Get a lighting direction vector from the light to the vertex.
-    vec3 lightVector = normalize(u_LightPos - v_Position);              	
-
-	// Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
-	// pointing in the same direction then it will get max illumination.
-    float diffuse = max(dot(v_Normal, lightVector), 0.0);               	  		  													  
-
-	// Add attenuation. 
-    diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance)));
     
-    // Add ambient lighting
-    diffuse = diffuse + 0.7;  
-
-	// Multiply the color by the diffuse illumination level and texture value to get final output color.
-    gl_FragColor = (diffuse * texture2D(u_Texture, v_TexCoordinate));                                  		
-  }                                                                     	
-
-
-
-
-";
-        }
 
         public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
         {
@@ -810,42 +729,19 @@ void main()
             // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
             Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-            string vertexShader = getVertexShader();
-            string fragmentShader = getFragmentShader();
-
-            int vertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, vertexShader);
-            int fragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
-
-            mProgramHandle = ShaderHelper.createAndLinkProgram(vertexShaderHandle, fragmentShaderHandle,
-                    new string[] { "a_Position", "a_Normal", "a_TexCoordinate" });
+      
+            mProgramHandle = ShaderHelper.createAndLinkProgram(
+                new Shaders.per_pixel_tex_and_lightFragmentShader().compileShader(),
+                new Shaders.per_pixel_tex_and_lightVertexShader().compileShader(),
+                "a_Position", "a_Normal", "a_TexCoordinate" 
+            );
 
             // Define a simple shader program for our point.
-            string pointVertexShader = @"
-
-uniform mat4 u_MVPMatrix;      		
-attribute vec4 a_Position;     		
-
-void main()                    
-{                              
-	gl_Position = u_MVPMatrix * a_Position;   
-    gl_PointSize = 5.0;         
-}                              
-
-";
-            string pointFragmentShader = @"
-
-precision mediump float;
-       					          
-void main()                    
-{                              
-	gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);             
-}                              
-
-";
-            int pointVertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, pointVertexShader);
-            int pointFragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
-            mPointProgramHandle = ShaderHelper.createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle,
-                    new string[] { "a_Position" });
+            mPointProgramHandle = ShaderHelper.createAndLinkProgram(
+                new Shaders.pointVertexShader().compileShader(),
+                new Shaders.pointFragmentShader().compileShader(),
+                "a_Position" 
+            );
 
             // Load the texture
             mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.stone_wall_public_domain);
