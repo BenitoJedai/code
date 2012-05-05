@@ -22,7 +22,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
     //using WebGLRenderingContext = GLES20; 
     using gl = GLES20;
 
-    [Script]
+    //[Script]
     public class AndroidOpenGLESLesson6Activity : Activity
     {
         // port from http://www.learnopengles.com/android-lesson-six-an-introduction-to-texture-filtering/
