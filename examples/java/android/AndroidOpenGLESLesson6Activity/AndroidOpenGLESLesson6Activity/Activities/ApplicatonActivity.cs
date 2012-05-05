@@ -76,10 +76,14 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             mGLSurfaceView = (LessonSixGLSurfaceView)findViewById(R.id.gl_surface_view);
 
-            // Check if the system supports OpenGL ES 2.0.
-            ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-            ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-            bool supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
+            // http://www.learnopengles.com/android-emulator-now-supports-native-opengl-es2-0/
+
+            var supportsEs2 = true;
+
+            //// Check if the system supports OpenGL ES 2.0.
+            //ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+            //ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+            //bool supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
 
             if (supportsEs2)
             {
