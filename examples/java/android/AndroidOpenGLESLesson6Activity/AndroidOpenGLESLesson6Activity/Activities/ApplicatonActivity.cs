@@ -100,7 +100,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             }
 
             findViewById(R.id.button_set_min_filter).setOnClickListener(
-                new button_set_min_filter_onclick { __this = this } 
+                new button_set_min_filter_onclick { __this = this }
             );
 
             findViewById(R.id.button_set_mag_filter).setOnClickListener(
@@ -120,6 +120,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
         }
 
+        
         [Script]
         class button_set_min_filter_onclick : android.view.View.OnClickListener
         {
@@ -338,7 +339,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
 
     [Script]
-    public class LessonSixRenderer : GLSurfaceView.Renderer
+    public class LessonSixRenderer : GLSurfaceView.Renderer // why is it missing in rewrite?
     {
 
 
@@ -700,6 +701,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
         protected string getVertexShader()
         {
+            return new Shaders.per_pixel_tex_and_lightVertexShader().ToString();
             return @"
 uniform mat4 u_MVPMatrix;		// A constant representing the combined model/view/projection matrix.      		       
 uniform mat4 u_MVMatrix;		// A constant representing the combined model/view matrix.       		
@@ -1082,7 +1084,6 @@ void main()
     }
 
 
-    [Script]
     public class LessonSixGLSurfaceView : GLSurfaceView
     {
         private LessonSixRenderer mRenderer;
@@ -1136,6 +1137,8 @@ void main()
         {
             mRenderer = renderer;
             mDensity = density;
+
+
             base.setRenderer(renderer);
         }
     }
