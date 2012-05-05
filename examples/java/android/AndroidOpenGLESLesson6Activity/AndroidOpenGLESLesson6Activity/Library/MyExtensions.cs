@@ -8,7 +8,6 @@ using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson6Activity.Library
 {
-    [Script]
     public static class MyExtensions
     {
         public static void setText(this TextView e, string value)

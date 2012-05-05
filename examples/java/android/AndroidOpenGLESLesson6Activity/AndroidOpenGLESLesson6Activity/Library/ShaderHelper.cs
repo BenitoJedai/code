@@ -4,7 +4,6 @@ using android.opengl;
 using ScriptCoreLib;
 namespace AndroidOpenGLESLesson6Activity.Library
 {
-    [Script]
     class ShaderHelper
     {
         /** 
