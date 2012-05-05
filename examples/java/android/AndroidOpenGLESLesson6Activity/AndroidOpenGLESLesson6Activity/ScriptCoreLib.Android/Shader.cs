@@ -26,4 +26,17 @@ namespace ScriptCoreLib.Android
     {
 
     }
+
+
+
+
+    class WebGLRenderingContext
+    {
+        // let's try to mimic WebGL api and see how far we get
+        // why is Android ES a static reference?
+
+        // whats the most popular api looking at Y:\jsc.svn\examples\javascript\WebGLLesson16\WebGLLesson16\Application.cs ?
+
+
+    }
 }
