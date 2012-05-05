@@ -31,7 +31,7 @@ namespace AndroidVortexLesson6.Activities
 
         // running it in emulator:
         // C:\util\android-sdk-windows\tools\android.bat avd
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "Z:\jsc.svn\examples\java\android\AndroidVortexLesson6\AndroidVortexLesson6\staging\bin\AndroidVortexLesson6-debug.apk"
+        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "Y:\jsc.svn\examples\java\android\AndroidVortexLesson6\AndroidVortexLesson6\staging\bin\AndroidVortexLesson6-debug.apk"
 
         // note: rebuild could auto reinstall
 
