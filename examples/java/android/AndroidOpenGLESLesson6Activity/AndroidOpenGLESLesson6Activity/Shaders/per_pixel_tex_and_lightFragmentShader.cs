@@ -4,7 +4,7 @@ using ScriptCoreLib.GLSL;
 namespace AndroidOpenGLESLesson6Activity.Shaders
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
-    class __per_pixel_tex_and_lightFragmentShader : FragmentShader
+    class __per_pixel_tex_and_lightFragmentShader : per_pixel_tex_and_lightFragmentShader
     {
         [uniform]
         vec3 u_LightPos;       	// The position of the light in eye space.

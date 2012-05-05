@@ -4,7 +4,7 @@ using ScriptCoreLib.GLSL;
 namespace AndroidOpenGLESLesson6Activity.Shaders
 {
     [Description("Future versions of JSC will allow shaders to be written in a .NET language")]
-    class __per_pixelVertexShader : VertexShader
+    class __per_pixelVertexShader : per_pixel_tex_and_lightVertexShader
     {
         [uniform]
         mat4 u_MVPMatrix;		// A constant representing the combined model/view/projection matrix.      		       
