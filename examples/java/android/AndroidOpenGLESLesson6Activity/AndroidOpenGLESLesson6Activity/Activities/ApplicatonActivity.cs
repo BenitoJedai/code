@@ -112,7 +112,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             findViewById(R.id.button_set_mag_filter).setOnClickListener(
                new button_set_mag_filter_onclick { __this = this }
            );
-        
+
 
             // Restore previous settings
             if (savedInstanceState != null)
@@ -128,14 +128,14 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             this.ShowToast("http://jsc-solutions.net");
         }
 
-        
+
         class button_set_min_filter_onclick : android.view.View.OnClickListener
         {
             public AndroidOpenGLESLesson6Activity __this;
 
-            public void onClick(View v) 
+            public void onClick(View v)
             {
-                __this.showDialog(MIN_DIALOG);		
+                __this.showDialog(MIN_DIALOG);
             }
         }
 
@@ -260,7 +260,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         {
             public AndroidOpenGLESLesson6Activity __this;
 
-            public void onClick( DialogInterface dialog,  int item) 
+            public void onClick(DialogInterface dialog, int item)
             {
                 __this.setMinSetting(item);
             }
@@ -272,7 +272,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             public void onClick(DialogInterface dialog, int item)
             {
-                __this.setMagSetting(item); 
+                __this.setMagSetting(item);
             }
         }
 
@@ -299,7 +299,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     (CharSequence[])(object)lesson_six_min_filter_types,
                     new lesson_six_min_filter_types_onclick { __this = this }
                 );
-                
+
 
                 dialog = builder.create();
 
@@ -319,9 +319,9 @@ namespace AndroidOpenGLESLesson6Activity.Activities
                     (CharSequence[])(object)lesson_six_mag_filter_types,
                     new lesson_six_mag_filter_types_onclick { __this = this }
                 );
-                
 
-              
+
+
 
                 dialog = builder.create();
             }
@@ -335,12 +335,12 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
 
 
-        
+
 
     }
 
 
-    public class LessonSixRenderer : GLSurfaceView.Renderer 
+    public class LessonSixRenderer : GLSurfaceView.Renderer
     {
 
 
@@ -455,7 +455,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         {
             mActivityContext = activityContext;
 
-            // Define points for a cube.		
+            #region Define points for a cube.
 
             // X, Y, Z
             float[] cubePositionData =
@@ -680,6 +680,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 				    25.0f, 25.0f,
 				    25.0f, 0.0f
 		    };
+            #endregion
 
             // Initialize the buffers.
             mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
@@ -699,7 +700,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             mCubeTextureCoordinatesForPlane.put(cubeTextureCoordinateDataForPlane).position(0);
         }
 
-    
+
 
         public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
         {
