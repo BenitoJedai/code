@@ -31,7 +31,7 @@ namespace ScriptCoreLib.Android
 
 
 
-    class WebGLRenderingContext
+    class __WebGLRenderingContext
     {
         // let's try to mimic WebGL api and see how far we get
         // why is Android ES a static reference?
@@ -40,29 +40,29 @@ namespace ScriptCoreLib.Android
         // jsc analyzer shows how many distinct methods reference the api but not yet how many times what is referenced
         // as such some manual guessing eeds to be done.
 
-        public WebGLUniformLocation getUniformLocation(WebGLProgram program, string name)
+        public __WebGLUniformLocation getUniformLocation(__WebGLProgram program, string name)
         {
-            return new WebGLUniformLocation { value = GLES20.glGetUniformLocation(program.value, name) };
+            return new __WebGLUniformLocation { value = GLES20.glGetUniformLocation(program.value, name) };
         }
 
-        public void useProgram(WebGLProgram program)
+        public void useProgram(__WebGLProgram program)
         {
             GLES20.glUseProgram(program.value);
         }
 
-        public void uniform1i(WebGLUniformLocation u, int p)
+        public void uniform1i(__WebGLUniformLocation u, int p)
         {
             // webgl is using int64 instead of in32. why? is the idl being used correctly?
 
             GLES20.glUniform1i(u.value, p);
         }
 
-        public void uniform3f(WebGLUniformLocation u, float p1, float p2, float p3)
+        public void uniform3f(__WebGLUniformLocation u, float p1, float p2, float p3)
         {
             GLES20.glUniform3f(u.value, p1, p2, p3);
         }
 
-        public void uniformMatrix4fv(WebGLUniformLocation u, int p1, bool p2, float[] mMVPMatrix, int p3)
+        public void uniformMatrix4fv(__WebGLUniformLocation u, int p1, bool p2, float[] mMVPMatrix, int p3)
         {
             // see also: http://www.opengl.org/sdk/docs/man/xhtml/glUniform.xml
             // see also: http://developer.android.com/reference/android/opengl/GLES20.html#glUniformMatrix4fv(int, int, boolean, float[], int)
@@ -79,20 +79,30 @@ namespace ScriptCoreLib.Android
  
         // shall we also redefine the constants?
 
- 
 
-        internal int getAttribLocation(WebGLProgram program, string name)
+
+        public int getAttribLocation(__WebGLProgram program, string name)
         {
             return GLES20.glGetAttribLocation(program.value, name);
         }
+
+        public void clearColor(float p1, float p2, float p3, float p4)
+        {
+            GLES20.glClearColor(p1, p2, p3, p4);
+        }
+
+        public void viewport(int p1, int p2, int width, int height)
+        {
+            GLES20.glViewport(p1, p2, width, height);
+        }
     }
 
-    class WebGLUniformLocation
+    class __WebGLUniformLocation
     {
         public int value;
     }
 
-    class WebGLProgram
+    class __WebGLProgram
     {
         public int value;
     }

@@ -388,16 +388,16 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         private FloatBuffer mCubeTextureCoordinatesForPlane;
 
         /** This will be used to pass in the transformation matrix. */
-        private WebGLUniformLocation mMVPMatrixHandle;
+        private __WebGLUniformLocation mMVPMatrixHandle;
 
         /** This will be used to pass in the modelview matrix. */
-        private WebGLUniformLocation mMVMatrixHandle;
+        private __WebGLUniformLocation mMVMatrixHandle;
 
         /** This will be used to pass in the light position. */
-        private WebGLUniformLocation mLightPosHandle;
+        private __WebGLUniformLocation mLightPosHandle;
 
         /** This will be used to pass in the texture. */
-        private WebGLUniformLocation mTextureUniformHandle;
+        private __WebGLUniformLocation mTextureUniformHandle;
 
         /** This will be used to pass in model position information. */
         private int mPositionHandle;
@@ -431,10 +431,10 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         private float[] mLightPosInEyeSpace = new float[4];
 
         /** This is a handle to our cube shading program. */
-        private WebGLProgram mProgramHandle;
+        private __WebGLProgram mProgramHandle;
 
         /** This is a handle to our light point program. */
-        private WebGLProgram mPointProgramHandle;
+        private __WebGLProgram mPointProgramHandle;
 
         /** These are handles to our texture data. */
         private int mBrickDataHandle;
@@ -705,7 +705,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
         {
             // Set the background clear color to black.
-            opengl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
             // Use culling to remove back faces.
             opengl.glEnable(opengl.GL_CULL_FACE);
@@ -737,7 +737,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-            mProgramHandle = new WebGLProgram
+            mProgramHandle = new __WebGLProgram
             {
                 value =
                     ShaderHelper.createAndLinkProgram(
@@ -748,7 +748,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             };
 
             // Define a simple shader program for our point.
-            mPointProgramHandle = new WebGLProgram
+            mPointProgramHandle = new __WebGLProgram
             {
                 value =
                     ShaderHelper.createAndLinkProgram(
@@ -782,7 +782,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         public void onSurfaceChanged(GL10 glUnused, int width, int height)
         {
             // Set the OpenGL viewport to the same size as the surface.
-            opengl.glViewport(0, 0, width, height);
+            gl.viewport(0, 0, width, height);
 
             // Create a new perspective projection matrix. The height will stay the same
             // while the width will vary as per aspect ratio.
@@ -797,7 +797,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
         }
 
-        WebGLRenderingContext gl = new WebGLRenderingContext();
+        __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
         public void onDrawFrame(GL10 glUnused)
         {
