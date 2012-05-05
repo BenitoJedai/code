@@ -6,6 +6,7 @@ using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
+
     [Script(IsNative = true)]
     public static class R
     {
