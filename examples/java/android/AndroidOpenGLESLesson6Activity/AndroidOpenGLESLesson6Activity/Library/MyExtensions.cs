@@ -5,6 +5,7 @@ using System.Text;
 using android.content;
 using android.opengl;
 using android.widget;
+using java.lang;
 using ScriptCoreLib;
 
 namespace AndroidOpenGLESLesson6Activity.Library
@@ -35,6 +36,15 @@ namespace AndroidOpenGLESLesson6Activity.Library
             e.setText((java.lang.CharSequence)(object)value);
         }
 
+        public static Context ShowToast(this Context c, string e)
+        {
+            Toast.makeText(
+                  c,
+                  (CharSequence)(object)e,
+                  Toast.LENGTH_SHORT
+              ).show();
 
+            return c;
+        }
     }
 }
