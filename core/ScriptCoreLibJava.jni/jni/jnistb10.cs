@@ -726,10 +726,10 @@ namespace jni
             base.setByte(offset + length, (sbyte)0);
         }
 
-        public void ToConsole()
-        {
-            Console.WriteHexDump(this.Bytes);
-        }
+        //public void ToConsole()
+        //{
+        //    Console.WriteHexDump(this.Bytes);
+        //}
 
         public string ToHexString()
         {
