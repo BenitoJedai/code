@@ -210,8 +210,11 @@ namespace jni
                 var IsLibMissing = !File.Exists(lib);
                 var IsExtExports = p.EndsWith(".exports");
 
+                var value = IsLibMissing;
+                
+                value &= IsExtExports; 
 
-                if (IsLibMissing && IsExtExports)
+                if (value)
                 {
                     JavaSystem.load(p);
                 }
@@ -705,7 +708,12 @@ namespace jni
             bool lo = off < 0;
             bool hi = off + sz > size;
 
-            if (lo || hi)
+
+            var value = lo;
+
+            value |= hi;
+
+            if (value)
             {
                 throw new IndexOutOfRangeException("offset " + off + " size " + sz + ", malloced size " + size);
             }

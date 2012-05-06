@@ -86,5 +86,15 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
                 return Modifier.isProtected(this.InternalField.getModifiers());
             }
         }
+
+        public static bool operator ==(__FieldInfo a, __FieldInfo b)
+        {
+            return a.InternalField == b.InternalField;
+        }
+
+        public static bool operator !=(__FieldInfo a, __FieldInfo b)
+        {
+            return a.InternalField != b.InternalField;
+        }
     }
 }
