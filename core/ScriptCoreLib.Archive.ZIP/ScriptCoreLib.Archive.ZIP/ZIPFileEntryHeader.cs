@@ -88,7 +88,12 @@ namespace ScriptCoreLib.Archive.ZIP
 
                 var ZIP_data_descriptor_signature = r.ReadInt32();
 
-                var _crc_32 = ZIP_data_descriptor_signature == ZIP_data_descriptor ? r.ReadInt32() : ZIP_data_descriptor_signature;
+                // pop crc
+                if (ZIP_data_descriptor_signature == ZIP_data_descriptor)
+                    r.ReadInt32(); 
+                //else 
+                //    ZIP_data_descriptor_signature;
+
                 var _compressed_size = r.ReadUInt32();
                 var _uncompressed_size = r.ReadUInt32();
             }

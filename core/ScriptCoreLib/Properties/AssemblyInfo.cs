@@ -43,8 +43,9 @@ using ScriptCoreLib.Shared;
     ScriptTypeFilter(ScriptType.GLSL, typeof(global::ScriptCoreLib.GLSL.vec2)),
 
     ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.ActionScript.Function)),
-	ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.Shared.BCLImplementation.System.__Uri)),
-	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared.Query"),
+
+    //ScriptTypeFilter(ScriptType.ActionScript, typeof(global::ScriptCoreLib.Shared.BCLImplementation.System.__Uri)),
+	ScriptTypeFilter(ScriptType.ActionScript, "*.Shared"),
 
 	ScriptTypeFilter(ScriptType.JavaScript, typeof(global::ScriptCoreLib.JavaScript.Native)),
 	ScriptTypeFilter(ScriptType.JavaScript, "*.Shared"),
