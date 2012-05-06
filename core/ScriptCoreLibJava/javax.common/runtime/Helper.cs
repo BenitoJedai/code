@@ -69,6 +69,8 @@ namespace javax.common.runtime
 
         #endregion
 
+        /*
+
         public static bool IsVisibleChar(int p)
         {
             bool bA = p >= 'a';
@@ -88,7 +90,7 @@ namespace javax.common.runtime
 
             bool isAlpha = lA || uA || uN || x;
             return isAlpha;
-        }
+        }*/
 
         public static Runtime CurrentRuntime
         {
