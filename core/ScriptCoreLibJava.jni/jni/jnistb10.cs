@@ -196,7 +196,7 @@ namespace jni
 
         private static void InternalTryLoadLibrary()
         {
-            
+
             try
             {
                 //System.Console.WriteLine("InternalTryLoadLibrary");
@@ -211,8 +211,9 @@ namespace jni
                 var IsExtExports = p.EndsWith(".exports");
 
                 var value = IsLibMissing;
-                
-                value &= IsExtExports; 
+
+                if (!IsExtExports)
+                    value = false;
 
                 if (value)
                 {
@@ -240,7 +241,7 @@ namespace jni
             // see: http://www.chilkatsoft.com/p/p_499.asp
             var hint = Path.Combine(InternalGetHintPath(), CPtrLibrary.LibraryPath) + ".dll";
 
-           
+
             try
             {
                 JavaSystem.load(hint);
@@ -711,7 +712,8 @@ namespace jni
 
             var value = lo;
 
-            value |= hi;
+            if (hi)
+                value = true;
 
             if (value)
             {
