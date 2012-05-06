@@ -79,7 +79,8 @@ namespace ScriptCoreLib.Reflection.Options
 
             var value = i < 0;
 
-            value |= i > j;
+            if (i > j)
+                value = true;
 
 
             if (value)
@@ -257,9 +258,12 @@ namespace ScriptCoreLib.Reflection.Options
 			//Trace("AsParameterTo: unknown data type " + f.FieldType.FullName);
 		}
 
+        public static Action<string> AtTrace;
+
 		internal static void Trace(string e)
 		{
-			//Console.WriteLine(e);
+            if (AtTrace != null)
+                AtTrace(e);
 		}
 	}
 }

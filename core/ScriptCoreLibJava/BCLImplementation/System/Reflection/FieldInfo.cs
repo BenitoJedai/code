@@ -89,12 +89,29 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
 
         public static bool operator ==(__FieldInfo a, __FieldInfo b)
         {
+            return InternalIsEqual(a, b);
+        }
+
+        private static bool InternalIsEqual(__FieldInfo a, __FieldInfo b)
+        {
+            if ((object)a == null)
+                if ((object)b == null)
+                    return true;
+
+            if ((object)a != null)
+                if ((object)b == null)
+                    return false;
+
+            if ((object)a == null)
+                if ((object)b != null)
+                    return false;
+
             return a.InternalField == b.InternalField;
         }
 
         public static bool operator !=(__FieldInfo a, __FieldInfo b)
         {
-            return a.InternalField != b.InternalField;
+            return !InternalIsEqual(a, b);
         }
     }
 }
