@@ -17,124 +17,124 @@ namespace javax.common.runtime
     {
         
 
-        public static bool IsVisibleChar(int p)
-        {
-            return Helper.IsVisibleChar(p);
-        }
+        //public static bool IsVisibleChar(int p)
+        //{
+        //    return Helper.IsVisibleChar(p);
+        //}
 
 
-        public static void WriteHexDump(sbyte[] read_b)
-        {
-            WriteHexDump(read_b, 16);
-        }
+        //public static void WriteHexDump(sbyte[] read_b)
+        //{
+        //    WriteHexDump(read_b, 16);
+        //}
 
-        public static void WriteHexDump(string e, string prefix)
-        {
-            Console.WriteHexDump(Convert.FromHexString(e), true, prefix);
-        }
+        //public static void WriteHexDump(string e, string prefix)
+        //{
+        //    Console.WriteHexDump(Convert.FromHexString(e), true, prefix);
+        //}
 
-        public static void WriteHexDump(sbyte[] data, int offset, int length)
-        {
-            WriteHexDump(data, 16, offset, length, true, "");
-        }
-
-
-        public static void WriteHexDump(sbyte[] read_b, bool show_offset, string prefix)
-        {
-            if (read_b == null)
-                return;
-
-            WriteHexDump(read_b, 16, 0, read_b.Length, show_offset, prefix);
-        }
-
-        public static void WriteHexDump(sbyte[] read_b, int bytes_shown)
-        {
-            if (read_b == null)
-                return;
-
-            WriteHexDump(read_b, bytes_shown, 0, read_b.Length, true, "");
-        }
-
-        public static void WriteHexDump(sbyte[] read_b, int bytes_shown, int offset, int length, bool show_offset, string prefix)
-        {
-            //Console.WriteLine(" hex dump offset " + offset + " length " + length);
+        //public static void WriteHexDump(sbyte[] data, int offset, int length)
+        //{
+        //    WriteHexDump(data, 16, offset, length, true, "");
+        //}
 
 
+        //public static void WriteHexDump(sbyte[] read_b, bool show_offset, string prefix)
+        //{
+        //    if (read_b == null)
+        //        return;
 
-            try
-            {
+        //    WriteHexDump(read_b, 16, 0, read_b.Length, show_offset, prefix);
+        //}
 
-                int p = 0;
+        //public static void WriteHexDump(sbyte[] read_b, int bytes_shown)
+        //{
+        //    if (read_b == null)
+        //        return;
 
-                int pi = offset;
-                string Text = "";
+        //    WriteHexDump(read_b, bytes_shown, 0, read_b.Length, true, "");
+        //}
 
-                int formatx = 0;
+        //public static void WriteHexDump(sbyte[] read_b, int bytes_shown, int offset, int length, bool show_offset, string prefix)
+        //{
+        //    //Console.WriteLine(" hex dump offset " + offset + " length " + length);
 
-                while (formatx < length)
-                {
+
+
+        //    try
+        //    {
+
+        //        int p = 0;
+
+        //        int pi = offset;
+        //        string Text = "";
+
+        //        int formatx = 0;
+
+        //        while (formatx < length)
+        //        {
                    
-                    bool b_will_offset = (formatx) % bytes_shown == 0;
+        //            bool b_will_offset = (formatx) % bytes_shown == 0;
 
 
-                    if (b_will_offset)
-                    {
+        //            if (b_will_offset)
+        //            {
 
-                        if (formatx == 0)
-                            System.Console.Write(prefix);
-                        else
-                            Write(" ", prefix.Length);
+        //                if (formatx == 0)
+        //                    System.Console.Write(prefix);
+        //                else
+        //                    Write(" ", prefix.Length);
 
-                        if (show_offset)
-                        {
-                            System.Console.Write("0x" + Convert.ToHexString(pi, 4) + " : ");
-                        }
-                    }
+        //                if (show_offset)
+        //                {
+        //                    System.Console.Write("0x" + Convert.ToHexString(pi, 4) + " : ");
+        //                }
+        //            }
 
-                    p = Convert.ToInt32(  read_b[pi] );
+        //            p = Convert.ToInt32(  read_b[pi] );
 
-                    bool isAlpha = IsVisibleChar(p);
+        //            bool isAlpha = IsVisibleChar(p);
 
-                    if (isAlpha)
-                    {
+        //            if (isAlpha)
+        //            {
 
-                        sbyte[] xsb = new sbyte[] { (sbyte)p };
-
-
-                        Text += new java.lang.String(xsb);
-                    }
-                    else
-                        Text += ".";
+        //                sbyte[] xsb = new sbyte[] { (sbyte)p };
 
 
-                    System.Console.Write(Convert.ToHexString(p & 0xFF) + " ");
-
-                    pi++;
-                    formatx++;
-
-                    if (formatx % bytes_shown == 0)
-                    {
+        //                Text += new java.lang.String(xsb);
+        //            }
+        //            else
+        //                Text += ".";
 
 
-                        System.Console.WriteLine(" | " + Text);
+        //            System.Console.Write(Convert.ToHexString(p & 0xFF) + " ");
 
-                        Text = "";
-                    }
-                }
+        //            pi++;
+        //            formatx++;
 
-                if (Text != "")
-                {
-                    while (formatx++ % bytes_shown != 0)
-                        System.Console.Write("   ");
+        //            if (formatx % bytes_shown == 0)
+        //            {
 
-                    System.Console.WriteLine(" | " + Text);
-                }
-            }
-            catch
-            {
-                System.Console.WriteLine("hexdump failed");
-            }
-        }
+
+        //                System.Console.WriteLine(" | " + Text);
+
+        //                Text = "";
+        //            }
+        //        }
+
+        //        if (Text != "")
+        //        {
+        //            while (formatx++ % bytes_shown != 0)
+        //                System.Console.Write("   ");
+
+        //            System.Console.WriteLine(" | " + Text);
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        System.Console.WriteLine("hexdump failed");
+        //    }
+        //}
 
         private static void Write(string e, int count)
         {
@@ -212,31 +212,31 @@ namespace javax.common.runtime
             JavaSystem.err.print("*** error: " + p + "\n");
         }
 
-        public static void WriteHexDumpFromFile(string filename)
-        {
-            try
-            {
-                File file = new File(filename);
+        //public static void WriteHexDumpFromFile(string filename)
+        //{
+        //    try
+        //    {
+        //        File file = new File(filename);
 
-                RandomAccessFile stream = new RandomAccessFile(file, "r");
+        //        RandomAccessFile stream = new RandomAccessFile(file, "r");
 
-                sbyte[] bytes = new sbyte[stream.length()];
+        //        sbyte[] bytes = new sbyte[stream.length()];
 
-                stream.read(bytes);
+        //        stream.read(bytes);
 
-                stream.close();
+        //        stream.close();
 
-                System.Console.WriteLine("dump of [" + file + "]");
-                Console.WriteHexDump(bytes);
-            }
-            catch (Exception exc)
-            {
+        //        System.Console.WriteLine("dump of [" + file + "]");
+        //        Console.WriteHexDump(bytes);
+        //    }
+        //    catch (Exception exc)
+        //    {
 
-                Console.WriteThrowable(exc);
-            }
+        //        Console.WriteThrowable(exc);
+        //    }
 
 
-        }
+        //}
 
         /// <summary>
         /// writes bytes to file
