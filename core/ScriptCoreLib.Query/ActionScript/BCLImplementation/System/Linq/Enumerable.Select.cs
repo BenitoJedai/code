@@ -114,7 +114,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
             public bool MoveNext()
             {
-                if (this._1_state == 0 || this._1_state == 2)
+                if ((this._1_state == 0).Or(this._1_state == 2))
                 {
                     if (this._1_state == 0)
                     {
@@ -253,7 +253,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
             public bool MoveNext()
             {
-                if (this._1_state == 0 || this._1_state == 2)
+                if ((this._1_state == 0).Or( this._1_state == 2))
                 {
                     if (this._1_state == 0)
                     {

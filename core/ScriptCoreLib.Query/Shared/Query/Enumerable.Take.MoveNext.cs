@@ -13,13 +13,12 @@ namespace ScriptCoreLib.Shared.Query
     {
 
 
-
         partial class _TakeIterator_d__40<TSource>
         {
 
             public bool MoveNext()
             {
-                if (this.__1__state == 0 || this.__1__state == 2)
+                if ((this.__1__state == 0).Or( this.__1__state == 2))
                 {
                     if (this.__1__state == 0)
                     {

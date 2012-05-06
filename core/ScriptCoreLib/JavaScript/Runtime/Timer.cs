@@ -60,7 +60,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
         {
             get
             {
-                return TimeToLive > 0 && Counter > TimeToLive;
+                if (TimeToLive > 0)
+                    if (Counter > TimeToLive)
+                        return true;
+
+                return false;
             }
         }
         public void Invoke()

@@ -2,9 +2,13 @@
 
 using android.opengl;
 using ScriptCoreLib;
+using ScriptCoreLib.Android;
 namespace AndroidNeHeLesson01Activity.Library
 {
-    class ShaderHelper
+    using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
+
+    static class ShaderHelper
     {
         /** 
 	 * Helper function to compile a shader.
@@ -13,32 +17,43 @@ namespace AndroidNeHeLesson01Activity.Library
 	 * @param shaderSource The shader source code.
 	 * @return An OpenGL handle to the shader.
 	 */
-        public static int compileShader(int shaderType, string shaderSource)
+
+        #region ScriptCoreLib.JavaScript.Extensions.WebGLExtensions.cs
+        public static WebGLShader createShader(this gl gl, ScriptCoreLib.GLSL.FragmentShader fragmentShader)
         {
-            int shaderHandle = GLES20.glCreateShader(shaderType);
+            return gl.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader.ToAndroidString());
+        }
 
-            if (shaderHandle != 0)
+        public static WebGLShader createShader(this gl gl, ScriptCoreLib.GLSL.VertexShader fragmentShader)
+        {
+            return gl.compileShader(GLES20.GL_VERTEX_SHADER, fragmentShader.ToAndroidString());
+        }
+        #endregion
+
+        public static WebGLShader compileShader(this gl gl, int shaderType, string shaderSource)
+        {
+            var shaderHandle = gl.createShader(shaderType);
+
+
+            // Pass in the shader source.
+            gl.shaderSource(shaderHandle, shaderSource);
+
+            // Compile the shader.
+            gl.compileShader(shaderHandle);
+
+            // Get the compilation status.
+            int[] compileStatus = new int[1];
+            GLES20.glGetShaderiv(shaderHandle.value, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
+
+            // If the compilation failed, delete the shader.
+            if (compileStatus[0] == 0)
             {
-                // Pass in the shader source.
-                GLES20.glShaderSource(shaderHandle, shaderSource);
-
-                // Compile the shader.
-                GLES20.glCompileShader(shaderHandle);
-
-                // Get the compilation status.
-                int[] compileStatus = new int[1];
-                GLES20.glGetShaderiv(shaderHandle, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
-
-                // If the compilation failed, delete the shader.
-                if (compileStatus[0] == 0)
-                {
-                    //Log.e(TAG, "Error compiling shader: " + GLES20.glGetShaderInfoLog(shaderHandle));
-                    GLES20.glDeleteShader(shaderHandle);
-                    shaderHandle = 0;
-                }
+                //Log.e(TAG, "Error compiling shader: " + GLES20.glGetShaderInfoLog(shaderHandle));
+                gl.deleteShader(shaderHandle);
+                shaderHandle = null;
             }
 
-            if (shaderHandle == 0)
+            if (shaderHandle == null)
             {
                 //throw new RuntimeException("Error creating shader.");
                 throw null;

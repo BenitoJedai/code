@@ -6,6 +6,7 @@ using global::System.Collections.Generic;
 using IDisposable = global::System.IDisposable;
 using System;
 using ScriptCoreLib.Shared.BCLImplementation.System.Linq;
+using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 {
@@ -112,7 +113,7 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Linq
 
             public bool MoveNext()
             {
-                if (this._1_state == 0 || this._1_state == 2)
+                if ((this._1_state == 0).Or( this._1_state == 2))
                 {
                     if (this._1_state == 0)
                     {

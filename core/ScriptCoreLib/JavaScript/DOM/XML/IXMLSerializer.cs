@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.JavaScript.DOM.XML
 {
@@ -40,7 +41,7 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
 
                 IXMLElement n = new IXMLElement(doc, m.Name);
 
-                if (m.Self.IsString || m.Self.IsNumber)
+                if (m.Self.IsString.Or( m.Self.IsNumber))
                 {
                     n.appendChild(new ITextNode(doc, m.Value));
                 }
@@ -63,7 +64,7 @@ namespace ScriptCoreLib.JavaScript.DOM.XML
                             n.appendChild(an);
                         }
                     }
-                    else if (m.Self.IsObject && !m.Self.IsNull)
+                    else if (m.Self.IsObject.And( !m.Self.IsNull))
                     {
                         SerializeTo(doc, n, m.Self);
                     }

@@ -131,7 +131,7 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [System.Obsolete("To be refactored.", true)]
         public void ForEachClassName(string className, System.Action<IHTMLElement> handler)
         {
-            throw new System.NotImplementedException(); 
+            throw new System.NotImplementedException();
             //getElementsByClassName(className).ForEach(handler);
         }
 
@@ -150,7 +150,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         [Script(DefineAsStatic = true)]
         public IHTMLDocument open(bool replace)
         {
-            return open("text/html", replace ? "replace" : "");
+            if (replace)
+                return open("text/html", "replace");
+
+            return open("text/html", "");
         }
 
 
@@ -321,11 +324,11 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         internal string designMode;
 
-		/// <summary>
-		/// http://code.google.com/p/doctype/wiki/DocumentDesignModeProperty
-		/// 
-		/// http://stackoverflow.com/questions/443033/editable-div-element
-		/// </summary>
+        /// <summary>
+        /// http://code.google.com/p/doctype/wiki/DocumentDesignModeProperty
+        /// 
+        /// http://stackoverflow.com/questions/443033/editable-div-element
+        /// </summary>
         public bool DesignMode
         {
             [Script(DefineAsStatic = true)]

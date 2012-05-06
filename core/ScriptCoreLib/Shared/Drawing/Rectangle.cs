@@ -91,7 +91,14 @@ namespace ScriptCoreLib.Shared.Drawing
             bool c = (rect.Top < (this.Bottom));
             bool d = (this.Top < (rect.Bottom));
 
-            return (a && b && c && d);
+            if (a)
+                if (b)
+                    if (c)
+                        if (d)
+                            return true;
+
+
+             return false;
         }
 
         public static Rectangle Of(int left, int top, int width, int height)
