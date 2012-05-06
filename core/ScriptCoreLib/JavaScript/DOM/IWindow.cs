@@ -100,7 +100,11 @@ namespace ScriptCoreLib.JavaScript.DOM
 
             f.push("width=" + width);
             f.push("height=" + height);
-            f.push("scrollbars=" + (scrollbars ? "yes" : "no"));
+
+            if (scrollbars)
+                f.push("scrollbars=" + "yes");
+            else
+                f.push("scrollbars=" +  "no");
 
 
 

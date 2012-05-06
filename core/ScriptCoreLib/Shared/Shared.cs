@@ -2,7 +2,31 @@ using Serializable = System.SerializableAttribute;
 
 namespace ScriptCoreLib.Shared
 {
-   
+
+    [Script]
+    public static class BooleanExtensions
+    {
+        public static bool Or(this bool e, bool x)
+        {
+            if (e)
+                return true;
+
+            return x;
+        }
+
+        public static bool And(this bool e, bool x)
+        {
+            if (e)
+                if (x)
+                    return true;
+
+            return false;
+        }
+    }
+}
+
+namespace ScriptCoreLib.Shared
+{
 
 
 

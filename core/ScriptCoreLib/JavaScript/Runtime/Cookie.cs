@@ -137,7 +137,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
             set
             {
-                Value = value ? "true" : "false";
+                if (value)
+
+                    Value = "true";
+                else
+                    Value = "false";
             }
         }
 

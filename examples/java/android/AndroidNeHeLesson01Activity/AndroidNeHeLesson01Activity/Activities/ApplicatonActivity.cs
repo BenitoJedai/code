@@ -16,13 +16,12 @@ using java.nio;
 using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
+using ScriptCoreLib.Android;
 
 namespace AndroidNeHeLesson01Activity.Activities
 {
-
-    using ScriptCoreLib.Android;
-    //using WebGLRenderingContext = GLES20; 
     using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
 
     public class AndroidNeHeLesson01Activity : Activity
     {
@@ -147,10 +146,10 @@ namespace AndroidNeHeLesson01Activity.Activities
             gl.clear(opengl.GL_COLOR_BUFFER_BIT);
 
             opengl.glBindBuffer(opengl.GL_ARRAY_BUFFER, vertexVBO);
-            opengl.glVertexAttribPointer(0, 3, opengl.GL_FLOAT, false, 0, vertices);
-            opengl.glEnableVertexAttribArray(0);
+            gl.vertexAttribPointer(0, 3, opengl.GL_FLOAT, false, 0, vertices);
+            gl.enableVertexAttribArray(0);
 
-            opengl.glDrawArrays(opengl.GL_TRIANGLES, 0, 3);
+            gl.drawArrays(opengl.GL_TRIANGLES, 0, 3);
         }
 
 
@@ -159,31 +158,22 @@ namespace AndroidNeHeLesson01Activity.Activities
         // all setup and data loading goes here
         public void onSurfaceCreated(GL10 arg0, EGLConfig arg1)
         {
-            vertexShader = new Shaders.GeometryVertexShader().compileShader();
-            fragmentShader = new Shaders.GeometryVertexShader().compileShader();
+            var shaderProgram = gl.createProgram();
 
-            programObject = gl.createProgram();
 
-            opengl.glAttachShader(programObject.value, vertexShader);
-            opengl.glAttachShader(programObject.value, fragmentShader);
+            var vs = gl.createShader( new Shaders.GeometryVertexShader() );
+            var fs = gl.createShader(  new Shaders.GeometryVertexShader() );
 
-            //glBindAttribLocation(programObject, 0, "position");
 
-            gl.linkProgram(programObject);
+            gl.attachShader(shaderProgram, vs);
+            gl.attachShader(shaderProgram, fs);
 
-            //int[] linkStatus = new int[1];
-            //opengl.glGetProgramiv(programObject, opengl.GL_LINK_STATUS, linkStatus, 0);
 
-            //if (linkStatus[0] == 0)
-            //{
-            //    //Log.e("NeHe", "Linking program failed:"+opengl.glGetProgramInfoLog(programObject));
-            //    gl.deleteProgram(programObject);
-            //    return false;
-            //}
+            gl.linkProgram(shaderProgram);
 
             
-            gl.useProgram(programObject);
-            positionAttribLocation = gl.getAttribLocation(programObject, "position");
+            gl.useProgram(shaderProgram);
+            positionAttribLocation = gl.getAttribLocation(shaderProgram, "position");
 
             // setup geometry
             float[] verticesData = 
@@ -210,9 +200,6 @@ namespace AndroidNeHeLesson01Activity.Activities
 
         __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
-        private int vertexShader = 0;
-        private int fragmentShader = 0;
-        private WebGLProgram programObject;
 
   
      

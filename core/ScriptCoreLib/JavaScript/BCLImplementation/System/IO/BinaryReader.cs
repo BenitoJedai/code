@@ -140,7 +140,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.IO
 					var gt_191 = c > 191;
 					var lt_224 = c < 224;
 
-					if (gt_191 && lt_224)
+                    var value = gt_191;
+
+                    if (!lt_224)
+                        value = false;
+
+					if (value)
 					{
 						int c2 = bytes[i + 1];
 						a.push(((c & 31) << 6) | (c2 & 63));

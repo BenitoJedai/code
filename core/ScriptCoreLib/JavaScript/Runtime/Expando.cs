@@ -216,7 +216,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
 
                 if (e.IsBoolean)
                 {
-                    w.Write(e.To<bool>() ? "true" : "false");
+                    if (e.To<bool>())
+                        w.Write("true");
+                    else
+                        w.Write("false");
                 }
             }
 
@@ -231,62 +234,62 @@ namespace ScriptCoreLib.JavaScript.Runtime
             return new Expando(this.GetMembers());
         }
 
-        [Script(DefineAsStatic = true)]
-        public string PHPSerialize()
-        {
-            return PHPSerialize(0);
-        }
+        //[Script(DefineAsStatic = true)]
+        //public string PHPSerialize()
+        //{
+        //    return PHPSerialize(0);
+        //}
 
-        [Script(DefineAsStatic = true)]
-        private string PHPSerialize(int depth)
-        {
-            StringWriter w = new StringWriter();
+        //[Script(DefineAsStatic = true)]
+        //private string PHPSerialize(int depth)
+        //{
+        //    StringWriter w = new StringWriter();
 
-            if (this.IsObject)
-            {
-                ExpandoMember[] m = this.GetFields();
+        //    if (this.IsObject)
+        //    {
+        //        ExpandoMember[] m = this.GetFields();
 
-                w.Write("a:" + m.Length + ":{");
+        //        w.Write("a:" + m.Length + ":{");
 
 
-                StringWriter wm = new StringWriter();
+        //        StringWriter wm = new StringWriter();
 
-                foreach (ExpandoMember x in m)
-                {
-                    wm.Write(Expando.Of(x.Name).PHPSerialize(depth + 1));
-                    wm.Write(x.Self.PHPSerialize(depth + 1));
-                }
+        //        foreach (ExpandoMember x in m)
+        //        {
+        //            wm.Write(Expando.Of(x.Name).PHPSerialize(depth + 1));
+        //            wm.Write(x.Self.PHPSerialize(depth + 1));
+        //        }
 
-                //if (depth > 0)
-                wm.Write();
+        //        //if (depth > 0)
+        //        wm.Write();
 
-                w.Write(wm.GetString(";"));
-                w.Write("}");
-            }
-            else if (this.IsString)
-            {
-                string s = this.GetValue();
+        //        w.Write(wm.GetString(";"));
+        //        w.Write("}");
+        //    }
+        //    else if (this.IsString)
+        //    {
+        //        string s = this.GetValue();
 
-                w.Write("s:" + s.Length + ":\"" + s + "\"");
-            }
-            else if (this.IsBoolean)
-            {
-                w.Write("i:" + (this.To<bool>() ? 1 : 0));
-            }
-            else if (this.IsNumber)
-            {
-                if (this.IsDouble)
-                {
+        //        w.Write("s:" + s.Length + ":\"" + s + "\"");
+        //    }
+        //    else if (this.IsBoolean)
+        //    {
+        //        w.Write("i:" + (this.To<bool>() ? 1 : 0));
+        //    }
+        //    else if (this.IsNumber)
+        //    {
+        //        if (this.IsDouble)
+        //        {
 
-                    w.Write("d:" + this.To<double>());
-                }
-                else
-                    w.Write("i:" + this.To<int>());
+        //            w.Write("d:" + this.To<double>());
+        //        }
+        //        else
+        //            w.Write("i:" + this.To<int>());
 
-            }
+        //    }
 
-            return w.GetString();
-        }
+        //    return w.GetString();
+        //}
 
         public string Literal
         {
@@ -328,8 +331,8 @@ namespace ScriptCoreLib.JavaScript.Runtime
                                 // \x not supported
                                 // w.Write(@"\x" + Convert.ToHexString(c));
 
-								
-								w.Write(BCLImplementation.System.__String.FromCharCode(x));
+
+                                w.Write(BCLImplementation.System.__String.FromCharCode(x));
                             }
 
                         }
@@ -575,7 +578,10 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 }
             }
 
-            return a.Found ? a : null;
+            if (a.Found)
+                return a;
+
+            return null;
         }
 
 
@@ -642,20 +648,18 @@ namespace ScriptCoreLib.JavaScript.Runtime
                 {
                     ExpandoMember m = new ExpandoMember(this, n);
 
+                    var s = m.Self;
 
-                    bool fString = (m.Self.IsString && bString);
-                    bool fBoolean = (m.Self.IsBoolean && bBoolean);
-                    bool fNumber = (m.Self.IsNumber && bNumber);
-                    bool fObject = (m.Self.IsObject && bObject);
-                    bool fFunction = (m.Self.IsFunction && bFunction);
-                    bool fVoid = (m.Self.IsUndefined && bVoid);
+                    bool fString = s.IsString.And(bString);
+                    bool fBoolean = s.IsBoolean.And(bBoolean);
+                    bool fNumber = s.IsNumber.And(bNumber);
+                    bool fObject = s.IsObject.And(bObject);
+                    bool fFunction = s.IsFunction.And(bFunction);
+                    bool fVoid = s.IsUndefined.And(bVoid);
 
-                    if (fString
-                        || fBoolean
-                        || fNumber
-                        || fObject
-                        || fFunction
-                        || fVoid)
+                    var v = fString.Or(fBoolean).Or(fNumber).Or(fObject).Or(fFunction).Or(fVoid);
+
+                    if (v)
                         e.push(m);
                 }
             }
@@ -720,7 +724,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
             [Script(DefineAsStatic = true)]
             get
             {
-                return IsObject && this.IsInstanceOf(Native.Window.Array);
+                if (IsObject)
+                    if (this.IsInstanceOf(Native.Window.Array))
+                        return true;
+
+                return false;
             }
         }
 
@@ -826,7 +834,11 @@ namespace ScriptCoreLib.JavaScript.Runtime
             [Script(DefineAsStatic = true)]
             get
             {
-                return IsObject && To<object>() == null;
+                if (IsObject)
+                    if (To<object>() == null)
+                        return true;
+
+                return false;
             }
         }
 
@@ -1016,7 +1028,7 @@ namespace ScriptCoreLib.JavaScript.Runtime
             }
         }
 
-        [Script(OptimizedCode="return (m in t);")]
+        [Script(OptimizedCode = "return (m in t);")]
         static bool InternalContains(object m, object t)
         {
             return default(bool);

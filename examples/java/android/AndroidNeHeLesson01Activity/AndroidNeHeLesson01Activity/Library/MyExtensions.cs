@@ -12,15 +12,7 @@ namespace AndroidNeHeLesson01Activity.Library
 {
     public static class MyExtensions
     {
-        public static int compileShader(this ScriptCoreLib.GLSL.FragmentShader fragmentShader)
-        {
-            return ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader.ToAndroidString());
-        }
 
-        public static int compileShader(this ScriptCoreLib.GLSL.VertexShader fragmentShader)
-        {
-            return ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, fragmentShader.ToAndroidString());
-        }
 
 
         [Obsolete("This is a workaround. object.ToString not yet supported")]

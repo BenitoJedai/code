@@ -18,10 +18,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public __DateTime(long ticks)
         {
-            if ((ticks < 0L) || (ticks > 3155378975999999999L))
-            {
-                throw new Exception("ArgumentOutOfRange_DateTimeBadTicks");
-            }
+            //if ((ticks < 0L) || (ticks > 3155378975999999999L))
+            //{
+            //    throw new Exception("ArgumentOutOfRange_DateTimeBadTicks");
+            //}
 
             var ms = (ticks - ticks_1970_1_1) / TicksPerMillisecond;
 
@@ -154,7 +154,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
                 throw new Exception("ArgumentOutOfRange_Month");
 
 
-            int[] numArray = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
+            int[] numArray = DaysToMonth365;
+
+            if ( IsLeapYear(year) )  numArray = DaysToMonth366;
 
             return (numArray[month] - numArray[month - 1]);
         }

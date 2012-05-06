@@ -17,29 +17,32 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
 
         // TODO: dom events and delay events do not support truly multiple targets
-		IFunction InvokePointerCache;
+        IFunction InvokePointerCache;
 
-		public IFunction InvokePointer
-		{
-			get
-			{
-				if (InvokePointerCache == null)
-					InvokePointerCache = InternalGetAsyncInvoke(Target, Method);
+        public IFunction InvokePointer
+        {
+            get
+            {
+                if (InvokePointerCache == null)
+                    InvokePointerCache = InternalGetAsyncInvoke(Target, Method);
 
-				return InvokePointerCache;
-			}
-		}
+                return InvokePointerCache;
+            }
+        }
 
         public __Delegate(object e, global::System.IntPtr p)
         {
-            Target = e == null ? Native.Window : e;
+            if (e == null)
+                e = Native.Window;
+
+            Target = e;
             Method = p;
         }
 
 
 
 
-		[Script(OptimizedCode = "return function() { return o[p].apply(o, arguments); }")]
+        [Script(OptimizedCode = "return function() { return o[p].apply(o, arguments); }")]
         internal static IFunction InternalGetAsyncInvoke(object o, global::System.IntPtr p)
         {
             return default(IFunction);
@@ -84,7 +87,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
 
         public override bool Equals(object obj)
         {
-            return IsEqual(this,  (BCLImplementation.System.__Delegate)obj );
+            return IsEqual(this, (BCLImplementation.System.__Delegate)obj);
 
         }
 
@@ -97,8 +100,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             if ((object)b == null)
                 return false;
 
-            return a.Method == b.Method &&
-                    a.Target == b.Target;
+            if (a.Method == b.Method)
+                if (a.Target == b.Target)
+                    return true;
+
+            return false;
         }
 
         // a bug if the operator itself compares to nulls

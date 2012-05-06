@@ -13,23 +13,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return Expando.ReferenceEquals(objA, objB);
         }
 
-        [Script(OptimizedCode="return i.constructor.prototype;")]
+        [Script(OptimizedCode = "return i.constructor.prototype;")]
         static IntPtr GetPrototype(object i)
         {
             return default(IntPtr);
         }
 
 
-        [Script(DefineAsStatic=true)]
+        [Script(DefineAsStatic = true)]
         new public Type GetType()
         {
             var x = new __RuntimeTypeHandle(
                 GetPrototype(this)
-               //(IntPtr) new DOM.IFunction("i", "return i.constructor.prototype;").apply(null, this)
-               
+                //(IntPtr) new DOM.IFunction("i", "return i.constructor.prototype;").apply(null, this)
+
             );
 
-            return Type.GetTypeFromHandle( x );
+            return Type.GetTypeFromHandle(x);
         }
 
         public static bool Equals(object objA, object objB)
@@ -38,10 +38,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             {
                 return true;
             }
-            if ((objA != null) && (objB != null))
-            {
-                return objA.Equals(objB);
-            }
+            if (objA != null)
+                if (objB != null)
+                    return objA.Equals(objB);
+
             return false;
 
 

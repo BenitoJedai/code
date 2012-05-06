@@ -115,6 +115,46 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glClear(p);
         }
+
+        internal void vertexAttribPointer(int p1, int p2, int p3, bool p4, int p5, java.nio.FloatBuffer vertices)
+        {
+            GLES20.glVertexAttribPointer(p1, p2, p3, p4, p5, vertices);
+        }
+
+        internal void enableVertexAttribArray(int p)
+        {
+            GLES20.glEnableVertexAttribArray(p);
+        }
+
+        internal void drawArrays(int p1, int p2, int p3)
+        {
+            GLES20.glDrawArrays(p1, p2, p3);
+        }
+
+        internal WebGLShader createShader(int shaderType)
+        {
+            return new WebGLShader { value = GLES20.glCreateShader(shaderType) };
+        }
+
+        internal  void shaderSource(WebGLShader shaderHandle, string shaderSource)
+        {
+            GLES20.glShaderSource(shaderHandle.value, shaderSource);
+        }
+
+        internal void compileShader(WebGLShader shaderHandle)
+        {
+            GLES20.glCompileShader(shaderHandle.value);
+        }
+
+        internal void deleteShader(WebGLShader shaderHandle)
+        {
+            GLES20.glDeleteShader(shaderHandle.value);
+        }
+
+        internal void attachShader(WebGLProgram program, WebGLShader vertexShader)
+        {
+            GLES20.glAttachShader(program.value, vertexShader.value);
+        }
     }
 
     class WebGLUniformLocation
@@ -123,6 +163,11 @@ namespace ScriptCoreLib.Android
     }
 
     class WebGLProgram
+    {
+        public int value;
+    }
+
+    class WebGLShader
     {
         public int value;
     }

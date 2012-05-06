@@ -227,8 +227,10 @@ namespace ScriptCoreLib.JavaScript.DOM
             IArray<TItem> win = Split(p, "\r\n");
             IArray<TItem> unix = Split(p, "\n");
 
-            
-            return win.length >= unix.length ? win : unix;
+            if (win.length >= unix.length)
+                return win;
+
+            return unix;
         }
 
 
