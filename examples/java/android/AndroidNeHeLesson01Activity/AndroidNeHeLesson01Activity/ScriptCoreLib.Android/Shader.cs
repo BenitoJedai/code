@@ -95,6 +95,26 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glViewport(p1, p2, width, height);
         }
+
+        internal WebGLProgram createProgram()
+        {
+            return new WebGLProgram { value = GLES20.glCreateProgram() };
+        }
+
+        internal void deleteProgram(WebGLProgram programObject)
+        {
+            GLES20.glDeleteProgram(programObject.value);
+        }
+
+        internal void linkProgram(WebGLProgram programObject)
+        {
+            GLES20.glLinkProgram(programObject.value);
+        }
+
+        internal void clear(int p)
+        {
+            GLES20.glClear(p);
+        }
     }
 
     class WebGLUniformLocation
