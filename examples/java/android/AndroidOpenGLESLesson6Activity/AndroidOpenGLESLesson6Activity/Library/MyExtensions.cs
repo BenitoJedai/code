@@ -32,6 +32,7 @@ namespace AndroidOpenGLESLesson6Activity.Library
 
         public static void setText(this TextView e, string value)
         {
+            // http://stackoverflow.com/questions/1049228/charsequence-vs-string-in-java
             // this cast will work on JVM
             e.setText((java.lang.CharSequence)(object)value);
         }
