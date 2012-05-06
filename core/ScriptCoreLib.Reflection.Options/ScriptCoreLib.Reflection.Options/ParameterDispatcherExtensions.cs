@@ -76,7 +76,13 @@ namespace ScriptCoreLib.Reflection.Options
 			var i = arg.IndexOf(".");
 			var j = arg.IndexOf(":");
 
-			if (i < 0 || i > j)
+
+            var value = i < 0;
+
+            value |= i > j;
+
+
+            if (value)
 			{
 
 				if (j > 0)
