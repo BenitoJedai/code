@@ -9,179 +9,182 @@ using ScriptCoreLib.Ultra.Studio.Formatting;
 
 namespace ScriptCoreLib.Ultra.Studio
 {
-	public static class SolutionFileExtensionsWithXElement
-	{
+    public static class SolutionFileExtensionsWithXElement
+    {
 
 
 
 
-		public static void WriteHTMLElement(this SolutionFile File, XElement Content)
-		{
-			Write(File, Content, File.HTMLElementFormatting);
-		}
+        public static void WriteHTMLElement(this SolutionFile File, XElement Content)
+        {
+            Write(File, Content, File.HTMLElementFormatting);
+        }
 
-		public static void WriteXElement(this SolutionFile File, XElement Content)
-		{
-			Write(File, Content, File.XElementFormatting);
-		}
+        public static void WriteXElement(this SolutionFile File, XElement Content)
+        {
+            Write(File, Content, File.XElementFormatting);
+        }
 
-		public static void Write(this SolutionFile File, XElement Content, XElementFormatting Arguments)
-		{
-			Action<XElement> WriteXElement = null;
-			Action<XElement> WriteXElementRoot = null;
-
-
-			Action PrettyPrintLine =
-				delegate
-				{
-					File.Indent(null,
-						delegate
-						{
-							File.WriteLine();
-							File.IndentStack.Invoke();
-						}
-					);
-				};
-
-			WriteXElementRoot =
-				e =>
-				{
-					File.Region(
-						delegate
-						{
-							//if (e != Content)
-							//    File.IndentStack.Invoke();
-
-							File.Write(SolutionFileTextFragment.XMLKeyword, "<");
-							File.Write(SolutionFileTextFragment.XMLElement, Arguments.GetName(e));
-
-							foreach (var item in e.Attributes().ToArray())
-							{
-								File.WriteSpace();
-								File.Write(SolutionFileTextFragment.XMLAttributeName, item.Name.LocalName);
-								File.Write(SolutionFileTextFragment.XMLKeyword, "=");
-								File.Write(SolutionFileTextFragment.XMLKeyword, "'");
-
-								// we need to escape
-								// http://bytes.com/topic/net/answers/551321-incomplete-escaping-functionality
-
-								Arguments.WriteXMLAttributeValue(e, item, File);
-
-								File.Write(SolutionFileTextFragment.XMLKeyword, "'");
-							}
-
-							var IsCollapsed = Arguments.CanCollapse(e) && !e.Nodes().Any();
-
-							if (IsCollapsed)
-							{
-								File.Write(SolutionFileTextFragment.XMLKeyword, "/>");
-							}
-							else
-							{
-								File.Write(SolutionFileTextFragment.XMLKeyword, ">");
-
-								#region content
-
-								var IsElementOnly = !e.Nodes().Any(k => k is XText);
-
-								//if (IsElementOnly)
-								//{
-								//    if (e.Nodes().FirstOrDefault() is XElement)
-								//    {
-								//        PrettyPrintLine();
-								//    }
-								//}
-
-								var Previous = default(XNode);
-								foreach (var item in e.Nodes().ToArray())
-								{
-									// we need to escape
+        public static void Write(this SolutionFile File, XElement Content, XElementFormatting Arguments)
+        {
+            Action<XElement> WriteXElement = null;
+            Action<XElement> WriteXElementRoot = null;
 
 
+            Action PrettyPrintLine =
+                delegate
+                {
+                    File.Indent(null,
+                        delegate
+                        {
+                            File.WriteLine();
+                            File.IndentStack.Invoke();
+                        }
+                    );
+                };
 
-									var _XElement = item as XElement;
-									if (_XElement != null)
-									{
-										if (IsElementOnly)
-										{
-											PrettyPrintLine();
-										}
+            WriteXElementRoot =
+                e =>
+                {
+                    File.Region(
+                        delegate
+                        {
+                            //if (e != Content)
+                            //    File.IndentStack.Invoke();
 
-										WriteXElement(_XElement);
-									}
+                            File.Write(SolutionFileTextFragment.XMLKeyword, "<");
+                            File.Write(SolutionFileTextFragment.XMLElement, Arguments.GetName(e));
 
-									var _XText = item as XText;
-									if (_XText != null)
-									{
-										Func<string, Action> WriteXMLText =
-											vv =>
-											{
-												return delegate
-												{
-													File.Write(SolutionFileTextFragment.XMLText, InternalXMLExtensions.ToXMLString(vv));
-												};
-											};
+                            foreach (var item in e.Attributes().ToArray())
+                            {
+                                File.WriteSpace();
+                                File.Write(SolutionFileTextFragment.XMLAttributeName, item.Name.LocalName);
+                                File.Write(SolutionFileTextFragment.XMLKeyword, "=");
+                                File.Write(SolutionFileTextFragment.XMLKeyword, "'");
 
-										Action Separator =
-											delegate
-											{
-												File.WriteLine();
-												File.IndentStack.Invoke();
-											};
+                                // we need to escape
+                                // http://bytes.com/topic/net/answers/551321-incomplete-escaping-functionality
 
-										_XText.Value.Replace("\n", Environment.NewLine).Replace("\r" + Environment.NewLine, Environment.NewLine).ToLines().Select(WriteXMLText).SelectWithSeparator(Separator).Invoke();
-									}
+                                Arguments.WriteXMLAttributeValue(e, item, File);
 
-									var _XComment = item as XComment;
-									if (_XComment != null)
-									{
-										File.Write(SolutionFileTextFragment.XMLKeyword, "<!--");
-										File.Write(SolutionFileTextFragment.XMLComment, _XComment.Value);
-										File.Write(SolutionFileTextFragment.XMLKeyword, "-->");
-									}
+                                File.Write(SolutionFileTextFragment.XMLKeyword, "'");
+                            }
 
-									Previous = item;
-								}
+                            var IsCollapsed = Arguments.CanCollapse(e);
 
-								if (IsElementOnly)
-								{
-									if (e.Nodes().LastOrDefault() is XElement)
-									{
-										File.WriteLine();
-										File.IndentStack.Invoke();
-									}
-								}
-								#endregion
+                            if (e.Nodes().Any())
+                                IsCollapsed = false;
 
+                            if (IsCollapsed)
+                            {
+                                File.Write(SolutionFileTextFragment.XMLKeyword, "/>");
+                            }
+                            else
+                            {
+                                File.Write(SolutionFileTextFragment.XMLKeyword, ">");
 
-								File.Write(SolutionFileTextFragment.XMLKeyword, "</");
-								File.Write(SolutionFileTextFragment.XMLElement, Arguments.GetName(e));
-								File.Write(SolutionFileTextFragment.XMLKeyword, ">");
-							}
+                                #region content
 
-							//if (e != Content)
-							//{
-							//    File.WriteLine();
-							//}
-						}
-					);
+                                var IsElementOnly = !e.Nodes().Any(k => k is XText);
 
-				};
+                                //if (IsElementOnly)
+                                //{
+                                //    if (e.Nodes().FirstOrDefault() is XElement)
+                                //    {
+                                //        PrettyPrintLine();
+                                //    }
+                                //}
 
-			WriteXElement =
-				e =>
-				{
-					File.Indent(null,
-						delegate
-						{
-							WriteXElementRoot(e);
-						}
-					);
-				};
-
-			WriteXElementRoot(Content);
-		}
+                                var Previous = default(XNode);
+                                foreach (var item in e.Nodes().ToArray())
+                                {
+                                    // we need to escape
 
 
-	}
+
+                                    var _XElement = item as XElement;
+                                    if (_XElement != null)
+                                    {
+                                        if (IsElementOnly)
+                                        {
+                                            PrettyPrintLine();
+                                        }
+
+                                        WriteXElement(_XElement);
+                                    }
+
+                                    var _XText = item as XText;
+                                    if (_XText != null)
+                                    {
+                                        Func<string, Action> WriteXMLText =
+                                            vv =>
+                                            {
+                                                return delegate
+                                                {
+                                                    File.Write(SolutionFileTextFragment.XMLText, InternalXMLExtensions.ToXMLString(vv));
+                                                };
+                                            };
+
+                                        Action Separator =
+                                            delegate
+                                            {
+                                                File.WriteLine();
+                                                File.IndentStack.Invoke();
+                                            };
+
+                                        _XText.Value.Replace("\n", Environment.NewLine).Replace("\r" + Environment.NewLine, Environment.NewLine).ToLines().Select(WriteXMLText).SelectWithSeparator(Separator).Invoke();
+                                    }
+
+                                    var _XComment = item as XComment;
+                                    if (_XComment != null)
+                                    {
+                                        File.Write(SolutionFileTextFragment.XMLKeyword, "<!--");
+                                        File.Write(SolutionFileTextFragment.XMLComment, _XComment.Value);
+                                        File.Write(SolutionFileTextFragment.XMLKeyword, "-->");
+                                    }
+
+                                    Previous = item;
+                                }
+
+                                if (IsElementOnly)
+                                {
+                                    if (e.Nodes().LastOrDefault() is XElement)
+                                    {
+                                        File.WriteLine();
+                                        File.IndentStack.Invoke();
+                                    }
+                                }
+                                #endregion
+
+
+                                File.Write(SolutionFileTextFragment.XMLKeyword, "</");
+                                File.Write(SolutionFileTextFragment.XMLElement, Arguments.GetName(e));
+                                File.Write(SolutionFileTextFragment.XMLKeyword, ">");
+                            }
+
+                            //if (e != Content)
+                            //{
+                            //    File.WriteLine();
+                            //}
+                        }
+                    );
+
+                };
+
+            WriteXElement =
+                e =>
+                {
+                    File.Indent(null,
+                        delegate
+                        {
+                            WriteXElementRoot(e);
+                        }
+                    );
+                };
+
+            WriteXElementRoot(Content);
+        }
+
+
+    }
 }
