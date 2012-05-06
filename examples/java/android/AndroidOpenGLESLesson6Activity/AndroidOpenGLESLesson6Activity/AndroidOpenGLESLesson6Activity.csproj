@@ -109,7 +109,9 @@
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
-    <Content Include="staging\AndroidManifest.xml" />
+    <Content Include="staging\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="staging\res\drawable-mdpi\ic_launcher.png" />
     <Content Include="staging\res\drawable\noisy_grass_public_domain.png" />
     <Content Include="staging\res\drawable\stone_wall_public_domain.png" />
