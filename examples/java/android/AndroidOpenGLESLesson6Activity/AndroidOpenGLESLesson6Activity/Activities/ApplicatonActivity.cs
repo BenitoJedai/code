@@ -16,15 +16,13 @@ using java.nio;
 using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
+using ScriptCoreLib.Android;
 
 namespace AndroidOpenGLESLesson6Activity.Activities
 {
-
-    using ScriptCoreLib.Android;
-    //using WebGLRenderingContext = GLES20; 
     using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
 
-    //[Script]
     public class AndroidOpenGLESLesson6Activity : Activity
     {
         // port from http://www.learnopengles.com/android-lesson-six-an-introduction-to-texture-filtering/
@@ -79,31 +77,17 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             // http://www.learnopengles.com/android-emulator-now-supports-native-opengl-es2-0/
 
-            var supportsEs2 = true;
 
-            //// Check if the system supports OpenGL ES 2.0.
-            //ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-            //ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-            //bool supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
+            // Request an OpenGL ES 2.0 compatible context.
+            mGLSurfaceView.setEGLContextClientVersion(2);
 
-            if (supportsEs2)
-            {
-                // Request an OpenGL ES 2.0 compatible context.
-                mGLSurfaceView.setEGLContextClientVersion(2);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            // Set the renderer to our demo renderer, defined below.
+            mRenderer = new LessonSixRenderer(this);
+            mGLSurfaceView.setRenderer(mRenderer, displayMetrics.density);
 
-                // Set the renderer to our demo renderer, defined below.
-                mRenderer = new LessonSixRenderer(this);
-                mGLSurfaceView.setRenderer(mRenderer, displayMetrics.density);
-            }
-            else
-            {
-                // This is where you could create an OpenGL ES 1.x compatible
-                // renderer if you wanted to support both ES 1 and ES 2.
-                return;
-            }
 
             findViewById(R.id.button_set_min_filter).setOnClickListener(
                 new button_set_min_filter_onclick { __this = this }
@@ -737,26 +721,20 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
 
-            mProgramHandle = new __WebGLProgram
-            {
-                value =
-                    ShaderHelper.createAndLinkProgram(
-                    new Shaders.per_pixel_tex_and_lightFragmentShader().compileShader(),
-                    new Shaders.per_pixel_tex_and_lightVertexShader().compileShader(),
-                    "a_Position", "a_Normal", "a_TexCoordinate"
-                )
-            };
+            mProgramHandle = gl.createAndLinkProgram(
+                new Shaders.per_pixel_tex_and_lightVertexShader(),
+                new Shaders.per_pixel_tex_and_lightFragmentShader(),
+                "a_Position", "a_Normal", "a_TexCoordinate"
+            );
 
             // Define a simple shader program for our point.
-            mPointProgramHandle = new __WebGLProgram
-            {
-                value =
-                    ShaderHelper.createAndLinkProgram(
-                    new Shaders.pointVertexShader().compileShader(),
-                    new Shaders.pointFragmentShader().compileShader(),
-                    "a_Position"
-                )
-            };
+            mPointProgramHandle = gl.createAndLinkProgram(
+                new Shaders.pointVertexShader(),
+                new Shaders.pointFragmentShader(),
+                "a_Position"
+            );
+
+
 
             // Load the texture
             mBrickDataHandle = TextureHelper.loadTexture(mActivityContext, R.drawable.stone_wall_public_domain);

@@ -10,7 +10,6 @@ using android.util;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidNeHeLesson01Activity.Library;
 using java.lang;
 using java.nio;
 using javax.microedition.khronos.egl;

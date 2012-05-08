@@ -77,17 +77,15 @@
   <ItemGroup>
     <Compile Include="Activities\R.cs" />
     <Compile Include="Library\ShapeBuilder.cs" />
-    <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Activities\ApplicatonActivity.cs" />
-    <Compile Include="Library\ShaderHelper.cs" />
     <Compile Include="Library\TextureHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptCoreLib.Android\Shader.cs" />
-    <Compile Include="Shaders\GeometryFragmentShader.cs" >
+    <Compile Include="Shaders\GeometryFragmentShader.cs">
       <DependentUpon>Geometry.frag</DependentUpon>
     </Compile>
-    <Compile Include="Shaders\GeometryVertexShader.cs" >
+    <Compile Include="Shaders\GeometryVertexShader.cs">
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
   </ItemGroup>
