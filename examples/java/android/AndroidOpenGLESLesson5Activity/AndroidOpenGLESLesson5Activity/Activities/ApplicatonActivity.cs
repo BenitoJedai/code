@@ -17,14 +17,14 @@ using java.nio;
 using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
+using System.ComponentModel;
+using ScriptCoreLib.Android;
 
 namespace AndroidOpenGLESLesson5Activity.Activities
 {
-    using System.ComponentModel;
-    //using WebGLRenderingContext = GLES20; 
-    using gl = GLES20;
+    using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
 
-    [Script]
     public class AndroidOpenGLESLesson5Activity : Activity
     {
         // port from http://www.learnopengles.com/android-lesson-five-an-introduction-to-blending/
@@ -56,50 +56,24 @@ namespace AndroidOpenGLESLesson5Activity.Activities
         /** Hold a reference to our GLSurfaceView */
         private GLSurfaceView mGLSurfaceView;
 
-        private const string SHOWED_TOAST = "showed_toast";
-
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
 
             mGLSurfaceView = new GLSurfaceView(this);
 
-            // Check if the system supports OpenGL ES 2.0.
-            ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-            ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-            var supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
 
-            if (supportsEs2)
-            {
-                // Request an OpenGL ES 2.0 compatible context.
-                mGLSurfaceView.setEGLContextClientVersion(2);
+            // Request an OpenGL ES 2.0 compatible context.
+            mGLSurfaceView.setEGLContextClientVersion(2);
 
-                // Set the renderer to our demo renderer, defined below.
-                mGLSurfaceView.setRenderer(new LessonFiveRenderer(this));
-            }
-            else
-            {
-                // This is where you could create an OpenGL ES 1.x compatible
-                // renderer if you wanted to support both ES 1 and ES 2.
-                return;
-            }
+            // Set the renderer to our demo renderer, defined below.
+            mGLSurfaceView.setRenderer(new LessonFiveRenderer(this));
 
             setContentView(mGLSurfaceView);
 
-            ShowToast(savedInstanceState);
+            this.ShowToast("http://jsc-solutions.net");
         }
 
-        [Description("C# 5 has rendered the || operation unsupported in current version of JSC.")]
-        private void ShowToast(global::android.os.Bundle savedInstanceState)
-        {
-            // Show a short help message to the user.
-
-            if (savedInstanceState != null)
-                if (savedInstanceState.getBoolean(SHOWED_TOAST, false))
-                    return;
-
-            Toast.makeText(this, (CharSequence)(object)"Tap the screen to switch between blended and normal mode.", Toast.LENGTH_SHORT).show();
-        }
 
         #region pause
 
@@ -121,18 +95,20 @@ namespace AndroidOpenGLESLesson5Activity.Activities
         #endregion
 
 
-        [Script]
         class LessonFiveGLSurfaceView : GLSurfaceView
         {
             public LessonFiveRenderer mRenderer;
 
-            public LessonFiveGLSurfaceView(Context context)
-                : base(context)
+            public LessonFiveGLSurfaceView(Context context) : base(context)
+            {
+                nop();
+            }
+
+            private void nop()
             {
             }
 
 
-            [Script]
             class Handler : Runnable
             {
                 public LessonFiveGLSurfaceView __this;
@@ -171,9 +147,9 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             }
         }
 
-        [Script]
         class LessonFiveRenderer : GLSurfaceView.Renderer
         {
+            __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
 
 
@@ -203,7 +179,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             private FloatBuffer mCubeColors;
 
             /** This will be used to pass in the transformation matrix. */
-            private int mMVPMatrixHandle;
+            private __WebGLUniformLocation mMVPMatrixHandle;
 
             /** This will be used to pass in model position information. */
             private int mPositionHandle;
@@ -221,7 +197,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
             private int mColorDataSize = 4;
 
             /** This is a handle to our cube shading program. */
-            private int mProgramHandle;
+            private __WebGLProgram mProgramHandle;
 
             /** This will be used to switch between blending mode and regular mode. */
             private bool mBlending = true;
@@ -269,48 +245,7 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 mCubeColors.put(cubeColorData).position(0);
             }
 
-            protected String getVertexShader()
-            {
-                return @"
-uniform mat4 u_MVPMatrix;		// A constant representing the combined model/view/projection matrix.      		             		
-		  			
-attribute vec4 a_Position;		// Per-vertex position information we will pass in.   				
-attribute vec4 a_Color;			// Per-vertex color information we will pass in. 				 		
-		       		
-varying vec4 v_Color;			// This will be passed into the fragment shader.          		    		
-		  
-// The entry point for our vertex shader.  
-void main()                                                 	
-{                                                         	           		
-	// Pass through the color.
-	v_Color = a_Color;	
-          
-	// gl_Position is a special variable used to store the final position.
-	// Multiply the vertex by the matrix to get the final point in normalized screen coordinates.
-	gl_Position = u_MVPMatrix * a_Position;                       		  
-}   
-
-";
-            }
-
-            protected String getFragmentShader()
-            {
-                return @"
-
-
-precision mediump float;       	// Set the default precision to medium. We don't need as high of a 
-								// precision in the fragment shader.
-varying vec4 v_Color;          	// This is the color from the vertex shader interpolated across the 
-  								// triangle per fragment.
-  
-// The entry point for our fragment shader.
-void main()                    		
-{                              	
-	// Pass through the color
-    gl_FragColor = v_Color;                                  		
-}                                                       
-";
-            }
+            
 
             public void switchMode()
             {
@@ -344,7 +279,7 @@ void main()
             public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
             {
                 // Set the background clear color to black.
-                GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // No culling of back faces
                 GLES20.glDisable(GLES20.GL_CULL_FACE);
@@ -377,20 +312,18 @@ void main()
                 // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-                string vertexShader = getVertexShader();
-                string fragmentShader = getFragmentShader();
-
-                int vertexShaderHandle = ShaderHelper.compileShader(GLES20.GL_VERTEX_SHADER, vertexShader);
-                int fragmentShaderHandle = ShaderHelper.compileShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader);
-
-                mProgramHandle = ShaderHelper.createAndLinkProgram(vertexShaderHandle, fragmentShaderHandle,
-                        new String[] { "a_Position", "a_Color" });
+          
+                mProgramHandle = gl.createAndLinkProgram(
+                    new Shaders.colorVertexShader(),
+                    new Shaders.colorFragmentShader(),
+                     "a_Position", "a_Color" 
+                );
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
             {
                 // Set the OpenGL viewport to the same size as the surface.
-                GLES20.glViewport(0, 0, width, height);
+                gl.viewport(0, 0, width, height);
 
                 // Create a new perspective projection matrix. The height will stay the same
                 // while the width will vary as per aspect ratio.
@@ -409,11 +342,11 @@ void main()
             {
                 if (mBlending)
                 {
-                    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+                    gl.clear(GLES20.GL_COLOR_BUFFER_BIT);
                 }
                 else
                 {
-                    GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+                    gl.clear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
                 }
 
                 // Do a complete rotation every 10 seconds.
@@ -421,12 +354,12 @@ void main()
                 float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
 
                 // Set our program
-                GLES20.glUseProgram(mProgramHandle);
+                gl.useProgram(mProgramHandle);
 
                 // Set program handles for cube drawing.
-                mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
-                mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");
-                mColorHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Color");
+                mMVPMatrixHandle = gl.getUniformLocation(mProgramHandle, "u_MVPMatrix");
+                mPositionHandle = gl.getAttribLocation(mProgramHandle, "a_Position");
+                mColorHandle = gl.getAttribLocation(mProgramHandle, "a_Color");
 
                 // Draw some cubes.        
                 Matrix.setIdentityM(mModelMatrix, 0);
@@ -482,7 +415,7 @@ void main()
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
                 // Pass in the combined matrix.
-                GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
                 // Draw the cube.
                 GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);

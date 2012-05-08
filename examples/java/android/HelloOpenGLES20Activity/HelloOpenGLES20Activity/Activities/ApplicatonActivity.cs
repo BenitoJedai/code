@@ -102,7 +102,6 @@ namespace HelloOpenGLES20Activity.Activities
         }
 
 
-        [Script]
         public partial class HelloOpenGLES20Renderer : GLSurfaceView.Renderer
         {
             __WebGLRenderingContext gl = new __WebGLRenderingContext();
