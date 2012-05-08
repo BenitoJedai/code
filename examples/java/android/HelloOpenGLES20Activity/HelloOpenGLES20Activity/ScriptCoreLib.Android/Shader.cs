@@ -182,17 +182,19 @@ namespace ScriptCoreLib.Android
         }
     }
 
-    public class __WebGLUniformLocation
+    public class __WebGLUniformLocation : __WebGLObject
     {
-        public int value;
     }
 
-    public class __WebGLProgram
+    public class __WebGLProgram : __WebGLObject
     {
-        public int value;
     }
 
-    public class __WebGLShader
+    public class __WebGLShader : __WebGLObject
+    {
+    }
+
+    public class __WebGLObject
     {
         public int value;
     }

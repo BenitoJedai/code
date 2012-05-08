@@ -168,6 +168,6 @@
   <PropertyGroup>
     <PostBuildEvent>mkdir "c:\util\jsc\bin"
 copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin" /y
-</PostBuildEvent>
+exit 0</PostBuildEvent>
   </PropertyGroup>
 </Project>
