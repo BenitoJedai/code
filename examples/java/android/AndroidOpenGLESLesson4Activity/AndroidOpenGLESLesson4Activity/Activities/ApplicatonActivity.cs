@@ -73,7 +73,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 
             setContentView(mGLSurfaceView);
 
-
+            this.ShowToast("http://jsc-solutions.net");
         }
 
         #region pause

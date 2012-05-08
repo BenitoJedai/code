@@ -71,6 +71,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
+      <Link>ScriptCoreLib.Android\Shader.cs</Link>
+    </Compile>
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Activities\ApplicatonActivity.cs" />
     <Compile Include="Program.cs" />
@@ -96,7 +99,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+
+set TargetActivityAssembly=$(TargetDir)$(TargetName).AndroidActivity.dll
+
+dir %25TargetActivityAssembly%25
+
+c:\util\jsc\bin\jsc.exe %25TargetActivityAssembly%25 -java
 xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\src /Y /E
 pushd $(ProjectDir)\staging\
 call build.bat

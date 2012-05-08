@@ -17,21 +17,23 @@ using java.nio;
 using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
+using ScriptCoreLib.Android;
 
 namespace AndroidOpenGLESLesson1Activity.Activities
 {
-    using gl = GLES20;
+    using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
 
-    [Script]
     public class AndroidOpenGLESLesson1Activity : Activity
     {
+
+
         // port from http://www.learnopengles.com/android-lesson-one-getting-started/
         // see also: "Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson1\LessonOneActivity.java"
 
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenGLESLesson1Activity.Activities --activity AndroidOpenGLESLesson1Activity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson1Activity\AndroidOpenGLESLesson1Activity\staging
 
         // http://developer.android.com/guide/developing/device.html#setting-up
-        // Caution: OpenGL ES 2.0 is currently not supported by the Android Emulator. You must have a physical test device running Android 2.2 (API Level 8) or higher in order to run and test the example code in this tutorial.
 
         // note: rebuild could auto reinstall
 
@@ -57,28 +59,17 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             mGLSurfaceView = new GLSurfaceView(this);
 
-            // Check if the system supports OpenGL ES 2.0.
-            ActivityManager activityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-            ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-            var supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
 
-            if (supportsEs2)
-            {
-                // Request an OpenGL ES 2.0 compatible context.
-                mGLSurfaceView.setEGLContextClientVersion(2);
+            // Request an OpenGL ES 2.0 compatible context.
+            mGLSurfaceView.setEGLContextClientVersion(2);
 
-                // Set the renderer to our demo renderer, defined below.
-                mGLSurfaceView.setRenderer(new LessonOneRenderer());
-            }
-            else
-            {
-                // This is where you could create an OpenGL ES 1.x compatible
-                // renderer if you wanted to support both ES 1 and ES 2.
-                return;
-            }
+            // Set the renderer to our demo renderer, defined below.
+            mGLSurfaceView.setRenderer(new LessonOneRenderer());
+
 
             setContentView(mGLSurfaceView);
 
+            this.ShowToast("http://jsc-solutions.net");
 
         }
 
@@ -101,9 +92,10 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
         #endregion
 
-        [Script]
         class LessonOneRenderer : GLSurfaceView.Renderer
         {
+            __WebGLRenderingContext gl = new __WebGLRenderingContext();
+
             /**
                  * Store the model matrix. This matrix is used to move models from object space (where each model can be thought
                  * of being located at the center of the universe) to world space.
@@ -128,7 +120,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
             private readonly FloatBuffer mTriangle3Vertices;
 
             /** This will be used to pass in the transformation matrix. */
-            private int mMVPMatrixHandle;
+            private __WebGLUniformLocation mMVPMatrixHandle;
 
             /** This will be used to pass in model position information. */
             private int mPositionHandle;
@@ -216,7 +208,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
             public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
             {
                 // Set the background clear color to gray.
-                gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+                gl.clearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
                 // Position the eye behind the origin.
                 const float eyeX = 0.0f;
@@ -238,139 +230,31 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                 // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-                var vertexShader =
-                    "uniform mat4 u_MVPMatrix;      \n"		// A constant representing the combined model/view/projection matrix.
 
-                  + "attribute vec4 a_Position;     \n"		// Per-vertex position information we will pass in.
-                  + "attribute vec4 a_Color;        \n"		// Per-vertex color information we will pass in.			  
-
-                  + "varying vec4 v_Color;          \n"		// This will be passed into the fragment shader.
-
-                  + "void main()                    \n"		// The entry point for our vertex shader.
-                  + "{                              \n"
-                  + "   v_Color = a_Color;          \n"		// Pass the color through to the fragment shader. 
-                    // It will be interpolated across the triangle.
-                  + "   gl_Position = u_MVPMatrix   \n" 	// gl_Position is a special variable used to store the final position.
-                  + "               * a_Position;   \n"     // Multiply the vertex by the matrix to get the final point in 			                                            			 
-                  + "}                              \n";    // normalized screen coordinates.
-
-                var fragmentShader =
-                    "precision mediump float;       \n"		// Set the default precision to medium. We don't need as high of a 
-                    // precision in the fragment shader.				
-                  + "varying vec4 v_Color;          \n"		// This is the color from the vertex shader interpolated across the 
-                    // triangle per fragment.			  
-                  + "void main()                    \n"		// The entry point for our fragment shader.
-                  + "{                              \n"
-                  + "   gl_FragColor = v_Color;     \n"		// Pass the color directly through the pipeline.		  
-                  + "}                              \n";
-
-                // Load in the vertex shader.
-                int vertexShaderHandle = gl.glCreateShader(gl.GL_VERTEX_SHADER);
-
-                if (vertexShaderHandle != 0)
-                {
-                    // Pass in the shader source.
-                    gl.glShaderSource(vertexShaderHandle, vertexShader);
-
-                    // Compile the shader.
-                    gl.glCompileShader(vertexShaderHandle);
-
-                    // Get the compilation status.
-                    var compileStatus = new int[1];
-                    gl.glGetShaderiv(vertexShaderHandle, gl.GL_COMPILE_STATUS, compileStatus, 0);
-
-                    // If the compilation failed, delete the shader.
-                    if (compileStatus[0] == 0)
-                    {
-                        gl.glDeleteShader(vertexShaderHandle);
-                        vertexShaderHandle = 0;
-                    }
-                }
-
-                if (vertexShaderHandle == 0)
-                {
-                    throw null;
-                    //throw new RuntimeException("Error creating vertex shader.");
-                }
-
-                // Load in the fragment shader shader.
-                int fragmentShaderHandle = gl.glCreateShader(gl.GL_FRAGMENT_SHADER);
-
-                if (fragmentShaderHandle != 0)
-                {
-                    // Pass in the shader source.
-                    gl.glShaderSource(fragmentShaderHandle, fragmentShader);
-
-                    // Compile the shader.
-                    gl.glCompileShader(fragmentShaderHandle);
-
-                    // Get the compilation status.
-                    var compileStatus = new int[1];
-                    gl.glGetShaderiv(fragmentShaderHandle, gl.GL_COMPILE_STATUS, compileStatus, 0);
-
-                    // If the compilation failed, delete the shader.
-                    if (compileStatus[0] == 0)
-                    {
-                        gl.glDeleteShader(fragmentShaderHandle);
-                        fragmentShaderHandle = 0;
-                    }
-                }
-
-                if (fragmentShaderHandle == 0)
-                {
-                    throw null;
-                    //throw new RuntimeException("Error creating fragment shader.");
-                }
 
                 // Create a program object and store the handle to it.
-                int programHandle = gl.glCreateProgram();
+                var programHandle = gl.createAndLinkProgram(
+                    new Shaders.TriangleVertexShader(),
+                    new Shaders.TriangleFragmentShader(),
+                    "a_Position",
+                    "a_Color"
+                );
 
-                if (programHandle != 0)
-                {
-                    // Bind the vertex shader to the program.
-                    gl.glAttachShader(programHandle, vertexShaderHandle);
 
-                    // Bind the fragment shader to the program.
-                    gl.glAttachShader(programHandle, fragmentShaderHandle);
-
-                    // Bind attributes
-                    gl.glBindAttribLocation(programHandle, 0, "a_Position");
-                    gl.glBindAttribLocation(programHandle, 1, "a_Color");
-
-                    // Link the two shaders together into a program.
-                    gl.glLinkProgram(programHandle);
-
-                    // Get the link status.
-                    var linkStatus = new int[1];
-                    gl.glGetProgramiv(programHandle, gl.GL_LINK_STATUS, linkStatus, 0);
-
-                    // If the link failed, delete the program.
-                    if (linkStatus[0] == 0)
-                    {
-                        gl.glDeleteProgram(programHandle);
-                        programHandle = 0;
-                    }
-                }
-
-                if (programHandle == 0)
-                {
-                    throw null;
-                    //throw new RuntimeException("Error creating program.");
-                }
 
                 // Set program handles. These will later be used to pass in values to the program.
-                mMVPMatrixHandle = gl.glGetUniformLocation(programHandle, "u_MVPMatrix");
-                mPositionHandle = gl.glGetAttribLocation(programHandle, "a_Position");
-                mColorHandle = gl.glGetAttribLocation(programHandle, "a_Color");
+                mMVPMatrixHandle = gl.getUniformLocation(programHandle, "u_MVPMatrix");
+                mPositionHandle = gl.getAttribLocation(programHandle, "a_Position");
+                mColorHandle = gl.getAttribLocation(programHandle, "a_Color");
 
                 // Tell OpenGL to use this program when rendering.
-                gl.glUseProgram(programHandle);
+                gl.useProgram(programHandle);
             }
 
             public void onSurfaceChanged(GL10 glUnused, int width, int height)
             {
                 // Set the OpenGL viewport to the same size as the surface.
-                gl.glViewport(0, 0, width, height);
+                gl.viewport(0, 0, width, height);
 
                 // Create a new perspective projection matrix. The height will stay the same
                 // while the width will vary as per aspect ratio.
@@ -387,7 +271,7 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
             public void onDrawFrame(GL10 glUnused)
             {
-                gl.glClear(gl.GL_DEPTH_BUFFER_BIT | gl.GL_COLOR_BUFFER_BIT);
+                gl.clear(opengl.GL_DEPTH_BUFFER_BIT | opengl.GL_COLOR_BUFFER_BIT);
 
                 // Do a complete rotation every 10 seconds.
                 long time = SystemClock.uptimeMillis() % 10000L;
@@ -422,17 +306,17 @@ namespace AndroidOpenGLESLesson1Activity.Activities
             {
                 // Pass in the position information
                 aTriangleBuffer.position(mPositionOffset);
-                gl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, gl.GL_FLOAT, false,
+                opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
                         mStrideBytes, aTriangleBuffer);
 
-                gl.glEnableVertexAttribArray(mPositionHandle);
+                opengl.glEnableVertexAttribArray(mPositionHandle);
 
                 // Pass in the color information
                 aTriangleBuffer.position(mColorOffset);
-                gl.glVertexAttribPointer(mColorHandle, mColorDataSize, gl.GL_FLOAT, false,
+                opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
                         mStrideBytes, aTriangleBuffer);
 
-                gl.glEnableVertexAttribArray(mColorHandle);
+                opengl.glEnableVertexAttribArray(mColorHandle);
 
                 // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                 // (which currently contains model * view).
@@ -442,8 +326,8 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                 // (which now contains model * view * projection).
                 Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
 
-                gl.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-                gl.glDrawArrays(gl.GL_TRIANGLES, 0, 3);
+                gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.drawArrays(opengl.GL_TRIANGLES, 0, 3);
             }
 
 
