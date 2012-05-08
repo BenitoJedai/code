@@ -16,12 +16,13 @@ using java.nio;
 using javax.microedition.khronos.egl;
 using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
+using ScriptCoreLib.Android;
 
 namespace HelloOpenGLES20Activity.Activities
 {
-    using gl = GLES20;
+    using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
 
-    [Script]
     public class HelloOpenGLES20Activity : Activity
     {
         // port from http://developer.android.com/resources/tutorials/opengl/opengl-es20.html
@@ -55,8 +56,10 @@ namespace HelloOpenGLES20Activity.Activities
             mGLView = new HelloOpenGLES20SurfaceView(this);
             setContentView(mGLView);
 
+            this.ShowToast("http://jsc-solutions.net");
         }
 
+        #region pause
         protected override void onPause()
         {
             base.onPause();
@@ -75,6 +78,7 @@ namespace HelloOpenGLES20Activity.Activities
             // this is a good place to re-allocate them.
             mGLView.onResume();
         }
+        #endregion
 
 
         [Script]
@@ -101,44 +105,41 @@ namespace HelloOpenGLES20Activity.Activities
         [Script]
         public partial class HelloOpenGLES20Renderer : GLSurfaceView.Renderer
         {
+            __WebGLRenderingContext gl = new __WebGLRenderingContext();
 
             public void onSurfaceCreated(GL10 unused, EGLConfig config)
             {
                 // Set the background frame color
-                gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+                gl.clearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
                 // initialize the triangle vertex array
                 initShapes();
 
 
+                mProgram = gl.createAndLinkProgram(
+                    new Shaders.TriangleVertexShader(),
+                    new Shaders.TriangleFragmentShader()
+                );
 
-
-                int vertexShader = loadShader(gl.GL_VERTEX_SHADER, vertexShaderCode);
-                int fragmentShader = loadShader(gl.GL_FRAGMENT_SHADER, fragmentShaderCode);
-
-                mProgram = gl.glCreateProgram();             // create empty OpenGL Program
-                gl.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
-                gl.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
-                gl.glLinkProgram(mProgram);                  // creates OpenGL program executables
-
+           
                 // get handle to the vertex shader's vPosition member
-                maPositionHandle = gl.glGetAttribLocation(mProgram, "vPosition");
+                maPositionHandle = gl.getAttribLocation(mProgram, "vPosition");
             }
 
             public void onDrawFrame(GL10 unused)
             {
 
                 // Redraw background color
-                gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT);
+                gl.clear(opengl.GL_COLOR_BUFFER_BIT | opengl.GL_DEPTH_BUFFER_BIT);
 
 
 
                 // Add program to OpenGL environment
-                gl.glUseProgram(mProgram);
+                gl.useProgram(mProgram);
 
                 // Prepare the triangle data
-                gl.glVertexAttribPointer(maPositionHandle, 3, gl.GL_FLOAT, false, 12, triangleVB);
-                gl.glEnableVertexAttribArray(maPositionHandle);
+                opengl.glVertexAttribPointer(maPositionHandle, 3, opengl.GL_FLOAT, false, 12, triangleVB);
+                opengl.glEnableVertexAttribArray(maPositionHandle);
 
 
 
@@ -157,16 +158,16 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // Apply a ModelView Projection transformation
                 #region [uniform] uMVPMatrix <- mMVPMatrix
-                gl.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+                gl.uniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
                 #endregion
 
                 // Draw the triangle
-                gl.glDrawArrays(gl.GL_TRIANGLES, 0, 3);
+                opengl.glDrawArrays(opengl.GL_TRIANGLES, 0, 3);
             }
 
             public void onSurfaceChanged(GL10 unused, int width, int height)
             {
-                gl.glViewport(0, 0, width, height);
+                gl.viewport(0, 0, width, height);
 
                 float ratio = (float)width / height;
 
@@ -174,7 +175,7 @@ namespace HelloOpenGLES20Activity.Activities
                 // in the onDrawFrame() method
                 Matrix.frustumM(mProjMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
 
-                muMVPMatrixHandle = gl.glGetUniformLocation(mProgram, "uMVPMatrix");
+                muMVPMatrixHandle = gl.getUniformLocation(mProgram, "uMVPMatrix");
 
                 Matrix.setLookAtM(mVMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
             }
@@ -217,30 +218,7 @@ namespace HelloOpenGLES20Activity.Activities
         #region Draw the Triange
         partial class HelloOpenGLES20Renderer
         {
-
-            public const string fragmentShaderCode =
-        "precision mediump float;  \n" +
-        "void main(){              \n" +
-        " gl_FragColor = vec4 (0.63671875, 0.76953125, 0.22265625, 1.0); \n" +
-        "}                         \n";
-
-
-            private int loadShader(int type, String shaderCode)
-            {
-
-                // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-                // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-                int shader = gl.glCreateShader(type);
-
-                // add the source code to the shader and compile it
-                gl.glShaderSource(shader, shaderCode);
-                gl.glCompileShader(shader);
-
-                return shader;
-            }
-
-
-            private int mProgram;
+            private __WebGLProgram mProgram;
             private int maPositionHandle;
         }
         #endregion
@@ -251,24 +229,11 @@ namespace HelloOpenGLES20Activity.Activities
         #region Apply Projection and Camera View
         partial class HelloOpenGLES20Renderer
         {
-            private int muMVPMatrixHandle;
+            private __WebGLUniformLocation muMVPMatrixHandle;
             private float[] mMVPMatrix = new float[16];
             private float[] mVMatrix = new float[16];
             private float[] mProjMatrix = new float[16];
 
-
-            private const string vertexShaderCode =
-                // This matrix member variable provides a hook to manipulate
-                // the coordinates of the objects that use this vertex shader
-        "uniform mat4 uMVPMatrix;   \n" +
-
-        "attribute vec4 vPosition;  \n" +
-        "void main(){               \n" +
-
-        // the matrix must be included as a modifier of gl_Position
-        " gl_Position = uMVPMatrix * vPosition; \n" +
-
-        "}  \n";
         }
         #endregion
 
