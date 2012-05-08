@@ -12,6 +12,7 @@ namespace ScriptCoreLib.Android
 {
     using opengl = GLES20;
     using gl = __WebGLRenderingContext;
+    using android.util;
 
     #region ScriptCoreLib.GLSL.Shader
     [Script(Implements = typeof(ScriptCoreLib.GLSL.Shader))]
@@ -164,6 +165,21 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glAttachShader(program.value, vertexShader.value);
         }
+
+        internal void enable(int p)
+        {
+            GLES20.glEnable(p);
+        }
+
+        internal void disableVertexAttribArray(__WebGLUniformLocation pointPositionHandle)
+        {
+            GLES20.glDisableVertexAttribArray(pointPositionHandle.value);
+        }
+
+        internal void vertexAttrib3f(__WebGLUniformLocation pointPositionHandle, float p1, float p2, float p3)
+        {
+            GLES20.glVertexAttrib3f(pointPositionHandle.value, p1, p2, p3);
+        }
     }
 
     public class __WebGLUniformLocation
@@ -226,7 +242,7 @@ namespace ScriptCoreLib.Android
             // If the compilation failed, delete the shader.
             if (compileStatus[0] == 0)
             {
-                //Log.e(TAG, "Error compiling shader: " + GLES20.glGetShaderInfoLog(shaderHandle));
+                Log.e("createShader", GLES20.glGetShaderInfoLog(shaderHandle.value));
                 gl.deleteShader(shaderHandle);
                 shaderHandle = null;
             }
@@ -281,7 +297,7 @@ namespace ScriptCoreLib.Android
             // If the link failed, delete the program.
             if (linkStatus[0] == 0)
             {
-                //Log.e(TAG, "Error compiling program: " + GLES20.glGetProgramInfoLog(programHandle));
+                Log.e("createAndLinkProgram", GLES20.glGetProgramInfoLog(programHandle.value));
                 gl.deleteProgram(programHandle);
                 programHandle = null;
             }
