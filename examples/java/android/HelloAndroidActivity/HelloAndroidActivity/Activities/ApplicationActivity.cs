@@ -14,7 +14,7 @@ namespace HelloAndroidActivity.Activities
 {
     public class HelloAndroidActivity : Activity
     {
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidHelloActivity.Activities --activity HelloAndroidActivity  --target 2  --path y:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\
+        // C:\util\android-sdk-windows\tools\android.bat create project --package HelloAndroidActivity.Activities --activity HelloAndroidActivity  --target 2  --path y:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\
         // JSC should not explicity import all interfaces like Callback if not being defined 
         // see also: 
         // http://stackoverflow.com/questions/4055634/simple-java-question
@@ -22,8 +22,8 @@ namespace HelloAndroidActivity.Activities
         // http://developer.android.com/guide/developing/device.html#setting-up
 
         // running it in emulator:
-        // C:\util\android-sdk-windows\tools\android.bat avd
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r  "Z:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\HelloAndroidActivity\bin\HelloAndroidActivity-debug.apk"
+        // start C:\util\android-sdk-windows\tools\android.bat avd
+        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r  "y:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\bin\HelloAndroidActivity-debug.apk"
 
         // note: rebuild could auto reinstall
 
@@ -52,16 +52,7 @@ namespace HelloAndroidActivity.Activities
             //// http://stackoverflow.com/questions/9784570/webview-inside-scrollview-disappears-after-zooming
             //// http://stackoverflow.com/questions/8123804/unable-to-add-web-view-dynamically
             //// http://developer.android.com/reference/android/webkit/WebView.html
-            //WebView web = new WebView(this);
-            ////web.setId(1);
-            //web.getSettings().setJavaScriptEnabled(true);
-            //web.setWebViewClient(new HelloWebViewClient());
-
-            //web.loadUrl("http://www.jsc-solutions.net");
-
-            //ll.addView(web);
-
-
+    
 
 
             TextView tv = new TextView(this);
