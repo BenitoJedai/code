@@ -7,8 +7,8 @@
     <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>com.example.helloandroid</RootNamespace>
-    <AssemblyName>HelloAndroidActivityTemplate</AssemblyName>
+    <RootNamespace>HelloAndroidActivity</RootNamespace>
+    <AssemblyName>HelloAndroidActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -65,31 +65,39 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="HelloAndroidActivityTemplate.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivityTemplate.AssetsLibrary.dll</HintPath>
+    <Reference Include="HelloAndroidActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Foo.cs" />
+    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
+      <Link>ScriptCoreLib.Android\Shader.cs</Link>
+    </Compile>
     <Compile Include="Library\MyExtensions.cs" />
-    <Compile Include="HelloAndroidActivity.cs" />
+    <Compile Include="Activities\HelloAndroidActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="staging\HelloAndroidActivity\build.bat" />
+    <None Include="staging\build.bat" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
-    <Content Include="staging\HelloAndroidActivity\AndroidManifest.xml" />
+    <Content Include="staging\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.exe $(TargetPath) -java
-xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\$(ProjectName)\src /Y /E
-pushd $(ProjectDir)\staging\$(ProjectName)\
+    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+
+set TargetActivityAssembly=$(TargetDir)$(TargetName).AndroidActivity.dll
+
+dir %25TargetActivityAssembly%25
+
+c:\util\jsc\bin\jsc.exe %25TargetActivityAssembly%25 -java
+xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\src /Y /E
+pushd $(ProjectDir)\staging\
 call build.bat
 popd
 

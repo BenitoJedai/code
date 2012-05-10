@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using android.app;
-using android.widget;
-using ScriptCoreLib;
-
-using com.example.helloandroid.Library;
 using android.provider;
 using android.webkit;
+using android.widget;
+using HelloAndroidActivity.Library;
+using ScriptCoreLib;
+using ScriptCoreLib.Android;
 
-namespace com.example.helloandroid
+namespace HelloAndroidActivity.Activities
 {
-    [Script]
     public class HelloAndroidActivity : Activity
     {
-        // C:\util\android-sdk-windows\tools\android.bat create project --package com.example.helloandroid --activity HelloAndroidActivity  --target 2  --path Z:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\HelloAndroidActivity
+        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidHelloActivity.Activities --activity HelloAndroidActivity  --target 2  --path y:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\
         // JSC should not explicity import all interfaces like Callback if not being defined 
         // see also: 
         // http://stackoverflow.com/questions/4055634/simple-java-question
@@ -97,20 +96,17 @@ namespace com.example.helloandroid
 
                 cb.setText("I'm dynamic!");
 
-                ll.addView(cb);
+
+                cb.AttachTo(ll);
 
             }
 
             this.setContentView(sv);
 
+
+            this.ShowToast("http://jsc-solutions.net");
         }
 
-        [Script]
-        private class HelloWebViewClient : WebViewClient {
-            public bool shouldOverrideUrlLoading(WebView view, string url) {
-                view.loadUrl(url);
-                return true;
-            }
-        }
+
     }
 }
