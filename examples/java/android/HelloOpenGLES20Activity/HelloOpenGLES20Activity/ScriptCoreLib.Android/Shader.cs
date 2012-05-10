@@ -13,6 +13,8 @@ namespace ScriptCoreLib.Android
     using opengl = GLES20;
     using gl = __WebGLRenderingContext;
     using android.util;
+using android.view;
+    using System.ComponentModel;
 
     #region ScriptCoreLib.GLSL.Shader
     [Script(Implements = typeof(ScriptCoreLib.GLSL.Shader))]
@@ -203,18 +205,11 @@ namespace ScriptCoreLib.Android
 
 
 
-
+    [Description("ScriptCoreLib.Extensions")]
     public static class MyExtensions
     {
-        /** 
-* Helper function to compile a shader.
-* 
-* @param shaderType The shader type.
-* @param shaderSource The shader source code.
-* @return An OpenGL handle to the shader.
-*/
 
-        #region ScriptCoreLib.JavaScript.Extensions.WebGLExtensions.cs
+        #region gl
         public static __WebGLShader createShader(this gl gl, ScriptCoreLib.GLSL.FragmentShader fragmentShader)
         {
             return gl.createShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader.ToAndroidString());
@@ -224,7 +219,6 @@ namespace ScriptCoreLib.Android
         {
             return gl.createShader(GLES20.GL_VERTEX_SHADER, fragmentShader.ToAndroidString());
         }
-        #endregion
 
         private static __WebGLShader createShader(this gl gl, int shaderType, string shaderSource)
         {
@@ -313,6 +307,7 @@ namespace ScriptCoreLib.Android
             return programHandle;
         }
 
+        #endregion
 
 
 
@@ -343,6 +338,11 @@ namespace ScriptCoreLib.Android
 
 
 
+        public static View AttachTo(this View v, ViewGroup g)
+        {
+            g.addView(v);
 
+            return v;
+        }
     }
 }

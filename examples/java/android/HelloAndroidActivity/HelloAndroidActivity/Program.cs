@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 
-namespace com.example.helloandroid
+namespace HelloAndroidActivity
 {
     class Program
     {
