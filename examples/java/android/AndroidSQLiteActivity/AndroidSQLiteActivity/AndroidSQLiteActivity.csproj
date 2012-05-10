@@ -7,8 +7,8 @@
     <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelloAndroidActivity</RootNamespace>
-    <AssemblyName>HelloAndroidActivity</AssemblyName>
+    <RootNamespace>AndroidSQLiteActivity</RootNamespace>
+    <AssemblyName>AndroidSQLiteActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -65,14 +65,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="HelloAndroidActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidSQLiteActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidSQLiteActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
+    <Compile Include="Activities\R.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Activities\ApplicationActivity.cs" />
     <Compile Include="Program.cs" />
@@ -104,7 +105,7 @@ call build.bat
 popd
 
 if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
