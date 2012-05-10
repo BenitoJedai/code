@@ -158,7 +158,7 @@ namespace WebGLLesson07
                 };
             #endregion
 
-            var toolbar = new ToolbarPage();
+            var toolbar = new Toolbar();
 
             if (page != null)
             {
