@@ -120,6 +120,9 @@ namespace ScriptCoreLib.Desktop.Avalon.Extensions
 
         public static void Flash(this Application form)
         {
+            if (form == null)
+                return;
+
             form.Dispatcher.Invoke(
               new Action(
                   delegate
