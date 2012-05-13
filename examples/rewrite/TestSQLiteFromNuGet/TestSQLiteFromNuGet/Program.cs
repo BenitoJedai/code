@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
+using ScriptCoreLib.Extensions;
+using System.Diagnostics;
 
 namespace TestSQLiteFromNuGet
 {
@@ -18,6 +21,126 @@ namespace TestSQLiteFromNuGet
         [STAThread]
         public static void Main(string[] e)
         {
+            var CommonApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+            var AnalysisFolder = new DirectoryInfo(
+                Path.Combine(
+                    CommonApplicationData,
+                    "jsc/analysis/"
+                )
+            );
+
+
+            var Name = "FileSystemDiscovery" + "/db.sqlite";
+
+            var File = new FileInfo(Path.Combine(AnalysisFolder.FullName, Name));
+
+
+
+            #region WithConnection
+            Action<Action<SQLiteConnection>> WithConnection =
+                h =>
+                {
+                    new SQLiteConnection("Data Source=" + File.FullName + ";Version=3;Read Only=True;").With(
+                           c =>
+                           {
+                               c.Open();
+                                   h(c);
+
+                               c.Close();
+                           }
+                    );
+                };
+            #endregion
+
+            WithConnection(
+                c =>
+                {
+                    var nodes = new[] { new { id = 0, label = "" } }.ToList();
+
+                    #region SQLiteCommand
+                    new SQLiteCommand(@"
+SELECT id, label
+FROM nodes
+where label like '%.dll'
+and not(label like '%\x86_64\%')
+and not(label like '%\x64\%')
+and not(label like '%\amd64\%')
+and not(label like '%\windows64\%')
+and not(label like '%\tag\%')
+and not(label like '%\tags\%')
+and not(label like '%\branches\%')
+and not(label like '%\obj\%')
+and not(label like '%\Interop.%')
+order by id
+
+                    ", c).ExecuteReader().With(
+                            r =>
+                            {
+                                while (r.Read())
+                                {
+                                    var id = (int)r["id"];
+                                    var label = (string)r["label"];
+
+                                    nodes.Add(
+                                        new { id, label }
+                                    );
+                                }
+                            }
+                        );
+                    #endregion
+
+                    #region biggest
+                    var biggest = nodes.Where(k => !string.IsNullOrEmpty(k.label)).GroupBy(k => k.id).Select(
+                        TargetAssemblyGroup =>
+                        {
+                            Console.Write(".");
+                            
+                            if (TargetAssemblyGroup.Count() == 1)
+                                return new FileInfo(TargetAssemblyGroup.Single().label);
+
+                            var aa = (
+                                from a in TargetAssemblyGroup
+                                let f = new FileInfo(a.label)
+                                let size = f.Length
+                                orderby size descending
+                                select new { f, size }
+                            ).ToArray();
+
+
+                            return aa.First().f;
+                        }
+                    ).Take(1).ToArray();
+                    #endregion
+
+
+                    biggest.AsParallel().ForAll(
+                        target =>
+                        {
+                            Console.Write("!");
+
+                            Process.Start(
+                                new ProcessStartInfo(@"c:\util\jsc\bin\jsc.meta.exe", "AnalyzeAssembliesCommand /Target:\"" + target.FullName + "\"")
+                                {
+                                    CreateNoWindow = false,
+                                    UseShellExecute = false,
+                                    WorkingDirectory = @"c:\util\jsc\bin\"
+                                }
+                            ).WaitForExit();
+                        }
+                    );
+
+                    Debugger.Break();
+                }
+            );
+
+            Test();
+
+        }
+
+        private static void Test()
+        {
+
             // http://blog.tigrangasparian.com/2012/02/09/getting-started-with-sqlite-in-c-part-one/
 
             SQLiteConnection.CreateFile("MyDatabase.sqlite");
@@ -87,7 +210,6 @@ namespace TestSQLiteFromNuGet
 
             }
             #endregion
-
         }
     }
 }
