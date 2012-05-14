@@ -56,6 +56,9 @@ namespace TestSQLiteFromNuGet
             WithConnection(
                 c =>
                 {
+                    var sw = new Stopwatch();
+                    sw.Start();
+
                     var nodes = new[] { new { id = 0, label = "" } }.ToList();
 
                     #region SQLiteCommand
@@ -110,7 +113,7 @@ order by id
 
                             return aa.First().f;
                         }
-                    ).Take(1).ToArray();
+                    ).ToArray();
                     #endregion
 
 
@@ -129,6 +132,8 @@ order by id
                             ).WaitForExit();
                         }
                     );
+                    sw.Stop();
+                    Console.WriteLine("done in " + sw.Elapsed);
 
                     Debugger.Break();
                 }
