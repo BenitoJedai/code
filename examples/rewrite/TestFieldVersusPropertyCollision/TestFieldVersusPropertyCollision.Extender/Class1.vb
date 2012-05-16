@@ -4,6 +4,7 @@
 
 Public Class Class1
     Public Property OriginallyField As Object
-    Public OriginallyProperty As Object
+    'Public Property OriginallyProperty As Object
+    'Public OriginallyProperty As Object
 
 End Class
