@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
                 Type = new KnownStockTypes.System.String(),
 
                 Name = "e",
-                Summary = "A parameter from javascript. JSC supports string data type for all platforms."
+                Summary = "A parameter from javascript."
             };
 
             var _y = new SolutionProjectLanguageArgument
@@ -28,7 +28,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
                 Type = new KnownStockTypes.System.ActionOfString(),
 
                 Name = "y",
-                Summary = "A callback to javascript. In the future all platforms will allow Action<XElementConvertable> delegates."
+                Summary = "A callback to javascript."
             };
             #endregion
 
