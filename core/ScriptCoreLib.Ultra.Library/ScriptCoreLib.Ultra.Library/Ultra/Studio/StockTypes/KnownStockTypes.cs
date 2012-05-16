@@ -117,6 +117,8 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
         }
         #endregion
 
+
+        #region ScriptCoreLib.Extensions.LinqExtensions
         public static partial class ScriptCoreLib
         {
             public static partial class Extensions
@@ -142,6 +144,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                 }
             }
         }
+        #endregion
 
         #region ScriptCoreLib.ActionScript.flash.media.Camera
         public static partial class ScriptCoreLib
@@ -285,7 +288,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
                                 Name = "AttachSpriteTo";
                                 IsExtensionMethod = true;
                                 IsStatic = true;
-                                DeclaringType = new AvalonUltraExtensions();
+                                DeclaringType = new SpriteExtensions();
                                 ReturnType = new KnownStockTypes.System.Object();
                             }
                         }

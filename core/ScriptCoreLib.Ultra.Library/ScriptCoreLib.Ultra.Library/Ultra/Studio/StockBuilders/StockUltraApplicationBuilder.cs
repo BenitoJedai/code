@@ -46,18 +46,18 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 
 
-            #region Design/Styles/Default.css
+            #region Design/Default.css
             var DesignStyle =
                new SolutionFile
                {
-                   Name = ToProjectFile("Design/Styles/Default.css"),
+                   Name = ToProjectFile("Design/Default.css"),
                    Content = "h1 { color: blue; }"
                };
 
             ItemGroupForCompile.Add(
                 new XElement("Content",
                     new XAttribute("Include",
-                        @"Design\Styles\Default.css"
+                        @"Design\Default.css"
                     )
                 )
             );
@@ -198,7 +198,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
                         SourceType.DependentPartialTypes = null;
                     }
-                    
+
                     AddTypeWithoutMerge(
                         SourceType,
                         SourceType.Name
@@ -218,7 +218,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
                 };
             #endregion
 
-                 #region AssemblyInfo
+            #region AssemblyInfo
 
             var AssemblyInfoFolder = "Properties";
 
@@ -233,7 +233,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockBuilders
 
 
             {
-                AssemblyInfo.Write(Context.Language, Context, new [] { Context.Interactive.FileHeader });
+                AssemblyInfo.Write(Context.Language, Context, new[] { Context.Interactive.FileHeader });
 
                 AssemblyInfo.WriteLine();
 
@@ -340,7 +340,7 @@ associated with an assembly."
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Extensions");
             ApplicationType.UsingNamespaces.Add("ScriptCoreLib.Delegates");
             ApplicationType.UsingNamespaces.Add(Context.Name + ".HTML.Pages");
-            ApplicationType.UsingNamespaces.Add(Context.Name + ".Design.Styles");
+            ApplicationType.UsingNamespaces.Add(Context.Name + ".Design");
 
             // css
 
@@ -350,9 +350,10 @@ associated with an assembly."
             };
 
             var DefaultStyleField = DefaultStyle.ToInitializedField("style");
+
             ApplicationType.Fields.Add(DefaultStyleField);
 
-
+  
 
             var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive, DefaultStyleField);
 
@@ -363,7 +364,7 @@ associated with an assembly."
 
             #endregion
 
-       
+
             #region Program
 
             var ProgramType = Context.Interactive.ProgramType;
