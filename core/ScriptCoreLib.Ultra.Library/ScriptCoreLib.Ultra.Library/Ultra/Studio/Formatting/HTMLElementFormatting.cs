@@ -22,7 +22,8 @@ namespace ScriptCoreLib.Ultra.Studio.Formatting
 			{
 				"img",
 				"br",
-				"hr"
+				"hr",
+				"link",
 			};
 
 			// http://www.htmldog.com/guides/htmlbeginner/tags/

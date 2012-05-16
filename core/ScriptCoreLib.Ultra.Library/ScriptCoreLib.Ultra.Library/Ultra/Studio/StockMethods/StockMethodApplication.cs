@@ -9,7 +9,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 {
     public class StockMethodApplication : SolutionProjectLanguageMethod
     {
-        public StockMethodApplication(SolutionProjectLanguageType DeclaringType, SolutionBuilderInteractive Interactive, SolutionProjectLanguageField style)
+        public StockMethodApplication(SolutionProjectLanguageType DeclaringType, SolutionBuilderInteractive Interactive /*, SolutionProjectLanguageField style*/)
         {
             // note: this method will run under javascript
 
@@ -36,27 +36,27 @@ namespace ScriptCoreLib.Ultra.Studio.StockMethods
 
             Interactive.RaiseGenerateApplicationExpressions(this.Code.Add);
 
-            #region style.Content.AttachToHead
-            var style_get_Content =
-                     new PseudoCallExpression
-                     {
-                         Object = style,
+            //#region style.Content.AttachToHead
+            //var style_get_Content =
+            //         new PseudoCallExpression
+            //         {
+            //             Object = style,
 
-                         Method =
-                             new SolutionProjectLanguageMethod
-                             {
-                                 IsProperty = true,
-                                 Name = "get_Content",
-                                 ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
-                             }
-                     };
+            //             Method =
+            //                 new SolutionProjectLanguageMethod
+            //                 {
+            //                     IsProperty = true,
+            //                     Name = "get_Content",
+            //                     ReturnType = new KnownStockTypes.ScriptCoreLib.JavaScript.DOM.HTML.IHTMLElement()
+            //                 }
+            //         };
 
-            this.Code.Add(
-                new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.INodeExtensions.AttachToHead().ToCallExpression(
-                    style_get_Content
-                )
-            );
-            #endregion
+            //this.Code.Add(
+            //    new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.INodeExtensions.AttachToHead().ToCallExpression(
+            //        style_get_Content
+            //    )
+            //);
+            //#endregion
 
 
             this.Code.Add(Interactive.ApplicationToDocumentTitle);

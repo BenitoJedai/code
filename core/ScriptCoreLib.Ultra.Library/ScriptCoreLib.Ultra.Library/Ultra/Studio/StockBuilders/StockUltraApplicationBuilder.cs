@@ -344,18 +344,18 @@ associated with an assembly."
 
             // css
 
-            var DefaultStyle = new SolutionProjectLanguageType
-            {
-                Name = "DefaultStyle"
-            };
+            //var DefaultStyle = new SolutionProjectLanguageType
+            //{
+            //    Name = "DefaultStyle"
+            //};
 
-            var DefaultStyleField = DefaultStyle.ToInitializedField("style");
+            //var DefaultStyleField = DefaultStyle.ToInitializedField("style");
 
-            ApplicationType.Fields.Add(DefaultStyleField);
+            //ApplicationType.Fields.Add(DefaultStyleField);
 
   
 
-            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive, DefaultStyleField);
+            var ApplicationConstructor = new StockMethodApplication(ApplicationType, Context.Interactive/*, DefaultStyleField*/);
 
             ApplicationType.Methods.Add(ApplicationConstructor);
 
