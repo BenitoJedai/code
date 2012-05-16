@@ -15,7 +15,7 @@ namespace ScriptCoreLib.Ultra.Studio
     {
         class CreateMySprite : PseudoCallExpression
         {
-            public CreateMySprite(StockSpriteType Type)
+            public CreateMySprite(StockSpriteType Type, SolutionProjectLanguageField sprite)
             {
                 var page_Page1 =
                     new PseudoCallExpression
@@ -35,72 +35,79 @@ namespace ScriptCoreLib.Ultra.Studio
                             }
                     };
 
-                var new_Page1 =
-                    new PseudoCallExpression
-                    {
-                        // Application(page)
+                //var new_Page1 =
+                //    new PseudoCallExpression
+                //    {
+                //        // Application(page)
 
-                        Method =
-                            new SolutionProjectLanguageMethod
-                            {
-                                Name = SolutionProjectLanguageMethod.ConstructorName,
-                                DeclaringType = new SolutionProjectLanguageType
-                                {
-                                    Namespace = Type.Namespace,
-                                    Name = Type.Name
-                                }
-                            }
-                    };
+                //        Method =
+                //            new SolutionProjectLanguageMethod
+                //            {
+                //                Name = SolutionProjectLanguageMethod.ConstructorName,
+                //                DeclaringType = new SolutionProjectLanguageType
+                //                {
+                //                    Namespace = Type.Namespace,
+                //                    Name = Type.Name
+                //                }
+                //            }
+                //    };
 
                 this.Comment = "Initialize " + Type.Name;
 
-                this.Method =
-                    new SolutionProjectLanguageMethod
-                    {
-                        IsStatic = true,
-                        IsExtensionMethod = true,
-                        Name = "AttachSpriteTo",
-                        ReturnType = new SolutionProjectLanguageType
-                        {
-                            Name = "SpriteExtensions"
-                        }
-                    };
+                this.Method = new KnownStockTypes.ScriptCoreLib.JavaScript.Extensions.SpriteExtensions.AttachSpriteTo();
 
-                this.ParameterExpressions = new[]
+                this.ParameterExpressions = new object[]
 			    {
-				    new_Page1,
+				    sprite,
 				    page_Page1
 			    };
             }
         }
 
-        public static SolutionBuilder WithAdobeFlash(this SolutionBuilder that)
+        public static SolutionBuilder WithAdobeFlash(this SolutionBuilder sln)
         {
-            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name , "ApplicationSprite");
+            Func<StockSpriteType> GetType = () => new StockSpriteType(sln.Name , "ApplicationSprite");
 
-            that.Interactive.GenerateTypes +=
+            var sprite = default(SolutionProjectLanguageField);
+
+            sln.Interactive.GenerateTypes +=
                 AddType =>
                 {
-                    AddType(GetType());
+                    var ApplicationSprite = GetType();
+
+                    sprite = ApplicationSprite.ToInitializedField("sprite");
+
+                    sprite.DeclaringType = sln.Interactive.ApplicationType;
+
+                    AddType(ApplicationSprite);
                 };
 
-            that.Interactive.GenerateApplicationExpressions +=
+
+   
+
+            sln.Interactive.GenerateApplicationExpressions +=
                 AddCode =>
                 {
-                    AddCode(new CreateMySprite(GetType()));
+                    AddCode(new CreateMySprite(GetType(), sprite));
                 };
 
-            return that;
+            return sln;
         }
 
-        public static SolutionBuilder WithAdobeFlashCamera(this SolutionBuilder that)
+        public static SolutionBuilder WithAdobeFlashCamera(this SolutionBuilder sln)
         {
-            Func<StockSpriteType> GetType = () => new StockSpriteType(that.Name, "ApplicationSprite");
+            Func<StockSpriteType> GetType = () => new StockSpriteType(sln.Name, "ApplicationSprite");
 
-            that.Interactive.GenerateTypes +=
+            var sprite = default(SolutionProjectLanguageField);
+
+            sln.Interactive.GenerateTypes +=
                 AddType =>
                 {
-                    var sprite = GetType();
+                    var ApplicationSprite = GetType();
+
+                    sprite = ApplicationSprite.ToInitializedField("sprite");
+
+                    sprite.DeclaringType = sln.Interactive.ApplicationType;
 
                     #region video <- new Video(500, 400)
                     var VideoType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.media.Video();
@@ -112,7 +119,7 @@ namespace ScriptCoreLib.Ultra.Studio
                         (PseudoInt32ConstantExpression)ScriptApplicationEntryPointAttribute.DefaultHeight
                     };
 
-                    sprite.Fields.Add(video);
+                    ApplicationSprite.Fields.Add(video);
                     #endregion
 
 
@@ -123,19 +130,19 @@ namespace ScriptCoreLib.Ultra.Studio
                         new StockMethodInitializeCamera(video)
                     );
 
-                    sprite.Constructor.Code.Add(LinqExtensions_With);
+                    ApplicationSprite.Constructor.Code.Add(LinqExtensions_With);
 
 
-                    AddType(sprite);
+                    AddType(ApplicationSprite);
                 };
 
-            that.Interactive.GenerateApplicationExpressions +=
+            sln.Interactive.GenerateApplicationExpressions +=
                 AddCode =>
                 {
-                    AddCode(new CreateMySprite(GetType()));
+                    AddCode(new CreateMySprite(GetType(), sprite));
                 };
 
-            return that;
+            return sln;
         }
     }
 }

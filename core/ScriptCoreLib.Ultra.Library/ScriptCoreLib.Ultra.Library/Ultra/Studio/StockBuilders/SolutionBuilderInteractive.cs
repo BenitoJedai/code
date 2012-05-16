@@ -130,6 +130,7 @@ namespace ScriptCoreLib.Ultra.Studio
 		}
 
 
+
         public SolutionProjectLanguageField Application_service;
 
 	}

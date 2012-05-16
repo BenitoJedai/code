@@ -77,6 +77,7 @@ namespace ScriptCoreLib.Ultra.Studio
             return a;
         }
 
+        #region References + AssetsLibrary
         public XElement[] References
         {
             get
@@ -100,6 +101,7 @@ namespace ScriptCoreLib.Ultra.Studio
                 return a.ToArray();
             }
         }
+        #endregion
 
         public void WriteTo(Action<SolutionFile> AddFile)
         {
