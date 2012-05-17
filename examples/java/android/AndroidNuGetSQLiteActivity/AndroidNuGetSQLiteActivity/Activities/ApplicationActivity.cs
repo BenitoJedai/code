@@ -1,4 +1,5 @@
 
+using System.Data.SQLite;
 using android.app;
 using android.content;
 using android.database;
@@ -41,20 +42,23 @@ namespace AndroidNuGetSQLiteActivity.Activities
             TextView listContent = (TextView)findViewById(R.id.contentlist);
 
 
+            __SQLiteConnectionHack.c = this;
+            __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
 
             #region   Create/Open a SQLite database and fill with dummy content and close it
-            using (var c = new __SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
+            using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;"))
             {
                 c.Open();
 
-                new __SQLiteCommand(c, "create table if not exists MY_TABLE (Content text not null)").ExecuteNonQuery();
+                new SQLiteCommand("create table if not exists MY_TABLE (Content text not null)", c).ExecuteNonQuery();
 
-                new __SQLiteCommand(c, "delete from MY_TABLE").ExecuteNonQuery();
+                new SQLiteCommand("delete from MY_TABLE", c).ExecuteNonQuery();
 
-                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 1')").ExecuteNonQuery();
-                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 2')").ExecuteNonQuery();
-                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 3')").ExecuteNonQuery();
-                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 4')").ExecuteNonQuery();
+                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 1')", c).ExecuteNonQuery();
+                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 2')", c).ExecuteNonQuery();
+                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 3')", c).ExecuteNonQuery();
+                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 4')", c).ExecuteNonQuery();
+                new SQLiteCommand("insert into MY_TABLE (Content) values ('via sql 5')", c).ExecuteNonQuery();
 
 
 
@@ -62,17 +66,20 @@ namespace AndroidNuGetSQLiteActivity.Activities
             }
             #endregion
 
+            __SQLiteConnectionHack.ForceReadOnly = true;
+
+
             #region  Open the same SQLite database read all it's content.
 
-            using (var c = new __SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
+            using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;Read Only=True;"))
             {
-                c.Open(ReadOnly: true);
+                c.Open();
 
                 var contentRead = "-";
 
 
 
-                var reader = new __SQLiteCommand(c, "select Content from MY_TABLE").ExecuteReader();
+                var reader = new SQLiteCommand("select Content from MY_TABLE", c).ExecuteReader();
                 while (reader.Read())
                 {
                     contentRead += "\n";
@@ -92,156 +99,5 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
     }
 
-    [Script(Implements = typeof(System.Data.SQLite.SQLiteCommand))]
-    public class __SQLiteCommand
-    {
-        __SQLiteConnection c;
-        string sql;
-
-        public __SQLiteCommand(__SQLiteConnection c, string sql)
-        {
-            this.c = c;
-            this.sql = sql;
-        }
-
-        public int ExecuteNonQuery()
-        {
-            c.db.execSQL(sql);
-            return 0;
-        }
-
-        public __SQLiteDataReader ExecuteReader()
-        {
-            return new __SQLiteDataReader { cursor = c.db.rawQuery(sql, null) };
-        }
-    }
-
-    [Script(Implements = typeof(System.Data.SQLite.SQLiteDataReader))]
-    public class __SQLiteDataReader
-    {
-        public Cursor cursor;
-
-        int __state;
-
-        public bool Read()
-        {
-            if (__state == 0)
-            {
-                __state = 1;
-
-                cursor.moveToFirst();
-            }
-            else
-            {
-                cursor.moveToNext();
-            }
-
-            return !(cursor.isAfterLast());
-        }
-
-        public object this[string name]
-        {
-            get
-            {
-                int i = cursor.getColumnIndex(name);
-
-                return cursor.getString(i);
-            }
-        }
-    }
-
-    [Script(Implements = typeof(System.Data.Common.DbConnection))]
-    public abstract class __DbConnection : System.IDisposable
-    {
-
-        public abstract void Dispose();
-    }
-
-    [Script(Implements = typeof(System.Data.SQLite.SQLiteConnection))]
-    public class __SQLiteConnection : __DbConnection
-    {
-        public const string MYDATABASE_TABLE = "MY_TABLE";
-        public const string KEY_CONTENT = "Content";
-
-        //create table MY_DATABASE (ID integer primary key, Content text not null);
-        private const string SCRIPT_CREATE_DATABASE = "create table MYDATABASE_TABLE (Content text not null);";
-
-        private AtCreate h;
-        public SQLiteDatabase db;
-
-
-        public __SQLiteConnection(string connectionstring, Context c, string MYDATABASE_NAME)
-        {
-            this.h = new AtCreate(c, MYDATABASE_NAME);
-        }
-
-        public __SQLiteConnection Open(bool ReadOnly = false)
-        {
-            if (ReadOnly)
-                db = h.getReadableDatabase();
-            else
-                db = h.getWritableDatabase();
-
-            return this;
-        }
-
-
-
-        public void Close()
-        {
-            h.close();
-        }
-
-        public int deleteAll()
-        {
-            return db.delete(MYDATABASE_TABLE, null, null);
-        }
-
-        public string queueAll()
-        {
-            var columns = new[] { KEY_CONTENT };
-            Cursor cursor = db.query(MYDATABASE_TABLE, columns,
-              null, null, null, null, null);
-
-            var result = new java.lang.StringBuilder();
-
-            int index_CONTENT = cursor.getColumnIndex(KEY_CONTENT);
-            for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext())
-            {
-                result.append(cursor.getString(index_CONTENT)).append("\n");
-            }
-
-            return result.ToString();
-        }
-
-        public class AtCreate : SQLiteOpenHelper
-        {
-
-            public AtCreate(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory = null, int version = 1)
-                : base(context, name, factory, version)
-            {
-
-            }
-
-            public override void onCreate(SQLiteDatabase db)
-            {
-                // TODO Auto-generated method stub
-                //db.execSQL(SCRIPT_CREATE_DATABASE);
-            }
-
-            public override void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-            {
-                // TODO Auto-generated method stub
-
-            }
-
-        }
-
-
-        public override void Dispose()
-        {
-            this.Close();
-        }
-    }
 
 }
