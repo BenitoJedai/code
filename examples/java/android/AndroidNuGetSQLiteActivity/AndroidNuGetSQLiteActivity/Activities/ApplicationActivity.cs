@@ -43,22 +43,23 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
 
             #region   Create/Open a SQLite database and fill with dummy content and close it
-            var a = new Adapter(this);
-            a.openToWrite();
-            a.deleteAll();
-            a.insert("ABCDE");
-            a.insert("FGHIJK");
-            a.insert("1234567");
-            a.insert("890");
-            a.insert("Testing");
-            a.close();
+            var c = new __SQLiteConnection(this, "MY_DATABASE.sqlite");
+            c.Open();
+            c.deleteAll();
+
+            new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 1')").ExecuteNonQuery();
+            new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 2')").ExecuteNonQuery();
+
+
+
+            c.Close();
             #endregion
 
-            #region  Open the same SQLite database             *  and read all it's content.
-            a = new Adapter(this);
-            a.openToRead();
-            var contentRead = a.queueAll();
-            a.close();
+            #region  Open the same SQLite database read all it's content.
+            c = new __SQLiteConnection(this, "MY_DATABASE.sqlite");
+            c.Open(ReadOnly: true);
+            var contentRead = c.queueAll();
+            c.Close();
             #endregion
 
 
@@ -68,101 +69,111 @@ namespace AndroidNuGetSQLiteActivity.Activities
             this.ShowToast("http://jsc-solutions.net");
         }
 
-        public class Adapter
+    }
+
+    public class __SQLiteCommand
+    {
+        __SQLiteConnection c;
+        string sql;
+
+        public __SQLiteCommand(__SQLiteConnection c, string sql)
+        {
+            this.c = c;
+            this.sql = sql;
+        }
+
+        public int ExecuteNonQuery()
+        {
+            c.db.execSQL(sql);
+            return 0;
+        }
+    }
+
+
+    public class __SQLiteConnection
+    {
+        public const string MYDATABASE_TABLE = "MY_TABLE";
+        public const string KEY_CONTENT = "Content";
+
+        //create table MY_DATABASE (ID integer primary key, Content text not null);
+        private const string SCRIPT_CREATE_DATABASE =
+         "create table " + MYDATABASE_TABLE + " (" + KEY_CONTENT + " text not null);";
+
+        private AtCreate h;
+        public SQLiteDatabase db;
+
+
+        public __SQLiteConnection(Context c, string MYDATABASE_NAME)
+        {
+            this.h = new AtCreate(c, MYDATABASE_NAME);
+        }
+
+        public __SQLiteConnection Open(bool ReadOnly = false)
+        {
+            if (ReadOnly)
+                db = h.getReadableDatabase();
+            else
+                db = h.getWritableDatabase();
+
+            return this;
+        }
+
+        public __SQLiteConnection openToWrite()
+        {
+            db = h.getWritableDatabase();
+            return this;
+        }
+
+        public void Close()
+        {
+            h.close();
+        }
+
+        public int deleteAll()
+        {
+            return db.delete(MYDATABASE_TABLE, null, null);
+        }
+
+        public string queueAll()
+        {
+            var columns = new[] { KEY_CONTENT };
+            Cursor cursor = db.query(MYDATABASE_TABLE, columns,
+              null, null, null, null, null);
+
+            var result = new java.lang.StringBuilder();
+
+            int index_CONTENT = cursor.getColumnIndex(KEY_CONTENT);
+            for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext())
+            {
+                result.append(cursor.getString(index_CONTENT)).append("\n");
+            }
+
+            return result.ToString();
+        }
+
+        public class AtCreate : SQLiteOpenHelper
         {
 
-            string MYDATABASE_NAME;
-
-            public const string MYDATABASE_TABLE = "MY_TABLE";
-            public const int MYDATABASE_VERSION = 1;
-            public const string KEY_CONTENT = "Content";
-
-            //create table MY_DATABASE (ID integer primary key, Content text not null);
-            private const string SCRIPT_CREATE_DATABASE =
-             "create table " + MYDATABASE_TABLE + " ("
-             + KEY_CONTENT + " text not null);";
-
-            private AtCreate sqLiteHelper;
-            private SQLiteDatabase sqLiteDatabase;
-
-            private Context context;
-
-            public Adapter(Context c, string MYDATABASE_NAME = "MY_DATABASE")
-            {
-                this.MYDATABASE_NAME = MYDATABASE_NAME;
-                this.context = c;
-            }
-
-            public Adapter openToRead() /* throws android.database.SQLException */ {
-                sqLiteHelper = new AtCreate(context, MYDATABASE_NAME, null, MYDATABASE_VERSION);
-                sqLiteDatabase = sqLiteHelper.getReadableDatabase();
-                return this;
-            }
-
-            public Adapter openToWrite() /* throws android.database.SQLException */ {
-                sqLiteHelper = new AtCreate(context, MYDATABASE_NAME, null, MYDATABASE_VERSION);
-                sqLiteDatabase = sqLiteHelper.getWritableDatabase();
-                return this;
-            }
-
-            public void close()
-            {
-                sqLiteHelper.close();
-            }
-
-            public long insert(string content)
+            public AtCreate(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory = null, int version = 1)
+                : base(context, name, factory, version)
             {
 
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(KEY_CONTENT, content);
-                return sqLiteDatabase.insert(MYDATABASE_TABLE, null, contentValues);
             }
 
-            public int deleteAll()
+            public override void onCreate(SQLiteDatabase db)
             {
-                return sqLiteDatabase.delete(MYDATABASE_TABLE, null, null);
+                // TODO Auto-generated method stub
+                db.execSQL(SCRIPT_CREATE_DATABASE);
             }
 
-            public string queueAll()
+            public override void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
             {
-                var columns = new[] { KEY_CONTENT };
-                Cursor cursor = sqLiteDatabase.query(MYDATABASE_TABLE, columns,
-                  null, null, null, null, null);
-
-                var result = new java.lang.StringBuilder();
-
-                int index_CONTENT = cursor.getColumnIndex(KEY_CONTENT);
-                for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext())
-                {
-                    result.append(cursor.getString(index_CONTENT)).append("\n");
-                }
-
-                return result.ToAndroidString();
-            }
-
-            public class AtCreate : SQLiteOpenHelper
-            {
-
-                public AtCreate(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory, int version)
-                    : base(context, name, factory, version)
-                {
-
-                }
-
-                public override void onCreate(SQLiteDatabase db)
-                {
-                    // TODO Auto-generated method stub
-                    db.execSQL(SCRIPT_CREATE_DATABASE);
-                }
-
-                public override void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-                {
-                    // TODO Auto-generated method stub
-
-                }
+                // TODO Auto-generated method stub
 
             }
 
         }
+
     }
+
 }

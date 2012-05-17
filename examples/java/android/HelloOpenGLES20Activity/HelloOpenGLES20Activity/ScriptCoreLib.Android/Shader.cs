@@ -345,4 +345,10 @@ using android.view;
             return v;
         }
     }
+
+    [Script(Implements = typeof(IDisposable))]
+    internal interface __IDisposable
+    {
+        void Dispose();
+    }
 }
