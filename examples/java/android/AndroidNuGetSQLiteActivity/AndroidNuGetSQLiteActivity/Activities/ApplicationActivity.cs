@@ -43,27 +43,38 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
 
             #region   Create/Open a SQLite database and fill with dummy content and close it
-            var c = new __SQLiteConnection(this, "MY_DATABASE.sqlite");
-            c.Open();
-            c.deleteAll();
+            using (var c = new __SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
+            {
+                c.Open();
 
-            new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 1')").ExecuteNonQuery();
-            new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 2')").ExecuteNonQuery();
+                new __SQLiteCommand(c, "create table if not exists MY_TABLE (Content text not null)").ExecuteNonQuery();
+
+                new __SQLiteCommand(c, "delete from MY_TABLE").ExecuteNonQuery();
+
+                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 1')").ExecuteNonQuery();
+                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 2')").ExecuteNonQuery();
+                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 3')").ExecuteNonQuery();
 
 
 
-            c.Close();
+                c.Close();
+            }
             #endregion
 
             #region  Open the same SQLite database read all it's content.
-            c = new __SQLiteConnection(this, "MY_DATABASE.sqlite");
-            c.Open(ReadOnly: true);
-            var contentRead = c.queueAll();
-            c.Close();
+
+            using (var c = new __SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
+            {
+                c.Open(ReadOnly: true);
+
+                var contentRead = c.queueAll();
+                c.Close();
+
+
+                listContent.setText(contentRead);
+
+            }
             #endregion
-
-
-            listContent.setText(contentRead);
 
 
             this.ShowToast("http://jsc-solutions.net");
@@ -89,21 +100,25 @@ namespace AndroidNuGetSQLiteActivity.Activities
         }
     }
 
+    public abstract class __DbConnection : System.IDisposable
+    {
 
-    public class __SQLiteConnection
+        public abstract void Dispose();
+    }
+
+    public class __SQLiteConnection : __DbConnection
     {
         public const string MYDATABASE_TABLE = "MY_TABLE";
         public const string KEY_CONTENT = "Content";
 
         //create table MY_DATABASE (ID integer primary key, Content text not null);
-        private const string SCRIPT_CREATE_DATABASE =
-         "create table " + MYDATABASE_TABLE + " (" + KEY_CONTENT + " text not null);";
+        private const string SCRIPT_CREATE_DATABASE = "create table MYDATABASE_TABLE (Content text not null);";
 
         private AtCreate h;
         public SQLiteDatabase db;
 
 
-        public __SQLiteConnection(Context c, string MYDATABASE_NAME)
+        public __SQLiteConnection(string connectionstring, Context c, string MYDATABASE_NAME)
         {
             this.h = new AtCreate(c, MYDATABASE_NAME);
         }
@@ -118,11 +133,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
             return this;
         }
 
-        public __SQLiteConnection openToWrite()
-        {
-            db = h.getWritableDatabase();
-            return this;
-        }
+
 
         public void Close()
         {
@@ -163,7 +174,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
             public override void onCreate(SQLiteDatabase db)
             {
                 // TODO Auto-generated method stub
-                db.execSQL(SCRIPT_CREATE_DATABASE);
+                //db.execSQL(SCRIPT_CREATE_DATABASE);
             }
 
             public override void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -174,6 +185,11 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
         }
 
+
+        public override void Dispose()
+        {
+            this.Close();
+        }
     }
 
 }
