@@ -43,7 +43,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
 
             #region   Create/Open a SQLite database and fill with dummy content and close it
-            using (var c = new __SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
+            using (var c = new __SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
             {
                 c.Open();
 
@@ -54,6 +54,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
                 new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 1')").ExecuteNonQuery();
                 new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 2')").ExecuteNonQuery();
                 new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 3')").ExecuteNonQuery();
+                new __SQLiteCommand(c, "insert into MY_TABLE (Content) values ('via sql 4')").ExecuteNonQuery();
 
 
 
@@ -63,15 +64,24 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
             #region  Open the same SQLite database read all it's content.
 
-            using (var c = new __SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
+            using (var c = new __SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;", this, "MY_DATABASE.sqlite"))
             {
                 c.Open(ReadOnly: true);
 
-                var contentRead = c.queueAll();
-                c.Close();
+                var contentRead = "-";
 
+
+
+                var reader = new __SQLiteCommand(c, "select Content from MY_TABLE").ExecuteReader();
+                while (reader.Read())
+                {
+                    contentRead += "\n";
+                    contentRead += (string)reader["Content"];
+                }
 
                 listContent.setText(contentRead);
+
+                c.Close();
 
             }
             #endregion
@@ -82,6 +92,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
     }
 
+    [Script(Implements = typeof(System.Data.SQLite.SQLiteCommand))]
     public class __SQLiteCommand
     {
         __SQLiteConnection c;
@@ -98,14 +109,55 @@ namespace AndroidNuGetSQLiteActivity.Activities
             c.db.execSQL(sql);
             return 0;
         }
+
+        public __SQLiteDataReader ExecuteReader()
+        {
+            return new __SQLiteDataReader { cursor = c.db.rawQuery(sql, null) };
+        }
     }
 
+    [Script(Implements = typeof(System.Data.SQLite.SQLiteDataReader))]
+    public class __SQLiteDataReader
+    {
+        public Cursor cursor;
+
+        int __state;
+
+        public bool Read()
+        {
+            if (__state == 0)
+            {
+                __state = 1;
+
+                cursor.moveToFirst();
+            }
+            else
+            {
+                cursor.moveToNext();
+            }
+
+            return !(cursor.isAfterLast());
+        }
+
+        public object this[string name]
+        {
+            get
+            {
+                int i = cursor.getColumnIndex(name);
+
+                return cursor.getString(i);
+            }
+        }
+    }
+
+    [Script(Implements = typeof(System.Data.Common.DbConnection))]
     public abstract class __DbConnection : System.IDisposable
     {
 
         public abstract void Dispose();
     }
 
+    [Script(Implements = typeof(System.Data.SQLite.SQLiteConnection))]
     public class __SQLiteConnection : __DbConnection
     {
         public const string MYDATABASE_TABLE = "MY_TABLE";
