@@ -30,38 +30,37 @@ namespace AndroidNuGetSQLiteActivity.Activities
         //Z:\jsc.svn\examples\java\android\HelloAndroid>C:\util\android-sdk-windows\platform-tools\adb.exe devices
         //List of devices attached
         //3330A17632C000EC        device 
-        private SQLiteAdapter mySQLiteAdapter;
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
 
             base.onCreate(savedInstanceState);
+
             setContentView(R.layout.main);
+
             TextView listContent = (TextView)findViewById(R.id.contentlist);
 
-            /*
-             *  Create/Open a SQLite database
-             *  and fill with dummy content
-             *  and close it
-             */
-            mySQLiteAdapter = new SQLiteAdapter(this);
-            mySQLiteAdapter.openToWrite();
-            mySQLiteAdapter.deleteAll();
-            mySQLiteAdapter.insert("ABCDE");
-            mySQLiteAdapter.insert("FGHIJK");
-            mySQLiteAdapter.insert("1234567");
-            mySQLiteAdapter.insert("890");
-            mySQLiteAdapter.insert("Testing");
-            mySQLiteAdapter.close();
 
-            /*
-             *  Open the same SQLite database
-             *  and read all it's content.
-             */
-            mySQLiteAdapter = new SQLiteAdapter(this);
-            mySQLiteAdapter.openToRead();
-            var contentRead = mySQLiteAdapter.queueAll();
-            mySQLiteAdapter.close();
+
+            #region   Create/Open a SQLite database and fill with dummy content and close it
+            var a = new Adapter(this);
+            a.openToWrite();
+            a.deleteAll();
+            a.insert("ABCDE");
+            a.insert("FGHIJK");
+            a.insert("1234567");
+            a.insert("890");
+            a.insert("Testing");
+            a.close();
+            #endregion
+
+            #region  Open the same SQLite database             *  and read all it's content.
+            a = new Adapter(this);
+            a.openToRead();
+            var contentRead = a.queueAll();
+            a.close();
+            #endregion
+
 
             listContent.setText(contentRead);
 
@@ -69,10 +68,11 @@ namespace AndroidNuGetSQLiteActivity.Activities
             this.ShowToast("http://jsc-solutions.net");
         }
 
-        public class SQLiteAdapter
+        public class Adapter
         {
 
-            public const string MYDATABASE_NAME = "MY_DATABASE";
+            string MYDATABASE_NAME;
+
             public const string MYDATABASE_TABLE = "MY_TABLE";
             public const int MYDATABASE_VERSION = 1;
             public const string KEY_CONTENT = "Content";
@@ -82,24 +82,25 @@ namespace AndroidNuGetSQLiteActivity.Activities
              "create table " + MYDATABASE_TABLE + " ("
              + KEY_CONTENT + " text not null);";
 
-            private SQLiteHelper sqLiteHelper;
+            private AtCreate sqLiteHelper;
             private SQLiteDatabase sqLiteDatabase;
 
             private Context context;
 
-            public SQLiteAdapter(Context c)
+            public Adapter(Context c, string MYDATABASE_NAME = "MY_DATABASE")
             {
-                context = c;
+                this.MYDATABASE_NAME = MYDATABASE_NAME;
+                this.context = c;
             }
 
-            public SQLiteAdapter openToRead() /* throws android.database.SQLException */ {
-                sqLiteHelper = new SQLiteHelper(context, MYDATABASE_NAME, null, MYDATABASE_VERSION);
+            public Adapter openToRead() /* throws android.database.SQLException */ {
+                sqLiteHelper = new AtCreate(context, MYDATABASE_NAME, null, MYDATABASE_VERSION);
                 sqLiteDatabase = sqLiteHelper.getReadableDatabase();
                 return this;
             }
 
-            public SQLiteAdapter openToWrite() /* throws android.database.SQLException */ {
-                sqLiteHelper = new SQLiteHelper(context, MYDATABASE_NAME, null, MYDATABASE_VERSION);
+            public Adapter openToWrite() /* throws android.database.SQLException */ {
+                sqLiteHelper = new AtCreate(context, MYDATABASE_NAME, null, MYDATABASE_VERSION);
                 sqLiteDatabase = sqLiteHelper.getWritableDatabase();
                 return this;
             }
@@ -139,10 +140,10 @@ namespace AndroidNuGetSQLiteActivity.Activities
                 return result.ToAndroidString();
             }
 
-            public class SQLiteHelper : SQLiteOpenHelper
+            public class AtCreate : SQLiteOpenHelper
             {
 
-                public SQLiteHelper(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory, int version)
+                public AtCreate(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory, int version)
                     : base(context, name, factory, version)
                 {
 

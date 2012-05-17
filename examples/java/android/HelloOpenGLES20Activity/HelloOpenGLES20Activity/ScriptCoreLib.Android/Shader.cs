@@ -311,7 +311,7 @@ using android.view;
 
 
 
-        [Obsolete("This is a workaround. object.ToString not yet supported")]
+        [Obsolete("This is a workaround is no longer needed.")]
         [Script(OptimizedCode = "return \"\" + e;")]
         public static string ToAndroidString(this object e)
         {

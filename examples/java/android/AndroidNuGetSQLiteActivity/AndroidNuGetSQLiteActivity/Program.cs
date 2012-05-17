@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -13,26 +14,8 @@ namespace AndroidNuGetSQLiteActivity
         [STAThread]
         public static void Main(string[] e)
         {
-            var w = new Window { Title = "JSC - Android Project" }.SizeTo(400 + 48, 300);
-
-            var c = new Canvas();
-
-            c.AttachTo(w);
-
-
-            new global::AndroidNuGetSQLiteActivity.Avalon.Images.jsc().AttachTo(c).MoveTo(300, 16);
-
-            var button1 = new Button { Content = "Debug in Android Emulator" };
-
-            button1.MoveTo(16, 128).SizeTo(400, 32);
-            button1.AttachTo(c);
-
-            var button2 = new Button { Content = "Debug on Device" };
-
-            button2.MoveTo(16, 128 + 48).SizeTo(400, 32);
-            button2.AttachTo(c);
-
-            w.ShowDialog();
+            var m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
+            m_dbConnection.Open();
         }
     }
 }
