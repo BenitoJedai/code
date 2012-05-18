@@ -45,9 +45,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
             __SQLiteConnectionHack.Context = this;
             __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
 
-            #region   Create/Open a SQLite database and fill with dummy content and close it
             MyDatabase.Write();
-            #endregion
 
             __SQLiteConnectionHack.ForceReadOnly = true;
 
@@ -68,8 +66,6 @@ namespace AndroidNuGetSQLiteActivity.Activities
     {
         public static string Read(string contentRead)
         {
-            #region  Open the same SQLite database read all it's content.
-
             using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;Read Only=True;"))
             {
                 c.Open();
@@ -88,7 +84,6 @@ namespace AndroidNuGetSQLiteActivity.Activities
                 c.Close();
 
             }
-            #endregion
             return contentRead;
         }
 
