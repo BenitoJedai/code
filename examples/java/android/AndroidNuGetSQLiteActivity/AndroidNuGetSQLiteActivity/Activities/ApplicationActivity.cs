@@ -42,7 +42,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
             TextView listContent = (TextView)findViewById(R.id.contentlist);
 
 
-            __SQLiteConnectionHack.c = this;
+            __SQLiteConnectionHack.Context = this;
             __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
 
             #region   Create/Open a SQLite database and fill with dummy content and close it

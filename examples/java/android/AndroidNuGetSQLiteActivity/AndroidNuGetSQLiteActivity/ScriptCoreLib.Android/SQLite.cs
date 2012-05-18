@@ -95,7 +95,7 @@ namespace ScriptCoreLib.Android
 
     public static class __SQLiteConnectionHack
     {
-        public static Context c;
+        public static Context Context;
 
         public static string MYDATABASE_NAME;
         public static bool ForceReadOnly;
@@ -104,14 +104,14 @@ namespace ScriptCoreLib.Android
     [Script(Implements = typeof(System.Data.SQLite.SQLiteConnection))]
     public class __SQLiteConnection : __DbConnection
     {
-        private AtCreate h;
+        private LocalSQLiteOpenHelper h;
         public SQLiteDatabase db;
 
         bool ForceReadOnly;
 
         public __SQLiteConnection(string connectionstring)
         {
-            this.h = new AtCreate(__SQLiteConnectionHack.c, __SQLiteConnectionHack.MYDATABASE_NAME);
+            this.h = new LocalSQLiteOpenHelper(__SQLiteConnectionHack.Context, __SQLiteConnectionHack.MYDATABASE_NAME);
         }
 
         public override void Open()
@@ -132,10 +132,10 @@ namespace ScriptCoreLib.Android
 
 
 
-        public class AtCreate : SQLiteOpenHelper
+        public class LocalSQLiteOpenHelper : SQLiteOpenHelper
         {
 
-            public AtCreate(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory = null, int version = 1)
+            public LocalSQLiteOpenHelper(Context context, string name, android.database.sqlite.SQLiteDatabase.CursorFactory factory = null, int version = 1)
                 : base(context, name, factory, version)
             {
 
