@@ -9,6 +9,36 @@ using android.database.sqlite;
 
 namespace ScriptCoreLib.Android
 {
+    [Script(Implements = typeof(SQLiteConnectionStringBuilder))]
+    public class __SQLiteConnectionStringBuilder
+    {
+        public string DataSource { get; set; }
+        public int Version { get; set; }
+        public bool ReadOnly { get; set; }
+
+        public string ConnectionString
+        {
+            get
+            {
+                var r = "";
+
+                r += "Data Source=" + this.DataSource + ";";
+                __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
+
+
+                r += "Version=" + this.Version + ";";
+
+                if (this.ReadOnly)
+                {
+                    r += "Read Only=True;";
+                    __SQLiteConnectionHack.ForceReadOnly = true;
+                }
+
+
+                return r;
+            }
+        }
+    }
 
     [Script(Implements = typeof(System.Data.Common.DbCommand))]
     public abstract class __DbCommand

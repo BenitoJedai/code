@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using android.content;
 using android.opengl;
+using android.util;
+using android.view;
 using android.widget;
 using java.lang;
 using ScriptCoreLib;
 
 namespace ScriptCoreLib.Android
 {
-    using opengl = GLES20;
     using gl = __WebGLRenderingContext;
-    using android.util;
-using android.view;
-    using System.ComponentModel;
+    using opengl = GLES20;
+
 
     #region ScriptCoreLib.GLSL.Shader
     [Script(Implements = typeof(ScriptCoreLib.GLSL.Shader))]

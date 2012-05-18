@@ -43,11 +43,9 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
 
             __SQLiteConnectionHack.Context = this;
-            __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
 
             MyDatabase.Write();
 
-            __SQLiteConnectionHack.ForceReadOnly = true;
 
             var contentRead = "-";
 
@@ -66,7 +64,15 @@ namespace AndroidNuGetSQLiteActivity.Activities
     {
         public static string Read(string contentRead)
         {
-            using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;Read Only=True;"))
+            using (var c = new SQLiteConnection(
+                
+                new SQLiteConnectionStringBuilder
+                {
+                    DataSource = "MY_DATABASE.sqlite",
+                    Version = 3,
+                    ReadOnly = true
+                }.ConnectionString
+                ))
             {
                 c.Open();
 
@@ -89,7 +95,17 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
         public static void Write()
         {
-            using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;"))
+            ;
+
+            using (var c = new SQLiteConnection(
+                
+                new SQLiteConnectionStringBuilder
+                {
+                    DataSource = "MY_DATABASE.sqlite",
+                    Version = 3
+                }.ConnectionString
+                
+                ))
             {
                 c.Open();
 
