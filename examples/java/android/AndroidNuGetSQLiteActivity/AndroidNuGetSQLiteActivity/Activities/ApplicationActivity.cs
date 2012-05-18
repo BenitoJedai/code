@@ -46,6 +46,54 @@ namespace AndroidNuGetSQLiteActivity.Activities
             __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
 
             #region   Create/Open a SQLite database and fill with dummy content and close it
+            MyDatabase.Write();
+            #endregion
+
+            __SQLiteConnectionHack.ForceReadOnly = true;
+
+            var contentRead = "-";
+
+            contentRead = MyDatabase.Read(contentRead);
+
+            listContent.setText(contentRead);
+
+            this.ShowToast("http://jsc-solutions.net");
+        }
+
+        
+
+    }
+
+    public static class MyDatabase
+    {
+        public static string Read(string contentRead)
+        {
+            #region  Open the same SQLite database read all it's content.
+
+            using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;Read Only=True;"))
+            {
+                c.Open();
+
+
+
+
+                var reader = new SQLiteCommand("select Content from MY_TABLE", c).ExecuteReader();
+                while (reader.Read())
+                {
+                    contentRead += "\n";
+                    contentRead += (string)reader["Content"];
+                }
+
+
+                c.Close();
+
+            }
+            #endregion
+            return contentRead;
+        }
+
+        public static void Write()
+        {
             using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;"))
             {
                 c.Open();
@@ -64,40 +112,6 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
                 c.Close();
             }
-            #endregion
-
-            __SQLiteConnectionHack.ForceReadOnly = true;
-
-
-            #region  Open the same SQLite database read all it's content.
-
-            using (var c = new SQLiteConnection("Data Source=MY_DATABASE.sqlite;Version=3;Read Only=True;"))
-            {
-                c.Open();
-
-                var contentRead = "-";
-
-
-
-                var reader = new SQLiteCommand("select Content from MY_TABLE", c).ExecuteReader();
-                while (reader.Read())
-                {
-                    contentRead += "\n";
-                    contentRead += (string)reader["Content"];
-                }
-
-                listContent.setText(contentRead);
-
-                c.Close();
-
-            }
-            #endregion
-
-
-            this.ShowToast("http://jsc-solutions.net");
         }
-
     }
-
-
 }
