@@ -170,7 +170,7 @@ namespace JVMCLRForm
                                     }
                                     catch (csharp.ThrowableException cc)
                                     {
-                                        Console.WriteLine("error: " + cc);
+                                        System.Console.WriteLine("error: " + cc);
                                     }
 
                                     return c.ToType();
