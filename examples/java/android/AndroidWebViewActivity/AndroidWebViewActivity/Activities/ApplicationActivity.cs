@@ -42,7 +42,7 @@ namespace AndroidWebViewActivity.Activities
         public ProgressDialog progressBar;
         public AlertDialog alertDialog;
 
-        WindowManager hack;
+        //WindowManager hack;
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {

@@ -17,14 +17,35 @@ namespace android.content
     }
 }
 
+namespace android.view
+{
+    [Script(IsNative = true)]
+    public interface WindowManager
+    { }
+
+    [Script(IsNative = true)]
+    public class WindowManager_LayoutParams
+    {
+        public static int FLAG_FULLSCREEN;
+    }
+
+    [Script(IsNative = true)]
+    public interface WindowManager_LayoutParamsX
+    {
+    }
+
+}
 
 namespace android.content
 {
     [Script(IsNative = true)]
     public interface DialogInterface_OnClickListener
     {
+
         void onClick(DialogInterface dialog, int item);
     }
+
+
 }
 
 
@@ -35,7 +56,9 @@ namespace TestNativeInterfaceNestedTypeReferece
     {
         public void onClick(android.content.DialogInterface dialog, int item)
         {
+            var i = android.view.WindowManager_LayoutParams.FLAG_FULLSCREEN;
 
+            android.view.WindowManager_LayoutParamsX x;
         }
     }
 
