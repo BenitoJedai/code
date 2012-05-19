@@ -62,6 +62,8 @@ namespace AndroidNuGetSQLiteActivity.Activities
 
     public static class MyDatabase
     {
+        // http://www.eggheadcafe.com/tutorials/ado/20f7912e-6fa7-40eb-b31b-b6f46d4f2c6a/get-started-with-sqlite-and-visual-studio.aspx
+
         public static string Read(string contentRead)
         {
             using (var c = new SQLiteConnection(

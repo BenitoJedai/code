@@ -86,7 +86,9 @@
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
-    <Content Include="staging\AndroidManifest.xml" />
+    <Content Include="staging\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="staging\res\layout\main.xml" />
     <Content Include="staging\res\values\strings.xml" />
   </ItemGroup>
