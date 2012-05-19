@@ -36,11 +36,21 @@ namespace AndroidWebViewActivity.Activities
             base.onCreate(savedInstanceState);
 
             WebView webview = new WebView(this);
+
+            webview.getSettings().setSupportZoom(true); 
+            webview.getSettings().setLoadsImagesAutomatically(true);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.getSettings().setBuiltInZoomControls(true);
+            webview.setInitialScale(100);  
+
+            //webview.getSettings().setJavaScriptEnabled(true);
+            webview.getSettings().setPluginsEnabled(true);
             setContentView(webview);
 
             // OR, you can also load from an HTML string:
-            var summary = "<html><body>You scored <b>192</b> points.</body></html>";
-            webview.loadData(summary, "text/html", null);
+            //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
+            //webview.loadData(summary, "text/html", null);
+            webview.loadUrl("http://studio.jsc-solutions.net");
 
             this.ShowToast("http://jsc-solutions.net");
         }

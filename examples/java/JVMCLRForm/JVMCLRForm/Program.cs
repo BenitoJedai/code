@@ -31,7 +31,7 @@ namespace JVMCLRForm
             var x = new JavaArchiveReflector(new FileInfo(filePath0));
 
 
-            Console.WriteLine("done");
+            System.Console.WriteLine("done");
 
 
 
@@ -40,29 +40,29 @@ namespace JVMCLRForm
                 {
                     try
                     {
-                        Console.WriteLine();
-                        Console.WriteLine(MethodName);
+                        System.Console.WriteLine();
+                        System.Console.WriteLine(MethodName);
 
                         // unreported exception java.lang.ClassNotFoundException; must be caught or declared to be thrown
                         var c = java.lang.Class.forName(MethodName);
 
                         foreach (var item in c.getMethods())
                         {
-                            Console.WriteLine("method: " + item.getName());
+                            System.Console.WriteLine("method: " + item.getName());
                         }
 
 
                     }
                     catch
                     {
-                        Console.WriteLine("error!");
+                        System.Console.WriteLine("error!");
                     }
                 };
 
             //ListMethods("java.lang.Class");
 
 
-            Console.WriteLine("jvm");
+            System.Console.WriteLine("jvm");
 
             var SwitchVM = true;
 
@@ -110,7 +110,7 @@ namespace JVMCLRForm
              IJavaArchiveReflector jar = null
             )
         {
-            Console.WriteLine(XML);
+            System.Console.WriteLine(XML);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -123,7 +123,7 @@ namespace JVMCLRForm
 
                     for (int i = 0; i < jar.Count; i++)
                     {
-                        Console.WriteLine("# " + i);
+                        System.Console.WriteLine("# " + i);
 
                         var fqn = jar.GetTypeFullName(i);
 
