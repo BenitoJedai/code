@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -21,18 +22,7 @@ namespace AndroidWebViewActivity
             // StandardOut has not been redirected or the process hasn't started yet.
             // The Process object must have the UseShellExecute property set to false in order to redirect IO streams.
 
-            var p = Process.Start(
-                new ProcessStartInfo(@"C:\util\android-sdk-windows\platform-tools\adb.exe", "devices")
-                {
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                }
-            );
-
-            p.Start();
-
-
-            var x = p.StandardOutput.ReadToEnd().Split('\n').Where(k => k.Contains("\t")).ToArray();
+            var Devices = GetDevices();
 
 
 
@@ -40,7 +30,7 @@ namespace AndroidWebViewActivity
 
             #region  atleast start emulator
 
-            if (x.Length == 0)
+            if (Devices.Length == 0)
             {
                 // C:\Users\Arvo\.android\avd
                 // http://heikobehrens.net/2011/03/15/android-skins/
@@ -52,47 +42,105 @@ namespace AndroidWebViewActivity
 
                 var emulator = Process.Start(
                     new ProcessStartInfo(
-                        @"C:\util\android-sdk-windows\tools\emulator.exe",
+                        @"C:\util\android-sdk-windows\tools\emulator-arm.exe",
                         "-avd " + devices.First().name
                     //+ " -no-boot-anim  -noskin -dpi-device 96 -scale auto"
                         + " -no-boot-anim -verbose"
                     //+ @"-skindir Y:\opensource\github\android-minimal-skins"
                         + @" -skin WVGA800-minimal"
 
-                        + " -onion-alpha 100 -onion " + @"Y:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Documents\jsc.png".Replace("\\", "/")
+                        + " -onion-alpha 70 -onion " + @"Y:\jsc.internal.svn\compiler\jsc.meta\jsc.meta\Documents\white-jsc.png".Replace("\\", "/")
                     )
                     {
                         UseShellExecute = false
                     }
                 );
 
+                //#region http://stackoverflow.com/questions/2510593/how-can-i-set-processor-affinity-in-net
+                //long AffinityMask = (long)emulator.ProcessorAffinity;
+                //AffinityMask &= 0x000F; // use only any of the first 4 available processors
+                //emulator.ProcessorAffinity = (IntPtr)AffinityMask;
+                //#endregion
 
+                while (GetDevices().Length != 1)
+                {
+                    Thread.Sleep(1000);
+                }
 
-                Thread.Sleep(7000);
             }
             // WaitForInputIdle failed.  This could be because the process does not have a graphical interface.
             //emulator.WaitForInputIdle();
 
             #endregion
-            
-            MessageBox.Show("Should we reinstall application on a device?");
 
 
-            Process.Start(
+            while (GetDevices().Length != 1)
+            {
+                MessageBox.Show(
+                    @"One and only device needs to be running!
+
+- You could close already running emulators
+- You could disconnect physical devices
+",
+                    "Android", 
+                    MessageBoxButton.OK, 
+                    MessageBoxImage.Information
+                );
+            }
+
+            // error: device offline
+
+            var install = Install();
+
+            while (!install.Contains("Success"))
+            {
+                //Console.WriteLine(install);
+                Thread.Sleep(2000);
+                install = Install();
+            }
+
+
+            // reinstall
+
+            //MessageBox.Show("Stop virtual device?");
+
+        }
+
+        private static string Install()
+        {
+            var install = Process.Start(
                  new ProcessStartInfo(
                     @"C:\util\android-sdk-windows\platform-tools\adb.exe",
                     @"install -r ""y:\jsc.svn\examples\java\android\AndroidWebViewActivity\AndroidWebViewActivity\staging\bin\AndroidWebViewActivity-debug.apk"""
                 )
+                 {
+                     UseShellExecute = false,
+                     RedirectStandardError = true,
+                     RedirectStandardOutput = true,
+                 }
+            );
+
+            return 
+            install.StandardOutput.ReadToEnd() +
+            install.StandardError.ReadToEnd();
+
+        }
+
+        private static string[] GetDevices()
+        {
+            var p = Process.Start(
+                new ProcessStartInfo(@"C:\util\android-sdk-windows\platform-tools\adb.exe", "devices")
                 {
-                    UseShellExecute = false
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
                 }
             );
 
-            // reinstall
+            p.Start();
 
-            MessageBox.Show("Stop virtual device?");
 
-            //Debugger.Break();
+            var Devices = p.StandardOutput.ReadToEnd().Split('\n').Where(k => k.Contains("\t")).ToArray();
+            return Devices;
         }
     }
 }
