@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{57FF1E1E-0C6B-49DE-9B4A-16DADB478171}</ProjectGuid>
+    <ProjectGuid>{C8C1EF79-D101-4994-A742-6ED9D4570A9B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AndroidOpenStreetMapViewActivity.VerifyNatives</RootNamespace>
-    <AssemblyName>AndroidOpenStreetMapViewActivity.VerifyNatives</AssemblyName>
+    <RootNamespace>AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary</RootNamespace>
+    <AssemblyName>AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AndroidOpenStreetMapViewActivity.VerifyNatives.Program</StartupObject>
+    <StartupObject>AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,8 +114,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AndroidOpenStreetMapViewActivity.VerifyNatives.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidOpenStreetMapViewActivity.VerifyNatives.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -124,7 +124,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true</PostBuildEvent>
+    <PostBuildEvent>start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true</PostBuildEvent>
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
