@@ -81,7 +81,6 @@ namespace HelloOpenGLES20Activity.Activities
         #endregion
 
 
-        [Script]
         public partial class HelloOpenGLES20SurfaceView : GLSurfaceView
         {
 

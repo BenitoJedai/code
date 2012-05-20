@@ -57,7 +57,7 @@ namespace AndroidOpenStreetMapViewActivity.Activities
             //requestWindowFeature(Window.FEATURE_NO_TITLE);
             //getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
-            this.ShowToast("studio.jsc-solutions.net");
+            this.ShowToast("jsc-solutions.net\nWait while map loads...");
 
             setContentView(R.layout.main);
 
@@ -73,7 +73,7 @@ namespace AndroidOpenStreetMapViewActivity.Activities
             myOpenMapView.setBuiltInZoomControls(true);
             myOpenMapView.setMultiTouchControls(true);
             myMapController.setZoom(16);
-            myMapController.setCenter(new GeoPoint(30266000, -97739000));
+            myMapController.setCenter(new GeoPoint(51496994, -134733));
         }
 
     }
