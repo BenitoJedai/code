@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -98,17 +99,18 @@
     <PostBuildEvent>
 c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 
+exit 0
 
 set TargetActivityAssembly=$(TargetDir)$(TargetName).AndroidActivity.dll
 
 dir %25TargetActivityAssembly%25
 
-c:\util\jsc\bin\jsc.exe %25TargetActivityAssembly%25 -java
+c:\util\jsc\bin\jsc.exe %25TargetActivityAssembly%25 -java -ExtractAssets
 
 
 xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\src /Y /E
 
-exit 0
+
 
 
 pushd $(ProjectDir)\staging\

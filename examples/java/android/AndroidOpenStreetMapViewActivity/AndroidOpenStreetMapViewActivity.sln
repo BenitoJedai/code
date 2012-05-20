@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidOpenStreetMapViewAct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary", "AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary\AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary.csproj", "{C8C1EF79-D101-4994-A742-6ED9D4570A9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerifyRewriteToAndroidActivity", "VerifyRewriteToAndroidActivity\VerifyRewriteToAndroidActivity.csproj", "{71230693-9BC0-4815-B324-241C42E4AA72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,16 @@ Global
 		{57FF1E1E-0C6B-49DE-9B4A-16DADB478171}.Release|Mixed Platforms.Build.0 = Release|x86
 		{57FF1E1E-0C6B-49DE-9B4A-16DADB478171}.Release|x86.ActiveCfg = Release|x86
 		{57FF1E1E-0C6B-49DE-9B4A-16DADB478171}.Release|x86.Build.0 = Release|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Debug|x86.ActiveCfg = Debug|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Debug|x86.Build.0 = Debug|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Release|Any CPU.ActiveCfg = Release|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Release|Mixed Platforms.Build.0 = Release|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Release|x86.ActiveCfg = Release|x86
+		{71230693-9BC0-4815-B324-241C42E4AA72}.Release|x86.Build.0 = Release|x86
 		{9D280B94-A86D-496D-940A-7C0C1C270590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D280B94-A86D-496D-940A-7C0C1C270590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D280B94-A86D-496D-940A-7C0C1C270590}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
