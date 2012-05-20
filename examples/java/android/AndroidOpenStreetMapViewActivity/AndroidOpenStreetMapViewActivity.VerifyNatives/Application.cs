@@ -23,6 +23,9 @@ namespace AndroidOpenStreetMapViewActivity.VerifyNatives
 
             Environment.CurrentDirectory = @"Y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity\References";
 
+            Debugger.Break();
+
+
             Assembly.LoadFrom(
                 @"c:\util\jsc\bin\jsc.meta.exe"
             ).EntryPoint.Invoke(
@@ -31,8 +34,8 @@ namespace AndroidOpenStreetMapViewActivity.VerifyNatives
                     new string[]{
                         "RewriteToJavaNatives",
                         "/source:osmdroid-android-3.0.8.jar",
-                        "/target:foo.dll",
-                        "/PrimaryType:org.osmdroidutil.MyMath",
+                        "/target:osmdroid-android-3.0.8.dll",
+                        //"/PrimaryType:org.osmdroid.util.MyMath",
                         "/DisableWorkerDomain"
                     }
                 }

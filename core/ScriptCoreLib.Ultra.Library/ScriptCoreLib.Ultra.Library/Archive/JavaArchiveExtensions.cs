@@ -11,9 +11,11 @@ namespace ScriptCoreLib.Archive
         static Dictionary<string, string[]> FileContentLookup = new Dictionary<string, string[]>();
 
 
-        public static string ResolveJavaArchiveLoadRequest(string context, string name)
+        public static string ResolveJavaArchiveLoadRequest(string context, string name, FileInfo[] ImplicitReferences)
         {
             var list = ContextToFileArray(context);
+
+            list = list.Concat(ImplicitReferences.Select(k => k.FullName)).Distinct().ToArray();
 
             var r = name.Replace(".", "/") + ".class";
 
