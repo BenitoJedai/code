@@ -95,16 +95,22 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>exit 0
-
+    <PostBuildEvent>
 c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+
 
 set TargetActivityAssembly=$(TargetDir)$(TargetName).AndroidActivity.dll
 
 dir %25TargetActivityAssembly%25
 
 c:\util\jsc\bin\jsc.exe %25TargetActivityAssembly%25 -java
+
+
 xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\src /Y /E
+
+exit 0
+
+
 pushd $(ProjectDir)\staging\
 call build.bat
 popd

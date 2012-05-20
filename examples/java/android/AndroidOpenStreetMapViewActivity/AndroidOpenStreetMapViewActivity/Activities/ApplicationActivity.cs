@@ -13,8 +13,8 @@ using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 
-using org.osmdroid.views.MapController;
-using org.osmdroid.views.MapView;
+using org.osmdroid.views;
+using org.osmdroid.api;
 
 namespace AndroidOpenStreetMapViewActivity.Activities
 {
@@ -44,7 +44,7 @@ namespace AndroidOpenStreetMapViewActivity.Activities
 
         private MapView myOpenMapView;
         private MapController myMapController;
- 
+
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
@@ -58,9 +58,13 @@ namespace AndroidOpenStreetMapViewActivity.Activities
 
             myOpenMapView = (MapView)findViewById(R.id.openmapview);
             myOpenMapView.setBuiltInZoomControls(true);
-            myMapController = myOpenMapView.getController();
+
+            // http://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/main/java/org/osmdroid/views/MapView.java
+            // http://stackoverflow.com/questions/157119/c-sharp-can-i-override-with-derived-types
+
+            myMapController = (MapController)((IMapView)myOpenMapView).getController();
             myMapController.setZoom(4);
         }
 
-     }
+    }
 }
