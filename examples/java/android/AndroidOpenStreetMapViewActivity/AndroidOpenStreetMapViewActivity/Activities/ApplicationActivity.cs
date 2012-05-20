@@ -15,6 +15,8 @@ using ScriptCoreLib.Android;
 
 using org.osmdroid.views;
 using org.osmdroid.api;
+using org.osmdroid.tileprovider.tilesource;
+using org.osmdroid.util;
 
 namespace AndroidOpenStreetMapViewActivity.Activities
 {
@@ -23,9 +25,10 @@ namespace AndroidOpenStreetMapViewActivity.Activities
         // inspired by 
         // http://android-er.blogspot.com/2012/05/openstreetmapview-openstreetmap-tools.html
         // http://android-er.blogspot.com/2012/05/prepare-java-build-path-to-osmdroid-and.html
+        // http://android-er.blogspot.com/2012/05/simple-example-use-osmdroid-and-slf4j.html
         // those jars will need to end up at /libs folder!
 
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenStreetMapViewActivity.Activities --activity AndroidOpenStreetMapViewActivity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity\staging\
+        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenStreetMapViewActivity.Activities --activity AndroidOpenStreetMapViewActivity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity\staging\apk\
 
 
         // running it in emulator:
@@ -45,25 +48,32 @@ namespace AndroidOpenStreetMapViewActivity.Activities
         private MapView myOpenMapView;
         private MapController myMapController;
 
+        org.slf4j.Logger hack;
+
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
 
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
+            //requestWindowFeature(Window.FEATURE_NO_TITLE);
+            //getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
             this.ShowToast("studio.jsc-solutions.net");
 
-
+            setContentView(R.layout.main);
 
             myOpenMapView = (MapView)findViewById(R.id.openmapview);
-            myOpenMapView.setBuiltInZoomControls(true);
 
             // http://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/main/java/org/osmdroid/views/MapView.java
             // http://stackoverflow.com/questions/157119/c-sharp-can-i-override-with-derived-types
 
             myMapController = (MapController)((IMapView)myOpenMapView).getController();
-            myMapController.setZoom(4);
+
+            myOpenMapView.setTileSource(TileSourceFactory.MAPNIK);
+
+            myOpenMapView.setBuiltInZoomControls(true);
+            myOpenMapView.setMultiTouchControls(true);
+            myMapController.setZoom(16);
+            myMapController.setCenter(new GeoPoint(30266000, -97739000));
         }
 
     }
