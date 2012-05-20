@@ -23,6 +23,7 @@ namespace AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary
 
             Environment.CurrentDirectory = @"Y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity";
 
+            if (Debugger.IsAttached)
             Debugger.Break();
 
 
@@ -40,7 +41,8 @@ namespace AndroidOpenStreetMapViewActivity.VerifyAssetsLibrary
                 }
             );
 
-            Debugger.Break();
+            if (Debugger.IsAttached)
+                Debugger.Break();
         }
     }
 }

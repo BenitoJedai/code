@@ -347,6 +347,12 @@ namespace ScriptCoreLib.Android
         }
     }
 
+    [Script(Implements = typeof(Attribute))]
+    internal class __Attribute
+    {
+
+    }
+
     [Script(Implements = typeof(IDisposable))]
     internal interface __IDisposable
     {

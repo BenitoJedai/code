@@ -103,7 +103,8 @@ namespace AndroidOpenStreetMapViewActivity
             #endregion
 
 
-
+            Console.WriteLine("all done!");
+            Thread.Sleep(5000);
         }
 
         private static string Install()
@@ -111,7 +112,7 @@ namespace AndroidOpenStreetMapViewActivity
             var install = Process.Start(
                  new ProcessStartInfo(
                     @"C:\util\android-sdk-windows\platform-tools\adb.exe",
-                    @"install -r ""y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity\staging\bin\AndroidOpenStreetMapViewActivity-debug.apk"""
+                    @"install -r ""Y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity\bin\Debug\staging\apk\bin\AndroidOpenStreetMapViewActivity-debug.apk"""
                 )
                  {
                      UseShellExecute = false,
