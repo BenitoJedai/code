@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 
-namespace AndroidWebViewActivity
+namespace AndroidOpenStreetMapViewActivity
 {
     class Program
     {
@@ -111,7 +111,7 @@ namespace AndroidWebViewActivity
             var install = Process.Start(
                  new ProcessStartInfo(
                     @"C:\util\android-sdk-windows\platform-tools\adb.exe",
-                    @"install -r ""y:\jsc.svn\examples\java\android\AndroidWebViewActivity\AndroidWebViewActivity\staging\bin\AndroidWebViewActivity-debug.apk"""
+                    @"install -r ""y:\jsc.svn\examples\java\android\AndroidOpenStreetMapViewActivity\AndroidOpenStreetMapViewActivity\staging\bin\AndroidOpenStreetMapViewActivity-debug.apk"""
                 )
                  {
                      UseShellExecute = false,
