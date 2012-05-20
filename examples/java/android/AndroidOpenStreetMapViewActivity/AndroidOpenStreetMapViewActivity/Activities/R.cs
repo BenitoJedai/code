@@ -21,7 +21,7 @@ namespace AndroidOpenStreetMapViewActivity.Activities
         [Script(IsNative = true)]
         public static class id
         {
-            public static int contentlist;
+            public static int openmapview;
 
 
         }
