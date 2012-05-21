@@ -39,6 +39,27 @@ namespace WebApplicationSelectingFile
                     n.type.innerText = f.type;
                     n.lastModifiedDate.innerText = "" + f.lastModifiedDate;
 
+                    if (f.type.StartsWith("image/"))
+                    {
+                        var reader = new FileReader();
+
+                        reader.onload = IFunction.Of(
+                            delegate
+                            {
+                                var base64 = (string)reader.result;
+
+                                new IHTMLImage
+                                {
+                                    src = base64,
+                                    
+                                }.AttachTo(n.Container);
+                            }
+                        );
+
+                        // Read in the image file as a data URL.
+                        reader.readAsDataURL(f);
+                    }
+
                     n.Container.AttachTo(page.list);
                 };
             #endregion
