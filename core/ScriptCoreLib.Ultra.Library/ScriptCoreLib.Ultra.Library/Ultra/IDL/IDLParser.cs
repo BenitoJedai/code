@@ -252,13 +252,26 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
 
                      var KeywordReadOnly = default(IDLParserToken);
+                     var KeywordDeleter = default(IDLParserToken);
 
+                     #region readonly
                      if (pp.Text == "readonly")
                      {
                          KeywordReadOnly = pp;
                          pp = pp.SkipTo();
                      }
+                     #endregion
 
+
+                     #region deleter
+                     if (pp.Text == "deleter")
+                     {
+                         KeywordDeleter = pp;
+                         pp = pp.SkipTo();
+                     }
+                     #endregion
+
+                     #region attribute
                      if (pp.Text == "attribute")
                      {
                          var Keyword = pp;
@@ -285,6 +298,7 @@ namespace ScriptCoreLib.Ultra.IDL
                          i.Members.Add(a);
                          return a.Terminator.SkipTo();
                      }
+                     #endregion
 
                      var __omittable = default(IDLParserToken);
                      if (pp.Text == "omittable")
@@ -309,7 +323,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
 
                      // method!!
-                     var Method = ToMemberMethod(pp, KeywordGetter, KeywordSetter);
+                     var Method = ToMemberMethod(pp, KeywordGetter, KeywordSetter, KeywordDeleter);
 
                      i.Members.Add(Method);
 
@@ -321,7 +335,7 @@ namespace ScriptCoreLib.Ultra.IDL
             return i;
         }
 
-        private static IDLMemberMethod ToMemberMethod(IDLParserToken pp, IDLParserToken KeywordGetter, IDLParserToken KeywordSetter)
+        private static IDLMemberMethod ToMemberMethod(IDLParserToken pp, IDLParserToken KeywordGetter, IDLParserToken KeywordSetter, IDLParserToken KeywordDeleter)
         {
             var Type = default(IDLTypeReference);
             var Name = default(IDLParserToken.Literal);
@@ -338,25 +352,43 @@ namespace ScriptCoreLib.Ultra.IDL
             }
             else
             {
-                // or are we nameless? is this method an indexer?
-
-                // or any other
-                var NameLookup = new Dictionary<string, string>
-                {
-                    {"void", "set"},
-                    {"octet", "get"}
-                };
-
-                if (NameLookup.ContainsKey(pp.Text))
+                if (KeywordDeleter != null)
                 {
                     Type = ToTypeReference(pp);
-                    Name = NameLookup[pp.Text];
+                    Name = "deleter";
                     GetParameterSymbols = () => pp.SkipTo();
                 }
                 else
                 {
-                    // are we typeless? IDL is partial...
-                    Name = pp.AssertName();
+                    // or are we nameless? is this method an indexer?
+
+                    // or any other
+                    var NameLookup = new Dictionary<string, string>
+                    {
+                        {"void", "set"},
+                        {"octet", "get"}
+                    };
+
+                    if (NameLookup.ContainsKey(pp.Text))
+                    {
+                        Type = ToTypeReference(pp);
+                        Name = NameLookup[pp.Text];
+                        GetParameterSymbols = () => pp.SkipTo();
+                    }
+                    else
+                    {
+                        if (KeywordGetter == null)
+                        {
+                            // are we typeless? IDL is partial...
+                            Name = pp.AssertName();
+                        }
+                        else
+                        {
+                            Type = ToTypeReference(pp);
+                            Name = "item";
+                            GetParameterSymbols = () => pp.SkipTo();
+                        }
+                    }
                 }
             }
 

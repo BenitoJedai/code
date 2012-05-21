@@ -32,14 +32,15 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public static IDLParserToken AssertSymbol(this IDLParserToken t, string Text = null)
         {
-            if (t.IsSymbol)
-            {
-                if (Text == null)
-                    return t;
+            if (t != null)
+                if (t.IsSymbol)
+                {
+                    if (Text == null)
+                        return t;
 
-                if (t.Text == Text)
-                    return t;
-            }
+                    if (t.Text == Text)
+                        return t;
+                }
 
             throw new NotSupportedException();
         }

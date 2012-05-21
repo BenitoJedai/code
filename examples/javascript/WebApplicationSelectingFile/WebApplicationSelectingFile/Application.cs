@@ -29,27 +29,64 @@ namespace WebApplicationSelectingFile
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
+            #region AtFile
+            Action<File> AtFile =
+                f =>
+                {
+                    var n = new MyFile();
+                    // databind here?
+                    n.name.innerText = f.name;
+                    n.type.innerText = f.type;
+                    n.lastModifiedDate.innerText = "" + f.lastModifiedDate;
+
+                    n.Container.AttachTo(page.list);
+                };
+            #endregion
+
+
+            #region onchange
             page.files.onchange +=
                 e =>
                 {
-                    //var x = (FileList)new IFunction("return this.files;").apply(page.files);
                     FileList x = page.files.files;
                     page.list.Add("files: " + x.length);
                     for (uint i = 0; i < x.length; i++)
                     {
                         File f = x[i];
-                        //var f = x.item(i);
 
-                        var n = new MyFile();
-                        // databind here?
-                        n.name.innerText = f.name;
-                        n.type.innerText = f.type;
-                        n.lastModifiedDate.innerText = "" + f.lastModifiedDate;
-
-                        n.Container.AttachTo(page.list);
+                        AtFile(f);
                     }
 
                 };
+            #endregion
+
+            #region dragover
+            page.drop_zone.ondragover +=
+                    evt =>
+                    {
+                        evt.StopPropagation();
+                        evt.PreventDefault();
+                        evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
+                    };
+
+            page.drop_zone.ondrop +=
+                  evt =>
+                  {
+                      evt.StopPropagation();
+                      evt.PreventDefault();
+
+                      FileList x = evt.dataTransfer.files; // FileList object.
+
+                      page.list.Add("files: " + x.length);
+                      for (uint i = 0; i < x.length; i++)
+                      {
+                          File f = x[i];
+
+                          AtFile(f);
+                      }
+                  };
+            #endregion
+
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
