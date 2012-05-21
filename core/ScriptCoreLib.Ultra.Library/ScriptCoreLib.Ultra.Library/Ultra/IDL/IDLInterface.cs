@@ -26,10 +26,10 @@ namespace ScriptCoreLib.Ultra.IDL
                    select m;
         }
 
-        public IEnumerable<IDLMemberConstructor> GetConstructors()
+        public IEnumerable<IDLMemberAnnotation> GetConstructors()
         {
             return from k in Members
-                   let m = k as IDLMemberConstructor
+                   let m = k as IDLMemberAnnotation
                    where m != null
                    select m;
         }

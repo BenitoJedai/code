@@ -14,6 +14,8 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public readonly List<IDLTypeReference> GenericParameters = new List<IDLTypeReference>();
         public readonly IDLParserTokenPair GenericParameterSymbols = new IDLParserTokenPair();
+        
+        public  IDLParserToken NullableSymbol ;
 
         public readonly IDLParserTokenPair ArraySymbols = new IDLParserTokenPair();
 
@@ -73,6 +75,9 @@ namespace ScriptCoreLib.Ultra.IDL
 
                 if (ArraySymbols.Item2 != null)
                     return ArraySymbols.Item2;
+
+                if (NullableSymbol != null)
+                    return NullableSymbol.Next;
 
                 return Name;
             }

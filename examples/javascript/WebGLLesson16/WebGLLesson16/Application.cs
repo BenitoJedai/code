@@ -220,13 +220,13 @@ namespace WebGLLesson16
 
 
                         var vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                        gl.enableVertexAttribArray((ulong)vertexPositionAttribute);
+                        gl.enableVertexAttribArray((uint)vertexPositionAttribute);
 
                         var vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-                        gl.enableVertexAttribArray((ulong)vertexNormalAttribute);
+                        gl.enableVertexAttribArray((uint)vertexNormalAttribute);
 
                         var textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                        gl.enableVertexAttribArray((ulong)textureCoordAttribute);
+                        gl.enableVertexAttribArray((uint)textureCoordAttribute);
 
 
                         return new
@@ -335,8 +335,8 @@ namespace WebGLLesson16
                                 gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
                                 gl.bindTexture(gl.TEXTURE_2D, texture);
                                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                                gl.texParameteri((ulong)gl.TEXTURE_2D, (ulong)gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                                gl.texParameteri((ulong)gl.TEXTURE_2D, (ulong)gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                                gl.texParameteri((uint)gl.TEXTURE_2D, (uint)gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                                gl.texParameteri((uint)gl.TEXTURE_2D, (uint)gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
                                 gl.generateMipmap(gl.TEXTURE_2D);
 
                                 gl.bindTexture(gl.TEXTURE_2D, null);
@@ -359,8 +359,8 @@ namespace WebGLLesson16
 
                             var rttTexture = gl.createTexture();
                             gl.bindTexture(gl.TEXTURE_2D, rttTexture);
-                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
                             gl.generateMipmap(gl.TEXTURE_2D);
 
                             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, rttFramebuffer_width, rttFramebuffer_height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
@@ -741,13 +741,13 @@ namespace WebGLLesson16
                                 gl.uniform1i(shaderProgram.samplerUniform, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
                                 setMatrixUniforms();
@@ -759,13 +759,13 @@ namespace WebGLLesson16
                                 __glMatrix.mat4.rotate(mvMatrix, degToRad(cubeAngle), 0, 1, 0);
                                 __glMatrix.mat4.translate(mvMatrix, 1.25f, 0, 0);
                                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.activeTexture(gl.TEXTURE0);
                                 gl.bindTexture(gl.TEXTURE_2D, crateTexture);
@@ -822,13 +822,13 @@ namespace WebGLLesson16
 
                                 //if (laptopVertexPositionBuffer) {
                                 gl.bindBuffer(gl.ARRAY_BUFFER, laptopVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, laptopVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, laptopVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, laptopVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, laptopVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.textureCoordAttribute, laptopVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, laptopVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, laptopVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexNormalAttribute, laptopVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, laptopVertexIndexBuffer);
                                 setMatrixUniforms();
@@ -843,13 +843,13 @@ namespace WebGLLesson16
                                 gl.uniform1i(shaderProgram.useTexturesUniform, Convert.ToInt32(true));
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, laptopScreenVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, laptopScreenVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, laptopScreenVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, laptopScreenVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, laptopScreenVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexNormalAttribute, laptopScreenVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, laptopScreenVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, laptopScreenVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.textureCoordAttribute, laptopScreenVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.activeTexture(gl.TEXTURE0);
                                 gl.bindTexture(gl.TEXTURE_2D, rttTexture);

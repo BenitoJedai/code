@@ -145,7 +145,7 @@
     <Compile Include="Ultra\IDL\IDLMemberConstant.cs" />
     <Compile Include="Ultra\IDL\IDLInterface.cs" />
     <Compile Include="Ultra\IDL\IDLMember.cs" />
-    <Compile Include="Ultra\IDL\IDLMemberConstructor.cs" />
+    <Compile Include="Ultra\IDL\IDLMemberAnnotation.cs" />
     <Compile Include="Ultra\IDL\IDLMemberMethod.cs" />
     <Compile Include="Ultra\IDL\IDLNumericLiteral.cs" />
     <Compile Include="Ultra\IDL\IDLParameter.cs" />

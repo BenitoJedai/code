@@ -1,0 +1,78 @@
+  // http://www.w3.org/TR/FileAPI/
+  
+  interface FileList {
+      getter File? item(unsigned long index);
+      readonly attribute unsigned long length;
+    };
+
+	 interface Blob {
+      
+      readonly attribute unsigned long long size;
+      readonly attribute DOMString type;
+      
+      //slice Blob into byte-ranged chunks
+      
+      Blob slice(optional long long start,
+                 optional long long end,
+                 optional DOMString contentType); 
+    
+    };
+
+	  interface File : Blob {
+
+	      readonly attribute DOMString name;
+	      readonly attribute Date lastModifiedDate;
+	};
+
+	
+	[Constructor]
+	interface FileReader: EventTarget {
+
+	  // async read methods
+	  void readAsArrayBuffer(Blob blob);
+	  void readAsBinaryString(Blob blob);
+	  void readAsText(Blob blob, optional DOMString encoding);
+	  void readAsDataURL(Blob blob);
+
+	  void abort();
+
+	  // states
+	  const unsigned short EMPTY = 0;
+	  const unsigned short LOADING = 1;
+	  const unsigned short DONE = 2;
+
+
+	  readonly attribute unsigned short readyState;
+
+	  // File or Blob data
+	  readonly attribute any result;
+
+	  readonly attribute DOMError error;
+
+	  // event handler attributes
+	  attribute [TreatNonCallableAsNull] Function? onloadstart;
+	  attribute [TreatNonCallableAsNull] Function? onprogress;
+	  attribute [TreatNonCallableAsNull] Function? onload;
+	  attribute [TreatNonCallableAsNull] Function? onabort;
+	  attribute [TreatNonCallableAsNull] Function? onerror;
+	  attribute [TreatNonCallableAsNull] Function? onloadend;
+
+	};
+	  
+
+	  [Constructor]
+	interface FileReaderSync {
+
+	  // Synchronously return strings
+
+	  ArrayBuffer readAsArrayBuffer(Blob blob);
+	  DOMString readAsBinaryString(Blob blob); 
+	  DOMString readAsText(Blob blob, optional DOMString encoding);
+	  DOMString readAsDataURL(Blob blob);
+	};
+
+	partial interface URL {
+
+	    static DOMString createObjectURL(Blob blob);
+	    static void revokeObjectURL(DOMString url);
+	};
