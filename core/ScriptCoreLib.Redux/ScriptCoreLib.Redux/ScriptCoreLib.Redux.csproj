@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\DOM\HTML\IHTMLElement.cs" />
     <Compile Include="JavaScript\Extensions\WebGLExtensions.cs" />
     <Compile Include="JavaScript\Redux.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,11 +77,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GLSL\" />
-    <Folder Include="JavaScript\DOM\HTML\" />
     <Folder Include="JavaScript\FileAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="JavaScript\IDL\FileAPI.idl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JavaScript\IDL\dnd.idl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

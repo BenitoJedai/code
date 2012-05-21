@@ -1,0 +1,44 @@
+interface DataTransfer {
+           attribute DOMString dropEffect;
+           attribute DOMString effectAllowed;
+
+  readonly attribute DataTransferItemList items;
+
+  void setDragImage(Element image, long x, long y);
+  void addElement(Element element);
+
+  /* old interface */
+  readonly attribute DOMStringList types;
+  DOMString getData(DOMString format);
+  void setData(DOMString format, DOMString data);
+  void clearData(optional DOMString format);
+  readonly attribute FileList files;
+};
+
+interface DataTransferItemList {
+  readonly attribute unsigned long length;
+  getter DataTransferItem (unsigned long index);
+  deleter void (unsigned long index);
+  void clear();
+
+  DataTransferItem? add(DOMString data, DOMString type);
+  DataTransferItem? add(File data);
+};
+
+interface DataTransferItem {
+  readonly attribute DOMString kind;
+  readonly attribute DOMString type;
+  void getAsString(FunctionStringCallback? _callback);
+  File? getAsFile();
+};
+
+[Callback, NoInterfaceObject]
+interface FunctionStringCallback {
+  void handleEvent(DOMString data);
+};
+
+[Constructor(DOMString type)]
+interface DragEvent : MouseEvent {
+  readonly attribute DataTransfer? dataTransfer;
+};
+

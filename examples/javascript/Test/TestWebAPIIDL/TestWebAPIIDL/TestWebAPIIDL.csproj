@@ -129,6 +129,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Design\dnd.idl" />
     <None Include="Design\FileAPI.idl" />
     <None Include="Design\typedarrays.idl" />
   </ItemGroup>
