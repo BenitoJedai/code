@@ -13,8 +13,9 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLib.Android
 {
-    using gl = __WebGLRenderingContext;
-    using opengl = GLES20;
+    using android.app;
+using gl = __WebGLRenderingContext;
+using opengl = GLES20;
 
 
     #region ScriptCoreLib.GLSL.Shader
@@ -213,12 +214,12 @@ namespace ScriptCoreLib.Android
         #region gl
         public static __WebGLShader createShader(this gl gl, ScriptCoreLib.GLSL.FragmentShader fragmentShader)
         {
-            return gl.createShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader.ToAndroidString());
+            return gl.createShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader.ToString());
         }
 
         public static __WebGLShader createShader(this gl gl, ScriptCoreLib.GLSL.VertexShader fragmentShader)
         {
-            return gl.createShader(GLES20.GL_VERTEX_SHADER, fragmentShader.ToAndroidString());
+            return gl.createShader(GLES20.GL_VERTEX_SHADER, fragmentShader.ToString());
         }
 
         private static __WebGLShader createShader(this gl gl, int shaderType, string shaderSource)
@@ -312,7 +313,7 @@ namespace ScriptCoreLib.Android
 
 
 
-        [Obsolete("This is a workaround is no longer needed.")]
+        [Obsolete("This is a workaround is no longer needed.", true)]
         [Script(OptimizedCode = "return \"\" + e;")]
         public static string ToAndroidString(this object e)
         {
@@ -344,6 +345,14 @@ namespace ScriptCoreLib.Android
             g.addView(v);
 
             return v;
+        }
+
+        public static Activity ToFullscreen(this Activity e)
+        {
+            e.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            e.getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
+
+            return e;
         }
     }
 
