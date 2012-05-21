@@ -20,6 +20,11 @@ namespace AndroidNuGetSQLiteActivity
             var c = MyDatabase.Read("-");
 
             Console.WriteLine(c);
+
+            // 
+            global::jsc.AndroidLauncher.Launch(
+                 typeof(AndroidNuGetSQLiteActivity.Activities.AndroidNuGetSQLiteActivity)
+            );
         }
     }
 }
