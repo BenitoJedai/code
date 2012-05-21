@@ -18,7 +18,7 @@ namespace ScriptCoreLib.Ultra.Studio.StockTypes
 			this.BaseType = new KnownStockTypes.ScriptCoreLib.ActionScript.flash.display.Sprite();
 
 			this.IsSealed = true;
-            this.IsInternal = true;
+            //this.IsInternal = true;
 
             this.Constructor = GetDefaultConstructorDefinition();
             this.Constructor.Code = new SolutionProjectLanguageCode

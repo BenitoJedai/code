@@ -13,6 +13,8 @@ using System.Xml.Linq;
 using WebApplicationSelectingFile.Design;
 using WebApplicationSelectingFile.HTML.Pages;
 using ScriptCoreLib.JavaScript.FileAPI;
+using ScriptCoreLib.JavaScript.WebGL;
+using ScriptCoreLib.JavaScript.Runtime;
 
 namespace WebApplicationSelectingFile
 {
@@ -39,6 +41,7 @@ namespace WebApplicationSelectingFile
                     n.type.innerText = f.type;
                     n.lastModifiedDate.innerText = "" + f.lastModifiedDate;
 
+                    #region image
                     if (f.type.StartsWith("image/"))
                     {
                         var reader = new FileReader();
@@ -59,6 +62,37 @@ namespace WebApplicationSelectingFile
                         // Read in the image file as a data URL.
                         reader.readAsDataURL(f);
                     }
+                    #endregion
+
+                    #region hex
+                    new FileReader().With(
+                        reader =>
+                        {
+                            reader.onload = IFunction.Of(
+                                delegate
+                                {
+                                    var x = (ArrayBuffer)reader.result;
+
+                                    var u8 = new Uint8Array(x, 0, 8);
+
+                                    var pre = new IHTMLPre().AttachTo(n.Container);
+
+                                    pre.style.border = "1px solid gray";
+
+                                    for (uint i = 0; i < u8.length; i++)
+                                    {
+                                        pre.innerText += u8[i].ToString("x2") + " ";
+
+                                    }
+                                }
+                            );
+
+                            // Read in the image file as a data URL.
+                            reader.readAsArrayBuffer(f);
+                        }
+                     );
+                    #endregion
+
 
                     n.Container.AttachTo(page.list);
                 };
@@ -70,6 +104,7 @@ namespace WebApplicationSelectingFile
                 e =>
                 {
                     FileList x = page.files.files;
+                    page.list.Clear();
                     page.list.Add("files: " + x.length);
                     for (uint i = 0; i < x.length; i++)
                     {
@@ -81,10 +116,18 @@ namespace WebApplicationSelectingFile
                 };
             #endregion
 
+            page.drop_zone.onmouseout +=
+                delegate
+                {
+                    page.drop_zone.style.borderColor = JSColor.Gray;
+                };
+
             #region dragover
             page.drop_zone.ondragover +=
                     evt =>
                     {
+                        page.drop_zone.style.borderColor = JSColor.Red;
+
                         evt.StopPropagation();
                         evt.PreventDefault();
                         evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
@@ -98,6 +141,7 @@ namespace WebApplicationSelectingFile
 
                       FileList x = evt.dataTransfer.files; // FileList object.
 
+                      page.list.Clear();
                       page.list.Add("files: " + x.length);
                       for (uint i = 0; i < x.length; i++)
                       {
