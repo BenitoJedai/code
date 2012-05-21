@@ -44,6 +44,7 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\ScriptCoreLib.XML</DocumentationFile>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <NoWarn>67, 108</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -194,6 +195,8 @@
     <Compile Include="JavaScript\DOM\IElement.cs" />
     <Compile Include="JavaScript\DOM\IRegExp.cs" />
     <Compile Include="JavaScript\DOM\ITouchEvent.cs" />
+    <Compile Include="JavaScript\FileAPI\File.cs" />
+    <Compile Include="JavaScript\FileAPI\FileList.cs" />
     <Compile Include="JavaScript\Runtime\Cookie.cs" />
     <Compile Include="JavaScript\Runtime\Expando.cs" />
     <Compile Include="JavaScript\DOM\IFunction.cs" />

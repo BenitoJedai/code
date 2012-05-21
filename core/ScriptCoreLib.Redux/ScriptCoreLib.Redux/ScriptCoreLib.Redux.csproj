@@ -76,13 +76,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GLSL\" />
+    <Folder Include="JavaScript\DOM\HTML\" />
+    <Folder Include="JavaScript\FileAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="JavaScript\IDL\FileAPI.idl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToUltraLibrary /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"  /PrimaryAssembly:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"$(TargetPath)" /AssemblyMerge:"$(ProjectDir)bin\staging.UltraSource\$(TargetName).UltraSource.dll" /AttachDebugger:false /RemoveObfuscationMergeAttributes:true /XAttachDebugger:true /XDisableWorkerDomain
+    <PostBuildEvent>
+
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToAssembly /Output:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMerge:"c:\util\jsc\bin\ScriptCoreLib.dll"   /AssemblyMergeExtension:"$(TargetPath)" /AssemblyMergeExtension:"$(ProjectDir)bin\staging.UltraSource\$(TargetName).UltraSource.dll" /AttachDebugger:false /RemoveObfuscationMergeAttributes:true /XAttachDebugger:true /EnableDelayedFileMove:true
+
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
