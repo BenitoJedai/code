@@ -70,6 +70,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
         {
             base.onCreate(savedInstanceState);
 
+            this.ToFullscreen();
 
             setContentView(R.layout.main);
 
@@ -842,6 +843,7 @@ namespace AndroidOpenGLESLesson6Activity.Activities
 
             // Pass in the texture coordinate information
             mCubeTextureCoordinates.position(0);
+
             opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, opengl.GL_FLOAT, false,
                     0, mCubeTextureCoordinates);
 
