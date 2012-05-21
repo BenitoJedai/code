@@ -16,6 +16,7 @@ namespace AndroidNuGetSQLiteActivity.Activities
     public class AndroidNuGetSQLiteActivity : Activity
     {
         // inspired by http://android-er.blogspot.com/2011/06/simple-example-using-androids-sqlite.html
+        // http://blog.kurtschindler.net/post/getting-started-with-sqlite-and-net
 
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidNuGetSQLiteActivity.Activities --activity AndroidNuGetSQLiteActivity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidNuGetSQLiteActivity\AndroidNuGetSQLiteActivity\staging\
 

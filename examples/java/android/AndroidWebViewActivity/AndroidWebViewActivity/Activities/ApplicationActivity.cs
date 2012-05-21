@@ -48,10 +48,7 @@ namespace AndroidWebViewActivity.Activities
         {
             base.onCreate(savedInstanceState);
 
-
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-            getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
+            this.ToFullscreen();
 
             this.ShowToast("studio.jsc-solutions.net");
 
@@ -74,7 +71,7 @@ namespace AndroidWebViewActivity.Activities
             webview.getSettings().setLoadsImagesAutomatically(true);
             webview.getSettings().setJavaScriptEnabled(true);
             //webview.getSettings().setBuiltInZoomControls(true);
-            //webview.setInitialScale(1);
+            webview.setInitialScale(1);
 
             webview.getSettings().setSupportZoom(false);
 
