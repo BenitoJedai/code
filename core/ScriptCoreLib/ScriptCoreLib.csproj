@@ -169,6 +169,7 @@
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\IAsyncStateMachine.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Runtime\CompilerServices\TaskAwaiter.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Threading\Task.cs" />
+    <Compile Include="JavaScript\DOM\IError.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IMath.cs" />
     <Compile Include="JavaScript\DOM\Extensions\IStyle.cs" />
     <Compile Include="JavaScript\DOM\HTML\IHTMLVideo.cs" />

@@ -16,6 +16,9 @@ namespace ScriptCoreLib.Ultra.IDL
 
         public IDLParserToken Terminator;
 
+
+        public IDLMemberAnnotationArray Annotations;
+
         public override string ToString()
         {
             return "attribute ... " + Name.Text + ";";

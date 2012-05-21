@@ -32,6 +32,16 @@ namespace ScriptCoreLib.Ultra.IDL
 
             }
 
+            if (Name.Text == "long")
+            {
+                var k = Name.SkipTo();
+
+                if (k.Text == "long")
+                {
+                    Name = new[] { Name, Name.Next, k }.Combine();
+                }
+            }
+
             var r = new IDLTypeReference
             {
                 Name = Name.AssertName(),
@@ -70,6 +80,13 @@ namespace ScriptCoreLib.Ultra.IDL
                 r.ArraySymbols.Item2 = r.ArraySymbols.Item1.SkipTo().AssertSymbol("]");
             }
 
+
+            if (Name.Next.Text == "?")
+            {
+                r.NullableSymbol = Name.Next;
+
+            }
+
             return r;
         }
 
@@ -90,6 +107,7 @@ namespace ScriptCoreLib.Ultra.IDL
                     if (p == null)
                         return p;
 
+                    #region module
                     if (p.Text == "module")
                     {
                         // nested modules?
@@ -113,6 +131,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
                         return NestedModule.ModuleBody.Item2.SkipTo();
                     }
+                    #endregion
 
                     #region typedef
                     if (p.Text == "typedef")
@@ -135,35 +154,13 @@ namespace ScriptCoreLib.Ultra.IDL
                     #endregion
 
                     #region Constructors
-                    var Constructors = new List<IDLMember>();
+                    var AnnotationArray = new IDLMemberAnnotationArray();
 
                     if (p.Text == "[")
                     {
-                        // multiple constructors
-                        p = p.UntilSelected(
-                            pp =>
-                            {
-                                if (pp.Text == "]")
-                                    return pp;
+                        AnnotationArray = p.ToAnnotationArray();
 
-                                if (Constructors.Count > 0)
-                                {
-                                    pp = pp.AssertSymbol(",");
-                                }
-
-                                var Constructor = new IDLMemberConstructor
-                                {
-                                    Keyword = pp.SkipTo().AssertName("Constructor"),
-                                };
-
-                                Constructor.ParameterSymbols.Item1 = Constructor.Keyword.SkipTo();
-                                ToParameters(Constructor.Parameters, Constructor.ParameterSymbols);
-
-                                Constructors.Add(Constructor);
-
-                                return Constructor.ParameterSymbols.Item2.SkipTo();
-                            }
-                        ).AssertSymbol("]").SkipTo();
+                        p = AnnotationArray.Symbols.Item2.SkipTo();
                     }
                     #endregion
 
@@ -172,7 +169,7 @@ namespace ScriptCoreLib.Ultra.IDL
                     {
                         var i = ToInterface(p);
 
-                        i.Members.AddRange(Constructors);
+                        i.Members.AddRange(AnnotationArray.Items);
 
                         module.Interfaces.Add(i);
 
@@ -264,10 +261,21 @@ namespace ScriptCoreLib.Ultra.IDL
 
                      if (pp.Text == "attribute")
                      {
+                         var Keyword = pp;
+
+                         var AnnotationArray = default(IDLMemberAnnotationArray);
+
+                         if (pp.SkipTo().Text == "[")
+                         {
+                             AnnotationArray = pp.SkipTo().ToAnnotationArray();
+                             pp = AnnotationArray.Symbols.Item2;
+                         }
+
                          var a = new IDLMemberAttribute
                          {
                              KeywordReadOnly = KeywordReadOnly,
-                             Keyword = pp,
+                             Keyword = Keyword,
+                             Annotations = AnnotationArray,
                              Type = ToTypeReference(pp.SkipTo()),
                          };
 
@@ -299,7 +307,7 @@ namespace ScriptCoreLib.Ultra.IDL
                          pp = pp.SkipTo();
                      }
 
-                  
+
                      // method!!
                      var Method = ToMemberMethod(pp, KeywordGetter, KeywordSetter);
 
@@ -320,8 +328,10 @@ namespace ScriptCoreLib.Ultra.IDL
 
             Func<IDLParserToken> GetParameterSymbols = () => Name.Value.SkipTo();
 
+            var NextToken = pp.SkipTo();
+
             // are we typeless? IDL is partial...
-            if (pp.SkipTo().Text != "(")
+            if (NextToken.Text != "(")
             {
                 Type = ToTypeReference(pp);
                 Name = Type.Terminator.SkipTo().AssertName();
@@ -487,6 +497,52 @@ namespace ScriptCoreLib.Ultra.IDL
 
 
             return n;
+        }
+
+
+        public static IDLMemberAnnotationArray ToAnnotationArray(this IDLParserToken p)
+        {
+            var a = new IDLMemberAnnotationArray();
+
+            a.Symbols.Item1 = p.AssertSymbol("[");
+
+
+            // multiple constructors
+            a.Symbols.Item2 = p.UntilSelected(
+                pp =>
+                {
+                    if (pp.Text == "]")
+                        return pp;
+
+                    if (a.Items.Count > 0)
+                    {
+                        pp = pp.AssertSymbol(",");
+                    }
+
+                    var Constructor = new IDLMemberAnnotation
+                    {
+                        Keyword = pp.SkipTo(),
+                        //.AssertName("Constructor"),
+                    };
+
+                    Constructor.Keyword.SkipTo().With(
+                        Item1 =>
+                        {
+                            if (Item1.Text != "(")
+                                return;
+
+                            Constructor.ParameterSymbols.Item1 = Item1;
+                            ToParameters(Constructor.Parameters, Constructor.ParameterSymbols);
+                        }
+                    );
+
+                    a.Items.Add(Constructor);
+
+                    return Constructor.Terminator.SkipTo();
+                }
+            ).AssertSymbol("]");
+
+            return a;
         }
     }
 }
