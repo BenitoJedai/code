@@ -105,6 +105,26 @@ namespace WebGLSpadeWarrior
             var gl_viewportWidth = size;
             var gl_viewportHeight = size;
 
+            #region AtResize
+            Action AtResize =
+                delegate
+                {
+                    gl_viewportWidth = Native.Window.Width;
+                    gl_viewportHeight = Native.Window.Height;
+
+                    canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                    canvas.width = gl_viewportWidth;
+                    canvas.height = gl_viewportHeight;
+                };
+
+            Native.Window.onresize +=
+                e =>
+                {
+                    AtResize();
+                };
+            AtResize();
+            #endregion
 
 
             var shaderProgram = gl.createProgram();
@@ -139,11 +159,11 @@ namespace WebGLSpadeWarrior
 
             var shaderProgram_vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
 
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             // new in lesson 02
             var shaderProgram_vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexColorAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexColorAttribute);
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -449,7 +469,7 @@ namespace WebGLSpadeWarrior
                     // script: error JSC1000: No implementation found for this native method, please implement [static System.Math.Min(System.Single, System.Single)]
 
                     if (u < 0)
-                        ego_z = (float)Math.Min((double)ego_z, (double)0);
+                        ego_z = (float)Math.Min(ego_z, 0);
                     else
                         ego_z = u;
 
@@ -492,7 +512,7 @@ namespace WebGLSpadeWarrior
 
                 #region vertex
                 gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
                 #endregion
 
 
@@ -533,7 +553,7 @@ namespace WebGLSpadeWarrior
 
                         #region color
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_green);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                         #endregion
 
 
@@ -557,7 +577,7 @@ namespace WebGLSpadeWarrior
 
                         #region color
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                         #endregion
 
                         for (int i = 1; i < 12; i++)
@@ -571,7 +591,7 @@ namespace WebGLSpadeWarrior
 
                         #region color
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                         #endregion
 
                         {
@@ -679,7 +699,7 @@ namespace WebGLSpadeWarrior
 
                                       #region color
                                       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
-                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
 
@@ -694,7 +714,7 @@ namespace WebGLSpadeWarrior
 
                                       #region color
                                       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
                                       rect(3, 3, 4);
@@ -842,7 +862,7 @@ namespace WebGLSpadeWarrior
                                           {
                                               #region color
                                               gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
-                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                               #endregion
 
                                               __glMatrix.mat4.translate(mvMatrix, new float[] { 
@@ -855,7 +875,7 @@ namespace WebGLSpadeWarrior
 
                                               #region color
                                               gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                               #endregion
                                           }
                                       );
@@ -865,7 +885,7 @@ namespace WebGLSpadeWarrior
                                           {
                                               #region color
                                               gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
-                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                               #endregion
 
                                               __glMatrix.mat4.translate(mvMatrix, new float[] { 
@@ -878,7 +898,7 @@ namespace WebGLSpadeWarrior
 
                                               #region color
                                               gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                                              gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                              gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                               #endregion
                                           }
                                       );
@@ -916,7 +936,7 @@ namespace WebGLSpadeWarrior
 
                                       #region color
                                       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_black);
-                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
 
@@ -932,7 +952,7 @@ namespace WebGLSpadeWarrior
 
                                       #region color
                                       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer_orange);
-                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
 
@@ -970,7 +990,7 @@ namespace WebGLSpadeWarrior
 
                                       #region color
                                       gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer2);
-                                      gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                      gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, cubeVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
                                       #endregion
 
 
