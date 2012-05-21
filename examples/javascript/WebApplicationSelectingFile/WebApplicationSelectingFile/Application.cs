@@ -116,10 +116,11 @@ namespace WebApplicationSelectingFile
                 };
             #endregion
 
-            page.drop_zone.onmouseout +=
+            page.drop_zone.ondragleave +=
                 delegate
                 {
                     page.drop_zone.style.borderColor = JSColor.Gray;
+                    page.drop_zone.style.backgroundColor = JSColor.None;
                 };
 
             #region dragover
@@ -127,6 +128,7 @@ namespace WebApplicationSelectingFile
                     evt =>
                     {
                         page.drop_zone.style.borderColor = JSColor.Red;
+                        page.drop_zone.style.backgroundColor = JSColor.FromRGB(0xff, 0xef, 0xef);
 
                         evt.StopPropagation();
                         evt.PreventDefault();

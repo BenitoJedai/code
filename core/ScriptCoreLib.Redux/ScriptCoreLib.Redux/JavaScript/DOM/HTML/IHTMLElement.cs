@@ -24,6 +24,22 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
         }
         #endregion
 
+        #region event ondragleave
+        public event System.Action<DragEvent> ondragleave
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "dragleave");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "dragleave");
+            }
+        }
+        #endregion
+
         #region event ondrop
         public event System.Action<DragEvent> ondrop
         {
