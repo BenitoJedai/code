@@ -41,29 +41,6 @@ namespace WebApplicationSelectingFile
                     n.type.innerText = f.type;
                     n.lastModifiedDate.innerText = "" + f.lastModifiedDate;
 
-                    #region image
-                    if (f.type.StartsWith("image/"))
-                    {
-                        var reader = new FileReader();
-
-                        reader.onload = IFunction.Of(
-                            delegate
-                            {
-                                var base64 = (string)reader.result;
-
-                                new IHTMLImage
-                                {
-                                    src = base64,
-                                    
-                                }.AttachTo(n.Container);
-                            }
-                        );
-
-                        // Read in the image file as a data URL.
-                        reader.readAsDataURL(f);
-                    }
-                    #endregion
-
                     #region hex
                     new FileReader().With(
                         reader =>
@@ -93,6 +70,72 @@ namespace WebApplicationSelectingFile
                      );
                     #endregion
 
+                    #region AsDataURL
+                    Action<Action<string>> AsDataURL =
+                        h =>
+                        {
+                            var reader = new FileReader();
+
+                            reader.onload = IFunction.Of(
+                                delegate
+                                {
+                                    var base64 = (string)reader.result;
+
+                                    h(base64);
+
+                                }
+                            );
+
+                            // Read in the image file as a data URL.
+                            reader.readAsDataURL(f);
+
+                        };
+                    #endregion
+
+
+                    #region image
+                    if (f.type.StartsWith("image/"))
+                    {
+                        AsDataURL(
+                            base64 =>
+                                new IHTMLImage
+                                {
+                                    src = base64,
+
+                                }.AttachTo(n.Container)
+                        );
+                    }
+                    #endregion
+
+
+                    #region audio
+                    if (f.type.StartsWith("audio/"))
+                    {
+                        AsDataURL(
+                           base64 =>
+                               new IHTMLAudio
+                               {
+                                   src = base64,
+                                   controls = true,
+                               }.AttachTo(n.Container)
+                       );
+                    }
+                    #endregion
+
+                    #region video
+                    //if (f.type.StartsWith("video/"))
+                    //{
+                    //    AsDataURL(
+                    //       base64 =>
+                    //           new IHTMLVideo
+                    //           {
+                    //               src = base64,
+                    //               controls = true,
+
+                    //           }.AttachTo(n.Container)
+                    //   );
+                    //}
+                    #endregion
 
                     n.Container.AttachTo(page.list);
                 };
@@ -128,7 +171,7 @@ namespace WebApplicationSelectingFile
                     evt =>
                     {
                         page.drop_zone.style.borderColor = JSColor.Red;
-                        page.drop_zone.style.backgroundColor = JSColor.FromRGB(0xff, 0xef, 0xef);
+                        page.drop_zone.style.backgroundColor = JSColor.FromRGB(0xff, 0xaf, 0xaf);
 
                         evt.StopPropagation();
                         evt.PreventDefault();
@@ -138,6 +181,10 @@ namespace WebApplicationSelectingFile
             page.drop_zone.ondrop +=
                   evt =>
                   {
+                      page.drop_zone.style.borderColor = JSColor.Green;
+                      page.drop_zone.style.backgroundColor = JSColor.FromRGB(0xaf, 0xff, 0xaf);
+
+
                       evt.StopPropagation();
                       evt.PreventDefault();
 
