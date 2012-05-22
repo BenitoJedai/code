@@ -214,13 +214,13 @@ namespace WebGLLesson15
 
 
                         var vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                        gl.enableVertexAttribArray((ulong)vertexPositionAttribute);
+                        gl.enableVertexAttribArray((uint)vertexPositionAttribute);
 
                         var vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-                        gl.enableVertexAttribArray((ulong)vertexNormalAttribute);
+                        gl.enableVertexAttribArray((uint)vertexNormalAttribute);
 
                         var textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                        gl.enableVertexAttribArray((ulong)textureCoordAttribute);
+                        gl.enableVertexAttribArray((uint)textureCoordAttribute);
 
                         var pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
                         var mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -340,8 +340,8 @@ namespace WebGLLesson15
                                 gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
                                 gl.bindTexture(gl.TEXTURE_2D, texture);
                                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                                gl.texParameteri((ulong)gl.TEXTURE_2D, (ulong)gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                                gl.texParameteri((ulong)gl.TEXTURE_2D, (ulong)gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                                gl.texParameteri((uint)gl.TEXTURE_2D, (uint)gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                                gl.texParameteri((uint)gl.TEXTURE_2D, (uint)gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
                                 gl.generateMipmap(gl.TEXTURE_2D);
 
                                 gl.bindTexture(gl.TEXTURE_2D, null);
@@ -547,13 +547,13 @@ namespace WebGLLesson15
                                 gl.uniform1i(shaderProgram.specularMapSamplerUniform, 1);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, sphereVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, sphereVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, sphereVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.textureCoordAttribute, sphereVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, sphereVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, sphereVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexNormalAttribute, sphereVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereVertexIndexBuffer);
                                 setMatrixUniforms();

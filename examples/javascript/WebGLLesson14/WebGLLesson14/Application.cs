@@ -232,13 +232,13 @@ namespace WebGLLesson14
 
 
                         var vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-                        gl.enableVertexAttribArray((ulong)vertexPositionAttribute);
+                        gl.enableVertexAttribArray((uint)vertexPositionAttribute);
 
                         var vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-                        gl.enableVertexAttribArray((ulong)vertexNormalAttribute);
+                        gl.enableVertexAttribArray((uint)vertexNormalAttribute);
 
                         var textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-                        gl.enableVertexAttribArray((ulong)textureCoordAttribute);
+                        gl.enableVertexAttribArray((uint)textureCoordAttribute);
 
                         var pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
                         var mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -367,8 +367,8 @@ namespace WebGLLesson14
                                 gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
                                 gl.bindTexture(gl.TEXTURE_2D, texture);
                                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                                gl.texParameteri((ulong)gl.TEXTURE_2D, (ulong)gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                                gl.texParameteri((ulong)gl.TEXTURE_2D, (ulong)gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                                gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
                                 gl.generateMipmap(gl.TEXTURE_2D);
 
                                 gl.bindTexture(gl.TEXTURE_2D, null);
@@ -537,13 +537,13 @@ namespace WebGLLesson14
                                 gl.uniform1f(shaderProgram.materialShininessUniform, parseFloat(toolbar.shininess.value));
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexTextureCoordBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.textureCoordAttribute, teapotVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.textureCoordAttribute, teapotVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexNormalBuffer);
-                                gl.vertexAttribPointer((ulong)shaderProgram.vertexNormalAttribute, teapotVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                                gl.vertexAttribPointer((uint)shaderProgram.vertexNormalAttribute, teapotVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, teapotVertexIndexBuffer);
                                 setMatrixUniforms();
