@@ -61,114 +61,114 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey, bool shiftKey, bool commandKey, bool controlKey)
+        public TouchEvent(string type, bool bubbles=true, bool cancelable=false, int touchPointID=0, bool isPrimaryTouchPoint=false, double localX = double.NaN, double localY = double.NaN, double sizeX = double.NaN, double sizeY = double.NaN, double pressure = double.NaN, InteractiveObject relatedObject = null, bool ctrlKey = false, bool altKey = false, bool shiftKey = false)//, bool commandKey, bool controlKey)
         {
         }
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey, bool shiftKey, bool commandKey)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey, bool shiftKey, bool commandKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey, bool shiftKey)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey, bool shiftKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey, bool altKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject, bool ctrlKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure, InteractiveObject relatedObject)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY, double pressure)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX, double sizeY)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY, double sizeX)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX, double localY)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint, double localX)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID, bool isPrimaryTouchPoint)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable, int touchPointID)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles, bool cancelable)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles, bool cancelable)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type, bool bubbles)
-        {
-        }
+        //public TouchEvent(string type, bool bubbles)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about touch events.
         /// </summary>
-        public TouchEvent(string type)
-        {
-        }
+        //public TouchEvent(string type)
+        //{
+        //}
 
         #endregion
 

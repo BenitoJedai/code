@@ -87,79 +87,79 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey, bool shiftKey, bool commandKey, bool controlKey)
+        public GestureEvent(string type, bool bubbles=true, bool cancelable=false, string phase=null, double localX=0, double localY=0, bool ctrlKey=false, bool altKey=false, bool shiftKey=false) //, bool commandKey, bool controlKey)
         {
         }
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey, bool shiftKey, bool commandKey)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey, bool shiftKey, bool commandKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey, bool shiftKey)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey, bool shiftKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey, bool altKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY, bool ctrlKey)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX, double localY)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase, double localX)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable, string phase)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable, string phase)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles, bool cancelable)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles, bool cancelable)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type, bool bubbles)
-        {
-        }
+        //public GestureEvent(string type, bool bubbles)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about multi-touch events (such as pressing two fingers on a touch screen at the same time).
         /// </summary>
-        public GestureEvent(string type)
-        {
-        }
+        //public GestureEvent(string type)
+        //{
+        //}
 
         #endregion
 

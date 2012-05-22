@@ -13,22 +13,22 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// <summary>
         /// A decimal value that is multiplied with the alpha transparency channel value.
         /// </summary>
-        public double alphaMultiplier { get; set; }
+        public double alphaMultiplier; // { get; set; }
 
         /// <summary>
         /// A number from -255 to 255 that is added to the alpha transparency channel value after it has been multiplied by the alphaMultiplier value.
         /// </summary>
-        public double alphaOffset { get; set; }
+        public double alphaOffset; // { get; set; }
 
         /// <summary>
         /// A decimal value that is multiplied with the blue channel value.
         /// </summary>
-        public double blueMultiplier { get; set; }
+        public double blueMultiplier; // { get; set; }
 
         /// <summary>
         /// A number from -255 to 255 that is added to the blue channel value after it has been multiplied by the blueMultiplier value.
         /// </summary>
-        public double blueOffset { get; set; }
+        public double blueOffset; // { get; set; }
 
         /// <summary>
         /// The RGB color value for a ColorTransform object.
@@ -38,22 +38,22 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// <summary>
         /// A decimal value that is multiplied with the green channel value.
         /// </summary>
-        public double greenMultiplier { get; set; }
+        public double greenMultiplier; // { get; set; }
 
         /// <summary>
         /// A number from -255 to 255 that is added to the green channel value after it has been multiplied by the greenMultiplier value.
         /// </summary>
-        public double greenOffset { get; set; }
+        public double greenOffset; // { get; set; }
 
         /// <summary>
         /// A decimal value that is multiplied with the red channel value.
         /// </summary>
-        public double redMultiplier { get; set; }
+        public double redMultiplier; // { get; set; }
 
         /// <summary>
         /// A number from -255 to 255 that is added to the red channel value after it has been multiplied by the redMultiplier value.
         /// </summary>
-        public double redOffset { get; set; }
+        public double redOffset; // { get; set; }
 
         #endregion
 

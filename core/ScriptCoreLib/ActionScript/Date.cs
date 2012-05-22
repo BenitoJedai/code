@@ -9,6 +9,7 @@ namespace ScriptCoreLib.ActionScript
     [Script(IsNative=true)]
     public sealed class Date
     {
+
         #region Properties
         /// <summary>
         /// The day of the month (an integer from 1 to 31) specified by a Date object according to local time.
@@ -482,58 +483,60 @@ namespace ScriptCoreLib.ActionScript
         #endregion
 
         #region Constructors
+
+
         /// <summary>
         /// Constructs a new Date object that holds the specified date and time.
         /// </summary>
-        public Date(object yearOrTimevalue, double month, double date, double hour, double minute, double second, double millisecond)
+        public Date(object yearOrTimevalue, double month, double date=1, double hour=0, double minute=0, double second=0, double millisecond=0)
         {
         }
 
         /// <summary>
         /// Constructs a new Date object that holds the specified date and time.
         /// </summary>
-        public Date(object yearOrTimevalue, double month, double date, double hour, double minute, double second)
-        {
-        }
+        //public Date(object yearOrTimevalue, double month, double date, double hour, double minute, double second)
+        //{
+        //}
 
         /// <summary>
         /// Constructs a new Date object that holds the specified date and time.
         /// </summary>
-        public Date(object yearOrTimevalue, double month, double date, double hour, double minute)
-        {
-        }
+        //public Date(object yearOrTimevalue, double month, double date, double hour, double minute)
+        //{
+        //}
 
         /// <summary>
         /// Constructs a new Date object that holds the specified date and time.
         /// </summary>
-        public Date(object yearOrTimevalue, double month, double date, double hour)
-        {
-        }
+        //public Date(object yearOrTimevalue, double month, double date, double hour)
+        //{
+        //}
 
         /// <summary>
         /// Constructs a new Date object that holds the specified date and time.
         /// </summary>
-        public Date(object yearOrTimevalue, double month, double date)
-        {
-        }
+        //public Date(object yearOrTimevalue, double month, double date)
+        //{
+        //}
 
         /// <summary>
         /// Constructs a new Date object that holds the specified date and time.
         /// </summary>
-        public Date(object yearOrTimevalue, double month)
-        {
-        }
-
-
+        //public Date(object yearOrTimevalue, double month)
+        //{
+        //}
         
-        #endregion
-
+ 
         public Date(long ticks)
         {
         }
 
         public Date()
         {
-        }
+        }      
+        
+        #endregion
+
     }
 }
