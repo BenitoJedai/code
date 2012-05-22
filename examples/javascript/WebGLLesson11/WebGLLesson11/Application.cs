@@ -214,13 +214,13 @@ namespace WebGLLesson11
 
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
-            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_textureCoordAttribute);
 
             var shaderProgram_vertexNormalAttribute = getAttribLocation("aVertexNormal");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexNormalAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexNormalAttribute);
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -303,6 +303,22 @@ namespace WebGLLesson11
 
                 };
 
+
+            Action<long, long> RotateAtDelta =
+                (deltaX, deltaY) =>
+                {
+                    var newRotationMatrix = __glMatrix.mat4.create();
+                    __glMatrix.mat4.identity(newRotationMatrix);
+                    __glMatrix.mat4.rotate(newRotationMatrix, degToRad(deltaX / 10), 0, 1, 0);
+
+                    __glMatrix.mat4.rotate(newRotationMatrix, degToRad(deltaY / 10), 1, 0, 0);
+
+                    __glMatrix.mat4.multiply(newRotationMatrix, moonRotationMatrix, moonRotationMatrix);
+
+                    lastMouseX += deltaX;
+                    lastMouseY += deltaY;
+                };
+
             Native.Document.onmousemove +=
                 e =>
                 {
@@ -314,17 +330,9 @@ namespace WebGLLesson11
                     var newY = e.CursorY;
 
                     var deltaX = newX - lastMouseX;
-                    var newRotationMatrix = __glMatrix.mat4.create();
-                    __glMatrix.mat4.identity(newRotationMatrix);
-                    __glMatrix.mat4.rotate(newRotationMatrix, degToRad(deltaX / 10), 0, 1, 0);
-
                     var deltaY = newY - lastMouseY;
-                    __glMatrix.mat4.rotate(newRotationMatrix, degToRad(deltaY / 10), 1, 0, 0);
 
-                    __glMatrix.mat4.multiply(newRotationMatrix, moonRotationMatrix, moonRotationMatrix);
-
-                    lastMouseX = newX;
-                    lastMouseY = newY;
+                    RotateAtDelta(deltaX, deltaY);
                 };
             #endregion
 
@@ -423,8 +431,8 @@ namespace WebGLLesson11
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
                     gl.bindTexture(gl.TEXTURE_2D, moonTexture);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mud);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
                     gl.generateMipmap(gl.TEXTURE_2D);
 
                     gl.bindTexture(gl.TEXTURE_2D, null);
@@ -502,13 +510,13 @@ namespace WebGLLesson11
                         gl.uniform1i(shaderProgram_samplerUniform, 0);
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, moonVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_textureCoordAttribute, moonVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexNormalAttribute, moonVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
                         setMatrixUniforms();
@@ -525,6 +533,7 @@ namespace WebGLLesson11
                         if (IsDisposed)
                             return;
 
+                        RotateAtDelta(1, 1);
 
                         drawScene();
 
