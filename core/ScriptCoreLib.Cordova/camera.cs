@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_camera_camera.md.html#Camera
     /// </summary>
     [Script(IsNative = true)]
-    public class camera
+    public class Camera
     {
         #region Constructor
 
-        public camera()
+        public Camera()
         {
 
         }
@@ -29,7 +29,7 @@ namespace ScriptCoreLib.Cordova
 
         #region METHODS
 
-        public void getPicture(Action<object> cameraSuccess, Action<string> cameraError,cameraOptions options=null)
+        public void getPicture(Action<object> cameraSuccess, Action<string> cameraError,CameraOptions options=null)
         {
 
         }

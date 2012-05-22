@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_storage_storage.md.html#localStorage
     /// </summary>
     [Script(IsNative = true)]
-    public class localStorage
+    public class LocalStorage
     {
         #region Constructor
 
-        public localStorage()
+        public LocalStorage()
         {
 
         }

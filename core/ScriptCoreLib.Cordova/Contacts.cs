@@ -39,7 +39,7 @@ namespace ScriptCoreLib.Cordova
         }
 
 
-        public void find(ContactField[] contactFields, Action<Contacts> contactSuccess, Action<ContactError>contactError, ContactFindOptions contactFindOptions)
+        public void find(string[] contactFields, Action<Contact[]> contactSuccess, Action<ContactError>contactError, ContactFindOptions contactFindOptions)
         {
 
         }

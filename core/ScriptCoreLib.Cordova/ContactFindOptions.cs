@@ -20,7 +20,7 @@ namespace ScriptCoreLib.Cordova
     {
         #region Constructor
 
-        public ContactFindOptions(int filter=0, bool multiple = false)
+        public ContactFindOptions()
         {
 
         }
@@ -32,7 +32,7 @@ namespace ScriptCoreLib.Cordova
         /// <summary>
         /// filter: The search string used to find contacts. (DOMString) (Default: "")
         /// </summary>
-        public int filter;
+        public string filter;
 
         /// <summary>
         /// multiple: Determines if the find operation should return multiple contacts. (Boolean) (Default: false)

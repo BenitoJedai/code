@@ -15,11 +15,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_camera_camera.md.html#cameraOptions
     /// </summary>
     [Script(IsNative = true)]
-    public class cameraOptions
+    public class CameraOptions
     {
         #region Constructor
 
-        public cameraOptions()
+        public CameraOptions()
         {
 
         }
@@ -32,7 +32,7 @@ namespace ScriptCoreLib.Cordova
         /// <summary>
         /// destinationType: Choose the format of the return value. Defined in navigator.camera.DestinationType (Number)
         /// </summary>
-        public camera.DestinationType destinationType;
+        public Camera.DestinationType destinationType;
 
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace ScriptCoreLib.Cordova
         /// encodingType: Choose the encoding of the returned image file. Defined in navigator.camera.EncodingType (Number)
         /// </summary>
         ///      
-        public camera.EncodingType encodingType;
+        public Camera.EncodingType encodingType;
 
 
         
@@ -72,7 +72,7 @@ namespace ScriptCoreLib.Cordova
         /// Only works when PictureSourceType is PHOTOLIBRARY or SAVEDPHOTOALBUM. 
         /// Defined in nagivator.camera.MediaType (Number)
         /// </summary>
-        public camera.MediaType mediaType;
+        public Camera.MediaType mediaType;
 
         /// <summary>
         /// correctOrientation: Rotate the image to correct for the orientation of the device during capture. (Boolean)

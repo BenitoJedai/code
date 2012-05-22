@@ -1,4 +1,4 @@
-﻿using ScriptCoreLib.Shared;
+﻿    using ScriptCoreLib.Shared;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Runtime;
@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_accelerometer_accelerometer.md.html#accelerometerOptions
     /// </summary>
     [Script(IsNative = true)]
-    public class accelerometerOptions
+    public class AccelerometerOptions
     {
         #region Constructor
 
-        public accelerometerOptions()
+        public AccelerometerOptions()
         {
 
         }
