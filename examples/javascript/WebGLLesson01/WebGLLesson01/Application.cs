@@ -141,7 +141,7 @@ namespace WebGLLesson01
 
             var shaderProgram_vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
 
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -207,14 +207,14 @@ namespace WebGLLesson01
 
             __glMatrix.mat4.translate(mvMatrix, new float[] { -1.5f, 0.0f, -7.0f });
             gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-            gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
             setMatrixUniforms();
             gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer_numItems);
 
 
             __glMatrix.mat4.translate(mvMatrix, new float[] { 3.0f, 0.0f, 0.0f });
             gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-            gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
             setMatrixUniforms();
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer_numItems);
             #endregion

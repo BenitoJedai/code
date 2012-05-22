@@ -196,11 +196,11 @@ namespace WebGLLesson03
 
             var shaderProgram_vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
 
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             // new in lesson 02
             var shaderProgram_vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexColorAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexColorAttribute);
 
             var shaderProgram_pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
             var shaderProgram_mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
@@ -352,12 +352,12 @@ namespace WebGLLesson03
                 #endregion
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, triangleVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
 
                 #region new in lesson 02
                 gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, triangleVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, triangleVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                 #endregion
 
@@ -379,11 +379,11 @@ namespace WebGLLesson03
 
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, squareVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                 #region new in lesson 02
                 gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-                gl.vertexAttribPointer((ulong)shaderProgram_vertexColorAttribute, squareVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer((uint)shaderProgram_vertexColorAttribute, squareVertexColorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                 #endregion
 

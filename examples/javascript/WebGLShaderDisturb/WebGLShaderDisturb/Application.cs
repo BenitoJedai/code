@@ -149,10 +149,10 @@ namespace WebGLShaderDisturb
                         gl.enable(gl.TEXTURE_2D);
                         gl.bindTexture(gl.TEXTURE_2D, texture_);
                         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_LINEAR);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (long)gl.REPEAT);
-                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (long)gl.REPEAT);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_LINEAR);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.REPEAT);
+                        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.REPEAT);
                         gl.generateMipmap(gl.TEXTURE_2D);
                         gl.bindTexture(gl.TEXTURE_2D, null);
 
@@ -232,10 +232,10 @@ namespace WebGLShaderDisturb
                 // Render geometry
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.vertexAttribPointer((ulong)vertexPositionLocation, 2, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray((ulong)vertexPositionLocation);
+                gl.vertexAttribPointer((uint)vertexPositionLocation, 2, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray((uint)vertexPositionLocation);
                 gl.drawArrays(gl.TRIANGLES, 0, 6);
-                gl.disableVertexAttribArray((ulong)vertexPositionLocation);
+                gl.disableVertexAttribArray((uint)vertexPositionLocation);
 
 
 
