@@ -13,32 +13,32 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// <summary>
         /// The value that affects the positioning of pixels along the x axis when scaling or rotating an image.
         /// </summary>
-        public double a { get; set; }
+        public double a; // { get; set; }
 
         /// <summary>
         /// The value that affects the positioning of pixels along the y axis when rotating or skewing an image.
         /// </summary>
-        public double b { get; set; }
+        public double b; // { get; set; }
 
         /// <summary>
         /// The value that affects the positioning of pixels along the x axis when rotating or skewing an image.
         /// </summary>
-        public double c { get; set; }
+        public double c; // { get; set; }
 
         /// <summary>
         /// The value that affects the positioning of pixels along the y axis when scaling or rotating an image.
         /// </summary>
-        public double d { get; set; }
+        public double d; // { get; set; }
 
         /// <summary>
         /// The distance by which to translate each point along the x axis.
         /// </summary>
-        public double tx { get; set; }
+        public double tx; // { get; set; }
 
         /// <summary>
         /// The distance by which to translate each point along the y axis.
         /// </summary>
-        public double ty { get; set; }
+        public double ty; // { get; set; }
 
         #endregion
 

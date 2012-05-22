@@ -13,12 +13,12 @@ namespace ScriptCoreLib.ActionScript.flash.net
 		/// <summary>
 		/// An HTTP request header name (such as Content-Type or SOAPAction).
 		/// </summary>
-		public string name { get; set; }
+		public string name; // { get; set; }
 
 		/// <summary>
 		/// The value associated with the name property (such as text/plain).
 		/// </summary>
-		public string value { get; set; }
+		public string value; // { get; set; }
 
 		#endregion
 

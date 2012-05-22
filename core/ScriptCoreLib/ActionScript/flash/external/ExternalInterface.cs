@@ -17,7 +17,7 @@ namespace ScriptCoreLib.ActionScript.flash.external
         /// <summary>
         /// Indicates whether the external interface should attempt to pass ActionScript exceptions to the current browser and JavaScript exceptions to Flash Player.
         /// </summary>
-        static public bool marshallExceptions { get; set; }
+        static public bool marshallExceptions; // { get; set; }
 
         /// <summary>
         /// Returns the id attribute of the object tag in Internet Explorer, or the name attribute of the embed tag in Netscape.

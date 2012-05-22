@@ -23,22 +23,22 @@ namespace ScriptCoreLib.ActionScript.flash.geom
 		/// <summary>
 		/// The fourth element of a Vector3D object (in addition to the x, y, and z properties) can hold data such as the angle of rotation.
 		/// </summary>
-		public double w { get; set; }
+		public double w; // { get; set; }
 
 		/// <summary>
 		/// The first element of a Vector3D object, such as the x coordinate of a point in the three-dimensional space.
 		/// </summary>
-		public double x { get; set; }
+		public double x; // { get; set; }
 
 		/// <summary>
 		/// The second element of a Vector3D object, such as the y coordinate of a point in the three-dimensional space.
 		/// </summary>
-		public double y { get; set; }
+		public double y; // { get; set; }
 
 		/// <summary>
 		/// The third element of a Vector3D object, such as the z coordinate of a point in three-dimensional space.
 		/// </summary>
-		public double z { get; set; }
+		public double z; // { get; set; }
 
 		#endregion
 

@@ -13,42 +13,42 @@ namespace ScriptCoreLib.ActionScript.flash.ui
         /// <summary>
         /// Lets the user move forward or backward one frame in a SWF file at run time (does not appear for a single-frame SWF file).
         /// </summary>
-        public bool forwardAndBack = true;
+        public bool forwardAndBack { get; set; } // = true;
 
         /// <summary>
         /// Lets the user set a SWF file to start over automatically when it reaches the final frame (does not appear for a single-frame SWF file).
         /// </summary>
-        public bool loop = true;
+        public bool loop { get; set; } // = true;
 
         /// <summary>
         /// Lets the user start a paused SWF file (does not appear for a single-frame SWF file).
         /// </summary>
-        public bool play = true;
+        public bool play { get; set; } // = true;
 
         /// <summary>
         /// Lets the user send the displayed frame image to a printer.
         /// </summary>
-        public bool print = true;
+        public bool print { get; set; } // = true;
 
         /// <summary>
         /// Lets the user set the resolution of the SWF file at run time.
         /// </summary>
-        public bool quality = true;
+        public bool quality { get; set; } // = true;
 
         /// <summary>
         /// Lets the user set a SWF file to play from the first frame when selected, at any time (does not appear for a single-frame SWF file).
         /// </summary>
-        public bool rewind = true;
+        public bool rewind { get; set; } // = true;
 
         /// <summary>
         /// Lets the user with Shockmachine installed save a SWF file.
         /// </summary>
-        public bool save = true;
+        public bool save { get; set; } // = true;
 
         /// <summary>
         /// Lets the user zoom in and out on a SWF file at run time.
         /// </summary>
-        public bool zoom = true;
+        public bool zoom { get; set; } //= true;
 
         #endregion
 

@@ -60,7 +60,7 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// <summary>
         /// The exception that was thrown.
         /// </summary>
-        public Error error { get; set; }
+        public Error error; // { get; set; }
 
         #endregion
 

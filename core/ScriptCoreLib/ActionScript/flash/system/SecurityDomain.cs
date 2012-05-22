@@ -13,7 +13,7 @@ namespace ScriptCoreLib.ActionScript.flash.system
         /// <summary>
         /// [static][read-only] Gets the current security domain.
         /// </summary>
-        public static readonly SecurityDomain currentDomain;
+        public static SecurityDomain currentDomain { get; private set; }
 
         #endregion
 

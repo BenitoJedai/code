@@ -48,30 +48,30 @@ namespace ScriptCoreLib.ActionScript.flash.events
         /// <summary>
         /// Creates an Event object that contains information about text events.
         /// </summary>
-        public TextEvent(string type, bool bubbles, bool cancelable, string text)
+        public TextEvent(string type, bool bubbles=false, bool cancelable=false, string text="")
         {
         }
 
         /// <summary>
         /// Creates an Event object that contains information about text events.
         /// </summary>
-        public TextEvent(string type, bool bubbles, bool cancelable)
-        {
-        }
+        //public TextEvent(string type, bool bubbles, bool cancelable)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about text events.
         /// </summary>
-        public TextEvent(string type, bool bubbles)
-        {
-        }
+        //public TextEvent(string type, bool bubbles)
+        //{
+        //}
 
         /// <summary>
         /// Creates an Event object that contains information about text events.
         /// </summary>
-        public TextEvent(string type)
-        {
-        }
+       // public TextEvent(string type)
+        //{
+        //}
 
         #endregion
 
