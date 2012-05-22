@@ -244,10 +244,10 @@ namespace WebGLSpiral
                 // Render geometry
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-                gl.vertexAttribPointer((ulong)vertex_position, 2, gl.FLOAT, false, 0, 0);
-                gl.enableVertexAttribArray((ulong)vertex_position);
+                gl.vertexAttribPointer((uint)vertex_position, 2, gl.FLOAT, false, 0, 0);
+                gl.enableVertexAttribArray((uint)vertex_position);
                 gl.drawArrays(gl.TRIANGLES, 0, 6);
-                gl.disableVertexAttribArray((ulong)vertex_position);
+                gl.disableVertexAttribArray((uint)vertex_position);
 
                 Native.Window.requestAnimationFrame += loop;
 
