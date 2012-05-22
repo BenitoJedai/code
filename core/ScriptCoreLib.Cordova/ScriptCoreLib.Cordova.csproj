@@ -46,18 +46,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="acceleration.cs" />
-    <Compile Include="accelerometer.cs" />
-    <Compile Include="accelerometerOptions.cs" />
-    <Compile Include="camera.cs" />
-    <Compile Include="cameraOptions.cs" />
-    <Compile Include="capture.cs" />
+    <Compile Include="Acceleration.cs" />
+    <Compile Include="Accelerometer.cs" />
+    <Compile Include="AccelerometerOptions.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="CameraOptions.cs" />
+    <Compile Include="Capture.cs" />
     <Compile Include="CaptureError.cs" />
     <Compile Include="CaptureAudioOptions.cs" />
     <Compile Include="CaptureImageOptions.cs" />
     <Compile Include="CaptureVideoOptions.cs" />
     <Compile Include="ConfigurationData.cs" />
-    <Compile Include="compass.cs" />
+    <Compile Include="Compass.cs" />
     <Compile Include="CompassHeading.cs" />
     <Compile Include="CompassError.cs" />
     <Compile Include="CompassOptions.cs" />
@@ -70,6 +70,8 @@
     <Compile Include="ContactOrganization.cs" />
     <Compile Include="ContactError.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="ICordovaWindow.cs" />
+    <Compile Include="CordovaNative.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="GeolocationOptions.cs" />
     <Compile Include="Coordinates.cs" />
@@ -81,7 +83,7 @@
     <Compile Include="SQLTransaction.cs" />
     <Compile Include="SQLResultSet.cs" />
     <Compile Include="SQLResultSetList.cs" />
-    <Compile Include="localStorage.cs" />
+    <Compile Include="LocalStorage.cs" />
     <Compile Include="SQLError.cs" />
     <Compile Include="MediaFileData.cs" />
     <Compile Include="MediaFile.cs" />

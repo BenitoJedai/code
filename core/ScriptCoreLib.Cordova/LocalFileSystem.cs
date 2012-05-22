@@ -55,9 +55,16 @@ namespace ScriptCoreLib.Cordova
         /// <param name="?"></param>
         /// <param name="?"></param>
         public void requestFileSystem(int type, int size, Action<FileSystem> successCallback, Action<FileError> errorCallback)
-        {}
+        {
+        
+        }
 
-
+        /// <summary>
+        /// resolveLocalFileSystemURI: Retrieve a DirectoryEntry or FileEntry using local URI.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="successCallback"></param>
+        /// <param name="errorCallback"></param>
         public void resolveLocalFileSystemURI(string uri, Action<FileSystem> successCallback, Action<FileError> errorCallback)
         {
 

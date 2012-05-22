@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_accelerometer_accelerometer.md.html#Acceleration
     /// </summary>
     [Script(IsNative = true)]
-    public class acceleration
+    public class Acceleration
     {
         #region Constructor
 
-        public acceleration()
+        public Acceleration()
         {
             
         }

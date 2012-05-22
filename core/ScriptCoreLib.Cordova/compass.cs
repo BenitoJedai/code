@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_compass_compass.md.html#Compass
     /// </summary>
     [Script(IsNative = true)]
-    public class compass
+    public class Compass
     {
         #region Constructor
 
-        public compass()
+        public Compass()
         {
 
         }

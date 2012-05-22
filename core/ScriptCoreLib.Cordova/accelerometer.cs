@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_accelerometer_accelerometer.md.html#Accelerometer
     /// </summary>
 	[Script(IsNative = true)]
-	public class accelerometer
+	public class Accelerometer
 	{
 		#region Constructor
 
-		public accelerometer()
+		public Accelerometer()
 		{
 		}
 
@@ -31,7 +31,7 @@ namespace ScriptCoreLib.Cordova
         /// </summary>
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
-        public void getCurrentAcceleration(Action<acceleration> onSuccess, Action onError)
+        public void getCurrentAcceleration(Action<Acceleration> onSuccess, Action onError)
         {
 
         }
@@ -46,7 +46,7 @@ namespace ScriptCoreLib.Cordova
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
         /// <param name="?"></param>
-        public void watchAcceleration(Action<acceleration> onSuccess, Action onError,accelerometerOptions options=null)
+        public void watchAcceleration(Action<Acceleration> onSuccess, Action onError,AccelerometerOptions options=null)
         {
 
         }

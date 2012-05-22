@@ -16,11 +16,11 @@ namespace ScriptCoreLib.Cordova
     /// http://docs.phonegap.com/en/1.7.0/cordova_device_device.md.html#Device
     /// </summary>
     [Script(IsNative = true)]
-    public class device
+    public class Device
     {
         #region Constructor
 
-        public device()
+        public Device()
         {
 
         }
@@ -73,6 +73,11 @@ namespace ScriptCoreLib.Cordova
             get { return default(string); }
             set { }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Capture capture;
 
         #endregion
 

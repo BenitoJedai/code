@@ -31,17 +31,17 @@ namespace ScriptCoreLib.Cordova
         /// <summary>
         ///  the row ID of the row that the SQLResultSet object's SQL statement inserted into the database
         /// </summary>
-        public void insertId;
+        public int insertId;
 
         /// <summary>
         ///  the number of rows that were changed by the SQL statement. If the statement did not affect any rows then it is set to 0.
         /// </summary>
-        public void rowsAffected;
+        public int rowsAffected;
 
         /// <summary>
         /// 
         /// </summary>
-        public void rows;
+        public int rows;
 
         #endregion
 

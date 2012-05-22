@@ -29,7 +29,7 @@ namespace ScriptCoreLib.Cordova
 
         #region METHODS
 
-        public void getPicture(Action<object> cameraSuccess, Action<string> cameraError,cameraOptions options=null)
+        public void getPicture(Action<object> cameraSuccess, Action<string> cameraError,CameraOptions options=null)
         {
 
         }
