@@ -172,10 +172,10 @@ namespace WebGLLesson09
             #endregion
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
-            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_textureCoordAttribute);
 
             #region getUniformLocation
             Func<string, WebGLUniformLocation> getUniformLocation =
@@ -387,8 +387,8 @@ namespace WebGLLesson09
                    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
                    gl.bindTexture(gl.TEXTURE_2D, starTexture);
                    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
+                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR);
 
                    gl.bindTexture(gl.TEXTURE_2D, null);
                    #endregion
@@ -401,10 +401,10 @@ namespace WebGLLesson09
                        gl.uniform1i(shaderProgram_samplerUniform, 0);
 
                        gl.bindBuffer(gl.ARRAY_BUFFER, starVertexTextureCoordBuffer);
-                       gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, starVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                       gl.vertexAttribPointer((uint)shaderProgram_textureCoordAttribute, starVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                        gl.bindBuffer(gl.ARRAY_BUFFER, starVertexPositionBuffer);
-                       gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, starVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                       gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, starVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                        setMatrixUniforms();
                        gl.drawArrays(gl.TRIANGLE_STRIP, 0, starVertexPositionBuffer_numItems);

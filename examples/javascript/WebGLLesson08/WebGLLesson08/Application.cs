@@ -161,18 +161,18 @@ namespace WebGLLesson08
             gl.useProgram(shaderProgram);
 
             #region getAttribLocation
-            Func<string, long> getAttribLocation =
+            Func<string, int> getAttribLocation =
                     name => gl.getAttribLocation(shaderProgram, name);
             #endregion
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             var shaderProgram_vertexNormalAttribute = getAttribLocation("aVertexNormal");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexNormalAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexNormalAttribute);
 
             var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
-            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_textureCoordAttribute);
 
             #region getUniformLocation
             Func<string, WebGLUniformLocation> getUniformLocation =
@@ -511,18 +511,18 @@ namespace WebGLLesson08
 
                     gl.bindTexture(gl.TEXTURE_2D, textures[0]);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.NEAREST);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.NEAREST);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.NEAREST);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
 
                     gl.bindTexture(gl.TEXTURE_2D, textures[1]);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR);
 
                     gl.bindTexture(gl.TEXTURE_2D, textures[2]);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture_image);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR_MIPMAP_NEAREST);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR_MIPMAP_NEAREST);
                     gl.generateMipmap(gl.TEXTURE_2D);
 
                     gl.bindTexture(gl.TEXTURE_2D, null);
@@ -577,15 +577,15 @@ namespace WebGLLesson08
 
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, cubeVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                         #region new in lesson 07
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexNormalAttribute, cubeVertexNormalBuffer_itemSize, gl.FLOAT, false, 0, 0);
                         #endregion
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_textureCoordAttribute, cubeVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
 
                         gl.activeTexture(gl.TEXTURE0);

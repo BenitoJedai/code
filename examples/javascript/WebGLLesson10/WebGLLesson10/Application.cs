@@ -175,10 +175,10 @@ namespace WebGLLesson10
 
 
             var shaderProgram_vertexPositionAttribute = getAttribLocation("aVertexPosition");
-            gl.enableVertexAttribArray((ulong)shaderProgram_vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
 
             var shaderProgram_textureCoordAttribute = getAttribLocation("aTextureCoord");
-            gl.enableVertexAttribArray((ulong)shaderProgram_textureCoordAttribute);
+            gl.enableVertexAttribArray((uint)shaderProgram_textureCoordAttribute);
 
             var shaderProgram_pMatrixUniform = getUniformLocation("uPMatrix");
             var shaderProgram_mvMatrixUniform = getUniformLocation("uMVMatrix");
@@ -370,8 +370,8 @@ namespace WebGLLesson10
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
                     gl.bindTexture(gl.TEXTURE_2D, mudTexture);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mud);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR);
 
                     gl.bindTexture(gl.TEXTURE_2D, null);
 
@@ -483,10 +483,10 @@ namespace WebGLLesson10
                         gl.uniform1i(shaderProgram_samplerUniform, 0);
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_textureCoordAttribute, worldVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_textureCoordAttribute, worldVertexTextureCoordBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                         gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
-                        gl.vertexAttribPointer((ulong)shaderProgram_vertexPositionAttribute, worldVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                        gl.vertexAttribPointer((uint)shaderProgram_vertexPositionAttribute, worldVertexPositionBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                         setMatrixUniforms();
                         gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer_numItems);
