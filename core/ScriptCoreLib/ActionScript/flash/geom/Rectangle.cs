@@ -5,7 +5,9 @@ using System.Text;
 
 namespace ScriptCoreLib.ActionScript.flash.geom
 {
-    // http://livedocs.adobe.com/flex/3/langref/flash/geom/Rectangle.html
+    /// <summary>
+    /// http://livedocs.adobe.com/flex/3/langref/flash/geom/Rectangle.html
+    /// </summary>
     [Script(IsNative=true)]
     public class Rectangle
     {
