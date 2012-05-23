@@ -100,9 +100,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="SpaceInvaders.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\SpaceInvaders.AssetsLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="SpaceInvadersTemplate.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\SpaceInvadersTemplate.AssetsLibrary.dll</HintPath>
     </Reference>

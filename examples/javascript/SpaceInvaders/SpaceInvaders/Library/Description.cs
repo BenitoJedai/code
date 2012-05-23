@@ -5,7 +5,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.Shared;
 using ScriptCoreLib.Shared.Drawing;
-using SpaceInvaders.HTML.Images.FromAssets;
+using SpaceInvadersTemplate.HTML.Images.FromAssets;
 
 
 

@@ -25,11 +25,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System
         internal Date InternalValue;
 
 
-        //public __DateTime()
-        //    : this(-1, -1, -1, -1, -1, -1)
-        //{
+        private __DateTime()
+            : this(-1, -1, -1, -1, -1, -1)
+        {
 
-        //}
+        }
 
         public __DateTime(int year, int month, int day, int hour, int minute, int second)
         {
