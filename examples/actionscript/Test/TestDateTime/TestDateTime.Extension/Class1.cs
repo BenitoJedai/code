@@ -18,3 +18,16 @@ namespace ScriptCoreLib.ActionScript
         }
     }
 }
+
+namespace ScriptCoreLib.ActionScript.BCLImplementation.System
+{
+    //[Script(Implements = typeof(global::System.DateTime))]
+    internal class __DateTime
+    {
+
+        public __DateTime()
+        {
+
+        }
+    }
+}

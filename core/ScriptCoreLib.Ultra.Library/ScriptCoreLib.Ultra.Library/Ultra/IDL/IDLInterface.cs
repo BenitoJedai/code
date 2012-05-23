@@ -31,6 +31,7 @@ namespace ScriptCoreLib.Ultra.IDL
             return from k in Members
                    let m = k as IDLMemberAnnotation
                    where m != null
+                   where m.Keyword.Text == "Constructor"
                    select m;
         }
 

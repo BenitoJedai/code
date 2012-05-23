@@ -9,8 +9,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using SpaceInvaders.HTML.Pages;
-using SpaceInvaders.Design;
+using SpaceInvadersTemplate.Design;
+using SpaceInvadersTemplate.HTML.Pages;
 
 namespace SpaceInvaders
 {
