@@ -59,6 +59,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
+            this.ToFullscreen();
 
             mGLSurfaceView = new GLSurfaceView(this);
 
@@ -72,6 +73,7 @@ namespace AndroidOpenGLESLesson3Activity.Activities
             setContentView(mGLSurfaceView);
 
 
+            this.ShowToast("http://jsc-solutions.net");
         }
 
         #region pause

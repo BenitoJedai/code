@@ -157,13 +157,13 @@ namespace WebGLPlanetGenerator
 
 
             var vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-            gl.enableVertexAttribArray((ulong)vertexPositionAttribute);
+            gl.enableVertexAttribArray((uint)vertexPositionAttribute);
 
             var vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-            gl.enableVertexAttribArray((ulong)vertexNormalAttribute);
+            gl.enableVertexAttribArray((uint)vertexNormalAttribute);
 
             var vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
-            gl.enableVertexAttribArray((ulong)vertexColorAttribute);
+            gl.enableVertexAttribArray((uint)vertexColorAttribute);
             #endregion
 
      
@@ -283,13 +283,13 @@ namespace WebGLPlanetGenerator
                     mvRotate(yRot, new[] { 0f, 1f, 0f });
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-                    gl.vertexAttribPointer((ulong)vertexPositionAttribute, vertexBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                    gl.vertexAttribPointer((uint)vertexPositionAttribute, vertexBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-                    gl.vertexAttribPointer((ulong)vertexNormalAttribute, normalBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                    gl.vertexAttribPointer((uint)vertexNormalAttribute, normalBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-                    gl.vertexAttribPointer((ulong)vertexColorAttribute, colorBuffer_itemSize, gl.FLOAT, false, 0, 0);
+                    gl.vertexAttribPointer((uint)vertexColorAttribute, colorBuffer_itemSize, gl.FLOAT, false, 0, 0);
 
                     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
                     setMatrixUniforms();
