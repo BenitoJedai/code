@@ -60,6 +60,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
+            this.ToFullscreen();
 
             mGLSurfaceView = new GLSurfaceView(this);
 

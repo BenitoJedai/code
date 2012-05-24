@@ -180,9 +180,9 @@ namespace WebGLSimpleCubic
             gl.attachShader(prog, fs);
 
 
-            var posLoc = 0UL;
+            var posLoc = 0U;
             gl.bindAttribLocation(prog, posLoc, "aPos");
-            var normLoc = 1UL;
+            var normLoc = 1U;
             gl.bindAttribLocation(prog, normLoc, "aNorm");
             gl.linkProgram(prog);
             gl.useProgram(prog);
@@ -276,7 +276,7 @@ namespace WebGLSimpleCubic
             gl.attachShader(line_prog, line_vs);
             gl.attachShader(line_prog, line_fs);
 
-            var lineLoc = 2UL;
+            var lineLoc = 2U;
             gl.bindAttribLocation(line_prog, lineLoc, "aPos");
 
             gl.linkProgram(line_prog);

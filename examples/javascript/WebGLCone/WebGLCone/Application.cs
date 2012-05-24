@@ -184,16 +184,16 @@ namespace WebGLCone
             }
 
             var posLoc = gl.getAttribLocation(prog, "aPos");
-            gl.enableVertexAttribArray((ulong)posLoc);
+            gl.enableVertexAttribArray((uint)posLoc);
             gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt.ToArray()), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((ulong)posLoc, 3, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)posLoc, 3, gl.FLOAT, false, 0, 0);
 
             var normLoc = gl.getAttribLocation(prog, "aNorm");
-            gl.enableVertexAttribArray((ulong)normLoc);
+            gl.enableVertexAttribArray((uint)normLoc);
             gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nt), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((ulong)normLoc, 3, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)normLoc, 3, gl.FLOAT, false, 0, 0);
 
             var prMatrix = new CanvasMatrix4();
             prMatrix.perspective(45, 1, .1, 100);
