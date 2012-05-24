@@ -60,7 +60,9 @@ namespace AndroidOpenGLESLesson5Activity.Activities
         {
             base.onCreate(savedInstanceState);
 
-            mGLSurfaceView = new GLSurfaceView(this);
+            this.ToFullscreen();
+
+            mGLSurfaceView = new LessonFiveGLSurfaceView(this);
 
 
             // Request an OpenGL ES 2.0 compatible context.
