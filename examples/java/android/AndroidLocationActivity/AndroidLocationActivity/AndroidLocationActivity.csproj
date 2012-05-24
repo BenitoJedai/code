@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="jsc.meta">
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ScriptCoreLib">
@@ -80,29 +84,34 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="staging\build.bat" />
+    <None Include="staging\apk\local.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="staging\apk\project.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
-    <Content Include="staging\AndroidManifest.xml" />
-    <Content Include="staging\res\layout\main.xml" />
-    <Content Include="staging\res\values\strings.xml" />
+    <Content Include="staging\apk\AndroidManifest.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\build.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\res\layout\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\res\values\strings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+    <PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
 
-set TargetActivityAssembly=$(TargetDir)$(TargetName).AndroidActivity.dll
-
-dir %25TargetActivityAssembly%25
-
-c:\util\jsc\bin\jsc.exe %25TargetActivityAssembly%25 -java
-xcopy "$(TargetDir)web\java" $(ProjectDir)\staging\src /Y /E
-pushd $(ProjectDir)\staging\
-call build.bat
-popd
 
 if $(ConfigurationName)==Debug (
 start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
@@ -110,8 +119,7 @@ start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /Proje
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-
-start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
 
 </PreBuildEvent>
   </PropertyGroup>

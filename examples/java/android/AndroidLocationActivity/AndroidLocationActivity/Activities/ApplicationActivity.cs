@@ -39,8 +39,8 @@ namespace AndroidLocationActivity.Activities
         //3330A17632C000EC        device 
 
 
-        //String PROVIDER = LocationManager.GPS_PROVIDER;
-        string PROVIDER = LocationManager.NETWORK_PROVIDER;
+        String PROVIDER = LocationManager.GPS_PROVIDER;
+        //string PROVIDER = LocationManager.NETWORK_PROVIDER;
 
         LocationManager locationManager;
         double myLatitude, myLongitude;
