@@ -21,7 +21,6 @@ namespace WebGLDynamicTerrainTemplate
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
-    using WebGLDynamicTerrainTemplate.Design.THREE;
 
 
 
@@ -49,9 +48,6 @@ namespace WebGLDynamicTerrainTemplate
                 new global::WebGLDynamicTerrainTemplate.Design.ShaderTerrain().Content,
                 new global::WebGLDynamicTerrainTemplate.Design.ShaderExtrasTerrain().Content,
                 new global::WebGLDynamicTerrainTemplate.Design.PostprocessingTerrain().Content,
-                //new global::WebGLDynamicTerrainTemplate.Models.flamingo().Content,
-                //new global::WebGLDynamicTerrainTemplate.Models.parrot().Content,
-                //new global::WebGLDynamicTerrainTemplate.Models.stork().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
@@ -146,7 +142,7 @@ namespace WebGLDynamicTerrainTemplate
             var clock = new THREE.Clock();
 
             //var morph, 
-            var morphs = new List<MorphAnimMesh>();
+            var morphs = new List<THREE.MorphAnimMesh>();
 
             var updateNoise = true;
 
@@ -214,15 +210,26 @@ namespace WebGLDynamicTerrainTemplate
 
             #endregion
 
+            var THREE_LinearFilter = 6;
+            var THREE_RGBFormat = 17;
+            var THREE_LinearMipMapLinearFilter = 8;
+
             #region HEIGHT + NORMAL MAPS
 
-            //    var normalShader = THREE.ShaderExtras[ 'normalmap' ];
+            var normalShader = __Three.ShaderExtras.normalmap;
 
-            //    var rx = 256, ry = 256;
-            //    var pars = { minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat };
+            var rx = 256;
+            var ry = 256;
 
-            //    heightMap  = new THREE.WebGLRenderTarget( rx, ry, pars );
-            //    normalMap = new THREE.WebGLRenderTarget( rx, ry, pars );
+            var pars = new THREE.WebGLRenderTargetArguments
+            {
+                minFilter = THREE_LinearMipMapLinearFilter,
+                magFilter = THREE_LinearFilter,
+                format = THREE_RGBFormat
+            };
+
+            var heightMap = new THREE.WebGLRenderTarget(rx, ry, pars);
+            var normalMap = new THREE.WebGLRenderTarget(rx, ry, pars);
 
             //    uniformsNoise = {
 
@@ -232,18 +239,18 @@ namespace WebGLDynamicTerrainTemplate
 
             //    };
 
-            //    uniformsNormal = THREE.UniformsUtils.clone( normalShader.uniforms );
+            //uniformsNormal = THREE.UniformsUtils.clone( normalShader.uniforms );
 
             //    uniformsNormal.height.value = 0.05;
             //    uniformsNormal.resolution.value.set( rx, ry );
             //    uniformsNormal.heightMap.texture = heightMap;
 
-            //    var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+            var vertexShader = new Shaders.NoiseVertexShader().ToString();
             #endregion
 
             #region TEXTURES
 
-            //    var specularMap = new THREE.WebGLRenderTarget( 2048, 2048, pars );
+            var specularMap = new THREE.WebGLRenderTarget(2048, 2048, pars);
 
             //    var diffuseTexture1 = THREE.ImageUtils.loadTexture( "textures/terrain/grasslight-big.jpg", null, function () {
 
@@ -263,7 +270,7 @@ namespace WebGLDynamicTerrainTemplate
 
             #region TERRAIN SHADER
 
-            //    var terrainShader = THREE.ShaderTerrain[ "terrain" ];
+            var terrainShader = __Three.ShaderTerrain.terrain;
 
             //    uniformsTerrain = THREE.UniformsUtils.clone( terrainShader.uniforms );
 
@@ -313,11 +320,11 @@ namespace WebGLDynamicTerrainTemplate
             //    }
 
 
-            //    var plane = new THREE.PlaneGeometry( SCREEN_WIDTH, SCREEN_HEIGHT );
+            var plane = new THREE.PlaneGeometry(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-            //    quadTarget = new THREE.Mesh( plane, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
-            //    quadTarget.position.z = -500;
-            //    sceneRenderTarget.addObject( quadTarget );
+            var quadTarget = new THREE.Mesh(plane, new THREE.MeshBasicMaterial(new THREE.MeshBasicMaterialArguments { color = 0xff0000 }));
+            quadTarget.position.z = -500;
+            sceneRenderTarget.addObject(quadTarget);
             #endregion
 
             #region TERRAIN MESH
@@ -365,15 +372,24 @@ namespace WebGLDynamicTerrainTemplate
             //    stats.domElement.children[ 0 ].children[ 1 ].style.display = "none";
             #endregion
 
-          
+
             #region COMPOSER
 
             renderer.autoClear = false;
 
-            //    renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBufer: false };
-            //    renderTarget = new THREE.WebGLRenderTarget( SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters );
 
-            //var effectBloom = new THREE.BloomPass( 0.6 );
+
+            var renderTargetParameters = new THREE.WebGLRenderTargetArguments
+            {
+                minFilter = THREE_LinearFilter,
+                magFilter = THREE_LinearFilter,
+                format = THREE_RGBFormat,
+                stencilBufer = false
+            };
+
+            var renderTarget = new THREE.WebGLRenderTarget(SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters);
+
+            var effectBloom = new THREE.BloomPass(0.6);
             //    var effectBleach = new THREE.ShaderPass( THREE.ShaderExtras[ "bleachbypass" ] );
 
             //    hblur = new THREE.ShaderPass( THREE.ShaderExtras[ "horizontalTiltShift" ] );
@@ -418,7 +434,7 @@ namespace WebGLDynamicTerrainTemplate
             {
 
                 var material = new THREE.MeshLambertMaterial(
-                    new MeshLambertMaterialArguments
+                    new THREE.MeshLambertMaterialArguments
                     {
                         color = 0xffaa55,
                         morphTargets = true,
@@ -537,29 +553,23 @@ namespace WebGLDynamicTerrainTemplate
 
             renderer.initWebGLObjects(scene);
 
+            #region onkeydown
+            Native.Document.onkeydown +=
+                 (e) =>
+                 {
 
-            #region EVENTS
+                     switch (e.KeyCode)
+                     {
 
+                         case 78: /*N*/  lightDir *= -1; break;
+                         case 77: /*M*/  animDeltaDir *= -1; break;
+                         case 66: /*B*/  soundDir *= -1; break;
 
-            //    document.addEventListener( 'keydown', onKeyDown, false );
+                     }
+
+                 };
             #endregion
 
-
-            #region onKeyDown
-            //function onKeyDown ( event ) {
-
-            //    switch( event.keyCode ) {
-
-            //        case 78: /*N*/  lightDir *= -1; break;
-            //        case 77: /*M*/  animDeltaDir *= -1; break;
-            //        case 66: /*B*/  soundDir *= -1; break;
-
-            //    }
-
-            //};
-
-            ////
-            #endregion
 
             #region applyShader
             //function applyShader( shader, texture, target ) {
@@ -608,88 +618,91 @@ namespace WebGLDynamicTerrainTemplate
 
 
             #region render
-            //function render() {
+            Action render = () =>
+            {
 
-            //    var delta = clock.getDelta();
+                var delta = clock.getDelta();
 
-            //    soundVal = THREE.Math.clamp( soundVal + delta * soundDir, 0, 1 );
+                soundVal = __Three.Math.clamp(soundVal + delta * soundDir, 0, 1);
 
-            //    if ( soundVal !== oldSoundVal ) {
+                if (soundVal != oldSoundVal)
+                {
 
-            //        if ( soundtrack ) {
+                    if (soundtrack != null)
+                    {
 
-            //            soundtrack.volume = soundVal;
-            //            oldSoundVal = soundVal;
+                        soundtrack.volume = soundVal;
+                        oldSoundVal = soundVal;
 
-            //        }
+                    }
 
-            //    }
+                }
 
-            //    if ( terrain.visible ) {
+                //    if ( terrain.visible ) {
 
-            //        controls.update();
+                //        controls.update();
 
-            //        var time = Date.now() * 0.001;
+                //        var time = Date.now() * 0.001;
 
-            //        var fLow = 0.4, fHigh = 0.825;
+                //        var fLow = 0.4, fHigh = 0.825;
 
-            //        lightVal = THREE.Math.clamp( lightVal + 0.5 * delta * lightDir, fLow, fHigh );
+                //        lightVal = THREE.Math.clamp( lightVal + 0.5 * delta * lightDir, fLow, fHigh );
 
-            //        var valNorm = ( lightVal - fLow ) / ( fHigh - fLow );
+                //        var valNorm = ( lightVal - fLow ) / ( fHigh - fLow );
 
-            //        var sat = THREE.Math.mapLinear( valNorm, 0, 1, 0.95, 0.25 );
-            //        scene.fog.color.setHSV( 0.1, sat, lightVal );
+                //        var sat = THREE.Math.mapLinear( valNorm, 0, 1, 0.95, 0.25 );
+                //        scene.fog.color.setHSV( 0.1, sat, lightVal );
 
-            //        renderer.setClearColor( scene.fog.color, 1 );
+                //        renderer.setClearColor( scene.fog.color, 1 );
 
-            //        spotLight.intensity = THREE.Math.mapLinear( valNorm, 0, 1, 0.1, 1.15 );
-            //        pointLight.intensity = THREE.Math.mapLinear( valNorm, 0, 1, 0.9, 1.5 );
+                //        spotLight.intensity = THREE.Math.mapLinear( valNorm, 0, 1, 0.1, 1.15 );
+                //        pointLight.intensity = THREE.Math.mapLinear( valNorm, 0, 1, 0.9, 1.5 );
 
-            //        uniformsTerrain[ "uNormalScale" ].value = THREE.Math.mapLinear( valNorm, 0, 1, 0.6, 3.5 );
+                //        uniformsTerrain[ "uNormalScale" ].value = THREE.Math.mapLinear( valNorm, 0, 1, 0.6, 3.5 );
 
-            //        if ( updateNoise ) {
+                //        if ( updateNoise ) {
 
-            //            animDelta = THREE.Math.clamp( animDelta + 0.00075 * animDeltaDir, 0, 0.05 );
-            //            uniformsNoise[ "time" ].value += delta * animDelta;
+                //            animDelta = THREE.Math.clamp( animDelta + 0.00075 * animDeltaDir, 0, 0.05 );
+                //            uniformsNoise[ "time" ].value += delta * animDelta;
 
-            //            uniformsNoise[ "offset" ].value.x += delta * 0.05;
+                //            uniformsNoise[ "offset" ].value.x += delta * 0.05;
 
-            //            uniformsTerrain[ "uOffset" ].value.x = 4 * uniformsNoise[ "offset" ].value.x;
+                //            uniformsTerrain[ "uOffset" ].value.x = 4 * uniformsNoise[ "offset" ].value.x;
 
-            //            quadTarget.material = mlib[ "heightmap" ];
-            //            renderer.render( sceneRenderTarget, cameraOrtho, heightMap, true );
+                //            quadTarget.material = mlib[ "heightmap" ];
+                //            renderer.render( sceneRenderTarget, cameraOrtho, heightMap, true );
 
-            //            quadTarget.material = mlib[ "normal" ];
-            //            renderer.render( sceneRenderTarget, cameraOrtho, normalMap, true );
+                //            quadTarget.material = mlib[ "normal" ];
+                //            renderer.render( sceneRenderTarget, cameraOrtho, normalMap, true );
 
-            //            //updateNoise = false;
+                //            //updateNoise = false;
 
-            //        }
-
-
-            //        for ( var i = 0; i < morphs.length; i ++ ) {
-
-            //            morph = morphs[ i ];
-
-            //            morph.updateAnimation( 1000 * delta );
-
-            //            morph.position.x += morph.speed * delta;
-
-            //            if ( morph.position.x  > 2000 )  {
-
-            //                morph.position.x = -1500 - Math.random() * 500;
-
-            //            }
+                //        }
 
 
-            //        }
+                //        for ( var i = 0; i < morphs.length; i ++ ) {
 
-            //        //renderer.render( scene, camera );
-            //        composer.render( 0.1 );
+                //            morph = morphs[ i ];
 
-            //    }
+                //            morph.updateAnimation( 1000 * delta );
 
-            //}
+                //            morph.position.x += morph.speed * delta;
+
+                //            if ( morph.position.x  > 2000 )  {
+
+                //                morph.position.x = -1500 - Math.random() * 500;
+
+                //            }
+
+
+                //        }
+
+                //        //renderer.render( scene, camera );
+                //        composer.render( 0.1 );
+
+                //    }
+
+            };
             #endregion
 
 
