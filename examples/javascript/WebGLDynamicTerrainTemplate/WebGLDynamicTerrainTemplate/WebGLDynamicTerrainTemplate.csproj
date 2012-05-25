@@ -124,6 +124,12 @@
     <Content Include="Design\ShaderExtrasTerrain.js" />
     <Content Include="Design\ShaderTerrain.js" />
     <Content Include="Design\ThreeTerrain.js" />
+    <Content Include="Models\flamingo.js" />
+    <Content Include="Models\parrot.js" />
+    <Content Include="Models\stork.js" />
+    <Content Include="Textures\backgrounddetailed6.jpg" />
+    <Content Include="Textures\grasslight-big-nm.jpg" />
+    <Content Include="Textures\grasslight-big.jpg" />
     <None Include="Shaders\Noise.vert" />
     <None Include="Shaders\Noise.frag" />
     <Content Include="Design\PostprocessingTerrain.js" />
