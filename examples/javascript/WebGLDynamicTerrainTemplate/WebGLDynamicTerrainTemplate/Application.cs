@@ -128,6 +128,7 @@ namespace WebGLDynamicTerrainTemplate
             //var spotLight, pointLight;
 
             //var terrain;
+            var terrain_visible = false;
 
             var textureCounter = 0;
 
@@ -248,6 +249,28 @@ namespace WebGLDynamicTerrainTemplate
             var vertexShader = new Shaders.NoiseVertexShader().ToString();
             #endregion
 
+
+
+            #region loadTextures
+            Action loadTextures = () =>
+            {
+
+                textureCounter += 1;
+
+                if (textureCounter == 3)
+                {
+
+                    terrain_visible = true;
+
+                    //document.getElementById("loading").style.display = "none";
+
+                }
+
+            };
+
+            ////
+            #endregion
+
             #region TEXTURES
 
             var specularMap = new THREE.WebGLRenderTarget(2048, 2048, pars);
@@ -259,8 +282,8 @@ namespace WebGLDynamicTerrainTemplate
 
             //    } );
 
-            //    var diffuseTexture2 = THREE.ImageUtils.loadTexture( "textures/terrain/backgrounddetailed6.jpg", null, loadTextures );
-            //    var detailTexture = THREE.ImageUtils.loadTexture( "textures/terrain/grasslight-big-nm.jpg", null, loadTextures );
+            //var diffuseTexture2 = THREE.ImageUtils.loadTexture("textures/terrain/backgrounddetailed6.jpg", null, loadTextures);
+            //var detailTexture = THREE.ImageUtils.loadTexture("textures/terrain/grasslight-big-nm.jpg", null, loadTextures);
 
             //    diffuseTexture1.wrapS = diffuseTexture1.wrapT = THREE.RepeatWrapping;
             //    diffuseTexture2.wrapS = diffuseTexture2.wrapT = THREE.RepeatWrapping;
@@ -598,23 +621,6 @@ namespace WebGLDynamicTerrainTemplate
             #endregion
 
 
-            #region loadTextures
-            //function loadTextures() {
-
-            //    textureCounter += 1;
-
-            //    if ( textureCounter == 3 )	{
-
-            //        terrain.visible = true;
-
-            //        document.getElementById( "loading" ).style.display = "none";
-
-            //    }
-
-            //}
-
-            ////
-            #endregion
 
 
             #region render
