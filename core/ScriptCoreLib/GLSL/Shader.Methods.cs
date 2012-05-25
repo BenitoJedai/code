@@ -19,6 +19,9 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+
+
+
         static protected vec3 vec3(float x, float y, float z)
         {
             throw new NotImplementedException();
@@ -29,6 +32,17 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        static protected vec3 vec3(vec2 v, float z)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        static protected vec4 vec4(vec2 x, vec2 y)
+        {
+            throw new NotImplementedException();
+        }
 
         static protected vec4 vec4(vec2 x, float y, float z)
         {
@@ -45,6 +59,10 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        static protected vec4 vec4(float x)
+        {
+            throw new NotImplementedException();
+        }
      
         // are those valid?
 

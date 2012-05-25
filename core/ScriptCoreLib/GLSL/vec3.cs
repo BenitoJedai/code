@@ -8,6 +8,8 @@ namespace ScriptCoreLib.GLSL
     using genType = Single;
     using System.Runtime.InteropServices;
 
+    // http://msdn.microsoft.com/en-us/library/microsoft.xna.framework.vector3_members.aspx
+
     [Script(IsNative = true)]
     [StructLayout(LayoutKind.Explicit)]
     public struct vec3
@@ -85,6 +87,21 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        public static vec3 operator -(vec3 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public static vec3 operator +(vec3 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
         public static vec3 operator *(vec3 x, vec3 y)
         {
             throw new NotImplementedException();
@@ -99,5 +116,20 @@ namespace ScriptCoreLib.GLSL
         {
             throw new NotImplementedException();
         }
+
+
+        
+        public vec3 yzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 xyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 zxy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 wyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 xzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+
+        public vec3 xxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 yyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+        public vec4 xxxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec4 yyyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
     }
 }

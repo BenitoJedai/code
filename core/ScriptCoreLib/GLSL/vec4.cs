@@ -64,17 +64,6 @@ namespace ScriptCoreLib.GLSL
         #endregion
 
 
-        // see
-        // http://www.opengl.org/wiki/GLSL_:_common_mistakes
-        //  fvalue1.x + fvalue1.y 
-        // Dot products are to be to be generated!
-        public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
-
-        // Dot products are to be to be generated!
-        public vec3 rgb { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
-
-        // Dot products are to be to be generated!
-        public vec3 xyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
 
         public static vec4 operator *(mat4 x, vec4 y)
         {
@@ -101,9 +90,71 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+
+
+
         public static vec4 operator +(vec4 x, vec4 y)
         {
             throw new NotImplementedException();
         }
+
+        public static vec4 operator +(vec4 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static vec4 operator +(float x, vec4 y)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public static vec4 operator -(float y, vec4 x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static vec4 operator -(vec4 x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static vec4 operator -(vec4 y, vec4 x)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        // see
+        // http://www.opengl.org/wiki/GLSL_:_common_mistakes
+        //  fvalue1.x + fvalue1.y 
+        // Dot products are to be to be generated!
+        public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+        // Dot products are to be to be generated!
+        public vec3 rgb { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+
+
+        public vec3 yzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 xyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 zxy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 wyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 xzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+
+        public vec3 xxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 yyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+        public vec4 xxxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec4 yyyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
+        public vec4 xzyw { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec4 xxyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec4 zzww { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        
+        public vec2 zw { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
     }
 }

@@ -100,6 +100,12 @@ namespace ScriptCoreLib.GLSL
 
         // Dot products are to be to be generated!
         public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        
+        public vec3 xxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 yyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        
+        public vec4 xxxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec4 yyyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
 
     }
 }
