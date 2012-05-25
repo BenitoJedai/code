@@ -98,10 +98,10 @@ namespace WebGLDynamicTerrainTemplate
 
             #region code port
 
-            //var MARGIN = 100;
+            var MARGIN = 100;
 
-            //var SCREEN_WIDTH = window.innerWidth;
-            //var SCREEN_HEIGHT = window.innerHeight - 2 * MARGIN;
+            var SCREEN_WIDTH = Native.Window.Width;
+            var SCREEN_HEIGHT = Native.Window.Height - 2 * MARGIN;
 
             //var renderer, container, stats;
 
@@ -116,84 +116,87 @@ namespace WebGLDynamicTerrainTemplate
 
             //var terrain;
 
-            //var textureCounter = 0;
+            var textureCounter = 0;
 
-            //var animDelta = 0, animDeltaDir = -1;
-            //var lightVal = 0, lightDir = 1;
-            //var soundVal = 0, oldSoundVal = 0, soundDir = 1;
+            var animDelta = 0;
+            var animDeltaDir = -1;
+            var lightVal = 0;
+            var lightDir = 1;
+            var soundVal = 0;
+            var oldSoundVal = 0;
+            var soundDir = 1;
 
-            //var clock = new THREE.Clock();
+            var clock = new THREE.Clock();
 
             //var morph, morphs = [];
 
-            //var updateNoise = true;
+            var updateNoise = true;
 
-            //var animateTerrain = false;
+            var animateTerrain = false;
 
             //var textMesh1;
 
             //var mlib = {};
 
-            //init();
-            //animate();
-
-            //function init() {
 
             //    container = document.getElementById( 'container' );
 
-            //    soundtrack = document.getElementById( "soundtrack" );
+            var soundtrack = page.soundtrack;
 
-            //    // SCENE (RENDER TARGET)
+            #region SCENE (RENDER TARGET)
 
-            //    sceneRenderTarget = new THREE.Scene();
+            var sceneRenderTarget = new THREE.Scene();
 
-            //    cameraOrtho = new THREE.OrthographicCamera( SCREEN_WIDTH / - 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / - 2, -10000, 10000 );
-            //    cameraOrtho.position.z = 100;
+            var cameraOrtho = new THREE.OrthographicCamera(SCREEN_WIDTH / -2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / -2, -10000, 10000);
+            cameraOrtho.position.z = 100;
 
-            //    sceneRenderTarget.add( cameraOrtho );
+            sceneRenderTarget.add(cameraOrtho);
+            #endregion
 
-            //    // SCENE (FINAL)
+            #region SCENE (FINAL)
 
-            //    scene = new THREE.Scene();
+            var scene = new THREE.Scene();
 
-            //    scene.fog = new THREE.Fog( 0x050505, 2000, 4000 );
-            //    scene.fog.color.setHSV( 0.102, 0.9, 0.825 );
+            scene.fog = new THREE.Fog(0x050505, 2000, 4000);
+            scene.fog.color.setHSV(0.102, 0.9, 0.825);
 
-            //    camera = new THREE.PerspectiveCamera( 40, SCREEN_WIDTH / SCREEN_HEIGHT, 2, 4000 );
-            //    camera.position.set( -1200, 800, 1200 );
+            var camera = new THREE.PerspectiveCamera(40, SCREEN_WIDTH / SCREEN_HEIGHT, 2, 4000);
+            camera.position.set(-1200, 800, 1200);
 
-            //    scene.add( camera );
+            scene.add(camera);
 
-            //    controls = new THREE.TrackballControls( camera );
-            //    controls.target.set( 0, 0, 0 );
+            var controls = new THREE.TrackballControls(camera);
+            controls.target.set(0, 0, 0);
 
-            //    controls.rotateSpeed = 1.0;
-            //    controls.zoomSpeed = 1.2;
-            //    controls.panSpeed = 0.8;
+            controls.rotateSpeed = 1.0;
+            controls.zoomSpeed = 1.2;
+            controls.panSpeed = 0.8;
 
-            //    controls.noZoom = false;
-            //    controls.noPan = false;
+            controls.noZoom = false;
+            controls.noPan = false;
 
-            //    controls.staticMoving = false;
-            //    controls.dynamicDampingFactor = 0.15;
+            controls.staticMoving = false;
+            controls.dynamicDampingFactor = 0.15;
 
-            //    controls.keys = [ 65, 83, 68 ];
+            controls.keys = new[] { 65, 83, 68 };
+            #endregion
 
-            //    // LIGHTS
+            #region LIGHTS
 
-            //    scene.add( new THREE.AmbientLight( 0x111111 ) );
+            scene.add(new THREE.AmbientLight(0x111111));
 
-            //    spotLight = new THREE.SpotLight( 0xffffff, 1.15 );
-            //    spotLight.position.set( 500, 2000, 0 );
-            //    spotLight.castShadow = true;
-            //    scene.add( spotLight );
+            var spotLight = new THREE.SpotLight(0xffffff, 1.15);
+            spotLight.position.set(500, 2000, 0);
+            spotLight.castShadow = true;
+            scene.add(spotLight);
 
-            //    pointLight = new THREE.PointLight( 0xff4400, 1.5 );
-            //    pointLight.position.set( 0, 0, 0 );
-            //    scene.add( pointLight );
+            var pointLight = new THREE.PointLight(0xff4400, 1.5);
+            pointLight.position.set(0, 0, 0);
+            scene.add(pointLight);
 
+            #endregion
 
-            //    // HEIGHT + NORMAL MAPS
+            #region HEIGHT + NORMAL MAPS
 
             //    var normalShader = THREE.ShaderExtras[ 'normalmap' ];
 
@@ -218,8 +221,9 @@ namespace WebGLDynamicTerrainTemplate
             //    uniformsNormal.heightMap.texture = heightMap;
 
             //    var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+            #endregion
 
-            //    // TEXTURES
+            #region TEXTURES
 
             //    var specularMap = new THREE.WebGLRenderTarget( 2048, 2048, pars );
 
@@ -237,8 +241,9 @@ namespace WebGLDynamicTerrainTemplate
             //    diffuseTexture2.wrapS = diffuseTexture2.wrapT = THREE.RepeatWrapping;
             //    detailTexture.wrapS = detailTexture.wrapT = THREE.RepeatWrapping;
             //    specularMap.wrapS = specularMap.wrapT = THREE.RepeatWrapping;
+            #endregion
 
-            //    // TERRAIN SHADER
+            #region TERRAIN SHADER
 
             //    var terrainShader = THREE.ShaderTerrain[ "terrain" ];
 
@@ -295,8 +300,9 @@ namespace WebGLDynamicTerrainTemplate
             //    quadTarget = new THREE.Mesh( plane, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
             //    quadTarget.position.z = -500;
             //    sceneRenderTarget.addObject( quadTarget );
+            #endregion
 
-            //    // TERRAIN MESH
+            #region TERRAIN MESH
 
             //    var geometryTerrain = new THREE.PlaneGeometry( 6000, 6000, 256, 256 );
             //    geometryTerrain.computeFaceNormals();
@@ -308,8 +314,9 @@ namespace WebGLDynamicTerrainTemplate
             //    terrain.position.set( 0, -125, 0 );
             //    terrain.visible = false;
             //    scene.add( terrain );
+            #endregion
 
-            //    // RENDERER
+            #region RENDERER
 
             //    renderer = new THREE.WebGLRenderer();
             //    renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
@@ -325,9 +332,10 @@ namespace WebGLDynamicTerrainTemplate
 
             //    renderer.gammaInput = true;
             //    renderer.gammaOutput = true;
+            #endregion
 
 
-            //    // STATS
+#region STATS
 
             //    stats = new Stats();
             //    stats.domElement.style.position = 'absolute';
@@ -337,16 +345,18 @@ namespace WebGLDynamicTerrainTemplate
             //    stats.domElement.children[ 0 ].children[ 0 ].style.color = "#aaa";
             //    stats.domElement.children[ 0 ].style.background = "transparent";
             //    stats.domElement.children[ 0 ].children[ 1 ].style.display = "none";
+#endregion
 
-            //    // EVENTS
+            #region EVENTS
 
             //    onWindowResize();
 
             //    window.addEventListener( 'resize', onWindowResize, false );
 
             //    document.addEventListener( 'keydown', onKeyDown, false );
+            #endregion
 
-            //    // COMPOSER
+            #region COMPOSER
 
             //    renderer.autoClear = false;
 
@@ -383,9 +393,9 @@ namespace WebGLDynamicTerrainTemplate
 
             //    composer.addPass( hblur );
             //    composer.addPass( vblur );
+            #endregion
 
-            //    // MORPHS
-
+            #region addMorph
             //    function addMorph( geometry, speed, duration, x, y, z ) {
 
             //        var material = new THREE.MeshLambertMaterial( { color: 0xffaa55, morphTargets: true, vertexColors: THREE.FaceColors } );
@@ -409,7 +419,9 @@ namespace WebGLDynamicTerrainTemplate
             //        renderer.initWebGLObjects( scene );
 
             //    }
+            #endregion
 
+            #region morphColorsToFaceColors
             //    function morphColorsToFaceColors( geometry ) {
 
             //        if ( geometry.morphColors && geometry.morphColors.length ) {
@@ -425,6 +437,7 @@ namespace WebGLDynamicTerrainTemplate
             //        }
 
             //    }
+            #endregion
 
             //    var loader = new THREE.JSONLoader();
 
@@ -458,10 +471,10 @@ namespace WebGLDynamicTerrainTemplate
 
             //    renderer.initWebGLObjects( scene );
 
-            //}
 
-            ////
 
+
+            #region onWindowResize
             //function onWindowResize( event ) {
 
             //    SCREEN_WIDTH = window.innerWidth;
@@ -475,7 +488,10 @@ namespace WebGLDynamicTerrainTemplate
             //}
 
             ////
+            #endregion
 
+
+            #region onKeyDown
             //function onKeyDown ( event ) {
 
             //    switch( event.keyCode ) {
@@ -489,7 +505,9 @@ namespace WebGLDynamicTerrainTemplate
             //};
 
             ////
+            #endregion
 
+            #region applyShader
             //function applyShader( shader, texture, target ) {
 
             //    var shaderMaterial = new THREE.ShaderMaterial( {
@@ -513,7 +531,10 @@ namespace WebGLDynamicTerrainTemplate
             //};
 
             ////
+            #endregion
 
+
+            #region loadTextures
             //function loadTextures() {
 
             //    textureCounter += 1;
@@ -529,16 +550,10 @@ namespace WebGLDynamicTerrainTemplate
             //}
 
             ////
+            #endregion
 
-            //function animate() {
 
-            //    requestAnimationFrame( animate );
-
-            //    render();
-            //    stats.update();
-
-            //}
-
+            #region render
             //function render() {
 
             //    var delta = clock.getDelta();
@@ -621,6 +636,23 @@ namespace WebGLDynamicTerrainTemplate
             //    }
 
             //}
+            #endregion
+
+
+            #region animate
+            //function animate() {
+
+            //    requestAnimationFrame( animate );
+
+            //    render();
+            //    stats.update();
+
+            //}
+            #endregion
+
+
+            //animate();
+
 
             #endregion
 
@@ -683,6 +715,7 @@ namespace WebGLDynamicTerrainTemplate
         bool IsDisposed = false;
 
         public Action Dispose;
+        private THREE.Fog fog;
 
     }
 }

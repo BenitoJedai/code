@@ -99,11 +99,51 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.TrackballControls")]
+        class TrackballControls
+        {
+            public Vector3 target;
+
+            private PerspectiveCamera camera;
+            public double rotateSpeed;
+            public double zoomSpeed;
+            public double panSpeed;
+            public bool noZoom;
+            public bool noPan;
+            public bool staticMoving;
+            public double dynamicDampingFactor;
+            public int[] keys;
+
+            public TrackballControls(PerspectiveCamera camera)
+            {
+                // TODO: Complete member initialization
+                this.camera = camera;
+            }
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.Fog")]
+        class Fog
+        {
+            private int p1;
+            private int p2;
+            private int p3;
+
+            public Fog(int p1, int p2, int p3)
+            {
+                // TODO: Complete member initialization
+                this.p1 = p1;
+                this.p2 = p2;
+                this.p3 = p3;
+            }
+
+            public Color color;
+        }
+
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.Scene")]
         class Scene
         {
             public object lights;
-            public object fog;
+            public Fog fog;
             public Mesh[] objects;
             public Vector3 position;
 
@@ -128,6 +168,26 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
 
             internal void add(PointLight pointLight)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void add(OrthographicCamera cameraOrtho)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void add(PerspectiveCamera camera)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void add(AmbientLight ambientLight)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void add(SpotLight spotLight)
             {
                 throw new NotImplementedException();
             }
@@ -206,6 +266,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
 
             }
+
+            internal void setHSV(double p1, double p2, double p3)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -244,8 +309,41 @@ namespace WebGLDynamicTerrainTemplate.Design
 
             }
 
+            public PointLight(int p1, double p2)
+            {
+                // TODO: Complete member initialization
+                this.p1 = p1;
+                this.p2 = p2;
+            }
+
             public Vector3 position;
             public object color;
+            private int p1;
+            private double p2;
+
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.OrthographicCamera")]
+        class OrthographicCamera
+        {
+            private int p1;
+            private int p2;
+            private int p3;
+            private int p4;
+            private int p5;
+            private int p6;
+
+            public OrthographicCamera(int p1, int p2, int p3, int p4, int p5, int p6)
+            {
+                // TODO: Complete member initialization
+                this.p1 = p1;
+                this.p2 = p2;
+                this.p3 = p3;
+                this.p4 = p4;
+                this.p5 = p5;
+                this.p6 = p6;
+            }
+            public Vector3 position;
 
         }
 
@@ -273,6 +371,23 @@ namespace WebGLDynamicTerrainTemplate.Design
             internal void lookAt(Vector3 vector3)
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.SpotLight")]
+        class SpotLight
+        {
+            private int p1;
+            private double p2;
+
+            public Vector3 position;
+            public bool castShadow;
+
+            public SpotLight(int p1, double p2)
+            {
+                // TODO: Complete member initialization
+                this.p1 = p1;
+                this.p2 = p2;
             }
         }
 
