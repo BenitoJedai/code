@@ -21,6 +21,7 @@ namespace WebGLDynamicTerrainTemplate
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
+    using WebGLDynamicTerrainTemplate.Design.THREE;
 
 
 
@@ -48,9 +49,9 @@ namespace WebGLDynamicTerrainTemplate
                 new global::WebGLDynamicTerrainTemplate.Design.ShaderTerrain().Content,
                 new global::WebGLDynamicTerrainTemplate.Design.ShaderExtrasTerrain().Content,
                 new global::WebGLDynamicTerrainTemplate.Design.PostprocessingTerrain().Content,
-                new global::WebGLDynamicTerrainTemplate.Models.flamingo().Content,
-                new global::WebGLDynamicTerrainTemplate.Models.parrot().Content,
-                new global::WebGLDynamicTerrainTemplate.Models.stork().Content,
+                //new global::WebGLDynamicTerrainTemplate.Models.flamingo().Content,
+                //new global::WebGLDynamicTerrainTemplate.Models.parrot().Content,
+                //new global::WebGLDynamicTerrainTemplate.Models.stork().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
@@ -78,6 +79,24 @@ namespace WebGLDynamicTerrainTemplate
             );
         }
 
+        sealed class MyModelGeometryColorMap
+        {
+            public object[] colors;
+        }
+
+        sealed class MyModelGeometryFace
+        {
+            public object color;
+        }
+
+
+        sealed class MyModelGeometry
+        {
+            public MyModelGeometryColorMap[] morphColors;
+            public MyModelGeometryFace[] faces;
+        }
+
+
         void InitializeContent(IDefaultPage page = null)
         {
             #region make sure we atleast have our invisible DOM
@@ -98,10 +117,8 @@ namespace WebGLDynamicTerrainTemplate
 
             #region code port
 
-            var MARGIN = 100;
-
             var SCREEN_WIDTH = Native.Window.Width;
-            var SCREEN_HEIGHT = Native.Window.Height - 2 * MARGIN;
+            var SCREEN_HEIGHT = Native.Window.Height /*- 2 * MARGIN*/;
 
             //var renderer, container, stats;
 
@@ -128,7 +145,8 @@ namespace WebGLDynamicTerrainTemplate
 
             var clock = new THREE.Clock();
 
-            //var morph, morphs = [];
+            //var morph, 
+            var morphs = new List<MorphAnimMesh>();
 
             var updateNoise = true;
 
@@ -347,23 +365,15 @@ namespace WebGLDynamicTerrainTemplate
             //    stats.domElement.children[ 0 ].children[ 1 ].style.display = "none";
             #endregion
 
-            #region EVENTS
-
-            //    onWindowResize();
-
-            //    window.addEventListener( 'resize', onWindowResize, false );
-
-            //    document.addEventListener( 'keydown', onKeyDown, false );
-            #endregion
-
+          
             #region COMPOSER
 
-                renderer.autoClear = false;
+            renderer.autoClear = false;
 
             //    renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBufer: false };
             //    renderTarget = new THREE.WebGLRenderTarget( SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters );
 
-                //var effectBloom = new THREE.BloomPass( 0.6 );
+            //var effectBloom = new THREE.BloomPass( 0.6 );
             //    var effectBleach = new THREE.ShaderPass( THREE.ShaderExtras[ "bleachbypass" ] );
 
             //    hblur = new THREE.ShaderPass( THREE.ShaderExtras[ "horizontalTiltShift" ] );
@@ -395,99 +405,143 @@ namespace WebGLDynamicTerrainTemplate
             //    composer.addPass( vblur );
             #endregion
 
+            var r = new Random();
+
+            Func<f> Math_random = () => (f)r.NextDouble();
+
+            var THREE_FaceColors = 1;
+
+
             #region addMorph
-            //    function addMorph( geometry, speed, duration, x, y, z ) {
 
-            //        var material = new THREE.MeshLambertMaterial( { color: 0xffaa55, morphTargets: true, vertexColors: THREE.FaceColors } );
+            Action<MyModelGeometry, f, f, f, f, f> addMorph = (geometry, speed, duration, x, y, z) =>
+            {
 
-            //        var meshAnim = new THREE.MorphAnimMesh( geometry, material );
+                var material = new THREE.MeshLambertMaterial(
+                    new MeshLambertMaterialArguments
+                    {
+                        color = 0xffaa55,
+                        morphTargets = true,
+                        vertexColors = THREE_FaceColors
+                    }
+                );
 
-            //        meshAnim.speed = speed;
-            //        meshAnim.duration = duration;
-            //        meshAnim.time = 600 * Math.random();
 
-            //        meshAnim.position.set( x, y, z );
-            //        meshAnim.rotation.y = Math.PI/2;
+                var meshAnim = new THREE.MorphAnimMesh(geometry, material);
 
-            //        meshAnim.castShadow = true;
-            //        meshAnim.receiveShadow = false;
+                meshAnim.speed = speed;
+                meshAnim.duration = duration;
+                meshAnim.time = 600 * Math_random();
 
-            //        scene.add( meshAnim );
+                meshAnim.position.set(x, y, z);
+                meshAnim.rotation.y = (f)(Math.PI / 2f);
 
-            //        morphs.push( meshAnim );
+                meshAnim.castShadow = true;
+                meshAnim.receiveShadow = false;
 
-            //        renderer.initWebGLObjects( scene );
+                scene.add(meshAnim);
 
-            //    }
+                morphs.Add(meshAnim);
+
+                renderer.initWebGLObjects(scene);
+
+            };
             #endregion
 
             #region morphColorsToFaceColors
-            //    function morphColorsToFaceColors( geometry ) {
 
-            //        if ( geometry.morphColors && geometry.morphColors.length ) {
+            Action<MyModelGeometry> morphColorsToFaceColors = (geometry) =>
+            {
 
-            //            var colorMap = geometry.morphColors[ 0 ];
+                if (geometry.morphColors != null)
+                    if (geometry.morphColors.Length > 0)
+                    {
 
-            //            for ( var i = 0; i < colorMap.colors.length; i ++ ) {
+                        var colorMap = geometry.morphColors[0];
 
-            //                geometry.faces[ i ].color = colorMap.colors[ i ];
+                        for (var i = 0; i < colorMap.colors.Length; i++)
+                        {
 
-            //            }
+                            geometry.faces[i].color = colorMap.colors[i];
 
-            //        }
+                        }
 
-            //    }
+                    }
+
+            };
             #endregion
 
-            //    var loader = new THREE.JSONLoader();
+            #region Models
+            var loader = new THREE.JSONLoader();
 
-            //    var startX = -3000;
-
-            //    loader.load( "models/animated/parrot.js", function( geometry ) {
-
-            //        morphColorsToFaceColors( geometry );
-            //        addMorph( geometry, 250, 500, startX -500, 500, 700 );
-            //        addMorph( geometry, 250, 500, startX - Math.random() * 500, 500, -200 );
-            //        addMorph( geometry, 250, 500, startX - Math.random() * 500, 500, 200 );
-            //        addMorph( geometry, 250, 500, startX - Math.random() * 500, 500, 1000 );
-
-            //    } );
-
-            //    loader.load( "models/animated/flamingo.js", function( geometry ) {
-
-            //        morphColorsToFaceColors( geometry );
-            //        addMorph( geometry, 500, 1000, startX - Math.random() * 500, 350, 40 );
-
-            //    } );
-
-            //    loader.load( "models/animated/stork.js", function( geometry ) {
-
-            //        morphColorsToFaceColors( geometry );
-            //        addMorph( geometry, 350, 1000, startX - Math.random() * 500, 350, 340 );
-
-            //    } );
-
-            //    // PRE-INIT
-
-            //    renderer.initWebGLObjects( scene );
+            var startX = -3000;
 
 
+            loader.load(
+                new THREE.JSONLoaderArguments
+                {
+                    model = new Models.parrot().Content.src,
+                    callback = IFunction.OfDelegate(
+                        new Action<MyModelGeometry>(
+                            geometry =>
+                            {
+                                morphColorsToFaceColors(geometry);
+
+                                addMorph(geometry, 250, 500, startX - 500, 500, 700);
+                                addMorph(geometry, 250, 500, startX - Math_random() * 500, 500, -200);
+                                addMorph(geometry, 250, 500, startX - Math_random() * 500, 500, 200);
+                                addMorph(geometry, 250, 500, startX - Math_random() * 500, 500, 1000);
+                            }
+                        )
+                    )
+                }
+            );
+
+            loader.load(
+                new THREE.JSONLoaderArguments
+                {
+                    model = new Models.flamingo().Content.src,
+                    callback = IFunction.OfDelegate(
+                        new Action<MyModelGeometry>(
+                            geometry =>
+                            {
+                                morphColorsToFaceColors(geometry);
+                                addMorph(geometry, 500, 1000, startX - Math_random() * 500, 350, 40);
+                            }
+                        )
+                    )
+                }
+            );
 
 
-            #region onWindowResize
-            //function onWindowResize( event ) {
+            loader.load(
+                   new THREE.JSONLoaderArguments
+                   {
+                       model = new Models.stork().Content.src,
+                       callback = IFunction.OfDelegate(
+                           new Action<MyModelGeometry>(
+                               geometry =>
+                               {
+                                   morphColorsToFaceColors(geometry);
+                                   addMorph(geometry, 350, 1000, startX - Math_random() * 500, 350, 340);
+                               }
+                           )
+                       )
+                   }
+               );
+            #endregion
 
-            //    SCREEN_WIDTH = window.innerWidth;
-            //    SCREEN_HEIGHT = window.innerHeight - 2 * MARGIN;
 
-            //    renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 
-            //    camera.aspect = SCREEN_WIDTH / SCREEN_HEIGHT;
-            //    camera.updateProjectionMatrix();
+            // PRE-INIT
 
-            //}
+            renderer.initWebGLObjects(scene);
 
-            ////
+
+            #region EVENTS
+
+
+            //    document.addEventListener( 'keydown', onKeyDown, false );
             #endregion
 
 
@@ -674,15 +728,20 @@ namespace WebGLDynamicTerrainTemplate
             };
             #endregion
 
+
+
+
+
+
             #region AtResize
             Action AtResize = delegate
             {
                 container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
+                renderer.setSize(Native.Window.Width, Native.Window.Height);
+
                 camera.aspect = Native.Window.Width / Native.Window.Height;
                 camera.updateProjectionMatrix();
-
-                renderer.setSize(Native.Window.Width, Native.Window.Height);
             };
 
             Native.Window.onresize +=
