@@ -11,6 +11,8 @@ using ScriptCoreLib.JavaScript.DOM;
 
 namespace WebGLDynamicTerrainTemplate.Design
 {
+    using f = System.Single;
+
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     internal class __Three : global::WebGLDynamicTerrainTemplate.Design.ThreeTerrain
     {
@@ -44,6 +46,8 @@ namespace WebGLDynamicTerrainTemplate.Design
         sealed class MeshLambertMaterialArguments
         {
             public int color;
+            public bool morphTargets;
+            public int vertexColors;
         }
 
 
@@ -54,6 +58,27 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
 
             }
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.MorphAnimMesh")]
+        class MorphAnimMesh
+        {
+            private MeshLambertMaterial material;
+            public float speed;
+            public float duration;
+            public double time;
+
+            public Vector3 position;
+            public Vector3 rotation;
+            public bool castShadow;
+            public bool receiveShadow;
+
+            public MorphAnimMesh(object geometry, MeshLambertMaterial material)
+            {
+                // TODO: Complete member initialization
+                this.material = material;
+            }
+          
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.PlaneGeometry")]
@@ -120,7 +145,7 @@ namespace WebGLDynamicTerrainTemplate.Design
             public float y;
             public float z;
 
-            internal void set(int p, int p_2, int p_3)
+            internal void set(f p, f p_2, f p_3)
             {
                 throw new NotImplementedException();
             }
@@ -223,6 +248,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 throw new NotImplementedException();
             }
+
+            internal void add(MorphAnimMesh meshAnim)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.WebGLRenderer")]
@@ -254,6 +284,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
 
             internal void setClearColor(Color color, int p)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void initWebGLObjects(Scene scene)
             {
                 throw new NotImplementedException();
             }
