@@ -16,9 +16,15 @@ namespace WebGLDynamicTerrainTemplate.Design
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     internal class __Three : global::WebGLDynamicTerrainTemplate.Design.ThreeTerrain
     {
-
+        [Script(OptimizedCode = "THREE.ShaderExtras")]
+        public static THREE.ShaderExtras ShaderExtras;
+        [Script(OptimizedCode = "THREE.ShaderTerrain")]
+        public static THREE.ShaderTerrain ShaderTerrain;
+        [Script(OptimizedCode = "THREE.Math")]
+        public static THREE.Math Math;
 
     }
+
 
     #region THREE natives from Three.js
 
@@ -43,6 +49,25 @@ namespace WebGLDynamicTerrainTemplate.Design
 
     namespace THREE
     {
+        class Math
+        {
+
+            internal int clamp(f p1, int p2, int p3)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class ShaderExtras
+        {
+            public object normalmap;
+        }
+
+        class ShaderTerrain
+        {
+            public object terrain;
+        }
+        
         sealed class MeshLambertMaterialArguments
         {
             public int color;
@@ -88,6 +113,8 @@ namespace WebGLDynamicTerrainTemplate.Design
             private int p2;
             private int p3;
             private int p4;
+            private int SCREEN_WIDTH;
+            private int SCREEN_HEIGHT;
 
             public PlaneGeometry(int p1, int p2, int p3, int p4)
             {
@@ -96,6 +123,13 @@ namespace WebGLDynamicTerrainTemplate.Design
                 this.p2 = p2;
                 this.p3 = p3;
                 this.p4 = p4;
+            }
+
+            public PlaneGeometry(int SCREEN_WIDTH, int SCREEN_HEIGHT)
+            {
+                // TODO: Complete member initialization
+                this.SCREEN_WIDTH = SCREEN_WIDTH;
+                this.SCREEN_HEIGHT = SCREEN_HEIGHT;
             }
 
             internal void computeFaceNormals()
@@ -254,6 +288,44 @@ namespace WebGLDynamicTerrainTemplate.Design
                 throw new NotImplementedException();
             }
         }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.BloomPass")]
+        class BloomPass
+        {
+            private double p;
+
+            public BloomPass(double p)
+            {
+                // TODO: Complete member initialization
+                this.p = p;
+            }
+
+        }
+
+        sealed class WebGLRenderTargetArguments
+        {
+            public int minFilter;
+            public int magFilter;
+            public int format;
+            public bool stencilBufer; 
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.WebGLRenderTarget")]
+        class WebGLRenderTarget
+        {
+            private int SCREEN_WIDTH;
+            private int SCREEN_HEIGHT;
+            private WebGLRenderTargetArguments renderTargetParameters;
+
+            public WebGLRenderTarget(int SCREEN_WIDTH, int SCREEN_HEIGHT, WebGLRenderTargetArguments renderTargetParameters)
+            {
+                // TODO: Complete member initialization
+                this.SCREEN_WIDTH = SCREEN_WIDTH;
+                this.SCREEN_HEIGHT = SCREEN_HEIGHT;
+                this.renderTargetParameters = renderTargetParameters;
+            }
+        }
+
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.WebGLRenderer")]
         class WebGLRenderer
@@ -534,6 +606,29 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+
+        sealed class MeshBasicMaterialArguments
+        {
+            public int color;
+
+
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.MeshBasicMaterial")]
+        class MeshBasicMaterial
+        {
+            private MeshBasicMaterialArguments meshBasicMaterialArguments;
+
+            public MeshBasicMaterial(MeshBasicMaterialArguments meshBasicMaterialArguments)
+            {
+                // TODO: Complete member initialization
+                this.meshBasicMaterialArguments = meshBasicMaterialArguments;
+            }
+
+
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.MeshFaceMaterial")]
