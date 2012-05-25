@@ -56,6 +56,38 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.PlaneGeometry")]
+        class PlaneGeometry
+        {
+            private int p1;
+            private int p2;
+            private int p3;
+            private int p4;
+
+            public PlaneGeometry(int p1, int p2, int p3, int p4)
+            {
+                // TODO: Complete member initialization
+                this.p1 = p1;
+                this.p2 = p2;
+                this.p3 = p3;
+                this.p4 = p4;
+            }
+
+            internal void computeFaceNormals()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void computeVertexNormals()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void computeTangents()
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.CubeGeometry")]
         class CubeGeometry
@@ -198,6 +230,8 @@ namespace WebGLDynamicTerrainTemplate.Design
         {
             public IHTMLElement domElement;
             public bool autoClear;
+            public bool gammaInput;
+            public bool gammaOutput;
 
             internal void initMaterial(MeshShaderMaterial material_base, object p, object p_2)
             {
@@ -215,6 +249,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
 
             internal void clear()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void setClearColor(Color color, int p)
             {
                 throw new NotImplementedException();
             }
