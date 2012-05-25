@@ -125,12 +125,12 @@ namespace WebGLDynamicTerrainTemplate
                     running = !running;
                     if (running)
                     {
-                        page.song.play();
+                        //page.song.play();
                         page.song2.pause();
                     }
                     else
                     {
-                        page.song.pause();
+                        //page.song.pause();
                         page.song2.play();
                     }
                 };
@@ -532,7 +532,7 @@ namespace WebGLDynamicTerrainTemplate
 
                 IsDisposed = true;
 
-                page.song.pause();
+                //page.song.pause();
                 page.song2.pause();
 
                 container.Orphanize();
