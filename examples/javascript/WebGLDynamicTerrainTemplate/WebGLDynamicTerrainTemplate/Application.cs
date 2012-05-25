@@ -304,10 +304,10 @@ namespace WebGLDynamicTerrainTemplate
 
             #region TERRAIN MESH
 
-            //    var geometryTerrain = new THREE.PlaneGeometry( 6000, 6000, 256, 256 );
-            //    geometryTerrain.computeFaceNormals();
-            //    geometryTerrain.computeVertexNormals();
-            //    geometryTerrain.computeTangents();
+            var geometryTerrain = new THREE.PlaneGeometry(6000, 6000, 256, 256);
+            geometryTerrain.computeFaceNormals();
+            geometryTerrain.computeVertexNormals();
+            geometryTerrain.computeTangents();
 
             //    terrain = new THREE.Mesh( geometryTerrain, mlib[ "terrain" ] );
             //    terrain.rotation.set( -Math.PI/2, 0, 0 );
@@ -318,24 +318,24 @@ namespace WebGLDynamicTerrainTemplate
 
             #region RENDERER
 
-            //    renderer = new THREE.WebGLRenderer();
-            //    renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
-            //    renderer.setClearColor( scene.fog.color, 1 );
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            renderer.setClearColor(scene.fog.color, 1);
 
             //    renderer.domElement.style.position = "absolute";
             //    renderer.domElement.style.top = MARGIN + "px";
             //    renderer.domElement.style.left = "0px";
 
-            //    container.appendChild( renderer.domElement );
+            container.appendChild(renderer.domElement);
 
             //    //
 
-            //    renderer.gammaInput = true;
-            //    renderer.gammaOutput = true;
+            renderer.gammaInput = true;
+            renderer.gammaOutput = true;
             #endregion
 
 
-#region STATS
+            #region STATS
 
             //    stats = new Stats();
             //    stats.domElement.style.position = 'absolute';
@@ -345,7 +345,7 @@ namespace WebGLDynamicTerrainTemplate
             //    stats.domElement.children[ 0 ].children[ 0 ].style.color = "#aaa";
             //    stats.domElement.children[ 0 ].style.background = "transparent";
             //    stats.domElement.children[ 0 ].children[ 1 ].style.display = "none";
-#endregion
+            #endregion
 
             #region EVENTS
 
@@ -358,12 +358,12 @@ namespace WebGLDynamicTerrainTemplate
 
             #region COMPOSER
 
-            //    renderer.autoClear = false;
+                renderer.autoClear = false;
 
             //    renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBufer: false };
             //    renderTarget = new THREE.WebGLRenderTarget( SCREEN_WIDTH, SCREEN_HEIGHT, renderTargetParameters );
 
-            //    effectBloom = new THREE.BloomPass( 0.6 );
+                //var effectBloom = new THREE.BloomPass( 0.6 );
             //    var effectBleach = new THREE.ShaderPass( THREE.ShaderExtras[ "bleachbypass" ] );
 
             //    hblur = new THREE.ShaderPass( THREE.ShaderExtras[ "horizontalTiltShift" ] );
@@ -668,7 +668,7 @@ namespace WebGLDynamicTerrainTemplate
                 IsDisposed = true;
 
                 //page.song.pause();
-                page.song2.pause();
+                page.soundtrack.pause();
 
                 container.Orphanize();
             };
@@ -679,10 +679,10 @@ namespace WebGLDynamicTerrainTemplate
             {
                 container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
-                //camera.aspect = Native.Window.Width / Native.Window.Height;
-                //camera.updateProjectionMatrix();
+                camera.aspect = Native.Window.Width / Native.Window.Height;
+                camera.updateProjectionMatrix();
 
-                //renderer.setSize(Native.Window.Width, Native.Window.Height);
+                renderer.setSize(Native.Window.Width, Native.Window.Height);
             };
 
             Native.Window.onresize +=
