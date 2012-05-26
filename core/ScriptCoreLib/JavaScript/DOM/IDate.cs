@@ -34,6 +34,8 @@ namespace ScriptCoreLib.JavaScript.DOM
         public int getMonth() { return default(int); }
         public int getFullYear() { return default(int); }
 
+        //public int now() { return default(int); }
+
 
         public long getTime()
         {

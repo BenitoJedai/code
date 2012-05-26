@@ -118,8 +118,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Shaders\NoiseFragmentShader.cs" />
-    <Compile Include="Shaders\NoiseVertexShader.cs" />
+    <Compile Include="Shaders\NoiseFragmentShader.cs">
+      <DependentUpon>Noise.frag</DependentUpon>
+    </Compile>
+    <Compile Include="Shaders\NoiseVertexShader.cs">
+      <DependentUpon>Noise.vert</DependentUpon>
+    </Compile>
     <Content Include="Audio\Five_Armies.mp3" />
     <Content Include="Design\ShaderExtrasTerrain.js" />
     <Content Include="Design\ShaderTerrain.js" />
@@ -149,7 +153,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
 )
 
 if $(ConfigurationName)==Release (
