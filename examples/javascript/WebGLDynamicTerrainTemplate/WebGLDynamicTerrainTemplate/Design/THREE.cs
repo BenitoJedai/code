@@ -64,6 +64,16 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 throw new NotImplementedException();
             }
+
+            internal int clamp(double p, double fLow, double fHigh)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal double mapLinear(double valNorm, int p1, int p2, double p3, double p4)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -76,7 +86,7 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
- 
+
 
         [Script(HasNoPrototype = true)]
         class UniformsUtilsModule
@@ -98,11 +108,30 @@ namespace WebGLDynamicTerrainTemplate.Design
 
         sealed class ShaderExtrasModuleItem_uniforms
         {
-            public ShaderExtrasModuleItem_uniforms_item heightMap;
-            public ShaderExtrasModuleItem_uniforms_item resolution;
-            public ShaderExtrasModuleItem_uniforms_item scale;
-            public ShaderExtrasModuleItem_uniforms_item height;
-            public ShaderExtrasModuleItem_uniforms_item tDiffuse;
+            public ShaderExtrasModuleItem_uniforms_item
+                opacity,
+                r,
+                h,
+                v,
+                uShininess,
+                uDisplacementScale,
+
+                enableDiffuse1,
+                enableDiffuse2,
+                enableSpecular,
+                uOffset,
+                heightMap,
+             resolution,
+             scale,
+             height,
+             tDiffuse,
+             tDiffuse1,
+             tDiffuse2,
+             tSpecular,
+             tDetail,
+             tDisplacement,
+             tNormal,
+             uNormalScale;
         }
 
         sealed class ShaderExtrasModuleItem
@@ -114,13 +143,18 @@ namespace WebGLDynamicTerrainTemplate.Design
 
         sealed class ShaderExtrasModule
         {
-            public ShaderExtrasModuleItem normalmap;
-            public ShaderExtrasModuleItem luminosity;
+
+            public ShaderExtrasModuleItem 
+                horizontalTiltShift,
+                verticalTiltShift,
+                luminosity,
+                bleachbypass,
+                normalmap;
         }
 
         sealed class ShaderTerrainModule
         {
-            public object terrain;
+            public ShaderExtrasModuleItem terrain;
         }
 
     }
@@ -165,6 +199,11 @@ namespace WebGLDynamicTerrainTemplate.Design
                 this.material = material;
             }
 
+
+            internal void updateAnimation(f p)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.PlaneGeometry")]
@@ -272,6 +311,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 throw new NotImplementedException();
             }
+
+            internal void set(double p1, double p2, double p3)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.TrackballControls")]
@@ -293,6 +337,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 // TODO: Complete member initialization
                 this.camera = camera;
+            }
+
+            internal void update()
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -405,6 +454,8 @@ namespace WebGLDynamicTerrainTemplate.Design
             private int SCREEN_WIDTH;
             private int SCREEN_HEIGHT;
             private WebGLRenderTargetArguments renderTargetParameters;
+            public int wrapS;
+            public int wrapT;
 
             public WebGLRenderTarget(int SCREEN_WIDTH, int SCREEN_HEIGHT, WebGLRenderTargetArguments renderTargetParameters)
             {
@@ -484,7 +535,24 @@ namespace WebGLDynamicTerrainTemplate.Design
             public object fragmentShader;
             public object vertexShader;
             public ShaderExtrasModuleItem_uniforms uniforms;
+            public bool fog;
+            public object lights;
 
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.ShaderPass")]
+        class ShaderPass
+        {
+            private ShaderExtrasModuleItem shaderExtrasModuleItem;
+            public ShaderExtrasModuleItem_uniforms uniforms;
+            public bool renderToScreen;
+
+            public ShaderPass(ShaderExtrasModuleItem shaderExtrasModuleItem)
+            {
+                // TODO: Complete member initialization
+                this.shaderExtrasModuleItem = shaderExtrasModuleItem;
+            }
+        
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.ShaderMaterial")]
@@ -505,6 +573,8 @@ namespace WebGLDynamicTerrainTemplate.Design
             public Vector3 position;
             public Vector3 rotation;
             public bool overdraw;
+            public bool visible;
+            public ShaderMaterial material;
 
 
             public Mesh(object value, object x)
@@ -579,6 +649,7 @@ namespace WebGLDynamicTerrainTemplate.Design
             public object color;
             private int p1;
             private double p2;
+            public double intensity;
 
         }
 
@@ -641,6 +712,7 @@ namespace WebGLDynamicTerrainTemplate.Design
 
             public Vector3 position;
             public bool castShadow;
+            public double intensity;
 
             public SpotLight(int p1, double p2)
             {
@@ -698,9 +770,19 @@ namespace WebGLDynamicTerrainTemplate.Design
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.EffectComposer")]
         class EffectComposer
         {
+            private WebGLRenderer renderer;
+            private WebGLRenderTarget renderTarget;
+
 
             public EffectComposer(WebGLRenderer renderer)
             {
+            }
+
+            public EffectComposer(WebGLRenderer renderer, WebGLRenderTarget renderTarget)
+            {
+                // TODO: Complete member initialization
+                this.renderer = renderer;
+                this.renderTarget = renderTarget;
             }
 
 
@@ -716,6 +798,21 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
 
             internal void render(long delta)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void addPass(BloomPass effectBloom)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void addPass(ShaderPass hblur)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void render(double p)
             {
                 throw new NotImplementedException();
             }
