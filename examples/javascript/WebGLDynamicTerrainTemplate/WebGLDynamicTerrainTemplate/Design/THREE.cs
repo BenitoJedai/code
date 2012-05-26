@@ -14,14 +14,17 @@ namespace WebGLDynamicTerrainTemplate.Design
     using f = System.Single;
 
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
-    internal class __Three : global::WebGLDynamicTerrainTemplate.Design.ThreeTerrain
+    internal class __THREE // : global::WebGLDynamicTerrainTemplate.Design.ThreeTerrain
     {
         [Script(OptimizedCode = "THREE.ShaderExtras")]
-        public static THREE.ShaderExtras ShaderExtras;
+        public static THREE.ShaderExtrasModule ShaderExtras;
         [Script(OptimizedCode = "THREE.ShaderTerrain")]
-        public static THREE.ShaderTerrain ShaderTerrain;
+        public static THREE.ShaderTerrainModule ShaderTerrain;
         [Script(OptimizedCode = "THREE.Math")]
-        public static THREE.Math Math;
+        public static THREE.MathModule Math;
+        [Script(OptimizedCode = "THREE.ImageUtils")]
+        public static THREE.ImageUtilsModule ImageUtils;
+
 
     }
 
@@ -47,9 +50,10 @@ namespace WebGLDynamicTerrainTemplate.Design
     }
     #endregion
 
+    #region modules
     namespace THREE
     {
-        class Math
+        class MathModule
         {
 
             internal int clamp(f p1, int p2, int p3)
@@ -58,16 +62,30 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
-        class ShaderExtras
+        class ImageUtilsModule
+        {
+            public object loadTexture(string a, object b, IFunction c)
+            {
+                return null;
+            }
+        }
+
+        class ShaderExtrasModule
         {
             public object normalmap;
         }
 
-        class ShaderTerrain
+        class ShaderTerrainModule
         {
             public object terrain;
         }
-        
+
+    }
+    #endregion
+
+    namespace THREE
+    {
+
         sealed class MeshLambertMaterialArguments
         {
             public int color;
@@ -103,7 +121,7 @@ namespace WebGLDynamicTerrainTemplate.Design
                 // TODO: Complete member initialization
                 this.material = material;
             }
-          
+
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.PlaneGeometry")]
@@ -171,7 +189,7 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
-   
+
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.Vector3")]
         class Vector3
         {
@@ -307,7 +325,7 @@ namespace WebGLDynamicTerrainTemplate.Design
             public int minFilter;
             public int magFilter;
             public int format;
-            public bool stencilBufer; 
+            public bool stencilBufer;
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.WebGLRenderTarget")]
@@ -380,6 +398,21 @@ namespace WebGLDynamicTerrainTemplate.Design
             public object program;
 
             public MeshShaderMaterial(MeshShaderMaterialArguments value)
+            {
+
+            }
+        }
+
+        sealed class ShaderMaterialArguments
+        {
+
+        }
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.ShaderMaterial")]
+        class ShaderMaterial
+        {
+
+            public ShaderMaterial(ShaderMaterialArguments value)
             {
 
             }

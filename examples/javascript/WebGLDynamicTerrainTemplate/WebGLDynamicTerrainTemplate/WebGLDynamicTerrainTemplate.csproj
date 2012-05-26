@@ -128,6 +128,7 @@
     <Content Include="Models\parrot.js" />
     <Content Include="Models\stork.js" />
     <Content Include="Textures\backgrounddetailed6.jpg" />
+    <Content Include="Textures\Textures.htm" />
     <Content Include="Textures\grasslight-big-nm.jpg" />
     <Content Include="Textures\grasslight-big.jpg" />
     <None Include="Shaders\Noise.vert" />
