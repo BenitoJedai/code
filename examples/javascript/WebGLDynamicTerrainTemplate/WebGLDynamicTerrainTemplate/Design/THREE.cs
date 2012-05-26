@@ -24,9 +24,12 @@ namespace WebGLDynamicTerrainTemplate.Design
         public static THREE.MathModule Math;
         [Script(OptimizedCode = "THREE.ImageUtils")]
         public static THREE.ImageUtilsModule ImageUtils;
+        [Script(OptimizedCode = "THREE.UniformsUtils")]
+        public static THREE.UniformsUtilsModule UniformsUtils;
 
 
     }
+
 
 
     #region THREE natives from Three.js
@@ -53,6 +56,7 @@ namespace WebGLDynamicTerrainTemplate.Design
     #region modules
     namespace THREE
     {
+        [Script(HasNoPrototype = true)]
         class MathModule
         {
 
@@ -62,20 +66,59 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
+
+        [Script(HasNoPrototype = true)]
         class ImageUtilsModule
         {
-            public object loadTexture(string a, object b, IFunction c)
+            public THREE.WebGLRenderTarget loadTexture(string a, object b, IFunction c)
             {
                 return null;
             }
         }
 
-        class ShaderExtrasModule
+ 
+
+        [Script(HasNoPrototype = true)]
+        class UniformsUtilsModule
         {
-            public object normalmap;
+
+
+            internal ShaderExtrasModuleItem_uniforms clone(ShaderExtrasModuleItem_uniforms shaderExtrasModuleItem_uniforms)
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        class ShaderTerrainModule
+        sealed class ShaderExtrasModuleItem_uniforms_item
+        {
+            public object texture;
+            public object value;
+            public string type;
+        }
+
+        sealed class ShaderExtrasModuleItem_uniforms
+        {
+            public ShaderExtrasModuleItem_uniforms_item heightMap;
+            public ShaderExtrasModuleItem_uniforms_item resolution;
+            public ShaderExtrasModuleItem_uniforms_item scale;
+            public ShaderExtrasModuleItem_uniforms_item height;
+            public ShaderExtrasModuleItem_uniforms_item tDiffuse;
+        }
+
+        sealed class ShaderExtrasModuleItem
+        {
+            public object fragmentShader;
+            public object vertexShader;
+            public ShaderExtrasModuleItem_uniforms uniforms;
+        }
+
+        sealed class ShaderExtrasModule
+        {
+            public ShaderExtrasModuleItem normalmap;
+            public ShaderExtrasModuleItem luminosity;
+        }
+
+        sealed class ShaderTerrainModule
         {
             public object terrain;
         }
@@ -189,6 +232,29 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
         }
 
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.Vector2")]
+        class Vector2
+        {
+            public float x;
+            public float y;
+            private double p1;
+            private double p2;
+
+            public Vector2(double p1, double p2)
+            {
+                // TODO: Complete member initialization
+                this.p1 = p1;
+                this.p2 = p2;
+            }
+
+
+
+            internal void set(int rx, int ry)
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.Vector3")]
         class Vector3
@@ -305,6 +371,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 throw new NotImplementedException();
             }
+
+            internal void add(Mesh meshTmp)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.BloomPass")]
@@ -382,6 +453,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             {
                 throw new NotImplementedException();
             }
+
+            internal void render(Scene sceneTmp, OrthographicCamera cameraOrtho, object target, bool p)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         sealed class MeshShaderMaterialArguments
@@ -405,12 +481,16 @@ namespace WebGLDynamicTerrainTemplate.Design
 
         sealed class ShaderMaterialArguments
         {
+            public object fragmentShader;
+            public object vertexShader;
+            public ShaderExtrasModuleItem_uniforms uniforms;
 
         }
 
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.ShaderMaterial")]
         class ShaderMaterial
         {
+            public ShaderExtrasModuleItem_uniforms uniforms;
 
             public ShaderMaterial(ShaderMaterialArguments value)
             {

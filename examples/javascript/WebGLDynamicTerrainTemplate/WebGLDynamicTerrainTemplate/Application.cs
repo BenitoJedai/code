@@ -92,6 +92,20 @@ namespace WebGLDynamicTerrainTemplate
             public MyModelGeometryFace[] faces;
         }
 
+        sealed class MyUniformsNoiseItem
+        {
+            public object value;
+            public string type;
+        }
+
+        sealed class MyUniformsNoise
+        {
+            public MyUniformsNoiseItem time;
+            public MyUniformsNoiseItem scale;
+            public MyUniformsNoiseItem offset;
+        }
+
+
 
         void InitializeContent(IDefaultPage page = null)
         {
@@ -159,6 +173,7 @@ namespace WebGLDynamicTerrainTemplate
             var soundtrack = page.soundtrack;
 
             #region constants
+            var THREE_RepeatWrapping = 0;
             var THREE_LinearFilter = 6;
             var THREE_RGBFormat = 17;
             var THREE_LinearMipMapLinearFilter = 8;
@@ -237,19 +252,18 @@ namespace WebGLDynamicTerrainTemplate
             var heightMap = new THREE.WebGLRenderTarget(rx, ry, pars);
             var normalMap = new THREE.WebGLRenderTarget(rx, ry, pars);
 
-            //    uniformsNoise = {
+            var uniformsNoise = new MyUniformsNoise
+            {
+                time = new MyUniformsNoiseItem { type = "f", value = 1.0 },
+                scale = new MyUniformsNoiseItem { type = "v2", value = new THREE.Vector2(1.5, 1.5) },
+                offset = new MyUniformsNoiseItem { type = "v2", value = new THREE.Vector2(0, 0) }
+            };
 
-            //        time:   { type: "f", value: 1.0 },
-            //        scale:  { type: "v2", value: new THREE.Vector2( 1.5, 1.5 ) },
-            //        offset: { type: "v2", value: new THREE.Vector2( 0, 0 ) }
+            var uniformsNormal = __THREE.UniformsUtils.clone(normalShader.uniforms);
 
-            //    };
-
-            //uniformsNormal = THREE.UniformsUtils.clone( normalShader.uniforms );
-
-            //    uniformsNormal.height.value = 0.05;
-            //    uniformsNormal.resolution.value.set( rx, ry );
-            //    uniformsNormal.heightMap.texture = heightMap;
+            uniformsNormal.height.value = 0.05;
+            ((THREE.Vector2)uniformsNormal.resolution.value).set(rx, ry);
+            uniformsNormal.heightMap.texture = heightMap;
 
             var vertexShader = new Shaders.NoiseVertexShader().ToString();
             #endregion
@@ -295,21 +309,21 @@ namespace WebGLDynamicTerrainTemplate
             #endregion
 
             #region applyShader
-            Action<object, object, object> applyShader = (shader, texture, target) =>
+            Action<THREE.ShaderExtrasModuleItem, object, object> applyShader = (shader, texture, target) =>
             {
 
                 var shaderMaterial = new THREE.ShaderMaterial(
                     new THREE.ShaderMaterialArguments
                     {
 
-                        //fragmentShader: shader.fragmentShader,
-                        //vertexShader: shader.vertexShader,
-                        //uniforms: THREE.UniformsUtils.clone( shader.uniforms )
+                        fragmentShader = shader.fragmentShader,
+                        vertexShader = shader.vertexShader,
+                        uniforms = __THREE.UniformsUtils.clone(shader.uniforms)
 
                     }
                 );
 
-                //    shaderMaterial.uniforms[ "tDiffuse" ].texture = texture;
+                shaderMaterial.uniforms.tDiffuse.texture = texture;
 
                 var sceneTmp = new THREE.Scene();
 
@@ -329,26 +343,54 @@ namespace WebGLDynamicTerrainTemplate
             var specularMap = new THREE.WebGLRenderTarget(2048, 2048, pars);
 
 
-            var diffuseTexture1 = __THREE.ImageUtils.loadTexture(
+            var diffuseTexture1 = default(THREE.WebGLRenderTarget);
+
+            diffuseTexture1 = __THREE.ImageUtils.loadTexture(
                 new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.grasslight_big().src,
                 null,
                 IFunction.Of(
                     delegate()
                     {
                         loadTextures();
-                        //applyShader( THREE.ShaderExtras[ 'luminosity' ], diffuseTexture1, specularMap );
-
+                        applyShader(__THREE.ShaderExtras.luminosity, diffuseTexture1, specularMap);
                     }
                 )
             );
 
-            //var diffuseTexture2 = THREE.ImageUtils.loadTexture("textures/terrain/backgrounddetailed6.jpg", null, loadTextures);
-            //var detailTexture = THREE.ImageUtils.loadTexture("textures/terrain/grasslight-big-nm.jpg", null, loadTextures);
+            var diffuseTexture2 = __THREE.ImageUtils.loadTexture(
+                   new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.backgrounddetailed6().src,
+                   null,
+                   IFunction.Of(
+                       delegate()
+                       {
+                           loadTextures();
+                       }
+                   )
+               );
 
-            //    diffuseTexture1.wrapS = diffuseTexture1.wrapT = THREE.RepeatWrapping;
-            //    diffuseTexture2.wrapS = diffuseTexture2.wrapT = THREE.RepeatWrapping;
-            //    detailTexture.wrapS = detailTexture.wrapT = THREE.RepeatWrapping;
-            //    specularMap.wrapS = specularMap.wrapT = THREE.RepeatWrapping;
+            var detailTexture = __THREE.ImageUtils.loadTexture(
+              new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.grasslight_big_nm().src,
+              null,
+              IFunction.Of(
+                  delegate()
+                  {
+                      loadTextures();
+                  }
+              )
+          );
+
+            diffuseTexture1.wrapS = THREE_RepeatWrapping;
+            diffuseTexture1.wrapT = THREE_RepeatWrapping;
+
+
+            diffuseTexture2.wrapS = THREE_RepeatWrapping;
+            diffuseTexture2.wrapT = THREE_RepeatWrapping;
+
+            detailTexture.wrapS = THREE_RepeatWrapping;
+            detailTexture.wrapT = THREE_RepeatWrapping;
+
+            specularMap.wrapS = THREE_RepeatWrapping;
+            specularMap.wrapT = THREE_RepeatWrapping;
             #endregion
 
             #region TERRAIN SHADER
@@ -424,7 +466,7 @@ namespace WebGLDynamicTerrainTemplate
             //    scene.add( terrain );
             #endregion
 
-          
+
 
 
             #region STATS
@@ -616,9 +658,11 @@ namespace WebGLDynamicTerrainTemplate
 
 
 
-            // PRE-INIT
+            #region PRE-INIT
 
             renderer.initWebGLObjects(scene);
+            #endregion
+
 
             #region onkeydown
             Native.Document.onkeydown +=
