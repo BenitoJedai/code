@@ -16,15 +16,15 @@ namespace WebGLDynamicTerrainTemplate.Design
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     internal class __THREE // : global::WebGLDynamicTerrainTemplate.Design.ThreeTerrain
     {
-        [Script(OptimizedCode = "THREE.ShaderExtras")]
+        [Script(ExternalTarget = "THREE.ShaderExtras")]
         public static THREE.ShaderExtrasModule ShaderExtras;
-        [Script(OptimizedCode = "THREE.ShaderTerrain")]
+        [Script(ExternalTarget = "THREE.ShaderTerrain")]
         public static THREE.ShaderTerrainModule ShaderTerrain;
-        [Script(OptimizedCode = "THREE.Math")]
+        [Script(ExternalTarget = "THREE.Math")]
         public static THREE.MathModule Math;
-        [Script(OptimizedCode = "THREE.ImageUtils")]
+        [Script(ExternalTarget = "THREE.ImageUtils")]
         public static THREE.ImageUtilsModule ImageUtils;
-        [Script(OptimizedCode = "THREE.UniformsUtils")]
+        [Script(ExternalTarget = "THREE.UniformsUtils")]
         public static THREE.UniformsUtilsModule UniformsUtils;
 
 
@@ -109,6 +109,10 @@ namespace WebGLDynamicTerrainTemplate.Design
         sealed class ShaderExtrasModuleItem_uniforms
         {
             public ShaderExtrasModuleItem_uniforms_item
+                uDiffuseColor,
+                uSpecularColor,
+                uAmbientColor,
+                uRepeatOverlay,
                 opacity,
                 r,
                 h,
@@ -136,8 +140,8 @@ namespace WebGLDynamicTerrainTemplate.Design
 
         sealed class ShaderExtrasModuleItem
         {
-            public object fragmentShader;
-            public object vertexShader;
+            public string fragmentShader;
+            public string vertexShader;
             public ShaderExtrasModuleItem_uniforms uniforms;
         }
 
@@ -536,7 +540,7 @@ namespace WebGLDynamicTerrainTemplate.Design
             public object vertexShader;
             public ShaderExtrasModuleItem_uniforms uniforms;
             public bool fog;
-            public object lights;
+            public bool lights;
 
         }
 
@@ -597,6 +601,11 @@ namespace WebGLDynamicTerrainTemplate.Design
             }
 
             internal void setHSV(double p1, double p2, double p3)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void setHex(int p)
             {
                 throw new NotImplementedException();
             }
@@ -860,6 +869,11 @@ namespace WebGLDynamicTerrainTemplate.Design
 
 
             internal void load(JSONLoaderArguments jSONLoaderArguments)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void load(string p, IFunction function)
             {
                 throw new NotImplementedException();
             }
