@@ -158,6 +158,13 @@ namespace WebGLDynamicTerrainTemplate
 
             var soundtrack = page.soundtrack;
 
+            #region constants
+            var THREE_LinearFilter = 6;
+            var THREE_RGBFormat = 17;
+            var THREE_LinearMipMapLinearFilter = 8;
+            #endregion
+
+
             #region SCENE (RENDER TARGET)
 
             var sceneRenderTarget = new THREE.Scene();
@@ -211,13 +218,11 @@ namespace WebGLDynamicTerrainTemplate
 
             #endregion
 
-            var THREE_LinearFilter = 6;
-            var THREE_RGBFormat = 17;
-            var THREE_LinearMipMapLinearFilter = 8;
+
 
             #region HEIGHT + NORMAL MAPS
 
-            var normalShader = __Three.ShaderExtras.normalmap;
+            var normalShader = __THREE.ShaderExtras.normalmap;
 
             var rx = 256;
             var ry = 256;
@@ -271,16 +276,71 @@ namespace WebGLDynamicTerrainTemplate
             ////
             #endregion
 
+            #region RENDERER
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+            renderer.setClearColor(scene.fog.color, 1);
+
+            //    renderer.domElement.style.position = "absolute";
+            //    renderer.domElement.style.top = MARGIN + "px";
+            //    renderer.domElement.style.left = "0px";
+
+            container.appendChild(renderer.domElement);
+
+            //    //
+
+            renderer.gammaInput = true;
+            renderer.gammaOutput = true;
+            #endregion
+
+            #region applyShader
+            Action<object, object, object> applyShader = (shader, texture, target) =>
+            {
+
+                var shaderMaterial = new THREE.ShaderMaterial(
+                    new THREE.ShaderMaterialArguments
+                    {
+
+                        //fragmentShader: shader.fragmentShader,
+                        //vertexShader: shader.vertexShader,
+                        //uniforms: THREE.UniformsUtils.clone( shader.uniforms )
+
+                    }
+                );
+
+                //    shaderMaterial.uniforms[ "tDiffuse" ].texture = texture;
+
+                var sceneTmp = new THREE.Scene();
+
+                var meshTmp = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_WIDTH, SCREEN_HEIGHT), shaderMaterial);
+                meshTmp.position.z = -500;
+                sceneTmp.add(meshTmp);
+
+                renderer.render(sceneTmp, cameraOrtho, target, true);
+            };
+            #endregion
+
+
+
+
             #region TEXTURES
 
             var specularMap = new THREE.WebGLRenderTarget(2048, 2048, pars);
 
-            //    var diffuseTexture1 = THREE.ImageUtils.loadTexture( "textures/terrain/grasslight-big.jpg", null, function () {
 
-            //        loadTextures();
-            //        applyShader( THREE.ShaderExtras[ 'luminosity' ], diffuseTexture1, specularMap );
+            var diffuseTexture1 = __THREE.ImageUtils.loadTexture(
+                new global::WebGLDynamicTerrainTemplate.HTML.Images.FromAssets.grasslight_big().src,
+                null,
+                IFunction.Of(
+                    delegate()
+                    {
+                        loadTextures();
+                        //applyShader( THREE.ShaderExtras[ 'luminosity' ], diffuseTexture1, specularMap );
 
-            //    } );
+                    }
+                )
+            );
 
             //var diffuseTexture2 = THREE.ImageUtils.loadTexture("textures/terrain/backgrounddetailed6.jpg", null, loadTextures);
             //var detailTexture = THREE.ImageUtils.loadTexture("textures/terrain/grasslight-big-nm.jpg", null, loadTextures);
@@ -293,7 +353,7 @@ namespace WebGLDynamicTerrainTemplate
 
             #region TERRAIN SHADER
 
-            var terrainShader = __Three.ShaderTerrain.terrain;
+            var terrainShader = __THREE.ShaderTerrain.terrain;
 
             //    uniformsTerrain = THREE.UniformsUtils.clone( terrainShader.uniforms );
 
@@ -364,23 +424,7 @@ namespace WebGLDynamicTerrainTemplate
             //    scene.add( terrain );
             #endregion
 
-            #region RENDERER
-
-            var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-            renderer.setClearColor(scene.fog.color, 1);
-
-            //    renderer.domElement.style.position = "absolute";
-            //    renderer.domElement.style.top = MARGIN + "px";
-            //    renderer.domElement.style.left = "0px";
-
-            container.appendChild(renderer.domElement);
-
-            //    //
-
-            renderer.gammaInput = true;
-            renderer.gammaOutput = true;
-            #endregion
+          
 
 
             #region STATS
@@ -594,33 +638,6 @@ namespace WebGLDynamicTerrainTemplate
             #endregion
 
 
-            #region applyShader
-            //function applyShader( shader, texture, target ) {
-
-            //    var shaderMaterial = new THREE.ShaderMaterial( {
-
-            //        fragmentShader: shader.fragmentShader,
-            //        vertexShader: shader.vertexShader,
-            //        uniforms: THREE.UniformsUtils.clone( shader.uniforms )
-
-            //    } );
-
-            //    shaderMaterial.uniforms[ "tDiffuse" ].texture = texture;
-
-            //    var sceneTmp = new THREE.Scene();
-
-            //    var meshTmp = new THREE.Mesh( new THREE.PlaneGeometry( SCREEN_WIDTH, SCREEN_HEIGHT ), shaderMaterial );
-            //    meshTmp.position.z = -500;
-            //    sceneTmp.add( meshTmp );
-
-            //    renderer.render( sceneTmp, cameraOrtho, target, true );
-
-            //};
-
-            ////
-            #endregion
-
-
 
 
             #region render
@@ -629,7 +646,7 @@ namespace WebGLDynamicTerrainTemplate
 
                 var delta = clock.getDelta();
 
-                soundVal = __Three.Math.clamp(soundVal + delta * soundDir, 0, 1);
+                soundVal = __THREE.Math.clamp(soundVal + delta * soundDir, 0, 1);
 
                 if (soundVal != oldSoundVal)
                 {
@@ -793,7 +810,6 @@ namespace WebGLDynamicTerrainTemplate
         bool IsDisposed = false;
 
         public Action Dispose;
-        private THREE.Fog fog;
 
     }
 }
