@@ -20,8 +20,8 @@ using ScriptCoreLib.Android;
 
 namespace HelloOpenGLES20Activity.Activities
 {
-    using opengl = GLES20;
     using gl = __WebGLRenderingContext;
+    using opengl = GLES20;
 
     public class HelloOpenGLES20Activity : Activity
     {
