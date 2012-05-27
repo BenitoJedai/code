@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">AndroidNuGetSQLiteActivity</string>
-  <string name="hello">hello</string>
+  <string name="app_name">Android NuGet SQLite Activity</string>
+  <string name="hello">hi!</string>
 </resources>
