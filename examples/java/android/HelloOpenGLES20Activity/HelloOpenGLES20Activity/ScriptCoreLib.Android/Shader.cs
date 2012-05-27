@@ -313,12 +313,6 @@ using opengl = GLES20;
 
 
 
-        [Obsolete("This is a workaround is no longer needed.", true)]
-        [Script(OptimizedCode = "return \"\" + e;")]
-        public static string ToAndroidString(this object e)
-        {
-            return "";
-        }
 
         public static void setText(this TextView e, string value)
         {

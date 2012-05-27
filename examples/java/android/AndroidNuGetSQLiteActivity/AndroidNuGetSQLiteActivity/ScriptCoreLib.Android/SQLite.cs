@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -9,34 +10,51 @@ using android.database.sqlite;
 
 namespace ScriptCoreLib.Android
 {
+
+
+    [Script(Implements = typeof(DbConnectionStringBuilder))]
+    public class __DbConnectionStringBuilder
+    {
+        public string ConnectionString
+        {
+            get
+            {
+                return InternalGetConnectionString();
+            }
+        }
+
+        protected virtual string InternalGetConnectionString()
+        {
+            return null;
+        }
+    }
+
     [Script(Implements = typeof(SQLiteConnectionStringBuilder))]
-    public class __SQLiteConnectionStringBuilder
+    public class __SQLiteConnectionStringBuilder : __DbConnectionStringBuilder
     {
         public string DataSource { get; set; }
         public int Version { get; set; }
         public bool ReadOnly { get; set; }
 
-        public string ConnectionString
+        protected override string InternalGetConnectionString()
         {
-            get
+
+            var r = "";
+
+            r += "Data Source=" + this.DataSource + ";";
+            __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
+
+
+            r += "Version=" + ((object)this.Version).ToString() + ";";
+
+            if (this.ReadOnly)
             {
-                var r = "";
-
-                r += "Data Source=" + this.DataSource + ";";
-                __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
-
-
-                r += "Version=" + this.Version + ";";
-
-                if (this.ReadOnly)
-                {
-                    r += "Read Only=True;";
-                    __SQLiteConnectionHack.ForceReadOnly = true;
-                }
-
-
-                return r;
+                r += "Read Only=True;";
+                __SQLiteConnectionHack.ForceReadOnly = true;
             }
+
+
+            return r;
         }
     }
 
