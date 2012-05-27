@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.DOM.HTML;
-using QRCode.Design;
+using QRCodeTemplate.Design;
 
-namespace QRCode.Library
+namespace QRCodeTemplate.Library
 {
     public static class QRCodeExtensions
     {

@@ -10,11 +10,11 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using QRCode.HTML.Pages;
-using QRCode.Design;
-using QRCode.Library;
+using QRCodeTemplate.HTML.Pages;
+using QRCodeTemplate.Design;
+using QRCodeTemplate.Library;
 
-namespace QRCode
+namespace QRCodeTemplate
 {
     /// <summary>
     /// This type will run as JavaScript.

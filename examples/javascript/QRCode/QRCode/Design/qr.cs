@@ -5,7 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using ScriptCoreLib;
 
-namespace QRCode.Design
+namespace QRCodeTemplate.Design
 {
     [Description("Future versions of JSC will enable seamless integration with JavaScript libraries")]
     public class __qr : qr
