@@ -1,7 +1,7 @@
 using jsc.meta.Commands.Rewrite.RewriteToUltraApplication;
 using System;
 
-namespace QRCode
+namespace QRCodeTemplate
 {
     /// <summary>
     /// You can debug your application by hitting F5.
