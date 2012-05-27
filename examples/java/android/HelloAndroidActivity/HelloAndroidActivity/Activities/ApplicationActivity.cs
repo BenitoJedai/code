@@ -38,8 +38,6 @@ namespace HelloAndroidActivity.Activities
             // http://www.dreamincode.net/forums/topic/130521-android-part-iii-dynamic-layouts/
 
             base.onCreate(savedInstanceState);
-            //setContentView(R.layout.main);
-
 
             ScrollView sv = new ScrollView(this);
 
