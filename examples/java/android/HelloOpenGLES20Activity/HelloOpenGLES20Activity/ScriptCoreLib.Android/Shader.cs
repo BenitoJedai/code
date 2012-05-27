@@ -10,12 +10,12 @@ using android.view;
 using android.widget;
 using java.lang;
 using ScriptCoreLib;
+using android.app;
 
 namespace ScriptCoreLib.Android
 {
-    using android.app;
-using gl = __WebGLRenderingContext;
-using opengl = GLES20;
+    using gl = __WebGLRenderingContext;
+    using opengl = GLES20;
 
 
     #region ScriptCoreLib.GLSL.Shader
@@ -332,6 +332,17 @@ using opengl = GLES20;
         }
 
 
+        public static Context ShowLongToast(this Context c, string e)
+        {
+            Toast.makeText(
+                  c,
+                  (CharSequence)(object)e,
+                  Toast.LENGTH_LONG
+              ).show();
+
+            return c;
+        }
+
 
 
         public static View AttachTo(this View v, ViewGroup g)
@@ -350,6 +361,7 @@ using opengl = GLES20;
         }
     }
 
+    #region BCL, CTS
     [Script(Implements = typeof(Attribute))]
     internal class __Attribute
     {
@@ -361,4 +373,6 @@ using opengl = GLES20;
     {
         void Dispose();
     }
+    #endregion
+
 }
