@@ -821,8 +821,8 @@ namespace AndroidOpenGLESLesson6Activity.Activities
             Matrix.setIdentityM(mCurrentRotation, 0);
             Matrix.rotateM(mCurrentRotation, 0, mDeltaX, 0.0f, 1.0f, 0.0f);
             Matrix.rotateM(mCurrentRotation, 0, mDeltaY, 1.0f, 0.0f, 0.0f);
-            mDeltaX = 0.0f;
-            mDeltaY = 0.0f;
+            mDeltaX = 0.1f;
+            mDeltaY = 0.1f;
 
             // Multiply the current rotation by the accumulated rotation, and then set the accumulated rotation to the result.
             Matrix.multiplyMM(mTemporaryMatrix, 0, mCurrentRotation, 0, mAccumulatedRotation, 0);

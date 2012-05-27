@@ -19,7 +19,6 @@ namespace AndroidWebViewActivity.Activities
     {
         const string TAG = "AndroidWebViewActivity";
 
-        // inspired by http://android-er.blogspot.com/2011/06/simple-example-using-androids-sqlite.html
 
         // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidWebViewActivity.Activities --activity AndroidWebViewActivity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidWebViewActivity\AndroidWebViewActivity\staging\
 
@@ -71,7 +70,7 @@ namespace AndroidWebViewActivity.Activities
             webview.getSettings().setLoadsImagesAutomatically(true);
             webview.getSettings().setJavaScriptEnabled(true);
             //webview.getSettings().setBuiltInZoomControls(true);
-            webview.setInitialScale(1);
+            //webview.setInitialScale(1);
 
             webview.getSettings().setSupportZoom(false);
 
@@ -80,6 +79,7 @@ namespace AndroidWebViewActivity.Activities
             //webview.getSettings().setJavaScriptEnabled(true);
 
             // no flash in emulator?
+            // works on my phone!
             webview.getSettings().setPluginsEnabled(true);
             webview.getSettings().setPluginState(android.webkit.WebSettings.PluginState.ON);
 

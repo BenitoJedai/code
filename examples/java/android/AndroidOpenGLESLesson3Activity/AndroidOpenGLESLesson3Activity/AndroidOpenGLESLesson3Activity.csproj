@@ -96,29 +96,13 @@
     <None Include="Shaders\point.vert" />
     <None Include="Shaders\Triangle.frag" />
     <None Include="Shaders\Triangle.vert" />
-    <None Include="staging\apk\local.properties">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\apk\project.properties">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="Design\Preview.png" />
-    <Content Include="staging\apk\AndroidManifest.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="staging\apk\build.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="staging\apk\res\drawable-mdpi\ic_launcher.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="staging\apk\res\layout\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="staging\apk\res\values\strings.xml">
