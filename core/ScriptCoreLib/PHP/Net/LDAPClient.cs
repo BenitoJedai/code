@@ -7,87 +7,6 @@ using IDisposable = global::System.IDisposable;
 
 namespace ScriptCoreLib.PHP.Net
 {
-    [Script]
-    public class SKLDAPClient : LDAPClient, IDisposable
-    {
-
-        public void ToConsole()
-        {
-            int i = 0;
-
-            foreach (LDAPClient.Entry v in this.Entries)
-            {
-                i++;
-
-                //Native.Dump("#" + i, var.entry);
-                Native.Message("#" + i,
-                    "givenname: " + v.givenname + "\n" +
-                    "dn: " + v.dn + "\n" +
-                    "cn: " + v.cn + "\n" +
-                    "sn: " + v.sn + "\n" +
-                    "id: " + SKLDAPClient.GetID(v) + "\n" +
-                    "gender: " + SKLDAPClient.GetGender(v) + "\n" +
-                    "birth: " + SKLDAPClient.GetDateOfBirth(v) + "\n" +
-                    "mail: " + v.mail + "\n"
-                    );
-            }
-
-        }
-
-        public SKLDAPClient()
-        {
-            Connect();
-        }
-
-        public void Connect()
-        {
-            base.Connect("ldap.sk.ee");
-            base.Bind();
-        }
-
-        //public void Close()
-        //{
-        //    base.Close();
-        //}
-    
-        #region IDisposable Members
-
-        public void  Dispose()
-        {
-            this.Close();
-        }
-
-        #endregion
-
-        public static string GetID(Entry v)
-        {
-            string[] u = v.cn.Split(',');
-
-            return u[2];
-        }
-
-        public static int GetGender(Entry v)
-        {
-            return int.Parse( GetID(v).Substring(0, 1));
-        }
-
-        public static string GetDateOfBirth(Entry v)
-        {
-            return GetID(v).Substring(1, 6);
-
-        }
-        public void FindPeople(string forename, string surname)
-        {
-            base.Search("ou=Authentication,o=ESTEID,c=EE", "(&(sn=" + surname + ")(givenname=" + forename + "))");
-            base.GetEntries();
-        }
-        public void FindPeople(string forename, string surname, string cn)
-        {
-            base.Search("ou=Authentication,o=ESTEID,c=EE", "(&(sn=" + surname + ")(givenname=" + forename + ")(cn=" + cn + "))");
-            base.GetEntries();
-
-        }
-    }
 
     [Script]
     public class LDAPClient
@@ -954,7 +873,7 @@ namespace ScriptCoreLib.PHP.Net
         {
             get
             {
-                return Entries == null || Entries.Length == 0;
+                return (Entries == null).Or(Entries.Length == 0);
             }
         }
 

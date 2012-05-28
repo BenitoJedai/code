@@ -116,7 +116,10 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 				throw new Exception("ArgumentOutOfRange_Month");
 
 
-			int[] numArray = IsLeapYear(year) ? DaysToMonth366 : DaysToMonth365;
+			int[] numArray = DaysToMonth365;
+
+            if (IsLeapYear(year))
+                numArray = DaysToMonth366;
 
 			return (numArray[month] - numArray[month - 1]);
 		}

@@ -94,7 +94,7 @@ namespace ScriptCoreLib.PHP.Net
         {
             get
             {
-                return this.Descriptor != null && Native.SuperGlobals.Server[Native.SuperGlobals.ServerVariables.REQUEST_METHOD] == "POST";
+                return (this.Descriptor != null).And(Native.SuperGlobals.Server[Native.SuperGlobals.ServerVariables.REQUEST_METHOD] == "POST");
             }
         }
 

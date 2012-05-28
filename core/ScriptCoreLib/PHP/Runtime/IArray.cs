@@ -348,7 +348,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
             object[] z = ToArray();
 
-            for (int i = 0; i < z.Length && !b; i++)
+            for (int i = 0; (i < z.Length).And(!b); i++)
             {
                 b = z[i] == p;
             }
