@@ -30,7 +30,7 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// <summary>
         /// The height of the rectangle, in pixels.
         /// </summary>
-        public double height { get; set; }
+        public double height; // { get; set; }
         /// <summary>
         /// The x coordinate of the top-left corner of the rectangle.
         /// </summary>
@@ -54,15 +54,15 @@ namespace ScriptCoreLib.ActionScript.flash.geom
         /// <summary>
         /// The width of the rectangle, in pixels.
         /// </summary>
-        public double width { get; set; }
+        public double width; // { get; set; }
         /// <summary>
         /// The x coordinate of the top-left corner of the rectangle.
         /// </summary>
-        public double x { get; set; }
+        public double x; // { get; set; }
         /// <summary>
         /// The y coordinate of the top-left corner of the rectangle.
         /// </summary>
-        public double y { get; set; }
+        public double y; // { get; set; }
 
 
 
