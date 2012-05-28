@@ -88,6 +88,7 @@
     <Compile Include="Activities\R.cs" />
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Activities\ApplicationActivity.cs" />
+    <Compile Include="MyDatabase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptCoreLib.Android\SQLite.cs" />
