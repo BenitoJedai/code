@@ -15,7 +15,9 @@ namespace ScriptCoreLib.Cordova
     /// Captures device motion in the x, y, and z direction
     /// http://docs.phonegap.com/en/1.7.0/cordova_accelerometer_accelerometer.md.html#Accelerometer
     /// </summary>
-	[Script(IsNative = true)]
+    //[Script(IsNative = true)]
+    //[Script(IsNative = true)]
+    [Script(HasNoPrototype = true, ExternalTarget = "Accelerometer")]
 	public class Accelerometer
 	{
 		#region Constructor

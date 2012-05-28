@@ -71,7 +71,6 @@
     <Compile Include="ContactError.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="ICordovaWindow.cs" />
-    <Compile Include="CordovaNative.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="GeolocationOptions.cs" />
     <Compile Include="Coordinates.cs" />
@@ -105,6 +104,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
