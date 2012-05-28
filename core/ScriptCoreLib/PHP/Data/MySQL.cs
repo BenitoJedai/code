@@ -45,20 +45,20 @@ namespace ScriptCoreLib.PHP.Runtime
 
                 i++;
 
-                
 
-                foreach (string k in  v.Keys.ToArray())
-	            {
+
+                foreach (string k in v.Keys.ToArray())
+                {
                     w.WriteLine("<td><code>");
 
-                    string n =  Convert.ToReadableSring("" + v[k]);
+                    string n = Convert.ToReadableSring("" + v[k]);
 
-                
+
 
                     w.WriteLine(n);
 
                     w.WriteLine("</code></td>");
-	            }
+                }
 
                 w.WriteLine("</tr>");
             }
@@ -86,15 +86,16 @@ namespace ScriptCoreLib.PHP.Runtime
         }
 
         [Script]
-		public class CommandBuilder : Command
+        public class CommandBuilder : Command
         {
             public bool AutoEscape = false;
 
             internal FileInfo CommandFile;
 
-            public CommandBuilder(string file): base("")
+            public CommandBuilder(string file)
+                : base("")
             {
-                CommandFile =FileInfo.OfPath(file);
+                CommandFile = FileInfo.OfPath(file);
 
                 Text = CommandFile.Text;
             }
@@ -134,7 +135,7 @@ namespace ScriptCoreLib.PHP.Runtime
             {
                 CommandBuilder c = new CommandBuilder(e);
 
-                return c.ReadTable < TReturn>(prototype);
+                return c.ReadTable<TReturn>(prototype);
             }
 
             public void Strict()
@@ -178,7 +179,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
         }
 
-        
+
         [Script]
         public class Command
         {
@@ -227,7 +228,7 @@ namespace ScriptCoreLib.PHP.Runtime
             {
                 IArray r = ReadArray(API.FetchArrayResult.MYSQL_NUM);
 
-                return int.Parse( r[ordinal] + "" );
+                return int.Parse(r[ordinal] + "");
             }
 
             public IArray ReadArray()
@@ -247,7 +248,7 @@ namespace ScriptCoreLib.PHP.Runtime
             }
 
             private TReturn Read<TReturn>(TReturn prototype)
-                where TReturn :class
+                where TReturn : class
             {
                 return Expando.Copy(prototype, API.mysql_fetch_array(Handle, API.FetchArrayResult.MYSQL_ASSOC));
             }
@@ -294,7 +295,7 @@ namespace ScriptCoreLib.PHP.Runtime
 
                 int counter = 0;
 
-                while (bOk && counter < 16)
+                while ((bOk).And(counter < 16))
                 {
 
                     TReturn p = this.Read((TReturn)q.Clone());
@@ -351,7 +352,7 @@ namespace ScriptCoreLib.PHP.Runtime
             /// <param name="_server">string server</param>
             /// <param name="_username">string username</param>
             /// <param name="_password">string password</param>
-            [Script(IsNative = true, NoExeptions=true)]
+            [Script(IsNative = true, NoExeptions = true)]
             public static object mysql_connect(string _server, string _username, string _password) { return default(object); }
 
             #endregion

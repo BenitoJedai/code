@@ -67,11 +67,26 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 
         public override bool Equals(object obj)
         {
-            __Delegate v = (__Delegate)obj;
+            return IsEqual(this, (BCLImplementation.System.__Delegate)obj);
 
-
-            return v.Method == this.Method && v.Target == this.Target;
         }
+
+
+        public static bool IsEqual(__Delegate a, __Delegate b)
+        {
+            if ((object)a == null)
+                return false;
+
+            if ((object)b == null)
+                return false;
+
+            if (a.Method == b.Method)
+                if (a.Target == b.Target)
+                    return true;
+
+            return false;
+        }
+
 
         public override int GetHashCode()
         {

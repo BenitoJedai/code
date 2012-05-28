@@ -1,4 +1,5 @@
 using ScriptCoreLib;
+using ScriptCoreLib.Shared;
 
 namespace ScriptCoreLib.PHP
 {
@@ -83,7 +84,7 @@ namespace ScriptCoreLib.PHP
 
             echo("<pre style='padding: 8px;'>");
 
-            if (e == null || e == "")
+            if ((e == null).Or(e == ""))
                 echo("<i>No text</i>");
             else
             {
