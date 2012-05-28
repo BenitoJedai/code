@@ -32,7 +32,12 @@ namespace PHPNuGetSQLite
             // Send data from JavaScript to the server tier
             service.WebMethod2(
                 @"A string from JavaScript.",
-                value => value.ToDocumentTitle()
+                (t, db) =>
+                {
+                    t.ToDocumentTitle();
+
+                    new IHTMLPre { innerText = db }.AttachToDocument();
+                }
             );
         }
 

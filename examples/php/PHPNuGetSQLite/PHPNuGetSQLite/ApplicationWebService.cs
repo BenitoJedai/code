@@ -4,6 +4,7 @@ using ScriptCoreLib.Extensions;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using AndroidNuGetSQLiteActivity;
 
 namespace PHPNuGetSQLite
 {
@@ -17,10 +18,13 @@ namespace PHPNuGetSQLite
         /// </summary>
         /// <param name="e">A parameter from javascript.</param>
         /// <param name="y">A callback to javascript.</param>
-        public void WebMethod2(string e, Action<string> y)
+        public void WebMethod2(string e, Action<string, string> y)
         {
+            MyDatabase.Write();
+            var db = MyDatabase.Read("-");
+
             // Send it back to the caller.
-            y(e);
+            y(e, db);
         }
 
     }
