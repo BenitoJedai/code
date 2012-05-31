@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Xml.Linq;
 using AndroidNuGetSQLiteActivity;
+using ScriptCoreLib.Ultra.WebService;
 
 namespace PHPNuGetSQLite
 {
@@ -27,5 +28,29 @@ namespace PHPNuGetSQLite
             y(e, db);
         }
 
+        public void Handler(WebServiceHandler h)
+        {
+            bool debug = false;
+
+            MyDatabase.Write();
+
+            string contentRead = "-";
+
+            contentRead = MyDatabase.Read(contentRead);
+
+            if(debug)
+                Console.WriteLine("PHP MySQL Output Begin");
+
+
+            if (contentRead != null)
+                Console.WriteLine(contentRead);
+            else
+                Console.WriteLine("empty.");
+
+
+            if(debug)
+                Console.WriteLine("PHP MySQL Output End");
+
+        }
     }
 }
