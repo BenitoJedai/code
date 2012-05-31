@@ -18,7 +18,9 @@ namespace AndroidNuGetSQLiteActivity
                 {
                     DataSource = "MY_DATABASE.sqlite",
                     Version = 3,
-                    ReadOnly = true
+                    ReadOnly = true,
+                    Password = "",
+                    Uri = "localhost"              
                 }.ConnectionString
                 ))
             {
@@ -28,10 +30,16 @@ namespace AndroidNuGetSQLiteActivity
 
 
                 var reader = new SQLiteCommand("select Content from MY_TABLE", c).ExecuteReader();
-                while (reader.Read())
+
+                if (reader == null)
+                    contentRead += "Reader was null";
+                else
                 {
-                    contentRead += "\n";
-                    contentRead += (string)reader["Content"];
+                    while (reader.Read())
+                    {
+                        contentRead += "\n";
+                        contentRead += (string)reader["Content"];
+                    }
                 }
 
 
@@ -43,8 +51,7 @@ namespace AndroidNuGetSQLiteActivity
 
         public static void Write()
         {
-            ;
-
+            
             using (var c = new SQLiteConnection(
 
                 new SQLiteConnectionStringBuilder
