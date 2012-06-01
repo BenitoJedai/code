@@ -325,6 +325,11 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System
             return InternalSubstring(this, a0);
         }
 
+        [Script(DefineAsStatic = true)]
+        public __String Remove(int a0)
+        {
+            return InternalSubstring(this, 0, a0);
+        }
 
         [Script(DefineAsStatic = true)]
         public __String Substring(int a0, int a1)
