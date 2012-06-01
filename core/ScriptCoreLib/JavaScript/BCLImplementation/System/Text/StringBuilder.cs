@@ -57,6 +57,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 			return this;
 		}
 
+        public __StringBuilder Append(string value, int startIndex, int count)
+        {
+            return Append(value.Substring(startIndex, count));
+        }
+
+
 		public __StringBuilder Append(object value)
 		{
 			if (value != null)
@@ -77,6 +83,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Text
 			return Append(value).AppendLine();
 		}
 
+        public __StringBuilder AppendLine(string value, int startIndex, int count)
+        {
+            return Append(value.Substring(startIndex, count)).AppendLine();
+        }
 
 		public override string ToString()
 		{
