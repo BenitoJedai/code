@@ -322,6 +322,9 @@ namespace ScriptCoreLib.Android
 
         public static Context ShowToast(this Context c, string e)
         {
+            if (c == null)
+                return c;
+
             Toast.makeText(
                   c,
                   (CharSequence)(object)e,
@@ -334,6 +337,9 @@ namespace ScriptCoreLib.Android
 
         public static Context ShowLongToast(this Context c, string e)
         {
+            if (c == null)
+                return c;
+
             Toast.makeText(
                   c,
                   (CharSequence)(object)e,
@@ -343,6 +349,31 @@ namespace ScriptCoreLib.Android
             return c;
         }
 
+        class ShowLongToastHandler : Runnable
+        {
+            public Context c;
+            public string e;
+
+            public void run()
+            {
+                // http://stackoverflow.com/questions/3134683/android-toast-in-a-thread
+                c.ShowLongToast(e);
+            }
+        }
+
+        public static Activity ShowLongToast(this Activity c, string e)
+        {
+
+            c.runOnUiThread(
+                new ShowLongToastHandler
+                {
+                    c = c,
+                    e = e
+                }
+            );
+
+            return c;
+        }
 
 
         public static View AttachTo(this View v, ViewGroup g)
