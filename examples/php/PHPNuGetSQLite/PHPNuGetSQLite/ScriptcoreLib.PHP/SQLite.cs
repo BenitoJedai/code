@@ -37,7 +37,7 @@ namespace ScriptCoreLib.PHP //.Android
         public int Version { get; set; }
         public bool ReadOnly { get; set; }
         public string Uri { get; set; }
-        public string Password { get; set; }      
+        public string Password { get; set; }
 
 
         protected override string InternalGetConnectionString()
@@ -57,7 +57,7 @@ namespace ScriptCoreLib.PHP //.Android
 
             if (this.ReadOnly)
             {
-               // r += "Read Only=True;";
+                // r += "Read Only=True;";
                 __SQLiteConnectionHack.ForceReadOnly = true;
             }
 
@@ -90,7 +90,7 @@ namespace ScriptCoreLib.PHP //.Android
 
         public override int ExecuteNonQuery()
         {
-           // c.db.execSQL(sql);
+            // c.db.execSQL(sql);
 
             object o = MySQL.API.mysql_query(sql);  //no NonQuery Native Avail for PHP
 
@@ -110,7 +110,10 @@ namespace ScriptCoreLib.PHP //.Android
         {
             queryResult = MySQL.API.mysql_query(sql);
 
-            if ((queryResult == null) || ((bool)queryResult == false))
+            if ((queryResult == null))
+                return null;
+
+            if (((bool)queryResult == false))
                 return null;
 
             return new __SQLiteDataReader
@@ -128,7 +131,7 @@ namespace ScriptCoreLib.PHP //.Android
 
         public abstract object this[string name] { get; }
 
-       // public abstract object GetValue(int i);
+        // public abstract object GetValue(int i);
 
     }
 
@@ -143,10 +146,25 @@ namespace ScriptCoreLib.PHP //.Android
 
         public override bool Read()
         {
+            var x = MySQL.API.mysql_fetch_array(queryResult, MySQL.API.FetchArrayResult.MYSQL_BOTH);
 
-            cursor = MySQL.API.mysql_fetch_array(queryResult, MySQL.API.FetchArrayResult.MYSQL_BOTH);
+            var e = Expando.Of(x);
 
-            return cursor != null && cursor.Length>0;
+            //Console.WriteLine(e.TypeString);
+
+            if (e.IsArray)
+            {
+                cursor = x;
+
+                if (cursor != null)
+                    if (cursor.Length > 0)
+                    {
+
+                        return true;
+                    }
+            }
+
+            return false;
 
             /*
             if (__state == 0)
@@ -172,12 +190,16 @@ namespace ScriptCoreLib.PHP //.Android
         {
             get
             {
-               // int i = cursor.getColumnIndex(name);
+                // int i = cursor.getColumnIndex(name);
 
-               // return cursor.getString(i);
+                // return cursor.getString(i);
 
-                if (cursor.Keys.Contains(name))
-                    return cursor[name];
+                var Keys = cursor.Keys;
+                if (Keys.Contains(name))
+                {
+                    var value = cursor[name];
+                    return value;
+                }
 
                 return null;
             }
@@ -202,7 +224,7 @@ namespace ScriptCoreLib.PHP //.Android
 
     public static class __SQLiteConnectionHack
     {
-       // public static Context Context;
+        // public static Context Context;
 
         public static string MYDATABASE_NAME;
         public static bool ForceReadOnly;
@@ -236,9 +258,20 @@ namespace ScriptCoreLib.PHP //.Android
             }
             else
             {
-                if(debug)   
+                if (debug)
                     Console.WriteLine("Database connect success");
             }
+
+            //Console.WriteLine("Trying hard!");
+            var r = MySQL.API.mysql_query("CREATE DATABASE IF NOT EXISTS `" + __SQLiteConnectionHack.MYDATABASE_NAME + "`");
+
+            //Console.WriteLine("error: " + MySQL.API.mysql_error());
+
+
+
+
+
+
 
             if (!MySQL.API.mysql_select_db(__SQLiteConnectionHack.MYDATABASE_NAME))
             {
@@ -246,7 +279,7 @@ namespace ScriptCoreLib.PHP //.Android
             }
             else
             {
-                if(debug)
+                if (debug)
                     Console.WriteLine("Database select success");
             }
 

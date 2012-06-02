@@ -28,29 +28,33 @@ namespace PHPNuGetSQLite
             y(e, db);
         }
 
-        public void Handler(WebServiceHandler h)
-        {
-            bool debug = false;
+        //public void Handler(WebServiceHandler h)
+        //{
+        //    var E_ERROR = 1;
+        //    ScriptCoreLib.PHP.Native.API.error_reporting(E_ERROR);
+        //    //error_reporting(E_ERROR);
+        //}
+        //    bool debug = false;
 
-            MyDatabase.Write();
+        //    MyDatabase.Write();
 
-            string contentRead = "-";
+        //    string contentRead = "-";
 
-            contentRead = MyDatabase.Read(contentRead);
+        //    contentRead = MyDatabase.Read(contentRead);
 
-            if(debug)
-                Console.WriteLine("PHP MySQL Output Begin");
-
-
-            if (contentRead != null)
-                Console.WriteLine(contentRead);
-            else
-                Console.WriteLine("empty.");
+        //    if(debug)
+        //        Console.WriteLine("PHP MySQL Output Begin");
 
 
-            if(debug)
-                Console.WriteLine("PHP MySQL Output End");
+        //    if (contentRead != null)
+        //        Console.WriteLine(contentRead);
+        //    else
+        //        Console.WriteLine("empty.");
 
-        }
+
+        //    if(debug)
+        //        Console.WriteLine("PHP MySQL Output End");
+
+        //}
     }
 }
