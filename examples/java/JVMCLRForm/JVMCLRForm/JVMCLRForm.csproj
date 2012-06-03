@@ -96,13 +96,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>set jsc=C:\util\jsc\bin\jsc.meta.exe
+    <PostBuildEvent>if $(ConfigurationName)==Debug (
+start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+)
+
+
+set jsc=C:\util\jsc\bin\jsc.meta.exe
 if exist C:\util\jsc\bin\jsc.internal.exe set jsc=C:\util\jsc\bin\jsc.internal.exe
 start /MIN /WAIT %25jsc%25 RewriteToJavaConsoleApplication /assembly:$(TargetPath) /AttachDebugger:false /obfuscate:false /DisableFusion:false /XJavaSDK_bin:"C:\util\j2sdk1.4.2_19\bin"  /DisableJavaConversion:false /SkipAfterIntrerfaceToDelegateSplit:false
 
-if $(ConfigurationName)==Debug (
-start /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
-)</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

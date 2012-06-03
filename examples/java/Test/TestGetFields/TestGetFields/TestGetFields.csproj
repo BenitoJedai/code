@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AABE4C83-8645-4312-ACBB-68141394D9A5}</ProjectGuid>
+    <ProjectGuid>{C23CF32E-38C8-49C6-A03C-908BBD8292B8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CLRJVMConsole</RootNamespace>
-    <AssemblyName>CLRJVMConsole</AssemblyName>
+    <RootNamespace>TestGetFields</RootNamespace>
+    <AssemblyName>TestGetFields</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -36,19 +35,38 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
     <Reference Include="ScriptCoreLibA">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
     </Reference>
     <Reference Include="ScriptCoreLibJava">
       <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.dll</HintPath>
     </Reference>
+    <Reference Include="ScriptCoreLibJava.Drawing">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava.Windows.Forms">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibJava.XLinq">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibJava.XLinq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestGetFields.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\TestGetFields.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -57,18 +75,26 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Foo0.java" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
+start /WAIT /MIN cmd /C c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /DefaultToDev11:true
 )
 
-start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe RewriteToJavaConsoleApplication /assembly:$(TargetPath)
+
+start /MIN /WAIT cmd /C C:\util\jsc\bin\jsc.meta.exe RewriteToHybridJavaApplication /assembly:$(TargetPath) /xAttachDebugger:true
+
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-    </PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
