@@ -281,7 +281,7 @@ namespace ScriptCoreLibJava.BCLImplementation.System
 
         public __FieldInfo[] GetFields()
         {
-            var f = this.InternalTypeDescription.getFields();
+            var f = this.InternalTypeDescription.getDeclaredFields();
             var a = new __FieldInfo[f.Length];
 
             for (int i = 0; i < f.Length; i++)

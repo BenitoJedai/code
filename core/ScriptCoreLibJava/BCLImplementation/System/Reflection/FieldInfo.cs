@@ -113,5 +113,10 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Reflection
         {
             return !InternalIsEqual(a, b);
         }
+
+        public override string ToString()
+        {
+            return this.FieldType.FullName + " " + this.Name;
+        }
     }
 }
