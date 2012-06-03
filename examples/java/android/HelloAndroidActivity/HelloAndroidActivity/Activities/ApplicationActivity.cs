@@ -12,7 +12,7 @@ using ScriptCoreLib.Android;
 
 namespace HelloAndroidActivity.Activities
 {
-    public class HelloAndroidActivity : Activity
+    public class ApplicationActivity : Activity
     {
         // C:\util\android-sdk-windows\tools\android.bat create project --package HelloAndroidActivity.Activities --activity HelloAndroidActivity  --target 2  --path y:\jsc.svn\examples\java\android\HelloAndroidActivity\HelloAndroidActivity\staging\
         // JSC should not explicity import all interfaces like Callback if not being defined 
