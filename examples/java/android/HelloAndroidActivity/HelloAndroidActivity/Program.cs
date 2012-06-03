@@ -14,7 +14,7 @@ namespace HelloAndroidActivity
         public static void Main(string[] e)
         {
             global::jsc.AndroidLauncher.Launch(
-                 typeof(HelloAndroidActivity.Activities.HelloAndroidActivity)
+                 typeof(HelloAndroidActivity.Activities.ApplicationActivity)
             );
         }
     }
