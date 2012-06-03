@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using java.io;
@@ -157,7 +158,36 @@ namespace ScriptCoreLib.Java
 
             return value;
         }
+
+        public static bool SignatureEquals(this MethodInfo a, string MethodName, Type ReturnType, Type[] ParameterTypes)
+        {
+            if (a.Name != MethodName)
+                return false;
+
+            // comparing void?
+
+            if (a.ReturnType != ReturnType)
+                return false;
+
+            var a_Parameters = a.GetParameters();
+            
+            if (a_Parameters.Length != ParameterTypes.Length)
+                return false;
+
+            var value = true;
+            for (int i = 0; i < a_Parameters.Length; i++)
+            {
+                if (a_Parameters[i].ParameterType != ParameterTypes[i])
+                {
+                    value = false;
+                    break;
+                }
+            }
+
+            return value;
+        }
     }
+
 
     partial class JavaArchiveReflector
     {
