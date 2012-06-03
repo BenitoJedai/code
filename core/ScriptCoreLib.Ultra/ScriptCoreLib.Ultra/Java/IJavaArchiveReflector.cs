@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -78,7 +79,7 @@ namespace ScriptCoreLib.Java
         }
     }
 
-
+    [DebuggerDisplay(".field {FieldType} {FieldName};")]
     public sealed class JavaArchiveReflectorFieldInfo
     {
         public string FieldName;
@@ -91,6 +92,7 @@ namespace ScriptCoreLib.Java
         {
 
         }
+
     }
 
     public sealed class JavaArchiveReflectorConstructor

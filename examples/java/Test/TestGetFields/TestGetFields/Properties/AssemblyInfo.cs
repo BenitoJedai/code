@@ -1,15 +1,15 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CLRJVMConsole")]
+[assembly: AssemblyTitle("Hybrid Java Application")]
 [assembly: AssemblyDescription(@"Write JavaScript, Adobe Flash and Oracle Java Applets within a single .NET project. http://jsc-solutions.net")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(@"jsc-solutions.net")]
-[assembly: AssemblyProduct("CLRJVMConsole")]
+[assembly: AssemblyProduct("TestGetFields")]
 [assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("34e8e1da-6c49-426b-a4e1-ea9c7daf1ccd")]
+[assembly: Guid("512bf848-8fe2-4cd5-bbca-6641561d05e7")]
 
 // Version information for an assembly consists of the following four values:
 //
