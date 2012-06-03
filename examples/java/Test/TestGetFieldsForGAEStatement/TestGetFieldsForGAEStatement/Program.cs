@@ -28,7 +28,29 @@ namespace TestGetFieldsForGAEStatement
             var TypeFullName = "com.google.cloud.sql.jdbc.Statement";
 
             // compiler how do we load a jar and get the class and inspect it as System.Type within JVM? :)
+            var t = jar.ToType(TypeFullName);
 
+            var a = t.GetFields();
+
+            foreach (var item in a)
+            {
+                Console.WriteLine(item);
+
+                //if (item.IsStatic)
+                //    Console.Write("static ");
+
+                //Console.WriteLine("field " + item.Name + " declared by " + item.DeclaringType.FullName);
+            }
+            //CLRProgram.CLRMain();
+        }
+    }
+
+    #region class loader
+    static class X
+    {
+        public static Type ToType(this string jar, string TypeFullName)
+        {
+            Type t = null;
             try
             {
                 var url = new java.io.File(jar).toURL();
@@ -36,19 +58,16 @@ namespace TestGetFieldsForGAEStatement
 
                 var c = clazzLoader.loadClass(TypeFullName);
 
-                Type t = c.ToType();
+                t = c.ToType();
 
-                Console.WriteLine(t.FullName);
             }
-            catch (csharp.ThrowableException ex)
+            catch
             {
-                Console.WriteLine("error @URLClassLoader: " + ex);
             }
-            //CLRProgram.CLRMain();
+            return t;
         }
     }
 
-    #region class loader
     public class InternalURLClassLoader : URLClassLoader
     {
         // one of the jobs of any class loader is to protect the system name space.
@@ -116,7 +135,7 @@ namespace TestGetFieldsForGAEStatement
         }
 
 
- 
+
         protected Class __findClass(string name, string x)
         {
             //Console.WriteLine("__findClass: " + name);
