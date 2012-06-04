@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiMerge", "MultiMerge\MultiMerge.csproj", "{65ADBB42-556F-49DF-81A0-7694D1220A5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiMerge.A", "MultiMerge.A\MultiMerge.A.csproj", "{7EA26AA9-3920-4C96-A9C7-CC39A4626350}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiMerge.B", "MultiMerge.B\MultiMerge.B.csproj", "{8AF3F5CF-BB2B-4261-93A3-5378FE1AC017}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65ADBB42-556F-49DF-81A0-7694D1220A5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65ADBB42-556F-49DF-81A0-7694D1220A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65ADBB42-556F-49DF-81A0-7694D1220A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65ADBB42-556F-49DF-81A0-7694D1220A5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA26AA9-3920-4C96-A9C7-CC39A4626350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA26AA9-3920-4C96-A9C7-CC39A4626350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA26AA9-3920-4C96-A9C7-CC39A4626350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA26AA9-3920-4C96-A9C7-CC39A4626350}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AF3F5CF-BB2B-4261-93A3-5378FE1AC017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AF3F5CF-BB2B-4261-93A3-5378FE1AC017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AF3F5CF-BB2B-4261-93A3-5378FE1AC017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AF3F5CF-BB2B-4261-93A3-5378FE1AC017}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
