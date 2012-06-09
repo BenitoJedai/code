@@ -7,6 +7,7 @@ using System.Xml.XPath;
 using System.Xml;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace jsc.meta.Library
 {
@@ -24,9 +25,20 @@ namespace jsc.meta.Library
 
         public Func<FileInfo, bool> HasReference;
 
+        public event Action ReferenceAdded;
+
         public Action<FileInfo, AssemblyName> AddReference;
 
+        public Func<FileInfo[]> GetAssemblyReferences;
+        public Func<MSVSProjectFile[]> GetProjectReferences;
+
         public Action Save;
+
+        public void RaiseReferenceAdded()
+        {
+            if (ReferenceAdded != null)
+                ReferenceAdded();
+        }
 
         public class ProjectFileInfo
         {
@@ -55,6 +67,8 @@ namespace jsc.meta.Library
             var nsContent = ns + "Content";
             var nsCompile = ns + "Compile";
             var nsDependentUpon = ns + "DependentUpon";
+
+            var nsProjectReference = ns + "ProjectReference";
             var nsReference = ns + "Reference";
             var nsHintPath = ns + "HintPath";
             var nsAssemblyName = ns + "AssemblyName";
@@ -99,6 +113,7 @@ namespace jsc.meta.Library
 
 
 
+            #region HasReference
             Func<FileInfo, bool> HasReference =
               AssemblyFile =>
               {
@@ -112,7 +127,50 @@ namespace jsc.meta.Library
                        select new { HintPath, Reference, ItemGroup }
                   );
               };
+            #endregion
 
+            Func<FileInfo[]> GetAssemblyReferences =
+               delegate
+               {
+                   var a =
+                       from ItemGroup in csproj.Root.Elements(nsItemGroup)
+                       from Reference in ItemGroup.Elements(nsReference)
+                       from HintPath in Reference.Elements(nsHintPath)
+                       let AssemblyReferencePath = Path.Combine(new FileInfo(filepath).Directory.FullName, HintPath.Value)
+                       select new FileInfo(AssemblyReferencePath);
+
+
+                   //            <Reference Include="My.Solutions.Pages.OpCode.AssetsLibrary">
+                   //  <HintPath>bin\staging.AssetsLibrary\My.Solutions.Pages.OpCode.AssetsLibrary.dll</HintPath>
+                   //</Reference>
+
+                   return a.ToArray();
+
+               };
+
+            Func<MSVSProjectFile[]> GetProjectReferences =
+                delegate
+                {
+                    var a =
+                       from ItemGroup in csproj.Root.Elements(nsItemGroup)
+                       from ProjectReference in ItemGroup.Elements(nsProjectReference)
+                       let Include = ProjectReference.Attribute("Include")
+                       let ProjectReferencePath = Path.Combine(new FileInfo(filepath).Directory.FullName, Include.Value)
+                       where File.Exists(ProjectReferencePath)
+                       select (MSVSProjectFile)new FileInfo(ProjectReferencePath);
+
+                    //<ItemGroup>
+                    //  <ProjectReference Include="..\..\My.Solutions.Pages.OpCode\My.Solutions.Pages.OpCode\My.Solutions.Pages.OpCode.csproj">
+                    //    <Project>{5823d538-ea39-4d2a-9c15-f3bce76c9781}</Project>
+                    //    <Name>My.Solutions.Pages.OpCode</Name>
+                    //  </ProjectReference>
+
+
+
+                    return a.ToArray();
+                };
+
+            MSVSProjectFile __this = null;
 
             #region AddReference
             Action<FileInfo, AssemblyName> AddReference =
@@ -126,7 +184,11 @@ namespace jsc.meta.Library
 </Reference>
                     */
 
-                    var TargetHintPath = AssemblyFile.FullName.Substring(ProjectFileName.Directory.FullName.Length + 1);
+                    //var TargetHintPath = AssemblyFile.FullName.Substring(ProjectFileName.Directory.FullName.Length + 1);
+                    var TargetHintPath = GetRelativePath(
+                        ProjectFileName.Directory.FullName,
+                        AssemblyFile.FullName
+                        );
 
                     // sanity check
                     if (!HasReference(AssemblyFile))
@@ -144,7 +206,7 @@ namespace jsc.meta.Library
                             )
                         );
 
-
+                        __this.RaiseReferenceAdded();
                     }
                 };
             #endregion
@@ -154,7 +216,7 @@ namespace jsc.meta.Library
                 csproj.Save(filepath);
             };
 
-            return new MSVSProjectFile
+            return __this = new MSVSProjectFile
             {
                 HintPaths = HintPaths,
                 DefaultNamespace = DefaultNamespace,
@@ -162,7 +224,9 @@ namespace jsc.meta.Library
                 ContentFiles = GetFilesByType(nsContent).ToArray(),
                 HasReference = HasReference,
                 AddReference = AddReference,
-                Save = Save
+                Save = Save,
+                GetProjectReferences = GetProjectReferences,
+                GetAssemblyReferences = GetAssemblyReferences
             };
         }
 
@@ -170,5 +234,51 @@ namespace jsc.meta.Library
         {
             return MSVSProjectFile.FromFile(f.FullName);
         }
+
+
+        #region http://stackoverflow.com/questions/275689/how-to-get-relative-path-from-absolute-path
+        public static string GetRelativePath(string fromPath, string toPath)
+        {
+            int fromAttr = GetPathAttribute(fromPath);
+            int toAttr = GetPathAttribute(toPath);
+
+            StringBuilder path = new StringBuilder(260); // MAX_PATH
+            if (PathRelativePathTo(
+                path,
+                fromPath,
+                fromAttr,
+                toPath,
+                toAttr) == 0)
+            {
+                throw new ArgumentException("Paths must have a common prefix");
+            }
+            return path.ToString();
+        }
+
+        private static int GetPathAttribute(string path)
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+            if (di.Exists)
+            {
+                return FILE_ATTRIBUTE_DIRECTORY;
+            }
+
+            FileInfo fi = new FileInfo(path);
+            if (fi.Exists)
+            {
+                return FILE_ATTRIBUTE_NORMAL;
+            }
+
+            throw new FileNotFoundException();
+        }
+
+        private const int FILE_ATTRIBUTE_DIRECTORY = 0x10;
+        private const int FILE_ATTRIBUTE_NORMAL = 0x80;
+
+        [DllImport("shlwapi.dll", SetLastError = true)]
+        private static extern int PathRelativePathTo(StringBuilder pszPath,
+            string pszFrom, int dwAttrFrom, string pszTo, int dwAttrTo);
+        #endregion
+
     }
 }
