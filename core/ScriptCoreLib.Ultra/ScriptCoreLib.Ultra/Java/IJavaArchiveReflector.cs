@@ -45,6 +45,7 @@ namespace ScriptCoreLib.Java
         string Type_GetAssemblyFullName(string TypeName);
         string Type_GetAssemblyLocation(string TypeName);
 
+        bool Type_IsAssignableFrom(string e, string TypeName);
         bool Type_IsInterface(string TypeName);
         bool Type_IsAbstract(string TypeName);
         bool Type_IsPublic(string TypeName);
@@ -129,19 +130,20 @@ namespace ScriptCoreLib.Java
 
         public override string ToString()
         {
-            return MethodName;
+            return MethodName + " : " + ReturnType;
         }
     }
 
     public static class JavaArchiveReflectorExtensions
     {
-        public static bool SignatureEquals(this JavaArchiveReflectorMethod a, JavaArchiveReflectorMethod b)
+        public static bool SignatureEquals(this JavaArchiveReflectorMethod a, JavaArchiveReflectorMethod b, bool CheckReturnType = true)
         {
             if (a.MethodName != b.MethodName)
                 return false;
 
-            if (a.ReturnType != b.ReturnType)
-                return false;
+            if (CheckReturnType)
+                if (a.ReturnType != b.ReturnType)
+                    return false;
 
             if (a.ParameterTypes.Length != b.ParameterTypes.Length)
                 return false;
@@ -170,7 +172,7 @@ namespace ScriptCoreLib.Java
                 return false;
 
             var a_Parameters = a.GetParameters();
-            
+
             if (a_Parameters.Length != ParameterTypes.Length)
                 return false;
 
@@ -388,6 +390,10 @@ namespace ScriptCoreLib.Java
             return this[TypeName].IsNestedPublic;
         }
 
+        public bool Type_IsAssignableFrom(string e, string TypeName)
+        {
+            return this.clazzLoader.GetType(e).IsAssignableFrom(this.clazzLoader.GetType(TypeName));
+        }
 
         public bool Type_IsAbstract(string TypeName)
         {
