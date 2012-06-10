@@ -130,7 +130,22 @@ namespace ScriptCoreLib.Java
 
         public override string ToString()
         {
-            return MethodName + " : " + ReturnType;
+            var w = MethodName;
+
+            w += "(";
+
+            for (int i = 0; i < ParameterTypes.Length; i++)
+            {
+                if (i > 0)
+                    w += ", ";
+
+                w += ParameterTypes[i];
+
+            }
+
+            w += ")";
+
+            return w + " : " + ReturnType;
         }
     }
 
@@ -392,7 +407,16 @@ namespace ScriptCoreLib.Java
 
         public bool Type_IsAssignableFrom(string e, string TypeName)
         {
-            return this.clazzLoader.GetType(e).IsAssignableFrom(this.clazzLoader.GetType(TypeName));
+            var _e = this.clazzLoader.GetType(e);
+            var _TypeName = this.clazzLoader.GetType(TypeName);
+
+            if (_e == null)
+                return false;
+
+            if (_TypeName == null)
+                return false;
+
+            return _e.IsAssignableFrom(_TypeName);
         }
 
         public bool Type_IsAbstract(string TypeName)
