@@ -1,11 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿interface History {
+  readonly attribute long length;
+  readonly attribute any state;
+  void go(optional long delta);
+  void back();
+  void forward();
+  void pushState(any data, DOMString title, optional DOMString url);
+  void replaceState(any data, DOMString title, optional DOMString url);
+};
 
-namespace TestWebAPIIDL.Design
-{
-    class history
-    {
-    }
-}
+interface Location {
+stringifier attribute DOMString href;
+  void assign(DOMString url);
+  void replace(DOMString url);
+  void reload();
+
+  // URL decomposition IDL attributes 
+           attribute DOMString protocol;
+           attribute DOMString host;
+           attribute DOMString hostname;
+           attribute DOMString port;
+           attribute DOMString pathname;
+           attribute DOMString search;
+           attribute DOMString hash;
+};
