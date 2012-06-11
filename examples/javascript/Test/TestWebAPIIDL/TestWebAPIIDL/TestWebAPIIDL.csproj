@@ -131,6 +131,7 @@
   <ItemGroup>
     <None Include="Design\dnd.idl" />
     <None Include="Design\FileAPI.idl" />
+    <None Include="Design\history.idl" />
     <None Include="Design\typedarrays.idl" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
