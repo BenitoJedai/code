@@ -1,0 +1,29 @@
+[Constructor(DOMString type)]
+interface MessageEvent : Event {
+  readonly attribute any data;
+  readonly attribute DOMString origin;
+  readonly attribute DOMString lastEventId;
+  // readonly attribute (WindowProxy or MessagePort)? source;
+  readonly attribute WindowProxy? source;
+
+  readonly attribute MessagePort[]? ports;
+};
+
+[Constructor]
+interface MessageChannel {
+  readonly attribute MessagePort port1;
+  readonly attribute MessagePort port2;
+};
+
+[NoInterfaceObject]
+interface Transferable { };
+
+interface MessagePort : EventTarget {
+  void postMessage(any message, optional sequence<Transferable> transfer);
+  // void postMessage(any message, DOMString transfer);
+  void start();
+  void close();
+
+  // event handlers
+  [TreatNonCallableAsNull] attribute Function? onmessage;
+};

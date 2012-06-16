@@ -81,9 +81,9 @@ namespace ScriptCoreLib.Ultra.IDL
             }
 
 
-            if (Name.Next.Text == "?")
+            if (r.Terminator.Next.Text == "?")
             {
-                r.NullableSymbol = Name.Next;
+                r.NullableSymbol = r.Terminator.Next;
 
             }
 
@@ -231,6 +231,7 @@ namespace ScriptCoreLib.Ultra.IDL
                      if (pp.Text == "}")
                          return pp;
 
+                     #region const
                      if (pp.Text == "const")
                      {
                          var Constant = new IDLMemberConstant
@@ -250,6 +251,8 @@ namespace ScriptCoreLib.Ultra.IDL
 
                          return Constant.Terminator.SkipTo();
                      }
+                     #endregion
+
 
                      var KeywordReadOnly = default(IDLParserToken);
                      var KeywordDeleter = default(IDLParserToken);
@@ -280,14 +283,19 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
+                     var AnnotationArray = default(IDLMemberAnnotationArray);
 
+                     if (pp.Text == "[")
+                     {
+                         AnnotationArray = pp.ToAnnotationArray();
+                         pp = AnnotationArray.Symbols.Item2.SkipTo();
+                     }
 
                      #region attribute
                      if (pp.Text == "attribute")
                      {
                          var Keyword = pp;
 
-                         var AnnotationArray = default(IDLMemberAnnotationArray);
 
                          if (pp.SkipTo().Text == "[")
                          {
@@ -311,26 +319,33 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
+                     #region omittable
                      var __omittable = default(IDLParserToken);
                      if (pp.Text == "omittable")
                      {
                          __omittable = pp;
                          pp = pp.SkipTo();
                      }
+                     #endregion
 
+
+                     #region getter
                      var KeywordGetter = default(IDLParserToken);
                      if (pp.Text == "getter")
                      {
                          KeywordGetter = pp;
                          pp = pp.SkipTo();
                      }
+                     #endregion
 
+                     #region setter
                      var KeywordSetter = default(IDLParserToken);
                      if (pp.Text == "setter")
                      {
                          KeywordSetter = pp;
                          pp = pp.SkipTo();
                      }
+                     #endregion
 
 
                      // method!!
