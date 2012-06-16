@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ScriptCoreLib.JavaScript.FileAPI;
 using ScriptCoreLib.JavaScript.HistoryAPI;
+using ScriptCoreLib.JavaScript.MessagingAPI;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -23,6 +24,29 @@ namespace ScriptCoreLib.JavaScript.DOM
             remove
             {
                 base.InternalEvent(false, value, "popstate");
+            }
+        }
+        #endregion
+
+        public IWindow parent;
+
+        public void postMessage(object message, string targetOrigin = "*")
+        {
+            // http://www.whatwg.org/specs/web-apps/current-work/#the-window-object
+        }
+
+        #region event
+        public event System.Action<MessageEvent> onmessage
+        {
+            [Script(DefineAsStatic = true)]
+            add
+            {
+                base.InternalEvent(true, value, "message");
+            }
+            [Script(DefineAsStatic = true)]
+            remove
+            {
+                base.InternalEvent(false, value, "message");
             }
         }
         #endregion

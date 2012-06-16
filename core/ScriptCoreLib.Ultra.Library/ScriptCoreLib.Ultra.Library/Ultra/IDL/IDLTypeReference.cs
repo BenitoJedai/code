@@ -70,14 +70,16 @@ namespace ScriptCoreLib.Ultra.IDL
         {
             get
             {
+                if (NullableSymbol != null)
+                    return NullableSymbol.Next;
+
                 if (GenericParameterSymbols.Item2 != null)
                     return GenericParameterSymbols.Item2;
 
                 if (ArraySymbols.Item2 != null)
                     return ArraySymbols.Item2;
 
-                if (NullableSymbol != null)
-                    return NullableSymbol.Next;
+             
 
                 return Name;
             }
