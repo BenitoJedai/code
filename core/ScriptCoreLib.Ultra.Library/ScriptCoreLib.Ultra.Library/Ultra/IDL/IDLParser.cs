@@ -253,6 +253,7 @@ namespace ScriptCoreLib.Ultra.IDL
 
                      var KeywordReadOnly = default(IDLParserToken);
                      var KeywordDeleter = default(IDLParserToken);
+                     var Keyword_stringifier = default(IDLParserToken);
 
                      #region readonly
                      if (pp.Text == "readonly")
@@ -270,6 +271,16 @@ namespace ScriptCoreLib.Ultra.IDL
                          pp = pp.SkipTo();
                      }
                      #endregion
+
+                     #region stringifier
+                     if (pp.Text == "stringifier")
+                     {
+                         Keyword_stringifier = pp;
+                         pp = pp.SkipTo();
+                     }
+                     #endregion
+
+
 
                      #region attribute
                      if (pp.Text == "attribute")
