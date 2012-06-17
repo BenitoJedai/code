@@ -8,6 +8,8 @@ namespace TestExtensionPropertyType
 
     public class Class1
     {
+        public object bar { get; set; }
+
         //public object[] foo { get; set; }
         public Array foo { get; set; }
     }
