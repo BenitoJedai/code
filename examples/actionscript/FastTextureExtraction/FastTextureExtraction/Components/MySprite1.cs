@@ -5,6 +5,8 @@ using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
 using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.flash.geom;
+using ScriptCoreLib.Extensions;
+using ScriptCoreLib.Shared;
 
 namespace FastTextureExtraction.Components
 {
@@ -31,7 +33,8 @@ namespace FastTextureExtraction.Components
 
         public void onMouseMove(MouseEvent e)
         {
-            if ((e == null) || e.buttonDown)
+            
+            if ((e == null).Or( e.buttonDown))
             {
                 homography.setTransform(image,
                     new Point(anchors[0].x, anchors[0].y),
