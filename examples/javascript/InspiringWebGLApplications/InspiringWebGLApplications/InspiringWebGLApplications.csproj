@@ -124,8 +124,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="InspiringWebGLApplications.UltraSource">
-      <HintPath>bin\staging.UltraSource\InspiringWebGLApplications.UltraSource.dll</HintPath>
+    <Reference Include="InspiringWebGLApplications.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\InspiringWebGLApplications.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="InspiringWebGLApplications.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\InspiringWebGLApplications.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +220,7 @@
     <Content Include="Design\Joshua_Perez__Experiments__Marbles_-_Google_Chrome-2012-04-22_11.37.50.png" />
     <Content Include="Design\JSSokoban_3D_-_Google_Chrome-2012-03-25_16.48.54.png" />
     <Content Include="Design\js_cloth_-_Google_Chrome-2012-02-26_22.04.06.png" />
+    <Content Include="Design\Jupiter_Galilean_Moon_System_-_Google_Chrome-2012-04-25_11.29.12.png" />
     <Content Include="Design\Kamiori_-_Google_Chrome-2012-04-22_11.28.05.png" />
     <Content Include="Design\Kuda_Hello_World_-_Google_Chrome-2012-02-27_00.07.36.png" />
     <Content Include="Design\Kuda_Pressure_House_B_-_Google_Chrome-2012-02-27_00.15.27.png" />
@@ -250,6 +254,7 @@
     <Content Include="Design\moldedbits.comfilesbumblewebglbumble.html_-_Google_Chrome-2012-04-06_19.05.53.png" />
     <Content Include="Design\MolGrabber_3D__ChemDoodle_Web_Components_-_Google_Chrome-2012-03-25_17.56.39.png" />
     <Content Include="Design\Moon_-_made_with_three.js_%28webGL__GLSL%29_-_Google_Chrome-2012-04-06_18.37.58.png" />
+    <Content Include="Design\Move_the_Box_3D_-_Google_Chrome-2012-04-25_11.30.13.png" />
     <Content Include="Design\MSA_2_beta_-_Google_Chrome-2012-03-22_19.56.00.png" />
     <Content Include="Design\NaCl_crystal_-_Google_Chrome-2012-02-26_21.39.36.png" />
     <Content Include="Design\nicolas-bonnel.github.comWARPGindex.html_-_Google_Chrome-2012-04-12_00.54.17.png" />
@@ -260,6 +265,7 @@
     <Content Include="Design\p3d.in_-_your_3D_online_-_Google_Chrome-2012-03-25_18.33.03.png" />
     <Content Include="Design\Pacmaze_-_a_pacman_in_a_maze_-_Google_Chrome-2012-02-26_22.03.20.jpg" />
     <Content Include="Design\PandurII_em_WebGL_-_Google_Chrome-2012-03-04_12.04.21.png" />
+    <Content Include="Design\PDB_Ribbons__ChemDoodle_Web_Components_-_Google_Chrome-2012-04-25_11.25.39.png" />
     <Content Include="Design\PDE_on_GPU_-_Google_Chrome-2012-02-26_21.56.04.png" />
     <Content Include="Design\Pendulum_Waves_WebGL_-_Google_Chrome-2012-04-27_19.13.31.png" />
     <Content Include="Design\Petors_WebGL-Spielplatz_-_Google_Chrome-2012-02-26_21.32.02.png" />
@@ -273,6 +279,7 @@
     <Content Include="Design\Prototype_-_Google_Chrome-2012-03-18_11.38.28.png" />
     <Content Include="Design\Quake_2_Map_Demo_-_Google_Chrome-2012-02-27_00.29.47.jpg" />
     <Content Include="Design\Quake_3_WebGL_Demo_-_Google_Chrome-2012-02-26_23.51.50.jpg" />
+    <Content Include="Design\Random_Forces_Graph_-_Google_Chrome-2012-06-16_17.58.50.png" />
     <Content Include="Design\Ray_collision_test_-_Google_Chrome-2012-02-26_22.11.39.png" />
     <Content Include="Design\Reactive_Monkey_-_Google_Chrome-2012-04-08_15.33.28.png" />
     <Content Include="Design\ROCKETMANs.NET_Javascript_WebGL_Apache_simulation_landscape_terrain_voxel_experiment_-_Google_Chrome-2012-02-26_19.59.49.png" />
@@ -391,6 +398,7 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /xAttachDebugger:true /SelectAll:true /DisableWorkerDomain</PreBuildEvent>
+    <PreBuildEvent>
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true</PreBuildEvent>
   </PropertyGroup>
 </Project>
