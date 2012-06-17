@@ -50,5 +50,5 @@ echo - %2
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 ::call C:\util\flex33\bin\mxmlc.exe  -target-player=10.0.0  -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as -include-libraries="assets\FlintExplodeImage\Away3D.swc;assets\FlintExplodeImage\Papervision3D_2.0.883.swc;assets\FlintExplodeImage\Flint_2_0_1.swc"
-call C:\util\flex_sdk_4.1.0.16076\bin\mxmlc.exe -static-link-runtime-shared-libraries=true --target-player=10.1.0   -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as -include-libraries="assets\FlintExplodeImage\Away3D.swc;assets\FlintExplodeImage\Papervision3D_2.0.883.swc;assets\FlintExplodeImage\Flint_2_0_1.swc"
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe  -static-link-runtime-shared-libraries=true -swf-version=13 --target-player=11.1.0  -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as -include-libraries="assets\FlintExplodeImage\Away3D.swc;assets\FlintExplodeImage\Papervision3D_2.0.883.swc;assets\FlintExplodeImage\Flint_2_0_1.swc"
 goto :eof
