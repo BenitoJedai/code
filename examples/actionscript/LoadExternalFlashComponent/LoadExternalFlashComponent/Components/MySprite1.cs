@@ -114,7 +114,7 @@ namespace LoadExternalFlashComponent.Components
                     ldr.contentLoaderInfo.init +=
                         delegate
                         {
-                            ldr.content.addEventListener("onReady", onReady.ToFunction());
+                            ldr.content.addEventListener("onReady", onReady.ToFunction(), false, 0, false);
                         };
                 }
 
