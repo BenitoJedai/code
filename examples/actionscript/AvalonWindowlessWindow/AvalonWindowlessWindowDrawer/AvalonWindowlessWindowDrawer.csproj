@@ -175,6 +175,33 @@
     <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
       <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.htm" />

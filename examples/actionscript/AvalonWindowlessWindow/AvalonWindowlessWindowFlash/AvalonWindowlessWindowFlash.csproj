@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -139,6 +140,9 @@
     </Reference>
     <Reference Include="AvalonWindowlessWindowFlash.AssetsLibrary">
       <HintPath>.\bin\staging.AssetsLibrary\AvalonWindowlessWindowFlash.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
       <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
