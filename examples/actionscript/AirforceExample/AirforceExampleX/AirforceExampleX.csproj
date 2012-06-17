@@ -129,6 +129,9 @@
     <Reference Include="AirforceExampleX.AssetsLibrary">
       <HintPath>.\bin\staging.AssetsLibrary\AirforceExampleX.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="AirforceExampleX.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\AirforceExampleX.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\Application.cs" />
