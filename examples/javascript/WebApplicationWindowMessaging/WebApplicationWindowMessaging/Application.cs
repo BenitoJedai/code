@@ -102,14 +102,30 @@ namespace WebApplicationWindowMessaging
             {
                 page.Content.innerText = Native.Document.location.hash;
 
-                var target = Native.Window.opener;
- 
-                if (target == null)
-                    target = Native.Window.parent;
+                Native.Window.opener.With(
+                   parent =>
+                   {
 
-                target.With(
+                       new IHTMLButton { innerText = "send opener a message" }.With(
+                           btn =>
+                           {
+                               btn.onclick +=
+                                   delegate
+                                   {
+
+                                       parent.postMessage("hi from " + Native.Document.location.hash);
+                                   };
+                           }
+                       ).AttachToDocument();
+                   }
+               );
+
+                Native.Window.parent.With(
                     parent =>
                     {
+                        // not talking to self
+                        if (parent == Native.Window)
+                            return;
 
                         new IHTMLButton { innerText = "send parent a message" }.With(
                             btn =>
