@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeSharedLibraryForAssets", "RuntimeSharedLibraryForAssets\RuntimeSharedLibraryForAssets.csproj", "{1A65D4D7-2097-4B25-8D57-BCFCEDE88177}"
 	ProjectSection(ProjectDependencies) = postProject
 		{98A32C84-32D0-404F-9AD7-1CB27DCE1287} = {98A32C84-32D0-404F-9AD7-1CB27DCE1287}
