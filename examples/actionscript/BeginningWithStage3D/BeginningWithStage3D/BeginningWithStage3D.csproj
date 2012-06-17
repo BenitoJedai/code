@@ -132,6 +132,11 @@
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="com\adobe\utils\AGALMiniAssembler.as" />
+    <None Include="com\adobe\utils\FractalGeometryGenerator.as" />
+    <None Include="com\adobe\utils\PerspectiveMatrix3D.as" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
