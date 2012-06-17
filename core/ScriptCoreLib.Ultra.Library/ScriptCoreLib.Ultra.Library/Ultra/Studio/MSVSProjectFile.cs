@@ -117,7 +117,11 @@ namespace jsc.meta.Library
             Func<FileInfo, bool> HasReference =
               AssemblyFile =>
               {
-                  var TargetHintPath = AssemblyFile.FullName.Substring(ProjectFileName.Directory.FullName.Length + 1);
+                  var TargetHintPath = GetRelativePath(
+                      ProjectFileName.Directory.FullName,
+                      AssemblyFile.FullName
+                      );
+
 
                   return Enumerable.Any(
                        from ItemGroup in csproj.Root.Elements(nsItemGroup)
