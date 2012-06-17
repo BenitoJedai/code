@@ -32,12 +32,16 @@ namespace BeginningWithStage3D
         public Application(IDefaultPage page)
         {
             // Initialize ApplicationSprite
+
+            new IHTMLDiv { innerText = "wmode set" }.AttachToDocument();
+
             sprite.wmode();
             sprite.AtMessage +=
                 e =>
                 {
                     new IHTMLDiv { innerText = e }.AttachToDocument();
                 };
+            sprite.InitializeContent();
 
             sprite.AttachSpriteTo(page.Content);
             @"Hello world".ToDocumentTitle();
