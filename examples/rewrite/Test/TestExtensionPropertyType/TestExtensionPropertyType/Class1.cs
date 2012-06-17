@@ -7,6 +7,7 @@ namespace TestExtensionPropertyType
 {
     public class Class1
     {
+        public Class1 bar { get; set; }
         public Class1[] foo { get; set; }
     }
 }
