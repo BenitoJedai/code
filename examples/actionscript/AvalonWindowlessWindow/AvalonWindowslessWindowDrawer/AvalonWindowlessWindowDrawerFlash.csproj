@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -114,8 +115,95 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AvalonWindowslessWindowDrawer.UltraSource">
-      <HintPath>bin\staging.UltraSource\AvalonWindowslessWindowDrawer.UltraSource.dll</HintPath>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowslessWindowDrawer.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\AvalonWindowslessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindowDrawer.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindowDrawer\bin\staging.AssetsLibrary\AvalonWindowlessWindowDrawer.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +235,10 @@
 if $(ConfigurationName)==Release (
 rem start /WAIT  c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
 )</PostBuildEvent>
-    <PreBuildEvent>start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
