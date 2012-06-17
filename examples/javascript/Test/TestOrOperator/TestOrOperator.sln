@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestOrOperator", "TestOrOperator\TestOrOperator.csproj", "{9E4CC2A0-3324-4DA7-8EA6-F08949852914}"
 EndProject
