@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,8 +116,50 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="AvalonWindowlessWindowFlash.UltraSource">
-      <HintPath>bin\staging.UltraSource\AvalonWindowlessWindowFlash.UltraSource.dll</HintPath>
+    <Reference Include="AvalonWindowlessWindowFlash.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\AvalonWindowlessWindowFlash.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindowFlash.AssetsLibrary">
+      <HintPath>.\bin\staging.AssetsLibrary\AvalonWindowlessWindowFlash.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AvalonWindowlessWindow.AssetsLibrary">
+      <HintPath>..\AvalonWindowlessWindow\bin\staging.AssetsLibrary\AvalonWindowlessWindow.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +191,10 @@
 if $(ConfigurationName)==Release (
 rem c:\util\jsc\bin\jsc.meta40.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServiceJava:true
 )</PostBuildEvent>
-    <PreBuildEvent>C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /xAttachDebugger:true
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
