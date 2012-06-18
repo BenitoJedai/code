@@ -8,7 +8,9 @@ namespace TestOrOperator
     public class Class1
     {
         public static void Foo()
-        { }
+        { 
+        
+        }
 
         public static bool Foo(bool a, bool b)
         {
@@ -17,6 +19,22 @@ namespace TestOrOperator
             var x = a || b;
 
             Foo();
+
+            var y = a && b;
+
+            Foo();
+
+            if (a || b)
+                Foo();
+            else
+                Foo();
+
+            Foo();
+
+            if (a && b)
+                Foo();
+            else
+                Foo();
 
             return x;
         }
