@@ -207,7 +207,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not $(ConfigurationName)==Release goto :eof
-start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /AttachDebugger:false /WebServiceJavaSettings.version:27 /DisableWorkerDomain</PostBuildEvent>
+start /WAIT cmd /C c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)"  /DisableWebServiceJava:false /AttachDebugger:false /WebServiceJavaSettings.version:29 /DisableWorkerDomain</PostBuildEvent>
     <PreBuildEvent>start /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /LinkedAssets:"c:\util\jsc\publish"
 
 </PreBuildEvent>
