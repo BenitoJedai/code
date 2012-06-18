@@ -114,12 +114,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="FlashGoogleMaps.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashGoogleMaps.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="FlashGoogleMaps.AssetsLibrary">
-      <HintPath>.\bin\staging.AssetsLibrary\FlashGoogleMaps.AssetsLibrary.dll</HintPath>
-    </Reference>
+
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.css" />
