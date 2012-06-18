@@ -120,8 +120,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
+
     <Reference Include="FlashTowerDefenseApp.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\FlashTowerDefenseApp.AssetsLibrary.dll</HintPath>
+      <HintPath>.\bin\staging.AssetsLibrary\FlashTowerDefenseApp.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
