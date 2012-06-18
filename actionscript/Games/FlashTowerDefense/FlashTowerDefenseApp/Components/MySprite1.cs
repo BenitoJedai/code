@@ -6,6 +6,10 @@ namespace FlashTowerDefenseApp.Components
 {
     internal sealed class MySprite1 : Sprite
     {
+        public const int DefaultWidth = 560;
+
+        public const int DefaultHeight = 480;
+
         public MySprite1()
         {
             var g = new FlashTowerDefense.ActionScript.FlashTowerDefense();

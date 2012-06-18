@@ -29,7 +29,7 @@ namespace FlashTowerDefenseApp
         public Application(IDefaultPage page)
         {
             // Initialize MySprite1
-            new MySprite1().AttachSpriteTo(page.Content);
+            new MySprite1().AttachSpriteToDocument();
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
             service.WebMethod2(
