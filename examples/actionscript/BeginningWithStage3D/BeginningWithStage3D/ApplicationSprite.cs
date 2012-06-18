@@ -10,52 +10,6 @@ using ScriptCoreLib.ActionScript.flash.geom;
 using ScriptCoreLib.ActionScript.flash.utils;
 using ScriptCoreLib.Extensions;
 
-#region [BeginningWithStage3D.AssetsLibrary]
-namespace com.adobe.utils
-{
-    [Script(IsNative = true)]
-    [BeginningWithStage3D.AssetsLibrary.SWCImport]
-    public class AGALMiniAssembler
-    {
-        protected static object COMPONENTS;
-        protected static RegExp REGEXP_OUTER_SPACES;
-        protected static bool USE_NEW_SYNTAX;
-        public bool verbose;
-
-        public AGALMiniAssembler(bool debugging = false)
-        { 
-        }
-
-        public ByteArray agalcode { get; set; }
-        public string error { get; set;  }
-
-        public ByteArray assemble(string mode, string source) {
-            return default(ByteArray);
-        }
-    }
-
-    [Script(IsNative = true)]
-    [BeginningWithStage3D.AssetsLibrary.SWCImport]
-    public class PerspectiveMatrix3D : Matrix3D
-    {
-        public PerspectiveMatrix3D(Vector<double> v = null)
-        { }
-
-        public void lookAtLH(Vector3D eye, Vector3D at, Vector3D up) { }
-        public void lookAtRH(Vector3D eye, Vector3D at, Vector3D up) { }
-        public void orthoLH(double width, double height, double zNear, double zFar) { }
-        public void orthoOffCenterLH(double left, double right, double bottom, double top, double zNear, double zFar) { }
-        public void orthoOffCenterRH(double left, double right, double bottom, double top, double zNear, double zFar) { }
-        public void orthoRH(double width, double height, double zNear, double zFar) { }
-        public void perspectiveFieldOfViewLH(double fieldOfViewY, double aspectRatio, double zNear, double zFar) { }
-        public void perspectiveFieldOfViewRH(double fieldOfViewY, double aspectRatio, double zNear, double zFar) { }
-        public void perspectiveLH(double width, double height, double zNear, double zFar) { }
-        public void perspectiveOffCenterLH(double left, double right, double bottom, double top, double zNear, double zFar) { }
-        public void perspectiveOffCenterRH(double left, double right, double bottom, double top, double zNear, double zFar) { }
-        public void perspectiveRH(double width, double height, double zNear, double zFar) { }
-    }
-}
-#endregion
 
 namespace BeginningWithStage3D
 {
@@ -108,7 +62,7 @@ mov op, vt0";
                     var fragmentAssembler = new AGALMiniAssembler();
                     fragmentAssembler.assemble(Context3DProgramType.FRAGMENT, fragmentShader);
                     // Upload vertex/framgment shader to our program  
-                    program.upload(vertexAssembler.agalcode, fragmentAssembler.agalcode);
+                    program.upload((ByteArray)vertexAssembler.agalcode, (ByteArray)fragmentAssembler.agalcode);
                     // Set the program instance as currently active program  
                     context3D.setProgram(program);
 
