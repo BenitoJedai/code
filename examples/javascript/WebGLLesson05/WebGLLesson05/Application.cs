@@ -28,7 +28,7 @@ namespace WebGLLesson05
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         /* This example will be a port of http://learningwebgl.com/blog/?p=370 by Giles
          * 

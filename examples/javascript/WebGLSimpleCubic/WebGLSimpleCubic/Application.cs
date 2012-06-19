@@ -83,7 +83,7 @@ namespace WebGLSimpleCubic
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             new CanvasMatrix().Content.With(
                 CanvasMatrix =>
@@ -432,6 +432,7 @@ namespace WebGLSimpleCubic
             };
             #endregion
 
+            #region onmousewheel
             canvas.onmousewheel +=
                 ev =>
                 {
@@ -451,6 +452,9 @@ namespace WebGLSimpleCubic
 
                     ev.PreventDefault();
                 };
+            #endregion
+
+
 
             Native.Document.body.style.backgroundColor = Color.FromRGB(0x80, 0xFF, 0x80);
         }

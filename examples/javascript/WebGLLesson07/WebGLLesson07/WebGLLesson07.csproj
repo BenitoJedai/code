@@ -120,9 +120,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WebGLLesson07.AssetsLibrary">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLLesson07\bin\staging.AssetsLibrary\WebGLLesson07.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLLesson07.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLLesson07.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -148,8 +145,7 @@
     </Compile>
     <Content Include="Design\crate.gif" />
     <Content Include="Design\Preview.png" />
-    <Content Include="Design\glMatrix.js">
-    </Content>
+    <Content Include="Design\glMatrix.js"></Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
