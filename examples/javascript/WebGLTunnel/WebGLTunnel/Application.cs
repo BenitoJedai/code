@@ -370,13 +370,14 @@ namespace WebGLTunnel
 
                     Action AtResize = delegate
                     {
-                        gl_viewportWidth = Native.Window.Width;
-                        gl_viewportHeight = Native.Window.Height;
+
+                        gl_viewportWidth = Convert.ToInt32( Native.Window.Width * zoom);
+                        gl_viewportHeight = Convert.ToInt32( Native.Window.Height * zoom);
 
                         canvas.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
 
-                        canvas.width = Native.Window.Width;
-                        canvas.height = Native.Window.Height;
+                        canvas.width = Convert.ToInt32( Native.Window.Width * zoom);
+                        canvas.height = Convert.ToInt32(Native.Window.Height * zoom);
                     };
 
                     #region onresize
@@ -457,7 +458,14 @@ namespace WebGLTunnel
             );
 
 
+
+
+
         }
+
+
+        public double zoom = 1.2;
+
     }
 
 }
