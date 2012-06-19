@@ -18,7 +18,7 @@ namespace wolfenstein4kTemplate
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
         public readonly ApplicationWebService service = new ApplicationWebService();
 
