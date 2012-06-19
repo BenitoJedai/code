@@ -347,6 +347,15 @@ namespace ScriptCoreLib.Ultra.IDL
                      }
                      #endregion
 
+                     #region setter
+                     var KeywordCreator = default(IDLParserToken);
+                     if (pp.Text == "creator")
+                     {
+                         KeywordCreator = pp;
+                         pp = pp.SkipTo();
+                     }
+                     #endregion
+
 
                      // method!!
                      var Method = ToMemberMethod(pp, KeywordGetter, KeywordSetter, KeywordDeleter);
