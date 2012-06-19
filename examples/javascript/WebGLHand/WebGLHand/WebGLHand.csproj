@@ -123,9 +123,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLHand.AssetsLibrary">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLHand\bin\staging.AssetsLibrary\WebGLHand.AssetsLibrary.dll</HintPath>
-    </Reference>
+
     <Reference Include="WebGLHand.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLHand.AssetsLibrary.dll</HintPath>
     </Reference>

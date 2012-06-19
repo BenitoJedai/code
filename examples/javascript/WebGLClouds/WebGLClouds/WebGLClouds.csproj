@@ -119,9 +119,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLClouds.AssetsLibrary">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLClouds\bin\staging.AssetsLibrary\WebGLClouds.AssetsLibrary.dll</HintPath>
-    </Reference>
+
     <Reference Include="WebGLClouds.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLClouds.AssetsLibrary.dll</HintPath>
     </Reference>
