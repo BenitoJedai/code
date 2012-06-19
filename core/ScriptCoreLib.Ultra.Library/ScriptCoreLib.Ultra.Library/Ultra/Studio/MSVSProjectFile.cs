@@ -257,7 +257,13 @@ namespace jsc.meta.Library
             {
                 throw new ArgumentException("Paths must have a common prefix");
             }
-            return path.ToString().SkipUntilIfAny(".\\");
+
+            var v = path.ToString();
+
+            if (v.StartsWith(@".\"))
+                v = v.Substring(@".\".Length);
+
+            return v;
         }
 
         private static int GetPathAttribute(string path)
