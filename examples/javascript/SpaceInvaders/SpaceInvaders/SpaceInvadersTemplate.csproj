@@ -105,6 +105,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Audio\baseexplode.mp3" />
+    <Content Include="Audio\AudioReferences.htm" />
+    <Content Include="Audio\duh0.mp3" />
+    <Content Include="Audio\duh1.mp3" />
+    <Content Include="Audio\duh2.mp3" />
+    <Content Include="Audio\duh3.mp3" />
+    <Content Include="Audio\fade.mp3" />
+    <Content Include="Audio\firemissile.mp3" />
+    <Content Include="Audio\freecredit.mp3" />
+    <Content Include="Audio\insertcoin.mp3" />
+    <Content Include="Audio\invaderexplode.mp3" />
+    <Content Include="Audio\mothershiploopx.mp3" />
+    <Content Include="Audio\shortdweep.mp3" />
+    <Content Include="Audio\shortwhite.mp3" />
     <Content Include="Design\Images\aenemy.gif" />
     <Content Include="Design\Images\benemy.gif" />
     <Content Include="Design\Images\biggun.gif" />
