@@ -11,10 +11,8 @@ using SpaceInvadersTemplate.HTML.Images.FromAssets;
 
 namespace SpaceInvaders.Library
 {
-    [Script]
     public class ImageResources
     {
-        [Script]
         public class Item
         {
             public string URL;

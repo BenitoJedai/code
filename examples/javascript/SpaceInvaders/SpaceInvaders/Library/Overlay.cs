@@ -15,7 +15,6 @@ namespace SpaceInvaders.Library
         /// <summary>
         /// makes the page look dark and displays another layer in the front
         /// </summary>
-        [Script]
         public class Overlay
         {
             public readonly IHTMLDiv ControlInBack = new IHTMLDiv();
