@@ -8,6 +8,7 @@ using System.Xml;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using ScriptCoreLib.Extensions;
 
 namespace jsc.meta.Library
 {
@@ -256,7 +257,7 @@ namespace jsc.meta.Library
             {
                 throw new ArgumentException("Paths must have a common prefix");
             }
-            return path.ToString();
+            return path.ToString().SkipUntilIfAny(".\\");
         }
 
         private static int GetPathAttribute(string path)
