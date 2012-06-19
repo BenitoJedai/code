@@ -28,7 +28,7 @@ namespace WebGLSpadeWarrior
     /// <summary>
     /// This type will run as JavaScript.
     /// </summary>
-    internal sealed class Application
+    public sealed class Application
     {
 
 
@@ -38,7 +38,7 @@ namespace WebGLSpadeWarrior
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page= null)
         {
             #region glMatrix.js -> InitializeContent
             new __glMatrix().Content.With(
@@ -65,9 +65,9 @@ namespace WebGLSpadeWarrior
             );
         }
 
-        void InitializeContent(IDefaultPage page)
+        void InitializeContent(IDefaultPage page = null)
         {
-            page.PageContainer.style.color = Color.Blue;
+            //page.PageContainer.style.color = Color.Blue;
 
             var size = 600;
 
@@ -1171,8 +1171,24 @@ namespace WebGLSpadeWarrior
                 };
             #endregion
 
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
         }
 
+        public bool IsDisposed;
     }
 
 

@@ -148,8 +148,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\Preview.png" />
-    <Content Include="Design\Images\WebGL_logo.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Design\CanvasMatrix.js" />
   </ItemGroup>
   <ItemGroup>

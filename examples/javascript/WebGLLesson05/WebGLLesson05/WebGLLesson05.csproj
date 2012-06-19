@@ -124,9 +124,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="WebGLLesson05.AssetsLibrary">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLLesson05\bin\staging.AssetsLibrary\WebGLLesson05.AssetsLibrary.dll</HintPath>
-    </Reference>
+
     <Reference Include="WebGLLesson05.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLLesson05.AssetsLibrary.dll</HintPath>
     </Reference>

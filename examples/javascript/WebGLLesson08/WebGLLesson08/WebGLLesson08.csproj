@@ -119,9 +119,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WebGLLesson08.AssetsLibrary">
-      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLLesson08\bin\staging.AssetsLibrary\WebGLLesson08.AssetsLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGLLesson08.AssetsLibrary">
       <HintPath>bin\staging.AssetsLibrary\WebGLLesson08.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -147,8 +144,7 @@
     </Compile>
     <Content Include="Design\Images\glass.gif" />
     <Content Include="Design\Preview.png" />
-    <Content Include="Design\glMatrix.js">
-    </Content>
+    <Content Include="Design\glMatrix.js"></Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Geometry.vert" />
