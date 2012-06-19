@@ -7,6 +7,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript.DOM.HTML;
 using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.Shared;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Shared.Drawing;
 
 namespace SpaceInvaders.Library.Controls
@@ -296,6 +297,7 @@ namespace SpaceInvaders.Library.Controls
                                     v.Visible = false;
 
                                     hit = true;
+                                    new SpaceInvadersTemplate.HTML.Audio.FromAssets.invaderexplode().play();
 
                                     board.Score += v.Info.Points;
                                 }
@@ -311,7 +313,22 @@ namespace SpaceInvaders.Library.Controls
 
                 var MyRandom = new System.Random();
 
+                var mothershiploop = new SpaceInvadersTemplate.HTML.Audio.FromAssets.mothershiploopx { 
+                
+                    loop = true
+                };
 
+
+                var duh = new IHTMLAudio[] { 
+                    new SpaceInvadersTemplate.HTML.Audio.FromAssets.duh0(),
+                    new SpaceInvadersTemplate.HTML.Audio.FromAssets.duh1(),
+                    new SpaceInvadersTemplate.HTML.Audio.FromAssets.duh2(),
+                    new SpaceInvadersTemplate.HTML.Audio.FromAssets.duh3(),
+                };
+
+                var duh_cycle = duh.ToCyclicAction(a => a.play());
+
+                
                 #region EnemyAction
                 Action EnemyAction =
                     delegate
@@ -323,6 +340,7 @@ namespace SpaceInvaders.Library.Controls
                             if (MyRandom.NextDouble() < 0.1)
                             {
                                 Console.WriteLine("UFO!");
+                                mothershiploop.play();
 
                                 if (MyRandom.NextDouble() > 0.5)
                                 {
@@ -394,6 +412,7 @@ namespace SpaceInvaders.Library.Controls
                                 MoveAll(new Point(0, 8));
                             };
 
+                        duh_cycle();
 
                         #region move the gang
                         if (GangDirection > 0)
@@ -469,6 +488,7 @@ namespace SpaceInvaders.Library.Controls
                                 if (UFO.X > 478 + UFO.Control.width)
                                 {
                                     UFO.Visible = false;
+                                    mothershiploop.pause();
                                 }
                             }
                             else
@@ -478,6 +498,7 @@ namespace SpaceInvaders.Library.Controls
                                 if (UFO.X < -UFO.Control.width)
                                 {
                                     UFO.Visible = false;
+                                    mothershiploop.pause();
                                 }
                             }
                         }
@@ -496,6 +517,7 @@ namespace SpaceInvaders.Library.Controls
                                     // did we hit?
                                     if (DoAmmoDamage(v))
                                     {
+
                                         v.Visible = false;
                                     }
                                     else
@@ -639,6 +661,7 @@ namespace SpaceInvaders.Library.Controls
                         {
                             Player_Ammo.MoveTo(Player_X, Player_Y - 20);
 
+                            new SpaceInvadersTemplate.HTML.Audio.FromAssets.firemissile().play();
 
                             Player_Ammo.Visible = true;
 
