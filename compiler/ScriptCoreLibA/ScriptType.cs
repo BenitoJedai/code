@@ -61,7 +61,9 @@ namespace ScriptCoreLib
         /// <summary>
         /// New Google Language? http://blog.golang.org/
         /// </summary>
-        Go
+        Go,
+
+        Python
 	}
 
 }
