@@ -84,27 +84,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="staging\apk\local.properties">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="staging\apk\project.properties">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
     <Content Include="References\osmdroid-android-3.0.8.jar" />
     <Content Include="References\slf4j-android-1.5.8.jar" />
-    <Content Include="staging\apk\AndroidManifest.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="staging\apk\build.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="staging\apk\res\layout\main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
