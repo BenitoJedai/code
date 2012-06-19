@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BD79EB41-FC59-40ED-AB2A-85557A4F300F}</ProjectGuid>
+    <ProjectGuid>{6611A1D4-5541-402A-A211-405B02712F89}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLDynamicTerrainTemplate</RootNamespace>

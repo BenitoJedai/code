@@ -854,7 +854,7 @@ namespace WebGLDynamicTerrainTemplate
 
                     Native.Document.body.requestFullscreen();
 
-
+                    //AtResize();
                 };
             #endregion
 
