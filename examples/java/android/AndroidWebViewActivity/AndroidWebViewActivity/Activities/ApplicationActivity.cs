@@ -90,7 +90,7 @@ namespace AndroidWebViewActivity.Activities
             //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
             //webview.loadData(summary, "text/html", null);
             Log.i(TAG, "loadUrl");
-            webview.loadUrl("http://studio.jsc-solutions.net");
+            webview.loadUrl("http://172.25.200.59:7268/");
 
         }
 
