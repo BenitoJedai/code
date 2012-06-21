@@ -334,6 +334,13 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 		public string borderWidth;
 		public string borderColor;
+
+        public string borderTopRightRadius;
+        public string borderTopLeftRadius;
+
+        public string borderBottomRightRadius;
+        public string borderBottomLeftRadius;
+
 		#endregion
 
 		public string color;
