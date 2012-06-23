@@ -146,8 +146,8 @@ namespace WebGLMultitexturing
             gl.useProgram(shader.program);
             shader.aVertexPosition = gl.getAttribLocation(shader.program, "aVertexPosition");
             shader.aTextureCoord = gl.getAttribLocation(shader.program, "aTextureCoord");
-            gl.enableVertexAttribArray((ulong)shader.aVertexPosition);
-            gl.enableVertexAttribArray((ulong)shader.aTextureCoord);
+            gl.enableVertexAttribArray((uint)shader.aVertexPosition);
+            gl.enableVertexAttribArray((uint)shader.aTextureCoord);
 
             shader.u["uModelViewMatrix"] = gl.getUniformLocation(shader.program, "uModelViewMatrix");
             shader.u["uProjectionMatrix"] = gl.getUniformLocation(shader.program, "uProjectionMatrix");
@@ -196,10 +196,10 @@ namespace WebGLMultitexturing
             gl.useProgram(shader.program);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, @object.vertex_buffer);
-            gl.vertexAttribPointer((ulong)shader.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)shader.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
 
             gl.bindBuffer(gl.ARRAY_BUFFER, @object.texturecoord_buffer);
-            gl.vertexAttribPointer((ulong)shader.aTextureCoord, 2, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)shader.aTextureCoord, 2, gl.FLOAT, false, 0, 0);
 
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, @object.t["texture1"]);
@@ -258,8 +258,8 @@ namespace WebGLMultitexturing
 
                     gl.bindTexture(gl.TEXTURE_2D, texture);
                     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.LINEAR);
+                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.LINEAR);
                     gl.bindTexture(gl.TEXTURE_2D, null);
 
                     callback();

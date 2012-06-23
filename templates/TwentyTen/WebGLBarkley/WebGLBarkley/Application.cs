@@ -69,7 +69,7 @@ namespace WebGLBarkley
         IHTMLCanvas c;
         WebGLRenderingContext gl;
 
-        WebGLShader getShader(string source, ulong type)
+        WebGLShader getShader(string source, uint type)
         {
             var shader = gl.createShader(type);
             gl.shaderSource(shader, source);
@@ -223,17 +223,17 @@ void main(void) {
             // todo: jsc promoted float to double? :) let's revert that at the next build
             var vertices = new WebGLFloatArray(new [] { -1f, -1f, 0f, 1f, -1f, 0f, -1f, 1f, 0f, 1f, 1f, 0f });
             var aPosLoc = gl.getAttribLocation(prog, "aPos");
-            gl.enableVertexAttribArray((ulong)aPosLoc);
+            gl.enableVertexAttribArray((uint)aPosLoc);
             var aTexLoc = gl.getAttribLocation(prog, "aTexCoord");
-            gl.enableVertexAttribArray((ulong)aTexLoc);
+            gl.enableVertexAttribArray((uint)aTexLoc);
             var texCoords = new WebGLFloatArray(new [] { 0f, 0f, 1f, 0f, 0f, 1f, 1f, 1f });
             var texCoordOffset = vertices.byteLength;
             gl.bufferData(gl.ARRAY_BUFFER,
-                (long)(texCoordOffset + texCoords.byteLength), gl.STATIC_DRAW);
+                (int)(texCoordOffset + texCoords.byteLength), gl.STATIC_DRAW);
             gl.bufferSubData(gl.ARRAY_BUFFER, 0, vertices);
-            gl.bufferSubData(gl.ARRAY_BUFFER, (long)texCoordOffset, texCoords);
-            gl.vertexAttribPointer((ulong)aPosLoc, 3, gl.FLOAT, false, 0, 0);
-            gl.vertexAttribPointer((ulong)aTexLoc, 2, gl.FLOAT, false, 0, (long)texCoordOffset);
+            gl.bufferSubData(gl.ARRAY_BUFFER, (int)texCoordOffset, texCoords);
+            gl.vertexAttribPointer((uint)aPosLoc, 3, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)aTexLoc, 2, gl.FLOAT, false, 0, (int)texCoordOffset);
 
             this.texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -256,19 +256,19 @@ void main(void) {
             }
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, tSize, tSize, 0,
               gl.RGBA, gl.UNSIGNED_BYTE, new WebGLUnsignedByteArray(pixels.ToArray()));
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (long)gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (long)gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.CLAMP_TO_EDGE);
             this.texture2 = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_2D, texture2);
             gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, tSize, tSize, 0,
               gl.RGBA, gl.UNSIGNED_BYTE, new WebGLUnsignedByteArray(pixels.ToArray()));
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (long)gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (long)gl.NEAREST);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (long)gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (long)gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, (int)gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, (int)gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, (int)gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, (int)gl.CLAMP_TO_EDGE);
             this.FBO = gl.createFramebuffer();
             gl.bindFramebuffer(gl.FRAMEBUFFER, FBO);
             gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0,
