@@ -125,6 +125,11 @@
     <Content Include="Design\CropperCapture[22].gif" />
     <Content Include="Design\CropperCapture[24].gif" />
     <Content Include="Design\CropperCapture[25].gif" />
+    <Content Include="Design\CropperCapture[29].gif" />
+    <Content Include="Design\CropperCapture[30].gif" />
+    <Content Include="Design\CropperCapture[32].gif" />
+    <Content Include="Design\CropperCapture[33].gif" />
+    <Content Include="Design\CropperCapture[35].gif" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
