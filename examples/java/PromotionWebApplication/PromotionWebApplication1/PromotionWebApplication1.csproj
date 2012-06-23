@@ -188,8 +188,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\javascript\Ultra\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj">
-      <Project>{A07DE0E4-E126-30A4-5F40-8F412172C72E}</Project>
+    <ProjectReference Include="..\..\..\javascript\Test\TestSolutionBuilder\TestSolutionBuilderV1\TestSolutionBuilderV1.csproj">
+      <Project>{a07de0e4-e126-30a4-5f40-8f412172c72e}</Project>
       <Name>TestSolutionBuilderV1</Name>
     </ProjectReference>
     <ProjectReference Include="..\PromotionWebApplicationHome\PromotionWebApplicationHome.csproj">
