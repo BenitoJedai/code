@@ -138,6 +138,16 @@
     <Content Include="Design\CropperCapture[49].gif" />
     <Content Include="Design\CropperCapture[50].gif" />
     <Content Include="Design\CropperCapture[51].gif" />
+    <Content Include="Design\CropperCapture[55].gif" />
+    <Content Include="Design\CropperCapture[58].gif" />
+    <Content Include="Design\CropperCapture[65].gif" />
+    <Content Include="Design\CropperCapture[66].gif" />
+    <Content Include="Design\CropperCapture[67].gif" />
+    <Content Include="Design\CropperCapture[71].gif" />
+    <Content Include="Design\CropperCapture[74].gif" />
+    <Content Include="Design\CropperCapture[78].gif" />
+    <Content Include="Design\CropperCapture[82].gif" />
+    <Content Include="Design\CropperCapture[85].gif" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
