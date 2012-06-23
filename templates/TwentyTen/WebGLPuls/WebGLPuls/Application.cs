@@ -231,7 +231,7 @@ void main()
             var pos = 0;
             //var in_color = gl.getUniformLocation(p, "in_color");
 
-            gl.enableVertexAttribArray((ulong)pos);
+            gl.enableVertexAttribArray((uint)pos);
 
 
             var verts = gl.createBuffer();
@@ -242,7 +242,7 @@ void main()
                   -1,-1,  -1,1,  1,-1, 1,1,
               }
             ), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((ulong)pos, 2, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)pos, 2, gl.FLOAT, false, 0, 0);
 
             var indicies = gl.createBuffer();
 

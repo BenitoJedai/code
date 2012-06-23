@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcasSimpleWindowsFormsApplication", "OrcasSimpleWindowsFormsApplication\OrcasSimpleWindowsFormsApplication.csproj", "{F1F1F2E3-AB93-4DFE-A796-0C3E9D8DE667}"
 EndProject
 Global
