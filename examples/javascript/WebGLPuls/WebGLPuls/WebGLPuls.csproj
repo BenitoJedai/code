@@ -34,14 +34,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Assets|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\Assets\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="jsc">
       <HintPath>C:\util\jsc\bin\jsc.exe</HintPath>
@@ -112,11 +104,13 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="WebGLPuls.UltraSource">
-      <HintPath>bin\staging.UltraSource\WebGLPuls.UltraSource.dll</HintPath>
+    <Reference Include="WebGLPuls.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\WebGLPuls.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shaders\PulsFragmentShader.cs" />
+    <Compile Include="Shaders\PulsVertexShader.cs" />
     <Content Include="Design\Default.htm" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
@@ -128,6 +122,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Shaders\Puls.frag" />
+    <None Include="Shaders\Puls.vert" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -140,6 +136,10 @@ start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFil
 if $(ConfigurationName)==Release (
 start /WAIT c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false  /DisableWebServicePHP:false
 )</PostBuildEvent>
-    <PreBuildEvent>start /WAIT /MIN C:\util\jsc\bin\jsc.meta.exe ReferenceJavaScriptDocument /ProjectFileName:"$(ProjectPath)" /Configuration:"$(ConfigurationName)" /AttachDebugger:false /SelectAll:true</PreBuildEvent>
+    <PreBuildEvent>
+
+start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true
+
+</PreBuildEvent>
   </PropertyGroup>
 </Project>
