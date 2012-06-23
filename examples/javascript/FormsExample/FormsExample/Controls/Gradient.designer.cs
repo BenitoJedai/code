@@ -1,43 +1,45 @@
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace FormsExample
+﻿namespace FormsExample.js
 {
-    public partial class ApplicationControl
+    partial class Gradient
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
-        private IContainer components;
+        private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            // Note: This jsc project does not support unmanaged resources.
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
         }
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
             this.SuspendLayout();
             // 
-            // ApplicationControl
+            // Gradient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(682, 433);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "Gradient";
+            this.Resize += new System.EventHandler(this.Gradient_Resize);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
+        #endregion
     }
 }

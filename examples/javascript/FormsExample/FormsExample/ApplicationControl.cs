@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace FormsExample
 {
-    public partial class ApplicationControl : UserControl
+    public partial class ApplicationControl : FormsExample.js.UserControl1
     {
         public ApplicationControl()
         {

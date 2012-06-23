@@ -1,15 +1,11 @@
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace FormsExample
+﻿namespace FormsExample.js.dialogs
 {
-    public partial class ApplicationControl
+    partial class SystemColorsForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private IContainer components;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -17,9 +13,14 @@ namespace FormsExample
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            // Note: This jsc project does not support unmanaged resources.
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
             base.Dispose(disposing);
         }
+
+        #region Windows Form Designer generated code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -29,15 +30,19 @@ namespace FormsExample
         {
             this.SuspendLayout();
             // 
-            // ApplicationControl
+            // SystemColorsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(682, 433);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(452, 370);
+            this.Name = "SystemColorsForm";
+            this.Text = "SystemColors";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
+
+        #endregion
+
 
     }
 }
