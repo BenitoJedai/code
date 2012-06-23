@@ -99,6 +99,11 @@ namespace ScriptCoreLib.GLSL
             throw new NotImplementedException();
         }
 
+        public static vec3 operator /(vec3 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
 

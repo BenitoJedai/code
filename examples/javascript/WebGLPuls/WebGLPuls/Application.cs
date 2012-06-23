@@ -20,45 +20,109 @@ namespace WebGLPuls
 {
     using gl = WebGLRenderingContext;
     using ScriptCoreLib.GLSL;
+    using WebGLPuls.Shaders;
 
     /// <summary>
     /// This type can be used from javascript. The method calls will seamlessly be proxied to the server.
     /// </summary>
     public sealed class Application
     {
-        int w = 400;
-        int h = 300;
+        // see also: http://meatfighter.com/puls/
+        // it only took 2 years :)
+        // Revision: 2744
+        //Date: Friday, July 23, 2010 4:34:01 PM
+        //Added : /templates/TwentyTen/WebGLPuls/WebGLPuls.sln
+
+
+
 
         /// <summary>
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IXDefaultPage page)
+        public Application(IXDefaultPage page = null)
         {
-            var c = new IHTMLCanvas();
-            c.style.border = "1px solid red";
-            
-            //http://www.khronos.org/webgl/public-mailing-list/archives/1002/msg00125.html
-            c.width = w;
-            c.height = h;
 
-            page.Content.Clear();
-            c.AttachTo(page.Content);
-
-            var gl = c.getContext("experimental-webgl");
-
-            if (gl != null)
-                Initialize(c, (ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext)gl);
+            InitializeContent(page);
         }
 
-        private void Initialize(IHTMLCanvas c, WebGLRenderingContext gl)
+        public Action Dispose;
+
+        private void InitializeContent(IXDefaultPage page = null)
         {
+            var canvas = new IHTMLCanvas().AttachToDocument();
+
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+
+            canvas.style.SetLocation(0, 0);
+
+
+            //http://www.khronos.org/webgl/public-mailing-list/archives/1002/msg00125.html
+        
+
+            var gl = (WebGLRenderingContext)canvas.getContext("experimental-webgl");
+
+            #region Dispose
+            var IsDisposed = false;
+
+            Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+
+            #region AtResize
+            Action AtResize = delegate
+            {
+                if (IsDisposed)
+                {
+                    return;
+                }
+
+                canvas.width = Native.Window.Width;
+                canvas.height = Native.Window.Height;
+
+     
+
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            };
+
+            AtResize();
+
+            Native.Window.onresize += delegate
+            {
+                AtResize();
+            };
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
+
             // http://cs.helsinki.fi/u/ilmarihe/metatunnel.html
             // http://wakaba.c3.cx/w/puls.html
 
             Action<string> alert = x => Native.Window.alert(x);
 
-            c.style.border = "1px solid yellow";
 
             #region fragment_shader_source
             var fragment_shader_source = @"
@@ -127,7 +191,7 @@ void main()
  
 	int i=0;
 	int c;
-	do
+	for (int xxx = 0; xxx < 64; xxx++)
 	{
 		c=func(pos,stepshift);
 		if(c>0)
@@ -141,8 +205,10 @@ void main()
 			pos+=dir/pow(2.0,stepshift);
 			i++;
 		}
+
+        if (!(stepshift<MAXSTEPSHIFT&&i<MAXITERS))
+            break;
 	}
-	while(stepshift<MAXSTEPSHIFT&&i<MAXITERS);
  
  
 	vec3 col;
@@ -177,36 +243,29 @@ void main()
             #endregion
 
 
-            Native.Document.title = "VERTEX_SHADER..";
+          
 
-            var vs = gl.createShader(gl.VERTEX_SHADER);
-            gl.shaderSource(vs, vertex_shader_source);
-            gl.compileShader(vs);
-            if ((int)gl.getShaderParameter(vs, gl.COMPILE_STATUS) != 1)
+
+            #region createShader
+            Func<ScriptCoreLib.GLSL.Shader, WebGLShader> createShader = (src) =>
             {
-                // vs: ERROR: 0:2: '' : Version number not supported by ESSL 
-                var error = gl.getShaderInfoLog(vs);
-                alert("vs: " + error);
-                return;
-            }
+                var shader = gl.createShader(src);
 
+                // verify
+                if (gl.getShaderParameter(shader, gl.COMPILE_STATUS) == null)
+                {
+                    Native.Window.alert("error in SHADER:\n" + gl.getShaderInfoLog(shader));
+                    throw new InvalidOperationException("shader failed");
+                }
 
-            Native.Document.title = "FRAGMENT_SHADER..";
-            var fs = gl.createShader(gl.FRAGMENT_SHADER);
-            gl.shaderSource(fs, fragment_shader_source);
-            gl.compileShader(fs);
-            if ((int)gl.getShaderParameter(fs, gl.COMPILE_STATUS) != 1)
-            {
-                //fs: ERROR: 0:2: '' : Version number not supported by ESSL 
-                //ERROR: 0:4: '' : No precision specified for (float) 
-
-                var error = gl.getShaderInfoLog(fs);
-                alert("fs: " + error);
-                return;
-            }
-            Native.Document.title = "LINK_STATUS..";
+                return shader;
+            };
+            #endregion
 
             var p = gl.createProgram();
+            var vs = createShader(new PulsVertexShader());
+            var fs = createShader(new PulsFragmentShader());
+
             gl.attachShader(p, vs);
             gl.attachShader(p, fs);
             gl.bindAttribLocation(p, 0, "position");
@@ -220,11 +279,9 @@ void main()
                 return;
             }
 
-            Native.Document.title = "WebGL..";
+            //Native.Document.title = "WebGL..";
 
             gl.useProgram(p);
-            gl.viewport(0, 0, w, h);
-            gl.uniform1f(gl.getUniformLocation(p, "h"), h / w);
 
 
 
@@ -248,17 +305,23 @@ void main()
 
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indicies);
 
-  
+
 
             gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
                 new Uint16Array(
-                    /*new ushort[] {*/ 0, 1, 2, 3 /*}*/
+                /*new ushort[] {*/ 0, 1, 2, 3 /*}*/
                     )
                 , gl.STATIC_DRAW);
 
             var start = new IDate().getTime();
-            Action redraw = delegate
+            Action redraw = null;
+
+            redraw = delegate
             {
+                gl.viewport(0, 0, Native.Window.Width, Native.Window.Height);
+                gl.uniform1f(gl.getUniformLocation(p, "h"), Native.Window.Height / Native.Window.Width);
+
+
                 var timestamp = new IDate().getTime();
                 var t = (float)((timestamp - start) / 1000.0 * 30);
 
@@ -269,66 +332,18 @@ void main()
                 gl.drawElements(gl.TRIANGLE_STRIP, 4, gl.UNSIGNED_SHORT, 0);
                 gl.flush();
 
+
+                Native.Window.requestAnimationFrame += redraw;
+
             };
-            redraw();
 
-            new global::ScriptCoreLib.JavaScript.Runtime.Timer(
-                t =>
-                {
-                    redraw();
-                }
-            ).StartInterval(1000 / 24);
+            Native.Window.requestAnimationFrame += redraw;
 
-            c.style.border = "1px solid green";
         }
 
-       
+
     }
 
-    #region GLSL
-    abstract class __fragment_shader : FragmentShader
-    {
-        [uniform]
-        public float t;
 
-        [varying]
-        vec2 tc;
-
-        const float BLOWUP = 66.0f; /* 86.0 */
-        const float MAXSTEPSHIFT = 8.0f; /* 6.0 */
-        const int MAXITERS = 34; /* 26 */
-
-        const float pi = 3.1415926535f;
-
-        abstract protected float sum(vec3 v);
-        abstract protected int func(vec3 pos, float stepshift);
-
-        void main()
-        {
-        }
-    }
-
-    class __vertex_shader : VertexShader
-    {
-        [attribute]
-        vec2 position;
-
-        [attribute]
-        vec2 texcoord;
-
-        [uniform]
-        float h;
-
-        [varying]
-        vec2 tc;
-
-
-        void main()
-        {
-            //gl_Position = vec4(position, 0.0, 1.0);
-            //tc = vec2(position.x, position.y * h);
-        }
-    }
-    #endregion
 
 }
