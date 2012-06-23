@@ -21,6 +21,10 @@ namespace ScriptCoreLib.GLSL
 
 
 
+        static protected vec3 vec3(float x)
+        {
+            throw new NotImplementedException();
+        }
 
         static protected vec3 vec3(float x, float y, float z)
         {

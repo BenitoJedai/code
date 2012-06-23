@@ -121,6 +121,12 @@ void main()
             var vs = gl.createShader(gl.VERTEX_SHADER);
             gl.shaderSource(vs, vertex_shader_source);
             gl.compileShader(vs);
+            if ((int)gl.getShaderParameter(vs, gl.COMPILE_STATUS) != 1)
+            {
+                var error = gl.getShaderInfoLog(vs);
+                alert("vs: " + error);
+                return;
+            }
 
             var fs = gl.createShader(gl.FRAGMENT_SHADER);
             gl.shaderSource(fs, fragment_shader_source);
@@ -128,7 +134,7 @@ void main()
             if ((int)gl.getShaderParameter(fs, gl.COMPILE_STATUS) != 1)
             {
                 var error = gl.getShaderInfoLog(fs);
-                alert("vs: " + error);
+                alert("fs: " + error);
                 return;
             }
 
@@ -151,7 +157,7 @@ void main()
             var pos = gl.getAttribLocation(p, "pos");
             var in_color = gl.getUniformLocation(p, "in_color");
 
-            gl.enableVertexAttribArray((ulong)pos);
+            gl.enableVertexAttribArray((uint)pos);
 
 
             var verts = gl.createBuffer();
@@ -163,7 +169,7 @@ void main()
             gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(
               new [] { -1f, 1f, 1f, 1f, -1f, -1f, 1f, -1f }
             ), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((ulong)pos, 2, gl.FLOAT, false, 0, 0);
+            gl.vertexAttribPointer((uint)pos, 2, gl.FLOAT, false, 0, 0);
 
             Action redraw = delegate
             {

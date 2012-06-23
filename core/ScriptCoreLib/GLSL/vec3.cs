@@ -129,6 +129,7 @@ namespace ScriptCoreLib.GLSL
         public vec3 zxy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec3 wyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec3 xzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec3 zzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
 
 
         public vec3 xxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
