@@ -8,11 +8,11 @@
     <ProjectGuid>{A5A2005D-D90D-4A59-AA2A-C61D2B5F5010}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InspiringWebApplications</RootNamespace>
-    <AssemblyName>InspiringWebApplications</AssemblyName>
+    <RootNamespace>StylesheetPerspective</RootNamespace>
+    <AssemblyName>StylesheetPerspective</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>InspiringWebApplications.Program</StartupObject>
+    <StartupObject>StylesheetPerspective.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,51 +114,11 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
-    <Reference Include="InspiringWebApplications.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\InspiringWebApplications.AssetsLibrary.dll</HintPath>
+    <Reference Include="StylesheetPerspective.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\StylesheetPerspective.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Design\CropperCapture-2012-06-24-10-29-53-9366343.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-10-35-47-2428422.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-10-38-45-4350342.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-10-45-27-8370503.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-10-57-18-0986749.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-11-03-06-0095743.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-11-07-00-1319653.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-11-10-01-5303407.gif" />
-    <Content Include="Design\CropperCapture-2012-06-24-11-12-04-3323646.gif" />
-    <Content Include="Design\CropperCapture[10].gif" />
-    <Content Include="Design\CropperCapture[19].gif" />
-    <Content Include="Design\CropperCapture[20].gif" />
-    <Content Include="Design\CropperCapture[21].gif" />
-    <Content Include="Design\CropperCapture[22].gif" />
-    <Content Include="Design\CropperCapture[24].gif" />
-    <Content Include="Design\CropperCapture[25].gif" />
-    <Content Include="Design\CropperCapture[29].gif" />
-    <Content Include="Design\CropperCapture[30].gif" />
-    <Content Include="Design\CropperCapture[32].gif" />
-    <Content Include="Design\CropperCapture[33].gif" />
-    <Content Include="Design\CropperCapture[35].gif" />
-    <Content Include="Design\CropperCapture[37].gif" />
-    <Content Include="Design\CropperCapture[38].gif" />
-    <Content Include="Design\CropperCapture[43].gif" />
-    <Content Include="Design\CropperCapture[44].gif" />
-    <Content Include="Design\CropperCapture[46].gif" />
-    <Content Include="Design\CropperCapture[49].gif" />
-    <Content Include="Design\CropperCapture[50].gif" />
-    <Content Include="Design\CropperCapture[51].gif" />
-    <Content Include="Design\CropperCapture[55].gif" />
-    <Content Include="Design\CropperCapture[58].gif" />
-    <Content Include="Design\CropperCapture[65].gif" />
-    <Content Include="Design\CropperCapture[66].gif" />
-    <Content Include="Design\CropperCapture[67].gif" />
-    <Content Include="Design\CropperCapture[71].gif" />
-    <Content Include="Design\CropperCapture[74].gif" />
-    <Content Include="Design\CropperCapture[78].gif" />
-    <Content Include="Design\CropperCapture[7].gif" />
-    <Content Include="Design\CropperCapture[82].gif" />
-    <Content Include="Design\CropperCapture[85].gif" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -167,7 +127,6 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\shadow-map.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
