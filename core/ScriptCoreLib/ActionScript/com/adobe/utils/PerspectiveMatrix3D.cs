@@ -14,7 +14,7 @@ namespace ScriptCoreLib.ActionScript.com.adobe.utils
     /// 
     /// </summary>
     [Script(IsNative = true)]
-    public class PerspectiveMatrix3D
+    public class PerspectiveMatrix3D : Matrix3D
     {
 
         #region CTOR
