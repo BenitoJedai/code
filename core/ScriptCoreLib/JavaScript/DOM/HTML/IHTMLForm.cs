@@ -29,7 +29,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 
         #endregion
 
-
+        public event Action<IEvent> onreset;
+        public event Action<IEvent> onsubmit;
 
         public void submit()
         {
