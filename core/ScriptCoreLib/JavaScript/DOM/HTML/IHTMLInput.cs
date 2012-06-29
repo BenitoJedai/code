@@ -10,7 +10,8 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
     [Script(InternalConstructor=true)]
     public class IHTMLInput : IHTMLElement
     {
-
+        public string alt;	
+        public string src;
 
         public int maxLength;
         public int size;
