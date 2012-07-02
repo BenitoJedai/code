@@ -114,26 +114,25 @@ namespace ScriptCoreLib.Ultra.WebService
                 var WebMethod = InternalWebMethodInfo.First(WebMethods, Context.Request.QueryString[InternalWebMethodInfo.QueryKey]);
                 if (WebMethod == null)
                 {
-                    Context.Response.StatusCode = 404;
-                    that.CompleteRequest();
-                    return;
+                    // let user defined handler hangle it..
                 }
-
-                g.Invoke(WebMethod);
-
-                if (that.Context.Request.Path == "/xml")
+                else
                 {
-                    WriteXDocument(g, Write, WebMethod);
+                    g.Invoke(WebMethod);
+
+                    if (that.Context.Request.Path == "/xml")
+                    {
+                        WriteXDocument(g, Write, WebMethod);
+                        that.CompleteRequest();
+                        return;
+                    }
+
+                    that.Response.ContentType = "text/html";
+                    WriteDiagnosticsResults(Write, WebMethod);
+                    WriteDiagnostics(g, Write, WebMethods);
                     that.CompleteRequest();
                     return;
                 }
-
-                that.Response.ContentType = "text/html";
-                WriteDiagnosticsResults(Write, WebMethod);
-                WriteDiagnostics(g, Write, WebMethods);
-                that.CompleteRequest();
-                return;
-
             }
 
             var IsComplete = false;
@@ -199,6 +198,13 @@ namespace ScriptCoreLib.Ultra.WebService
                     return;
                 }
 
+                if (Context.Request.HttpMethod == "POST")
+                {
+                    // we dont know what to do with this POST..
+                    Context.Response.StatusCode = 404;
+                    that.CompleteRequest();
+                    return;
+                }
 
                 // we could invoke web service handler now?
                 h.Redirect();

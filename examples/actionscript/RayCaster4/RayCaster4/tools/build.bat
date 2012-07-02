@@ -42,6 +42,6 @@ echo - %2
 :: -compiler.verbose-stacktraces 
 :: call C:\util\flex2\bin\mxmlc.exe -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 :: call C:\util\flex\bin\mxmlc.exe -optimize -use-network=false -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
-call C:\util\flex_sdk_4.1.0.16076\bin\mxmlc.exe --target-player=10.1.0 -static-link-runtime-shared-libraries=true -debug -keep-as3-metadata -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
+call C:\util\flex_sdk_4.6\bin\mxmlc.exe --target-player=11.1.0 -static-link-runtime-shared-libraries=true -debug -keep-as3-metadata -use-network=false -incremental=true -output=%2.swf -strict -sp=. %1/%2.as
 
 goto :eof
