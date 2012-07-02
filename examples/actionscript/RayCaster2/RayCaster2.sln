@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayCaster2", "RayCaster2\RayCaster2.csproj", "{5E9D2AF7-A4D7-4B5F-91B1-81D8181098CB}"
 EndProject
 Global
