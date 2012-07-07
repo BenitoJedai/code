@@ -6,7 +6,7 @@ using ScriptCoreLib.GLSL;
 
 namespace WebGLFireballExplosion.Shaders
 {
-    class ExplosionFragmentShader : FragmentShader
+    class __ExplosionFragmentShader : FragmentShader
     {
 
         [varying]

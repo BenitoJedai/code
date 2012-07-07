@@ -6,7 +6,7 @@ using ScriptCoreLib.GLSL;
 
 namespace WebGLFireballExplosion.Shaders
 {
-    class ExplosionVertexShader : VertexShader
+    class __ExplosionVertexShader : VertexShader
     {
 
 
