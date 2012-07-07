@@ -20,13 +20,18 @@ namespace ScriptCoreLib.GLSL
         }
 
 
-
+        #region vec3
         static protected vec3 vec3(float x)
         {
             throw new NotImplementedException();
         }
 
         static protected vec3 vec3(float x, float y, float z)
+        {
+            throw new NotImplementedException();
+        }
+
+        static protected vec3 vec3(vec3 v)
         {
             throw new NotImplementedException();
         }
@@ -40,6 +45,12 @@ namespace ScriptCoreLib.GLSL
         {
             throw new NotImplementedException();
         }
+
+        static protected vec3 vec3(float z, vec2 v)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
 
 
 

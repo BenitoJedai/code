@@ -110,6 +110,11 @@ namespace ScriptCoreLib.GLSL
 
 
 
+        public static vec4 operator -(vec4 x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
         public static vec4 operator -(float y, vec4 x)
         {
             throw new NotImplementedException();

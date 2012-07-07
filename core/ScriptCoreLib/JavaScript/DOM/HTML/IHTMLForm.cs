@@ -3,6 +3,7 @@ using ScriptCoreLib.JavaScript.DOM;
 using ScriptCoreLib.JavaScript;
 
 using ScriptCoreLib.JavaScript.DOM.HTML;
+using System;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
