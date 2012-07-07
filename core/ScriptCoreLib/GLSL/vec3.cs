@@ -123,7 +123,12 @@ namespace ScriptCoreLib.GLSL
         }
 
 
-        
+
+        public vec2 yz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec2 yx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec2 xy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec2 yy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+
         public vec3 yzx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec3 xyz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec3 zxy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
@@ -137,5 +142,6 @@ namespace ScriptCoreLib.GLSL
 
         public vec4 xxxx { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
         public vec4 yyyy { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
+        public vec4 zzzz { get { throw new NotImplementedException(); } set { throw new NotImplementedException(); } }
     }
 }
