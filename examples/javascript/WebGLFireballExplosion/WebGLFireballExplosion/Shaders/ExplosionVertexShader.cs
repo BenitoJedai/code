@@ -6,7 +6,7 @@ using ScriptCoreLib.GLSL;
 
 namespace WebGLFireballExplosion.Shaders
 {
-    class ExplosionFragmentShader : FragmentShader
+    class ExplosionVertexShader : VertexShader
     {
 
 
@@ -190,6 +190,13 @@ namespace WebGLFireballExplosion.Shaders
             return 2.2f * n_xyz;
         }
 
+        [attribute]
+        vec3 position;
+        [attribute]
+        vec3 normal;
+        [attribute]
+        vec2 uv;
+
         [varying]
         vec2 vUv;
         [varying]
@@ -224,12 +231,22 @@ namespace WebGLFireballExplosion.Shaders
             return t;
         }
 
+        [uniform]
+        mat4 modelViewMatrix;
+        [uniform]
+        mat4 projectionMatrix;
+
+        [uniform]
+        mat4 objectMatrix;
+
+        [uniform] vec3 cameraPosition;
+
         void main()
         {
 
             vUv = uv;
 
-            vec4 mPosition = objectMatrix * vec4(position, 1.0);
+            vec4 mPosition = objectMatrix * vec4(position, 1.0f);
             vec3 nWorld = normalize(mat3(objectMatrix[0].xyz, objectMatrix[1].xyz, objectMatrix[2].xyz) * normal);
             vReflect = normalize(reflect(normalize(mPosition.xyz - cameraPosition), nWorld));
 

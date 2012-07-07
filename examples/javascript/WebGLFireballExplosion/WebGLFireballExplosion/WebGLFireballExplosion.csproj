@@ -121,6 +121,7 @@
   <ItemGroup>
     <Compile Include="Shaders\ExplosionVertexShader.cs" />
     <Compile Include="Shaders\ExplosionFragmentShader.cs" />
+    <Content Include="Design\bkg.png" />
     <Content Include="Design\Default.css" />
     <Content Include="Design\Default.htm" />
     <Compile Include="Properties\AssemblyInfo.cs" />
