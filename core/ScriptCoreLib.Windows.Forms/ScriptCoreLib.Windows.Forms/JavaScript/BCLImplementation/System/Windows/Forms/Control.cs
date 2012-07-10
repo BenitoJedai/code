@@ -40,9 +40,17 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control : __Component
     {
+        public static Font DefaultFont
+        {
+            get
+            {
+                return new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            }
+        }
+
         public void InternalSetDefaultFont()
         {
-            this.Font = new global::System.Drawing.Font("Microsoft Sans Serif", 8.25F, global::System.Drawing.FontStyle.Regular, global::System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.Font = DefaultFont;
         }
 
         public virtual DOM.HTML.IHTMLElement HTMLTargetRef
@@ -60,6 +68,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 return HTMLTargetRef;
             }
         }
+
+        private Padding padding;
+        public Padding Padding
+        {
+            get { return padding; }
+            set { padding = value; }
+        }
+
 
         [Script(Implements = typeof(global::System.Windows.Forms.Control.ControlCollection))]
         internal class __ControlCollection : Layout.__ArrangedElementCollection
@@ -163,9 +179,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-        int x;
-        int y;
-        int width;
+        protected int x;
+        protected int y;
+
+        protected int width;
         public int Width
         {
             get
@@ -178,7 +195,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
-        int height;
+        protected int height;
         public int Height
         {
             get
@@ -303,7 +320,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //}
         }
 
-
+       
         protected void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
         {
             // let's remember old size for anchoring..
@@ -492,7 +509,20 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public Control.ControlCollection Controls { get; set; }
         public string Name { get; set; }
-        public virtual string Text { get; set; }
+        
+        string _text;
+        public virtual string Text 
+        {
+            get
+            {
+                return _text;
+            }
+            set
+            {
+                _text = value;
+                OnTextChanged(this,new EventArgs());
+            } 
+        }
 
 
         public int TabIndex { get; set; }
@@ -503,6 +533,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
 
         #region ForeColor
+
+        public event EventHandler ForeColorChanged;
+
         private Color _ForeColor;
 
         public Color ForeColor
@@ -512,11 +545,27 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 _ForeColor = value;
                 this.HTMLTargetRef.style.color = value.ToString();
+
+                if (ForeColorChanged != null)
+                    ForeColorChanged(this, new EventArgs());
             }
         }
         #endregion
 
         #region Font
+
+
+        public event EventHandler FontChanged;
+
+        protected virtual void OnFontChanged(EventArgs e)
+        {
+            Console.WriteLine("OnFontChanged");
+
+            if (FontChanged != null)
+                FontChanged(this, e);
+        }
+
+
         private Font _Font;
 
         public Font Font
@@ -527,11 +576,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 _Font = value;
 
                 this.HTMLTargetRef.style.font = value.ToCssString();
+
+                OnFontChanged(new EventArgs());
             }
         }
         #endregion
 
         #region BackColor
+
+        public event EventHandler BackColorChanged; 
+        
         private Color _BackColor;
 
         public Color BackColor
@@ -541,6 +595,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 _BackColor = value;
                 this.HTMLTargetRef.style.backgroundColor = value.ToString();
+
+                if (BackColorChanged != null)
+                    BackColorChanged(this,new EventArgs());
             }
         }
         #endregion
@@ -919,6 +976,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             if (ControlAdded != null)
                 ControlAdded(this, e);
+        }
+
+        protected void OnTextChanged(object o, EventArgs e)
+        {
+            if (TextChanged != null)
+                TextChanged(this, e);
         }
 
 
