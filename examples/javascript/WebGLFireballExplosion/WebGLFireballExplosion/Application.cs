@@ -122,7 +122,15 @@ namespace WebGLFireballExplosion
 
             scene.add(camera);
 
-            var bkgCamera = new THREE.OrthographicCamera(Native.Window.Width / -2, Native.Window.Width / 2, Native.Window.Height / 2, Native.Window.Height / -2, -10000, 10000);
+            var bkgCamera = new THREE.OrthographicCamera(
+                Native.Window.Width / -2, 
+                Native.Window.Width / 2, 
+                Native.Window.Height / 2, 
+                Native.Window.Height / -2, 
+                -10000, 
+                10000
+            );
+
             bkgScene.add(bkgCamera);
 
             var bkgShader = new THREE.ShaderMaterial(
@@ -144,7 +152,8 @@ namespace WebGLFireballExplosion
 
                     vertexShader = new Shaders.ExplosionVertexShader().ToString(),
                     //        fragmentShader: document.getElementById( 'fs_Gradient' ).textContent,
-                    fragmentShader = new Shaders.ExplosionFragmentShader().ToString(),
+                     //fragmentShader = new Shaders.GradientFragmentShader().ToString(),
+                     fragmentShader = new Shaders.ExplosionFragmentShader().ToString(),
 
                     depthWrite = false,
 
@@ -172,7 +181,7 @@ namespace WebGLFireballExplosion
                             )
                         },
                         time = new uniforms_item { type = "f", value = 0.0 },
-                        weight = new uniforms_item { type = "f", value = 0.0 },
+                        weight = new uniforms_item { type = "f", value = 8.0 },
                     },
 
                     vertexShader = new Shaders.ExplosionVertexShader().ToString(),

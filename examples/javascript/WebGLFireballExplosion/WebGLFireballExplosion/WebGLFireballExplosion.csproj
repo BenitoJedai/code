@@ -136,6 +136,7 @@
     <Content Include="Design\Three.js" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\Gradient.frag" />
     <None Include="Shaders\Explosion.frag" />
     <None Include="Shaders\Explosion.vert" />
   </ItemGroup>
