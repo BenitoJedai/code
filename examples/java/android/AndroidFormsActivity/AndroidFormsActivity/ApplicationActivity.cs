@@ -22,6 +22,14 @@ namespace AndroidFormsActivity.Activities
 
             base.onCreate(savedInstanceState);
 
+
+            InitializeContent();
+        }
+
+        private void InitializeContent()
+        {
+            var u = new ApplicationControl();
+
             ScrollView sv = new ScrollView(this);
 
             LinearLayout ll = new LinearLayout(this);
