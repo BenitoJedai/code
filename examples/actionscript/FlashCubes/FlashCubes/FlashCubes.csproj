@@ -420,6 +420,7 @@
     <None Include="away3d\tools\utils\TextureUtils.as" />
     <None Include="away3d\tools\Weld.as" />
     <None Include="com\adobe\utils\AGALMiniAssembler.as" />
+    <None Include="Main.as" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

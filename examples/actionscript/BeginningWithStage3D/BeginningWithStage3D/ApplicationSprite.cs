@@ -62,7 +62,7 @@ mov op, vt0";
                     var fragmentAssembler = new AGALMiniAssembler();
                     fragmentAssembler.assemble(Context3DProgramType.FRAGMENT, fragmentShader);
                     // Upload vertex/framgment shader to our program  
-                    program.upload((ByteArray)vertexAssembler.agalcode, (ByteArray)fragmentAssembler.agalcode);
+                    program.upload(vertexAssembler.agalcode, fragmentAssembler.agalcode);
                     // Set the program instance as currently active program  
                     context3D.setProgram(program);
 

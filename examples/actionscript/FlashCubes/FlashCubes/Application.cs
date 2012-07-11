@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using ScriptCoreLib.ActionScript.flash.display;
 
 namespace FlashCubes
 {
@@ -33,6 +34,7 @@ namespace FlashCubes
         public Application(IDefaultPage page)
         {
             // Initialize ApplicationSprite
+            sprite.wmode();
             sprite.AttachSpriteTo(page.Content);
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -42,5 +44,24 @@ namespace FlashCubes
             );
         }
 
+    }
+
+    static class X
+    {
+        public static void wmode(this Sprite s, string value = "direct")
+        {
+            var x = s.ToHTMLElement();
+
+            var p = x.parentNode;
+            if (p != null)
+            {
+                // if we continue, element will be reloaded!
+                return;
+            }
+
+            x.setAttribute("wmode", value);
+
+
+        }
     }
 }
