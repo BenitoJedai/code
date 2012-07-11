@@ -7,7 +7,7 @@
     <ProjectGuid>{1E76DCF2-267C-460B-A43F-E94F71C2C769}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLibAndroid.Windows.Forms</RootNamespace>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLibAndroid.Windows.Forms</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
