@@ -7,12 +7,14 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM.HTML
 {
+    // http://www.w3.org/TR/html4/present/frames.html#h-16.5
     [Script(InternalConstructor = true)]
     public class IHTMLIFrame : IHTMLElement
     {
         public string src;
 
-        public string frameborder;
+        // http://stackoverflow.com/questions/65034/remove-border-from-iframe
+        public string frameBorder;
         public string border;
 
         public bool allowTransparency;

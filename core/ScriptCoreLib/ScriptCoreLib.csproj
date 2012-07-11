@@ -94,9 +94,6 @@
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormattable.cs" />
-    <Compile Include="ActionScript\com\adobe\utils\AGALMiniAssembler.cs" />
-    <Compile Include="ActionScript\com\adobe\utils\FractalGeometryGenerator.cs" />
-    <Compile Include="ActionScript\com\adobe\utils\PerspectiveMatrix3D.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetGroup.cs" />
     <Compile Include="ActionScript\Extensions\flash\sensors\Accelerometer.cs" />
     <Compile Include="ActionScript\flash\display3D\Context3D.cs" />
@@ -628,7 +625,6 @@
     <Compile Include="ActionScript\String.cs" />
     <Compile Include="ActionScript\XML.cs" />
     <Compile Include="ActionScript\XMLList.cs" />
-    <Compile Include="CSharp2\BCLImplementation\System\Action.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\ArgumentNullException.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Activator.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Attribute.cs" />
