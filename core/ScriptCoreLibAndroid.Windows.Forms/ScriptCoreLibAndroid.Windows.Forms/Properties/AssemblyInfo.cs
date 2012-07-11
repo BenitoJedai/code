@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ScriptCoreLib;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -36,4 +37,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 
-[assembly: Obfuscation(Feature = "merge")]
+[assembly: ScriptTypeFilter(ScriptType.Java)]
+[assembly: Script(IsCoreLib = true)]
+
+// should not merge yet, as we will be rewriting all thos natives then.
+// [assembly: Obfuscation(Feature = "merge")]
