@@ -204,6 +204,7 @@
     <None Include="Box2D\Dynamics\Joints\b2PulleyJointDef.as" />
     <None Include="Box2D\Dynamics\Joints\b2RevoluteJoint.as" />
     <None Include="Box2D\Dynamics\Joints\b2RevoluteJointDef.as" />
+    <None Include="Main.as" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
