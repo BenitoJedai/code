@@ -313,11 +313,24 @@ namespace ScriptCoreLib.Android
 
 
 
+        [Script(OptimizedCode = "return e.equals(value);")]
+        public static bool StringEquals(this string e, string value)
+        {
+            return false;
+        }
 
         public static void setText(this TextView e, string value)
         {
             // this cast will work on JVM
             e.setText((java.lang.CharSequence)(object)value);
+        }
+
+        public static AlertDialog.Builder setTitle(this AlertDialog.Builder e, string value)
+        {
+            // this cast will work on JVM
+            e.setTitle((java.lang.CharSequence)(object)value);
+
+            return e;
         }
 
         public static Context ShowToast(this Context c, string e)
