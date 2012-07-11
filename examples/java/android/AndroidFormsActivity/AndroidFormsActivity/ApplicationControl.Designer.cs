@@ -51,7 +51,7 @@ namespace AndroidFormsActivity
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.Location = new System.Drawing.Point(0, 13);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(336, 20);
+            this.textBox1.Size = new System.Drawing.Size(468, 20);
             this.textBox1.TabIndex = 4;
             this.textBox1.Text = "JSC";
             // 
@@ -60,7 +60,7 @@ namespace AndroidFormsActivity
             this.button1.Dock = System.Windows.Forms.DockStyle.Top;
             this.button1.Location = new System.Drawing.Point(0, 33);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(336, 45);
+            this.button1.Size = new System.Drawing.Size(468, 45);
             this.button1.TabIndex = 5;
             this.button1.Text = "I don\'t do anything, but I was added dynamically. :)";
             this.button1.UseVisualStyleBackColor = true;
@@ -71,7 +71,7 @@ namespace AndroidFormsActivity
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Name = "ApplicationControl";
-            this.Size = new System.Drawing.Size(336, 296);
+            this.Size = new System.Drawing.Size(468, 295);
             this.ResumeLayout(false);
             this.PerformLayout();
 
