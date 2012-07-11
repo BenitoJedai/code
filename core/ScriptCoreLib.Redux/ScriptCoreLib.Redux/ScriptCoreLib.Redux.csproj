@@ -87,6 +87,7 @@
     <None Include="JavaScript\IDL\dnd.idl" />
     <None Include="JavaScript\IDL\history.idl" />
     <None Include="JavaScript\IDL\webmessaging.idl" />
+    <None Include="JavaScript\IDL\webstorage.idl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

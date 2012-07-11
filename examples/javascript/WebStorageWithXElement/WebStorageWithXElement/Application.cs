@@ -10,11 +10,10 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using TestWebStorage.Design;
-using TestWebStorage.HTML.Pages;
-using ScriptCoreLib.JavaScript.StorageAPI;
+using WebStorageWithXElement.Design;
+using WebStorageWithXElement.HTML.Pages;
 
-namespace TestWebStorage
+namespace WebStorageWithXElement
 {
     /// <summary>
     /// Your client side code running inside a web browser as JavaScript.
@@ -29,16 +28,28 @@ namespace TestWebStorage
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page)
         {
-            var foo = window.sessionStorage["foo"];
+            var foo = Native.Window.localStorage["foo"];
+            var xml = new XElement("foo",
+                        new XAttribute("Title", "What is the title?"),
+                        new XElement("Content", "What is the content?")
+                    );
 
-            if (foo == null)
+            if (foo != null)
+                xml = XElement.Parse(foo);
 
-                Native.Window.alert("Ah. This is your first time here!");
-            else
-                Native.Window.alert(foo);
+            page.TextArea1.value = xml.Attribute("Title").Value;
+            page.TextArea2.value = xml.Element("Content").Value;
 
-            var now = DateTime.Now;
-            window.sessionStorage["foo"] = now.ToString();
+            page.Button1.onclick +=
+                delegate
+                {
+                    var n = new XElement("foo",
+                        new XAttribute("Title", page.TextArea1.value),
+                        new XElement("Content", page.TextArea2.value)
+                    );
+
+                    Native.Window.localStorage["foo"] = n.ToString();
+                };
 
             @"Hello world".ToDocumentTitle();
             // Send data from JavaScript to the server tier
@@ -48,14 +59,5 @@ namespace TestWebStorage
             );
         }
 
-        [Script(ExternalTarget = "window")]
-        static XWindow window;
-    }
-
-    [Script(HasNoPrototype = true)]
-    class XWindow : IWindow
-    {
-        public Storage sessionStorage;
-        public Storage localStorage;
     }
 }

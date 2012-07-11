@@ -5,6 +5,7 @@ using System.Text;
 using ScriptCoreLib.JavaScript.FileAPI;
 using ScriptCoreLib.JavaScript.HistoryAPI;
 using ScriptCoreLib.JavaScript.MessagingAPI;
+using ScriptCoreLib.JavaScript.StorageAPI;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -56,5 +57,8 @@ namespace ScriptCoreLib.JavaScript.DOM
             }
         }
         #endregion
+
+        public Storage sessionStorage;
+        public Storage localStorage;
     }
 }
