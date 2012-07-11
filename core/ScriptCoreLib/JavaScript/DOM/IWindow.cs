@@ -7,14 +7,13 @@ using ScriptCoreLib.JavaScript.DOM.HTML;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
-    [Script]
-    public delegate object IWindow_onbeforeunload(IEvent e);
 
 
     [Script(HasNoPrototype = true)]
     public class IWindow : ISink
     {
         public IFunction Array;
+
 
         public string defaultStatus;
 
@@ -246,7 +245,7 @@ namespace ScriptCoreLib.JavaScript.DOM
             [Script(DefineAsStatic = true)]
             add
             {
-                IWindow_onbeforeunload w =
+                System.Func<IEvent, object> w =
                     delegate(IEvent e)
                     {
                         var c = new Confirmation();
