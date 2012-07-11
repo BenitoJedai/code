@@ -32,4 +32,8 @@ using ScriptCoreLib;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: Obfuscation(Feature = "merge")]
+[assembly: ScriptTypeFilter(ScriptType.Java)]
+[assembly: Script(IsCoreLib = true)]
+
+// should not merge yet, as we will be rewriting all thos natives then.
+// [assembly: Obfuscation(Feature = "merge")]
