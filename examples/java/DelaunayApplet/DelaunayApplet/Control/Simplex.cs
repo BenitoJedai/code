@@ -117,7 +117,7 @@ namespace DelaunayExample.Java
 		/**
 		 * @return Iterator for Simplex's vertices.
 		 */
-		public Iterator iterator()
+		public override Iterator iterator()
 		{
 			return this.vertices.iterator();
 		}
