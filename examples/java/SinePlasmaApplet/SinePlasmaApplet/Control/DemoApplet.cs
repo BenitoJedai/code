@@ -9,7 +9,6 @@ using java.awt.image;
 
 namespace SinePlasma.source.java
 {
-	[Script]
 	public class SinePlasmaTimer : Runnable
 	{
 		public SinePlasma that;
@@ -36,9 +35,11 @@ namespace SinePlasma.source.java
 	}
 
 
-	[Script]
 	public partial class SinePlasma : Applet
 	{
+        public const int DefaultWidth = 600;
+        public const int DefaultHeight = 600;
+
 		// http://rsb.info.nih.gov/plasma2/
 		// http://forums.sun.com/thread.jspa?threadID=367212&messageID=1557275&forumID=5
 
@@ -49,10 +50,10 @@ namespace SinePlasma.source.java
 
 		public override void init()
 		{
-			Plasma.generatePlasma(Settings.DefaultWidth, Settings.DefaultHeight);
+            Plasma.generatePlasma(SinePlasma.DefaultWidth, SinePlasma.DefaultHeight);
 			var pix = Plasma.shiftPlasma(0);
 
-			this.buffer = new MemoryImageSource(Settings.DefaultWidth, Settings.DefaultHeight, pix, 0, Settings.DefaultWidth);
+            this.buffer = new MemoryImageSource(SinePlasma.DefaultWidth, SinePlasma.DefaultHeight, pix, 0, SinePlasma.DefaultWidth);
 
 			buffer.setAnimated(true);
 			buffer.setFullBufferUpdates(true);
@@ -61,7 +62,7 @@ namespace SinePlasma.source.java
 			new Thread(new SinePlasmaTimer { that = this }).start();
 
 
-			base.resize(Settings.DefaultWidth, Settings.DefaultHeight);
+            base.resize(SinePlasma.DefaultWidth, SinePlasma.DefaultHeight);
 
 
 			this.img = this.createImage(buffer);
