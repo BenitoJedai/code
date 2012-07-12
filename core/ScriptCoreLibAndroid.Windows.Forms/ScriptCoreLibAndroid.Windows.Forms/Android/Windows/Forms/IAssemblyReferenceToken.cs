@@ -7,7 +7,7 @@ namespace ScriptCoreLib.Android.Windows.Forms
 {
     [Script]
     public interface IAssemblyReferenceToken :
-        global::ScriptCoreLib.Android.Drawing.IAssemblyReferenceToken
+        global::ScriptCoreLib.Android.Drawing.IAssemblyReferenceToken_Drawing
     {
     }
 }
