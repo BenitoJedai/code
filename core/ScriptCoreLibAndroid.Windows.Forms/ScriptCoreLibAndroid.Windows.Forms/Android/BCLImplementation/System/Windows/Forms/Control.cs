@@ -9,6 +9,10 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
     [Script(Implements = typeof(global::System.Windows.Forms.Control))]
     internal class __Control //: __Component
     {
+        public global::System.Drawing.Point Location { get; set; }
+        public global::System.Drawing.Size Size { get; set; }
+
+        public string Name { get; set; }
 
         public bool AutoSize { get; set; }
 
