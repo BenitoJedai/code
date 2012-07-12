@@ -28,6 +28,7 @@ namespace AndroidFormsActivity.Activities
 
         private void InitializeContent()
         {
+            var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken);
             var u = new ApplicationControl();
 
             ScrollView sv = new ScrollView(this);

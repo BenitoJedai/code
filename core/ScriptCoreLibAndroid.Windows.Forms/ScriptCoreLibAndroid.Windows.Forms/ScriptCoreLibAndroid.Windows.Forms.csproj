@@ -46,13 +46,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\Button.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\ContainerControl.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\Control.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\Label.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\TextBox.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\UserControl.cs" />
+    <Compile Include="Android\Windows\Forms\IAssemblyReferenceToken.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Android\BCLImplementation\System\Windows\Forms\Layout\" />
-    <Folder Include="Android\Windows\Forms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

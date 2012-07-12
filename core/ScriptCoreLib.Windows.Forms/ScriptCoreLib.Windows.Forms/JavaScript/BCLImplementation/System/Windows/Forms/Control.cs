@@ -162,8 +162,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public void ResumeLayout(bool b)
         {
             InternalLayoutSuspended = false;
-
         }
+
         protected void UpdateStyles()
         {
         }
