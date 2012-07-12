@@ -1,26 +1,50 @@
-﻿using ScriptCoreLib;
+using ScriptCoreLib;
+using ScriptCoreLib.Delegates;
+using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
-using ScriptCoreLib.JavaScript.Extensions;
-using ScriptCoreLib.JavaScript.DOM.HTML;
-using ScriptCoreLib.Shared.Drawing;
-using ScriptCoreLib.Shared.Lambda;
+using ScriptCoreLib.JavaScript.Components;
 using ScriptCoreLib.JavaScript.DOM;
+using ScriptCoreLib.JavaScript.DOM.HTML;
+using ScriptCoreLib.JavaScript.Extensions;
 using System;
+using System.Linq;
+using System.Text;
+using System.Xml.Linq;
+using HyperDesignExample.HTML.Pages;
 using System.Collections.Generic;
+using ScriptCoreLib.Shared.Drawing;
 
-
-namespace HyperDesign2.js
+namespace HyperDesignExample
 {
-	[Script, ScriptApplicationEntryPoint]
-	public class HyperDesign2
-	{
-		[Script]
+    /// <summary>
+    /// Your client side code running inside a web browser as JavaScript.
+    /// </summary>
+    public sealed class Application
+    {
+        public readonly ApplicationWebService service = new ApplicationWebService();
+
+        /// <summary>
+        /// This is a javascript application.
+        /// </summary>
+        /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
+        public Application(IApplication page)
+        {
+            @"Hello world".ToDocumentTitle();
+            // Send data from JavaScript to the server tier
+            service.WebMethod2(
+                @"A string from JavaScript.",
+                value => value.ToDocumentTitle()
+            );
+
+            InitializeContent(page);
+        }
+
 		public class Employee
 		{
 			public int Number;
 
-			public string FirstName;
-			public string LastName;
+            public string FirstName = "John";
+            public string LastName = "Doe";
 
 			public string Bio = "No Bio yet!";
 
@@ -30,24 +54,19 @@ namespace HyperDesign2.js
 
 		}
 
-		public HyperDesign2()
+        public void InitializeContent(IApplication n)
 		{
-			var n = new Pages.Application();
+            //var n = new HyperDesignExample.HTML.Pages.Application();
 			
-			n.Container.AttachToDocument();
+            //n.Container.AttachToDocument();
 
-			n.Carlo.onclick +=
-				e =>
-				{
-					Native.Window.alert("hi");
-				};
-
-			n.Read.onclick +=
-				delegate
-				{
-					n.FirstName.value = "John";
-					n.LastName.value = "Doe";
-				};
+            
+            n.Read.onclick +=
+                delegate
+                {
+                    n.FirstName.value = "John";
+                    n.LastName.value = "Doe";
+                };
 
 			// more code...
 			// lets make some changes to the template code...
@@ -69,7 +88,7 @@ namespace HyperDesign2.js
 			n.Add.onclick +=
 				delegate
 				{
-					var i = new Pages.Summary();
+					var i = new HyperDesignExample.HTML.Pages.Summary();
 					var j = new Employee
 					{
 						Number = List.Count + 1,
@@ -101,7 +120,7 @@ namespace HyperDesign2.js
 						{
 							i.Edit.disabled = true;
 
-							var details = new Pages.Details();
+							var details = new HyperDesignExample.HTML.Pages.Details();
 
 							details.FirstName.value = i.FirstName.value;
 							details.LastName.value = i.LastName.value;
@@ -134,12 +153,5 @@ namespace HyperDesign2.js
 				};
 		}
 
-
-		static HyperDesign2()
-		{
-			typeof(HyperDesign2).SpawnTo(i => new HyperDesign2());
-		}
-
-	}
-
+    }
 }
