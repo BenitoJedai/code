@@ -8,7 +8,6 @@ using java.util;
 namespace DelaunayExample.Java
 {
 
-	[Script]
 	public class DelaunayTriangulation : Triangulation
 	{
 		private Simplex mostRecent = null;       // Most recently inserted triangle

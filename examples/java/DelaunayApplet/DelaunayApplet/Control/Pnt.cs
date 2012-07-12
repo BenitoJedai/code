@@ -17,7 +17,6 @@ namespace DelaunayExample.Java
  * 
  * Created July 2005.  Derived from an earlier, messier version.
  */
-	[Script]
 	public class Pnt
 	{
 		private double[] coordinates;          // The point's coordinates

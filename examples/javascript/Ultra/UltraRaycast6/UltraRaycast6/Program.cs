@@ -14,10 +14,10 @@ namespace UltraRaycast6
 			{
 				PrimaryApplication = typeof(Application),
 
-				Verbose = true,
+                //Verbose = true,
 
                 //mxmlc = new FileInfo(@"C:\util\flex4\bin\mxmlc.exe"),
-				flashplayer = new FileInfo(@"C:\util\flex_sdk_4.6.0.23201B\runtimes\player\11.1\win\FlashPlayerDebugger.exe"),
+                //flashplayer = new FileInfo(@"C:\util\flex_sdk_4.6.0.23201B\runtimes\player\11.1\win\FlashPlayerDebugger.exe"),
 
 			}.Launch();
 		}

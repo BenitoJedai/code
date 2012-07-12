@@ -10,7 +10,6 @@ using java.util;
 
 namespace DelaunayExample.Java
 {
-	[Script]
 	public class DelaunayAp : javax.swing.JApplet, java.lang.Runnable
 	{
 

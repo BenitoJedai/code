@@ -7,7 +7,6 @@ using java.util;
 
 namespace DelaunayExample.Java
 {
-	[Script]
 	public class Simplex : AbstractSet
 	{
 		private java.util.List vertices;                  // The simplex's vertices

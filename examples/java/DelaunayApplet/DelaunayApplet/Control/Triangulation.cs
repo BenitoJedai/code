@@ -5,7 +5,6 @@ using ScriptCoreLib;
 
 namespace DelaunayExample.Java
 {
-	[Script]
 	public class Triangulation
 	{
 		private HashMap _neighbors;  // Maps Simplex to Set of neighbors
