@@ -6,7 +6,7 @@ using System.Text;
 namespace ScriptCoreLib.Android.Drawing
 {
     [Script]
-    public interface IAssemblyReferenceToken 
+    public interface IAssemblyReferenceToken_Drawing
     {
 
     }
