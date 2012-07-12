@@ -6,7 +6,8 @@ using System.Text;
 namespace ScriptCoreLib.Android.Windows.Forms
 {
     [Script]
-    public interface IAssemblyReferenceToken
+    public interface IAssemblyReferenceToken :
+        global::ScriptCoreLib.Android.Drawing.IAssemblyReferenceToken
     {
     }
 }
