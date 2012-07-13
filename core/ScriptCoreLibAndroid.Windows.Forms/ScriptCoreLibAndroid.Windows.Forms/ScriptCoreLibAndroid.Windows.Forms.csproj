@@ -60,6 +60,7 @@
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\ButtonBase.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\Control.ControlCollection.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\Label.cs" />
+    <Compile Include="Android\BCLImplementation\System\Windows\Forms\MessageBox.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\ScrollableControl.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\TextBox.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
