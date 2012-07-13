@@ -29,6 +29,8 @@ namespace AndroidFormsActivity.Activities
 
         private void InitializeContent()
         {
+            // http://android-developers.blogspot.com/2011/11/new-layout-widgets-space-and-gridlayout.html
+
             var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken);
 
             var u = new ApplicationControl();
