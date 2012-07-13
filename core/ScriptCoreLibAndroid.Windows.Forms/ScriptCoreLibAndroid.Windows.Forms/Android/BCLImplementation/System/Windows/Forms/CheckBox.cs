@@ -8,10 +8,10 @@ using java.lang;
 
 namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 {
-    [Script(Implements = typeof(global::System.Windows.Forms.Button))]
-    internal class __Button : __ButtonBase
+    [Script(Implements = typeof(global::System.Windows.Forms.CheckBox))]
+    internal class __CheckBox : __ButtonBase
     {
-        public Button InternalElement;
+        public CheckBox InternalElement;
 
         public override View InternalGetElement()
         {
@@ -29,10 +29,9 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
         public override void InternalBeforeSetContext(android.content.Context c)
         {
-            InternalElement = new Button(c);
+            InternalElement = new CheckBox(c);
             InternalSetText(InternalText);
         }
 
-    
     }
 }

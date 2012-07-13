@@ -43,19 +43,6 @@ namespace AndroidFormsActivity.Activities
 
 
 
-            //for (int i = 0; i < 20; i++)
-            //{
-
-            //    CheckBox cb = new CheckBox(this);
-
-            //    cb.setText("I'm dynamic!");
-
-
-            //    cb.AttachTo(ll);
-
-            //}
-
-            //this.setContentView(sv);
 
 
             this.ShowLongToast("http://jsc-solutions.net");
