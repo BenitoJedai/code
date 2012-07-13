@@ -64,6 +64,7 @@
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\TextBoxBase.cs" />
     <Compile Include="Android\BCLImplementation\System\Windows\Forms\UserControl.cs" />
     <Compile Include="Android\Windows\Forms\IAssemblyReferenceToken.cs" />
+    <Compile Include="Extensions\Android\AndroidFormsExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

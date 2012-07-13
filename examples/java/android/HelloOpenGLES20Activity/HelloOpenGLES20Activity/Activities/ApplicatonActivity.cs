@@ -50,6 +50,7 @@ namespace HelloOpenGLES20Activity.Activities
         {
             base.onCreate(savedInstanceState);
 
+            this.ToFullscreen();
 
             // Create a GLSurfaceView instance and set it
             // as the ContentView for this Activity
