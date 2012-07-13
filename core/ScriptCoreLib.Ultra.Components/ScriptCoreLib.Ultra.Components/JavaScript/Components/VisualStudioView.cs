@@ -454,7 +454,7 @@ namespace ScriptCoreLib.JavaScript.Components
 			edit.style.border = "0";
 			edit.style.margin = "0";
 			edit.style.padding = "0";
-			edit.frameborder = "0";
+			edit.frameBorder = "0";
 			edit.border = "0";
 
 			edit.WhenDocumentReady(
