@@ -132,7 +132,7 @@ namespace ScriptCoreLib.Ultra.Components
 			PreviewFrame.style.border = "0";
 			PreviewFrame.style.margin = "0";
 			PreviewFrame.style.padding = "0";
-			PreviewFrame.frameborder = "0";
+			PreviewFrame.frameBorder = "0";
 			PreviewFrame.border = "0";
 
 			PreviewFrame.AttachTo(PreviewContainer);

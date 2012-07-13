@@ -47,7 +47,7 @@ namespace ScriptCoreLib.JavaScript.Components
 			HTMLDesignerContent.style.margin = "0";
 			HTMLDesignerContent.style.padding = "0";
 
-			HTMLDesignerContent.frameborder = "0";
+			HTMLDesignerContent.frameBorder = "0";
 			HTMLDesignerContent.border = "0";
 
 			HTMLDesignerContent.WhenDocumentReady(
