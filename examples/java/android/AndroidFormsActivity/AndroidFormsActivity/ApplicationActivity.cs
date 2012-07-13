@@ -9,6 +9,7 @@ using android.widget;
 using AndroidFormsActivity.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
+using ScriptCoreLib.Extensions.Android;
 
 namespace AndroidFormsActivity.Activities
 {
@@ -29,60 +30,32 @@ namespace AndroidFormsActivity.Activities
         private void InitializeContent()
         {
             var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken);
+
             var u = new ApplicationControl();
 
-            ScrollView sv = new ScrollView(this);
+            u.AttachTo(this);
 
-            LinearLayout ll = new LinearLayout(this);
+           
 
-            ll.setOrientation(LinearLayout.VERTICAL);
-
-            sv.addView(ll);
-
-            //// http://stackoverflow.com/questions/9784570/webview-inside-scrollview-disappears-after-zooming
-            //// http://stackoverflow.com/questions/8123804/unable-to-add-web-view-dynamically
-            //// http://developer.android.com/reference/android/webkit/WebView.html
+            ////// http://stackoverflow.com/questions/9784570/webview-inside-scrollview-disappears-after-zooming
+            ////// http://stackoverflow.com/questions/8123804/unable-to-add-web-view-dynamically
+            ////// http://developer.android.com/reference/android/webkit/WebView.html
 
 
 
-            TextView tv = new TextView(this);
+            //for (int i = 0; i < 20; i++)
+            //{
 
-            tv.setText("What would you like to create today?");
+            //    CheckBox cb = new CheckBox(this);
 
-            ll.addView(tv);
-
-
-
-            EditText et = new EditText(this);
-
-            et.setText("JSC");
-
-            ll.addView(et);
+            //    cb.setText("I'm dynamic!");
 
 
+            //    cb.AttachTo(ll);
 
-            Button b = new Button(this);
+            //}
 
-            b.setText("I don't do anything, but I was added dynamically. :)");
-
-            ll.addView(b);
-
-
-
-
-            for (int i = 0; i < 20; i++)
-            {
-
-                CheckBox cb = new CheckBox(this);
-
-                cb.setText("I'm dynamic!");
-
-
-                cb.AttachTo(ll);
-
-            }
-
-            this.setContentView(sv);
+            //this.setContentView(sv);
 
 
             this.ShowLongToast("http://jsc-solutions.net");

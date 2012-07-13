@@ -34,6 +34,7 @@ namespace AndroidFormsActivity
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -65,8 +66,19 @@ namespace AndroidFormsActivity
             this.button1.Text = "I don\'t do anything, but I was added dynamically. :)";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button2.Location = new System.Drawing.Point(0, 78);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(468, 45);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Hey I am on Android!";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
@@ -80,5 +92,6 @@ namespace AndroidFormsActivity
         private Label label1;
         private TextBox textBox1;
         private Button button1;
+        private Button button2;
     }
 }
