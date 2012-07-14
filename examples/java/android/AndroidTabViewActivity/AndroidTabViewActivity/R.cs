@@ -21,8 +21,6 @@ namespace AndroidTabViewActivity.Activities
         [Script(IsNative = true)]
         public static class drawable
         {
-            public static int ic_tab_main;
-            public static int ic_tab_setup;
         }
     }
 }
