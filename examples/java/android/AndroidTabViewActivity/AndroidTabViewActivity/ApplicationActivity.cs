@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using android.app;
+using android.content;
+using android.content.res;
 using android.provider;
 using android.webkit;
 using android.widget;
 using AndroidTabViewActivity.Library;
+using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 
@@ -14,11 +17,69 @@ namespace AndroidTabViewActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
+        // http://www.techwavedev.com/?p=14
         // http://www.androidhive.info/2011/08/android-tab-layout-tutorial/
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
             // http://www.dreamincode.net/forums/topic/130521-android-part-iii-dynamic-layouts/
+
+            base.onCreate(savedInstanceState);
+
+            var c = this;
+
+            var th = new TabHost(c);
+
+            LinearLayout ll = new LinearLayout(this);
+
+            ll.setOrientation(LinearLayout.VERTICAL);
+
+            th.addView(ll);
+
+
+            var tw = new TabWidget(c);
+
+
+            tw.AttachTo(ll);
+
+            this.setContentView(th);
+
+
+            Resources res = this.getResources(); // Resource object to get Drawables
+
+
+            th.addTab(th
+                .newTabSpec("Hello")
+                .setIndicator(
+                    (CharSequence)(object)"Hello", 
+                    res.getDrawable(R.drawable.ic_tab_main))
+                .setContent(new Intent(c, GetMainActivityClass()))
+            );
+
+            th.addTab(th
+                .newTabSpec("World")
+                .setIndicator(
+                    (CharSequence)(object)"World", 
+                    res.getDrawable(R.drawable.ic_tab_setup))
+                .setContent(new Intent(c, GetMainActivityClass()))
+            );
+
+            this.ShowLongToast("http://jsc-solutions.net");
+
+
+        }
+
+        [Script(OptimizedCode = "return AndroidTabViewActivity.Activities.MainActivity.class;")]
+        public static Class GetMainActivityClass()
+        {
+            return null;
+        }
+    }
+
+    class MainActivity : Activity
+    {
+        protected override void onCreate(android.os.Bundle savedInstanceState)
+        {
 
             base.onCreate(savedInstanceState);
 
@@ -74,11 +135,6 @@ namespace AndroidTabViewActivity.Activities
             }
 
             this.setContentView(sv);
-
-
-            this.ShowLongToast("http://jsc-solutions.net");
         }
-
-
     }
 }
