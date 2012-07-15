@@ -171,6 +171,29 @@ namespace WebGLYomotsuMD2Model
 
     namespace THREE
     {
+        sealed class MeshPhongMaterialArguments
+        {
+            public int shininess;
+            public object map;
+            public int ambient;
+            public int color;
+            public bool morphTargets;
+            public int specular;
+        }
+
+
+        [Script(HasNoPrototype = true, ExternalTarget = "THREE.MeshPhongMaterial")]
+        class MeshPhongMaterial
+        {
+            public MeshPhongMaterial(MeshPhongMaterialArguments a)
+            {
+
+            }
+        }
+
+
+
+
 
         sealed class MeshLambertMaterialArguments
         {
@@ -217,6 +240,7 @@ namespace WebGLYomotsuMD2Model
             public Vector3 rotation;
             public bool castShadow;
             public bool receiveShadow;
+            public int currentKeyframe;
 
             public MorphAnimMesh(object geometry, MeshLambertMaterial material)
             {
@@ -224,8 +248,18 @@ namespace WebGLYomotsuMD2Model
                 this.material = material;
             }
 
+            public MorphAnimMesh(object droid, MeshPhongMaterial material1)
+            {
+                // TODO: Complete member initialization
+            }
+
 
             internal void updateAnimation(f p)
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void setFrameRange(int animMin, int animMax)
             {
                 throw new NotImplementedException();
             }
