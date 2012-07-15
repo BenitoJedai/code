@@ -27,8 +27,6 @@ namespace WebGLYomotsuMD2Model
 
 
 
-        [Script(ExternalTarget = "droid")]
-        public static object droid;
 
         /// <summary>
         /// This is a javascript application.
@@ -40,7 +38,7 @@ namespace WebGLYomotsuMD2Model
             new[]
             {
                 new global::WebGLYomotsuMD2Model.Design.Three().Content,
-                new global::WebGLYomotsuMD2Model.Design.droid().Content,
+                //new global::WebGLYomotsuMD2Model.Design.droid().Content,
             }.ForEach(
                 (SourceScriptElement, i, MoveNext) =>
                 {
@@ -83,6 +81,7 @@ namespace WebGLYomotsuMD2Model
 
             public motion
               stand = new motion { min = 0, max = 39, fps = 9, state = "stand", action = false },   // STAND
+
               run = new motion { min = 40, max = 45, fps = 10, state = "stand", action = false },   // RUN
               attack = new motion { min = 46, max = 53, fps = 10, state = "stand", action = true },   // ATTACK
               pain1 = new motion { min = 54, max = 57, fps = 7, state = "stand", action = true },   // PAIN_A
@@ -159,95 +158,120 @@ namespace WebGLYomotsuMD2Model
                 }
             );
 
+            // new global::WebGLYomotsuMD2Model.Design.droid().Content
 
-            var player_mesh = new THREE.MorphAnimMesh(droid, material);
+            var loader = new THREE.JSONLoader();
 
-            player_mesh.rotation.y = (float)(-Math.PI / 2);
-            //player.mesh.scale.set(2, 2, 2);
-            player_mesh.castShadow = true;
-            player_mesh.receiveShadow = false;
-
-            #region player_motion
-            var player_motion = md2frames.stand;
-            Action<motion> player_changeMotion = motion =>
-            {
-                player_motion = motion;
-
-                //    player.state = md2frames[motion][3].state;
-
-                var animMin = motion.min;
-
-                var animMax = motion.max;
-
-                var animFps = motion.fps;
-
-                player_mesh.time = 0;
-
-                player_mesh.duration = 1000f * ((animMax - animMin) / animFps);
-
-                player_mesh.setFrameRange(animMin, animMax);
-            };
-
-            player_changeMotion(player_motion);
-            #endregion
-
-
-            scene.add(player_mesh);
-
-            var theta = 0;
-
-            var clock = new THREE.Clock();
-
-            #region loop
-            Action loop = null;
-
-
-            loop = delegate
-            {
-                var delta = clock.getDelta();
-                var isEndFleame = (player_motion.max == player_mesh.currentKeyframe);
-                var isAction = player_motion.action;
-
-                var x = (isAction && !isEndFleame);
-
-                if (!isAction || x)
-                {
-
-                    player_mesh.updateAnimation(1000 * delta);
-
-                }
-                else if (player_motion.state == "freeze")
-                {
-
-                    //dead...
-
-                }
-                else
-                {
-
-                    player_changeMotion(player_motion);
-
-                }
-
-
-                camera.position.x = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
-                camera.position.y = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
-                camera.position.z = (float)(150 * Math.Cos(theta / 2 * Math.PI / 360));
-
-                camera.lookAt(scene.position);
-
-                theta++;
+            loader.load(
+                new global::WebGLYomotsuMD2Model.Design.droid().Content.src,
+                    IFunction.OfDelegate(
+                        new Action<object>(
+                            geometry =>
+                            {
 
 
 
-                renderer.render(scene, camera);
 
-                Native.Window.requestAnimationFrame += loop;
 
-            };
 
-            loop();
-            #endregion
+
+
+                                var player_mesh = new THREE.MorphAnimMesh(geometry, material);
+
+                                player_mesh.rotation.y = (float)(-Math.PI / 2);
+                                //player.mesh.scale.set(2, 2, 2);
+                                player_mesh.castShadow = true;
+                                player_mesh.receiveShadow = false;
+
+                                #region player_motion
+                                var player_motion = default(motion);
+                                Action<motion> player_changeMotion = motion =>
+                                {
+                                    player_motion = motion;
+
+                                    //    player.state = md2frames[motion][3].state;
+
+                                    var animMin = motion.min;
+                                    var animMax = motion.max;
+                                    var animFps = motion.fps;
+
+                                    player_mesh.time = 0;
+                                    player_mesh.duration = 1000f * ((animMax - animMin) / animFps);
+                                    player_mesh.setFrameRange(animMin, animMax);
+                                };
+
+                                player_changeMotion(md2frames.stand);
+                                #endregion
+
+
+                                scene.add(player_mesh);
+
+                                var theta = 0;
+
+                                var clock = new THREE.Clock();
+
+                                #region loop
+                                Action loop = null;
+
+
+                                loop = delegate
+                                {
+                                    var delta = clock.getDelta();
+                                    var isEndFleame = (player_motion.max == player_mesh.currentKeyframe);
+                                    var isAction = player_motion.action;
+
+                                    var x = (isAction && !isEndFleame);
+
+                                    if (!isAction || x)
+                                    {
+
+                                        player_mesh.updateAnimation(1000 * delta);
+
+                                    }
+                                    else if (player_motion.state == "freeze")
+                                    {
+
+                                        //dead...
+
+                                    }
+                                    else
+                                    {
+
+                                        player_changeMotion(player_motion);
+
+                                    }
+
+
+                                    camera.position.x = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
+                                    camera.position.y = (float)(150 * Math.Sin(theta / 2 * Math.PI / 360));
+                                    camera.position.z = (float)(150 * Math.Cos(theta / 2 * Math.PI / 360));
+
+                                    camera.lookAt(scene.position);
+
+                                    theta++;
+
+
+
+                                    renderer.render(scene, camera);
+
+                                    Native.Window.requestAnimationFrame += loop;
+
+                                };
+
+                                loop();
+                                #endregion
+
+
+
+
+
+
+                            }
+                        )
+                    )
+            );
+
+
 
 
         }
