@@ -875,10 +875,10 @@ namespace ScriptCoreLib.JavaScript.DOM.HTML
 		    this.requestFullscreen();
 		}
 		else if (this.mozRequestFullScreen) {
-		    this.mozRequestFullScreen();
+		    this.mozRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 		}
 		else if (this.webkitRequestFullScreen) {
-		    this.webkitRequestFullScreen();
+		    this.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 		}
                     
                     "
