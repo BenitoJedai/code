@@ -347,6 +347,8 @@ namespace WebGLYomotsuTPS
         [Script(HasNoPrototype = true, ExternalTarget = "THREE.Object3D")]
         class Object3D
         {
+
+            public Vector3 rotation;
             public Vector3 position;
 
             internal void add(Mesh mesh)
@@ -390,16 +392,9 @@ namespace WebGLYomotsuTPS
             public float x;
             public float y;
             public float z;
-            private int p1;
-            private int p2;
-            private int p3;
 
-            public Vector3(int p1, int p2, int p3)
+            public Vector3(float p1, float y, float p3)
             {
-                // TODO: Complete member initialization
-                this.p1 = p1;
-                this.p2 = p2;
-                this.p3 = p3;
             }
 
             internal Vector3 set(f p, f p_2, f p_3)

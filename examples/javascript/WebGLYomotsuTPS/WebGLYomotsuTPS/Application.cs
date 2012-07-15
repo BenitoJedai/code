@@ -126,15 +126,15 @@ namespace WebGLYomotsuTPS
             #endregion
 
             var player_model_objects = new THREE.Object3D();
-            var player_position_x = 0;
-            var player_position_y = 0;
-            var player_position_z = 0;
+            var player_position_x = 0.0f;
+            var player_position_y = 0.0f;
+            var player_position_z = 0.0f;
             var player_position_direction = 0;
             var player_camera_speed = 300;
             var player_camera_distance = 5;
-            var player_camera_x = 0;
-            var player_camera_y = 0;
-            var player_camera_z = 0;
+            var player_camera_x = 0.0f;
+            var player_camera_y = 0.0f;
+            var player_camera_z = 0.0f;
             var player_motion = default(motion);
 
             var width = Native.Window.Width;
@@ -169,26 +169,59 @@ namespace WebGLYomotsuTPS
 
             #endregion
 
+            var md2frames = new md2frames();
 
-    //            var moveState = {
-    //    moving    : false,
-    //    front     : false,
-    //    Backwards : false,
-    //    left      : false,
-    //    right     : false,
-    //    speed     : .1,
-    //    angle     : 0
-    //}
+            var moveState_moving = false;
+            var moveState_front = false;
+            var moveState_Backwards = false;
+            var moveState_left = false;
+            var moveState_right = false;
+            var moveState_speed = .1;
             var moveState_angle = 0;
 
-            Native.Document.onkeydown +=
-                e =>
-                {
-                    if (e.KeyCode == 67)
-                    { 
-                        
-                    }
-                }; 
+            #region move
+            Action move = delegate
+            {
+                //            if(player.model.motion !== 'run' && player.model.state === 'stand'){
+
+                //    changeMotion('run');
+
+                //}
+
+                //if(player.model.motion !== 'crwalk' && player.model.state === 'crstand'){
+
+                //    changeMotion('crwalk');
+
+                //}
+
+                var speed = moveState_speed;
+
+                //if(player.model.state === 'crstand'){speed *= .5;}
+
+                //if(player.model.state === 'freeze') {speed *= 0;}
+
+
+
+                var direction = moveState_angle;
+
+                if (moveState_front && !moveState_left && !moveState_Backwards && !moveState_right) { direction += 0; }
+                if (moveState_front && moveState_left && !moveState_Backwards && !moveState_right) { direction += 45; }
+                if (!moveState_front && moveState_left && !moveState_Backwards && !moveState_right) { direction += 90; }
+                if (!moveState_front && moveState_left && moveState_Backwards && !moveState_right) { direction += 135; }
+                if (!moveState_front && !moveState_left && moveState_Backwards && !moveState_right) { direction += 180; }
+                if (!moveState_front && !moveState_left && moveState_Backwards && moveState_right) { direction += 225; }
+                if (!moveState_front && !moveState_left && !moveState_Backwards && moveState_right) { direction += 270; }
+                if (moveState_front && !moveState_left && !moveState_Backwards && moveState_right) { direction += 315; }
+
+
+
+                player_model_objects.rotation.y = (float)(direction * Math.PI / 180);
+
+                player_position_x -= (float)(Math.Sin(direction * Math.PI / 180) * speed);
+                player_position_z -= (float)(Math.Cos(direction * Math.PI / 180) * speed);
+
+            };
+            #endregion
 
             #region camera rotation
 
@@ -236,10 +269,11 @@ namespace WebGLYomotsuTPS
                             player_camera_y = -150;
                         }
 
-                        moveState_angle = (player_camera_x / 2) % 360;
+                        moveState_angle = Convert.ToInt32(player_camera_x / 2) % 360;
 
                         oldPointerX = pointer_x;
-                        oldPointerY = pointer_y;
+                        oldPointerY = pointer_y;
+
                     };
                 };
 
@@ -306,7 +340,6 @@ namespace WebGLYomotsuTPS
 
 
 
-            var md2frames = new md2frames();
 
             //load converted md2 data
 
@@ -364,12 +397,86 @@ namespace WebGLYomotsuTPS
 
                                 player_model_objects.add(md2meshBody);
 
+
+                                Native.Document.onkeydown +=
+                                    e =>
+                                    {
+                                        if (e.KeyCode == 67)
+                                        {
+                                            if (player_motion == md2frames.stand)
+                                                player_changeMotion(md2frames.crstand);
+                                            else if (player_motion == md2frames.crstand)
+                                                player_changeMotion(md2frames.stand);
+
+                                        }
+                                        else if (e.KeyCode == 87)
+                                        {
+                                            moveState_front = true;
+                                            moveState_Backwards = false;
+                                        }
+                                        else if (e.KeyCode == 83)
+                                        {
+                                            moveState_front = false;
+                                            moveState_Backwards = true;
+                                        }
+                                        else if (e.KeyCode == 65)
+                                        {
+                                            moveState_left = true;
+                                            moveState_right = false;
+                                        }
+                                        else if (e.KeyCode == 68)
+                                        {
+                                            moveState_left = false;
+                                            moveState_right = true;
+                                        }
+
+                                        if (moveState_front || moveState_Backwards || moveState_left || moveState_right)
+                                            if (player_motion == md2frames.stand)
+                                                player_changeMotion(md2frames.run);
+                                            else if (player_motion == md2frames.crstand)
+                                                player_changeMotion(md2frames.crwalk);
+                                    };
+
+                                Native.Document.onkeyup +=
+                                    e =>
+                                    {
+                                        if (e.KeyCode == 87)
+                                        {
+                                            moveState_front = false;
+                                        }
+                                        else if (e.KeyCode == 83)
+                                        {
+                                            moveState_Backwards = false;
+                                        }
+                                        else if (e.KeyCode == 65)
+                                        {
+                                            moveState_left = false;
+                                        }
+                                        else if (e.KeyCode == 68)
+                                        {
+                                            moveState_right = false;
+                                        }
+
+                                    };
+
+
+
                                 #region loop
                                 Action loop = null;
 
 
                                 loop = delegate
                                 {
+                                    if (moveState_front || moveState_Backwards || moveState_left || moveState_right)
+                                        move();
+                                    else
+                                        if (player_motion == md2frames.run)
+                                            player_changeMotion(md2frames.stand);
+                                        else if (player_motion == md2frames.crwalk)
+                                            player_changeMotion(md2frames.crstand);
+
+
+
                                     player_model_objects.position.x = player_position_x;
                                     player_model_objects.position.y = player_position_y;
                                     player_model_objects.position.z = player_position_z;
