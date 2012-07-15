@@ -1,4 +1,4 @@
-{
+var droid = {
 
 "metadata" : {
 "formatVersion" : 3,

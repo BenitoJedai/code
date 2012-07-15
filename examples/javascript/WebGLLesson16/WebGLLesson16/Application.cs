@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ScriptCoreLib;
+using ScriptCoreLib.Shared.Lambda;
 using ScriptCoreLib.Delegates;
 using ScriptCoreLib.Extensions;
 using ScriptCoreLib.JavaScript;
@@ -51,34 +52,28 @@ namespace WebGLLesson16
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
         public Application(IDefaultPage page = null)
         {
-            #region await __glMatrix
-            new __glMatrix().Content.With(
-              source =>
-              {
-                  source.onload +=
-                    delegate
-                    {
-                        #region await Teapot
-                        new Data.macbook().Content.With(
-                          source2 =>
-                          {
-                              source2.onload +=
-                                delegate
-                                {
-                                    InitializeContent(page);
-                                };
-
-                              source2.AttachToDocument();
-                          }
-                       );
-                        #endregion
-
-                    };
-
-                  source.AttachToDocument();
-              }
-           );
+            #region await then do InitializeContent
+            new[]
+            {
+                new __glMatrix().Content,
+                new Data.macbook().Content,
+            }.ForEach(
+                (SourceScriptElement, i, MoveNext) =>
+                {
+                    SourceScriptElement.AttachToDocument().onload +=
+                        delegate
+                        {
+                            MoveNext();
+                        };
+                }
+            )(
+                delegate
+                {
+                    InitializeContent(page);
+                }
+            );
             #endregion
+
 
 
             style.Content.AttachToHead();
