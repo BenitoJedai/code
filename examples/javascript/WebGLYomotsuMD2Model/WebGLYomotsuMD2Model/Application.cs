@@ -32,7 +32,7 @@ namespace WebGLYomotsuMD2Model
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             #region await then do InitializeContent
             new[]
@@ -80,6 +80,11 @@ namespace WebGLYomotsuMD2Model
             // first, last, fps
 
             public motion
+
+                // why?
+                __first_broken = null,
+
+
               stand = new motion { min = 0, max = 39, fps = 9, state = "stand", action = false },   // STAND
 
               run = new motion { min = 40, max = 45, fps = 10, state = "stand", action = false },   // RUN
@@ -108,6 +113,19 @@ namespace WebGLYomotsuMD2Model
 
         void InitializeContent(IDefaultPage page = null)
         {
+            var fov = 40;
+
+            #region container
+            Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
+            var container = new IHTMLDiv();
+
+            container.AttachToDocument();
+            container.style.backgroundColor = "#000000";
+            container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+            #endregion
+
+
+
             var width = Native.Window.Width;
             var height = Native.Window.Height;
 
@@ -115,7 +133,7 @@ namespace WebGLYomotsuMD2Model
 
             var scene = new THREE.Scene();
 
-            var camera = new THREE.PerspectiveCamera(40, width / height, 1, 1000);
+            var camera = new THREE.PerspectiveCamera(fov, width / height, 1, 1000);
 
             scene.add(camera);
 
@@ -137,8 +155,7 @@ namespace WebGLYomotsuMD2Model
 
             var renderer = new THREE.WebGLRenderer();
             renderer.setSize(width, height);
-            renderer.domElement.AttachToDocument();
-            renderer.domElement.style.SetLocation(0, 0);
+            renderer.domElement.AttachTo(container);
 
             var md2frames = new md2frames();
 
@@ -158,7 +175,47 @@ namespace WebGLYomotsuMD2Model
                 }
             );
 
-            // new global::WebGLYomotsuMD2Model.Design.droid().Content
+
+
+            #region AtResize
+            Action AtResize = delegate
+            {
+                container.style.SetLocation(0, 0, Native.Window.Width, Native.Window.Height);
+
+
+                renderer.setSize(Native.Window.Width, Native.Window.Height);
+
+                camera.projectionMatrix.makePerspective(fov, Native.Window.Width / Native.Window.Height, 1, 1100);
+
+                //camera.aspect = Native.Window.Width / Native.Window.Height;
+                //camera.updateProjectionMatrix();
+            };
+
+            Native.Window.onresize +=
+                delegate
+                {
+                    AtResize();
+                };
+
+            AtResize();
+            #endregion
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+                    //AtResize();
+                };
+            #endregion
+
+
 
             var loader = new THREE.JSONLoader();
 
@@ -262,8 +319,48 @@ namespace WebGLYomotsuMD2Model
                                 #endregion
 
 
+                                var toolbar = new Toolbar();
+
+                                if (page != null)
+                                {
+                                    toolbar.Container.style.Opacity = 0.7;
+                                    toolbar.Container.AttachToDocument();
+                                    toolbar.Container.style.position = IStyle.PositionEnum.absolute;
+                                    toolbar.Container.style.right = "0";
+                                    toolbar.Container.style.bottom = "0";
+
+                                    toolbar.HideButton.onclick +=
+                                         delegate
+                                         {
+                                             // ScriptCoreLib.Extensions
+                                             toolbar.HideTarget.ToggleVisible();
+                                         };
 
 
+                                    Action<IHTMLButton, motion> bind =
+                                        (btn, value) => btn.onclick += delegate { player_changeMotion(value); };
+
+                                    bind(toolbar.Stand, md2frames.stand);
+                                    bind(toolbar.Run, md2frames.run);
+                                    bind(toolbar.Attack, md2frames.attack);
+                                    bind(toolbar.Pain1, md2frames.pain1);
+                                    bind(toolbar.Pain2, md2frames.pain2);
+                                    bind(toolbar.Pain3, md2frames.pain3);
+                                    bind(toolbar.Jump, md2frames.jump);
+                                    bind(toolbar.Flip, md2frames.flip);
+                                    bind(toolbar.Salute, md2frames.salute);
+                                    bind(toolbar.Taunt, md2frames.taunt);
+                                    bind(toolbar.Wave, md2frames.wave);
+                                    bind(toolbar.Point, md2frames.point);
+                                    bind(toolbar.Crstand, md2frames.crstand);
+                                    bind(toolbar.Crwalk, md2frames.crwalk);
+                                    bind(toolbar.Crattack, md2frames.crattack);
+                                    bind(toolbar.Crpain, md2frames.crpain);
+                                    bind(toolbar.Crdeath, md2frames.crdeath);
+                                    bind(toolbar.Death1, md2frames.death1);
+                                    bind(toolbar.Death2, md2frames.death2);
+                                    bind(toolbar.Death3, md2frames.death3);
+                                }
 
 
                             }
@@ -273,8 +370,11 @@ namespace WebGLYomotsuMD2Model
 
 
 
-
+            
+        
         }
+        bool IsDisposed = false;
 
+        public Action Dispose;
     }
 }
