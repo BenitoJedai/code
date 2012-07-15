@@ -19,23 +19,9 @@ namespace AndroidWebViewActivity.Activities
     {
         const string TAG = "AndroidWebViewActivity";
 
-
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidWebViewActivity.Activities --activity AndroidWebViewActivity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidWebViewActivity\AndroidWebViewActivity\staging\
-
-
-        // running it in emulator:
-        // start C:\util\android-sdk-windows\tools\android.bat avd
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r  "y:\jsc.svn\examples\java\android\AndroidWebViewActivity\AndroidWebViewActivity\staging\bin\AndroidWebViewActivity-debug.apk"
-
-        // note: rebuild could auto reinstall
-
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" uninstall   AndroidWebViewActivity.Activities
-        
         // running it on device:
         // attach device to usb
-        //Z:\jsc.svn\examples\java\android\HelloAndroid>C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
+
 
         public WebView webview;
         public ProgressDialog progressBar;
@@ -49,7 +35,6 @@ namespace AndroidWebViewActivity.Activities
 
             this.ToFullscreen();
 
-            this.ShowToast("studio.jsc-solutions.net");
 
             // http://stackoverflow.com/questions/8955228/webview-with-an-iframe-android
             // http://www.chrisdanielson.com/tag/webviewclient/
@@ -72,25 +57,27 @@ namespace AndroidWebViewActivity.Activities
             //webview.getSettings().setBuiltInZoomControls(true);
             //webview.setInitialScale(1);
 
-            webview.getSettings().setSupportZoom(false);
+            webview.setWebViewClient(new MyWebViewClient { __this = this });
 
+            webview.getSettings().setSupportZoom(false);
             webview.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
 
             //webview.getSettings().setJavaScriptEnabled(true);
 
             // no flash in emulator?
             // works on my phone!
-            webview.getSettings().setPluginsEnabled(true);
-            webview.getSettings().setPluginState(android.webkit.WebSettings.PluginState.ON);
+            // no Flash since android 4.1.0!!!
+            //webview.getSettings().setPluginsEnabled(true);
+            //webview.getSettings().setPluginState(android.webkit.WebSettings.PluginState.ON);
 
-            webview.setWebViewClient(new MyWebViewClient { __this = this });
 
 
             // OR, you can also load from an HTML string:
             //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
             //webview.loadData(summary, "text/html", null);
             Log.i(TAG, "loadUrl");
-            webview.loadUrl("http://192.168.58.1:21516/");
+            webview.loadUrl("http://www.jsc-solutions.net");
+            this.ShowToast("www.jsc-solutions.net");
 
         }
 
