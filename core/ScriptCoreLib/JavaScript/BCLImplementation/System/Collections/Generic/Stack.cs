@@ -32,7 +32,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         internal void AddRange(IEnumerable<T> collection)
         {
-            foreach (var item in InternalSequenceImplementation.AsEnumerable(collection))
+            foreach (var item in InternalSequence.AsEnumerable(collection))
             {
                 this.Push(item);
             }

@@ -97,9 +97,9 @@ namespace LinqToObjects
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(15, 193);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(222, 13);
+            this.label4.Size = new System.Drawing.Size(42, 13);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Enter a partial name to make the entry special";
+            this.label4.Text = "Results";
             // 
             // result
             // 

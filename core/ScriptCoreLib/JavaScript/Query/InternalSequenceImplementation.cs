@@ -12,7 +12,7 @@ using IDisposable = global::System.IDisposable;
 namespace ScriptCoreLib.JavaScript.Query
 {
     [Script(Implements = typeof(ScriptCoreLib.Shared.Query.InternalSequence))]
-    internal static class InternalSequenceImplementation
+    internal static class __InternalSequenceImplementation
     {
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(IEnumerable<TSource> source)

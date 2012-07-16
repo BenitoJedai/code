@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScript\BCLImplementation\System\Attribute.cs" />
+    <Compile Include="ActionScript\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormatProvider.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\IFormattable.cs" />
     <Compile Include="ActionScript\Extensions\flash\net\NetGroup.cs" />
@@ -106,6 +107,9 @@
     <Compile Include="ActionScript\flash\net\NetGroupInfo.cs" />
     <Compile Include="ActionScript\flash\sensors\Accelerometer.cs" />
     <Compile Include="ActionScript\flash\utils\Globals.cs" />
+    <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Comparer.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NullReferenceException.cs" />
@@ -242,8 +246,29 @@
     <Compile Include="JavaScript\Runtime\Convert.cs" />
     <Compile Include="JavaScript\Runtime\Fader.cs" />
     <Compile Include="Properties\AbstractatechInfo.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.NotImplementedHere.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Take.MoveNext.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Take.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Range.MoveNext.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Range.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.SelectMany.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Select.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Methods.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.ToDictionary.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Sum.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.SkipWhile.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Where.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.OrderBy.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.ElementAtOrDefault.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.Concat.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\Enumerable.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\DefinedError.cs" />
     <Compile Include="Shared\BCLImplementation\System\Collections\Specialized\StringDictionary.cs" />
     <Compile Include="Shared\BCLImplementation\System\Func.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\IdentityFunction.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\IOrderedEnumerable.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\LocalInternalEnumerable.cs" />
+    <Compile Include="Shared\BCLImplementation\System\Linq\OrderedEnumerable.cs" />
     <Compile Include="Shared\BCLImplementation\System\Uri.cs" />
     <Compile Include="Shared\Drawing\Rectangle.cs" />
     <Compile Include="JavaScript\Runtime\Timer.cs" />
@@ -297,7 +322,7 @@
     <Compile Include="ActionScript\BCLImplementation\System\Collections\ICollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ActionScript\BCLImplementation\System\Collections\IComparer.cs" />
+    <Compile Include="JavaScript\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IDictionary.cs" />
     <Compile Include="ActionScript\BCLImplementation\System\Collections\IEnumerable.cs">
       <SubType>Code</SubType>
