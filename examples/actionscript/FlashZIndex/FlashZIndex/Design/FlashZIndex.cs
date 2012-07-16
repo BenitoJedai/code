@@ -13,11 +13,7 @@ using ScriptCoreLib.ActionScript.Extensions;
 
 namespace FlashZIndex.ActionScript
 {
-    /// <summary>
-    /// Default flash player entrypoint class. See 'tools/build.bat' for adding more entrypoints.
-    /// </summary>
-    //[Script, ScriptApplicationEntryPoint]
-    //[SWF(backgroundColor = BackgroundColor)]
+
     public class FlashZIndex : Sprite
     {
 		// upgrade to wpf: http://blogs.msdn.com/wpfsdk/archive/2006/06/13/Controlling-zOrder-using-the-ZIndex-Property.aspx
@@ -35,9 +31,9 @@ namespace FlashZIndex.ActionScript
             };
 
 
-            c.graphics.beginFill(BackgroundColor);
-            c.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-            c.graphics.endFill();
+            //c.graphics.beginFill(BackgroundColor);
+            //c.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+            //c.graphics.endFill();
 
             Func<string, string, string> ToSize =
                 (e, size) => "<font size='" + size + "'>" + e + "</font>";
@@ -66,11 +62,12 @@ namespace FlashZIndex.ActionScript
                     size = 15,
                     color = ForegroundColor
                 },
-                //mouseEnabled = false,
-                //filters = new[] { new DropShadowFilter() },
+                mouseEnabled = false,
+                filters = new[] { new DropShadowFilter() },
                 multiline = true,
                 condenseWhite = true,
                 x = 8,
+           
                 htmlText =
 
                 Colorize(
@@ -119,7 +116,12 @@ namespace FlashZIndex.ActionScript
                     ReorderThrottle();
                 };
 
-            10.To(90)(i => AddSprite(ReorderThrottle, stage.stageWidth * i / 100, stage.height.Random(0.4, 0.9)));
+            10.To(90)(i => AddSprite(
+                ReorderThrottle, 
+                stage.stageWidth * i / 100, 
+                stage.stageHeight.Random(0.6, 0.9)
+                )
+                );
 
             Reorder();
         }
