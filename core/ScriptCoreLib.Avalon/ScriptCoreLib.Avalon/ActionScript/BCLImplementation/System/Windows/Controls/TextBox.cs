@@ -19,6 +19,12 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		public readonly TextField InternalTextField;
 		public readonly Sprite InternalTextFieldContainer;
 
+        public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
+        {
+            return InternalTextFieldContainer;
+        }
+
+
 		public __TextBox()
 		{
 
@@ -51,7 +57,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		//const int InternalOffsetY = -3;
 		const int InternalOffsetY = -1;
 
-		public override void InternalSetWidth(double value)
+        #region width, height
+        public override void InternalSetWidth(double value)
 		{
 			this.InternalTextField.autoSize = TextFieldAutoSize.NONE;
 			this.InternalTextField.width = value;
@@ -72,8 +79,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		{
 			return this.InternalTextField.height;
 		}
+        #endregion
 
-		public override void InternalSetAcceptsReturn(bool value)
+        public override void InternalSetAcceptsReturn(bool value)
 		{
 			this.InternalTextField.multiline = value;
 		}
@@ -83,12 +91,9 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			InternalChangeTextFormat(new TextFormat { size = Convert.ToInt32(value - 1) });
 		}
 
-		void InternalChangeTextFormat(TextFormat e)
-		{
-			InternalTextField.defaultTextFormat = e;
-			InternalTextField.setTextFormat(e);
-		}
 
+
+        #region InternalSetBorderThickness
         internal __Thickness InternalBorderThickness;
 
         public override void InternalSetBorderThickness(Thickness value)
@@ -111,9 +116,11 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 
 			throw new NotSupportedException();
 		}
+        #endregion
 
-		#region InternalForeground
-		Brush InternalForeground;
+
+        #region InternalForeground
+        Brush InternalForeground;
 
 		public override Brush InternalGetForeground()
 		{
@@ -136,7 +143,8 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 		}
 		#endregion
 
-		public override void InternalSetBackground(Brush value)
+        #region InternalSetBackground
+        public override void InternalSetBackground(Brush value)
 		{
 			var AsSolidColorBrush = value as SolidColorBrush;
 
@@ -158,8 +166,23 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				}
 			}
 		}
+        #endregion
 
-		public override event TextChangedEventHandler TextChanged
+        #region Text
+        public string Text
+        {
+            get
+            {
+                return InternalTextField.text.Replace("\r", Environment.NewLine);
+            }
+            set
+            {
+                // http://blog.madebyderek.com/archives/2005/08/26/textfield_newline_and_crlf/
+                InternalTextField.text = value.Replace(Environment.NewLine, "\n");
+            }
+        }
+
+        public override event TextChangedEventHandler TextChanged
 		{
 			add
 			{
@@ -175,35 +198,14 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 				throw new NotImplementedException();
 			}
 		}
-
-		public override ScriptCoreLib.ActionScript.flash.display.InteractiveObject InternalGetDisplayObject()
-		{
-			return InternalTextFieldContainer;
-		}
+        #endregion
 
 
-		public string Text
-		{
-			get
-			{
-				return InternalTextField.text.Replace("\r", Environment.NewLine);
-			}
-			set
-			{
-				// http://blog.madebyderek.com/archives/2005/08/26/textfield_newline_and_crlf/
-				InternalTextField.text = value.Replace(Environment.NewLine, "\n");
-			}
-		}
+    
 
-		public override void InternalAppendText(string textData)
-		{
-			InternalTextField.appendText(textData.Replace(Environment.NewLine, "\n"));
-		}
+		
 
-		public static implicit operator __TextBox(TextBox e)
-		{
-			return (__TextBox)(object)e;
-		}
+	
 
 		public override void InternalSetIsReadOnly(bool value)
 		{
@@ -288,7 +290,21 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 			this.Text = "";
 		}
 
-		public override void InternalSetFontFamily(FontFamily value_)
+        public override void InternalAppendText(string textData)
+        {
+            InternalTextField.appendText(textData.Replace(Environment.NewLine, "\n"));
+        }
+
+
+        #region InternalSetFontFamily
+
+        void InternalChangeTextFormat(TextFormat e)
+        {
+            InternalTextField.defaultTextFormat = e;
+            InternalTextField.setTextFormat(e);
+        }
+
+        public override void InternalSetFontFamily(FontFamily value_)
 		{
 			// fixme: jsc should fully support base and this calls
 			LocalInternalSetFonFamily(value_);
@@ -305,5 +321,13 @@ namespace ScriptCoreLib.ActionScript.BCLImplementation.System.Windows.Controls
 					}
 			);
 		}
+
+        #endregion
+
+
+        public static implicit operator __TextBox(TextBox e)
+        {
+            return (__TextBox)(object)e;
+        }
 	}
 }

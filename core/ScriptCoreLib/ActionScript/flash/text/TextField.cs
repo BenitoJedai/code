@@ -14,6 +14,8 @@ namespace ScriptCoreLib.ActionScript.flash.text
     [Script(IsNative = true)]
     public class TextField : InteractiveObject
     {
+        // see also: http://www.bytearray.org/?p=2767
+
         #region Events
         /// <summary>
         /// Dispatched after a control's value is modified.
