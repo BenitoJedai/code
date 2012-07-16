@@ -14,12 +14,16 @@ namespace FlashZIndex.ActionScript
     /// <summary>
     /// This class defines the extension methods for this project
     /// </summary>
-    [Script]
     internal static class MyExtensions
     {
         public static double Random(this double e)
         {
             return new Random().NextDouble() * e;
+        }
+
+        public static double Random(this int e, double from, double to)
+        {
+            return (from * e) + ((to - from) * e).Random();
         }
 
         public static double Random(this double e, double from, double to)
