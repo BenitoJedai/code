@@ -58,7 +58,6 @@
     </Compile>
     <Compile Include="ActionScript\Extensions\DynamicDelegatesContainer.cs" />
     <Compile Include="ActionScript\Extensions\QueryExtensions.cs" />
-    <Compile Include="JavaScript\Extensions\QueryExtensions.cs" />
     <Compile Include="Shared\Lambda\BindingListWithEvents.cs" />
     <Compile Include="Shared\Lambda\Lambda.Concat.cs" />
     <Compile Include="Shared\Lambda\Lambda.ToFlaggable.cs" />
@@ -71,10 +70,7 @@
     <Compile Include="Shared\Query\IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ActionScript\BCLImplementation\System\Linq\" />
-    <Folder Include="JavaScript\Query\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin"</PostBuildEvent>
