@@ -26,7 +26,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         internal static bool firstSelected = false;
 
-        List<__TabPage> __TabPages = new List<__TabPage>();
+       // List<__TabPage> __TabPages = new List<__TabPage>();
 
         int __childX = 0;
         int __childWidth = 0;
@@ -36,6 +36,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public __TabControl()
         {
             init();
+            Controls = new TabControl.ControlCollection((TabControl)this);
         }
 
         void init()
@@ -92,10 +93,21 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             this.__tabs.GetHTMLTarget().style.SetLocation(0, 0, this.Size.Width, __TAB_BAR_HEIGHT);
 
-            TabPages = new TabControl.TabPageCollection((TabControl)this);
+            _tabPages = new TabControl.TabPageCollection((TabControl)this);
 
-            base.ControlAdded += onControlAdded;
             FontChanged += OnFontChanged;
+        }
+
+        public new event ControlEventHandler ControlAdded;
+
+        protected override void OnControlAdded(ControlEventArgs e)
+        {
+            Console.WriteLine("__TabControl OnControlAdded: " + e.Control.Name);
+
+            updateTabBar(e);
+
+            if (ControlAdded != null)
+                ControlAdded(this, e);
         }
 
         void setTabsSize()
@@ -158,33 +170,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
 
-        void onControlAdded(object o,ControlEventArgs e)
+        void updateTabBar(ControlEventArgs e)
         {
-            Console.WriteLine("__TabControl was notified after controls.Add.");
-
             if (e.Control is TabPage)
             {
                 TabPage tp = (TabPage)e.Control;
                 AddToUL(tp);
 
-                this.__TabPages.Add((__TabPage)tp);
-
-                if (this.__TabPages.Count == 1)
+                if (this._tabPages.Count == 1)
                 {
-                    SelectedTab = tp;
-                }
-                else
-                {
-                    int i = this.__TabPages.Count;
-                    __TabPage p = this.__TabPages[i - 2];
-                }
+                    SelectedTab = tp; // default selection
+                }               
 
                 tp.SizeChanged += onSizeChanged;
                 tp.LocationChanged += onLocationChanged;
                 tp.BackColorChanged += onBackColorChanged;
                 tp.ForeColorChanged+= onForeColorChanged;
             }
-
         }
         
 
@@ -246,6 +248,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             }
         }
 
+        public TabAlignment Alignment { get; set; }
         public TabAppearance Appearance { get; set; }
         public Color BackColor { get; set; }
         public Image BackgroundImage { get; set; }
@@ -307,20 +310,23 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             get { return RowCount; }
         }
 
+
         public int SelectedIndex
         {
+            
             get
             {
-                return SelectedIndex;
+                int idx = this.TabPages.IndexOf(SelectedTab);
+                return idx;
             }
             set
             {
-                SelectTab(value);
+                TabPage tp = this.TabPages[value];
+                SelectedTab = tp;
             }
         }
 
         TabPage selectedTab;
-        TabPage prevSelectedTab;
         public TabPage SelectedTab
         {
             get { return selectedTab; }
@@ -328,11 +334,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             {
                 if (selectedTab != value)
                 {
-                    DeselectTab(selectedTab);
+                    __TabPage _tp = null;
+                    if (selectedTab != null)
+                    {
+                        _tp = (__TabPage)selectedTab;
+                        _tp.__DeSelectTab(); // deselect currently selected
+                    }
 
                     selectedTab = value;
-                    __TabPage _tp = (__TabPage)selectedTab;
-                    _tp.SelectTab();
+                    _tp = (__TabPage)value;
+                    _tp.SelectTab(); // select newly selected
                 }
             }
         }
@@ -350,9 +361,10 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         }
 
  
-        public int TabCount { get { return this.__TabPages.Count; } }
- 
-        public TabControl.TabPageCollection TabPages;
+        public int TabCount { get { return this._tabPages.Count; } }
+
+        TabControl.TabPageCollection _tabPages;
+        public TabControl.TabPageCollection TabPages { get { return this._tabPages; } }
 
         public string Text
         {
@@ -416,11 +428,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         //     tab.
         public void DeselectTab(TabPage tabPage)
         {
-            if (tabPage != null)
-            {
-                __TabPage _tp = (__TabPage)tabPage;
-                _tp.__DeSelectTab();
-            }
+            throw new NotImplementedException();
         }
 
         protected void Dispose(bool disposing)
@@ -582,44 +590,35 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public void SelectTab(int index)
         {
-            if (index >= __TabPages.Count) return;
+            if (index >= _tabPages.Count) return;
 
-            __TabPage _tp = __TabPages[index];
-
-            if (_tp != null)
-            {
-                TabPage tp = (TabPage)_tp;
-                SelectTab(tp);
-            }
+            TabPage tp = _tabPages[index];
+            SelectTab(tp);
         }
 
         public void SelectTab(string tabPageName)
         {
             int foundidx=-1;
 
-            for (int i = 0; i < __TabPages.Count; i++)
+            for (int i = 0; i < _tabPages.Count; i++)
             {
-                if (__TabPages[i].Name == tabPageName)
+                if (_tabPages[i].Name == tabPageName)
                     foundidx = i;
             }
 
             if (foundidx < 0) // not found
                 return;
 
-            __TabPage _tp = null;
+            TabPage tp = null;
 
             try
             {
-                _tp = __TabPages[foundidx];
+                tp = _tabPages[foundidx];
             }
             catch { };
 
-
-            if (_tp != null)
-            {
-                TabPage tp = (TabPage)_tp;
+            if (tp != null)
                 SelectTab(tp);
-            }
         }
 
         public void SelectTab(TabPage tabPage)
@@ -659,29 +658,54 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         {
 
                 readonly TabControl Owner;
+                readonly List<Control> Items = new List<Control>();
+
 
                 public __ControlCollection(TabControl owner) : base((Control)owner)
                 {
-                    this.Owner = owner;
+                    this.Owner = owner;                    
                 }
 
-                public new void Add(Control c)
+                public override void Add(Control e)
                 {
                     Console.WriteLine("__TabControl.__ControlCollection .Add invoked");
 
-                    if (!(c is TabPage))
+                    if (!(e is TabPage))
                         throw new InvalidOperationException();
 
-                    base.Add(c);
+                    TabPage tp = (TabPage)e;
+                    this.Owner.TabPages.Add(tp);
+
+                    Items.Add(e);
+
+                    var bg = this.Owner.GetHTMLTargetContainer();
+
+                    if (bg.firstChild == null)
+                        bg.appendChild(e.GetHTMLTarget());
+                    else
+                        bg.insertBefore(e.GetHTMLTarget(), bg.firstChild);
+
+                    var c = (__Control)e;
+
+                    c.AssignParent(this.Owner);
+
+                    ((__TabControl)this.Owner).OnControlAdded(new ControlEventArgs(e));
+
+                    //OnControlAdded(new ControlEventArgs(e));
                 }
 
-                public override int Count
+                public override void Remove(Control value)
+                {
+                    throw new global::System.Exception("Not implemented");
+                }
+
+                /*public override int Count
                 {
                     get
                     {
                         return base.Count;
                     }
-                }
+                }*/
             
         }
 
@@ -710,7 +734,18 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             public TabPage this[int index]
             {
-                [Script(DefineAsStatic = true)]
+                get
+                {
+                    if (index < 0)
+                        throw new Exception("IndexOutOfRange");
+
+                    if (index >= this.Count)
+                        throw new Exception("IndexOutOfRange");
+
+                    return (TabPage)Items[index];
+                }
+
+                /*[Script(DefineAsStatic = true)]
                 get
                 {
                     return (TabPage)Expando.InternalGetMember(this, index);
@@ -720,7 +755,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 set
                 {
                     Expando.InternalSetMember(this, index, value);
-                }
+                }*/
             }
 
             public TabPage this[string key]
@@ -749,16 +784,16 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 Add(tp);
             }
 
-            public int Add(object text)
+           /* public int Add(object text)
             {
                 TabPage tp = new TabPage();
                 tp.Text = (string)text;
                 Add(tp);
 
                 return getIndex(tp);
-            }
+            }*/
 
-            protected void Add(TabPage value)
+            public void Add(TabPage value)
             {
                 this.Items.Add(value);
 
@@ -777,7 +812,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 c.AssignParent(this.Owner);
 
                 
-                ((__TabPage)this.Owner).OnControlAdded(new ControlEventArgs(value));
+                ((__TabControl)this.Owner).OnControlAdded(new ControlEventArgs(value));
 
                 if (!firstSelected)
                 {
