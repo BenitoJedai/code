@@ -138,18 +138,6 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             this.Visible = false;
         }
 
-
-        public event ControlEventHandler ControlAdded;
-
-        public void OnControlAdded(ControlEventArgs e)
-        {
-            Console.WriteLine("__TabPage OnControlAdded: " + e.Control.Name);
-
-            if (ControlAdded != null)
-                ControlAdded(this, e);
-        }
-        
-
         public string ToolTipText { get; set; }
         public bool UseVisualStyleBackColor { get; set; }
         public bool Visible { get; set; }

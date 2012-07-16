@@ -89,12 +89,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
             readonly List<Control> Items = new List<Control>();
 
-            public void Remove(Control e)
+            public virtual void Remove(Control e)
             {
                 throw new global::System.Exception("Not implemented");
             }
 
-            public void Add(Control e)
+            public virtual void Add(Control e)
             {
                 Items.Add(e);
 
@@ -162,8 +162,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
         public void ResumeLayout(bool b)
         {
             InternalLayoutSuspended = false;
-        }
 
+        }
         protected void UpdateStyles()
         {
         }
@@ -972,7 +972,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnControlAdded(ControlEventArgs e)
         {
-            Console.WriteLine("OnControlAdded: " + e.Control.Name);
+            Console.WriteLine("__Control OnControlAdded: " + e.Control.Name);
 
             if (ControlAdded != null)
                 ControlAdded(this, e);
