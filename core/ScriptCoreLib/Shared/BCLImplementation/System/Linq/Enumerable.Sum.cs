@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
+{
+
+
+    internal static partial class __Enumerable
+    {
+        public static int Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector)
+        {
+            var r = default(int);
+
+            foreach (var i in source.AsEnumerable()) r += selector(i);
+
+            return r;
+        }
+
+        public static double Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, double> selector)
+        {
+            var r = default(double);
+
+            foreach (var i in source.AsEnumerable()) r += selector(i);
+
+            return r;
+        }
+
+        public static int Sum(this IEnumerable<int> source)
+        {
+            var r = default(int);
+
+            foreach (var i in source.AsEnumerable()) r += i;
+
+            return r;
+        }
+
+        public static double Sum(this IEnumerable<double> source)
+        {
+            var r = default(double);
+
+            foreach (var i in source.AsEnumerable()) r += i;
+
+            return r;
+        }
+    }
+}
