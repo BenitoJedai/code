@@ -320,7 +320,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             //}
         }
 
-       
+
         protected void UpdateBounds(int x, int y, int width, int height/*, int clientWidth, int clientHeight*/)
         {
             // let's remember old size for anchoring..
@@ -509,9 +509,9 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public Control.ControlCollection Controls { get; set; }
         public string Name { get; set; }
-        
+
         string _text;
-        public virtual string Text 
+        public virtual string Text
         {
             get
             {
@@ -520,8 +520,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             set
             {
                 _text = value;
-                OnTextChanged(this,new EventArgs());
-            } 
+                OnTextChanged(this, new EventArgs());
+            }
         }
 
 
@@ -584,8 +584,8 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         #region BackColor
 
-        public event EventHandler BackColorChanged; 
-        
+        public event EventHandler BackColorChanged;
+
         private Color _BackColor;
 
         public Color BackColor
@@ -597,7 +597,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
                 this.HTMLTargetRef.style.backgroundColor = value.ToString();
 
                 if (BackColorChanged != null)
-                    BackColorChanged(this,new EventArgs());
+                    BackColorChanged(this, new EventArgs());
             }
         }
         #endregion
@@ -1104,12 +1104,14 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return ((__Control)this.ParentInternal).GetVisibleCore();
         }
 
-        bool _Visible;
+        bool _VisibleUndefined = true;
+        bool _Visible = true;
 
         protected virtual void SetVisibleCore(bool value)
         {
-            if (this.GetVisibleCore() != value)
+            if (_VisibleUndefined || (this.GetVisibleCore() != value))
             {
+                _VisibleUndefined = false;
                 _Visible = value;
 
                 this.OnVisibleChanged(null /*EventArgs.Empty*/);
@@ -1119,27 +1121,45 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         public event EventHandler VisibleChanged;
 
+        public virtual void InternalBeforeVisibleChanged()
+        {
+
+        }
+
 
         protected virtual void OnVisibleChanged(EventArgs e)
         {
+            InternalVisibileChanged(e);
+        }
+
+        private void InternalVisibileChanged(EventArgs e)
+        {
+            var c = this.Controls;
             var visible = this.Visible;
 
+            //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible });
+
+            InternalBeforeVisibleChanged();
 
             if (VisibleChanged != null)
                 VisibleChanged(this, e);
 
-            var c = this.Controls;
 
             if (c != null)
             {
+                //Console.WriteLine(this.Name + " InternalVisibileChanged" + new { visible, c.Count });
+
                 for (int i = 0; i < c.Count; i++)
                 {
                     __Control v = c[i];
 
-                    if (v.Visible)
-                    {
-                        v.OnParentVisibleChanged(null /* EventArgs.Empty */ );
-                    }
+                    //Console.WriteLine(this.Name + " InternalVisibileChanged " + new { visible, v.Visible, v.Name });
+
+
+                    //if (v.Visible)
+                    //{
+                    v.OnParentVisibleChanged(null /* EventArgs.Empty */ );
+                    //}
 
                     if (!visible)
                     {
@@ -1153,12 +1173,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 
         protected virtual void OnParentVisibleChanged(EventArgs e)
         {
-            /*
-            if (this.GetState(2))
-            {
-                this.OnVisibleChanged(e);
-            }
-            */
+            InternalVisibileChanged(e);
         }
 
         internal virtual void OnParentBecameInvisible()

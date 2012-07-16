@@ -37,6 +37,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
 					this.InternalRaiseTextChanged();
 				};
 
+            HTMLTarget.onkeyup +=
+                delegate
+                {
+                    this.InternalRaiseTextChanged();
+                };
+
             this.Size = new global::System.Drawing.Size(100, 20);
 			
 			// fixme: we should be switching between HTMLTextArea and HTMLInput...

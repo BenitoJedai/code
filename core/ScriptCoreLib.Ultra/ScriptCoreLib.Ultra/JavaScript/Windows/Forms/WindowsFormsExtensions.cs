@@ -24,6 +24,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 		public static void Add(this INode that, Control child)
 		{
 			child.GetHTMLTarget().AttachTo(that);
+            child.Visible = true;
 		}
 
 		/// <summary>
@@ -36,7 +37,7 @@ namespace ScriptCoreLib.JavaScript.Windows.Forms
 		public static T AttachControlTo<T>(this T that, INode parent) where T : Control
 		{
 			parent.Add(that);
-
+            
 			return that;
 		}
 
