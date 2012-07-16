@@ -64,5 +64,24 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Forms
             return (__UserControl)(object)e;
         }
         #endregion
+
+        bool InternalBeforeVisibleChangedDone = false;
+        public override void InternalBeforeVisibleChanged()
+        {
+            if (InternalBeforeVisibleChangedDone)
+                return;
+            InternalBeforeVisibleChangedDone = true;
+
+            InternalRaiseLoad();
+        }
+
+        public void InternalRaiseLoad()
+        {
+            if (Load != null)
+                Load(this, new EventArgs());
+        }
+
+        public event EventHandler Load;
+        
     }
 }
