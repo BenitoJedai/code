@@ -110,6 +110,9 @@
     <Compile Include="ActionScript\Query\InternalSequenceImplementation.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\Comparer.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Array.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Comparer.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Comparer.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\Single.cs" />
     <Compile Include="JavaScript\BCLImplementation\System\NullReferenceException.cs" />
@@ -235,12 +238,15 @@
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\Dictionary.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\IDictionary.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Generic\KeyValuePair.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Collections\IComparer.cs" />
     <Compile Include="PHP\BCLImplementation\System\Collections\Specialized\NameValueCollection.cs" />
+    <Compile Include="PHP\BCLImplementation\System\Comparision.cs" />
     <Compile Include="PHP\BCLImplementation\System\InvalidOperationException.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\ASCIIEncoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\UTF8Encoding.cs" />
     <Compile Include="PHP\BCLImplementation\System\Text\Encoding.cs" />
     <Compile Include="PHP\Native.cs" />
+    <Compile Include="PHP\Query\InternalSequenceImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JavaScript\Runtime\Color.cs" />
     <Compile Include="JavaScript\Runtime\Convert.cs" />

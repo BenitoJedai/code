@@ -101,20 +101,20 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 		}
 
 		public __List()
-		//: this(null)
-		{
+            : this(null)
+        {
 
-		}
+        }
 
-		//public __List(IEnumerable<T> collection)
-		//{
-		//    // cannot have this check as the default ctor will pass null anyway
-		//    //if (collection == null)
-		//    //    throw new global::System.Exception("collection is null");
+        public __List(IEnumerable<T> collection)
+        {
+            // cannot have this check as the default ctor will pass null anyway
+            //if (collection == null)
+            //    throw new global::System.Exception("collection is null");
 
-		//    if (collection != null)
-		//        this.AddRange(collection);
-		//}
+            if (collection != null)
+                this.AddRange(collection);
+        }
 
 		public void ForEach(Action<T> action)
 		{
