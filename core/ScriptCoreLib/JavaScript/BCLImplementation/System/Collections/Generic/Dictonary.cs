@@ -13,7 +13,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Collections.Generic
 
         //Expando list = new Expando();
 
-        public __Dictionary()
+        public __Dictionary() : this(null)
         {
 
         }

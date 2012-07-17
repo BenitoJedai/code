@@ -10,6 +10,12 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
     internal class __Dictionary<TKey, TValue> : IDictionary<TKey, TValue>, IEnumerable, ICollection
     {
         public __Dictionary()
+            : this(null)
+        {
+
+        }
+
+        public __Dictionary(IEqualityComparer<TKey> comparer)
         {
 
         }

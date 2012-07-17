@@ -122,6 +122,9 @@
     <Reference Include="JustinTV.AssetsLibrary">
       <HintPath>.\bin\staging.AssetsLibrary\JustinTV.AssetsLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="JustinTV.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\JustinTV.AssetsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Design\Default.htm" />

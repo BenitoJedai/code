@@ -8,6 +8,9 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System
 	[Script(Implements = typeof(global::System.NotSupportedException))]
 	internal class __NotSupportedException : __Exception
 	{
+        public __NotSupportedException()
+        { }
+
 		public __NotSupportedException(string message) : base(message) { }
 
 
