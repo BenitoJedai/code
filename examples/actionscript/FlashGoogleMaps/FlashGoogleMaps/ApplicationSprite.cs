@@ -4,18 +4,22 @@ using ScriptCoreLib.Extensions;
 
 namespace FlashGoogleMaps
 {
-    public sealed class ApplicationSprite : Sprite
+    public sealed class ApplicationSprite : FlashGoogleMapsExample.ActionScript.FlashGoogleMapsExample
     {
-//        CreateType com.google.maps.ClientFactory
-//Write Assembly Failed!. ERROR:Type 'com.google.maps.wrappers.IOverlayWrapper' was not completed.
-//Void Invoke():016e
-//:0
-//System.InvalidOperationException: Failed to create Interop Assembly!
-//   at jsc.meta.Commands.RewriteToActionScriptNatives.RewriteToActionScriptNatives.Invoke()
-//System.InvalidOperationException: Failed to create Interop Assembly!
+        /*
+         * Create Partial Type: com.google.maps.wrappers.IMapTypeWrapper
+Method 'getProjection' in type 'com.google.maps.wrappers.IMapTypeWrapper' from assembly 'FlashGoogleMaps.ApplicationSprite, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+         * Method 'getControlPosition' in type 'com.google.maps.wrappers.IControlWrapper' from assembly 'FlashGoogleMaps.ApplicationSprite, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' does not have an implementation.
+         * 
+         * */
+
+        com.google.maps.wrappers.IMapTypeWrapper hack1;
+        com.google.maps.wrappers.IControlWrapper hack2;
 
         public ApplicationSprite()
         {
+            // AttachToStage
+            //new FlashGoogleMapsExample.ActionScript.FlashGoogleMapsExample().AttachTo(this);
         }
 
     }
