@@ -21,7 +21,7 @@ namespace ScriptApplication.source.js.Controls
 	[Script]
 	public class AvalonExampleGalleryContainer
 	{
-		AvalonExampleGallery.JavaScript.AvalonExampleGalleryDocument Reference;
+        //AvalonExampleGallery.JavaScript.AvalonExampleGalleryDocument Reference;
 
 
 		public AvalonExampleGalleryContainer(IHTMLElement e)

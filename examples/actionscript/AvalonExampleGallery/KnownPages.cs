@@ -79,9 +79,9 @@ namespace AvalonExampleGallery.Shared
 				        pages::InteractiveMatrixTransformD.Shared.KnownAssets.Path.Assets, 
 				        typeof(pages::InteractiveMatrixTransformD.Shared.OrcasAvalonApplicationCanvas) },
 
-                    { 
-				        pages::InteractiveMatrixTransformF.KnownAssets.Path.Assets, 
-				        typeof(pages::InteractiveMatrixTransformF.OrcasMetaAvalonApplicationCanvas) },
+                    //{ 
+                    //    pages::InteractiveMatrixTransformF.KnownAssets.Path.Assets, 
+                    //    typeof(pages::InteractiveMatrixTransformF.OrcasMetaAvalonApplicationCanvas) },
 
 				};
             }

@@ -11,7 +11,8 @@ namespace AvalonExampleGallery.Server
 	/// </summary>
 	public interface IAssemblyReferenceToken :
 		ScriptCoreLib.Shared.Query.IAssemblyReferenceToken,
-		ScriptCoreLib.Shared.IAssemblyReferenceToken
+		ScriptCoreLib.Shared.IAssemblyReferenceToken,
+		ScriptCoreLib.Shared.Avalon.IAssemblyReferenceToken
 	{
 	}
 }
