@@ -71,6 +71,11 @@ namespace ScriptCoreLibJava.BCLImplementation.System.Collections
 			return (Array)InternalList.toArray((object[])Array.CreateInstance(type, Count));
 		}
 
+        public virtual bool Contains(object o)
+        {
+            return this.InternalList.contains(o);
+        }
+
 		#region __IEnumerable Members
 
 		public global::System.Collections.IEnumerator GetEnumerator()
