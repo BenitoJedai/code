@@ -86,11 +86,12 @@ namespace ScriptApplication.source.php
 				}
 			);
 
-			var f = ScriptCoreLib.PHP.IO.FileInfo.OfPath(Filename + ".js");
+            var js = File.ReadAllText(Filename + ".js");
 
-			Console.WriteLine("<!-- " + f.Size + " -->");
+            //Console.WriteLine("<!-- " + f.Size + " -->");
 
-			f.WriteToStream();
+            Native.echo(js);
+
 
 			#region stats
 			new IHTMLScript

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AvalonExampleGallery</RootNamespace>
     <AssemblyName>AvalonExampleGallery</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>
     </StartupObject>
@@ -19,6 +19,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,7 +56,7 @@
     </Reference>
     <Reference Include="ColoredTank, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\javascript\ColoredTank\ColoredTank\bin\Release\ColoredTank.exe</HintPath>
+      <HintPath>..\..\javascript\ColoredTank\ColoredTank\bin\Debug\ColoredTank.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
     <Reference Include="DraggableClipRectangle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -87,10 +88,6 @@
       <Private>True</Private>
       <Aliases>pages</Aliases>
     </Reference>
-    <Reference Include="InteractiveMatrixTransformF">
-      <HintPath>..\InteractiveMatrixTransform\InteractiveMatrixTransformF\bin\Debug\InteractiveMatrixTransformF.exe</HintPath>
-      <Aliases>pages</Aliases>
-    </Reference>
     <Reference Include="InteractiveOrdering, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\InteractiveOrdering\InteractiveOrdering\bin\Debug\InteractiveOrdering.exe</HintPath>
@@ -98,7 +95,7 @@
     </Reference>
     <Reference Include="InteractiveSketchupWarehouse, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\InteractiveSketchupWarehouse\InteractiveSketchupWarehouse\bin\Release\InteractiveSketchupWarehouse.exe</HintPath>
+      <HintPath>..\InteractiveSketchupWarehouse\InteractiveSketchupWarehouse\bin\Debug\InteractiveSketchupWarehouse.exe</HintPath>
       <Aliases>pages</Aliases>
     </Reference>
     <Reference Include="NavigationButtons.Assets, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -155,6 +152,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System_IO_StringReader, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -192,6 +190,7 @@
     <EmbeddedResource Include="web\assets\AvalonExampleGallery\PreviewShadow.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="tools\build.bat" />
     <None Include="tools\prepare.bat" />
   </ItemGroup>
