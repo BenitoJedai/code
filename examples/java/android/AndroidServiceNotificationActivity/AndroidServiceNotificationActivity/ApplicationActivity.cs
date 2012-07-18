@@ -81,11 +81,10 @@ namespace AndroidServiceNotificationActivity.Activities
 
             public void onClick(View v)
             {
-                //Intent intent = new Intent();
-                //intent.setAction(Activity.NotifyService.ACTION);
-                //intent.putExtra("RQS", NotifyService.STOP_SERVICE);
-                //intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
-                //that.sendBroadcast(intent);
+                Intent intent = new Intent();
+                intent.setAction(NotifyService.ACTION);
+                intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
+                that.sendBroadcast(intent);
 
                 that.ShowToast("stopservice_onclick");
             }
@@ -96,6 +95,10 @@ namespace AndroidServiceNotificationActivity.Activities
 
     public class NotifyService : Service
     {
+        public const string ACTION = "NotifyServiceAction";
+
+        public const int RQS_STOP_SERVICE = 1;
+
         NotifyServiceReceiver notifyServiceReceiver;
 
         public override void onCreate()
@@ -127,6 +130,10 @@ namespace AndroidServiceNotificationActivity.Activities
 
             public override void onReceive(Context c, Intent i)
             {
+                int rqs = i.getIntExtra("RQS", 0);
+
+                if (rqs == RQS_STOP_SERVICE)
+                    that.stopSelf();
             }
         }
     }
