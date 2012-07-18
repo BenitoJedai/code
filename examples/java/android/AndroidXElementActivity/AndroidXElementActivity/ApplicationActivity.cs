@@ -48,10 +48,91 @@ namespace AndroidXElementActivity.Activities
 
             this.setContentView(sv);
 
+            var w = "";
 
-            this.ShowLongToast("http://jsc-solutions.net");
+            try
+            {
+                var url = new java.net.URL(Version);
+                var i = new java.io.InputStreamReader(url.openStream(), "UTF-8");
+                var reader = new java.io.BufferedReader(i);
+
+                // can't we just read to the end?
+                var line = reader.readLine();
+                while (line != null)
+                {
+                    w += line;
+                    w += "\n";
+
+                    line = reader.readLine();
+                }
+                reader.close();
+            }
+            catch
+            {
+                // oops
+            }
+
+            {
+                var value = w;
+                var offset = 0;
+
+                var i = ((java.lang.String)(object)value).indexOf("version=\"", offset) + "version=\"".Length;
+                var j = ((java.lang.String)(object)value).indexOf("\"", i);
+
+                var ii = ((java.lang.String)(object)value).indexOf("version=\"", j) + "version=\"".Length;
+                var jj = ((java.lang.String)(object)value).indexOf("\"", ii);
+
+                var version = ((java.lang.String)(object)value).substring(ii, jj);
+
+
+                this.ShowLongToast("http://jsc-solutions.net " + version);
+            }
         }
 
 
+    }
+
+
+    [Script(
+    Implements = typeof(global::System.String),
+    ImplementationType = typeof(global::java.lang.String),
+    InternalConstructor = true
+
+    )]
+    internal class __String
+    {
+        public int Length
+        {
+            [Script(ExternalTarget = "length")]
+            get
+            {
+                return default(int);
+            }
+        }
+
+        [Script(ExternalTarget = "indexOf")]
+        public int IndexOf(string str, int pos)
+        {
+            return default(int);
+        }
+    }
+
+
+}
+
+namespace java.lang
+{
+    [Script(IsNative = true)]
+    public sealed class String
+    {
+        public int indexOf(string @str, int @fromIndex)
+        {
+            return default(int);
+        }
+
+        public string substring(int @beginIndex, int @endIndex)
+        {
+            return default(string);
+        }
     }
 }
