@@ -22,15 +22,35 @@ namespace AndroidXElementActivity
 
             var value = new WebClient().DownloadString(ApplicationActivity.Version);
 
-            //+		xml.Elements().First().Name	{{urn:schemas-microsoft-com:asm.v1}assemblyIdentity}	System.Xml.Linq.XName
+           
+            {
+                Func<int, Tuple<int,int,string>> GetVersion =
+                    offset =>
+                    {
+                        var i = value.IndexOf("version=\"", offset) + "version=\"".Length;
+                        var j = value.IndexOf("\"", i);
 
-            XNamespace asmv1 = "urn:schemas-microsoft-com:asm.v1";
+                        return Tuple.Create(i,j, value.Substring(i, j - i));
+                    };
 
-            var xml = XElement.Parse(value);
-            var assemblyIdentity = xml.Element(asmv1 + "assemblyIdentity");
-            var version = assemblyIdentity.Attribute("version");
+                var version0 = GetVersion(0);
+                var version1 = GetVersion(version0.Item2);
 
-            Console.WriteLine(version);
+                Console.WriteLine(version1);
+            
+            }
+
+            {
+                //+		xml.Elements().First().Name	{{urn:schemas-microsoft-com:asm.v1}assemblyIdentity}	System.Xml.Linq.XName
+
+                XNamespace asmv1 = "urn:schemas-microsoft-com:asm.v1";
+
+                var xml = XElement.Parse(value);
+                var assemblyIdentity = xml.Element(asmv1 + "assemblyIdentity");
+                var version = assemblyIdentity.Attribute("version");
+
+                Console.WriteLine(version);
+            }
 
             #endregion
 
