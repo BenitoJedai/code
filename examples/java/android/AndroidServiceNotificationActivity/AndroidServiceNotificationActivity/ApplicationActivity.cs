@@ -55,7 +55,7 @@ namespace AndroidServiceNotificationActivity.Activities
 
             this.setContentView(sv);
 
-            this.ShowLongToast("http://jsc-solutions.net");
+            this.ShowToast("http://jsc-solutions.net");
 
 
         }
@@ -70,7 +70,7 @@ namespace AndroidServiceNotificationActivity.Activities
                 //var intent = new Intent(AndroidNotifyService.this, com.exercise.AndroidNotifyService.NotifyService.class);
                 //AndroidNotifyService.this.startService(intent);
 
-                that.ShowLongToast("startservice_onclick");
+                that.ShowToast("startservice_onclick");
             }
         }
 
@@ -87,7 +87,7 @@ namespace AndroidServiceNotificationActivity.Activities
                 //intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
                 //that.sendBroadcast(intent);
 
-                that.ShowLongToast("stopservice_onclick");
+                that.ShowToast("stopservice_onclick");
             }
         }
 
@@ -103,6 +103,15 @@ namespace AndroidServiceNotificationActivity.Activities
             notifyServiceReceiver = new NotifyServiceReceiver { that = this };
 
             base.onCreate();
+        }
+
+        public override int onStartCommand(Intent value0, int value1, int value2)
+        {
+            return base.onStartCommand(value0, value1, value2);
+        }
+        public override android.os.IBinder onBind(Intent value)
+        {
+            return null;
         }
 
         public class NotifyServiceReceiver : BroadcastReceiver
