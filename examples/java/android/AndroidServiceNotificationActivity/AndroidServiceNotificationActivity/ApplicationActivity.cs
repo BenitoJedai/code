@@ -109,6 +109,13 @@ namespace AndroidServiceNotificationActivity.Activities
         {
             return base.onStartCommand(value0, value1, value2);
         }
+
+        public override void onDestroy()
+        {
+            this.unregisterReceiver(notifyServiceReceiver);
+            base.onDestroy();
+        }
+
         public override android.os.IBinder onBind(Intent value)
         {
             return null;
