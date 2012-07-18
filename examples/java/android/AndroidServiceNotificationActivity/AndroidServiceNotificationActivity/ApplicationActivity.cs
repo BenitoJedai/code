@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using android.app;
+using android.content;
 using android.provider;
 using android.view;
 using android.webkit;
@@ -34,13 +35,23 @@ namespace AndroidServiceNotificationActivity.Activities
 
             sv.addView(ll);
 
-
-            Button b = new Button(this);
-            b.setText("Notify!");
-            b.setOnClickListener(
-                new _onclick { that = this }
+            #region startservice
+            var startservice = new Button(this);
+            startservice.setText("Start Service to send Notification");
+            startservice.setOnClickListener(
+                new startservice_onclick { that = this }
             );
-            ll.addView(b);
+            ll.addView(startservice);
+            #endregion
+
+            #region stopservice
+            var stopservice = new Button(this);
+            stopservice.setText("Stop Service");
+            stopservice.setOnClickListener(
+                new stopservice_onclick { that = this }
+            );
+            ll.addView(stopservice);
+            #endregion
 
             this.setContentView(sv);
 
@@ -50,37 +61,59 @@ namespace AndroidServiceNotificationActivity.Activities
         }
 
 
-        class _onclick : android.view.View.OnClickListener
+        class startservice_onclick : android.view.View.OnClickListener
         {
             public ApplicationActivity that;
 
-            int counter;
-
             public void onClick(View v)
             {
-                counter++;
+                //var intent = new Intent(AndroidNotifyService.this, com.exercise.AndroidNotifyService.NotifyService.class);
+                //AndroidNotifyService.this.startService(intent);
 
-                NotificationManager nm = (NotificationManager)that.getSystemService(Activity.NOTIFICATION_SERVICE);
-
-
-                // see http://developer.android.com/reference/android/app/Notification.html
-                Notification notification = new Notification(
-                    android.R.drawable.star_on,
-                    (CharSequence)(object)"The text that flows by in the status bar when the notification first activates.",
-                     java.lang.System.currentTimeMillis()
-                );
-
-                notification.setLatestEventInfo(
-                    that,
-                    (CharSequence)(object)"The title that goes in the expanded entry.",
-                    (CharSequence)(object)"The text that goes in the expanded entry.",
-                    null);
-
-
-                // http://androiddrawableexplorer.appspot.com/
-                nm.notify(counter, notification);
+                that.ShowLongToast("startservice_onclick");
             }
         }
 
+        class stopservice_onclick : android.view.View.OnClickListener
+        {
+            public ApplicationActivity that;
+
+
+            public void onClick(View v)
+            {
+                //Intent intent = new Intent();
+                //intent.setAction(Activity.NotifyService.ACTION);
+                //intent.putExtra("RQS", NotifyService.STOP_SERVICE);
+                //intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
+                //that.sendBroadcast(intent);
+
+                that.ShowLongToast("stopservice_onclick");
+            }
+        }
+
+
     }
+
+    public class NotifyService : Service
+    {
+        NotifyServiceReceiver notifyServiceReceiver;
+
+        public override void onCreate()
+        {
+            notifyServiceReceiver = new NotifyServiceReceiver { that = this };
+
+            base.onCreate();
+        }
+
+        public class NotifyServiceReceiver : BroadcastReceiver
+        {
+            public NotifyService that;
+
+            public override void onReceive(Context c, Intent i)
+            {
+            }
+        }
+    }
+
+
 }
