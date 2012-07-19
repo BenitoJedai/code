@@ -311,10 +311,24 @@ namespace ScriptCoreLib.Android
 
         #endregion
 
+        public static bool StringEquals(this string e, string value)
+        {
+            if (e == null)
+            {
+                if (value == null)
+                    return true;
 
+                return false;
+            }
+
+            if (value == null)
+                return false;
+
+            return InternalStringEquals(e, value);
+        }
 
         [Script(OptimizedCode = "return e.equals(value);")]
-        public static bool StringEquals(this string e, string value)
+        static bool InternalStringEquals( string e, string value)
         {
             return false;
         }

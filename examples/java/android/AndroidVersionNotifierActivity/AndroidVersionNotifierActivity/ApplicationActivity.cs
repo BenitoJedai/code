@@ -70,28 +70,70 @@ namespace AndroidVersionNotifierActivity.Activities
 
     public abstract class AbstractNotifyService : Service
     {
-        const string DataSource = "AndroidVersionNotifierActivity.sqlite";
+        const string DataSource = "AndroidVersionNotifierActivityV2.sqlite";
 
-        #region MyDataTable { ActivityCounter, BootCounter }
-        class MyDataTable
+        #region MyDataTable { ActivityCounter, BootCounter, InternalVersionCounter, InternalVersion }
+        public class MyDataTable
         {
-            InternalSQLiteKeyValueInt32Table Table;
+            InternalSQLiteKeyValueGenericTable Table;
 
             public int ActivityCounter
             {
-                get { return Table["ActivityCounter"]; }
-                set { Table["ActivityCounter"] = value; }
+                get { return Table.Int32["ActivityCounter"]; }
+                set { Table.Int32["ActivityCounter"] = value; }
             }
 
             public int BootCounter
             {
-                get { return Table["BootCounter"]; }
-                set { Table["BootCounter"] = value; }
+                get { return Table.Int32["BootCounter"]; }
+                set { Table.Int32["BootCounter"] = value; }
+            }
+
+            public int InternalVersionCounter
+            {
+                get { return Table.Int32["InternalVersionCounter"]; }
+                set { Table.Int32["InternalVersionCounter"] = value; }
+            }
+
+            public int InternalVersion
+            {
+                get { return Table.Int32["InternalVersion"]; }
+                set { Table.Int32["InternalVersion"] = value; }
+            }
+
+            public string InternalVersionString
+            {
+                get { return Table.String["InternalVersionString"]; }
+                set { Table.String["InternalVersionString"] = value; }
             }
 
             public MyDataTable(SQLiteConnection c)
             {
-                this.Table = new InternalSQLiteKeyValueInt32Table { Connection = c, Name = "MyDataTable" };
+                this.Table = new InternalSQLiteKeyValueGenericTable { Connection = c, Name = "MyDataTable" };
+            }
+
+            public override string ToString()
+            {
+                var w = "{ ";
+                
+                //w += "ActivityCounter: ";
+                w += ((object)this.ActivityCounter).ToString();
+                w += ", ";
+                //w += "BootCounter: ";
+                w += ((object)this.BootCounter).ToString();
+                w += ", ";
+                //w += "InternalVersionCounter: ";
+                w += ((object)this.InternalVersionCounter).ToString();
+                w += ", ";
+                //w += "InternalVersion: ";
+                w += ((object)this.InternalVersion).ToString();
+                w += ", ";
+                //w += "InternalVersionString: ";
+                w += this.InternalVersionString;
+                w += "}";
+
+
+                return w;
             }
         }
         #endregion
@@ -125,6 +167,36 @@ namespace AndroidVersionNotifierActivity.Activities
             notificationManager.notify(1, myNotification);
         }
 
+        public void Invoke(MyDataTable MyDataTable)
+        {
+            var InternalVersionCounter = MyDataTable.InternalVersionCounter;
+
+            var LiteralVersion = 100;
+            var LiteralVersionString = "T-100";
+
+            #region increment InternalVersionCounter in case literal version changes
+            if (MyDataTable.InternalVersion != LiteralVersion)
+            {
+                MyDataTable.InternalVersion = LiteralVersion;
+                MyDataTable.InternalVersionCounter++;
+            }
+
+            if (!MyDataTable.InternalVersionString.StringEquals(LiteralVersionString))
+            {
+                MyDataTable.InternalVersionString = LiteralVersionString;
+                MyDataTable.InternalVersionCounter++;
+            }
+
+            #endregion
+
+
+
+            if (MyDataTable.InternalVersionCounter != InternalVersionCounter)
+            {
+                Notify("New Version Trigger", "InternalVersionCounter has changed!");
+            }
+        }
+
         public void InvokeAfterActivity()
         {
             __SQLiteConnectionHack.Context = this;
@@ -147,13 +219,9 @@ namespace AndroidVersionNotifierActivity.Activities
 
                 MyDataTable.ActivityCounter++;
 
-                var status = "ActivityCounter: ";
-                status += ((object)MyDataTable.ActivityCounter).ToString();
-                status += " BootCounter: ";
-                status += ((object)MyDataTable.BootCounter).ToString();
+                Invoke(MyDataTable);
 
-
-                Notify("InvokeAfterActivity", status);
+                Notify("InvokeAfterActivity", MyDataTable.ToString());
 
                 c.Close();
 
@@ -182,12 +250,10 @@ namespace AndroidVersionNotifierActivity.Activities
 
                 MyDataTable.BootCounter++;
 
-                var status = "ActivityCounter: ";
-                status += ((object)MyDataTable.ActivityCounter).ToString();
-                status += " BootCounter: ";
-                status += ((object)MyDataTable.BootCounter).ToString();
+                Invoke(MyDataTable);
 
-                Notify("InvokeAfterBootComplete", status);
+                Notify("InvokeAfterActivity", MyDataTable.ToString());
+
 
                 c.Close();
 
@@ -325,7 +391,7 @@ namespace AndroidVersionNotifierActivity.Activities
         }
 
         #region Int32
-        public class InternalSQLiteKeyValueInt32Table : InternalSQLiteKeyValueGenericTable
+        public class Int32Indexer
         {
             public InternalSQLiteKeyValueGenericTable Context;
 
@@ -335,13 +401,20 @@ namespace AndroidVersionNotifierActivity.Activities
                 {
                     Context.Create();
 
-                    if (Context.Connection.SQLiteCountByColumnName(this.Name, "Key", Key) == 0)
+                    if (Context.Connection.SQLiteCountByColumnName(Context.Name, "Key", Key) == 0)
                     {
                         var sql = "insert into ";
-                        sql += Name;
-                        sql += "(ValueInt32) values (";
+                        sql += Context.Name;
+                        sql += " (Key, ValueInt32) values (";
+                        sql += "'";
+                        sql += Key;
+                        sql += "'";
+                        sql += ", ";
                         sql += ((object)value).ToString();
                         sql += ")";
+
+
+                        android.util.Log.wtf("AndroidVersionNotifierActivity", sql);
 
                         new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
 
@@ -371,7 +444,7 @@ namespace AndroidVersionNotifierActivity.Activities
 
 
                     var sql = "select ValueInt32 from ";
-                    sql += Name;
+                    sql += Context.Name;
                     sql += " where Key = ";
                     sql += "'";
                     sql += Key;
@@ -393,11 +466,102 @@ namespace AndroidVersionNotifierActivity.Activities
         }
 
 
-        public InternalSQLiteKeyValueInt32Table Int32
+        public Int32Indexer Int32
         {
-            get 
+            get
             {
-                return new InternalSQLiteKeyValueInt32Table { Context = this };
+                return new Int32Indexer { Context = this };
+            }
+        }
+        #endregion
+
+        // XElement is next? :)
+
+        #region String
+        public class StringIndexer : InternalSQLiteKeyValueGenericTable
+        {
+            public InternalSQLiteKeyValueGenericTable Context;
+
+            public string this[string Key]
+            {
+                set
+                {
+                    Context.Create();
+
+                    if (Context.Connection.SQLiteCountByColumnName(Context.Name, "Key", Key) == 0)
+                    {
+                        var sql = "insert into ";
+                        sql += Context.Name;
+                        sql += " (Key, ValueString) values (";
+                        sql += "'";
+                        sql += Key;
+                        sql += "'";
+                        sql += ", ";
+                        sql += "'";
+                        sql += value;
+                        sql += "'";
+                        sql += ")";
+                        
+                        android.util.Log.d("AndroidVersionNotifierActivity", sql);
+
+
+                        new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
+
+                        return;
+                    }
+
+                    #region update
+                    {
+                        var sql = "update ";
+                        sql += Context.Name;
+                        sql += " set ValueString = ";
+                        sql += "'";
+                        sql += value;
+                        sql += "'";
+                        sql += " where Key = ";
+                        sql += "'";
+                        sql += Key;
+                        sql += "'";
+
+                        new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
+                    }
+                    #endregion
+
+                }
+
+                get
+                {
+                    Context.Create();
+
+
+                    var sql = "select ValueString from ";
+                    sql += Context.Name;
+                    sql += " where Key = ";
+                    sql += "'";
+                    sql += Key;
+                    sql += "'";
+
+                    //new SQLiteCommand(sql, Connection).ExecuteScalar();
+
+                    var value = default(string);
+                    var reader = new SQLiteCommand(sql, Context.Connection).ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        value = reader.GetString(0);
+                    }
+
+                    return value;
+                }
+            }
+        }
+
+
+        public StringIndexer String
+        {
+            get
+            {
+                return new StringIndexer { Context = this };
             }
         }
         #endregion
