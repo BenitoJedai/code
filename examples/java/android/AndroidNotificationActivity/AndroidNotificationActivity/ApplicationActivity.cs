@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using android.app;
+using android.content;
 using android.provider;
 using android.view;
 using android.webkit;
@@ -16,6 +17,14 @@ namespace AndroidNotificationActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
+        public static Class Class
+        {
+            [Script(OptimizedCode = "return AndroidNotificationActivity.Activities.ApplicationActivity.class;")]
+            get
+            {
+                return null;
+            }
+        }
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
@@ -40,14 +49,14 @@ namespace AndroidNotificationActivity.Activities
             b.setOnClickListener(
                 new _onclick { that = this }
             );
-            
+
             ll.addView(b);
 
             this.setContentView(sv);
 
             this.ShowLongToast("http://jsc-solutions.net");
 
-          
+
         }
 
 
@@ -71,13 +80,18 @@ namespace AndroidNotificationActivity.Activities
                      java.lang.System.currentTimeMillis()
                 );
 
+                Intent notificationIntent = new Intent(that, ApplicationActivity.Class);
+                PendingIntent contentIntent = PendingIntent.getActivity(that, 0, notificationIntent, 0);
+
+
                 notification.setLatestEventInfo(
                     that,
                     (CharSequence)(object)"The title that goes in the expanded entry.",
                     (CharSequence)(object)"The text that goes in the expanded entry.",
-                    null);
+                    contentIntent);
 
-
+                notification.defaults |= Notification.DEFAULT_VIBRATE;
+                notification.defaults |= Notification.DEFAULT_LIGHTS;
                 // http://androiddrawableexplorer.appspot.com/
                 nm.notify(counter, notification);
             }

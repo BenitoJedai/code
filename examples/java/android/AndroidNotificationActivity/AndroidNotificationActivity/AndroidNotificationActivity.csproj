@@ -75,7 +75,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScriptCoreLib.Android\Shader.cs" />
+    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
+      <Link>ScriptCoreLib.Android\Shader.cs</Link>
+    </Compile>
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="ApplicationActivity.cs">
     </Compile>
@@ -90,6 +92,7 @@
     <Content Include="Design\jsc.png" />
     <Content Include="staging\apk\res\values\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
