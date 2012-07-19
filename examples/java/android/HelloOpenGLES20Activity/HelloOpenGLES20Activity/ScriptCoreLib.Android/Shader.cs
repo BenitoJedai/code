@@ -12,6 +12,23 @@ using java.lang;
 using ScriptCoreLib;
 using android.app;
 
+namespace java.lang
+{
+    [Script(IsNative = true)]
+    public sealed class String
+    {
+        public int indexOf(string @str, int @fromIndex)
+        {
+            return default(int);
+        }
+
+        public string substring(int @beginIndex, int @endIndex)
+        {
+            return default(string);
+        }
+    }
+}
+
 namespace ScriptCoreLib.Android
 {
     using gl = __WebGLRenderingContext;
@@ -417,9 +434,108 @@ namespace ScriptCoreLib.Android
 
             return e;
         }
+
+
+        public static void ToNotification(this Context that, string Title, string Content, int id, int icon, string uri = "http://www.jsc-solutions.net")
+        {
+            // Send Notification
+            var notificationManager = (NotificationManager)that.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            var w = Title + " ";
+            w += Content;
+
+            var myNotification = new Notification(
+                //android.R.drawable.star_on,
+                icon,
+                (CharSequence)(object)w,
+                java.lang.System.currentTimeMillis()
+            );
+
+            Context context = that.getApplicationContext();
+
+            // ah. c# dynamic for android versions :)
+
+            //#region Notification.largeIcon
+            //try
+            //{
+            //    var largeIcon = AbstractNotifyService.NotificationClass.getField("largeIcon");
+
+            //    if (largeIcon != null)
+            //    {
+            //        BitmapFactory.Options options = new BitmapFactory.Options();
+            //        options.inScaled = false;	// No pre-scaling
+
+            //        // Read in the resource
+            //        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.white_jsc, options);
+
+            //        largeIcon.set(myNotification, bitmap);
+            //    }
+            //}
+            //catch
+            //{ }
+            //#endregion
+
+
+            Intent myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(uri));
+
+            var BaseContext = that;
+
+            var IsContextWrapper = that is ContextWrapper;
+            if (IsContextWrapper)
+                BaseContext = ((ContextWrapper)that).getBaseContext();
+
+            PendingIntent pendingIntent
+              //= PendingIntent.getActivity(that.getBaseContext(),
+              = PendingIntent.getActivity(BaseContext,
+                0, myIntent,
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+            myNotification.defaults |= Notification.DEFAULT_SOUND;
+            myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+            myNotification.setLatestEventInfo(context,
+                    (CharSequence)(object)Title,
+                    (CharSequence)(object)Content,
+               pendingIntent);
+
+            notificationManager.notify(id, myNotification);
+        }
     }
 
+    #region IntentFilter
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    sealed class IntentFilterAttribute : Attribute
+    {
+        // jsc does not support properties yet? are they even allowed in java?
+
+        public string Action;
+    }
+    #endregion
+
     #region BCL, CTS
+
+    [Script(
+Implements = typeof(global::System.String),
+ImplementationType = typeof(global::java.lang.String),
+InternalConstructor = true
+
+)]
+    internal class __String
+    {
+        public int Length
+        {
+            [Script(ExternalTarget = "length")]
+            get
+            {
+                return default(int);
+            }
+        }
+
+        [Script(ExternalTarget = "indexOf")]
+        public int IndexOf(string str, int pos)
+        {
+            return default(int);
+        }
+    }
+
     [Script(Implements = typeof(Attribute))]
     internal class __Attribute
     {

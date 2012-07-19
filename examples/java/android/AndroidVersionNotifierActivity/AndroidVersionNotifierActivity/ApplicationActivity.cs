@@ -228,15 +228,7 @@ namespace AndroidVersionNotifierActivity.Activities
 
     }
 
-    #region IntentFilter
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-    sealed class IntentFilterAttribute : Attribute
-    {
-        // jsc does not support properties yet? are they even allowed in java?
 
-        public string Action;
-    }
-    #endregion
 
     #region MyDataTable { ActivityCounter, BootCounter, InternalVersionCounter, InternalVersion, InternalVersionString }
     public class MyDataTable
@@ -367,58 +359,7 @@ namespace AndroidVersionNotifierActivity.Activities
 
         public void Notify(string Title, string Content, int id = 0)
         {
-            // Send Notification
-            var notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-
-            var w = Title + " ";
-            w += Content;
-
-            var myNotification = new Notification(
-                //android.R.drawable.star_on,
-                R.drawable.white_jsc_x24,
-                (CharSequence)(object)w,
-                java.lang.System.currentTimeMillis()
-            );
-
-            Context context = getApplicationContext();
-
-            // ah. c# dynamic for android versions :)
-
-            //#region Notification.largeIcon
-            //try
-            //{
-            //    var largeIcon = AbstractNotifyService.NotificationClass.getField("largeIcon");
-
-            //    if (largeIcon != null)
-            //    {
-            //        BitmapFactory.Options options = new BitmapFactory.Options();
-            //        options.inScaled = false;	// No pre-scaling
-
-            //        // Read in the resource
-            //        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.white_jsc, options);
-
-            //        largeIcon.set(myNotification, bitmap);
-            //    }
-            //}
-            //catch
-            //{ }
-            //#endregion
-
-
-            Intent myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://www.jsc-solutions.net"));
-
-            PendingIntent pendingIntent
-              = PendingIntent.getActivity(getBaseContext(),
-                0, myIntent,
-                Intent.FLAG_ACTIVITY_NEW_TASK);
-            myNotification.defaults |= Notification.DEFAULT_SOUND;
-            myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
-            myNotification.setLatestEventInfo(context,
-                    (CharSequence)(object)Title,
-                    (CharSequence)(object)Content,
-               pendingIntent);
-
-            notificationManager.notify(id, myNotification);
+            this.ToNotification(Title, Content, id, R.drawable.white_jsc_x24, "http://www.jsc-solutions.net");
         }
 
         public void Invoke(MyDataTable MyDataTable)
