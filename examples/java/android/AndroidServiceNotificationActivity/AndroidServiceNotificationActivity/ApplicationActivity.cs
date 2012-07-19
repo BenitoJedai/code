@@ -19,6 +19,9 @@ namespace AndroidServiceNotificationActivity.Activities
 
     public class ApplicationActivity : Activity
     {
+        // http://stackoverflow.com/questions/6274141/trigger-background-service-at-a-specific-time-in-android
+        // http://stackoverflow.com/questions/7144908/how-is-an-intent-service-declared-in-the-android-manifest
+        // http://developer.android.com/guide/topics/manifest/service-element.html
 
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
@@ -160,6 +163,8 @@ namespace AndroidServiceNotificationActivity.Activities
             this.unregisterReceiver(notifyServiceReceiver);
             base.onDestroy();
         }
+
+
 
         public override android.os.IBinder onBind(Intent value)
         {
