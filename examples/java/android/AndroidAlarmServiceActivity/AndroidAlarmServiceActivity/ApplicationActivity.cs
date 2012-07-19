@@ -9,6 +9,7 @@ using android.view;
 using android.webkit;
 using android.widget;
 using AndroidAlarmServiceActivity.Library;
+using foo;
 using java.lang;
 using java.util;
 using ScriptCoreLib;
@@ -104,11 +105,17 @@ namespace AndroidAlarmServiceActivity.Activities
 
     }
 
+}
+
+namespace foo
+{
+
+
     public sealed class MyAlarmService : Service
     {
         public static Class Class
         {
-            [Script(OptimizedCode = "return AndroidAlarmServiceActivity.Activities.MyAlarmService.class;")]
+            [Script(OptimizedCode = "return foo.MyAlarmService.class;")]
             get
             {
                 return null;
