@@ -67,10 +67,11 @@ namespace AndroidServiceNotificationActivity.Activities
 
             public void onClick(View v)
             {
-                //var intent = new Intent(AndroidNotifyService.this, com.exercise.AndroidNotifyService.NotifyService.class);
-                //AndroidNotifyService.this.startService(intent);
-
                 that.ShowToast("startservice_onclick");
+
+                var intent = new Intent(that, NotifyService.Class);
+                that.startService(intent);
+
             }
         }
 
@@ -81,20 +82,30 @@ namespace AndroidServiceNotificationActivity.Activities
 
             public void onClick(View v)
             {
+                that.ShowToast("stopservice_onclick");
+
                 Intent intent = new Intent();
                 intent.setAction(NotifyService.ACTION);
                 intent.putExtra("RQS", NotifyService.RQS_STOP_SERVICE);
                 that.sendBroadcast(intent);
 
-                that.ShowToast("stopservice_onclick");
             }
         }
 
 
     }
 
-    public class NotifyService : Service
+    public sealed class NotifyService : Service
     {
+        public static Class Class
+        {
+            [Script(OptimizedCode = "return AndroidServiceNotificationActivity.Activities.NotifyService.class;")]
+            get
+            {
+                return null;
+            }
+        }
+
         public const string ACTION = "NotifyServiceAction";
 
         public const int RQS_STOP_SERVICE = 1;
@@ -110,6 +121,37 @@ namespace AndroidServiceNotificationActivity.Activities
 
         public override int onStartCommand(Intent value0, int value1, int value2)
         {
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(ACTION);
+            registerReceiver(notifyServiceReceiver, intentFilter);
+
+
+            // Send Notification
+            var notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+            var myNotification = new Notification(
+                android.R.drawable.star_on,
+                (CharSequence)(object)"Notification!",
+                java.lang.System.currentTimeMillis()
+            );
+
+            Context context = getApplicationContext();
+
+            Intent myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://www.jsc-solutions.net"));
+
+            PendingIntent pendingIntent
+              = PendingIntent.getActivity(getBaseContext(),
+                0, myIntent,
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+            myNotification.defaults |= Notification.DEFAULT_SOUND;
+            myNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+            myNotification.setLatestEventInfo(context,
+                    (CharSequence)(object)"The title that goes in the expanded entry.",
+                    (CharSequence)(object)"The text that goes in the expanded entry.",
+               pendingIntent);
+            notificationManager.notify(1, myNotification);
+
+
             return base.onStartCommand(value0, value1, value2);
         }
 
