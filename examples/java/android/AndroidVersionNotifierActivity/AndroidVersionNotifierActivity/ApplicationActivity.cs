@@ -6,6 +6,7 @@ using android.content;
 using android.database;
 using android.database.sqlite;
 using android.provider;
+using android.view;
 using android.webkit;
 using android.widget;
 using java.lang;
@@ -35,10 +36,32 @@ namespace AndroidVersionNotifierActivity.Activities
             ll.setOrientation(LinearLayout.VERTICAL);
             sv.addView(ll);
 
-            var startservice = new Button(this);
-            startservice.setText("Yay");
+            // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
+            var myIntent = new Intent(this, NotifyServiceFromTimer.Class);
+            this.pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
+            
+            AlarmManager alarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
+            alarmManager.cancel(this.pendingIntent);
+
+                #region startservice
+             startservice = new Button(this);
+            startservice.setText("Start Timer");
+            startservice.setOnClickListener(
+                new startservice_onclick { that = this }
+            );
             ll.addView(startservice);
+            #endregion
+
+            #region stopservice
+             stopservice = new Button(this);
+            stopservice.setText("Stop Timer");
+            stopservice.setEnabled(false);
+            stopservice.setOnClickListener(
+                new stopservice_onclick { that = this }
+            );
+            ll.addView(stopservice);
+            #endregion
 
 
 
@@ -53,6 +76,53 @@ namespace AndroidVersionNotifierActivity.Activities
 
         }
 
+        public Button startservice;
+        public Button stopservice;
+        public PendingIntent pendingIntent;
+        #region startservice_onclick
+        class startservice_onclick : android.view.View.OnClickListener
+        {
+            public AndroidVersionNotifierActivity that;
+
+            public void onClick(View v)
+            {
+
+
+                AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
+
+
+
+                //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
+                alarmManager.setInexactRepeating(
+                    AlarmManager.RTC,
+                    1000 * 5,
+                    1000 * 25, 
+                    that.pendingIntent
+                );
+
+                that.startservice.setEnabled(false);
+                that.stopservice.setEnabled(true);
+            }
+        }
+        #endregion
+
+        #region stopservice_onclick
+        class stopservice_onclick : android.view.View.OnClickListener
+        {
+            public AndroidVersionNotifierActivity that;
+
+
+            public void onClick(View v)
+            {
+                AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
+                alarmManager.cancel(that.pendingIntent);
+
+                that.startservice.setEnabled(true);
+                that.stopservice.setEnabled(false);
+
+            }
+        }
+        #endregion
 
 
     }
@@ -76,11 +146,24 @@ namespace AndroidVersionNotifierActivity.Activities
         {
             InternalSQLiteKeyValueGenericTable Table;
 
+            public int InvokeCounter
+            {
+                get { return Table.Int32["InvokeCounter"]; }
+                set { Table.Int32["InvokeCounter"] = value; }
+            }
+
             public int ActivityCounter
             {
                 get { return Table.Int32["ActivityCounter"]; }
                 set { Table.Int32["ActivityCounter"] = value; }
             }
+
+            public int TimerCounter
+            {
+                get { return Table.Int32["TimerCounter"]; }
+                set { Table.Int32["TimerCounter"] = value; }
+            }
+
 
             public int BootCounter
             {
@@ -114,14 +197,25 @@ namespace AndroidVersionNotifierActivity.Activities
             public override string ToString()
             {
                 var w = "{ ";
-                
+
+                w += "i";
+                w += ((object)this.InvokeCounter).ToString();
+                w += ", ";
+
                 //w += "ActivityCounter: ";
+                w += "a";
                 w += ((object)this.ActivityCounter).ToString();
                 w += ", ";
                 //w += "BootCounter: ";
+                w += "t";
+                w += ((object)this.TimerCounter).ToString();
+                w += ", ";
+
+                w += "b";
                 w += ((object)this.BootCounter).ToString();
                 w += ", ";
                 //w += "InternalVersionCounter: ";
+                w += "v";
                 w += ((object)this.InternalVersionCounter).ToString();
                 w += ", ";
                 //w += "InternalVersion: ";
@@ -138,14 +232,17 @@ namespace AndroidVersionNotifierActivity.Activities
         #endregion
 
 
-        public void Notify(string Title, string Content)
+        public void Notify(string Title, string Content, int id = 0)
         {
             // Send Notification
             var notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
+            var w = Title + " ";
+            w += Content;
+
             var myNotification = new Notification(
                 android.R.drawable.star_on,
-                (CharSequence)(object)Title,
+                (CharSequence)(object)w,
                 java.lang.System.currentTimeMillis()
             );
 
@@ -163,15 +260,16 @@ namespace AndroidVersionNotifierActivity.Activities
                     (CharSequence)(object)Title,
                     (CharSequence)(object)Content,
                pendingIntent);
-            notificationManager.notify(1, myNotification);
+
+            notificationManager.notify(id, myNotification);
         }
 
         public void Invoke(MyDataTable MyDataTable)
         {
             var InternalVersionCounter = MyDataTable.InternalVersionCounter;
 
-            var LiteralVersion = 100;
-            var LiteralVersionString = "T-200";
+            var LiteralVersion = 101;
+            var LiteralVersionString = "T-201";
 
             #region increment InternalVersionCounter in case literal version changes
             if (MyDataTable.InternalVersion != LiteralVersion)
@@ -196,6 +294,41 @@ namespace AndroidVersionNotifierActivity.Activities
             }
         }
 
+        public void InvokeAfterTimer()
+        {
+            __SQLiteConnectionHack.Context = this;
+
+            using (var c = new SQLiteConnection(
+
+                new SQLiteConnectionStringBuilder
+                {
+                    DataSource = DataSource,
+                    Version = 3,
+                }.ConnectionString
+                )
+             )
+            {
+                c.Open();
+
+                var MyDataTable = new MyDataTable(c);
+
+                var i = MyDataTable;
+
+                MyDataTable.TimerCounter++;
+                MyDataTable.InvokeCounter++;
+
+                Invoke(MyDataTable);
+
+                Notify("InvokeAfterTimer", MyDataTable.ToString(), MyDataTable.InvokeCounter);
+
+                c.Close();
+
+            }
+
+
+
+        }
+
         public void InvokeAfterActivity()
         {
             __SQLiteConnectionHack.Context = this;
@@ -217,14 +350,18 @@ namespace AndroidVersionNotifierActivity.Activities
                 var i = MyDataTable;
 
                 MyDataTable.ActivityCounter++;
+                MyDataTable.InvokeCounter++;
 
                 Invoke(MyDataTable);
 
-                Notify("InvokeAfterActivity", MyDataTable.ToString());
+                Notify("InvokeAfterActivity", MyDataTable.ToString(), MyDataTable.InvokeCounter);
 
                 c.Close();
 
             }
+
+
+
         }
 
         public void InvokeAfterBootComplete()
@@ -248,10 +385,11 @@ namespace AndroidVersionNotifierActivity.Activities
                 var i = MyDataTable;
 
                 MyDataTable.BootCounter++;
+                MyDataTable.InvokeCounter++;
 
                 Invoke(MyDataTable);
 
-                Notify("InvokeAfterActivity", MyDataTable.ToString());
+                Notify("InvokeAfterBootComplete", MyDataTable.ToString(), MyDataTable.InvokeCounter);
 
 
                 c.Close();
@@ -259,6 +397,49 @@ namespace AndroidVersionNotifierActivity.Activities
             }
         }
     }
+
+    #region NotifyServiceFromTimer
+    public sealed class NotifyServiceFromTimer : AbstractNotifyService
+    {
+        public static Class Class
+        {
+            [Script(OptimizedCode = "return NotifyServiceFromTimer.class;")]
+            get
+            {
+                return null;
+            }
+        }
+
+
+        public override void onCreate()
+        {
+            base.onCreate();
+        }
+
+        public override int onStartCommand(Intent value0, int value1, int value2)
+        {
+            this.InvokeAfterTimer();
+
+            this.stopSelf();
+
+            return 0;
+        }
+
+        public override void onDestroy()
+        {
+            base.onDestroy();
+        }
+
+
+
+        public override android.os.IBinder onBind(Intent value)
+        {
+            return null;
+        }
+
+    }
+    #endregion
+
 
     #region NotifyServiceFromActivity
     public sealed class NotifyServiceFromActivity : AbstractNotifyService
@@ -302,12 +483,12 @@ namespace AndroidVersionNotifierActivity.Activities
     }
     #endregion
 
-    #region NotifyService
-    public sealed class NotifyService : AbstractNotifyService
+    #region NotifyServiceAfterBoot
+    public sealed class NotifyServiceAfterBoot : AbstractNotifyService
     {
         public static Class Class
         {
-            [Script(OptimizedCode = "return NotifyService.class;")]
+            [Script(OptimizedCode = "return NotifyServiceAfterBoot.class;")]
             get
             {
                 return null;
@@ -355,260 +536,10 @@ namespace AndroidVersionNotifierActivity.Activities
 
             //that.ShowToast("AtBootCompleted");
 
-            var intent = new Intent(that, NotifyService.Class);
+            var intent = new Intent(that, NotifyServiceAfterBoot.Class);
             that.startService(intent);
         }
     }
 
-    class InternalSQLiteKeyValueGenericTable
-    {
-        // CRUD
-
-        public SQLiteConnection Connection { get; set; }
-        public string Name { get; set; }
-
-        public bool Exists
-        {
-            get { return Connection.SQLiteTableExists(Name); }
-        }
-
-        public void Create()
-        {
-            if (this.Exists)
-                return;
-
-            // key value table!
-
-            var sql = "create table if not exists ";
-
-            sql += Name;
-            sql += " (Key text not null, ValueString text, ValueInt32 integer)";
-
-            new SQLiteCommand(sql, Connection).ExecuteNonQuery();
-
-            // http://www.sqlite.org/datatype3.html
-        }
-
-        #region Int32
-        public class Int32Indexer
-        {
-            public InternalSQLiteKeyValueGenericTable Context;
-
-            public int this[string Key]
-            {
-                set
-                {
-                    Context.Create();
-
-                    if (Context.Connection.SQLiteCountByColumnName(Context.Name, "Key", Key) == 0)
-                    {
-                        var sql = "insert into ";
-                        sql += Context.Name;
-                        sql += " (Key, ValueInt32) values (";
-                        sql += "'";
-                        sql += Key;
-                        sql += "'";
-                        sql += ", ";
-                        sql += ((object)value).ToString();
-                        sql += ")";
-
-
-                        android.util.Log.wtf("AndroidVersionNotifierActivity", sql);
-
-                        new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
-
-                        return;
-                    }
-
-                    #region update
-                    {
-                        var sql = "update ";
-                        sql += Context.Name;
-                        sql += " set ValueInt32 = ";
-                        sql += ((object)value).ToString();
-                        sql += " where Key = ";
-                        sql += "'";
-                        sql += Key;
-                        sql += "'";
-
-                        new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
-                    }
-                    #endregion
-
-                }
-
-                get
-                {
-                    Context.Create();
-
-
-                    var sql = "select ValueInt32 from ";
-                    sql += Context.Name;
-                    sql += " where Key = ";
-                    sql += "'";
-                    sql += Key;
-                    sql += "'";
-
-                    //new SQLiteCommand(sql, Connection).ExecuteScalar();
-
-                    var value = 0;
-                    var reader = new SQLiteCommand(sql, Context.Connection).ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        value = reader.GetInt32(0);
-                    }
-
-                    return value;
-                }
-            }
-        }
-
-
-        public Int32Indexer Int32
-        {
-            get
-            {
-                return new Int32Indexer { Context = this };
-            }
-        }
-        #endregion
-
-        // XElement is next? :)
-
-        #region String
-        public class StringIndexer : InternalSQLiteKeyValueGenericTable
-        {
-            public InternalSQLiteKeyValueGenericTable Context;
-
-            public string this[string Key]
-            {
-                set
-                {
-                    Context.Create();
-
-                    if (Context.Connection.SQLiteCountByColumnName(Context.Name, "Key", Key) == 0)
-                    {
-                        var sql = "insert into ";
-                        sql += Context.Name;
-                        sql += " (Key, ValueString) values (";
-                        sql += "'";
-                        sql += Key;
-                        sql += "'";
-                        sql += ", ";
-                        sql += "'";
-                        sql += value;
-                        sql += "'";
-                        sql += ")";
-                        
-                        android.util.Log.d("AndroidVersionNotifierActivity", sql);
-
-
-                        new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
-
-                        return;
-                    }
-
-                    #region update
-                    {
-                        var sql = "update ";
-                        sql += Context.Name;
-                        sql += " set ValueString = ";
-                        sql += "'";
-                        sql += value;
-                        sql += "'";
-                        sql += " where Key = ";
-                        sql += "'";
-                        sql += Key;
-                        sql += "'";
-
-                        new SQLiteCommand(sql, Context.Connection).ExecuteNonQuery();
-                    }
-                    #endregion
-
-                }
-
-                get
-                {
-                    Context.Create();
-
-
-                    var sql = "select ValueString from ";
-                    sql += Context.Name;
-                    sql += " where Key = ";
-                    sql += "'";
-                    sql += Key;
-                    sql += "'";
-
-                    //new SQLiteCommand(sql, Connection).ExecuteScalar();
-
-                    var value = default(string);
-                    var reader = new SQLiteCommand(sql, Context.Connection).ExecuteReader();
-
-                    if (reader.Read())
-                    {
-                        value = reader.GetString(0);
-                    }
-
-                    return value;
-                }
-            }
-        }
-
-
-        public StringIndexer String
-        {
-            get
-            {
-                return new StringIndexer { Context = this };
-            }
-        }
-        #endregion
-    }
-
-    static class X
-    {
-
-        public static int SQLiteCountByColumnName(this SQLiteConnection Connection, string Name, string ByColumnName, string ValueString)
-        {
-            var sql = "select count(*) from ";
-            sql += Name;
-            sql += " where ";
-            sql += ByColumnName;
-            sql += " = ";
-            sql += "'";
-            sql += ValueString;
-            sql += "'";
-
-            var value = 0;
-            var reader = new SQLiteCommand(sql, Connection).ExecuteReader();
-
-            if (reader.Read())
-            {
-                value = reader.GetInt32(0);
-            }
-
-            return value;
-        }
-
-        public static bool SQLiteTableExists(this SQLiteConnection c, string name)
-        {
-            var w = "select name from sqlite_master where type='table' and name=";
-            w += "'";
-            w += name;
-            w += "'";
-
-
-            var reader = new SQLiteCommand(w, c).ExecuteReader();
-
-
-            while (reader.Read())
-            {
-                return true;
-            }
-
-            return false;
-        }
-    }
 
 }
