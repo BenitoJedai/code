@@ -345,7 +345,7 @@ namespace ScriptCoreLib.Android
         }
 
         [Script(OptimizedCode = "return e.equals(value);")]
-        static bool InternalStringEquals( string e, string value)
+        static bool InternalStringEquals(string e, string value)
         {
             return false;
         }
@@ -485,7 +485,7 @@ namespace ScriptCoreLib.Android
                 BaseContext = ((ContextWrapper)that).getBaseContext();
 
             PendingIntent pendingIntent
-              //= PendingIntent.getActivity(that.getBaseContext(),
+                //= PendingIntent.getActivity(that.getBaseContext(),
               = PendingIntent.getActivity(BaseContext,
                 0, myIntent,
                 Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -497,6 +497,39 @@ namespace ScriptCoreLib.Android
                pendingIntent);
 
             notificationManager.notify(id, myNotification);
+        }
+
+
+        public static void CancelPendingAlarm(this Context that, Class IntentClass)
+        {
+
+            // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
+            var myIntent = new Intent(that, IntentClass);
+            var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+
+
+            AlarmManager alarmManager = (AlarmManager)that.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+        }
+
+        public static void StartPendingAlarm(this Context that, Class IntentClass, long delay = 1000  * 5, long repeat = 1000 * 25)
+        {
+            that.CancelPendingAlarm(IntentClass);
+
+            var myIntent = new Intent(that, IntentClass);
+            var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+
+            AlarmManager alarmManager = (AlarmManager)that.getSystemService(Context.ALARM_SERVICE);
+
+
+
+            //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
+            alarmManager.setInexactRepeating(
+                AlarmManager.RTC,
+                delay,
+                repeat,
+                pendingIntent
+            );
         }
     }
 
@@ -520,6 +553,17 @@ InternalConstructor = true
 )]
     internal class __String
     {
+        public static bool IsNullOrEmpty(string value)
+        {
+            if (((object)value) == null)
+                return true;
+
+            if ("".StringEquals(value))
+                return true;
+
+            return false;
+        }
+
         public int Length
         {
             [Script(ExternalTarget = "length")]
