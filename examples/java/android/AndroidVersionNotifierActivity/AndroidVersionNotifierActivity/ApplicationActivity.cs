@@ -8,7 +8,6 @@ using android.database.sqlite;
 using android.provider;
 using android.webkit;
 using android.widget;
-using AndroidVersionNotifierActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
@@ -72,7 +71,7 @@ namespace AndroidVersionNotifierActivity.Activities
     {
         const string DataSource = "AndroidVersionNotifierActivityV2.sqlite";
 
-        #region MyDataTable { ActivityCounter, BootCounter, InternalVersionCounter, InternalVersion }
+        #region MyDataTable { ActivityCounter, BootCounter, InternalVersionCounter, InternalVersion, InternalVersionString }
         public class MyDataTable
         {
             InternalSQLiteKeyValueGenericTable Table;
@@ -172,7 +171,7 @@ namespace AndroidVersionNotifierActivity.Activities
             var InternalVersionCounter = MyDataTable.InternalVersionCounter;
 
             var LiteralVersion = 100;
-            var LiteralVersionString = "T-100";
+            var LiteralVersionString = "T-200";
 
             #region increment InternalVersionCounter in case literal version changes
             if (MyDataTable.InternalVersion != LiteralVersion)
