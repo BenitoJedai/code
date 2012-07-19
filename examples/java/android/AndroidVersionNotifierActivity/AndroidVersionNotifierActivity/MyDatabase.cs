@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 
-namespace AndroidNuGetSQLiteActivity
+namespace AndroidVersionNotifierActivity
 {
     public static class MyDatabase
     {
@@ -45,27 +45,28 @@ namespace AndroidNuGetSQLiteActivity
                 //        select new { k.Content };
 
 
-                //if (reader == null)
-                //    contentRead += "Reader was null";
-                //else
-                //{
-                //var i = 6;
-
-                while (reader.Read())
+                if (reader == null)
+                    contentRead += "Reader was null";
+                else
                 {
-                    //i--;
-                    contentRead += "\n";
-                    contentRead += (string)reader["Content"];
+                    var i = 6;
 
-                    //if (i == 0)
-                    //    break;
+                    while (reader.Read())
+                    {
+                        i--;
+                        contentRead += "\n";
+                        contentRead += (string)reader["Content"];
+
+                        if (i == 0)
+                            break;
+                    }
                 }
-                //}
 
 
                 c.Close();
 
             }
+
             return contentRead;
         }
 

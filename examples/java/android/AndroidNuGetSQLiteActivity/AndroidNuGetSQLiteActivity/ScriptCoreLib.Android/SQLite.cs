@@ -42,7 +42,7 @@ namespace ScriptCoreLib.Android
             var r = "";
 
             r += "Data Source=" + this.DataSource + ";";
-            __SQLiteConnectionHack.MYDATABASE_NAME = "MY_DATABASE.sqlite";
+            __SQLiteConnectionHack.MYDATABASE_NAME = this.DataSource;
 
 
             r += "Version=" + ((object)this.Version).ToString() + ";";
@@ -96,6 +96,9 @@ namespace ScriptCoreLib.Android
 
         public abstract object this[string name] { get; }
 
+        public abstract int GetInt32(int i);
+
+
     }
 
     [Script(Implements = typeof(System.Data.SQLite.SQLiteDataReader))]
@@ -129,6 +132,11 @@ namespace ScriptCoreLib.Android
 
                 return cursor.getString(i);
             }
+        }
+
+        public override int GetInt32(int i)
+        {
+            return cursor.getInt(i);
         }
     }
 
