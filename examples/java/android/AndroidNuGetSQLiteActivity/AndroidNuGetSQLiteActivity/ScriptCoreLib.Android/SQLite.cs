@@ -96,6 +96,7 @@ namespace ScriptCoreLib.Android
 
         public abstract object this[string name] { get; }
 
+        public abstract string GetString(int i);
         public abstract int GetInt32(int i);
 
 
@@ -132,6 +133,11 @@ namespace ScriptCoreLib.Android
 
                 return cursor.getString(i);
             }
+        }
+
+        public override string GetString(int i)
+        {
+            return cursor.getString(i);
         }
 
         public override int GetInt32(int i)
