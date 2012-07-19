@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using android.app;
 using android.provider;
+using android.util;
 using android.webkit;
 using android.widget;
 using AndroidXElementActivity.Library;
+using java.net;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 
@@ -53,7 +55,17 @@ namespace AndroidXElementActivity.Activities
             try
             {
                 var url = new java.net.URL(Version);
-                var i = new java.io.InputStreamReader(url.openStream(), "UTF-8");
+
+                HttpURLConnection con = (HttpURLConnection)url.openConnection();
+
+                int CONNECT_TIMEOUT_MILL = 500;
+                int READ_TIMEOUT_MILL = 300;
+
+                con.setConnectTimeout(CONNECT_TIMEOUT_MILL);
+                con.setReadTimeout(READ_TIMEOUT_MILL);
+
+
+                var i = new java.io.InputStreamReader(con.getInputStream(), "UTF-8");
                 var reader = new java.io.BufferedReader(i);
 
                 // can't we just read to the end?
@@ -71,7 +83,9 @@ namespace AndroidXElementActivity.Activities
             {
                 // oops
             }
+            //Log.wtf("HttpURLConnection", w);
 
+            if (w.Length > 0)
             {
                 var value = w;
                 var offset = 0;
