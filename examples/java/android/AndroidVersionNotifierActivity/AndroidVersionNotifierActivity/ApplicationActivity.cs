@@ -5,6 +5,7 @@ using android.app;
 using android.content;
 using android.database;
 using android.database.sqlite;
+using android.graphics;
 using android.provider;
 using android.view;
 using android.webkit;
@@ -15,6 +16,18 @@ using ScriptCoreLib.Android;
 
 namespace AndroidVersionNotifierActivity.Activities
 {
+    [Script(IsNative = true)]
+    public static class R
+    {
+        [Script(IsNative = true)]
+        public static class drawable
+        {
+            // Invalid file name: must contain only [a-z0-9_.]
+            public static int white_jsc;
+            public static int white_jsc_x24;
+        }
+    }
+
     public class AndroidVersionNotifierActivity : Activity
     {
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
@@ -38,14 +51,14 @@ namespace AndroidVersionNotifierActivity.Activities
 
             // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
             var myIntent = new Intent(this, NotifyServiceFromTimer.Class);
-            this.pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+            var pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
-            
+
             AlarmManager alarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
-            alarmManager.cancel(this.pendingIntent);
+            alarmManager.cancel(pendingIntent);
 
-                #region startservice
-             startservice = new Button(this);
+            #region startservice
+            startservice = new Button(this);
             startservice.setText("Start Timer");
             startservice.setOnClickListener(
                 new startservice_onclick { that = this }
@@ -54,7 +67,7 @@ namespace AndroidVersionNotifierActivity.Activities
             #endregion
 
             #region stopservice
-             stopservice = new Button(this);
+            stopservice = new Button(this);
             stopservice.setText("Stop Timer");
             stopservice.setEnabled(false);
             stopservice.setOnClickListener(
@@ -64,7 +77,27 @@ namespace AndroidVersionNotifierActivity.Activities
             #endregion
 
 
+            CheckBox cb = new CheckBox(this);
 
+            cb.setText("Start the timer earlier!");
+            cb.setOnCheckedChangeListener(new cb_onchanged { that = this });
+
+            __SQLiteConnectionHack.Context = this;
+
+            using (var c = new SQLiteConnection(AbstractNotifyService.ConnectionString))
+            {
+                c.Open();
+
+                var MyDataTable = new MyDataTable(c);
+
+                cb.setChecked(MyDataTable.StartEarlier == 1);
+
+                c.Close();
+
+
+            }
+
+            ll.addView(cb);
 
             this.setContentView(sv);
             #endregion
@@ -76,9 +109,71 @@ namespace AndroidVersionNotifierActivity.Activities
 
         }
 
+
+        #region cb_onchanged
+        class cb_onchanged : android.widget.CompoundButton.OnCheckedChangeListener
+        {
+            public AndroidVersionNotifierActivity that;
+
+            public void onCheckedChanged(CompoundButton cb, bool value)
+            {
+                that.ShowToast("cb_onchanged");
+
+                using (var c = new SQLiteConnection(AbstractNotifyService.ConnectionString))
+                {
+                    c.Open();
+
+                    var MyDataTable = new MyDataTable(c);
+
+                    if (value)
+                    {
+                        MyDataTable.StartEarlier = 1;
+
+                        var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
+                        var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+
+                        AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
+
+
+
+                        //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
+                        alarmManager.setInexactRepeating(
+                            AlarmManager.RTC,
+                            1000 * 5,
+                            1000 * 25,
+                            pendingIntent
+                        );
+
+                        that.startservice.setEnabled(false);
+                        that.stopservice.setEnabled(true);
+                    }
+                    else
+                    {
+                        MyDataTable.StartEarlier = 0;
+
+                        // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
+                        var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
+                        var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+
+
+                        AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
+                        alarmManager.cancel(pendingIntent);
+
+                        that.startservice.setEnabled(true);
+                        that.stopservice.setEnabled(false);
+                    }
+
+                    c.Close();
+
+
+                }
+            }
+        }
+        #endregion
+
         public Button startservice;
         public Button stopservice;
-        public PendingIntent pendingIntent;
+
         #region startservice_onclick
         class startservice_onclick : android.view.View.OnClickListener
         {
@@ -86,7 +181,9 @@ namespace AndroidVersionNotifierActivity.Activities
 
             public void onClick(View v)
             {
-
+                // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
+                var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
+                var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
 
                 AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
 
@@ -96,8 +193,8 @@ namespace AndroidVersionNotifierActivity.Activities
                 alarmManager.setInexactRepeating(
                     AlarmManager.RTC,
                     1000 * 5,
-                    1000 * 25, 
-                    that.pendingIntent
+                    1000 * 25,
+                    pendingIntent
                 );
 
                 that.startservice.setEnabled(false);
@@ -114,8 +211,12 @@ namespace AndroidVersionNotifierActivity.Activities
 
             public void onClick(View v)
             {
+                // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
+                var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
+                var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+
                 AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-                alarmManager.cancel(that.pendingIntent);
+                alarmManager.cancel(pendingIntent);
 
                 that.startservice.setEnabled(true);
                 that.stopservice.setEnabled(false);
@@ -137,100 +238,132 @@ namespace AndroidVersionNotifierActivity.Activities
     }
     #endregion
 
+    #region MyDataTable { ActivityCounter, BootCounter, InternalVersionCounter, InternalVersion, InternalVersionString }
+    public class MyDataTable
+    {
+        InternalSQLiteKeyValueGenericTable Table;
+
+        public int InvokeCounter
+        {
+            get { return Table.Int32["InvokeCounter"]; }
+            set { Table.Int32["InvokeCounter"] = value; }
+        }
+
+        public int ActivityCounter
+        {
+            get { return Table.Int32["ActivityCounter"]; }
+            set { Table.Int32["ActivityCounter"] = value; }
+        }
+
+        public int TimerCounter
+        {
+            get { return Table.Int32["TimerCounter"]; }
+            set { Table.Int32["TimerCounter"] = value; }
+        }
+
+
+        public int BootCounter
+        {
+            get { return Table.Int32["BootCounter"]; }
+            set { Table.Int32["BootCounter"] = value; }
+        }
+
+        public int InternalVersionCounter
+        {
+            get { return Table.Int32["InternalVersionCounter"]; }
+            set { Table.Int32["InternalVersionCounter"] = value; }
+        }
+
+        public int InternalVersion
+        {
+            get { return Table.Int32["InternalVersion"]; }
+            set { Table.Int32["InternalVersion"] = value; }
+        }
+
+        public string InternalVersionString
+        {
+            get { return Table.String["InternalVersionString"]; }
+            set { Table.String["InternalVersionString"] = value; }
+        }
+
+        public int StartEarlier
+        {
+            get { return Table.Int32["StartEarlier"]; }
+            set { Table.Int32["StartEarlier"] = value; }
+        }
+
+
+        public MyDataTable(SQLiteConnection c)
+        {
+            this.Table = new InternalSQLiteKeyValueGenericTable { Connection = c, Name = "MyDataTable" };
+        }
+
+        public override string ToString()
+        {
+            var w = "{ ";
+
+            w += "i";
+            w += ((object)this.InvokeCounter).ToString();
+            w += ", ";
+
+            //w += "ActivityCounter: ";
+            w += "a";
+            w += ((object)this.ActivityCounter).ToString();
+            w += ", ";
+            //w += "BootCounter: ";
+            w += "t";
+            w += ((object)this.TimerCounter).ToString();
+            w += ", ";
+
+            w += "s";
+            w += ((object)this.StartEarlier).ToString();
+            w += ", ";
+
+            w += "b";
+            w += ((object)this.BootCounter).ToString();
+            w += ", ";
+            //w += "InternalVersionCounter: ";
+            w += "v";
+            w += ((object)this.InternalVersionCounter).ToString();
+            w += ", ";
+            //w += "InternalVersion: ";
+            w += ((object)this.InternalVersion).ToString();
+            w += ", ";
+            //w += "InternalVersionString: ";
+            w += this.InternalVersionString;
+            w += "}";
+
+
+            return w;
+        }
+    }
+    #endregion
+
+
     public abstract class AbstractNotifyService : Service
     {
         const string DataSource = "AndroidVersionNotifierActivityV2.sqlite";
 
-        #region MyDataTable { ActivityCounter, BootCounter, InternalVersionCounter, InternalVersion, InternalVersionString }
-        public class MyDataTable
+        public static string ConnectionString
         {
-            InternalSQLiteKeyValueGenericTable Table;
-
-            public int InvokeCounter
+            get
             {
-                get { return Table.Int32["InvokeCounter"]; }
-                set { Table.Int32["InvokeCounter"] = value; }
-            }
-
-            public int ActivityCounter
-            {
-                get { return Table.Int32["ActivityCounter"]; }
-                set { Table.Int32["ActivityCounter"] = value; }
-            }
-
-            public int TimerCounter
-            {
-                get { return Table.Int32["TimerCounter"]; }
-                set { Table.Int32["TimerCounter"] = value; }
-            }
-
-
-            public int BootCounter
-            {
-                get { return Table.Int32["BootCounter"]; }
-                set { Table.Int32["BootCounter"] = value; }
-            }
-
-            public int InternalVersionCounter
-            {
-                get { return Table.Int32["InternalVersionCounter"]; }
-                set { Table.Int32["InternalVersionCounter"] = value; }
-            }
-
-            public int InternalVersion
-            {
-                get { return Table.Int32["InternalVersion"]; }
-                set { Table.Int32["InternalVersion"] = value; }
-            }
-
-            public string InternalVersionString
-            {
-                get { return Table.String["InternalVersionString"]; }
-                set { Table.String["InternalVersionString"] = value; }
-            }
-
-            public MyDataTable(SQLiteConnection c)
-            {
-                this.Table = new InternalSQLiteKeyValueGenericTable { Connection = c, Name = "MyDataTable" };
-            }
-
-            public override string ToString()
-            {
-                var w = "{ ";
-
-                w += "i";
-                w += ((object)this.InvokeCounter).ToString();
-                w += ", ";
-
-                //w += "ActivityCounter: ";
-                w += "a";
-                w += ((object)this.ActivityCounter).ToString();
-                w += ", ";
-                //w += "BootCounter: ";
-                w += "t";
-                w += ((object)this.TimerCounter).ToString();
-                w += ", ";
-
-                w += "b";
-                w += ((object)this.BootCounter).ToString();
-                w += ", ";
-                //w += "InternalVersionCounter: ";
-                w += "v";
-                w += ((object)this.InternalVersionCounter).ToString();
-                w += ", ";
-                //w += "InternalVersion: ";
-                w += ((object)this.InternalVersion).ToString();
-                w += ", ";
-                //w += "InternalVersionString: ";
-                w += this.InternalVersionString;
-                w += "}";
-
-
-                return w;
+                return new SQLiteConnectionStringBuilder
+                {
+                    DataSource = DataSource,
+                    Version = 3,
+                }.ConnectionString;
             }
         }
-        #endregion
 
+        public static Class NotificationClass
+        {
+            [Script(OptimizedCode = "return Notification.class;")]
+            get
+            {
+                return null;
+            }
+        }
 
         public void Notify(string Title, string Content, int id = 0)
         {
@@ -241,12 +374,36 @@ namespace AndroidVersionNotifierActivity.Activities
             w += Content;
 
             var myNotification = new Notification(
-                android.R.drawable.star_on,
+                //android.R.drawable.star_on,
+                R.drawable.white_jsc_x24,
                 (CharSequence)(object)w,
                 java.lang.System.currentTimeMillis()
             );
 
             Context context = getApplicationContext();
+
+            // ah. c# dynamic for android versions :)
+
+            //#region Notification.largeIcon
+            //try
+            //{
+            //    var largeIcon = AbstractNotifyService.NotificationClass.getField("largeIcon");
+
+            //    if (largeIcon != null)
+            //    {
+            //        BitmapFactory.Options options = new BitmapFactory.Options();
+            //        options.inScaled = false;	// No pre-scaling
+
+            //        // Read in the resource
+            //        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.white_jsc, options);
+
+            //        largeIcon.set(myNotification, bitmap);
+            //    }
+            //}
+            //catch
+            //{ }
+            //#endregion
+
 
             Intent myIntent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("http://www.jsc-solutions.net"));
 
@@ -298,21 +455,11 @@ namespace AndroidVersionNotifierActivity.Activities
         {
             __SQLiteConnectionHack.Context = this;
 
-            using (var c = new SQLiteConnection(
-
-                new SQLiteConnectionStringBuilder
-                {
-                    DataSource = DataSource,
-                    Version = 3,
-                }.ConnectionString
-                )
-             )
+            using (var c = new SQLiteConnection(AbstractNotifyService.ConnectionString))
             {
                 c.Open();
 
                 var MyDataTable = new MyDataTable(c);
-
-                var i = MyDataTable;
 
                 MyDataTable.TimerCounter++;
                 MyDataTable.InvokeCounter++;
@@ -391,10 +538,30 @@ namespace AndroidVersionNotifierActivity.Activities
 
                 Notify("InvokeAfterBootComplete", MyDataTable.ToString(), MyDataTable.InvokeCounter);
 
+                // reset timer if needed
+                if (MyDataTable.StartEarlier == 1)
+                {
+                    var that = this;
+                    var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
+                    var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+
+                    AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
+
+
+
+                    //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
+                    alarmManager.setInexactRepeating(
+                        AlarmManager.RTC,
+                        1000 * 5,
+                        1000 * 25,
+                        pendingIntent
+                    );
+                }
 
                 c.Close();
 
             }
+
         }
     }
 
