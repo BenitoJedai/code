@@ -49,13 +49,10 @@ namespace AndroidVersionNotifierActivity.Activities
             ll.setOrientation(LinearLayout.VERTICAL);
             sv.addView(ll);
 
-            // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
-            var myIntent = new Intent(this, NotifyServiceFromTimer.Class);
-            var pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
+            var that = (Context)this;
 
+            this.CancelPendingAlarm(NotifyServiceFromTimer.Class);
 
-            AlarmManager alarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
-            alarmManager.cancel(pendingIntent);
 
             #region startservice
             startservice = new Button(this);
@@ -129,20 +126,7 @@ namespace AndroidVersionNotifierActivity.Activities
                     {
                         MyDataTable.StartEarlier = 1;
 
-                        var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
-                        var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
-
-                        AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-
-
-
-                        //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
-                        alarmManager.setInexactRepeating(
-                            AlarmManager.RTC,
-                            1000 * 5,
-                            1000 * 25,
-                            pendingIntent
-                        );
+                        that.StartPendingAlarm(NotifyServiceFromTimer.Class, 1000 * 8, 1000 * 41);
 
                         that.startservice.setEnabled(false);
                         that.stopservice.setEnabled(true);
@@ -151,13 +135,7 @@ namespace AndroidVersionNotifierActivity.Activities
                     {
                         MyDataTable.StartEarlier = 0;
 
-                        // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
-                        var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
-                        var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
-
-
-                        AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-                        alarmManager.cancel(pendingIntent);
+                        that.CancelPendingAlarm(NotifyServiceFromTimer.Class);
 
                         that.startservice.setEnabled(true);
                         that.stopservice.setEnabled(false);
@@ -181,21 +159,8 @@ namespace AndroidVersionNotifierActivity.Activities
 
             public void onClick(View v)
             {
-                // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
-                var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
-                var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+                that.StartPendingAlarm(NotifyServiceFromTimer.Class, 1000 * 8, 1000 * 41);
 
-                AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-
-
-
-                //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
-                alarmManager.setInexactRepeating(
-                    AlarmManager.RTC,
-                    1000 * 5,
-                    1000 * 25,
-                    pendingIntent
-                );
 
                 that.startservice.setEnabled(false);
                 that.stopservice.setEnabled(true);
@@ -211,12 +176,8 @@ namespace AndroidVersionNotifierActivity.Activities
 
             public void onClick(View v)
             {
-                // http://stackoverflow.com/questions/6522792/get-list-of-active-pendingintents-in-alarmmanager
-                var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
-                var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
+                that.CancelPendingAlarm(NotifyServiceFromTimer.Class);
 
-                AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-                alarmManager.cancel(pendingIntent);
 
                 that.startservice.setEnabled(true);
                 that.stopservice.setEnabled(false);
@@ -348,15 +309,7 @@ namespace AndroidVersionNotifierActivity.Activities
             }
         }
 
-        public static Class NotificationClass
-        {
-            [Script(OptimizedCode = "return Notification.class;")]
-            get
-            {
-                return null;
-            }
-        }
-
+    
         public void Notify(string Title, string Content, int id = 0)
         {
             this.ToNotification(Title, Content, id, R.drawable.white_jsc_x24, "http://www.jsc-solutions.net");
@@ -421,15 +374,7 @@ namespace AndroidVersionNotifierActivity.Activities
         {
             __SQLiteConnectionHack.Context = this;
 
-            using (var c = new SQLiteConnection(
-
-                new SQLiteConnectionStringBuilder
-                {
-                    DataSource = DataSource,
-                    Version = 3,
-                }.ConnectionString
-                )
-             )
+            using (var c = new SQLiteConnection(DataSource))
             {
                 c.Open();
 
@@ -456,15 +401,7 @@ namespace AndroidVersionNotifierActivity.Activities
         {
             __SQLiteConnectionHack.Context = this;
 
-            using (var c = new SQLiteConnection(
-
-                new SQLiteConnectionStringBuilder
-                {
-                    DataSource = DataSource,
-                    Version = 3,
-                }.ConnectionString
-                )
-             )
+            using (var c = new SQLiteConnection(DataSource))
             {
                 c.Open();
 
@@ -483,20 +420,7 @@ namespace AndroidVersionNotifierActivity.Activities
                 if (MyDataTable.StartEarlier == 1)
                 {
                     var that = this;
-                    var myIntent = new Intent(that, NotifyServiceFromTimer.Class);
-                    var pendingIntent = PendingIntent.getService(that, 0, myIntent, 0);
-
-                    AlarmManager alarmManager = (AlarmManager)that.getSystemService(ALARM_SERVICE);
-
-
-
-                    //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
-                    alarmManager.setInexactRepeating(
-                        AlarmManager.RTC,
-                        1000 * 5,
-                        1000 * 25,
-                        pendingIntent
-                    );
+                    that.StartPendingAlarm(NotifyServiceFromTimer.Class, 1000 * 8, 1000 * 41);
                 }
 
                 c.Close();

@@ -84,6 +84,7 @@
     <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="ApplicationActivity.cs">
     </Compile>
+    <Compile Include="Library\SDKVersionCheck.cs" />
     <Compile Include="Program.cs">
       <DependentUpon>ApplicationActivity.cs</DependentUpon>
     </Compile>
