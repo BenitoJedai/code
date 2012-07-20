@@ -48,6 +48,8 @@
     </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\app\Service.cs" />
+    <Compile Include="android\content\BroadcastReceiver.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
