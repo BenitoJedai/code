@@ -16,7 +16,7 @@ namespace ScriptCoreLib.Extensions
              new Thread(
                 delegate()
                 {
-                    var buffer = new byte[0x10000];
+                    var buffer = new byte[0x100000];
 
                     while (true)
                     {
