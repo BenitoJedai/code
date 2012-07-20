@@ -7,7 +7,7 @@ using ScriptCoreLib;
 namespace android.content
 {
     [Script(IsNative = true)]
-    public class BroadcastReceiver
+    public abstract class BroadcastReceiver
     {
         // members and types are to be extended by jsc at release build
     }
