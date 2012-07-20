@@ -95,6 +95,7 @@ namespace ScriptCoreLib.Android
     [Script(Implements = typeof(System.Data.Common.DbDataReader))]
     public abstract class __DbDataReaders
     {
+        public abstract void Close();
         public abstract bool Read();
 
         public abstract object this[string name] { get; }
@@ -111,6 +112,11 @@ namespace ScriptCoreLib.Android
         public Cursor cursor;
 
         int __state;
+
+        public override void Close()
+        {
+            cursor.close();
+        }
 
         public override bool Read()
         {
@@ -253,7 +259,8 @@ namespace ScriptCoreLib.Android
 
             // key value table!
 
-            var sql = "create table if not exists ";
+            //var sql = "create table if not exists ";
+            var sql = "create table ";
 
             sql += Name;
             sql += " (Key text not null, ValueString text, ValueInt32 integer)";
@@ -331,6 +338,7 @@ namespace ScriptCoreLib.Android
                     {
                         value = reader.GetInt32(0);
                     }
+                    reader.Close();
 
                     return value;
                 }
@@ -421,6 +429,7 @@ namespace ScriptCoreLib.Android
                     {
                         value = reader.GetString(0);
                     }
+                    reader.Close();
 
                     return value;
                 }
@@ -460,6 +469,8 @@ namespace ScriptCoreLib.Android
                 value = reader.GetInt32(0);
             }
 
+            reader.Close();
+
             return value;
         }
 
@@ -473,13 +484,11 @@ namespace ScriptCoreLib.Android
 
             var reader = new SQLiteCommand(w, c).ExecuteReader();
 
+            var value = reader.Read();
 
-            while (reader.Read())
-            {
-                return true;
-            }
+            reader.Close();
 
-            return false;
+            return value;
         }
     }
 
