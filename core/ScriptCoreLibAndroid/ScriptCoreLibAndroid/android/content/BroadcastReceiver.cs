@@ -6,6 +6,7 @@ using ScriptCoreLib;
 
 namespace android.content
 {
+    // http://developer.android.com/reference/android/content/BroadcastReceiver.html
     [Script(IsNative = true)]
     public abstract class BroadcastReceiver
     {

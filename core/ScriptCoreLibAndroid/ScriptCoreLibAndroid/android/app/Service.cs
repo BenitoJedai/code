@@ -6,8 +6,9 @@ using ScriptCoreLib;
 
 namespace android.app
 {
+    // http://developer.android.com/reference/android/app/Service.html
     [Script(IsNative = true)]
-    public class Service
+    public abstract class Service
     {
         // members and types are to be extended by jsc at release build
     }
