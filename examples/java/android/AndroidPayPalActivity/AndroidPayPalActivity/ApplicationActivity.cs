@@ -17,6 +17,7 @@ namespace AndroidPayPalActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
+        // https://www.x.com/developers/paypal/documentation-tools/paypal-sdk-index
         // inspired by "Y:\opensource\github\SimplePayPalIntegration\src\com\paypal\Paypal.java"
 
         public static string ReferenceToken;
