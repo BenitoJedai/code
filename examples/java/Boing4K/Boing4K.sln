@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Web Developer Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Web
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boing4KTemplate", "Boing4K\Boing4KTemplate.csproj", "{DDCA8E8B-93F0-44E8-A9E7-8C6D9E575739}"
 EndProject
 Global
