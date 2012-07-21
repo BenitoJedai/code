@@ -11,27 +11,30 @@ namespace WebGLEthanolMolecule.Shaders
     class __GeometryVertexShader : ScriptCoreLib.GLSL.VertexShader
     {
         [attribute]
-        vec3 aPos;
-        [attribute]
-        vec3 aNorm;
+        vec3 aPos; // Normals = Pos
         [uniform]
         mat4 mvMatrix;
         [uniform]
         mat4 prMatrix;
+        [uniform]
+        vec3 color;
+        [uniform]
+        float scale;
         [varying]
-        vec4 color;
+        vec3 col;
 
-        readonly vec3 dirDif = vec3(0.0f, 0.0f, 1.0f);
-        readonly vec3 dirHalf = vec3(-.4034f, .259f, .8776f);
 
-        void main()
+        const vec4 dirDif = vec4(0.0f, 0.0f, 1.0f, 0.0f);
+        const vec4 dirHalf = vec4(-.4034f, .259f, .8776f, 0.0f);
+
+        void main() 
         {
-            gl_Position = prMatrix * mvMatrix * vec4(aPos, 1.0f);
-            vec3 rotNorm = (mvMatrix * vec4(aNorm, 0.0f)).xyz;
-            float i = max(0.0f, dot(rotNorm, dirDif));
-            color = vec4(.9f * i, .5f * i, 0.0f, 1.0f);
-            i = pow(max(0f, dot(rotNorm, dirHalf)), 120.0f);
-            color += vec4(i, i, i, 0f);
+           gl_Position = prMatrix * mvMatrix * vec4(scale * aPos, 1.);
+           vec4 rotNorm = mvMatrix * vec4(aPos, .0f);
+           float i = max( 0.0f, dot(rotNorm, dirDif) );
+           col = i * color;
+           i = pow( max( 0.0f, dot(rotNorm, dirHalf) ), 30.0f);
+           col += vec3(i, i, i);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace WebGLEthanolMolecule
     /// </summary>
     public sealed class Application
     {
-        /* Source: http://www.ibiblio.org/e-notes/webgl/gpu/make_cone.htm
+        /* Source: http://www.ibiblio.org/e-notes/webgl/models/ethanol.html
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();

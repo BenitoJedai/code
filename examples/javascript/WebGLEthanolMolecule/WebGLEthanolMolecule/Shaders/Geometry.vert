@@ -1,15 +1,16 @@
-﻿ attribute vec3 aPos;
-  attribute vec3 aNorm;
+﻿  attribute vec3 aPos; // Normals = Pos
   uniform mat4 mvMatrix;
   uniform mat4 prMatrix;
-  varying vec4 color;
-  const vec3 dirDif = vec3(0., 0., 1.);
-  const vec3 dirHalf = vec3(-.4034, .259, .8776);
+  uniform vec3 color;
+  uniform float scale;
+  varying vec3 col;
+  const vec4 dirDif = vec4(0., 0., 1., 0.);
+  const vec4 dirHalf = vec4(-.4034, .259, .8776, 0.);
 void main(void) {
-   gl_Position = prMatrix * mvMatrix * vec4(aPos, 1.);
-   vec3 rotNorm = (mvMatrix * vec4(aNorm, .0)).xyz;
+   gl_Position = prMatrix * mvMatrix * vec4(scale * aPos, 1.);
+   vec4 rotNorm = mvMatrix * vec4(aPos, .0);
    float i = max( 0., dot(rotNorm, dirDif) );
-   color = vec4(.9*i, .5*i, 0., 1.);
-   i = pow( max( 0., dot(rotNorm, dirHalf) ), 120.);
-   color += vec4(i, i, i, 0.);
+   col = i * color;
+   i = pow( max( 0., dot(rotNorm, dirHalf) ), 30.);
+   col += vec3(i, i, i);
 }
