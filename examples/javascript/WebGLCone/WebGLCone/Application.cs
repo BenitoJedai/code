@@ -196,7 +196,7 @@ namespace WebGLCone
             gl.vertexAttribPointer((uint)normLoc, 3, gl.FLOAT, false, 0, 0);
 
             var prMatrix = new CanvasMatrix4();
-            prMatrix.perspective(45, 1, .1, 100);
+     
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                false, new Float32Array(prMatrix.getAsArray()));
 
@@ -216,10 +216,15 @@ namespace WebGLCone
             var drag = 0;
             var xRot = 0;
             var yRot = 0;
-            var transl = -1.5;
+            var transl = -1.5f;
 
             Action drawScene = delegate
             {
+
+                gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
+   false, new Float32Array(prMatrix.getAsArray()));
+
+
                 gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -309,6 +314,10 @@ namespace WebGLCone
                 {
                     gl_viewportWidth = Native.Window.Width;
                     gl_viewportHeight = Native.Window.Height;
+
+                    prMatrix = new CanvasMatrix4();
+                    prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
+
 
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 

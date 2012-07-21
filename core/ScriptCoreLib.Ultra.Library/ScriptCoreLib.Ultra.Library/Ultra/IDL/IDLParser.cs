@@ -366,7 +366,16 @@ namespace ScriptCoreLib.Ultra.IDL
                  }
             ).AssertSymbol("}");
 
-            i.Terminator = i.InterfaceBody.Item2.SkipTo().AssertSymbol(";");
+            i.Terminator = i.InterfaceBody.Item2.SkipTo();
+
+            if (i.Terminator == null)
+            {
+                i.Terminator = (IDLParserToken.Literal)";";
+                i.Terminator.IsSymbol = true;
+            }
+
+            i.Terminator.AssertSymbol(";");
+
             return i;
         }
 

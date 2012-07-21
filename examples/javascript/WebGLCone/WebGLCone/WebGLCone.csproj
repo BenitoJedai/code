@@ -21,6 +21,7 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -122,9 +123,9 @@
       <DependentUpon>Geometry.vert</DependentUpon>
     </Compile>
     <Content Include="Design\Default.htm" />
-    <Compile Include="Design\CanvasMatrix.cs">
+    <None Include="Design\CanvasMatrix.idl">
       <DependentUpon>CanvasMatrix.js</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApplicationWebService.cs" />
     <Compile Include="Application.cs" />
