@@ -318,7 +318,7 @@ namespace WebGLCone
                     prMatrix = new CanvasMatrix4();
                     prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
 
-
+                    
                     canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
 
                     canvas.width = gl_viewportWidth;
