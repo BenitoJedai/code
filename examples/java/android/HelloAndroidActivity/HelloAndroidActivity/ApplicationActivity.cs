@@ -11,6 +11,8 @@ namespace HelloAndroidActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
+        ScriptCoreLibAndroid.IAssemblyReferenceToken ref1;
+
         Action Handler;
 
         protected override void onCreate(Bundle savedInstanceState)

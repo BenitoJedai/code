@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 
 // X:\jsc.svn\core\ScriptCoreLibJava\BCLImplementation\System\Action.cs
-namespace ScriptCoreLib.BCLImplementation.System
+namespace ScriptCoreLib.Android.BCLImplementation.System
 {
+    // note that some content should be directly shared between JVM and Android
     [Script(Implements = typeof(global::System.Action))]
     internal delegate void __Action();
 

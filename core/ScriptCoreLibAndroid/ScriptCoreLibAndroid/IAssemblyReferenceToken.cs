@@ -5,6 +5,7 @@ using ScriptCoreLib;
 
 namespace ScriptCoreLibAndroid
 {
+    [Script]
     public interface IAssemblyReferenceToken
     {
     }
