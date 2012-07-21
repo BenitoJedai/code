@@ -8,7 +8,7 @@
     <ProjectGuid>{1CE7D22F-52C8-4164-8955-CD89609E48A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib</RootNamespace>
+    <RootNamespace>ScriptCoreLib.Android</RootNamespace>
     <AssemblyName>ScriptCoreLibAndroid</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -62,6 +62,14 @@
     <Compile Include="android\widget\TextView.cs" />
     <Compile Include="android\widget\LinearLayout.cs" />
     <Compile Include="BCLImplementation\System\Action.cs" />
+    <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
+    <Compile Include="BCLImplementation\System\Delegate.cs" />
+    <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
+    <Compile Include="BCLImplementation\System\IntPtr.cs" />
+    <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\MemberInfo.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\MethodBase.cs" />
+    <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="java\lang\CharSequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
