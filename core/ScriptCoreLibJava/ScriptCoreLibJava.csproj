@@ -673,6 +673,7 @@
     <Compile Include="java\awt\Container.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="java\awt\TextComponent.cs" />
     <Compile Include="java\awt\Cursor.cs" />
     <Compile Include="java\awt\datatransfer\Clipboard.cs" />
     <Compile Include="java\awt\datatransfer\ClipboardOwner.cs" />
@@ -857,6 +858,9 @@
     <Compile Include="java\lang\annotation\Documented.cs" />
     <Compile Include="java\lang\Character.cs" />
     <Compile Include="java\lang\Comparable.cs" />
+    <Compile Include="java\lang\LinkageError.cs" />
+    <Compile Include="java\lang\Error.cs" />
+    <Compile Include="java\lang\VirtualMachineError.cs" />
     <Compile Include="java\lang\Enum.cs" />
     <Compile Include="java\lang\Number.cs" />
     <Compile Include="java\lang\reflect\AccessibleObject.cs" />
