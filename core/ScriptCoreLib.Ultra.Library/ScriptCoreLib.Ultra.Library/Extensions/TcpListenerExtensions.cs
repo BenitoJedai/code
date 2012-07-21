@@ -11,54 +11,51 @@ namespace ScriptCoreLib.Extensions
 {
     public static class TcpListenerExtensions
     {
-        public static void BridgeStreamTo(this Stream x, Stream y)
+        static void BridgeStreamTo(this NetworkStream x, NetworkStream y, int ClientCounter, string prefix = "#")
         {
-             new Thread(
-                delegate()
-                {
-                    var buffer = new byte[0x100000];
+            new Thread(
+               delegate()
+               {
+                   var buffer = new byte[0x100000];
 
-                    while (true)
-                    {
-                        //
-                        try
-                        {
-                            var c = x.Read(buffer, 0, buffer.Length);
+                   while (true)
+                   {
+                       //
+                       try
+                       {
 
-                            if (c < 0)
-                                return;
+                           var c = x.Read(buffer, 0, buffer.Length);
 
-                            if (c == 0)
-                            {
-                                Thread.Sleep(10);
-                            }
-                            else
-                            {
-                                Console.WriteLine(c + " bytes ...");
+                           if (c <= 0)
+                               return;
 
-                                y.Write(buffer, 0, c);
 
-                                Thread.Sleep(1);
-                            }
-                        }
-                        catch
-                        {
-                            return;
-                        }
-                    }
-                }
-            )
-            {
-                Name = "BridgeStreamTo",
-                IsBackground = true,
-                Priority = ThreadPriority.Lowest
-            }.Start();
+                           Console.WriteLine(prefix + ClientCounter.ToString("x4") + " 0x" + c.ToString("x4") + " bytes");
+
+                           y.Write(buffer, 0, c);
+
+                           Thread.Sleep(1);
+                       }
+                       catch
+                       {
+                           //Console.WriteLine("#" + ClientCounter + " error");
+
+                           return;
+                       }
+                   }
+               }
+           )
+           {
+               Name = "BridgeStreamTo",
+               IsBackground = true,
+               Priority = ThreadPriority.Lowest
+           }.Start();
         }
 
-        public static void BridgeConnectionTo(this TcpClient x, TcpClient y)
+        static void BridgeConnectionTo(this TcpClient x, TcpClient y, int ClientCounter)
         {
-            x.GetStream().BridgeStreamTo(y.GetStream());
-            y.GetStream().BridgeStreamTo(x.GetStream());
+            x.GetStream().BridgeStreamTo(y.GetStream(), ClientCounter, "> ");
+            y.GetStream().BridgeStreamTo(x.GetStream(), ClientCounter, "< ");
         }
 
         public static void BridgeConnectionToPort(this TcpListener x, int port)
@@ -74,14 +71,14 @@ namespace ScriptCoreLib.Extensions
                     {
                         var c = x.AcceptTcpClient();
                         ClientCounter++;
-                        
-                        Console.WriteLine("BridgeConnectionToPort #" + ClientCounter);
+
+                        //Console.WriteLine("#" + ClientCounter + " BridgeConnectionToPort");
 
                         var y = new TcpClient();
 
                         y.Connect(new System.Net.IPEndPoint(IPAddress.Loopback, port));
 
-                        c.BridgeConnectionTo(y);
+                        c.BridgeConnectionTo(y, ClientCounter);
                     }
 
 
