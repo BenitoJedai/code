@@ -24,12 +24,12 @@ namespace WebGLEthanolMolecule.Shaders
         vec3 col;
 
 
-        const vec4 dirDif = vec4(0.0f, 0.0f, 1.0f, 0.0f);
-        const vec4 dirHalf = vec4(-.4034f, .259f, .8776f, 0.0f);
+        readonly vec4 dirDif = vec4(0.0f, 0.0f, 1.0f, 0.0f);
+        readonly vec4 dirHalf = vec4(-.4034f, .259f, .8776f, 0.0f);
 
         void main() 
         {
-           gl_Position = prMatrix * mvMatrix * vec4(scale * aPos, 1.);
+           gl_Position = prMatrix * mvMatrix * vec4(scale * aPos, 1.0f);
            vec4 rotNorm = mvMatrix * vec4(aPos, .0f);
            float i = max( 0.0f, dot(rotNorm, dirDif) );
            col = i * color;

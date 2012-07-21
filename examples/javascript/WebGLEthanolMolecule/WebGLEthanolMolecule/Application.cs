@@ -110,7 +110,6 @@ namespace WebGLEthanolMolecule
             var h = 1f;
             var r1 = .5f;
             var r2 = .2f;
-            var nPhi = 500;
 
 
             var prog = gl.createProgram();
@@ -143,106 +142,175 @@ namespace WebGLEthanolMolecule
             gl.linkProgram(prog);
             gl.useProgram(prog);
 
+            var nPhi = 100; 
+            var nTheta = 50;
+            var dPhi = 2 * Math.PI / nPhi;
+            var dTheta = Math.PI / nTheta;
 
+            var vertices = new IArray<float>();
+            var ind = new IArray<ushort>();
 
-            var pt = new IArray<float>();
-            var nt = new IArray<float>();
-            var Phi = 0.0;
-            var dPhi = 2 * Math.PI / (nPhi - 1);
-
-            var Nx = r1 - r2;
-            var Ny = h;
-            var N = (float)Math.Sqrt(Nx * Nx + Ny * Ny);
-
-            Nx /= N;
-            Ny /= N;
-
-            for (var i = 0; i < nPhi; i++)
+            for (var j = 0; j <= nTheta; j++)
             {
-                var cosPhi = Math.Cos(Phi);
-                var sinPhi = Math.Sin(Phi);
-                var cosPhi2 = Math.Cos(Phi + dPhi / 2);
-                var sinPhi2 = Math.Sin(Phi + dPhi / 2);
-
-                pt.push(-h / 2);
-                pt.push((float)(cosPhi * r1));
-                pt.push((float)(sinPhi * r1));   // points
-
-                nt.push(Nx);
-                nt.push((float)(Ny * cosPhi));
-                nt.push((float)(Ny * sinPhi));         // normals
-
-                pt.push(h / 2);
-                pt.push((float)(cosPhi2 * r2));
-                pt.push((float)(sinPhi2 * r2));  // points
-
-                nt.push(Nx);
-                nt.push((float)(Ny * cosPhi2));
-                nt.push((float)(Ny * sinPhi2));       // normals
-
-                Phi += dPhi;
+                var Theta = j * dTheta;
+                var cosTheta = Math.Cos(Theta);
+                var sinTheta = Math.Sin(Theta);
+                for (var i = 0; i <= nPhi; i++)
+                {
+                    var Phi = i * dPhi;
+                    var cosPhi = Math.Cos(Phi);
+                    var sinPhi = Math.Sin(Phi);
+                    vertices.push((f)(cosPhi * sinTheta));
+                    vertices.push((f)(-sinPhi * sinTheta));
+                    vertices.push((f)(cosTheta));
+                }
             }
+            for (var j = 0; j < nTheta; j++)
+                for (var i = 0; i <= nPhi; i++)
+                {
+                    ind.push((ushort)(j * (nPhi + 1) + i));
+                    ind.push((ushort)((j + 1) * (nPhi + 1) + i));
+                }
+            var posLocation = gl.getAttribLocation(prog, "aPos");
+            gl.enableVertexAttribArray((uint)posLocation);
+            var posBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+            gl.vertexAttribPointer((uint)posLocation, 3, gl.FLOAT, false, 0, 0);
 
-            var posLoc = gl.getAttribLocation(prog, "aPos");
-            gl.enableVertexAttribArray((uint)posLoc);
-            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pt.ToArray()), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((uint)posLoc, 3, gl.FLOAT, false, 0, 0);
-
-            var normLoc = gl.getAttribLocation(prog, "aNorm");
-            gl.enableVertexAttribArray((uint)normLoc);
-            gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nt), gl.STATIC_DRAW);
-            gl.vertexAttribPointer((uint)normLoc, 3, gl.FLOAT, false, 0, 0);
+            var indexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(ind.ToArray()),
+              gl.STATIC_DRAW);
 
             var prMatrix = new CanvasMatrix4();
-            prMatrix.perspective(45f, 1f, .1f, 100f);
-
-
-
+            //prMatrix.perspective(45, 1, .1, 100);
+            gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
+               false, new Float32Array(prMatrix.getAsArray()));
             var mvMatrix = new CanvasMatrix4();
             var rotMat = new CanvasMatrix4();
             rotMat.makeIdentity();
-            rotMat.rotate(-40, 0, 1, 0);
             var mvMatLoc = gl.getUniformLocation(prog, "mvMatrix");
+            var colorLoc = gl.getUniformLocation(prog, "color");
+            var scaleLoc = gl.getUniformLocation(prog, "scale");
 
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
             gl.clearDepth(1.0f);
-            gl.clearColor(0, 0, .5f, 1);
+            gl.clearColor(0, 0, .8f, 1f);
 
             var xOffs = 0;
             var yOffs = 0;
-            var drag = 0;
+                var drag = 0;
             var xRot = 0;
             var yRot = 0;
-            var transl = -1.5f;
+            var transl = -10.5f;
 
+            #region drawBall
+            Action<f, f, f, f, f, f, f> drawBall = (x, y, z, r, g, b, scale) =>
+            {
+                mvMatrix.makeIdentity();
+                mvMatrix.translate(x, y, z);
+                mvMatrix.multRight(rotMat);
+                mvMatrix.translate(0, 0, transl);
+                gl.uniformMatrix4fv(mvMatLoc, false, new Float32Array(mvMatrix.getAsArray()));
+                gl.uniform1f(scaleLoc, scale);
+                gl.uniform3f(colorLoc, r, g, b);
+                for (var i = 0; i < nTheta; i++)
+                    gl.drawElements(gl.TRIANGLE_STRIP, 2 * (nPhi + 1), gl.UNSIGNED_SHORT,
+                      4 * (nPhi + 1) * i);
+            };
+            #endregion
+
+            #region drawScene
             Action drawScene = delegate
             {
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
 
 
                 gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
-   false, new Float32Array(prMatrix.getAsArray()));
-
-                gl.viewport(0, 0, gl_viewportWidth, gl_viewportHeight);
+false, new Float32Array(prMatrix.getAsArray()));
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-
-                rotMat.rotate(xRot / 5, 1, 0, 0);
-                rotMat.rotate(yRot / 5, 0, 1, 0);
-
-                yRot = 0;
-                xRot = 0;
-
-                mvMatrix.load(rotMat);
-                mvMatrix.translate(0, 0, transl);
-
-                gl.uniformMatrix4fv(mvMatLoc, false,
-                  new Float32Array(mvMatrix.getAsArray()));
-                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 2 * nPhi);
+                rotMat.rotate(xRot / 3, 1, 0, 0); rotMat.rotate(yRot / 3, 0, 1, 0);
+                yRot = 0; xRot = 0;
+                drawBall(0, 0, 0, .3f, .3f, .3f, 1.5f);
+                drawBall(1, 1, 1, .3f, .3f, .3f, 1.5f);
+                drawBall(2, 2, 0, 1, 1, 1, 1);
+                drawBall(2, 0, 2, 1, 1, 1, 1);
+                drawBall(0, 2, 2, 1, 1, 1, 1);
+                drawBall(-1, -1, 1, 1, 1, 1, 1);
+                drawBall(1, -1, -1, 1, 1, 1, 1);
+                drawBall(-1, 1, -1, 1, 0, 0, 1.5f);
+                drawBall(-2, 0, -2, 1, 1, 1, 1);
                 gl.flush();
             };
+            #endregion
+
+            #region mouse
+            canvas.onmousedown += ev =>
+            {
+                ev.PreventDefault();
+
+                drag = 1;
+                xOffs = ev.CursorX;
+                yOffs = ev.CursorY;
+            };
+
+            canvas.onmouseup += ev =>
+            {
+                ev.PreventDefault();
+
+
+                drag = 0;
+                xOffs = ev.CursorX;
+                yOffs = ev.CursorY;
+            };
+
+            canvas.onmousemove += ev =>
+            {
+                if (drag == 0)
+                    return;
+                ev.PreventDefault();
+
+                if (ev.shiftKey)
+                {
+                    transl *= 1 + (ev.CursorY - yOffs) / 1000;
+                    yRot = -xOffs + ev.CursorX;
+                }
+                else
+                {
+                    yRot = -xOffs + ev.CursorX;
+                    xRot = -yOffs + ev.CursorY;
+                }
+
+                xOffs = ev.CursorX;
+                yOffs = ev.CursorY;
+                drawScene();
+            };
+            #endregion
+
+            #region onmousewheel
+            canvas.onmousewheel +=
+                ev =>
+                {
+                    var del = 1.1f;
+
+                    if (ev.shiftKey)
+                        del = 1.01f;
+
+                    if (ev.WheelDirection > 0)
+                        transl *= del;
+                    else
+                        transl *= (1 / del);
+
+                    drawScene();
+
+
+
+                    ev.PreventDefault();
+                };
+            #endregion
+
 
 
 
