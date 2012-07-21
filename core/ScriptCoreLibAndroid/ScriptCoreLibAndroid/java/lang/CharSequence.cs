@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using android.widget;
 using ScriptCoreLib;
 
-namespace HelloAndroidActivity.Library
+namespace java.lang
 {
-    public static class MyExtensions
+    [Script(IsNative = true)]
+    public interface CharSequence
     {
-
     }
 }
