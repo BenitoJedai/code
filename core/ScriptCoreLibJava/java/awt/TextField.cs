@@ -4,10 +4,10 @@ namespace java.awt
 {
     using @event;
 
-    // http://java.sun.com/j2se/1.4.2/docs/api/java/awt/Button.html
+    // http://docs.oracle.com/javase/6/docs/api/java/awt/TextField.html
 
     [Script(IsNative = true)]
-    public class TextField : Component
+    public class TextField : TextComponent
     {
         public string getText()
         {
