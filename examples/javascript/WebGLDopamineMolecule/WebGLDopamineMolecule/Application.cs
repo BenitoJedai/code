@@ -14,11 +14,11 @@ using ScriptCoreLib.JavaScript.Extensions;
 using ScriptCoreLib.JavaScript.WebGL;
 using ScriptCoreLib.Shared.Drawing;
 using ScriptCoreLib.Shared.Lambda;
-using WebGLEthanolMolecule.HTML.Pages;
-using WebGLEthanolMolecule.Shaders;
-using WebGLEthanolMolecule.Design;
+using WebGLDopamineMolecule.HTML.Pages;
+using WebGLDopamineMolecule.Shaders;
+using WebGLDopamineMolecule.Design;
 
-namespace WebGLEthanolMolecule
+namespace WebGLDopamineMolecule
 {
     using f = System.Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
@@ -31,7 +31,7 @@ namespace WebGLEthanolMolecule
     public sealed class Application
     {
         /* Source: http://www.ibiblio.org/e-notes/webgl/models/ethanol.html
-         * 
+         * http://www.worldofmolecules.com/3D/dopamine_3d.htm
          */
 
         public readonly ApplicationWebService service = new ApplicationWebService();
@@ -204,13 +204,13 @@ namespace WebGLEthanolMolecule
             var yOffs = 0;
             var drag = 0;
             var xRot = 0f;
-            var yRot = 0f;
-            var transl = -10.5f;
+            var yRot = 1f;
+            var transl = -15.5f;
 
             #region drawBall
             Action<f, f, f, f, f, f, f> drawBall = (x, y, z, r, g, b, _scale) =>
             {
-                var scale = _scale * 1f;
+                var scale = _scale * 1.4f;
 
                 mvMatrix.makeIdentity();
                 mvMatrix.translate(x, y, z);
@@ -226,11 +226,17 @@ namespace WebGLEthanolMolecule
             #endregion
 
             Action<f, f, f, f> drawBall_white = (x, y, z, _scale) =>
-                drawBall(x, y, z, 1, 1, 1, _scale);
+            drawBall(x, y, z, 1, 1, 1, _scale);
 
 
             Action<f, f, f, f> drawBall_red = (x, y, z, _scale) =>
                 drawBall(x, y, z, 1, 0, 0, _scale);
+
+            Action<f, f, f, f> drawBall_blue = (x, y, z, _scale) =>
+             drawBall(x, y, z, 0, 0, 1, _scale);
+
+            Action<f, f, f, f> drawBall_gray = (x, y, z, _scale) =>
+          drawBall(x, y, z, .3f, .3f, .3f, _scale);
 
 
             #region drawScene
@@ -246,18 +252,51 @@ false, new Float32Array(prMatrix.getAsArray()));
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                 rotMat.rotate(xRot / 3, 1, 0, 0); rotMat.rotate(yRot / 3, 0, 1, 0);
                 yRot = 0; xRot = 0;
-                drawBall(0, 0, 0, .3f, .3f, .3f, 1.5f);
-                drawBall(1, 1, 1, .3f, .3f, .3f, 1.5f);
 
-                drawBall_white(2, 2, 0, 1);
-                drawBall_white(2, 0, 2, 1);
-                drawBall_white(0, 2, 2, 1);
-                drawBall_white(-1, -1, 1, 1);
-                drawBall_white(1, -1, -1, 1);
+                #region OH2
+                drawBall_white(-4, -2, -1.5f, 1f);
+                drawBall_red(-4, -2, 0, 1.5f);
+                drawBall_red(-4, 2, 0, 1.5f);
+                drawBall_white(-4, 2, -1.5f, 1f);
+                #endregion
 
-                drawBall_red(-1, 1, -1, 1.5f);
 
-                drawBall_white(-2, 0, -2, 1);
+                #region C6H3
+                drawBall_gray(2, -1, 0, 1.5f);
+                
+                drawBall_gray(0, -2, 0, 1.5f);
+                drawBall_white(0, -3.5f, 0, 1f);
+
+
+                drawBall_gray(-2, -1, 0, 1.5f);
+
+                drawBall_gray(2, 1, 0, 1.5f);
+                drawBall_white(3 + 0.5f, 1.5f + 0.5f, 0, 1f);
+                
+                drawBall_gray(0, 2, 0, 1.5f);
+                drawBall_white(0, 3.5f, 0, 1f);
+
+                drawBall_gray(-2, 1, 0, 1.5f);
+                #endregion
+
+                #region CH2-CH2
+                drawBall_white(6, -1 + 1, -1.5f, 1f);
+                drawBall_gray(6, -1, 0, 1.5f);
+                drawBall_white(6, -1 + 1, 1.5f, 1f);
+
+
+                drawBall_white(4, -2 - 1, -1.5f, 1f);
+                drawBall_gray(4, -2, 0, 1.5f);
+                drawBall_white(4, -2 - 1, 1.5f, 1f);
+                #endregion
+
+                #region NH2
+                drawBall_white(8, -2 - 1, -1.5f, 1f);
+                drawBall_blue(8, -2, 0, 1.5f);
+                drawBall_white(8, -2 - 1, 1.5f, 1f);
+                #endregion
+
+             
                 gl.flush();
             };
             #endregion
