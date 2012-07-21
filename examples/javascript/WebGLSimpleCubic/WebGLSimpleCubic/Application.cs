@@ -19,6 +19,7 @@ using WebGLSimpleCubic.Shaders;
 
 namespace WebGLSimpleCubic
 {
+    using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
@@ -121,13 +122,14 @@ namespace WebGLSimpleCubic
 
             //var gl, canvas;
 
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportWidth);
             #endregion
 
             #region gl - Initialise WebGL
@@ -152,7 +154,7 @@ namespace WebGLSimpleCubic
 
 
 
-            gl.viewport(0, 0, size, size);
+            gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
 
 
             #region createShader
@@ -255,7 +257,7 @@ namespace WebGLSimpleCubic
               gl.STATIC_DRAW);
 
             var prMatrix = new CanvasMatrix4();
-            prMatrix.perspective(45, 1, .1, 100);
+            prMatrix.perspective(45f, 1f, .1f, 100f);
 
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                   false, new Float32Array(prMatrix.getAsArray()));
@@ -304,13 +306,13 @@ namespace WebGLSimpleCubic
             var xOffs = 0;
             var yOffs = 0;
             var drag = 0;
-            var xRot = 0;
-            var yRot = 0;
-            var transl = -6.0;
+            var xRot = 0f;
+            var yRot = 0f;
+            var transl = -6.0f;
 
 
             #region drawBall
-            Action<double, double, double> drawBall = (x, y, z) =>
+            Action<f, f, f> drawBall = (x, y, z) =>
             {
                 mvMatrix.makeIdentity();
                 mvMatrix.translate(x, y, z);
@@ -326,7 +328,14 @@ namespace WebGLSimpleCubic
             #region drawScene
             Action drawScene = delegate
             {
+
+
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
                 gl.useProgram(prog);
+
+
+                gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
+   false, new Float32Array(prMatrix.getAsArray()));
 
                 rotMat.rotate(xRot / 5, 1, 0, 0);
                 rotMat.rotate(yRot / 5, 0, 1, 0);
@@ -357,6 +366,10 @@ namespace WebGLSimpleCubic
                 gl.disable(gl.BLEND);
 
                 gl.useProgram(line_prog);
+
+                gl.uniformMatrix4fv(gl.getUniformLocation(line_prog, "prMatrix"),
+   false, new Float32Array(prMatrix.getAsArray()));
+
                 gl.uniformMatrix4fv(mvMatLineLoc, false,
                   new Float32Array(mvMatrix.getAsArray()));
                 gl.drawArrays(gl.LINES, 0, 24);
@@ -373,15 +386,17 @@ namespace WebGLSimpleCubic
             #region AtResize
             Action AtResize = delegate
             {
-                size = Math.Min(Native.Window.Width, Native.Window.Height);
-                canvas.width = size;
-                canvas.height = size;
-                canvas.style.SetLocation(
-                    (Native.Window.Width - size) / 2,
-                    (Native.Window.Height - size) / 2,
-                    size, size);
+                gl_viewportWidth = Native.Window.Width;
+                gl_viewportHeight = Native.Window.Height;
 
-                gl.viewport(0, 0, size, size);
+                prMatrix = new CanvasMatrix4();
+                prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
+
+
+                canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                canvas.width = gl_viewportWidth;
+                canvas.height = gl_viewportHeight;
 
                 drawScene();
             };
@@ -398,6 +413,8 @@ namespace WebGLSimpleCubic
             #region mouse
             canvas.onmousedown += ev =>
             {
+                ev.PreventDefault();
+
                 drag = 1;
                 xOffs = ev.CursorX;
                 yOffs = ev.CursorY;
@@ -405,6 +422,9 @@ namespace WebGLSimpleCubic
 
             canvas.onmouseup += ev =>
             {
+                ev.PreventDefault();
+
+
                 drag = 0;
                 xOffs = ev.CursorX;
                 yOffs = ev.CursorY;
@@ -414,6 +434,7 @@ namespace WebGLSimpleCubic
             {
                 if (drag == 0)
                     return;
+                ev.PreventDefault();
 
                 if (ev.shiftKey)
                 {
@@ -436,10 +457,10 @@ namespace WebGLSimpleCubic
             canvas.onmousewheel +=
                 ev =>
                 {
-                    var del = 1.1;
+                    var del = 1.1f;
 
                     if (ev.shiftKey)
-                        del = 1.01;
+                        del = 1.01f;
 
                     if (ev.WheelDirection > 0)
                         transl *= del;
@@ -455,8 +476,62 @@ namespace WebGLSimpleCubic
             #endregion
 
 
+            #region IsDisposed
+            var IsDisposed = false;
 
-            Native.Document.body.style.backgroundColor = Color.FromRGB(0x80, 0xFF, 0x80);
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
+            #region tick
+            var tick = default(Action);
+
+            tick = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                if (drag == 0)
+                {
+                    xRot += 2;
+                    yRot += 3;
+                }
+
+                drawScene();
+                //animate();
+
+                Native.Window.requestAnimationFrame += tick;
+            };
+
+            tick();
+            #endregion
+
+
+
+            //Native.Document.body.style.backgroundColor = Color.FromRGB(0x80, 0xFF, 0x80);
         }
 
         public Action Dispose;

@@ -126,9 +126,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Design\CanvasMatrix.cs">
+    <None Include="Design\CanvasMatrix.idl">
       <DependentUpon>CanvasMatrix.js</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="Shaders\LineFragmentShader.cs">
       <DependentUpon>Line.frag</DependentUpon>
     </Compile>
