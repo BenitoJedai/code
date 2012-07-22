@@ -5,8 +5,9 @@ using System.Text;
 using android.content;
 using ScriptCoreLib;
 
-namespace android.widget
+namespace android.view
 {
+    // http://developer.android.com/reference/android/view/View.html
     [Script(IsNative = true)]
     public  class View
     {
