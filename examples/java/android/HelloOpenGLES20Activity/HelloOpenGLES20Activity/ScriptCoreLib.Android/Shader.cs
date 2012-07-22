@@ -12,22 +12,6 @@ using java.lang;
 using ScriptCoreLib;
 using android.app;
 
-namespace java.lang
-{
-    [Script(IsNative = true)]
-    public sealed class String
-    {
-        public int indexOf(string @str, int @fromIndex)
-        {
-            return default(int);
-        }
-
-        public string substring(int @beginIndex, int @endIndex)
-        {
-            return default(string);
-        }
-    }
-}
 
 namespace ScriptCoreLib.Android
 {
@@ -540,56 +524,6 @@ namespace ScriptCoreLib.Android
         // jsc does not support properties yet? are they even allowed in java?
 
         public string Action;
-    }
-    #endregion
-
-    #region BCL, CTS
-
-    [Script(
-Implements = typeof(global::System.String),
-ImplementationType = typeof(global::java.lang.String),
-InternalConstructor = true
-
-)]
-    internal class __String
-    {
-        public static bool IsNullOrEmpty(string value)
-        {
-            if (((object)value) == null)
-                return true;
-
-            if ("".StringEquals(value))
-                return true;
-
-            return false;
-        }
-
-        public int Length
-        {
-            [Script(ExternalTarget = "length")]
-            get
-            {
-                return default(int);
-            }
-        }
-
-        [Script(ExternalTarget = "indexOf")]
-        public int IndexOf(string str, int pos)
-        {
-            return default(int);
-        }
-    }
-
-    [Script(Implements = typeof(Attribute))]
-    internal class __Attribute
-    {
-
-    }
-
-    [Script(Implements = typeof(IDisposable))]
-    internal interface __IDisposable
-    {
-        void Dispose();
     }
     #endregion
 
