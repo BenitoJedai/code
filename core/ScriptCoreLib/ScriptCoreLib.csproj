@@ -101,6 +101,7 @@
     <Compile Include="ActionScript\flash\display3D\VertexBuffer3D.cs" />
     <Compile Include="ActionScript\flash\display3D\Program3D.cs" />
     <Compile Include="ActionScript\flash\display3D\IndexBuffer3D.cs" />
+    <Compile Include="ActionScript\flash\display\NativeMenuItem.cs" />
     <Compile Include="ActionScript\flash\display\NativeMenu.cs" />
     <Compile Include="ActionScript\flash\events\AccelerometerEvent.cs" />
     <Compile Include="ActionScript\flash\net\GroupSpecifier.cs" />
