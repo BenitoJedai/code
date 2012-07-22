@@ -83,9 +83,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
-      <Link>ScriptCoreLib.Android\Shader.cs</Link>
-    </Compile>
     <Compile Include="ApplicationControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

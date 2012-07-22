@@ -124,5 +124,44 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
 
         public void PerformLayout()
         { }
+
+        [Script]
+        class InternalClickHandler : View.OnClickListener
+        {
+            public __Control that;
+            public EventHandler value;
+
+            public void onClick(View v)
+            {
+                value(that, new EventArgs());
+            }
+        }
+
+        EventHandler InternalClickPending;
+
+        public void InternalAddClick()
+        {
+            if (InternalClickPending == null)
+                return;
+
+            var a = this.InternalGetElement();
+
+            if (a == null)
+                return;
+
+            a.setOnClickListener(
+                new InternalClickHandler { that = this, value = InternalClickPending }
+            );
+        }
+
+        public event EventHandler Click
+        {
+            add
+            {
+                InternalClickPending = value;
+                InternalAddClick();
+            }
+            remove { }
+        }
     }
 }

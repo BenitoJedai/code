@@ -57,6 +57,9 @@
     <Compile Include="android\view\View.cs" />
     <Compile Include="android\view\ViewGroup.cs" />
     <Compile Include="android\widget\Button.cs" />
+    <Compile Include="android\widget\CompoundButton.cs" />
+    <Compile Include="android\widget\CheckBox.cs" />
+    <Compile Include="android\widget\EditText.cs" />
     <Compile Include="android\widget\FrameLayout.cs" />
     <Compile Include="android\widget\ScrollView.cs" />
     <Compile Include="android\widget\TextView.cs" />
@@ -64,6 +67,8 @@
     <Compile Include="BCLImplementation\System\Action.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
+    <Compile Include="BCLImplementation\System\EventArgs.cs" />
+    <Compile Include="BCLImplementation\System\EventHandler.cs" />
     <Compile Include="BCLImplementation\System\IAsyncResult.cs" />
     <Compile Include="BCLImplementation\System\IntPtr.cs" />
     <Compile Include="BCLImplementation\System\MulticastDelegate.cs" />
@@ -72,6 +77,9 @@
     <Compile Include="BCLImplementation\System\Reflection\MethodInfo.cs" />
     <Compile Include="IAssemblyReferenceToken.cs" />
     <Compile Include="java\lang\CharSequence.cs" />
+    <Compile Include="java\lang\Class.cs" />
+    <Compile Include="java\lang\reflect\Method.cs" />
+    <Compile Include="java\util\ArrayList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

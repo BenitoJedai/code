@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ScriptCoreLib.Android.XLinq
 {
-    public interface IAssemblyReferenceToken_XLinqs
+    public interface IAssemblyReferenceToken_XLinqs : ScriptCoreLib.Android.IAssemblyReferenceToken
     {
     }
 }

@@ -4,23 +4,23 @@ using System.Linq;
 using System.Text;
 using android.content;
 using android.view;
+using java.lang;
 using ScriptCoreLib;
 
 namespace android.widget
 {
+    // http://developer.android.com/reference/android/widget/EditText.html
     [Script(IsNative = true)]
-    public  class LinearLayout : ViewGroup
+    public class EditText : TextView
     {
-        // members and types are to be extended by jsc at release build
-
-        public LinearLayout(Context c)
+        public EditText(Context c)
             : base(c)
         {
 
         }
 
-        public void setOrientation(int o)
-        { 
-        }
+    
+
+        // members and types are to be extended by jsc at release build
     }
 }

@@ -17,7 +17,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System
         public __Delegate(object e, global::System.IntPtr p)
         {
             this.Target = e;
-            //this.Method = new __MethodInfo { InternalMethod = ((__IntPtr)(object)p).MethodToken };
+            this.Method = (MethodInfo)(object)new __MethodInfo { InternalMethod = ((__IntPtr)(object)p).MethodToken };
         }
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ScriptCoreLib;
 
-namespace ScriptCoreLibAndroid
+namespace ScriptCoreLib.Android
 {
     [Script]
     public interface IAssemblyReferenceToken
