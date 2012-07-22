@@ -9,7 +9,7 @@ namespace ScriptCoreLib.ActionScript.flash.ui
 {
     // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/ui/ContextMenu.html
     [Script(IsNative = true)]
-    public class ContextMenu : EventDispatcher
+    public class ContextMenu : NativeMenu
     {
         #region Properties
         /// <summary>

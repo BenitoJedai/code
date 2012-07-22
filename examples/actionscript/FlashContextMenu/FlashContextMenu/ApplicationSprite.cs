@@ -1,22 +1,19 @@
-﻿using ScriptCoreLib;
-using ScriptCoreLib.ActionScript.flash.display;
-using ScriptCoreLib.ActionScript.flash.text;
-using ScriptCoreLib.ActionScript.flash.ui;
-using System;
-using System.Linq;
-using ScriptCoreLib.ActionScript.flash.filters;
 using ScriptCoreLib.ActionScript.Extensions;
+using ScriptCoreLib.ActionScript.flash.display;
+using ScriptCoreLib.ActionScript.flash.ui;
+using ScriptCoreLib.Extensions;
+using System.Linq;
+using ScriptCoreLib.ActionScript.flash.text;
+using System;
+using ScriptCoreLib.ActionScript.flash.filters;
 
-namespace FlashContextMenu.ActionScript
+namespace FlashContextMenu
 {
-    /// <summary>
-    /// testing...
-    /// </summary>
-    [Script, ScriptApplicationEntryPoint]
-    public class FlashContextMenu : Sprite
+    public sealed class ApplicationSprite : Sprite
     {
-        public FlashContextMenu()
+        public ApplicationSprite()
         {
+
             var ctx = new ContextMenu();
 
             ctx.hideBuiltInItems();
@@ -39,7 +36,7 @@ namespace FlashContextMenu.ActionScript
                 };
 
 
-            ctx.customItems = ctx.customItems.Concat( new [] {a}).ToArray();
+            ctx.customItems = ctx.customItems.Concat(new[] { a }).ToArray();
 
             this.contextMenu = ctx;
 
@@ -47,16 +44,16 @@ namespace FlashContextMenu.ActionScript
 
 
             var f1 = new TextField
-                            {
-                                text = "powered by jsc",
-                                x = 20,
-                                y = 40,
-                                selectable = false,
-                                multiline = true,
-                                autoSize = TextFieldAutoSize.LEFT,
-                                sharpness = -400,
-                                textColor = 0xffffff
-                            };
+            {
+                text = "powered by jsc",
+                x = 20,
+                y = 40,
+                selectable = false,
+                multiline = true,
+                autoSize = TextFieldAutoSize.LEFT,
+                sharpness = -400,
+                textColor = 0xffffff
+            };
             stage.mouseMove +=
                 ev =>
                 {
@@ -92,8 +89,8 @@ namespace FlashContextMenu.ActionScript
             circle1.buttonMode = true;
             circle1.click += delegate { Toggle(); };
 
-            
-            circle1.filters = new []
+
+            circle1.filters = new[]
                 {
                     new GlowFilter
                     {
@@ -127,7 +124,7 @@ namespace FlashContextMenu.ActionScript
             addChild(circle1);
             addChild(circle2);
 
-            new TextField
+            var Header = new TextField
             {
                 text = "Clicking on the orange buttons or on the context menu item will toggle the visibility of the white text near the cursor.",
                 selectable = false,
@@ -136,6 +133,19 @@ namespace FlashContextMenu.ActionScript
                 y = 2,
                 autoSize = TextFieldAutoSize.LEFT
             }.AttachTo(this);
+
+            //try
+            //{
+            //     var BaseType = ctx.GetType().BaseType;
+
+
+            //     Header.text = BaseType.FullName;
+
+            //}
+            //catch
+            //{ 
+            
+            //}
 
             var input = new TextField
             {
@@ -146,7 +156,7 @@ namespace FlashContextMenu.ActionScript
                 multiline = true,
                 background = true,
                 backgroundColor = 0xffffff,
-                
+
                 y = 80,
                 x = 20,
                 border = true
@@ -157,7 +167,8 @@ namespace FlashContextMenu.ActionScript
                 {
                     f1.text = input.text;
                 };
-        }
-    }
 
+        }
+
+    }
 }
