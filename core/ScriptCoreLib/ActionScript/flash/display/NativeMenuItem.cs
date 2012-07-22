@@ -6,9 +6,9 @@ using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.display
 {
-    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/NativeMenuItem.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/display/NativeMenu.html
     [Script(IsNative = true)]
-    public class NativeMenu : EventDispatcher
+    public class NativeMenuItem : EventDispatcher
     {
 
     }

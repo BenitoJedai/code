@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ScriptCoreLib.ActionScript.flash.display;
 using ScriptCoreLib.ActionScript.flash.events;
 
 namespace ScriptCoreLib.ActionScript.flash.ui
 {
-    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/ui/ContextMenuItem.html
+    // http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/ui/ContextMenuItem.html
     [Script(IsNative = true)]
-    public class ContextMenuItem : EventDispatcher
+    public class ContextMenuItem : NativeMenuItem
     {
         #region Properties
         /// <summary>
