@@ -30,7 +30,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
             InternalScrollView = new ScrollView(c);
             InternalLinearLayout = new LinearLayout(c);
 
-            InternalLinearLayout.setOrientation(LinearLayout.VERTICAL);
+            InternalLinearLayout.setOrientation(1);
 
             InternalScrollView.addView(InternalLinearLayout);
         }

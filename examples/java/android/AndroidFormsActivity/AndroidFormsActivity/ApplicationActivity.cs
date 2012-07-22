@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using android.app;
-using android.provider;
-using android.webkit;
 using android.widget;
 using AndroidFormsActivity.Library;
 using ScriptCoreLib;
@@ -31,7 +29,7 @@ namespace AndroidFormsActivity.Activities
         {
             // http://android-developers.blogspot.com/2011/11/new-layout-widgets-space-and-gridlayout.html
 
-            var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken);
+            var r = default(global::ScriptCoreLib.Android.Windows.Forms.IAssemblyReferenceToken_Forms);
 
             var u = new ApplicationControl();
 
@@ -47,7 +45,7 @@ namespace AndroidFormsActivity.Activities
 
 
 
-            this.ShowLongToast("http://jsc-solutions.net");
+            //this.ShowLongToast("http://jsc-solutions.net");
         }
 
 

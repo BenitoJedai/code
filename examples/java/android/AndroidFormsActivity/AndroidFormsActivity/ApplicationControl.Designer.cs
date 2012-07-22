@@ -35,6 +35,7 @@ namespace AndroidFormsActivity
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -65,6 +66,7 @@ namespace AndroidFormsActivity
             this.button1.TabIndex = 5;
             this.button1.Text = "I don\'t do anything, but I was added dynamically. :)";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -75,9 +77,22 @@ namespace AndroidFormsActivity
             this.button2.TabIndex = 6;
             this.button2.Text = "Hey I am on Android!";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.checkBox1.Location = new System.Drawing.Point(0, 123);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(468, 17);
+            this.checkBox1.TabIndex = 7;
+            this.checkBox1.Text = "I am a checkbox!";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // ApplicationControl
             // 
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
@@ -93,5 +108,6 @@ namespace AndroidFormsActivity
         private TextBox textBox1;
         private Button button1;
         private Button button2;
+        private CheckBox checkBox1;
     }
 }

@@ -10,8 +10,8 @@ namespace ScriptCoreLib.Android.BCLImplementation.System
     [Script(Implements = typeof(global::System.Action))]
     internal delegate void __Action();
 
-    //[Script(Implements = typeof(global::System.Action<>))]
-    //internal delegate void __Action<A>(A a);
+    [Script(Implements = typeof(global::System.Action<>))]
+    internal delegate void __Action<A>(A a);
 
     //[Script(Implements = typeof(global::System.Action<,>))]
     //internal delegate void __Action<A, B>(A a, B b);

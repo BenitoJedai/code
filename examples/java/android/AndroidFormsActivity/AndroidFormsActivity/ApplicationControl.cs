@@ -12,5 +12,16 @@ namespace AndroidFormsActivity
         {
             InitializeComponent();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            button2.Text = "Clicked!";
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Text = "Clicked!";
+
+        }
     }
 }

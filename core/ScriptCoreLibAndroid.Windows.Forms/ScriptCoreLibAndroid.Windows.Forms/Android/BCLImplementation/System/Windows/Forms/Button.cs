@@ -31,6 +31,7 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Windows.Forms
         {
             InternalElement = new Button(c);
             InternalSetText(InternalText);
+            InternalAddClick();
         }
 
     

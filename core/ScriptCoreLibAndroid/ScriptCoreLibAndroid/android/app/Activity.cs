@@ -14,7 +14,8 @@ namespace android.app
     {
         // members and types are to be extended by jsc at release build
 
-        protected virtual void setContentView(View savedInstanceState)
+        // http://developer.android.com/reference/android/app/Activity.html#setContentView(android.view.View)
+        public virtual void setContentView(View savedInstanceState)
         { 
         }
 

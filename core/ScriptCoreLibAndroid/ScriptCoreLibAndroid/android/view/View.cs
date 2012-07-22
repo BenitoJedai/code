@@ -17,5 +17,16 @@ namespace android.view
         {
 
         }
+
+        [Script(IsNative = true)]
+        public interface OnClickListener
+        {
+            void onClick(View v);
+        }
+
+        public void setOnClickListener(OnClickListener h)
+        { 
+        
+        }
     }
 }

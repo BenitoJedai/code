@@ -9,9 +9,17 @@ namespace ScriptCoreLib.Android.BCLImplementation.System.Reflection
     [Script(Implements = typeof(MethodBase))]
     internal abstract class __MethodBase : __MemberInfo
     {
-        public object Invoke(object obj, object[] parameters)
+        public virtual object InternalInvoke(object obj, object[] parameters)
         {
+            //throw new NotImplementedException();
             return null;
         }
+
+
+        public object Invoke(object obj, object[] parameters)
+        {
+            return InternalInvoke(obj, parameters);
+        }
+
     }
 }
