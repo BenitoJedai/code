@@ -114,15 +114,9 @@ namespace WebGLNyanCat
 
             #endregion
 
-            #region onmousedown
-            Native.Document.onmousedown +=
-                e =>
+            Action PlaySomething =
+                delegate
                 {
-                    if (IsDisposed)
-                        return;
-
-
-                    running = !running;
                     if (running)
                     {
                         page.song.play();
@@ -134,6 +128,54 @@ namespace WebGLNyanCat
                         page.song2.play();
                     }
                 };
+            #region onmousedown
+            Native.Document.onmousedown +=
+                e =>
+                {
+                    if (IsDisposed)
+                        return;
+
+
+                    running = !running;
+                    PlaySomething();
+                };
+            #endregion
+
+            #region HasFocus
+            var HasFocus = false;
+
+            Native.Window.onblur +=
+               delegate
+               {
+                   HasFocus = false;
+
+                   page.song.pause();
+                   page.song2.pause();
+               };
+
+            Native.Window.onfocus +=
+                delegate
+                {
+                    HasFocus = true;
+                    PlaySomething();
+                };
+            Native.Document.onmousemove +=
+          delegate
+          {
+              if (HasFocus)
+                  return; 
+              PlaySomething();
+          };
+
+            Native.Document.onmouseout +=
+              delegate
+              {
+                  if (HasFocus)
+                      return; 
+
+                  page.song.pause();
+                  page.song2.pause();
+              };
             #endregion
 
 
@@ -393,8 +435,8 @@ namespace WebGLNyanCat
             var pointLight = new THREE.PointLight(0xFFFFFF);
             pointLight.position.z = 1000;
             scene.add(pointLight);
-            
-    
+
+
 
             #endregion
 
