@@ -8,11 +8,10 @@ using android.os;
 using android.provider;
 using android.webkit;
 using android.widget;
-using AndroidVirbrationActivity.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 
-namespace AndroidVirbrationActivity.Activities
+namespace AndroidVibrationActivity.Activities
 {
     public class ApplicationActivity : Activity
     {
@@ -32,15 +31,17 @@ namespace AndroidVirbrationActivity.Activities
 
             sv.addView(ll);
 
-        
+
             var b = new Button(this);
 
             b.setText("Vibrate!");
 
-            b.setOnClickListener(
-                new b_onclick
+            b.AtClick(
+                delegate
                 {
-                    __this = this
+                    var vibrator = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
+
+                    vibrator.vibrate(600);
                 }
             );
 
@@ -51,19 +52,9 @@ namespace AndroidVirbrationActivity.Activities
             this.setContentView(sv);
 
 
-            this.ShowLongToast("http://jsc-solutions.net");
+            this.ShowLongToast("http://my.jsc-solutions.net");
         }
 
-        class b_onclick : ViewAnimator.OnClickListener
-        {
-            public ApplicationActivity __this;
 
-            public void onClick(android.view.View value)
-            {
-                  Vibrator vibrator = (Vibrator)__this.getSystemService(Context.VIBRATOR_SERVICE);
-
-                  vibrator.vibrate(600);
-            }
-        }
     }
 }

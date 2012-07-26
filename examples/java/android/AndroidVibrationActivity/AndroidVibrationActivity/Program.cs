@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using ScriptCoreLib.Shared.Avalon.Extensions;
 
-namespace AndroidVirbrationActivity
+namespace AndroidVibrationActivity
 {
     class Program
     {
@@ -14,7 +14,7 @@ namespace AndroidVirbrationActivity
         public static void Main(string[] e)
         {
             global::jsc.AndroidLauncher.Launch(
-                 typeof(AndroidVirbrationActivity.Activities.ApplicationActivity)
+                 typeof(AndroidVibrationActivity.Activities.ApplicationActivity)
             );
         }
     }

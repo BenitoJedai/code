@@ -7,8 +7,8 @@
     <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AndroidVirbrationActivity</RootNamespace>
-    <AssemblyName>AndroidVirbrationActivity</AssemblyName>
+    <RootNamespace>AndroidVibrationActivity</RootNamespace>
+    <AssemblyName>AndroidVibrationActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -70,15 +70,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="AndroidVirbrationActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\AndroidVirbrationActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidVibrationActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidVibrationActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
-    <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="ApplicationActivity.cs">
     </Compile>
     <Compile Include="Program.cs">
