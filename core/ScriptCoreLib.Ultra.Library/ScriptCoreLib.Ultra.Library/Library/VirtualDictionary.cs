@@ -90,6 +90,8 @@ namespace jsc.Library
             }
             set
             {
+                // Index was outside the bounds of the array.
+                // ??
                 BaseDictionary[k] = value;
             }
         }

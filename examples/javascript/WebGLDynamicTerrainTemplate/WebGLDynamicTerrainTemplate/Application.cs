@@ -149,7 +149,43 @@ namespace WebGLDynamicTerrainTemplate
             var mlib = new Dictionary<string, THREE.ShaderMaterial>();
 
             var soundtrack = page.soundtrack;
-            soundtrack.play();
+
+
+            #region HasFocus
+            var HasFocus = false;
+
+            Native.Window.onblur +=
+               delegate
+               {
+                   HasFocus = false;
+
+                   soundtrack.pause();
+               };
+
+            Native.Window.onfocus +=
+                delegate
+                {
+                    HasFocus = true;
+                    soundtrack.play();
+                };
+            Native.Document.onmousemove +=
+          delegate
+          {
+              if (HasFocus)
+                  return;
+              soundtrack.play();
+          };
+
+            Native.Document.onmouseout +=
+              delegate
+              {
+                  if (HasFocus)
+                      return;
+
+                  soundtrack.pause();
+              };
+            #endregion
+
 
             var THREE_RepeatWrapping = 0;
             var THREE_FaceColors = 1;
