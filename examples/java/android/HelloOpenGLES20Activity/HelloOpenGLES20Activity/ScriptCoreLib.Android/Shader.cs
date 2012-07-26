@@ -515,6 +515,26 @@ namespace ScriptCoreLib.Android
                 pendingIntent
             );
         }
+
+        class AtClickHandler : View.OnClickListener
+        {
+            public Action h;
+
+            public void onClick(android.view.View value)
+            {
+                h();
+            }
+        }
+
+        public static void AtClick(this Button that, Action h)
+        {
+            that.setOnClickListener(
+                new AtClickHandler
+                {
+                    h = h
+                }
+            );
+        }
     }
 
     #region IntentFilter
