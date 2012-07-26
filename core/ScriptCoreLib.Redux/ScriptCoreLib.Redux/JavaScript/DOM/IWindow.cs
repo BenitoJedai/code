@@ -6,6 +6,7 @@ using ScriptCoreLib.JavaScript.FileAPI;
 using ScriptCoreLib.JavaScript.HistoryAPI;
 using ScriptCoreLib.JavaScript.MessagingAPI;
 using ScriptCoreLib.JavaScript.StorageAPI;
+using ScriptCoreLib.JavaScript.TimingAPI;
 
 namespace ScriptCoreLib.JavaScript.DOM
 {
@@ -60,5 +61,8 @@ namespace ScriptCoreLib.JavaScript.DOM
 
         public Storage sessionStorage;
         public Storage localStorage;
+
+        public Performance performance;
+
     }
 }
