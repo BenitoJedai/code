@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using android.app;
 using android.widget;
-using AndroidFormsActivity.Library;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 using ScriptCoreLib.Extensions.Android;

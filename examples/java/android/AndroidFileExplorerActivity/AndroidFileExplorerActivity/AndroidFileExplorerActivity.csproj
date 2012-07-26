@@ -79,7 +79,6 @@
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
     <Compile Include="Activities\R.cs" />
-    <Compile Include="Library\MyExtensions.cs" />
     <Compile Include="Activities\ApplicationActivity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
