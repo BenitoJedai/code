@@ -42,7 +42,11 @@ namespace HelloAndroidActivity.Activities
                     b.setText((java.lang.CharSequence)(object)"AtClick");
                 }
             );
-            
+
+            var b2 = new Button(this);
+            b2.setText((java.lang.CharSequence)(object)"The other button!");
+            ll.addView(b2);
+
             this.setContentView(sv);
         }
 

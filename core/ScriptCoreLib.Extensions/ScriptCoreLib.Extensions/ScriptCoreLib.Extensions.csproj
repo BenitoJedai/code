@@ -8,7 +8,7 @@
     <ProjectGuid>{94719DE7-1C09-4026-A948-D78EE589F1DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptCoreLib.Extensions</RootNamespace>
+    <RootNamespace>ScriptCoreLib</RootNamespace>
     <AssemblyName>ScriptCoreLib.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,9 +46,10 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Android\Extensions\ViewExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "c:\util\jsc\bin\"</PostBuildEvent>
