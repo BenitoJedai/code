@@ -24,5 +24,10 @@ namespace android.app
         
         }
 
+
+        public void requestWindowFeature(int e)
+        {
+        }
+
     }
 }

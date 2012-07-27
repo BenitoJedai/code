@@ -46,8 +46,12 @@
     <Compile Include="..\..\ScriptCoreLib\Properties\AbstractatechInfo.cs">
       <Link>Properties\AbstractatechInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
+      <Link>BCLImplementation\System\Action.cs</Link>
+    </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
+    <Compile Include="android\media\MediaPlayer.cs" />
     <Compile Include="android\view\ContextThemeWrapper.cs" />
     <Compile Include="android\content\ContextWrapper.cs" />
     <Compile Include="android\app\Service.cs" />
@@ -64,7 +68,6 @@
     <Compile Include="android\widget\ScrollView.cs" />
     <Compile Include="android\widget\TextView.cs" />
     <Compile Include="android\widget\LinearLayout.cs" />
-    <Compile Include="BCLImplementation\System\Action.cs" />
     <Compile Include="BCLImplementation\System\AsyncCallback.cs" />
     <Compile Include="BCLImplementation\System\Attribute.cs" />
     <Compile Include="BCLImplementation\System\Delegate.cs" />
