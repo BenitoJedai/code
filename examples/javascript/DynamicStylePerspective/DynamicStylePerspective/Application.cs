@@ -32,7 +32,8 @@ namespace DynamicStylePerspective
                 e =>
                 {
 
-                    var style = (XIStyle)(object)e.style;
+                    //var style = (XIStyle)(object)e.style;
+                    var style = e.style;
 
                     style.height = "300px";
                     style.width = "600px";
@@ -44,35 +45,66 @@ namespace DynamicStylePerspective
 
 
             //new IHTMLDiv()
-            new IHTMLIFrame ()
+            new IHTMLIFrame()
                 .AttachTo(container).With(
              parent =>
              {
+                 parent.setAttribute("mozallowFullScreen", "");
+                 parent.setAttribute("webkitAllowFullScreen", "");
 
-                 var style = (XIStyle)(object)parent.style;
+                 //parent.contentWindow.document.location.replace("http://studio.jsc-solutions.net");
+                 parent.contentWindow.document.location.replace("http://192.168.1.100:29591/");
 
-                 style.height = "280px";
-                 style.width = "580px";
+                 //var style = (XIStyle)(object)parent.style;
+                 var style = parent.style;
 
-                 style.margin = "10px";
+                 style.height = "300px";
+                 style.width = "600px";
+
+                 //style.margin = "10px";
 
                  style.border = "2px solid red";
                  style.transformStyle = "preserve-3d";
 
-                 Action loop = null;
-                 var y = 0;
+                 parent.onload +=
+                         delegate
+                         {
 
-                 loop = delegate
-                 {
-                     y = (y + 1) % 360;
+                             var HasMouse = false;
 
-                     style.transform = "rotateY(" + y + "deg)";
+                             parent.onmouseover +=
+                                 delegate
+                                 {
+                                     HasMouse = true;
 
-                     Native.Window.requestAnimationFrame += loop;
-                 
-                 };
+                                 };
 
-                 Native.Window.requestAnimationFrame += loop;
+                             parent.onmouseout +=
+                                 delegate
+                                 {
+                                     HasMouse = false;
+                                 };
+
+                             Action loop = null;
+                             var y = 0;
+
+                             loop = delegate
+                             {
+                                 if (HasMouse)
+                                     return;
+
+                                 y = (y + 1) % 360;
+
+                                 style.transform = "rotateY(" + y + "deg)";
+
+                                 Native.Window.requestAnimationFrame += loop;
+
+                             };
+
+                             Native.Window.requestAnimationFrame += loop;
+
+                         };
+
              }
          );
 
@@ -86,77 +118,4 @@ namespace DynamicStylePerspective
 
     }
 
-    [Script(HasNoPrototype = true)]
-    public class InternalXIStyle
-    {
-        public string perspective;
-        public string webkitPerspective;
-        public string MozPerspective;
-
-        public string MozTransformStyle;
-        public string webkitTransformStyle;
-        public string transformStyle;
-
-        public string MozTransform;
-        public string webkitTransform;
-        public string transform;
-    }
-
-    [Script(HasNoPrototype = true)]
-    public class XIStyle : IStyle
-    {
-        public string perspective
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return "";
-            }
-            [Script(DefineAsStatic = true)]
-            set
-            {
-                var style = (InternalXIStyle)(object)this;
-
-                style.MozPerspective = value;
-                style.webkitPerspective = value;
-                style.perspective = value;
-            }
-        }
-
-        public string transformStyle
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return "";
-            }
-            [Script(DefineAsStatic = true)]
-            set
-            {
-                var style = (InternalXIStyle)(object)this;
-
-                style.transformStyle = value;
-                style.MozTransformStyle = value;
-                style.webkitTransformStyle = value;
-            }
-        }
-
-        public string transform
-        {
-            [Script(DefineAsStatic = true)]
-            get
-            {
-                return "";
-            }
-            [Script(DefineAsStatic = true)]
-            set
-            {
-                var style = (InternalXIStyle)(object)this;
-
-                style.transform = value;
-                style.webkitTransform = value;
-                style.MozTransform = value;
-            }
-        }
-    }
 }
