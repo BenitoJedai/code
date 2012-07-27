@@ -84,6 +84,7 @@
     <Content Include="JavaScript\IDL\FileAPI.idl" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="JavaScript\IDL\deviceorientation.idl" />
     <None Include="JavaScript\IDL\dnd.idl" />
     <None Include="JavaScript\IDL\history.idl" />
     <None Include="JavaScript\IDL\navigationtiming.idl" />

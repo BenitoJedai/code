@@ -35,7 +35,7 @@ body {
     animation: spin 10s infinite linear;
 }
 
-#container:hover #parent {
+.container:hover #parent {
     -webkit-transform-style: flat;
     -moz-transform-style: flat;
     -o-transform-style: flat;

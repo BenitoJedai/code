@@ -1,0 +1,29 @@
+﻿  [Constructor(DOMString type)]
+    interface DeviceOrientationEvent : Event {
+      readonly attribute double? alpha;
+      readonly attribute double? beta;
+      readonly attribute double? gamma;
+      readonly attribute boolean absolute;
+    };
+
+	[Callback, NoInterfaceObject]
+    interface DeviceAcceleration {
+      readonly attribute double? x;
+      readonly attribute double? y;
+      readonly attribute double? z;
+    };
+
+    [Callback, NoInterfaceObject]
+    interface DeviceRotationRate {
+      readonly attribute double? alpha;
+      readonly attribute double? beta;
+      readonly attribute double? gamma;
+    };
+
+    [Constructor(DOMString type)]
+    interface DeviceMotionEvent : Event {
+      readonly attribute DeviceAcceleration? acceleration;
+      readonly attribute DeviceAcceleration? accelerationIncludingGravity;
+      readonly attribute DeviceRotationRate? rotationRate;
+      readonly attribute double? interval;
+    };
