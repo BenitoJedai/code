@@ -432,5 +432,80 @@ namespace ScriptCoreLib.JavaScript.DOM
 
 		public int zIndex;
 
+
+
+        public string perspective
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var style = (InternalXIStyle)(object)this;
+                return style.perspective;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                var style = (InternalXIStyle)(object)this;
+
+                style.MozPerspective = value;
+                style.webkitPerspective = value;
+                style.perspective = value;
+            }
+        }
+
+        public string transformStyle
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var style = (InternalXIStyle)(object)this;
+                return style.transformStyle;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                var style = (InternalXIStyle)(object)this;
+
+                style.transformStyle = value;
+                style.MozTransformStyle = value;
+                style.webkitTransformStyle = value;
+            }
+        }
+
+        public string transform
+        {
+            [Script(DefineAsStatic = true)]
+            get
+            {
+                var style = (InternalXIStyle)(object)this;
+                return style.transform;
+            }
+            [Script(DefineAsStatic = true)]
+            set
+            {
+                var style = (InternalXIStyle)(object)this;
+
+                style.transform = value;
+                style.webkitTransform = value;
+                style.MozTransform = value;
+            }
+        }
 	}
+
+    [Script(HasNoPrototype = true)]
+    internal class InternalXIStyle
+    {
+        public string perspective;
+        public string webkitPerspective;
+        public string MozPerspective;
+
+        public string MozTransformStyle;
+        public string webkitTransformStyle;
+        public string transformStyle;
+
+        public string MozTransform;
+        public string webkitTransform;
+        public string transform;
+    }
+
 }
