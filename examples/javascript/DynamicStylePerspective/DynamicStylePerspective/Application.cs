@@ -90,12 +90,13 @@ namespace DynamicStylePerspective
 
                              loop = delegate
                              {
-                                 if (HasMouse)
-                                     return;
+                                 if (!HasMouse)
+                                 {
 
-                                 y = (y + 1) % 360;
+                                     y = (y + 1) % 360;
 
-                                 style.transform = "rotateY(" + y + "deg)";
+                                     style.transform = "rotateY(" + y + "deg)";
+                                 }
 
                                  Native.Window.requestAnimationFrame += loop;
 
