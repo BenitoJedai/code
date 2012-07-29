@@ -49,9 +49,9 @@ namespace ScriptCoreLib.PHP //.Android
 
             __SQLiteConnectionHack.MYDATABASE_NAME = DataSource; // "MY_DATABASE.sqlite";
             __SQLiteConnectionHack.MyDBLoginInfo.Database = DataSource;     // __SQLiteConnectionHack.MYDATABASE_NAME;
-            __SQLiteConnectionHack.MyDBLoginInfo.Host = Uri;           // "localhost";
+            __SQLiteConnectionHack.MyDBLoginInfo.Host =  "localhost";
             __SQLiteConnectionHack.MyDBLoginInfo.User = "root";     //     //"root";
-            __SQLiteConnectionHack.MyDBLoginInfo.Pass = Password;        //"";
+            __SQLiteConnectionHack.MyDBLoginInfo.Pass = "";
 
             //r += "Version=" + ((object)this.Version)+";";//.ToString() + ";";
 
