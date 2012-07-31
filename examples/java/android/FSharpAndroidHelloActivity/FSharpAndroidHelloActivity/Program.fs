@@ -1,4 +1,4 @@
-﻿namespace FSharpAndroidHelloActivity
+﻿namespace FSharpAndroidHelloActivity.Activities
 
 open android.app
 open android.widget
