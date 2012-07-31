@@ -79,9 +79,10 @@
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
     <Compile Include="Library\ShapeBuilder.cs" />
-    <Compile Include="Library\MyExtensions.cs" />
-    <Compile Include="Activities\ApplicatonActivity.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ApplicatonActivity.cs" />
+    <Compile Include="Program.cs" >
+      <DependentUpon>ApplicatonActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shaders\colorFragmentShader.cs">
       <DependentUpon>color.frag</DependentUpon>

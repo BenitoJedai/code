@@ -477,7 +477,7 @@ namespace AndroidOpenGLESLesson4Activity.Activities
                 );
 
                 #region loadTexture
-                Func<Context, android.graphics.Bitmap, __WebGLTexture> loadTexture = (context, bitmap) =>
+                Func< android.graphics.Bitmap, __WebGLTexture> loadTexture = ( bitmap) =>
                {
 
 
@@ -520,7 +520,6 @@ namespace AndroidOpenGLESLesson4Activity.Activities
 
                 // Load the texture
                 mTextureDataHandle = loadTexture(
-                    mActivityContext,
                     android.graphics.BitmapFactory.decodeResource(
                         mActivityContext.getResources(), 
                         R.drawable.bumpy_bricks_public_domain,

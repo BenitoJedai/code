@@ -31,24 +31,6 @@ namespace AndroidOpenGLESLesson5Activity.Activities
         // Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson4
 
 
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenGLESLesson5Activity.Activities --activity AndroidOpenGLESLesson5Activity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson5Activity\AndroidOpenGLESLesson5Activity\staging
-
-        // http://developer.android.com/guide/developing/device.html#setting-up
-        // running it in emulator:
-        // C:\util\android-sdk-windows\tools\android.bat avd
-
-        // note: rebuild could auto reinstall
-
-        // running it on device:
-        // attach device to usb
-        // C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
-
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson5Activity\AndroidOpenGLESLesson5Activity\staging\bin\AndroidOpenGLESLesson5Activity-debug.apk"
-
-        // screenshot: home+back
-        // at "F:\ScreenCapture\SC20120504-153450.png"
 
         // http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-launcher.html#foreground.type=image&foreground.space.trim=0&foreground.space.pad=-0.1&crop=1&backgroundShape=none&backColor=ff0000%2C100&foreColor=000000%2C0
 
@@ -256,25 +238,25 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 if (mBlending)
                 {
                     // No culling of back faces
-                    GLES20.glDisable(GLES20.GL_CULL_FACE);
+                    gl.disable(GLES20.GL_CULL_FACE);
 
                     // No depth testing
-                    GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+                    gl.disable(GLES20.GL_DEPTH_TEST);
 
                     // Enable blending
-                    GLES20.glEnable(GLES20.GL_BLEND);
+                    gl.enable(GLES20.GL_BLEND);
                     GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
                 }
                 else
                 {
                     // Cull back faces
-                    GLES20.glEnable(GLES20.GL_CULL_FACE);
+                    gl.enable(GLES20.GL_CULL_FACE);
 
                     // Enable depth testing
-                    GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+                    gl.enable(GLES20.GL_DEPTH_TEST);
 
                     // Disable blending
-                    GLES20.glDisable(GLES20.GL_BLEND);
+                    gl.disable(GLES20.GL_BLEND);
                 }
             }
 
@@ -284,13 +266,13 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 gl.clearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
                 // No culling of back faces
-                GLES20.glDisable(GLES20.GL_CULL_FACE);
+                gl.disable(GLES20.GL_CULL_FACE);
 
                 // No depth testing
-                GLES20.glDisable(GLES20.GL_DEPTH_TEST);
+                gl.disable(GLES20.GL_DEPTH_TEST);
 
                 // Enable blending
-                GLES20.glEnable(GLES20.GL_BLEND);
+                gl.enable(GLES20.GL_BLEND);
                 GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE);
                 //		GLES20.glBlendEquation(GLES20.GL_FUNC_ADD);
 
@@ -363,6 +345,40 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 mPositionHandle = gl.getAttribLocation(mProgramHandle, "a_Position");
                 mColorHandle = gl.getAttribLocation(mProgramHandle, "a_Color");
 
+                #region drawCube
+                Action drawCube =
+                    delegate
+                    {
+                        // Pass in the position information
+                        mCubePositions.position(0);
+                        GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false,
+                                0, mCubePositions);
+
+                        gl.enableVertexAttribArray(mPositionHandle);
+
+                        // Pass in the color information
+                        mCubeColors.position(0);
+                        GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, GLES20.GL_FLOAT, false,
+                                0, mCubeColors);
+
+                        gl.enableVertexAttribArray(mColorHandle);
+
+                        // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
+                        // (which currently contains model * view).
+                        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+
+                        // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
+                        // (which now contains model * view * projection).
+                        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
+
+                        // Pass in the combined matrix.
+                        gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
+                        // Draw the cube.
+                        gl.drawArrays(GLES20.GL_TRIANGLES, 0, 36);
+                    };
+                #endregion
+
                 // Draw some cubes.        
                 Matrix.setIdentityM(mModelMatrix, 0);
                 Matrix.translateM(mModelMatrix, 0, 4.0f, 0.0f, -7.0f);
@@ -389,39 +405,6 @@ namespace AndroidOpenGLESLesson5Activity.Activities
                 drawCube();
             }
 
-            /**
-             * Draws a cube.
-             */
-            private void drawCube()
-            {
-                // Pass in the position information
-                mCubePositions.position(0);
-                GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false,
-                        0, mCubePositions);
-
-                GLES20.glEnableVertexAttribArray(mPositionHandle);
-
-                // Pass in the color information
-                mCubeColors.position(0);
-                GLES20.glVertexAttribPointer(mColorHandle, mColorDataSize, GLES20.GL_FLOAT, false,
-                        0, mCubeColors);
-
-                GLES20.glEnableVertexAttribArray(mColorHandle);
-
-                // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
-                // (which currently contains model * view).
-                Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-
-                // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
-                // (which now contains model * view * projection).
-                Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-
-                // Pass in the combined matrix.
-                gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
-                // Draw the cube.
-                GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
-            }
 
 
 
