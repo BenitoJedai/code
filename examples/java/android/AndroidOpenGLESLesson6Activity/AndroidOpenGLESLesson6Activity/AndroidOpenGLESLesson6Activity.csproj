@@ -82,7 +82,9 @@
       <Link>ScriptCoreLib.Android\Shader.cs</Link>
     </Compile>
     <Compile Include="ApplicatonActivity.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Program.cs" >
+      <DependentUpon>ApplicatonActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shaders\per_pixel_tex_and_lightFragmentShader.cs">
       <DependentUpon>per_pixel_tex_and_light.frag</DependentUpon>

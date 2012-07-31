@@ -7,7 +7,6 @@ using ScriptCoreLib;
 
 namespace AndroidVortexLesson6.Library
 {
-    [Script]
     public static class MyExtensions
     {
         public static void setText(this TextView e, string value)

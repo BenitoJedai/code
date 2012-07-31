@@ -20,28 +20,10 @@ namespace AndroidVortexLesson6.Activities
 {
     // A package name must be constitued of two Java identifiers.
 
-    [Script]
     public class AndroidVortexLesson6 : Activity
     {
         // port from http://www.droidnova.com/android-3d-game-tutorial-part-vi,436.html
 
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidVortexLesson6.Activities --activity AndroidVortexLesson6  --target 2  --path Z:\jsc.svn\examples\java\android\AndroidVortexLesson6\AndroidVortexLesson6\staging
-
-        // http://developer.android.com/guide/developing/device.html#setting-up
-
-        // running it in emulator:
-        // C:\util\android-sdk-windows\tools\android.bat avd
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "Y:\jsc.svn\examples\java\android\AndroidVortexLesson6\AndroidVortexLesson6\staging\bin\AndroidVortexLesson6-debug.apk"
-
-        // note: rebuild could auto reinstall
-
-        // running it on device:
-        // attach device to usb
-        // C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
-
-        [Script]
         public partial class VortexRenderer : GLSurfaceView.Renderer
         {
 
@@ -211,7 +193,6 @@ namespace AndroidVortexLesson6.Activities
 
         }
 
-        [Script]
         public partial class VortexView : GLSurfaceView
         {
             public VortexRenderer _renderer;
@@ -238,7 +219,6 @@ namespace AndroidVortexLesson6.Activities
 
 
 
-        [Script]
         class Handler : Runnable
         {
             public float xdiff;
