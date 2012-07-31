@@ -194,7 +194,12 @@ namespace SimpleLobby
 
         public static bool SQLiteTableExists(this SQLiteConnection c, string name)
         {
-            var w = "select name from sqlite_master where type='table' and name=";
+            // http://www.electrictoolbox.com/check-if-mysql-table-exists/
+
+
+
+            //var w = "select name from sqlite_master where type='table' and name=";
+            var w = "select table_name from information_schema.tables where table_name=";
             w += "'";
             w += name;
             w += "'";

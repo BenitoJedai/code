@@ -249,7 +249,8 @@ namespace ScriptCoreLib.PHP.BCLImplementation.System.Collections.Generic
 
 		public __Enumerator GetEnumerator()
 		{
-			var e = new SZArrayEnumerator<T>(this.ToArray());
+            var a = this.ToArray();
+			var e = new SZArrayEnumerator<T>(a);
 			
 			return new __Enumerator
 			{
