@@ -11,7 +11,6 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidOpenGLESLesson1Activity.Library;
 using java.lang;
 using java.nio;
 using javax.microedition.khronos.egl;
@@ -26,32 +25,17 @@ namespace AndroidOpenGLESLesson1Activity.Activities
 
     public class AndroidOpenGLESLesson1Activity : Activity
     {
-
-
         // port from http://www.learnopengles.com/android-lesson-one-getting-started/
         // see also: "Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson1\LessonOneActivity.java"
 
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenGLESLesson1Activity.Activities --activity AndroidOpenGLESLesson1Activity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson1Activity\AndroidOpenGLESLesson1Activity\staging
-
         // http://developer.android.com/guide/developing/device.html#setting-up
 
-        // note: rebuild could auto reinstall
 
         // running it on device:
         // attach device to usb
-        // C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
-
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson1Activity\AndroidOpenGLESLesson1Activity\staging\bin\AndroidOpenGLESLesson1Activity-debug.apk"
-
-        // screenshot: home+back
-        // at "F:\ScreenCapture\SC20120504-153450.png"
-
 
         /** Hold a reference to our GLSurfaceView */
         private GLSurfaceView mGLSurfaceView;
-
 
         protected override void onCreate(global::android.os.Bundle savedInstanceState)
         {
@@ -310,14 +294,14 @@ namespace AndroidOpenGLESLesson1Activity.Activities
                 opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
                         mStrideBytes, aTriangleBuffer);
 
-                opengl.glEnableVertexAttribArray(mPositionHandle);
+                gl.enableVertexAttribArray(mPositionHandle);
 
                 // Pass in the color information
                 aTriangleBuffer.position(mColorOffset);
                 opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
                         mStrideBytes, aTriangleBuffer);
 
-                opengl.glEnableVertexAttribArray(mColorHandle);
+                gl.enableVertexAttribArray(mColorHandle);
 
                 // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
                 // (which currently contains model * view).

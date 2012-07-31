@@ -11,7 +11,6 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidOpenGLESLesson2Activity.Library;
 using java.lang;
 using java.nio;
 using javax.microedition.khronos.egl;
@@ -19,39 +18,27 @@ using javax.microedition.khronos.opengles;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;
 
-
-namespace AndroidOpenGLESLesson2Activity.Activities
+namespace AndroidOpenGLESLesson4Activity.Activities
 {
     using opengl = GLES20;
     using gl = __WebGLRenderingContext;
 
-    public class AndroidOpenGLESLesson2Activity : Activity
+    [Script(IsNative = true)]
+    public static class R
     {
-        // port from http://www.learnopengles.com/android-lesson-two-ambient-and-diffuse-lighting/
-        // Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson2
+        [Script(IsNative = true)]
+        public static class drawable
+        {
+            public static int bumpy_bricks_public_domain;
+        }
+    }
 
-
-        // C:\util\android-sdk-windows\tools\android.bat create project --package AndroidOpenGLESLesson2Activity.Activities --activity AndroidOpenGLESLesson2Activity  --target 2  --path y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson2Activity\AndroidOpenGLESLesson2Activity\staging
-
-        // http://developer.android.com/guide/developing/device.html#setting-up
-        // running it in emulator:
-        // C:\util\android-sdk-windows\tools\android.bat avd
-
-        // note: rebuild could auto reinstall
-
-        // running it on device:
-        // attach device to usb
-        // C:\util\android-sdk-windows\platform-tools\adb.exe devices
-        //List of devices attached
-        //3330A17632C000EC        device 
-
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "y:\jsc.svn\examples\java\android\AndroidOpenGLESLesson2Activity\AndroidOpenGLESLesson2Activity\staging\bin\AndroidOpenGLESLesson2Activity-debug.apk"
-
-        // screenshot: home+back
-        // at "F:\ScreenCapture\SC20120504-153450.png"
+    public class AndroidOpenGLESLesson4Activity : Activity
+    {
+        // port from http://www.learnopengles.com/android-lesson-four-introducing-basic-texturing/
+        // Y:\opensource\github\Learn-OpenGLES-Tutorials\android\AndroidOpenGLESLessons\src\com\learnopengles\android\lesson4
 
         // http://android-ui-utils.googlecode.com/hg/asset-studio/dist/icons-launcher.html#foreground.type=image&foreground.space.trim=0&foreground.space.pad=-0.1&crop=1&backgroundShape=none&backColor=ff0000%2C100&foreColor=000000%2C0
-
 
         /** Hold a reference to our GLSurfaceView */
         private GLSurfaceView mGLSurfaceView;
@@ -69,7 +56,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             mGLSurfaceView.setEGLContextClientVersion(2);
 
             // Set the renderer to our demo renderer, defined below.
-            mGLSurfaceView.setRenderer(new LessonTwoRenderer());
+            mGLSurfaceView.setRenderer(new LessonFourRenderer(this));
 
 
             setContentView(mGLSurfaceView);
@@ -96,9 +83,11 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
         #endregion
 
-        class LessonTwoRenderer : GLSurfaceView.Renderer
+        class LessonFourRenderer : GLSurfaceView.Renderer
         {
             __WebGLRenderingContext gl = new __WebGLRenderingContext();
+
+            private Context mActivityContext;
 
             /**
              * Store the model matrix. This matrix is used to move models from object space (where each model can be thought
@@ -127,6 +116,7 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             private FloatBuffer mCubePositions;
             private FloatBuffer mCubeColors;
             private FloatBuffer mCubeNormals;
+            private FloatBuffer mCubeTextureCoordinates;
 
             /** This will be used to pass in the transformation matrix. */
             private __WebGLUniformLocation mMVPMatrixHandle;
@@ -137,6 +127,9 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             /** This will be used to pass in the light position. */
             private __WebGLUniformLocation mLightPosHandle;
 
+            /** This will be used to pass in the texture. */
+            private __WebGLUniformLocation mTextureUniformHandle;
+
             /** This will be used to pass in model position information. */
             private int mPositionHandle;
 
@@ -145,6 +138,9 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
             /** This will be used to pass in model normal information. */
             private int mNormalHandle;
+
+            /** This will be used to pass in model texture coordinate information. */
+            private int mTextureCoordinateHandle;
 
             /** How many bytes per float. */
             private int mBytesPerFloat = 4;
@@ -158,6 +154,9 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             /** Size of the normal data in elements. */
             private int mNormalDataSize = 3;
 
+            /** Size of the texture coordinate data in elements. */
+            private int mTextureCoordinateDataSize = 2;
+
             /** Used to hold a light centered on the origin in model space. We need a 4th coordinate so we can get translations to work when
              *  we multiply this by our transformation matrices. */
             private float[] mLightPosInModelSpace = new float[] { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -168,17 +167,22 @@ namespace AndroidOpenGLESLesson2Activity.Activities
             /** Used to hold the transformed position of the light in eye space (after transformation via modelview matrix) */
             private float[] mLightPosInEyeSpace = new float[4];
 
-            /** This is a handle to our per-vertex cube shading program. */
-            private __WebGLProgram mPerVertexProgramHandle;
+            /** This is a handle to our cube shading program. */
+            private __WebGLProgram mProgramHandle;
 
             /** This is a handle to our light point program. */
             private __WebGLProgram mPointProgramHandle;
 
+            /** This is a handle to our texture data. */
+            private __WebGLTexture mTextureDataHandle;
+
             /**
              * Initialize the model data.
              */
-            public LessonTwoRenderer()
+            public LessonFourRenderer(Context activityContext)
             {
+                mActivityContext = activityContext;
+
                 // Define points for a cube.		
 
                 // X, Y, Z
@@ -345,6 +349,62 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 				        0.0f, -1.0f, 0.0f
 		        };
 
+                // S, T (or X, Y)
+                // Texture coordinate data.
+                // Because images have a Y axis pointing downward (values increase as you move down the image) while
+                // OpenGL has a Y axis pointing upward, we adjust for that here by flipping the Y axis.
+                // What's more is that the texture coordinates are the same for every face.
+                float[] cubeTextureCoordinateData =
+		        {												
+				        // Front face
+				        0.0f, 0.0f, 				
+				        0.0f, 1.0f,
+				        1.0f, 0.0f,
+				        0.0f, 1.0f,
+				        1.0f, 1.0f,
+				        1.0f, 0.0f,				
+				
+				        // Right face 
+				        0.0f, 0.0f, 				
+				        0.0f, 1.0f,
+				        1.0f, 0.0f,
+				        0.0f, 1.0f,
+				        1.0f, 1.0f,
+				        1.0f, 0.0f,	
+				
+				        // Back face 
+				        0.0f, 0.0f, 				
+				        0.0f, 1.0f,
+				        1.0f, 0.0f,
+				        0.0f, 1.0f,
+				        1.0f, 1.0f,
+				        1.0f, 0.0f,	
+				
+				        // Left face 
+				        0.0f, 0.0f, 				
+				        0.0f, 1.0f,
+				        1.0f, 0.0f,
+				        0.0f, 1.0f,
+				        1.0f, 1.0f,
+				        1.0f, 0.0f,	
+				
+				        // Top face 
+				        0.0f, 0.0f, 				
+				        0.0f, 1.0f,
+				        1.0f, 0.0f,
+				        0.0f, 1.0f,
+				        1.0f, 1.0f,
+				        1.0f, 0.0f,	
+				
+				        // Bottom face 
+				        0.0f, 0.0f, 				
+				        0.0f, 1.0f,
+				        1.0f, 0.0f,
+				        0.0f, 1.0f,
+				        1.0f, 1.0f,
+				        1.0f, 0.0f
+		        };
+
                 // Initialize the buffers.
                 mCubePositions = ByteBuffer.allocateDirect(cubePositionData.Length * mBytesPerFloat)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -357,9 +417,11 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 mCubeNormals = ByteBuffer.allocateDirect(cubeNormalData.Length * mBytesPerFloat)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
                 mCubeNormals.put(cubeNormalData).position(0);
+
+                mCubeTextureCoordinates = ByteBuffer.allocateDirect(cubeTextureCoordinateData.Length * mBytesPerFloat)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
+                mCubeTextureCoordinates.put(cubeTextureCoordinateData).position(0);
             }
-
-
 
             public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
             {
@@ -371,6 +433,9 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
                 // Enable depth testing
                 gl.enable(opengl.GL_DEPTH_TEST);
+
+                // Enable texture mapping
+                gl.enable(opengl.GL_TEXTURE_2D);
 
                 // Position the eye in front of the origin.
                 float eyeX = 0.0f;
@@ -392,19 +457,78 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 // view matrix. In OpenGL 2, we can keep track of these matrices separately if we choose.
                 Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
-                mPerVertexProgramHandle = gl.createAndLinkProgram(
-                    new Shaders.TriangleVertexShader(),
-                    new Shaders.TriangleFragmentShader(),
-                    "a_Position", "a_Color", "a_Normal"
+
+                mProgramHandle = gl.createAndLinkProgram(
+                    new Shaders.per_pixelVertexShader(),
+                    new Shaders.per_pixelFragmentShader(),
+                    "a_Position",
+                    "a_Color",
+                    "a_Normal",
+                    "a_TexCoordinate"
                 );
 
                 // Define a simple shader program for our point.
 
-                mPointProgramHandle = gl.createAndLinkProgram(
-                    new Shaders.pointVertexShader(),
-                    new Shaders.pointFragmentShader(),
 
-                    "a_Position"
+                mPointProgramHandle = gl.createAndLinkProgram(
+                    new Shaders.per_pixelVertexShader(),
+                    new Shaders.per_pixelFragmentShader(),
+                      "a_Position"
+                );
+
+                #region loadTexture
+                Func<Context, android.graphics.Bitmap, __WebGLTexture> loadTexture = (context, bitmap) =>
+               {
+
+
+                   //int[] textureHandle = new int[1];
+
+                   var textureHandle = gl.createTexture();
+
+                   //GLES20.glGenTextures(1, textureHandle, 0);
+
+                   //if (textureHandle[0] != 0)
+                   //{
+
+
+                       // Bind to the texture in OpenGL
+                       gl.bindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
+
+                       // Set filtering
+                       gl.texParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+                       gl.texParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+
+                       // Load the bitmap into the bound texture.
+                       GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+
+                       // Recycle the bitmap, since its data has been loaded into OpenGL.
+                       bitmap.recycle();
+                   //}
+
+                   //if (textureHandle[0] == 0)
+                   //{
+                   //    //throw new RuntimeException("Error loading texture.");
+                   //    throw null;
+                   //}
+
+                   return textureHandle;
+               };
+                #endregion
+
+
+                // Read in the resource
+
+                // Load the texture
+                mTextureDataHandle = loadTexture(
+                    mActivityContext,
+                    android.graphics.BitmapFactory.decodeResource(
+                        mActivityContext.getResources(), 
+                        R.drawable.bumpy_bricks_public_domain,
+                        new android.graphics.BitmapFactory.Options
+                        {
+                            inScaled = false // No pre-scaling
+                        }
+                    )
                 );
             }
 
@@ -435,16 +559,27 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 float angleInDegrees = (360.0f / 10000.0f) * ((int)time);
 
                 // Set our per-vertex lighting program.
-                gl.useProgram(mPerVertexProgramHandle);
+                gl.useProgram(mProgramHandle);
 
                 // Set program handles for cube drawing.
-                mMVPMatrixHandle = gl.getUniformLocation(mPerVertexProgramHandle, "u_MVPMatrix");
-                mMVMatrixHandle = gl.getUniformLocation(mPerVertexProgramHandle, "u_MVMatrix");
-                mLightPosHandle = gl.getUniformLocation(mPerVertexProgramHandle, "u_LightPos");
+                mMVPMatrixHandle = gl.getUniformLocation(mProgramHandle, "u_MVPMatrix");
+                mMVMatrixHandle = gl.getUniformLocation(mProgramHandle, "u_MVMatrix");
+                mLightPosHandle = gl.getUniformLocation(mProgramHandle, "u_LightPos");
+                mTextureUniformHandle = gl.getUniformLocation(mProgramHandle, "u_Texture");
 
-                mPositionHandle = gl.getAttribLocation(mPerVertexProgramHandle, "a_Position");
-                mColorHandle = gl.getAttribLocation(mPerVertexProgramHandle, "a_Color");
-                mNormalHandle = gl.getAttribLocation(mPerVertexProgramHandle, "a_Normal");
+                mPositionHandle = gl.getAttribLocation(mProgramHandle, "a_Position");
+                mColorHandle = gl.getAttribLocation(mProgramHandle, "a_Color");
+                mNormalHandle = gl.getAttribLocation(mProgramHandle, "a_Normal");
+                mTextureCoordinateHandle = gl.getAttribLocation(mProgramHandle, "a_TexCoordinate");
+
+                // Set the active texture unit to texture unit 0.
+                gl.activeTexture(opengl.GL_TEXTURE0);
+
+                // Bind the texture to this unit.
+                gl.bindTexture(opengl.GL_TEXTURE_2D, mTextureDataHandle);
+
+                // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+                gl.uniform1i(mTextureUniformHandle, 0);
 
                 // Calculate position of the light. Rotate and then push into the distance.
                 Matrix.setIdentityM(mLightModelMatrix, 0);
@@ -454,6 +589,60 @@ namespace AndroidOpenGLESLesson2Activity.Activities
 
                 Matrix.multiplyMV(mLightPosInWorldSpace, 0, mLightModelMatrix, 0, mLightPosInModelSpace, 0);
                 Matrix.multiplyMV(mLightPosInEyeSpace, 0, mViewMatrix, 0, mLightPosInWorldSpace, 0);
+
+                #region drawCube
+                Action drawCube =
+                    delegate
+                    {
+                        // Pass in the position information
+                        mCubePositions.position(0);
+                        opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
+                                0, mCubePositions);
+
+                        gl.enableVertexAttribArray(mPositionHandle);
+
+                        // Pass in the color information
+                        mCubeColors.position(0);
+                        opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
+                                0, mCubeColors);
+
+                        gl.enableVertexAttribArray(mColorHandle);
+
+                        // Pass in the normal information
+                        mCubeNormals.position(0);
+                        opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, opengl.GL_FLOAT, false,
+                                0, mCubeNormals);
+
+                        gl.enableVertexAttribArray(mNormalHandle);
+
+                        // Pass in the texture coordinate information
+                        mCubeTextureCoordinates.position(0);
+                        opengl.glVertexAttribPointer(mTextureCoordinateHandle, mTextureCoordinateDataSize, opengl.GL_FLOAT, false,
+                                0, mCubeTextureCoordinates);
+
+                        gl.enableVertexAttribArray(mTextureCoordinateHandle);
+
+                        // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
+                        // (which currently contains model * view).
+                        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+
+                        // Pass in the modelview matrix.
+                        gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
+
+                        // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
+                        // (which now contains model * view * projection).
+                        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
+
+                        // Pass in the combined matrix.
+                        gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
+                        // Pass in the light position in eye space.        
+                        gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
+
+                        // Draw the cube.
+                        gl.drawArrays(opengl.GL_TRIANGLES, 0, 36);
+                    };
+                #endregion
 
                 // Draw some cubes.        
                 Matrix.setIdentityM(mModelMatrix, 0);
@@ -480,85 +669,38 @@ namespace AndroidOpenGLESLesson2Activity.Activities
                 Matrix.rotateM(mModelMatrix, 0, angleInDegrees, 1.0f, 1.0f, 0.0f);
                 drawCube();
 
+                #region drawLight
+                Action drawLight =
+                    delegate
+                    {
+                        var pointMVPMatrixHandle = gl.getUniformLocation(mPointProgramHandle, "u_MVPMatrix");
+                        var pointPositionHandle = gl.getAttribLocation(mPointProgramHandle, "a_Position");
+
+                        // Pass in the position.
+                        gl.vertexAttrib3f(pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
+
+                        // Since we are not using a buffer object, disable vertex arrays for this attribute.
+                        gl.disableVertexAttribArray(pointPositionHandle);
+
+                        // Pass in the transformation matrix.
+                        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mLightModelMatrix, 0);
+                        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
+                        gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+
+                        // Draw the point.
+                        gl.drawArrays(opengl.GL_POINTS, 0, 1);
+                    };
+                #endregion
+
                 // Draw a point to indicate the light.
                 gl.useProgram(mPointProgramHandle);
                 drawLight();
             }
 
-            /**
-             * Draws a cube.
-             */
-            private void drawCube()
-            {
-                // Pass in the position information
-                mCubePositions.position(0);
-                opengl.glVertexAttribPointer(mPositionHandle, mPositionDataSize, opengl.GL_FLOAT, false,
-                        0, mCubePositions);
-
-                opengl.glEnableVertexAttribArray(mPositionHandle);
-
-                // Pass in the color information
-                mCubeColors.position(0);
-                opengl.glVertexAttribPointer(mColorHandle, mColorDataSize, opengl.GL_FLOAT, false,
-                        0, mCubeColors);
-
-                opengl.glEnableVertexAttribArray(mColorHandle);
-
-                // Pass in the normal information
-                mCubeNormals.position(0);
-                opengl.glVertexAttribPointer(mNormalHandle, mNormalDataSize, opengl.GL_FLOAT, false,
-                        0, mCubeNormals);
-
-                opengl.glEnableVertexAttribArray(mNormalHandle);
-
-                // This multiplies the view matrix by the model matrix, and stores the result in the MVP matrix
-                // (which currently contains model * view).
-                Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-
-                // Pass in the modelview matrix.
-                gl.uniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
-
-                // This multiplies the modelview matrix by the projection matrix, and stores the result in the MVP matrix
-                // (which now contains model * view * projection).
-                Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-
-                // Pass in the combined matrix.
-                gl.uniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
-                // Pass in the light position in eye space.        
-                gl.uniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
-
-                // Draw the cube.
-                gl.drawArrays(opengl.GL_TRIANGLES, 0, 36);
-            }
-
-            /**
-             * Draws a point representing the position of the light.
-             */
-            private void drawLight()
-            {
-                var pointMVPMatrixHandle = gl.getUniformLocation(mPointProgramHandle, "u_MVPMatrix");
-                var pointPositionHandle = gl.getAttribLocation(mPointProgramHandle, "a_Position");
-
-                // Pass in the position.
-                opengl.glVertexAttrib3f(pointPositionHandle, mLightPosInModelSpace[0], mLightPosInModelSpace[1], mLightPosInModelSpace[2]);
-
-                // Since we are not using a buffer object, disable vertex arrays for this attribute.
-                opengl.glDisableVertexAttribArray(pointPositionHandle);
-
-                // Pass in the transformation matrix.
-                Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mLightModelMatrix, 0);
-                Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-                gl.uniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
-                // Draw the point.
-                gl.drawArrays(opengl.GL_POINTS, 0, 1);
-            }
 
 
         }
+
     }
-
-
 
 }

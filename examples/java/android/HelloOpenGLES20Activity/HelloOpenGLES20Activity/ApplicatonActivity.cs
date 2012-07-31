@@ -10,7 +10,6 @@ using android.provider;
 using android.view;
 using android.webkit;
 using android.widget;
-using HelloOpenGLES20Activity.Library;
 using java.lang;
 using java.nio;
 using javax.microedition.khronos.egl;
@@ -27,22 +26,14 @@ namespace HelloOpenGLES20Activity.Activities
     {
         // port from http://developer.android.com/resources/tutorials/opengl/opengl-es20.html
 
-        // C:\util\android-sdk-windows\tools\android.bat create project --package HelloOpenGLES20Activity.Activities --activity HelloOpenGLES20Activity  --target 2  --path y:\jsc.svn\examples\java\android\HelloOpenGLES20Activity\HelloOpenGLES20Activity\staging
-
         // http://developer.android.com/guide/developing/device.html#setting-up
-        // Caution: OpenGL ES 2.0 is currently not supported by the Android Emulator. You must have a physical test device running Android 2.2 (API Level 8) or higher in order to run and test the example code in this tutorial.
 
-        // note: rebuild could auto reinstall
 
         // running it on device:
         // attach device to usb
         // C:\util\android-sdk-windows\platform-tools\adb.exe devices
         //List of devices attached
         //3330A17632C000EC        device 
-
-        // "C:\util\android-sdk-windows\platform-tools\adb.exe" install -r "y:\jsc.svn\examples\java\android\HelloOpenGLES20Activity\HelloOpenGLES20Activity\staging\bin\HelloOpenGLES20Activity-debug.apk"
-
-
 
         private GLSurfaceView mGLView;
 
@@ -138,7 +129,7 @@ namespace HelloOpenGLES20Activity.Activities
 
                 // Prepare the triangle data
                 opengl.glVertexAttribPointer(maPositionHandle, 3, opengl.GL_FLOAT, false, 12, triangleVB);
-                opengl.glEnableVertexAttribArray(maPositionHandle);
+                gl.enableVertexAttribArray(maPositionHandle);
 
 
 
@@ -161,7 +152,7 @@ namespace HelloOpenGLES20Activity.Activities
                 #endregion
 
                 // Draw the triangle
-                opengl.glDrawArrays(opengl.GL_TRIANGLES, 0, 3);
+                gl.drawArrays(opengl.GL_TRIANGLES, 0, 3);
             }
 
             public void onSurfaceChanged(GL10 unused, int width, int height)
