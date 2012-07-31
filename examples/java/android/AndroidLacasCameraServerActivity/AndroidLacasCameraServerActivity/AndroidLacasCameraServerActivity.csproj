@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D280B94-A86D-496D-940A-7C0C1C270590}</ProjectGuid>
+    <ProjectGuid>{FA2123D2-8933-460A-9331-27226C466FF5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HelloAndroidActivity</RootNamespace>
-    <AssemblyName>HelloAndroidActivity</AssemblyName>
+    <RootNamespace>AndroidLacasCameraServerActivity</RootNamespace>
+    <AssemblyName>AndroidLacasCameraServerActivity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -79,8 +79,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="HelloAndroidActivity.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\HelloAndroidActivity.AssetsLibrary.dll</HintPath>
+    <Reference Include="AndroidLacasCameraServerActivity.AssetsLibrary">
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\AndroidLacasCameraServerActivity\bin\staging.AssetsLibrary\AndroidLacasCameraServerActivity.AssetsLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="AndroidLacasCameraServerActivity.AssetsLibrary">
+      <HintPath>bin\staging.AssetsLibrary\AndroidLacasCameraServerActivity.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -91,10 +94,35 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <None Include="staging\apk\assets\js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="com\lacas\testsocket\ContentType.java" />
+    <Content Include="com\lacas\testsocket\helper\Base64.java" />
+    <Content Include="com\lacas\testsocket\helper\CameraHelper.java" />
+    <Content Include="com\lacas\testsocket\helper\StringCutter.java" />
+    <Content Include="com\lacas\testsocket\ServerThread.java" />
+    <Content Include="com\lacas\testsocket\TakePictureThread.java" />
+    <Content Include="com\lacas\testsocket\TestSocketActivity.java" />
+    <Content Include="com\lacas\testsocket\utils\Utils.java" />
+    <Content Include="com\lacas\testsocket\utils\UtilsSD.java" />
     <Content Include="Design\Images.htm" />
     <Content Include="Design\jsc.png" />
+    <Content Include="staging\apk\assets\css.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\res\drawable\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\res\layout\main.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="staging\apk\res\values\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -106,7 +134,7 @@ c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(Targ
 
 
 if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
