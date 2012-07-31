@@ -52,8 +52,9 @@ namespace DynamicStylePerspective
                  parent.setAttribute("mozallowFullScreen", "");
                  parent.setAttribute("webkitAllowFullScreen", "");
 
+                 parent.contentWindow.document.location.replace("http://example.com");
                  //parent.contentWindow.document.location.replace("http://studio.jsc-solutions.net");
-                 parent.contentWindow.document.location.replace("http://192.168.1.100:29591/");
+                 //parent.contentWindow.document.location.replace("http://192.168.1.100:29591/");
 
                  //var style = (XIStyle)(object)parent.style;
                  var style = parent.style;
