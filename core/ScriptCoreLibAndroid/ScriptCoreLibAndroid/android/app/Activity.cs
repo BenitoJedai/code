@@ -25,7 +25,7 @@ namespace android.app
         }
 
 
-        public void requestWindowFeature(int e)
+        public virtual void requestWindowFeature(int e)
         {
         }
 
