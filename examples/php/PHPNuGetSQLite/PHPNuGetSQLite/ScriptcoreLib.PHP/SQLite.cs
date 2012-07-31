@@ -49,7 +49,7 @@ namespace ScriptCoreLib.PHP //.Android
 
             __SQLiteConnectionHack.MYDATABASE_NAME = DataSource; // "MY_DATABASE.sqlite";
             __SQLiteConnectionHack.MyDBLoginInfo.Database = DataSource;     // __SQLiteConnectionHack.MYDATABASE_NAME;
-            __SQLiteConnectionHack.MyDBLoginInfo.Host =  "localhost";
+            __SQLiteConnectionHack.MyDBLoginInfo.Host = "localhost";
             __SQLiteConnectionHack.MyDBLoginInfo.User = "root";     //     //"root";
             __SQLiteConnectionHack.MyDBLoginInfo.Pass = "";
 
@@ -125,24 +125,31 @@ namespace ScriptCoreLib.PHP //.Android
     }
 
     [Script(Implements = typeof(System.Data.Common.DbDataReader))]
-    public abstract class __DbDataReaders
+    public abstract class __DbDataReader
     {
+        public abstract void Close();
         public abstract bool Read();
 
         public abstract object this[string name] { get; }
 
-        // public abstract object GetValue(int i);
+        public abstract string GetString(int i);
+        public abstract int GetInt32(int i);
 
     }
 
     [Script(Implements = typeof(System.Data.SQLite.SQLiteDataReader))]
-    public class __SQLiteDataReader : __DbDataReaders
+    public class __SQLiteDataReader : __DbDataReader
     {
         public IArray cursor; // Cursor cursor;
         public object queryResult;
 
         int __state;
         int __index = 0;
+
+        public override void Close()
+        {
+            // ?
+        }
 
         public override bool Read()
         {
@@ -205,11 +212,29 @@ namespace ScriptCoreLib.PHP //.Android
             }
         }
 
-        /*public override object GetValue(int i)
+        public override string GetString(int i)
         {
-            return cursor[i];
+            // int i = cursor.getColumnIndex(name);
+
+            // return cursor.getString(i);
+
+            var keys = (object[])cursor.Keys;
+            var name = keys[i];
+
+            return (string)cursor[name];
         }
-         */
+
+        public override int GetInt32(int i)
+        {
+            // int i = cursor.getColumnIndex(name);
+
+            // return cursor.getString(i);
+
+            var keys = (object[])cursor.Keys;
+            var name = keys[i];
+
+            return (int)cursor[name];
+        }
 
     }
 
