@@ -131,9 +131,9 @@ namespace ScriptCoreLib.Android
             GLES20.glClear(p);
         }
 
-        internal void vertexAttribPointer(int p1, int p2, int p3, bool p4, int p5, java.nio.FloatBuffer vertices)
+        internal void vertexAttribPointer(int attribute, int size, int type, bool p4, int p5, java.nio.FloatBuffer vertices)
         {
-            GLES20.glVertexAttribPointer(p1, p2, p3, p4, p5, vertices);
+            GLES20.glVertexAttribPointer(attribute, size, type, p4, p5, vertices);
         }
 
         internal void enableVertexAttribArray(int p)
@@ -176,20 +176,49 @@ namespace ScriptCoreLib.Android
             GLES20.glEnable(p);
         }
 
-        internal void disableVertexAttribArray(__WebGLUniformLocation pointPositionHandle)
+        internal void disableVertexAttribArray(int pointPositionHandle)
         {
-            GLES20.glDisableVertexAttribArray(pointPositionHandle.value);
+            GLES20.glDisableVertexAttribArray(pointPositionHandle);
         }
 
-        internal void vertexAttrib3f(__WebGLUniformLocation pointPositionHandle, float p1, float p2, float p3)
+        internal void vertexAttrib3f(int pointPositionHandle, float p1, float p2, float p3)
         {
-            GLES20.glVertexAttrib3f(pointPositionHandle.value, p1, p2, p3);
+            GLES20.glVertexAttrib3f(pointPositionHandle, p1, p2, p3);
+        }
+
+        internal  void texParameteri(int h, int x, int y)
+        {
+            GLES20.glTexParameteri(h, x, y);
+        }
+
+        internal __WebGLTexture createTexture()
+        {
+            int[] textureHandle = new int[1];
+
+            GLES20.glGenTextures(1, textureHandle, 0);
+
+            return new __WebGLTexture { value = textureHandle[0] };
+        }
+
+        internal  void bindTexture(int p, __WebGLTexture textureHandle)
+        {
+            GLES20.glBindTexture(p, textureHandle.value);
+        }
+
+        internal void activeTexture(int p)
+        {
+            GLES20.glActiveTexture(p);
         }
     }
 
     public class __WebGLUniformLocation : __WebGLObject
     {
     }
+
+    public class __WebGLTexture : __WebGLObject
+    {
+    }
+
 
     public class __WebGLProgram : __WebGLObject
     {
@@ -411,9 +440,14 @@ namespace ScriptCoreLib.Android
             return v;
         }
 
+        [Script(OptimizedCode = "e.requestWindowFeature(value);")]
+        static void __requestWindowFeature(this Activity e, int value)
+        {
+        }
+
         public static Activity ToFullscreen(this Activity e)
         {
-            //e.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            e.__requestWindowFeature(Window.FEATURE_NO_TITLE);
             e.getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
             return e;

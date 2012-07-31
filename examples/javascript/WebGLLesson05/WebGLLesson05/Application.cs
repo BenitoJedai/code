@@ -195,7 +195,7 @@ namespace WebGLLesson05
 
             var shaderProgram_vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
             gl.enableVertexAttribArray((uint)shaderProgram_vertexPositionAttribute);
-
+            
             var shaderProgram_textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
             gl.enableVertexAttribArray((uint)shaderProgram_textureCoordAttribute);
 
@@ -353,8 +353,7 @@ namespace WebGLLesson05
             #endregion
 
             #endregion
-
-
+            
             // initTexture new in lesson 05
             var neheTexture = gl.createTexture();
             var neheTexture_image = new WebGLLesson05.HTML.Images.FromAssets.nehe();
