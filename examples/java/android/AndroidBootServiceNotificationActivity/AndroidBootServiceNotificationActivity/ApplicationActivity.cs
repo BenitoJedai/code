@@ -9,7 +9,6 @@ using android.view;
 using android.webkit;
 using android.widget;
 using AndroidBootServiceNotificationActivity.Activities;
-using AndroidBootServiceNotificationActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;

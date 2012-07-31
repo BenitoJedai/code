@@ -413,7 +413,7 @@ namespace ScriptCoreLib.Android
 
         public static Activity ToFullscreen(this Activity e)
         {
-            e.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            //e.requestWindowFeature(Window.FEATURE_NO_TITLE);
             e.getWindow().setFlags(WindowManager_LayoutParams.FLAG_FULLSCREEN, WindowManager_LayoutParams.FLAG_FULLSCREEN);
 
             return e;
@@ -506,15 +506,23 @@ namespace ScriptCoreLib.Android
             AlarmManager alarmManager = (AlarmManager)that.getSystemService(Context.ALARM_SERVICE);
 
 
-
-            //alarmManager.set(AlarmManager.RTC, 1000 * 5, that.pendingIntent);
-            alarmManager.setInexactRepeating(
-                AlarmManager.RTC,
-                delay,
-                repeat,
-                pendingIntent
-            );
+            if (repeat > 0)
+            {
+                alarmManager.setInexactRepeating(
+                      AlarmManager.RTC,
+                      delay,
+                      repeat,
+                      pendingIntent
+                  );
+            }
+            else
+            {
+                alarmManager.set(AlarmManager.RTC, delay, pendingIntent);
+            }
         }
+
+      
+
 
         class AtClickHandler : View.OnClickListener
         {
