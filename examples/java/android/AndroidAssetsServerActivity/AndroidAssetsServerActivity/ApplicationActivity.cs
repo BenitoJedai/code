@@ -11,6 +11,8 @@ using android.content;
 using java.net;
 using java.io;
 using java.util;
+using android.webkit;
+using android.util;
 
 namespace AndroidAssetsServerActivity.Activities
 {
@@ -19,35 +21,138 @@ namespace AndroidAssetsServerActivity.Activities
         // see also: y:\jsc.svn\examples\java\android\AndroidLacasCameraServerActivity\AndroidLacasCameraServerActivity\com\lacas\testsocket\TestSocketActivity.java
 
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
+        Inet6Address __hack;
 
+
+        public WebView webview;
+        public ProgressDialog progressBar;
+        public AlertDialog alertDialog;
+
+        public override bool onKeyDown(int keyCode, KeyEvent e)
+        {
+            // http://android-coding.blogspot.com/2011/08/handle-back-button-in-webview-to-back.html
+
+            if (keyCode == KeyEvent.KEYCODE_BACK)
+            {
+                if (webview.canGoBack())
+                {
+                    webview.goBack();
+                    return true;
+                }
+            }
+            return base.onKeyDown(keyCode, e);
+        }
 
         protected override void onCreate(Bundle savedInstanceState)
         {
             base.onCreate(savedInstanceState);
 
-            var sv = new ScrollView(this);
-            var ll = new LinearLayout(this);
-            //ll.setOrientation(LinearLayout.VERTICAL);
-            sv.addView(ll);
+
+            var r = new System.Random();
+            var port = r.Next(1024, 32000);
 
 
-
-            var b2 = new Button(this);
             var uri = "http://" + getLocalIpAddress();
 
-            uri += ":1111";
+            uri += ":";
+            uri += ((object)(port)).ToString();
 
-            b2.setText((java.lang.CharSequence)(object)uri);
-            ll.addView(b2);
+            this.setTitle((java.lang.CharSequence)(object)uri);
 
-            this.setContentView(sv);
-
-
-
-            serverThread = new ServerThread { mycontext = this };
+            serverThread = new ServerThread { mycontext = this, port = port };
 
             new Thread(serverThread).start();
+
+
+
+            // http://stackoverflow.com/questions/8955228/webview-with-an-iframe-android
+            // http://www.chrisdanielson.com/tag/webviewclient/
+
+            this.alertDialog = new AlertDialog.Builder(this).create();
+
+            this.progressBar = ProgressDialog.show(this, (CharSequence)(object)"look here!", (CharSequence)(object)"Loading...");
+
+
+            this.webview = new WebView(this);
+
+
+            setContentView(webview);
+
+
+
+            //webview.getSettings().setSupportZoom(true); 
+            webview.getSettings().setLoadsImagesAutomatically(true);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.getSettings().setBuiltInZoomControls(true);
+            //webview.setInitialScale(1);
+
+            webview.setWebViewClient(new MyWebViewClient { __this = this });
+            webview.getSettings().setSupportZoom(false);
+            webview.setScrollBarStyle(WebView.SCROLLBARS_INSIDE_OVERLAY);
+
+            //webview.getSettings().setJavaScriptEnabled(true);
+
+            // no flash in emulator?
+            // works on my phone!
+            // no Flash since android 4.1.0!!!
+            //webview.getSettings().setPluginsEnabled(true);
+            //webview.getSettings().setPluginState(android.webkit.WebSettings.PluginState.ON);
+
+
+
+            // OR, you can also load from an HTML string:
+            //var summary = "<html><body>You scored <b>192</b> points.</body></html>";
+            //webview.loadData(summary, "text/html", null);
+            //Log.i(TAG, "loadUrl");
+            webview.loadUrl(uri);
+
+            //this.setContentView(sv);
+
+
+
+
         }
+
+
+
+        class MyWebViewClient : WebViewClient
+        {
+            public ApplicationActivity __this;
+
+            public override bool shouldOverrideUrlLoading(WebView view, string url)
+            {
+                //Log.i(TAG, "Processing webview url click...");
+                view.loadUrl(url);
+                return true;
+            }
+
+            public override void onPageFinished(WebView view, string url)
+            {
+                //Log.i(TAG, "Finished loading URL: " + url);
+                if (__this.progressBar.isShowing())
+                {
+                    __this.progressBar.dismiss();
+                }
+            }
+
+            public override void onReceivedError(WebView view, int errorCode, string description, string failingUrl)
+            {
+                //Log.e(TAG, "Error: " + description);
+
+                //__this.ShowToast("Oh no! " + description);
+
+                //Toast.makeText(__this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+                //__this.alertDialog.setTitle((CharSequence)(object)"Error");
+                //__this.alertDialog.setMessage(description);
+                //__this.alertDialog.setButton((CharSequence)(object)"OK", new DialogInterface.OnClickListener() {
+                //    public void onClick(DialogInterface dialog, int which) {
+                //        return;
+                //    }
+                //});
+                //__this.alertDialog.show();
+            }
+        }
+
 
         public string getLocalIpAddress()
         {
@@ -61,7 +166,15 @@ namespace AndroidAssetsServerActivity.Activities
                     for (Enumeration enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); )
                     {
                         InetAddress inetAddress = (InetAddress)enumIpAddr.nextElement();
-                        if (!inetAddress.isLoopbackAddress())
+
+                        Log.wtf("getLocalIpAddress", inetAddress.getHostAddress().ToString());
+
+                        var v6 = inetAddress is Inet6Address;
+
+                        if (v6)
+                        {
+                        }
+                        else if (!inetAddress.isLoopbackAddress())
                         {
                             if (value == "")
                                 value = inetAddress.getHostAddress().ToString();
@@ -88,6 +201,8 @@ namespace AndroidAssetsServerActivity.Activities
         }
         public class ServerThread : Runnable
         {
+            public int port = 1111;
+
             public Context mycontext;
 
             public bool isRunning = true;
@@ -102,7 +217,6 @@ namespace AndroidAssetsServerActivity.Activities
             {
                 try
                 {
-                    int port = 1111;
 
                     serversocket = new ServerSocket(port);
                     serversocket.setReuseAddress(true);
@@ -148,6 +262,7 @@ namespace AndroidAssetsServerActivity.Activities
                             firstpage += "</pre>";
 
                             firstpage += "First page! jsc! <a href='/foo.htm'>Next</a>";
+                            firstpage += "Other page! jsc! <a href='/bar.htm'>Other</a>";
 
                             var assets = mycontext.getResources().getAssets();
 
@@ -190,7 +305,7 @@ namespace AndroidAssetsServerActivity.Activities
                 }
                 catch
                 {
-                    
+
                 }
                 return value;
 
@@ -289,6 +404,32 @@ namespace AndroidAssetsServerActivity.Activities
             }
         }
     }
+
+    [Script(Implements = typeof(global::System.Random))]
+    internal class __Random
+    {
+        public virtual int Next()
+        {
+            return Next(0, int.MaxValue);
+        }
+
+        public virtual int Next(int min, int max)
+        {
+            var len = max - min;
+            var r = global::java.lang.Math.floor(java.lang.Math.random() * len);
+
+            int ri = (int)r;
+            return ri + min;
+        }
+
+        public virtual double NextDouble()
+        {
+            return java.lang.Math.random();
+        }
+
+
+    }
+
 
 
 }
