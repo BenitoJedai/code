@@ -317,8 +317,9 @@ public class H264Packetizer extends AbstractPacketizer {
 
 			//length = length>available() ? available() : length;
 			
-			length = length>buffer.length() ? buffer.length() : length;
-			length = length>this.buffer.length() ? this.buffer.length() : length;
+			length = length<0 ? 0 : length;
+			length = length>buffer.length ? buffer.length : length;
+			length = length>this.buffer.length ? this.buffer.length : length;
 
 			if (head+length<this.length) {
 				System.arraycopy(this.buffer, head, buffer, offset, length);

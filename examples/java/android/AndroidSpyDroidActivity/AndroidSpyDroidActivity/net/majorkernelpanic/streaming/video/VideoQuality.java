@@ -23,7 +23,7 @@ package net.majorkernelpanic.streaming.video;
 public class VideoQuality {
 
 	/** Default video stream quality */
-	public final static VideoQuality defaultVideoQualiy = new VideoQuality(640,480,15,500000);
+	public final static VideoQuality defaultVideoQualiy = new VideoQuality(120,90,5,2000);
 	
 	public VideoQuality() {}
 	
