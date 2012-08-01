@@ -109,7 +109,8 @@ public class RtpSocket {
 	
 	/* Send RTP packet over the network */
 	public void send(int length) throws IOException {
-		
+
+
 		updateSequence();
 		upack.setLength(length);
 		usock.send(upack);

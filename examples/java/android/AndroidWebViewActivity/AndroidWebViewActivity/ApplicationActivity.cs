@@ -8,7 +8,6 @@ using android.util;
 using android.view;
 using android.webkit;
 using android.widget;
-using AndroidWebViewActivity.Library;
 using java.lang;
 using ScriptCoreLib;
 using ScriptCoreLib.Android;

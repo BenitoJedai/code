@@ -13,6 +13,8 @@ namespace AndroidSpyDroidActivity.Activities
 {
     public class ApplicationActivity : net.majorkernelpanic.spydroid.SpydroidActivity
     {
+        // C:\util\android-sdk-windows\platform-tools\adb.exe logcat
+
         ScriptCoreLib.Android.IAssemblyReferenceToken ref1;
 
 
