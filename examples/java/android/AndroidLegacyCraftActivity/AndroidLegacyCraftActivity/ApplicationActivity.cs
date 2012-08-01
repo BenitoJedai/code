@@ -19,6 +19,7 @@ using android.util;
 namespace AndroidLegacyCraftActivity.Activities
 {
     public delegate bool BooleanFunc<T>(T a);
+    public delegate bool BooleanFunc<T,Tb>(T a, Tb b);
 
     public class ApplicationActivity : Activity
     {
@@ -57,7 +58,16 @@ namespace AndroidLegacyCraftActivity.Activities
             int width = getWindowManager().getDefaultDisplay().getWidth();
 
             if (width > height)
+            {
                 this.ToFullscreen();
+                
+                //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+                getWindow().requestFeature(0x00000009);
+
+                //actionBar = getActionBar();
+                //actionBar.setBackgroundDrawable(null);
+
+            }
 
             var r = new System.Random();
             var port = r.Next(1024, 32000);
@@ -124,6 +134,10 @@ namespace AndroidLegacyCraftActivity.Activities
 
         }
 
+        public override void onCreateContextMenu(ContextMenu ContextMenu0, View View1, ContextMenu_ContextMenuInfo ContextMenu_ContextMenuInfo2)
+        {
+            var menu = ContextMenu0.add((CharSequence)(object)"jsc");
+        }
 
 
         class MyWebViewClient : WebViewClient
@@ -265,6 +279,13 @@ namespace AndroidLegacyCraftActivity.Activities
 
             public void AtConnection()
             {
+                BooleanFunc<string, string> Contains = (item, ex) =>
+                {
+                    var xx = !(((java.lang.String)(object)item).indexOf(ex, 0) < 0);
+
+                    return xx;
+                };
+
 
                 BufferedReader input = null;
                 OutputStream output = null;
@@ -278,6 +299,7 @@ namespace AndroidLegacyCraftActivity.Activities
                 {
                 }
 
+                #region send_text
                 Action<string> send_text = (s) =>
                  {
                      string header =
@@ -301,11 +323,15 @@ namespace AndroidLegacyCraftActivity.Activities
 
 
                  };
+                #endregion
 
+                #region send_stream
                 Action<InputStream, string> send_stream = (fis, contenttype) =>
                 {
                     string header =
                          "HTTP/1.1 200 OK\n";
+
+                    header += "Expires: Sun, 17 Jan 2038 19:14:07 GMT\n";
 
                     header += "Content-type: ";
                     header += contenttype;
@@ -334,6 +360,7 @@ namespace AndroidLegacyCraftActivity.Activities
                     {
                     }
                 };
+                #endregion
 
 
                 Action Handler = Handler = delegate
@@ -354,19 +381,33 @@ namespace AndroidLegacyCraftActivity.Activities
                         if (path.Length > 0)
                             path = ((java.lang.String)(object)path).substring(2, path.Length);
 
+                        if (path.Length > 1)
+                        {
+                            var last = ((java.lang.String)(object)path).substring(path.Length - 1, path.Length);
+
+                            if (last == "/")
+                            {
+                                path = ((java.lang.String)(object)path).substring(0, path.Length  - 1);
+
+                            }
+                        }
+
                         var asset = openFileFromAssets(path, mycontext);
+
+                 
 
                         if (asset != null)
                         {
-                            if (!(((java.lang.String)(object)sAll).indexOf(".gif", 0) < 0))
+                            if (Contains(path, ".gif"))
                                 send_stream(asset, "image/gif");
-                            if (!(((java.lang.String)(object)sAll).indexOf(".htm", 0) < 0))
+                            if (Contains(path, ".htm"))
                                 send_stream(asset, "text/html");
                             else
                                 send_stream(asset, "application/octet-stream");
                         }
                         else
                         {
+
                             #region firstpage
                             string firstpage = "<body>";
                             firstpage += "<script src='/qr.js'></script>";
@@ -381,42 +422,94 @@ namespace AndroidLegacyCraftActivity.Activities
                             firstpage += "</pre>";
                             firstpage += "<hr />";
 
+                            firstpage += "<center>";
 
                             var assets = mycontext.getResources().getAssets();
 
                             var collection = assets.list(path);
 
-                            foreach (var item in collection)
+                            var index = 0;
+
+                            #region AtItem
+                            Action<string> AtItem =
+                                item =>
+                                {
+                                    index++;
+
+                                    if (!Contains(item, "."))
+                                    {
+                                        item += "/";
+                                    }
+
+                                    firstpage += "<div>";
+                                
+
+                                    firstpage += "<a";
+                                    firstpage += " href='";
+                                    firstpage += item;
+                                    firstpage += "' id='item";
+                                    firstpage += ((object)index).ToString();
+                                    firstpage += "'";
+                                    firstpage += ">";
+
+                                    firstpage += item;
+                                    firstpage += "<br />";
+                                    firstpage += "<br />";
+                                    firstpage += "\n";
+
+                                    if (Contains(item, ".gif"))
+                                    {
+                                        firstpage += "<img src='";
+                                        firstpage += item;
+                                        firstpage += "' />";
+
+                                    }
+
+                                    var WithQR = Contains(item, ".htm");
+
+                                    WithQR |= Contains(item, ".apk");
+
+
+                                    if (WithQR)
+                                    {
+
+                                        firstpage += "<script>";
+                                        firstpage += "\n";
+                                        firstpage += "document.getElementById('item";
+                                        firstpage +=  ((object)index).ToString();
+                                        firstpage += "').appendChild( qr.image(";
+                                        firstpage += "\n";
+                                        firstpage += "{value:'";
+
+                                        var itemuri = mycontext.uri + "/";
+                                        itemuri += item;
+
+                                        firstpage += itemuri;
+                                        firstpage += "'}";
+                                        firstpage += "\n";
+                                        firstpage += "));";
+                                        firstpage += "\n";
+                                        firstpage += "</script>";
+
+                                    }
+
+                                    firstpage += "</a>";
+
+                                    firstpage += "</div>";
+
+                                    firstpage += "\n";
+                                    firstpage += "<hr />";
+
+
+                                };
+                            #endregion
+
+                            foreach (var xitem in collection)
                             {
-
-                                firstpage += "<a";
-                                firstpage += " href='";
-                                firstpage += item;
-                                firstpage += "'>";
-                                firstpage += item;
-                                firstpage += "</a>";
-                                firstpage += "\n";
-                                firstpage += "<script>";
-                                firstpage += "\n";
-                                firstpage += "document.body.appendChild( qr.image(";
-                                firstpage += "\n";
-                                firstpage += "{value:'";
-
-                                var itemuri = mycontext.uri + "/";
-                                itemuri += item;
-
-                                firstpage += itemuri;
-                                firstpage += "'}";
-                                firstpage += "\n";
-                                firstpage += "));";
-                                firstpage += "\n";
-                                firstpage += "</script>";
-
-
-                                firstpage += "\n";
-                                firstpage += "<hr />";
-
+                                AtItem(xitem);
                             }
+
+                            firstpage += "</center>";
 
                             firstpage += "</body>";
 
