@@ -95,7 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk" />
+    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="staging\apk\assets\war-gfx\nepese.ani">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -265,7 +267,9 @@
     <Content Include="staging\apk\assets\war-gfx\units\whirlpool.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png" />
+    <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="staging\apk\res\values\strings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
