@@ -50,7 +50,8 @@ public class CameraHelper {
         } 
 
         public void surfaceCreated(SurfaceHolder holder) { 
-            camera = Camera.open(); 
+		// http://developer.android.com/reference/android/hardware/Camera.html#open(int)
+            camera = Camera.open(0); 
             try {
             	 camera.setPreviewDisplay(holder);
 	        } catch (IOException e) {

@@ -53,7 +53,7 @@ public class ServerThread implements Runnable {
     	
         try {
             host		= getLocalIpAddress();
-            int port 	= 1111;
+            int port 	= 1112;
             
             serversocket = new ServerSocket(port);
             serversocket.setReuseAddress(true);
@@ -92,10 +92,10 @@ public class ServerThread implements Runnable {
                 		
                     	send("<head>" +
                     			"<link rel=\"stylesheet\" type=\"text/css\" " +
-                    			"href=\""+host+"/css.css\" />" +
+                    			"href=\"/css.css\" />" +
                     	
                     			"<meta http-equiv=\"Content-type\" value=\"text/html; charset=ISO-8859-2\">Second page " +
-                    			"<img src='"+getHost()+"/icon.png'>" +
+                    			"<img src='/icon.png'>" +
                     			"<br><a href='/'>back</a>" +
                     			"<br><a href='/secondpage'>secondpage</a>" +
                     			"<br><a href='/takepicture'>take picture</a>" +
@@ -108,7 +108,7 @@ public class ServerThread implements Runnable {
                 		new Thread(new TakePictureThread(mycontext, this)).start();
                 	} 
                 	else if (header.equals("GET / HTTP/1.1")) {
-                		String firstpage="<head><meta http-equiv=\"Content-type\" value=\"text/html; charset=ISO-8859-2\">First page! <a href='http://"+getHost()+":"+port+"/secondpage'>secondpage</a></head></html>";
+                		String firstpage="<head><meta http-equiv=\"Content-type\" value=\"text/html; charset=ISO-8859-2\">First page! <a href='/secondpage'>secondpage</a></head></html>";
                 		
                 		if (!isAuthorized) {
                 			
