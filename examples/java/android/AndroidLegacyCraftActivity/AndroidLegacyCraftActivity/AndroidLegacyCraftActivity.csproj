@@ -95,9 +95,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="staging\apk\assets\war-gfx\nepese.ani">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -281,7 +278,7 @@ c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(Targ
 
 
 if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
 )</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4A547248-C3CE-4F8C-8FFA-0E539DFCA0FB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>xavalon.net</RootNamespace>
+    <AssemblyName>xavalon.net</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="jsc.meta">
+      <HintPath>C:\util\jsc\bin\jsc.meta.exe</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ScriptCoreLib">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Avalon">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Avalon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Extensions">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLib.Ultra.Library">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLib.Ultra.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibA">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibA.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibAndroid">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibAndroid.Drawing">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibAndroid.Windows.Forms">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ScriptCoreLibAndroid.XLinq">
+      <HintPath>C:\util\jsc\bin\ScriptCoreLibAndroid.XLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\HelloOpenGLES20Activity\HelloOpenGLES20Activity\ScriptCoreLib.Android\Shader.cs">
+      <Link>ScriptCoreLib\Shader.cs</Link>
+    </Compile>
+    <Compile Include="ApplicationActivity.cs">
+    </Compile>
+    <Compile Include="Program.cs">
+      <DependentUpon>ApplicationActivity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Design\Images.htm" />
+    <Content Include="Design\jsc.png" />
+    <Content Include="staging\apk\assets\Application.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\My.Solutions.Pages.Templates\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\My.Solutions.Pages.Templates\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\ScriptCoreLib.Avalon\transparent.cur">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\ScriptCoreLib\jsc.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\ScriptCoreLib\jsc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\ScriptCoreLib\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\SpiderModel\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\SpiderModel\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLCelShader\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLCelShader\ThreeExtras.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLChocolux\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLClouds\cloud10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLClouds\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLClouds\ThreeExtras.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLClouds\ThreeWebGL.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLCone\CanvasMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLCone\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDopamineMolecule\CanvasMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDopamineMolecule\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\backgrounddetailed6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\Five_Armies.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\flamingo.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\grasslight_big.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\grasslight_big_nm.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\parrot.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\PostprocessingTerrain.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\ShaderExtrasTerrain.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\ShaderTerrain.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\stork.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLDynamicTerrainTemplate\ThreeTerrain.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLEscherDrosteEffect\escher.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLEscherDrosteEffect\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLEthanolMolecule\CanvasMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLEthanolMolecule\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLFireballExplosion\bkg.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLFireballExplosion\explosion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLFireballExplosion\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLFireballExplosion\Three.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLHand\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLHand\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\EffectComposer.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\FilmPass.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\invade.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\MaskPass.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\RenderPass.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\ShaderExtras.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\ShaderPass.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLInvade\Three.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson01\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson01\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson02\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson02\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson03\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson03\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson04\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson04\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson05\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson05\nehe.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson05\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson06\crate.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson06\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson06\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson07\crate.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson07\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson07\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson08\glass.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson08\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson08\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson09\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson09\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson09\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson09\star.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson10\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson10\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson10\mud.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson10\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson11\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson11\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson11\moon.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson11\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson12\crate.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson12\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson12\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson12\moon.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson12\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson13\crate.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson13\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson13\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson13\moon.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson13\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson14\arroway_de_metal_structure_06_d100_flat.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson14\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson14\earth.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson14\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson14\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson14\Teapot.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson15\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson15\earth.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson15\earth_specular.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson15\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson15\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson16\crate.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson16\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson16\glMatrix-0.9.5.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson16\macbook.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson16\moon.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLLesson16\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLNyanCat\Default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLNyanCat\nyanlooped.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLNyanCat\nyanslow.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLNyanCat\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLNyanCat\Three.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLPlanetGenerator\glUtils.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLPlanetGenerator\particle_terrain.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLPlanetGenerator\planet.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLPlanetGenerator\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLPlanetGenerator\sylvester.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLPuls\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLShaderDisturb\disturb.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLShaderDisturb\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLSimpleCubic\CanvasMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLSimpleCubic\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLSpadeWarrior\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLSpadeWarrior\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLSphereRayTrace\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLSpiral\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLTunnel\glUtils.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLTunnel\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLTunnel\sylvester.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLTunnel\texture.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLWindWheel\glMatrix.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLWindWheel\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuMD2Model\droid.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuMD2Model\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuMD2Model\Three.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuMD2Model\_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuTPS\bg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuTPS\droid.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuTPS\Preview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuTPS\Three.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets\WebGLYomotsuTPS\_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets.preview\AndroidLegacyCraftActivity.Activities-debug.apk.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\My.Solutions.Pages.Templates.Application.exe.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\qr.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\ScriptCoreLib.Avalon.dll.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\ScriptCoreLib.dll.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\ScriptCoreLib.Query.dll.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\assets\assets.preview\Application.htm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\res\drawable-xhdpi\ic_launcher.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="staging\apk\res\values\strings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+c:\util\jsc\bin\jsc.meta.exe RewriteToAndroidActivity /EntryPointAssembly:$(TargetPath)
+
+
+if $(ConfigurationName)==Debug (
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false  /xDefaultToDev11:true
+)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+rem start /MIN /WAIT C:\util\jsc\bin\jsc.meta.exe ReferenceAssetsLibrary /ProjectFileName:"$(ProjectPath)" /EnableUltraSource:true /TargetAndroidRuntime:true
+
+</PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
