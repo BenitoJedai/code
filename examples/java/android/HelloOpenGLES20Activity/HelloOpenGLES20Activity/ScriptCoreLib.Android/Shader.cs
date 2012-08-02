@@ -176,6 +176,11 @@ namespace ScriptCoreLib.Android
             GLES20.glEnable(p);
         }
 
+        internal  void disable(int p)
+        {
+            GLES20.glDisable(p);
+        }
+
         internal void disableVertexAttribArray(int pointPositionHandle)
         {
             GLES20.glDisableVertexAttribArray(pointPositionHandle);
@@ -209,6 +214,8 @@ namespace ScriptCoreLib.Android
         {
             GLES20.glActiveTexture(p);
         }
+
+      
     }
 
     public class __WebGLUniformLocation : __WebGLObject
@@ -454,13 +461,16 @@ namespace ScriptCoreLib.Android
         }
 
 
-        public static void ToNotification(this Context that, string Title, string Content, int id, int icon, string uri = "http://www.jsc-solutions.net")
+        public static void ToNotification(this Context that, string Title, string Content, int id, int icon = 0, string uri = "http://www.jsc-solutions.net")
         {
             // Send Notification
             var notificationManager = (NotificationManager)that.getSystemService(Context.NOTIFICATION_SERVICE);
 
             var w = Title + " ";
             w += Content;
+
+            if (icon == 0)
+                icon = android.R.drawable.star_on;
 
             var myNotification = new Notification(
                 //android.R.drawable.star_on,

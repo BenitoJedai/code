@@ -16,7 +16,7 @@ using java.util;
 using android.webkit;
 using android.util;
 
-namespace AndroidLegacyCraftActivity.Activities
+namespace xavalon.net.Activities
 {
     public delegate bool BooleanFunc<T>(T a);
     public delegate bool BooleanFunc<T, Tb>(T a, Tb b);
@@ -59,17 +59,17 @@ namespace AndroidLegacyCraftActivity.Activities
             height = getWindowManager().getDefaultDisplay().getHeight();
             width = getWindowManager().getDefaultDisplay().getWidth();
 
-            if (width > height)
-            {
-                this.ToFullscreen();
+            //if (width > height)
+            //{
+            this.ToFullscreen();
 
-                //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-                getWindow().requestFeature(0x00000009);
+            //getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+            getWindow().requestFeature(0x00000009);
 
-                //actionBar = getActionBar();
-                //actionBar.setBackgroundDrawable(null);
+            //actionBar = getActionBar();
+            //actionBar.setBackgroundDrawable(null);
 
-            }
+            //}
 
             var r = new System.Random();
             var port = r.Next(1024, 32000);
@@ -103,7 +103,7 @@ namespace AndroidLegacyCraftActivity.Activities
 
 
 
-            //webview.getSettings().setSupportZoom(true); 
+            webview.getSettings().setSupportZoom(true);
             webview.getSettings().setLoadsImagesAutomatically(true);
             webview.getSettings().setJavaScriptEnabled(true);
             webview.getSettings().setBuiltInZoomControls(true);
@@ -131,6 +131,8 @@ namespace AndroidLegacyCraftActivity.Activities
 
             //this.setContentView(sv);
 
+
+            this.ToNotification("xavalon.net", uri, 0, uri: uri);
 
 
 
@@ -380,6 +382,7 @@ namespace AndroidLegacyCraftActivity.Activities
 
                         var path = ((java.lang.String)(object)sAll).substring(i0, i1);
 
+
                         if (path.Length > 0)
                             path = ((java.lang.String)(object)path).substring(2, path.Length);
 
@@ -396,8 +399,8 @@ namespace AndroidLegacyCraftActivity.Activities
 
                         if (mycontext.width > mycontext.height)
                             if (path == "")
-                                path = "index.htm";
-
+                                path = "Application.htm";
+           
                         var asset = openFileFromAssets(path, mycontext);
 
 
@@ -413,22 +416,75 @@ namespace AndroidLegacyCraftActivity.Activities
                         }
                         else
                         {
+                            string firstpage = "<body style='padding: 0; margin: 0;'>";
+
+
+                            Action<string, string> AttachQRToElement =
+                                (itemuri, Container) =>
+                                {
+                                    firstpage += "<script>";
+                                    firstpage += "\n";
+                                    firstpage += "document.getElementById('";
+                                    firstpage += Container;
+                                    firstpage += "').appendChild( qr.image(";
+                                    firstpage += "\n";
+                                    firstpage += "{value:'";
+
+                             
+
+                                    firstpage += itemuri;
+                                    firstpage += "'}";
+                                    firstpage += "\n";
+                                    firstpage += "));";
+                                    firstpage += "\n";
+                                    firstpage += "</script>";
+
+                                };
 
                             #region firstpage
-                            string firstpage = "<body>";
+
                             firstpage += "<script src='/qr.js'></script>";
+                            firstpage += "<center>";
+
+                            firstpage += "\n";
+
+                            firstpage += "<div style='background-color: black; color: white; padding: 2em;'>";
+
+
+                            firstpage += "&laquo; Rotate your device to left to launch";
 
 
                             firstpage += "<h1>";
                             firstpage += path;
                             firstpage += "</h1>";
+                            firstpage += "\n";
 
-                            firstpage += "<pre>";
-                            firstpage += sAll;
-                            firstpage += "</pre>";
-                            firstpage += "<hr />";
+                            firstpage += "<div>";
+                            firstpage += "Connect any other device on the same network to";
+                            firstpage += "</div>";
+                            firstpage += "\n";
+                            firstpage += "<div>";
+                            firstpage += "<code>";
+                            firstpage += mycontext.uri;
+                            firstpage += "</code>";
+                            firstpage += "</div>";
+                            firstpage += "\n";
+                            firstpage += "<div id='newdevice'>";
 
-                            firstpage += "<center>";
+                            firstpage += "</div>";
+                            AttachQRToElement(mycontext.uri, "newdevice");
+                            firstpage += "</div>";
+
+                            firstpage += "<div style='padding: 1em; margin: 0;'>";
+                            
+
+
+                   
+
+
+
+
+
 
                             var assets = mycontext.getResources().getAssets();
 
@@ -458,12 +514,29 @@ namespace AndroidLegacyCraftActivity.Activities
                                     firstpage += "'";
                                     firstpage += ">";
 
+                                    var path_preview = "assets.preview/";
+
+                                    path_preview += item;
+                                    path_preview += ".png";
+
+                                    var asset_preview = openFileFromAssets(path_preview, mycontext);
+                                    if (asset_preview != null)
+                                    {
+                                        firstpage += "<img src='";
+                                        firstpage += path_preview;
+                                        firstpage += "' />";
+                                    }
+
+                                    firstpage += "<h4>";
                                     firstpage += item;
-                                    firstpage += "<br />";
-                                    firstpage += "<br />";
+                                    firstpage += "</h4>";
                                     firstpage += "\n";
 
-                                    if (Contains(item, ".gif"))
+                                    var WithImage = Contains(item, ".gif");
+
+                                    WithImage |= Contains(item, ".png");
+
+                                    if (WithImage)
                                     {
                                         firstpage += "<img src='";
                                         firstpage += item;
@@ -478,25 +551,14 @@ namespace AndroidLegacyCraftActivity.Activities
 
                                     if (WithQR)
                                     {
+                                        var ContainerID = "item";
 
-                                        firstpage += "<script>";
-                                        firstpage += "\n";
-                                        firstpage += "document.getElementById('item";
-                                        firstpage += ((object)index).ToString();
-                                        firstpage += "').appendChild( qr.image(";
-                                        firstpage += "\n";
-                                        firstpage += "{value:'";
+                                        ContainerID += ((object)index).ToString();
 
                                         var itemuri = mycontext.uri + "/";
                                         itemuri += item;
 
-                                        firstpage += itemuri;
-                                        firstpage += "'}";
-                                        firstpage += "\n";
-                                        firstpage += "));";
-                                        firstpage += "\n";
-                                        firstpage += "</script>";
-
+                                        AttachQRToElement(itemuri, ContainerID);
                                     }
 
                                     firstpage += "</a>";
@@ -504,7 +566,6 @@ namespace AndroidLegacyCraftActivity.Activities
                                     firstpage += "</div>";
 
                                     firstpage += "\n";
-                                    firstpage += "<hr />";
 
 
                                 };
@@ -517,6 +578,12 @@ namespace AndroidLegacyCraftActivity.Activities
 
                             firstpage += "</center>";
 
+
+                            firstpage += "<pre>";
+                            firstpage += sAll;
+                            firstpage += "</pre>";
+
+                            firstpage += "</div>";
                             firstpage += "</body>";
 
                             send_text(firstpage);
