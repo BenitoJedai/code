@@ -424,7 +424,7 @@ namespace xavalon.net.Activities
                                 {
                                     firstpage += "<script>";
                                     firstpage += "\n";
-                                    firstpage += "document.getElementById('";
+                                    firstpage += "var i = document.getElementById('";
                                     firstpage += Container;
                                     firstpage += "').appendChild( qr.image(";
                                     firstpage += "\n";
@@ -446,22 +446,30 @@ namespace xavalon.net.Activities
                             firstpage += "<script src='/qr.js'></script>";
                             firstpage += "<center>";
 
-                            firstpage += "\n";
-
                             firstpage += "<div style='background-color: black; color: white; padding: 2em;'>";
-
-
                             firstpage += "&laquo; Rotate your device to left to launch";
-
+                            firstpage += "</div>";
 
                             firstpage += "<h1>";
                             firstpage += path;
                             firstpage += "</h1>";
-                            firstpage += "\n";
+
+
+                            firstpage += "<div  id='newdevice'>";
+
+                            
+                            firstpage += "</div>";
+                            AttachQRToElement(mycontext.uri, "newdevice");
+
+
+
+
+                            firstpage += "<br />";
 
                             firstpage += "<div>";
                             firstpage += "Connect any other device on the same network to";
                             firstpage += "</div>";
+
                             firstpage += "\n";
                             firstpage += "<div>";
                             firstpage += "<code>";
@@ -469,21 +477,13 @@ namespace xavalon.net.Activities
                             firstpage += "</code>";
                             firstpage += "</div>";
                             firstpage += "\n";
-                            firstpage += "<div id='newdevice'>";
-
-                            firstpage += "</div>";
-                            AttachQRToElement(mycontext.uri, "newdevice");
-                            firstpage += "</div>";
+                      
 
                             firstpage += "<div style='padding: 1em; margin: 0;'>";
-                            
-
-
-                   
 
 
 
-
+         
 
 
                             var assets = mycontext.getResources().getAssets();
@@ -503,7 +503,7 @@ namespace xavalon.net.Activities
                                         item += "/";
                                     }
 
-                                    firstpage += "<div>";
+                                    firstpage += "<div style='border-top: 1px solid blue;'>";
 
 
                                     firstpage += "<a";
@@ -522,9 +522,11 @@ namespace xavalon.net.Activities
                                     var asset_preview = openFileFromAssets(path_preview, mycontext);
                                     if (asset_preview != null)
                                     {
-                                        firstpage += "<img src='";
+                                        firstpage += "<div>";
+                                        firstpage += "<img  src='";
                                         firstpage += path_preview;
                                         firstpage += "' />";
+                                        firstpage += "</div>";
                                     }
 
                                     firstpage += "<h4>";
@@ -538,9 +540,12 @@ namespace xavalon.net.Activities
 
                                     if (WithImage)
                                     {
+                                        firstpage += "<div>";
+
                                         firstpage += "<img src='";
                                         firstpage += item;
                                         firstpage += "' />";
+                                        firstpage += "</div>";
 
                                     }
 
@@ -548,6 +553,12 @@ namespace xavalon.net.Activities
 
                                     WithQR |= Contains(item, ".apk");
 
+
+
+
+                                    firstpage += "</a>";
+
+                                    firstpage += "</div>";
 
                                     if (WithQR)
                                     {
@@ -560,10 +571,6 @@ namespace xavalon.net.Activities
 
                                         AttachQRToElement(itemuri, ContainerID);
                                     }
-
-                                    firstpage += "</a>";
-
-                                    firstpage += "</div>";
 
                                     firstpage += "\n";
 
