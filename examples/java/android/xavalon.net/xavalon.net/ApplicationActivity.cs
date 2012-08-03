@@ -150,6 +150,17 @@ namespace xavalon.net.Activities
 
             public override bool shouldOverrideUrlLoading(WebView view, string url)
             {
+                BooleanFunc<string, string> Contains = (item, ex) =>
+                {
+                    var xx = !(((java.lang.String)(object)item).indexOf(ex, 0) < 0);
+
+                    return xx;
+                };
+
+
+                if (Contains(url, ".apk"))
+                    return false;
+
                 //Log.i(TAG, "Processing webview url click...");
                 view.loadUrl(url);
                 return true;
@@ -400,7 +411,9 @@ namespace xavalon.net.Activities
                         if (mycontext.width > mycontext.height)
                             if (path == "")
                                 path = "Application.htm";
-           
+
+                        Log.i("jsc get", path);
+
                         var asset = openFileFromAssets(path, mycontext);
 
 
@@ -430,7 +443,7 @@ namespace xavalon.net.Activities
                                     firstpage += "\n";
                                     firstpage += "{value:'";
 
-                             
+
 
                                     firstpage += itemuri;
                                     firstpage += "'}";
@@ -457,7 +470,7 @@ namespace xavalon.net.Activities
 
                             firstpage += "<div  id='newdevice'>";
 
-                            
+
                             firstpage += "</div>";
                             AttachQRToElement(mycontext.uri, "newdevice");
 
@@ -477,13 +490,13 @@ namespace xavalon.net.Activities
                             firstpage += "</code>";
                             firstpage += "</div>";
                             firstpage += "\n";
-                      
-
-                            firstpage += "<div style='padding: 1em; margin: 0;'>";
 
 
+                            firstpage += "<div style='padding: 1em; margin: 0; overflow: auto;'>";
 
-         
+
+
+
 
 
                             var assets = mycontext.getResources().getAssets();
@@ -503,7 +516,7 @@ namespace xavalon.net.Activities
                                         item += "/";
                                     }
 
-                                    firstpage += "<div style='border-top: 1px solid blue;'>";
+                                    firstpage += "<div style='border-top: 0.3em solid black; padding: 1em; '>";
 
 
                                     firstpage += "<a";
