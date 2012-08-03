@@ -1,4 +1,6 @@
-﻿interface MediaStreamTrack {
+﻿// heavily modifed from http://dev.w3.org/2011/webrtc/editor/getusermedia.html
+
+interface MediaStreamTrack {
     readonly attribute DOMString      kind;
     readonly attribute DOMString      label;
              attribute boolean        enabled;
@@ -36,15 +38,12 @@ interface LocalMediaStream : MediaStream {
 
 
 
-partial interface URL {
-    static DOMString createObjectURL (MediaStream stream);
-};
 
 
 
-[NoInterfaceObject]
 interface NavigatorUserMedia {
-    void getUserMedia (MediaStreamConstraints? constraints, NavigatorUserMediaSuccessCallback successCallback, optional NavigatorUserMediaErrorCallback? errorCallback);
+	
+    void webkitGetUserMedia (object constraints, Function? successCallback, optional Function? errorCallback);
 };
 
 [NoInterfaceObject]
@@ -52,3 +51,5 @@ interface NavigatorUserMediaError {
     const unsigned short PERMISSION_DENIED = 1;
     readonly attribute unsigned short code;
 };
+
+
