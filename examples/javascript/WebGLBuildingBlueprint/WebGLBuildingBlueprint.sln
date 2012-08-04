@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Web Developer Express 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBuildingBlueprint", "WebGLBuildingBlueprint\WebGLBuildingBlueprint.csproj", "{E1DCE1E7-0343-4DAD-9714-3475C00B8511}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGLBuildingBlueprint", "WebGLBuildingBlueprint\WebGLBuildingBlueprint.csproj", "{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,12 +10,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E1DCE1E7-0343-4DAD-9714-3475C00B8511}.Assets|x86.ActiveCfg = Assets|x86
-		{E1DCE1E7-0343-4DAD-9714-3475C00B8511}.Assets|x86.Build.0 = Assets|x86
-		{E1DCE1E7-0343-4DAD-9714-3475C00B8511}.Debug|x86.ActiveCfg = Debug|x86
-		{E1DCE1E7-0343-4DAD-9714-3475C00B8511}.Debug|x86.Build.0 = Debug|x86
-		{E1DCE1E7-0343-4DAD-9714-3475C00B8511}.Release|x86.ActiveCfg = Release|x86
-		{E1DCE1E7-0343-4DAD-9714-3475C00B8511}.Release|x86.Build.0 = Release|x86
+		{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}.Assets|x86.ActiveCfg = Assets|x86
+		{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}.Assets|x86.Build.0 = Assets|x86
+		{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}.Debug|x86.ActiveCfg = Debug|x86
+		{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}.Debug|x86.Build.0 = Debug|x86
+		{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}.Release|x86.ActiveCfg = Release|x86
+		{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

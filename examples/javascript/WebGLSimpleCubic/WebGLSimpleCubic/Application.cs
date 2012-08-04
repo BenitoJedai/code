@@ -365,6 +365,8 @@ namespace WebGLSimpleCubic
                 gl.depthMask(true);
                 gl.disable(gl.BLEND);
 
+
+
                 gl.useProgram(line_prog);
 
                 gl.uniformMatrix4fv(gl.getUniformLocation(line_prog, "prMatrix"),
