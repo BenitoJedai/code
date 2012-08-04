@@ -49,6 +49,9 @@
     <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Action.cs">
       <Link>BCLImplementation\System\Action.cs</Link>
     </Compile>
+    <Compile Include="..\..\ScriptCoreLib\Shared\BCLImplementation\System\Func.cs">
+      <Link>BCLImplementation\System\Func.cs</Link>
+    </Compile>
     <Compile Include="android\app\Application.cs" />
     <Compile Include="android\app\Activity.cs" />
     <Compile Include="android\media\MediaPlayer.cs" />
