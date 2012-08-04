@@ -558,7 +558,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk" />
+    <None Include="staging\apk\assets\AndroidLegacyCraftActivity.Activities-debug.apk">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
