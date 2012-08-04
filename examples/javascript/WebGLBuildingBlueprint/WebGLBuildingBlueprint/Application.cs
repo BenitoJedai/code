@@ -19,6 +19,7 @@ using WebGLBuildingBlueprint.Shaders;
 
 namespace WebGLBuildingBlueprint
 {
+    using f = Single;
     using gl = ScriptCoreLib.JavaScript.WebGL.WebGLRenderingContext;
     using WebGLFloatArray = ScriptCoreLib.JavaScript.WebGL.Float32Array;
     using WebGLUnsignedShortArray = ScriptCoreLib.JavaScript.WebGL.Uint16Array;
@@ -83,7 +84,7 @@ namespace WebGLBuildingBlueprint
         /// This is a javascript application.
         /// </summary>
         /// <param name="page">HTML document rendered by the web server which can now be enhanced.</param>
-        public Application(IDefaultPage page)
+        public Application(IDefaultPage page = null)
         {
             new CanvasMatrix().Content.With(
                 CanvasMatrix =>
@@ -121,13 +122,14 @@ namespace WebGLBuildingBlueprint
 
             //var gl, canvas;
 
-            var size = 500;
+            var gl_viewportWidth = Native.Window.Width;
+            var gl_viewportHeight = Native.Window.Height;
 
             #region canvas
             var canvas = new IHTMLCanvas().AttachToDocument();
 
             Native.Document.body.style.overflow = IStyle.OverflowEnum.hidden;
-            canvas.style.SetLocation(0, 0, size, size);
+            canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportWidth);
             #endregion
 
             #region gl - Initialise WebGL
@@ -152,7 +154,7 @@ namespace WebGLBuildingBlueprint
 
 
 
-            gl.viewport(0, 0, size, size);
+            gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
 
 
             #region createShader
@@ -180,9 +182,9 @@ namespace WebGLBuildingBlueprint
             gl.attachShader(prog, fs);
 
 
-            var posLoc = 0UL;
+            var posLoc = 0U;
             gl.bindAttribLocation(prog, posLoc, "aPos");
-            var normLoc = 1UL;
+            var normLoc = 1U;
             gl.bindAttribLocation(prog, normLoc, "aNorm");
             gl.linkProgram(prog);
             gl.useProgram(prog);
@@ -255,7 +257,7 @@ namespace WebGLBuildingBlueprint
               gl.STATIC_DRAW);
 
             var prMatrix = new CanvasMatrix4();
-            prMatrix.perspective(45, 1, .1, 100);
+            prMatrix.perspective(45f, 1f, .1f, 100f);
 
             gl.uniformMatrix4fv(gl.getUniformLocation(prog, "prMatrix"),
                   false, new Float32Array(prMatrix.getAsArray()));
@@ -276,7 +278,7 @@ namespace WebGLBuildingBlueprint
             gl.attachShader(line_prog, line_vs);
             gl.attachShader(line_prog, line_fs);
 
-            var lineLoc = 2UL;
+            var lineLoc = 2U;
             gl.bindAttribLocation(line_prog, lineLoc, "aPos");
 
             gl.linkProgram(line_prog);
@@ -304,13 +306,15 @@ namespace WebGLBuildingBlueprint
             var xOffs = 0;
             var yOffs = 0;
             var drag = 0;
-            var xRot = 0;
-            var yRot = 0;
-            var transl = -6.0;
+
+
+            var xRot = 0f;
+            var yRot = 0f;
+            var transl = -20.0f;
 
 
             #region drawBall
-            Action<double, double, double> drawBall = (x, y, z) =>
+            Action<f, f, f> drawBall = (x, y, z) =>
             {
                 mvMatrix.makeIdentity();
                 mvMatrix.translate(x, y, z);
@@ -323,43 +327,60 @@ namespace WebGLBuildingBlueprint
             };
             #endregion
 
+            var _prMatrix = gl.getUniformLocation(line_prog, "prMatrix");
+
             #region drawScene
             Action drawScene = delegate
             {
-                gl.useProgram(prog);
 
-                rotMat.rotate(xRot / 5, 1, 0, 0);
-                rotMat.rotate(yRot / 5, 0, 1, 0);
 
-                yRot = 0;
-                xRot = 0;
+                gl.viewport(0, 0, gl_viewportWidth, gl_viewportWidth);
+
+
+
+                //yRot = 0;
+                //xRot = 0;
 
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
                 gl.uniform4f(colorLoc, 1, 1, 0, 1);
 
-                drawBall(1, 1, 1); drawBall(-1, 1, 1); drawBall(1, -1, 1);
-                drawBall(1, 1, -1); drawBall(-1, -1, 1); drawBall(-1, 1, -1);
-                drawBall(1, -1, -1); drawBall(-1, -1, -1);
 
-                mvMatrix.load(rotMat);
-                mvMatrix.translate(0, 0, transl);
-
-                gl.uniformMatrix4fv(mvMatLoc, false,
-                  new Float32Array(mvMatrix.getAsArray()));
-
-                gl.enable(gl.BLEND);
-                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-                gl.uniform4f(colorLoc, .0f, .0f, .9f, .7f);
-                gl.depthMask(false);
-                gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
-                gl.depthMask(true);
-                gl.disable(gl.BLEND);
 
                 gl.useProgram(line_prog);
-                gl.uniformMatrix4fv(mvMatLineLoc, false,
-                  new Float32Array(mvMatrix.getAsArray()));
-                gl.drawArrays(gl.LINES, 0, 24);
+
+                #region uniform prMatrix
+                gl.uniformMatrix4fv(_prMatrix, false, new Float32Array(prMatrix.getAsArray()));
+                #endregion
+
+
+
+
+
+                Action<int, int> drawcube =
+                    (x, y) =>
+                    {
+                        mvMatrix.makeIdentity();
+                        mvMatrix.translate(x, y, 0);
+                        mvMatrix.rotate(xRot / 5, 0, 0, 1);
+                        mvMatrix.translate(0, 0, transl);
+
+                        gl.uniformMatrix4fv(mvMatLineLoc, false,
+                          new Float32Array(mvMatrix.getAsArray()));
+
+                        gl.drawArrays(gl.LINES, 0, 24);
+                    };
+
+                // floor 1
+                drawcube(0, 0);
+                drawcube(2, 0);
+                drawcube(4, 0);
+                drawcube(6, 0);
+                drawcube(6, 2);
+                drawcube(6, -2);
+
+                //mvMatrix.rotate(yRot / 5, 0, 1, 0);
+
+
 
                 gl.flush();
             };
@@ -373,15 +394,17 @@ namespace WebGLBuildingBlueprint
             #region AtResize
             Action AtResize = delegate
             {
-                size = Math.Min(Native.Window.Width, Native.Window.Height);
-                canvas.width = size;
-                canvas.height = size;
-                canvas.style.SetLocation(
-                    (Native.Window.Width - size) / 2,
-                    (Native.Window.Height - size) / 2,
-                    size, size);
+                gl_viewportWidth = Native.Window.Width;
+                gl_viewportHeight = Native.Window.Height;
 
-                gl.viewport(0, 0, size, size);
+                prMatrix = new CanvasMatrix4();
+                prMatrix.perspective(45f, (f)gl_viewportWidth / (f)gl_viewportHeight, 1f, 100f);
+
+
+                canvas.style.SetLocation(0, 0, gl_viewportWidth, gl_viewportHeight);
+
+                canvas.width = gl_viewportWidth;
+                canvas.height = gl_viewportHeight;
 
                 drawScene();
             };
@@ -398,6 +421,8 @@ namespace WebGLBuildingBlueprint
             #region mouse
             canvas.onmousedown += ev =>
             {
+                ev.PreventDefault();
+
                 drag = 1;
                 xOffs = ev.CursorX;
                 yOffs = ev.CursorY;
@@ -405,6 +430,9 @@ namespace WebGLBuildingBlueprint
 
             canvas.onmouseup += ev =>
             {
+                ev.PreventDefault();
+
+
                 drag = 0;
                 xOffs = ev.CursorX;
                 yOffs = ev.CursorY;
@@ -414,6 +442,7 @@ namespace WebGLBuildingBlueprint
             {
                 if (drag == 0)
                     return;
+                ev.PreventDefault();
 
                 if (ev.shiftKey)
                 {
@@ -432,13 +461,14 @@ namespace WebGLBuildingBlueprint
             };
             #endregion
 
+            #region onmousewheel
             canvas.onmousewheel +=
                 ev =>
                 {
-                    var del = 1.1;
+                    var del = 1.1f;
 
                     if (ev.shiftKey)
-                        del = 1.01;
+                        del = 1.01f;
 
                     if (ev.WheelDirection > 0)
                         transl *= del;
@@ -451,8 +481,65 @@ namespace WebGLBuildingBlueprint
 
                     ev.PreventDefault();
                 };
+            #endregion
 
-            Native.Document.body.style.backgroundColor = Color.FromRGB(0x80, 0xFF, 0x80);
+
+            #region IsDisposed
+            var IsDisposed = false;
+
+            this.Dispose = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                IsDisposed = true;
+
+                canvas.Orphanize();
+            };
+            #endregion
+
+
+            #region requestFullscreen
+            Native.Document.body.ondblclick +=
+                delegate
+                {
+                    if (IsDisposed)
+                        return;
+
+                    // http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/
+
+                    Native.Document.body.requestFullscreen();
+
+
+                };
+            #endregion
+
+            #region tick
+            var tick = default(Action);
+
+            tick = delegate
+            {
+                if (IsDisposed)
+                    return;
+
+                if (drag == 0)
+                {
+                    xRot += 2;
+                    yRot += 3;
+                }
+
+                drawScene();
+                //animate();
+
+                Native.Window.requestAnimationFrame += tick;
+            };
+
+            tick();
+            #endregion
+
+
+
+            //Native.Document.body.style.backgroundColor = Color.FromRGB(0x80, 0xFF, 0x80);
         }
 
         public Action Dispose;

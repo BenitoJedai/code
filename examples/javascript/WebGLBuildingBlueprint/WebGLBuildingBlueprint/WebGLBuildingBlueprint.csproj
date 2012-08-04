@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E1DCE1E7-0343-4DAD-9714-3475C00B8511}</ProjectGuid>
+    <ProjectGuid>{306C4EA3-440D-44AD-9EB2-9A2FE427F1DE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebGLBuildingBlueprint</RootNamespace>
@@ -122,13 +122,13 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WebGLBuildingBlueprint.AssetsLibrary">
-      <HintPath>bin\staging.AssetsLibrary\WebGLBuildingBlueprint.AssetsLibrary.dll</HintPath>
+      <HintPath>C:\Users\Arvo\AppData\Local\Temporary Projects\WebGLBuildingBlueprint\bin\staging.AssetsLibrary\WebGLBuildingBlueprint.AssetsLibrary.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Design\CanvasMatrix.cs">
+    <None Include="Design\CanvasMatrix.idl">
       <DependentUpon>CanvasMatrix.js</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="Shaders\LineFragmentShader.cs">
       <DependentUpon>Line.frag</DependentUpon>
     </Compile>
@@ -148,8 +148,7 @@
     <Compile Include="Program.cs">
       <DependentUpon>Application.cs</DependentUpon>
     </Compile>
-    <Content Include="Design\Images\Preview.png" />
-    <Content Include="Design\Images\WebGL_logo.png" />
+    <Content Include="Design\Preview.png" />
     <Content Include="Design\CanvasMatrix.js" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +160,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Debug (
-start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)" /AttachDebugger:false 
+start /WAIT /MIN c:\util\jsc\bin\jsc.meta.exe SkipRewriteToMVSProjectTemplate /ProjectFileName:"$(ProjectPath)" /Assembly:"$(TargetPath)"  /xDefaultToDev11:true
 )
 if $(ConfigurationName)==Release (
 rem start /MIN c:\util\jsc\bin\jsc.meta.exe RewriteToJavaScriptDocument /assembly:"$(TargetFileName)" /AttachDebugger:false /DisableWebServicePHP:false
