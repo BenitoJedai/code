@@ -18,8 +18,9 @@ using android.util;
 
 namespace xavalon.net.Activities
 {
-    public delegate bool BooleanFunc<T>(T a);
-    public delegate bool BooleanFunc<T, Tb>(T a, Tb b);
+    //public delegate bool BooleanFunc<T>(T a);
+    //public delegate bool BooleanFunc<T, Tb>(T a, Tb b);
+    public delegate R Func<T, Tb, R>(T a, Tb b);
 
     public class ApplicationActivity : Activity
     {
@@ -133,7 +134,7 @@ namespace xavalon.net.Activities
 
 
             this.ToNotification("xavalon.net", uri, 0, uri: uri);
-
+            
 
 
         }
@@ -150,14 +151,14 @@ namespace xavalon.net.Activities
 
             public override bool shouldOverrideUrlLoading(WebView view, string url)
             {
-                BooleanFunc<string, string> Contains = (item, ex) =>
+                Func<string, string, bool> Contains = (item, ex) =>
                 {
                     var xx = !(((java.lang.String)(object)item).indexOf(ex, 0) < 0);
 
                     return xx;
                 };
 
-
+           
                 if (Contains(url, ".apk"))
                     return false;
 
@@ -294,7 +295,7 @@ namespace xavalon.net.Activities
 
             public void AtConnection()
             {
-                BooleanFunc<string, string> Contains = (item, ex) =>
+                Func<string, string, bool> Contains = (item, ex) =>
                 {
                     var xx = !(((java.lang.String)(object)item).indexOf(ex, 0) < 0);
 
@@ -460,7 +461,7 @@ namespace xavalon.net.Activities
                             firstpage += "<center>";
 
                             firstpage += "<div style='background-color: black; color: white; padding: 2em;'>";
-                            firstpage += "&laquo; Rotate your device to left to launch";
+                            firstpage += "&laquo; Rotate your device to left to <b>launch</b>";
                             firstpage += "</div>";
 
                             firstpage += "<h1>";

@@ -11,6 +11,7 @@ namespace TestJVMGenerics
     [Script]
     public class Class1
     {
+        // java does autoboxing and disallows primitives
         public Class1<int> __int;
         public Class1<string> __string;
         public Class1<bool> __bool;
