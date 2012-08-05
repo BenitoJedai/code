@@ -213,6 +213,13 @@ namespace AndroidLegacyCraftActivity.Activities
             {
             }
 
+
+            if (value == "")
+            {
+                // no wifi
+                value = "127.0.0.1";
+            }
+
             return value;
         }
 

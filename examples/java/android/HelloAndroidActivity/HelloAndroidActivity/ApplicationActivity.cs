@@ -7,6 +7,7 @@ using android.os;
 using android.view;
 using android.widget;
 using ScriptCoreLib;
+using ScriptCoreLib.Android.Extensions;
 
 namespace HelloAndroidActivity.Activities
 {
@@ -50,33 +51,8 @@ namespace HelloAndroidActivity.Activities
             this.setContentView(sv);
         }
 
-        void InitializeContent()
-        {
-            Action handler =
-                delegate
-                {
-                };
-        }
+     
     }
 
-    public static class X
-    {
-        class OnClickListener : View.OnClickListener
-        {
-            public Action<View> h;
-
-            public void onClick(View v)
-            {
-                h(v);
-            }
-        }
-
-        public static void AtClick(this View v,  Action<View> h)
-        {
-            v.setOnClickListener(
-                new OnClickListener { h = h }
-            );
-        }
-
-    }
+   
 }

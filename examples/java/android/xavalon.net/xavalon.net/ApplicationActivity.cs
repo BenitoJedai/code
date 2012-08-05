@@ -20,7 +20,7 @@ namespace xavalon.net.Activities
 {
     //public delegate bool BooleanFunc<T>(T a);
     //public delegate bool BooleanFunc<T, Tb>(T a, Tb b);
-    public delegate R Func<T, Tb, R>(T a, Tb b);
+    //public delegate R Func<T, Tb, R>(T a, Tb b);
 
     public class ApplicationActivity : Activity
     {
@@ -225,6 +225,12 @@ namespace xavalon.net.Activities
             }
             catch
             {
+            }
+
+            if (value == "")
+            {
+                // no wifi
+                value = "127.0.0.1";
             }
 
             return value;
