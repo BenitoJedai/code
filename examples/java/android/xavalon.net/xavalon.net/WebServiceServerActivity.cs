@@ -324,6 +324,12 @@ namespace xavalon.net
                 }
             }
 
+            [Script(OptimizedCode = "return e.replaceAll(x, y);")]
+            public static string String_Replace(string e, string x, string y)
+            {
+                return null;
+            }
+
             public void AtConnection()
             {
                 Func<string, string, bool> Contains = (item, ex) =>
@@ -426,6 +432,7 @@ namespace xavalon.net
 
                             var path = ((java.lang.String)(object)sAll).substring(i0, i1);
 
+                            path = String_Replace(path, "%20", " ");
 
                             if (path.Length > 0)
                                 path = ((java.lang.String)(object)path).substring(2, path.Length);

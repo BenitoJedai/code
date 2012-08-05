@@ -146,48 +146,7 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
             {
                 try
                 {
-                    var Label_00AA = false;
-
-                    var __1__state_eq_0 = this.__1__state == 0;
-                    var __1__state_eq_3 = this.__1__state == 3;
-
-                    if (__1__state_eq_0 || (__1__state_eq_3))
-                    {
-                        if (__1__state_eq_3)
-                            Label_00AA = true;
-
-                        if (Label_00AA || (__1__state_eq_0))
-                        {
-                            if (!Label_00AA)
-                            {
-                                this.__1__state = -1;
-                                this.__7__wrap3a = this.source.AsEnumerable().GetEnumerator();
-                                this.__1__state = 1;
-                            }
-
-                            while (Label_00AA || (this.__7__wrap3a.MoveNext()))
-                            {
-                                if (!Label_00AA)
-                                {
-                                    this._element_5__38 = this.__7__wrap3a.Current;
-                                    this.__7__wrap3c = this.collectionSelector(this._element_5__38).AsEnumerable().GetEnumerator();
-                                }
-                                Label_00AA = false;
-                                this.__1__state = 2;
-                                while (this.__7__wrap3c.MoveNext())
-                                {
-                                    this._subElement_5__39 = this.__7__wrap3c.Current;
-                                    this.__2__current = this.resultSelector(this._element_5__38, this._subElement_5__39);
-                                    this.__1__state = 3;
-                                    return true;
-                                }
-                                this.__m__Finally3d();
-                            }
-                            this.__m__Finally3b();
-                        }
-                    }
-
-                    return false;
+                    return InternalMoveNext();
                 }
                 catch
                 {
@@ -195,6 +154,56 @@ namespace ScriptCoreLib.Shared.BCLImplementation.System.Linq
 
                     throw;
                 }
+            }
+
+            private bool InternalMoveNext()
+            {
+                var Label_00AA = false;
+
+                var __1__state_eq_0 = this.__1__state == 0;
+                var __1__state_eq_3 = this.__1__state == 3;
+
+                if (__1__state_eq_0 || (__1__state_eq_3))
+                {
+                    if (__1__state_eq_3)
+                        Label_00AA = true;
+
+                    if (Label_00AA || (__1__state_eq_0))
+                    {
+                        if (!Label_00AA)
+                        {
+                            this.__1__state = -1;
+                            this.__7__wrap3a = this.source.AsEnumerable().GetEnumerator();
+                            this.__1__state = 1;
+                        }
+
+                        // test by Y:\jsc.svn\examples\javascript\CanvasPlasma\CanvasPlasma\Application.cs
+                        Func<bool> flag_Label_00AA = () => Label_00AA || (this.__7__wrap3a.MoveNext());
+
+                        while (flag_Label_00AA())
+                        {
+                            if (!Label_00AA)
+                            {
+                                this._element_5__38 = this.__7__wrap3a.Current;
+                                this.__7__wrap3c = this.collectionSelector(this._element_5__38).AsEnumerable().GetEnumerator();
+                            }
+                            Label_00AA = false;
+                            this.__1__state = 2;
+                            while (this.__7__wrap3c.MoveNext())
+                            {
+                                this._subElement_5__39 = this.__7__wrap3c.Current;
+                                this.__2__current = this.resultSelector(this._element_5__38, this._subElement_5__39);
+                                this.__1__state = 3;
+                                return true;
+                            }
+                            this.__m__Finally3d();
+
+                        }
+                        this.__m__Finally3b();
+                    }
+                }
+
+                return false;
             }
 
 
