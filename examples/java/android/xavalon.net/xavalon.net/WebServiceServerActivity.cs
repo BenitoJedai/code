@@ -157,7 +157,9 @@ namespace xavalon.net
             //this.setContentView(sv);
 
 
-
+//E/WindowManager(28519): Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
+//E/WindowManager(28519): android.view.WindowLeaked: Activity AvalonPipeManiaActivity.Activities.ApplicationActivity has leaked window com.android.internal.policy.impl.PhoneWindow$DecorView@413f37b8 that was originally added here
+//E/WindowManager(28519):         at android.view.ViewRootImpl.<init>(ViewRootImpl.java:374)
 
 
         }
@@ -512,6 +514,20 @@ namespace xavalon.net
 
                                 firstpage += "<br />";
 
+
+                            
+                                var ApplicationFileLink = mycontext.uri;
+
+                                ApplicationFileLink += "/";
+                                ApplicationFileLink += this.mycontext.ApplicationFile;
+
+                                firstpage += "<a";
+                                firstpage += " href='";
+                                firstpage += ApplicationFileLink;
+                                firstpage += "' id='ApplicationFile";
+                                firstpage += "'";
+                                firstpage += ">";
+
                                 firstpage += "<div>";
                                 firstpage += "Connect any other device on the same network to";
                                 firstpage += "</div>";
@@ -522,6 +538,7 @@ namespace xavalon.net
                                 firstpage += mycontext.uri;
                                 firstpage += "</code>";
                                 firstpage += "</div>";
+                                firstpage += "</a>";
                                 firstpage += "\n";
 
 
