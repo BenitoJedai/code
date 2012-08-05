@@ -180,6 +180,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                         this.InternalTextField_MultiLine.style.paddingTop = "0";
                         this.InternalTextField_MultiLine.style.paddingBottom = "0";
                         this.InternalTextField_MultiLine.style.position = IStyle.PositionEnum.absolute;
+                        this.InternalTextField_MultiLine.style.SetLocation(0, 0);
                         this.InternalTextField_MultiLine.style.overflow = IStyle.OverflowEnum.hidden;
                         this.InternalTextField_MultiLine.style.resize = "none";
 
@@ -594,7 +595,7 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
         {
             get
             {
-                var align = this.InternalGetDisplayObjectDirect().style.textAlign;
+                var align = this.InternalGetTextField().style.textAlign;
 
                 // jsc will replace local enum assignment with their string values...
                 var right = IStyle.TextAlignEnum.right;
@@ -616,12 +617,12 @@ namespace ScriptCoreLib.JavaScript.BCLImplementation.System.Windows.Controls
                 // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/text/TextFormatAlign.html
 
 
-                var s = this.InternalGetDisplayObjectDirect().style;
+                var s = this.InternalGetTextField().style;
 
 
                 if (value == TextAlignment.Left)
                     s.textAlign = IStyle.TextAlignEnum.left;
-                if (value == TextAlignment.Right)
+                else if (value == TextAlignment.Right)
                     s.textAlign = IStyle.TextAlignEnum.right;
                 else if (value == TextAlignment.Center)
                     s.textAlign = IStyle.TextAlignEnum.center;
